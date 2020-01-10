@@ -1,5 +1,6 @@
 {
   "user": {
-    "username": "#{username}"
+    "username": "#{username}",
+    "testProperty": "${testProp}"
   }
 }

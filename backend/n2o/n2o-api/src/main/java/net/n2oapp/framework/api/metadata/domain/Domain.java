@@ -1,78 +1,57 @@
 package net.n2oapp.framework.api.metadata.domain;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.control.plain.N2oCheckbox;
-import net.n2oapp.framework.api.metadata.control.list.N2oClassifier;
-import net.n2oapp.framework.api.metadata.control.N2oField;
-import net.n2oapp.framework.api.metadata.control.plain.N2oDatePicker;
-import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 /**
- * User: iryabov
- * Date: 20.02.14
- * Time: 10:38
+ * Типы данных N2O
  */
 public enum Domain {
-    integer(Integer.class, N2oInputText.class),
-    string(String.class, N2oInputText.class),
-    numeric(BigDecimal.class, N2oInputText.class),
-    bool("boolean", Boolean.class, N2oCheckbox.class),
-    date(Date.class, N2oDatePicker.class),
-    localdate(LocalDate.class, N2oDatePicker.class),
-    localdatetime(LocalDateTime.class, N2oDatePicker.class),
-    object(DataSet.class, N2oClassifier.class),
-    long_(Long.class, N2oInputText.class) {
-        @Override
-        public String getName() {
-            return "long";
-        }
-    },
-    byte_(Byte.class, N2oInputText.class) {
-        @Override
-        public String getName() {
-            return "byte";
-        }
-    },
-    short_(Short.class, N2oInputText.class) {
-        @Override
-        public String getName() {
-            return "short";
-        }
-    };
+    STRING("string", String.class),
+    INTEGER("integer", Integer.class),
+    NUMERIC("numeric", BigDecimal.class),
+    LONG("long", Long.class),
+    BYTE("byte", Byte.class),
+    SHORT("short", Short.class),
+    BOOLEAN("boolean", Boolean.class),
+    DATE("date", Date.class, "YYYY-MM-DDTHH:mm:ss"),
+    LOCALDATE("localdate", LocalDate.class, "YYYY-MM-DD"),
+    LOCALDATETIME("localdatetime", LocalDateTime.class, "YYYY-MM-DDTHH:mm:ss"),
+    ZONEDDATETIME("zoneddatetime", ZonedDateTime.class, "YYYY-MM-DDTHH:mm:ssZ"),
+    OFFSETDATETIME("offsetdatetime", OffsetDateTime.class, "YYYY-MM-DDTHH:mm:ssZ"),
+    OBJECT("object", DataSet.class);
 
     private String name;
-    private Class typeClass;
-    private Class<? extends N2oField> controlClass;
+    private Class type;
+    private String jsFormat;
 
-    private Domain(Class typeClass,
-                   Class<? extends N2oField> controlClass) {
-        this.name = name();
-        this.typeClass = typeClass;
-        this.controlClass = controlClass;
-    }
-
-    private Domain(String name, Class typeClass,
-                   Class<? extends N2oField> controlClass) {
+    Domain(String name, Class type) {
         this.name = name;
-        this.typeClass = typeClass;
-        this.controlClass = controlClass;
+        this.type = type;
     }
 
-    public Class getTypeClass() {
-        return typeClass;
+    Domain(String name, Class type, String jsFormat) {
+        this.name = name;
+        this.type = type;
+        this.jsFormat = jsFormat;
     }
 
-    public Class<? extends N2oField> getControlClass() {
-        return controlClass;
+    public Class getType() {
+        return type;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getJsFormat() {
+        return jsFormat;
     }
 
     public String getArray() {
@@ -88,9 +67,9 @@ public enum Domain {
         return null;
     }
 
-    public static Domain getByClass(Class clazz) {
+    public static Domain getByClass(Class<?> clazz) {
         for (Domain domain : values()) {
-            if (domain.getTypeClass().equals(clazz)) {
+            if (domain.getType().equals(clazz)) {
                 return domain;
             }
         }

@@ -1,6 +1,5 @@
 package net.n2oapp.framework.ui.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
@@ -15,7 +14,6 @@ import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,20 +25,22 @@ public class DataController extends AbstractController {
     private ControllerFactory controllerFactory;
 
     public DataController(ControllerFactory controllerFactory,
-                          ObjectMapper mapper,
-                          MetadataRouter router,
                           MetadataEnvironment environment) {
-        setObjectMapper(mapper);
-        setRouter(router);
-        setEnvironment(environment);
+        super(environment);
+        this.controllerFactory = controllerFactory;
+    }
+
+    public DataController(ControllerFactory controllerFactory,
+                          MetadataEnvironment environment,
+                          MetadataRouter router) {
+        super(environment, router);
         this.controllerFactory = controllerFactory;
     }
 
     public GetDataResponse getData(String path, Map<String, String[]> parameters, UserContext user) {
         QueryRequestInfo requestInfo = createQueryRequestInfo(path, parameters, user);
         QueryResponseInfo responseInfo = new QueryResponseInfo();
-        GetDataResponse result = controllerFactory.execute(requestInfo, responseInfo);
-        return result;
+        return controllerFactory.execute(requestInfo, responseInfo);
     }
 
     @SuppressWarnings("unchecked")
@@ -56,17 +56,19 @@ public class DataController extends AbstractController {
         if (requestInfo.getRedirect() == null)
             return;
         RedirectSaga redirect = requestInfo.getRedirect();
-        DataSet data = new DataSet(response.getData());
-        data.merge(requestInfo.getQueryData());
-        String redirectUrl = redirect.getPath();
-        Set<String> except = redirect.getPathMapping() != null ? redirect.getPathMapping().keySet() : null;
-        redirectUrl = RouteUtil.resolveUrlParams(redirectUrl, requestInfo.getQueryData(), null, except);
-        redirectUrl = RouteUtil.resolveUrlParams(redirectUrl, response.getData(), null, except);
-        RedirectSaga resolvedRedirect = new RedirectSaga();
-        resolvedRedirect.setTarget(redirect.getTarget());
-        resolvedRedirect.setPathMapping(redirect.getPathMapping());
-        resolvedRedirect.setQueryMapping(redirect.getQueryMapping());
-        resolvedRedirect.setPath(redirectUrl);
-        response.addRedirect(resolvedRedirect);
+        if (response.getData() != null) {
+            DataSet data = new DataSet(response.getData());
+            data.merge(requestInfo.getQueryData());
+            String redirectUrl = redirect.getPath();
+            Set<String> except = redirect.getPathMapping() != null ? redirect.getPathMapping().keySet() : null;
+            redirectUrl = RouteUtil.resolveUrlParams(redirectUrl, requestInfo.getQueryData(), null, except);
+            redirectUrl = RouteUtil.resolveUrlParams(redirectUrl, response.getData(), null, except);
+            RedirectSaga resolvedRedirect = new RedirectSaga();
+            resolvedRedirect.setTarget(redirect.getTarget());
+            resolvedRedirect.setPathMapping(redirect.getPathMapping());
+            resolvedRedirect.setQueryMapping(redirect.getQueryMapping());
+            resolvedRedirect.setPath(redirectUrl);
+            response.addRedirect(resolvedRedirect);
+        }
     }
 }

@@ -16,11 +16,12 @@ import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Абстрактаня реализация компиляции действия
  */
 public abstract class AbstractActionCompiler<D extends Action & SrcAware, S extends N2oAction>
-        implements BaseSourceCompiler<D, S, CompileContext<?,?>> {
+        implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
     public void compileAction(D compiled, S source, CompileProcessor p) {
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.src"), String.class)));
@@ -33,6 +34,12 @@ public abstract class AbstractActionCompiler<D extends Action & SrcAware, S exte
                 if (component != null) {
                     source.setId(component.getId());
                     compiled.setId(component.getId());
+                } else {
+                    WidgetScope widgetScope = p.getScope(WidgetScope.class);
+                    if (widgetScope != null) {
+                        source.setId(widgetScope.getClientWidgetId() + "_row");
+                        compiled.setId(source.getId());
+                    }
                 }
             }
         }
@@ -57,7 +64,7 @@ public abstract class AbstractActionCompiler<D extends Action & SrcAware, S exte
                         widgetIdAware.getWidgetId() : pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());//todo обсудить
             }
         }
-        if(targetWidgetId == null) {
+        if (targetWidgetId == null) {
             if (widgetScope != null) {
                 targetWidgetId = widgetScope.getClientWidgetId();
             } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null) {

@@ -57,6 +57,15 @@ public class N2oMetadataPersisterFactory
     }
 
     @Override
+    public boolean check(Namespace namespace, Class clazz) {
+        if (engines == null)
+            initFactory();
+
+        Map<Class, NamespacePersister<NamespaceUriAware>> typedEngines = engines.get(namespace.getURI());
+        return typedEngines != null && typedEngines.containsKey(clazz);
+    }
+
+    @Override
     public void add(NamespacePersister<NamespaceUriAware> persister) {
         throw new UnsupportedOperationException();
     }

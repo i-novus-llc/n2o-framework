@@ -3,6 +3,7 @@ package net.n2oapp.framework.boot;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import net.n2oapp.cache.template.SyncCacheTemplate;
 import net.n2oapp.engine.factory.integration.spring.OverrideBean;
 import net.n2oapp.framework.api.MetadataEnvironment;
@@ -14,16 +15,15 @@ import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
-import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
-import net.n2oapp.framework.api.metadata.local.CompilerHolder;
-import net.n2oapp.framework.api.metadata.local.N2oCompiler;
 import net.n2oapp.framework.api.metadata.menu.N2oMenu;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
-import net.n2oapp.framework.api.metadata.pipeline.*;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
+import net.n2oapp.framework.api.metadata.pipeline.PipelineOperationFactory;
 import net.n2oapp.framework.api.metadata.reader.ConfigMetadataLocker;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
@@ -37,6 +37,8 @@ import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
+import net.n2oapp.framework.boot.json.N2oJacksonModule;
 import net.n2oapp.framework.config.ConfigStarter;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
@@ -44,28 +46,27 @@ import net.n2oapp.framework.config.compile.pipeline.N2oPipelineOperationFactory;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
-import net.n2oapp.framework.config.metadata.CompileProcessorAdapter;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.CrudGenerator;
-import net.n2oapp.framework.config.metadata.transformer.factory.TransformerFactory;
 import net.n2oapp.framework.config.persister.MetadataPersister;
 import net.n2oapp.framework.config.persister.N2oMetadataPersisterFactory;
 import net.n2oapp.framework.config.reader.*;
 import net.n2oapp.framework.config.reader.util.N2oJdomTextProcessing;
-import net.n2oapp.framework.config.register.*;
-import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
+import net.n2oapp.framework.config.register.N2oMetadataRegister;
+import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
+import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
-import net.n2oapp.framework.config.util.SubModelsProcessor;
+import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import net.n2oapp.framework.config.warmup.HeaderWarmUpper;
-import net.n2oapp.framework.engine.util.json.N2oBeanSerializerFactory;
 import net.n2oapp.properties.io.PropertiesInfoCollector;
 import net.n2oapp.watchdir.WatchDir;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEventPublisher;
@@ -75,7 +76,9 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
@@ -84,36 +87,35 @@ import static java.util.Arrays.asList;
  */
 @Configuration
 @Import(N2oCacheConfiguration.class)
-@ComponentScan(basePackages = {"net.n2oapp.framework.config", "net.n2oapp.framework.header"}, lazyInit = true)
+@ComponentScan(basePackages = {"net.n2oapp.framework.config"}, lazyInit = true)
 public class N2oMetadataConfiguration {
 
     @Value("${n2o.config.path}")
     private String configPath;
 
-    @Value("${n2o.format.date}")
-    private String dataFormat;
-
     @Value("${n2o.config.readonly}")
     private boolean readonly;
 
+    @Primary
     @Bean(name = "n2oObjectMapper")
     public ObjectMapper n2oObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT));
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.setSerializerFactory(new N2oBeanSerializerFactory());
-        objectMapper.setDateFormat(new SimpleDateFormat(dataFormat));
         objectMapper.setVisibility(objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
                 .withFieldVisibility(JsonAutoDetect.Visibility.NONE)
                 .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
                 .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
                 .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
                 .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE));
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.registerModule(new N2oJacksonModule(new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT)));
         return objectMapper;
     }
 
     @Bean
     public DomainProcessor domainProcessor(@Qualifier("n2oObjectMapper") ObjectMapper objectMapper) {
-        return new DomainProcessor(objectMapper, dataFormat);
+        return new DomainProcessor(objectMapper);
     }
 
     @Bean
@@ -124,11 +126,6 @@ public class N2oMetadataConfiguration {
     @Bean
     public MetadataPersister metadataPersister() {
         return new MetadataPersister(readonly);
-    }
-
-    @Bean
-    public CacheControl n2oCacheControl(CacheManager cacheManager) {
-        return new CacheControl(cacheManager);
     }
 
     @Bean
@@ -160,43 +157,26 @@ public class N2oMetadataConfiguration {
 
     @Bean
     public MetadataRouter n2oRouter(N2oRouteRegister routeRegister, MetadataEnvironment env) {
-        return new N2oRouter(routeRegister, N2oPipelineSupport.readPipeline(env)
+        return new N2oRouter(env, N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().cache().copy().compile().transform());
     }
 
-    @Bean
-    public TransformerFactory transformerFactory(ApplicationContext context) {
-        TransformerFactory transformerFactory = new TransformerFactory();
-        transformerFactory.setApplicationContext(context);
-        return transformerFactory;
-    }
 
     @Bean
-    public N2oCompiler metadataCompiler(MetadataEnvironment environment, MetadataRegister metadataRegister) {
-        PipelineSupport p = new N2oPipelineSupport(environment);
-        return new CompileProcessorAdapter(new N2oCompileProcessor(environment), metadataRegister);
-    }
-
-    @Bean
-    public CompilerHolder compilerHolder(N2oCompiler compiler) {
-        return new CompilerHolder(compiler);
-    }
-
-    @Bean
-    public SubModelsProcessor subModelsProcessor(QueryProcessor queryProcessor, N2oCompiler compiler) {
-        return new SubModelsProcessor(queryProcessor, compiler);
+    @ConditionalOnMissingBean
+    public SubModelsProcessor subModelsProcessor(QueryProcessor queryProcessor) {
+        return new N2oSubModelsProcessor(queryProcessor);
     }
 
     @Bean
     public ScriptProcessor scriptProcessor() {
-        ScriptProcessor scriptProcessor = new ScriptProcessor();
-        scriptProcessor.setDateFormat(dataFormat);
-        return scriptProcessor;
+        return new ScriptProcessor();
     }
 
     @Bean
-    public N2oJdomTextProcessing n2oJdomTextProcessing(MessageSourceAccessor n2oMessageSourceAccessor) {
-        return new N2oJdomTextProcessing(n2oMessageSourceAccessor);
+    public N2oJdomTextProcessing n2oJdomTextProcessing(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor n2oMessageSourceAccessor,
+                                                       ConfigurableEnvironment environment) {
+        return new N2oJdomTextProcessing(n2oMessageSourceAccessor, environment);
     }
 
     @Bean
@@ -214,7 +194,7 @@ public class N2oMetadataConfiguration {
 
     @Bean
     public MetadataEnvironment n2oEnvironment(Map<String, ButtonGenerator> generators,
-                                              MessageSourceAccessor messageSourceAccessor,
+                                              @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
                                               ConfigurableEnvironment springEnv,
                                               DomainProcessor domainProcessor,
                                               ContextProcessor contextProcessor,
@@ -234,8 +214,9 @@ public class N2oMetadataConfiguration {
                                               PipelineOperationFactory pipelineOperationFactory,
                                               DynamicMetadataProviderFactory dynamicMetadataProviderFactory,
                                               ExtensionAttributeMapperFactory extensionAttributeMapperFactory,
-                                              ButtonGeneratorFactory buttonGeneratorFactory) {
-        ((CrudGenerator)generators.get("crudGenerator")).setButtonGeneratorFactory(buttonGeneratorFactory);
+                                              ButtonGeneratorFactory buttonGeneratorFactory,
+                                              SubModelsProcessor subModelsProcessor) {
+        ((CrudGenerator) generators.get("crudGenerator")).setButtonGeneratorFactory(buttonGeneratorFactory);
         N2oEnvironment environment = new N2oEnvironment();
         environment.setSystemProperties(springEnv);
         environment.setMessageSource(messageSourceAccessor);
@@ -258,6 +239,7 @@ public class N2oMetadataConfiguration {
         environment.setContextProcessor(contextProcessor);
         environment.setExtensionAttributeMapperFactory(extensionAttributeMapperFactory);
         environment.setButtonGeneratorFactory(buttonGeneratorFactory);
+        environment.setSubModelsProcessor(subModelsProcessor);
         return environment;
     }
 
@@ -391,51 +373,61 @@ public class N2oMetadataConfiguration {
     static class PipelineOperationConfiguration {
 
         @Bean
+        @ConditionalOnMissingBean
         ReadOperation readOperation(MetadataRegister configRegister, SourceLoaderFactory readerFactory) {
             return new ReadOperation(configRegister, readerFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         MergeOperation mergeOperation(SourceMergerFactory sourceMergerFactory) {
             return new MergeOperation(sourceMergerFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         ValidateOperation validateOperation(SourceValidatorFactory sourceValidatorFactory) {
             return new ValidateOperation(sourceValidatorFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         SourceCacheOperation sourceCacheOperation(CacheManager cacheManager, MetadataRegister metadataRegister) {
             return new SourceCacheOperation(new SyncCacheTemplate(cacheManager), metadataRegister);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         CompileCacheOperation compileCacheOperation(CacheManager cacheManager) {
             return new CompileCacheOperation(new SyncCacheTemplate(cacheManager));
         }
 
         @Bean
+        @ConditionalOnMissingBean
         SourceTransformOperation sourceTransformOperation(SourceTransformerFactory factory) {
             return new SourceTransformOperation(factory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         CompileTransformOperation compileTransformOperation(CompileTransformerFactory factory) {
             return new CompileTransformOperation(factory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         CompileOperation compileOperation(SourceCompilerFactory sourceCompilerFactory) {
             return new CompileOperation(sourceCompilerFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         BindOperation bindOperation(MetadataBinderFactory binderFactory) {
             return new BindOperation(binderFactory);
         }
 
         @Bean
+        @ConditionalOnMissingBean
         CopyOperation cloneOperation() {
             return new CopyOperation();
         }
@@ -445,24 +437,22 @@ public class N2oMetadataConfiguration {
     @Configuration
     static class MetadataIOConfiguration {
         @Bean
-        IOProcessor readerProcessor(MessageSourceAccessor messageSourceAccessor,
-                                    NamespaceReaderFactory readerFactory) {
+        IOProcessor readerProcessor(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
+                                    NamespaceReaderFactory readerFactory,
+                                    ConfigurableEnvironment environment) {
             IOProcessorImpl ioProcessor = new IOProcessorImpl(readerFactory);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);
-            if (readerFactory instanceof IOProcessorAware) {
-                ((IOProcessorAware) readerFactory).setIOProcessor(ioProcessor);
-            }
+            ioProcessor.setSystemProperties(environment);
             return ioProcessor;
         }
 
         @Bean
-        IOProcessor persisterProcessor(MessageSourceAccessor messageSourceAccessor,
-                                       NamespacePersisterFactory persisterFactory) {
+        IOProcessor persisterProcessor(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
+                                       NamespacePersisterFactory persisterFactory,
+                                       ConfigurableEnvironment environment) {
             IOProcessorImpl ioProcessor = new IOProcessorImpl(persisterFactory);
             ioProcessor.setMessageSourceAccessor(messageSourceAccessor);
-            if (persisterFactory instanceof IOProcessorAware) {
-                ((IOProcessorAware) persisterFactory).setIOProcessor(ioProcessor);
-            }
+            ioProcessor.setSystemProperties(environment);
             return ioProcessor;
         }
     }

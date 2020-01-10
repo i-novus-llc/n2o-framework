@@ -46,7 +46,6 @@ public abstract class WidgetBaseXmlReaderV3<E extends N2oWidget> extends Abstrac
         n2oWidget.setDefaultValuesQueryId(getElementString(widget, "default-values-query-id"));
         n2oWidget.setObjectId(getElementString(widget, "object-id"));
         n2oWidget.setSize(getElementInteger(widget, "size"));
-        n2oWidget.setProperties(PropertiesReaderV1.getInstance().read(widget, namespace));
         n2oWidget.setBorder(getElementBoolean(widget, "border"));
         n2oWidget.setNamespaceUri(namespace.getURI());
         CssClassAwareReader.getInstance().read(n2oWidget, widget);
@@ -142,7 +141,7 @@ public abstract class WidgetBaseXmlReaderV3<E extends N2oWidget> extends Abstrac
         menuItem.setDescription(getElementString(popupMenu, "description"));
         menuItem.setDefaultAction(getAttributeBoolean(popupMenu, "default"));
         menuItem.setPrimary(getAttributeBoolean(popupMenu, "primary"));
-        menuItem.setVisible(getAttributeBoolean(popupMenu, "visible"));
+        menuItem.setVisible(getAttributeString(popupMenu, "visible"));
         menuItem.setReadonly(getAttributeBoolean(popupMenu, "readonly"));
         menuItem.setKey(getAttributeString(popupMenu, "key"));
         menuItem.setBulk(getAttributeBoolean(popupMenu, "bulk"));

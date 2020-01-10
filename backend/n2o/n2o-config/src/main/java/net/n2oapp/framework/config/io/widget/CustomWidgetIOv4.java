@@ -20,6 +20,6 @@ public class CustomWidgetIOv4 extends WidgetElementIOv4<N2oCustomWidget> {
 
     @Override
     public String getElementName() {
-        return "custom";
+        return "widget";
     }
 }

@@ -1,6 +1,7 @@
 package net.n2oapp.framework.export;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
@@ -22,23 +23,17 @@ public class ExportConfiguration {
     private String n2oApiUrl;
 
     @Bean
-    public ExportController exportController(@Qualifier("n2oObjectMapper") ObjectMapper n2oObjectMapper,
+    public ExportController exportController(MetadataEnvironment environment,
                                              MetadataRouter router,
-                                             N2oApplicationBuilder applicationBuilder,
-                                             DomainProcessor domainProcessor,
                                              QueryController queryController) {
-        ReadCompileBindTerminalPipeline pipeline = applicationBuilder
-                .read().transform().validate().cache().copy()
-                .compile().transform().cache().copy()
-                .bind();
-        return new ExportController(n2oObjectMapper, router, pipeline, domainProcessor, queryController);
+        return new ExportController(environment, router, queryController);
     }
 
     @Bean
     public ServletRegistrationBean exportDataServlet(ExportController controller,
                                                      @Qualifier("n2oObjectMapper") ObjectMapper n2oObjectMapper,
                                                      ErrorMessageBuilder errorMessageBuilder) {
-        ExportDataServlet exportDataServlet= new ExportDataServlet(controller);
+        ExportDataServlet exportDataServlet = new ExportDataServlet(controller);
         exportDataServlet.setObjectMapper(n2oObjectMapper);
         exportDataServlet.setErrorMessageBuilder(errorMessageBuilder);
         return new ServletRegistrationBean(exportDataServlet, n2oApiUrl + "/export");

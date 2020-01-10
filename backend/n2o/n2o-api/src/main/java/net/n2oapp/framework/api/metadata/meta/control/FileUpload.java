@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Клиентская модель компонента загрузки файлов
+ */
 @Getter
 @Setter
 public class FileUpload extends Control {
@@ -21,6 +24,10 @@ public class FileUpload extends Control {
     private String labelFieldId;
     @JsonProperty
     private String urlFieldId;
+    @JsonProperty
+    private String responseFieldId;
+    @JsonProperty
+    private String requestParam;
     @JsonProperty
     private Boolean multi;
 }

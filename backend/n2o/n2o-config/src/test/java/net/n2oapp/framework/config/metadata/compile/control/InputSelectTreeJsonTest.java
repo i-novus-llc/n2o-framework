@@ -29,9 +29,9 @@ public class InputSelectTreeJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/metadata/compile/field/testInputSelectTreeJson.widget.xml",
                 "components/controls/InputSelectTree/InputSelectTreeContainer.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
-                .exclude("src", "loading", "value", "disabled", "valueFieldId", "imageFieldId",
+                .exclude("src", "id", "loading", "value", "disabled", "valueFieldId", "imageFieldId",
                         "badgeFieldId", "badgeColorFieldId", "filter", "groupFieldId", "format", "notFoundContent",
-                        "showCheckedStrategy", "hasChildrenFieldId", "hasSearch", "readOnly", "allowClear", "showSearch")
+                        "hasChildrenFieldId", "hasSearch", "readOnly", "allowClear", "showSearch", "dataProvider")
                 .assertEquals();
     }
 }

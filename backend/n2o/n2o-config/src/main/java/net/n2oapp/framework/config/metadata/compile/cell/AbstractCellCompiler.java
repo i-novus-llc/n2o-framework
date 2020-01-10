@@ -2,14 +2,19 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oActionCell;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import net.n2oapp.framework.config.util.StylesResolver;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -27,7 +32,9 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
             compiled.setFieldKey(column.getTextFieldId());
         }
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(defaultSrc, String.class)));
-        compiled.setCssClass(source.getCssClass());
+        compiled.setCssClass(p.resolveJS(source.getCssClass()));
+        compiled.setReactStyle(StylesResolver.resolveStyles(source.getStyle()));
+        compiled.setJsonVisible(p.resolveJS(source.getVisible(), Boolean.class));
         return compiled;
     }
 
@@ -45,5 +52,15 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
         }
     }
 
-
+    protected String compileSwitch(N2oSwitch n2oSwitch, CompileProcessor p) {
+        if (n2oSwitch == null) return null;
+        Map<Object, String> resolvedCases = new HashMap<>();
+        if (n2oSwitch.getCases() != null) {
+            for (String key : n2oSwitch.getCases().keySet()) {
+                resolvedCases.put(p.resolve(key), n2oSwitch.getCases().get(key));
+            }
+        }
+        n2oSwitch.setResolvedCases(resolvedCases);
+        return ScriptProcessor.buildSwitchExpression(n2oSwitch);
+    }
 }

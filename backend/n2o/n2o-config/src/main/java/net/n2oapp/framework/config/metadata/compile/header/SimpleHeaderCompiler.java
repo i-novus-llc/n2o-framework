@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -25,12 +26,13 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
         CompiledHeader header = new CompiledHeader();
         header.setSrc(source.getSrc());
         header.setBrand(p.cast(source.getProjectName(),
-                p.resolveText(property("n2o.ui.project.name")), "N<sub>2</sub>O"));
+                p.resolve(property("n2o.project-name"), String.class), "N<sub>2</sub>O"));
         header.setBrandImage(source.getProjectImageSrc());
         header.setColor(p.cast(source.getColor(), "default"));
         header.setFixed(p.resolve(property("n2o.api.default.header.fixed"), Boolean.class));
         header.setCollapsed(p.resolve(property("n2o.api.default.header.collapsed"), Boolean.class));
         header.setClassName(source.getCssClass());
+        header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         header.setSearch(false);
         initWelcomePage(source, p);
         header.setItems(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());
@@ -47,7 +49,7 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
         else
             welcomePageId = p.resolve(property("n2o.ui.homepage.id"), String.class);
         PageContext context = new PageContext(welcomePageId, "/");
-        p.addRoute("/", context);
+        p.addRoute(context);
     }
 
     @Override

@@ -27,7 +27,7 @@ public class RadioGroupJsonTest extends JsonMetadataTestBase {
     public void testRadioGroup() {
         check("net/n2oapp/framework/config/metadata/compile/field/testRadioGroup.widget.xml",
                 "components/controls/RadioGroup/RadioGroup.meta.json")
-                .exclude("src", "disabled", "hasSearch", "visible", "checked", "style", "type")
+                .exclude("src", "id", "disabled", "hasSearch", "visible", "checked", "style", "type","dataProvider")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
                 .assertEquals();
 

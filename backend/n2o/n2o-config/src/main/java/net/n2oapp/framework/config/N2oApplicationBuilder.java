@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config;
 
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -17,17 +18,19 @@ import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 import net.n2oapp.framework.api.register.MetaType;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.route.RouteInfo;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.factory.AwareFactorySupport;
 import net.n2oapp.framework.config.register.route.N2oRouter;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.env.PropertyResolver;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -110,7 +113,9 @@ public class N2oApplicationBuilder implements
     }
 
     public N2oApplicationBuilder routes(RouteInfo... routes) {
-        Stream.of(routes).forEach(environment.getRouteRegister()::addRoute);
+        Stream.of(routes).forEach(
+                routeInfo -> environment.getRouteRegister().addRoute(routeInfo.getUrlPattern(), routeInfo.getContext())
+        );
         return this;
     }
 
@@ -149,6 +154,17 @@ public class N2oApplicationBuilder implements
         return this;
     }
 
+    public N2oApplicationBuilder properties(String... properties) {
+        Stream.of(properties).forEach(p -> {
+            PropertyResolver systemProperties = environment.getSystemProperties();
+            if (!(systemProperties instanceof SimplePropertyResolver))
+                throw new IllegalArgumentException("System properties is readonly");
+            String[] split = p.contains("=") ? p.split("=") : p.split(":");
+            ((SimplePropertyResolver)systemProperties).setProperty(split[0], split[1]);
+        });
+        return this;
+    }
+
     public N2oApplicationBuilder scan() {
         build();
         List<? extends SourceInfo> sources = environment.getMetadataScannerFactory().scan();
@@ -162,12 +178,12 @@ public class N2oApplicationBuilder implements
         return N2oPipelineSupport.readPipeline(environment).read();
     }
 
-    public RoutingResult route(String url) {
+    public <D extends Compiled> CompileContext<D, ?>  route(String url, Class<D> compiledClass, Map<String, String[]> params) {
         build();
-        return new N2oRouter(environment.getRouteRegister(), read()
+        return new N2oRouter(environment, read()
                 .transform().validate().cache().copy()
                 .compile().transform())
-                .get(url);
+                .get(url, compiledClass, params);
     }
 
     public MetadataEnvironment getEnvironment() {
@@ -187,6 +203,7 @@ public class N2oApplicationBuilder implements
         AwareFactorySupport.enrich(environment.getCompileTransformerFactory(), environment);
         AwareFactorySupport.enrich(environment.getMetadataBinderFactory(), environment);
         AwareFactorySupport.enrich(environment.getPipelineOperationFactory(), environment);
+        AwareFactorySupport.enrich(environment.getSubModelsProcessor(), environment);
         return this;
     }
 }

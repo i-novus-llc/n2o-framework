@@ -82,7 +82,8 @@
                 </xs:attribute>
                 <xs:attribute name="submit-label" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Название кнопки отправки формы на открываемой странице. По умолчанию "Сохранить".
+                        <xs:documentation>Название кнопки отправки формы на открываемой странице. По умолчанию
+                            "Сохранить".
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -106,7 +107,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="close-after-submit" type="xs:boolean" use="optional">
+                <xs:attribute name="close-after-submit" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Закрыть окно после успешного выполнения операции объекта</xs:documentation>
                     </xs:annotation>
@@ -148,6 +149,16 @@
                         <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="object-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор объекта</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="master-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр фильтра</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -168,7 +179,30 @@
                         <xs:documentation>Размер модального окна.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="object-id" type="xs:string" use="optional"/>
+                <xs:attribute name="object-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор объекта</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="master-param" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Параметр фильтра</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="refresh-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор виджета, который необходимо обновить после успешного выполнения операции (по умолчанию widget-id у button, а если нет, текущий виджет).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="true" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Предупредить о несохраненных данных на форме при закрытии модального окна?
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -197,6 +231,10 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="actionDefinition">
+                <xs:sequence>
+                    <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="query-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
                 <xs:attribute name="href" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Адрес URL. Возможно использование плейсхолдеров {placeholder}
@@ -212,6 +250,19 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="paramDefinition">
+        <xs:attribute name="name" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Название параметра</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="value" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Ссылка на значение парамерта</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:complexType name="invokeActionDefinition">
         <xs:complexContent>
             <xs:extension base="actionDefinition">
@@ -224,7 +275,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="close-after-success" type="xs:boolean" use="optional">
+                <xs:attribute name="close-on-success" type="xs:boolean" use="optional">
                     <xs:annotation>
                         <xs:documentation>Закрыть окно после успешного выполнения действия</xs:documentation>
                     </xs:annotation>
@@ -241,10 +292,38 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="redirect-target" type="redirectTargetType" use="optional">
+                <xs:attribute name="redirect-target" type="redirectTargetType">
                     <xs:annotation>
                         <xs:documentation>Сценарий открытия ссылки сразу после успешного выполнения операции. По
                             умолчанию self.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="refresh-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор виджета, который необходимо обновить после успешного выполнения операции (по умолчанию widget-id у button, а если нет, текущий виджет).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="refresh-on-success" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Необходимо ли обновлять виджет (по умолчанию true)
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="message-on-success" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Показать сообщение об успешном выполнении действия
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="message-on-fail" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Показать сообщение о неудачном выполнении действия
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -279,6 +358,11 @@
                 <xs:annotation>
                     <xs:documentation>Закрыть окно.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="unsaved-data-prompt" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Показать предупреждение о наличии несохраненных данных. По умолчанию true.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -419,6 +503,11 @@
                 <xs:documentation>Поле в выборке виджета, по которому будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="required" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="preFilterDefValue">
@@ -430,6 +519,11 @@
                 <xs:attribute name="value" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Значение фильтра (одно значение).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="required" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -445,6 +539,11 @@
                 <xs:attribute name="values" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Значение фильтра (через запятую).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="required" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -465,6 +564,11 @@
                 <xs:attribute name="values" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Значение фильтра (через запятую).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="required" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Флаг обязательности предустановленного фильтра.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -503,6 +607,21 @@
         <xs:attribute name="ref-model" type="reduxModel" use="optional">
             <xs:annotation>
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="param" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Параметр фильтра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="reset-on-change" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation>Сбрасывать значение при изменении в модели.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="routable" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Попадает ли фильтр в url. По умолчанию false.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

@@ -2,31 +2,55 @@
 
     <user username="user">
         <url-access pattern="testUrl"/>
+        <object-filters object-id="test2">
+            <eq id="f1" field-id="filed2" value="1"/>
+            <eq id="f2" field-id="filed2" value="2"/>
+        </object-filters>
     </user>
 
     <authenticated>
         <url-access pattern="testUrl2"/>
+        <object-filters object-id="test2">
+            <eq id="f1" field-id="filed2" value="1"/>
+            <eq id="f2" field-id="filed2" value="2"/>
+        </object-filters>
     </authenticated>
 
     <anonymous>
         <object-access object-id="test1"/>
         <object-access object-id="test2"/>
+        <object-filters object-id="test2">
+            <eq id="f1" field-id="filed2" value="1"/>
+            <eq id="f2" field-id="filed2" value="2"/>
+        </object-filters>
     </anonymous>
 
     <permit-all>
         <object-access object-id="test1"/>
         <object-access object-id="test2"/>
+        <object-filters object-id="test2">
+            <eq id="f1" field-id="filed2" value="1"/>
+            <eq id="f2" field-id="filed2" value="2"/>
+        </object-filters>
     </permit-all>
 
     <role id="test">
         <object-access object-id="test1"/>
-        <object-access object-id="test2"/>
+        <object-access object-id="test2" remove-filters="f1,f2"/>
         <page-access page-id="page1"/>
+        <object-filters object-id="test2">
+            <eq id="f1" field-id="filed2" value="1"/>
+            <eq id="f2" field-id="filed2" value="2"/>
+        </object-filters>
     </role>
 
     <permission id="test">
         <object-access object-id="test1"/>
         <object-access object-id="test2"/>
+        <object-filters object-id="test2">
+            <eq id="f1" field-id="filed2" value="1"/>
+            <eq id="f2" field-id="filed2" value="2"/>
+        </object-filters>
     </permission>
 
 </access>

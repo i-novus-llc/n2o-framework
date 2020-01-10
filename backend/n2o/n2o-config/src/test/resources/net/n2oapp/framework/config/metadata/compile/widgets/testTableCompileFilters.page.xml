@@ -1,9 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" layout="SingleLayout">
     <regions>
-        <none place="single">
-            <table id="master1" query-id="testTable4Compile"/>
-            <table id="detail1" query-id="testTable4Compile" depends-on="master1" detail-field-id="parent.id">
+        <region place="single">
+            <table id="testTable" upload="defaults">
                 <filters>
                     <input-text id="name" required="true" default-value="test"/>
                     <date-interval id="birthday">
@@ -15,9 +14,14 @@
                     <input-text id="age" domain="integer" default-value="18"/>
                     <input-text id="amount" domain="number" step="0.00" default-value="100.99"/>
                     <hidden id="hidden" default-value="test"/>
+
+                    <input-text id="name2" default-value="{today()}"/>
+                    <date-interval id="birthday2">
+                        <default-value begin="{today()}" end="22.11.2018"/>
+                    </date-interval>
                 </filters>
             </table>
-        </none>
+        </region>
     </regions>
 
 </page>

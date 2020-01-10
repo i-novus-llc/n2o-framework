@@ -36,7 +36,7 @@
             <name>Фамилия</name>
             <domain>string</domain>
             <expression>a.second_name</expression>
-            <display/>
+            <display>a.second_name</display>
             <sorting/>
             <filters>
                 <filter type="eq" filter-field="surname" default-value="default">a.second_name = :surname</filter><!--todo убрать тело, когда оно будет генерируемым -->

@@ -3,11 +3,8 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
 import net.n2oapp.framework.config.io.widget.table.cell.CustomCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.cell.CustomCellCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
-import net.n2oapp.framework.config.metadata.compile.widget.TableCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
@@ -41,6 +38,6 @@ public class CustomCellCompilerTest extends SourceCompileTestBase {
     public void testCompileActions() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testCustomCell.widget.xml")
                 .get(new WidgetContext("testCustomCell"));
-        assertThat(table.getComponent().getCells().get(0).getSrc(),is("testCell"));
+        assertThat(table.getComponent().getCells().get(0).getSrc(),is("MyCell"));
     }
 }

@@ -1,7 +1,12 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+      xmlns:ext="http://example.com/n2o/ext-1.0"
+      xmlns:extParent="http://example.com/n2o/ext-parent"
       name="Parent"
       query-id="parent"
-      object-id="parent">
+      object-id="parent"
+      ext:extAttr1="parent1"
+      ext:extAttr2="parent2"
+      extParent:extAttr="parent">
     <fields>
         <set>
             <input-text id="name"/>

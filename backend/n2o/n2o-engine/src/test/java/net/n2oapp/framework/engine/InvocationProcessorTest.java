@@ -2,6 +2,7 @@ package net.n2oapp.framework.engine;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
@@ -14,15 +15,17 @@ import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.util.TestEntity;
-import net.n2oapp.properties.test.TestStaticProperties;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.stubbing.Answer;
 
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -40,8 +43,11 @@ public class InvocationProcessorTest {
         SqlInvocationEngine sqlInvocationEngine = new SqlInvocationEngine();
         when(actionInvocationFactory.produce(N2oSqlDataProvider.class)).thenReturn(sqlInvocationEngine);
         ContextProcessor processor = mock(ContextProcessor.class);
-        when(processor.resolve("defaultValue")).thenReturn("defaultValue");
-        invocationProcessor = new N2oInvocationProcessor(actionInvocationFactory, processor);
+        when(processor.resolve(anyMap())).thenAnswer((Answer<DataSet>) invocation -> (DataSet) invocation.getArguments()[0]);
+        when(processor.resolve(anyString())).thenAnswer((Answer<String>) invocation -> (String) invocation.getArguments()[0]);
+        when(processor.resolve(anyInt())).thenAnswer((Answer<Integer>) invocation -> (Integer) invocation.getArguments()[0]);
+        when(processor.resolve(anyList())).thenAnswer((Answer<List>) invocation -> (List) invocation.getArguments()[0]);
+        invocationProcessor = new N2oInvocationProcessor(actionInvocationFactory, processor, new DomainProcessor());
     }
 
     @Test
@@ -91,17 +97,22 @@ public class InvocationProcessorTest {
         primitiveTypeArgument.setName("primitiveTypeArgument");
         primitiveTypeArgument.setClassName("java.lang.Integer");
         primitiveTypeArgument.setType(Argument.Type.PRIMITIVE);
+        primitiveTypeArgument.setDefaultValue("2");
+
+        Argument noClassPrimitive = new Argument();
+        noClassPrimitive.setName("noClassPrimitive");
+        noClassPrimitive.setType(Argument.Type.PRIMITIVE);
 
         Argument classTypeArgument = new Argument();
         classTypeArgument.setName("classTypeArgument");
         classTypeArgument.setClassName("net.n2oapp.framework.engine.test.source.StaticInvocationTestClass$Model");
         classTypeArgument.setType(Argument.Type.CLASS);
 
-        method.setArguments(new Argument[]{entityTypeArgument, primitiveTypeArgument, classTypeArgument});
+        method.setArguments(new Argument[]{entityTypeArgument, primitiveTypeArgument, noClassPrimitive, classTypeArgument});
 
         DataSet dataSet = new DataSet();
         dataSet.put("entity", 1);
-        dataSet.put("primitive", 2);
+        dataSet.put("primitive2", 100);
         dataSet.put("class", 7);
         dataSet.put("paramWithMappingCondition", null);
 
@@ -110,20 +121,29 @@ public class InvocationProcessorTest {
         param1.setId("entity");
         param1.setMapping("testField");
         inMapping.add(param1);
+
         InvocationParameter param2 = new InvocationParameter();
         param2.setId("primitive");
         param2.setMapping("[1]");
         param2.setMappingCondition("primitive != null");
         inMapping.add(param2);
+
         InvocationParameter param3 = new InvocationParameter();
-        param3.setId("class");
-        param3.setMapping("[2].testField");
+        param3.setId("primitive2");
+        param3.setMapping("[2]");
+        param3.setMappingCondition("primitive2 != null");
         inMapping.add(param3);
+
         InvocationParameter param4 = new InvocationParameter();
-        param4.setId("paramWithMappingCondition");
-        param4.setMapping("[3]");
-        param4.setMappingCondition("paramWithMappingCondition != null");
+        param4.setId("class");
+        param4.setMapping("[3].testField");
         inMapping.add(param4);
+
+        InvocationParameter param5 = new InvocationParameter();
+        param5.setId("paramWithMappingCondition");
+        param5.setMapping("[4]");
+        param5.setMappingCondition("paramWithMappingCondition != null");
+        inMapping.add(param5);
 
         List<InvocationParameter> outMapping = new ArrayList<>();
         InvocationParameter outParam = new InvocationParameter();
@@ -132,8 +152,8 @@ public class InvocationProcessorTest {
         outMapping.add(outParam);
 
         DataSet resultDataSet = invocationProcessor.invoke(method, dataSet, inMapping, outMapping);
-        assert resultDataSet.size() == 5;
-        assert resultDataSet.get("sum").equals(10);
+        assert resultDataSet.size() == 6;
+        assert resultDataSet.get("sum").equals(110);
     }
 
     @Test
@@ -275,15 +295,12 @@ public class InvocationProcessorTest {
 
     @Test
     public void testMapsInvocation() {
-        Properties properties = new Properties();
-        properties.put("n2o.engine.mapper", "dataset");
-        new TestStaticProperties().setProperties(properties);
         DataSet dataSet = new DataSet();
         dataSet.put("id", 1);
         List<InvocationParameter> inMapping = new ArrayList<>();
         InvocationParameter param1 = new InvocationParameter();
         param1.setId("id");
-        param1.setMapping("id = :id");
+        param1.setMapping("['id']");
         inMapping.add(param1);
         List<InvocationParameter> outMapping = new ArrayList<>();
         InvocationParameter outParam = new InvocationParameter();

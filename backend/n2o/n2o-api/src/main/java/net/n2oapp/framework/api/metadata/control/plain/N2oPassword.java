@@ -10,4 +10,5 @@ import lombok.Setter;
 @Setter
 public class N2oPassword extends N2oPlainField {
     private Integer length;
+    private Boolean eye;
 }

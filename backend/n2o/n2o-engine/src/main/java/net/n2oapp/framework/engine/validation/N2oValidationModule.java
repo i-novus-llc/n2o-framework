@@ -11,7 +11,9 @@ import net.n2oapp.framework.engine.validation.engine.info.ObjectValidationInfo;
 import net.n2oapp.framework.engine.validation.engine.info.QueryValidationInfo;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation.ServerMoment.*;
 
@@ -54,7 +56,7 @@ public class N2oValidationModule extends N2oModule {
 
     @Override
     public void processQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        if (requestInfo.isValidationEnable() && requestInfo.getSize() != 1) {
+        if (requestInfo.isValidationEnable()) {
             List<FailInfo> fails = processor.validate(buildInfo(requestInfo, requestInfo.getData()), beforeQuery);
             prepareResponse(fails, responseInfo);
         }
@@ -63,8 +65,8 @@ public class N2oValidationModule extends N2oModule {
     @Override
     public void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page) {
         final Collection<DataSet> list = page.getCollection();
-        if (requestInfo.isValidationEnable() && !list.isEmpty() && requestInfo.getSize() == 1) {
-            List<FailInfo> fails = processor.validate(buildInfo(requestInfo, list.iterator().next()), beforeOperation);
+        if (requestInfo.isValidationEnable() && !list.isEmpty()) {
+            List<FailInfo> fails = processor.validate(buildInfo(requestInfo, list.iterator().next()), afterSuccessQuery);
             prepareResponse(fails, responseInfo);
         }
     }
@@ -79,11 +81,23 @@ public class N2oValidationModule extends N2oModule {
         );
     }
 
-    private QueryValidationInfo buildInfo(QueryRequestInfo requestInfo, DataSet dataSet) {
+    private QueryValidationInfo buildInfo(QueryRequestInfo requestInfo, DataSet inDataSet) {
+        DataSet dataSet = inDataSet != null ? inDataSet : requestInfo.getData();
+        DataSet result = new DataSet();
+        Map<String, String> paramsMap = requestInfo.getQuery().getParamToFilterIdMap();
+        for (String key : dataSet.keySet()) {
+            if (paramsMap.containsKey(key)) {
+                if (DataSet.isSpreadKey(paramsMap.get(key)) && !(dataSet.get(key) instanceof Collection))
+                    result.put(paramsMap.get(key), Collections.singletonList(dataSet.get(key)));
+                else
+                    result.put(paramsMap.get(key), dataSet.get(key));
+            } else
+                result.put(key, dataSet.get(key));
+        }
         return new QueryValidationInfo(
                 requestInfo.getQuery().getObject(),
                 requestInfo.getQuery().getValidations(),
-                dataSet != null ? dataSet : requestInfo.getData(),
+                result,
                 requestInfo.getFailAlertWidgetId(),
                 requestInfo.getMessagesForm()
         );

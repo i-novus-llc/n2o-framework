@@ -1,14 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.context;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 
 public abstract class BaseCompileContext<D extends Compiled, S> implements CompileContext<D, S> {
     /**
@@ -28,14 +28,19 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
      */
     private String route;
     /**
-     * Список query параметров в строке запроса, которые неоходимо разрешать на сервере
+     * Связь query параметров в маршруте с моделями данных
      */
-    private Map<String, ModelLink> queryRouteInfos;
+    private Map<String, ModelLink> queryRouteMapping;
 
     /**
-     * Список path параметров в строке запроса, которые неоходимо разрешать на сервере
+     * Связь path параметров в маршруте с моделями данных
      */
-    private Map<String, ModelLink> pathRouteInfos;
+    private Map<String, ModelLink> pathRouteMapping;
+
+    /**
+     * Ссылка на модель данных родителя
+     */
+    private ModelLink parentModelLink;
 
     public BaseCompileContext(String sourceId, Class<S> sourceClass, Class<D> compiledClass) {
         if (sourceId == null)
@@ -54,75 +59,106 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         this.route = route;
     }
 
-    public BaseCompileContext(BaseCompileContext<D, S> context, CompileProcessor p) {
+    public BaseCompileContext(BaseCompileContext<D, S> context) {
         this(context.sourceId, context.sourceClass, context.compiledClass);
-        if (context.route != null) {
-            this.route = context.getRoute(p);
-        }
-        this.pathRouteInfos = context.pathRouteInfos;
-        this.queryRouteInfos = context.queryRouteInfos;
+        this.route = context.route;
+        this.setPathRouteMapping(context.pathRouteMapping);
+        this.setQueryRouteMapping(context.queryRouteMapping);
+        this.setParentModelLink(context.parentModelLink);
+    }
+
+    public BaseCompileContext(String route, BaseCompileContext<D, S> context) {
+        this(context.sourceId, context.sourceClass, context.compiledClass);
+        this.route = route;
+        this.setPathRouteMapping(context.pathRouteMapping);
+        this.setQueryRouteMapping(context.queryRouteMapping);
+        this.setParentModelLink(context.parentModelLink);
     }
 
     @Override
-    public String getCompiledId(CompileProcessor p) {
+    public String getCompiledId(BindProcessor p) {
         if (route != null) {
-            String url = route;
+            String url = getRoute(p);
             if (StringUtils.hasLink(sourceId) && p != null) {
-                url = p.resolveUrlParams(route, StringUtils.collectLinks(sourceId));
+                return RouteUtil.convertPathToId(url) + getSourceId(p);
             }
             return RouteUtil.convertPathToId(url);
         }
         if (StringUtils.hasLink(sourceId) && p != null) {
-            return p.resolveParams(sourceId);
+            return "$" + p.resolveText(sourceId, parentModelLink);
         }
-        return sourceId;
-    }
-
-    private void checkProcessor(CompileProcessor p) {
-        if (p == null) {
-            throw new IllegalArgumentException("You try to get CompiledId for dynamic metadata without CompileProcessor!");
-        }
+        return "$" + sourceId;
     }
 
     @Override
-    public String getSourceId(CompileProcessor p) {
+    public String getSourceId(BindProcessor p) {
         if (StringUtils.hasLink(sourceId)) {
             checkProcessor(p);
-            return p.resolveParams(sourceId);
+            return p.resolveText(sourceId, parentModelLink);
         }
         return sourceId;
     }
 
-    public String getRoute(CompileProcessor p) {
+    public String getRoute(BindProcessor p) {
         if (StringUtils.hasLink(sourceId)) {
             checkProcessor(p);
-            return p.resolveUrlParams(route, StringUtils.collectLinks(sourceId));
+            return p.resolveUrl(route, parentModelLink);
         }
         return route;
     }
 
     @Override
-    public Map<String, ModelLink> getQueryRouteInfos() {
-        return queryRouteInfos;
-    }
-
-    public void setQueryRouteInfos(Map<String, ModelLink> queryRouteInfos) {
-        if (queryRouteInfos != null)
-            this.queryRouteInfos = Collections.unmodifiableMap(queryRouteInfos);
-        else
-            this.queryRouteInfos = null;
+    public DataSet getParams(String url, Map<String, String[]> queryParams) {
+        DataSet data;
+        if (route == null) {
+            data = new DataSet();
+        } else {
+            data = getResultData(url, route);
+        }
+        if (queryParams != null) {
+            queryParams.forEach((k, v) -> {
+                if (v.length == 1) {
+                    data.put(k, v[0]);
+                } else {
+                    data.put(k, Arrays.asList(v));
+                }
+            });
+        }
+        return data;
     }
 
     @Override
-    public Map<String, ModelLink> getPathRouteInfos() {
-        return pathRouteInfos;
+    public Map<String, ModelLink> getQueryRouteMapping() {
+        return queryRouteMapping;
     }
 
-    public void setPathRouteInfos(Map<String, ModelLink> pathRouteInfos) {
-        if (pathRouteInfos != null)
-            this.pathRouteInfos = Collections.unmodifiableMap(pathRouteInfos);
+    public void setQueryRouteMapping(Map<String, ModelLink> queryRouteMapping) {
+        if (queryRouteMapping != null) {
+            this.queryRouteMapping = new HashMap<>();
+            queryRouteMapping.forEach((k, v) -> this.queryRouteMapping.put(k, new ModelLink(v)));
+        } else {
+            this.queryRouteMapping = null;
+        }
+    }
+
+    @Override
+    public Map<String, ModelLink> getPathRouteMapping() {
+        return pathRouteMapping;
+    }
+
+    public void setPathRouteMapping(Map<String, ModelLink> pathRouteMapping) {
+        if (pathRouteMapping != null)
+            this.pathRouteMapping = Collections.unmodifiableMap(pathRouteMapping);
         else
-            this.pathRouteInfos = null;
+            this.pathRouteMapping = null;
+    }
+
+    public ModelLink getParentModelLink() {
+        return parentModelLink;
+    }
+
+    public void setParentModelLink(ModelLink parentModelLink) {
+        this.parentModelLink = parentModelLink;
     }
 
     @Override
@@ -138,5 +174,36 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     @Override
     public String toString() {
         return getClass().getSimpleName() + "(" + sourceId + ")";
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BaseCompileContext)) return false;
+        BaseCompileContext<?, ?> that = (BaseCompileContext<?, ?>) o;
+        return this.sourceId.equals(that.sourceId) && this.compiledClass.equals(that.compiledClass);
+    }
+
+    private void checkProcessor(BindProcessor p) {
+        if (p == null) {
+            throw new IllegalArgumentException("You try to get CompiledId for dynamic metadata without CompileProcessor!");
+        }
+    }
+
+    @Override
+    public final int hashCode() {
+        return Objects.hash(sourceId, compiledClass);
+    }
+
+    private DataSet getResultData(String url, String urlPattern) {
+        DataSet data = new DataSet();
+        String[] splitUrl = url.split("/");
+        String[] splitPattern = urlPattern.split("/");
+        for (int i = 0; i < splitUrl.length && i < splitPattern.length; i++) {
+            if (splitPattern[i].startsWith(":")) {
+                data.put(splitPattern[i].substring(1), splitUrl[i]);
+            }
+        }
+        return data;
     }
 }

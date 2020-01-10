@@ -32,6 +32,7 @@ public class TestDynamicProvider implements DynamicMetadataProvider {
     public List<? extends SourceMetadata> read(String context) {
         N2oSimplePage page = new N2oSimplePage();
         N2oForm form = new N2oForm();
+        form.setName(context);
         form.setRefId("formForTestDynamic");
         form.setQueryId("testDynamic?Dummy");
         page.setWidget(form);

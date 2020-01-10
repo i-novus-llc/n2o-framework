@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
@@ -18,9 +19,12 @@ import net.n2oapp.framework.config.factory.MockMetadataFactory;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
 import net.n2oapp.framework.config.register.XmlInfo;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Properties;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -70,6 +74,8 @@ public class N2oPipelineTest {
         when(env.getReadCompilePipelineFunction()).thenReturn(p -> p.read().transform().validate().cache().copy().compile().transform().cache().copy());
         when(env.getCompilePipelineFunction()).thenReturn(p -> p.compile().transform().cache());
         when(env.getBindPipelineFunction()).thenReturn(p -> p.bind());
+
+        when(env.getSystemProperties()).thenReturn(new SimplePropertyResolver(new Properties()));
     }
 
     @Test
@@ -111,28 +117,28 @@ public class N2oPipelineTest {
 
         // read + compile
         Page compiled = new N2oReadPipeline(env).read().compile().get(context);
-        assertThat(compiled.getProperties().getTitle(), is("compiled test"));
+        assertThat(compiled.getPageProperty().getTitle(), is("compiled test"));
 
         // read + cache + compile
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> compilePipeline = N2oPipelineSupport.readPipeline(env).read().cache().copy().compile();
         compiled = compilePipeline.get(context);
-        assertThat(compiled.getProperties().getTitle(), is("compiled cached test"));//second cache hit
+        assertThat(compiled.getPageProperty().getTitle(), is("compiled cached test"));//second cache hit
 
         // read + compile + transform
         compiled = N2oPipelineSupport.readPipeline(env).read().compile().transform().get(context);
-        assertThat(compiled.getProperties().getTitle(), is("transformed compiled test"));
+        assertThat(compiled.getPageProperty().getTitle(), is("transformed compiled test"));
 
         // read + compile + cache + transform
         compiled = N2oPipelineSupport.readPipeline(env).read().compile().cache().transform().get(context);
-        assertThat(compiled.getProperties().getTitle(), is("transformed compiled test"));//compile cache miss
+        assertThat(compiled.getPageProperty().getTitle(), is("transformed compiled test"));//compile cache miss
 
         compiled = N2oPipelineSupport.readPipeline(env).read().compile().cache().transform().get(context);
-        assertThat(compiled.getProperties().getTitle(), is("transformed cached compiled test"));//compile cache hit
+        assertThat(compiled.getPageProperty().getTitle(), is("transformed cached compiled test"));//compile cache hit
 
         // read + compile + bind
         DataSet data = new DataSet();
         compiled = N2oPipelineSupport.readPipeline(env).read().compile().bind().get(context, data);
-        assertThat(compiled.getProperties().getTitle(), is("binding compiled test"));
+        assertThat(compiled.getPageProperty().getTitle(), is("binding compiled test"));
     }
 
     @Test
@@ -154,38 +160,38 @@ public class N2oPipelineTest {
 
         //compile
         Page compiledPage = N2oPipelineSupport.compilePipeline(env).compile().get(createSource(), context);
-        assertThat(compiledPage.getProperties().getTitle(), is("compiled test"));
+        assertThat(compiledPage.getPageProperty().getTitle(), is("compiled test"));
 
         //merge - compile
         N2oSimplePage source = createSource();
         source.setRefId("page2");
         compiledPage = N2oPipelineSupport.compilePipeline(env).merge().compile().get(source, context);
-        assertThat(compiledPage.getProperties().getTitle(), is("compiled merged test"));
+        assertThat(compiledPage.getPageProperty().getTitle(), is("compiled merged test"));
 
         //transform + compile
         compiledPage = N2oPipelineSupport.compilePipeline(env).transform().compile().get(createSource(), context);
-        assertThat(compiledPage.getProperties().getTitle(), is("compiled transformed test"));
+        assertThat(compiledPage.getPageProperty().getTitle(), is("compiled transformed test"));
 
         //compile + transform
         compiledPage = N2oPipelineSupport.compilePipeline(env).compile().transform().get(createSource(), context);
-        assertThat(compiledPage.getProperties().getTitle(), is("transformed compiled test"));
+        assertThat(compiledPage.getPageProperty().getTitle(), is("transformed compiled test"));
 
         //compile + cache
         CompileTerminalPipeline<CompileBindTerminalPipeline> pipeline = N2oPipelineSupport.compilePipeline(env).compile().cache();
         compiledPage = pipeline.get(createSource(), context);
-        assertThat(compiledPage.getProperties().getTitle(), is("compiled test"));//cache miss
+        assertThat(compiledPage.getPageProperty().getTitle(), is("compiled test"));//cache miss
 
         compiledPage = pipeline.get(createSource(), context);
-        assertThat(compiledPage.getProperties().getTitle(), is("cached compiled test"));//cache hit
+        assertThat(compiledPage.getPageProperty().getTitle(), is("cached compiled test"));//cache hit
 
         //compile + bind
         DataSet data = new DataSet();
         compiledPage = N2oPipelineSupport.compilePipeline(env).compile().bind().get(createSource(), context, data);
-        assertThat(compiledPage.getProperties().getTitle(), is("binding compiled test"));
+        assertThat(compiledPage.getPageProperty().getTitle(), is("binding compiled test"));
 
         //compile + bind + bind
         compiledPage = N2oPipelineSupport.compilePipeline(env).compile().bind().bind().get(createSource(), context, data);
-        assertThat(compiledPage.getProperties().getTitle(), is("binding binding compiled test"));
+        assertThat(compiledPage.getPageProperty().getTitle(), is("binding binding compiled test"));
     }
 
     @Test
@@ -199,15 +205,15 @@ public class N2oPipelineTest {
 
         //bind
         Page compiledPage = N2oPipelineSupport.bindPipeline(env).bind().get(createCompiled(), context, data);
-        assertThat(compiledPage.getProperties().getTitle(), is("binding test"));
+        assertThat(compiledPage.getPageProperty().getTitle(), is("binding test"));
 
         //transform + bind
         compiledPage = N2oPipelineSupport.bindPipeline(env).transform().bind().get(createCompiled(), context, data);
-        assertThat(compiledPage.getProperties().getTitle(), is("binding transformed test"));
+        assertThat(compiledPage.getPageProperty().getTitle(), is("binding transformed test"));
 
         //bind + bind
         compiledPage = N2oPipelineSupport.bindPipeline(env).bind().bind().get(createCompiled(), context, data);
-        assertThat(compiledPage.getProperties().getTitle(), is("binding binding test"));
+        assertThat(compiledPage.getPageProperty().getTitle(), is("binding binding test"));
     }
 
     private N2oSimplePage createSource() {
@@ -220,7 +226,7 @@ public class N2oPipelineTest {
     private Page createCompiled() {
         Page page;
         page = new Page();
-        page.getProperties().setTitle("test");
+        page.getPageProperty().setTitle("test");
         return page;
     }
 
@@ -238,7 +244,7 @@ public class N2oPipelineTest {
 
         @Override
         public <D extends Compiled> D transform(D compiled, CompileContext<?, ?> context, CompileProcessor processor) {
-            ((Page) compiled).getProperties().setTitle("transformed " + ((Page) compiled).getProperties().getTitle());
+            ((Page) compiled).getPageProperty().setTitle("transformed " + ((Page) compiled).getPageProperty().getTitle());
             return compiled;
         }
     }
@@ -247,7 +253,7 @@ public class N2oPipelineTest {
     class MockSourceValidatorFactory extends MockMetadataFactory<SourceValidator> implements SourceValidatorFactory {
 
         @Override
-        public <S> void validate(S source) throws N2oMetadataValidationException {
+        public <S> void validate(S source, ValidateProcessor p) throws N2oMetadataValidationException {
             if (((N2oSimplePage)source).getId() == null)
                 throw new N2oMetadataValidationException("validated " + ((N2oSimplePage)source).getName());
         }
@@ -280,11 +286,11 @@ public class N2oPipelineTest {
             if (cache == null) {
                 Page compiled = (Page) callback.doInCacheMiss();
                 cache = new Page();
-                cache.getProperties().setTitle(compiled.getProperties().getTitle());
+                cache.getPageProperty().setTitle(compiled.getPageProperty().getTitle());
                 return compiled;
             } else {
                 Page copy = new Page();
-                copy.getProperties().setTitle("cached " + cache.getProperties().getTitle());
+                copy.getPageProperty().setTitle("cached " + cache.getPageProperty().getTitle());
                 return copy;
             }
         }
@@ -295,7 +301,7 @@ public class N2oPipelineTest {
         @Override
         public <D extends Compiled, S, C extends CompileContext<?, ?>> D compile(S source, C context, CompileProcessor p) {
             Page page = new Page();
-            page.getProperties().setTitle("compiled " + ((N2oSimplePage) source).getName());
+            page.getPageProperty().setTitle("compiled " + ((N2oSimplePage) source).getName());
             return (D) page;
         }
     }
@@ -303,8 +309,8 @@ public class N2oPipelineTest {
     class MockBinderFactory extends MockMetadataFactory<MetadataBinder> implements MetadataBinderFactory {
 
         @Override
-        public <D extends Compiled> D bind(D compiled, CompileProcessor processor) {
-            ((Page) compiled).getProperties().setTitle("binding " + ((Page) compiled).getProperties().getTitle());
+        public <D extends Compiled> D bind(D compiled, BindProcessor processor) {
+            ((Page) compiled).getPageProperty().setTitle("binding " + ((Page) compiled).getPageProperty().getTitle());
             return compiled;
         }
     }

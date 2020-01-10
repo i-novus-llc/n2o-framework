@@ -2,42 +2,50 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
       layout="LeftRightLayout" name="Список контактов" route="/">
     <toolbar place="topRight">
-        <button id="create2" widget-id="patients"
+        <button id="create2" widget-id="patients" description="Добавить пациента"
                 color="primary" label="Добавить пациента" icon="fa fa-plus"
                 model="filter">
             <open-page page-id="ProtoPatient" route="/create2"
                        submit-operation-id="create" upload="defaults"
-                       redirect-url-after-submit="../patients/:id"/>
+                       redirect-url-after-submit="../:id"/>
         </button>
     </toolbar>
     <regions>
         <panel place="left" header="true" collapsible="false" title="Данные пациента">
-            <table id="patients" name="Пациенты" query-id="ProtoPatient" size="10">
+            <table id="patients" name="Пациенты" query-id="ProtoPatient" size="10" route="/">
+                <actions>
+                    <action id="update_birthday">
+                        <invoke operation-id="update"/>
+                    </action>
+                </actions>
                 <pagination/>
                 <columns>
                     <column text-field-id="surname">
                         <link>
-                            <open-page page-id="ProtoPatient" submit-operation-id="update" detail-field-id="id"/>
+                            <open-page page-id="ProtoPatient" submit-operation-id="update" detail-field-id="id"
+                                       page-name="Карточка пациента: {id}"/>
                         </link>
                     </column>
                     <column text-field-id="name">
                         <link>
-                            <show-modal page-id="ProtoPatient" submit-operation-id="update" detail-field-id="id"/>
+                            <show-modal page-id="ProtoPatient" submit-operation-id="update" detail-field-id="id"
+                                        page-name="Карточка пациента: {id}"/>
                         </link>
                     </column>
                     <column text-field-id="patrName">
-                        <link>
-                            <a href="/patients/:id/update2"/>
-                        </link>
+                        <link visible="{name!='Мария'}"
+                              url="/{id}/update2" target="application"/>
                     </column>
                     <column text-field-id="birthday" sorting-direction="asc">
-                        <text format="date DD.MM.YYYY"/>
+                        <edit action-id="update_birthday" format="date DD.MM.YYYY">
+                            <date-time id="birthday"/>
+                        </edit>
                     </column>
                     <column text-field-id="genderName">
                         <badge color="{gender.id==1?'danger':'success'}"/>
                     </column>
                     <column text-field-id="vip">
-                        <checkbox>
+                        <checkbox enabled="{name!='Мария'}">
                             <invoke operation-id="update"/>
                         </checkbox>
                     </column>
@@ -58,7 +66,7 @@
                     <row>
                         <input-text id="surname"/>
                         <input-text id="name"/>
-                        <date-interval id="bdate" label="Дата рождения"/>
+                        <date-interval id="bdate" label="Дата рождения" date-format="DD.MM.YYYY"/>
                     </row>
                     <row>
                         <col size="10">
@@ -69,16 +77,16 @@
                     </row>
                 </filters>
                 <toolbar place="topLeft">
-                    <button id="create" label="Создать" icon="fa fa-plus" model="filter">
+                    <button id="create" label="Создать" description="Создать" icon="fa fa-plus" model="filter">
                         <show-modal page-id="ProtoPatient" submit-operation-id="create"
                                     upload="defaults" focus-after-submit="true"
                                     redirect-url-after-submit="../:id/update2"/>
                     </button>
-                    <button id="update" label="Изменить" icon="fa fa-pencil">
+                    <button id="update_patient" label="Изменить" description="Изменить" icon="fa fa-pencil">
                         <show-modal page-id="ProtoPatient" submit-operation-id="update" focus-after-submit="true"
-                                    detail-field-id="id"/>
+                                    detail-field-id="id" page-name="Карточка пациента: {id}"/>
                     </button>
-                    <button id="delete" label="Удалить" icon="fa fa-trash" type="text">
+                    <button id="delete" label="Удалить" description="Удалить" icon="fa fa-trash" type="text">
                         <invoke operation-id="delete"/>
                     </button>
                 </toolbar>
@@ -87,10 +95,10 @@
                             visibility-condition="name!='Мария'"
                             description="Кнопка скрывается, если в строке имя Мария">
                         <open-page page-id="ProtoPatient" submit-operation-id="update" focus-after-submit="true"
-                                   detail-field-id="id"/>
+                                   detail-field-id="id" page-name="Карточка пациента: {id}"/>
                     </button>
                     <button id="view" label="Просмотр" color="info" icon="fa fa-book"
-                            enabling-condition="name!='Анна'"
+                            enabling-condition="name!='Анна'" tooltip-position="right"
                             description="Кнопка блокируется, если в фильтре имя Анна">
                         <show-modal page-id="ProtoPatientView" detail-field-id="id"/>
                     </button>
@@ -99,30 +107,33 @@
             </table>
         </panel>
         <panel place="right" title="Контакты">
-            <table id="contacts" detail-field-id="individualId" depends-on="patients"
-                   name="Контакты" query-id="ProtoContacts">
-                <columns>
-                    <column text-field-id="value"/>
-                    <column text-field-id="typeId"/>
-                </columns>
-                <filters>
-                    <row>
-                        <input-select id="type" label="Тип контакта"
-                                      help="Тип контакта">
-                            <options label-field-id="name">
-                                <option id="2" name="Моб. телефон"/>
-                                <option id="4" name="Эл. почт"/>
-                                <option id="7" name="Факс"/>
-                            </options>
-                        </input-select>
-                        `
-                    </row>
-                </filters>
-                <toolbar generate="crud"/>
-            </table>
+            <list id="contacts" detail-field-id="individualId" depends-on="patients"
+                  name="Контакты" query-id="ProtoContacts" visible="{name != 'Мария'}">
+                <content>
+                    <left-top>
+                        <icon>
+                            <switch value-field-id="type.id">
+                                <case value="2">fa fa-phone</case>
+                                <case value="4">fa fa-envelop</case>
+                                <case value="7">fa fa-fax</case>
+                            </switch>
+                        </icon>
+                    </left-top>
+                    <header text-field-id="type.name">
+                        <text class="text-muted"/>
+                    </header>
+                    <body text-field-id="value">
+                        <text/>
+                    </body>
+                    <extra>
+                        <toolbar generate="update,delete"/>
+                    </extra>
+                </content>
+                <toolbar generate="create"/>
+            </list>
         </panel>
         <panel place="right" title="Карточка">
-            <form id="form" ref-id="ProtoPatient" route="/card"
+            <form id="form" ref-id="ProtoPatient" route="/:patient_id/card"
                   depends-on="patients" master-field-id="id" detail-field-id="id"/>
         </panel>
     </regions>

@@ -10,17 +10,18 @@
             </button>
             <button id="id2" model="resolve">
                 <open-page page-id="testOpenPageSimplePageAction2"
-                           route="/action2"
+                           route="/:page_test_id/action2"
                            page-name="second"
-                           submit-operation-id="test2" detail-field-id="id"/>
+                           submit-operation-id="update" detail-field-id="id"/>
             </button>
             <button id="masterDetail" model="resolve">
                 <open-page page-id="testOpenPageMasterDetail"
-                           route="/masterDetail"
+                           route="/:page_test_id/masterDetail"
                            master-field-id="masterId"
-                           detail-field-id="detailId">
+                           detail-field-id="detailId"
+                           master-param="detailId">
                     <pre-filters>
-                        <eq field-id="name" value="{name}"/>
+                        <eq field-id="name" value="{name}" ref-model="filter"/>
                         <eq field-id="secondName" value="test"/>
                     </pre-filters>
                 </open-page>

@@ -1,60 +1,211 @@
 package net.n2oapp.framework.config.register.route;
 
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
-import net.n2oapp.framework.api.register.route.RoutingResult;
+import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
+import net.n2oapp.framework.config.compile.pipeline.operation.BindOperation;
+import net.n2oapp.framework.config.compile.pipeline.operation.CompileOperation;
+import net.n2oapp.framework.config.compile.pipeline.operation.ReadOperation;
+import net.n2oapp.framework.config.compile.pipeline.operation.SourceTransformOperation;
+import net.n2oapp.framework.config.metadata.pack.N2oOperationsPack;
+import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
+import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import static net.n2oapp.framework.config.register.route.RouteInfoUtil.createRouteInfo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import java.util.HashMap;
+
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 /**
  * Тестирование поиска метаданных по url
  */
 public class RouterTest {
-    private N2oRouter router;
+
+    private N2oApplicationBuilder builder;
 
     @Before
-    public void setUp() throws Exception {
-        N2oRouteRegister register = new N2oRouteRegister();
-        register.addRoute(createRouteInfo("/", "p", Page.class));
-        register.addRoute(createRouteInfo("/p/w1/:id", "pW1", Page.class));
-        register.addRoute(createRouteInfo("/p/w/:id/c/b/:id2", "pWcB", Page.class));
-        register.addRoute(createRouteInfo("/p/w/:id/c", "pWc", Page.class));
-        register.addRoute(createRouteInfo("/p/w/:id/c", "pWcTable", Table.class));
-        register.addRoute(createRouteInfo("/patients/:patients_id", "patients", Page.class));
-        register.addRoute(createRouteInfo("/patients/create", "patientsCreate", Page.class));
-        router = new N2oRouter(register, new MockBindPipeline(register));
+    public void setUp() {
+        N2oEnvironment env = new N2oEnvironment();
+        env.setNamespacePersisterFactory(new PersisterFactoryByMap());
+        env.setNamespaceReaderFactory(new ReaderFactoryByMap());
+        builder = new N2oApplicationBuilder(env).packs(new N2oOperationsPack());
     }
 
     @Test
-    public void testGet() throws Exception {
-        //получиние корневой метаданной
-        RoutingResult rootRoute = router.get("/");
-        assertNotNull(rootRoute.getContext(Page.class));
-        //получение метаданной добавленной при старте
-        RoutingResult pageRoute = router.get("/p/w/12/c");
-        assertNotNull(pageRoute.getContext(Page.class));
-        RoutingResult tableRoute = router.get("/p/w/12/c");
-        assertNotNull(tableRoute.getContext(Table.class));
-        //получение несуществующей метаданной
+    public void get_single() {
+        N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
+        env.getRouteRegister().addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
+        env.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
+        N2oRouter router = new N2oRouter(env, new MockBindPipeline(env));
+
+        CompileContext<Page, ?> res = router.get("/", Page.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("p"));
+
+        res = router.get("/p/w", Page.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("pw"));
+    }
+
+    @Test
+    public void get_coincidence() {
+        N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
+        env.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
+        env.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, CompiledQuery.class));
+        N2oRouter router = new N2oRouter(env, new MockBindPipeline(env));
+
+        CompileContext<CompiledQuery, ?> res = router.get("/p/w", CompiledQuery.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getCompiledClass(), equalTo(CompiledQuery.class));
+
+        CompileContext<Page, ?> res2 = router.get("/p/w", Page.class, null);
+        assertThat(res2, notNullValue());
+        assertThat(res2.getCompiledClass(), equalTo(Page.class));
+    }
+
+    @Test
+    public void get_similar() {
+        N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
+        env.getRouteRegister().addRoute("/p/:id", new MockCompileContext<>("/p/:id", "p", null, Page.class));
+        env.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
+        N2oRouter router = new N2oRouter(env, new MockBindPipeline(env));
+
+        CompileContext<Page, ?> res = router.get("/p/w", Page.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("pw"));
+
+        res = router.get("/p/123", Page.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("p"));
+    }
+
+    @Test
+    public void get_repair() {
+        N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
+        env.getRouteRegister().addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
+        MockBindPipeline pipeline = new MockBindPipeline(env);
+        N2oRouter router = new N2oRouter(env, pipeline);
+
+        CompileContext<Page, ?> res;
         try {
-            router.get("/p/w/12/x");
+            router.get("/p/w", Page.class, null);
             assert false;
-        } catch (RouteNotFoundException e) {
+        } catch (RouteNotFoundException ignore) {
         }
-        //получение метаданной с пополнением регистра при компиляции
-        pageRoute = router.get("/p/w/12/c/b");
-        assertNotNull(pageRoute.getContext(Page.class));
-        assertEquals(pageRoute.getContext(Page.class).getSourceId(null), "pWcB");
-        pageRoute = router.get("/p/w1/12/c/b/name");
-        assertNotNull(pageRoute.getContext(Page.class));
-        assertEquals(pageRoute.getParams().get("id"), "12");
-        assertEquals(pageRoute.getParams().get("name"), "name");
-        pageRoute = router.get("/patients/create");
-        assertNotNull(pageRoute.getContext(Page.class));
-        assertEquals(pageRoute.getContext(Page.class).getSourceId(null), "patientsCreate");
+
+        pipeline.mock("p", (r, p) -> r.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "w", null, Page.class)));
+        res = router.get("/p/w", Page.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("w"));
+    }
+
+    @Test
+    public void get_repair2() {
+        N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
+        env.getRouteRegister().addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
+        MockBindPipeline pipeline = new MockBindPipeline(env);
+        N2oRouter router = new N2oRouter(env, pipeline);
+        pipeline.mock("p", (r, p) -> {
+            r.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, CompiledQuery.class));
+            r.getRouteRegister().addRoute("/p/w/:id/a", new MockCompileContext<>("/p/w/:id/a", "pwa", null, Page.class));
+        });
+        CompileContext<Page, ?> res;
+
+        res = router.get("/p/w/123/a", Page.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("pwa"));
+
+        try {
+            router.get("/p/w/123", Page.class, null);
+            assert false;
+        } catch (RouteNotFoundException ignore) {
+        }
+
+        try {
+            router.get("/p/w", Page.class, null);
+            assert false;
+        } catch (RouteNotFoundException ignore) {
+        }
+
+        try {
+            router.get("/p", Page.class, null);
+            assert false;
+        } catch (RouteNotFoundException ignore) {
+        }
+    }
+
+    @Test
+    public void get_repair3() {
+        N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
+        env.getRouteRegister().addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
+        MockBindPipeline pipeline = new MockBindPipeline(env);
+        N2oRouter router = new N2oRouter(env, pipeline);
+        pipeline.mock("p", (r, p) -> {
+            r.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
+        });
+        pipeline.mock("pw", (r, p) -> {
+            r.getRouteRegister().addRoute("/p/w/:id", new MockCompileContext<>("/p/w/:id", "pw", null, CompiledQuery.class));
+            r.getRouteRegister().addRoute("/p/w/:id/a", new MockCompileContext<>("/p/w/:id/a", "pwa", null, Page.class));
+        });
+        CompileContext<Page, ?> res;
+
+        res = router.get("/p/w/123/a", Page.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("pwa"));
+    }
+
+    @Test
+    public void get_repair4() {
+        N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
+        env.getRouteRegister().addRoute("/p", new MockCompileContext<>("/p", "p", null, Page.class));
+        MockBindPipeline pipeline = new MockBindPipeline(env);
+        N2oRouter router = new N2oRouter(env, pipeline);
+        pipeline.mock("p", (r, p) -> {
+            r.getRouteRegister().addRoute("/p", new MockCompileContext<>("/p", "q", null, CompiledQuery.class));
+        });
+        CompileContext<CompiledQuery, ?> res;
+
+        res = router.get("/p", CompiledQuery.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("q"));
+    }
+
+    @Test
+    public void get_repairDynamic() {
+        N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
+        env.getRouteRegister().addRoute("/", new MockCompileContext<>("/p", "p", null, Page.class));
+        MockBindPipeline pipeline = new MockBindPipeline(env);
+        N2oRouter router = new N2oRouter(env, pipeline);
+        pipeline.mock("p", (r, p) -> {
+            r.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
+        });
+        pipeline.mock("pw", (r, p) -> {
+            r.getRouteRegister().addRoute("/p/w/1/a", new MockCompileContext<>("/p/w/1/a", "pwa1", null, Page.class));
+            r.getRouteRegister().addRoute("/p/w/1/a", new MockCompileContext<>("/p/w/1/a", "pwa1", null, CompiledQuery.class));
+            r.getRouteRegister().addRoute("/p/w/2/a", new MockCompileContext<>("/p/w/2/a", "pwa2", null, Page.class));
+            r.getRouteRegister().addRoute("/p/w/2/a", new MockCompileContext<>("/p/w/2/a", "pwa2", null, CompiledQuery.class));
+
+        });
+        CompileContext<Page, ?> res;
+        HashMap<String, String[]> params = new HashMap<>();
+        params.put("id", new String[]{"1"});
+        res = router.get("/p/w/1/a", Page.class, params);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("pwa1"));
+        CompileContext<CompiledQuery, ?> resQuery = router.get("/p/w/1/a", CompiledQuery.class, params);
+        assertThat(resQuery, notNullValue());
+        assertThat(resQuery.getSourceId(null), is("pwa1"));
+
+        params.put("id", new String[]{"2"});
+        res = router.get("/p/w/2/a", Page.class, params);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("pwa2"));
+        resQuery = router.get("/p/w/2/a", CompiledQuery.class, params);
+        assertThat(resQuery, notNullValue());
+        assertThat(resQuery.getSourceId(null), is("pwa2"));
     }
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,10 +20,7 @@ public class Breadcrumb implements Compiled {
     private String label;
     @JsonProperty
     private String path;
-    @JsonProperty
-    private String modalLink;
-    @JsonProperty
-    private Map<String, BindLink> pathMapping = new StrictMap<>();
+    private ModelLink modelLink;
 
     public Breadcrumb() {
     }
@@ -35,5 +33,6 @@ public class Breadcrumb implements Compiled {
     public Breadcrumb(Breadcrumb parent) {
         this.label = parent.getLabel();
         this.path = parent.getPath();
+        this.modelLink = parent.modelLink;
     }
 }

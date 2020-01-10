@@ -24,7 +24,6 @@ public class ObjectElementIOv2 implements NamespaceIO<N2oObject> {
     public void io(Element e, N2oObject t, IOProcessor p) {
         p.element(e, "name", t::getName, t::setName);
         p.element(e, "parent", t::getParent, t::setParent);
-        p.childrenToMap(e, "properties", "property", "key", "value", t::getProperties, t::setProperties);
         p.element(e, "table-name", t::getTableName, t::setTableName);
         p.element(e, "entity-class", t::getEntityClass, t::setEntityClass);
         p.element(e, "app-name", t::getAppName, t::setAppName);
@@ -54,7 +53,7 @@ public class ObjectElementIOv2 implements NamespaceIO<N2oObject> {
         p.element(e, "description", t::getDescription, t::setDescription);
         p.element(e, "success-text", t::getSuccessText, t::setSuccessText);
         p.element(e, "note", t::getNote, t::setNote);
-        p.extensionAttributes(e, t::getExtAttributes, t::setExtAttributes);
+        p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::actionValidations);
         p.read(e, t, (element, entity) -> {
             if (entity.getValidations() == null) {

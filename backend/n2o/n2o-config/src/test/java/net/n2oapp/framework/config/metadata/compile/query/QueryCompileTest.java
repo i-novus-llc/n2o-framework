@@ -1,13 +1,18 @@
 package net.n2oapp.framework.config.metadata.compile.query;
 
+import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.object.ObjectElementIOv1;
+import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -19,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class QueryCompileTest extends SourceCompileTestBase {
@@ -34,7 +40,7 @@ public class QueryCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utObjectField.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"))
-                .ios(new ObjectElementIOv1(), new QueryElementIOv4())
+                .ios(new QueryElementIOv4(), new ObjectElementIOv2())
                 .packs(new N2oDataProvidersPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oInvocationV2ReadersPack())
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler());
     }
@@ -66,9 +72,24 @@ public class QueryCompileTest extends SourceCompileTestBase {
 //        assert query.getUniques() == null;
 
         N2oQuery.Field testFilter = query.getFieldsMap().get("testFilter");
+        assertThat(testFilter.getFilterList()[0].getRequired(), is(true));
         assertThat(testFilter.getFilterList()[0].getFilterField(), is("testFilter_eq"));
         assertThat(testFilter.getFilterList()[1].getFilterField(), is("testFilter_in"));
+
+        N2oQuery.Field withEmptySelect = query.getFieldsMap().get("withEmptySelect");
+        assertThat(withEmptySelect.getSelectBody(), nullValue());
+        assertThat(withEmptySelect.getSelectMapping(), is("['withEmptySelect']"));
+        assertThat(withEmptySelect.getSortingMapping(), nullValue());
     }
+
+//    @Test
+//    public void testEmptyBody() {
+//        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml")
+//                .get(new QueryContext("testEmptyBody"));
+//        assertThat(query.getFieldsMap().get("field").getSelectBody(), is(nullValue()));
+//        assertThat(query.getFieldsMap().get("field").getSortingBody(), is(nullValue()));
+//        assertThat(query.getFieldsMap().get("field").getFilterList()[0].getText(), is(nullValue()));
+//    }
 
     @Test
     public void testFieldNames() {
@@ -92,5 +113,76 @@ public class QueryCompileTest extends SourceCompileTestBase {
         //label филда проставлен в объекте, самого филда нет в query
         assertThat(((StandardField) form.getComponent().getFieldsets()
                 .get(0).getRows().get(0).getCols().get(3).getFields().get(0)).getLabel(), is("F2"));
+    }
+
+    /**
+     * Форма по своим полям собирает саб-модели и кладёт в QueryContext
+     * проверяется, что по этому контексту получим Query с саб-моделями
+     */
+    @Test
+    public void testSubModels() {
+        ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
+                "net/n2oapp/framework/config/metadata/compile/query/testSubModel.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/query/testSubModel.widget.xml",
+                "net/n2oapp/framework/config/metadata/compile/query/utExpression.query.xml");
+
+        pipeline.get(new WidgetContext("testSubModel"));
+        CompileContext compile = builder.route("/w", CompiledQuery.class, null);
+        CompiledQuery query = pipeline.get((QueryContext) compile);
+        assertThat(query.getSubModelQueries().size(), is(1));
+        assertThat(query.getSubModelQueries().get(0).getSubModel(), is("field"));
+        assertThat(query.getSubModelQueries().get(0).getQueryId(), is("testSubModel"));
+    }
+
+
+    @Test
+    public void testRequiredPrefilters() {
+        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testRequiredFilters.query.xml")
+                .get(new QueryContext("testRequiredFilters"));
+
+
+        assertThat(query.getFiltersMap().get("test").get(FilterType.eq).getRequired(), is(true));
+        assertThat(query.getValidations().get(0).getId(), is("test"));
+        assertThat(query.getValidations().get(0).getFieldId(), is("test"));
+        assertThat(query.getValidations().get(0).getSeverity(), is(SeverityType.danger));
+        assertThat(query.getValidations().get(0).getMoment(), is(N2oValidation.ServerMoment.beforeQuery));
+    }
+
+    /**
+     * Для тестового провайдера тело для <select/>, <sorting/>, <filter/> генерируется автоматически
+     */
+    @Test
+    public void testTestDataProvider() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/query/testTestInvocationTransformer.query.xml"))
+                .transformers(new TestEngineQueryTransformer());
+        CompiledQuery query = builder.read().transform().compile().get(new QueryContext("testTestInvocationTransformer"));
+        assertThat(query.getFieldsMap().get("id").getSelectBody(), is("id"));
+        assertThat(query.getFieldsMap().get("id").getSortingBody(), is("id :idDirection"));
+        assertThat(query.getFieldsMap().get("id").getFilterList()[0].getText(), is("id :eq :id"));
+    }
+
+    @Test
+    public void testSeparatorsDefaultValue() {
+        CompiledQuery query = compile("net/n2oapp/framework/config/metadata/compile/query/testSeparatorsDefaultValue" +
+                ".query.xml")
+                .get(new QueryContext("testSeparatorsDefaultValue"));
+        N2oRestDataProvider list = (N2oRestDataProvider) query.getLists()[0].getInvocation();
+        N2oRestDataProvider unique = (N2oRestDataProvider) query.getUniques()[0].getInvocation();
+        N2oRestDataProvider count = (N2oRestDataProvider) query.getCounts()[0].getInvocation();
+
+        assertThat(list.getFiltersSeparator(), is("&"));
+        assertThat(list.getJoinSeparator(), is("&"));
+        assertThat(list.getSelectSeparator(), is("&"));
+        assertThat(list.getSortingSeparator(), is("&"));
+
+        assertThat(unique.getFiltersSeparator(), is("separator"));
+        assertThat(unique.getJoinSeparator(), is("separator"));
+        assertThat(unique.getSelectSeparator(), is("separator"));
+        assertThat(unique.getSortingSeparator(), is("separator"));
+
+        assertThat(count.getFiltersSeparator(), is("&"));
+        assertThat(count.getJoinSeparator(), is("&"));
+        assertThat(count.getSelectSeparator(), is("&"));
+        assertThat(count.getSortingSeparator(), is("&"));
     }
 }

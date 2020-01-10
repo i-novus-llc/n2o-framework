@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.fieldset;
 
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -18,8 +19,9 @@ public class RowElementIO4 implements NamespaceIO<N2oFieldsetRow> {
 
     @Override
     public void io(Element e, N2oFieldsetRow row, IOProcessor p) {
-        p.attribute(e, "class", row::getClassRow, row::setClassRow);
-        p.anyChildren(e, null, row::getItems, row::setItems, p.anyOf(), DEFAULT_NAMESPACE, controlDefaultNamespace);
+        p.attribute(e, "class", row::getCssClass, row::setCssClass);
+        p.attribute(e, "style", row::getStyle, row::setStyle);
+        p.anyChildren(e, null, row::getItems, row::setItems, p.anyOf(SourceComponent.class), DEFAULT_NAMESPACE, controlDefaultNamespace);
     }
 
     @Override

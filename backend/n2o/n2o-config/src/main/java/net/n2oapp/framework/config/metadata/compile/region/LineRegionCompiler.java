@@ -16,6 +16,12 @@ import java.util.ArrayList;
  */
 @Component
 public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRegion> {
+
+    @Override
+    protected String getPropertyRegionSrc() {
+        return "n2o.api.region.line.src";
+    }
+
     @Override
     public Class<N2oLineRegion> getSourceClass() {
         return N2oLineRegion.class;
@@ -25,10 +31,10 @@ public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRe
     public LineRegion compile(N2oLineRegion source, PageContext context, CompileProcessor p) {
         LineRegion region = new LineRegion();
         build(region, source, context, p);
-        region.setSrc("ListRegion");
         region.setPlace(source.getPlace());
         region.setItems(new ArrayList<>());
-        region.setItems(initItems(source, context, p, Region.Item.class));
+        region.setCollapsible(source.getCollapsible());
+        region.setItems(initItems(source, p, Region.Item.class));
         return region;
     }
 

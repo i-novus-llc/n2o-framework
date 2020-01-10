@@ -18,19 +18,13 @@ import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ScriptProcessorTest {
 
 
-    private ScriptProcessor scriptProcessor = new ScriptProcessor() {
-        @Override
-        protected String getDateFormat() {
-            //на самом деле берется из настроек
-            return "dd.MM.yyyy HH:mm";
-        }
-    };
+    private ScriptProcessor scriptProcessor = new ScriptProcessor();
 
     private ScriptEngine getScriptEngine() {
         return ScriptProcessor.getScriptEngine();
@@ -45,20 +39,20 @@ public class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveLinks("#{test}"), is("#{test}"));
         assertThat(ScriptProcessor.resolveLinks("`test`"), is("`test`"));
         assertThat(ScriptProcessor.resolveLinks("true"), is("true"));
-        assertThat(ScriptProcessor.resolveLinks("false"), is("`false`"));
+        assertThat(ScriptProcessor.resolveLinks("false"), is("false"));
     }
 
     @Test
     public void testResolveExpression() {
         assertThat(ScriptProcessor.resolveExpression("{id}"), is("`id`"));
         assertThat(ScriptProcessor.resolveExpression("1"), is(1));
-        assertThat( ScriptProcessor.resolveExpression("true"), is(true));
-        assertThat( ScriptProcessor.resolveExpression("1,2"), is("1,2"));
-        assertThat( ScriptProcessor.resolveExpression("test"), is("test"));
-        assertThat( ScriptProcessor.resolveExpression("`1+1`"), is("`1+1`"));
-        assertThat( ScriptProcessor.resolveExpression("Test{id}"), is("`'Test'+id`"));
-        assertThat( ScriptProcessor.resolveExpression("Test {surname} {name}"), is("`'Test '+surname+' '+name`"));
-        assertThat( ScriptProcessor.resolveExpression("Test {id} #{surname} {name} ${patr}"), is("`'Test '+id+' #{surname} '+name+' ${patr}'`"));
+        assertThat(ScriptProcessor.resolveExpression("true"), is(true));
+        assertThat(ScriptProcessor.resolveExpression("1,2"), is("1,2"));
+        assertThat(ScriptProcessor.resolveExpression("test"), is("test"));
+        assertThat(ScriptProcessor.resolveExpression("`1+1`"), is("`1+1`"));
+        assertThat(ScriptProcessor.resolveExpression("Test{id}"), is("`'Test'+id`"));
+        assertThat(ScriptProcessor.resolveExpression("Test {surname} {name}"), is("`'Test '+surname+' '+name`"));
+        assertThat(ScriptProcessor.resolveExpression("Test {id} #{surname} {name} ${patr}"), is("`'Test '+id+' #{surname} '+name+' ${patr}'`"));
         assertThat(ScriptProcessor.resolveExpression("#{id}"), is("#{id}"));
         assertThat(ScriptProcessor.resolveExpression("${id}"), is("${id}"));
         assertThat(ScriptProcessor.resolveExpression("{gender*.id}"), is("`gender.map(function(t){return t.id})`"));
@@ -66,10 +60,10 @@ public class ScriptProcessorTest {
         assertThat(ScriptProcessor.resolveExpression("{test == 1}"), is("`test == 1`"));
         assertThat(ScriptProcessor.resolveExpression("Hello, {test + 1}"), is("`'Hello, '+test + 1`"));
 
-        assertThat( ScriptProcessor.resolveArrayExpression("1"), is(Collections.singletonList(1)));
-        assertThat( ScriptProcessor.resolveArrayExpression("1", "2"), is(Arrays.asList(1,2)));
-        assertThat( ScriptProcessor.resolveArrayExpression("Test1", "Test2"), is(Arrays.asList("Test1","Test2")));
-        assertThat( ScriptProcessor.resolveArrayExpression("true", "false"), is(Arrays.asList(true,"`false`")));
+        assertThat(ScriptProcessor.resolveArrayExpression("1"), is(Collections.singletonList(1)));
+        assertThat(ScriptProcessor.resolveArrayExpression("1", "2"), is(Arrays.asList(1, 2)));
+        assertThat(ScriptProcessor.resolveArrayExpression("Test1", "Test2"), is(Arrays.asList("Test1", "Test2")));
+        assertThat(ScriptProcessor.resolveArrayExpression("true", "false"), is(Arrays.asList(true, false)));
         //todo реализовать для сложных вариантов
         //assertThat( scriptProcessor.resolveArrayExpression("{id}"), is("`[id]`"));
         //assertThat( scriptProcessor.resolveArrayExpression("{id1}", "{id2}"), is("`[id1,id2]`"));
@@ -78,9 +72,15 @@ public class ScriptProcessorTest {
     }
 
     @Test
-    public void testResolveFuction() {
-        assertThat(ScriptProcessor.resolveFunction("if (gender.id = 1) return 'М'; else return 'Ж';"), is("(function(){ if (gender.id = 1) return 'М'; else return 'Ж'; })()"));
-        assertThat(ScriptProcessor.resolveFunction(ScriptProcessor.resolveFunction("if (gender.id = 1) return 'М'; else return 'Ж';")), is("(function(){ if (gender.id = 1) return 'М'; else return 'Ж'; })()"));
+    public void invertExpression() {
+        assertThat(ScriptProcessor.invertExpression("{check}"), is("`!(check)`"));
+        assertThat(ScriptProcessor.invertExpression("true"), is(false));
+        assertThat(ScriptProcessor.invertExpression("false"), is(true));
+    }
+
+    @Test
+    public void testResolveFunction() {
+        assertThat(ScriptProcessor.resolveFunction("if (gender.id = 1) return 'М'; else return 'Ж';"), is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"));
         assertThat(ScriptProcessor.resolveFunction("gender.id == 1"), is("gender.id == 1"));
         assertThat(ScriptProcessor.resolveFunction("function(){if (gender.id = 1) return 'М'; else return 'Ж';}"), is("(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"));
         assertThat(ScriptProcessor.resolveFunction("(function(){ '123'; })()"), is("(function(){ '123'; })()"));
@@ -90,15 +90,28 @@ public class ScriptProcessorTest {
     @Test
     public void testBuildExpressionForSwitch() {
         N2oSwitch n2oSwitch = new N2oSwitch();
-        assert ScriptProcessor.buildExpressionForSwitch(n2oSwitch) == null;
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), nullValue());
         n2oSwitch.setValueFieldId("status");
-        Map<String, String> cases = new HashMap<>();
-        cases.put("1","blue");
-        cases.put("2","red");
-        n2oSwitch.setCases(cases);
-        assert ScriptProcessor.buildExpressionForSwitch(n2oSwitch).equals("`status == '1' ? 'blue' : status == '2' ? 'red' : null`");
+        Map<Object, String> cases = new HashMap<>();
+        cases.put(1, "blue");
+        cases.put(2, "red");
+        n2oSwitch.setResolvedCases(cases);
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), is("`status == 1 ? 'blue' : status == 2 ? 'red' : null`"));
+
         n2oSwitch.setDefaultCase("gray");
-        assert ScriptProcessor.buildExpressionForSwitch(n2oSwitch).equals("`status == '1' ? 'blue' : status == '2' ? 'red' : 'gray'`");
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), is("`status == 1 ? 'blue' : status == 2 ? 'red' : 'gray'`"));
+
+        cases.put(3, "{name == 'Нина' ? 'black' : 'white'}");
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch),
+                is("`status == 1 ? 'blue' : status == 2 ? 'red' : status == 3 ? name == 'Нина' ? 'black' : 'white' : 'gray'`"));
+
+        cases = new HashMap<>();
+        cases.put("ok", "blue");
+        cases.put("failed", "red");
+        n2oSwitch.setResolvedCases(cases);
+        n2oSwitch.setDefaultCase("gray");
+
+        assertThat(ScriptProcessor.buildSwitchExpression(n2oSwitch), is("`status == 'ok' ? 'blue' : status == 'failed' ? 'red' : 'gray'`"));
     }
 
 
@@ -431,11 +444,11 @@ public class ScriptProcessorTest {
     }
 
     /*
-    * test moment.js functions in scriptProcessor
-    * */
+     * test moment.js functions in scriptProcessor
+     * */
     @Test
     @Ignore
-    public void testAddMomentJs() throws ExecutionException, InterruptedException {
+    public void testAddMomentJs() throws ExecutionException, InterruptedException, ScriptException {
         String js = "moment(day, 'DD.MM.YYYY').format('DD-MM-YY');";
         MultiThreadRunner runner = new MultiThreadRunner();
         runner.run(() -> {
@@ -449,12 +462,11 @@ public class ScriptProcessorTest {
             String result = ScriptProcessor.eval(js, dataSet);
             return result.equals(format1.format(day.getTime()));
         });
-
     }
 
     /*
-    * test globalDateFuncs.js functions in scriptProcessor
-    * */
+     * test globalDateFuncs.js functions in scriptProcessor
+     * */
     @Test
     @Ignore
     public void testGlobalDateFuncsJs() throws ExecutionException, InterruptedException {
@@ -481,9 +493,10 @@ public class ScriptProcessorTest {
         });
 
     }
+
     /*
-    * test that numeral.js functions are thread safe
-    * */
+     * test that numeral.js functions are thread safe
+     * */
     @Test
     @Ignore
     public void testAddNumeralJs() throws ExecutionException, InterruptedException {
@@ -501,9 +514,10 @@ public class ScriptProcessorTest {
             return result.equals(diff);
         });
     }
+
     /*
-    * test that underscore.js functions are thread safe
-    * */
+     * test that underscore.js functions are thread safe
+     * */
     @Test
     @Ignore
     public void testAddUnderscoreJs() throws ExecutionException, InterruptedException {
@@ -527,4 +541,24 @@ public class ScriptProcessorTest {
         });
     }
 
+    @Test
+    public void testCustomFunctions() throws ScriptException {
+        //moment
+        assertThat(ScriptProcessor.eval("moment('06.02.2019').format('DD.MM.YYYY')", new DataSet()), is("02.06.2019"));
+        //numeral
+        assertThat(ScriptProcessor.eval("numeral(1.5).format('0.00')", new DataSet()), is("1.50"));
+        //lodash
+        assertThat(ScriptProcessor.eval("_.join(['a', 'b', 'c'], '~')", new DataSet()), is("a~b~c"));
+    }
+
+    @Test
+    public void testReduce() {
+        assertThat(ScriptProcessor.and(Arrays.asList("test1 || test2", "test3 || test4")), is("(test1 || test2) && (test3 || test4)"));
+        assertThat(ScriptProcessor.and(Collections.singletonList("test1")), is("test1"));
+        assertThat(ScriptProcessor.and(null), nullValue());
+
+        assertThat(ScriptProcessor.or(Arrays.asList("test1 || test2", "test3 || test4")), is("(test1 || test2) || (test3 || test4)"));
+        assertThat(ScriptProcessor.or(Arrays.asList("test1")), is("test1"));
+        assertThat(ScriptProcessor.or(null), nullValue());
+    }
 }

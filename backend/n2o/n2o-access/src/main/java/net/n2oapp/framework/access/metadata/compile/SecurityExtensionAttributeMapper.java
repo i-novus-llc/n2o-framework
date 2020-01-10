@@ -4,10 +4,7 @@ import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Сборка атрибутов прав доступа
@@ -25,7 +22,7 @@ public class SecurityExtensionAttributeMapper implements ExtensionAttributeMappe
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setDenied(attributes.containsKey("denied") ? Boolean.valueOf(attributes.get("denied")) : null);
         securityObject.setPermitAll(attributes.containsKey("permit-all") ? Boolean.valueOf(attributes.get("permit-all")) : null);
-        securityObject.setRoles(parseAttributes(attributes.get("roles")) );
+        securityObject.setRoles(parseAttributes(attributes.get("roles")));
         securityObject.setPermissions(parseAttributes(attributes.get("permissions")));
         securityObject.setUsernames(parseAttributes(attributes.get("usernames")));
         securityObject.setAuthenticated(attributes.containsKey("authenticated") ? Boolean.valueOf(attributes.get("authenticated")) : null);
@@ -34,14 +31,14 @@ public class SecurityExtensionAttributeMapper implements ExtensionAttributeMappe
         securityMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityMap);
-        result.put("security", security);
+        result.put(Security.SECURITY_PROP_NAME, security);
         return result;
     }
 
     /**
      * Разбивает строку по запятым, игнорируя пробелы до/после запятой
      */
-    private List<String> parseAttributes(String str) {
-        return str != null ? Arrays.asList(str.split("\\s*,\\s*")) : null;
+    private Set<String> parseAttributes(String str) {
+        return str != null ? new HashSet<>(Arrays.asList(str.split("\\s*,\\s*"))) : null;
     }
 }

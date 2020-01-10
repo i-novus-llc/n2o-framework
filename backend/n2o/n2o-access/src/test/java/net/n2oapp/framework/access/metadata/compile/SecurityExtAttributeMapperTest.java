@@ -21,8 +21,10 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
+import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -50,15 +52,15 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setAnonymous(false);
         securityObject.setAuthenticated(false);
-        securityObject.setUsernames(Arrays.asList("user"));
-        securityObject.setPermissions(Arrays.asList("admin", "user"));
-        securityObject.setRoles(Arrays.asList("admin"));
+        securityObject.setUsernames(new HashSet<>(Arrays.asList("user")));
+        securityObject.setPermissions(new HashSet<>(Arrays.asList("admin", "user")));
+        securityObject.setRoles(new HashSet<>(Arrays.asList("admin")));
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        assertThat(header.getItems().get(0).getProperties().get("security"), is(security));
-        assertThat(((Security) header.getItems().get(0).getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
     }
 
     @Test
@@ -68,19 +70,19 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         Security.SecurityObject securityObject = new Security.SecurityObject();
         securityObject.setAnonymous(false);
         securityObject.setAuthenticated(false);
-        securityObject.setUsernames(Arrays.asList("user"));
-        securityObject.setPermissions(Arrays.asList("admin", "user"));
-        securityObject.setRoles(Arrays.asList("admin"));
+        securityObject.setUsernames(new HashSet<>(Arrays.asList("user")));
+        securityObject.setPermissions(new HashSet<>(Arrays.asList("admin", "user")));
+        securityObject.setRoles(new HashSet<>(Arrays.asList("admin")));
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
-        assertThat(page.getLayout().getRegions().get("single").get(0).getProperties().get("security"), is(security));
-        assertThat(((Security) page.getLayout().getRegions().get("single").get(0).getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getItems().get(0).getProperties().get("security"), is(security));
-        assertThat(((Security) page.getLayout().getRegions().get("single").get(0).getItems().get(0).getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
-        assertThat(page.getToolbar().get("bottomRight").get(0).getButtons().get(0).getProperties().get("security"), is(security));
-        assertThat(((Security) page.getLayout().getRegions().get("single").get(0).getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(page.getLayout().getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) page.getLayout().getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(page.getLayout().getRegions().get("single").get(0).getItems().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) page.getLayout().getRegions().get("single").get(0).getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(page.getToolbar().get("bottomRight").get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) page.getLayout().getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
     }
 
     @Test
@@ -93,16 +95,16 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         securityObject.setAuthenticated(true);
         securityObject.setDenied(false);
         securityObject.setAnonymous(false);
-        securityObject.setRoles(Arrays.asList("role1", "role2"));
-        securityObject.setUsernames(Arrays.asList("user1"));
-        securityObject.setPermissions(Arrays.asList("p1", "p2", "p3"));
+        securityObject.setRoles(new HashSet<>(Arrays.asList("role1", "role2")));
+        securityObject.setUsernames(new HashSet<>(Arrays.asList("user1")));
+        securityObject.setPermissions(new HashSet<>(Arrays.asList("p1", "p2", "p3")));
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
 
-        assertThat( operation.getProperties().get("security"), is(security));
-        assertThat(((Security) operation.getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(operation.getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) operation.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
     }
 
     @Test
@@ -114,15 +116,15 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         securityObject.setAuthenticated(true);
         securityObject.setDenied(false);
         securityObject.setAnonymous(false);
-        securityObject.setRoles(Arrays.asList("role1", "role2"));
-        securityObject.setUsernames(Arrays.asList("user1"));
-        securityObject.setPermissions(Arrays.asList("p1", "p2", "p3"));
+        securityObject.setRoles(new HashSet<>(Arrays.asList("role1", "role2")));
+        securityObject.setUsernames(new HashSet<>(Arrays.asList("user1")));
+        securityObject.setPermissions(new HashSet<>(Arrays.asList("p1", "p2", "p3")));
         Map<String, Security.SecurityObject> securityObjectMap = new HashMap<>();
         securityObjectMap.put("custom", securityObject);
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
 
-        assertThat(query.getProperties().get("security"), is(security));
-        assertThat(((Security)query.getProperties().get("security")).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(query.getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) query.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
     }
 }

@@ -1,16 +1,18 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.PageRoutes;
+import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
+import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +21,7 @@ import java.util.Map;
 @Component
 public class PageBinder implements BaseMetadataBinder<Page> {
     @Override
-    public Page bind(Page page, CompileProcessor p) {
+    public Page bind(Page page, BindProcessor p) {
         if (page.getWidgets() != null) {
             page.getWidgets().values().forEach(p::bind);
         }
@@ -27,30 +29,75 @@ public class PageBinder implements BaseMetadataBinder<Page> {
             page.getActions().values().forEach(p::bind);
         if (page.getRoutes() != null) {
             Map<String, BindLink> pathMappings = new HashMap<>();
-            page.getRoutes().getPathMapping().forEach((k, v) -> {
-                pathMappings.put(k, Redux.createBindLink(v));
-            });
+            page.getRoutes().getPathMapping().forEach((k, v) -> pathMappings.put(k, Redux.createBindLink(v)));
             for (PageRoutes.Route route : page.getRoutes().getList()) {
                 route.setPath(p.resolveUrl(route.getPath(), pathMappings, null));
             }
         }
         if (page.getBreadcrumb() != null)
             page.getBreadcrumb().stream().filter(b -> b.getPath() != null)
-                    .forEach(b -> b.setPath(p.resolveUrl(b.getPath(), null, null)));
+                    .forEach(b -> {
+                        b.setPath(p.resolveUrl(b.getPath()));
+                        b.setLabel(p.resolveText(b.getLabel(), b.getModelLink()));
+                    });
         if (page.getModels() != null) {
             page.getModels().values().forEach(bl -> {
                 if (bl.getValue() instanceof String) {
                     bl.setValue(p.resolveText((String) bl.getValue()));
+                } else if (bl.getValue() instanceof DefaultValues) {
+                    DefaultValues dv = (DefaultValues) bl.getValue();
+                    for (String key : dv.getValues().keySet()) {
+                        if (dv.getValues().get(key) instanceof String) {
+                            dv.getValues().put(key, p.resolveText((String) dv.getValues().get(key)));
+                        }
+                    }
                 }
             });
-            resolveLinks(page.getModels(), p);
+            resolveLinks(page.getModels(), collectFilterLinks(page.getModels(), page.getWidgets()), p);
+        }
+        if (page.getPageProperty() != null) {
+            page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(),
+                    page.getPageProperty().getModelLink()));
+        }
+        if (page.getBreadcrumb() != null) {
+            for (Breadcrumb crumb : page.getBreadcrumb()) {
+                crumb.setLabel(p.resolveText(crumb.getLabel(), crumb.getModelLink()));
+            }
         }
         return page;
     }
 
-    private void resolveLinks(Map<String, ModelLink> linkMap, CompileProcessor p) {
-        linkMap.keySet().forEach(param ->
-                linkMap.put(param, p.resolveLink(linkMap.get(param)))
+    private List<ModelLink> collectFilterLinks(Models models, Map<String, Widget> widgets) {
+        List<ModelLink> links = new ArrayList<>();
+        if (widgets != null) {
+            for (Widget w : widgets.values()) {
+                if (w.getFilters() != null) {
+                    for (Filter f : (List<Filter>) w.getFilters()) {
+                        if (f.getRoutable() && f.getLink().getSubModelQuery() != null) {
+                            ReduxModel model = f.getLink().getModel();
+                            String widgetId = f.getLink().getWidgetId();
+                            String fieldId = f.getLink().getSubModelQuery().getSubModel();
+                            ModelLink link = new ModelLink(model, widgetId, fieldId);
+                            f.getLink().setParam(f.getParam());
+                            link.setSubModelQuery(f.getLink().getSubModelQuery());
+                            if (models.get(model, widgetId, fieldId) != null)
+                                link.setValue(models.get(model, widgetId, fieldId).getValue());
+                            if (link.getValue() == null || link.isConst())
+                                models.add(model, widgetId, fieldId, link);
+                            links.add(f.getLink());
+                        }
+                    }
+                }
+            }
+        }
+        return links;
+    }
+
+    private void resolveLinks(Models models, List<ModelLink> filterLinks, BindProcessor p) {
+        models.keySet().forEach(param -> {
+                    models.put(param, (ModelLink) p.resolveLink(models.get(param)));
+                    p.resolveSubModels(models.get(param), filterLinks);
+                }
         );
     }
 

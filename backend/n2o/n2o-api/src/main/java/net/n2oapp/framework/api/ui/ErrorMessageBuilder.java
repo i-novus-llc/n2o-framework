@@ -1,15 +1,13 @@
 package net.n2oapp.framework.api.ui;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.exception.N2oValidationException;
-import net.n2oapp.framework.api.exception.SeverityType;
-import net.n2oapp.framework.api.exception.ValidationMessage;
+import net.n2oapp.framework.api.exception.*;
 import org.springframework.context.support.MessageSourceAccessor;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -28,7 +26,8 @@ public class ErrorMessageBuilder {
     public ResponseMessage build(Exception e) {
         ResponseMessage resp = new ResponseMessage();
         resp.setText(buildText(e));
-        resp.setStacktrace(getStackFrames(getStackTrace(e)));
+        if (!(e instanceof N2oUserException))
+            resp.setStacktrace(getStackFrames(getStackTrace(e)));
         if (e instanceof N2oException) {
             resp.setChoice(((N2oException) e).getChoice());
             resp.setSeverityType(((N2oException) e).getSeverity());
@@ -39,7 +38,7 @@ public class ErrorMessageBuilder {
         return resp;
     }
 
-    public List<ResponseMessage> buildMessages(N2oValidationException e) {
+    private List<ResponseMessage> buildValidationMessages(N2oValidationException e) {
         List<ResponseMessage> messages = new ArrayList<>();
         if (e.getMessages() != null) {
             for (ValidationMessage message : e.getMessages()) {
@@ -48,7 +47,6 @@ public class ErrorMessageBuilder {
                 resp.setSeverityType(e.getSeverity());
                 resp.setField(message.getFieldId());
                 resp.setText(message.getMessage());
-                resp.setStacktrace(getStackFrames(getStackTrace(e)));
                 messages.add(resp);
             }
         }
@@ -80,6 +78,12 @@ public class ErrorMessageBuilder {
             return StringUtils.resolveLinks(localizedMessage, ((N2oException) e).getData());
         else
             return localizedMessage;
+    }
+
+    public List<ResponseMessage> buildMessages(Exception e) {
+        return e instanceof N2oValidationException
+                ? buildValidationMessages((N2oValidationException) e)
+                : Collections.singletonList(build(e));
     }
 
 }

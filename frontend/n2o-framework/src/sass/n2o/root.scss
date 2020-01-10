@@ -1,0 +1,102 @@
+.application {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.body-container {
+  display: flex;
+  flex-grow: 1;
+}
+
+.application > .container-fluid {
+  margin: 0;
+}
+
+.application-body {
+  flex-grow: 1;
+  padding-top: 1rem;
+
+  &--aside {
+    height: calc(100vh - #{$footer-height});
+
+    overflow: auto;
+  }
+}
+
+.n2o-footer {
+  height: $footer-height;
+}
+
+.navbar-brand {
+  display: flex;
+}
+
+.icon-bar {
+  background: white;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar-text {
+    position: relative;
+    display: block;
+    padding: 10px 15px !important;
+    margin: 0;
+  }
+}
+
+.navbar, .navbar-expand-lg, .navbar-dark, .navbar-search > input, button {
+  border-radius: 0
+}
+
+#brace-editor {
+  flex-grow: 1
+}
+
+.n2o-dropdown-menu {
+  z-index: 100;
+}
+.capitalize {
+  text-transform: capitalize;
+}
+.n2o-disabled {
+  pointer-events: none;
+  opacity: $btn-disabled-opacity;
+}
+
+.was-validated .form-control:invalid, .form-control.is-invalid,
+.was-validated .form-control:valid, .form-control.is-valid {
+  padding: .375rem .75rem;
+  background: none;
+}
+
+.btn-group > .btn, .btn-group-vertical > .btn {
+  flex: 0 1 auto;
+}
+
+.n2o-template {
+  display: flex;
+}
+
+.white-space-pre-line {
+  white-space: pre-line;
+}
+
+.btn-group > *:last-child {
+  margin-right: 0.5rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+
+  & > i,
+  & > .dropdown-toggle > i {
+    color: $nav-item-icon-color;
+  }
+}
+
+.n2o-standard-widget-layout-toolbar {
+  margin: $toolbar-margin;
+}

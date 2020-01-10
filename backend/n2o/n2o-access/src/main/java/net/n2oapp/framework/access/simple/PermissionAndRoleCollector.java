@@ -8,6 +8,7 @@ import net.n2oapp.framework.access.metadata.schema.permission.N2oPermission;
 import net.n2oapp.framework.access.metadata.schema.role.N2oRole;
 import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSchema;
 import net.n2oapp.framework.access.metadata.schema.user.N2oUserAccess;
+import net.n2oapp.framework.api.StringUtils;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -25,7 +26,8 @@ import static java.util.Arrays.stream;
 public class PermissionAndRoleCollector {
 
     public final static BiFunction<String, String, Predicate<N2oObjectAccessPoint>> OBJECT_ACCESS = (objectId, actionId) ->
-            ac -> ac.getObjectId().equals(objectId) && Objects.equals(actionId, ac.getAction());
+            ac -> StringUtils.maskMatch(ac.getObjectId(), objectId) &&
+                    (actionId == null || StringUtils.maskMatch(ac.getAction(), actionId));
 
     public final static Function<String, Predicate<N2oUrlAccessPoint>> URL_ACCESS = pattern -> ac -> ac.getMatcher().matches(pattern);
 
@@ -125,7 +127,9 @@ public class PermissionAndRoleCollector {
     }
 
     private static <T> List<N2oAccessFilter> collectFilters(List<T> list, Function<T, AccessPoint[]> getter, String objectId, String actionId) {
-        return list.stream()
+        return null;
+        //todo изменилась логика сборки фильтров. данный код надо удалить или переписать с учетом новой логики
+        /*return list.stream()
                 .map(getter)
                 .filter(Objects::nonNull)
                 .flatMap(Arrays::stream)
@@ -141,6 +145,6 @@ public class PermissionAndRoleCollector {
                         return new N2oAccessFilter(ac.getFieldId(), ac.getValue(), ac.getType());
                     }
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
     }
 }

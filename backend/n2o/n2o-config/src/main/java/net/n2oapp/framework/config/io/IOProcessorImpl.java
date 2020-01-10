@@ -13,18 +13,14 @@ import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import net.n2oapp.properties.StaticProperties;
 import org.jdom.Attribute;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.core.env.PropertyResolver;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -41,7 +37,8 @@ public final class IOProcessorImpl implements IOProcessor {
     private boolean r;
     private NamespaceReaderFactory readerFactory;
     private NamespacePersisterFactory persisterFactory;
-    private MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(new ResourceBundleMessageSource());
+    private MessageSourceAccessor messageSourceAccessor;
+    private PropertyResolver systemProperties;
 
     public IOProcessorImpl(boolean read) {
         this.r = read;
@@ -803,7 +800,26 @@ public final class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
-    public void extensionAttributes(Element element, Supplier<Map<N2oNamespace, Map<String, String>>> getter,
+    public void childAnyAttributes(Element element, String childName, Supplier<Map<N2oNamespace, Map<String, String>>> getter, Consumer<Map<N2oNamespace, Map<String, String>>> setter) {
+        if (r) {
+            Element child = element.getChild(childName, element.getNamespace());
+            if (child == null) return;
+            anyAttributes(child, getter, setter);
+        } else {
+            if (getter.get() == null) return;
+            Element childElement = element.getChild(childName, element.getNamespace());
+            if (childElement == null) {
+                childElement = new Element(childName, element.getNamespace());
+                anyAttributes(childElement, getter, setter);
+                element.addContent(childElement);
+            } else {
+                anyAttributes(childElement, getter, setter);
+            }
+        }
+    }
+
+    @Override
+    public void anyAttributes(Element element, Supplier<Map<N2oNamespace, Map<String, String>>> getter,
                                     Consumer<Map<N2oNamespace, Map<String, String>>> setter) {
         if (r) {
             N2oNamespace elementNamespace = new N2oNamespace(element.getNamespace());
@@ -815,7 +831,7 @@ public final class IOProcessorImpl implements IOProcessor {
                 } else {
                     N2oNamespace namespace = new N2oNamespace(attribute.getNamespace());
                     extensions.putIfAbsent(namespace, new HashMap<>());
-                    extensions.get(namespace).put(attribute.getName(), attribute.getValue());
+                    extensions.get(namespace).put(attribute.getName(), process(attribute.getValue()));
                 }
             }
             setter.accept(extensions);
@@ -981,8 +997,9 @@ public final class IOProcessorImpl implements IOProcessor {
         if (text == null) {
             return null;
         }
-        String resolve = StringUtils.resolveProperties(text, StaticProperties::get);
-        return StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
+        String resolve = StringUtils.resolveProperties(text, MetadataParamHolder.getParams());
+        resolve = systemProperties == null ? resolve : StringUtils.resolveProperties(text, systemProperties::getProperty);
+        return messageSourceAccessor == null ? resolve : StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
     }
 
     /**
@@ -1055,20 +1072,16 @@ public final class IOProcessorImpl implements IOProcessor {
             P extends NamespacePersister<? super T>> T read(NamespaceIOFactory<T, R, P> factory, Element element,
                                                             Namespace parentNamespace, Namespace... defaultNamespace) {
         R reader = null;
-        boolean flag = false;
         if (defaultNamespace != null && defaultNamespace.length > 0 && defaultNamespace[0] != null && parentNamespace.getURI().equals(element.getNamespaceURI())) {
             for (Namespace namespace : defaultNamespace) {
-                try {
+                if (factory.check(element, parentNamespace, namespace)) {
                     reader = factory.produce(element, parentNamespace, namespace);
                     if (reader != null) {
-                        flag = true;
                         break;
                     }
-                } catch (EngineNotFoundException e) {
-                    continue;
                 }
             }
-            if (!flag) {
+            if (reader == null) {
                 throw new EngineNotFoundException(element.getName());
             }
         } else {
@@ -1089,25 +1102,21 @@ public final class IOProcessorImpl implements IOProcessor {
             P extends NamespacePersister<? super T>> Element persist(NamespaceIOFactory<T, R, P> factory, T entity,
                                                                      Namespace parentNamespace, Namespace... defaultNamespace) {
         P persister = null;
-        boolean flag = false;
 
         if (defaultNamespace != null && defaultNamespace.length > 0 && defaultNamespace[0] != null) {
             for (Namespace namespace : defaultNamespace) {
-                try {
-                    if (entity.getNamespaceUri().equals(parentNamespace.getURI())) {
+                if (entity.getNamespaceUri().equals(parentNamespace.getURI())) {
+                    if (factory.check(namespace, (Class<T>) entity.getClass()))
                         persister = factory.produce(namespace, (Class<T>) entity.getClass());
-                    } else {
-                        persister = factory.produce(entity);
-                    }
-                    if (persister != null) {
-                        flag = true;
-                        break;
-                    }
-                } catch (EngineNotFoundException e) {
-                    continue;
+                } else {
+                    if (factory.check(entity.getNamespace(), (Class<T>) entity.getClass()))
+                        persister = factory.produce(entity.getNamespace(), (Class<T>) entity.getClass());
+                }
+                if (persister != null) {
+                    break;
                 }
             }
-            if (!flag) {
+            if (persister == null) {
                 throw new EngineNotFoundException(defaultNamespace[0].getURI());
             }
         } else {
@@ -1129,4 +1138,7 @@ public final class IOProcessorImpl implements IOProcessor {
         this.messageSourceAccessor = messageSourceAccessor;
     }
 
+    public void setSystemProperties(PropertyResolver systemProperties) {
+        this.systemProperties = systemProperties;
+    }
 }

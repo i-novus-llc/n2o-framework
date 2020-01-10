@@ -2,7 +2,10 @@ package net.n2oapp.framework.engine.data;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.filters.Filter;
+import net.n2oapp.criteria.filters.FilterReducer;
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.criteria.filters.Result;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
@@ -11,8 +14,8 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.exception.N2oFoundMoreThanOneRecordException;
+import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.util.InvocationParametersMapping;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -32,14 +35,19 @@ public class N2oQueryProcessor implements QueryProcessor {
 
     private ContextProcessor contextProcessor;
     private N2oInvocationFactory invocationFactory;
-    private CriteriaConstructor criteriaConstructor = new N2oCriteriaConstructor();
-
+    private CriteriaConstructor criteriaConstructor = new N2oCriteriaConstructor(false);
+    private DomainProcessor domainProcessor;
+    private QueryExceptionHandler exceptionHandler;
     private boolean pageStartsWith0;
 
-    public N2oQueryProcessor(ContextProcessor contextProcessor,
-                             N2oInvocationFactory invocationFactory) {
+    public N2oQueryProcessor(N2oInvocationFactory invocationFactory,
+                             ContextProcessor contextProcessor,
+                             DomainProcessor domainProcessor,
+                             QueryExceptionHandler exceptionHandler) {
+        this.domainProcessor = domainProcessor;
         this.contextProcessor = contextProcessor;
         this.invocationFactory = invocationFactory;
+        this.exceptionHandler = exceptionHandler;
     }
 
     @SuppressWarnings("unchecked")
@@ -59,21 +67,31 @@ public class N2oQueryProcessor implements QueryProcessor {
         ActionInvocationEngine engine = invocationFactory.produce(selection.getInvocation().getClass());
         Object result;
         if (engine instanceof ArgumentsInvocationEngine) {
-            result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
-                    InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(), query, criteria, criteriaConstructor));
+            try {
+                result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
+                        InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(), query, criteria, criteriaConstructor));
+            } catch (Exception e) {
+                throw exceptionHandler.handle(query, criteria, e);
+            }
         } else {
             Map<String, Object> map = new LinkedHashMap<>();
             InvocationParametersMapping.prepareMapForQuery(map, query, criteria);
-            result = engine.invoke(selection.getInvocation(), map);
+            try {
+                result = engine.invoke(selection.getInvocation(), map);
+            } catch (Exception e) {
+                throw exceptionHandler.handle(query, criteria, e);
+            }
         }
         return outMap(result, selection.getCountMapping(), Integer.class);
     }
 
 
     public CollectionPage<DataSet> executeOneSizeQuery(CompiledQuery query, N2oPreparedCriteria criteria) {
+        criteria.setSize(2);
         criteria.setCount(2);
         N2oQuery.Selection selection = findUniqueSelection(query, criteria);
         Object result = executeQuery(selection, query, criteria);
+        criteria.setSize(1);
         if (selection.getType().equals(N2oQuery.Selection.Type.list)) {
             CollectionPage<DataSet> page = preparePageResult(result, query, selection, criteria);
             if (page.getCollection() == null || page.getCollection().size() == 0) {
@@ -85,7 +103,7 @@ public class N2oQueryProcessor implements QueryProcessor {
             return page;
         } else if (selection.getType().equals(N2oQuery.Selection.Type.unique)) {
             DataSet single = prepareSingleResult(result, query, selection);
-            if (single == null) {
+            if (single.isEmpty()) {
                 throw new N2oRecordNotFoundException();
             }
             return new CollectionPage<>(1, Collections.singletonList(single), criteria);
@@ -94,8 +112,7 @@ public class N2oQueryProcessor implements QueryProcessor {
     }
 
     private N2oQuery.Selection findCountSelection(final CompiledQuery query, final N2oPreparedCriteria criteria) {
-        List<String> filterFields = criteria.getRestrictions() == null ? new ArrayList<>() :
-                criteria.getRestrictions().stream().map(Restriction::getFieldId).collect(Collectors.toList());
+        Set<String> filterFields = getFilterIds(query, criteria);
         N2oQuery.Selection selection = chooseSelection(query.getCounts(), filterFields, query.getId());
         if (selection == null)
             throw new N2oException("Can't find selection for count request");
@@ -106,8 +123,7 @@ public class N2oQueryProcessor implements QueryProcessor {
     private N2oQuery.Selection findUniqueSelection(final CompiledQuery query, final N2oPreparedCriteria criteria) {
         resolveRestriction(query, criteria);
         addDefaultFilters(query, criteria);
-        List<String> filterFields = criteria.getRestrictions() == null ? new ArrayList<>() :
-                criteria.getRestrictions().stream().map(Restriction::getFieldId).collect(Collectors.toList());
+        Set<String> filterFields = getFilterIds(query, criteria);
         N2oQuery.Selection selection = chooseSelection(query.getUniques(), filterFields, query.getId());
         if (selection != null)
             return selection;
@@ -120,12 +136,18 @@ public class N2oQueryProcessor implements QueryProcessor {
     private N2oQuery.Selection findListSelection(final CompiledQuery query, final N2oPreparedCriteria criteria) {
         resolveRestriction(query, criteria);
         addDefaultFilters(query, criteria);
-        List<String> filterFields = criteria.getRestrictions() == null ? new ArrayList<>() :
-                criteria.getRestrictions().stream().map(Restriction::getFieldId).collect(Collectors.toList());
+        Set<String> filterFields = getFilterIds(query, criteria);
         N2oQuery.Selection selection = chooseSelection(query.getLists(), filterFields, query.getId());
         if (selection == null)
             throw new N2oException("Can't find selection for list request");
         return selection;
+    }
+
+    private Set<String> getFilterIds(CompiledQuery query, N2oPreparedCriteria criteria) {
+        return criteria.getRestrictions() == null ? Collections.emptySet() :
+                    criteria.getRestrictions().stream()
+                            .map(r -> query.getFilterFieldId(r.getFieldId(), r.getType()))
+                            .collect(Collectors.toSet());
     }
 
     @SuppressWarnings("unchecked")
@@ -133,24 +155,69 @@ public class N2oQueryProcessor implements QueryProcessor {
         ActionInvocationEngine engine = invocationFactory.produce(selection.getInvocation().getClass());
         Object result;
         if (engine instanceof ArgumentsInvocationEngine) {
-
-            result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
-                    InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(), query, criteria, criteriaConstructor));
+            try {
+                result = ((ArgumentsInvocationEngine) engine).invoke((N2oArgumentsInvocation) selection.getInvocation(),
+                        InvocationParametersMapping.prepareArgsForQuery((N2oArgumentsInvocation) selection.getInvocation(), query, criteria, criteriaConstructor));
+            } catch (Exception e) {
+                throw exceptionHandler.handle(query, criteria, e);
+            }
         } else if (engine instanceof MapInvocationEngine) {
             Map<String, Object> map = new LinkedHashMap<>();
             InvocationParametersMapping.prepareMapForQuery(map, query, criteria);
             InvocationParametersMapping.prepareMapForPage(map, criteria, pageStartsWith0);
-            result = engine.invoke(selection.getInvocation(), map);
+            try {
+                result = engine.invoke(selection.getInvocation(), map);
+            } catch (Exception e) {
+                throw exceptionHandler.handle(query, criteria, e);
+            }
         } else
             throw new UnsupportedOperationException("Engine invocation must be inherited from ArgumentsInvocationEngine or MapInvocationEngine");
+
         return result;
     }
 
     private CollectionPage<DataSet> executePageQuery(N2oQuery.Selection selection, CompiledQuery query, N2oPreparedCriteria criteria) {
+        if (criteria != null && criteria.getRestrictions() != null) {
+            Set<String> restrictionFieldIds = criteria.getRestrictions().stream().map(r -> r.getFieldId()).collect(Collectors.toSet());
+            for (String fieldId : restrictionFieldIds) {
+                if (reduceFiltersByField(criteria, fieldId))
+                    return new CollectionPage<>(0, Collections.emptyList(), criteria);
+            }
+        }
         Object result = executeQuery(selection, query, criteria);
         CollectionPage<DataSet> page = preparePageResult(result, query, selection, criteria);
         addIdIfNotPresent(query, page);
         return page;
+    }
+
+    private boolean reduceFiltersByField(N2oPreparedCriteria criteria, String fieldId) {
+        List<Restriction> restrictionsByField = criteria.getRestrictions(fieldId);
+        if (restrictionsByField.size() > 1) {
+            List<Filter> resFilters = new ArrayList<>();
+            resFilters.add(restrictionsByField.get(0));
+            for (int i = 1; i < restrictionsByField.size(); i++) {
+                boolean notMergeable = false;
+                for (Filter result : resFilters) {
+                    Result reduceResult = FilterReducer.reduce(result, restrictionsByField.get(i));
+                    if (reduceResult.isSuccess()) {
+                        resFilters.remove(result);
+                        resFilters.add(reduceResult.getResultFilter());
+                        notMergeable = false;
+                        break;
+                    } else if (reduceResult.getType().equals(Result.Type.notMergeable)) {
+                        notMergeable = true;
+                    } else {
+                        return true;
+                    }
+                }
+                if (notMergeable) {
+                    resFilters.add(restrictionsByField.get(i));
+                }
+            }
+            criteria.removeFilterForField(fieldId);
+            resFilters.forEach(result -> criteria.addRestriction(new Restriction(fieldId, result)));
+        }
+        return false;
     }
 
     private void addDefaultFilters(CompiledQuery query, N2oPreparedCriteria criteria) {
@@ -170,7 +237,8 @@ public class N2oQueryProcessor implements QueryProcessor {
     private Object prepareValue(Object value, N2oQuery.Filter filter) {
         Object result = value;
         result = contextProcessor.resolve(result);
-        result = normalizeValue(result, filter.getNormalize(), null, parser);
+        result = domainProcessor.deserialize(result, filter == null ? null : filter.getDomain());
+        result = normalizeValue(result, filter == null ? null : filter.getNormalize(), null, parser);
         return result;
     }
 
@@ -180,7 +248,8 @@ public class N2oQueryProcessor implements QueryProcessor {
         return mapFields(result, query.getDisplayFields());
     }
 
-    private CollectionPage<DataSet> preparePageResult(Object res, CompiledQuery query, N2oQuery.Selection selection,
+    private CollectionPage<DataSet> preparePageResult(Object res, CompiledQuery query, N2oQuery.Selection
+            selection,
                                                       N2oPreparedCriteria criteria) {
         Collection<?> result = outMap(res, selection.getResultMapping(), Collection.class);
 
@@ -198,7 +267,8 @@ public class N2oQueryProcessor implements QueryProcessor {
         });
     }
 
-    private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, List<String> filterFields, String queryId) {
+    private N2oQuery.Selection chooseSelection(N2oQuery.Selection[] selections, Set<String> filterFields, String
+            queryId) {
         if (selections == null) {
             return null;
         }
@@ -221,7 +291,7 @@ public class N2oQueryProcessor implements QueryProcessor {
         return null;
     }
 
-    private N2oQuery.Selection findSelectionByFilters(N2oQuery.Selection[] selections, List<String> filterFields) {
+    private N2oQuery.Selection findSelectionByFilters(N2oQuery.Selection[] selections, Set<String> filterFields) {
         for (N2oQuery.Selection selection : selections) {
             if (selection.getFilters() == null || selection.getFilters().isEmpty()) {
                 continue;
@@ -248,6 +318,8 @@ public class N2oQueryProcessor implements QueryProcessor {
             Object value = prepareValue(restriction.getValue(), filter);
             if (value != null) {
                 restriction.setValue(value);
+            } else if (FilterType.Arity.nullary == restriction.getType().arity) {
+                restriction.setValue(Boolean.TRUE);
             } else {
                 //удаляем фильтрацию, если в результате резолва контекста значение по умолчанию стало null
                 if (restrictionsForRemove == null)
@@ -273,8 +345,19 @@ public class N2oQueryProcessor implements QueryProcessor {
 
     private DataSet mapFields(Object entry, List<N2oQuery.Field> fields) {
         DataSet resultDataSet = new DataSet();
-        fields.forEach(f -> outMap(resultDataSet, entry, f.getId(), f.getSelectMapping(), f.getSelectDefaultValue()));
-        return resultDataSet;
+        fields.forEach(f -> outMap(resultDataSet, entry, f.getId(), f.getSelectMapping(), f.getSelectDefaultValue(), contextProcessor));
+        return normalizeDataSet(resultDataSet, fields);
+    }
+
+    private DataSet normalizeDataSet(DataSet dataSet, List<N2oQuery.Field> fields) {
+        for (N2oQuery.Field f : fields) {
+            if (f.getNormalize() != null) {
+                Object obj = dataSet.get(f.getId());
+                obj = contextProcessor.resolve(obj);
+                dataSet.put(f.getId(), normalizeValue(obj, f.getNormalize(), dataSet, parser));
+            }
+        }
+        return dataSet;
     }
 
     private CollectionPage<DataSet> getPage(Collection<DataSet> content, N2oPreparedCriteria criteria,

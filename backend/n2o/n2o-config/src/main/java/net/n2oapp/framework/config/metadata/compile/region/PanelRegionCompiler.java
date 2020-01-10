@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,6 +15,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPanelRegion> {
+
+    @Override
+    protected String getPropertyRegionSrc() {
+        return "n2o.api.region.panel.src";
+    }
+
     @Override
     public Class<N2oPanelRegion> getSourceClass() {
         return N2oPanelRegion.class;
@@ -23,17 +30,16 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
     public PanelRegion compile(N2oPanelRegion source, PageContext context, CompileProcessor p) {
         PanelRegion region = new PanelRegion();
         build(region, source, context, p);
-        region.setSrc("PanelRegion");
         region.setPlace(source.getPlace());
         region.setClassName(source.getClassName());
-        region.setItems(initItems(source, context, p, PanelRegion.Panel.class));
+        region.setStyle(StylesResolver.resolveStyles(source.getStyle()));
+        region.setItems(initItems(source, p, PanelRegion.Panel.class));
         //  region.setColor();
         //region.setIcon();
-        if (source.getWidgets() != null && source.getWidgets().length > 1)
-            region.setHasTabs(true);
-        else
-            region.setHasTabs(false);
-        region.setHeader(true);
+        if (region.getItems() != null && !region.getItems().isEmpty()) {
+            region.setHasTabs(region.getItems().size() > 1);
+        }
+        region.setHeader(source.getHeader());
         //  region.setFooterTitle();
         region.setOpen(true);
         region.setCollapsible(source.getCollapsible() != null ? source.getCollapsible() : true);

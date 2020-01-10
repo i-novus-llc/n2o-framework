@@ -29,7 +29,16 @@ public class FieldJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testInputText.widget.xml",
                 "components/widgets/Form/fields/StandardField/Field.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0]")
-                .exclude("src", "readOnly", "style", "control")
+                .exclude("src", "className", "readOnly", "style", "control")
+                .assertEquals();
+    }
+
+    @Test
+    public void testNoLabelInputText() {
+        check("net/n2oapp/framework/config/mapping/testInputText.widget.xml",
+                "components/widgets/Form/fields/StandardField/NoLabelField.meta.json")
+                .cutXml("form.fieldsets[0].rows[0].cols[1].fields[0]")
+                .exclude("src", "readOnly", "labelClass", "style", "control")
                 .assertEquals();
     }
 }

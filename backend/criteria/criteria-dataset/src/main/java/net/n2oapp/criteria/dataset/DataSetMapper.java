@@ -54,11 +54,11 @@ public class DataSetMapper {
         Map<String, Object> instances = instantiateArguments(argumentClasses);
         Map<String, Object> result;
         if (instances == null || instances.isEmpty()) {
-            result = new LinkedHashMap<>();
+            result = new DataSet();
         } else {
             result = instances;
         }
-        int idx = 0;
+
         for (Map.Entry<String, String> map : mapping.entrySet()) {
             Expression expression = writeParser.parseExpression(map.getValue() != null ? map.getValue()
                     : "['" + map.getKey() + "']");
@@ -70,7 +70,8 @@ public class DataSetMapper {
     public static DataSet extract(Object source, Map<String, String> fieldsMapping) {
         DataSet dataSet = new DataSet();
         for (Map.Entry<String, String> map : fieldsMapping.entrySet()) {
-            Expression expression = readParser.parseExpression(map.getValue());
+            Expression expression = readParser.parseExpression(map.getValue() != null ? map.getValue()
+                    : "['" + map.getKey() + "']");
             Object value = expression.getValue(source);
             dataSet.put(map.getKey(), value);
         }
@@ -109,7 +110,7 @@ public class DataSetMapper {
         if (arguments == null) return null;
         Object[] argumentInstances = new Object[arguments.length];
         for (int k = 0; k < arguments.length; k++) {
-            Class argumentClass = null;
+            Class argumentClass;
             if (primitiveTypes.contains(arguments[k])) {
                 argumentInstances[k] = null;
             } else {
@@ -128,7 +129,7 @@ public class DataSetMapper {
         if (arguments == null) return null;
         Map<String, Object> argumentInstances = new LinkedHashMap<>();
         for (Map.Entry<String, String> entry : arguments.entrySet()) {
-            Class argumentClass = null;
+            Class argumentClass;
             try {
                 argumentClass = Class.forName(entry.getValue());
                 argumentInstances.put(entry.getKey(), argumentClass.newInstance());

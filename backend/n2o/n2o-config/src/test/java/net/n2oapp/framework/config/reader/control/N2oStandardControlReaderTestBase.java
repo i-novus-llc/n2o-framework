@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.control.interval.N2oIntervalField;
 import net.n2oapp.framework.api.metadata.control.list.N2oSingleListFieldAbstract;
 import net.n2oapp.framework.api.metadata.control.plain.N2oText;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
-import net.n2oapp.framework.api.metadata.event.action.UpdateModelAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.N2oShowModalForm;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
@@ -23,7 +22,7 @@ public abstract class N2oStandardControlReaderTestBase {
         assert fieldSet.getItems().length == expectedCount;
     }
 
-    protected void assertStandardAttribute(N2oStandardField field) {
+    protected void assertStandardAttribute(N2oField field) {
         assertBaseAttributes(field);
         assert field.getDescription().equals("test");
         assertValidations(field);
@@ -31,18 +30,19 @@ public abstract class N2oStandardControlReaderTestBase {
         assertConditions(field);
     }
 
-    protected void assertBaseAttributes(N2oStandardField field) {
+    protected void assertBaseAttributes(N2oField field) {
         String test = "test";
         assert field.getId().equals("id");
         assert field.getLabel().equals(test);
-        assert !field.getCopied();
+        if (field instanceof N2oStandardField) {
+            assert !((N2oStandardField) field).getCopied();
+        }
         assert !field.getRequired();
         assert field.getDomain().equals(test);
         assert field.getVisible();
         assert field.getDependsOn()[0].equals(test);
         assert field.getCssClass().equals(test);
         assert field.getLabelStyle().equals(test);
-        assert field.getFieldSrc().equals(test);
         assert field.getDependencies()[0].getValue().equals(test);
     }
 
@@ -76,7 +76,7 @@ public abstract class N2oStandardControlReaderTestBase {
         assert field.getDetailFieldId().equals("id");
         assert field.getLabelFieldId().equals("id");
         assert field.getMasterFieldId().equals("id");
-        assert field.getSearchFieldId().equals("id");
+        assert field.getSearchFilterId().equals("id");
         assert field.getValueFieldId().equals("id");
         assert field.getPreFilters().length == 1;
         assertPreFilter(field.getPreFilters()[0], true);
@@ -99,7 +99,7 @@ public abstract class N2oStandardControlReaderTestBase {
         assert defaultModel.get("key").equals("value");
     }
 
-    private void assertActions(N2oStandardField field) {
+    private void assertActions(N2oField field) {
         //todo action button  теперь считывается toolbar
         /*List<List> links = Arrays.asList(field.getActionButtons());
         for (List<N2oControlActionLink> link : links) {
@@ -166,22 +166,12 @@ public abstract class N2oStandardControlReaderTestBase {
         assertPreFilter(showModal.getPreFilters()[0], true);
     }
 
-    private void assertUpdateModel(UpdateModelAction updateModel) {
-        assert updateModel.getQueryId().equals("blank");
-        assert updateModel.getMasterFieldId().equals("id");
-        assert updateModel.getDetailFieldId().equals("id");
-        assert updateModel.getValueFieldId().equals("id");
-        assert updateModel.getTargetFieldId().equals("id");
-        assert updateModel.getTarget().name().toLowerCase().equals("field");
-        assertPreFilter(updateModel.getPreFilters()[0], false);
-    }
-
     private void assertConditions(N2oField field) {
-        assert field.getDependencies()[0].getOn().equals("test");
+        assert field.getDependencies()[0].getOn()[0].equals("test");
         assert field.getDependencies()[0].getValue().equals("test");
-        assert field.getDependencies()[1].getOn().equals("id");
+        assert field.getDependencies()[1].getOn()[0].equals("id");
         assert field.getDependencies()[1].getValue().equals("test");
-        assert field.getDependencies()[2].getOn().equals("id");
+        assert field.getDependencies()[2].getOn()[0].equals("id");
         assert field.getDependencies()[2].getValue().equals("test");
     }
 

@@ -44,11 +44,8 @@ public class SubmitGenerator implements ButtonGenerator {
         }
         if (submitLabel == null) {
             CompiledObject compiledObject = p.getScope(CompiledObject.class);
-            if (compiledObject != null) {
-                CompiledObject.Operation operation = compiledObject.getOperations().get(submitOperationId);
-                if (operation != null)
-                    submitLabel = operation.getFormSubmitLabel();
-            }
+            if (compiledObject != null && compiledObject.getOperations().containsKey(submitOperationId))
+                submitLabel = compiledObject.getOperations().get(submitOperationId).getFormSubmitLabel();
         }
         N2oButton saveButton = new N2oButton();
         saveButton.setId(GenerateType.submit.name());
@@ -58,7 +55,7 @@ public class SubmitGenerator implements ButtonGenerator {
         N2oInvokeAction saveAction = new N2oInvokeAction();
         if (context instanceof PageContext) {
             PageContext pageContext = (PageContext) context;
-            saveAction.setCloseAfterSuccess(pageContext.getCloseOnSuccessSubmit());
+            saveAction.setCloseOnSuccess(pageContext.getCloseOnSuccessSubmit());
             saveAction.setRedirectTarget(pageContext.getRedirectTargetOnSuccessSubmit());
             saveAction.setRedirectUrl(pageContext.getRedirectUrlOnSuccessSubmit());
             saveAction.setRefreshOnSuccess(pageContext.getRefreshOnSuccessSubmit());
@@ -68,6 +65,7 @@ public class SubmitGenerator implements ButtonGenerator {
         saveAction.setOperationId(submitOperationId);
         saveButton.setAction(saveAction);
         saveButton.setModel(p.cast(submitModel, ReduxModel.RESOLVE));
+        saveButton.setValidate(true);
         saveButton.setConfirm(false);
         return Collections.singletonList(saveButton);
     }

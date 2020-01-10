@@ -1,9 +1,0 @@
-<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="product">
-    <fields>
-        <hidden id="id"/>
-        <input-text id="name"/>
-        <input-text id="price"/>
-        <input-text id="description"/>
-        <input-select id="category" label="Категория товара" query-id="categories" value-field-id="id" label-field-id="name"/>
-    </fields>
-</form>

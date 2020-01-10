@@ -8,12 +8,7 @@
         "isOtherPage": false
       },
       {
-        "path": "/proto/create2/main",
-        "exact": true,
-        "isOtherPage": false
-      },
-      {
-        "path": "/proto/create2/main/:proto_create2_main_id",
+        "path": "/proto/create2/:proto_create2_main_id",
         "exact": true,
         "isOtherPage": false
       }
@@ -43,14 +38,15 @@
                   {
                     "fields": [
                       {
-                        "id": "surname",
                         "src": "StandardField",
+                        "id": "surname",
                         "required": true,
                         "label": "Фамилия",
                         "dependency": [],
                         "control": {
-                          "placeholder": "Введите значение",
-                          "src": "InputText"
+                          "src": "InputText",
+                          "id": "surname",
+                          "placeholder": "Введите значение"
                         }
                       }
                     ]
@@ -58,13 +54,21 @@
                   {
                     "fields": [
                       {
-                        "id": "name",
                         "src": "StandardField",
+                        "id": "name",
                         "required": true,
                         "label": "Имя",
-                        "dependency": [],
+                        "dependency": [{
+                          "type":"fetchValue",
+                          "on":["defaultField"],
+                          "applyOnInit":true,
+                          "dataProvider":{
+                            "url":"n2o/data/ProtoPatient",
+                            "queryMapping":{"id":{"value":5607677}}},"valueFieldId":"name"
+                        }],
                         "control": {
-                          "src": "InputText"
+                          "src": "InputText",
+                          "id": "name"
                         }
                       }
                     ]
@@ -72,12 +76,13 @@
                   {
                     "fields": [
                       {
-                        "id": "patrName",
                         "src": "StandardField",
+                        "id": "patrName",
                         "label": "Отчество",
                         "dependency": [],
                         "control": {
-                          "src": "InputText"
+                          "src": "InputText",
+                          "id": "patrName"
                         }
                       }
                     ]
@@ -87,68 +92,79 @@
               {
                 "cols": [
                   {
+                    "size": 5,
                     "fields": [
                       {
-                        "id": "gender",
                         "src": "StandardField",
+                        "id": "gender",
                         "required": true,
                         "label": "Пол",
                         "dependency": [],
                         "control": {
+                          "src": "RadioGroup",
+                          "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
-                          "hasSearch": false,
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
-                            "queryMapping": {},
-                            "quickSearchParam": "name"
+                            "queryMapping": {}
                           },
-                          "type": "n2o",
-                          "src": "RadioGroup"
+                          "type": "n2o"
                         }
                       }
-                    ],
-                    "size": 5
+                    ]
                   },
                   {
+                    "size": 5,
                     "fields": [
                       {
-                        "id": "birthday",
                         "src": "StandardField",
+                        "id": "birthday",
                         "label": "Дата рождения",
                         "dependency": [],
                         "control": {
                           "src": "DatePicker",
+                          "id": "birthday",
                           "dateFormat": "DD.MM.YYYY",
-                          "outputFormat": "DD.MM.YYYY HH:mm:ss"
+                          "utc": false,
+                          "outputFormat": "YYYY-MM-DDTHH:mm:ss"
                         }
                       }
-                    ],
-                    "size": 5
+                    ]
                   },
                   {
                     "fields": [
                       {
-                        "id": "vip",
                         "src": "StandardField",
-                        "dependency": [
-                          {
-                            "type": "setValue",
-                            "on": [
-                              "gender"
-                            ],
-                            "expression": "(function(){ if (gender.id == 1 || gender.id == 2)\n                                return true;\n                            else\n                                return false; })()",
-                            "applyOnInit": true
-                          }
-                        ],
+                        "id": "vip",
+                        "dependency": [],
                         "control": {
+                          "src": "Checkbox",
+                          "id": "vip",
                           "label": "VIP",
-                          "src": "Checkbox"
+                          "defaultUnchecked": "null"
                         }
                       }
                     ]
                   }
+                ]
+              },
+              {
+                "cols":[
+                  {
+                    "fields":[
+                      {
+                        "src":"StandardField",
+                        "id":"defaultField",
+                        "label":"Введите что-нибудь, чтобы загрузилось Имя по умолчанию",
+                        "dependency":[],
+                        "control": {
+                          "src":"InputText","id":"defaultField",
+                          "style": {"color": "grey", "borderRadius": "10px", "fontSize": "10pt", "fontWeight": "bold"}
+                        },
+                        "style": {"color": "grey", "fontSize": "12pt"}
+                      }]}
                 ]
               }
             ]
@@ -181,7 +197,8 @@
           ]
         },
         "modelPrefix": "resolve",
-        "fetchOnInit": false
+        "fetchOnInit": false,
+        "autoFocus": true
       }
     }
   },
@@ -193,7 +210,6 @@
           {
             "id": "submit",
             "actionId": "submit",
-            "hint": "Сохранить",
             "conditions": {
               "enabled": [
                 {
@@ -202,13 +218,14 @@
                 }
               ]
             },
+            "validate": true,
+            "validatedWidgetId": "proto_create2_main",
             "color": "primary",
             "title": "Сохранить"
           },
           {
             "id": "close",
             "actionId": "close",
-            "hint": "Закрыть",
             "conditions": {},
             "title": "Закрыть"
           }
@@ -219,12 +236,10 @@
   "breadcrumb": [
     {
       "label": "Список контактов",
-      "path": "/proto",
-      "pathMapping": {}
+      "path": "/proto"
     },
     {
-      "label": "Карточка пациента",
-      "pathMapping": {}
+      "label": "Карточка пациента"
     }
   ],
   "actions": {
@@ -235,6 +250,7 @@
         "type": "n2o/actionImpl/START_INVOKE",
         "payload": {
           "widgetId": "proto_create2_main",
+          "pageId": "proto_create2",
           "dataProvider": {
             "url": "n2o/data/proto/create2/submit",
             "pathMapping": {},
@@ -246,10 +262,12 @@
           "success": {
             "refresh": {
               "type": "widget",
-              "options": {}
+              "options": {
+                "widgetId": "proto_patients"
+              }
             },
             "redirect": {
-              "path": "/proto/patients/:id",
+              "path": "/proto/:id",
               "pathMapping": {},
               "queryMapping": {},
               "target": "application"
@@ -272,7 +290,8 @@
   },
   "models": {
     "resolve['proto_create2_main'].patrName": {
-      "value": "Тест"
+      "value": "Тест",
+      "link": "models.resolve['proto_create2_main'].patrName"
     }
   },
   "layout": {

@@ -1,8 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
@@ -10,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Тестирвоание маппинга java модели в json
+ * Тестирование маппинга java модели в json
  */
 public class TableJsonTest extends JsonMetadataTestBase {
 
@@ -31,19 +29,16 @@ public class TableJsonTest extends JsonMetadataTestBase {
     @Test
     public void table() {
         check("net/n2oapp/framework/config/mapping/testTableJson.widget.xml",
-                "components/widgets/Table/TableWidget.meta.json")
+                "components/widgets/AdvancedTable/json/AdvancedTableWidget.meta.json")
                         .cutJson("Page_Table")
-                .exclude("actions", "filter",
-                        "table.style", "table.cells[1].textPlace", "table.autoFocus",
+                .exclude("actions", "width", "className",
+                        "table.style", "table.autoFocus", "table.tableSize",
                         "dataProvider.queryMapping",
                         "table.cells[0].fieldKey",
                         "table.cells[1].fieldKey",
+                        "table.cells[1].textPlace",
                         "table.cells[2].fieldKey",
-                        "toolbar.topRight[0].buttons[4]",
-                        "toolbar.topRight[0].buttons[0].confirm", "toolbar.topRight[0].buttons[0].conditions",
-                        "toolbar.topRight[0].buttons[1].confirm", "toolbar.topRight[0].buttons[1].conditions",
-                        "toolbar.topRight[0].buttons[2].confirm", "toolbar.topRight[0].buttons[2].conditions",
-                        "toolbar.topRight[0].buttons[3].confirm", "toolbar.topRight[0].buttons[3].conditions")
+                        "toolbar")
                 .assertEquals();
     }
 

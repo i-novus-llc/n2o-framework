@@ -12,11 +12,13 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
     public void build(N2oApplicationBuilder b) {
         b.packs(new N2oWidgetsIOPack());
         b.compilers(new FormCompiler(),
+                new ListWidgetCompiler(),
                 new ToolbarCompiler(),
                 new TableCompiler(),
                 new HtmlWidgetCompiler(),
-                new CustomWidgetCompiler());
-        b.mergers(new N2oWidgetMerger());
+                new CustomWidgetCompiler(),
+                new TreeCompiler());
+        b.mergers(new N2oWidgetMerger(), new N2oFormMerger());
 
         CrudGenerator crudGenerator = new CrudGenerator();
         N2oButtonGeneratorFactory buttonGeneratorFactory = new N2oButtonGeneratorFactory();
@@ -35,7 +37,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new TableRefreshGenerator(),
                 new TableResizeGenerator(),
                 new TableSettingsGenerator());
-        b.binders(new WidgetBinder());
+        b.binders(new WidgetBinder(), new TableBinder());
 
 
     }

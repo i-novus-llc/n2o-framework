@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -20,7 +21,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class MenuItem implements IdAware, Serializable, PropertiesAware {
+public class MenuItem implements IdAware, Serializable, JsonPropertiesAware {
     @JsonProperty
     private String id;
     @JsonProperty("title")
@@ -28,7 +29,9 @@ public class MenuItem implements IdAware, Serializable, PropertiesAware {
     @JsonProperty
     private String icon;
     @JsonProperty
-    private Boolean visible;
+    private Object visible;
+    @JsonProperty
+    private Object enabled;
     @JsonProperty
     private String actionId;
     @JsonProperty
@@ -36,13 +39,19 @@ public class MenuItem implements IdAware, Serializable, PropertiesAware {
     @JsonProperty
     private String className;
     @JsonProperty
+    private Map<String, String> style;
+    @JsonProperty
     private String hint;
+    @JsonProperty
+    private String hintPosition;
     @JsonProperty
     private Map<ValidationType, List<ButtonCondition>> conditions = new HashMap<>();
     @JsonProperty
     private Confirm confirm;
     @JsonProperty
     private Boolean validate;
+    @JsonProperty
+    private String validatedWidgetId;
 
     private Map<String, Object> properties;
 

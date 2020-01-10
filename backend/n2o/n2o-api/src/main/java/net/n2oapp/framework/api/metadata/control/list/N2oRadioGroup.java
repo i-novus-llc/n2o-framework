@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Исходная модель компонента radio-group
+ * Компонент радио кнопок
  */
 @Getter
 @Setter

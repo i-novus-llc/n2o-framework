@@ -5,8 +5,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import org.jdom.Element;
 import org.jdom.Namespace;
 
-import java.util.List;
-
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setAttribute;
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setElementString;
 
@@ -19,7 +17,7 @@ public class PreFilterPersister {
             Element preFilterElement = new Element("pre-filter", namespace);
             setAttribute(preFilterElement, "field-id", preFilter.getFieldId());
             //это сделано только для поддержки старых персистеров
-            if (StringUtils.isRef(preFilter.getValue())) {
+            if (StringUtils.hasLink(preFilter.getValue())) {
                 String value = preFilter.getValue().substring(1, preFilter.getValue().length() - 1);
                 setAttribute(preFilterElement, "ref", value);
                 setAttribute(preFilterElement, "value", value);
@@ -28,8 +26,9 @@ public class PreFilterPersister {
             }
             setAttribute(preFilterElement, "container-id", preFilter.getTargetWidgetId());
             setAttribute(preFilterElement, "type", preFilter.getType());
-            setAttribute(preFilterElement, "reset-mode", preFilter.getResetMode());
-            setAttribute(preFilterElement, "on-change", preFilter.getOnChange());
+            if (preFilter.getResetOnChange() != null) {
+                setAttribute(preFilterElement, "reset-mode", preFilter.getResetOnChange() ? "on" : "off");
+            }
             preFiltersElement.addContent(preFilterElement);
             if (preFilter.getValues() != null) {
                 for (String value : preFilter.getValues()) {

@@ -2,14 +2,12 @@ package net.n2oapp.framework.mvc.n2o;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.exception.N2oValidationException;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
-import net.n2oapp.framework.api.metadata.meta.saga.MessageSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
-import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.api.user.StaticUserContext;
 import net.n2oapp.framework.api.user.UserContext;
+import net.n2oapp.framework.config.register.route.RouteNotFoundException;
 import net.n2oapp.framework.mvc.cache.ClientCacheTemplate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,10 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Абстракция для сервлетов N2O.
@@ -126,42 +121,16 @@ public abstract class N2oServlet extends HttpServlet {
         //render json error
         resp.setContentType("application/json");
         resp.setStatus(status);
-        MetaSaga meta = buildMeta(req, e);
-        objectMapper.writeValue(resp.getWriter(), Collections.singletonMap("meta", meta));
+        if (!(e instanceof RouteNotFoundException)) {
+            MetaSaga meta = buildMeta(e);
+            objectMapper.writeValue(resp.getWriter(), Collections.singletonMap("meta", meta));
+        }
     }
 
-    private MetaSaga buildMeta(HttpServletRequest req, Exception exception) {
+    private MetaSaga buildMeta(Exception exception) {
         MetaSaga meta = new MetaSaga();
-        if (exception instanceof N2oValidationException) {
-            N2oValidationException e = (N2oValidationException) exception;
-            List<ResponseMessage> responseMessages = errorMessageBuilder.buildMessages(e);
-            meta.setMessages(new MessageSaga());
-            AlertSaga alert = new AlertSaga();
-            HashMap<String, ResponseMessage> fields = new HashMap<>();
-            List<ResponseMessage> responseMessagesForAlert = new ArrayList<>();
-            for (ResponseMessage responseMessage : responseMessages) {
-                if (responseMessage.getField() != null) {
-                    fields.put(responseMessage.getField(), responseMessage);
-                } else {
-                    responseMessagesForAlert.add(responseMessage);
-                    alert.setAlertKey(e.getAlertKey());
-                }
-            }
-            if (!responseMessagesForAlert.isEmpty())
-                alert.setMessages(responseMessagesForAlert);
-            meta.getMessages().setFields(fields);
-            meta.getMessages().setForm(e.getMessageForm());
-            if (alert.getMessages() != null || alert.getAlertKey() != null) {
-                meta.setAlert(alert);
-            }
-        } else {
-            ResponseMessage responseMessage = errorMessageBuilder.build(exception);
-            meta.setAlert(new AlertSaga());
-            meta.getAlert().setMessages(Collections.singletonList(responseMessage));
-            if (exception instanceof N2oException)
-                meta.getAlert().setAlertKey(((N2oException) exception).getAlertKey());
-        }
-
+        meta.setAlert(new AlertSaga());
+        meta.getAlert().setMessages(Collections.singletonList(errorMessageBuilder.build(exception)));
         return meta;
     }
 

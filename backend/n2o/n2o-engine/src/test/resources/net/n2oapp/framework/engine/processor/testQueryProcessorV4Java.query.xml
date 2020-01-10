@@ -24,19 +24,31 @@
             </arguments>
         </java>
     </list>
+    <list count-mapping="count" result-mapping="collection" filters="id,name">
+        <java class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass"
+              method="methodWithCriteria">
+            <arguments>
+                <argument type="primitive"/>
+                <argument type="criteria"
+                          class="net.n2oapp.framework.engine.processor.StaticInvocationTestClass$MyCriteria"/>
+            </arguments>
+        </java>
+    </list>
 
     <fields>
         <field id="id" domain="integer">
             <select mapping="testField"/>
             <filters>
-                <eq filter-id="id" mapping="id">id={id}</eq>
+                <eq filter-id="id" mapping="id"/>
+                <more filter-id="id"/>
+                <less filter-id="id"/>
             </filters>
         </field>
 
         <field id="value" domain="string">
             <select mapping="value"/>
             <filters>
-                <eq filter-id="" mapping="[0]">value={value}</eq>
+                <eq filter-id="value" mapping="[0]">value={value}</eq>
             </filters>
         </field>
 

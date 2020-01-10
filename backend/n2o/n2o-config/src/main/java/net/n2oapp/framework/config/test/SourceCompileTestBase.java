@@ -2,11 +2,13 @@ package net.n2oapp.framework.config.test;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.pipeline.*;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.selective.CompileInfo;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -40,18 +42,22 @@ public abstract class SourceCompileTestBase extends N2oTestBase {
         return N2oPipelineSupport.bindPipeline(builder.getEnvironment()).bind();
     }
 
-    public RoutingResult route(String url) {
-        return builder.route(url);
+    public <D extends Compiled> CompileContext<D, ?> route(String url, Class<D> compiledClass) {
+        return this.route(url, compiledClass, null);
     }
 
-    public <D extends Compiled> D route(String url, Class<D> compiledClass) {
-        RoutingResult route = builder.route(url);
-        return read().compile().bind().get(route.getContext(compiledClass), route.getParams());
+    public <D extends Compiled> CompileContext<D, ?> route(String url, Class<D> compiledClass, Map<String, String[]> params) {
+        return builder.route(url, compiledClass, params);
     }
 
-    public <D extends Compiled> D route(String url, Class<D> compiledClass, DataSet data) {
-        RoutingResult route = builder.route(url);
-        route.getParams().forEach((k, v) -> data.put(k, v));
-        return read().compile().bind().get(route.getContext(compiledClass), data);
+    public <D extends Compiled> D routeAndGet(String url, Class<D> compiledClass) {
+        CompileContext<D, ?> context = builder.route(url, compiledClass, null);
+        return read().compile().bind().get(context, context.getParams(url, null));
+    }
+
+    public <D extends Compiled> D routeAndGet(String url, Class<D> compiledClass, Map<String, String[]> params) {
+        CompileContext<D, ?> context = builder.route(url, compiledClass, params);
+        DataSet data = context.getParams(url, params);
+        return read().compile().bind().get(context, data);
     }
 }

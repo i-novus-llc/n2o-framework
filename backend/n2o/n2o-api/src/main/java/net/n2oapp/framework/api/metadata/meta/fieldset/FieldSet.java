@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,9 +20,7 @@ import java.util.Set;
  */
 @Getter
 @Setter
-public abstract class FieldSet implements Compiled {
-    @JsonProperty
-    private String src;
+public abstract class FieldSet extends Component implements Compiled {
     @JsonProperty
     private LabelPosition labelPosition;
     @JsonProperty
@@ -30,9 +30,9 @@ public abstract class FieldSet implements Compiled {
     @JsonProperty
     private List<Row> rows;
     @JsonProperty
-    private String visible;
+    private Object visible;
     @JsonProperty
-    private String enabled;
+    private Object enabled;
     @JsonProperty
     private ControlDependency[] dependency;
 
@@ -42,6 +42,10 @@ public abstract class FieldSet implements Compiled {
     @Setter
     public static class Row implements Compiled {
         @JsonProperty
+        private String className;
+        @JsonProperty
+        private Map<String, String> style;
+        @JsonProperty
         private List<Column> cols;
     }
 
@@ -49,11 +53,15 @@ public abstract class FieldSet implements Compiled {
     @Setter
     public static class Column implements Compiled {
         @JsonProperty
-        private List<Field> fields;
+        private String className;
+        @JsonProperty
+        private Map<String, String> style;
         @JsonProperty
         private Integer size;
         @JsonProperty
         private List<FieldSet> fieldsets;
+        @JsonProperty
+        private List<Field> fields;
     }
 
     public enum LabelPosition {

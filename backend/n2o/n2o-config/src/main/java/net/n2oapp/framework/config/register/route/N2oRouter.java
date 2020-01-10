@@ -1,32 +1,32 @@
 package net.n2oapp.framework.config.register.route;
 
-import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
-import net.n2oapp.framework.api.register.route.RouteInfo;
+import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.api.register.route.RouteRegister;
-import net.n2oapp.framework.api.register.route.RoutingResult;
+import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
  * Поиск по URL подходящего контекста для компиляции метаданных.
  */
 public class N2oRouter implements MetadataRouter {
-    private RouteRegister register;
+    public static final String ROOT_ROUTE = "/";
+    private MetadataEnvironment environment;
     private ReadCompileTerminalPipeline<?> pipeline;
     private final PathMatcher pathMatcher = new AntPathMatcher();
 
-    public N2oRouter(RouteRegister register,
+
+    public N2oRouter(MetadataEnvironment environment,
                      ReadCompileTerminalPipeline<?> pipeline) {
-        this.register = register;
+        this.environment = environment;
         this.pipeline = pipeline;
     }
 
@@ -36,32 +36,46 @@ public class N2oRouter implements MetadataRouter {
      * @param url url для которого необходимо найти контекст
      * @return результат поиска
      */
-    public RoutingResult get(String url) {
+    public <D extends Compiled> CompileContext<D, ?> get(String url, Class<D> compiledClass, Map<String, String[]> params) {
         url = url != null ? url : "/";
-        List<RouteInfo> infos = findRoutes(url);
-        if (infos.isEmpty())
-            tryToFindDeep(url);
-        infos = findRoutes(url);
-        if (infos.isEmpty())
-            throw new RouteNotFoundException(url);
-        String urlPattern = infos.get(0).getUrlPattern();
-        return new RoutingResult(urlPattern, getContexts(infos), getResultData(url, urlPattern));
+        CompileContext<D, ?> result = findRoute(url, compiledClass);
+        if (result != null)
+            return result;
+
+        tryToFindShallow(url, compiledClass, params);
+        result = findRoute(url, compiledClass);
+        if (result != null)
+            return result;
+
+        tryToFindDeep(url, params);
+        result = findRoute(url, compiledClass);
+        if (result == null) {
+            tryToFindShallow(url, compiledClass, params);
+            result = findRoute(url, compiledClass);
+        }
+        if (result != null)
+            return result;
+
+        throw new RouteNotFoundException(url);
     }
 
-    private List<CompileContext<?, ?>> getContexts(List<RouteInfo> infos) {
-        return infos.stream().map(RouteInfo::getContext).collect(Collectors.toList());
-    }
-
-    private List<RouteInfo> findRoutes(String url) {
-        List<RouteInfo> infos = null;
-        for (RouteInfo routeInfo : register) {
-            if (matchInfo(routeInfo, url)) {
-                if (infos == null)
-                    infos = new ArrayList<>();
-                infos.add(routeInfo);
+    /**
+     * Найти контексты сборки метаданных по адресу и классу
+     *
+     * @param url           Адрес
+     * @param compiledClass Класс собранной метаданной
+     * @param <D>           Тип метаданной
+     * @return Список найденных контекстов
+     */
+    @SuppressWarnings("unchecked")
+    private <D extends Compiled> CompileContext<D, ?> findRoute(String url, Class<D> compiledClass) {
+        for (Map.Entry<RouteInfoKey, CompileContext> routeEntry : environment.getRouteRegister()) {
+            if (matchInfo(routeEntry.getKey(), url) &&
+                    compiledClass.isAssignableFrom(routeEntry.getValue().getCompiledClass())) {
+                return routeEntry.getValue();
             }
         }
-        return infos == null ? Collections.emptyList() : infos;
+        return null;
     }
 
     /**
@@ -69,41 +83,50 @@ public class N2oRouter implements MetadataRouter {
      *
      * @param info        Информация об URL адресе
      * @param urlMatching URL шаблон в Ant стиле
-     * @param <D>         Тип собранной метаданной
      * @return Сопоставимы или нет
      */
-    private <D extends Compiled> boolean matchInfo(RouteInfo info, String urlMatching) {
+    private boolean matchInfo(RouteInfoKey info, String urlMatching) {
         return pathMatcher.match(info.getUrlMatching(), urlMatching);
     }
 
-    private void tryToFindDeep(String url) {
-        if (url.length() > 1) {
-            String subUrl;
-            List<RouteInfo> subInfo;
-            int idx = url.lastIndexOf("/");
-            if (idx > 0)
-                subUrl = url.substring(0, idx);
-            else
-                subUrl = "/";
-            subInfo = findRoutes(subUrl);
-            if (subInfo.isEmpty()) {
-                tryToFindDeep(subUrl);
-                subInfo = findRoutes(subUrl);
-            }
-            subInfo.forEach(i -> pipeline.get(i.getContext()));//warm up
+    /**
+     * Попытка найти маршрут собирая страницу по этому маршруту
+     *
+     * @param url Часть маршрута
+     */
+    private <D extends Compiled> void tryToFindShallow(String url, Class<D> compiledClass, Map<String, String[]> params) {
+        if (Page.class == compiledClass)
+            return;
+        CompileContext<Page, ?> result = findRoute(url, Page.class);
+        if (result != null) {
+            pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params))); //warm up
         }
     }
 
-    private DataSet getResultData(String url, String urlPattern) {
-        DataSet data = new DataSet();
-        String[] splitUrl = url.split("/");
-        String[] splitPattern = urlPattern.split("/");
-        for (int i = 0; i < splitUrl.length && i < splitPattern.length; i++) {
-            if (splitPattern[i].startsWith(":")) {
-                data.put(splitPattern[i].substring(1), splitUrl[i]);
+
+    /**
+     * Попытка найти маршрут собирая метаданные его родителей
+     *
+     * @param url Часть маршрута
+     */
+    private void tryToFindDeep(String url, Map<String, String[]> params) {
+        if (url.length() > 1) {
+            String subUrl;
+            int idx = url.lastIndexOf(ROOT_ROUTE);
+            if (idx > 0)
+                subUrl = url.substring(0, idx);
+            else
+                subUrl = ROOT_ROUTE;
+
+            CompileContext<Page, ?> result = findRoute(subUrl, Page.class);
+            if (result == null) {
+                tryToFindDeep(subUrl, params);
+                result = findRoute(subUrl, Page.class);
+            }
+            if (result != null) {
+                pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params))); //warm up
             }
         }
-        return data;
     }
 
 }

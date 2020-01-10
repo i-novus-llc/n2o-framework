@@ -3,9 +3,9 @@ package net.n2oapp.framework.api.script;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.Interval;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
-import net.n2oapp.properties.StaticProperties;
 import org.apache.commons.io.IOUtils;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Parser;
@@ -14,10 +14,7 @@ import org.mozilla.javascript.ast.Name;
 import org.mozilla.javascript.ast.NodeVisitor;
 import org.mozilla.javascript.ast.PropertyGet;
 
-import javax.script.Bindings;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import javax.script.*;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -34,11 +31,9 @@ public class ScriptProcessor {
             "beginWeek", "endWeek", "beginMonth", "endMonth", "beginQuarter", "endQuarter", "beginYear", "endYear");
     private static final String spread_operator = "*.";
 
-    private String dateFormat;
     private final static ScriptEngineManager engineMgr = new ScriptEngineManager();
     private static volatile ScriptEngine scriptEngine;
-    private static Object underscoreJs;
-    private static Object numeralJs;
+    private static String MOMENT_JS;
 
 
     @Deprecated
@@ -83,8 +78,6 @@ public class ScriptProcessor {
                 return expr.replaceAll("#<", "#{").replaceAll("\\$<", "\\${").replaceAll(">>", "}");
             }
         }
-        if (text.equals("false"))
-            return toJsExpression(text);//"false" as String is true for JavaScript
         return text;
     }
 
@@ -95,21 +88,24 @@ public class ScriptProcessor {
      * "gender.id == 1" -> "(function(){return gender.id == 1;})()"
      * "function(){if (gender.id = 1) return 'М'; else return 'Ж';}" -> "(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"
      * "(function(){ return '123'; })()" -> "(function(){ return '123'; })()"
+     *
      * @param text выражение сождержащее ссылки
      * @return js функция
      */
     public static String resolveFunction(String text) {
-        if (text == null) return null;
-        if (text.startsWith("(function")) {
+        if (text == null)
+            return null;
+        String trimmedText = StringUtils.simplify(text);
+        if (trimmedText.startsWith("(function")) {
             return text;
         }
-        if (text.startsWith("function")) {
-            return String.format("(%s)()", text);
+        if (trimmedText.startsWith("function")) {
+            return String.format("(%s)()", trimmedText);
         }
-        if (text.contains("return")) {
-            return String.format("(function(){ %s })()", text);
+        if (trimmedText.contains("return ")) {
+            return String.format("(function(){%s})()", trimmedText);
         } else {
-            return text;
+            return trimmedText;
         }
     }
 
@@ -129,6 +125,8 @@ public class ScriptProcessor {
      */
     public static Object resolveExpression(String text) {
         String expression = resolveLinks(text);
+        if (expression == null)
+            return null;
         if (expression.equals("true") || expression.equals("false"))
             return Boolean.valueOf(expression);
         if (expression.matches("([\\d]+)")) {
@@ -138,6 +136,26 @@ public class ScriptProcessor {
             }
         }
         return expression;
+    }
+
+    /**
+     * Изменить значение JS выраждения на обратное
+     *
+     * @param text JS выражение или текст
+     * @return Обратное JS выражение или объект
+     */
+    public static Object invertExpression(String text) {
+        Object result = resolveExpression(text);
+        if (result == null)
+            return null;
+        if (result instanceof Boolean)
+            return !(Boolean) result;
+        if (!StringUtils.isJs(result))
+            return result;
+        String expr = (String) result;
+        expr = expr.substring(1, expr.length() - 1);
+        expr = toJsExpression("!(" + expr + ")");
+        return expr;
     }
 
     /**
@@ -169,7 +187,7 @@ public class ScriptProcessor {
         return "`" + expression + "`";
     }
 
-    private static Object removeJsBraces(Object expression) {
+    public static Object removeJsBraces(Object expression) {
         if (expression instanceof String)
             return ((String) expression).replaceAll("`", "");
         return expression;
@@ -181,7 +199,7 @@ public class ScriptProcessor {
         String[] split = text.split("\\{");
         if (split.length <= 1)
             return text;
-        if (!split[0].equals("")){
+        if (!split[0].equals("")) {
             sb.append("'".concat(split[0]).concat("'"));
         }
         for (int i = 1; i < split.length; i++) {
@@ -229,22 +247,23 @@ public class ScriptProcessor {
         return "function(){" + code + "}()";
     }
 
-    public static String buildExpressionForSwitch(N2oSwitch n2oSwitch) {
+    public static String buildSwitchExpression(N2oSwitch n2oSwitch) {
         if (n2oSwitch == null
-                || (n2oSwitch.getCases() == null && n2oSwitch.getDefaultCase() == null)
+                || (n2oSwitch.getCases() == null && n2oSwitch.getResolvedCases() == null && n2oSwitch.getDefaultCase() == null)
                 || (n2oSwitch.getValueFieldId() == null || n2oSwitch.getValueFieldId().length() == 0))
             return null;
+        Map<Object, String> cases = resolveSwitchCases(n2oSwitch.getResolvedCases() != null ? n2oSwitch.getResolvedCases() : n2oSwitch.getCases());
         StringBuilder b = new StringBuilder("`");
-        for (String key : n2oSwitch.getCases().keySet()) {
-            b.append(n2oSwitch.getValueFieldId() + " == '" + key + "' ? ");
-            b.append("'" + n2oSwitch.getCases().get(key) + "' : ");
+        for (Object key : cases.keySet()) {
+            b.append(n2oSwitch.getValueFieldId() + " == " + key + " ? ");
+            b.append(cases.get(key) + " : ");
         }
         if (n2oSwitch.getDefaultCase() != null) {
-            b.append("'" + n2oSwitch.getDefaultCase() + "'");
+            b.append("'" + ScriptProcessor.resolveExpression(n2oSwitch.getDefaultCase()) + "'");
         } else {
             b.append("null");
         }
-        return b.toString().trim() + "`";
+        return b.toString() + "`";
     }
 
 
@@ -501,7 +520,9 @@ public class ScriptProcessor {
     @SuppressWarnings("unchecked")
     public static <T> T eval(String script, DataSet dataSet) throws ScriptException {
         ScriptEngine scriptEngine = getScriptEngine();
+        Bindings global = scriptEngine.getContext().getBindings(ScriptContext.GLOBAL_SCOPE);
         Bindings bindings = scriptEngine.createBindings();
+        bindings.putAll(global);
         for (String key : dataSet.keySet()) {
             Object var = dataSet.get(key);
             if (var instanceof Collection) {
@@ -510,7 +531,9 @@ public class ScriptProcessor {
                 bindings.put(key, var);
             }
         }
-        addJsLibs(script, bindings);
+        if (isNeedMoment(script)) {
+            scriptEngine.eval(MOMENT_JS, bindings);
+        }
         return (T) scriptEngine.eval(script, bindings);
     }
 
@@ -537,6 +560,20 @@ public class ScriptProcessor {
         res.append(exp);
         res.append(')');
         return res.toString();
+    }
+
+    public static String and(List<String> operands) {
+        return reduce("&&", operands);
+    }
+
+    public static String or(List<String> operands) {
+        return reduce("||", operands);
+    }
+
+
+    private static String reduce(String operator, List<String> operands) {
+        if (operands == null || operands.isEmpty()) return null;
+        return operands.stream().reduce((s1, s2) -> "(" + s1 + ") " + operator + " (" + s2 + ")").orElseGet(null);
     }
 
     private static List<String> retrieve(String[] fields) {
@@ -578,57 +615,51 @@ public class ScriptProcessor {
     private static synchronized void createScriptEngine() {
         if (scriptEngine == null) {
             scriptEngine = engineMgr.getEngineByName("JavaScript");
-//            URL underscoreIo = this.getClass().getClassLoader().getResource("META-INF/resources/lib/underscore.js");
-//            URL numeralIo = this.getClass().getClassLoader().getResource("META-INF/resources/lib/numeral.min-1.5.3.js");
-//            try {
-//                scriptEngine.eval(IOUtils.toString(underscoreIo, "UTF-8"));
-//                underscoreJs = scriptEngine.eval("_");
-//                scriptEngine.eval(IOUtils.toString(numeralIo, "UTF-8"));
-//                numeralJs = scriptEngine.eval("numeral");
-//            } catch (IOException e) {
-//                throw new N2oException(e);
-//            }
-        }
-    }
-
-    private static void addJsLibs(String script, Bindings bindings) throws ScriptException {
-        bindings.put("_", underscoreJs);
-        bindings.put("numeral", numeralJs);
-        if (isNeedMoment(script)) {
-            URL momentUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/lib/moment.min.js");
-            URL momentTzUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/lib/moment-timezone-with-data.min.js");
-            URL globalDateFuncUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/lib/globalDateFunc.js");
+            Bindings bindings = scriptEngine.createBindings();
+            URL momentUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/moment.js");
+            URL lodashUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/lodash.js");
+            URL numeralUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/numeral.js");
+            URL n2oUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/n2o.js");
             try {
-                scriptEngine.eval(IOUtils.toString(momentUrl, "UTF-8"), bindings);
-                scriptEngine.eval(IOUtils.toString(globalDateFuncUrl, "UTF-8"), bindings);
-                scriptEngine.eval(IOUtils.toString(momentTzUrl, "UTF-8"), bindings);
-            } catch (IOException e) {
+                MOMENT_JS = IOUtils.toString(momentUrl, "UTF-8");
+                scriptEngine.eval(IOUtils.toString(lodashUrl, "UTF-8"), bindings);
+                scriptEngine.eval(IOUtils.toString(numeralUrl, "UTF-8"), bindings);
+                scriptEngine.eval(IOUtils.toString(n2oUrl, "UTF-8"), bindings);
+            } catch (IOException | ScriptException e) {
                 throw new N2oException(e);
             }
+            scriptEngine.getContext().setBindings(bindings, ScriptContext.GLOBAL_SCOPE);
         }
     }
-
 
     private String getString(Object value) {
         if (value instanceof String)
             return "'" + value.toString() + "'";
         else if (value instanceof Date)
-            return "'" + new SimpleDateFormat(getDateFormat()).format((Date) value) + "'";
+            return "'" + new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT).format((Date) value) + "'";
         return value.toString();
     }
 
-    public void setDateFormat(String dateFormat) {
-        this.dateFormat = dateFormat;
-    }
-
-    protected String getDateFormat() {
-        if (dateFormat == null)
-            dateFormat = StaticProperties.getProperty("n2o.format.date");
-        return dateFormat;
-    }
 
     private static boolean isNeedMoment(String script) {
         return momentFuncs.stream().anyMatch(f -> script.contains(f));
+    }
+
+    private static Map<Object, String> resolveSwitchCases(Map<?, String> cases) {
+        Map<Object, String> result = new HashMap<>();
+        for (Map.Entry<?, String> entry : cases.entrySet()) {
+            Object resultKey = entry.getKey();
+            if (resultKey instanceof String)
+                resultKey = "'" + resultKey + "'";
+            String resultValue;
+            if (StringUtils.hasLink(entry.getValue())) {
+                resultValue = ScriptProcessor.resolveLinks(entry.getValue());
+                resultValue = resultValue.substring(1, resultValue.length() - 1);
+            } else
+                resultValue = "'" + entry.getValue() + "'";
+            result.put(resultKey, resultValue);
+        }
+        return result;
     }
 
 

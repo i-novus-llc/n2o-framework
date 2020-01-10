@@ -3,6 +3,7 @@ package net.n2oapp.framework.ui.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -16,13 +17,15 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.selective.SelectiveMetadataLoader;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
-import net.n2oapp.framework.config.util.SubModelsProcessor;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
+import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
+import net.n2oapp.framework.engine.data.N2oQueryExceptionHandler;
 import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.engine.modules.stack.SpringDataProcessingStack;
-import net.n2oapp.framework.ui.controller.query.CopyValuesController;
+import net.n2oapp.framework.ui.controller.query.SimpleDefaultValuesController;
 import net.n2oapp.properties.OverrideProperties;
 import net.n2oapp.properties.reader.PropertiesReader;
 import org.junit.Before;
@@ -54,6 +57,7 @@ public class DefaultValuesControllerTest {
         environment.setMessageSource(new MessageSourceAccessor(messageSource));
         OverrideProperties properties = PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties");
         properties.put("n2o.engine.mapper", "spel");
+        environment.setSystemProperties(new SimplePropertyResolver(properties));
         builder = new N2oApplicationBuilder(environment);
         configure(builder);
         CompileInfo.setSourceTypes(builder.getEnvironment().getSourceTypeRegister());
@@ -94,6 +98,8 @@ public class DefaultValuesControllerTest {
         params.put("id", new String[]{"2"});
         GetDataResponse response = testQuery("/testDefaults", pipeline, params);
         assertThat(response.getList().size(), is(1));
+        assertThat(response.getList().get(0).size(), is(2));
+        assertThat(response.getList().get(0).get("id"), is(2L));
         assertThat(response.getList().get(0).get("name"), is("testName2"));
     }
 
@@ -107,23 +113,21 @@ public class DefaultValuesControllerTest {
         ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
         UserContext userContext = new UserContext(contextEngine);
         ContextProcessor contextProcessor = new ContextProcessor(userContext);
-        N2oQueryProcessor queryProcessor = new N2oQueryProcessor(contextProcessor, invocationFactory);
-        SubModelsProcessor subModelsProcessor = Mockito.mock(SubModelsProcessor.class);
+        N2oQueryProcessor queryProcessor = new N2oQueryProcessor(invocationFactory, contextProcessor,
+                new DomainProcessor(), new N2oQueryExceptionHandler());
+        N2oSubModelsProcessor subModelsProcessor = Mockito.mock(N2oSubModelsProcessor.class);
         Mockito.doNothing().when(subModelsProcessor);
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);
 
-        CopyValuesController copyValuesController = new CopyValuesController();
-        copyValuesController.setQueryProcessor(queryProcessor);
-        copyValuesController.setSubModelsProcessor(subModelsProcessor);
-        copyValuesController.setDataProcessingStack(dataProcessingStack);
+        SimpleDefaultValuesController valuesController = new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
+                subModelsProcessor, null, null);
         Map<String, Object> map = new HashMap<>();
-        map.put("CopyValuesController", copyValuesController);
+        map.put("SimpleDefaultValuesController", valuesController);
 
-        N2oRouter router = new N2oRouter(builder.getEnvironment().getRouteRegister(), pipeline);
+        N2oRouter router = new N2oRouter(builder.getEnvironment(), pipeline);
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
-        ObjectMapper mapper = new ObjectMapper();
-        DataController controller = new DataController(factory, mapper, router, builder.getEnvironment());
+        DataController controller = new DataController(factory, builder.getEnvironment(), router);
         return controller.getData(path, params, userContext);
     }
 }

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
+import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
@@ -17,13 +19,13 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class Page implements Compiled {
+public class Page implements Compiled, JsonPropertiesAware {
     @JsonProperty
     private String id;
     @JsonProperty("layout")
     private Layout layout;
     @JsonProperty("page")
-    private PageProperty properties = new PageProperty();
+    private PageProperty pageProperty = new PageProperty();
     @JsonProperty
     private PageRoutes routes;
     @JsonProperty
@@ -37,4 +39,5 @@ public class Page implements Compiled {
     private Map<String, Action> actions;
     @JsonProperty
     private Models models;
+    private Map<String, Object> properties;
 }

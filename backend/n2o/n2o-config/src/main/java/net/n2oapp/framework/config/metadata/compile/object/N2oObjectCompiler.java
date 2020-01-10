@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarFie
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraint;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.action.DefaultActions;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
@@ -40,7 +41,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     public CompiledObject compile(N2oObject source, C context, CompileProcessor p) {
         CompiledObject compiled = new CompiledObject();
         compiled.setId(source.getId());
-        compiled.setOperations(new HashMap<>());
+        compiled.setOperations(new StrictMap<>());
         compiled.setObjectFields(new ArrayList<>());
         compiled.setObjectFieldsMap(new HashMap<>());
         if (source.getObjectFields() != null) {
@@ -162,7 +163,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 resolveActivate(operation, compiledOperation, source);
             if (compiledOperation.getValidations().getWhiteList() != null) {
                 for (String name : operation.getValidations().getWhiteList()) {
-                    Validation validation = compiled.getValidationsMap().get(name);
+                    Validation validation = compiled.getValidationsMap().get(name.trim());
                     if (validation.getEnabled() == null || validation.getEnabled()) {
                         validationList.add(validation);
                         if (compiledOperation.getValidations().getActivate() != N2oObject.Operation.Validations.Activate.all)
@@ -174,7 +175,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 Map<String, Validation> blackListValidationsMap = new HashMap<>();
                 blackListValidationsMap.putAll(compiled.getValidationsMap());
                 for (String name : operation.getValidations().getBlackList()) {
-                    blackListValidationsMap.remove(name);
+                    blackListValidationsMap.remove(name.trim());
                 }
                 validationList.addAll(blackListValidationsMap.values());
             }
@@ -216,7 +217,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         List<Validation> requiredParamValidations = new ArrayList<>();
         for (N2oObject.Parameter parameter : compiledOperation.getInParametersMap().values()) {
             if (parameter.getRequired() != null && parameter.getRequired()) {
-                MandatoryValidation validation = new MandatoryValidation(parameter.getId(), p.getMessage("n2o.required"), parameter.getId());
+                MandatoryValidation validation = new MandatoryValidation(parameter.getId(), p.getMessage("n2o.required.field"), parameter.getId());
                 validation.setMoment(N2oValidation.ServerMoment.beforeOperation);
                 requiredParamValidations.add(validation);
             }

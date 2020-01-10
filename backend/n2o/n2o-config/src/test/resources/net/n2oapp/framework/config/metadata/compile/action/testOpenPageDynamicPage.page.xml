@@ -6,7 +6,7 @@
         </columns>
         <toolbar>
             <button id="id1">
-                <open-page page-id="{page_test_id}"/>
+                <open-page page-id="{id}" submit-operation-id="create"/>
             </button>
         </toolbar>
     </table>

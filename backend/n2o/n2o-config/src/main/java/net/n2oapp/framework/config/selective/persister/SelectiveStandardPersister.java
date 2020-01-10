@@ -13,7 +13,6 @@ import net.n2oapp.framework.config.io.dataprovider.SqlDataProviderIOv1;
 import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.PanelFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
-import net.n2oapp.framework.config.io.object.ObjectElementIOv1;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
@@ -78,8 +77,10 @@ public class SelectiveStandardPersister extends SelectivePersister {
                 .addPersister(new OutputTextIOv2())
                 .addPersister(new PasswordIOv2())
                 .addPersister(new RadioGroupIOv2())
+                .addPersister(new PillsIOv2())
                 .addPersister(new SelectTreeIOv2())
                 .addPersister(new SelectIOv2())
+                .addPersister(new SliderIOv2())
                 .addPersister(new TextAreaIOv2())
                 .addPersister(new TextEditorIOv2())
                 .addPersister(new CodeEditorIOv2());
@@ -91,7 +92,7 @@ public class SelectiveStandardPersister extends SelectivePersister {
     }
 
     public SelectiveStandardPersister addObjectPersister() {
-        return addPersister(new ObjectElementIOv1()).addPersister(new ObjectElementIOv2()).addPersister(new ObjectElementIOv3());
+        return addPersister(new ObjectElementIOv2()).addPersister(new ObjectElementIOv3());
     }
 
     public SelectiveStandardPersister addInvocationObjectPersister() {
@@ -120,7 +121,6 @@ public class SelectiveStandardPersister extends SelectivePersister {
                 .addPersister(ShowModalFromClassifierPersister.getInstance())
                 .addPersister(ShowModalPersister.getInstance())
                 .addPersister(new CustomPersister())
-                .addPersister(UpdateModelEventPersister.getInstance())
                 .addPersister(OnClickPersister.getInstance())
                 .addPersister(SetValueExpressionEventPersister.getInstance());
     }

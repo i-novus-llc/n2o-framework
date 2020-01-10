@@ -4,14 +4,13 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.criteria.dataset.NestedUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineFunction;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
-import net.n2oapp.framework.config.selective.CompileInfo;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
@@ -56,11 +55,10 @@ public class JsonMetadataTester {
                       String jsonCutPath,
                       List<String> jsonExcludePath,
                       Map<String, Object> jsonChangeValuePaths,
-                      Map<String, String> jsonChangeNodePaths, DataSet queryParams) throws IOException {
-        RoutingResult routeResult = builder.route(route);
-        CompileContext<?,?> context = routeResult.getContext(compiledClass);
-        routeResult.getParams().merge(queryParams);
-        check(jsonUri, context, routeResult.getParams(),
+                      Map<String, String> jsonChangeNodePaths, Map<String, String[]> queryParams) throws IOException {
+        CompileContext<?,?> context = builder.route(route, compiledClass, queryParams);
+        DataSet params = context.getParams(route, queryParams);
+        check(jsonUri, context, params,
                 xmlCutPath, jsonCutPath, jsonExcludePath,
                 jsonChangeValuePaths, jsonChangeNodePaths);
     }
@@ -103,7 +101,7 @@ public class JsonMetadataTester {
             assert result != null : "Result mustn't be null in " + position;
             assert result instanceof Map : "Result must be [Map] in " + position;
             for (Map.Entry<String, Object> resultEntry : ((Map<String, Object>) source).entrySet()) {
-                assertDeepEquals(resultEntry.getValue(), ((Map) result).get(resultEntry.getKey()), !position.isEmpty() ? position + "." + resultEntry.getKey() : resultEntry.getKey());
+                assertDeepEquals(resultEntry.getValue(), ((Map) result).get(NestedUtils.wrapKey(resultEntry.getKey())), !position.isEmpty() ? position + "." + resultEntry.getKey() : resultEntry.getKey());
             }
             Set<String> keys = new HashSet<>(((Map) result).keySet());
             keys.removeAll(((Map) source).keySet());
@@ -117,9 +115,10 @@ public class JsonMetadataTester {
                 assertDeepEquals(((List) source).get(i), ((List) result).get(i), position + "[" + i + "]");
             }
 
-        } else {
+        } else if (source != null) {
             assert source.equals(result) : "Value not equals in " + position + ". Expected " + source + ", but actual " + result;
-        }
+        } else
+            assert result == null;
     }
 
 

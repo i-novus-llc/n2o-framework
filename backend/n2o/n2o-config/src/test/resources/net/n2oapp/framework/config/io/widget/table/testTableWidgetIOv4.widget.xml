@@ -2,24 +2,31 @@
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
        xmlns:ctr="http://n2oapp.net/framework/config/schema/control-2.0"
        name="Моя таблица" query-id="stub" src="testSrc"
-       object-id="stub" icon="testIcon" class="testClass" route="testRoute">
+       object-id="stub" icon="testIcon" class="testClass" route="testRoute" selected="false" master-param="uid"
+       fetch-on-init="true" table-size="lg" scroll-x="300" scroll-y="300" children="expand">
     <columns>
-        <column text-field-id="buttons" label="buttonsTest">
+        <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left">
             <toolbar generate="update,delete" src="test">
-                <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass" confirm="true">
+                <sub-menu style="margin-left:10px;width:300px">
+                    <menu-item style="margin-left:10px;width:300px">
+                        <invoke operation-id="testId" route="route" src="src"
+                                redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
+                    </menu-item>
+                </sub-menu>
+                <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass" confirm="true" confirm-type="popover">
                     <invoke operation-id="testId" route="route" src="src"
-                            redirect-url="/url" redirect-target="newWindow" close-after-success="true"/>
+                            redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
                 </button>
                 <sub-menu generate="update2" class="testClass" icon="testIcon" label="testLabel" type="icon">
                     <menu-item icon="icon" label="label" class="class" action-id="actionId" visible="true"
-                               validate="true" enabling-condition="test" visibility-condition="test"/>
+                               validate="true"/>
                 </sub-menu>
             </toolbar>
         </column>
         <column id="testId" label="labelTest" text-field-id="firstName" sorting-field-id="firstName"
                 sorting-direction="asc"
-                icon="iconTest" visible="true" tooltip-field-id="testTooltip" type="icon" width="200px">
-            <text src="srcTest" class="testClass"/>
+                icon="iconTest" visible="true" tooltip-field-id="testTooltip" type="icon" width="200">
+            <text src="srcTest" class="testClass" style="margin-left:10px;width:300px"/>
         </column>
         <column text-field-id="test2">
             <link src="srcTest" action-id="update">
@@ -44,8 +51,8 @@
             </image>
         </column>
         <column text-field-id="test7">
-            <edit src="test" invoke-action-id="update" type="inline">
-                <ctr:input-text id="test"/>
+            <edit src="test" action-id="update">
+                <input-text id="test"/>
             </edit>
         </column>
         <column text-field-id="test8">
@@ -56,9 +63,9 @@
             </toolbar>
         </column>
         <column text-field-id="test9">
-            <custom>
+            <cell>
                 <close src="test"/>
-            </custom>
+            </cell>
         </column>
         <column text-field-id="test10">
             <badge position="left" text="test" src="test" color="test">
@@ -69,7 +76,7 @@
                 </switch>
             </badge>
         </column>
-        <column text-field-id="test11">
+        <column text-field-id="test11" fixed="right">
             <list color="test" size="3">
                 <switch value-field-id="gender.id">
                     <case value="1">Мужской</case>
@@ -78,8 +85,11 @@
                 </switch>
             </list>
         </column>
+        <column text-field-id="test12">
+            <rating src="test" showTooltip="true" max="3" half="true"/>
+        </column>
     </columns>
-    <rows color-field-id="test">
+    <rows class="test">
         <switch value-field-id="gender.id">
             <case value="1">Мужской</case>
             <case value="2">Женский</case>
@@ -89,10 +99,10 @@
     <pagination src="test" first="false" hide-single-page="false"
                 last="false" next="false" prev="false" show-count="false">
     </pagination>
-    <filters place="left">
-        <input-text id="test"/>
+    <filters place="left" search-on-change="true">
+        <ctr:input-text id="test"/>
         <set src="test">
-            <input-text id="test"/>
+            <ctr:input-text id="test"/>
         </set>
     </filters>
     <actions>
@@ -105,10 +115,10 @@
         <contains field-id="test" values="test1,test2"/>
     </pre-fields>
     <pre-filters>
-        <contains field-id="test" values="test1,test2" value="test"/>
+        <contains field-id="test" values="test1,test2" value="test" routable="true"/>
     </pre-filters>
     <toolbar place="bottomLeft">
-        <button action-id="test1" class="test" icon="test" label="test" type="icon" validate="true">
+        <button action-id="test1" class="test" icon="test" label="test" type="icon" validate="true" tooltip-position="bottom">
             <close src="test"/>
         </button>
         <button action-id="test2" class="test" icon="test" label="test" type="icon">
@@ -116,7 +126,7 @@
         </button>
         <sub-menu>
             <menu-item action-id="test1" icon="test" label="test" class="test" validate="true"/>
-            <menu-item action-id="test2" icon="test" label="test" class="test"/>
+            <menu-item action-id="test2" icon="test" label="test" class="test" tooltip-position="left"/>
             <menu-item action-id="test3" icon="test" label="test" class="test"/>
         </sub-menu>
         <group>
@@ -137,7 +147,7 @@
     </toolbar>
 
     <toolbar place="topLeft">
-        <button action-id="test1" class="test" icon="test" label="test" type="icon" enabling-condition="test"
+        <button action-id="test1" class="test" icon="test" label="test" type="icon" enabling-condition="test" confirm-type="popover"
                 visibility-condition="test">
             <close src="test"/>
         </button>
@@ -154,8 +164,8 @@
             <button action-id="test3" class="test" icon="test" label="test" type="icon">
                 <close src="test"/>
             </button>
-            <sub-menu>
-                <menu-item action-id="test1" icon="test" label="test" class="test"/>
+            <sub-menu style="margin-left:10px;width:300px">
+                <menu-item action-id="test1" icon="test" label="test" class="test" style="margin-left:10px;width:300px"/>
                 <menu-item action-id="test2" icon="test" label="test" class="test"/>
                 <menu-item action-id="test3" icon="test" label="test" class="test"/>
             </sub-menu>

@@ -24,6 +24,11 @@
                     <mandatory id="id4" severity="danger" server-moment="before-operation"/>
                 </validations>
             </input-text>
+            <input-text id="id5">
+                <dependencies>
+                    <visibility>id5</visibility>
+                </dependencies>
+            </input-text>
 
         </fields>
         <toolbar>

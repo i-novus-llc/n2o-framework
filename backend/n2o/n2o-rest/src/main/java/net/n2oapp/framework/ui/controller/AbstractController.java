@@ -9,50 +9,41 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.DomainProcessor;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
-import net.n2oapp.framework.api.register.route.RoutingResult;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
+import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import org.apache.commons.io.IOUtils;
+import net.n2oapp.framework.config.register.route.N2oRouter;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static net.n2oapp.framework.mvc.n2o.N2oServlet.USER;
 
 public abstract class AbstractController {
-    private ObjectMapper objectMapper;
     private MetadataRouter router;
     private MetadataEnvironment environment;
 
-    public AbstractController() {
+    public AbstractController(MetadataEnvironment environment) {
+        this.environment = environment;
+        this.router = new N2oRouter(environment, environment.getReadCompilePipelineFunction().apply(new N2oPipelineSupport(environment)));
     }
 
-    public AbstractController(ObjectMapper objectMapper, MetadataRouter router, ReadCompileBindTerminalPipeline pipeline, DomainProcessor domainProcessor) {
-        this.objectMapper = objectMapper;
-        this.router = router;
-    }
-
-    public void setObjectMapper(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
-    public void setRouter(MetadataRouter router) {
+    public AbstractController(MetadataEnvironment environment, MetadataRouter router) {
+        this.environment = environment;
         this.router = router;
     }
 
@@ -60,11 +51,14 @@ public abstract class AbstractController {
         this.environment = environment;
     }
 
+    public void setRouter(MetadataRouter router) {
+        this.router = router;
+    }
+
     @SuppressWarnings("unchecked")
     protected ActionRequestInfo createActionRequestInfo(String path, Map<String, String[]> params, Object body, UserContext user) {
-        RoutingResult result = router.get(path);
-        DataSet queryData = getQueryData(params, result);
-        ActionContext actionCtx = (ActionContext) result.getContext(CompiledObject.class);
+        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, params);
+        DataSet queryData = actionCtx.getParams(path, params);
         CompiledObject object = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(actionCtx, queryData);
@@ -74,13 +68,21 @@ public abstract class AbstractController {
         requestInfo.setUser(user);
         requestInfo.setObject(object);
         requestInfo.setOperation(operation);
-        requestInfo.setData((DataSet) body);
+        requestInfo.setData(convertToDataSet(body));
         requestInfo.setRedirect(actionCtx.getRedirect());
+        requestInfo.setMessageOnSuccess(actionCtx.isMessageOnSuccess());
+        requestInfo.setMessageOnFail(actionCtx.isMessageOnFail());
         requestInfo.setSuccessAlertWidgetId(actionCtx.getSuccessAlertWidgetId());
         requestInfo.setFailAlertWidgetId(actionCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(actionCtx.getMessagesForm());
         //requestInfo.setChoice(); todo
         return requestInfo;
+    }
+
+    private DataSet convertToDataSet(Object body) {
+        if (body instanceof DataSet)
+            return (DataSet) body;
+        return new DataSet((Map<? extends String, ?>) body);
     }
 
     private void prepareSelectedId(QueryRequestInfo requestInfo) {
@@ -115,9 +117,9 @@ public abstract class AbstractController {
         DataSet sortingsData = data.getDataSet("sorting");
         if (sortingsData == null)
             return sortings;
-        for (Map.Entry<String, Object> entry : sortingsData.entrySet()) {
-            String fieldId = sortingMap == null || !sortingMap.containsKey(entry.getKey()) ? entry.getKey() : sortingMap.get(entry.getKey());
-            String value = (String) entry.getValue();
+        for (String key : sortingsData.flatKeySet()) {
+            String fieldId = sortingMap == null || !sortingMap.containsKey(key) ? key : sortingMap.get(key);
+            String value = sortingsData.getString(key);
             Direction direction = value != null ? Direction.valueOf(value.toUpperCase()) : Direction.ASC;
             sortings.add(new Sorting(fieldId, direction));
         }
@@ -132,9 +134,8 @@ public abstract class AbstractController {
                 if (query.getInvertFiltersMap().containsKey(filterId)) {
                     Map.Entry<String, FilterType> typeEntry = query.getInvertFiltersMap().get(filterId);
                     String fieldId = typeEntry.getKey();
-                    N2oQuery.Field field = query.getFieldsMap().get(fieldId);
                     FilterType filterType = typeEntry.getValue();
-                    Restriction restriction = new Restriction(fieldId, environment.getDomainProcessor().doDomainConversion(field.getDomain(), value), filterType);
+                    Restriction restriction = new Restriction(fieldId, value, filterType);
                     criteria.addRestriction(restriction);
                 } else {
                     criteria.putAdditionalField(filterId, value);
@@ -143,11 +144,11 @@ public abstract class AbstractController {
         }
     }
 
+    @Deprecated
     protected QueryRequestInfo createQueryRequestInfo(HttpServletRequest request) {
         CompiledQuery query;
-        RoutingResult result = getRoutingResult(request);
-        DataSet data = getQueryData(request, result);
-        QueryContext queryCtx = (QueryContext) result.getContext(CompiledQuery.class);
+        QueryContext queryCtx = (QueryContext) getRoutingResult(request, CompiledQuery.class);
+        DataSet data = queryCtx.getParams(request.getPathInfo(), request.getParameterMap());
         query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(queryCtx, data);
@@ -167,9 +168,8 @@ public abstract class AbstractController {
 
     protected QueryRequestInfo createQueryRequestInfo(String path, Map<String, String[]> params, UserContext user) {
         CompiledQuery query;
-        RoutingResult result = router.get(path);
-        DataSet data = getQueryData(params, result);
-        QueryContext queryCtx = (QueryContext) result.getContext(CompiledQuery.class);
+        QueryContext queryCtx = (QueryContext) router.get(path, CompiledQuery.class, params);
+        DataSet data = queryCtx.getParams(path, params);
         query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(queryCtx, data);
@@ -182,24 +182,9 @@ public abstract class AbstractController {
         requestInfo.setSuccessAlertWidgetId(queryCtx.getSuccessAlertWidgetId());
         requestInfo.setFailAlertWidgetId(queryCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(queryCtx.getMessagesForm());
+        requestInfo.setSize(requestInfo.getCriteria().getSize());
         prepareSelectedId(requestInfo);
         return requestInfo;
-    }
-
-    private Object getBody(HttpServletRequest request) {
-        try {
-            if (request.getReader() == null) return new DataSet();
-            String body = IOUtils.toString(request.getReader()).trim();
-            if (body.startsWith("[")) {
-                return objectMapper.<List<DataSet>>readValue(body,
-                        objectMapper.getTypeFactory().constructCollectionType(List.class, DataSet.class)
-                );
-            } else {
-                return objectMapper.readValue(body, DataSet.class);
-            }
-        } catch (IOException e) {
-            throw new N2oException(e);
-        }
     }
 
     private UserContext getUser(HttpServletRequest req) {
@@ -209,38 +194,8 @@ public abstract class AbstractController {
         return user;
     }
 
-    private <D extends Compiled> RoutingResult getRoutingResult(HttpServletRequest req) {
+    private <D extends Compiled> CompileContext<D, ?> getRoutingResult(HttpServletRequest req, Class<D> compiledClass) {
         String path = req.getPathInfo();
-        return router.get(path);
-    }
-
-    private <D extends Compiled> RoutingResult getRoutingResult(String url) {
-        return router.get(url);
-    }
-
-    private <D extends Compiled> DataSet getQueryData(HttpServletRequest req, RoutingResult routingResult) {
-        DataSet data = new DataSet();
-        data.putAll(routingResult.getParams());
-        req.getParameterMap().forEach((k, v) -> {
-            if (v.length == 1) {
-                data.put(k, v[0]);
-            } else {
-                data.put(k, Arrays.asList(v));
-            }
-        });
-        return data;
-    }
-
-    private <D extends Compiled> DataSet getQueryData(Map<String, String[]> params, RoutingResult routingResult) {
-        DataSet data = new DataSet();
-        data.putAll(routingResult.getParams());
-        params.forEach((k, v) -> {
-            if (v.length == 1) {
-                data.put(k, v[0]);
-            } else {
-                data.put(k, Arrays.asList(v));
-            }
-        });
-        return data;
+        return router.get(path, compiledClass, req.getParameterMap());
     }
 }

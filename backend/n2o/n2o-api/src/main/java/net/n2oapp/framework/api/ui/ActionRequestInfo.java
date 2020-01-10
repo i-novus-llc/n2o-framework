@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.ui;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -11,10 +13,10 @@ import java.util.stream.Collectors;
 import static java.util.Collections.emptyList;
 
 /**
- * User: operhod
- * Date: 17.07.14
- * Time: 15:17
+ * Информация о запросе вызова операции
  */
+@Getter
+@Setter
 public class ActionRequestInfo<D> extends RequestInfo {
 
     //immutable
@@ -23,6 +25,8 @@ public class ActionRequestInfo<D> extends RequestInfo {
     private String choice;
     private boolean isBulk;
     private RedirectSaga redirect;
+    private boolean messageOnSuccess = true;
+    private boolean messageOnFail = true;
 
     //mutable
     private Map<String, N2oObject.Parameter> inParametersMap = new LinkedHashMap<>();
@@ -31,10 +35,6 @@ public class ActionRequestInfo<D> extends RequestInfo {
      * "Сырые" данные, не приведенные к домену
      */
     private D data;
-
-    public void setObject(CompiledObject object) {
-        this.object = object;
-    }
 
     public void setOperation(CompiledObject.Operation operation) {
         this.operation = operation;
@@ -49,52 +49,6 @@ public class ActionRequestInfo<D> extends RequestInfo {
                 outParametersMap.put(paramName, new N2oObject.Parameter(srcParam));
             }
     }
-
-    public Map<String, N2oObject.Parameter> getInParametersMap() {
-        return inParametersMap;
-    }
-
-    public Map<String, N2oObject.Parameter> getOutParametersMap() {
-        return outParametersMap;
-    }
-
-    public void setChoice(String choice) {
-        this.choice = choice;
-    }
-
-    public void setBulk(boolean isBulk) {
-        this.isBulk = isBulk;
-    }
-
-    public void setData(D data) {
-        this.data = data;
-    }
-
-    public boolean isBulk() {
-        return data instanceof Collection || isBulk;
-    }
-
-    public D getData() {
-        return data;
-    }
-
-    public String getChoice() {
-        return choice;
-    }
-
-    public CompiledObject getObject() {
-        return object;
-    }
-
-    public CompiledObject.Operation getOperation() {
-        return operation;
-    }
-
-
-    public boolean isValidationEnable() {
-        return getOperation() != null && getOperation().isReal() && getOperation().isValidationEnable();
-    }
-
 
     /**
      * Если bulk, то разбиваем на более простые "запросы"
@@ -119,11 +73,4 @@ public class ActionRequestInfo<D> extends RequestInfo {
                 .collect(Collectors.toList());
     }
 
-    public RedirectSaga getRedirect() {
-        return redirect;
-    }
-
-    public void setRedirect(RedirectSaga redirect) {
-        this.redirect = redirect;
-    }
 }

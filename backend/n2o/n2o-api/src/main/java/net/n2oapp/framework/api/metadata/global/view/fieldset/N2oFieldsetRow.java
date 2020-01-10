@@ -1,39 +1,18 @@
 package net.n2oapp.framework.api.metadata.global.view.fieldset;
 
-import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import lombok.Getter;
+import lombok.Setter;
+import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.CssClassAware;
 
 /**
  * Исходная модель строки филдсета
  */
-public class N2oFieldsetRow implements Source, NamespaceUriAware {
-    private String classRow;
+@Getter
+@Setter
+public class N2oFieldsetRow implements SourceComponent, CssClassAware {
+    private String cssClass;
+    private String style;
     private String namespaceUri;
-    private NamespaceUriAware[] items;
-
-    public NamespaceUriAware[] getItems() {
-        return items;
-    }
-
-    public void setItems(NamespaceUriAware[] items) {
-        this.items = items;
-    }
-
-    public String getClassRow() {
-        return classRow;
-    }
-
-    public void setClassRow(String classRow) {
-        this.classRow = classRow;
-    }
-
-    @Override
-    public String getNamespaceUri() {
-        return namespaceUri;
-    }
-
-    @Override
-    public void setNamespaceUri(String namespaceUri) {
-        this.namespaceUri = namespaceUri;
-    }
+    private SourceComponent[] items;
 }

@@ -15,6 +15,12 @@ import java.util.ArrayList;
  */
 @Component
 public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRegion> {
+
+    @Override
+    protected String getPropertyRegionSrc() {
+        return "n2o.api.region.tabs.src";
+    }
+
     @Override
     public Class<N2oTabsRegion> getSourceClass() {
         return N2oTabsRegion.class;
@@ -24,10 +30,10 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     public TabsRegion compile(N2oTabsRegion source, PageContext context, CompileProcessor p) {
         TabsRegion region = new TabsRegion();
         build(region, source, context, p);
-        region.setSrc("TabsRegion");
         region.setTabs(new ArrayList<>());
         region.setPlace(source.getPlace());
-        region.setItems(initItems(source, context, p, TabsRegion.Tab.class));
+        region.setItems(initItems(source, p, TabsRegion.Tab.class));
+        region.setAlwaysRefresh(source.getAlwaysRefresh() != null ? source.getAlwaysRefresh() : false);
         return region;
     }
 
@@ -36,8 +42,19 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         TabsRegion.Tab tab = new TabsRegion.Tab();
         boolean first = index.isFirst();
         tab.setId("tab" + index.get());
-        tab.setLabel(widget.getName());
-        tab.setIcon(widget.getIcon());
+
+        String label = null;
+        String icon = null;
+        if (widget.getRefId() != null) {
+            N2oWidget referable = p.getSource(widget.getRefId(), widget.getClass());
+            if (referable != null) {
+                label = referable.getName();
+                icon = referable.getIcon();
+            }
+        }
+        tab.setLabel(p.cast(widget.getName(), label));
+        tab.setIcon(p.cast(widget.getIcon(), icon));
+
         tab.setOpened(p.cast(widget.getOpened(), first ? true : null, false));
         tab.setFetchOnInit(tab.getOpened());
         tab.setProperties(p.mapAttributes(widget));

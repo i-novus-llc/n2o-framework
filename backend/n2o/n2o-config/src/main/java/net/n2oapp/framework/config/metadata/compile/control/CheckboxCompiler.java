@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.control;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.control.plain.CheckboxDefaultValueEnum;
 import net.n2oapp.framework.api.metadata.control.plain.N2oCheckbox;
 import net.n2oapp.framework.api.metadata.meta.control.Checkbox;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -24,10 +25,25 @@ public class CheckboxCompiler extends StandardFieldCompiler<Checkbox, N2oCheckbo
     @Override
     public StandardField<Checkbox> compile(N2oCheckbox source, CompileContext<?,?> context, CompileProcessor p) {
         Checkbox checkbox = new Checkbox();
-        checkbox.setControlSrc(p.cast(checkbox.getControlSrc(), p.resolve(property("n2o.api.control.checkbox.src"), String.class)));
+        CheckboxDefaultValueEnum defaultUnchecked = p.resolve(property("n2o.api.control.checkbox.unchecked"), CheckboxDefaultValueEnum.class);
+        if (source.getUnchecked() != null && source.getUnchecked().equals(CheckboxDefaultValueEnum.FALSE) ||
+                source.getUnchecked() == null && defaultUnchecked != null && defaultUnchecked.equals(false)) {
+            checkbox.setDefaultUnchecked(CheckboxDefaultValueEnum.FALSE.getId());
+            if (source.getDefaultValue() == null)
+                source.setDefaultValue("false");
+        } else {
+            checkbox.setDefaultUnchecked(CheckboxDefaultValueEnum.NULL.getId());
+        }
         StandardField<Checkbox> field = compileStandardField(checkbox, source, context, p);
-        checkbox.setLabel(p.resolveJS(field.getLabel()));
+        if (field.getLabel() != null) {
+            checkbox.setLabel(p.resolveJS(field.getLabel()));
+        }
         field.setLabel(null);
         return field;
+    }
+
+    @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.checkbox.src";
     }
 }

@@ -3,11 +3,11 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
+import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
-import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -20,13 +20,10 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ToolbarCrudCompileTest extends SourceCompileTestBase {
@@ -52,21 +49,14 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/widgets/testToolbarCrudCompile.widget.xml");
         Form form = (Form) pipeline.get(new WidgetContext("testToolbarCrudCompile"));
 
-        Iterator<RouteInfo> iterator = builder.getEnvironment().getRouteRegister().iterator();
-        List<RouteInfo> routeInfos = new ArrayList<>();
-        while (iterator.hasNext()) {
-            RouteInfo info = iterator.next();
-            if (info.getContext() instanceof ModalPageContext)
-                routeInfos.add(info);
-        }
-
-        assertThat(routeInfos.size(), is(2));
-        assertThat(((ModalPageContext) routeInfos.get(0).getContext()).getPageName(), is("Пустой объект для unit тестов - Создание"));
-        assertThat(((ModalPageContext) routeInfos.get(1).getContext()).getPageName(), is("Пустой объект для unit тестов - Изменение"));
+        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/create", Page.class, null))
+                .getPageName(), is("Пустой объект для unit тестов - Создание"));
+        assertThat(((ModalPageContext) builder.route("/testToolbarCrudCompile/1/update", Page.class, null))
+                .getPageName(), is("Пустой объект для unit тестов - Изменение"));
 
         assertThat(form.getToolbar().size(), is(2));
         assertThat(form.getToolbar().get("topLeft").get(0).getButtons().size(), is(4));
-        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(2));
+        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(1));
         List<String> buttonsId = form.getToolbar().get("topLeft").get(0)
                 .getButtons().stream().map(Button::getId).collect(Collectors.toList());
         List<String> buttonsLabel = form.getToolbar().get("topLeft").get(0)
@@ -97,8 +87,7 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
             }
         }
 
-        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(0).getConfirm(), nullValue());
-        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(1).getConfirm(), nullValue());
+        assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().get(0).getConfirm(), notNullValue());//action2
     }
 
     @Test
@@ -114,7 +103,8 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
         CloseAction close = (CloseAction) page.getActions().get("close");
 
         assertThat(close.getId(), Matchers.is("close"));
-        assertThat(close.getOptions().getType(), Matchers.is("n2o/modals/DESTROY"));
+        assertThat(close.getOptions().getType(), Matchers.is("n2o/modals/CLOSE"));
+        assertThat(((CloseActionPayload) close.getOptions().getPayload()).getPrompt(), Matchers.is(true));
 //        assertThat(close.getOptions().getMeta().getRedirect().getPath(), is("/test/:id"));
 //        assertThat(close.getOptions().getMeta().getRedirect().getTarget(), is(RedirectTargetType.application));
 //        assertThat(close.getOptions().getMeta().getRedirect().getPathMapping().get("id").getBindLink(), is("models.resolve['testCloseActionModal_update_main'].id"));

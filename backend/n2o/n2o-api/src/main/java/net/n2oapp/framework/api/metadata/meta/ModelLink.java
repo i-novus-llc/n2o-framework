@@ -1,8 +1,10 @@
 package net.n2oapp.framework.api.metadata.meta;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 
 /**
  * Ссылка на модель виджета
@@ -12,46 +14,100 @@ public class ModelLink extends BindLink {
     private ReduxModel model;
     private String widgetId;
     private String fieldId;
+    @Setter
+    private SubModelQuery subModelQuery;
+    @Setter
     private String param;
-    private String queryId;
 
     public ModelLink(Object value) {
         setValue(value);
     }
 
+    public ModelLink(ModelLink link) {
+        super(createBindLink(link.model, link.widgetId, link.fieldId));
+        this.model = link.model;
+        this.widgetId = link.widgetId;
+        this.fieldId = link.fieldId;
+        setValue(link.getValue());
+        setSubModelQuery(link.subModelQuery);
+        setParam(link.param);
+    }
+
     public ModelLink(ReduxModel model, String widgetId) {
-        super(String.format("models.%s['%s']", model.getId(), widgetId));
+        super(createBindLink(model, widgetId, null));
         this.model = model;
         this.widgetId = widgetId;
     }
 
     public ModelLink(ReduxModel model, String widgetId, String fieldId) {
-        //todo если поле genders*.id то нужно его превращать через js в массив и сетить в value
-        super(fieldId == null ? String.format("models.%s['%s']", model.getId(), widgetId) : String.format("models.%s['%s'].%s",
-                model.getId(), widgetId, fieldId));
+        super(createBindLink(model, widgetId, fieldId));
         this.model = model;
         this.widgetId = widgetId;
         this.fieldId = fieldId;
     }
 
-    public ModelLink(ReduxModel model, String widgetId, String fieldId, String param) {
-        this(model, widgetId, fieldId);
-        this.param = param;
-    }
+    public String getFieldId() {
+        if (fieldId != null) return fieldId;
+        if (getFieldValue() != null && getFieldValue().contains(".map(function(t){return t."))
+            return getFieldValue().substring(0, getFieldValue().indexOf("."));
 
-    public ModelLink(ReduxModel model, String widgetId, String fieldId, String param, String queryId) {
-        this(model, widgetId, fieldId, param);
-        this.queryId = queryId;
+        return fieldId != null ? fieldId : getFieldValue();
     }
 
     /**
-     * Проверяет является ли BindLink ссылкой на другой объект в redux или это константное значение
-     * @return   true, если является ссылкой
+     * Получить ссылку на модель виджета*
      */
-    public boolean isLink(){
-        if (getBindLink() == null && !StringUtils.isJs(getValue()))
+    public ModelLink getWidgetLink() {
+        if (getModel() == null || getWidgetId() == null)
+            return null;
+        ModelLink widgetLink = new ModelLink(getModel(), getWidgetId());
+        if (getFieldId() == null || getFieldId().equals("id")) {
+            widgetLink.setSubModelQuery(getSubModelQuery());
+        }
+        return widgetLink;
+    }
+
+    /**
+     * Эквивалентны ли ссылки на модели.
+     *
+     * @param o Ссылка
+     * @return true - эквивалентны, false - нет
+     */
+    @Override
+    public boolean equalsLink(Object o) {
+        if (o == null || o.getClass() != this.getClass())
             return false;
-        return true;
+        ModelLink that = (ModelLink) o;
+        if (model == null || widgetId == null || that.model == null || that.widgetId == null)
+            return false;
+
+        String thisSubModelQueryLink;
+        String thatSubModelQueryLink;
+
+        String thisFieldId = this.getFieldId();
+        if (this.getSubModelQuery() != null)
+            thisFieldId = this.getSubModelQuery().getSubModel();
+        thisSubModelQueryLink = createBindLink(this.getModel(), this.getWidgetId(), thisFieldId);
+
+        String thatFieldId = that.getFieldId();
+        if (that.getSubModelQuery() != null)
+            thatFieldId = that.getSubModelQuery().getSubModel();
+        thatSubModelQueryLink = createBindLink(that.getModel(), that.getWidgetId(), thatFieldId);
+
+        if (thisSubModelQueryLink.length() > thatSubModelQueryLink.length()) {
+            return thisSubModelQueryLink.startsWith(thatSubModelQueryLink + ".");
+        } else if (thisSubModelQueryLink.length() < thatSubModelQueryLink.length()) {
+            return thatSubModelQueryLink.startsWith(thisSubModelQueryLink + ".");
+        } else
+            return thisSubModelQueryLink.equals(thatSubModelQueryLink);
+    }
+
+    private static String createBindLink(ReduxModel model, String widgetId, String fieldId) {
+        if (model == null)
+            return null;
+        return fieldId == null
+                ? String.format("models.%s['%s']", model.getId(), widgetId)
+                : String.format("models.%s['%s'].%s", model.getId(), widgetId, fieldId);
     }
 
     @Override

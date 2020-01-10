@@ -8,13 +8,18 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.control.TextArea;
 import org.springframework.stereotype.Component;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция многосточного текстового поля
+ * Компиляция многострочного текстового поля
  */
 @Component
 public class TextAreaCompiler extends StandardFieldCompiler<TextArea, N2oTextArea> {
+
+    @Override
+    protected String getControlSrcProperty() {
+        return "n2o.api.control.text_area.src";
+    }
+
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oTextArea.class;
@@ -23,8 +28,8 @@ public class TextAreaCompiler extends StandardFieldCompiler<TextArea, N2oTextAre
     @Override
     public StandardField<TextArea> compile(N2oTextArea source, CompileContext<?, ?> context, CompileProcessor p) {
         TextArea textArea = new TextArea();
-        textArea.setControlSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.control.text_area.src"), String.class)));
         textArea.setRows(source.getRows());
+        textArea.setPlaceholder(source.getPlaceholder());
         return compileStandardField(textArea, source, context, p);
     }
 }

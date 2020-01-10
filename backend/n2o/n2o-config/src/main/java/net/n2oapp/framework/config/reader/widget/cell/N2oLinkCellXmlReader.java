@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.reader.widget.cell;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLink;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttribut
  * Считывает ячейку таблицы с ссылкой
  */
 @Component
-public class N2oLinkCellXmlReader extends AbstractN2oCellXmlReader<N2oLink> {
+public class N2oLinkCellXmlReader extends AbstractN2oCellXmlReader<N2oLinkCell> {
 
     @Override
     public String getElementName() {
@@ -19,9 +19,9 @@ public class N2oLinkCellXmlReader extends AbstractN2oCellXmlReader<N2oLink> {
     }
 
     @Override
-    public N2oLink read(Element element) {
+    public N2oLinkCell read(Element element) {
         if (element == null) return null;
-        N2oLink res = new N2oLink();
+        N2oLinkCell res = new N2oLinkCell();
         res.setId(getAttributeString(element, "id"));
         if (element.getChildren() != null && !element.getChildren().isEmpty()) {
             res.setAction((N2oAction) readerFactory.produce((Element) element.getChildren().get(0),
@@ -31,8 +31,8 @@ public class N2oLinkCellXmlReader extends AbstractN2oCellXmlReader<N2oLink> {
     }
 
     @Override
-    public Class<N2oLink> getElementClass() {
-        return N2oLink.class;
+    public Class<N2oLinkCell> getElementClass() {
+        return N2oLinkCell.class;
     }
 
     @Override

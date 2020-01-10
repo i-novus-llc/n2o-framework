@@ -31,7 +31,7 @@ public class HtmlControlJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testHtmlEditor.widget.xml",
                 "components/controls/Html/Html.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
-                .exclude("src", "disabled", "visible")
+                .exclude("src", "disabled", "visible", "id")
                 .assertEquals(new WidgetContext("testHtmlEditor"));
     }
 

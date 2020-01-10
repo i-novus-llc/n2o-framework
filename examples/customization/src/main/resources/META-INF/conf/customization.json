@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Audi S6",
+    "engine": 4,
+    "power": 420
+  },
+  {
+    "id": 2,
+    "name": "Mercedes-Benz C 63 AMG Coupe",
+    "engine": 6.2,
+    "power": 257
+  },
+  {
+    "id": 3,
+    "name": "Range Rover Supercharged",
+    "engine": 5,
+    "power": 510
+  },
+  {
+    "id": 4,
+    "name": "Jeep Grand Cherokee SRT8",
+    "engine": 6.4,
+    "power": 468
+  },
+  {
+    "id": 5,
+    "name": "BMW Z4 sDrive28",
+    "engine": 2,
+    "power": 245
+  },
+  {
+    "id": 6,
+    "name": "Lexus GS 450h",
+    "engine": 3.5,
+    "power": 345
+  }
+]

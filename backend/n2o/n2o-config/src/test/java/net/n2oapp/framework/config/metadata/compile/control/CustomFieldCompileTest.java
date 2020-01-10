@@ -1,8 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
-import net.n2oapp.framework.api.metadata.meta.control.Field;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -12,6 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -35,9 +36,11 @@ public class CustomFieldCompileTest extends SourceCompileTestBase {
     public void testField() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testCustomFieldCompile.widget.xml")
                 .get(new WidgetContext("testCustomFieldCompile"));
-        Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        CustomField field = (CustomField)form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("testId"));
         assertThat(field.getSrc(), is("testSrc"));
+        assertThat(field.getLabel(), is("testLabel"));
+        assertThat(field.getDescription(), is("testDescription"));
 
         ControlDependency dependency = field.getDependencies().get(0);
         assertThat(dependency.getType(), is(ValidationType.reRender));
@@ -48,6 +51,32 @@ public class CustomFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getJsonProperties().get("sendEmailUrl"), is("/send/email"));
         assertThat(field.getJsonProperties().get("sendCodeUrl"), is("/send/code"));
         assertThat(field.getJsonProperties().get("codeVerified"), is("{emailSender.status=='send'}"));
+
+        assertThat(field.getControls(), nullValue());
+        assertThat(field.getControl(), instanceOf(CustomControl.class));
+
+
+        CustomField customField = (CustomField)form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+        assertThat(customField.getId(), is("testId2"));
+        assertThat(customField.getSrc(), is("StandardField"));
+
+        assertThat(customField.getControl(), nullValue());
+        assertThat(customField.getControls(), notNullValue());
+        assertThat(customField.getControls().size(), is(2));
+
+        assertThat(customField.getControls().get(0), instanceOf(SearchButtons.class));
+        assertThat(customField.getControls().get(1), instanceOf(Text.class));
+
+
+        CustomField customField3 = (CustomField)form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
+        assertThat(customField3.getId(), is("testId3"));
+        assertThat(customField3.getSrc(), is("StandardField"));
+        assertThat(customField3.getControl(), instanceOf(CustomField.class));
+        CustomField customField31 = (CustomField)customField3.getControl();
+        assertThat(customField31.getId(), is("testId31"));
+        assertThat(customField31.getSrc(), is("StandardField"));
+
+        assertThat(customField31.getControl(), instanceOf(InputText.class));
     }
 
 }

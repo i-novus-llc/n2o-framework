@@ -1,32 +1,54 @@
 package net.n2oapp.framework.engine.data.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyType;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider.PrimaryKeyType.integer;
 
 /**
  * Тестовый провайдер данных из json файла
  */
-@Component
 public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataProvider>, ResourceLoaderAware {
+
+    /**
+     * Путь к файлу для чтения с диска
+     */
+    private String pathOnDisk;
+    /**
+     * Путь к ресурсу в classpath
+     */
+    private String classpathResourcePath;
 
     private ResourceLoader resourceLoader = new DefaultResourceLoader();
     private final Map<String, List<DataSet>> repository = new ConcurrentHashMap<>();
     private final Map<String, AtomicLong> sequences = new ConcurrentHashMap<>();
+    private ObjectMapper objectMapper;
+
+    public TestDataProviderEngine() {
+        objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    }
 
     @Override
     public Class<? extends N2oTestDataProvider> getType() {
@@ -35,7 +57,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     @Override
     public Object invoke(N2oTestDataProvider invocation, Map<String, Object> inParams) {
-        return execute(invocation, inParams, getData(invocation.getFile()));
+        return execute(invocation, inParams, getData(invocation));
     }
 
     private Object execute(N2oTestDataProvider invocation,
@@ -77,6 +99,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     private DataSet findOne(Map<String, Object> inParams, List<DataSet> data) {
         List<String> filters = (List<String>) inParams.get("filters");
+        if (filters == null)
+            filters = inParams.keySet().stream().map(k -> k + " :eq :" + k).collect(Collectors.toList());
         List<DataSet> modifiableData = new ArrayList<>(data);
         modifiableData = filter(filters, inParams, modifiableData);
         return modifiableData.isEmpty() ? null : modifiableData.get(0);
@@ -85,15 +109,15 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     private Object create(N2oTestDataProvider invocation,
                           Map<String, Object> inParams,
                           List<DataSet> data) {
-
         List<DataSet> modifiableData = new ArrayList<>(data);
         DataSet newElement = new DataSet();
-        newElement.put("id", sequences.get(invocation.getFile()).incrementAndGet());
+        newElement.put(invocation.getPrimaryKey(), generateKey(invocation.getPrimaryKeyType(), invocation.getFile()));
 
         updateElement(newElement, inParams.entrySet());
 
         modifiableData.add(0, newElement);
         updateRepository(invocation.getFile(), modifiableData);
+        updateFile(invocation.getFile());
 
         return newElement;
     }
@@ -102,18 +126,18 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                           Map<String, Object> inParams,
                           List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList<>(data);
-        if (inParams.get("id") == null)
+        if (inParams.get(invocation.getPrimaryKey()) == null)
             throw new N2oException("Id is required for operation \"update\"");
-        Long id = ((Number) inParams.get("id")).longValue();
 
         DataSet element = modifiableData
                 .stream()
-                .filter(v -> id.equals(((Number)v.get("id")).longValue()))
+                .filter(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(), inParams))
                 .findFirst()
                 .orElseThrow(() -> new N2oException("No such element"));
 
         updateElement(element, inParams.entrySet());
         updateRepository(invocation.getFile(), modifiableData);
+        updateFile(invocation.getFile());
 
         return null;
     }
@@ -122,13 +146,30 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                           Map<String, Object> inParams,
                           List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList(data);
-        if (inParams.get("id") == null)
+        if (inParams.get(invocation.getPrimaryKey()) == null)
             throw new N2oException("Id is required for operation \"delete\"");
-        Long id = ((Number) inParams.get("id")).longValue();
 
-        modifiableData.removeIf(elem -> id.equals(((Number)elem.get("id")).longValue()));
+        modifiableData.removeIf(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(), inParams));
         updateRepository(invocation.getFile(), modifiableData);
+        updateFile(invocation.getFile());
+
         return null;
+    }
+
+
+    private static Predicate<DataSet> buildPredicate(PrimaryKeyType primaryKeyType, String primaryKeyFieldId, Map<String, Object> data) {
+        if (integer.equals(primaryKeyType))
+            return obj -> ((Number) data.get(primaryKeyFieldId)).longValue() == ((Number) obj.get(primaryKeyFieldId)).longValue();
+        else
+            return obj -> data.get(primaryKeyFieldId).equals(obj.get(primaryKeyFieldId));
+    }
+
+    private Object generateKey(PrimaryKeyType primaryKeyType, String fileName) {
+        if (integer.equals(primaryKeyType)) {
+            return sequences.get(fileName).incrementAndGet();
+        } else {
+            return UUID.randomUUID().toString();
+        }
     }
 
     private Map updateElement(Map element, Set<Map.Entry<String, Object>> fields) {
@@ -161,75 +202,96 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             if (filter.contains(":eq")) {
                 String[] splittedFilter = filter.replaceAll(" ", "").split(":eq");
                 Object pattern = inParams.get(splittedFilter[1].replace(":", ""));
-                data = data
-                        .stream()
-                        .filter(m -> {
-                            if (!m.containsKey(splittedFilter[0]))
-                                return false;
-                            if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number)
-                                return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).equals(((Number) pattern).longValue());
-                            return m.get(splittedFilter[0]).toString().equals(pattern.toString());
-                        })
-                        .collect(Collectors.toList());
+                if (pattern != null) {
+                    data = data
+                            .stream()
+                            .filter(m -> {
+                                if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                                    return false;
+                                if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number)
+                                    return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).equals(((Number) pattern).longValue());
+                                return m.get(splittedFilter[0]).toString().equals(pattern.toString());
+                            })
+                            .collect(Collectors.toList());
+                }
             } else if (filter.contains(":like")) {
                 String[] splittedFilter = filter.replaceAll(" ", "").split(":like");
                 String pattern = inParams.get(splittedFilter[1].replace(":", "")).toString();
-                data = data
-                        .stream()
-                        .filter(m -> {
-                            if (!m.containsKey(splittedFilter[0]))
-                                return false;
-                            return ((m.get(splittedFilter[0]))).toString().toLowerCase()
-                                    .contains(pattern.toLowerCase());
-                        })
-                        .collect(Collectors.toList());
+                if (pattern != null) {
+                    data = data
+                            .stream()
+                            .filter(m -> {
+                                if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                                    return false;
+                                return ((m.get(splittedFilter[0]))).toString().toLowerCase()
+                                        .contains(pattern.toLowerCase());
+                            })
+                            .collect(Collectors.toList());
+                }
             } else if (filter.contains(":in")) {
                 String[] splittedFilter = filter.replaceAll(" ", "").split(":in");
-                List patterns = (List) inParams.get(splittedFilter[1].replace(":", ""));
-                data = data
-                        .stream()
-                        .filter(m -> {
-                            if (!m.containsKey(splittedFilter[0]))
+                Object paramsValue = inParams.get(splittedFilter[1].replace(":", ""));
+                List patterns = paramsValue instanceof List ? (List) paramsValue : Arrays.asList(paramsValue);
+                if (patterns != null) {
+                    data = data
+                            .stream()
+                            .filter(m -> {
+                                if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                                    return false;
+                                if (m.get(splittedFilter[0]) instanceof Number) {
+                                    List<Long> longPatterns = new ArrayList<>();
+                                    patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
+                                    return longPatterns.contains(((Number) m.get(splittedFilter[0])).longValue());
+                                }
+                                for (Object p : patterns) {
+                                    if (p.toString().equals(m.get(splittedFilter[0]).toString()))
+                                        return true;
+                                }
                                 return false;
-                            if (m.get(splittedFilter[0]) instanceof Number) {
-                                List<Long> longPatterns = new ArrayList<>();
-                                patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
-                                return longPatterns.contains(((Number) m.get(splittedFilter[0])).longValue());
-                            }
-                            for (Object p : patterns) {
-                                if (p.toString().equals(m.get(splittedFilter[0]).toString()))
-                                    return true;
-                            }
-                            return false;
-                        })
-                        .collect(Collectors.toList());
+                            })
+                            .collect(Collectors.toList());
+                }
             } else if (filter.contains(":more")) {
                 String[] splittedFilter = filter.replaceAll(" ", "").split(":more");
                 Comparable pattern = (Comparable) inParams.get(splittedFilter[1].replace(":", ""));
-                data = data
-                        .stream()
-                        .filter(m -> {
-                            if (!m.containsKey(splittedFilter[0]))
-                                return false;
-                            if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number) {
-                                return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).compareTo(((Number) pattern).longValue()) > 0;
-                            }
-                            return ((m.get(splittedFilter[0]).toString())).compareTo(pattern.toString()) > 0;
-                        })
-                        .collect(Collectors.toList());
+                if (pattern != null) {
+                    data = data
+                            .stream()
+                            .filter(m -> {
+                                if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                                    return false;
+                                if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number) {
+                                    return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).compareTo(((Number) pattern).longValue()) > 0;
+                                }
+                                return ((m.get(splittedFilter[0]).toString())).compareTo(pattern.toString()) > 0;
+                            })
+                            .collect(Collectors.toList());
+                }
             } else if (filter.contains(":less")) {
                 String[] splittedFilter = filter.replaceAll(" ", "").split(":less");
                 Comparable pattern = (Comparable) inParams.get(splittedFilter[1].replace(":", ""));
-                data = data
-                        .stream()
-                        .filter(m -> {
-                            if (!m.containsKey(splittedFilter[0]))
-                                return false;
-                            if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number) {
-                                return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).compareTo(((Number) pattern).longValue()) < 0;
-                            }
-                            return ((m.get(splittedFilter[0]).toString())).compareTo(pattern.toString()) < 0;
-                        })
+                if (pattern != null) {
+                    data = data
+                            .stream()
+                            .filter(m -> {
+                                if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                                    return false;
+                                if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number) {
+                                    return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).compareTo(((Number) pattern).longValue()) < 0;
+                                }
+                                return ((m.get(splittedFilter[0]).toString())).compareTo(pattern.toString()) < 0;
+                            })
+                            .collect(Collectors.toList());
+                }
+            } else if (filter.contains(":isNull")) {
+                String[] splittedFilter = filter.replaceAll(" ", "").split(":isNull");
+                data = data.stream()
+                        .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) == null)
+                        .collect(Collectors.toList());
+            } else if (filter.contains(":isNotNull")) {
+                String[] splittedFilter = filter.replaceAll(" ", "").split(":isNotNull");
+                data = data.stream()
+                        .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) != null)
                         .collect(Collectors.toList());
             }
         }
@@ -259,13 +321,15 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         data.sort(comparator);
     }
 
-    private synchronized List<DataSet> getData(String fileName) {
-        if (fileName == null)
+    private synchronized List<DataSet> getData(N2oTestDataProvider invocation) {
+        if (invocation.getFile() == null)
             return new ArrayList<>();
-        if (!repository.containsKey(fileName)) {
-            initRepository(fileName);
+        if (!repository.containsKey(invocation.getFile()) ||
+                fileExistsOnDisk(invocation.getFile())) {
+            initRepository(invocation);
         }
-        return repository.get(fileName);
+
+        return repository.get(invocation.getFile());
     }
 
     private void updateRepository(String key, List<DataSet> newData) {
@@ -275,39 +339,129 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     /**
      * Заполняет хранилище данных из файла
      */
-    private void initRepository(String fileName) {
-        try {
-            InputStream inputStream = resourceLoader.getResource("classpath:" + fileName).getInputStream();
-            List<DataSet> data = loadJson(inputStream);
-            repository.put(fileName, data);
-            long maxId = data
-                    .stream()
-                    .filter(v -> v.get("id") != null)
-                    .mapToLong(v -> (Long) v.get("id"))
-                    .max().orElse(-1);
-            if (maxId != -1)
-                sequences.put(fileName, new AtomicLong(maxId));
+    private void initRepository(N2oTestDataProvider invocation) {
+        String path = getFullResourcePath(invocation.getFile());
+
+        if (fileExistsOnDisk(invocation.getFile())) {
+            path = "file:" + getFullPathOnDisk(invocation.getFile());
+        }
+
+        try (InputStream inputStream = resourceLoader.getResource(path).getInputStream()) {
+            List<DataSet> data = loadJson(inputStream, invocation.getPrimaryKeyType(), invocation.getPrimaryKey());
+            repository.put(invocation.getFile(), data);
+            if (integer.equals(invocation.getPrimaryKeyType())) {
+                long maxId = data
+                        .stream()
+                        .filter(v -> v.get(invocation.getPrimaryKey()) != null)
+                        .mapToLong(v -> (Long) v.get(invocation.getPrimaryKey()))
+                        .max().orElse(0);
+                sequences.put(invocation.getFile(), new AtomicLong(maxId));
+            }
+
         } catch (IOException e) {
             throw new N2oException(e);
         }
     }
 
-    private List<DataSet> loadJson(InputStream is) throws IOException {
-        List<DataSet> dataList = Arrays.asList(new ObjectMapper().readValue(is, DataSet[].class));
+    private List<DataSet> loadJson(InputStream is, PrimaryKeyType primaryKeyType, String primaryKeyFieldId) throws IOException {
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        CollectionType collectionType = typeFactory.constructCollectionType(
+                List.class, DataSet.class);
+        List<DataSet> dataList = objectMapper.readValue(is, collectionType);
         for (DataSet data : dataList) {
-            if (data.containsKey("id")) {
-                if (data.get("id") instanceof Number)
-                    data.put("id", ((Number) data.get("id")).longValue());
-                else if (data.get("id") instanceof String) {
-                    data.put("id", Long.valueOf((String) data.get("id")));
-                }
+            if (data.containsKey(primaryKeyFieldId)) {
+                if (integer.equals(primaryKeyType))
+                    data.put(primaryKeyFieldId, ((Number) data.get(primaryKeyFieldId)).longValue());
             }
         }
         return dataList;
     }
 
+    /**
+     * Возвращает полный путь к файлу на диске
+     * @param filename Имя файла
+     */
+    public String getFullPathOnDisk(String filename) {
+        return pathOnDisk + validateFilename(filename);
+    }
+
+    /**
+     * Возвращает полный путь к ресурсу в classpath
+     * @param filename Имя файла
+     */
+    public String getFullResourcePath(String filename) {
+        String path = "";
+        if (classpathResourcePath != null) {
+            path = classpathResourcePath;
+        }
+
+        return "classpath:" + path + validateFilename(filename);
+    }
+
+    /**
+     * Проверяет корректность имени файла и
+     * исправляет в случае необходимости
+     * @param filename Имя файла
+     */
+    protected String validateFilename(String filename) {
+        if (filename != null && !filename.startsWith("/")) {
+            filename = "/" + filename;
+        }
+        return filename;
+    }
+
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
+    }
+
+    public String getPathOnDisk() {
+        return pathOnDisk;
+    }
+
+    public void setPathOnDisk(String pathOnDisk) {
+        this.pathOnDisk = pathOnDisk;
+    }
+
+    public String getClasspathResourcePath() {
+        return classpathResourcePath;
+    }
+
+    public void setClasspathResourcePath(String classpathResourcePath) {
+        this.classpathResourcePath = classpathResourcePath;
+    }
+
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    /**
+     * Проверяет существование файла на диске
+     * @param filename Имя файла
+     * @return True если файл с заданным именем и путем,
+     * указанным в переменной pathOnDisk, существует, false иначе
+     */
+    private boolean fileExistsOnDisk(String filename) {
+        return pathOnDisk != null &&
+                new File(getFullPathOnDisk(filename)).isFile();
+    }
+
+    /**
+     * Обновляет содержимое файла на диске
+     * @param filename Имя файла
+     */
+    private void updateFile(String filename) {
+        if (fileExistsOnDisk(filename)) {
+            try (FileWriter fileWriter = new FileWriter(getFullPathOnDisk(filename))) {
+                String mapAsJson = objectMapper.writeValueAsString(repository.get(filename));
+                fileWriter.write(mapAsJson);
+            } catch (IOException e) {
+                throw new N2oException(e);
+            }
+        }
     }
 }

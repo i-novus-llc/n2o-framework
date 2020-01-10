@@ -43,7 +43,6 @@ public class TableXmlReaderTest extends BaseWidgetReaderTest {
         assert table3.getHasCheckboxes();
         assert table3.getAutoSelect();
         N2oSimpleColumn checkBoxColumn = ((N2oSimpleColumn) table3.getColumns()[0]);
-        assert ((N2oCheckboxCell) checkBoxColumn.getCell()).getEnablingCondition().getOn().equals("id");
         N2oCustomCell custom = (N2oCustomCell) ((N2oSimpleColumn) table3.getColumns()[6]).getCell();
         assert custom.getSrc().equals("test");
         assert custom.getProperties().size() == 2;
@@ -65,7 +64,7 @@ public class TableXmlReaderTest extends BaseWidgetReaderTest {
         assert imageCell2.getWidth().equals("32");
         assert imageCell2.getShape().equals(ImageShape.circle);
         N2oProgressBarCell progressBarCell = (N2oProgressBarCell) ((N2oSimpleColumn) table3.getColumns()[10]).getCell();
-        assert progressBarCell.getSize().equals(Size.small);
+        assert progressBarCell.getSize().equals(N2oProgressBarCell.Size.small);
         assert progressBarCell.getStriped();
         assert progressBarCell.getActive();
         N2oProgressBarCell progressBarCell1 = (N2oProgressBarCell) ((N2oSimpleColumn) table3.getColumns()[11]).getCell();

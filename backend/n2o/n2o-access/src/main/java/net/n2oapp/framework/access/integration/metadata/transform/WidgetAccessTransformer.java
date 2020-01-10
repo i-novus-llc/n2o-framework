@@ -23,7 +23,7 @@ public class WidgetAccessTransformer extends BaseAccessTransformer<Widget, Compi
     public Widget transform(Widget compiled, CompileContext<?, ?> context, CompileProcessor p) {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
                 p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
-        collectObjectAccess(compiled, compiled.getObjectId(), "read", accessSchema);
+        collectObjectAccess(compiled, compiled.getObjectId(), null, accessSchema, p);
         return compiled;
     }
 }

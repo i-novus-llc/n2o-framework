@@ -3,9 +3,7 @@ package net.n2oapp.criteria.dataset;
 import java.util.*;
 
 /**
- * User: iryabov
- * Date: 27.08.13
- * Time: 17:15
+ * Данные объекта
  */
 public class DataSet extends NestedMap {
     public DataSet() {
@@ -85,7 +83,7 @@ public class DataSet extends NestedMap {
         if (value instanceof List)
             return (List<?>) value;
         if (value.getClass().isArray())
-            return new ArrayList<>(Arrays.asList((Object[])value));
+            return new ArrayList<>(Arrays.asList((Object[]) value));
         return new ArrayList<>((Collection<?>) value);
     }
 
@@ -107,19 +105,39 @@ public class DataSet extends NestedMap {
     }
 
     @Override
-    protected Object wrapValue(Object value) {
-        if (value instanceof DataSet)
-            return new DataSet((DataSet) value);
-        return super.wrapValue(value);
-    }
-
-
-    protected NestedMap createNestedMap(String key) {
-        return new DataSet();
-    }
-
     protected NestedMap createNestedMap(Map map) {
-        return new DataSet(map);
+        if (map == null)
+            return new DataSet();
+        else
+            return new DataSet(map);
+    }
+
+    @Override
+    protected NestedList createNestedList(List list) {
+        if (list == null)
+            return new DataList();
+        else
+            return new DataList(list);
+    }
+
+    /**
+     * Плоский список ключей вложенной мапы
+     *
+     * @return Список с плоскими ключами
+     */
+    public Set<String> flatKeySet() {
+        Set<String> result = new LinkedHashSet<>();
+        for (Map.Entry<String, Object> entry : entrySet()) {
+            if (entry.getValue() instanceof DataSet) {
+                Set<String> childrenKeySet = ((DataSet) entry.getValue()).flatKeySet();
+                for (String childKey : childrenKeySet) {
+                    result.add(entry.getKey() + "." + childKey);
+                }
+            } else {
+                result.add(entry.getKey());
+            }
+        }
+        return result;
     }
 
 

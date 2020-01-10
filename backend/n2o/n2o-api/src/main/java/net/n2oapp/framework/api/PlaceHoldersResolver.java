@@ -1,11 +1,18 @@
 package net.n2oapp.framework.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.POJONode;
+import com.fasterxml.jackson.databind.node.TextNode;
+import net.n2oapp.criteria.dataset.NestedUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.core.env.PropertyResolver;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.Function;
@@ -22,16 +29,33 @@ public class PlaceHoldersResolver {
 
     private String prefix;
     private String suffix;
+    private Boolean onlyJavaVariable;
 
     /**
      * Создать замену плейсхолдеров
      *
      * @param prefix Начало плейсхолдера
-     * @param suffix Окончание плейсолдера
+     * @param suffix Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
+     *
      */
     public PlaceHoldersResolver(String prefix, String suffix) {
         this.prefix = prefix;
         this.suffix = suffix;
+        this.onlyJavaVariable = false;
+    }
+
+    /**
+     * Создать замену плейсхолдеров
+     *
+     * @param prefix Начало плейсхолдера
+     * @param suffix Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
+     * @param onlyJavaVariable Учитывать плейсхолдеры только соответсвующие спецификации java переменных
+     *
+     */
+    public PlaceHoldersResolver(String prefix, String suffix, Boolean onlyJavaVariable) {
+        this.prefix = prefix;
+        this.suffix = suffix;
+        this.onlyJavaVariable = onlyJavaVariable;
     }
 
     /**
@@ -60,10 +84,25 @@ public class PlaceHoldersResolver {
     }
 
     /**
+     * Заменить плейсхолдеры в json
+     *
+     * @param json - строка json
+     * @param func Функция замены
+     * @return Текст с заменёнными плейсхолдерами, если замена нашлась
+     */
+    public String resolveJson(String json, Function<String, Object> func, ObjectMapper objectMapper) {
+        try {
+            return objectMapper.writeValueAsString(resolvePlaceholders(objectMapper.readTree(json), func::apply));
+        } catch (IOException e) {
+            throw new N2oException(e);
+        }
+    }
+
+    /**
      * Заменить плейсхолдер на значение
      *
      * @param placeholder Плейсхолдер
-     * @param func Функция замены
+     * @param func        Функция замены
      * @return Значение или то, что пришло, если это не плейсхолдер
      */
     public Object resolveValue(Object placeholder, Function<String, Object> func) {
@@ -170,15 +209,74 @@ public class PlaceHoldersResolver {
             return text;
         sb.append(split[0]);
         for (int i = 1; i < split.length; i++) {
-            int idxSuffix = split[i].indexOf(suffix);
+            int idxSuffix;
+            int idxNext;
+            if (suffix != null && !suffix.isEmpty()) {
+                idxSuffix = split[i].indexOf(suffix);
+                idxNext = idxSuffix + 1;
+                if (idxSuffix == 0) {
+                    sb.append(prefix).append(suffix);
+                    sb.append(split[i].substring(idxNext));
+                }
+            } else {
+                String[] ends = split[i].split("\\W");
+                idxSuffix = ends.length > 0 ? ends[0].length() : 0;
+                idxNext = idxSuffix;
+                if (idxSuffix == 0) {
+                    sb.append(prefix);
+                    sb.append(split[i].substring(idxNext));
+                }
+            }
             if (idxSuffix > 0) {
                 String placeholder = split[i].substring(0, idxSuffix);
-                Object value = callback.apply(placeholder);
-                sb.append(value);
-                sb.append(split[i].substring(idxSuffix + 1));
+                if (onlyJavaVariable && !NestedUtils.isJavaVariable(placeholder)) {
+                    sb.append(prefix);
+                    sb.append(split[i]);
+                } else {
+                    Object value = callback.apply(placeholder);
+                    sb.append(value);
+                    sb.append(split[i].substring(idxNext));
+                }
             }
         }
         return sb.toString();
+    }
+
+    private JsonNode resolvePlaceholders(JsonNode json, Function<String, Object> callback) {
+        if (json == null) return null;
+        if (json.isObject()) {
+            ObjectNode root = (ObjectNode) json;
+            Iterator<Map.Entry<String, JsonNode>> fields = root.fields();
+            while (fields.hasNext()) {
+                Map.Entry<String, JsonNode> field = fields.next();
+                if (field.getValue().isTextual()) {
+                    String value = field.getValue().textValue();
+                    if (isPlaceHolder(value)) {
+                        Object result = safeResolveValue(value, callback);
+                        field.setValue(new POJONode(result));
+                    }
+                    else if (hasPlaceHolders(value)) {
+                        String result = safeResolve(value, callback);
+                        field.setValue(new TextNode(result));
+                    }
+                } else if (field.getValue().isObject()) {
+                    resolvePlaceholders(field.getValue(), callback);
+                } else if (field.getValue().isArray()) {
+                    ArrayNode array = (ArrayNode) field.getValue();
+                    for (JsonNode jsonNode : array) {
+                        resolvePlaceholders(jsonNode, callback);
+                    }
+                }
+            }
+            return root;
+        } else if (json.isArray()) {
+            ArrayNode array = (ArrayNode) json;
+            for (JsonNode jsonNode : array) {
+                resolvePlaceholders(jsonNode, callback);
+            }
+            return array;
+        }
+        return null;
     }
 
     private Object safeResolveValue(Object placeholder, Function<String, Object> func) {
@@ -189,17 +287,21 @@ public class PlaceHoldersResolver {
     }
 
     private Function<String, Object> notReplaceNull(Object data) {
-        return (key) -> {
+        return key -> {
             Object result = function(data).apply(key);
-            return result != null ? result.toString() : prefix.concat(key).concat(suffix);
+            return result != null ? result : prefix.concat(key).concat(suffix);
         };
+    }
+
+    private Function<String, Object> replaceNull(Object data) {
+        return key -> function(data).apply(key);
     }
 
     /**
      * Возвращает json-валидное значение в строке
      */
     public static Function<String, Object> replaceByJson(Function<String, Object> callback, ObjectMapper mapper) {
-        return (key) -> {
+        return key -> {
             Object result = callback.apply(key);
             try {
                 if (result instanceof String)
@@ -212,7 +314,7 @@ public class PlaceHoldersResolver {
     }
 
     public static Function<String, Object> replaceNullByEmpty(Function<String, Object> callback) {
-        return (key) -> {
+        return key -> {
             Object result = callback.apply(key);
             return result != null ? result.toString() : "";
         };
@@ -223,9 +325,9 @@ public class PlaceHoldersResolver {
     }
 
     public static Function<String, Object> replaceRequired(Function<String, Object> callback) {
-        return (key) -> {
+        return key -> {
             Object value = callback.apply(key);
-            if (value == null)
+            if (StringUtils.isEmpty(value))
                 throw new NotFoundPlaceholderException(key);
             return value;
         };
@@ -236,10 +338,10 @@ public class PlaceHoldersResolver {
     }
 
     public static Function<String, Object> replaceOptional(Function<String, Object> data) {
-        return (key) -> {
+        return key -> {
             String placeholder = extractPlaceholder(key);
             Object value = data.apply(placeholder);
-            if (value == null) {
+            if (StringUtils.isEmpty(value)) {
                 if (extractRequired(key))
                     throw new NotFoundPlaceholderException(placeholder);
                 return extractOptional(key);

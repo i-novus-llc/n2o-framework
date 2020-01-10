@@ -1,0 +1,54 @@
+{
+	"name": "n2o-notifications",
+	"version": "7.5.0-SNAPSHOT",
+	"description": "n2o-notifications React component",
+	"main": "lib/index.js",
+	"module": "es/index.js",
+	"files": [
+		"css",
+		"es",
+		"lib",
+		"umd"
+	],
+	"scripts": {
+		"build": "nwb build-react-component --no-demo",
+		"clean": "nwb clean-module && nwb clean-demo",
+		"prepublishOnly": "npm run build",
+		"start": "nwb serve-react-demo",
+		"test": "nwb test-react",
+		"test:coverage": "nwb test-react --coverage",
+		"test:watch": "nwb test-react --server"
+	},
+	"dependencies": {
+		"n2o-framework": "^7.5.0-SNAPSHOT",
+		"net": "^1.0.2",
+		"react-redux": "5.0.6",
+		"reactstrap": "^8.0.0",
+		"redux": "3.6.0",
+		"redux-actions": "2.3.2",
+		"redux-saga": "0.16.0",
+		"reselect": "3.0.1",
+		"sockjs-client": "^1.3.0",
+		"stompjs": "^2.3.3"
+	},
+	"devDependencies": {
+		"react": "^16.8.6",
+		"react-dom": "^16.8.6",
+		"chai": "^4.2.0",
+		"mocha": "^6.2.2",
+		"nwb": "0.23.x",
+		"enzyme": "^3.9.0",
+		"enzyme-adapter-react-16": "^1.13.0"
+	},
+	"peerDependencies": {
+		"n2o-framework": "^7.5.0"
+	},
+	"author": "",
+	"homepage": "",
+	"license": "Apache-2.0",
+	"repository": "",
+	"keywords": [
+		"react-component"
+	],
+	"gitHead": "44106c26d9d0ba92df03cb5fa590ec5ae3daabcd"
+}

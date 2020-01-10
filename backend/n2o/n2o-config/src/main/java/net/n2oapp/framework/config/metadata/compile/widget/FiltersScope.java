@@ -6,6 +6,7 @@ import lombok.Getter;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Информация по фильтрам
@@ -13,6 +14,20 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class FiltersScope  {
+    /**
+     * Фильтры собираемые во время компиляции
+     */
     List<Filter> filters;
+
+    /**
+     * Добавить фильтр
+     * @param filter    фильтр
+     */
+    public void addFilter(Filter filter) {
+        Optional<Filter> sameFilter = filters.stream().filter(f -> f.getFilterId().equals(filter.getFilterId()) && f.getLink().equalsLink(filter.getLink())).findAny();
+        if (!sameFilter.isPresent()) {
+            filters.add(filter);
+        }
+    }
 
 }

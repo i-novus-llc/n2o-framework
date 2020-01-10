@@ -1,7 +1,10 @@
 package net.n2oapp.framework.engine.util;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
@@ -39,24 +42,25 @@ public class MappingProcessor {
     }
 
     /**
-     * Исходящее преобразование value согласно mapping выражению
+     * Исходящее преобразование target согласно mapping выражению
      *
-     * @param value   исходное значение
+     * @param target  исходное значение
      * @param mapping выражения преобразования
      * @return результат преобразования
      */
-    public static <T> T outMap(Object value, String mapping, Class<T> clazz) {
-        if (value == null)
-            return null;
-        if (mapping == null) {
-            if (clazz.isAssignableFrom(value.getClass()))
-                //noinspection unchecked
-                return (T) value;
-            else
-                throw new N2oException("Incompatible value type. Expected is " + clazz + ", but actual is " + value.getClass());
+    public static <T> T outMap(Object target, String mapping, Class<T> clazz) {
+        T result;
+        if (mapping != null) {
+            Expression expression = readParser.parseExpression(mapping);
+            result = expression.getValue(target, clazz);
+        } else {
+            result = (T) target;
         }
-        Expression expression = readParser.parseExpression(mapping);
-        return expression.getValue(value, clazz);
+        if (clazz != null && result == null)
+            throw new N2oException("Expected is " + clazz + ", but actual is null");
+        if (clazz != null && !clazz.isAssignableFrom(result.getClass()))
+            throw new N2oException("Expected is " + clazz + ", but actual is " + result.getClass());
+        return result;
     }
 
     /**
@@ -69,10 +73,10 @@ public class MappingProcessor {
      * @param mapping      выражение преобразования
      * @param defaultValue значение по умолчанию
      */
-    public static void outMap(DataSet target, Object value, String fieldId, String mapping, Object defaultValue) {
+    public static void outMap(DataSet target, Object value, String fieldId, String mapping, Object defaultValue, ContextProcessor contextProcessor) {
         Expression expression = readParser.parseExpression(mapping);
         Object obj = expression.getValue(value);
-        target.put(fieldId, obj == null ? defaultValue : obj);
+        target.put(fieldId, obj == null ? contextProcessor.resolve(defaultValue) : obj);
     }
 
     /**
@@ -80,11 +84,16 @@ public class MappingProcessor {
      *
      * @param dataSet         исходные данные
      * @param mapping         правила маппинга
-     * @param argumentClasses список названий классов
+     * @param arguments       список аргументов
      * @return массив объектов
      */
-    public static Object[] map(DataSet dataSet, Map<String, String> mapping, List<String> argumentClasses) {
-        Object[] instances = instantiateArguments(argumentClasses);
+    public static Object[] map(DataSet dataSet, Map<String, String> mapping, Argument[] arguments,
+                               DomainProcessor domainProcessor) {
+        List<String> argClasses = new ArrayList<>();
+        for (Argument arg : arguments) {
+            argClasses.add(arg.getClassName());
+        }
+        Object[] instances = instantiateArguments(argClasses);
         Object[] result;
         if (instances == null || instances.length == 0) {
             result = new Object[mapping.size()];
@@ -98,6 +107,11 @@ public class MappingProcessor {
             expression.setValue(result, dataSet.get(map.getKey()));
             idx++;
         }
+        for (int i=0; i < result.length; i++) {
+            if (result[i] == null && arguments[i].getDefaultValue() != null) {
+                result[i] = domainProcessor.deserialize(arguments[i].getDefaultValue());
+            }
+        }
         return result;
     }
 
@@ -105,8 +119,8 @@ public class MappingProcessor {
         if (arguments == null) return null;
         Object[] argumentInstances = new Object[arguments.size()];
         for (int k = 0; k < arguments.size(); k++) {
-            Class argumentClass = null;
-            if (primitiveTypes.contains(arguments.get(k))) {
+            Class argumentClass;
+            if (arguments.get(k) == null || primitiveTypes.contains(arguments.get(k))) {
                 argumentInstances[k] = null;
             } else {
                 try {

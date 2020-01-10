@@ -1,5 +1,6 @@
 package net.n2oapp.framework.api.metadata.compile;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
@@ -14,7 +15,7 @@ public interface CompileContext<D extends Compiled, S> {
      *
      * @return Идентификатор контекста
      */
-    String getCompiledId(CompileProcessor p);
+    String getCompiledId(BindProcessor p);
 
     /**
      * Получить идентификатор исходной метаданной
@@ -22,28 +23,28 @@ public interface CompileContext<D extends Compiled, S> {
      * @param p Процессор сборки
      * @return Идентификатор исходной метаданной
      */
-    String getSourceId(CompileProcessor p);
+    String getSourceId(BindProcessor p);
 
     /**
      * Маршрут c параметрами, по которому можно получить метаданную
      *
      * @param p Процессор сборки
      */
-    String getRoute(CompileProcessor p);
+    String getRoute(BindProcessor p);
 
     /**
      * Получить список описаний, как можно разрешить query параметры маршрута
      *
      * @return  список описаний параметров
      */
-    Map<String, ModelLink> getQueryRouteInfos();
+    Map<String, ModelLink> getQueryRouteMapping();
 
     /**
      * Получить список описаний, как можно разрешить path параметры маршрута
      *
      * @return  список описаний параметров
      */
-    Map<String, ModelLink> getPathRouteInfos();
+    Map<String, ModelLink> getPathRouteMapping();
 
     /**
      * Получить класс исходной метаданной
@@ -58,4 +59,13 @@ public interface CompileContext<D extends Compiled, S> {
      * @return Класс собранной метаданной
      */
     Class<D> getCompiledClass();
+
+
+    /**
+     * Получение данных из url, учитывая route в контексте и query параметры
+     * @param url           реальный url со значениями
+     * @param queryParams   query параметры
+     * @return              данные из url
+     */
+    DataSet getParams(String url, Map<String, String[]> queryParams);
 }

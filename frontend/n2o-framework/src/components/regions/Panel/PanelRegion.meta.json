@@ -1,0 +1,42 @@
+{
+  "src": "PanelRegion",
+  "className": "test",
+  "color": "secondary",
+  "icon": "fa fa-exclamation",
+  "hasTabs": false,
+  "headerTitle": "Заголовок панели",
+  "footerTitle": "Подвал панели",
+  "open": true,
+  "collapsible": true,
+  "fullScreen": false,
+  "header": true,
+  "panels": [
+    {
+      "icon": "fa fa-plus",
+      "label": "Первый таб",
+      "id": "panel1",
+      "opened": true,
+      "widgetId": "Page_Html",
+      "isVisible": false,
+      "dependency": {
+        "visible": [
+          {
+            "bindLink": "models.resolve",
+            "condition": false
+          }
+        ]
+      }
+    },
+    {
+      "icon": "fa fa-plus",
+      "label": "Вторая панель(secure)",
+      "id": "two",
+      "opened": true,
+      "fetchOnInit": false,
+      "widgetId": "Page.SecureHtml",
+      "security": {
+        "roles": ["admin"]
+      }
+    }
+  ]
+}

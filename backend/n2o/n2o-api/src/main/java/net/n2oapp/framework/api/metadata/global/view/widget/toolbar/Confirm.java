@@ -21,4 +21,8 @@ public class Confirm implements Compiled {
     private String okLabel;
     @JsonProperty
     private String cancelLabel;
+    @JsonProperty
+    private String modelLink;
+    @JsonProperty
+    private ConfirmType mode;
 }

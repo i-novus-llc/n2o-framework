@@ -1,6 +1,5 @@
 package net.n2oapp.framework.access.metadata.transform;
 
-import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessTransformer;
 import net.n2oapp.framework.access.integration.metadata.transform.ToolbarCellAccessTransformer;
 import net.n2oapp.framework.access.integration.metadata.transform.action.InvokeActionAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
@@ -16,15 +15,12 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Map;
-
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertTrue;
 
 public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
     @Override
@@ -50,18 +46,16 @@ public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/transform/testToolbarCellAccessTransformer.page.xml"
         );
         Page page = pipeline.transform().get(new PageContext("testToolbarCellAccessTransformer"));
-        Security.SecurityObject security = ((Security)((ToolbarCell)((TableWidgetComponent)page.getWidgets()
+        Security.SecurityObject security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidgets()
                 .get("testToolbarCellAccessTransformer_main")
-                .getComponent()).getCells().get(0)).getButtons().get(0)
-                .getProperties().get("security")).getSecurityMap().get("object");
+                .getComponent()).getCells().get(0)).getToolbar().get(0).getButtons().get(0)
+                .getProperties().get(Security.SECURITY_PROP_NAME)).getSecurityMap().get("object");
 
         assertThat(security.getRoles().size(), is(1));
-        assertThat(security.getRoles().get(0), is("admin"));
+        assertTrue(security.getRoles().contains("admin"));
         assertThat(security.getPermissions().size(), is(1));
-        assertThat(security.getPermissions().get(0), is("permission"));
+        assertTrue(security.getPermissions().contains("permission"));
         assertThat(security.getUsernames().size(), is(1));
-        assertThat(security.getUsernames().get(0), is("user"));
-
+        assertTrue(security.getUsernames().contains("user"));
     }
-
 }

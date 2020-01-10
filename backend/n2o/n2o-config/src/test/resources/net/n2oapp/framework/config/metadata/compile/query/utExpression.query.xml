@@ -31,9 +31,12 @@
         </field>
         <field id="testFilter">
             <filters>
-                <eq/>
+                <eq required="true"/>
                 <in/>
             </filters>
+        </field>
+        <field id="withEmptySelect">
+            <select/>
         </field>
     </fields>
 </query>

@@ -4,22 +4,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Component;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Клиентская модель элемента ввода
  */
 @Getter
 @Setter
-public abstract class Control implements Compiled {
-    private String id;
-    @JsonProperty("src")
-    private String controlSrc;
+public abstract class Control extends Component implements IdAware {
+
     @JsonProperty
-    private String className;
+    private String id;
 
     public boolean containsHimself(DataSet dataSet) {
         Object value = dataSet.get(getId());

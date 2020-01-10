@@ -2,21 +2,32 @@ package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.RefIdAware;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.ExtensionAttributeMapperFactory;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.pipeline.*;
-import net.n2oapp.framework.api.register.route.RouteInfo;
+import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
+import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
+import net.n2oapp.framework.config.util.CompileUtil;
 
+import java.text.MessageFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
@@ -24,19 +35,41 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.getParams;
 /**
  * Реализация процессора сборки метаданных
  */
-public class N2oCompileProcessor implements CompileProcessor {
+public class N2oCompileProcessor implements CompileProcessor, BindProcessor, ValidateProcessor {
 
+    private static final PlaceHoldersResolver LINK_RESOLVER = new PlaceHoldersResolver("{", "}");
+    private static final PlaceHoldersResolver URL_RESOLVER = new PlaceHoldersResolver(":", "", true);
+
+    /**
+     * Сервисы окружения
+     */
     private MetadataEnvironment env;
+    /**
+     * Переменные влияющие на сборку
+     */
     private Map<Class<?>, Object> scope = Collections.emptyMap();
-    private DataSet data;
-    private BindTerminalPipeline bindPipeline;
-    private CompileTerminalPipeline<?> compilePipeline;
-    private ReadCompileTerminalPipeline<?> readCompilePipeline;
-    private ReadTerminalPipeline<?> readPipeline;
     /**
      * Контекст на входе в pipeline, используется не для компиляции, а для bind
      */
     private CompileContext<?, ?> context;
+    /**
+     * Параметры текущего запроса
+     */
+    private DataSet params;
+    /**
+     * Виртуальная модель данных клиента
+     */
+    private DataModel model;
+
+    private BindTerminalPipeline bindPipeline;
+    private CompileTerminalPipeline<?> compilePipeline;
+    private ReadCompileTerminalPipeline<?> readCompilePipeline;
+    private ReadTerminalPipeline<?> readPipeline;
+
+    /**
+     * Запрещенные имена идентификаторов
+     */
+    private Set<String> forbiddenIds;
 
     /**
      * Конструктор процессора сборки метаданных
@@ -50,48 +83,57 @@ public class N2oCompileProcessor implements CompileProcessor {
         this.readPipeline = env.getReadPipelineFunction().apply(pipelineSupport);
         this.readCompilePipeline = env.getReadCompilePipelineFunction().apply(pipelineSupport);
         this.compilePipeline = env.getCompilePipelineFunction().apply(pipelineSupport);
+        this.forbiddenIds = env.getSystemProperties().getProperty("n2o.config.field.forbidden_ids", Set.class);
     }
 
     /**
      * Конструктор процессора сборки метаданных со связыванием
      *
      * @param env     Окружение сборки метаданных
-     * @param data    Данные для связывания
+     * @param params  Параметры запроса
      * @param context Входной контекст сборки(не используется для компиляции метаданных)
      */
-    public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet data) {
+    public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params) {
         this(env);
-        this.data = data;
         this.context = context;
+        this.params = params;
+        model = new DataModel();
+        model.addAll(context.getQueryRouteMapping(), params);
+        model.addAll(context.getPathRouteMapping(), params);
     }
 
     /**
      * Конструктор процессора внутренней сборки метаданных
      *
      * @param parent Родительский процессор сборки
-     * @param scope  Метаданные, влияющие на сборку. Должны быть разных классов.
+     * @param scopes Метаданные, влияющие на сборку. Должны быть разных классов.
      */
-    private N2oCompileProcessor(N2oCompileProcessor parent, Object... scope) {
+    private N2oCompileProcessor(N2oCompileProcessor parent, Object... scopes) {
         this.env = parent.env;
         this.scope = new HashMap<>(parent.scope);
-        Stream.of(Optional.ofNullable(scope).orElse(new Compiled[]{})).filter(Objects::nonNull)
+        Stream.of(Optional.ofNullable(scopes).orElse(new Compiled[]{})).filter(Objects::nonNull)
                 .forEach(s -> this.scope.put(s.getClass(), s));
         this.readPipeline = parent.readPipeline;
         this.readCompilePipeline = parent.readCompilePipeline;
         this.compilePipeline = parent.compilePipeline;
-        this.data = parent.data;
+        this.params = parent.params;
         this.context = parent.context;
+        this.forbiddenIds = parent.forbiddenIds;
     }
 
     @Override
-    public <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scope) {
-        return compilePipeline.get(source, context, new N2oCompileProcessor(this, scope));
+    public <D extends Compiled, S> D compile(S source, CompileContext<?, ?> context, Object... scopes) {
+        Object[] flattedScopes = Arrays.stream(scopes)
+                .filter(Objects::nonNull)
+                .flatMap(o -> o.getClass().isArray() ? Arrays.stream((Object[]) o) : Stream.of(o)).toArray();
+        return compilePipeline.get(source, context, new N2oCompileProcessor(this, flattedScopes));
     }
 
     @Override
     public <D extends Compiled> void bind(D compiled) {
-        bindPipeline.get(compiled, context, data);
+        bindPipeline.get(compiled, context, params);
     }
+
 
     @Override
     public Map<String, Object> mapAttributes(ExtensionAttributesAware source) {
@@ -101,7 +143,8 @@ public class N2oCompileProcessor implements CompileProcessor {
         HashMap<String, Object> extAttributes = new HashMap<>();
         source.getExtAttributes().forEach((k, v) -> {
             Map<String, Object> res = extensionAttributeMapperFactory.mapAttributes(v, k.getUri());
-            if (res != null) {
+            res = CompileUtil.resolveNestedAttributes(res, env.getDomainProcessor()::deserialize);
+            if (!res.isEmpty()) {
                 extAttributes.putAll(res);
             }
         });
@@ -110,7 +153,7 @@ public class N2oCompileProcessor implements CompileProcessor {
 
     @Override
     public <D extends Compiled> D getCompiled(CompileContext<D, ?> context) {
-        return readCompilePipeline.get(context);
+        return readCompilePipeline.get(context, new N2oCompileProcessor(this));
     }
 
     @Override
@@ -124,30 +167,32 @@ public class N2oCompileProcessor implements CompileProcessor {
     }
 
     @Override
-    public <D extends Compiled> void addRoute(String urlPattern, CompileContext<D, ?> context) {
-        env.getRouteRegister().addRoute(new RouteInfo(urlPattern, context));
+    public <D extends Compiled> void addRoute(CompileContext<D, ?> context) {
+        env.getRouteRegister().addRoute(context.getRoute(this), context);
     }
 
+    @Override
+    public <D extends Compiled> void addRoute(String route, CompileContext<D, ?> context) {
+        env.getRouteRegister().addRoute(route, context);
+    }
+
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T resolve(String placeholder, Class<T> clazz) {
-        Object value = placeholder;
-        if (StringUtils.isProperty(placeholder)) {
-            value = env.getSystemProperties().resolvePlaceholders(placeholder);
-        }
-        if (StringUtils.isContext(placeholder)) {
-            value = env.getContextProcessor().resolve(placeholder);
-        }
-        return env.getDomainProcessor().deserialize(value, clazz);
+        Object value = resolvePlaceholder(placeholder);
+        return (T) env.getDomainProcessor().deserialize(value, clazz);
     }
 
     @Override
-    public Object resolve(String value, String domain) {
-        return env.getDomainProcessor().doDomainConversion(domain, value);
+    public Object resolve(String placeholder, String domain) {
+        Object value = resolvePlaceholder(placeholder);
+        return env.getDomainProcessor().deserialize(value, domain);
     }
 
     @Override
-    public Object resolve(String value) {
-        return env.getDomainProcessor().doDomainConversion(null, value);
+    public Object resolve(String placeholder) {
+        Object value = resolvePlaceholder(placeholder);
+        return env.getDomainProcessor().deserialize(value);
     }
 
     @Override
@@ -160,92 +205,231 @@ public class N2oCompileProcessor implements CompileProcessor {
     }
 
     @Override
-    public String resolveParams(String text) {
-        return StringUtils.resolveLinks(text, data);
+    public String getMessage(String messageCode, Object... arguments) {
+        String defaultMessage = messageCode.contains("{0}") ? MessageFormat.format(messageCode, arguments) : messageCode;
+        return env.getMessageSource().getMessage(messageCode, arguments, defaultMessage);
     }
 
     @Override
-    public String resolveUrl(String url, Map<String, ? extends BindLink> pathMappings, Map<String, ? extends BindLink> queryMappings) {
-        Set<String> params = new HashSet<>(getParams(url));
-        Set<String> paramsForRemove = new HashSet<>();
-        Set<String> except = new HashSet<>();
-        if (pathMappings != null) {
-            if (context.getPathRouteInfos() != null) {
-                pathMappings.keySet().stream().filter(k -> !context.getPathRouteInfos().containsKey(k))
-                        .forEach(k -> except.add(k));
-            } else {
-                except.addAll(pathMappings.keySet());
+    public Object resolveJS(String text, Class<?> clazz) {
+        String value = ScriptProcessor.resolveLinks(text);
+        return env.getDomainProcessor().deserialize(value, clazz);
+    }
+
+    @Override
+    public String resolveUrl(String url) {
+        return URL_RESOLVER.resolve(url, params);
+    }
+
+    @Override
+    public String resolveUrl(String url,
+                             Map<String, ? extends BindLink> pathMappings,
+                             Map<String, ? extends BindLink> queryMappings) {
+        String resultUrl = url;
+        if (pathMappings != null)
+            resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(pathMappings, k));
+        if (queryMappings != null)
+            resultUrl = URL_RESOLVER.resolve(resultUrl, k -> getValue(queryMappings, k));
+        resultUrl = URL_RESOLVER.resolve(resultUrl, params);
+        return resultUrl;
+    }
+
+    @Override
+    public String resolveUrl(String url, ModelLink link) {
+        List<String> paramNames = getParams(url);
+        if (paramNames == null || paramNames.isEmpty() || params == null)
+            return url;
+        Map<String, String> valueParamMap = new HashMap<>();
+        collectModelLinks(context.getPathRouteMapping(), link.getWidgetLink(), valueParamMap);
+        collectModelLinks(context.getQueryRouteMapping(), link.getWidgetLink(), valueParamMap);
+        for (String param : paramNames) {
+            if (valueParamMap.containsKey(param) && params.containsKey(valueParamMap.get(param))) {
+                url = url.replace(":" + param, params.get(valueParamMap.get(param)).toString());
             }
-        }
-        if (queryMappings != null) {
-            if (context.getQueryRouteInfos() != null) {
-                queryMappings.keySet().stream().filter(k -> !context.getQueryRouteInfos().containsKey(k))
-                        .forEach(k -> except.add(k));
-            } else {
-                except.addAll(queryMappings.keySet());
-            }
-        }
-        for (String param : params) {
-            if (!except.contains(param)) {
-                Object value = data.get(param);
-                if (value != null) {
-                    url = url.replace(":" + param, value.toString());
-                    paramsForRemove.add(param);
-                }
-            }
-        }
-        if (pathMappings != null) {
-            paramsForRemove.forEach(k -> {
-                pathMappings.remove(k);
-            });
-        }
-        if (queryMappings != null) {
-            paramsForRemove.forEach(k -> {
-                queryMappings.remove(k);
-            });
         }
         return url;
     }
 
     @Override
-    public String resolveUrlParams(String url, Set<String> params) {
-        for (String param : params) {
-            Object value = data.get(param);
-            if (value != null) {
-                url = url.replace(":" + param, value.toString());
-            }
-        }
-        return url;
-    }
-
-
-    @Override
-    public ModelLink resolveLink(ModelLink link) {
-        if (link == null || link.getBindLink() == null || context == null || context.getQueryRouteInfos() == null)
+    public BindLink resolveLink(BindLink link) {
+        if (link == null || link.getBindLink() == null || context == null || context.getQueryRouteMapping() == null)
             return link;
         Optional<String> res = Optional.empty();
-        if (context.getQueryRouteInfos() != null) {
-            res = context.getQueryRouteInfos().keySet().stream().filter(ri -> context.getQueryRouteInfos().get(ri).equals(link)).findAny();
+        if (context.getQueryRouteMapping() != null) {
+            res = context.getQueryRouteMapping().keySet().stream().filter(ri -> context.getQueryRouteMapping().get(ri).equals(link)).findAny();
         }
-        if (!res.isPresent() && context.getPathRouteInfos() != null) {
-            res = context.getPathRouteInfos().keySet().stream().filter(ri -> context.getPathRouteInfos().get(ri).equals(link)).findAny();
+        if (!res.isPresent() && context.getPathRouteMapping() != null) {
+            res = context.getPathRouteMapping().keySet().stream().filter(ri -> context.getPathRouteMapping().get(ri).equals(link)).findAny();
         }
         if (res.isPresent()) {
-            Object param = data.get(res.get());
-            if (param != null) {
-                return new ModelLink(param);
+            Object value = params.get(res.get());
+            if (value instanceof String)
+                value = resolveText((String) value);
+            if (value != null) {
+                BindLink resultLink = link instanceof ModelLink ? new ModelLink((ModelLink) link) : new BindLink(link.getBindLink());
+                resultLink.setValue(value);
+                return resultLink;
             }
         }
         return link;
     }
 
     @Override
-    public String getMessage(String messageCode, Object... arguments) {
-        return env.getMessageSource().getMessage(messageCode, arguments);
+    public void resolveSubModels(ModelLink link, List<ModelLink> linkList) {
+        if (link.getSubModelQuery() == null) return;
+        for (ModelLink modelLink : linkList) {
+            if (link.equalsLink(modelLink)) {
+                resolveDefaultValues(modelLink, link);
+            }
+        }
+        executeSubModels(link);
     }
 
     @Override
-    public String resolveJS(String text) {
-        return ScriptProcessor.resolveLinks(text);
+    public String resolveText(String text, ModelLink link) {
+        String resolved = resolveText(text);
+        if (link != null)
+            return LINK_RESOLVER.resolve(resolved, model.getDataIfAbsent(link, env.getSubModelsProcessor()));
+        else
+            return resolved;
+    }
+
+    @Override
+    public <T extends Source> void validate(T metadata, Object... scope) {
+        if (metadata == null)
+            return;
+        if (metadata instanceof RefIdAware && ((RefIdAware) metadata).getRefId() != null)
+            return;
+
+        env.getSourceValidatorFactory().validate(metadata, new N2oCompileProcessor(this, scope));
+    }
+
+    @Override
+    public <T extends SourceMetadata> T getOrNull(String id, Class<T> metadataClass) {
+        if (id == null)
+            return null;
+        if (!env.getMetadataRegister().contains(id, metadataClass))
+            return null;
+        try {
+            return getSource(id, metadataClass);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public <T extends SourceMetadata> T getOrThrow(String id, Class<T> metadataClass) {
+        if (id == null)
+            return null;
+        if (!env.getMetadataRegister().contains(id, metadataClass))
+            return null;
+        return getSource(id, metadataClass);
+    }
+
+    @Override
+    public <T extends SourceMetadata> void checkForExists(String id, Class<T> metadataClass, String errorMessage) {
+        if (id == null)
+            return;
+        if (StringUtils.hasWildcard(id) || StringUtils.hasLink(id))
+            return;
+        if (!env.getMetadataRegister().contains(id, metadataClass))
+            throw new N2oMetadataValidationException(getMessage(errorMessage, id));
+    }
+
+    @Override
+    public void checkId(IdAware metadata, String errorMessage) {
+        if (metadata == null || metadata.getId() == null)
+            return;
+        Pattern pattern = Pattern.compile(".*[а-яА-ЯёЁ].*");
+        Matcher matcher = pattern.matcher(metadata.getId());
+        if (matcher.find() || metadata.getId().contains(".")) {
+            throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
+        }
+        String id = metadata.getId();
+        if (id != null && forbiddenIds.contains(id.trim())) {
+            throw new N2oMetadataValidationException(getMessage(errorMessage, metadata.getId()));
+        }
+    }
+
+    private Object resolvePlaceholder(String placeholder) {
+        Object value = placeholder;
+        if (StringUtils.isProperty(placeholder)) {
+            value = env.getSystemProperties().resolvePlaceholders(placeholder);
+        }
+        return value;
+    }
+
+    private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
+        if (linkMap != null) {
+            linkMap.forEach((k, v) -> {
+                if (v.equalsLink(link)) {
+                    // для данных, которые мапятся напрямую
+                    resultMap.put(k, k);//todo это нужно для resolve url нужно вынести в другой метод
+                    // для данных, которые мапятся через параметр
+                    resultMap.put(v.getFieldId(), k);
+                }
+            });
+        }
+    }
+
+    private void executeSubModels(ModelLink link) {
+        if (link.getValue() == null)
+            return;
+        if (link.getValue() instanceof List) {
+            for (DefaultValues defaultValues : (List<DefaultValues>) link.getValue()) {
+                DataSet dataSet = new DataSet();
+                dataSet.put(link.getFieldId(), defaultValues.getValues());
+                env.getSubModelsProcessor().executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
+                defaultValues.setValues((Map<String, Object>) dataSet.get(link.getFieldId()));
+            }
+        } else if (link.getValue() instanceof DefaultValues) {
+            DataSet dataSet = new DataSet();
+            dataSet.put(link.getFieldId(), ((DefaultValues) link.getValue()).getValues());
+            env.getSubModelsProcessor().executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
+            ((DefaultValues) link.getValue()).setValues((Map<String, Object>) dataSet.get(link.getFieldId()));
+        }
+    }
+
+    private void resolveDefaultValues(ModelLink src, ModelLink dst) {
+        if (src.getParam() != null && params.containsKey(src.getParam())) {
+            if (params.get(src.getParam()) instanceof List) {
+                List<DefaultValues> values = new ArrayList<>();
+                for (Object value : (List) params.get(src.getParam())) {
+                    DefaultValues defaultValues = new DefaultValues();
+                    defaultValues.setValues(new HashMap<>());
+                    defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), value);
+                    values.add(defaultValues);
+                }
+                if (!values.isEmpty())
+                    dst.setValue(values);
+            } else {
+                DefaultValues defaultValues = new DefaultValues();
+                defaultValues.setValues(new HashMap<>());
+                defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), params.get(src.getParam()));
+                dst.setValue(src.getSubModelQuery().getMulti() != null && src.getSubModelQuery().getMulti()
+                        ? Collections.singletonList(defaultValues)
+                        : defaultValues);
+            }
+        }
+    }
+
+    /**
+     * Получает значение по ключу и если оно существует, удаляет этот ключ из маппинга
+     *
+     * @param mapping Маппинг
+     * @param key     Ключ
+     * @return Значение
+     */
+    private Object getValue(Map<String, ? extends BindLink> mapping, String key) {
+        if (!mapping.containsKey(key))
+            return null;
+        BindLink bindLink = mapping.get(key);
+        if (bindLink instanceof ModelLink) {
+            Object value = model.getValue((ModelLink) bindLink);
+            if (value != null)
+                mapping.remove(key);
+            return value;
+        } else
+            return null;
     }
 }

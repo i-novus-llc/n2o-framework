@@ -2,9 +2,7 @@ package net.n2oapp.framework.api;
 
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
-import net.n2oapp.framework.api.util.RefUtil;
-import net.n2oapp.framework.api.util.link.GlobalLinkUtil;
-import net.n2oapp.framework.api.util.link.PageLinkUtil;
+import org.springframework.lang.Nullable;
 
 import java.util.Set;
 import java.util.function.Function;
@@ -23,6 +21,7 @@ public abstract class StringUtils {
     private static PlaceHoldersResolver contextPlaceHoldersResolver = new PlaceHoldersResolver("#{", "}");
     private static PlaceHoldersResolver jsPlaceHoldersResolver = new PlaceHoldersResolver("`", "`");
     private static PlaceHoldersResolver linkPlaceHoldersResolver = new PlaceHoldersResolver("{", "}");
+    private static PlaceHoldersResolver jsonPlaceHoldersResolver = new PlaceHoldersResolver("{{", "}}");
     private static final String PATTERN = "^([a-zA-Z$_][a-zA-Z0-9$_]*\\(\\))$";
 
     /**
@@ -95,7 +94,21 @@ public abstract class StringUtils {
      * @return Является ссылкой (true)
      */
     public static boolean isLink(Object value) {
-        return linkPlaceHoldersResolver.isPlaceHolder(value) && ((String)value).matches("\\{[\\w.]+}");
+        return linkPlaceHoldersResolver.isPlaceHolder(value) && !jsonPlaceHoldersResolver.isPlaceHolder(value);
+    }
+
+    /**
+     * Проверка, что значение - json(то есть обрамлено двойными {{ }} )
+     * Примеры:
+     * {@code
+     *      isJson("{{"a" : "b"}}");        //true
+     *      isJson("{"a" : "b"}");          //false
+     * }
+     * @param value Значение
+     * @return Является json (true)
+     */
+    public static boolean isJson(Object value) {
+        return jsonPlaceHoldersResolver.isPlaceHolder(value);
     }
 
     /**
@@ -126,7 +139,7 @@ public abstract class StringUtils {
      * @return true - javaScript выражение, false - не javaScript выражение
      */
     public static boolean isJs(Object s) {
-        return s != null && s instanceof String && jsPlaceHoldersResolver.isPlaceHolder(s);
+        return s instanceof String && jsPlaceHoldersResolver.isPlaceHolder(s);
     }
 
     /**
@@ -223,53 +236,72 @@ public abstract class StringUtils {
     }
 
     /**
-     * Проверка, что строка - это ссылка
-     * Примеры:
-     *      isRef("{id}");      //true
-     *      isRef("{a -> b}");  //true
-     *      isRef("text{id}");  //false
-     *      isRef("id");        //false
-     *      isRef("${id}");     //false
-     * @param s - строка
-     * @return true - ссылка, false - не ссылка
+     * Сравнивает строку на соответствие маске
+     * @param mask - маска (* - любые символы)
+     * @param val - сравниваемое значение
+     * @return - результат сравнения
      */
-    @Deprecated
-    public static boolean isRef(String s) {
-        return RefUtil.isRef(s);
+    public static boolean maskMatch(String mask, String val) {
+        return mask == null || val == null ?
+                mask == null && val == null :
+                val.matches(maskToRegex(mask));
     }
 
     /**
-     * Проверка, что строка - глобальная ссылка
-     * Примеры:
-     *      isGlobalLink("{a->b}");             //true
-     *      isGlobalLink("{ a -> b }");         //true
-     *      isGlobalLink("{ a -> b.c:d }");     //true
-     *      isGlobalLink("{ a - > b }");        //false
-     *      isGlobalLink("{a.b}");              //false
-     *      isGlobalLink("{->a.b}");            //false
-     *      isGlobalLink("${a->b}");            //false
-     * @param s - строка
-     * @return true - глобальная ссылка, false - не глобальная ссылка
+     * Конвертирует маску в RegEx
+     * @param mask - маска (* - любые символы)
+     * @return - регулярное выражение
      */
-    @Deprecated
-    public static boolean isGlobalLink(String s) {
-        return GlobalLinkUtil.isLink(s);
+    public static String maskToRegex(String mask) {
+        if (mask == null) {
+            return null;
+        }
+        if (!mask.contains("*")) {
+            return "\\Q" + mask + "\\E";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        if (mask.startsWith("*")) {
+            sb.append("(.*)");
+        }
+        String[] pieces = mask.split("\\*");
+        for (int i = 0; i < pieces.length; i++) {
+            if (!pieces[i].isEmpty()) {
+                sb.append("\\Q").append(pieces[i]).append("\\E");
+                if (i + 1 < pieces.length || mask.endsWith("*")) {
+                    sb.append("(.*)");
+                }
+            }
+        }
+        return sb.toString();
     }
 
-    // создание global-линков
-    @Deprecated //use PageLinkUtil.createSelectLink
-    public static String toLink(String containerId, String fieldId) {
-        return PageLinkUtil.createSelectLink(containerId, fieldId);
+    /**
+     * Убирает переводы на новую строку, пробелы в начале и в конце
+     * @param str Строка
+     * @return Строка без начальных и конечныъх переводов на новую строку и пробелов
+     */
+    public static String simplify(String str) {
+        if (str == null || str.isEmpty())
+            return str;
+        String result = str.trim();
+        result = org.springframework.util.StringUtils.trimLeadingCharacter(result, '\n');
+        result = org.springframework.util.StringUtils.trimTrailingCharacter(result, '\n');
+        return result.trim();
     }
 
-    @Deprecated //use PageLinkUtil.createSelectLink
-    public static String toLink(String pageId, String containerId, String fieldId) {
-        return toLink(pageId + "." + containerId, fieldId);
+    /**
+     * Проверка, что текст содержит шаблон поиска
+     *
+     * @param str Строка
+     * @return Содержит (true) или нет (false)
+     */
+    public static boolean hasWildcard(String str) {
+        if (str == null)
+            return false;
+        return str.contains("*");
     }
-
-    @Deprecated //use PageLinkUtil.createSelectLink
-    public static String toLinkWithoutField(String pageId, String containerId) {
-        return toLink(pageId, containerId, null);
+    public static boolean isEmpty(@Nullable Object str) {
+        return (str == null || "".equals(str));
     }
-
 }

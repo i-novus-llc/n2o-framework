@@ -48,11 +48,6 @@ public class N2oException extends RuntimeException {
      * Диалог с вариантами выбора
      */
     private Map<String, String> choice;
-
-    /**
-     * Id виджета, с которым связано исключение
-     */
-    private String alertKey;
     /**
      * Данные сообщения
      */
@@ -65,9 +60,9 @@ public class N2oException extends RuntimeException {
     public N2oException(Throwable cause) {
         super(cause);
     }
+
     public N2oException(Throwable cause, String alertKey) {
         super(cause);
-        this.alertKey = alertKey;
     }
 
     public N2oException(String message) {

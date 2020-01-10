@@ -72,16 +72,6 @@ UPDATE mytable SET :params WHERE id = :id;
 ==== <rest>
 Вызов REST запросов.
 
-Подключение::
-[source,xml]
-----
-<dependency>
-  <groupId>net.n2oapp.framework</groupId>
-  <artifactId>n2o-engine-rest</artifactId>
-  <version>${n2o.version}</version>
-</dependency>
-----
-
 Атрибуты::
 [cols="2,1,4,4"]
 |===
@@ -282,6 +272,11 @@ public class MyService {
 
 Для `type="entity"` определяется по атрибуту `entity-class` объекта.
 
+|default-value
+|Строка
+|Значение по умолчанию
+|
+
 |===
 
 ===== <spring>
@@ -373,60 +368,6 @@ public class MyService {
     module="mymodule"
     bean="mybean"/>
 </java>
-----
-
-==== <sqlt>
-Вызов шаблонизированного SQL запроса.
-
-Подключение::
-[source,xml]
-----
-<dependency>
-  <groupId>net.n2oapp.framework</groupId>
-  <artifactId>n2o-engine-sqlt</artifactId>
-  <version>${n2o.version}</version>
-</dependency>
-----
-
-
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|file
-|Строка
-|Путь к файлу .sqlt в ресурсах проекта
-|
-
-|blocks
-|Список, через запятую
-|Открытые текстовые блоки в шаблоне
-|
-
-|===
-
-Пример::
-[source,xml]
-----
-<sqlt
-  file="/sql/myQueryById.sqlt"
-  blocks="list, id"/>
-----
-
-.Sqlt запрос
-[source,sql]
-----
-/**list**
-SELECT id, name
-**list**/
-/**count**
-SELECT count(*)
-**count**/
-FROM mytable
-/**id**
-WHERE id = :id
-**id**/
 ----
 
 === JPA

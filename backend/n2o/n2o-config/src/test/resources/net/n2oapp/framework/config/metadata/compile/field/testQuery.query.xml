@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" route="/test">
+    <list>
+        <test/>
+    </list>
+    <fields>
+        <field id="id">
+            <select/>
+        </field>
+        <field id="label">
+            <select/>
+            <filters>
+                <eq/>
+            </filters>
+        </field>
+    </fields>
+</query>

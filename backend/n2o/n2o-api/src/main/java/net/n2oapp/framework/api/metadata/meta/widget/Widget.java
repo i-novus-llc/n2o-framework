@@ -1,17 +1,12 @@
 package net.n2oapp.framework.api.metadata.meta.widget;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.aware.SrcAware;
+import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
-import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
-import net.n2oapp.framework.api.metadata.meta.FetchDependency;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -24,24 +19,28 @@ import java.util.*;
  */
 @Getter
 @Setter
-public abstract class Widget<T extends WidgetComponent> implements Compiled, SrcAware, PropertiesAware {
+public abstract class Widget<T extends WidgetComponent> extends Component {
     private String id;
     private String route;
-    //todo избавиться от selectedRoute и pathMapping, они нужны для компиляции роута детейл виджета. ее надо перенести в компиляцию страницы
-    private String selectedRoute;
-    private Map<String, ModelLink> pathMapping;
+    /**
+     * Наименование path параметра идентификатора родительского виджета
+     */
+    private String masterParam;
+    /**
+     * Ссылка на идентификатор родительского виджета
+     */
+    private ModelLink masterLink;
     private Boolean opened;
     private String name;
     @JsonProperty
     private String icon;
     private UploadType upload;
     private String objectId;
+    private String queryId;
     private List<Filter> filters;
     protected T component;
     private Set<String> notCopiedFields;
     private List<Validation> validations = new ArrayList<>();
-    @JsonProperty
-    private String src;
     @JsonProperty
     private WidgetDataProvider dataProvider;
     @JsonProperty
@@ -49,8 +48,9 @@ public abstract class Widget<T extends WidgetComponent> implements Compiled, Src
     @JsonProperty
     private Map<String, Action> actions;
     @JsonProperty
-    private FetchDependency dependency;
-    private Map<String, Object> properties;
+    private WidgetDependency dependency;
+    @JsonProperty
+    private Boolean visible;
 
     public Widget() {
     }
@@ -59,28 +59,11 @@ public abstract class Widget<T extends WidgetComponent> implements Compiled, Src
         this.component = component;
     }
 
-    @JsonAnyGetter
-    public Map<String, Object> getJsonProperties() {
-        return properties;
-    }
-
-    public List<SubModelQuery> getSubModelQueriesForField() {
-        return Collections.emptyList();//todo
-    }
-
-    public List<SubModelQuery> getSubModelQueriesForFilter() {
-        return Collections.emptyList();//todo
-    }
-
     public Filter getFilter(String filterId) {
+        if (filters == null)
+            return null;
         return filters.stream().filter(f -> f.getFilterId().equals(filterId)).findFirst()
-                .orElseThrow(() -> new N2oException("Filter " + filterId + "not found"));
+                .orElseThrow(() -> new N2oException("Filter " + filterId + " not found"));
     }
 
-    public void addPathMapping(String param, ModelLink bindLink) {
-        if (pathMapping == null) {
-            pathMapping = new HashMap<>();
-        }
-        pathMapping.put(param, bindLink);
-    }
 }

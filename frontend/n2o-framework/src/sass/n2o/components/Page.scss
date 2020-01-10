@@ -1,0 +1,9 @@
+.n2o-page-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $spacer;
+}
+
+.n2o-disabled-page {
+  pointer-events: none;
+}

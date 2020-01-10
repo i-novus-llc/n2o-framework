@@ -27,12 +27,11 @@ public abstract class ListControl extends Control {
     @JsonProperty
     private String groupFieldId;
     @JsonProperty
-    private boolean hasSearch;
+    private Boolean hasSearch;
     @JsonProperty
     private Integer size;
     @JsonProperty
     private Boolean closePopupOnSelect;
-
     @JsonProperty
     private String format;
     @JsonProperty

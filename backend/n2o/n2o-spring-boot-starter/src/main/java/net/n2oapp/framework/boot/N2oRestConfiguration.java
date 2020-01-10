@@ -29,12 +29,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 
 /**
  * Конфигурация контроллеров
@@ -45,15 +45,14 @@ import java.util.Properties;
 public class N2oRestConfiguration {
 
 
-    @Value("${n2o.ui.header.id:}")
+    @Value("${n2o.header.id:}")
     private String headerId;
 
     @Value("${n2o.api.url:/n2o}")
     private String n2oApiUrl;
 
-    @Value("${n2o.format.date}")
-    private String dataFormat;
-
+    @Value("${n2o.project-name:N2O}")
+    private String projectName;
 
     @Bean
     ControllerFactory controllerFactory(Map<String, SetController> setControllers, Map<String, GetController> getControllers) {
@@ -65,14 +64,13 @@ public class N2oRestConfiguration {
 
     @Bean
     public DataController dataController(ControllerFactory controllerFactory,
-                                         ObjectMapper n2oObjectMapper,
                                          MetadataEnvironment environment,
                                          MetadataRouter router) {
-        return new DataController(controllerFactory, n2oObjectMapper, router, environment);
+        return new DataController(controllerFactory, environment, router);
     }
 
     @Bean
-    public ErrorMessageBuilder errorMessageBuilder(MessageSourceAccessor messageSourceAccessor) {
+    public ErrorMessageBuilder errorMessageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
         return new ErrorMessageBuilder(messageSourceAccessor);
     }
 
@@ -122,14 +120,14 @@ public class N2oRestConfiguration {
     }
 
     @Bean
-    public ServletRegistrationBean appConfigServlet(Properties n2oProperties,
+    public ServletRegistrationBean appConfigServlet(ConfigurableEnvironment configurableEnvironment,
                                                     ContextProcessor contextProcessor,
                                                     @Qualifier("n2oObjectMapper") ObjectMapper n2oObjectMapper,
                                                     ExposedResourceBundleMessageSource clientMessageSource,
                                                     MetadataEnvironment env) {
         AppConfigJsonWriter writer = new AppConfigJsonWriter();
         writer.setContextProcessor(contextProcessor);
-        writer.setProperties(n2oProperties);
+        writer.setPropertyResolver(configurableEnvironment);
         writer.setObjectMapper(n2oObjectMapper);
         writer.setPath("classpath*:META-INF/config.json");
         writer.setOverridePath("classpath*:META-INF/config-build.json");
@@ -137,6 +135,8 @@ public class N2oRestConfiguration {
         AppConfigServlet appConfigServlet = new AppConfigServlet();
         appConfigServlet.setAppConfigJsonWriter(writer);
         appConfigServlet.setMessageSource(clientMessageSource);
+        appConfigServlet.setProjectName(projectName);
+        appConfigServlet.setEnvironment(env);
         ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().cache().copy()
                 .compile().transform().cache().copy()

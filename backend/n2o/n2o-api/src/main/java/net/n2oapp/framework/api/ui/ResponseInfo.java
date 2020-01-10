@@ -1,11 +1,8 @@
 package net.n2oapp.framework.api.ui;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.ParametrizedMessagePlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 /**
@@ -15,6 +12,7 @@ public class ResponseInfo  {
 
     private List<ResponseMessage> messageList;
     private Map<String, Object> attributes;
+    private boolean stackedMessages = false;
 
 
     public void addMessage(ResponseMessage message) {
@@ -49,5 +47,13 @@ public class ResponseInfo  {
 
     public void setAttributes(Map<String, Object> attributes) {
         this.attributes = attributes;
+    }
+
+    public boolean getStackedMessages() {
+        return stackedMessages;
+    }
+
+    public void setStackedMessages(boolean stackedMessages) {
+        this.stackedMessages = stackedMessages;
     }
 }

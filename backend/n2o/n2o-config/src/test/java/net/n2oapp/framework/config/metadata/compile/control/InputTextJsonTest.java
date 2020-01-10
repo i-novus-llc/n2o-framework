@@ -29,7 +29,7 @@ public class InputTextJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testInputText.widget.xml",
                 "components/controls/InputText/InputText.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
-                .exclude("src", "disabled", "style")
+                .exclude("src", "id", "disabled", "style")
                 .assertEquals();
     }
 
@@ -38,7 +38,7 @@ public class InputTextJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testInputText.widget.xml",
                 "components/controls/InputNumber/InputNumber.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[1].fields[0].control")
-                .exclude("src", "disabled", "type", "value", "showButtons", "name", "visible")
+                .exclude("src", "id", "disabled", "type", "value", "showButtons", "name", "visible")
                 .assertEquals();
     }
 

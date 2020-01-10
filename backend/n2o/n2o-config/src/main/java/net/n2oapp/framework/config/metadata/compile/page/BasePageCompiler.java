@@ -1,13 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
-import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
-import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
-import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
+import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 
@@ -30,7 +29,7 @@ public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceC
      * @return Маршрут
      */
     protected String initPageRoute(N2oPage source, PageContext context, CompileProcessor p) {
-        return p.cast(context.getRoute(p), source.getRoute(), normalize(source.getId()));
+        return normalize(p.cast(context.getRoute((N2oCompileProcessor) p), source.getRoute(), normalize(source.getId())));
     }
 
     /**
@@ -41,10 +40,9 @@ public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceC
      * @param p       Процессор сборки
      */
     protected void registerRoutes(PageRoutes routes, PageContext context, CompileProcessor p) {
-        PageContext pageContext = new PageContext(context, p);
         for (PageRoutes.Route route : routes.getList()) {
             if (!route.getIsOtherPage())
-                p.addRoute(route.getPath(), pageContext);
+                p.addRoute(route.getPath(), context);
         }
     }
 
@@ -69,8 +67,19 @@ public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceC
         }
         Breadcrumb current = new Breadcrumb();
         current.setLabel(pageName);
+        if (context.getParentModelLink() != null) {
+            current.setModelLink(context.getParentModelLink());
+        }
         breadcrumbs.add(current);
         return breadcrumbs;
+    }
+
+    protected PageProperty initPageName(String pageName, PageContext context, CompileProcessor p) {
+        PageProperty pageProperty = new PageProperty();
+        pageProperty.setTitle(p.cast(context.getPageName(), pageName));
+        if (context.getParentModelLink() != null)
+            pageProperty.setModelLink(context.getParentModelLink());
+        return pageProperty;
     }
 
 }

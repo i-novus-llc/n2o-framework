@@ -3,12 +3,17 @@
     <actions>
         <action model="edit">
             <invoke
-                    operation-id="update"
-                    close-after-success="true"
                     src ="test"
+                    operation-id="update"
                     route="/test"
+                    close-on-success="true"
+                    refresh-on-success="false"
+                    message-on-fail="false"
+                    message-on-success="false"
                     redirect-url="/testUrl"
-                    redirect-target="newWindow"/>
+                    redirect-target="newWindow"
+                    refresh-widget-id="testWidget"
+            />
         </action>
     </actions>
 </page>

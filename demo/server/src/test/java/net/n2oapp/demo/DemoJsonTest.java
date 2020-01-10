@@ -1,12 +1,8 @@
 package net.n2oapp.demo;
 
-import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.local.CompilerHolder;
 import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.CompileProcessorAdapter;
-import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -18,6 +14,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.FileSystemResource;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Тест синхронизации json и xml метаданных демо стенда
  */
@@ -26,8 +25,6 @@ public class DemoJsonTest extends JsonMetadataTestBase {
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        new CompilerHolder(new CompileProcessorAdapter(new N2oCompileProcessor(builder.getEnvironment()),
-                builder.getEnvironment().getMetadataRegister()));
         tester.setPipelineFunc((p) -> p.read().merge().transform().cache().copy().compile().transform().cache().copy().bind());
         tester.setPrintJsonOnFail(true);
     }
@@ -51,13 +48,13 @@ public class DemoJsonTest extends JsonMetadataTestBase {
     @Test
     public void proto_patients_create() {
         check(new FileSystemResource("../../frontend/demo/server/json/proto_patients_create.json"))
-                .assertEquals("/proto/patients/create", Page.class);
+                .assertEquals("/proto/create", Page.class);
     }
 
     @Test
     public void proto_patients_update() {
         check(new FileSystemResource("../../frontend/demo/server/json/proto_patients_update.json"))
-                .assertEquals("/proto/patients/5607677/update", Page.class);
+                .assertEquals("/proto/5607677/update", Page.class);
     }
 
     @Test
@@ -68,9 +65,9 @@ public class DemoJsonTest extends JsonMetadataTestBase {
 
     @Test
     public void proto_patients_update2() {
-        DataSet data = new DataSet();
-        data.put("id", 5607677);
+        Map<String, String[]> data = new HashMap<>();
+        data.put("id", new String[]{ "5607677" });
         check(new FileSystemResource("../../frontend/demo/server/json/proto_patients_update2.json"))
-                .assertEquals("/proto/patients/5607677/update2", Page.class, data);
+                .assertEquals("/proto/5607677/update2", Page.class, data);
     }
 }

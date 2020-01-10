@@ -26,13 +26,15 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
         p.attributeEnum(e, "upload", op::getUpload, op::setUpload, UploadType.class);
         p.attribute(e, "master-field-id", op::getMasterFieldId, op::setMasterFieldId);
         p.attribute(e, "detail-field-id", op::getDetailFieldId, op::setDetailFieldId);
+        p.attribute(e, "master-param", op::getMasterParam, op::setMasterParam);
         p.attributeBoolean(e, "focus-after-submit", op::getFocusAfterSubmit, op::setFocusAfterSubmit);
         p.attributeBoolean(e, "close-after-submit", op::getCloseAfterSubmit, op::setCloseAfterSubmit);
         p.attribute(e, "redirect-url-after-submit", op::getRedirectUrlAfterSubmit, op::setRedirectUrlAfterSubmit);
         p.attributeEnum(e, "redirect-target-after-submit", op::getRedirectTargetAfterSubmit, op::setRedirectTargetAfterSubmit, Target.class);
         p.attributeBoolean(e, "refresh-after-submit", op::getRefreshAfterSubmit, op::setRefreshAfterSubmit);
         p.attributeBoolean(e, "refresh-on-close", op::getRefreshOnClose, op::setRefreshOnClose);
-        p.attribute(e,"route", op::getRoute,op::setRoute);
+        p.attributeBoolean(e, "unsaved-data-prompt-on-close", op::getUnsavedDataPromptOnClose, op::setUnsavedDataPromptOnClose);
+        p.attribute(e, "route", op::getRoute, op::setRoute);
         p.childrenByEnum(e, "pre-filters", op::getPreFilters, op::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
         p.childrenByEnum(e, "pre-fields", op::getPreFields, op::setPreFields, N2oPreField::getType,
@@ -42,10 +44,12 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
     private void prefilter(Element e, N2oPreFilter pf, IOProcessor p) {
         p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
         p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
+        p.attribute(e, "param", pf::getParam, pf::setParam);
+        p.attributeBoolean(e, "routable", pf::getRoutable, pf::setRoutable);
         p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
         p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);
         p.attributeEnum(e, "ref-model", pf::getRefModel, pf::setRefModel, ReduxModel.class);
-        p.childrenToStringArray(e, null, "value", pf::getValues, pf::setValues);
+        p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }
 
     private void prefield(Element e, N2oPreField pf, IOProcessor p) {

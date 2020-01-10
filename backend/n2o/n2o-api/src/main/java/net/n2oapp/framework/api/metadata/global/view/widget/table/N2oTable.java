@@ -1,53 +1,33 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import lombok.Getter;
+import lombok.Setter;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 
 
-/**
- * User: iryabov
- * Date: 05.02.13
- * Time: 18:30
- */
-public class N2oTable extends N2oAbstractTable<N2oTable> {
+@Getter
+@Setter
+public class N2oTable extends N2oAbstractTable {
     private FilterPosition filterPosition;
     private Boolean filterOpened;
-    private NamespaceUriAware[] filters;
+    private SourceComponent[] filters;
+    private Boolean searchOnChange;
+    private ChildrenToggle children;
 
 
-    @Override
-    public boolean isNavSupport() {
-        return true;
-    }
-
-    public NamespaceUriAware[] getFilters() {
-        return filters;
-    }
-
-    public void setFilters(NamespaceUriAware[] filters) {
-        this.filters = filters;
-    }
-
-    public FilterPosition getFilterPosition() {
-        return filterPosition;
-    }
-
-    public void setFilterPosition(FilterPosition filterPosition) {
-        this.filterPosition = filterPosition;
-    }
-
-    public Boolean getFilterOpened() {
-        return filterOpened;
-    }
-
-    public void setFilterOpened(Boolean filterOpened) {
-        this.filterOpened = filterOpened;
-    }
-
-    public static enum FilterPosition {
+    public enum FilterPosition {
         top, left;
 
         public String getName() {
             return this.name();
         }
+    }
+
+    /**
+     * Виды отображения дочерних записей таблицы
+     */
+    public enum ChildrenToggle {
+        collapse,   // свернутый
+        expand      // раскрытый
     }
 }

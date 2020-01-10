@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -33,20 +34,28 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/invoke/action", getActionContext()),
                 new RouteInfo("/test/master/:master_id/detail", getMasterDetailQueryContext()),
                 new RouteInfo("/test/select", new QueryContext("testSqlQuery4", "/test/select")),
-                new RouteInfo("/test/sql/validation", getQueryContext()));
+                new RouteInfo("/test/sql/validation", getQueryContext()),
+                new RouteInfo("/test/subModels", getQueryContextWithSubModel()));
     }
 
     private QueryContext getQueryContext() {
         QueryContext context = new QueryContext("testSqlQuery4", "/test/sql/validation");
         StandardField field = new StandardField();
-        field.setId("id");
         InputText control = new InputText();
         control.setId("id");
         field.setControl(control);
-        MandatoryValidation mandatory = new MandatoryValidation("id_validation", "id is required", field.getId());
+        MandatoryValidation mandatory = new MandatoryValidation("id_validation", "id is required", field.getControl().getId());
         mandatory.setMoment(N2oValidation.ServerMoment.beforeQuery);
         context.setValidations(Arrays.asList(mandatory));
         context.setMessagesForm("testTable.filter");
+        return context;
+    }
+
+    private QueryContext getQueryContextWithSubModel() {
+        QueryContext context = new QueryContext("testModel", "/test/subModels");
+        SubModelQuery subModel = new SubModelQuery("subModel", "testSubModel", "id", "name", false, null);
+        context.setSubModelQueries(Collections.singletonList(subModel));
+        context.setQuerySize(1);
         return context;
     }
 
@@ -61,7 +70,7 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
     private QueryContext getMasterDetailQueryContext() {
         QueryContext queryContext = new QueryContext("testMasterDetail", "/test/master/:master_id/detail");
         Filter preFilter = new Filter();
-        preFilter.setReloadable(false);
+        preFilter.setRoutable(false);
         preFilter.setFilterId("individualId");
         preFilter.setParam("master_id");
         queryContext.setFilters(Collections.singletonList(preFilter));
@@ -71,11 +80,10 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
     private List<Validation> createValidations() {
         List<Validation> validations = new ArrayList<>();
         StandardField field = new StandardField();
-        field.setId("id");
         InputText control = new InputText();
         control.setId("id");
         field.setControl(control);
-        MandatoryValidation mandatory = new MandatoryValidation("required_id", "Id is null", field.getId());
+        MandatoryValidation mandatory = new MandatoryValidation("required_id", "Id is null", field.getControl().getId());
         mandatory.setMoment(N2oValidation.ServerMoment.beforeOperation);
         validations.add(mandatory);
         ConditionValidation conditionValidation = new ConditionValidation();

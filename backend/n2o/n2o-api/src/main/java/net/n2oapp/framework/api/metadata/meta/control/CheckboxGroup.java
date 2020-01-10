@@ -14,8 +14,6 @@ import java.util.Map;
 @Setter
 public class CheckboxGroup extends ListControl {
     @JsonProperty
-    private String label;
-    @JsonProperty
     private Boolean inline;
     @JsonProperty
     private String type;

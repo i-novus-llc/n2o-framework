@@ -12,10 +12,10 @@ import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.ui.ResponseMessage;
-import net.n2oapp.framework.config.util.SubModelsProcessor;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
+import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.exception.N2oRecordNotFoundException;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
@@ -24,49 +24,54 @@ import java.util.Map;
  */
 public abstract class GetController implements ControllerTypeAware {
 
-    @Autowired
-    protected DataProcessingStack dataProcessingStack;
-    @Autowired
-    protected QueryProcessor queryProcessor;
-    @Autowired
-    protected SubModelsProcessor subModelsProcessor;
-    @Autowired
-    protected MetadataRegister configRegister;
-    @Autowired
-    protected ErrorMessageBuilder errorMessageBuilder;
+    private DataProcessingStack dataProcessingStack;
+    private QueryProcessor queryProcessor;
+    private SubModelsProcessor subModelsProcessor;
+    private MetadataRegister configRegister;
+    private ErrorMessageBuilder errorMessageBuilder;
 
-    protected GetController() {
+
+    protected GetController(DataProcessingStack dataProcessingStack,
+                            QueryProcessor queryProcessor,
+                            SubModelsProcessor subModelsProcessor,
+                            MetadataRegister configRegister,
+                            ErrorMessageBuilder errorMessageBuilder) {
+        this.dataProcessingStack = dataProcessingStack;
+        this.queryProcessor = queryProcessor;
+        this.subModelsProcessor = subModelsProcessor;
+        this.configRegister = configRegister;
+        this.errorMessageBuilder = errorMessageBuilder;
     }
 
     public abstract GetDataResponse execute(QueryRequestInfo requestScope, QueryResponseInfo responseInfo);
 
 
     public CollectionPage<DataSet> executeQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
+        CollectionPage<DataSet> pageData = null;
         dataProcessingStack.processQuery(requestInfo, responseInfo);
         try {
-            CollectionPage<DataSet> pageData = queryProcessor.execute(requestInfo.getQuery(), requestInfo.getCriteria());
+            pageData = queryProcessor.execute(requestInfo.getQuery(), requestInfo.getCriteria());
             executeSubModels(requestInfo, pageData, responseInfo);
-            dataProcessingStack.processQueryResult(requestInfo, responseInfo, pageData);
-            return pageData;
         } catch (N2oException e) {
             dataProcessingStack.processQueryError(requestInfo, responseInfo, e);
-            e.setAlertKey(requestInfo.getFailAlertWidgetId());
             throw e;
         } catch (Exception e) {
             throw new N2oException(e, requestInfo.getFailAlertWidgetId());
         }
+        dataProcessingStack.processQueryResult(requestInfo, responseInfo, pageData);
+        return pageData;
     }
 
     @SuppressWarnings("unchecked")
     private void executeSubModels(QueryRequestInfo requestInfo, CollectionPage<DataSet> page, QueryResponseInfo responseInfo) {
         if (!page.getCollection().isEmpty() && requestInfo.isSubModelsExists() && requestInfo.getSize() == 1) {
             DataSet dataSet = page.getCollection().iterator().next();
-            subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), dataSet, new RecordNotFoundCollector(responseInfo));
+            subModelsProcessor.executeSubModels(requestInfo.getQuery().getSubModelQueries(), dataSet);
         }
     }
 
 
-    public static class RecordNotFoundCollector implements SubModelsProcessor.OnErrorCallback {
+    public static class RecordNotFoundCollector implements N2oSubModelsProcessor.OnErrorCallback {
         private QueryResponseInfo responseInfo;
 
         public RecordNotFoundCollector(QueryResponseInfo responseInfo) {
@@ -92,23 +97,23 @@ public abstract class GetController implements ControllerTypeAware {
         }
     }
 
-    public void setDataProcessingStack(DataProcessingStack dataProcessingStack) {
-        this.dataProcessingStack = dataProcessingStack;
+    public DataProcessingStack getDataProcessingStack() {
+        return dataProcessingStack;
     }
 
-    public void setQueryProcessor(QueryProcessor queryProcessor) {
-        this.queryProcessor = queryProcessor;
+    public QueryProcessor getQueryProcessor() {
+        return queryProcessor;
     }
 
-    public void setSubModelsProcessor(SubModelsProcessor subModelsProcessor) {
-        this.subModelsProcessor = subModelsProcessor;
+    public SubModelsProcessor getSubModelsProcessor() {
+        return subModelsProcessor;
     }
 
-    public void setConfigRegister(MetadataRegister configRegister) {
-        this.configRegister = configRegister;
+    public MetadataRegister getConfigRegister() {
+        return configRegister;
     }
 
-    public void setErrorMessageBuilder(ErrorMessageBuilder errorMessageBuilder) {
-        this.errorMessageBuilder = errorMessageBuilder;
+    public ErrorMessageBuilder getErrorMessageBuilder() {
+        return errorMessageBuilder;
     }
 }

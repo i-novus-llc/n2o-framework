@@ -1,8 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.MetadataBinder;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -20,19 +19,18 @@ import java.util.Map;
 @Component
 public class WidgetBinder implements BaseMetadataBinder<Widget> {
     @Override
-    public Widget bind(Widget widget, CompileProcessor p) {
+    public Widget bind(Widget widget, BindProcessor p) {
         if (widget.getActions() != null)
             ((Map<String, Action>) widget.getActions()).values().forEach(p::bind);
         if (widget.getDataProvider() != null) {
             Map<String, BindLink> pathMapping = widget.getDataProvider().getPathMapping();
             Map<String, BindLink> queryMapping = widget.getDataProvider().getQueryMapping();
             widget.getDataProvider().setUrl(p.resolveUrl(widget.getDataProvider().getUrl(), pathMapping, queryMapping));
-            pathMapping.keySet().forEach(param -> pathMapping.put(param, p.resolveLink((ModelLink) pathMapping.get(param))));
-            queryMapping.keySet().forEach(param -> queryMapping.put(param, p.resolveLink((ModelLink) queryMapping.get(param))));
+            pathMapping.forEach((k, v) -> pathMapping.put(k, p.resolveLink(v)));
+            queryMapping.forEach((k, v) -> queryMapping.put(k, p.resolveLink(v)));
         }
         if (widget.getFilters() != null) {
-            ((List<Filter>) widget.getFilters()).forEach(f ->
-                    f.setLink(p.resolveLink(f.getLink())));
+            ((List<Filter>) widget.getFilters()).forEach(f -> f.setLink((ModelLink) p.resolveLink(f.getLink())));
         }
         return widget;
     }

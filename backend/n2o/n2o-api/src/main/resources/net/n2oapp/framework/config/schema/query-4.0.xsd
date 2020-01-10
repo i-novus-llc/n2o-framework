@@ -163,6 +163,11 @@
                 <xs:documentation>Значение, которое проставится в поле, если в провайдере оно пустое.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="normalize" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Нормализация данных поля из провайдера.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="filtersElementDefinition">
@@ -171,7 +176,9 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="eq" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="eqOrIsNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="in" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="inOrIsNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="like" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="likeStart" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
@@ -214,6 +221,13 @@
             <xs:annotation>
                 <xs:documentation>Тип, в который будет конвертировано значение при отправке в провайдер.
                     По умолчанию эквивалентен domain от field с преобразованием в список для множественных типов.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="required" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    Флаг обязательности фильтра выборки. По умолчанию false.
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

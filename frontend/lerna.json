@@ -1,10 +1,16 @@
 {
-  "lerna": "2.11.0",
-  "version": "independent",
+  "lerna": "3.18.3",
+  "version": "7.5.0-SNAPSHOT",
+  "npmClient": "npm",
+  "npmClientArgs": [
+    "--no-package-lock"
+  ],
   "packages": [
-    "n2o",
-    "n2o-auth",
     "demo",
-    "n2o-simple-project"
+    "n2o-auth",
+    "n2o-framework",
+    "n2o-notifications",
+    "n2o-simple-project",
+    "n2o-ecp-plugin"
   ]
 }

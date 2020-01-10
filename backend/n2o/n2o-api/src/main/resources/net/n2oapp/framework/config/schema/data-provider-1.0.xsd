@@ -117,6 +117,11 @@
                             <xs:documentation>Имя класса</xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
+                    <xs:attribute name="default-value" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>Значение по умолчанию</xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
                 </xs:complexType>
             </xs:element>
         </xs:sequence>
@@ -188,6 +193,16 @@
                 <xs:documentation>Операция, выполняемая провайдером</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="primary-key-type" type="primaryKeyTypeEnum" default="integer">
+            <xs:annotation>
+                <xs:documentation>Тип первичного ключа</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="primary-key" type="xs:string" default="id">
+            <xs:annotation>
+                <xs:documentation>Поле первичного ключа</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:simpleType name="operationEnum">
@@ -206,6 +221,16 @@
         </xs:union>
     </xs:simpleType>
 
+    <xs:simpleType name="primaryKeyTypeEnum">
+        <xs:union memberTypes="xs:string">
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="integer" />
+                    <xs:enumeration value="string"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
 
     <xs:simpleType name="argumentTypeDefinition">
         <xs:annotation>

@@ -6,10 +6,12 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,6 +24,8 @@ public class QueryContext extends BaseCompileContext<CompiledQuery, N2oQuery> {
     private String messagesForm;
     private Integer querySize;
     private Map<String, String> sortingMap;
+    private List<SubModelQuery> subModelQueries;
+    private Set<String> copiedFields;
 
     public QueryContext(String queryId) {
         super(queryId, N2oQuery.class, CompiledQuery.class);

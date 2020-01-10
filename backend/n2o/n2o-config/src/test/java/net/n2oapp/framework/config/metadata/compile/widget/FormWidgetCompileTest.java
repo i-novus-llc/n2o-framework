@@ -1,8 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
@@ -45,23 +48,24 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     public void uploadDefaults() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormCompile.widget.xml")
                 .get(new WidgetContext("testFormCompile"));
-        assertThat(form.getId(), is("testFormCompile"));
+        assertThat(form.getId(), is("$testFormCompile"));
         assertThat(form.getUpload(), is(UploadType.defaults));
         assertThat(form.getDataProvider(), nullValue());
         assertThat(form.getComponent().getFetchOnInit(), is(false));
+        assertThat(form.getComponent().getPrompt(), is(true));
     }
 
     @Test
     public void uploadQuery() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormCompile2.widget.xml")
                 .get(new WidgetContext("testFormCompile2"));
-        assertThat(form.getId(), is("testFormCompile2"));
+        assertThat(form.getId(), is("$testFormCompile2"));
         assertThat(form.getUpload(), is(UploadType.query));
         assertThat(form.getDataProvider(), notNullValue());
         assertThat(form.getComponent().getFetchOnInit(), is(true));
-        QueryContext queryContext = (QueryContext) route("/testFormCompile2").getContext(CompiledQuery.class);
-        assertThat(queryContext.getFailAlertWidgetId(), is("testFormCompile2"));
-        assertThat(queryContext.getSuccessAlertWidgetId(), is("testFormCompile2"));
+        QueryContext queryContext = (QueryContext) route("/testFormCompile2", CompiledQuery.class);
+        assertThat(queryContext.getFailAlertWidgetId(), is("$testFormCompile2"));
+        assertThat(queryContext.getSuccessAlertWidgetId(), is("$testFormCompile2"));
     }
 
     @Test
@@ -89,12 +93,33 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(validations.get(7).getId(), is("test5"));
         assertThat(validations.get(7).getSide().contains("client"), is(true));
         assertThat(validations.get(8).getId(), is("Condition1"));
+        assertThat(validations.get(8).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
         assertThat(validations.get(8).getSide().contains("client"), is(true));
         assertThat(validations.get(9).getId(), is("Condition2"));
         assertThat(validations.get(9).getSide().contains("client"), is(true));
         assertThat(validations.get(10).getId(), is("Condition3"));
         assertThat(validations.get(10).getSide(), is(nullValue()));
 
+        validations = form.getComponent().getValidation().get("testField3");
+        assertThat(((MandatoryValidation) validations.get(0)).getEnablingExpression(), is("(testField2 == 'test') && (testField3 == 'test')"));
+        assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
 
+
+    }
+
+    @Test
+    public void testFormStyles() {
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormRowColCompile.widget.xml")
+                .get(new WidgetContext("testFormRowColCompile"));
+        assertThat(form.getStyle().get("width"), is("300px"));
+        assertThat(form.getStyle().get("marginLeft"), is("10px"));
+
+        FieldSet fieldSet = form.getComponent().getFieldsets().get(0);
+        assertThat(fieldSet.getStyle().get("width"), is("300px"));
+        assertThat(fieldSet.getStyle().get("marginLeft"), is("10px"));
+        assertThat(fieldSet.getRows().get(0).getStyle().get("width"), is("300px"));
+        assertThat(fieldSet.getRows().get(0).getStyle().get("marginLeft"), is("10px"));
+        assertThat(fieldSet.getRows().get(0).getCols().get(0).getStyle().get("width"), is("300px"));
+        assertThat(fieldSet.getRows().get(0).getCols().get(0).getStyle().get("marginLeft"), is("10px"));
     }
 }

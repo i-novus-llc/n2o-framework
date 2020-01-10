@@ -18,7 +18,6 @@ public class FileUploadJsonTest extends JsonMetadataTestBase {
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.format.date.client", "DD-MMM-YY HH:mm");
         super.configure(builder);
         builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
     }
@@ -28,7 +27,7 @@ public class FileUploadJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testFileUpload.widget.xml",
                 "components/controls/FileUploader/DropZone.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
-                .exclude("disabled", "ajax", "label", "name", "statusFieldId", "responseFieldId", "src", "readOnly", "sizeFieldId", "autoUpload")
+                .exclude("id", "disabled", "ajax", "label", "name", "statusFieldId", "src", "sizeFieldId", "autoUpload")
                 .assertEquals();
     }
 

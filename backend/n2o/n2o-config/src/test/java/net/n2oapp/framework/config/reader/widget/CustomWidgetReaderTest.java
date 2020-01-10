@@ -26,7 +26,6 @@ public class CustomWidgetReaderTest extends BaseWidgetReaderTest {
         N2oCustomWidget customWidget = reader.readByPath("net/n2oapp/framework/config/reader/widget/custom/testCustomWidgetReader.widget.xml");
 
         assertWidgetAttribute(customWidget);
-        assert customWidget.getProperties().size() == 1;
         assertCustomWidget(customWidget);
     }
 }

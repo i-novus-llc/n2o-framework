@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+      xmlns:sec="http://n2oapp.net/framework/config/schema/security-1.0">
+    <regions>
+        <panel place="topRight">
+            <form id="test2" object-id="testSubMenuAccess" query-id="testQuery">
+                <toolbar>
+
+                    <sub-menu>
+                        <menu-item id="menuItem1">
+                            <invoke operation-id="operation1"/>
+                        </menu-item>
+                        <menu-item id="menuItem2">
+                            <invoke operation-id="operation2"/>
+                        </menu-item>
+                        <menu-item id="menuItem3">
+                            <invoke operation-id="operation3"/>
+                        </menu-item>
+                    </sub-menu>
+
+                    <sub-menu>
+                        <menu-item id="menuItem4">
+                            <invoke operation-id="operation2"/>
+                        </menu-item>
+                        <menu-item id="menuItem5">
+                            <invoke operation-id="operation3"/>
+                        </menu-item>
+                    </sub-menu>
+
+                    <sub-menu>
+                        <menu-item id="menuItem6">
+                            <invoke operation-id="operation2"/>
+                        </menu-item>
+                        <menu-item id="menuItem7">
+                            <invoke operation-id="operation4"/>
+                        </menu-item>
+                    </sub-menu>
+
+                    <sub-menu>
+                        <menu-item id="menuItem8">
+                            <invoke operation-id="operation2"/>
+                        </menu-item>
+                        <menu-item id="menuItem9">
+                            <a href="https://www.google.com/"/>
+                        </menu-item>
+                        <menu-item id="menuItem10" sec:permissions="test">
+                            <a href="https://www.google.com/"/>
+                        </menu-item>
+                    </sub-menu>
+                </toolbar>
+            </form>
+        </panel>
+    </regions>
+</page>

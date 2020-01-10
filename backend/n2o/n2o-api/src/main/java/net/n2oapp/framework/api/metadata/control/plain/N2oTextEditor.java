@@ -4,10 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Компонент ввода text-editor
+ * Компонент редактора текста
  */
 @Getter
 @Setter
 public class N2oTextEditor extends N2oText {
-    private String configUrl;
+    private String toolbarUrl;
 }

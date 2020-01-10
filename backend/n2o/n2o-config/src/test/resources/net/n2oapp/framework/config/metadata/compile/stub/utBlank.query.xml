@@ -18,5 +18,13 @@
             <domain>integer</domain>
             <display>[0]</display>
         </field>
+        <field>
+            <id>name</id>
+            <filters>
+                <filter type="eq" filter-field="name"/>
+            </filters>
+            <domain>string</domain>
+            <display>[0]</display>
+        </field>
     </fields>
 </query>

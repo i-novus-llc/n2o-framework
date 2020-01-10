@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.control.interval.N2oIntervalField;
 import net.n2oapp.framework.api.metadata.control.list.N2oSelectTree;
 import net.n2oapp.framework.api.metadata.control.plain.N2oText;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNodes;
 import net.n2oapp.framework.api.metadata.persister.AbstractN2oMetadataPersister;
 import net.n2oapp.framework.config.persister.tools.PreFilterPersister;
@@ -27,7 +26,7 @@ import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.*;
 /**
  * Абстрактная реализация сохранения контрола в xml-файл
  */
-public abstract class N2oControlXmlPersister<T extends N2oStandardField> extends AbstractN2oMetadataPersister<T> {
+public abstract class N2oControlXmlPersister<T extends N2oField> extends AbstractN2oMetadataPersister<T> {
 
     private ObjectMapper mapper = new ObjectMapper();
 
@@ -45,14 +44,15 @@ public abstract class N2oControlXmlPersister<T extends N2oStandardField> extends
         this.namespacePrefix = namespacePrefix;
     }
 
-    protected void setControl(Element element, N2oStandardField n2oControl) {
-        if (n2oControl.getId() != null)
-            element.setAttribute("id", n2oControl.getId());
+    protected void setControl(Element element, N2oField n2oControl) {
         if (n2oControl.getLabel() != null)
             element.setAttribute("label", n2oControl.getLabel());
         setAttribute(element, "visible", n2oControl.getVisible());
         setElementString(element, "description", n2oControl.getDescription());
-        setElementString(element, "placeholder", n2oControl.getPlaceholder());
+        element.setAttribute("id", n2oControl.getId());
+        if (n2oControl instanceof N2oStandardField) {
+            setElementString(element, "placeholder", ((N2oStandardField) n2oControl).getPlaceholder());
+        }
     }
 
 
@@ -77,53 +77,26 @@ public abstract class N2oControlXmlPersister<T extends N2oStandardField> extends
         setAttribute(element, "ajax", selectTree.getAjax());
         setAttribute(element, "search", selectTree.getSearch());
         setAttribute(element, "checkboxes", selectTree.getCheckboxes());
-        if (selectTree.getInheritanceNodes() != null) {
-            InheritanceNodes in = selectTree.getInheritanceNodes();
+        InheritanceNodes in = selectTree.getInheritanceNodes();
+        if (in != null) {
             Element inheritanceNodes = new Element("inheritance-nodes", namespacePrefix, namespaceUri);
-            inheritanceNodes.setAttribute("parent-field-id", in.getParentFieldId());
-            inheritanceNodes.setAttribute("label-field-id", in.getLabelFieldId());
+            setAttribute(inheritanceNodes, "parent-field-id", in.getParentFieldId());
+            setAttribute(inheritanceNodes, "label-field-id", in.getLabelFieldId());
             setAttribute(inheritanceNodes, "value-field-id", in.getValueFieldId());
             setAttribute(inheritanceNodes, "detail-field-id", in.getDetailFieldId());
             setAttribute(inheritanceNodes, "master-field-id", in.getMasterFieldId());
             setAttribute(inheritanceNodes, "query-id", in.getQueryId());
             setAttribute(inheritanceNodes, "has-children-field-id", in.getHasChildrenFieldId());
             setAttribute(inheritanceNodes, "icon-field-id", in.getIconFieldId());
-            setAttribute(inheritanceNodes, "search-field-id", in.getSearchFieldId());
+            setAttribute(inheritanceNodes, "search-field-id", in.getSearchFilterId());
             setAttribute(inheritanceNodes, "enabled-field-id", in.getEnabledFieldId());
-            PreFilterPersister.setPreFilter(selectTree.getInheritanceNodes().getPreFilters(), inheritanceNodes, Namespace.getNamespace(namespacePrefix, namespaceUri));
+            PreFilterPersister.setPreFilter(in.getPreFilters(), inheritanceNodes, Namespace.getNamespace(namespacePrefix, namespaceUri));
             element.addContent(inheritanceNodes);
-        } else if (selectTree.getGroupingNodes() != null) {
-            List<GroupingNodes.Node> nodes = selectTree.getGroupingNodes().getNodes();
-            Element groupingNodes = new Element("grouping-nodes", namespacePrefix, namespaceUri);
-            groupingNodes.setAttribute("query-id", selectTree.getGroupingNodes().getQueryId());
-            setAttribute(groupingNodes, "detail-field-id", selectTree.getGroupingNodes().getDetailFieldId());
-            setAttribute(groupingNodes, "label-field-id", selectTree.getGroupingNodes().getDetailFieldId());
-            setAttribute(groupingNodes, "master-field-id", selectTree.getGroupingNodes().getMasterFieldId());
-            setAttribute(groupingNodes, "value-field-id", selectTree.getGroupingNodes().getValueFieldId());
-            if (selectTree.getGroupingNodes().getSearchFieldId() != null)
-                groupingNodes.setAttribute("search-field-id", selectTree.getGroupingNodes().getSearchFieldId());
-            element.addContent(groupingNodes);
-            createNode(nodes.get(0), namespaceUri, groupingNodes);
-            PreFilterPersister.setPreFilter(selectTree.getGroupingNodes().getPreFilters(), groupingNodes, Namespace.getNamespace(namespacePrefix, namespaceUri));
         }
     }
 
-    private void createNode(GroupingNodes.Node node, String namespace, Element root) {
-        Element nodeElement = new Element("node", namespace);
-        nodeElement.setAttribute("value-field-id", node.getValueFieldId());
-        nodeElement.setAttribute("label-field-id", node.getLabelFieldId());
-        if (node.getIcon() != null)
-            nodeElement.setAttribute("icon", node.getIcon());
-        if (node.getEnabled() != null)
-            nodeElement.setAttribute("enabled", String.valueOf(node.getEnabled()));
-        root.addContent(nodeElement);
-        if (node.getNodes() != null && node.getNodes().size() > 0)
-            createNode(node.getNodes().get(0), namespace, nodeElement);
-    }
-
-
     @SuppressWarnings("unchecked")
-    protected void setField(Element element, N2oStandardField n2oField) {
+    protected void setField(Element element, N2oField n2oField) {
         if (n2oField.getDependsOn() != null) {
             setAttribute(element, "depends-on", n2oField.getDependsOn()[0]);
         }
@@ -131,14 +104,15 @@ public abstract class N2oControlXmlPersister<T extends N2oStandardField> extends
         setAttribute(element, "domain", n2oField.getDomain());
         setAttribute(element, "required", n2oField.getRequired());
         setAttribute(element, "label-style", n2oField.getLabelStyle());
-        setAttribute(element, "copied", n2oField.getCopied());
+        if (n2oField instanceof N2oStandardField) {
+            setAttribute(element, "copied", ((N2oStandardField) n2oField).getCopied());
+            setValidations((N2oStandardField)n2oField, element);
+            if (((N2oStandardField)n2oField).getDefaultValue() != null)
+                setAttribute(element, "default-value", ((N2oStandardField)n2oField).getDefaultValue());
+        }
         setAttribute(element, "control-style", n2oField.getStyle());
-        setAttribute(element, "layout", n2oField.getFieldSrc());
         setAttribute(element, "src", n2oField.getSrc());
-        if (n2oField.getDefaultValue() instanceof String)
-            setAttribute(element, "default-value", n2oField.getDefaultValue());
         CssClassAwarePersister.getInstance().persist(element, n2oField);
-        setValidations(n2oField, element);
         setDependencies(n2oField, element);
     }
 
@@ -156,7 +130,7 @@ public abstract class N2oControlXmlPersister<T extends N2oStandardField> extends
         PersisterJdomUtil.setAttribute(queryEl, "master-field-id", control.getMasterFieldId());
         PersisterJdomUtil.setAttribute(queryEl, "detail-field-id", control.getDetailFieldId());
         PersisterJdomUtil.setAttribute(queryEl, "label-field-id", control.getLabelFieldId());
-        PersisterJdomUtil.setAttribute(queryEl, "search-field-id", control.getSearchFieldId());
+        PersisterJdomUtil.setAttribute(queryEl, "search-field-id", control.getSearchFilterId());
         PersisterJdomUtil.setAttribute(queryEl, "value-field-id", control.getValueFieldId());
         PersisterJdomUtil.setAttribute(queryEl, "format", control.getFormat());
         PersisterJdomUtil.setAttribute(queryEl, "icon-field-id", control.getIconFieldId());
@@ -165,18 +139,19 @@ public abstract class N2oControlXmlPersister<T extends N2oStandardField> extends
 
     protected void setDefaultModel(Element element, N2oField listField) {
         if (listField instanceof N2oListField) {
-            if (((N2oListField)listField).getDefValue() == null) return;
+            if (((N2oListField) listField).getDefValue() == null) return;
             Element defaultModel = setEmptyElement(element, "default-model");
-            ((N2oListField)listField).getDefValue().forEach((field, val) -> {
+            ((N2oListField) listField).getDefValue().forEach((field, val) -> {
                 Element value = setEmptyElement(defaultModel, "value");
                 setAttribute(value, "field-id", field);
                 value.setText(val);
             });
         } else if (listField instanceof N2oIntervalField) {
-            if (((N2oIntervalField)listField).getBegin() == null && ((N2oIntervalField)listField).getEnd() == null) return;
+            if (((N2oIntervalField) listField).getBegin() == null && ((N2oIntervalField) listField).getEnd() == null)
+                return;
             Element defaultModel = setEmptyElement(element, "default-model");
-            setAttribute(defaultModel, "begin", ((N2oIntervalField)listField).getBegin());
-            setAttribute(defaultModel, "end", ((N2oIntervalField)listField).getEnd());
+            setAttribute(defaultModel, "begin", ((N2oIntervalField) listField).getBegin());
+            setAttribute(defaultModel, "end", ((N2oIntervalField) listField).getEnd());
         }
     }
 
@@ -258,15 +233,24 @@ public abstract class N2oControlXmlPersister<T extends N2oStandardField> extends
                     if (dependencies == null)
                         dependencies = setEmptyElement(rootElement, "dependencies");
                     Element enable = setElementString(dependencies, "enabling-condition", dependency.getValue());
-                    setAttribute(enable, "on", dependency.getOn());
+                    if (dependency.getOn() != null) {
+                        String on = String.join(",", dependency.getOn());
+                        setAttribute(enable, "on", on);
+                    }
                 } else if (dependency instanceof N2oField.RequiringDependency) {
                     if (dependencies == null)
                         dependencies = setEmptyElement(rootElement, "dependencies");
                     Element required = setElementString(dependencies, "required-condition", dependency.getValue());
-                    setAttribute(required, "on", dependency.getOn());
-                } else if(dependency instanceof N2oField.SetValueDependency) {
+                    if (dependency.getOn() != null) {
+                        String on = String.join(",", dependency.getOn());
+                        setAttribute(required, "on", on);
+                    }
+                } else if (dependency instanceof N2oField.SetValueDependency) {
                     Element setValueExp = setElementString(rootElement, "set-value-expression", dependency.getValue());
-                    setAttribute(setValueExp, "on", dependency.getOn());
+                    if (dependency.getOn() != null) {
+                        String on = String.join(",", dependency.getOn());
+                        setAttribute(setValueExp, "on", on);
+                    }
                 }
             }
         }

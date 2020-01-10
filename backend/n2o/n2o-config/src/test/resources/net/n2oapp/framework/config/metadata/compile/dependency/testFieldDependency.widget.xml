@@ -3,7 +3,8 @@
     <fields>
         <row>
             <input-text id="name" label="Поле №1 . Тип зависимости: блокировка" description="Введите 'test'"/>
-            <input-text id="surname" label="Зависимое поле" description="Зависит от поля №1. Тип зависимости: блокировка">
+            <input-text id="surname" label="Зависимое поле"
+                        description="Зависит от поля №1. Тип зависимости: блокировка">
                 <dependencies>
                     <enabling on="name">
                         name == 'test'
@@ -20,11 +21,14 @@
             </input-text>
         </row>
         <row>
-            <input-text id="f3" label="Поле №3. Комбинированная зависимость" description="Введите 'test'. Это сделает зависимое поле видимым"/>
-            <input-text id="f4" label="Поле №4. Комбинированная зависимость" description="Введите 'test'. Это уберет блокировку"/>
-            <input-text id="depend3" label="Зависимое поле" description="Зависит от  полей № 3,4. Тип зависимости: комбинированная">
+            <input-text id="f3" label="Поле №3. Комбинированная зависимость"
+                        description="Введите 'test'. Это сделает зависимое поле видимым"/>
+            <input-text id="f4" label="Поле №4. Комбинированная зависимость"
+                        description="Введите 'test'. Это уберет блокировку"/>
+            <input-text id="depend3" label="Зависимое поле"
+                        description="Зависит от  полей № 3,4. Тип зависимости: комбинированная">
                 <dependencies>
-                    <visibility on="f3">f3 == 'test'</visibility>
+                    <visibility on="f3" reset="false">f3 == 'test'</visibility>
                     <enabling on="f4">f4 == 'test'</enabling>
                 </dependencies>
             </input-text>
@@ -32,16 +36,31 @@
         <row>
             <input-text id="f9" label="Поле №9. Тип зависимости: Установка значения" description="Введите значение">
             </input-text>
-            <input-text id="f10" label="Поле №10. Тип зависимости: Сброс значения" description="Введите 'test'. Это сбросит значение зависимого поля">
+            <input-text id="f10" label="Поле №10. Тип зависимости: Сброс значения"
+                        description="Введите 'test'. Это сбросит значение зависимого поля">
             </input-text>
             <input-text id="depend4" label="Зависимое поле" description="Зависит от полей №9, 10">
                 <dependencies>
-                    <set-value on="f9">
+                    <set-value on="f9,f10">
                         return 'В поле №9 введено:  '+f9
                     </set-value>
                     <enabling>true</enabling>
                 </dependencies>
             </input-text>
+        </row>
+        <row>
+            <col size="6">
+                <input-text id="f11.item" label="Поле №11. Тип зависимости: видимость, id поля через точку"
+                            description="Введите 'test'">
+                </input-text>
+            </col>
+            <col size="6">
+                <input-text id="f12" label="Поле №12. Тип зависимости: Сброс значения">
+                    <dependencies>
+                        <visibility on="f11.item" reset="false">f11.item == 'test'</visibility>
+                    </dependencies>
+                </input-text>
+            </col>
         </row>
     </fields>
 </form>

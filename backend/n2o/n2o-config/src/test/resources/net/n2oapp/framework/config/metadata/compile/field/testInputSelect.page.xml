@@ -1,16 +1,16 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" layout="LeftRightLayout">
     <regions>
-        <none place="left">
+        <region place="left">
             <form id="main">
                 <fields>
                     <input-select id="testId" label="" type="checkboxes" placeholder="Введите" query-id="testSelect"
-                                  label-field-id="name" value-field-id="id" search-field-id="search"
+                                  label-field-id="name" value-field-id="id" search-filter-id="search"
                                   icon-field-id="icon" image-field-id="image" group-field-id="country"
                                   badge-field-id="badgeFieldId" badge-color-field-id="badgeColorFieldId"
                                   format="`id+' '+id`">
                         <default-value id="1" name="test" isTest="true"/>
                             <pre-filters>
-                                <notEq field-id="ref" value="{someField}"/>
+                                <notEq field-id="ref" value="{someField}" reset-on-change="true"/>
                                 <contains field-id="country">
                                     <value>1</value>
                                     <value>2</value>
@@ -18,19 +18,29 @@
                                 </contains>
                             </pre-filters>
                     </input-select>
+                    <input-select id="testId2" query-id="testSelect"/>
+                    <input-select id="testFetch">
+                        <dependencies>
+                            <fetch-value on="testId2" query-id="testSelectFetch">
+                                <pre-filters>
+                                    <eq field-id="ref" value="{testId2}"/>
+                                </pre-filters>
+                            </fetch-value>
+                        </dependencies>
+                    </input-select>
                 </fields>
             </form>
-        </none>
-        <none place="right">
+        </region>
+        <region place="right">
             <table id="second">
                 <filters>
                     <input-select id="testId" label="" type="checkboxes" placeholder="Введите" query-id="testSelect"
-                                  label-field-id="name" value-field-id="id" search-field-id="search"
+                                  label-field-id="name" value-field-id="id" search-filter-id="search"
                                   icon-field-id="icon" image-field-id="image" group-field-id="country"
                                   format="`id+' '+id`">
                         <default-value id="1" name="test" isTest="true"/>
                         <pre-filters>
-                            <notEq field-id="ref" value="{someField}"/>
+                            <notEq field-id="ref" value="{someField}" ref-widget-id="main" ref-model="filter"/>
                             <contains field-id="country">
                                 <value>1</value>
                                 <value>2</value>
@@ -43,6 +53,6 @@
                     <column text-field-id="id"/>
                 </columns>
             </table>
-        </none>
+        </region>
     </regions>
 </page>

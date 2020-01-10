@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.io.control.list;
 
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.metadata.control.list.CheckingStrategy;
 import net.n2oapp.framework.api.metadata.control.list.N2oInputSelectTree;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.view.widget.tree.GroupingNodes;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNodes;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
@@ -18,8 +18,16 @@ public class InputSelectTreeIOv2 extends ListFieldIOv2<N2oInputSelectTree> {
         p.attributeBoolean(e, "ajax", m::getAjax, m::setAjax);
         p.attributeBoolean(e, "search", m::getSearch, m::setSearch);
         p.attributeBoolean(e, "checkboxes", m::getCheckboxes, m::setCheckboxes);
+        p.attributeEnum(e, "checking-strategy", m::getCheckingStrategy, m::setCheckingStrategy, CheckingStrategy.class);
+        p.attributeInteger(e, "max-tag-count", m::getMaxTagCount, m::setMaxTagCount);
+        p.attribute(e, "enabled-field-id", m::getEnabledFieldId, m::setEnabledFieldId);
+        p.attribute(e, "parent-field-id", m::getParentFieldId, m::setParentFieldId);
+        p.attribute(e, "has-children-field-id", m::getHasChildrenFieldId, m::setHasChildrenFieldId);
+        p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
+        p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
+        p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
+
         p.child(e, null, "inheritance-nodes", m::getInheritanceNodes, m::setInheritanceNodes, InheritanceNodes.class, this::inheritanceNodes);
-//        p.child(e, null, "grouping-nodes", m::getGroupingNodes, m::setGroupingNodes, GroupingNodes.class, this::groupingNodes);
     }
 
     private void inheritanceNodes(Element e, InheritanceNodes m, IOProcessor p) {
@@ -31,17 +39,8 @@ public class InputSelectTreeIOv2 extends ListFieldIOv2<N2oInputSelectTree> {
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
         p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
         p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
-        p.attribute(e, "search-field-id", m::getSearchFieldId, m::setSearchFieldId);
+        p.attribute(e, "search-filter-id", m::getSearchFilterId, m::setSearchFilterId);
         p.attribute(e, "enabled-field-id", m::getEnabledFieldId, m::setEnabledFieldId);
-        p.children(e, "pre-filters", "pre-filter", m::getPreFilters, m::setPreFilters, N2oPreFilter::new, this::prefilters);
-    }
-
-    private void groupingNodes(Element e, GroupingNodes m, IOProcessor p) {
-        p.attribute(e, "query-id", m::getQueryId, m::setQueryId);
-        p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
-        p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
-        p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
-        p.attribute(e, "search-field-id", m::getSearchFieldId, m::setSearchFieldId);
         p.children(e, "pre-filters", "pre-filter", m::getPreFilters, m::setPreFilters, N2oPreFilter::new, this::prefilters);
     }
 

@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { map } from 'lodash';
-import factoryResolver from 'n2o/lib/utils/factoryResolver';
-import StandardWidget from 'n2o/lib/components/widgets/StandardWidget';
+import React from "react";
+import PropTypes from "prop-types";
+import { map } from "lodash";
+import factoryResolver from "n2o-framework/lib/core/factory/factoryResolver";
+import StandardWidget from "n2o-framework/lib/components/widgets/StandardWidget";
 
-import DataGridContainer from './DataGridContainer';
+import DataGridContainer from "./DataGridContainer";
 
 /**
  * Кастом видежт датагрид
@@ -28,15 +28,15 @@ class DataGridWidget extends React.Component {
 
   getColumns() {
     const { headers } = this.props.table;
-    return map(headers, (h) => ({
+    return map(headers, h => ({
       key: h.id,
       name: h.label,
       resizable: true
-    }))
+    }));
   }
 
   prepareFilters() {
-    return factoryResolver(this.props.filter, 'Input');
+    return factoryResolver(this.props.filter, "Input");
   }
 
   render() {
@@ -45,7 +45,7 @@ class DataGridWidget extends React.Component {
       toolbar,
       disabled,
       actions,
-      table: { fetchOnInit },
+      table: { fetchOnInit }
     } = this.props;
     return (
       <StandardWidget
@@ -55,7 +55,7 @@ class DataGridWidget extends React.Component {
         actions={actions}
         filter={this.prepareFilters()}
       >
-        <div style={{marginTop: 10}}>
+        <div style={{ marginTop: 10 }}>
           <DataGridContainer
             widgetId={widgetId}
             size={1000}

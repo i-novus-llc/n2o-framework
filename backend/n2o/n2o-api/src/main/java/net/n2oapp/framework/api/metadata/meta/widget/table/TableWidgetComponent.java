@@ -3,9 +3,12 @@ package net.n2oapp.framework.api.metadata.meta.widget.table;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
+import net.n2oapp.framework.api.metadata.meta.action.Action;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -19,20 +22,32 @@ public class TableWidgetComponent extends WidgetComponent {
     private String className;
     @JsonProperty("size")
     private Integer size;
-    @JsonProperty("rowColor")
-    private String rowColor;
-    @JsonProperty("autoFocus")
-    private Boolean autoFocus = true;
+    @JsonProperty("rowClass")
+    private String rowClass;
     @JsonProperty("hasFocus")
     private Boolean hasFocus = true;
+    @JsonProperty("hasSelect")
+    private Boolean hasSelect = true;
+    @JsonProperty
+    private Scroll scroll;
+    @JsonProperty
+    private String tableSize;
+
     @JsonProperty("cells")
     private List<N2oCell> cells;
     @JsonProperty("headers")
     private List<ColumnHeader> headers;
+
     @JsonProperty("sorting")
     private Map<String, String> sorting;
-    //todo показывает можно ли выбирать строки в таблице, пока только на клиенте реализована в xml такой функции нет
-    @JsonProperty("hasSelect")
-    private Boolean hasSelect = true;
+    @JsonProperty("rowClick")
+    private Action rowClick;
+    @JsonProperty("rows")
+    private Rows rows;
 
+    @Setter
+    @Getter
+    public static class Rows implements JsonPropertiesAware, Serializable {
+        private Map<String, Object> properties;
+    }
 }

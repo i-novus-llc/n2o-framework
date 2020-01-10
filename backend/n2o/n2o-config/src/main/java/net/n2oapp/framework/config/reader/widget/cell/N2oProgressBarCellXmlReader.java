@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.reader.widget.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oProgressBarCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.Size;
 import net.n2oapp.framework.config.reader.widget.SwitchReader;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
@@ -28,7 +27,7 @@ public class N2oProgressBarCellXmlReader extends AbstractN2oCellXmlReader<N2oPro
         N2oProgressBarCell progressBar = new N2oProgressBarCell();
         N2oSwitch pbSwitch = new SwitchReader(null).read(element);
         progressBar.setStyleSwitch(pbSwitch);
-        progressBar.setSize(getAttributeEnum(element, "size", Size.class));
+        progressBar.setSize(getAttributeEnum(element, "size", N2oProgressBarCell.Size.class));
         progressBar.setActive(getAttributeBoolean(element, "active"));
         progressBar.setStriped(getAttributeBoolean(element, "striped"));
         return progressBar;

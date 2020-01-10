@@ -1,16 +1,478 @@
 package net.n2oapp.criteria.dataset;
 
+import org.junit.Ignore;
 import org.junit.Test;
-import net.n2oapp.criteria.dataset.NestedMap;
 
 import java.util.*;
+import java.util.function.Supplier;
 
 /**
- * User: iryabov
- * Date: 30.10.13
- * Time: 13:12
+ * Tests of {@link NestedMap}
  */
 public class NestedMapTest {
+
+    @Test
+    public void get() {
+        NestedMap map = new NestedMap();
+        map.put("foo", 1);
+        assert map.get("foo").equals(1);
+        assert map.get("['foo']").equals(1);
+        assert map.get("[\"foo\"]").equals(1);
+
+        map = new NestedMap();
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("bar", 1);
+        map.put("foo", map2);
+        assert map.get("foo.bar").equals(1);
+        assert map.get("['foo'].bar").equals(1);
+        assert map.get("[\"foo\"].bar").equals(1);
+        assert map.get("foo['bar']").equals(1);
+        assert map.get("foo[\"bar\"]").equals(1);
+        assert map.get("['foo']['bar']").equals(1);
+        assert map.get("[\"foo\"][\"bar\"]").equals(1);
+
+        map = new NestedMap();
+        List<Object> list = new ArrayList<>();
+        Map<String, Object> map1 = new HashMap<>();
+        map1.put("bar", 1);
+        list.add(map1);
+        map2 = new HashMap<>();
+        map2.put("bar", 2);
+        list.add(map2);
+        map.put("foo", list);
+        assert map.get("foo*.bar") instanceof List;
+        assert map.get("['foo']*.bar") instanceof List;
+        assert ((List) map.get("foo*.bar")).get(0).equals(1);
+        assert ((List) map.get("foo*.bar")).get(1).equals(2);
+
+        map = new NestedMap();
+        list = new NestedList();
+        list.add(1);
+        map.put("foo", list);
+        assert map.get("foo[0]").equals(1);
+
+        //empty
+        map = new NestedMap();
+        assert map.get("bar") == null;//safe not key
+
+        map = new NestedMap();
+        map.put("foo", null);
+        assert map.get("foo.bar") == null;//safe get on null
+
+        map = new NestedMap();
+        map.put("foo", 1);
+        assert map.get("foo.bar") == null;//not a map
+
+        map = new NestedMap();
+        map.put("foo", 1);
+        assert map.get("foo*.bar") == null;//not a list
+
+        //negative
+        assert fail(() -> new NestedMap().get(null), IllegalArgumentException.class);//key is null
+    }
+
+    @Test
+    public void put() {
+        NestedMap map = new NestedMap();
+        map.put("foo", 1);
+        assert map.get("foo").equals(1);
+
+        map = new NestedMap();
+        map.put("['foo']", 1);
+        assert map.get("foo").equals(1);
+
+        map = new NestedMap();
+        map.put("[\"foo\"]", 1);
+        assert map.get("foo").equals(1);
+
+        map = new NestedMap();
+        map.put("foo.bar", 1);
+        assert map.get("foo") instanceof Map;
+        assert ((Map) map.get("foo")).get("bar").equals(1);
+
+        map = new NestedMap();
+        map.put("foo['bar']", 1);
+        assert map.get("foo") instanceof Map;
+        assert ((Map) map.get("foo")).get("bar").equals(1);
+
+        map = new NestedMap();
+        map.put("['foo']['bar']", 1);
+        assert map.get("foo") instanceof Map;
+        assert ((Map) map.get("foo")).get("bar").equals(1);
+
+        map = new NestedMap();
+        map.put("foo[2]", 1);
+        assert map.get("foo") instanceof List;
+        assert ((List) map.get("foo")).get(2).equals(1);
+
+        map = new NestedMap();
+        map.put("foo*.bar", Arrays.asList(1, 2, 3));
+        assert map.get("foo") instanceof List;
+        assert ((List) map.get("foo")).get(0) instanceof Map;
+        assert ((Map) ((List) map.get("foo")).get(1)).get("bar").equals(2);
+
+        //put map
+        map = new NestedMap();
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("bar", 1);
+        map.put("foo", map2);
+        assert ((Map)map.get("foo")).get("bar").equals(1);
+
+        //put map 2
+        map = new NestedMap();
+        map2 = new HashMap<>();
+        map2.put("bar.test", 1);
+        map.put("foo", map2);
+        assert ((Map)map.get("foo")).get("['bar.test']").equals(1);
+
+        //put map 3
+        map = new NestedMap();
+        map2 = new HashMap<>();
+        map2.put("bar['test']", 1);
+        map.put("foo", map2);
+        assert ((Map)map.get("foo")).get("[\"bar['test']\"]").equals(1);
+
+        //put map 4
+        map = new NestedMap();
+        map2 = new HashMap<>();
+        map2.put("2019-01-01", 1);
+        map.put("foo", map2);
+        assert ((Map)map.get("foo")).get("['2019-01-01']").equals(1);
+
+        //negative
+        map = new NestedMap();
+        map.put("foo", 1);
+        assert map.put("foo*.bar", null).equals(1);
+        assert map.get("foo") == null;
+
+        NestedMap map3 = new NestedMap();
+        assert fail(() -> map3.put("foo*.bar", 1), IllegalArgumentException.class);//value not an iterable
+    }
+
+    @Test
+    public void putAll() {
+        NestedMap map = new NestedMap();
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("foo", 1);
+        map.putAll(map2);
+        assert map.get("foo").equals(1);
+
+        map = new NestedMap();
+        map2 = new HashMap<>();
+        map2.put("1", 1);
+        map.putAll(map2);
+        assert map.get("['1']").equals(1);
+
+        map = new NestedMap();
+        map2 = new HashMap<>();
+        map2.put("foo.bar", 1);
+        map.putAll(map2);
+        assert map.get("['foo.bar']").equals(1);
+        assert map.get("foo") == null;
+
+        map = new NestedMap();
+        map2 = new HashMap<>();
+        map2.put("foo", Arrays.asList(1, 2, 3));
+        map.putAll(map2);
+        assert ((List)map.get("foo")).size() == 3;
+
+        map = new NestedMap();
+        map2 = new HashMap<>();
+        map2.put("2019-01-01", 1);
+        map.putAll(map2);
+        assert map.get("['2019-01-01']").equals(1);
+
+        map = new NestedMap();
+        map2 = new HashMap<>();
+        map2.put("foo[0]", 1);
+        map.putAll(map2);
+        assert map.get("['foo[0]']").equals(1);
+        assert map.get("foo") == null;
+
+        map = new NestedMap();
+        map2 = new HashMap<>();
+        map2.put("foo['bar']", 1);
+        map.putAll(map2);
+        assert map.get("[\"foo['bar']\"]").equals(1);
+        assert map.get("foo") == null;
+    }
+
+    @Test
+    public void removeAndContains() {
+        NestedMap map = new NestedMap();
+        map.put("foo", 1);
+        assert map.containsKey("foo");
+        assert map.remove("foo").equals(1);
+        assert !map.containsKey("foo");
+
+        map = new NestedMap();
+        map.put("foo", 1);
+        assert map.containsKey("['foo']");
+        assert map.remove("['foo']").equals(1);
+        assert !map.containsKey("['foo']");
+
+        map = new NestedMap();
+        map.put("foo", 1);
+        assert map.containsKey("[\"foo\"]");
+        assert map.remove("[\"foo\"]").equals(1);
+        assert !map.containsKey("[\"foo\"]");
+
+        map = new NestedMap();
+        map.put("foo.bar", 1);
+        assert map.containsKey("foo.bar");
+        assert map.remove("foo.bar").equals(1);
+        assert !map.containsKey("foo.bar");
+
+        map = new NestedMap();
+        map.put("foo.bar", 1);
+        assert map.containsKey("foo['bar']");
+        assert map.remove("foo['bar']").equals(1);
+        assert !map.containsKey("foo['bar']");
+
+        map = new NestedMap();
+        map.put("foo.bar", 1);
+        assert map.containsKey("['foo']['bar']");
+        assert map.remove("['foo']['bar']").equals(1);
+        assert !map.containsKey("['foo']['bar']");
+
+        map = new NestedMap();
+        map.put("foo[2]", 1);
+        assert map.containsKey("foo[2]");
+        assert map.remove("foo[2]").equals(1);
+        assert !map.containsKey("foo[2]");
+
+        //cascade remove
+        map = new NestedMap();
+        map.put("foo.bar", 1);
+        assert map.containsKey("foo");
+        assert map.remove("foo") instanceof Map;
+        assert !map.containsKey("foo");
+
+        map = new NestedMap();
+        map.put("foo[0]", 1);
+        assert map.containsKey("foo");
+        assert map.remove("foo") instanceof List;
+        assert !map.containsKey("foo");
+
+        //empty
+        map = new NestedMap();
+        assert !map.containsKey("foo");
+        assert map.remove("foo") == null;
+
+        map = new NestedMap();
+        map.put("foo[1]", 1);
+        assert !map.containsKey("foo[0]");
+        assert map.remove("foo[0]") == null;
+
+        map = new NestedMap();
+        map.put("foo.bar", 1);
+        assert !map.containsKey("foo[0]");
+        assert map.remove("foo[0]") == null;
+        assert map.containsKey("foo.bar");//not replace
+
+        map = new NestedMap();
+        map.put("foo", Arrays.asList(1, 2, 3));
+        assert !map.containsKey("foo.bar");
+        assert map.remove("foo.bar") == null;
+        assert map.containsKey("foo[0]");//not replace
+
+        //negative
+        NestedMap map2 = new NestedMap();
+        map2.put("foo.bar", 1);
+        assert fail(() -> map2.containsKey("foo*.bar"), IllegalArgumentException.class);//value not an iterable
+        assert fail(() -> map2.remove("foo*.bar"), IllegalArgumentException.class);//value not an iterable
+        assert fail(() -> map2.containsKey(123), IllegalArgumentException.class);//value not an iterable
+        assert fail(() -> map2.remove(123), IllegalArgumentException.class);//value not an iterable
+    }
+
+    @Test
+    public void remove() {
+        NestedMap map = new NestedMap();
+        map.put("id", 1);
+        assert map.remove("id").equals(1);
+        assert !map.containsKey("id");
+
+        //remove not exists
+        assert map.remove("a.b") == null;
+    }
+
+    //Synthetic tests
+
+    @Test
+    public void size() {
+        NestedMap map = new NestedMap();
+        map.put("id", 1);
+        assert map.size() == 1;
+        map.put("id2", 2);
+        assert map.size() == 2;
+    }
+
+    @Test
+    public void invalidPut() {
+        NestedMap map = new NestedMap();
+        try {
+            map.put(null, 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put(".", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("a.b.", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put(".a.b", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("a.b..", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("a[0", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("a.[0]", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("a[b]", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("a['b']c", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("a['b\"]", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("a[\"b']", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("a['b]", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("[a]", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("['a]", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("['a\"]", 1);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+    }
+
+    @Test
+    public void invalidGet() {
+        NestedMap map = new NestedMap();
+        try {
+            map.get(null);
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.get(".");
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.get(".a");
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map.put("a.b", 1);
+            map.get("a..");
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map = new NestedMap();
+            map.put("a", Arrays.asList(1, 2));
+            map.get("a[0");
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map = new NestedMap();
+            map.get("[0");
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map = new NestedMap();
+            map.get("[a]");
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map = new NestedMap();
+            map.get("a.1");
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+        try {
+            map = new NestedMap();
+            map.get("a*.1");
+            assert false;
+        } catch (IllegalArgumentException e) {
+            assert true;
+        }
+    }
 
     /**
      * Example props
@@ -99,6 +561,14 @@ public class NestedMapTest {
         assert map.get("['a']") instanceof NestedMap;
         assert map.get("['a']['b']") instanceof NestedMap;
         assert map.get("['a']['b'].c").equals(1);
+
+        //map and props 2
+        map = new NestedMap();
+        assert map.put("a.b", 1) == null;
+        assert map.get("a['b']").equals(1);
+        assert map.get("['a']['b']").equals(1);
+        assert map.get("['a'].b").equals(1);
+        assert map.get("a.b").equals(1);
     }
 
     /**
@@ -114,7 +584,7 @@ public class NestedMapTest {
         assert map.put("a[2]", 3) == null;
         assert map.containsKey("a");
         assert map.get("a") instanceof List;
-        assert ((List)map.get("a")).size() == 3;
+        assert ((List) map.get("a")).size() == 3;
         assert map.containsKey("a[0]");
         assert map.get("a[0]").equals(1);
         assert map.containsKey("a[1]");
@@ -122,25 +592,19 @@ public class NestedMapTest {
         assert map.containsKey("a[2]");
         assert map.get("a[2]").equals(3);
         assert !map.containsKey("a[3]");
-        assert !map.containsKey("a[3]");
         assert map.remove("a[1]").equals(2);//after remove array size became is 2
-        assert ((List)map.get("a")).size() == 2;
+        assert ((List) map.get("a")).size() == 2;
         assert !map.containsKey("a[3]");
 
-        //todo nested index
-//        map = new NestedMap();
-//        assert map.put("a[0][1][2]", 1) == null;
-//        assert map.containsKey("a");
-//        assert map.get("a") instanceof List;
-//        assert map.get("a[0]") instanceof List;
-//        assert map.get("a[1]") == null;
-//        assert map.get("a[0][0]") == null;
-//        assert map.get("a[0][1]") instanceof List;
-//        assert map.get("a[0][2]") == null;
-//        assert map.get("a[0][1][2]").equals(1);
-//        assert map.get("a[0][1][1]") == null;
-//        assert map.get("a[0][1][0]") == null;
-//        assert map.get("a[0][0][0]") == null;
+        //nested index
+        map = new NestedMap();
+        assert map.put("a[0][1]", 1) == null;
+        assert map.containsKey("a");
+        assert map.get("a") instanceof List;
+        assert map.get("a[0]") instanceof List;
+        assert map.get("a[1]") == null;
+        assert map.get("a[0][0]") == null;
+        assert map.get("a[0][1]").equals(1);
 
         //props and index
         map = new NestedMap();
@@ -154,71 +618,18 @@ public class NestedMapTest {
         assert map.get("a[1].b").equals(2);
         assert map.get("a[1].c").equals(3);
 
-        //todo map and index
-//        map = new NestedMap();
-//        assert map.put("['a'][0]", 1) == null;
-//        assert map.get("['a']") instanceof List;
-//        assert map.get("['a'][0]").equals(1);
-
-        //todo map and index and props
-//        map = new NestedMap();
-//        assert map.put("['a'][0].b", 1) == null;
-//        assert map.get("['a']") instanceof List;
-//        assert map.get("['a'][0]") instanceof NestedMap;
-//        assert map.get("['a'][0].b").equals(1);
-    }
-
-
-    //Synthetic tests
-
-
-    @Test
-    public void testPut() {
-        NestedMap map = new NestedMap();
-        Map<String, Object> foo = new HashMap<>();
-        Map<String, Object> bar = new HashMap<>();
-        bar.put("bar", 1);
-        foo.put("foo", bar);
-        map.put("test", foo);
-        assert map.get("test") instanceof NestedMap;
-        assert ((Map)map.get("test")).get("foo") instanceof NestedMap;
-
+        //map and index
         map = new NestedMap();
-        Map<String, Object> baseMap = new HashMap<>();
-        baseMap.put("gender.id", 1);
-        map.putAll(baseMap);
-        assert map.get("gender") != null;
-        assert map.get("gender.id") != null;
+        assert map.put("['a'][0]", 1) == null;
+        assert map.get("['a']") instanceof List;
+        assert map.get("['a'][0]").equals(1);
 
+        //map and index and props
         map = new NestedMap();
-        baseMap = new NestedMap();
-        baseMap.put("gender.id", 1);
-        map.putAll(baseMap);
-        assert map.get("gender") != null;
-        assert map.get("gender.id") != null;
-
-
-    }
-
-
-    @Test
-    public void testRemove() {
-        NestedMap map = new NestedMap();
-        map.put("id", 1);
-        assert map.remove("id").equals(1);
-        assert !map.containsKey("id");
-
-        //remove not exists
-        assert map.remove("a.b") == null;
-    }
-
-    @Test
-    public void testSize() {
-        NestedMap map = new NestedMap();
-        map.put("id", 1);
-        assert map.size() == 1;
-        map.put("id2", 2);
-        assert map.size() == 2;
+        assert map.put("['a'][0].b", 1) == null;
+        assert map.get("['a']") instanceof List;
+        assert map.get("['a'][0]") instanceof NestedMap;
+        assert map.get("['a'][0].b").equals(1);
     }
 
     @Test
@@ -303,9 +714,6 @@ public class NestedMapTest {
         assert map.get("foo[1].name").equals("test");
         assert map.get("foo") instanceof List;
         assert map.get("foo[1]") instanceof Map;
-        assert map.get("foo.1") instanceof Map;
-        assert map.get("foo.1.id").equals(1);
-        assert map.get("foo.1.name").equals("test");
 
         List foo = new ArrayList();
         foo.add(0, "test");
@@ -370,142 +778,12 @@ public class NestedMapTest {
         map.put("a[0]", 1);
         assert map.containsKey("a");
         assert map.containsKey("a[0]");
-        assert map.containsKey("a.0");
         assert !map.containsKey("a[1]");
-        assert !map.containsKey("a.1");
         assert !map.containsKey("a[0].b");
-        assert !map.containsKey("a.0.b");
         map.put("c.b", 1);
         assert map.containsKey("c.b");
     }
 
-    @Test
-    public void testNegative() {
-        NestedMap map = new NestedMap();
-        assert !map.containsKey("a.b.c");
-        assert map.get("a.b.c") == null;
-        try {
-            map.put(null, 1);
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.put(null, 1);
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.put("", 1);
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.put(".", 1);
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.put("a.b.", 1);
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.put(".a.b", 1);
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.put("a.b..", 1);
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.put("[0]", 1);
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.put("a[0", 1);
-            assert false;
-        } catch (IndexOutOfBoundsException e) {
-            assert true;
-        }
-        try {
-            map.put("a.[0]", 1);
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.put("a[b]", 1);
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.put("a['b']c", 1);
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-    }
-
-    @Test
-    public void testNegativeGet() {
-        NestedMap map = new NestedMap();
-        try {
-            map.get(null);
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.get(".");
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.get(".a");
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.get("a.");
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.put("a.b", 1);
-            map.get("a..");
-            map.clear();
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-        try {
-            map.get("a[0");
-            assert false;
-        } catch (IndexOutOfBoundsException e) {
-            assert true;
-        }
-        try {
-            map.get("a[b]");
-            assert false;
-        } catch (IllegalArgumentException e) {
-            assert true;
-        }
-    }
 
     @Test
     public void spreadNullTest() {
@@ -515,7 +793,7 @@ public class NestedMapTest {
         Object value1 = map.get("foo*.id");
         Object value2 = map.get("foo*.name");
         assert value1 != null;
-        assert value2 == null;
+        assert value2 != null;
 
         //положим один name
         map.put("foo[0].name", "oleg");
@@ -535,10 +813,6 @@ public class NestedMapTest {
         map = new NestedMap();
         assert map.put("gender.id", 1) == null;
         map.put("gender*.id", Arrays.asList(1, 2));
-
-        map = new NestedMap();
-        map.put("gender*.id", null);
-        assert map.get("gender*.id") == null;
 
         map = new NestedMap();
         try {
@@ -653,9 +927,9 @@ public class NestedMapTest {
 
         //test put array
         map = new NestedMap();
-        map.put("test*.name", new String[] {"test1", "test2", "test3"});
+        map.put("test*.name", Arrays.asList("test1", "test2", "test3"));
         assert map.get("test") instanceof List;
-        assert ((List)map.get("test")).size() == 3;
+        assert ((List) map.get("test")).size() == 3;
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -679,7 +953,7 @@ public class NestedMapTest {
     @Test
     public void testConstructor() {
         //обычная map
-        Map<String, Object> baseMap = new HashMap<>();
+        Map<String, Object> baseMap = new NestedMap();
         baseMap.put("id", 124);
         baseMap.put("gender.id", 1);
         baseMap.put("gender.name", "Мужской");
@@ -707,28 +981,19 @@ public class NestedMapTest {
         assert newMap.get("gender.name").equals("Мужской");
         assert newMap.get("individual.gender.id").equals(2);
         assert newMap.get("individual.gender.name").equals("Женский");
-
-        //ссылки должны потеряться
-        assert newMap.get("gender") != baseMap.get("gender");
-        assert newMap.get("individual") != baseMap.get("individual");
-        assert newMap.get("individual.gender") != baseMap.get("individual.gender");
-
-        //при put ссылка не должна потеряться
-        NestedMap gender = (NestedMap) newMap.get("gender");
-        newMap.put("gender.type", 4);
-        assert gender.get("type").equals(4);
-
     }
 
     @Test
+    @Ignore
     public void testMapAsList() {
-        Map<String, Object> foo = new HashMap<>();
+        List<Object> foo = new ArrayList<>();
         Map<String, Integer> bar = new HashMap<>();
         bar.put("id", 1);
 
-        foo.put("1", bar);
-        foo.put("0", 1);
-        foo.put("3", 3);
+        foo.add(1);
+        foo.add(bar);
+        foo.add(null);
+        foo.add(3);
 
         NestedMap map = new NestedMap();
         map.put("a", foo);
@@ -740,54 +1005,34 @@ public class NestedMapTest {
         assert map.get("a[2]") == null;
         assert map.get("a[3]").equals(3);
 
-        Map<Integer, Object> foo2 = new HashMap<>();
-        foo2.put(1, bar);
-        foo2.put(0, 1);
-        foo2.put(3, 3);
-
-        map = new NestedMap();
-        map.put("a", foo2);
-
-        assert map.get("a") instanceof List;
-        assert ((List) map.get("a")).size() == 4;
-        assert map.get("a[0]").equals(1);
-        assert map.get("a[1].id").equals(1);
-        assert map.get("a[2]") == null;
-        assert map.get("a[3]").equals(3);
-    }
-
-    @Test
-    public void testMapAsListSize() {
-        Map<String, Object> foo = new HashMap<>();
-        foo.put("9", 9);
-        foo.put("100", 100);
-
         NestedMap result = new NestedMap();
-        result.put("a", foo);
-        assert ((List) result.get("a")).size() == 101;
+        Map<String, Object> foo2 = new HashMap<>();
+        foo2.put("9", 9);
+        result.put("a", foo2);
+        assert result.get("a['9']").equals(9);
     }
 
     @Test
     public void testBootstrapArrays() {
         NestedMap map = new NestedMap();
         //put
-        map.put("list.0.id", 1);
-        map.put("list.1.id", 2);
-        map.put("list.1.name", "Олег");
+        map.put("list[0].id", 1);
+        map.put("list[1].id", 2);
+        map.put("list[1].name", "Олег");
         assert ((List) map.get("list")).size() == 2;
         assert ((Map) ((List) map.get("list")).get(0)).get("id").equals(1);
         assert ((Map) ((List) map.get("list")).get(1)).get("id").equals(2);
         assert ((Map) ((List) map.get("list")).get(1)).get("name").equals("Олег");
         //get
-        assert map.get("list.0.id").equals(1);
-        assert map.get("list.1.id").equals(2);
-        assert map.get("list.1.name").equals("Олег");
+        assert map.get("list[0].id").equals(1);
+        assert map.get("list[1].id").equals(2);
+        assert map.get("list[1].name").equals("Олег");
         //contains
-        assert map.containsKey("list.0.id");
-        assert map.containsKey("list.1.id");
-        assert map.containsKey("list.1.name");
+        assert map.containsKey("list[0].id");
+        assert map.containsKey("list[1].id");
+        assert map.containsKey("list[1].name");
         //remove
-        assert map.remove("list.0.id").equals(1);
+        assert map.remove("list[0].id").equals(1);
         assert ((List) map.get("list")).size() == 2;
         assert ((Map) ((List) map.get("list")).get(0)).get("id") == null;
         assert ((Map) ((List) map.get("list")).get(1)).get("id").equals(2);
@@ -795,10 +1040,22 @@ public class NestedMapTest {
 
         //check double remove
         map.clear();
-        map.put("list.0.id", 1);
-        assert ((Map)map.remove("list.0")).get("id").equals(1);
+        map.put("list[0].id", 1);
+        assert ((Map) map.remove("list[0]")).get("id").equals(1);
         assert ((List) map.get("list")).size() == 0;
-        assert map.remove("list.0.id") == null;
-        assert map.remove("list.0") == null;
+        assert map.remove("list[0].id") == null;
+        assert map.remove("list[0]") == null;
+    }
+
+    private boolean fail(Supplier<Object> test, Class<? extends Exception> exClass) {
+        try {
+            test.get();
+            return false;
+        } catch (Exception e) {
+            if (e.getClass().equals(exClass)) {
+                return true;
+            }
+            throw e;
+        }
     }
 }

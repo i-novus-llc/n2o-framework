@@ -1,0 +1,19 @@
+{
+  "src": "ListRegion",
+  "collapsible": false,
+  "items": [
+    {
+      "widgetId": "Page_Html",
+      "label": "HTML",
+      "opened": true
+    },
+    {
+      "widgetId": "Page.SecureHtml",
+      "label": "HTML (secure)",
+      "opened": true,
+      "security": {
+        "roles": ["admin"]
+      }
+    }
+  ]
+}

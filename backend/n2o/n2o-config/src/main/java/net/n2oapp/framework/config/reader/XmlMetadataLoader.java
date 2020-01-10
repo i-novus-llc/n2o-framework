@@ -2,11 +2,13 @@ package net.n2oapp.framework.config.reader;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
-import net.n2oapp.framework.api.metadata.local.context.CompileContext;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
+import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.config.register.XmlInfo;
 import net.n2oapp.framework.config.register.audit.util.N2oConfigConflictParser;
+import net.n2oapp.framework.config.io.MetadataParamHolder;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
@@ -21,7 +23,7 @@ import java.io.InputStream;
 /**
  * Чтение XML метаданных
  */
-public class XmlMetadataLoader implements ConfigReader {
+public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
 
     private NamespaceReaderFactory elementReaderFactory;
     private MetadataRegister configRegister;
@@ -41,6 +43,7 @@ public class XmlMetadataLoader implements ConfigReader {
         //todo обратоку входных params
         Class<? extends SourceMetadata> sourceClass = info.getBaseSourceClass();
         try (InputStream inputStream = FileSystemUtil.getContentAsStream(info.getURI())) {
+            MetadataParamHolder.setParams(RouteUtil.parseQueryParams(params));
             S source = read(info.getId(), inputStream);
             if (!sourceClass.isAssignableFrom(source.getClass()))
                 throw new MetadataReaderException("read class [" + source.getClass() + "], but expected [" + sourceClass + "]");
@@ -53,24 +56,10 @@ public class XmlMetadataLoader implements ConfigReader {
                 }
             }
             throw e;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new N2oMetadataReaderException(e, info.getId(), info.getURI(), info.getConfigId().getType());
-        }
-    }
-
-    @Override
-    public <T extends SourceMetadata> T read(final String id, Class<T> metadataClass, CompileContext context) {
-        XmlInfo info = (XmlInfo) configRegister.get(id, metadataClass);
-        return load(info, null);
-    }
-
-    @Override
-    public <T extends SourceMetadata> T read(String id, String xml, Class<T> metadataClass) {
-        try {
-            return read(id, IOUtils.toInputStream(xml, "UTF-8"), metadataClass);
-        } catch (IOException e) {
-            throw new N2oException(e);
+        } finally {
+           MetadataParamHolder.setParams(null);
         }
     }
 

@@ -3,13 +3,13 @@ package net.n2oapp.framework.api.metadata.global.dao;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
 
 import java.util.Objects;
+
+import static net.n2oapp.criteria.filters.FilterType.Arity.n_ary;
 
 
 /**
@@ -43,6 +43,10 @@ public class N2oPreFilter implements Source {
      */
     private String param;
     /**
+     * Попадает ли фильтр в url
+     */
+    private Boolean routable;
+    /**
      * Идентификатор страницы, на которую ссылается фильтр
      */
     private String refPageId;
@@ -58,10 +62,17 @@ public class N2oPreFilter implements Source {
     /**
      * Список значений фильтра
      */
-    private String[] values;
+    private String[] valueList;
 
-    private ResetMode resetMode;
-    private Boolean onChange;
+    /**
+     * Обязательность фильтра
+     */
+    private Boolean required;
+
+    /**
+     * Сбрасывать значение при изменении в модели
+     */
+    private Boolean resetOnChange;
 
     public N2oPreFilter() {
     }
@@ -75,7 +86,7 @@ public class N2oPreFilter implements Source {
     public N2oPreFilter(String fieldId, String[] values, FilterType type) {
         this.fieldId = fieldId;
         this.type = type;
-        this.values = values;
+        this.valueList = values;
     }
 
     public String getRef() {
@@ -109,12 +120,8 @@ public class N2oPreFilter implements Source {
     }
 
     public boolean isArray() {
-        if (getValues() != null && getValues().length != 0) {
-            assert getValue() == null;
-            assert getRef() == null;
-            return true;
-        }
-        return false;
+        return (getValues() != null && getValues().length != 0)
+                || (type.arity.equals(n_ary) && valueAttr != null);
     }
 
     @Override
@@ -122,10 +129,13 @@ public class N2oPreFilter implements Source {
         return Objects.hash(fieldId, refWidgetId, refModel, type);
     }
 
-
-
-    public enum ResetMode {
-        on, off
+    public String[] getValues() {
+        if (valueList != null && valueList.length > 0)
+            return valueList;
+        else if (type != null && type.arity.equals(n_ary) && valueAttr != null)
+            return new String[]{valueAttr};
+        else
+            return null;
     }
 
     public String getValue() {

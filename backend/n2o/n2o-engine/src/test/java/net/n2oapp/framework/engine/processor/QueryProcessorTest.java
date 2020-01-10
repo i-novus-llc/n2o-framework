@@ -8,7 +8,9 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.register.MetaType;
@@ -23,6 +25,7 @@ import net.n2oapp.framework.config.metadata.compile.query.N2oQueryCompiler;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
+import net.n2oapp.framework.engine.data.N2oQueryExceptionHandler;
 import net.n2oapp.framework.engine.data.N2oQueryProcessor;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.json.TestDataProviderEngine;
@@ -39,6 +42,7 @@ import static net.n2oapp.framework.api.util.N2oTestUtil.assertOnException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -57,7 +61,8 @@ public class QueryProcessorTest {
         ContextProcessor contextProcessor = mock(ContextProcessor.class);
         factory = mock(N2oInvocationFactory.class);
         when(contextProcessor.resolve(anyString())).then((Answer) invocation -> invocation.getArguments()[0]);
-        queryProcessor = new N2oQueryProcessor(contextProcessor, factory);
+        when(contextProcessor.resolve(anyInt())).then((Answer) invocation -> invocation.getArguments()[0]);
+        queryProcessor = new N2oQueryProcessor(factory, contextProcessor, new DomainProcessor(), new N2oQueryExceptionHandler());
         N2oEnvironment environment = new N2oEnvironment();
         environment.setContextProcessor(contextProcessor);
         environment.setReadPipelineFunction(p -> p.read());
@@ -70,7 +75,9 @@ public class QueryProcessorTest {
                 .compilers(new N2oQueryCompiler(), new N2oObjectCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessor.query.xml"),
                         new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorV4Java.query.xml"),
-                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorUnique.query.xml"));
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorUnique.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorNorm.query.xml"),
+                        new CompileInfo("net/n2oapp/framework/engine/processor/testQueryProcessorRequiredFilter.query.xml"));
     }
 
     @Test
@@ -81,6 +88,7 @@ public class QueryProcessorTest {
         criteria.setCount(10);
         criteria.setPage(2);
         criteria.setSize(5);
+        criteria.addRestriction(new Restriction("surname", "Фамилия", FilterType.eq));
         criteria.addRestriction(new Restriction("surname", "Фамилия", FilterType.eq));
         criteria.addRestriction(new Restriction("gender.name", "Женский", FilterType.like));
         criteria.setSorting(new Sorting("name", Direction.DESC));
@@ -145,6 +153,7 @@ public class QueryProcessorTest {
 //        //case with primitive
         criteria = new N2oPreparedCriteria();
         criteria.addRestriction(new Restriction("value", "test"));
+        criteria.addRestriction(new Restriction("value", "test"));
         collectionPage = queryProcessor.execute(query, criteria);
         assertThat(collectionPage.getCount(), is(10));
         dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
@@ -154,11 +163,44 @@ public class QueryProcessorTest {
         criteria = new N2oPreparedCriteria();
         criteria.addRestriction(new Restriction("name", "test"));
         collectionPage = queryProcessor.execute(query, criteria);
-        assertThat(collectionPage.getCount(), is(10));
+        assertThat(collectionPage.getCount(), is(1));
         dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
         assertThat(dataSet.get("id"), is(0));
         assertThat(dataSet.get("name"), is("test"));
         //case with page request (spring data) todo
+    }
+
+
+    @Test
+    public void testCriteriaRestrictionMerge() {
+        when(factory.produce(any())).thenReturn(new JavaDataProviderEngine());
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorV4Java"));
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        criteria.addRestriction(new Restriction("id", "1", FilterType.eq));
+        criteria.addRestriction(new Restriction("id", "45", FilterType.eq));
+        CollectionPage<DataSet> collectionPage = queryProcessor.execute(query, criteria);
+        assertThat(collectionPage.getCount(), is(0));
+
+        criteria = new N2oPreparedCriteria();
+        criteria.addRestriction(new Restriction("name", "test", FilterType.eq));
+        criteria.addRestriction(new Restriction("name", "test", FilterType.eq));
+        collectionPage = queryProcessor.execute(query, criteria);
+        assertThat(collectionPage.getCount(), is(1));
+
+        criteria = new N2oPreparedCriteria();
+        criteria.addRestriction(new Restriction("id", "1", FilterType.more));
+        criteria.addRestriction(new Restriction("id", "45", FilterType.less));
+        collectionPage = queryProcessor.execute(query, criteria);
+        assertThat(collectionPage.getCount(), is(10));
+
+        criteria = new N2oPreparedCriteria();
+        criteria.addRestriction(new Restriction("id", "0", FilterType.eq));
+        criteria.addRestriction(new Restriction("name", "test", FilterType.eq));
+        collectionPage = queryProcessor.execute(query, criteria);
+        assertThat(collectionPage.getCount(), is(1));
+        DataSet dataSet = (DataSet) ((List) collectionPage.getCollection()).get(0);
+        assertThat(dataSet.get("id"), is(0));
+        assertThat(dataSet.get("name"), is("test"));
     }
 
     @Test
@@ -185,7 +227,6 @@ public class QueryProcessorTest {
         first = result.getCollection().iterator().next();
         assertThat(first.get("code"), is("test1"));
 
-
         //case list any filters selection
         criteria = new N2oPreparedCriteria();
         criteria.setSize(1);
@@ -194,5 +235,17 @@ public class QueryProcessorTest {
         assertThat(result.getCount(), is(1));
         first = result.getCollection().iterator().next();
         assertThat(first.get("type"), is(10));
+    }
+
+    @Test
+    public void query4Normalize() {
+        when(factory.produce(any())).thenReturn(new TestDataProviderEngine());
+        CompiledQuery query = builder.read().compile().get(new QueryContext("testQueryProcessorNorm"));
+
+        N2oPreparedCriteria criteria = new N2oPreparedCriteria();
+        CollectionPage<DataSet> result = queryProcessor.execute(query, criteria);
+        DataSet first = result.getCollection().iterator().next();
+        assertThat(first.get("normTest"), is(Integer.MAX_VALUE));
+        assertThat(query.getFieldsMap().get("normTest").getSelectDefaultValue(), is("defaultValue"));
     }
 }

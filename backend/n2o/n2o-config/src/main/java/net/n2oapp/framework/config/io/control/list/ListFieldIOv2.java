@@ -19,11 +19,12 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
         p.attribute(e, "label-field-id", m::getLabelFieldId, m::setLabelFieldId);
         p.attribute(e, "badge-field-id", m::getBadgeFieldId, m::setBadgeFieldId);
         p.attribute(e, "badge-color-field-id", m::getBadgeColorFieldId, m::setBadgeColorFieldId);
-        p.attribute(e, "search-field-id", m::getSearchFieldId, m::setSearchFieldId);
+        p.attribute(e, "search-filter-id", m::getSearchFilterId, m::setSearchFilterId);
         p.attribute(e, "group-field-id", m::getGroupFieldId, m::setGroupFieldId);
         p.attribute(e, "image-field-id", m::getImageFieldId, m::setImageFieldId);
         p.attribute(e, "icon-field-id", m::getIconFieldId, m::setIconFieldId);
         p.attribute(e, "format", m::getFormat, m::setFormat);
+        p.attributeBoolean(e, "search", m::getSearch, m::setSearch);
         p.attributeBoolean(e, "cache", m::getCache, m::setCache);
         p.attributeInteger(e, "size", m::getSize, m::setSize);
         p.child(e, null, "default-value", m::getDefValue, m::setDefValue, HashMap::new, this::defaultValue);
@@ -32,18 +33,11 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
     }
 
-    private void prefilter(Element e, N2oPreFilter pf, IOProcessor p) {
-        p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
-        p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
-        p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
-        p.childrenToStringArray(e, null, "value", pf::getValues, pf::setValues);
-    }
-
     private void option(Element e, Map<String, String> map, IOProcessor p) {
         p.otherAttributes(e, Namespace.NO_NAMESPACE, map);
     }
 
-    private void defaultValue(Element e, Map map, IOProcessor p) {
+    private void defaultValue(Element e, Map<String, String> map, IOProcessor p) {
         p.otherAttributes(e, Namespace.NO_NAMESPACE, map);
     }
 }

@@ -1,11 +1,13 @@
 package net.n2oapp.framework.config.register.route;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.local.util.StrictMap;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -47,6 +49,19 @@ public class RouteUtilTest {
     }
 
     @Test
+    public void parseQueryParams() {
+        assertThat(RouteUtil.parseQueryParams("text"), nullValue());
+        Map<String, String> params = RouteUtil.parseQueryParams("id=123");
+        assertThat(params.get("id"), is("123"));
+        params = RouteUtil.parseQueryParams("id=:a");
+        assertThat(params.get("id"), is(":a"));
+        params = RouteUtil.parseQueryParams("id=123&name=:b&surname=Ivanov");
+        assertThat(params.get("id"), is("123"));
+        assertThat(params.get("name"), is(":b"));
+        assertThat(params.get("surname"), is("Ivanov"));
+    }
+
+    @Test
     public void convertPathToId() {
         assertThat(RouteUtil.convertPathToId(null), nullValue());
         assertThat(RouteUtil.convertPathToId(""), is("_"));
@@ -59,6 +74,7 @@ public class RouteUtilTest {
         assertThat(RouteUtil.convertPathToId("/page/:id/"), is("page"));
         assertThat(RouteUtil.convertPathToId("/page/:id/widget"), is("page_widget"));
         assertThat(RouteUtil.convertPathToId("/page/master/:widget_id/detail/:detail_id"), is("page_master_detail"));
+        assertThat(RouteUtil.convertPathToId("/:param/page/master/:widget_id/detail/:detail_id"), is("param_page_master_detail"));
     }
 
     @Test
@@ -74,7 +90,7 @@ public class RouteUtilTest {
     @Test
     public void isApplicationUrl() {
         assertThat(RouteUtil.isApplicationUrl("https://google.com"), is(false));
-        assertThat(RouteUtil.isApplicationUrl("google.com"), is(false));
+        assertThat(RouteUtil.isApplicationUrl("google.com"), is(true));
         assertThat(RouteUtil.isApplicationUrl("//test"), is(false));
         assertThat(RouteUtil.isApplicationUrl("/test"), is(true));
         assertThat(RouteUtil.isApplicationUrl("test"), is(true));
@@ -147,5 +163,22 @@ public class RouteUtilTest {
         assertThat(RouteUtil.parent(RouteUtil.parent("/")), is("../../"));
         assertThat(RouteUtil.parent(RouteUtil.parent("/test")), is("../../test"));
         assertThat(RouteUtil.parent(RouteUtil.parent("/1/2")), is("../../1/2"));
+    }
+
+    @Test
+    public void addQueryParams() {
+        Map<String, ModelLink> queryMapping = new StrictMap<>();
+        ModelLink nameLink = new ModelLink(ReduxModel.RESOLVE, "main", "name");
+        nameLink.setParam("nameParam");
+        queryMapping.put("name", nameLink);
+        ModelLink surnameLink = new ModelLink(ReduxModel.RESOLVE, "main", "surname");
+        queryMapping.put("surname", surnameLink);
+        ModelLink vipLink = new ModelLink(true);
+        vipLink.setParam("vipParam");
+        queryMapping.put("vip", vipLink);
+        ModelLink genderLink = new ModelLink(1);
+        queryMapping.put("gender", genderLink);
+        assertThat(RouteUtil.addQueryParams("/base", queryMapping),
+                is("/base?nameParam=:name&surname=:surname&vipParam=true&gender=1"));
     }
 }

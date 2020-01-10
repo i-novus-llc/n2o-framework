@@ -2,37 +2,40 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.local.view.CssClassAware;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Map;
 
 
 /**
- * Абстратная реализация контрола
+ * Исходная модель поля
  */
 @Getter
 @Setter
-public abstract class N2oField implements Source, ExtensionAttributesAware, NamespaceUriAware {
+public abstract class N2oField extends N2oComponent implements IdAware {
     private String id;
     private Boolean visible;
-    private String namespaceUri;
-    private Validations validations;
-    protected String src;
-    private String fieldSrc;
     private Boolean required;
     private Boolean enabled;
     private String[] dependsOn;
+    @Deprecated
+    private String style;
+    private String label;
+    private String labelClass;
+    @Deprecated
+    private String labelStyle;
+    private String description;
+    private String help;
+    private String domain;
+    private Boolean noLabel;
+
     private N2oToolbar toolbar;
     private Dependency[] dependencies;
-    private Map<N2oNamespace, Map<String, String>> extAttributes;
 
     public void addDependency(Dependency d) {
         if (d == null) return;
@@ -45,6 +48,21 @@ public abstract class N2oField implements Source, ExtensionAttributesAware, Name
         }
     }
 
+    /**
+     * @param clazz - Тип зависимости
+     * @return содержит ли поле зависимость типа clazz
+     */
+    public boolean containsDependency(Class<? extends Dependency> clazz) {
+        if (dependencies == null) return false;
+
+        for (Dependency dependency : dependencies) {
+            if (dependency.getClass().equals(clazz))
+                return true;
+        }
+
+        return false;
+    }
+
     @Getter
     @Setter
     public static class Validations implements Serializable {
@@ -55,9 +73,10 @@ public abstract class N2oField implements Source, ExtensionAttributesAware, Name
 
     @Getter
     @Setter
-    public static abstract class Dependency implements Serializable {
-        private String on;
+    public static class Dependency implements Source {
+        private String[] on;
         private String value;
+        private Boolean applyOnInit;
     }
 
     public static class EnablingDependency extends Dependency {
@@ -67,6 +86,20 @@ public abstract class N2oField implements Source, ExtensionAttributesAware, Name
     }
 
     public static class SetValueDependency extends Dependency {
+    }
+
+    public static class FetchDependency extends Dependency {
+    }
+
+    public static class ResetDependency extends Dependency {
+    }
+
+    @Getter
+    @Setter
+    public static class FetchValueDependency extends Dependency {
+        private String queryId;
+        private String valueFieldId;
+        private N2oPreFilter[] preFilters;
     }
 
     @Getter
@@ -79,5 +112,4 @@ public abstract class N2oField implements Source, ExtensionAttributesAware, Name
     public String toString() {
         return getClass().getSimpleName() + "(" + getId() + ")";
     }
-
 }
