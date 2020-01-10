@@ -1,0 +1,19 @@
+{
+  "Page_Chart": {
+    "src": "ChartWidget",
+    "dataProvider": {
+      "url": "n2o/data/test",
+      "pathMapping": {},
+      "queryMapping": {}
+    },
+    "chart": {
+      "fetchOnInit": true,
+      "type": "pie",
+      "width": 600,
+      "height": 400,
+      "pid": {
+
+      }
+    }
+  }
+}
