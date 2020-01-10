@@ -6,6 +6,9 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
 import org.springframework.stereotype.Component;
 
+/**
+ * Трансформатор доступа строки списка
+ */
 @Component
 public class ListWidgetAccessTransformer extends BaseAccessTransformer<ListWidget, CompileContext<?, ?>> {
     @Override
