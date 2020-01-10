@@ -31,6 +31,7 @@ import {
 import { FETCH_VALUE } from '../core/api';
 import fetchSaga from './fetch';
 import compileUrl from '../utils/compileUrl';
+import { evalResultCheck } from '../utils/evalResultCheck';
 
 export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   try {
@@ -83,7 +84,7 @@ export function* modify(values, formName, fieldName, type, options = {}) {
         );
       break;
     case 'reset':
-      yield !isUndefined(_evalResult) &&
+      yield evalResultCheck(_evalResult) &&
         put(
           change(formName, fieldName, {
             keepDirty: false,
