@@ -12,19 +12,22 @@ import Spinner from '../../../components/snippets/Spinner/InlineSpinner';
  */
 
 //Принимает html и data
-// прим. html = <h1>User is :name :surname</h1> ,data = [{"name" : "testUserName", "surname": "testUserSurname"}],
-// заменяет плейсхолдеры в html (прим. :name, :surname) на стоотвствующие значения по ключам в data, при resolvePlaceholders === true.
+// прим. html = <h1>User is {name} {surname}</h1> ,data = [{"name" : "testUserName", "surname": "testUserSurname"}],
+// заменяет плейсхолдеры в html (прим. {name}, {surname}) на стоотвствующие значения по ключам в data.
+// при отсутствии ключа в data или плейсхолдер === {} заменяет на пустоту
 
 export const replacePlaceholders = (html, data) => {
   const keys = Object.keys(data);
   keys.forEach(key => {
-    html = html.replace(new RegExp(':' + key, 'gm'), data[key]);
+    //заменяет плейсхолдеры на соответствующие ключи:значения в data
+    html = html.replace(new RegExp('{' + key + '}', 'gm'), data[key]);
   });
-  return html;
+  //удаляет остальные плейсхолдеры, включая {}
+  return html.replace(new RegExp('{.*?}', 'gm'), '');
 };
 
 const Html = props => {
-  const { html, loading, data, resolvePlaceholders } = props;
+  const { html, loading, data } = props;
 
   return (
     <>
@@ -33,10 +36,7 @@ const Html = props => {
       ) : (
         <div
           dangerouslySetInnerHTML={{
-            __html:
-              resolvePlaceholders && data
-                ? replacePlaceholders(html, data)
-                : html,
+            __html: data ? replacePlaceholders(html, data) : html,
           }}
         />
       )}

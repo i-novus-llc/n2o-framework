@@ -1,5 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Html/> should render a html with data 1`] = `
+<Fragment>
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<h1>name is Tom , surname id Sower</h1>",
+      }
+    }
+  />
+</Fragment>
+`;
+
 exports[`<Html/> should render a html with data and resolvePlaceholders = false 1`] = `
 <Fragment>
   <div

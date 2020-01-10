@@ -73,7 +73,6 @@ class HtmlWidget extends React.Component {
       className,
       style,
       pageId,
-      resolvePlaceholders,
       datasource,
     } = this.props;
     return (
@@ -89,7 +88,6 @@ class HtmlWidget extends React.Component {
           pageId={pageId}
           widgetId={widgetId}
           fetchOnInit={fetchOnInit}
-          resolvePlaceholders={resolvePlaceholders}
           datasource={datasource}
           {...this.getWidgetProps()}
         />

@@ -19,22 +19,10 @@ describe('<Html/>', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render a html with data and resolvePlaceholders = true', () => {
+  it('should render a html with data', () => {
     const wrapper = shallow(
       <Html
-        html={'<h1>name is :name , surname id :surname</h1>'}
-        resolvePlaceholders={true}
-        data={{ name: 'Tom', surname: 'Sower' }}
-      />
-    );
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it('should render a html with data and resolvePlaceholders = false', () => {
-    const wrapper = shallow(
-      <Html
-        html={'<h1>name is :name , surname id :surname</h1>'}
-        resolvePlaceholders={false}
+        html={'<h1>name is {name} , surname id {surname}</h1>'}
         data={{ name: 'Tom', surname: 'Sower' }}
       />
     );
@@ -44,30 +32,41 @@ describe('<Html/>', () => {
 
 it('correct class in html', () => {
   const wrapper = render(
-    <Html html={'<h1 class="some">name is :name , surname id :surname</h1>'}
+    <Html
+      html={'<h1 class="some">name is {name} , surname id {surname}</h1>'}
     />
   );
   expect(wrapper.find('.some')).toHaveLength(1);
 });
 
-it('correct string in html (resolve placeholders from data) resolvePlaceholders = true', () => {
+it('correct string in html (with placeholders)', () => {
   const wrapper = render(
     <Html
-      html={'name is :name , surname is :surname'}
-      resolvePlaceholders={true}
+      html={'name is {name} , surname is {surname}'}
       data={{ name: 'Tom', surname: 'Sower' }}
     />
   );
   expect(wrapper.text()).toBe('name is Tom , surname is Sower');
 });
 
-it('correct string in html (resolve placeholders from data) resolvePlaceholders = false', () => {
+it('correct string in html (with placeholders and empty placeholders)', () => {
   const wrapper = render(
     <Html
-      html={'name is :name , surname is :surname'}
-      resolvePlaceholders={false}
+      html={'name is {name} , surname is {surname}{}{}'}
       data={{ name: 'Tom', surname: 'Sower' }}
     />
   );
-  expect(wrapper.text()).toBe('name is :name , surname is :surname');
+  expect(wrapper.text()).toBe('name is Tom , surname is Sower');
+});
+
+it('correct string in html, (with placeholders and wrong keys)', () => {
+  const wrapper = render(
+    <Html
+      html={
+        'name is {name}{test} , surname is {surname}{some key}{12345}{TEST KEY}'
+      }
+      data={{ name: 'Tom', surname: 'Sower' }}
+    />
+  );
+  expect(wrapper.text()).toBe('name is Tom , surname is Sower');
 });

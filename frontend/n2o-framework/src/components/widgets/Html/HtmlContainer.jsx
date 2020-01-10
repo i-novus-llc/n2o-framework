@@ -9,12 +9,11 @@ class HtmlContainer extends React.Component {
     loading: false,
   };
   getHtmlProps = () => {
-    const { html, datasource, resolvePlaceholders } = this.props;
+    const { html, datasource } = this.props;
     return {
       loading: this.state.loading,
       html: html || null,
       data: datasource,
-      resolvePlaceholders: resolvePlaceholders,
     };
   };
 
