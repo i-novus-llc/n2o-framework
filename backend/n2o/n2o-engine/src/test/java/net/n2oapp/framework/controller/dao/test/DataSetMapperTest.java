@@ -1,5 +1,7 @@
 package net.n2oapp.framework.controller.dao.test;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.DataSetMapper;
 import org.junit.Test;
@@ -15,7 +17,7 @@ import java.util.Map;
 public class DataSetMapperTest {
     @Test
     public void testExtractFromArray() {
-        Map<String, String> mapping = new HashMap<String, String>();
+        Map<String, String> mapping = new HashMap<>();
         mapping.put("id", "[0]");
         mapping.put("name", "[1]");
         Object[] source = new Object[]{1, "test"};
@@ -26,20 +28,23 @@ public class DataSetMapperTest {
 
     @Test
     public void testExtractFromEntity() {
-        Map<String, String> mapping = new HashMap<String, String>();
+        Map<String, String> mapping = new HashMap<>();
         mapping.put("id", "id");
         mapping.put("name", "name");
+        mapping.put("age", null);
         Foo source = new Foo();
         source.setId(1);
         source.setName("test");
+        source.setAge(25);
         DataSet dataSet = DataSetMapper.extract(source, mapping);
         assert dataSet.get("id").equals(1);
         assert dataSet.get("name").equals("test");
+        assert dataSet.get("age").equals(25);
     }
 
     @Test
     public void testExtractFromVolumeEntity() {
-        Map<String, String> mapping = new HashMap<String, String>();
+        Map<String, String> mapping = new HashMap<>();
         mapping.put("id", "foo.id");
         mapping.put("name", "foo.name");
         Foo foo = new Foo();
@@ -54,7 +59,7 @@ public class DataSetMapperTest {
 
     @Test
     public void testMapToArray() {
-        Map<String, String> mapping = new HashMap<String, String>();
+        Map<String, String> mapping = new HashMap<>();
         mapping.put("id", "[0]");
         mapping.put("name", "[1]");
         DataSet dataSet = new DataSet();
@@ -68,7 +73,7 @@ public class DataSetMapperTest {
 
     @Test
     public void testMapToEntity() {
-        Map<String, String> mapping = new HashMap<String, String>();
+        Map<String, String> mapping = new HashMap<>();
         mapping.put("id", "[0].id");
         mapping.put("name", "[0].name");
         DataSet dataSet = new DataSet();
@@ -83,7 +88,7 @@ public class DataSetMapperTest {
 
     @Test
     public void testMapToVolumeEntity() {
-        Map<String, String> mapping = new HashMap<String, String>();
+        Map<String, String> mapping = new HashMap<>();
         mapping.put("id", "[0].foo.id");
         mapping.put("name", "[0].foo.name");
         DataSet dataSet = new DataSet();
@@ -96,36 +101,17 @@ public class DataSetMapperTest {
         assert ((Bar) value[0]).getFoo().getName().equals("test");
     }
 
+    @Getter
+    @Setter
     public static class Bar {
         private Foo foo;
-
-        public Foo getFoo() {
-            return foo;
-        }
-
-        public void setFoo(Foo foo) {
-            this.foo = foo;
-        }
     }
 
+    @Getter
+    @Setter
     public static class Foo {
         private Integer id;
         private String name;
-
-        public Integer getId() {
-            return id;
-        }
-
-        public void setId(Integer id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
+        private Integer age;
     }
 }

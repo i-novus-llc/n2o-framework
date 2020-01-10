@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Клиентская модель компонента ввода текста с выбором из выпадающего списка
+ */
 @Getter
 @Setter
 public class Select extends ListControl {

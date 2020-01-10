@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -313,7 +313,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         routes.addPathMapping(selectedId, widgetIdMapping);
 
         if (query != null) {
-            ((List<Filter>) compiled.getFilters()).stream().filter(Filter::getReloadable)
+            ((List<Filter>) compiled.getFilters()).stream().filter(Filter::getRoutable)
                     .forEach(filter -> {
                         ReduxAction onGet;
                         String filterId = filter.getFilterId();
@@ -542,16 +542,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
      * @param p           Процессор сборки
      * @return Список филдсетов
      */
-    protected List<FieldSet> initFieldSets(NamespaceUriAware[] fields, CompileContext<?, ?> context, CompileProcessor p,
+    protected List<FieldSet> initFieldSets(SourceComponent[] fields, CompileContext<?, ?> context, CompileProcessor p,
                                            WidgetScope widgetScope,
                                            CompiledQuery widgetQuery,
                                            CompiledObject widgetObject,
-                                           ModelsScope modelsScope,
-                                           FiltersScope filtersScope,
-                                           SubModelsScope subModelsScope,
-                                           UploadScope uploadScope,
-                                           MomentScope momentScope,
-                                           CopiedFieldScope copiedFieldScope) {
+                                           Object... scopes) {
         if (fields == null)
             return Collections.emptyList();
         FieldSetScope fieldSetScope = initFieldSetScope(widgetQuery, widgetObject);
@@ -565,18 +560,17 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 i++;
             } else {
                 N2oSetFieldSet newFieldset = new N2oSetFieldSet();
-                List<NamespaceUriAware> newFieldsetItems = new ArrayList<>();
+                List<SourceComponent> newFieldsetItems = new ArrayList<>();
                 while (i < fields.length && !(fields[i] instanceof N2oFieldSet)) {
                     newFieldsetItems.add(fields[i]);
                     i++;
                 }
-                NamespaceUriAware[] items = new NamespaceUriAware[newFieldsetItems.size()];
+                SourceComponent[] items = new SourceComponent[newFieldsetItems.size()];
                 newFieldset.setItems(newFieldsetItems.toArray(items));
                 fieldSet = newFieldset;
             }
-            fieldSets.add(p.compile(fieldSet, context, widgetQuery, widgetObject,
-                    widgetScope, fieldSetScope, modelsScope, filtersScope,
-                    indexScope, subModelsScope, uploadScope, momentScope, copiedFieldScope));
+            fieldSets.add(p.compile(fieldSet, context,
+                    scopes, widgetQuery, widgetObject, widgetScope, fieldSetScope, indexScope));
         }
         return fieldSets;
     }
@@ -603,7 +597,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             } else {
                 filter.setParam(normalizeParam(source.getMasterFieldId()));
             }
-            filter.setReloadable(false);
+            filter.setRoutable(false);
             String masterFieldId = p.cast(source.getMasterFieldId(), N2oQuery.Field.PK);
             ModelLink link = Redux.linkQuery(masterWidgetId, masterFieldId, source.getQueryId());
             filter.setLink(link);
@@ -636,7 +630,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                         }
                     }
                     filter.setParam(p.cast(preFilter.getParam(), compiled.getId() + "_" + queryFilter.getParam()));
-                    filter.setReloadable(false);
+                    filter.setRoutable(p.cast(preFilter.getRoutable(), false));
                     filter.setFilterId(queryFilter.getFilterField());
                     Object prefilterValue = getPrefilterValue(preFilter);
                     if (StringUtils.isJs(prefilterValue)) {

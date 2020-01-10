@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.control.multi.N2oMultiListField;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNodes;
 
 /**
- * Компонент ввода select-tree
+ * Компонент выбора в выпадающем списке в виде дерева
  */
 @Getter
 @Setter
