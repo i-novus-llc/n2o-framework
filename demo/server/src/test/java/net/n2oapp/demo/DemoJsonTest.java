@@ -41,7 +41,7 @@ public class DemoJsonTest extends JsonMetadataTestBase {
 
     @Test
     public void proto() {
-        check(new FileSystemResource("../../frontend/demo/server/json/newProto.json"))
+        check(new FileSystemResource("../../frontend/demo/server/json/proto.json"))
                 .assertEquals("/proto", Page.class);
     }
 
