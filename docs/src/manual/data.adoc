@@ -447,7 +447,7 @@ link:https://n2oapp.net/sandbox/new/data/providers/rest[Пример]
   </in-parameters>
 </operation>
 ----
-link:https://n2oapp.net/sandbox/new/data/java[Пример]
+link:https://n2oapp.net/sandbox/new/data/providers/java[Пример]
 
 === Типы данных
 Типы данных в N2O предназначены для правильной передачи значений от клиента
