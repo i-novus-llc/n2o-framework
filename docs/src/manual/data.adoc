@@ -74,6 +74,9 @@ link:https://n2oapp.net/sandbox/new/data/object/operations[Пример]
   </condition>
 </validations>
 ----
+
+link:https://n2oapp.net/sandbox/new/data/object/validation_condition[Пример]
+
 Условия пишутся на языке JavaScript.
 
 Так же проверки могут быть выполнены в базе данных или сервисах.
@@ -96,6 +99,8 @@ link:https://n2oapp.net/sandbox/new/data/object/operations[Пример]
   </constraint>
 </validations>
 ----
+
+link:https://n2oapp.net/sandbox/new/data/object/validation_constraint[Пример]
 
 Вызов проверки происходит аналогично вызову операции объекта,
 т.е. определяет входные данные для link:#_Провайдеры_данных[провайдера]
@@ -345,6 +350,8 @@ SQL провайдер позволяет выполнять SQL запросы 
 </operation>
 ----
 
+link:https://n2oapp.net/sandbox/new/data/providers/sql[Пример]
+
 ==== REST провайдер данных
 REST провайдер выполняет http запросы к backend сервисам.
 
@@ -383,6 +390,7 @@ REST провайдер выполняет http запросы к backend сер
   </in-parameters>
 </operation>
 ----
+link:https://n2oapp.net/sandbox/new/data/providers/rest[Пример]
 
 ==== Java провайдеры данных
 С помощью java провайдеров можно вызвать метод java класса.
@@ -538,6 +546,8 @@ integer[]
 ----
 Подобная связь называется биндингом.
 
+link:https://n2oapp.net/sandbox/new/data/binding/simple[Пример]
+
 ==== Биндинг составных полей
 Составные поля обычно используются в компонентах выбора одного значения из списка:
 [source,xml]
@@ -564,6 +574,8 @@ integer[]
 ----
 <param id="gender.id"/> <!-- 1 -->
 ----
+
+link:https://n2oapp.net/sandbox/new/data/binding/select[Пример]
 
 ==== Биндинг интервальных полей
 Интервальные поля - это поля в которых можно задать начало и окончание:
@@ -592,6 +604,9 @@ integer[]
 <param id="period.begin"/> <!-- 01.01.2018 00:00 -->
 <param id="period.end"/> <!-- 31.12.2018 00:00 -->
 ----
+
+
+link:https://n2oapp.net/sandbox/new/data/binding/interval[Пример]
 
 ==== Биндинг полей множественного выбора
 Поля множественного выбора позволяют выбрать несколько значений из предложенных вариантов:
@@ -650,7 +665,7 @@ Java провайдеры используют тип параметров "ма
     <field id="firstName">
       <filters>
         <!-- Маппинг определяет ключ "first_name" в который будет скопировано значение фильтра "firstName" -->
-        <like mapping="first_name">
+        <like mapping="['first_name']">
           t.first_name like '%'||:first_name||'%'
         </like>
       </filters>
@@ -658,11 +673,11 @@ Java провайдеры используют тип параметров "ма
     <field id="gender.id">
       <filters>
         <!-- Маппинг определяет ключ "gender_id" в который будет скопирован id фильтра "gender" -->
-        <eq mapping="gender_id">
+        <eq mapping="['gender_id']">
           t.gender_id = :gender_id
         </eq>
         <!-- Маппинг определяет ключ "genders" в который будет скопированы список id из фильтра "genders" -->
-        <in mapping="genders">
+        <in mapping="['genders']">
           t.gender_id in (:genders)
         </in>
       </filters>
@@ -670,6 +685,7 @@ Java провайдеры используют тип параметров "ма
   </fields>
 </query>
 ----
+link:https://n2oapp.net/sandbox/new/data/providers/sql_mapping[Пример]
 
 .Маппинг фильтров в rest провайдере
 [source,xml]
@@ -682,7 +698,7 @@ Java провайдеры используют тип параметров "ма
     <field id="firstName">
       <filters>
         <!-- Маппинг определяет ключ "first_name" в который будет скопировано значение фильтра "firstName" -->
-        <like mapping="first_name">
+        <like mapping="['first_name']">
           first_name_like={first_name}
         </like>
       </filters>
@@ -690,11 +706,11 @@ Java провайдеры используют тип параметров "ма
     <field id="gender.id">
       <filters>
         <!-- Маппинг определяет ключ "gender_id" в который будет скопирован id фильтра "gender" -->
-        <eq mapping="gender_id">
+        <eq mapping="['gender_id']">
           gender_id={gender_id}
         </eq>
         <!-- Маппинг определяет ключ "genders" в который будет скопированы список id из фильтра "genders" -->
-        <in mapping="genders">
+        <in mapping="['genders']">
           gender_id_in={genders}
         </in>
       </filters>
@@ -702,6 +718,7 @@ Java провайдеры используют тип параметров "ма
   </fields>
 </query>
 ----
+link:https://n2oapp.net/sandbox/new/data/providers/rest_mapping[Пример]
 
 ==== Маппинг входных параметров операции
 ===== Маппинг входных параметров операции sql
@@ -714,8 +731,8 @@ Java провайдеры используют тип параметров "ма
     <sql>INSERT INTO mytable (first_name, gender_id) VALUES (:first_name, :gender_id)</sql>
   </invocation>
   <in-parameters>
-    <param id="name" mapping="first_name"/>
-    <param id="gender.id" mapping="gender_id"/>
+    <param id="name" mapping="['first_name']"/>
+    <param id="gender.id" mapping="['gender_id']"/>
   </in-parameters>
 </operation>
 ----
@@ -744,8 +761,8 @@ POST /api/myentity
     <rest method="post">/api/myentity</rest>
   </invocation>
   <in-parameters>
-    <param id="name" mapping="firstName"/>
-    <param id="gender.id" mapping="genderId"/>
+    <param id="name" mapping="['firstName']"/>
+    <param id="gender.id" mapping="['genderId']"/>
   </in-parameters>
 </operation>
 ----
@@ -847,8 +864,8 @@ class MyEntity {
   </invocation>
   <in-parameters>
     <!-- Для type="entity" в mapping нет [0]. -->
-    <param id="firstName" mapping="name"/>
-    <param id="lastName" mapping="surname"/>
+    <param id="firstName" mapping="['name']"/>
+    <param id="lastName" mapping="['surname']"/>
   </in-parameters>
 </operation>
 ----
@@ -922,8 +939,8 @@ class MyCriteria extends Criteria {
     <field id="birtday">
       <filters>
           <!-- Для type="criteria" в mapping нет [0]. -->
-          <more filter-id="birthdays.begin" mapping="birthdayAfter">
-          <less filter-id="birthdays.end" mapping="birthdayBefore">
+          <more filter-id="birthdays.begin" mapping="['birthdayAfter']"/>
+          <less filter-id="birthdays.end" mapping="['birthdayBefore']"/>
       </filters>
       <sorting/>
     </field>
@@ -955,10 +972,10 @@ SELECT name as fname, surname as lname FROM mytable
   </count>
   <fields>
     <field id="firstName">
-      <select mapping="fname"/>
+      <select mapping="['fname']"/>
     </field>
     <field id="lastName">
-      <select mapping="lname"/>
+      <select mapping="['lname']"/>
     </field>
   </fields>
 </query>
@@ -997,10 +1014,10 @@ GET /api/myentity/items
   </list>
   <fields>
     <field id="firstName">
-      <select mapping="name"/>
+      <select mapping="['name']"/>
     </field>
     <field id="lastName">
-      <select mapping="surname"/>
+      <select mapping="['surname']"/>
     </field>
   </fields>
 </query>
@@ -1041,10 +1058,10 @@ class MyEntity {
   </list>
   <fields>
     <field id="firstName">
-      <select mapping="name"/>
+      <select mapping="['name']"/>
     </field>
     <field id="lastName">
-      <select mapping="surname"/>
+      <select mapping="['surname']"/>
     </field>
   </fields>
 </query>
@@ -1063,12 +1080,12 @@ class MyEntity {
     <sql>INSERT INTO mytable (first_name, gender_id) VALUES (:first_name, :gender_id)</sql>
   </invocation>
   <out-parameters>
-    <param id="id" mapping="id"/>
+    <param id="id" mapping="[0]"/>
   </out-parameters>
 </operation>
 ----
 В примере результатом выполнения SQL запроса будет вставленная в таблицу запись.
-Эту запись можно получить обратным маппингом, где `id` - алиас колонки вставленной записи.
+Эту запись можно получить обратным маппингом, где 0 - номер колонки вставленной записи.
 
 ===== Маппинг результатов rest
 
@@ -1093,7 +1110,7 @@ POST /api/myentity
     <rest method="post">/api/myentity</rest>
   </invocation>
   <out-parameters>
-    <param id="id" mapping="result"/>
+    <param id="id" mapping="['result']"/>
   </out-parameters>
 </operation>
 ----
@@ -1142,8 +1159,8 @@ class MyEntity {
 <object entity-class="com.example.MyEntity">
   <fields>
     <!-- Простые поля -->
-    <field id="id" domain="long" mapping="id"/>
-    <field id="birthday" domain="date" mapping="birtDate"/>
+    <field id="id" domain="long" mapping="['id']"/>
+    <field id="birthday" domain="date" mapping="['birthDate']"/>
   </fields>
 </object>
 ----
