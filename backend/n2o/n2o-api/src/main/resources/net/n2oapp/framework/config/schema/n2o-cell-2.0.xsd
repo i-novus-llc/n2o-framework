@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-cell-2.0"
            xmlns:acn="http://n2oapp.net/framework/config/schema/action-1.0"
-           xmlns:ctr="http://n2oapp.net/framework/config/schema/n2o-control-1.0"
            xmlns:ctr2="http://n2oapp.net/framework/config/schema/control-2.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">

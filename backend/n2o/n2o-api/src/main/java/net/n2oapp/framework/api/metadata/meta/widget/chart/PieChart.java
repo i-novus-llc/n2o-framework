@@ -9,23 +9,14 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class PieChart extends Chart {
-    @JsonProperty
-    private Integer cx;
-    @JsonProperty
-    private Integer cy;
-    @JsonProperty
-    private Integer innerRadius;
-    @JsonProperty
-    private Integer outerRadius;
-    @JsonProperty
-    private Integer startAngle;
-    @JsonProperty
-    private Integer endAngle;
-    @JsonProperty
-    private String nameKey;
-    @JsonProperty
-    private String dataKey;
-    @JsonProperty
-    private String color;
+public class PieChart extends ChartWidgetComponent<PieChartWidgetComponent> {
+    public PieChart() {
+        super(new PieChartWidgetComponent());
+    }
+
+    @JsonProperty("pie")
+    @Override
+    public PieChartWidgetComponent getComponent() {
+        return super.getComponent();
+    }
 }

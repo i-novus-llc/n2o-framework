@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class N2oPieChart extends N2oChart {
+public class N2oPieChart extends N2oAbstractChart {
     private Integer cx;
     private Integer cy;
     private Integer innerRadius;

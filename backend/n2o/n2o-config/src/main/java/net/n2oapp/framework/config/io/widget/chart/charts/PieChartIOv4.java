@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.io.widget.chart;
+package net.n2oapp.framework.config.io.widget.chart.charts;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oPieChart;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -26,12 +26,12 @@ public class PieChartIOv4 extends AbstractChartIOv4<N2oPieChart> {
     }
 
     @Override
-    public String getElementName() {
-        return "pie" ;
+    public Class<N2oPieChart> getElementClass() {
+        return N2oPieChart.class;
     }
 
     @Override
-    public Class<N2oPieChart> getElementClass() {
-        return N2oPieChart.class;
+    public String getElementName() {
+        return "pie" ;
     }
 }

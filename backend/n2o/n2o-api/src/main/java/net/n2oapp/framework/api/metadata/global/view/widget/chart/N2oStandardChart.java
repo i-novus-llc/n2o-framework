@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class N2oStandardChart extends N2oChart {
+public abstract class N2oStandardChart extends N2oAbstractChart {
     private String xAxisDataKey;
     private Integer xAxisTickCount;
     private String xAxisLabel;

@@ -9,25 +9,25 @@ import net.n2oapp.framework.api.metadata.meta.widget.chart.PieChart;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
+/**
+ * Компиляция круговой диаграммы
+ */
 public class PieChartCompiler extends AbstractChartCompiler<PieChart, N2oPieChart> {
 
     @Override
     public PieChart compile(N2oPieChart source, CompileContext<?, ?> context, CompileProcessor p) {
         PieChart chart = new PieChart();
         build(chart, source, context, p, property("n2o.api.widget.chart.pie"));
-//        chart.setFetchOnInit(true);
-//        chart.setWidth(source.getWidth());
-//        chart.setHeight(source.getHeight());
-//        chart.setType(ChartType.pie);
-        chart.setCx(source.getCx());
-        chart.setCy(source.getCy());
-        chart.setInnerRadius(source.getInnerRadius());
-        chart.setOuterRadius(source.getOuterRadius());
-        chart.setStartAngle(source.getStartAngle());
-        chart.setEndAngle(source.getEndAngle());
-        chart.setNameKey(source.getNameKey());
-        chart.setDataKey(source.getDataKey());
-        chart.setColor(source.getColor());
+        chart.setType(ChartType.pie);
+        chart.getComponent().setCx(source.getCx());
+        chart.getComponent().setCy(source.getCy());
+        chart.getComponent().setInnerRadius(source.getInnerRadius());
+        chart.getComponent().setOuterRadius(source.getOuterRadius());
+        chart.getComponent().setStartAngle(source.getStartAngle());
+        chart.getComponent().setEndAngle(source.getEndAngle());
+        chart.getComponent().setNameKey(source.getNameKey());
+        chart.getComponent().setDataKey(source.getDataKey());
+        chart.getComponent().setColor(source.getColor());
         return chart;
     }
 

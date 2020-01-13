@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chart xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
-    <pie width="600" height="400"/>
+<chart xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+       fetch-on-init="true" width="600" height="400">
+    <pie cx="200" cy="200" inner-radius="50" outer-radius="60" start-angle="0"
+         end-angle="360" name-key="name" data-key="value" color="#8884d8"/>
 </chart>

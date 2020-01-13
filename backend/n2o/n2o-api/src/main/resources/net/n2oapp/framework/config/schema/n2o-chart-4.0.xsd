@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-chart-4.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="area" type="areaChartDefinition"/>
+    <xs:element name="bar" type="barChartDefinition"/>
+    <xs:element name="line" type="lineChartDefinition"/>
+    <xs:element name="pie" type="pieChartDefinition"/>
+
+    <xs:complexType name="charts">
+        <xs:sequence>
+            <xs:element name="area" type="areaChartDefinition" minOccurs="0"/>
+            <xs:element name="bar" type="barChartDefinition" minOccurs="0"/>
+            <xs:element name="line" type="lineChartDefinition" minOccurs="0"/>
+            <xs:element name="pie" type="pieChartDefinition" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="areaChartDefinition">
+            <xs:annotation>
+                <xs:documentation>Диаграмма-область.</xs:documentation>
+            </xs:annotation>
+            <xs:attribute name="stackId" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Идентификатор для настакивания друг на друга.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="dataKey" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Ключ в данных.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="color" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Цвет зоны.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="pieChartDefinition">
+            <xs:annotation>
+                <xs:documentation>Круговая диаграмма.</xs:documentation>
+            </xs:annotation>
+            <xs:attribute name="cx" type="xs:integer">
+                <xs:annotation>
+                    <xs:documentation>Координата центра по x.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="cy" type="xs:integer">
+                <xs:annotation>
+                    <xs:documentation>Координата центра по y.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="inner-radius" type="xs:integer">
+                <xs:annotation>
+                    <xs:documentation>Внутренний радиус.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="outer-radius" type="xs:integer">
+                <xs:annotation>
+                    <xs:documentation>Внешний радиус.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="start-angle" type="xs:integer">
+                <xs:annotation>
+                    <xs:documentation>Начальный угол графика (в градусах).</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="end-angle" type="xs:integer">
+                <xs:annotation>
+                    <xs:documentation>Конечный угол графика (в градусах).</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="name-key" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Ключ названия сектора.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="data-key" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Ключ значения сектора.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="color" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Заливка выбранным цветом.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+    </xs:complexType>
+
+
+</xs:schema>

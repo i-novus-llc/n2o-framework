@@ -1,0 +1,18 @@
+package net.n2oapp.framework.config.metadata.pack;
+
+import net.n2oapp.framework.api.pack.MetadataPack;
+import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.io.widget.chart.charts.AreaChartIOv4;
+import net.n2oapp.framework.config.io.widget.chart.charts.BarChartIOv4;
+import net.n2oapp.framework.config.io.widget.chart.charts.LineChartIOv4;
+import net.n2oapp.framework.config.io.widget.chart.charts.PieChartIOv4;
+
+public class N2oChartV4IOPack implements MetadataPack<N2oApplicationBuilder> {
+    @Override
+    public void build(N2oApplicationBuilder b) {
+        b.ios(new AreaChartIOv4(),
+                new BarChartIOv4(),
+                new LineChartIOv4(),
+                new PieChartIOv4());
+    }
+}
