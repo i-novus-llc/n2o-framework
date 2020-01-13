@@ -249,7 +249,7 @@
       "id": "close",
       "src": "perform",
       "options": {
-        "type": "n2o/modals/CLOSE",
+        "type": "n2o/overlays/CLOSE",
         "payload": {
           "prompt": true,
           "name": "proto_create"

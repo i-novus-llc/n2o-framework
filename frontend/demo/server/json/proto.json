@@ -565,7 +565,7 @@
           "id": "create",
           "src": "perform",
           "options": {
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "payload": {
               "name": "proto_create",
               "pageId": "proto_create",
@@ -573,7 +573,8 @@
               "pathMapping": {},
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mode": "modal"
             }
           }
         },
@@ -581,7 +582,7 @@
           "id": "update_patient",
           "src": "perform",
           "options": {
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "payload": {
               "name": "proto_update_patient",
               "pageId": "proto_update_patient",
@@ -593,7 +594,8 @@
               },
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mode": "modal"
             }
           }
         },
@@ -646,7 +648,7 @@
           "id": "view",
           "src": "perform",
           "options": {
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "payload": {
               "name": "proto_view",
               "pageId": "proto_view",
@@ -658,7 +660,8 @@
               },
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mode": "modal"
             }
           }
         },
@@ -700,7 +703,7 @@
           "id": "name",
           "src": "perform",
           "options": {
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "payload": {
               "name": "proto_name",
               "pageId": "proto_name",
@@ -712,7 +715,8 @@
               },
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mode": "modal"
             }
           }
         },
@@ -751,7 +755,7 @@
           "id": "update",
           "src": "perform",
           "options": {
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "payload": {
               "name": "proto_update",
               "pageId": "proto_update",
@@ -763,7 +767,8 @@
               },
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mode": "modal"
             }
           }
         }
@@ -912,7 +917,7 @@
               "id": "name",
               "src": "perform",
               "options": {
-                "type": "n2o/modals/INSERT",
+                "type": "n2o/overlays/INSERT",
                 "payload": {
                   "name": "proto_name",
                   "pageId": "proto_name",
@@ -924,7 +929,8 @@
                   },
                   "queryMapping": {},
                   "closeButton": true,
-                  "visible": true
+                  "visible": true,
+                  "mode": "modal"
                 }
               }
             }
@@ -1101,7 +1107,7 @@
                 "id": "update",
                 "src": "perform",
                 "options": {
-                  "type": "n2o/modals/INSERT",
+                  "type": "n2o/overlays/INSERT",
                   "payload": {
                     "name": "proto_update",
                     "pageId": "proto_update",
@@ -1113,7 +1119,8 @@
                     },
                     "queryMapping": {},
                     "closeButton": true,
-                    "visible": true
+                    "visible": true,
+                    "mode": "modal"
                   }
                 }
               }
@@ -1199,7 +1206,7 @@
           "id": "create",
           "src": "perform",
           "options": {
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "payload": {
               "name": "proto_contacts_create",
               "pageId": "proto_contacts_create",
@@ -1211,7 +1218,8 @@
               },
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mode": "modal"
             }
           }
         },
@@ -1219,7 +1227,7 @@
           "id": "update",
           "src": "perform",
           "options": {
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "payload": {
               "name": "proto_contacts_update",
               "pageId": "proto_contacts_update",
@@ -1234,7 +1242,8 @@
               },
               "queryMapping": {},
               "closeButton": true,
-              "visible": true
+              "visible": true,
+              "mode": "modal"
             }
           }
         },
@@ -1323,7 +1332,7 @@
               "id": "update",
               "src": "perform",
               "options": {
-                "type": "n2o/modals/INSERT",
+                "type": "n2o/overlays/INSERT",
                 "payload": {
                   "name": "proto_contacts_update",
                   "pageId": "proto_contacts_update",
@@ -1338,7 +1347,8 @@
                   },
                   "queryMapping": {},
                   "closeButton": true,
-                  "visible": true
+                  "visible": true,
+                  "mode": "modal"
                 }
               }
             },

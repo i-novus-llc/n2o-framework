@@ -6,7 +6,7 @@ import { page } from 'N2oStorybook/fetchMock';
 import { ShowModalTitle, ShowModal } from 'N2oStorybook/json';
 import fetchMock from 'fetch-mock';
 
-import ModalPages from './ModalPages';
+import OverlayPages from './OverlayPages';
 import Factory from '../../core/factory/Factory';
 import { WIDGETS } from '../../core/factory/factoryLevels';
 import withPage from '../../../.storybook/decorators/withPage';
@@ -26,7 +26,7 @@ stories.addDecorator(StateDecorator(store));
 stories.addParameters({
   info: {
     propTables: [ModalWindow],
-    propTablesExclude: [Factory, ModalPages],
+    propTablesExclude: [Factory, OverlayPages],
   },
 });
 
@@ -40,6 +40,7 @@ stories
         src={'OutputText'}
         visible={store.get('visible')}
         close={() => store.set({ visible: false })}
+        renderFromSrc={() => {}}
       />
     );
   })
@@ -106,7 +107,7 @@ stories
           id: 'close',
           src: 'perform',
           options: {
-            type: 'n2o/modals/CLOSE',
+            type: 'n2o/overlays/CLOSE',
             payload: {
               name: 'Uid',
               prompt: true,
@@ -154,7 +155,7 @@ stories
       showModal: {
         src: 'perform',
         options: {
-          type: 'n2o/modals/INSERT',
+          type: 'n2o/overlays/INSERT',
           payload: {
             name: 'Uid',
             pageUrl: '/Uid',
@@ -166,6 +167,7 @@ stories
             closeButton: true,
             pageId: 'Uid',
             prompt: true,
+            mode: 'modal',
           },
         },
       },
