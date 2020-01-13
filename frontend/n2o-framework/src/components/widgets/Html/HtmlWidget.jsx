@@ -16,37 +16,6 @@ import dependency from '../../../core/dependency';
  * @reactProps {object} datasource
  */
 
-//JSON - метаданные
-// {
-//   "widgets": {
-//   "Page_Html": {
-//     "html": {
-//       "html": "<h1>Some title</h1>"
-//     }
-//   }
-//  }
-// }
-
-//JSON - метаданные  + фича resolvePlaceholders (resolve на datasource[0])
-// {
-//   "widgets": {
-//   "Page_Html": {
-//     "resolvePlaceholders" : true,
-//     "html": {
-//       "html": "<div class='jumbotron'><h4>user: :username :surname / username: :username / surname: :surname</h4></div><div class='jumbotron'><ul><li>:username</li><li>:surname</li></ul></div>"
-//     }
-//   }
-//  }
-// }
-
-// username и surname из метаданных при "resolvePlaceholders" : true, заменятся на соответствующие ключи в html (прим. :username :surname)
-// list: [
-//   {
-//     username: 'Афанасий',
-//     surname: 'Ревин',
-//   },
-// ],
-
 class HtmlWidget extends React.Component {
   /**
    * Мэппинг пропсов

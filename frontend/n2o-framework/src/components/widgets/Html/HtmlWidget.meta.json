@@ -1,7 +1,6 @@
 {
   "widgets": {
     "Page_Html": {
-      "resolvePlaceholders" : true,
       "dataProvider": {
         "url": "/html-data",
         "pathMapping": {
@@ -11,8 +10,7 @@
       },
       "src": "HtmlWidget",
       "html": {
-        "html": "<div class='jumbotron'><h4>user:{}{digit key 125}{there is no such key} {username} {surname} / username: {username} / surname: {surname}</h4></div><div class='jumbotron'><ul><li>{username}</li><li>{surname}{test-key}</li></ul></div><div class='jumbotron'>{html}</div>",
-        "fetchOnInit": true
+        "html": "<div class='jumbotron'><h4>user:{}{digit key 125}{there is no such key} {username} {surname} / username: {username} / surname: {surname}</h4></div><div class='jumbotron'><ul><li>{username}</li><li>{surname}{test-key}</li></ul></div><div class='jumbotron'>{html}</div>"
       }
     }
   }
