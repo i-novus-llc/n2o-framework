@@ -825,6 +825,7 @@ class Calculator {
   </in-parameters>
 </operation>
 ----
+link:https://n2oapp.net/sandbox/new/data/providers/mapping_java_primitive[Пример]
 
 ====== Маппинг сущности
 
@@ -868,6 +869,7 @@ class MyEntity {
   </in-parameters>
 </operation>
 ----
+link:https://n2oapp.net/sandbox/new/data/providers/mapping_java_entity[Пример]
 
 ====== Маппинг критериев
 
@@ -900,18 +902,19 @@ N2O поддерживает несколько базовых классов к
 ----
 @Service
 class MyService {
-  public List<MyEntity> getList(MyCriteria criteria)  { ... }
+  public Page<Person> getList(MyCriteria criteria)  { ... }
 }
 ----
 
 [source,java]
 ----
-class MyCriteria extends Criteria {
+class MyCriteria implements Pageable {
   private Date birtdayBefore;
   private Date birtdayAfter;
   //getters and setters
 }
 ----
+link:https://n2oapp.net/sandbox/new/data/providers/mapping_java_criteria[Пример]
 
 Тип `criteria` может быть задан только один раз среди всех аргументов.
 Маппинг фильтров в критерии задаётся напрямую, без указания порядкового номера аргумента.
