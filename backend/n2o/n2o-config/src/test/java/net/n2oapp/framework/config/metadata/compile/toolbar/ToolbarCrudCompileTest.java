@@ -103,7 +103,7 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
         CloseAction close = (CloseAction) page.getActions().get("close");
 
         assertThat(close.getId(), Matchers.is("close"));
-        assertThat(close.getOptions().getType(), Matchers.is("n2o/modals/CLOSE"));
+        assertThat(close.getOptions().getType(), Matchers.is("n2o/overlays/CLOSE"));
         assertThat(((CloseActionPayload) close.getOptions().getPayload()).getPrompt(), Matchers.is(true));
 //        assertThat(close.getOptions().getMeta().getRedirect().getPath(), is("/test/:id"));
 //        assertThat(close.getOptions().getMeta().getRedirect().getTarget(), is(RedirectTargetType.application));
