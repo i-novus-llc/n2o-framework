@@ -17,7 +17,7 @@ public class ShowModalElementIOV1 extends AbstractOpenPageElementIOV1<N2oShowMod
         p.attribute(e,  "modal-size", sm::getModalSize, sm::setModalSize);
         p.attribute(e,  "object-id", sm::getObjectId, sm::setObjectId);
         p.attribute(e,"refresh-widget-id", sm::getRefreshWidgetId, sm::setRefreshWidgetId);
-        p.attributeEnum(e,  "mode", sm::getMode, sm::setMode, ShowModalMode.class);
+        p.attributeEnum(e,  "type", sm::getType, sm::setType, ShowModalMode.class);
     }
 
     @Override

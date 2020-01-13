@@ -203,7 +203,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="mode" type="showModalMode" use="optional">
+                <xs:attribute name="type" type="showModalMode" use="optional">
                     <xs:annotation>
                         <xs:documentation>Вид отображения модального окна. По умолчанию modal</xs:documentation>
                     </xs:annotation>

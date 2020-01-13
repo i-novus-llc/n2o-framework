@@ -64,6 +64,6 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
         ShowModalPayload payload = showModal.getOptions().getPayload();
         payload.setSize(source.getModalSize());
         payload.setCloseButton(true);
-        payload.setMode(p.cast(source.getMode(), ShowModalMode.modal));
+        payload.setMode(p.cast(source.getType(), ShowModalMode.modal));
     }
 }
