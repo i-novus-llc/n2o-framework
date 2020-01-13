@@ -1,6 +1,5 @@
-package net.n2oapp.framework.config.io.widget;
+package net.n2oapp.framework.config.io.widget.chart;
 
-import net.n2oapp.framework.config.io.widget.chart.ChartWidgetIOv4;
 import net.n2oapp.framework.config.io.widget.chart.charts.PieChartIOv4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;

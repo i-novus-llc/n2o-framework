@@ -29,8 +29,8 @@ public class PieChartJsonTest extends JsonMetadataTestBase {
                 "components/widgets/Chart/json/PieChart.meta.json")
                 .cutJson("Page_Chart.chart")
                 .cutXml("chart")
-                .exclude("src", "margin", "autoFocus", "pie.minAngle", "pie.paddingAngle",
-                        "pie.legendType", "pie.label", "pie.labelLine")
+                .exclude("src", "margin", "autoFocus", "fetchOnInit",
+                        "pie.minAngle", "pie.paddingAngle", "pie.legendType", "pie.label", "pie.labelLine")
                 .assertEquals();
 
     }

@@ -11,18 +11,13 @@ import lombok.Setter;
 public abstract class N2oStandardChart extends N2oAbstractChart {
     private String xAxisDataKey;
     private Integer xAxisTickCount;
-    private String xAxisLabel;
     private String yAxisDataKey;
     private Integer yAxisTickCount;
-    private String yAxisLabel;
     private Integer gridX;
     private Integer gridY;
     private Integer gridWidth;
     private Integer gridHeight;
-    private Boolean gridHorizontalEnabled;
-    private Boolean gridVerticalEnabled;
     private String tooltipSeparator;
-    private String tooltipLabel;
     private Integer legendWidth;
     private Integer legendHeight;
 }

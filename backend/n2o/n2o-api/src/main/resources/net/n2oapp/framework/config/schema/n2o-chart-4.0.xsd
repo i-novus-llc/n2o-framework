@@ -16,25 +16,135 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="areaChartDefinition">
+    <xs:complexType name="standardChartDefinition">
+        <xs:annotation>
+            <xs:documentation>Круговая диаграмма.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="x-data-key" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Диаграмма-область.</xs:documentation>
+                <xs:documentation>Ключ значений по оси x.</xs:documentation>
             </xs:annotation>
-            <xs:attribute name="stackId" type="xs:string">
+        </xs:attribute>
+        <xs:attribute name="x-tick-count" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Количество делений на оси x.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="y-data-key" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Ключ значений по оси y.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="y-tick-count" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Количество делений на оси y.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="grid-x" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Координата сетки по оси x.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="grid-y" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Координата сетки по оси y.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="grid-width" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Ширина сетки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="grid-height" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Высота сетки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="tooltip-separator" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Разделитель между названием и значением.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="legend-width" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Ширина легенды.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="legend-height" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Высота легенды.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="areaChartDefinition">
+        <xs:complexContent>
+            <xs:extension base="standardChartDefinition">
                 <xs:annotation>
-                    <xs:documentation>Идентификатор для настакивания друг на друга.</xs:documentation>
+                    <xs:documentation>Диаграмма-область.</xs:documentation>
                 </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="dataKey" type="xs:string">
+                <xs:attribute name="stack-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор для настакивания друг на друга.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="data-key" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ключ в данных.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет зоны.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="barChartDefinition">
+        <xs:complexContent>
+            <xs:extension base="standardChartDefinition">
                 <xs:annotation>
-                    <xs:documentation>Ключ в данных.</xs:documentation>
+                    <xs:documentation>Гистограмма.</xs:documentation>
                 </xs:annotation>
-            </xs:attribute>
-            <xs:attribute name="color" type="xs:string">
+                <xs:attribute name="stack-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор для настакивания друг на друга.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="data-key" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ключ в данных.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет зоны.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="lineChartDefinition">
+        <xs:complexContent>
+            <xs:extension base="standardChartDefinition">
                 <xs:annotation>
-                    <xs:documentation>Цвет зоны.</xs:documentation>
+                    <xs:documentation>Линейный график.</xs:documentation>
                 </xs:annotation>
-            </xs:attribute>
+                <xs:attribute name="data-key" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ключ в данных.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет зоны.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="pieChartDefinition">
@@ -87,6 +197,5 @@
                 </xs:annotation>
             </xs:attribute>
     </xs:complexType>
-
 
 </xs:schema>

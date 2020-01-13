@@ -480,6 +480,12 @@
                 <xs:annotation>
                     <xs:documentation>Виджет диаграмма.</xs:documentation>
                 </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="area" type="chart:areaChartDefinition" minOccurs="0"/>
+                    <xs:element name="bar" type="chart:barChartDefinition" minOccurs="0"/>
+                    <xs:element name="line" type="chart:lineChartDefinition" minOccurs="0"/>
+                    <xs:element name="pie" type="chart:pieChartDefinition" minOccurs="0"/>
+                </xs:sequence>
                 <xs:attribute name="width" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Ширина диаграммы.</xs:documentation>
@@ -490,12 +496,6 @@
                         <xs:documentation>Высота диаграммы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:sequence>
-                    <xs:element name="area" type="chart:areaChartDefinition" minOccurs="0"/>
-                    <xs:element name="bar" type="barChartDefinition" minOccurs="0"/>
-                    <xs:element name="line" type="lineChartDefinition" minOccurs="0"/>
-                    <xs:element name="pie" type="chart:pieChartDefinition" minOccurs="0"/>
-                </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
