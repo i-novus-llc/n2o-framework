@@ -24,6 +24,7 @@ import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 
@@ -69,7 +70,12 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         if (action != null) {
             button.setAction(action);
             if (action instanceof InvokeAction) {
-                CompiledObject compiledObject = p.getScope(CompiledObject.class);
+                CompiledObject compiledObject;
+                WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
+                if (widgetObjectScope != null && widgetObjectScope.containsKey(source.getWidgetId())) {
+                    compiledObject = widgetObjectScope.getObject(source.getWidgetId());
+                } else
+                    compiledObject = p.getScope(CompiledObject.class);
                 operation = compiledObject != null && compiledObject.getOperations() != null
                         && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
                         compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
