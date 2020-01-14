@@ -318,9 +318,9 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         }
 
         if (securityObject.isEmpty()) {
-            Boolean defaultPageAccessDenied = p.resolve(property(DEFAULT_URL_ACCESS_DENIED), Boolean.class);
-            securityObject.setPermitAll(!defaultPageAccessDenied);
-            securityObject.setDenied(defaultPageAccessDenied);
+            Boolean defaultUrlAccessDenied = p.resolve(property(DEFAULT_URL_ACCESS_DENIED), Boolean.class);
+            securityObject.setPermitAll(!defaultUrlAccessDenied);
+            securityObject.setDenied(defaultUrlAccessDenied);
         }
         security.getSecurityMap().put("url", securityObject);
     }
