@@ -10,7 +10,7 @@ import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
  * @param placement
  * @param hideArrow
  * @param children
- * @returns {function(*)}
+ * @returns {function()}
  */
 export default function Tooltip({
   target,

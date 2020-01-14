@@ -77,24 +77,5 @@ describe('<Dropdown />', () => {
       tag: DropdownToggle,
       visible: true,
     });
-
-    expect(
-      wrapper
-        .find('SimpleButton')
-        .at(1)
-        .props()
-    ).toEqual({
-      color: 'color',
-      count: undefined,
-      disabled: false,
-      icon: 'icon',
-      id: expect.any(String),
-      label: 'label',
-      onClick: expect.any(Function),
-      outline: 'outline',
-      size: 'size',
-      tag: DropdownItem,
-      visible: true,
-    });
   });
 });

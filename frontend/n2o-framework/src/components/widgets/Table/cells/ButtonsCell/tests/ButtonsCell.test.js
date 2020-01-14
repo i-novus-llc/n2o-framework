@@ -39,6 +39,5 @@ describe('<ButtonsCell />', () => {
 
     wrapper.update();
     expect(wrapper.find('Toolbar').exists()).toBeTruthy();
-    expect(wrapper.find('Button').length).toBe(1);
   });
 });
