@@ -3,7 +3,7 @@ version: "3.6"
 services:
   frontend:
     ports:
-      - 8080
+      - "8080"
     deploy:
       resources:
         limits:
@@ -13,7 +13,7 @@ services:
           - node.labels.dc == hetzner
   docs:
     ports:
-      - 80
+      - "80"
     deploy:
       resources:
         limits:
@@ -23,7 +23,7 @@ services:
           - node.labels.dc == hetzner
   storybook:
     ports:
-      - 80
+      - "80"
     deploy:
       resources:
         limits:
