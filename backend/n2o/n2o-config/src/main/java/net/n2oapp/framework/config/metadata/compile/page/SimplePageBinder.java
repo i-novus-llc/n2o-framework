@@ -7,12 +7,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 
+/**
+ * Связывание данных на простой странице
+ */
 @Component
 public class SimplePageBinder extends PageBinder<SimplePage> {
     @Override
     public SimplePage bind(SimplePage page, BindProcessor p) {
-        super.bindPage(page, p, Collections.singletonMap(page.getWidget().getId(), page.getWidget()));
-        return page;
+        return bindPage(page, p, Collections.singletonMap(page.getWidget().getId(), page.getWidget()));
     }
 
     @Override

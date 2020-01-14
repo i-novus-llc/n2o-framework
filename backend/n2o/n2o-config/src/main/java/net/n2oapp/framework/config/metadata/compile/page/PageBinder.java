@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.*;
@@ -20,7 +19,7 @@ import java.util.Map;
  * Базовое связывание данных на странице
  */
 public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D> {
-    public void bindPage(D page, BindProcessor p, Map<String, Widget> widgets) {
+    public D bindPage(D page, BindProcessor p, Map<String, Widget> widgets) {
         if (widgets != null) {
             widgets.values().forEach(p::bind);
         }
@@ -61,6 +60,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                 crumb.setLabel(p.resolveText(crumb.getLabel(), crumb.getModelLink()));
             }
         }
+        return page;
     }
 
     private List<ModelLink> collectFilterLinks(Models models, Map<String, Widget> widgets) {
@@ -96,5 +96,4 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                 }
         );
     }
-
 }
