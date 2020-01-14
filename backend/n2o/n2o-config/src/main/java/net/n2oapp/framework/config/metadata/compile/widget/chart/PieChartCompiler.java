@@ -6,12 +6,14 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oPieChart;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartType;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.PieChart;
+import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция круговой диаграммы
  */
+@Component
 public class PieChartCompiler extends AbstractChartCompiler<PieChart, N2oPieChart> {
 
     @Override

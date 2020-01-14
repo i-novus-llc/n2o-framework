@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class PieChartWidgetComponent extends AbstractChartWidgetComponent{
+public class PieChartWidgetComponent extends AbstractChartWidgetComponent {
     @JsonProperty
     private Integer cx;
     @JsonProperty

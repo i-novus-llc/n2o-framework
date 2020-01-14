@@ -6,7 +6,7 @@ import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись диаграммы области
+ * Чтение/запись диаграммы-области
  */
 @Component
 public class AreaChartIOv4 extends StandardChartIOV4<N2oAreaChart> {
