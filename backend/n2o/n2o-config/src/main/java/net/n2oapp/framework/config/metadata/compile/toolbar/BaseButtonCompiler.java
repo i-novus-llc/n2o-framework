@@ -56,6 +56,12 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         }
         CompiledObject.Operation operation = null;
         Action action = null;
+        CompiledObject compiledObject;
+        WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
+        if (widgetObjectScope != null && widgetObjectScope.containsKey(source.getWidgetId())) {
+            compiledObject = widgetObjectScope.getObject(source.getWidgetId());
+        } else
+            compiledObject = p.getScope(CompiledObject.class);
         if (source.getActionId() != null) {
             MetaActions metaActions = p.getScope(MetaActions.class);
             action = metaActions.get(source.getActionId());
@@ -63,19 +69,14 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             N2oAction butAction = source.getAction();
             if (butAction != null) {
                 butAction.setId(p.cast(butAction.getId(), button.getId()));
-                action = p.compile(butAction, context, new ComponentScope(source));
+                action = p.compile(butAction, context, compiledObject, new ComponentScope(source));
             }
         }
 
         if (action != null) {
             button.setAction(action);
             if (action instanceof InvokeAction) {
-                CompiledObject compiledObject;
-                WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
-                if (widgetObjectScope != null && widgetObjectScope.containsKey(source.getWidgetId())) {
-                    compiledObject = widgetObjectScope.getObject(source.getWidgetId());
-                } else
-                    compiledObject = p.getScope(CompiledObject.class);
+
                 operation = compiledObject != null && compiledObject.getOperations() != null
                         && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
                         compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
