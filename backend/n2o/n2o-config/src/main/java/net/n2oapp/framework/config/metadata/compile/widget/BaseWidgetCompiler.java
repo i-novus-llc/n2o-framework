@@ -69,6 +69,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
         compiled.setObjectId(object != null ? object.getId() : null);
+        if (p.getScope(WidgetObjectScope.class) != null)
+            p.getScope(WidgetObjectScope.class).put(source.getId(), object);
         compiled.setQueryId(source.getQueryId());
         compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));
         compiled.setRoute(initWidgetRoute(source, p));
@@ -99,7 +101,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
             String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
             return normalize(colon(selectedId)) + normalize(source.getId());
-
         }
         return normalize(source.getId());
     }
@@ -313,7 +314,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         routes.addPathMapping(selectedId, widgetIdMapping);
 
         if (query != null) {
-            ((List<Filter>) compiled.getFilters()).stream().filter(Filter::getReloadable)
+            ((List<Filter>) compiled.getFilters()).stream().filter(Filter::getRoutable)
                     .forEach(filter -> {
                         ReduxAction onGet;
                         String filterId = filter.getFilterId();
@@ -597,7 +598,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             } else {
                 filter.setParam(normalizeParam(source.getMasterFieldId()));
             }
-            filter.setReloadable(false);
+            filter.setRoutable(false);
             String masterFieldId = p.cast(source.getMasterFieldId(), N2oQuery.Field.PK);
             ModelLink link = Redux.linkQuery(masterWidgetId, masterFieldId, source.getQueryId());
             filter.setLink(link);
@@ -630,7 +631,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                         }
                     }
                     filter.setParam(p.cast(preFilter.getParam(), compiled.getId() + "_" + queryFilter.getParam()));
-                    filter.setReloadable(false);
+                    filter.setRoutable(p.cast(preFilter.getRoutable(), false));
                     filter.setFilterId(queryFilter.getFilterField());
                     Object prefilterValue = getPrefilterValue(preFilter);
                     if (StringUtils.isJs(prefilterValue)) {

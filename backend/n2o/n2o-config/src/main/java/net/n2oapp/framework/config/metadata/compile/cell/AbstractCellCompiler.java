@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oActionCell;
 import net.n2oapp.framework.api.metadata.meta.action.Action;

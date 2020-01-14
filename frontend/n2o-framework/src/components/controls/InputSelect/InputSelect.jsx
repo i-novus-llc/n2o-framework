@@ -676,6 +676,10 @@ InputSelect.propTypes = {
    */
   badgeColorFieldId: PropTypes.string,
   /**
+   * Ключ сортировки в данных
+   */
+  sortFieldId: PropTypes.string,
+  /**
    * Флаг активности
    */
   disabled: PropTypes.bool,
