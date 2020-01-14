@@ -4,14 +4,14 @@ services:
   frontend:
     image: "${DOCKER_REGISTRY}/n2o/demo:latest"
     ports:
-      - "8220:8080"
+      - "8710:8080"
     environment:
       - SERVER_SERVLET_CONTEXT_PATH=/latest/demo
   docs:
     image: "${DOCKER_REGISTRY}/n2o/docs:latest"
     ports:
-      - "8221:80"
+      - "8711:80"
   storybook:
     image: "${DOCKER_REGISTRY}/n2o/storybook:latest"
     ports:
-      - "8222:80"
+      - "8712:80"

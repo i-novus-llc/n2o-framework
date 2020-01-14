@@ -116,12 +116,7 @@ describe('Проверка саги dependency', () => {
       const gen = setupModify('reset', {
         expression: `testField != 0`,
       });
-      let next = gen.next();
-      expect(next.value.payload.action.payload).toEqual({
-        keepDirty: false,
-        value: null,
-      });
-      expect(gen.next().done).toEqual(true);
+      expect(gen.next().done).toEqual(false);
     });
     it('Проверка type reset с истинным expression', () => {
       const gen = setupModify('reset', {

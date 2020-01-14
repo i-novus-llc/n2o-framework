@@ -20,6 +20,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,6 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 
 @Component
 public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
-
 
     @Override
     public Page compile(N2oStandardPage source, PageContext context, CompileProcessor p) {
@@ -64,8 +64,9 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         ValidationList validationList = new ValidationList(new HashMap<>());
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         //compile widget
+        WidgetObjectScope widgetObjectScope = new WidgetObjectScope();
         page.setWidgets(initWidgets(routeScope, pageRoutes, sourceWidgets,
-                context, p, pageScope, breadcrumb, validationList, models, pageRoutesScope));
+                context, p, pageScope, breadcrumb, validationList, models, pageRoutesScope, widgetObjectScope));
         registerRoutes(pageRoutes, context, p);
         if (!(context instanceof ModalPageContext))
             page.setRoutes(pageRoutes);
@@ -76,7 +77,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         if (context.getSubmitOperationId() != null)
             initToolbarGenerate(source, resultWidgetId);
         MetaActions metaActions = new MetaActions();
-        compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumb, validationList);
+        compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumb, validationList, page.getWidgets(), widgetObjectScope);
         page.setActions(metaActions);
         return page;
     }
@@ -120,12 +121,11 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
 
     private void compileToolbarAndAction(Page compiled, N2oStandardPage source, PageContext context, CompileProcessor p,
                                          MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope, PageRoutes pageRoutes,
-                                         CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList) {
+                                         CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList, Map<String, Widget> widgets, WidgetObjectScope widgetObjectScope) {
         actionsToToolbar(source);
-        compiled.setToolbar(compileToolbar(source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList));
-        compileActions(source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList);
+        compiled.setToolbar(compileToolbar(source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList, widgetObjectScope));
+        compileActions(source, context, p, metaActions, pageScope, routeScope, pageRoutes, breadcrumbs, object, validationList, widgets);
     }
-
 
     private void actionsToToolbar(N2oStandardPage source) {
         if (source.getActions() == null || source.getToolbars() == null)
@@ -154,32 +154,31 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     }
 
     private void copyAction(AbstractMenuItem item, Map<String, ActionsBar> actionMap) {
-        AbstractMenuItem mi = item;
-        if (mi.getAction() == null && mi.getActionId() != null) {
-            ActionsBar action = actionMap.get(mi.getActionId());
-            if (action == null) {
-                throw new N2oException("Toolbar has reference to nonexistent action by actionId {0}!").addData(mi.getActionId());
+        if (item.getAction() == null && item.getActionId() != null) {
+            ActionsBar actionsBar = actionMap.get(item.getActionId());
+            if (actionsBar == null) {
+                throw new N2oException("Toolbar has reference to nonexistent action by actionId {0}!").addData(item.getActionId());
             }
-            mi.setAction(action.getAction());
-            if (mi.getModel() == null)
-                mi.setModel(action.getModel());
-            if (mi.getWidgetId() == null)
-                mi.setWidgetId(action.getWidgetId());
-            if (mi.getLabel() == null)
-                mi.setLabel(action.getLabel());
-            if (mi.getIcon() == null)
-                mi.setIcon(action.getIcon());
+            item.setAction(actionsBar.getAction());
+            if (item.getModel() == null)
+                item.setModel(actionsBar.getModel());
+            if (item.getWidgetId() == null)
+                item.setWidgetId(actionsBar.getWidgetId());
+            if (item.getLabel() == null)
+                item.setLabel(actionsBar.getLabel());
+            if (item.getIcon() == null)
+                item.setIcon(actionsBar.getIcon());
         }
     }
 
     private Toolbar compileToolbar(N2oStandardPage source, PageContext context, CompileProcessor p,
                                    MetaActions metaActions, PageScope pageScope, ParentRouteScope routeScope, PageRoutes pageRoutes,
-                                   CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList) {
+                                   CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList, WidgetObjectScope widgetObjectScope) {
         if (source.getToolbars() == null)
             return null;
         Toolbar toolbar = new Toolbar();
         for (N2oToolbar n2oToolbar : source.getToolbars()) {
-            toolbar.putAll(p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList, new IndexScope()));
+            toolbar.putAll(p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList, new IndexScope(), widgetObjectScope));
         }
         return toolbar;
     }
@@ -187,14 +186,14 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     private Map<String, Widget> initWidgets(ParentRouteScope routeScope, PageRoutes pageRoutes, List<N2oWidget> sourceWidgets,
                                             PageContext context, CompileProcessor p,
                                             PageScope pageScope, BreadcrumbList breadcrumbs, ValidationList validationList,
-                                            Models models, PageRoutesScope pageRoutesScope) {
+                                            Models models, PageRoutesScope pageRoutesScope, WidgetObjectScope widgetObjectScope) {
         Map<String, Widget> compiledWidgets = new StrictMap<>();
         IndexScope indexScope = new IndexScope();
         List<N2oWidget> independents = getSourceIndependents(sourceWidgets);
         independents.forEach(w -> compileWidget(w, pageRoutes, routeScope, null, null,
                 sourceWidgets, compiledWidgets,
                 context, p,
-                pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope));
+                pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope, widgetObjectScope));
         return compiledWidgets;
     }
 
@@ -208,12 +207,12 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                                PageContext context, CompileProcessor p,
                                PageScope pageScope, BreadcrumbList breadcrumbs, ValidationList validationList,
                                Models models, IndexScope indexScope,
-                               PageRoutesScope pageRoutesScope) {
+                               PageRoutesScope pageRoutesScope, WidgetObjectScope widgetObjectScope) {
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setDependsOnWidgetId(parentWidgetId);
         widgetScope.setDependsOnQueryId(parentQueryId);
         Widget compiledWidget = p.compile(w, context, indexScope, routes, pageScope, widgetScope, parentRoute,
-                breadcrumbs, validationList, models, pageRoutesScope);
+                breadcrumbs, validationList, models, pageRoutesScope, widgetObjectScope);
         compiledWidgets.put(compiledWidget.getId(), compiledWidget);
         //compile detail widgets
         ParentRouteScope parentRouteScope = new ParentRouteScope(compiledWidget.getRoute(), parentRoute);
@@ -221,7 +220,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
                 compileWidget(detWgt, routes, parentRouteScope, compiledWidget.getId(), compiledWidget.getQueryId(),
                         sourceWidgets, compiledWidgets,
                         context, p,
-                        pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope));
+                        pageScope, breadcrumbs, validationList, models, indexScope, pageRoutesScope, widgetObjectScope));
     }
 
     private Layout createLayout(N2oStandardPage source, CompileProcessor p, PageContext context,
@@ -309,13 +308,21 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     }
 
     private void compileActions(N2oStandardPage source, PageContext context, CompileProcessor p,
-                                MetaActions actions, PageScope pageScope, ParentRouteScope routeScope, PageRoutes pageRoutes, CompiledObject object,
-                                BreadcrumbList breadcrumbs, ValidationList validationList) {
+                                MetaActions actions, PageScope pageScope, ParentRouteScope routeScope, PageRoutes pageRoutes,
+                                BreadcrumbList breadcrumbs, CompiledObject object, ValidationList validationList, Map<String, Widget> widgets) {
         if (source.getActions() != null) {
             Stream.of(source.getActions()).forEach(a -> {
                 a.getAction().setId(a.getId());
-                Action action = p.compile(a.getAction(), context, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList, new ComponentScope(a));
-                actions.addAction(a.getId(), action);
+                Widget widget = null;
+                CompiledObject compiledObject = object;
+                if (widgets.containsKey(a.getWidgetId()))
+                    widget = widgets.get(a.getWidgetId());
+                if (widget != null) {
+                    compiledObject = new CompiledObject();
+                    compiledObject.setId(widget.getObjectId());
+                }
+                Action action = p.compile(a.getAction(), context, pageScope, routeScope, pageRoutes, compiledObject, breadcrumbs, validationList, new ComponentScope(a));
+                actions.addAction(action);
             });
         }
     }
