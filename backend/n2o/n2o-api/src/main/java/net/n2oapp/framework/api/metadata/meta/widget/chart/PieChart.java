@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Клиентская модель круговой диаграммы
  */
-public class PieChart extends ChartWidgetComponent<PieChartWidgetComponent> {
+public class PieChart extends SimpleChartWidgetComponent<PieChartItem> {
     public PieChart() {
-        super(new PieChartWidgetComponent());
+        super(new PieChartItem());
     }
 
     @JsonProperty("pie")
     @Override
-    public PieChartWidgetComponent getComponent() {
+    public PieChartItem getComponent() {
         return super.getComponent();
     }
 }

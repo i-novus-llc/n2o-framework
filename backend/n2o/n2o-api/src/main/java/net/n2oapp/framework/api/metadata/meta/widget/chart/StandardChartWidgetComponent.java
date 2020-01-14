@@ -4,16 +4,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * Клиентская модель компонента стандартной диаграммы
  */
 @Getter
 @Setter
-public class StandardChartWidgetComponent<T extends AbstractChartWidgetComponent> extends ChartWidgetComponent {
+public class StandardChartWidgetComponent<T extends AbstractChartItem> extends ChartWidgetComponent {
+     protected List<T> items;
      @JsonProperty("XAxis")
-     private ChartCoord xAxis;
+     private ChartAxis xAxis;
      @JsonProperty("YAxis")
-     private ChartCoord yAxis;
+     private ChartAxis yAxis;
      @JsonProperty("cartesianGrid")
      private ChartGrid grid;
      @JsonProperty("tooltip")
@@ -21,7 +24,11 @@ public class StandardChartWidgetComponent<T extends AbstractChartWidgetComponent
      @JsonProperty("legend")
      private ChartLegend legend;
 
-     public StandardChartWidgetComponent(T component) {
-          this.component = component;
+     public StandardChartWidgetComponent(List<T> items) {
+          this.items = items;
+     }
+
+     public void addItem(T item) {
+          items.add(item);
      }
 }

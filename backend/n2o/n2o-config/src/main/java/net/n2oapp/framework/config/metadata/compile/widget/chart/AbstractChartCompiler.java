@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.widget.chart;
 
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oAbstractChart;
+import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oAbstractChartComponent;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartWidgetComponent;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Компиляция абстрактной диаграммы
  */
 @Component
-public abstract class AbstractChartCompiler<D extends ChartWidgetComponent, S extends N2oAbstractChart> implements BaseSourceCompiler<D, S, CompileContext<?,?>> {
+public abstract class AbstractChartCompiler<D extends ChartWidgetComponent, S extends N2oAbstractChartComponent> implements BaseSourceCompiler<D, S, CompileContext<?,?>> {
 
     protected D build(D compiled, S source, CompileContext<?,?> context, CompileProcessor p, String defaultSrc) {
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(defaultSrc, String.class)));

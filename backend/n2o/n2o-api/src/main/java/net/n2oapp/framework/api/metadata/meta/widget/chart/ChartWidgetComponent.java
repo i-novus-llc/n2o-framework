@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
  */
 @Getter
 @Setter
-public class ChartWidgetComponent<T extends AbstractChartWidgetComponent> extends WidgetComponent {
+public class ChartWidgetComponent<T extends AbstractChartItem> extends WidgetComponent {
     private String src;
     @JsonProperty
     private ChartType type;
@@ -18,12 +18,7 @@ public class ChartWidgetComponent<T extends AbstractChartWidgetComponent> extend
     private Integer width;
     @JsonProperty
     private Integer height;
-    protected T component;
 
     public ChartWidgetComponent() {
-    }
-
-    public ChartWidgetComponent(T component) {
-        this.component = component;
     }
 }

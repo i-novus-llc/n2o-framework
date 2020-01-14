@@ -5,11 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель компонента круговой диаграммы
+ * Клиентская модель элемента круговой диаграммы
  */
 @Getter
 @Setter
-public class PieChartWidgetComponent extends AbstractChartWidgetComponent {
+public class PieChartItem extends AbstractChartItem {
     @JsonProperty
     private Integer cx;
     @JsonProperty

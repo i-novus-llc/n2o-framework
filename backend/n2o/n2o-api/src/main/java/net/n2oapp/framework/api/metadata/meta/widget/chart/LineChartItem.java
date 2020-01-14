@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель компонента гистограммы
+ * Клиентская модель элемента линейного графика
  */
 @Getter
 @Setter
-public class BarChartWidgetComponent extends AbstractChartWidgetComponent {
-    @JsonProperty
-    private String stackId;
+public class LineChartItem extends AbstractChartItem {
     @JsonProperty
     private String dataKey;
     @JsonProperty("fill")

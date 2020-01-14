@@ -32,6 +32,5 @@ public class PieChartJsonTest extends JsonMetadataTestBase {
                 .exclude("src", "margin", "autoFocus", "fetchOnInit",
                         "pie.minAngle", "pie.paddingAngle", "pie.legendType", "pie.label", "pie.labelLine")
                 .assertEquals();
-
     }
 }

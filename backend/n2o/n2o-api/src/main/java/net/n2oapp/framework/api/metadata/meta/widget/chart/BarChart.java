@@ -2,17 +2,20 @@ package net.n2oapp.framework.api.metadata.meta.widget.chart;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Клиентская модель гистограммы
  */
-public class BarChart extends StandardChartWidgetComponent<BarChartWidgetComponent> {
+public class BarChart extends StandardChartWidgetComponent<BarChartItem> {
     public BarChart() {
-        super(new BarChartWidgetComponent());
+        super(new ArrayList<>());
     }
 
     @JsonProperty("bars")
     @Override
-    public BarChartWidgetComponent getComponent() {
-        return (BarChartWidgetComponent) super.getComponent();
+    public List<BarChartItem> getItems() {
+        return super.getItems();
     }
 }
