@@ -17,6 +17,15 @@ const exampleProxy = proxy(options);
 
 app.use(bodyParser());
 
+app.get("/n2o/config", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send({
+    project: "lLGdb",
+    menu: { brand: "N2O", fixed: false },
+    user: {}
+  });
+});
+
 app.get("/n2o/page/proto", (req, res) => {
   const json = require("./json/proto.json");
   res.setHeader("Content-Type", "application/json");

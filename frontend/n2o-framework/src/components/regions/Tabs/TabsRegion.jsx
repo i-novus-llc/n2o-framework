@@ -6,6 +6,7 @@ import map from 'lodash/map';
 import isUndefined from 'lodash/isUndefined';
 import pull from 'lodash/pull';
 import { compose, setDisplayName } from 'recompose';
+import withRegionContainer from '../withRegionContainer';
 import Tabs from './Tabs';
 import Tab from './Tab';
 import withWidgetProps from '../withWidgetProps';
@@ -32,7 +33,14 @@ class TabRegion extends React.Component {
   }
 
   handleChangeActive(widgetId, prevWidgetId) {
-    const { lazy, alwaysRefresh, getWidgetProps, fetchWidget } = this.props;
+    const {
+      id,
+      lazy,
+      alwaysRefresh,
+      getWidgetProps,
+      fetchWidget,
+      changeActiveEntity,
+    } = this.props;
     const { readyTabs } = this.state;
     const widgetProps = getWidgetProps(widgetId);
 
@@ -47,6 +55,8 @@ class TabRegion extends React.Component {
     } else if (alwaysRefresh || isEmpty(widgetProps.datasource)) {
       widgetProps.dataProvider && fetchWidget(widgetId);
     }
+
+    changeActiveEntity(widgetId);
   }
 
   findReadyTabs() {
@@ -68,10 +78,12 @@ class TabRegion extends React.Component {
       getVisible,
       pageId,
       lazy,
+      activeEntity
     } = this.props;
     const { readyTabs, visibleTabs } = this.state;
+
     return (
-      <Tabs onChangeActive={this.handleChangeActive}>
+      <Tabs activeId={activeEntity} onChangeActive={this.handleChangeActive}>
         {tabs.map(tab => {
           const { security } = tab;
           const widgetProps = getWidgetProps(tab.widgetId);
@@ -161,5 +173,6 @@ TabRegion.defaultProps = {
 export { TabRegion };
 export default compose(
   setDisplayName('TabsRegion'),
+  withRegionContainer({ listKey: 'tabs' }),
   withWidgetProps
 )(TabRegion);
