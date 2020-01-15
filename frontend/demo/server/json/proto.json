@@ -114,19 +114,6 @@
       }
     },
     "queryMapping": {
-      "patients_active": {
-        "get": {
-          "type": "n2o/regions/SET_ACTIVE_REGION_ENTITY",
-          "payload": {
-            "regionId": "tabs1",
-            "activeEntity": ":patients_active"
-          }
-        },
-        "set": {
-          "link": "regions.tabs1",
-          "value": "`activeEntity`"
-        }
-      },
       "patients_surname": {
         "get": {
           "type": "n2o/models/UPDATE",
@@ -1565,25 +1552,19 @@
     "regions": {
       "left": [
         {
-          "id": "tabs1",
-          "src": "TabsRegion",
+          "src": "PanelRegion",
           "hasTabs": false,
           "headerTitle": "Данные пациента",
+          "open": true,
           "collapsible": false,
           "fullScreen": false,
           "header": true,
-          "tabs": [
+          "panel": [
             {
               "id": "panel1",
               "label": "Пациенты",
               "opened": true,
               "widgetId": "proto_contacts"
-            },
-            {
-              "id": "panel2",
-              "label": "Пациенты",
-              "opened": false,
-              "widgetId": "proto_patients"
             }
           ]
         }

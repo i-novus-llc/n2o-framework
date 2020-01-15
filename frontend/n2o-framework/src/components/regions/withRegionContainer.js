@@ -5,20 +5,16 @@ import { batchActions } from 'redux-batched-actions';
 import { createStructuredSelector } from 'reselect';
 import get from 'lodash/get';
 
-import { MAP_URL } from '../../constants/pages';
-import { registerRegion, setActiveEntity } from '../../actions/regions';
+import { registerRegion, setActiveEntity, mapUrl } from '../../actions/regions';
 import {
   makeRegionIsInitSelector,
   makeRegionActiveEntitySelector,
 } from '../../selectors/regions';
-import createActionHelper from '../../actions/createActionHelper';
 
 const createRegionContainer = config => WrappedComponent => {
   const { listKey } = config;
 
-  function RegionContainer(props) {
-    return <WrappedComponent {...props} />;
-  }
+  const RegionContainer = props => <WrappedComponent {...props} />;
 
   const mapStateToProps = createStructuredSelector({
     isInit: (state, props) => makeRegionIsInitSelector(props.id)(state),
@@ -55,8 +51,7 @@ const createRegionContainer = config => WrappedComponent => {
       changeActiveEntity: props => value => {
         const { dispatch, id } = props;
 
-        dispatch(batchActions([setActiveEntity(id, value)]));
-        setTimeout(() => dispatch(createActionHelper(MAP_URL)()), 100);
+        dispatch(batchActions([setActiveEntity(id, value), mapUrl()]));
       },
     }),
     lifecycle({

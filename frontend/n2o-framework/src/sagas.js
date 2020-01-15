@@ -12,6 +12,7 @@ import globalSagas from './sagas/global';
 import { toolbarSagas } from './sagas/toolbar';
 import { widgetDependencySagas } from './sagas/widgetDependency';
 import { modalsSagas } from './sagas/modals';
+import regionsSagas from './sagas/regions';
 
 export default function generateSagas(dispatch, config) {
   return function* rootSaga() {
@@ -28,6 +29,7 @@ export default function generateSagas(dispatch, config) {
       ...toolbarSagas,
       ...widgetDependencySagas,
       ...modalsSagas,
+      ...regionsSagas,
       ...defaultTo(config.customSagas, []),
     ]);
   };

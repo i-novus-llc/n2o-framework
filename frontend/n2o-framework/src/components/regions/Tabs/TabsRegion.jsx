@@ -4,6 +4,8 @@ import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
 import isUndefined from 'lodash/isUndefined';
+import find from 'lodash/find';
+import get from 'lodash/get';
 import pull from 'lodash/pull';
 import { compose, setDisplayName } from 'recompose';
 import withRegionContainer from '../withRegionContainer';
@@ -32,9 +34,9 @@ class TabRegion extends React.Component {
     this.handleChangeActive = this.handleChangeActive.bind(this);
   }
 
-  handleChangeActive(widgetId, prevWidgetId) {
+  handleChangeActive(id, prevId) {
     const {
-      id,
+      tabs,
       lazy,
       alwaysRefresh,
       getWidgetProps,
@@ -42,13 +44,14 @@ class TabRegion extends React.Component {
       changeActiveEntity,
     } = this.props;
     const { readyTabs } = this.state;
+    const widgetId = get(find(tabs, ({ id: tabId }) => tabId === id), 'widgetId');
     const widgetProps = getWidgetProps(widgetId);
 
     if (lazy) {
       if (alwaysRefresh) {
-        pull(readyTabs, prevWidgetId);
+        pull(readyTabs, prevId);
       }
-      readyTabs.push(widgetId);
+      readyTabs.push(id);
       this.setState(() => ({
         readyTabs: [...readyTabs],
       }));
@@ -56,14 +59,14 @@ class TabRegion extends React.Component {
       widgetProps.dataProvider && fetchWidget(widgetId);
     }
 
-    changeActiveEntity(widgetId);
+    changeActiveEntity(id);
   }
 
   findReadyTabs() {
     return filter(
       map(this.props.tabs, tab => {
         if (tab.opened) {
-          return tab.widgetId;
+          return tab.id;
         }
       }),
       item => item
@@ -91,23 +94,23 @@ class TabRegion extends React.Component {
           const visible = getVisible(pageId, tab.widgetId);
 
           const tabProps = {
-            key: tab.widgetId,
-            id: tab.widgetId,
+            key: tab.id,
+            id: tab.id,
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
             visible:
               visible ||
               ((!isEmpty(widgetProps) ? widgetProps.isVisible : true) &&
-                (!isUndefined(visibleTabs[tab.widgetId])
-                  ? visibleTabs[tab.widgetId]
+                (!isUndefined(visibleTabs[tab.id])
+                  ? visibleTabs[tab.id]
                   : true)),
           };
 
           const tabEl = (
             <Tab {...tabProps}>
               {lazy ? (
-                readyTabs.includes(tab.widgetId) && (
+                readyTabs.includes(tab.id) && (
                   <Factory id={tab.widgetId} level={WIDGETS} {...widgetMeta} />
                 )
               ) : (
