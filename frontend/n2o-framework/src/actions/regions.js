@@ -1,7 +1,7 @@
 import {
   REGISTER_REGION,
   SET_ACTIVE_REGION_ENTITY,
-  MAP_URL
+  MAP_URL,
 } from '../constants/regions';
 import createActionHelper from './createActionHelper';
 

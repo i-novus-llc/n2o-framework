@@ -44,7 +44,10 @@ class TabRegion extends React.Component {
       changeActiveEntity,
     } = this.props;
     const { readyTabs } = this.state;
-    const widgetId = get(find(tabs, ({ id: tabId }) => tabId === id), 'widgetId');
+    const widgetId = get(
+      find(tabs, ({ id: tabId }) => tabId === id),
+      'widgetId'
+    );
     const widgetProps = getWidgetProps(widgetId);
 
     if (lazy) {
@@ -81,7 +84,7 @@ class TabRegion extends React.Component {
       getVisible,
       pageId,
       lazy,
-      activeEntity
+      activeEntity,
     } = this.props;
     const { readyTabs, visibleTabs } = this.state;
 
