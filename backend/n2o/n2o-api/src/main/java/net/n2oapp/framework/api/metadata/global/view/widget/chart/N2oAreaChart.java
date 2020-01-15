@@ -4,12 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Исходная модель диаграммы-области
+ * Исходная модель компонента круговой диаграммы
  */
 @Getter
 @Setter
 public class N2oAreaChart extends N2oStandardChart {
-    private String stackId;
-    private String dataKey;
-    private String color;
+    private N2oAreaChartItem[] items;
 }

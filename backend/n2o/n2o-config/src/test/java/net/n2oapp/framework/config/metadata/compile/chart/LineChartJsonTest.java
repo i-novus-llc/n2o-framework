@@ -43,7 +43,7 @@ public class LineChartJsonTest extends JsonMetadataTestBase {
                         "legend.layout", "legend.align", "legend.verticalAlign", "legend.iconSize",
                         "legend.iconType", "legend.margin", "legend.wrapperStyle",
                         "lines[0].type", "lines[0].stroke", "lines[0].legendType", "lines[0].dot", "lines[0].activeDot",
-                        "lines[0].label", "lines[0].layout", "lines[1].type", "lines[1].stroke", "areas[1].legendType", 
+                        "lines[0].label", "lines[0].layout", "lines[1].type", "lines[1].stroke", "lines[1].legendType",
                         "lines[1].dot", "lines[1].activeDot", "lines[1].label", "lines[1].layout"
                 )
                 .assertEquals();

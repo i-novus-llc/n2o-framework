@@ -1,18 +1,24 @@
 package net.n2oapp.framework.config.io.widget.chart.charts;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oLineChart;
+import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oLineChartItem;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись линейного графика
+ * Чтение/запись компонента линейного графика
  */
 @Component
-public class LineChartIOv4 extends StandardChartIOV4<N2oLineChart> {
+public class LineChartIOv4 extends StandardChartIOv4<N2oLineChart> {
+
     @Override
     public void io(Element e, N2oLineChart c, IOProcessor p) {
         super.io(e, c, p);
+        p.children(e, null, "line", c::getItems, c::setItems, N2oLineChartItem.class, this::lineChartIOv4);
+    }
+
+    private void lineChartIOv4(Element e, N2oLineChartItem c, IOProcessor p) {
         p.attribute(e, "data-key", c::getDataKey, c::setDataKey);
         p.attribute(e, "color", c::getColor, c::setColor);
     }
@@ -24,6 +30,6 @@ public class LineChartIOv4 extends StandardChartIOV4<N2oLineChart> {
 
     @Override
     public String getElementName() {
-        return "line";
+        return "lines";
     }
 }

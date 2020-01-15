@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.widget.chart;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oChart;
-import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oAbstractChartComponent;
+import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oAbstractChart;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.widget.WidgetElementIOv4;
 import net.n2oapp.framework.config.io.widget.WidgetIOv4;
@@ -19,7 +19,7 @@ public class ChartWidgetIOv4 extends WidgetElementIOv4<N2oChart> {
         super.io(e, c, p);
         p.attributeInteger(e, "width", c::getWidth, c::setWidth);
         p.attributeInteger(e, "height", c::getHeight, c::setHeight);
-        p.anyChild(e, null, c::getComponent, c::setComponent, p.anyOf(N2oAbstractChartComponent.class), WidgetIOv4.NAMESPACE);
+        p.anyChild(e, null, c::getComponent, c::setComponent, p.anyOf(N2oAbstractChart.class), WidgetIOv4.NAMESPACE);
     }
 
     @Override

@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель элемента диаграммы-области
+ * Клиентская модель области диаграммы-области
  */
 @Getter
 @Setter
 public class AreaChartItem extends AbstractChartItem {
-    @JsonProperty
-    private String stackId;
     @JsonProperty
     private String dataKey;
     @JsonProperty("fill")

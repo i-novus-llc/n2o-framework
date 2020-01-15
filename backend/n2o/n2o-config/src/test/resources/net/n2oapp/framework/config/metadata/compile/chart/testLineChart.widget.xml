@@ -4,6 +4,6 @@
     <lines x-data-key="name" x-tick-count="5" y-tick-count="5" grid-x="0" grid-y="0"
           grid-width="0" grid-height="0" tooltip-separator=":">
         <line data-key="pv" color="#8884d8"/>
-        <line data-key="pv" color="#82ca9d"/>
+        <line data-key="uv" color="#82ca9d"/>
     </lines>
 </chart>

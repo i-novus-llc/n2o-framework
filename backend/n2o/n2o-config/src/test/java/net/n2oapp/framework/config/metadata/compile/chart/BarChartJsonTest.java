@@ -30,10 +30,11 @@ public class BarChartJsonTest extends JsonMetadataTestBase {
                 .cutJson("Page_Chart.chart")
                 .cutXml("chart")
                 .exclude("src", "margin", "autoFocus", "fetchOnInit", "layout", "stackOffset", "baseValue",
-                        "XAxis.hide", "XAxis.height", "XAxis.orientation", "XAxis.type", "XAxis.allowDecimals",
+                        "barCategoryGap", "barGap", "barSize", "maxBarSize", "reverseStackOrder",
+                        "XAxis.hide", "XAxis.width", "XAxis.height", "XAxis.orientation", "XAxis.type", "XAxis.allowDecimals",
                         "XAxis.allowDataOverflow", "XAxis.allowDuplicatedCategory", "XAxis.interval", "XAxis.padding",
                         "XAxis.minTickGap", "XAxis.axisLine", "XAxis.tickLine", "XAxis.tickSize", "XAxis.label",
-                        "YAxis.hide", "YAxis.height", "YAxis.orientation", "YAxis.type", "YAxis.allowDecimals",
+                        "YAxis.hide", "YAxis.width", "YAxis.height", "YAxis.orientation", "YAxis.type", "YAxis.allowDecimals",
                         "YAxis.allowDataOverflow", "YAxis.allowDuplicatedCategory", "YAxis.interval", "YAxis.padding",
                         "YAxis.minTickGap", "YAxis.axisLine", "YAxis.tickLine", "YAxis.tickSize", "YAxis.label",
                         "cartesianGrid.horizontal", "cartesianGrid.vertical", "cartesianGrid.horizontalPoints",
@@ -43,8 +44,8 @@ public class BarChartJsonTest extends JsonMetadataTestBase {
                         "legend.layout", "legend.align", "legend.verticalAlign", "legend.iconSize",
                         "legend.iconType", "legend.margin", "legend.wrapperStyle",
                         "bars[0].layout", "bars[0].legendType", "bars[0].label", "bars[0].barSize", "bars[0].maxBarSize",
-                        "bars[0].background", "bars[1].layout", "bars[1].legendType", "bars[1].label", "bars[1].barSize",
-                        "bars[1].maxBarSize", "bars[1].background"
+                        "bars[0].background", "bars[0].stackId", "bars[1].layout", "bars[1].legendType", "bars[1].label",
+                        "bars[1].barSize", "bars[1].maxBarSize", "bars[1].background", "bars[1].stackId"
                         )
                 .assertEquals();
     }

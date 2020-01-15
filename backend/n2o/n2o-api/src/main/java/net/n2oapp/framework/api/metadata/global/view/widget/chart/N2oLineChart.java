@@ -4,11 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Исходная модель линейного графика
+ * Исходная модель компонента линейного графика
  */
 @Getter
 @Setter
 public class N2oLineChart extends N2oStandardChart {
-    private String dataKey;
-    private String color;
+    private N2oLineChartItem[] items;
 }

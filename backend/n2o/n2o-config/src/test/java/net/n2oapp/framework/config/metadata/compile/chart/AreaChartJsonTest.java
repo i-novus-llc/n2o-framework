@@ -42,10 +42,12 @@ public class AreaChartJsonTest extends JsonMetadataTestBase {
                         "tooltip.contentStyle", "tooltip.labelStyle", "tooltip.viewBox", "tooltip.label",
                         "legend.layout", "legend.align", "legend.verticalAlign", "legend.iconSize",
                         "legend.iconType", "legend.margin", "legend.wrapperStyle",
-                        "areas[0].type", "areas[0].legendType", "areas[0].dot", "areas[0].activeDot", "areas[0].label",
-                        "areas[0].stroke", "areas[0].layout", "areas[1].type", "areas[1].legendType", "areas[1].dot",
-                        "areas[1].activeDot", "areas[1].label", "areas[1].stroke", "areas[1].layout", "areas[2].type",
-                        "areas[2].legendType", "areas[2].dot", "areas[2].activeDot", "areas[2].label", "areas[2].stroke", "areas[2].layout"
+                        "areas[0].type", "areas[0].legendType", "areas[0].dot", "areas[0].activeDot",
+                        "areas[0].label", "areas[0].stroke", "areas[0].layout", "areas[0].stackId",
+                        "areas[1].type", "areas[1].legendType", "areas[1].dot", "areas[1].activeDot",
+                        "areas[1].label", "areas[1].stroke", "areas[1].layout", "areas[1].stackId",
+                        "areas[2].type", "areas[2].legendType", "areas[2].dot", "areas[2].activeDot",
+                        "areas[2].label", "areas[2].stroke", "areas[2].layout", "areas[2].stackId"
                         )
                 .assertEquals();
     }

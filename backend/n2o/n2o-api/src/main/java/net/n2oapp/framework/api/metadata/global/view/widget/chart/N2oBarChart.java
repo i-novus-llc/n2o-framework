@@ -4,12 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Исходная модель гистограммы
+ * Исходная модель компонента гистограммы
  */
 @Getter
 @Setter
 public class N2oBarChart extends N2oStandardChart {
-    private String stackId;
-    private String dataKey;
-    private String color;
+    private N2oBarChartItem[] items;
 }

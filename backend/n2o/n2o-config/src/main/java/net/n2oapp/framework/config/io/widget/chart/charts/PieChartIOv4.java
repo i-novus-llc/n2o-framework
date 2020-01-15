@@ -6,7 +6,7 @@ import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись круговой диаграммы
+ * Чтение/запись компонента круговой диаграммы
  */
 @Component
 public class PieChartIOv4 extends AbstractChartIOv4<N2oPieChart> {

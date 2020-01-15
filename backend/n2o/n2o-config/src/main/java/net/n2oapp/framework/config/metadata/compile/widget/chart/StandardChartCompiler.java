@@ -2,15 +2,15 @@ package net.n2oapp.framework.config.metadata.compile.widget.chart;
 
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oStandardChartComponent;
+import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oStandardChart;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.*;
 import org.springframework.stereotype.Component;
 
 /**
- * Компиляция стандартного графика
+ * Компиляция стандартного компонента диаграммы
  */
 @Component
-public abstract class StandardChartCompiler<D extends StandardChartWidgetComponent, S extends N2oStandardChartComponent> extends AbstractChartCompiler<D, S> {
+public abstract class StandardChartCompiler<D extends StandardChartWidgetComponent, S extends N2oStandardChart> extends AbstractChartCompiler<D, S> {
 
     public D compileStandardChart(D chart, S source, CompileContext<?, ?> context, CompileProcessor p) {
         ChartAxis xAxis = new ChartAxis();

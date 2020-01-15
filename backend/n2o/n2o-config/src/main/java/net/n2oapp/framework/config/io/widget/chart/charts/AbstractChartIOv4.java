@@ -8,7 +8,7 @@ import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись абстрактной диаграммы
+ * Чтение/запись абстрактного компонента диаграммы
  */
 @Component
 public abstract class AbstractChartIOv4<T extends N2oAbstractChart> implements WidgetIOv4, NamespaceIO<T> {

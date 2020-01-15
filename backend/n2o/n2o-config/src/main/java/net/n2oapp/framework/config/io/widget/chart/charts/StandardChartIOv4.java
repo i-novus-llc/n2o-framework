@@ -6,10 +6,11 @@ import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись стандартной диаграммы
+ * Чтение/запись стандартного компонента диаграммы
  */
 @Component
-public abstract class StandardChartIOV4<T extends N2oStandardChart> extends AbstractChartIOv4<T> {
+public abstract class StandardChartIOv4<T extends N2oStandardChart>  extends AbstractChartIOv4<T> {
+
     @Override
     public void io(Element e, T c, IOProcessor p) {
         super.io(e, c, p);

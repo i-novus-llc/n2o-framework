@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oLineChart;
+import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oLineChartItem;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartType;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.LineChart;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.LineChartItem;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция линейного графика
+ * Компиляция компонента линейного графика
  */
 @Component
 public class LineChartCompiler extends StandardChartCompiler<LineChart, N2oLineChart> {
@@ -22,10 +23,12 @@ public class LineChartCompiler extends StandardChartCompiler<LineChart, N2oLineC
         LineChart chart = new LineChart();
         build(chart, source, context, p, property("n2o.api.widget.chart.line"));
         chart.setType(ChartType.line);
-        LineChartItem item = new LineChartItem();
-        item.setDataKey(source.getDataKey());
-        item.setColor(source.getColor());
-        chart.addItem(item);
+        for (N2oLineChartItem item : source.getItems()) {
+            LineChartItem component = new LineChartItem();
+            component.setDataKey(item.getDataKey());
+            component.setColor(item.getColor());
+            chart.addItem(component);
+        }
         return compileStandardChart(chart, source, context, p);
     }
 

@@ -125,11 +125,6 @@
         <xs:annotation>
             <xs:documentation>Область.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="stack-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор для настакивания друг на друга.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="data-key" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Ключ в данных.</xs:documentation>
@@ -146,11 +141,6 @@
         <xs:annotation>
             <xs:documentation>Столбец.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="stack-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор для настакивания друг на друга.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="data-key" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Ключ в данных.</xs:documentation>
@@ -174,7 +164,7 @@
         </xs:attribute>
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Цвет зоны.</xs:documentation>
+                <xs:documentation>Цвет линии.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

@@ -20,5 +20,4 @@ public class Chart extends Widget<ChartWidgetComponent> {
     public ChartWidgetComponent getComponent() {
         return super.getComponent();
     }
-
 }

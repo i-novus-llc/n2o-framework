@@ -14,7 +14,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция круговой диаграммы
  */
 @Component
-public class PieChartCompiler extends AbstractChartCompiler<PieChart, N2oPieChart> {
+public class PieChartCompiler extends AbstractChartCompiler<PieChart, N2oPieChart>{
 
     @Override
     public PieChart compile(N2oPieChart source, CompileContext<?, ?> context, CompileProcessor p) {

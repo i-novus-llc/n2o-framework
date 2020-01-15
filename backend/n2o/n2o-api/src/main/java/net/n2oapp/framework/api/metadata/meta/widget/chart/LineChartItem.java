@@ -5,13 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель элемента линейного графика
+ * Клиентская модель линии линейного графика
  */
 @Getter
 @Setter
 public class LineChartItem extends AbstractChartItem {
     @JsonProperty
     private String dataKey;
-    @JsonProperty("fill")
+    @JsonProperty("stroke")
     private String color;
 }
