@@ -21,7 +21,7 @@ public class ProtoPage {
         return page(ProtoPage.class);
     }
 
-    public ProtoPage assertSurname(String surname, Integer rowIndex) {
+    public ProtoPage assertSurname(Integer rowIndex, String surname) {
         $$("tbody").get(rowIndex).$("button").shouldHave(text(surname));
         return page(ProtoPage.class);
     }

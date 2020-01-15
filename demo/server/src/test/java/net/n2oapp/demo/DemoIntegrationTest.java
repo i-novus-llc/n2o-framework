@@ -41,6 +41,6 @@ public class DemoIntegrationTest {
 
     @Test
     public void testSurname() {
-        protoPage.assertSurname("Иванова", 0);
+        protoPage.assertSurname(0, "Иванова");
     }
 }
