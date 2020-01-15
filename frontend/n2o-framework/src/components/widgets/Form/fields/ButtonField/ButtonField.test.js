@@ -1,5 +1,8 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import mockStore from 'redux-mock-store';
 import ButtonField from "./ButtonField";
+
 
 const setup = () => {
   const props = {
@@ -7,7 +10,9 @@ const setup = () => {
   };
 
   return mount(
-    <ButtonField {...props} />
+    <Provider store={mockStore()({})}>
+      <ButtonField {...props} />
+    </Provider>
   )
 };
 
