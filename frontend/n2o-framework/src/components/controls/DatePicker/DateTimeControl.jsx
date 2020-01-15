@@ -15,6 +15,7 @@ import {
 } from './utils';
 import DateInputGroup from './DateInputGroup';
 import PopUp from './PopUp';
+import onClickOutsideHOC from 'react-onclickoutside';
 
 export const ControlType = {
   DATE_PICKER: 'date-picker',
@@ -50,7 +51,7 @@ class DateTimeControl extends React.Component {
       props.defaultTime,
       DateTimeControl.defaultInputName,
       timeFormat,
-      this.props.outputFormat
+      this.props.dateFormat
     );
 
     const { defaultTime } = this;
@@ -58,7 +59,7 @@ class DateTimeControl extends React.Component {
       inputs: mapToValue(
         value,
         defaultTime,
-        this.props.outputFormat,
+        this.format,
         locale,
         DateTimeControl.defaultInputName
       ),
@@ -95,14 +96,14 @@ class DateTimeControl extends React.Component {
       props.defaultTime,
       DateTimeControl.defaultInputName,
       timeFormat,
-      this.props.outputFormat
+      this.props.dateFormat
     );
 
     this.setState({
       inputs: mapToValue(
         value,
         this.defaultTime,
-        this.props.outputFormat,
+        this.format,
         locale,
         DateTimeControl.defaultInputName
       ),
@@ -199,7 +200,7 @@ class DateTimeControl extends React.Component {
         }
       );
 
-      setTimeout(() => findDOMNode(this._control).focus(), 0);
+      // setTimeout(() => findDOMNode(this._control).focus(), 0);
     }
   }
   /**
@@ -315,8 +316,8 @@ class DateTimeControl extends React.Component {
         select={this.select}
         setPlacement={this.setPlacement}
         setVisibility={this.setVisibility}
-        max={parseDate(max, "yyyy-MM-dd'T'HH:mm:ss")}
-        min={parseDate(min, "yyyy-MM-dd'T'HH:mm:ss")}
+        max={parseDate(max, this.format)}
+        min={parseDate(min, this.format)}
         locale={locale}
       />
     );
