@@ -28,4 +28,6 @@ public class PieChartItem extends AbstractChartItem {
     private String dataKey;
     @JsonProperty("fill")
     private String color;
+    @JsonProperty
+    private Boolean label;
 }

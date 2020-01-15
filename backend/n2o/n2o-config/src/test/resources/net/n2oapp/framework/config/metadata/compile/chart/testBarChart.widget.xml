@@ -3,7 +3,7 @@
        width="600" height="400">
     <bars x-data-key="name" x-tick-count="5" y-tick-count="5" grid-x="0" grid-y="0"
            grid-width="0" grid-height="0" tooltip-separator=":">
-        <bar data-key="pv" color="#8884d8" stack-id="pv"/>
-        <bar data-key="pv" color="#82ca9d" stack-id="uv"/>
+        <bar data-key="pv" color="#8884d8"/>
+        <bar data-key="pv" color="#82ca9d"/>
     </bars>
 </chart>

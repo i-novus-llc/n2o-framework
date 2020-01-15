@@ -1,9 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.chart;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.widget.ChartCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.chart.LineChartCompiler;
-import net.n2oapp.framework.config.metadata.pack.N2oChartV4IOPack;
+import net.n2oapp.framework.config.metadata.pack.N2oChartsIOPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
 import org.junit.Before;
@@ -19,8 +18,8 @@ public class LineChartJsonTest extends JsonMetadataTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oChartV4IOPack(), new N2oWidgetsPack());
-        builder.compilers(new ChartCompiler(), new LineChartCompiler());
+        builder.packs(new N2oChartsIOPack(), new N2oWidgetsPack());
+        builder.compilers(new LineChartCompiler());
     }
 
     @Test

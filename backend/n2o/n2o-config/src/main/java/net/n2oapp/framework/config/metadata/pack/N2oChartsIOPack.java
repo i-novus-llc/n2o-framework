@@ -7,7 +7,10 @@ import net.n2oapp.framework.config.io.widget.chart.charts.BarChartIOv4;
 import net.n2oapp.framework.config.io.widget.chart.charts.LineChartIOv4;
 import net.n2oapp.framework.config.io.widget.chart.charts.PieChartIOv4;
 
-public class N2oChartV4IOPack implements MetadataPack<N2oApplicationBuilder> {
+/**
+ * Набор считывателей графиков/диаграмм
+ */
+public class N2oChartsIOPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
         b.ios(new AreaChartIOv4(),

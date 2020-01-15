@@ -8,10 +8,12 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
+import org.springframework.stereotype.Component;
 
 /**
  * Компиляция виджета диаграммы
  */
+@Component
 public class ChartCompiler extends BaseWidgetCompiler<Chart, N2oChart> {
 
     @Override

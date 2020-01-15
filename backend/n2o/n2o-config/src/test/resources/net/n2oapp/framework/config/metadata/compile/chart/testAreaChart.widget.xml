@@ -3,8 +3,8 @@
        width="600" height="400">
     <areas x-data-key="name" x-tick-count="5" y-tick-count="5" grid-x="0" grid-y="0"
            grid-width="0" grid-height="0" tooltip-separator=":">
-        <area data-key="uv" color="#8884d8" stack-id="1"/>
-        <area data-key="pv" color="#82ca9d" stack-id="1"/>
-        <area data-key="amt" color="#ffc658" stack-id="1"/>
+        <area data-key="uv" color="#8884d8"/>
+        <area data-key="pv" color="#82ca9d"/>
+        <area data-key="amt" color="#ffc658"/>
     </areas>
 </chart>

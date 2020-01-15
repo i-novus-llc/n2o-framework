@@ -4,7 +4,7 @@
     <bars x-data-key="name" x-tick-count="5" y-data-key="value" y-tick-count="5"
           grid-x="0" grid-y="0" grid-width="500" grid-height="500"
           tooltip-separator=":" legend-width="80" legend-height="80">
-        <bar stack-id="1" data-key="aaa" color="#111111"/>
-        <bar stack-id="2" data-key="bbb" color="#ffffff"/>
+        <bar data-key="aaa" color="#111111"/>
+        <bar data-key="bbb" color="#ffffff"/>
     </bars>
 </chart>

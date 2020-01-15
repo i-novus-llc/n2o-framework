@@ -183,7 +183,7 @@
                 <xs:documentation>Координата центра по y.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="inner-radius" type="xs:integer">
+        <xs:attribute name="inner-radius" type="xs:integer" default="0">
             <xs:annotation>
                 <xs:documentation>Внутренний радиус.</xs:documentation>
             </xs:annotation>
@@ -193,12 +193,12 @@
                 <xs:documentation>Внешний радиус.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="start-angle" type="xs:integer">
+        <xs:attribute name="start-angle" type="xs:integer" default="0">
             <xs:annotation>
                 <xs:documentation>Начальный угол графика (в градусах).</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="end-angle" type="xs:integer">
+        <xs:attribute name="end-angle" type="xs:integer" default="360">
             <xs:annotation>
                 <xs:documentation>Конечный угол графика (в градусах).</xs:documentation>
             </xs:annotation>
@@ -216,6 +216,11 @@
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Заливка выбранным цветом.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Наличие подписи значений.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

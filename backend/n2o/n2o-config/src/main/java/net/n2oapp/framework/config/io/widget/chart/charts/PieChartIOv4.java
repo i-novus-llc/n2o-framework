@@ -23,6 +23,7 @@ public class PieChartIOv4 extends AbstractChartIOv4<N2oPieChart> {
         p.attribute(e, "name-key", c::getNameKey, c::setNameKey);
         p.attribute(e, "data-key", c::getDataKey, c::setDataKey);
         p.attribute(e, "color", c::getColor, c::setColor);
+        p.attributeBoolean(e, "label", c::getLabel, c::setLabel);
     }
 
     @Override

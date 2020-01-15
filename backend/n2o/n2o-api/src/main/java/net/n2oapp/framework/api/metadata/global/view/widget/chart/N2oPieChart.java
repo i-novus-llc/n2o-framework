@@ -18,4 +18,5 @@ public class N2oPieChart extends N2oAbstractChart {
     private String nameKey;
     private String dataKey;
     private String color;
+    private Boolean label;
 }

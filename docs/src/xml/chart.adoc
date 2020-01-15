@@ -139,7 +139,7 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |inner-radius
 |Число
 |Внутренний радиус
-|
+|0
 
 |outer-radius
 |Число
@@ -149,12 +149,12 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |start-angle
 |Число
 |Начальный угол графика (в градусах)
-|
+|0
 
 |end-angle
 |Число
 |Конечный угол графика (в градусах)
-|
+|360
 
 |name-key
 |Число
@@ -171,13 +171,17 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Заливка выбранным цветом
 |
 
+|label
+|true false
+|Наличие подписи значений
+|true
+
 |===
 
 Пример::
 [source,xml]
 ----
-<pie cx="0" cy="0" inner-radius="30" outer-radius="100" start-angle="0"
-    end-angle="360" name-key="name" data-key="data" color="#ac8213"/>
+<pie outer-radius="100" name-key="name" data-key="data" color="#ac8213"/>
 ----
 
 === Элементы графиков/диаграмм
