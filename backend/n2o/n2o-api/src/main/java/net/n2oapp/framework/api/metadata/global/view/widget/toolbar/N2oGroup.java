@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 
 import java.util.ArrayList;
@@ -8,25 +10,12 @@ import java.util.List;
 /**
  * Исходная модель группы кнопок
  */
+@Getter
+@Setter
 public class N2oGroup implements ToolbarItem {
     private GroupItem[] items;
     private String[] generate;
-
-    public GroupItem[] getItems() {
-        return items;
-    }
-
-    public void setItems(GroupItem[] items) {
-        this.items = items;
-    }
-
-    public String[] getGenerate() {
-        return generate;
-    }
-
-    public void setGenerate(String[] generate) {
-        this.generate = generate;
-    }
+    private String namespaceUri;
 
     @Override
     public List<N2oAction> getActions() {

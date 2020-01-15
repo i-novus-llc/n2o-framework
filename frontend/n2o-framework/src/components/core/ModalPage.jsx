@@ -14,7 +14,7 @@ import {
   makePageLoadingByIdSelector,
   makePageTitleByIdSelector,
 } from '../../selectors/pages';
-import Actions from '../actions/Actions';
+import Toolbar from '../buttons/Toolbar';
 import withActions from './withActions';
 import Spinner from '../snippets/Spinner/Spinner';
 import { makeShowPromptByName } from '../../selectors/modals';
@@ -79,14 +79,12 @@ class ModalPage extends React.Component {
       pathMapping,
       queryMapping,
       size,
-      actions,
-      containerKey,
+      entityKey,
       toolbar,
       visible,
       title,
       loading,
-      disabled,
-      showPrompt,
+      close,
     } = this.props;
 
     const pageMapping = {
@@ -96,23 +94,20 @@ class ModalPage extends React.Component {
 
     const showSpinner = !visible || loading || typeof loading === 'undefined';
     const classes = cn({ 'd-none': loading });
+
     return (
-      <div className={cn('modal-page-overlay')}>
-        {showPrompt && this.showPrompt()}
+      <div className={'modal-page-overlay'}>
         <Spinner type="cover" loading={showSpinner} color="light" transparent>
           <Modal
             isOpen={visible}
-            toggle={() => this.closeModal(true)}
+            toggle={close}
             size={size}
             backdrop={false}
             style={{
               zIndex: 10,
             }}
           >
-            <ModalHeader
-              className={classes}
-              toggle={() => this.closeModal(true)}
-            >
+            <ModalHeader className={classes} toggle={close}>
               {title}
             </ModalHeader>
             <ModalBody className={classes}>
@@ -121,7 +116,8 @@ class ModalPage extends React.Component {
                   pageUrl={pageUrl}
                   pageId={pageId}
                   pageMapping={pageMapping}
-                  needMetadata
+                  containerKey={entityKey}
+                  needMetadata={true}
                 />
               ) : src ? (
                 this.renderFromSrc(src)
@@ -129,22 +125,14 @@ class ModalPage extends React.Component {
             </ModalBody>
             {toolbar && (
               <ModalFooter className={classes}>
-                <div
-                  className={cn('n2o-modal-actions', {
-                    'n2o-disabled': disabled,
-                  })}
-                >
-                  <Actions
+                <div className="n2o-modal-actions">
+                  <Toolbar
                     toolbar={toolbar.bottomLeft}
-                    actions={actions}
-                    containerKey={containerKey}
-                    pageId={pageId}
+                    containerKey={entityKey}
                   />
-                  <Actions
+                  <Toolbar
                     toolbar={toolbar.bottomRight}
-                    actions={actions}
-                    containerKey={containerKey}
-                    pageId={pageId}
+                    containerKey={entityKey}
                   />
                 </div>
               </ModalFooter>
