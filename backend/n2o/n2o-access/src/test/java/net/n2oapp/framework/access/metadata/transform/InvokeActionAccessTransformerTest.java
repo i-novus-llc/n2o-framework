@@ -50,19 +50,17 @@ public class InvokeActionAccessTransformerTest extends SourceCompileTestBase {
 
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        assertThat(securityObject.getRoles(), nullValue());
-        assertThat(securityObject.getPermissions().size(), is(1));
-        assertTrue(securityObject.getPermissions().contains("permission"));
-        assertThat(securityObject.getUsernames().size(), is(1));
-        assertTrue(securityObject.getUsernames().contains("user"));
+        assertThat(securityObject.getRoles().size(), is(1));
+        assertThat(securityObject.getRoles().stream().findFirst().get(), is("role"));
+        assertThat(securityObject.getPermissions(), nullValue());
+        assertThat(securityObject.getUsernames(), nullValue());
 
         securityObject = ((Security) page.getActions().get("update")
                 .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        assertThat(securityObject.getRoles(), nullValue());
-        assertThat(securityObject.getPermissions().size(), is(1));
-        assertTrue(securityObject.getPermissions().contains("permission"));
-        assertThat(securityObject.getUsernames().size(), is(1));
-        assertTrue(securityObject.getUsernames().contains("user"));
+        assertThat(securityObject.getRoles().size(), is(1));
+        assertThat(securityObject.getRoles().stream().findFirst().get(), is("role"));
+        assertThat(securityObject.getPermissions(), nullValue());
+        assertThat(securityObject.getUsernames(), nullValue());
     }
 
     @Test
@@ -75,20 +73,18 @@ public class InvokeActionAccessTransformerTest extends SourceCompileTestBase {
 
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        assertThat(securityObject.getRoles(), nullValue());
-        assertThat(securityObject.getPermissions().size(), is(1));
-        assertTrue(securityObject.getPermissions().contains("permission"));
-        assertThat(securityObject.getUsernames().size(), is(1));
-        assertTrue(securityObject.getUsernames().contains("user"));
+        assertThat(securityObject.getRoles().size(), is(1));
+        assertThat(securityObject.getRoles().stream().findFirst().get(), is("role"));
+        assertThat(securityObject.getPermissions(), nullValue());
+        assertThat(securityObject.getUsernames(), nullValue());
         assertTrue(securityObject.getAnonymous());
 
         securityObject = ((Security) page.getActions().get("update")
                 .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        assertThat(securityObject.getRoles(), nullValue());
-        assertThat(securityObject.getPermissions().size(), is(1));
-        assertTrue(securityObject.getPermissions().contains("permission"));
-        assertThat(securityObject.getUsernames().size(), is(1));
-        assertTrue(securityObject.getUsernames().contains("user"));
+        assertThat(securityObject.getRoles().size(), is(1));
+        assertThat(securityObject.getRoles().stream().findFirst().get(), is("role"));
+        assertThat(securityObject.getPermissions(), nullValue());
+        assertThat(securityObject.getUsernames(), nullValue());
         assertTrue(securityObject.getAnonymous());
 
     }

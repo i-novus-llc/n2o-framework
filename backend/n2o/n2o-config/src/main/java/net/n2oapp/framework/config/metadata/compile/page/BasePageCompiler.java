@@ -21,7 +21,6 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
  */
 public abstract class BasePageCompiler<S extends N2oPage, C extends Page> implements BaseSourceCompiler<C, S, PageContext> {
 
-
     /**
      * Получение базового маршрута страницы
      *
@@ -53,7 +52,6 @@ public abstract class BasePageCompiler<S extends N2oPage, C extends Page> implem
      *
      * @param pageName Наименование страницы
      * @param context  Контекст сборки
-     * @param context  Контекст сборки
      * @return breadcrumb текущей страницы
      */
     protected BreadcrumbList initBreadcrumb(String pageName, PageContext context, CompileProcessor p) {
@@ -83,5 +81,4 @@ public abstract class BasePageCompiler<S extends N2oPage, C extends Page> implem
             pageProperty.setModelLink(context.getParentModelLink());
         return pageProperty;
     }
-
 }
