@@ -3,20 +3,22 @@ import PropTypes from 'prop-types';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
 import isArray from 'lodash/isArray';
+import UncontrolledButtonDropdown from 'reactstrap/lib/UncontrolledButtonDropdown';
+import DropdownToggle from 'reactstrap/lib/DropdownToggle';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
 import { connect } from 'react-redux';
 import { toggleColumnVisiblity } from '../../../actions/columns';
 import { getContainerColumns } from '../../../selectors/columns';
-import ChangeSize from './ChangeSize';
 
 /**
  * Дропдаун для скрытия/показа колонок в таблице
- * @reactProps {string} widgetId - id виджета, размер которого меняется
+ * @reactProps {string} entityKey - id виджета, размер которого меняется
  * @reactProps {array} columns - кологки(приходит из редакса)
  * @example
- * <ToggleColumn widgetId='TestWidgetId'/>
+ * <ToggleColumn entityKey='TestEntityKey'/>
  */
-class ToggleColumn extends React.Component {
+class ToggleColumnOld extends React.Component {
   constructor(props) {
     super(props);
     this.toggleVisibility = this.toggleVisibility.bind(this);
@@ -27,8 +29,8 @@ class ToggleColumn extends React.Component {
    * @param id
    */
   toggleVisibility(id) {
-    const { dispatch, widgetId } = this.props;
-    dispatch(toggleColumnVisiblity(widgetId, id));
+    const { dispatch, entityKey } = this.props;
+    dispatch(toggleColumnVisiblity(entityKey, id));
   }
 
   /**
@@ -69,25 +71,30 @@ class ToggleColumn extends React.Component {
     );
 
     return (
-      <React.Fragment>
-        {isArray(filteredColumns)
-          ? this.renderColumnDropdown(filteredColumns)
-          : null}
-      </React.Fragment>
+      <UncontrolledButtonDropdown>
+        <DropdownToggle caret>
+          <i className="fa fa-table" />
+        </DropdownToggle>
+        <DropdownMenu>
+          {isArray(filteredColumns)
+            ? this.renderColumnDropdown(filteredColumns)
+            : null}
+        </DropdownMenu>
+      </UncontrolledButtonDropdown>
     );
   }
 }
 
-ToggleColumn.propTypes = {
+ToggleColumnOld.propTypes = {
   columns: PropTypes.object,
-  widgetId: PropTypes.string,
+  entityKey: PropTypes.string,
 };
 
 const mapStateToProps = (state, props) => {
   return {
-    columns: getContainerColumns(props.widgetId)(state),
+    columns: getContainerColumns(props.entityKey)(state),
   };
 };
 
-export { ToggleColumn };
-export default connect(mapStateToProps)(ToggleColumn);
+export { ToggleColumnOld };
+export default connect(mapStateToProps)(ToggleColumnOld);
