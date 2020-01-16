@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import UncontrolledButtonDropdown from 'reactstrap/lib/UncontrolledButtonDropdown';
+import DropdownToggle from 'reactstrap/lib/DropdownToggle';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
 import { connect } from 'react-redux';
 
@@ -8,12 +11,12 @@ import { makeWidgetSizeSelector } from '../../../selectors/widgets';
 
 /**
  * Дропдаун для выбора размера(size) виджета
- * @reactProps {string} widgetId - id виджета, размер которого меняется
+ * @reactProps {string} entityKey - id виджета, размер которого меняется
  * @reactProps {number} size - текущий размер(приходит из редакса)
  * @example
- * <ChangeSize widgetId='TestWidgetId'/>
+ * <ChangeSize entityKey='TestEntityKey'/>
  */
-class ChangeSize extends React.Component {
+class ChangeSizeOld extends React.Component {
   constructor(props) {
     super(props);
     this.sizes = [5, 10, 20, 50];
@@ -25,9 +28,9 @@ class ChangeSize extends React.Component {
    * @param size
    */
   resize(size) {
-    const { dispatch, widgetId } = this.props;
-    dispatch(changeSizeWidget(widgetId, size));
-    dispatch(dataRequestWidget(widgetId, { size, page: 1 }));
+    const { dispatch, entityKey } = this.props;
+    dispatch(changeSizeWidget(entityKey, size));
+    dispatch(dataRequestWidget(entityKey, { size, page: 1 }));
   }
 
   /**
@@ -54,21 +57,26 @@ class ChangeSize extends React.Component {
    */
   render() {
     return (
-      <React.Fragment>{this.renderSizeDropdown(this.sizes)}</React.Fragment>
+      <UncontrolledButtonDropdown>
+        <DropdownToggle caret>
+          <i className="fa fa-list" />
+        </DropdownToggle>
+        <DropdownMenu>{this.renderSizeDropdown(this.sizes)}</DropdownMenu>
+      </UncontrolledButtonDropdown>
     );
   }
 }
 
-ChangeSize.propTypes = {
+ChangeSizeOld.propTypes = {
   size: PropTypes.number,
-  widgetId: PropTypes.string,
+  entityKey: PropTypes.string,
 };
 
 const mapStateToProps = (state, props) => {
   return {
-    size: makeWidgetSizeSelector(props.widgetId)(state),
+    size: makeWidgetSizeSelector(props.entityKey)(state),
   };
 };
 
-export { ChangeSize };
-export default connect(mapStateToProps)(ChangeSize);
+export { ChangeSizeOld };
+export default connect(mapStateToProps)(ChangeSizeOld);
