@@ -4,6 +4,7 @@ import cx from 'classnames';
 import eq from 'lodash/eq';
 import values from 'lodash/values';
 import PropTypes from 'prop-types';
+import delay from 'lodash/delay';
 
 const TYPE = {
   INLINE: 'inline',
@@ -24,7 +25,7 @@ class BaseSpinner extends Component {
     this.renderCoverSpiner = this.renderCoverSpiner.bind(this);
     this.renderLineSpinner = this.renderLineSpinner.bind(this);
     this.enableSpinner = this.enableSpinner.bind(this);
-    this.timer = setTimeout(this.enableSpinner, 1000);
+    this.timerBeforeTurningOnSpinner = setTimeout(this.enableSpinner, 1000);
   }
 
   static setSpinner(component) {
@@ -38,12 +39,18 @@ class BaseSpinner extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.loading !== this.state.loading) {
-      this.setState({ showSpinner: this.state.loading });
+      if (prevState.loading === true) {
+        this.setState({
+          showSpinner: false,
+        });
+      }
+      return this.timerBeforeTurningOnSpinner;
     }
   }
 
   enableSpinner() {
-    this.setState({ showSpinner: this.state.loading });
+    let nextState = this.state.loading;
+    this.setState({ showSpinner: nextState });
   }
 
   setLoadingWithTimeout = (loading, timeout) => {
