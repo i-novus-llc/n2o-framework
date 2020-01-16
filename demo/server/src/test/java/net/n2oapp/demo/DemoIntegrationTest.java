@@ -30,17 +30,27 @@ public class DemoIntegrationTest {
 
     @Before
     public void openProtoPage() {
-        protoPage = open("http://localhost:" + port, ProtoPage.class)
-                .findBySurname("Иванов");
+        protoPage = open("http://localhost:" + port, ProtoPage.class);
     }
 
-    @Test
-    public void testTableSize() {
-        protoPage.tableShouldHaveSize(1);
-    }
-
+    /**
+     * Тест поиска людей по фамилии
+     */
     @Test
     public void testSurname() {
-        protoPage.assertSurname(0, "Иванова");
+        ProtoPage page = protoPage.findBySurname("Иванов");
+        page.tableShouldHaveSize(1);
+        page.assertSurname(0, "Иванова");
+    }
+
+    /**
+     * Тест поиска людей по дате рождения
+     */
+    @Test
+    public void testBirthday() {
+        ProtoPage page = protoPage.findByBirthday("01.01.1940", "01.12.1940");
+        page.tableShouldHaveSize(2);
+        page.assertSurname(0, "Кручинина");
+        page.assertSurname(1, "Мишин");
     }
 }
