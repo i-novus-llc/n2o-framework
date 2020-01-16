@@ -19,7 +19,7 @@ public class OpenPageAccessTransformer extends AbstractActionTransformer<LinkAct
 
     @Override
     public LinkAction transform(LinkAction compiled, PageContext context, CompileProcessor p) {
-        mapSecurity(compiled, compiled.getPageId(), compiled.getObjectId(), compiled.getOperationId(), p);
+        mapSecurity(compiled, compiled.getPageId(), compiled.getObjectId(), compiled.getOperationId(), compiled.getOptions().getPath(), p);
         return compiled;
     }
 }
