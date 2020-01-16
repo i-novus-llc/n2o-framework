@@ -6,17 +6,6 @@
                       visible="true" depends-on="test" css-class="test" label-style="test"
                       dependency-condition="test"
                       cache="off">
-        <ctrl:grouping-nodes query-id="blank" detail-field-id="id" label-field-id="id" master-field-id="id" value-field-id="id"
-                             search-field-id="id">
-            <ctrl:node value-field-id="id" label-field-id="id" icon="test" enabled="true">
-                <ctrl:node label-field-id="id" value-field-id="id" icon="test" enabled="true"/>
-            </ctrl:node>
-            <ctrl:pre-filters>
-                <ctrl:pre-filter field-id="id" ref="test" type="eq" value="test">
-                    <ctrl:value>value</ctrl:value>
-                </ctrl:pre-filter>
-            </ctrl:pre-filters>
-        </ctrl:grouping-nodes>
 
         <ctrl:set-value-expression>test</ctrl:set-value-expression>
         <ctrl:validations>

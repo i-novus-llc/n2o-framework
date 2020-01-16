@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { map } from "lodash";
-import { Badge } from "reactstrap";
+import Badge from "reactstrap/lib/Badge";
 import cx from "classnames";
 
 import { getCounter } from "./selectors";

@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { pure } from 'recompose';
-import { isArray, isString, get } from 'lodash';
+import isArray from 'lodash/isArray';
+import isString from 'lodash/isString';
+import get from 'lodash/get';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { Resizable } from 'react-resizable';
@@ -112,7 +114,7 @@ class AdvancedTableHeaderCell extends Component {
         className={cn('n2o-advanced-table-header-cel', {
           [selectionClass]: selectionHead,
           'n2o-advanced-table-header-text-center': multiHeader,
-          'd-none': !get(children, 'props.needRender', false),
+          'd-none': !get(children, 'props.needRender', true),
         })}
       >
         <div className="n2o-advanced-table-header-cell-content">

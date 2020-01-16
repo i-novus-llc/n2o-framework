@@ -3,6 +3,6 @@
       class="className">
     <arguments>
         <argument name="arg1" type="primitive"/>
-        <argument class="className" name="arg2" type="class"/>
+        <argument class="className" name="arg2" type="class" default-value="test"/>
     </arguments>
 </java>

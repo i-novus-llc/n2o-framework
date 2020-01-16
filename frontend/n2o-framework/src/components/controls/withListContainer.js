@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { pickBy, throttle, debounce } from 'lodash';
+import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
 import { makeAlertsByKeySelector } from '../../selectors/alerts';
 
@@ -36,6 +37,7 @@ function withListContainer(WrappedComponent) {
     onScrollEnd,
     loading,
     labelFieldId,
+    sortFieldId,
     ...rest
   }) => {
     /**
@@ -44,10 +46,11 @@ function withListContainer(WrappedComponent) {
      * @param concat {boolean} - флаг добавления новых данных к текущим
      */
     const callApiWithParams = (optionalParams = {}, concat = false) => {
+      const sortId = sortFieldId || labelFieldId;
       const params = {
         size,
         page,
-        [`sorting.${labelFieldId}`]: 'ASC',
+        [`sorting.${sortId}`]: 'ASC',
         ...optionalParams,
       };
       _fetchData(params, concat);
@@ -145,7 +148,7 @@ function withListContainer(WrappedComponent) {
 
   return connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
   )(WithListContainer);
 }
 
@@ -153,12 +156,6 @@ const mapStateToProps = (state, ownProps) => ({
   alerts: makeAlertsByKeySelector(ownProps.form + '.' + ownProps.labelFieldId)(
     state
   ),
-});
-
-const mapDispatchToProps = dispatch => ({
-  onDismiss: alertId => {
-    // dispatch(removeAlert(ownProps.form + '.' + ownProps.labelFieldId, alertId));
-  },
 });
 
 export default withListContainer;

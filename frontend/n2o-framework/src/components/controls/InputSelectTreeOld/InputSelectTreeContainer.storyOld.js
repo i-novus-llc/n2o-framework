@@ -2,12 +2,17 @@ import React, { Fragment } from 'react';
 import { storiesOf } from '@storybook/react';
 
 import fetchMock from 'fetch-mock';
-import { uniqueId } from 'lodash';
+import uniqueId from 'lodash/uniqueId';
 import InputSelectTreeContainer from '../InputSelectTreeOldDeprecated/InputSelectTreeContainer';
 import InputSelectTreeContainerJson from './InputSelectTreeContainer.meta';
 import { parseUrl } from 'N2oStorybook/fetchMock';
 import withForm from 'N2oStorybook/decorators/withForm';
-import { Col, Button, Form, FormGroup, Label, Input, Row } from 'reactstrap';
+import Col from 'reactstrap/lib/Col';
+import Button from 'reactstrap/lib/Button';
+import Form from 'reactstrap/lib/Form';
+import FormGroup from 'reactstrap/lib/FormGroup';
+import Label from 'reactstrap/lib/Label';
+import Input from 'reactstrap/lib/Input';
 import { withState } from 'recompose';
 import InputSelectTree from './InputSelectTree';
 

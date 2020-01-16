@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { Card, CardBody } from 'reactstrap';
+import Card from 'reactstrap/lib/Card';
+import CardBody from 'reactstrap/lib/CardBody';
 
 import Wireframe from './Wireframe';
 import Factory from '../../../core/factory/Factory';

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+      modal-size="sm" layout="LeftRightLayout"
+      name="Модальное окно" object-id="testShowModal">
+    <regions>
+        <region place="left">
+            <form id="main" default-values-query-id="testShowModal">
+
+            </form>
+        </region>
+        <region place="right">
+            <form id="second" query-id="testShowModal" depends-on="main">
+
+            </form>
+        </region>
+    </regions>
+</page>

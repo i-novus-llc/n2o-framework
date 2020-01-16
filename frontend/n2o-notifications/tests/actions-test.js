@@ -1,5 +1,6 @@
 import React from "react";
-import expect from "expect";
+import { describe, it } from "mocha";
+import { expect } from "chai";
 import {
   add,
   setCounter,
@@ -23,14 +24,14 @@ describe("Тест на экшены", () => {
       close: false,
       delay: 500
     };
-    expect(add(data.id, data)).toEqual({
+    expect(add(data.id, data)).to.be.deep.equal({
       meta: {},
       payload: data,
       type: ADD
     });
   });
   it("setCounter", () => {
-    expect(setCounter("id", 555)).toEqual({
+    expect(setCounter("id", 555)).to.be.deep.equal({
       meta: {},
       payload: {
         counterId: "id",
@@ -40,7 +41,7 @@ describe("Тест на экшены", () => {
     });
   });
   it("destroy", () => {
-    expect(destroy("id")).toEqual({
+    expect(destroy("id")).to.be.deep.equal({
       meta: {},
       payload: {
         id: "id"
@@ -49,7 +50,7 @@ describe("Тест на экшены", () => {
     });
   });
   it("clearAll", () => {
-    expect(clearAll()).toEqual({
+    expect(clearAll()).to.be.deep.equal({
       meta: {},
       payload: {},
       type: CLEAR_ALL

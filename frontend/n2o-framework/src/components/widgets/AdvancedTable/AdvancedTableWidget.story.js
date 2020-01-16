@@ -1,5 +1,6 @@
 import React from 'react';
-import { get, set } from 'lodash';
+import get from 'lodash/get';
+import set from 'lodash/set';
 import { storiesOf } from '@storybook/react';
 
 import { getStubData } from 'N2oStorybook/fetchMock';
@@ -12,6 +13,7 @@ import filterable from './json/Filterable.meta';
 import expandedRow from './json/ExpandedRow.meta';
 import colSpanRowSpan from './json/ColspanRowspan.meta';
 import treeView from './json/TreeView.meta';
+import treeViewTableExpand from './json/TreeViewTableExpand.meta';
 import fixedHeader from './json/FixedHeader.meta';
 import fixedColumns from './json/FixedColumns.meta';
 import multiLevelHeader from './json/MultiLevelHeader.meta';
@@ -233,6 +235,7 @@ stories
       <AdvancedTable
         columns={columns}
         data={expandedRow.datasource}
+        table={expandedRow['Page_Table'].table}
         expandedFieldId="expandedContent"
         expandable={true}
       />
@@ -256,6 +259,15 @@ stories
   })
   .add('Вид дерево', () => {
     return <AdvancedTable columns={columns} data={treeView.datasource} />;
+  })
+  .add('expand список', () => {
+    return (
+      <AdvancedTable
+        columns={columns}
+        data={treeViewTableExpand.datasource}
+        table={treeViewTableExpand['Page_Table'].table}
+      />
+    );
   })
   .add('Фиксированный заголовок', () => {
     return (

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.reader.fieldset;
 
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
@@ -25,8 +25,8 @@ public class FieldSetXmlReaderV3 extends AbstractFactoredReader<N2oFieldSet> {
     public N2oFieldSet read(Element element, Namespace namespace) {
         N2oFieldSet n2oFieldSet = new N2oSetFieldSet();
         String refId = getAttributeString(element, "ref-id");
-        if(refId != null) {
-           n2oFieldSet.setRefId(refId);
+        if (refId != null) {
+            n2oFieldSet.setRefId(refId);
         }
         n2oFieldSet.setLabel(getAttributeString(element, "label"));
         FieldSetReaderUtil.getType(element, "type", n2oFieldSet);
@@ -41,12 +41,12 @@ public class FieldSetXmlReaderV3 extends AbstractFactoredReader<N2oFieldSet> {
         if (refId != null)
             return n2oFieldSet;
         List<Element> children = element.getChildren();
-        n2oFieldSet.setItems(new NamespaceUriAware[children.size()]);
+        n2oFieldSet.setItems(new SourceComponent[children.size()]);
         int i = 0;
         for (Element child : children) {
             if (child.getNamespace().equals(namespace) && child.getName().equals("row")) {
                 N2oFieldsetRow row = new N2oFieldsetRow();
-                row.setItems(new NamespaceUriAware[child.getChildren().size()]);
+                row.setItems(new SourceComponent[child.getChildren().size()]);
                 int j = 0;
                 for (Object field : child.getChildren()) {
                     row.getItems()[j] = (N2oField) readerFactory.produce((Element) field)

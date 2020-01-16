@@ -1,10 +1,13 @@
 FROM nginx:alpine
 
-LABEL maintainer="abelov@i-novus.ru"
+LABEL maintainer="iryabov@i-novus.ru"
 
 RUN apk add tzdata
 ENV TZ=Europe/Moscow
 
+COPY target/META-INF/resources/docs /usr/share/nginx/html/docs
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80
 
-COPY target/META-INF/resources/docs /usr/share/nginx/html
+CMD ["nginx", "-g", "daemon off;"]

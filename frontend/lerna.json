@@ -1,6 +1,6 @@
 {
   "lerna": "3.18.3",
-  "version": "7.4.1",
+  "version": "7.5.0-SNAPSHOT",
   "npmClient": "npm",
   "npmClientArgs": [
     "--no-package-lock"
@@ -10,6 +10,7 @@
     "n2o-auth",
     "n2o-framework",
     "n2o-notifications",
-    "n2o-simple-project"
+    "n2o-simple-project",
+    "n2o-ecp-plugin"
   ]
 }

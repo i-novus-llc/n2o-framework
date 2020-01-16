@@ -10,7 +10,7 @@
               visible="false"
               query-id="testQueryId"
               label-field-id="testLabel"
-              search-field-id="testSearch"
+              search-filter-id="testSearch"
               group-field-id="testGroup"
               image-field-id="testImage"
               icon-field-id="testIcon"

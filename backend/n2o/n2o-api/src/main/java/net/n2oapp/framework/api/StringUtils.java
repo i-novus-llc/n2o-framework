@@ -2,7 +2,7 @@ package net.n2oapp.framework.api;
 
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.exception.NotFoundContextPlaceholderException;
-import net.n2oapp.framework.api.util.RefUtil;
+import org.springframework.lang.Nullable;
 
 import java.util.Set;
 import java.util.function.Function;
@@ -290,4 +290,18 @@ public abstract class StringUtils {
         return result.trim();
     }
 
+    /**
+     * Проверка, что текст содержит шаблон поиска
+     *
+     * @param str Строка
+     * @return Содержит (true) или нет (false)
+     */
+    public static boolean hasWildcard(String str) {
+        if (str == null)
+            return false;
+        return str.contains("*");
+    }
+    public static boolean isEmpty(@Nullable Object str) {
+        return (str == null || "".equals(str));
+    }
 }

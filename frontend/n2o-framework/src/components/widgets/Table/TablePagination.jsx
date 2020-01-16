@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, isEqual } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import Pagination from '../../snippets/Pagination/Pagination';

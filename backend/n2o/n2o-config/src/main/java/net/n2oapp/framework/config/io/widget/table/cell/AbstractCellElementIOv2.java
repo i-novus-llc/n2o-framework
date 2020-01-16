@@ -13,10 +13,11 @@ import org.jdom.Element;
 public abstract class AbstractCellElementIOv2<T extends N2oAbstractCell> implements NamespaceIO<T>, CellIOv2 {
 
     @Override
-    public void io(Element e, T с, IOProcessor p) {
-        p.attribute(e, "src", с::getSrc, с::setSrc);
-        p.attribute(e, "class", с::getCssClass, с::setCssClass);
-        p.attribute(e, "visible", с::getVisible, с::setVisible);
+    public void io(Element e, T c, IOProcessor p) {
+        p.attribute(e, "src", c::getSrc, c::setSrc);
+        p.attribute(e, "class", c::getCssClass, c::setCssClass);
+        p.attribute(e, "style", c::getStyle, c::setStyle);
+        p.attribute(e, "visible", c::getVisible, c::setVisible);
     }
 
 }

@@ -1,16 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
-import {
-  isEqual,
-  forOwn,
-  isEmpty,
-  split,
-  replace,
-  includes,
-  isNaN,
-  last,
-} from 'lodash';
+
+import isEqual from 'lodash/isEqual';
+import forOwn from 'lodash/forOwn';
+import isEmpty from 'lodash/isEmpty';
+import split from 'lodash/split';
+import replace from 'lodash/replace';
+import includes from 'lodash/includes';
+import isNaN from 'lodash/isNaN';
+import last from 'lodash/last';
 import InputMask from '../InputMask/InputMask';
 
 const ReplaceableChar = {

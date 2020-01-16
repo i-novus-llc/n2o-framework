@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { omit } from 'lodash';
+import omit from 'lodash/omit';
 import BaseSlider, { createSliderWithTooltip } from 'rc-slider';
 import { stringConverter, prepareStyle } from './utils';
+
+const SliderWithTooltip = createSliderWithTooltip(BaseSlider);
+
 /**
  * Компонент Slider
  * @reactProps {boolean} multiple - Множественный выбор
@@ -46,7 +49,7 @@ function Slider(props) {
 
   const Component = multiple ? BaseSlider.Range : BaseSlider;
   const RenderSlider = showTooltip
-    ? createSliderWithTooltip(Component)
+    ? SliderWithTooltip
     : Component;
 
   const tooltipProps = {

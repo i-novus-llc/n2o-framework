@@ -1,17 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, withHandlers } from 'recompose';
-import {
-  isEqual,
-  find,
-  isEmpty,
-  pick,
-  forOwn,
-  omit,
-  set,
-  map,
-  findIndex,
-} from 'lodash';
+import isEqual from 'lodash/isEqual';
+import find from 'lodash/find';
+import isEmpty from 'lodash/isEmpty';
+import pick from 'lodash/pick';
+import forOwn from 'lodash/forOwn';
+import omit from 'lodash/omit';
+import findIndex from 'lodash/findIndex';
+import map from 'lodash/map';
+import set from 'lodash/set';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
@@ -90,8 +88,9 @@ class AdvancedTableContainer extends React.Component {
   }
 
   renderCell(props) {
+    const { actions } = this.props;
     const propStyles = pick(props, ['width']);
-    return <ReduxCell {...propStyles} {...props} />;
+    return <ReduxCell {...propStyles} {...props} actions={actions} />;
   }
 
   handleSetFilter(filter) {
@@ -122,10 +121,10 @@ class AdvancedTableContainer extends React.Component {
     } = this.props;
 
     map(registredColumns, ({ frozen, visible }, key) => {
-      if (!(frozen && !visible)) {
+      if (frozen && !visible) {
         const headerIndex = findIndex(headers, ({ id }) => id === key);
 
-        set(headers, `[${headerIndex}].needRender`, true);
+        set(headers, `[${headerIndex}].needRender`, false);
       }
     });
 

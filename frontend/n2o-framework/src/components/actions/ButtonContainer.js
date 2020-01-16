@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { DropdownMenu, Button } from 'reactstrap';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import { createStructuredSelector } from 'reselect';
 import cx from 'classnames';
 
-import { registerButton } from '../../actions/toolbar';
+import { registerButton, removeButton } from '../../actions/toolbar';
 import {
   isDisabledSelector,
   isInitSelector,
@@ -32,6 +32,12 @@ class ButtonContainer extends React.Component {
     super(props);
     this.state = {};
     this.buttonId = id();
+    this.onClick = this.onClick.bind(this);
+  }
+
+  componentWillUnmount() {
+    const { dispatch, containerKey } = this.props;
+    dispatch(removeButton(containerKey));
   }
 
   /**
@@ -88,13 +94,19 @@ class ButtonContainer extends React.Component {
     return null;
   }
 
+  onClick(e) {
+    const { onClick } = this.props;
+
+    e.stopPropagation();
+    onClick();
+  }
+
   /**
    * рендер кнопки или элемента списка
    * @returns {*}
    */
   renderButton() {
     const {
-      onClick,
       count,
       icon,
       className,
@@ -124,7 +136,7 @@ class ButtonContainer extends React.Component {
       {
         key: this.buttonId,
         id: this.buttonId,
-        onClick,
+        onClick: this.onClick,
         disabled,
         size,
         color,
@@ -181,7 +193,10 @@ class ButtonContainer extends React.Component {
     const isDropdown = component === DropdownMenu;
 
     return isDropdown ? (
-      <div className={cx(visible ? 'd-block' : 'd-none')}>
+      <div
+        className={cx(visible ? 'd-block' : 'd-none')}
+        onClick={e => e.stopPropagation()}
+      >
         {withTooltip(this.renderDropdown(), hint, hintPosition, this.buttonId)}
       </div>
     ) : visible ? (

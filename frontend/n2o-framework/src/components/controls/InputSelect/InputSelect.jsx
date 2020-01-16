@@ -7,7 +7,9 @@ import cx from 'classnames';
 import InputSelectGroup from './InputSelectGroup';
 import PopupList from './PopupList';
 import InputContent from './InputContent';
-import { find, isEqual, isEmpty } from 'lodash';
+import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import Alert from '../../snippets/Alerts/Alert';
 import { Manager, Reference, Popper } from 'react-popper';
 import { MODIFIERS } from '../DatePicker/utils';
@@ -320,14 +322,16 @@ class InputSelect extends React.Component {
    * @private
    */
   _setNewInputValue(input) {
-    const { onInput, resetOnBlur, multiSelect } = this.props;
-    const { value } = this.state;
+    const { onInput, isExpanded } = this.props;
     const onSetNewInputValue = input => {
       onInput(input);
       this._handleDataSearch(input);
     };
 
     if (this.state.input !== input) {
+      if (!isExpanded) {
+        this._setIsExpanded(true);
+      }
       this._setSelected(false);
       this.setState({ input }, () => onSetNewInputValue(input));
     }
@@ -500,6 +504,7 @@ class InputSelect extends React.Component {
       flip,
       autoFocus,
     } = this.props;
+
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
     const selectedPadding = this.calcSelectedItemsWidth();
     const needAddFilter = !find(
@@ -672,6 +677,10 @@ InputSelect.propTypes = {
    * Ключ цвета badgeColor в данных
    */
   badgeColorFieldId: PropTypes.string,
+  /**
+   * Ключ сортировки в данных
+   */
+  sortFieldId: PropTypes.string,
   /**
    * Флаг активности
    */

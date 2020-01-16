@@ -1,9 +1,33 @@
 version: "3.6"
 
 services:
-  docs:
-    image: 538721144237.dkr.ecr.eu-west-1.amazonaws.com/n2o/docs
-  storybook:
-    image: 538721144237.dkr.ecr.eu-west-1.amazonaws.com/n2o/storybook
   frontend:
-    image: 538721144237.dkr.ecr.eu-west-1.amazonaws.com/n2o/demo
+    ports:
+      - "8080"
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+      placement:
+        constraints:
+          - node.labels.dc == hetzner
+  docs:
+    ports:
+      - "80"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+      placement:
+        constraints:
+          - node.labels.dc == hetzner
+  storybook:
+    ports:
+      - "80"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+      placement:
+        constraints:
+          - node.labels.dc == hetzner

@@ -8,7 +8,8 @@ import {
   withPropsOnChange,
   getContext,
 } from 'recompose';
-import { isEmpty, isEqual } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import merge from 'deepmerge';
 import { getFormValues } from 'redux-form';
 import { createStructuredSelector } from 'reselect';

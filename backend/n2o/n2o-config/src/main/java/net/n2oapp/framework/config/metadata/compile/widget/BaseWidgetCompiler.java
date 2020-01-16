@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -42,9 +42,9 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
+import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
@@ -63,13 +63,14 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
     protected void compileWidget(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
                                  CompiledObject object) {
-        String localWidgetId = initLocalWidgetId(source, p);
-        source.setId(localWidgetId);
         compiled.setMasterParam(source.getMasterParam());
-        compiled.setId(initGlobalWidgetId(source, localWidgetId, context, p));
+        compiled.setId(initGlobalWidgetId(source, context, p));
         compiled.setClassName(source.getCssClass());
+        compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
         compiled.setObjectId(object != null ? object.getId() : null);
+        if (p.getScope(WidgetObjectScope.class) != null)
+            p.getScope(WidgetObjectScope.class).put(source.getId(), object);
         compiled.setQueryId(source.getQueryId());
         compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));
         compiled.setRoute(initWidgetRoute(source, p));
@@ -100,7 +101,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
             String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
             return normalize(colon(selectedId)) + normalize(source.getId());
-
         }
         return normalize(source.getId());
     }
@@ -198,21 +198,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         });
     }
 
-    private String initGlobalWidgetId(S source, String localWidgetId, CompileContext<?, ?> context, CompileProcessor p) {
+    private String initGlobalWidgetId(S source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         if (pageScope != null) {
-            return pageScope.getGlobalWidgetId(localWidgetId);
+            return pageScope.getGlobalWidgetId(source.getId());
         } else {
             return context.getCompiledId((N2oCompileProcessor) p);
         }
-    }
-
-    private String initLocalWidgetId(S source, CompileProcessor p) {
-        if (source.getId() == null) {
-            IndexScope indexScope = p.getScope(IndexScope.class);
-            return indexScope != null ? "w" + indexScope.get() : "";
-        }
-        return source.getId();
     }
 
     protected void compileToolbarAndAction(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p,
@@ -276,7 +268,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             if (action == null) {
                 throw new N2oException("Toolbar has reference to nonexistent action by actionId {0}!").addData(mi.getActionId());
             }
-            mi.setAction(action.getAction());
+            mi.setAction(action.getAction());//todo скорее всего не нужно
             if (mi.getModel() == null)
                 mi.setModel(action.getModel());
             if (mi.getWidgetId() == null)
@@ -322,7 +314,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         routes.addPathMapping(selectedId, widgetIdMapping);
 
         if (query != null) {
-            ((List<Filter>) compiled.getFilters()).stream().filter(Filter::getReloadable)
+            ((List<Filter>) compiled.getFilters()).stream().filter(Filter::getRoutable)
                     .forEach(filter -> {
                         ReduxAction onGet;
                         String filterId = filter.getFilterId();
@@ -345,12 +337,26 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     protected CompiledObject getObject(S source, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
         if (source.getObjectId() == null) {
-            if (source.getQueryId() != null) {
+            if (source.getQueryId() == null) {
+                if (pageScope != null && pageScope.getResultWidgetId() != null &&
+                        source.getId().equals(pageScope.getResultWidgetId()) && pageScope.getObjectId() != null) {
+                    return p.getCompiled(new ObjectContext(pageScope.getObjectId()));
+                }
+            } else {
                 CompiledQuery query = p.getCompiled(new QueryContext(source.getQueryId()));
+                if (pageScope != null && pageScope.getResultWidgetId() != null &&
+                        source.getId().equals(pageScope.getResultWidgetId()) && pageScope.getObjectId() != null &&
+                        !query.getObject().getId().equals(pageScope.getObjectId()))
+                    throw new IllegalArgumentException("object-id for main widget must be equal object-id in page");
                 return query.getObject();
             }
         } else {
+            if (pageScope != null && pageScope.getResultWidgetId() != null &&
+                    source.getId().equals(pageScope.getResultWidgetId()) && pageScope.getObjectId() != null &&
+                    !source.getObjectId().equals(pageScope.getObjectId()))
+                throw new IllegalArgumentException("object-id for main widget must be equal object-id in page");
             return p.getCompiled(new ObjectContext(source.getObjectId()));
         }
         return null;
@@ -537,16 +543,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
      * @param p           Процессор сборки
      * @return Список филдсетов
      */
-    protected List<FieldSet> initFieldSets(NamespaceUriAware[] fields, CompileContext<?, ?> context, CompileProcessor p,
+    protected List<FieldSet> initFieldSets(SourceComponent[] fields, CompileContext<?, ?> context, CompileProcessor p,
                                            WidgetScope widgetScope,
                                            CompiledQuery widgetQuery,
                                            CompiledObject widgetObject,
-                                           ModelsScope modelsScope,
-                                           FiltersScope filtersScope,
-                                           SubModelsScope subModelsScope,
-                                           UploadScope uploadScope,
-                                           MomentScope momentScope,
-                                           CopiedFieldScope copiedFieldScope) {
+                                           Object... scopes) {
         if (fields == null)
             return Collections.emptyList();
         FieldSetScope fieldSetScope = initFieldSetScope(widgetQuery, widgetObject);
@@ -560,18 +561,17 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 i++;
             } else {
                 N2oSetFieldSet newFieldset = new N2oSetFieldSet();
-                List<NamespaceUriAware> newFieldsetItems = new ArrayList<>();
+                List<SourceComponent> newFieldsetItems = new ArrayList<>();
                 while (i < fields.length && !(fields[i] instanceof N2oFieldSet)) {
                     newFieldsetItems.add(fields[i]);
                     i++;
                 }
-                NamespaceUriAware[] items = new NamespaceUriAware[newFieldsetItems.size()];
+                SourceComponent[] items = new SourceComponent[newFieldsetItems.size()];
                 newFieldset.setItems(newFieldsetItems.toArray(items));
                 fieldSet = newFieldset;
             }
-            fieldSets.add(p.compile(fieldSet, context, widgetQuery, widgetObject,
-                    widgetScope, fieldSetScope, modelsScope, filtersScope,
-                    indexScope, subModelsScope, uploadScope, momentScope, copiedFieldScope));
+            fieldSets.add(p.compile(fieldSet, context,
+                    scopes, widgetQuery, widgetObject, widgetScope, fieldSetScope, indexScope));
         }
         return fieldSets;
     }
@@ -598,7 +598,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             } else {
                 filter.setParam(normalizeParam(source.getMasterFieldId()));
             }
-            filter.setReloadable(false);
+            filter.setRoutable(false);
             String masterFieldId = p.cast(source.getMasterFieldId(), N2oQuery.Field.PK);
             ModelLink link = Redux.linkQuery(masterWidgetId, masterFieldId, source.getQueryId());
             filter.setLink(link);
@@ -631,7 +631,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                         }
                     }
                     filter.setParam(p.cast(preFilter.getParam(), compiled.getId() + "_" + queryFilter.getParam()));
-                    filter.setReloadable(false);
+                    filter.setRoutable(p.cast(preFilter.getRoutable(), false));
                     filter.setFilterId(queryFilter.getFilterField());
                     Object prefilterValue = getPrefilterValue(preFilter);
                     if (StringUtils.isJs(prefilterValue)) {

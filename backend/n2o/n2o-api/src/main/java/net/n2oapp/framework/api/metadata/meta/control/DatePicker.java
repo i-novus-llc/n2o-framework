@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель календаря
+ * Клиентская модель ввода даты
  */
 @Getter
 @Setter

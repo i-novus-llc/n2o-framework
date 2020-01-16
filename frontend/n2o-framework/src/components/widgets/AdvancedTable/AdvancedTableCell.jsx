@@ -1,7 +1,8 @@
 import React from 'react';
 import { pure } from 'recompose';
 import PropTypes from 'prop-types';
-import { get, some } from 'lodash';
+import get from 'lodash/get';
+import some from 'lodash/some';
 import cn from 'classnames';
 
 /**
@@ -25,7 +26,9 @@ function AdvancedTableCell({ children, hasSpan, record }) {
     rowSpan = span.rowSpan;
   }
 
-  const needRender = some(children, child => get(child, 'props.needRender'));
+  const needRender = some(children, child =>
+    get(child, 'props.needRender', true)
+  );
 
   return (
     <td

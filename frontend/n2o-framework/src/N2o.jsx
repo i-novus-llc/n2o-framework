@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { pick, keys } from 'lodash';
+import pick from 'lodash/pick';
 import { compose, withContext, defaultProps, withProps } from 'recompose';
 import { IntlProvider, addLocaleData } from 'react-intl';
 
 import history from './history';
 import configureStore from './store';
+import packageJson from '../package';
 
 import FactoryProvider from './core/factory/FactoryProvider';
-import createFactoryConfig, {
-  factories,
-} from './core/factory/createFactoryConfig';
+import factoryPoints from './core/factory/factoryPoints';
 import factoryConfigShape from './core/factory/factoryConfigShape';
 
 import apiProvider from './core/api';
@@ -28,6 +27,8 @@ import configureErrorPages from './components/errors';
 
 addLocaleData(ruLocaleData);
 
+const { version } = packageJson;
+
 class N2o extends Component {
   constructor(props) {
     super(props);
@@ -37,19 +38,23 @@ class N2o extends Component {
       customReducers: props.customReducers,
       customSagas: props.customSagas,
       apiProvider: props.apiProvider,
+      factories: this.generateConfig(),
     };
+
+    window._n2oEvalContext = props.evalContext;
+
     this.store = configureStore({}, history, config);
     globalFnDate.addFormat(props.formats);
   }
 
-  generateCustomConfig() {
-    return pick(this.props, keys(factories));
+  generateConfig() {
+    return pick(this.props, factoryPoints);
   }
 
   render() {
     const { security, realTimeConfig, embeddedRouting, children } = this.props;
 
-    const config = createFactoryConfig(this.generateCustomConfig());
+    const config = this.generateConfig();
 
     return (
       <Provider store={this.store}>
@@ -112,10 +117,12 @@ N2o.propTypes = {
   apiProvider: PropTypes.func,
   realTimeConfig: PropTypes.bool,
   embeddedRouting: PropTypes.bool,
+  evalContext: PropTypes.object,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  version: PropTypes.string,
 };
 
 const EnhancedN2O = compose(
@@ -136,6 +143,7 @@ const EnhancedN2O = compose(
     apiProvider,
     realTimeConfig: true,
     embeddedRouting: true,
+    evalContext: {},
   }),
   withContext(
     {
@@ -153,12 +161,14 @@ const EnhancedN2O = compose(
       defaultErrorPages: PropTypes.arrayOf(
         PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func])
       ),
+      version: PropTypes.string,
     },
     props => ({
       defaultTemplate: props.defaultTemplate,
       defaultBreadcrumb: props.defaultBreadcrumb,
       defaultPromptMessage: props.defaultPromptMessage,
       defaultErrorPages: props.defaultErrorPages,
+      version: version,
     })
   ),
   withProps(props => ({

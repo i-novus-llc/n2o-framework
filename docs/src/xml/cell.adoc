@@ -23,6 +23,11 @@ http://n2oapp.net/framework/config/schema/n2o-cell-2.0
 |Класс стиля ячейки
 |
 
+|style
+|CSS свойство
+|Стиль ячейки
+|
+
 |visible
 |true false
 |Видимость ячейки
@@ -59,7 +64,7 @@ link:#_Переключатель_switch[Переключатель]
 Пример::
 [source,xml]
 ----
-<text class="font-weight-bold"/> <!--Жирный шрифт-->
+<text class="font-weight-bold" style="color:red;"/> <!--Жирный шрифт-->
 ----
 
 === <link>
@@ -485,6 +490,42 @@ link:#_Переключатель_switch[Переключатель цвета]
 [source,xml]
 ----
 <list color="secondary" size="3"/>
+----
+
+=== <rating>
+Рейтинг.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+
+|show-tooltip
+|true false
+|Показать подсказку
+|false
+
+|half
+|true false
+|Использование в качестве значений помимо целых чисел
+ также и половинок целых чисел (0, 0.5, 1, 1.5, ...)
+|false
+
+|max
+|Число
+|Максимальное значение
+|5
+
+|===
+
+Тело::
+link:#_Переключатель_switch[Переключатель цвета]
+
+Пример::
+[source,xml]
+----
+<rating show-tooltip="true" half="true"/>
 ----
 
 === <cell>

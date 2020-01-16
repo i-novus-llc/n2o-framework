@@ -237,8 +237,8 @@ public class N2oQueryProcessor implements QueryProcessor {
     private Object prepareValue(Object value, N2oQuery.Filter filter) {
         Object result = value;
         result = contextProcessor.resolve(result);
-        result = domainProcessor.deserialize(result, filter.getDomain());
-        result = normalizeValue(result, filter.getNormalize(), null, parser);
+        result = domainProcessor.deserialize(result, filter == null ? null : filter.getDomain());
+        result = normalizeValue(result, filter == null ? null : filter.getNormalize(), null, parser);
         return result;
     }
 
@@ -318,6 +318,8 @@ public class N2oQueryProcessor implements QueryProcessor {
             Object value = prepareValue(restriction.getValue(), filter);
             if (value != null) {
                 restriction.setValue(value);
+            } else if (FilterType.Arity.nullary == restriction.getType().arity) {
+                restriction.setValue(Boolean.TRUE);
             } else {
                 //удаляем фильтрацию, если в результате резолва контекста значение по умолчанию стало null
                 if (restrictionsForRemove == null)
@@ -343,7 +345,7 @@ public class N2oQueryProcessor implements QueryProcessor {
 
     private DataSet mapFields(Object entry, List<N2oQuery.Field> fields) {
         DataSet resultDataSet = new DataSet();
-        fields.forEach(f -> outMap(resultDataSet, entry, f.getId(), f.getSelectMapping(), f.getSelectDefaultValue()));
+        fields.forEach(f -> outMap(resultDataSet, entry, f.getId(), f.getSelectMapping(), f.getSelectDefaultValue(), contextProcessor));
         return normalizeDataSet(resultDataSet, fields);
     }
 

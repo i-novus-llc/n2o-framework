@@ -67,4 +67,5 @@ image::./images/arch.png[scaledwidth=75%]
 - Spring Framework
 - Spring Boot
 
-include::migration.adoc[]
+=== Миграция
+link:docs/migration/index.html#_Миграция[здесь].

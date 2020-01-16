@@ -12,6 +12,9 @@
                                     route="/update2">
                         </show-modal>
                     </button>
+                    <button id="byName">
+                        <show-modal page-id="testOpenPageMasterParam" master-field-id="name" detail-field-id="name" master-param="sName"/>
+                    </button>
                 </toolbar>
             </form>
         </panel>

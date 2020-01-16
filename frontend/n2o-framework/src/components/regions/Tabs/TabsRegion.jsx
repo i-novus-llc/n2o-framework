@@ -1,10 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, filter, map, isUndefined, pull } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import filter from 'lodash/filter';
+import map from 'lodash/map';
+import isUndefined from 'lodash/isUndefined';
+import pull from 'lodash/pull';
 import { compose, setDisplayName } from 'recompose';
 import Tabs from './Tabs';
 import Tab from './Tab';
-import WidgetFactory from '../../widgets/WidgetFactory';
 import withWidgetProps from '../withWidgetProps';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 
@@ -58,7 +61,14 @@ class TabRegion extends React.Component {
   }
 
   render() {
-    const { tabs, getWidget, getWidgetProps, pageId, lazy } = this.props;
+    const {
+      tabs,
+      getWidget,
+      getWidgetProps,
+      getVisible,
+      pageId,
+      lazy,
+    } = this.props;
     const { readyTabs, visibleTabs } = this.state;
     return (
       <Tabs onChangeActive={this.handleChangeActive}>
@@ -66,6 +76,8 @@ class TabRegion extends React.Component {
           const { security } = tab;
           const widgetProps = getWidgetProps(tab.widgetId);
           const widgetMeta = getWidget(pageId, tab.widgetId);
+          const visible = getVisible(pageId, tab.widgetId);
+
           const tabProps = {
             key: tab.widgetId,
             id: tab.widgetId,
@@ -73,10 +85,11 @@ class TabRegion extends React.Component {
             icon: tab.icon,
             active: tab.opened,
             visible:
-              (!isEmpty(widgetProps) ? widgetProps.isVisible : true) &&
-              (!isUndefined(visibleTabs[tab.widgetId])
-                ? visibleTabs[tab.widgetId]
-                : true),
+              visible ||
+              ((!isEmpty(widgetProps) ? widgetProps.isVisible : true) &&
+                (!isUndefined(visibleTabs[tab.widgetId])
+                  ? visibleTabs[tab.widgetId]
+                  : true)),
           };
 
           const tabEl = (
