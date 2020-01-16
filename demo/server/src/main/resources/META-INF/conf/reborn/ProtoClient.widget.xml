@@ -1,6 +1,6 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
-      query-id="ProtoPatient"
-      name="Карточка пациента">
+      query-id="ProtoClient"
+      name="Карточка клиента">
     <fields>
         <row>
             <input-text label="Фамилия" id="surname"/>

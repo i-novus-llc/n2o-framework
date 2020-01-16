@@ -4,6 +4,7 @@ import cx from 'classnames';
 import eq from 'lodash/eq';
 import values from 'lodash/values';
 import PropTypes from 'prop-types';
+import delay from 'lodash/delay';
 
 const TYPE = {
   INLINE: 'inline',
@@ -18,10 +19,13 @@ class BaseSpinner extends Component {
 
     this.state = {
       loading: true,
+      showSpinner: false,
     };
 
     this.renderCoverSpiner = this.renderCoverSpiner.bind(this);
     this.renderLineSpinner = this.renderLineSpinner.bind(this);
+    this.enableSpinner = this.enableSpinner.bind(this);
+    this.timerBeforeTurningOnSpinner = setTimeout(this.enableSpinner, 1000);
   }
 
   static setSpinner(component) {
@@ -30,8 +34,23 @@ class BaseSpinner extends Component {
 
   componentDidMount() {
     const { delay } = this.props;
-
     this.setLoadingWithTimeout(false, delay);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.loading !== this.state.loading) {
+      if (prevState.loading === true) {
+        this.setState({
+          showSpinner: false,
+        });
+      }
+      return this.timerBeforeTurningOnSpinner;
+    }
+  }
+
+  enableSpinner() {
+    let nextState = this.state.loading;
+    this.setState({ showSpinner: nextState });
   }
 
   setLoadingWithTimeout = (loading, timeout) => {
@@ -48,15 +67,14 @@ class BaseSpinner extends Component {
       loading,
       ...rest
     } = this.props;
-    const { loading: stateLoading } = this.state;
-
+    const { loading: stateLoading, showSpinner } = this.state;
     return (
       <div
         className={cx('n2o-spinner-wrapper', {
           [className]: className,
         })}
       >
-        {loading && (
+        {showSpinner && (
           <Fragment>
             <div className="n2o-spinner-container ">
               <Comp className="spinner-border" color={color} {...rest} />
@@ -88,6 +106,8 @@ class BaseSpinner extends Component {
       ? this.renderCoverSpiner()
       : this.renderLineSpinner();
   }
+
+  static setState(state1) {}
 }
 
 BaseSpinner.propTypes = {
