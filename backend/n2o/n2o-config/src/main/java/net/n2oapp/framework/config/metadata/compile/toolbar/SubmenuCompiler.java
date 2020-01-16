@@ -83,6 +83,7 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
                 N2oToolbar source = p.getScope(N2oToolbar.class);
                 for (ToolbarItem toolbarItem : buttonGeneratorFactory.generate(generate.trim(), source, context, p)) {
                     MenuItem menuItem = new MenuItem();
+                    menuItem.setSrc(p.resolve(property("n2o.api.action.button.src"), String.class));
                     button.getSubMenu().add(menuItem);
                     initItem(menuItem, (N2oButton) toolbarItem, idx, context, p);
                 }
