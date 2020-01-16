@@ -1,7 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-
-import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.meta.*;
@@ -18,7 +16,6 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
  * @param <S> Тип исходной модели страницы
  */
 public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceCompiler<Page, S, PageContext> {
-
 
     /**
      * Получение базового маршрута страницы
@@ -51,7 +48,6 @@ public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceC
      *
      * @param pageName Наименование страницы
      * @param context  Контекст сборки
-     * @param context  Контекст сборки
      * @return breadcrumb текущей страницы
      */
     protected BreadcrumbList initBreadcrumb(String pageName, PageContext context, CompileProcessor p) {
@@ -81,5 +77,4 @@ public abstract class BasePageCompiler<S extends N2oPage> implements BaseSourceC
             pageProperty.setModelLink(context.getParentModelLink());
         return pageProperty;
     }
-
 }

@@ -30,6 +30,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
@@ -114,24 +115,32 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             button.setIcon(source.getIcon());
             button.setLabel(source.getLabel());
         }
-        CompiledObject.Operation operation = null;
-        if (source.getActionId() == null) {
-            N2oAction butAction = source.getAction();
-            if (butAction != null) {
-                butAction.setId(p.cast(butAction.getId(), button.getId()));
-                Action action = p.compile(butAction, context, new ComponentScope(source));
-                button.setActionId(action.getId());
 
-                if (action instanceof InvokeAction) {
-                    CompiledObject compiledObject = p.getScope(CompiledObject.class);
-                    operation = compiledObject != null && compiledObject.getOperations() != null ?
-                            compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
-                }
-                //todo если это invoke-action, то из action в объекте должны доставаться поля action.getName(), confirmationText
+        CompiledObject.Operation operation = null;
+        CompiledObject compiledObject;
+        WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
+        if (widgetObjectScope != null && widgetObjectScope.containsKey(source.getWidgetId())) {
+            compiledObject = widgetObjectScope.getObject(source.getWidgetId());
+        } else
+            compiledObject = p.getScope(CompiledObject.class);
+        N2oAction butAction = source.getAction();
+        Action action;
+        if (butAction != null) {
+            butAction.setId(p.cast(butAction.getId(), button.getId()));
+            action = p.compile(butAction, context, compiledObject, new ComponentScope(source));
+            if (action instanceof InvokeAction) {
+                operation = compiledObject != null && compiledObject.getOperations() != null ?
+                        compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
             }
-        } else {
+            //todo если это invoke-action, то из action в объекте должны доставаться поля action.getName(), confirmationText
+            if (source.getActionId() == null) {
+                button.setActionId(action.getId());
+            }
+        }
+        if (source.getActionId() != null) {
             button.setActionId(source.getActionId());
         }
+
         initConfirm(button, source, context, p, operation);
         button.setClassName(source.getClassName());
         button.setStyle(StylesResolver.resolveStyles(source.getStyle()));

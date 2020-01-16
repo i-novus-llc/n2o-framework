@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0"
        name="Люди"
-       object-id="ProtoPatient">
+       object-id="ProtoClient">
     <list>
         <sql>select :select
             from pim_individual i
