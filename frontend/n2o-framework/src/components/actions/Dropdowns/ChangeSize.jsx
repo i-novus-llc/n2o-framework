@@ -16,7 +16,7 @@ import { makeWidgetSizeSelector } from '../../../selectors/widgets';
  * @example
  * <ChangeSize entityKey='TestEntityKey'/>
  */
-class ChangeSizeOld extends React.Component {
+class ChangeSize extends React.Component {
   constructor(props) {
     super(props);
     this.sizes = [5, 10, 20, 50];
@@ -67,7 +67,7 @@ class ChangeSizeOld extends React.Component {
   }
 }
 
-ChangeSizeOld.propTypes = {
+ChangeSize.propTypes = {
   size: PropTypes.number,
   entityKey: PropTypes.string,
 };
@@ -78,5 +78,5 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export { ChangeSizeOld };
-export default connect(mapStateToProps)(ChangeSizeOld);
+export { ChangeSize };
+export default connect(mapStateToProps)(ChangeSize);

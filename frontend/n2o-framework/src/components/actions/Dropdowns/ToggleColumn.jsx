@@ -18,7 +18,7 @@ import { getContainerColumns } from '../../../selectors/columns';
  * @example
  * <ToggleColumn entityKey='TestEntityKey'/>
  */
-class ToggleColumnOld extends React.Component {
+class ToggleColumn extends React.Component {
   constructor(props) {
     super(props);
     this.toggleVisibility = this.toggleVisibility.bind(this);
@@ -85,7 +85,7 @@ class ToggleColumnOld extends React.Component {
   }
 }
 
-ToggleColumnOld.propTypes = {
+ToggleColumn.propTypes = {
   columns: PropTypes.object,
   entityKey: PropTypes.string,
 };
@@ -96,5 +96,5 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export { ToggleColumnOld };
-export default connect(mapStateToProps)(ToggleColumnOld);
+export { ToggleColumn };
+export default connect(mapStateToProps)(ToggleColumn);
