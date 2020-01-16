@@ -9,8 +9,6 @@ import set from 'lodash/set';
 import Text from '../../../../snippets/Text/Text';
 import withActionsEditableCell from './withActionsEditableCell';
 import withCell from '../../withCell';
-import onClickOutside from 'react-onclickoutside';
-import moment from 'moment';
 
 /**
  * Компонент редактируемой ячейки таблицы
@@ -31,8 +29,7 @@ export class EditableCell extends React.Component {
     };
 
     this.onChange = this.onChange.bind(this);
-    this.onFocus = this.onFocus.bind(this);
-    this.onBlur = this.onBlur.bind(this);
+    this.toggleEdit = this.toggleEdit.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.callAction = this.callAction.bind(this);
   }
@@ -63,13 +60,16 @@ export class EditableCell extends React.Component {
     }
   }
 
-  handleClickOutside(e) {
+  onChange(value) {
+    const newModel = Object.assign({}, this.state.model);
+    const { editFieldId } = this.props;
+    set(newModel, editFieldId, value);
     this.setState({
-      editing: false,
+      model: newModel,
     });
   }
 
-  onBlur() {
+  toggleEdit() {
     const { model, prevResolveModel, onSetSelectedId } = this.props;
     let newState = {
       editing: !this.state.editing,
@@ -82,35 +82,11 @@ export class EditableCell extends React.Component {
     }
 
     newState = {
+      ...newState,
       prevModel: this.state.model,
-      editing: false,
     };
 
     this.setState(newState);
-  }
-
-  onChange(value) {
-    const { model, prevResolveModel, onSetSelectedId } = this.props;
-    const newModel = Object.assign({}, this.state.model);
-    const { editFieldId } = this.props;
-    set(newModel, editFieldId, value);
-    if (!isEqual(newModel, this.state.model)) {
-      this.callAction(newModel);
-    }
-    if (!isEqual(get(prevResolveModel, 'id'), get(model, 'id'))) {
-      onSetSelectedId();
-    }
-    this.setState({
-      model: newModel,
-      editing: false,
-      prevModel: this.state.model,
-    });
-  }
-
-  onFocus() {
-    this.setState({
-      editing: true,
-    });
   }
 
   callAction(model) {
@@ -123,7 +99,7 @@ export class EditableCell extends React.Component {
   }
 
   handleKeyDown() {
-    this.onBlur();
+    this.toggleEdit();
   }
 
   stopPropagation(e) {
@@ -142,6 +118,7 @@ export class EditableCell extends React.Component {
     const { editing, model } = this.state;
     const events = { events: 'enter' };
     const handlers = { events: this.handleKeyDown };
+
     return (
       visible && (
         <div
@@ -151,7 +128,7 @@ export class EditableCell extends React.Component {
           {!editing && (
             <div
               className="n2o-editable-cell-text"
-              onClick={editable && this.onFocus}
+              onClick={editable && this.toggleEdit}
             >
               <Text text={get(model, fieldKey)} format={format} />
             </div>
@@ -163,6 +140,7 @@ export class EditableCell extends React.Component {
                   ...control,
                   className: 'n2o-advanced-table-edit-control',
                   onChange: this.onChange,
+                  onBlur: this.toggleEdit,
                   autoFocus: true,
                   value: get(model, editFieldId),
                   openOnFocus: true,
@@ -195,6 +173,5 @@ EditableCell.defaultProps = {
 
 export default compose(
   withActionsEditableCell,
-  withCell,
-  onClickOutside
+  withCell
 )(EditableCell);

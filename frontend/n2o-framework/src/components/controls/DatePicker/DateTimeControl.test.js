@@ -178,7 +178,7 @@ describe('<DateTimeControl />', () => {
 
   it('устанавливает время', () => {
     const { wrapper } = setup({
-      value: '21.01.1927',
+      value: '1927-01-21T00:00:00',
       dateFormat: 'DD.MM.YYYY',
       outputFormat: 'YYYY-MM-DDTHH:mm:ss',
     });

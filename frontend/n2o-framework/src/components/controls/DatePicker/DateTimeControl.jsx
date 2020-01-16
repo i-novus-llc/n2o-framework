@@ -15,7 +15,6 @@ import {
 } from './utils';
 import DateInputGroup from './DateInputGroup';
 import PopUp from './PopUp';
-import onClickOutsideHOC from 'react-onclickoutside';
 
 export const ControlType = {
   DATE_PICKER: 'date-picker',
@@ -51,7 +50,7 @@ class DateTimeControl extends React.Component {
       props.defaultTime,
       DateTimeControl.defaultInputName,
       timeFormat,
-      this.props.dateFormat
+      this.props.outputFormat
     );
 
     const { defaultTime } = this;
@@ -59,7 +58,7 @@ class DateTimeControl extends React.Component {
       inputs: mapToValue(
         value,
         defaultTime,
-        this.format,
+        this.props.outputFormat,
         locale,
         DateTimeControl.defaultInputName
       ),
@@ -96,14 +95,14 @@ class DateTimeControl extends React.Component {
       props.defaultTime,
       DateTimeControl.defaultInputName,
       timeFormat,
-      this.props.dateFormat
+      this.props.outputFormat
     );
 
     this.setState({
       inputs: mapToValue(
         value,
         this.defaultTime,
-        this.format,
+        this.props.outputFormat,
         locale,
         DateTimeControl.defaultInputName
       ),
@@ -151,7 +150,7 @@ class DateTimeControl extends React.Component {
   onChange(inputName) {
     const { onChange } = this.props;
     const value = this.getValue(inputName);
-
+    console.warn(value)
     onChange(value);
   }
 
@@ -216,12 +215,14 @@ class DateTimeControl extends React.Component {
             .add(59, 'm')
             .add(59, 's')
         : date;
-
     this.setState(
       {
         inputs: { ...this.state.inputs, [inputName]: newDate },
       },
-      () => (isFunction(callback) ? callback() : this.onChange(inputName))
+      () => {
+        // console.warn(this.state.inputs);
+        return isFunction(callback) ? callback() : this.onChange(inputName);
+      }
     );
   }
   onInputBlur(date, inputName) {
@@ -316,8 +317,8 @@ class DateTimeControl extends React.Component {
         select={this.select}
         setPlacement={this.setPlacement}
         setVisibility={this.setVisibility}
-        max={parseDate(max, this.format)}
-        min={parseDate(min, this.format)}
+        max={parseDate(max, "yyyy-MM-dd'T'HH:mm:ss")}
+        min={parseDate(min, "yyyy-MM-dd'T'HH:mm:ss")}
         locale={locale}
       />
     );
