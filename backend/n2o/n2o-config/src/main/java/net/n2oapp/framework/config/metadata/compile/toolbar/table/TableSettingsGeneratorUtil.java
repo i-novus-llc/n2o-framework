@@ -6,9 +6,9 @@ import net.n2oapp.framework.api.metadata.event.action.N2oCustomAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oRefresh;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.meta.action.CustomActionPayload;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +41,9 @@ public class TableSettingsGeneratorUtil {
         filterButton.setWidgetId(widgetId);
         Map<String, Object> props = new HashMap<>();
         props.put("type", p.resolve(property("n2o.api.action.filters.type"), String.class));
-        props.put("payload", Collections.singletonMap("widgetId", widgetId));
+        CustomActionPayload payload = new CustomActionPayload();
+        payload.put("widgetId", widgetId);
+        props.put("payload", payload);
         filterAction.setProperties(props);
         filterButton.setAction(filterAction);
         filterButton.setModel(ReduxModel.FILTER);
