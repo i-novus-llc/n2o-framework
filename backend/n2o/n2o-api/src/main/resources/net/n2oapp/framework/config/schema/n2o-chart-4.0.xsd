@@ -24,15 +24,57 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:simpleType name="xAxisOrientationType">
+        <xs:annotation>
+            <xs:documentation>Положение оси x.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="bottom"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="yAxisOrientationType">
+        <xs:annotation>
+            <xs:documentation>Положение оси y.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="legendIconType">
+        <xs:annotation>
+            <xs:documentation>Тип иконок элементов легенды.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="line"/>
+            <xs:enumeration value="square"/>
+            <xs:enumeration value="rect"/>
+            <xs:enumeration value="circle"/>
+            <xs:enumeration value="cross"/>
+            <xs:enumeration value="diamond"/>
+            <xs:enumeration value="star"/>
+            <xs:enumeration value="triangle"/>
+            <xs:enumeration value="wye"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:complexType name="chartComponentBaseDefinition">
         <xs:attribute name="x-data-key" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Ключ значений по оси x.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="x-tick-count" type="xs:integer">
+        <xs:attribute name="x-orientation" type="xAxisOrientationType" default="bottom">
             <xs:annotation>
-                <xs:documentation>Количество делений на оси x.</xs:documentation>
+                <xs:documentation>Положение оси x.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="x-label" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Подпись оси x.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="y-data-key" type="xs:string">
@@ -40,29 +82,29 @@
                 <xs:documentation>Ключ значений по оси y.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="y-tick-count" type="xs:integer">
+        <xs:attribute name="y-orientation" type="yAxisOrientationType" default="left">
             <xs:annotation>
-                <xs:documentation>Количество делений на оси y.</xs:documentation>
+                <xs:documentation>Положение оси y.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="grid-x" type="xs:integer">
+        <xs:attribute name="y-label" type="xs:boolean" default="false">
             <xs:annotation>
-                <xs:documentation>Координата сетки по оси x.</xs:documentation>
+                <xs:documentation>Подпись оси y.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="grid-y" type="xs:integer">
+        <xs:attribute name="grid-stroke-dasharray" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Координата сетки по оси y.</xs:documentation>
+                <xs:documentation>Паттерн линий сетки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="grid-width" type="xs:integer">
+        <xs:attribute name="grid-horizontal" type="xs:boolean" default="true">
             <xs:annotation>
-                <xs:documentation>Ширина сетки.</xs:documentation>
+                <xs:documentation>Наличие горизонтальных линий сетки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="grid-height" type="xs:integer">
+        <xs:attribute name="grid-vertical" type="xs:boolean" default="true">
             <xs:annotation>
-                <xs:documentation>Высота сетки.</xs:documentation>
+                <xs:documentation>Наличие вертикальных линий сетки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="tooltip-separator" type="xs:string">
@@ -70,14 +112,9 @@
                 <xs:documentation>Разделитель между названием и значением.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="legend-width" type="xs:integer">
+        <xs:attribute name="legend-icon-type" type="legendIconType" default="line">
             <xs:annotation>
-                <xs:documentation>Ширина легенды.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="legend-height" type="xs:integer">
-            <xs:annotation>
-                <xs:documentation>Высота легенды.</xs:documentation>
+                <xs:documentation>Тип иконок элементов легенды.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -121,6 +158,26 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:simpleType name="lineType">
+        <xs:annotation>
+            <xs:documentation>Тип интерполяции линии.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="basis"/>
+            <xs:enumeration value="basisClosed"/>
+            <xs:enumeration value="basisOpen"/>
+            <xs:enumeration value="linear"/>
+            <xs:enumeration value="linearClosed"/>
+            <xs:enumeration value="natural"/>
+            <xs:enumeration value="monotoneX"/>
+            <xs:enumeration value="monotoneY"/>
+            <xs:enumeration value="monotone"/>
+            <xs:enumeration value="step"/>
+            <xs:enumeration value="stepBefore"/>
+            <xs:enumeration value="stepAfter"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:complexType name="areaDefinition">
         <xs:annotation>
             <xs:documentation>Область.</xs:documentation>
@@ -133,6 +190,21 @@
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Цвет зоны.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="stroke" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Цвет линии.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="line-type" type="lineType" default="linear">
+            <xs:annotation>
+                <xs:documentation>Тип интерполяции линии.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Наличие подписи значений.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -151,6 +223,11 @@
                 <xs:documentation>Цвет зоны.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="label" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Наличие подписи значений.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="lineDefinition">
@@ -165,6 +242,16 @@
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Цвет линии.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type" type="lineType" default="linear">
+            <xs:annotation>
+                <xs:documentation>Тип интерполяции линии.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Наличие подписи значений.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -218,7 +305,7 @@
                 <xs:documentation>Заливка выбранным цветом.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="label" type="xs:boolean" default="true">
+        <xs:attribute name="label" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Наличие подписи значений.</xs:documentation>
             </xs:annotation>

@@ -29,22 +29,20 @@ public class LineChartJsonTest extends JsonMetadataTestBase {
                 .cutJson("Page_Chart.chart")
                 .cutXml("chart")
                 .exclude("src", "margin", "autoFocus", "fetchOnInit", "layout", "stackOffset", "baseValue",
-                        "XAxis.hide", "XAxis.height", "XAxis.orientation", "XAxis.type", "XAxis.allowDecimals",
+                        "XAxis.hide", "XAxis.width", "XAxis.height", "XAxis.tickCount", "XAxis.type", "XAxis.allowDecimals",
                         "XAxis.allowDataOverflow", "XAxis.allowDuplicatedCategory", "XAxis.interval", "XAxis.padding",
-                        "XAxis.minTickGap", "XAxis.axisLine", "XAxis.tickLine", "XAxis.tickSize", "XAxis.label",
-                        "YAxis.hide", "YAxis.height", "YAxis.orientation", "YAxis.type", "YAxis.allowDecimals",
+                        "XAxis.minTickGap", "XAxis.axisLine", "XAxis.tickLine", "XAxis.tickSize",
+                        "YAxis.hide", "YAxis.width", "YAxis.height", "YAxis.tickCount", "YAxis.type", "YAxis.allowDecimals",
                         "YAxis.allowDataOverflow", "YAxis.allowDuplicatedCategory", "YAxis.interval", "YAxis.padding",
-                        "YAxis.minTickGap", "YAxis.axisLine", "YAxis.tickLine", "YAxis.tickSize", "YAxis.label",
-                        "cartesianGrid.horizontal", "cartesianGrid.vertical", "cartesianGrid.horizontalPoints",
-                        "cartesianGrid.verticalPoints", "cartesianGrid.strokeDasharray",
+                        "YAxis.minTickGap", "YAxis.axisLine", "YAxis.tickLine", "YAxis.tickSize",
+                        "cartesianGrid.x", "cartesianGrid.y", "cartesianGrid.width", "cartesianGrid.height",
+                        "cartesianGrid.horizontalPoints", "cartesianGrid.verticalPoints",
                         "tooltip.offset", "tooltip.filterNull", "tooltip.itemStyle", "tooltip.wrapperStyle",
                         "tooltip.contentStyle", "tooltip.labelStyle", "tooltip.viewBox", "tooltip.label",
-                        "legend.layout", "legend.align", "legend.verticalAlign", "legend.iconSize",
-                        "legend.iconType", "legend.margin", "legend.wrapperStyle",
-                        "lines[0].type", "lines[0].stroke", "lines[0].legendType", "lines[0].dot", "lines[0].activeDot",
-                        "lines[0].label", "lines[0].layout", "lines[1].type", "lines[1].stroke", "lines[1].legendType",
-                        "lines[1].dot", "lines[1].activeDot", "lines[1].label", "lines[1].layout"
-                )
-                .assertEquals();
+                        "legend.width", "legend.height", "legend.layout", "legend.align", "legend.verticalAlign",
+                        "legend.iconSize", "legend.margin", "legend.wrapperStyle",
+                        "lines[0].legendType", "lines[0].dot", "lines[0].activeDot", "lines[0].layout",
+                        "lines[1].legendType", "lines[1].dot", "lines[1].activeDot", "lines[1].layout"
+                ).assertEquals();
     }
 }

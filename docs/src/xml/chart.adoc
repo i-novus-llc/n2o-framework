@@ -20,40 +20,45 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Ключ значений по оси x
 |
 
-|x-tick-key
-|Число
-|Количество делений на оси x
-|
+|x-orientation
+|top bottom
+|Положение оси x
+|bottom
+
+|x-label
+|true false
+|Подпись оси x
+|false
 
 |y-data-key
 |Строка
 |Ключ значений по оси y
 |
 
-|y-tick-key
-|Число
-|Количество делений на оси y
+|y-orientation
+|left right
+|Положение оси y
+|left
+
+|y-label
+|true false
+|Подпись оси y
+|false
+
+|grid-stroke-dasharray
+|Строка
+|Паттерн линий сетки
 |
 
-|grid-x
-|Число
-|Координата сетки по оси x
-|
+|grid-horizontal
+|true false
+|Наличие горизонтальных линий сетки
+|true
 
-|grid-y
-|Число
-|Координата сетки по оси y
-|
-
-|grid-width
-|Число
-|Ширина сетки
-|
-
-|grid-height
-|Число
-|Высота сетки
-|
+|grid-vertical
+|true false
+|Наличие вертикальных линий сетки
+|true
 
 |tooltip-separator
 |Строка
@@ -61,14 +66,10 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |
 
 |legend-width
-|Строка
-|Ширина легенды
-|
+|line square rect circle cross diamond star triangle wye
+|Тип иконок элементов легенды
+|line
 
-|legend-height
-|Строка
-|Высота легенды
-|
 
 |===
 
@@ -174,7 +175,7 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |label
 |true false
 |Наличие подписи значений
-|true
+|false
 
 |===
 
@@ -199,17 +200,33 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Ключ в данных
 |
 
+|line-type
+|basis basisClosed basisOpen linear linearClosed natural
+ monotoneX monotoneY monotone step stepBefore stepAfter
+|Тип интерполяции линии
+|linear
+
 |color
 |Строка
 |Цвет зоны
 |
+
+|stroke
+|Строка
+|Цвет линии
+|
+
+|label
+|true false
+|Наличие подписи значений
+|false
 
 |===
 
 Пример::
 [source,xml]
 ----
-<area data-key="uv" color="#8884d8" stack-id="pv"/>
+<area data-key="uv" color="#8884d8"/>
 ----
 
 === <bar>
@@ -230,12 +247,17 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Цвет зоны
 |
 
+|label
+|true false
+|Наличие подписи значений
+|false
+
 |===
 
 Пример::
 [source,xml]
 ----
-<bar data-key="uv" color="#8884d8" stack-id="pv"/>
+<bar data-key="uv" color="#8884d8"/>
 ----
 
 
@@ -252,15 +274,26 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Ключ в данных
 |
 
+|type
+|basis basisClosed basisOpen linear linearClosed natural
+monotoneX monotoneY monotone step stepBefore stepAfter
+|Тип интерполяции линии
+|linear
+
 |color
 |Строка
 |Цвет линии
 |
+
+|label
+|true false
+|Наличие подписи значений
+|false
 
 |===
 
 Пример::
 [source,xml]
 ----
-<line data-key="uv" color="#8884d8"/>
+<line data-key="uv" line-type="monotone" color="#8884d8"/>
 ----

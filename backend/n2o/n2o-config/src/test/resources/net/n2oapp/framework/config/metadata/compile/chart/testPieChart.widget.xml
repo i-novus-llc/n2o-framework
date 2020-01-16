@@ -2,5 +2,5 @@
 <chart xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
        width="600" height="400">
     <pie cx="200" cy="200" inner-radius="50" outer-radius="60"
-         name-key="name" data-key="value" color="#8884d8"/>
+         name-key="name" data-key="value" color="#8884d8" label="true"/>
 </chart>

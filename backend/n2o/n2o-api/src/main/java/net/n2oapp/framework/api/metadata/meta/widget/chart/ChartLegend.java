@@ -13,7 +13,5 @@ import java.io.Serializable;
 @Setter
 public class ChartLegend implements Serializable {
     @JsonProperty
-    private Integer width;
-    @JsonProperty
-    private Integer height;
+    private ChartLegendIconType iconType;
 }

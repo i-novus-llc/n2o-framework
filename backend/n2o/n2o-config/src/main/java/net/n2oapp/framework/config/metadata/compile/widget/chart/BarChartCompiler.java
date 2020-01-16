@@ -27,6 +27,7 @@ public class BarChartCompiler extends StandardChartCompiler<BarChart, N2oBarChar
             BarChartItem component = new BarChartItem();
             component.setDataKey(item.getDataKey());
             component.setColor(item.getColor());
+            component.setLabel(p.cast(item.getLabel(), p.resolve(property("n2o.api.default.widget.chart.label"), Boolean.class)));
             chart.addItem(component);
         }
         return compileStandardChart(chart, source, context, p);

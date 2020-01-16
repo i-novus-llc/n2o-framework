@@ -12,12 +12,10 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class ChartGrid implements Serializable {
+    @JsonProperty("strokeDasharray")
+    private String strokeDashArray;
     @JsonProperty
-    private Integer x;
+    private Boolean horizontal;
     @JsonProperty
-    private Integer y;
-    @JsonProperty
-    private Integer width;
-    @JsonProperty
-    private Integer height;
+    private Boolean vertical;
 }

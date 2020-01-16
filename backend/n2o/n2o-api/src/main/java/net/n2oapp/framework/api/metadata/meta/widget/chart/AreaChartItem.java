@@ -12,6 +12,12 @@ import lombok.Setter;
 public class AreaChartItem extends AbstractChartItem {
     @JsonProperty
     private String dataKey;
+    @JsonProperty("type")
+    private ChartLineType lineType;
     @JsonProperty("fill")
     private String color;
+    @JsonProperty
+    private String stroke;
+    @JsonProperty
+    private Boolean label;
 }

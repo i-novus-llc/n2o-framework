@@ -11,4 +11,5 @@ import lombok.Setter;
 public class N2oBarChartItem extends N2oStandardChartItem {
     private String dataKey;
     private String color;
+    private Boolean label;
 }

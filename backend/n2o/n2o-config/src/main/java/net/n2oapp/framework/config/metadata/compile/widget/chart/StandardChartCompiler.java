@@ -6,6 +6,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oStandardCha
 import net.n2oapp.framework.api.metadata.meta.widget.chart.*;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция стандартного компонента диаграммы
  */
@@ -15,24 +17,24 @@ public abstract class StandardChartCompiler<D extends StandardChartWidgetCompone
     public D compileStandardChart(D chart, S source, CompileContext<?, ?> context, CompileProcessor p) {
         ChartAxis xAxis = new ChartAxis();
         xAxis.setDataKey(source.getXAxisDataKey());
-        xAxis.setTickCount(source.getXAxisTickCount());
+        xAxis.setOrientation((p.cast(source.getXAxisOrientation(), N2oStandardChart.XAxisOrientationType.bottom)).toString());
+        xAxis.setLabel(p.cast(source.getXLabel(), p.resolve(property("n2o.api.default.widget.chart.axis.label"), Boolean.class)));
         chart.setXAxis(xAxis);
         ChartAxis yAxis = new ChartAxis();
         yAxis.setDataKey(source.getYAxisDataKey());
-        yAxis.setTickCount(source.getYAxisTickCount());
+        yAxis.setOrientation((p.cast(source.getYAxisOrientation(), N2oStandardChart.YAxisOrientationType.left)).toString());
+        yAxis.setLabel(p.cast(source.getYLabel(), p.resolve(property("n2o.api.default.widget.chart.axis.label"), Boolean.class)));
         chart.setYAxis(yAxis);
         ChartGrid grid = new ChartGrid();
-        grid.setX(source.getGridX());
-        grid.setY(source.getGridY());
-        grid.setWidth(source.getGridWidth());
-        grid.setHeight(source.getGridHeight());
+        grid.setStrokeDashArray(source.getGridStrokeDashArray());
+        grid.setHorizontal(p.cast(source.getGridHorizontal(), true));
+        grid.setVertical(p.cast(source.getGridVertical(), true));
         chart.setGrid(grid);
         ChartTooltip tooltip = new ChartTooltip();
         tooltip.setSeparator(source.getTooltipSeparator());
         chart.setTooltip(tooltip);
         ChartLegend legend = new ChartLegend();
-        legend.setWidth(source.getLegendWidth());
-        legend.setHeight(source.getLegendHeight());
+        legend.setIconType(p.cast(source.getLegendIconType(), ChartLegendIconType.line));
         chart.setLegend(legend);
         return chart;
     }
