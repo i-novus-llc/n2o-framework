@@ -135,12 +135,12 @@
           "payload": {
             "prefix": "filter",
             "key": "proto_patients",
-            "field": "name",
+            "field": "search_filter",
             "value": ":patients_name"
           }
         },
         "set": {
-          "value": "`name`",
+          "value": "`search_filter`",
           "link": "models.filter['proto_patients']"
         }
       },
@@ -373,7 +373,7 @@
             "link": "models.filter['proto_patients']"
           },
           "patients_name": {
-            "value": "`name`",
+            "value": "`search_filter`",
             "link": "models.filter['proto_patients']"
           },
           "patients_bdate_begin": {
@@ -1585,25 +1585,61 @@
       }
     ]
   },
-  "toolbar": {
-    "topRight": [
-      {
-        "id": "topRight0",
-        "buttons": [
-          {
-            "id": "create2",
-            "icon": "fa fa-plus",
-            "actionId": "create2",
-            "hint": "Добавить пациента",
-            "hintPosition": "bottom",
-            "conditions": {},
-            "color": "primary",
-            "title": "Добавить пациента"
-          }
-        ]
-      }
-    ]
-  },
+  "toolbar": [
+    {
+      "id": "topLeft0",
+      "buttons": [
+        {
+          "id": "create",
+          "icon": "fa fa-plus",
+          "actionId": "create",
+          "hint": "Создать",
+          "hintPosition": "bottom",
+          "conditions": {},
+          "title": "Создать"
+        },
+        {
+          "id": "update_patient",
+          "icon": "fa fa-pencil",
+          "actionId": "update_patient",
+          "hint": "Изменить",
+          "hintPosition": "bottom",
+          "conditions": {
+            "enabled": [
+              {
+                "expression": "!_.isEmpty(this)",
+                "modelLink": "models.resolve['proto_patients']"
+              }
+            ]
+          },
+          "title": "Изменить"
+        },
+        {
+          "id": "delete",
+          "actionId": "delete",
+          "hint": "Удалить",
+          "hintPosition": "bottom",
+          "conditions": {
+            "enabled": [
+              {
+                "expression": "!_.isEmpty(this)",
+                "modelLink": "models.resolve['proto_patients']"
+              }
+            ]
+          },
+          "confirm": {
+            "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
+            "title": "Предупреждение",
+            "okLabel": "Да",
+            "cancelLabel": "Нет",
+            "modelLink": "models.resolve['proto_patients']",
+            "mode": "modal"
+          },
+          "title": "Удалить"
+        }
+      ]
+    }
+  ],
   "actions": {
     "create2": {
       "id": "create2",
@@ -1616,8 +1652,12 @@
       }
     }
   },
-  "src": "LeftRightPage",
+  "src": "SearchablePage",
+  "searchWidgetId": "proto_patients",
+  "searchModelPrefix": "filter",
+  "searchModelKey": "search_filter",
   "page": {
-    "title": "Список контактов"
+    "title": "Список контактов",
+    "modelLink": "models.resolve['proto_patients'].name"
   }
 }
