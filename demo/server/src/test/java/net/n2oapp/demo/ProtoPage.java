@@ -1,6 +1,9 @@
 package net.n2oapp.demo;
 
 
+import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Condition;
+
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -11,38 +14,54 @@ import static com.codeborne.selenide.Selenide.*;
 public class ProtoPage implements N2oProtoPage {
 
     /**
+     * Проверка правильности селекторов
+     */
+    public ProtoPage checkAllElementsExists() {
+        getMainTableHead().shouldBe(Condition.exist);
+        getMainTableRows().shouldBe(CollectionCondition.sizeGreaterThan(0));
+        getMainTableFilter().shouldBe(Condition.exist);
+
+        getTableHeaderSurname().shouldBe(Condition.exist);
+        getFilterGenderMale().shouldBe(Condition.exist);
+        getFilterGenderFemale().shouldBe(Condition.exist);
+        getFilterGenderUnknown().shouldBe(Condition.exist);
+        getFilterSearchButton().shouldBe(Condition.exist);
+        return page(ProtoPage.class);
+    }
+
+    /**
      * Проверка работы фильтра по полу
      */
     public ProtoPage assertGender() {
-        clickFilterFemale();
-        clickSearchFilter();
+        getFilterGenderFemale().click();
+        getFilterSearchButton().click();
         assert isAllMatch(getCol(getMainTableRows(), 4), "Женский");
 
-        clickFilterFemale();
-        clickFilterMale();
-        clickSearchFilter();
+        getFilterGenderFemale().click();
+        getFilterGenderMale().click();
+        getFilterSearchButton().click();
         assert isAllMatch(getCol(getMainTableRows(), 4), "Мужской");
 
-        clickFilterMale();
-        clickFilterUnknownGender();
-        clickSearchFilter();
+        getFilterGenderMale().click();
+        getFilterGenderUnknown().click();
+        getFilterSearchButton().click();
         assert getCol(getMainTableRows(), 4).isEmpty();
 
         return page(ProtoPage.class);
     }
 
     /**
-     *  Проверка работы сортировки по фамилии
+     * Проверка работы сортировки по фамилии
      */
     public ProtoPage assertSorting() {
-        clickSortBySurname();
+        getTableHeaderSurname().click();
 
         assert isSorted(getCol(getMainTableRows(), 0), true);
 
-        clickSortBySurname();
+        getTableHeaderSurname().click();
         assert isSorted(getCol(getMainTableRows(), 0), false);
 
-        clickSortBySurname();
+        getTableHeaderSurname().click();
         List<String> list = getCol(getMainTableRows(), 0);
         assert !isSorted(list, true);
         assert !isSorted(list, false);

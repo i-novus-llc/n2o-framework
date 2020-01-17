@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.codeborne.selenide.Configuration.browser;
@@ -31,6 +32,12 @@ public class DemoIntegrationTest {
     @Before
     public void openProtoPage() {
         protoPage = open("http://localhost:" + port, ProtoPage.class);
+    }
+
+    @Test
+    @Primary
+    public void checkAllElementsExists() {
+        protoPage.checkAllElementsExists();
     }
 
     @Test

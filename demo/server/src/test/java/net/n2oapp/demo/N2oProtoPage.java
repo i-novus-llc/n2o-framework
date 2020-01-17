@@ -21,29 +21,29 @@ public interface N2oProtoPage extends N2oAbstractPage {
         return $("table tbody").waitUntil(Condition.exist, 5000).$$("tr");
     }
 
-    default SelenideElement getMainFilter() {
+    default SelenideElement getMainTableFilter() {
         return $(".n2o-filter");
     }
 
     /////
 
-    default void clickSortBySurname() {
-        getMainTableHead().$(Selectors.byText("Фамилия")).click();
+    default SelenideElement getTableHeaderSurname() {
+        return getMainTableHead().$(Selectors.byText("Фамилия"));
     }
 
-    default void clickFilterMale() {
-        getMainFilter().$$(".n2o-checkbox").findBy(Condition.text("Мужской")).click();
+    default SelenideElement getFilterGenderMale() {
+        return getMainTableFilter().$$(".n2o-checkbox").findBy(Condition.text("Мужской"));
     }
 
-    default void clickFilterFemale() {
-        getMainFilter().$$(".n2o-checkbox").findBy(Condition.text("Женский")).click();
+    default SelenideElement getFilterGenderFemale() {
+        return getMainTableFilter().$$(".n2o-checkbox").findBy(Condition.text("Женский"));
     }
 
-    default void clickFilterUnknownGender() {
-        getMainFilter().$$(".n2o-checkbox").findBy(Condition.text("Не определенный")).click();
+    default SelenideElement getFilterGenderUnknown() {
+        return getMainTableFilter().$$(".n2o-checkbox").findBy(Condition.text("Не определенный"));
     }
 
-    default void clickSearchFilter() {
-        getMainFilter().$$("button").findBy(Condition.text("Найти")).click();
+    default SelenideElement getFilterSearchButton() {
+        return getMainTableFilter().$$("button").findBy(Condition.text("Найти"));
     }
 }
