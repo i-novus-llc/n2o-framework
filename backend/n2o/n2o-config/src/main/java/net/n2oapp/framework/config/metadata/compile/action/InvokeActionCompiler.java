@@ -53,7 +53,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         InvokeAction invokeAction = new InvokeAction();
         compileAction(invokeAction, source, p);
         invokeAction.setOperationId(source.getOperationId());
-        invokeAction.getOptions().setType(p.resolve(property("n2o.api.action.invoke.type"), String.class));
+        invokeAction.setType(p.resolve(property("n2o.api.action.invoke.type"), String.class));
         String targetWidgetId = initTargetWidget(source, context, p);
         ReduxModel targetWidgetModel = ReduxModel.RESOLVE;
         ComponentScope componentScope = p.getScope(ComponentScope.class);
@@ -66,14 +66,14 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String currentWidgetId = widgetScope == null ? targetWidgetId : widgetScope.getClientWidgetId();
         String modalLink = Redux.createBindLink(targetWidgetId, targetWidgetModel).getBindLink();
-        invokeAction.getOptions().getPayload().setModelLink(modalLink);
-        invokeAction.getOptions().getMeta()
+        invokeAction.getPayload().setModelLink(modalLink);
+        invokeAction.getMeta()
                 .setSuccess(initSuccessMeta(invokeAction, source, context, p, targetWidgetId, currentWidgetId));
-        invokeAction.getOptions().getMeta().setFail(initFailMeta(currentWidgetId));
-        invokeAction.getOptions().getPayload().setWidgetId(targetWidgetId);
+        invokeAction.getMeta().setFail(initFailMeta(currentWidgetId));
+        invokeAction.getPayload().setWidgetId(targetWidgetId);
         if (widgetScope == null) {
             PageScope pageScope = p.getScope(PageScope.class);
-            invokeAction.getOptions().getPayload().setPageId(pageScope.getPageId());
+            invokeAction.getPayload().setPageId(pageScope.getPageId());
         }
         initDataProvider(invokeAction, source, context, p, targetWidgetModel);
         return invokeAction;
@@ -143,8 +143,8 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     private void initDataProvider(InvokeAction invokeAction, N2oInvokeAction source,
                                   CompileContext<?, ?> context, CompileProcessor p,
                                   ReduxModel model) {
-        InvokeActionPayload payload = invokeAction.getOptions().getPayload();
-        AsyncMetaSaga metaSaga = invokeAction.getOptions().getMeta();
+        InvokeActionPayload payload = invokeAction.getPayload();
+        AsyncMetaSaga metaSaga = invokeAction.getMeta();
         WidgetDataProvider dataProvider = new WidgetDataProvider();
         Map<String, BindLink> pathMapping = new StrictMap<>();
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);

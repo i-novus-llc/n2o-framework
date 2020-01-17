@@ -1,12 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
+import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.*;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -19,6 +18,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ToolbarCompileTest extends SourceCompileTestBase {
@@ -73,33 +73,35 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         assertThat(f.getToolbar().size(), is(2));
 
-        Button b1 = f.getToolbar().get("topLeft").get(0).getButtons().get(0);
+        AbstractButton b1 = f.getToolbar().get("topLeft").get(0).getButtons().get(0);
         assertThat(b1.getId(), is("testId1"));
-        assertThat(b1.getActionId(), is("testActionId1"));
+        assertThat(b1.getAction(), notNullValue());
         assertThat(b1.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("!_.isEmpty(this)"));
         assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['$testToolbar']"));
 
-        Button b2 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(0);
+        AbstractButton b2 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(0);
         assertThat(b2.getId(), is("testId2"));
-        assertThat(b2.getActionId(), is("testActionId1"));
+        assertThat(b2.getAction(), notNullValue());
         assertThat(b2.getLabel(), is("Label1"));
         assertThat(b2.getConditions().get(ValidationType.enabled), nullValue());
 
-        Button b3 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(1);
+        AbstractButton b3 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(1);
         assertThat(b3.getId(), is("testId3"));
-        assertThat(b3.getActionId(), is("testId3"));
         assertThat(f.getActions().containsKey("testId3"), is(true));
         assertThat(b3.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b3.getConfirm().getMode(), is(ConfirmType.popover));
         assertThat(b3.getConfirm().getModelLink(), is("models.resolve['$testToolbar']"));
         assertThat(b3.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
+        assertThat(b3.getSrc(), is("PerformButton"));
+        assertThat(((PerformButton)b3).getUrl(), is("http://example.com"));
+        assertThat(((PerformButton)b3).getTarget(), is(Target.self));
 
-        Button b4 = f.getToolbar().get("topLeft").get(0).getButtons().get(1);
+        AbstractButton b4 = f.getToolbar().get("topLeft").get(0).getButtons().get(1);
         assertThat(b4.getId(), is("testId4"));
         assertThat(b4.getValidatedWidgetId(), is("testWidgetId"));
 
-        Button b5 = f.getToolbar().get("topLeft").get(0).getButtons().get(2);
+        AbstractButton b5 = f.getToolbar().get("topLeft").get(0).getButtons().get(2);
         assertThat(b5.getId(), is("testId5"));
         assertThat(b5.getValidatedWidgetId(), is("$testToolbar"));
     }
@@ -110,7 +112,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testToolbar"));
 
         assertThat(f.getToolbar().size(), is(2));
-        Button button = f.getToolbar().get("bottomLeft").get(0).getButtons().get(2);
+        Submenu button = (Submenu)f.getToolbar().get("bottomLeft").get(0).getButtons().get(2);
         MenuItem item = button.getSubMenu().get(0);
         assertThat(item.getId(), is("tesId10"));
         assertThat(item.getConfirm(), notNullValue());
@@ -132,18 +134,18 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         assertThat(t.getToolbar().get("topLeft").get(0).getButtons().size(), is(4));
         assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(0).getHint(), is("Изменить видимость фильтров"));
-        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(1).getDropdownSrc(), is("ToggleColumn"));
+        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(1).getSrc(), is("ToggleColumn"));
         assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(2).getHint(), is("Обновить данные"));
-        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(3).getDropdownSrc(), is("ChangeSize"));
+        assertThat(t.getToolbar().get("topLeft").get(0).getButtons().get(3).getSrc(), is("ChangeSize"));
 
         assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().size(), is(4));
         assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(0).getHint(), is("Изменить видимость фильтров"));
-        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(1).getDropdownSrc(), is("ToggleColumn"));
+        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(1).getSrc(), is("ToggleColumn"));
         assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(2).getHint(), is("Обновить данные"));
-        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(3).getDropdownSrc(), is("ChangeSize"));
+        assertThat(t.getToolbar().get("bottomRight").get(0).getButtons().get(3).getSrc(), is("ChangeSize"));
 
         assertThat(t.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(3));
         assertThat(t.getToolbar().get("bottomLeft").get(1).getButtons().size(), is(1));
-        assertThat(t.getToolbar().get("bottomLeft").get(1).getButtons().get(0).getSubMenu().size(), is(4));
+        assertThat(((Submenu)t.getToolbar().get("bottomLeft").get(1).getButtons().get(0)).getSubMenu().size(), is(4));
     }
 }
