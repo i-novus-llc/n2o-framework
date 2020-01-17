@@ -2,17 +2,17 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
       layout="LeftRightLayout" name="Список контактов" route="/">
     <toolbar place="topRight">
-        <button id="create2" widget-id="patients" description="Добавить пациента"
-                color="primary" label="Добавить пациента" icon="fa fa-plus"
+        <button id="create2" widget-id="clients" description="Добавить клиента"
+                color="primary" label="Добавить клиента" icon="fa fa-plus"
                 model="filter">
-            <open-page page-id="ProtoPatient" route="/create2"
+            <open-page page-id="ProtoClient" route="/create2"
                        submit-operation-id="create" upload="defaults"
                        redirect-url-after-submit="../:id"/>
         </button>
     </toolbar>
     <regions>
-        <panel place="left" header="true" collapsible="false" title="Данные пациента">
-            <table id="patients" name="Пациенты" query-id="ProtoPatient" size="10" route="/">
+        <panel place="left" header="true" collapsible="false" title="Данные клиента">
+            <table id="clients" name="Клиенты" query-id="ProtoClient" size="10" route="/">
                 <actions>
                     <action id="update_birthday">
                         <invoke operation-id="update"/>
@@ -22,14 +22,14 @@
                 <columns>
                     <column text-field-id="surname">
                         <link>
-                            <open-page page-id="ProtoPatient" submit-operation-id="update" detail-field-id="id"
-                                       page-name="Карточка пациента: {id}"/>
+                            <open-page page-id="ProtoClient" submit-operation-id="update" detail-field-id="id"
+                                       page-name="Карточка клиента: {id}"/>
                         </link>
                     </column>
                     <column text-field-id="name">
                         <link>
-                            <show-modal page-id="ProtoPatient" submit-operation-id="update" detail-field-id="id"
-                                        page-name="Карточка пациента: {id}"/>
+                            <show-modal page-id="ProtoClient" submit-operation-id="update" detail-field-id="id"
+                                        page-name="Карточка клиента: {id}"/>
                         </link>
                     </column>
                     <column text-field-id="patrName">
@@ -78,13 +78,13 @@
                 </filters>
                 <toolbar place="topLeft">
                     <button id="create" label="Создать" description="Создать" icon="fa fa-plus" model="filter">
-                        <show-modal page-id="ProtoPatient" submit-operation-id="create"
+                        <show-modal page-id="ProtoClient" submit-operation-id="create"
                                     upload="defaults" focus-after-submit="true"
                                     redirect-url-after-submit="../:id/update2"/>
                     </button>
-                    <button id="update_patient" label="Изменить" description="Изменить" icon="fa fa-pencil">
-                        <show-modal page-id="ProtoPatient" submit-operation-id="update" focus-after-submit="true"
-                                    detail-field-id="id" page-name="Карточка пациента: {id}"/>
+                    <button id="update_client" label="Изменить" description="Изменить" icon="fa fa-pencil">
+                        <show-modal page-id="ProtoClient" submit-operation-id="update" focus-after-submit="true"
+                                    detail-field-id="id" page-name="Карточка клиента: {id}"/>
                     </button>
                     <button id="delete" label="Удалить" description="Удалить" icon="fa fa-trash" type="text">
                         <invoke operation-id="delete"/>
@@ -94,20 +94,20 @@
                     <button id="update2" type="icon" color="light" label="Изменить" icon="fa fa-edit"
                             visibility-condition="name!='Мария'"
                             description="Кнопка скрывается, если в строке имя Мария">
-                        <open-page page-id="ProtoPatient" submit-operation-id="update" focus-after-submit="true"
-                                   detail-field-id="id" page-name="Карточка пациента: {id}"/>
+                        <open-page page-id="ProtoClient" submit-operation-id="update" focus-after-submit="true"
+                                   detail-field-id="id" page-name="Карточка клиента: {id}"/>
                     </button>
                     <button id="view" label="Просмотр" color="info" icon="fa fa-book"
                             enabling-condition="name!='Анна'" tooltip-position="right"
                             description="Кнопка блокируется, если в фильтре имя Анна">
-                        <show-modal page-id="ProtoPatientView" detail-field-id="id"/>
+                        <show-modal page-id="ProtoClientView" detail-field-id="id"/>
                     </button>
                 </toolbar>
                 <toolbar place="bottomRight" generate="tableSettings"/>
             </table>
         </panel>
         <panel place="right" title="Контакты">
-            <list id="contacts" detail-field-id="individualId" depends-on="patients"
+            <list id="contacts" detail-field-id="individualId" depends-on="clients"
                   name="Контакты" query-id="ProtoContacts" visible="{name != 'Мария'}">
                 <content>
                     <left-top>
@@ -133,8 +133,8 @@
             </list>
         </panel>
         <panel place="right" title="Карточка">
-            <form id="form" ref-id="ProtoPatient" route="/:patient_id/card"
-                  depends-on="patients" master-field-id="id" detail-field-id="id"/>
+            <form id="form" ref-id="ProtoClient" route="/:client_id/card"
+                  depends-on="clients" master-field-id="id" detail-field-id="id"/>
         </panel>
     </regions>
 </page>
