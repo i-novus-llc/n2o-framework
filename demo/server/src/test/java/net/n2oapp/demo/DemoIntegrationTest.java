@@ -30,17 +30,16 @@ public class DemoIntegrationTest {
 
     @Before
     public void openProtoPage() {
-        protoPage = open("http://localhost:" + port, ProtoPage.class)
-                .findBySurname("Иванов");
+        protoPage = open("http://localhost:" + port, ProtoPage.class);
     }
 
     @Test
-    public void testTableSize() {
-        protoPage.tableShouldHaveSize(1);
+    public void testGender() {
+        protoPage.assertGender();
     }
 
     @Test
-    public void testSurname() {
-        protoPage.assertSurname(0, "Иванова");
+    public void testSorting() {
+        protoPage.assertSorting();
     }
 }

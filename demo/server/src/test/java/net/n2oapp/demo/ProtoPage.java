@@ -1,28 +1,50 @@
 package net.n2oapp.demo;
 
-import com.codeborne.selenide.Selectors;
 
-import static com.codeborne.selenide.Condition.text;
+import java.util.List;
+
 import static com.codeborne.selenide.Selenide.*;
 
 /**
- * Главная страница демо приложения
+ * Тесты ProtoPage
  */
-public class ProtoPage {
+public class ProtoPage implements N2oProtoPage {
 
-    public ProtoPage findBySurname(String query) {
-        $(".n2o-filter").$$("input").get(0).val(query);
-        $(".n2o-filter").$(Selectors.byText("Найти")).click();
+    /**
+     * Проверка работы фильтра по полу
+     */
+    public ProtoPage assertGender() {
+        clickFilterFemale();
+        clickSearchFilter();
+        assert isAllMatch(getCol(getMainTableRows(), 4), "Женский");
+
+        clickFilterFemale();
+        clickFilterMale();
+        clickSearchFilter();
+        assert isAllMatch(getCol(getMainTableRows(), 4), "Мужской");
+
         return page(ProtoPage.class);
     }
 
-    public ProtoPage tableShouldHaveSize(int size) {
-        $$("tbody").shouldHaveSize(size);
+    /**
+     *  Проверка работы сортировки по фамилии
+     */
+    public ProtoPage assertSorting() {
+        clickSortBySurname();
+
+        List<String> list = getCol(getMainTableRows(), 0);
+        assert isSorted(list, true);
+
+        clickSortBySurname();
+        list = getCol(getMainTableRows(), 0);
+        assert isSorted(list, false);
+
+        clickSortBySurname();
+        list = getCol(getMainTableRows(), 0);
+        assert !isSorted(list, true);
+        assert !isSorted(list, false);
+
         return page(ProtoPage.class);
     }
 
-    public ProtoPage assertSurname(Integer rowIndex, String surname) {
-        $$("tbody").get(rowIndex).$("button").shouldHave(text(surname));
-        return page(ProtoPage.class);
-    }
 }
