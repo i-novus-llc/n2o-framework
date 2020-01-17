@@ -182,6 +182,11 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |Список CSS свойств
 |
 
+|visible
+|JS-условие true false
+|Условие видимости
+|true
+
 |===
 
 

@@ -19,14 +19,21 @@ import java.util.List;
  * Компиляция колонки филдсета
  */
 @Component
-public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Column, N2oFieldsetColumn, CompileContext<?,?>> {
+public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Column, N2oFieldsetColumn, CompileContext<?, ?>> {
 
     @Override
-    public FieldSet.Column compile(N2oFieldsetColumn source, CompileContext<?,?> context, CompileProcessor p) {
+    public FieldSet.Column compile(N2oFieldsetColumn source, CompileContext<?, ?> context, CompileProcessor p) {
         FieldSet.Column column = new FieldSet.Column();
         column.setClassName(source.getCssClass());
         column.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         column.setSize(source.getSize());
+        String visible = source.getVisible();
+        if (visible != null && visible.startsWith("{") && visible.endsWith("}"))
+            visible = "`" + visible.substring(1, visible.length() - 1) + "`";
+        else if (visible == null)
+            visible = "true";
+        column.setVisible(visible);
+
         if (source.getItems() != null && source.getItems().length > 0) {
             if (source.getItems()[0] instanceof N2oField) {
                 List<Field> fields = new ArrayList<>();

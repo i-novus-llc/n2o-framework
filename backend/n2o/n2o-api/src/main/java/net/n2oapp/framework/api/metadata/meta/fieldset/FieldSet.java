@@ -59,6 +59,8 @@ public abstract class FieldSet extends Component implements Compiled {
         @JsonProperty
         private Integer size;
         @JsonProperty
+        private String visible;
+        @JsonProperty
         private List<FieldSet> fieldsets;
         @JsonProperty
         private List<Field> fields;

@@ -71,12 +71,15 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(component.getFieldsets().get(1).getRows().size(), is(4));
         assertThat(component.getFieldsets().get(1).getRows().get(0).getCols().size(), is(1));
         assertThat(component.getFieldsets().get(1).getRows().get(0).getCols().get(0).getFields().size(), is(1));
+        assertThat(component.getFieldsets().get(1).getRows().get(0).getCols().get(0).getVisible(), is("true"));
         assertThat(((StandardField)component.getFieldsets().get(1).getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol1"));
         assertThat(component.getFieldsets().get(1).getRows().get(1).getCols().size(), is(1));
         assertThat(component.getFieldsets().get(1).getRows().get(1).getCols().get(0).getFields().size(), is(1));
+        assertThat(component.getFieldsets().get(1).getRows().get(1).getCols().get(0).getVisible(), is("false"));
         assertThat(((StandardField)component.getFieldsets().get(1).getRows().get(1).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol2"));
         assertThat(component.getFieldsets().get(1).getRows().get(2).getCols().size(), is(1));
         assertThat(component.getFieldsets().get(1).getRows().get(2).getCols().get(0).getFields().size(), is(1));
+        assertThat(component.getFieldsets().get(1).getRows().get(2).getCols().get(0).getVisible(), is("`a==b`"));
         assertThat(((StandardField)component.getFieldsets().get(1).getRows().get(2).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol3"));
         assertThat(component.getFieldsets().get(1).getRows().get(3).getCols().size(), is(1));
         assertThat(component.getFieldsets().get(1).getRows().get(3).getCols().get(0).getFields().size(), is(1));
