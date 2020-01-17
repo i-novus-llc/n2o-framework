@@ -135,7 +135,7 @@ public class WidgetXmlReaderTest {
             assert object.getDefaultCase().equals("test");
         }
 
-        //провеяем link
+        //проверяем link
         N2oLinkCell linkCell = (N2oLinkCell) ((N2oSimpleColumn) table.getColumns()[3]).getCell();
         assert ((N2oAnchor) linkCell.getAction()).getTarget().name().equals("newWindow");
         assert ((N2oAnchor) linkCell.getAction()).getHref().equals("https://www.google.ru/");

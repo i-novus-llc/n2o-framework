@@ -322,14 +322,16 @@ class InputSelect extends React.Component {
    * @private
    */
   _setNewInputValue(input) {
-    const { onInput, resetOnBlur, multiSelect } = this.props;
-    const { value } = this.state;
+    const { onInput, isExpanded } = this.props;
     const onSetNewInputValue = input => {
       onInput(input);
       this._handleDataSearch(input);
     };
 
     if (this.state.input !== input) {
+      if (!isExpanded) {
+        this._setIsExpanded(true);
+      }
       this._setSelected(false);
       this.setState({ input }, () => onSetNewInputValue(input));
     }
@@ -675,6 +677,10 @@ InputSelect.propTypes = {
    * Ключ цвета badgeColor в данных
    */
   badgeColorFieldId: PropTypes.string,
+  /**
+   * Ключ сортировки в данных
+   */
+  sortFieldId: PropTypes.string,
   /**
    * Флаг активности
    */

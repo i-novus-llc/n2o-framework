@@ -85,6 +85,9 @@
                 </switch>
             </list>
         </column>
+        <column text-field-id="test12">
+            <rating src="test" show-tooltip="true" max="3" half="true"/>
+        </column>
     </columns>
     <rows class="test">
         <switch value-field-id="gender.id">

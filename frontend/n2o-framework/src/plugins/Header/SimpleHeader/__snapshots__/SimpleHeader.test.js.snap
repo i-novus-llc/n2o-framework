@@ -312,155 +312,240 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                 className="dropbottom dropdown nav-item"
                                 onKeyDown={[Function]}
                               >
-                                <DropdownToggle
-                                  aria-haspopup={true}
+                                <ForwardRef
                                   caret={true}
-                                  color="secondary"
                                   nav={true}
                                 >
-                                  <a
-                                    aria-expanded={false}
+                                  <DropdownToggle
                                     aria-haspopup={true}
-                                    className="dropdown-toggle nav-link"
-                                    href="#"
-                                    onClick={[Function]}
+                                    caret={true}
+                                    color="secondary"
+                                    context={
+                                      Object {
+                                        "direction": "bottom",
+                                        "disabled": undefined,
+                                        "inNavbar": true,
+                                        "isOpen": false,
+                                        "toggle": [Function],
+                                      }
+                                    }
+                                    nav={true}
                                   >
-                                    список
-                                  </a>
-                                </DropdownToggle>
-                                <DropdownMenu
-                                  flip={true}
-                                  right={false}
-                                  tag="div"
-                                >
-                                  <div
-                                    aria-hidden={true}
-                                    className="dropdown-menu"
-                                    role="menu"
-                                    tabIndex="-1"
-                                  >
-                                    <DropdownItem
-                                      tag="button"
-                                      toggle={true}
+                                    <a
+                                      aria-expanded={false}
+                                      aria-haspopup={true}
+                                      className="dropdown-toggle nav-link"
+                                      context={
+                                        Object {
+                                          "direction": "bottom",
+                                          "disabled": undefined,
+                                          "inNavbar": true,
+                                          "isOpen": false,
+                                          "toggle": [Function],
+                                        }
+                                      }
+                                      href="#"
+                                      onClick={[Function]}
                                     >
-                                      <button
-                                        className="dropdown-item"
-                                        onClick={[Function]}
-                                        role="menuitem"
-                                        tabIndex="0"
-                                        type="button"
-                                      >
-                                        <NavItem
-                                          tag="li"
+                                      список
+                                    </a>
+                                  </DropdownToggle>
+                                </ForwardRef>
+                                <ForwardRef
+                                  right={false}
+                                >
+                                  <DropdownMenu
+                                    context={
+                                      Object {
+                                        "direction": "bottom",
+                                        "disabled": undefined,
+                                        "inNavbar": true,
+                                        "isOpen": false,
+                                        "toggle": [Function],
+                                      }
+                                    }
+                                    flip={true}
+                                    right={false}
+                                    tag="div"
+                                  >
+                                    <div
+                                      aria-hidden={true}
+                                      className="dropdown-menu"
+                                      context={
+                                        Object {
+                                          "direction": "bottom",
+                                          "disabled": undefined,
+                                          "inNavbar": true,
+                                          "isOpen": false,
+                                          "toggle": [Function],
+                                        }
+                                      }
+                                      role="menu"
+                                      tabIndex="-1"
+                                    >
+                                      <ForwardRef>
+                                        <DropdownItem
+                                          context={
+                                            Object {
+                                              "direction": "bottom",
+                                              "disabled": undefined,
+                                              "inNavbar": true,
+                                              "isOpen": false,
+                                              "toggle": [Function],
+                                            }
+                                          }
+                                          tag="button"
+                                          toggle={true}
                                         >
-                                          <li
-                                            className="nav-item"
+                                          <button
+                                            className="dropdown-item"
+                                            context={
+                                              Object {
+                                                "direction": "bottom",
+                                                "disabled": undefined,
+                                                "inNavbar": true,
+                                                "isOpen": false,
+                                                "toggle": [Function],
+                                              }
+                                            }
+                                            onClick={[Function]}
+                                            role="menuitem"
+                                            tabIndex="0"
+                                            type="button"
                                           >
-                                            <NavLink
-                                              activeClassName="active"
-                                              aria-current="page"
-                                              className="nav-link dropdown-item"
-                                              exact={true}
-                                              to="/pageRoute"
+                                            <NavItem
+                                              tag="li"
                                             >
-                                              <Route
-                                                exact={true}
-                                                path="\\\\/pageRoute"
+                                              <li
+                                                className="nav-item"
                                               >
-                                                <Link
-                                                  aria-current={null}
+                                                <NavLink
+                                                  activeClassName="active"
+                                                  aria-current="page"
                                                   className="nav-link dropdown-item"
-                                                  replace={false}
+                                                  exact={true}
                                                   to="/pageRoute"
                                                 >
-                                                  <a
-                                                    aria-current={null}
-                                                    className="nav-link dropdown-item"
-                                                    href="/pageRoute"
-                                                    onClick={[Function]}
+                                                  <Route
+                                                    exact={true}
+                                                    path="\\\\/pageRoute"
                                                   >
-                                                    Название страницы
-                                                  </a>
-                                                </Link>
-                                              </Route>
-                                            </NavLink>
-                                            <Badge
-                                              color="danger"
-                                              pill={false}
-                                              tag="span"
-                                            >
-                                              <span
-                                                className="badge badge-danger"
-                                              >
-                                                бадж 1
-                                              </span>
-                                            </Badge>
-                                          </li>
-                                        </NavItem>
-                                      </button>
-                                    </DropdownItem>
-                                    <DropdownItem
-                                      tag="button"
-                                      toggle={true}
-                                    >
-                                      <button
-                                        className="dropdown-item"
-                                        onClick={[Function]}
-                                        role="menuitem"
-                                        tabIndex="0"
-                                        type="button"
-                                      >
-                                        <NavItem
-                                          tag="li"
+                                                    <Link
+                                                      aria-current={null}
+                                                      className="nav-link dropdown-item"
+                                                      replace={false}
+                                                      to="/pageRoute"
+                                                    >
+                                                      <a
+                                                        aria-current={null}
+                                                        className="nav-link dropdown-item"
+                                                        href="/pageRoute"
+                                                        onClick={[Function]}
+                                                      >
+                                                        Название страницы
+                                                      </a>
+                                                    </Link>
+                                                  </Route>
+                                                </NavLink>
+                                                <Badge
+                                                  color="danger"
+                                                  pill={false}
+                                                  tag="span"
+                                                >
+                                                  <span
+                                                    className="badge badge-danger"
+                                                  >
+                                                    бадж 1
+                                                  </span>
+                                                </Badge>
+                                              </li>
+                                            </NavItem>
+                                          </button>
+                                        </DropdownItem>
+                                      </ForwardRef>
+                                      <ForwardRef>
+                                        <DropdownItem
+                                          context={
+                                            Object {
+                                              "direction": "bottom",
+                                              "disabled": undefined,
+                                              "inNavbar": true,
+                                              "isOpen": false,
+                                              "toggle": [Function],
+                                            }
+                                          }
+                                          tag="button"
+                                          toggle={true}
                                         >
-                                          <li
-                                            className="nav-item"
+                                          <button
+                                            className="dropdown-item"
+                                            context={
+                                              Object {
+                                                "direction": "bottom",
+                                                "disabled": undefined,
+                                                "inNavbar": true,
+                                                "isOpen": false,
+                                                "toggle": [Function],
+                                              }
+                                            }
+                                            onClick={[Function]}
+                                            role="menuitem"
+                                            tabIndex="0"
+                                            type="button"
                                           >
-                                            <NavLink
-                                              activeClassName="active"
-                                              aria-current="page"
-                                              className="nav-link dropdown-item"
-                                              exact={true}
-                                              to="/pageRoute1"
+                                            <NavItem
+                                              tag="li"
                                             >
-                                              <Route
-                                                exact={true}
-                                                path="\\\\/pageRoute1"
+                                              <li
+                                                className="nav-item"
                                               >
-                                                <Link
-                                                  aria-current={null}
+                                                <NavLink
+                                                  activeClassName="active"
+                                                  aria-current="page"
                                                   className="nav-link dropdown-item"
-                                                  replace={false}
+                                                  exact={true}
                                                   to="/pageRoute1"
                                                 >
-                                                  <a
-                                                    aria-current={null}
-                                                    className="nav-link dropdown-item"
-                                                    href="/pageRoute1"
-                                                    onClick={[Function]}
+                                                  <Route
+                                                    exact={true}
+                                                    path="\\\\/pageRoute1"
                                                   >
-                                                    элемент списка №2
-                                                  </a>
-                                                </Link>
-                                              </Route>
-                                            </NavLink>
-                                            <Badge
-                                              color="danger"
-                                              pill={false}
-                                              tag="span"
-                                            >
-                                              <span
-                                                className="badge badge-danger"
-                                              >
-                                                бадж 2
-                                              </span>
-                                            </Badge>
-                                          </li>
-                                        </NavItem>
-                                      </button>
-                                    </DropdownItem>
-                                  </div>
-                                </DropdownMenu>
+                                                    <Link
+                                                      aria-current={null}
+                                                      className="nav-link dropdown-item"
+                                                      replace={false}
+                                                      to="/pageRoute1"
+                                                    >
+                                                      <a
+                                                        aria-current={null}
+                                                        className="nav-link dropdown-item"
+                                                        href="/pageRoute1"
+                                                        onClick={[Function]}
+                                                      >
+                                                        элемент списка №2
+                                                      </a>
+                                                    </Link>
+                                                  </Route>
+                                                </NavLink>
+                                                <Badge
+                                                  color="danger"
+                                                  pill={false}
+                                                  tag="span"
+                                                >
+                                                  <span
+                                                    className="badge badge-danger"
+                                                  >
+                                                    бадж 2
+                                                  </span>
+                                                </Badge>
+                                              </li>
+                                            </NavItem>
+                                          </button>
+                                        </DropdownItem>
+                                      </ForwardRef>
+                                    </div>
+                                  </DropdownMenu>
+                                </ForwardRef>
                               </li>
                             </Manager>
                           </Dropdown>
@@ -562,159 +647,244 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                 className="dropbottom dropdown nav-item"
                                 onKeyDown={[Function]}
                               >
-                                <DropdownToggle
-                                  aria-haspopup={true}
+                                <ForwardRef
                                   caret={true}
-                                  color="secondary"
                                   nav={true}
                                 >
-                                  <a
-                                    aria-expanded={false}
+                                  <DropdownToggle
                                     aria-haspopup={true}
-                                    className="dropdown-toggle nav-link"
-                                    href="#"
-                                    onClick={[Function]}
+                                    caret={true}
+                                    color="secondary"
+                                    context={
+                                      Object {
+                                        "direction": "bottom",
+                                        "disabled": undefined,
+                                        "inNavbar": true,
+                                        "isOpen": false,
+                                        "toggle": [Function],
+                                      }
+                                    }
+                                    nav={true}
                                   >
-                                    список №2
-                                  </a>
-                                </DropdownToggle>
-                                <DropdownMenu
-                                  flip={true}
+                                    <a
+                                      aria-expanded={false}
+                                      aria-haspopup={true}
+                                      className="dropdown-toggle nav-link"
+                                      context={
+                                        Object {
+                                          "direction": "bottom",
+                                          "disabled": undefined,
+                                          "inNavbar": true,
+                                          "isOpen": false,
+                                          "toggle": [Function],
+                                        }
+                                      }
+                                      href="#"
+                                      onClick={[Function]}
+                                    >
+                                      список №2
+                                    </a>
+                                  </DropdownToggle>
+                                </ForwardRef>
+                                <ForwardRef
                                   right={true}
-                                  tag="div"
                                 >
-                                  <div
-                                    aria-hidden={true}
-                                    className="dropdown-menu dropdown-menu-right"
-                                    role="menu"
-                                    tabIndex="-1"
+                                  <DropdownMenu
+                                    context={
+                                      Object {
+                                        "direction": "bottom",
+                                        "disabled": undefined,
+                                        "inNavbar": true,
+                                        "isOpen": false,
+                                        "toggle": [Function],
+                                      }
+                                    }
+                                    flip={true}
+                                    right={true}
+                                    tag="div"
                                   >
-                                    <DropdownItem
-                                      tag="button"
-                                      toggle={true}
+                                    <div
+                                      aria-hidden={true}
+                                      className="dropdown-menu dropdown-menu-right"
+                                      context={
+                                        Object {
+                                          "direction": "bottom",
+                                          "disabled": undefined,
+                                          "inNavbar": true,
+                                          "isOpen": false,
+                                          "toggle": [Function],
+                                        }
+                                      }
+                                      role="menu"
+                                      tabIndex="-1"
                                     >
-                                      <button
-                                        className="dropdown-item"
-                                        onClick={[Function]}
-                                        role="menuitem"
-                                        tabIndex="0"
-                                        type="button"
-                                      >
-                                        <NavItem
-                                          tag="li"
+                                      <ForwardRef>
+                                        <DropdownItem
+                                          context={
+                                            Object {
+                                              "direction": "bottom",
+                                              "disabled": undefined,
+                                              "inNavbar": true,
+                                              "isOpen": false,
+                                              "toggle": [Function],
+                                            }
+                                          }
+                                          tag="button"
+                                          toggle={true}
                                         >
-                                          <li
-                                            className="nav-item"
+                                          <button
+                                            className="dropdown-item"
+                                            context={
+                                              Object {
+                                                "direction": "bottom",
+                                                "disabled": undefined,
+                                                "inNavbar": true,
+                                                "isOpen": false,
+                                                "toggle": [Function],
+                                              }
+                                            }
+                                            onClick={[Function]}
+                                            role="menuitem"
+                                            tabIndex="0"
+                                            type="button"
                                           >
-                                            <NavLink
-                                              activeClassName="active"
-                                              aria-current="page"
-                                              className="nav-link dropdown-item"
-                                              exact={true}
-                                              to="/"
+                                            <NavItem
+                                              tag="li"
                                             >
-                                              <Route
-                                                exact={true}
-                                                path="\\\\/"
+                                              <li
+                                                className="nav-item"
                                               >
-                                                <Link
+                                                <NavLink
+                                                  activeClassName="active"
                                                   aria-current="page"
-                                                  className="nav-link dropdown-item active"
-                                                  replace={false}
-                                                  style={Object {}}
+                                                  className="nav-link dropdown-item"
+                                                  exact={true}
                                                   to="/"
                                                 >
-                                                  <a
-                                                    aria-current="page"
-                                                    className="nav-link dropdown-item active"
-                                                    href="/"
-                                                    onClick={[Function]}
-                                                    style={Object {}}
+                                                  <Route
+                                                    exact={true}
+                                                    path="\\\\/"
                                                   >
-                                                    элемент списка №1
-                                                  </a>
-                                                </Link>
-                                              </Route>
-                                            </NavLink>
-                                            <Badge
-                                              color="warning"
-                                              pill={false}
-                                              tag="span"
-                                            >
-                                              <span
-                                                className="badge badge-warning"
-                                              >
-                                                бадж 1
-                                              </span>
-                                            </Badge>
-                                          </li>
-                                        </NavItem>
-                                      </button>
-                                    </DropdownItem>
-                                    <DropdownItem
-                                      tag="button"
-                                      toggle={true}
-                                    >
-                                      <button
-                                        className="dropdown-item"
-                                        onClick={[Function]}
-                                        role="menuitem"
-                                        tabIndex="0"
-                                        type="button"
-                                      >
-                                        <NavItem
-                                          tag="li"
+                                                    <Link
+                                                      aria-current="page"
+                                                      className="nav-link dropdown-item active"
+                                                      replace={false}
+                                                      style={Object {}}
+                                                      to="/"
+                                                    >
+                                                      <a
+                                                        aria-current="page"
+                                                        className="nav-link dropdown-item active"
+                                                        href="/"
+                                                        onClick={[Function]}
+                                                        style={Object {}}
+                                                      >
+                                                        элемент списка №1
+                                                      </a>
+                                                    </Link>
+                                                  </Route>
+                                                </NavLink>
+                                                <Badge
+                                                  color="warning"
+                                                  pill={false}
+                                                  tag="span"
+                                                >
+                                                  <span
+                                                    className="badge badge-warning"
+                                                  >
+                                                    бадж 1
+                                                  </span>
+                                                </Badge>
+                                              </li>
+                                            </NavItem>
+                                          </button>
+                                        </DropdownItem>
+                                      </ForwardRef>
+                                      <ForwardRef>
+                                        <DropdownItem
+                                          context={
+                                            Object {
+                                              "direction": "bottom",
+                                              "disabled": undefined,
+                                              "inNavbar": true,
+                                              "isOpen": false,
+                                              "toggle": [Function],
+                                            }
+                                          }
+                                          tag="button"
+                                          toggle={true}
                                         >
-                                          <li
-                                            className="nav-item"
+                                          <button
+                                            className="dropdown-item"
+                                            context={
+                                              Object {
+                                                "direction": "bottom",
+                                                "disabled": undefined,
+                                                "inNavbar": true,
+                                                "isOpen": false,
+                                                "toggle": [Function],
+                                              }
+                                            }
+                                            onClick={[Function]}
+                                            role="menuitem"
+                                            tabIndex="0"
+                                            type="button"
                                           >
-                                            <NavLink
-                                              activeClassName="active"
-                                              aria-current="page"
-                                              className="nav-link dropdown-item"
-                                              exact={true}
-                                              to="/"
+                                            <NavItem
+                                              tag="li"
                                             >
-                                              <Route
-                                                exact={true}
-                                                path="\\\\/"
+                                              <li
+                                                className="nav-item"
                                               >
-                                                <Link
+                                                <NavLink
+                                                  activeClassName="active"
                                                   aria-current="page"
-                                                  className="nav-link dropdown-item active"
-                                                  replace={false}
-                                                  style={Object {}}
+                                                  className="nav-link dropdown-item"
+                                                  exact={true}
                                                   to="/"
                                                 >
-                                                  <a
-                                                    aria-current="page"
-                                                    className="nav-link dropdown-item active"
-                                                    href="/"
-                                                    onClick={[Function]}
-                                                    style={Object {}}
+                                                  <Route
+                                                    exact={true}
+                                                    path="\\\\/"
                                                   >
-                                                    элемент списка №2
-                                                  </a>
-                                                </Link>
-                                              </Route>
-                                            </NavLink>
-                                            <Badge
-                                              color="warning"
-                                              pill={false}
-                                              tag="span"
-                                            >
-                                              <span
-                                                className="badge badge-warning"
-                                              >
-                                                бадж 2
-                                              </span>
-                                            </Badge>
-                                          </li>
-                                        </NavItem>
-                                      </button>
-                                    </DropdownItem>
-                                  </div>
-                                </DropdownMenu>
+                                                    <Link
+                                                      aria-current="page"
+                                                      className="nav-link dropdown-item active"
+                                                      replace={false}
+                                                      style={Object {}}
+                                                      to="/"
+                                                    >
+                                                      <a
+                                                        aria-current="page"
+                                                        className="nav-link dropdown-item active"
+                                                        href="/"
+                                                        onClick={[Function]}
+                                                        style={Object {}}
+                                                      >
+                                                        элемент списка №2
+                                                      </a>
+                                                    </Link>
+                                                  </Route>
+                                                </NavLink>
+                                                <Badge
+                                                  color="warning"
+                                                  pill={false}
+                                                  tag="span"
+                                                >
+                                                  <span
+                                                    className="badge badge-warning"
+                                                  >
+                                                    бадж 2
+                                                  </span>
+                                                </Badge>
+                                              </li>
+                                            </NavItem>
+                                          </button>
+                                        </DropdownItem>
+                                      </ForwardRef>
+                                    </div>
+                                  </DropdownMenu>
+                                </ForwardRef>
                               </li>
                             </Manager>
                           </Dropdown>

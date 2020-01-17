@@ -7,14 +7,15 @@
     "n2o-auth",
     "demo",
     "n2o-simple-project",
-    "n2o-notifications"
+    "n2o-notifications",
+    "n2o-ecp-plugin"
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "build:n2o": "lerna run --scope n2o-framework build",
-    "build:libs": "lerna run --scope n2o-framework --scope n2o-auth --scope n2o-notifications --parallel build",
-    "build:projects": "lerna run --scope n2o-demo-client --scope n2o-simple-project --parallel build",
+    "build:libs": "lerna run --scope n2o-framework --scope n2o-auth --scope n2o-notifications --scope n2o-ecp-plugin --parallel build",
+    "build:projects": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" lerna run --scope n2o-demo-client --scope n2o-simple-project --parallel build",
     "build:storybook": "lerna run --scope n2o-framework build-storybook",
     "changeVersion": "lerna version patch --no-git-tag-version --no-push --yes",
     "clean": "lerna run clean && lerna clean",
