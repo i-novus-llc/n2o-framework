@@ -38,9 +38,9 @@ public class DemoIntegrationTest {
      */
     @Test
     public void testSurname() {
-        ProtoPage page = protoPage.findBySurname("Иванов");
-        page.tableShouldHaveSize(1);
-        page.assertSurname(0, "Иванова");
+        protoPage.findBySurname("Иванов");
+        protoPage.tableShouldHaveSize(1);
+        protoPage.assertSurname(0, "Иванова");
     }
 
     /**
@@ -48,10 +48,9 @@ public class DemoIntegrationTest {
      */
     @Test
     public void testNameAndSurname() {
-        ProtoPage page = protoPage.findByName("ера").findBySurname("Лапа");
-        page.tableShouldHaveSize(1);
-        page.assertSurname(0, "Лапаева");
-        page.assertName(0, "Вера");
+        protoPage.findByName("ера").findBySurname("Лапа");
+        protoPage.tableShouldHaveSize(1);
+        protoPage.assertSurname(0, "Лапаева");
+        protoPage.assertName(0, "Вера");
     }
-
 }
