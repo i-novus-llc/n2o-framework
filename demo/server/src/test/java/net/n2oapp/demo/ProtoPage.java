@@ -23,6 +23,11 @@ public class ProtoPage implements N2oProtoPage {
         clickSearchFilter();
         assert isAllMatch(getCol(getMainTableRows(), 4), "Мужской");
 
+        clickFilterMale();
+        clickFilterUnknownGender();
+        clickSearchFilter();
+        assert getCol(getMainTableRows(), 4).isEmpty();
+
         return page(ProtoPage.class);
     }
 
@@ -32,15 +37,13 @@ public class ProtoPage implements N2oProtoPage {
     public ProtoPage assertSorting() {
         clickSortBySurname();
 
+        assert isSorted(getCol(getMainTableRows(), 0), true);
+
+        clickSortBySurname();
+        assert isSorted(getCol(getMainTableRows(), 0), false);
+
+        clickSortBySurname();
         List<String> list = getCol(getMainTableRows(), 0);
-        assert isSorted(list, true);
-
-        clickSortBySurname();
-        list = getCol(getMainTableRows(), 0);
-        assert isSorted(list, false);
-
-        clickSortBySurname();
-        list = getCol(getMainTableRows(), 0);
         assert !isSorted(list, true);
         assert !isSorted(list, false);
 

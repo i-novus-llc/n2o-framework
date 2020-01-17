@@ -39,6 +39,10 @@ public interface N2oProtoPage extends N2oAbstractPage {
         getMainFilter().$$(".n2o-checkbox").findBy(Condition.text("Женский")).click();
     }
 
+    default void clickFilterUnknownGender() {
+        getMainFilter().$$(".n2o-checkbox").findBy(Condition.text("Не определенный")).click();
+    }
+
     default void clickSearchFilter() {
         getMainFilter().$$("button").findBy(Condition.text("Найти")).click();
     }
