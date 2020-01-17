@@ -217,7 +217,7 @@
                         <xs:documentation>Стиль строки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="visible" type="xs:string" default="true">
+                <xs:attribute name="visible" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Условие видимости.</xs:documentation>
                     </xs:annotation>

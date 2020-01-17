@@ -27,12 +27,11 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
         column.setClassName(source.getCssClass());
         column.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         column.setSize(source.getSize());
-        String visible = source.getVisible();
-        if (visible != null && visible.startsWith("{") && visible.endsWith("}"))
-            visible = "`" + visible.substring(1, visible.length() - 1) + "`";
-        else if (visible == null)
-            visible = "true";
-        column.setVisible(visible);
+        column.setVisible(
+                source.getVisible() != null && source.getVisible().startsWith("{") && source.getVisible().endsWith("}") ?
+                        "`" + source.getVisible().substring(1, source.getVisible().length() - 1) + "`" :
+                        source.getVisible()
+        );
 
         if (source.getItems() != null && source.getItems().length > 0) {
             if (source.getItems()[0] instanceof N2oField) {
