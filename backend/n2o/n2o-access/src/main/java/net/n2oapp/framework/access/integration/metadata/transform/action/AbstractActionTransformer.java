@@ -6,6 +6,7 @@ import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSc
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 

@@ -93,7 +93,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         assertThat(b3.getConfirm().getMode(), is(ConfirmType.popover));
         assertThat(b3.getConfirm().getModelLink(), is("models.resolve['$testToolbar']"));
         assertThat(b3.getConfirm().getText(), is("`'Test ' + this.test + ' Test'`"));
-        assertThat(b3.getSrc(), is("PerformButton"));
+        assertThat(b3.getSrc(), is("StandardButton"));
         assertThat(((PerformButton)b3).getUrl(), is("http://example.com"));
         assertThat(((PerformButton)b3).getTarget(), is(Target.self));
 
