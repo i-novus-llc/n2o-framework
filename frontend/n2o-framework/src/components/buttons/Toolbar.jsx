@@ -8,9 +8,12 @@ import Factory from '../../core/factory/Factory';
 import { BUTTONS } from '../../core/factory/factoryLevels';
 import cn from 'classnames';
 
-const stopPropagation = e => e.stopPropagation();
+function Toolbar({ className, toolbar, entityKey, onClick }) {
+  const handleClick = e => {
+    e.stopPropagation();
+    onClick();
+  };
 
-function Toolbar({ className, toolbar, entityKey }) {
   const renderButtons = props =>
     props.component ? (
       React.createElement(props.component, props)
@@ -25,7 +28,7 @@ function Toolbar({ className, toolbar, entityKey }) {
   return (
     <ButtonToolbar
       className={cn('buttons-toolbar', className)}
-      onClick={stopPropagation}
+      onClick={handleClick}
     >
       {map(toolbar, renderBtnGroup)}
     </ButtonToolbar>
@@ -35,10 +38,12 @@ function Toolbar({ className, toolbar, entityKey }) {
 Toolbar.propTypes = {
   toolbar: PropTypes.array,
   entityKey: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 Toolbar.defaultProps = {
   toolbar: [],
+  onClick: () => {},
 };
 
 export default Toolbar;

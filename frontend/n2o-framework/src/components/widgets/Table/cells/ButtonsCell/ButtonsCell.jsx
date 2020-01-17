@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import { compose, withHandlers } from 'recompose';
 import get from 'lodash/get';
+import cx from 'classnames';
+
+import { setModel } from '../../../../../actions/models';
+import { PREFIXES } from '../../../../../constants/models';
 import Toolbar from '../../../../buttons/Toolbar';
 
 /**
@@ -14,6 +18,7 @@ import Toolbar from '../../../../buttons/Toolbar';
  * @param model
  * @param style
  * @param widgetId
+ * @param onResolve
  * @param other
  * @returns {*}
  * @constructor
@@ -28,6 +33,7 @@ function ButtonsCell({
   toolbar,
   actions,
   widgetId,
+  onResolve,
   ...other
 }) {
   const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`;
@@ -37,6 +43,7 @@ function ButtonsCell({
       className={cx('n2o-buttons-cell', className)}
       entityKey={key}
       toolbar={toolbar}
+      onClick={onResolve}
     />
   ) : null;
 }
@@ -64,5 +71,12 @@ ButtonsCell.defaultProps = {
   visible: true,
 };
 
+const enhance = compose(
+  withHandlers({
+    onResolve: ({ dispatch, widgetId, model }) => () =>
+      dispatch(setModel(PREFIXES.resolve, widgetId, model)),
+  })
+);
+
 export { ButtonsCell };
-export default ButtonsCell;
+export default enhance(ButtonsCell);
