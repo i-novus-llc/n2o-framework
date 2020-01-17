@@ -12,6 +12,7 @@ import columns from './reducers/columns';
 import toolbar from './reducers/toolbar';
 import formPlugin from './reducers/formPlugin';
 import user from './reducers/auth';
+import regions from './reducers/regions';
 
 const formHack = (state, action) => {
   return action.meta && action.meta.form
@@ -40,5 +41,6 @@ export default (history, customReducers = {}) =>
     columns,
     toolbar,
     user,
+    regions,
     ...customReducers,
   });
