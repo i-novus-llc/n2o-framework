@@ -547,11 +547,6 @@
     <xs:complexType name="controlAlertDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="text" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Текст оповещения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="header" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Текст заголовка.</xs:documentation>

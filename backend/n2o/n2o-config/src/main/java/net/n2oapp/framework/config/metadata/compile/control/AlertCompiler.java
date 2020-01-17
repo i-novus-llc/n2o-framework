@@ -19,7 +19,7 @@ public class AlertCompiler extends StandardFieldCompiler<Alert, N2oAlert> {
     @Override
     public StandardField<Alert> compile(N2oAlert source, CompileContext<?, ?> context, CompileProcessor p) {
         Alert alert = new Alert();
-        alert.setText(source.getText());
+        alert.setText(source.getText().trim());
         alert.setHeader(source.getHeader());
         alert.setFooter(source.getFooter());
         alert.setColor(source.getColor());

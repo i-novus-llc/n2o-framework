@@ -9,7 +9,7 @@ public class AlertIOv2 extends PlainFieldIOv2<N2oAlert> {
     @Override
     public void io(Element e, N2oAlert m, IOProcessor p) {
         super.io(e, m, p);
-        p.attribute(e, "text", m::getText, m::setText);
+        p.text(e, m::getText, m::setText);
         p.attribute(e, "header", m::getHeader, m::setHeader);
         p.attribute(e, "footer", m::getFooter, m::setFooter);
         p.attribute(e, "color", m::getColor, m::setColor);
