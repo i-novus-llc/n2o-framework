@@ -48,9 +48,7 @@ function Slider(props) {
     : value => value;
 
   const Component = multiple ? BaseSlider.Range : BaseSlider;
-  const RenderSlider = showTooltip
-    ? SliderWithTooltip
-    : Component;
+  const RenderSlider = showTooltip ? SliderWithTooltip : Component;
 
   const tooltipProps = {
     placement: tooltipPlacement,
