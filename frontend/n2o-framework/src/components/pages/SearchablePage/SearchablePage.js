@@ -1,12 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { batchActions } from 'redux-batched-actions';
+import { compose, withHandlers, withProps, mapProps } from 'recompose';
+import { createStructuredSelector } from 'reselect';
 import isEmpty from 'lodash/isEmpty';
 import cn from 'classnames';
-import { compose, withHandlers, withProps } from 'recompose';
 import get from 'lodash/get';
-import { batchActions } from 'redux-batched-actions';
 
 import { updateModel } from '../../../actions/models';
 import { dataRequestWidget } from '../../../actions/widgets';
+import { makeGetModelByPrefixSelector } from '../../../selectors/models';
 import Alert from '../../snippets/Alerts/Alert';
 import DocumentTitle from '../../core/DocumentTitle';
 import DefaultBreadcrumb from '../../core/Breadcrumb/DefaultBreadcrumb';
@@ -18,7 +21,7 @@ import SearchBar from '../../snippets/SearchBar/SearchBar';
 function SearchablePage({
   id,
   metadata,
-  toolbar,
+  toolbar = {},
   actions,
   containerKey,
   error,
@@ -27,6 +30,7 @@ function SearchablePage({
   disabled,
   onSearch,
   searchBar = {},
+  filterValue,
 }) {
   return (
     <div
@@ -47,21 +51,59 @@ function SearchablePage({
         )}
         <Actions
           className="ml-3"
-          toolbar={toolbar}
+          toolbar={toolbar.breadcrumbLeft}
           actions={actions}
           containerKey={containerKey}
           pageId={pageId}
         />
         <SearchBar
           {...searchBar}
+          initialValue={filterValue}
           className={cn('ml-auto', searchBar.className)}
           onSearch={onSearch}
         />
       </div>
+      <div className="n2o-page-actions">
+        <Actions
+          className="ml-3"
+          toolbar={toolbar.topLeft}
+          actions={actions}
+          containerKey={containerKey}
+          pageId={pageId}
+        />
+        <Actions
+          className="ml-3"
+          toolbar={toolbar.topRight}
+          actions={actions}
+          containerKey={containerKey}
+          pageId={pageId}
+        />
+      </div>
       <PageRegions id={id} regions={regions} />
+      <div className="n2o-page-actions">
+        <Actions
+          className="ml-3"
+          toolbar={toolbar.bottomLeft}
+          actions={actions}
+          containerKey={containerKey}
+          pageId={pageId}
+        />
+        <Actions
+          className="ml-3"
+          toolbar={toolbar.bottomRight}
+          actions={actions}
+          containerKey={containerKey}
+          pageId={pageId}
+        />
+      </div>
     </div>
   );
 }
+
+const mapStateToProps = createStructuredSelector({
+  filterModel: (state, { searchModelPrefix, searchWidgetId }) =>
+    makeGetModelByPrefixSelector(searchModelPrefix, searchWidgetId)(state),
+});
 
 const enhance = compose(
   withProps(props => ({
@@ -83,7 +125,12 @@ const enhance = compose(
         ])
       );
     },
-  })
+  }),
+  connect(mapStateToProps),
+  mapProps(({ filterModel, searchModelKey, ...rest }) => ({
+    ...rest,
+    filterValue: get(filterModel, searchModelKey),
+  }))
 );
 
 export { SearchablePage };

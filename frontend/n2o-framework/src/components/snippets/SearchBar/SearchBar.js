@@ -59,6 +59,10 @@ SearchBar.propTypes = {
    */
   className: PropTypes.string,
   /**
+   * Начальное состояние строки поиска
+   */
+  initialValue: PropTypes.string,
+  /**
    * Значение компонента
    */
   value: PropTypes.string,
@@ -109,7 +113,11 @@ const enhance = compose(
     trigger: SearchTrigger.CHANGE,
     throttleDelay: 400,
   }),
-  withState('innerValue', 'setInnerValue', ({ value }) => value),
+  withState(
+    'innerValue',
+    'setInnerValue',
+    ({ value, initialValue }) => initialValue || value
+  ),
   withHandlers({
     onClick: ({ innerValue, onSearch }) => () => onSearch(innerValue),
     onKeyDown: ({ innerValue, trigger, onSearch }) => ({ keyCode }) => {
@@ -133,8 +141,10 @@ const enhance = compose(
   }),
   lifecycle({
     componentDidUpdate(prevProps) {
-      if (prevProps.value !== this.props.value) {
-        this.setState({ innerValue: this.props.value });
+      const { value, setInnerValue } = this.props;
+
+      if (prevProps.value !== value) {
+        setInnerValue(value);
       }
     },
   })

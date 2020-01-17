@@ -1585,61 +1585,93 @@
       }
     ]
   },
-  "toolbar": [
-    {
-      "id": "topLeft0",
-      "buttons": [
-        {
-          "id": "create",
-          "icon": "fa fa-plus",
-          "actionId": "create",
-          "hint": "Создать",
-          "hintPosition": "bottom",
-          "conditions": {},
-          "title": "Создать"
-        },
-        {
-          "id": "update_patient",
-          "icon": "fa fa-pencil",
-          "actionId": "update_patient",
-          "hint": "Изменить",
-          "hintPosition": "bottom",
-          "conditions": {
-            "enabled": [
-              {
-                "expression": "!_.isEmpty(this)",
-                "modelLink": "models.resolve['proto_patients']"
-              }
-            ]
-          },
-          "title": "Изменить"
-        },
-        {
-          "id": "delete",
-          "actionId": "delete",
-          "hint": "Удалить",
-          "hintPosition": "bottom",
-          "conditions": {
-            "enabled": [
-              {
-                "expression": "!_.isEmpty(this)",
-                "modelLink": "models.resolve['proto_patients']"
-              }
-            ]
-          },
-          "confirm": {
-            "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
-            "title": "Предупреждение",
-            "okLabel": "Да",
-            "cancelLabel": "Нет",
-            "modelLink": "models.resolve['proto_patients']",
-            "mode": "modal"
-          },
-          "title": "Удалить"
-        }
-      ]
-    }
-  ],
+  "toolbar": {
+    "breadcrumbLeft": [
+      {
+        "id": "topRight0",
+        "buttons": [
+          {
+            "id": "create2",
+            "icon": "fa fa-plus",
+            "actionId": "create2",
+            "hint": "Добавить пациента",
+            "hintPosition": "bottom",
+            "conditions": {},
+            "color": "primary",
+            "title": "Добавить пациента"
+          }
+        ]
+      }
+    ],
+    "topRight": [
+      {
+        "id": "topRight0",
+        "buttons": [
+          {
+            "id": "create2",
+            "icon": "fa fa-plus",
+            "actionId": "create2",
+            "hint": "Добавить пациента",
+            "hintPosition": "bottom",
+            "conditions": {},
+            "color": "primary",
+            "title": "Добавить пациента"
+          }
+        ]
+      }
+    ],
+    "topLeft": [
+      {
+        "id": "topRight0",
+        "buttons": [
+          {
+            "id": "create2",
+            "icon": "fa fa-plus",
+            "actionId": "create2",
+            "hint": "Добавить пациента",
+            "hintPosition": "bottom",
+            "conditions": {},
+            "color": "primary",
+            "title": "Добавить пациента"
+          }
+        ]
+      }
+    ],
+    "bottomLeft": [
+      {
+        "id": "topRight0",
+        "buttons": [
+          {
+            "id": "create2",
+            "icon": "fa fa-plus",
+            "actionId": "create2",
+            "hint": "Добавить пациента",
+            "hintPosition": "bottom",
+            "conditions": {},
+            "color": "primary",
+            "title": "Добавить пациента"
+          }
+        ]
+      }
+    ],
+    "bottomRight": [
+      {
+        "id": "topRight0",
+        "buttons": [
+          {
+            "id": "create2",
+            "icon": "fa fa-plus",
+            "actionId": "create2",
+            "hint": "Добавить пациента",
+            "hintPosition": "bottom",
+            "conditions": {},
+            "color": "primary",
+            "title": "Добавить пациента"
+          }
+        ]
+      }
+    ]
+  },
   "actions": {
     "create2": {
       "id": "create2",
