@@ -1,8 +1,9 @@
 package net.n2oapp.demo;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 /**
@@ -11,18 +12,18 @@ import static com.codeborne.selenide.Selenide.*;
 public class ProtoPage {
 
     public ProtoPage tableShouldHaveSize(int size) {
-        $("tbody").$$("tr").shouldHaveSize(size);
+        $$("tbody tr").shouldHaveSize(size);
         return page(ProtoPage.class);
     }
 
     public ProtoPage findByName(String name) {
-        $(".n2o-filter").$$("input").get(1).val(name);
+        $$(".n2o-filter input").get(1).val(name);
         $(".n2o-filter").$(Selectors.byText("Найти")).click();
         return page(ProtoPage.class);
     }
 
     public ProtoPage findBySurname(String surname) {
-        $(".n2o-filter").$$("input").get(0).val(surname);
+        $$(".n2o-filter input").get(0).val(surname);
         $(".n2o-filter").$(Selectors.byText("Найти")).click();
         return page(ProtoPage.class);
     }
@@ -40,7 +41,7 @@ public class ProtoPage {
     }
 
     public ProtoPage assertSurname(Integer rowIndex, String surname) {
-        $("tbody").$$("tr").get(rowIndex).$("button").shouldHave(text(surname));
+        $$("tbody tr").get(rowIndex).$("button").shouldHave(text(surname));
         return page(ProtoPage.class);
     }
 
@@ -50,14 +51,15 @@ public class ProtoPage {
     }
 
     public ProtoPage assertClearFilterFields() {
-        $(".n2o-filter").$$("input").get(0).getValue();
-        $(".n2o-filter").$$("input").get(1).getValue();
-        $(".n2o-filter").$$("input").get(2).getValue();
-        $(".n2o-filter").$$("input").get(3).getValue();
-        $(".n2o-filter").$$("input").get(4).isSelected();
-        $(".n2o-filter").$$("input").get(5).shouldHave(null);
-        $(".n2o-filter").$$("input").get(6).shouldHave(null);
-        $(".n2o-filter").$$("input").get(7).shouldHave(null);
+        ElementsCollection fields = $$(".n2o-filter input");
+        fields.get(0).shouldHave(value(""));
+        fields.get(1).shouldHave(value(""));
+        fields.get(2).shouldHave(value(""));
+        fields.get(3).shouldHave(value(""));
+        fields.get(4).shouldNotHave(checked);
+        fields.get(5).shouldNotHave(checked);
+        fields.get(6).shouldNotHave(checked);
+        fields.get(7).shouldNotHave(checked);
         return page(ProtoPage.class);
     }
 }
