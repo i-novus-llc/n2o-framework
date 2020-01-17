@@ -59,8 +59,7 @@ public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
         assertThat(security.getUsernames().size(), is(1));
         assertTrue(security.getUsernames().contains("user"));
 
-        security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidgets()
-                .get("testToolbarCellAccessTransformer_main")
+        security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidget()
                 .getComponent()).getCells().get(0)).getToolbar().get(0).getButtons().get(2)
                 .getProperties().get(Security.SECURITY_PROP_NAME)).getSecurityMap().get("url");
 
