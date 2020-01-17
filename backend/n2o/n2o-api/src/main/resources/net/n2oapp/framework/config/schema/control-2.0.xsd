@@ -332,11 +332,6 @@
                 <xs:sequence>
                     <xs:element name="children" type="xs:string" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
-                <xs:attribute name="title" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Заголовок.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="language" type="codeLanguage" use="optional">
                     <xs:annotation>
                         <xs:documentation>Язык кода.</xs:documentation>
@@ -345,11 +340,6 @@
                 <xs:attribute name="theme" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Цвет фона.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="hide" type="xs:boolean" use="optional" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Скрытие элемента.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="show-line-numbers" type="xs:boolean" use="optional" default="true">

@@ -1233,11 +1233,6 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|title
-|Строка
-|Заголовок
-|
-
 |language
 |sql, xml, javascript, groovy, java
 |Язык кода
@@ -1247,11 +1242,6 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 |Строка
 |Цвет фона
 |
-
-|hide
-|true false
-|Скрытие элемента
-|false
 
 |show-line-numbers
 |true false
@@ -1268,8 +1258,9 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 Пример::
 [source,xml]
 ----
-<code show-line-number="true" starting-line-number="1"
-    theme="light" language="javascript">
+<code show-line-number="true" starting-line-number="1" theme="light" language="java">
+    if (a == b)
+        return true;
 </code>
 ----
 

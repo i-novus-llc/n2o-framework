@@ -12,13 +12,11 @@ import net.n2oapp.framework.api.metadata.control.plain.CodeLanguageEnum;
 @Setter
 public class CodeViewer extends Control {
     @JsonProperty
-    private String title;
+    private String text;
     @JsonProperty
     private CodeLanguageEnum language;
     @JsonProperty
     private String theme;
-    @JsonProperty
-    private Boolean hide;
     @JsonProperty
     private Boolean showLineNumbers;
     @JsonProperty

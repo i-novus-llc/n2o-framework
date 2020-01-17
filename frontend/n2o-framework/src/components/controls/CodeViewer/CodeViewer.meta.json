@@ -1,8 +1,7 @@
 {
-  "title": "test",
-  "hide": true,
+  "text": "if (a == b) return true;",
   "theme": "light",
-  "language": "javascript",
+  "language": "java",
   "showLineNumbers": true,
   "startingLineNumber": 5
 }

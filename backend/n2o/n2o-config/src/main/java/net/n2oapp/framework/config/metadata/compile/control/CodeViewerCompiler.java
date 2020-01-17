@@ -22,10 +22,9 @@ public class CodeViewerCompiler extends StandardFieldCompiler<CodeViewer, N2oCod
     @Override
     public StandardField<CodeViewer> compile(N2oCodeViewer source, CompileContext<?, ?> context, CompileProcessor p) {
         CodeViewer codeViewer = new CodeViewer();
-        codeViewer.setTitle(source.getTitle());
+        codeViewer.setText(source.getText().trim());
         codeViewer.setLanguage(source.getLanguage());
         codeViewer.setTheme(source.getTheme());
-        codeViewer.setHide(source.getHide());
         codeViewer.setShowLineNumbers(source.getShowLineNumbers());
         codeViewer.setStartingLineNumber(source.getStartingLineNumber());
         return compileStandardField(codeViewer, source, context, p);
