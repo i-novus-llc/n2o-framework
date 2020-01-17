@@ -2,7 +2,7 @@ import React from 'react';
 import StandardButton from './StandardButton';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { push } from 'connected-react-router';
+import { replace } from 'connected-react-router';
 
 const mockStore = configureMockStore();
 const delay = timeout => new Promise(res => setTimeout(res, timeout));
@@ -40,16 +40,15 @@ describe('<StandardButton />', () => {
       expect(wrapper.find('Button').props().href).toBe('/testUrl');
       expect(wrapper.find('Button').props().target).toBe('blank');
     });
-    it('Вызов экшена при клике inner=true', async () => {
+    it('Вызов экшена при клике target=application', async () => {
       const { wrapper, store } = setup({
         url: 'testUrl',
-        target: '_blank',
-        inner: true,
+        target: 'application',
         action: { type: 'n2o/button/Dummy' },
       });
       await wrapper.find('Button').simulate('click');
       await delay(100);
-      expect(store.getActions()[1]).toEqual(push('/testUrl'));
+      expect(store.getActions()[1]).toEqual(replace('/testUrl'));
     });
   });
 });
