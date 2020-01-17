@@ -8,6 +8,9 @@
                         <invoke operation-id="create" />
                     </button>
                     <button action-id="update"/>
+                    <button>
+                        <a href="/test/access"/>
+                    </button>
                 </toolbar>
             </column>
         </columns>
