@@ -11,7 +11,7 @@ import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public interface N2oProtoPage extends N2oAbstractPage {
+public interface ProtoPageSelectors extends BasePage {
 
     default SelenideElement getMainTableHead() {
         return $("table thead tr");

@@ -11,7 +11,7 @@ import static com.codeborne.selenide.Selenide.*;
 /**
  * Тесты ProtoPage
  */
-public class ProtoPage implements N2oProtoPage {
+public class ProtoPage implements ProtoPageSelectors {
 
     /**
      * Проверка правильности селекторов

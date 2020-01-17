@@ -11,7 +11,7 @@ import java.util.List;
  * Базовые методы для автотестов
  */
 
-public interface N2oAbstractPage {
+public interface BasePage {
 
     /**
      * Получение колонки таблицы
