@@ -135,12 +135,12 @@
           "payload": {
             "prefix": "filter",
             "key": "proto_patients",
-            "field": "search_filter",
+            "field": "name",
             "value": ":patients_name"
           }
         },
         "set": {
-          "value": "`search_filter`",
+          "value": "`name`",
           "link": "models.filter['proto_patients']"
         }
       },
@@ -350,20 +350,9 @@
       }
     }
   },
-  "breadcrumb": [
-    {
-      "label": "Список контактов"
-    }
-  ],
-  "models": {
-    "filter['proto_patients'].genders": {
-      "link": "models.filter['proto_patients'].genders"
-    }
-  },
   "widgets": {
     "proto_patients": {
       "src": "AdvancedTableWidget",
-      "id": "proto_patients",
       "dataProvider": {
         "url": "n2o/data/proto",
         "pathMapping": {},
@@ -373,7 +362,7 @@
             "link": "models.filter['proto_patients']"
           },
           "patients_name": {
-            "value": "`search_filter`",
+            "value": "`name`",
             "link": "models.filter['proto_patients']"
           },
           "patients_bdate_begin": {
@@ -461,15 +450,15 @@
                 "hint": "Кнопка скрывается, если в строке имя Мария",
                 "hintPosition": "bottom",
                 "conditions": {
-                  "visible": [
-                    {
-                      "expression": "name!='Мария'",
-                      "modelLink": "models.resolve['proto_patients']"
-                    }
-                  ],
                   "enabled": [
                     {
                       "expression": "!_.isEmpty(this)",
+                      "modelLink": "models.resolve['proto_patients']"
+                    }
+                  ],
+                  "visible": [
+                    {
+                      "expression": "name!='Мария'",
                       "modelLink": "models.resolve['proto_patients']"
                     }
                   ]
@@ -1044,63 +1033,39 @@
             "id": "",
             "fieldKey": "",
             "src": "ButtonsCell",
-            "toolbar": [
-              {
-                "buttons": [
-                  {
-                    "id": "subMenu0",
-                    "icon": "fa fa-ellipsis-v",
-                    "conditions": {},
-                    "subMenu": [
-                      {
-                        "id": "delete",
-                        "icon": "fa fa-trash",
-                        "actionId": "delete",
-                        "conditions": {},
-                        "confirm": {
-                          "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
-                          "title": "Предупреждение",
-                          "okLabel": "Да",
-                          "cancelLabel": "Нет",
-                          "modelLink": "models.resolve['proto_patients']",
-                          "mode": "modal"
-                        },
-                        "title": "Удалить"
+            "toolbar": [{
+              "buttons": [
+                {
+                  "id": "subMenu0",
+                  "icon": "fa fa-ellipsis-v",
+                  "conditions": {},
+                  "color": "link",
+                  "subMenu": [
+                    {
+                      "id": "delete",
+                      "icon": "fa fa-trash",
+                      "actionId": "delete",
+                      "confirm": {
+                        "text": "`'Вы уверены, что хотите удалить пациента ' + this.surname + ' ' + this.name + '?'`",
+                        "title": "Предупреждение",
+                        "okLabel": "Да",
+                        "cancelLabel": "Нет",
+                        "modelLink": "models.resolve['proto_patients']",
+                        "mode": "modal"
                       },
-                      {
-                        "id": "update",
-                        "icon": "fa fa-pencil",
-                        "actionId": "update",
-                        "conditions": {},
-                        "title": "Изменить"
-                      }
-                    ],
-                    "color": "link"
-                  }
-                ]
-              }
-            ],
-            "actions": {
-              "update": {
-                "id": "update",
-                "src": "perform",
-                "options": {
-                  "type": "n2o/modals/INSERT",
-                  "payload": {
-                    "name": "proto_update",
-                    "pageId": "proto_update",
-                    "pageUrl": "/proto/:proto_patients_id/update",
-                    "pathMapping": {
-                      "proto_patients_id": {
-                        "link": "models.resolve['proto_patients'].id"
-                      }
+                      "title": "Удалить"
                     },
-                    "queryMapping": {},
-                    "closeButton": true,
-                    "visible": true
-                  }
+                    {
+                      "id": "update",
+                      "icon": "fa fa-pencil",
+                      "actionId": "update",
+                      "title": "Изменить"
+                    }
+                  ]
                 }
-              },
+              ]
+            }],
+            "actions": {
               "delete": {
                 "id": "delete",
                 "src": "perform",
@@ -1129,6 +1094,26 @@
                       }
                     },
                     "fail": {}
+                  }
+                }
+              },
+              "update": {
+                "id": "update",
+                "src": "perform",
+                "options": {
+                  "type": "n2o/modals/INSERT",
+                  "payload": {
+                    "name": "proto_update",
+                    "pageId": "proto_update",
+                    "pageUrl": "/proto/:proto_patients_id/update",
+                    "pathMapping": {
+                      "proto_patients_id": {
+                        "link": "models.resolve['proto_patients'].id"
+                      }
+                    },
+                    "queryMapping": {},
+                    "closeButton": true,
+                    "visible": true
                   }
                 }
               }
@@ -1184,7 +1169,6 @@
     },
     "proto_contacts": {
       "src": "ListWidget",
-      "id": "proto_contacts",
       "dataProvider": {
         "url": "n2o/data/proto/:proto_patients_id/contacts",
         "pathMapping": {
@@ -1309,35 +1293,31 @@
         },
         "extra": {
           "src": "ButtonsCell",
-          "toolbar": [
-            {
-              "buttons": [
-                {
-                  "id": "update",
-                  "icon": "fa fa-pencil",
-                  "actionId": "update",
-                  "conditions": {},
-                  "color": "link",
-                  "title": "Изменить"
+          "toolbar": [{
+            "buttons": [
+              {
+                "id": "update",
+                "icon": "fa fa-pencil",
+                "actionId": "update",
+                "color": "link",
+                "title": "Изменить"
+              },
+              {
+                "id": "delete",
+                "icon": "fa fa-trash",
+                "actionId": "delete",
+                "color": "link",
+                "confirm": {
+                  "text": "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
+                  "title": "Предупреждение",
+                  "okLabel": "Да",
+                  "cancelLabel": "Нет",
+                  "mode": "modal"
                 },
-                {
-                  "id": "delete",
-                  "icon": "fa fa-trash",
-                  "actionId": "delete",
-                  "conditions": {},
-                  "confirm": {
-                    "text": "Нажмите \"Да\", если Вы уверены в совершаемом действии. Или \"Нет\", если ещё хотите обдумать совершаемое действие.",
-                    "title": "Предупреждение",
-                    "okLabel": "Да",
-                    "cancelLabel": "Нет",
-                    "mode": "modal"
-                  },
-                  "color": "link",
-                  "title": "Удалить"
-                }
-              ]
-            }
-          ],
+                "title": "Удалить"
+              }
+            ]
+          }],
           "actions": {
             "update": {
               "id": "update",
@@ -1416,7 +1396,6 @@
     },
     "proto_form": {
       "src": "FormWidget",
-      "id": "proto_form",
       "dataProvider": {
         "url": "n2o/data/proto/:patient_id/card",
         "pathMapping": {
@@ -1501,20 +1480,16 @@
                     "fields": [
                       {
                         "src": "StandardField",
-                        "style": {
-                          "fontWeight": "bold"
-                        },
                         "id": "vip",
                         "enabled": false,
                         "dependency": [],
+                        "style": {"fontWeight": "bold"},
                         "control": {
                           "src": "Checkbox",
-                          "style": {
-                            "fontWeight": "bold"
-                          },
                           "id": "vip",
                           "label": "VIP",
-                          "defaultUnchecked": "null"
+                          "defaultUnchecked": "null",
+                          "style": {"fontWeight": "bold"}
                         }
                       }
                     ]
@@ -1531,78 +1506,7 @@
       }
     }
   },
-  "regions": {
-    "left": [
-      {
-        "src": "PanelRegion",
-        "hasTabs": false,
-        "headerTitle": "Данные пациента",
-        "open": true,
-        "collapsible": false,
-        "fullScreen": false,
-        "header": true,
-        "panels": [
-          {
-            "id": "panel1",
-            "label": "Пациенты",
-            "opened": true,
-            "widgetId": "proto_patients"
-          }
-        ]
-      }
-    ],
-    "right": [
-      {
-        "src": "PanelRegion",
-        "hasTabs": false,
-        "headerTitle": "Контакты",
-        "open": true,
-        "collapsible": true,
-        "fullScreen": false,
-        "panels": [
-          {
-            "id": "panel1",
-            "label": "Контакты",
-            "opened": true,
-            "widgetId": "proto_contacts"
-          }
-        ]
-      },
-      {
-        "src": "PanelRegion",
-        "hasTabs": false,
-        "headerTitle": "Карточка",
-        "open": true,
-        "collapsible": true,
-        "fullScreen": false,
-        "panels": [
-          {
-            "id": "panel1",
-            "opened": true,
-            "widgetId": "proto_form"
-          }
-        ]
-      }
-    ]
-  },
   "toolbar": {
-    "breadcrumbLeft": [
-      {
-        "id": "topRight0",
-        "buttons": [
-          {
-            "id": "create2",
-            "icon": "fa fa-plus",
-            "actionId": "create2",
-            "hint": "Добавить пациента",
-            "hintPosition": "bottom",
-            "conditions": {},
-            "color": "primary",
-            "title": "Добавить пациента"
-          }
-        ]
-      }
-    ],
     "topRight": [
       {
         "id": "topRight0",
@@ -1619,59 +1523,13 @@
           }
         ]
       }
-    ],
-    "topLeft": [
-      {
-        "id": "topRight0",
-        "buttons": [
-          {
-            "id": "create2",
-            "icon": "fa fa-plus",
-            "actionId": "create2",
-            "hint": "Добавить пациента",
-            "hintPosition": "bottom",
-            "conditions": {},
-            "color": "primary",
-            "title": "Добавить пациента"
-          }
-        ]
-      }
-    ],
-    "bottomLeft": [
-      {
-        "id": "topRight0",
-        "buttons": [
-          {
-            "id": "create2",
-            "icon": "fa fa-plus",
-            "actionId": "create2",
-            "hint": "Добавить пациента",
-            "hintPosition": "bottom",
-            "conditions": {},
-            "color": "primary",
-            "title": "Добавить пациента"
-          }
-        ]
-      }
-    ],
-    "bottomRight": [
-      {
-        "id": "topRight0",
-        "buttons": [
-          {
-            "id": "create2",
-            "icon": "fa fa-plus",
-            "actionId": "create2",
-            "hint": "Добавить пациента",
-            "hintPosition": "bottom",
-            "conditions": {},
-            "color": "primary",
-            "title": "Добавить пациента"
-          }
-        ]
-      }
     ]
   },
+  "breadcrumb": [
+    {
+      "label": "Список контактов"
+    }
+  ],
   "actions": {
     "create2": {
       "id": "create2",
@@ -1684,12 +1542,69 @@
       }
     }
   },
-  "src": "SearchablePage",
-  "searchWidgetId": "proto_patients",
-  "searchModelPrefix": "filter",
-  "searchModelKey": "search_filter",
+  "models": {
+    "filter['proto_patients'].genders": {
+      "link": "models.filter['proto_patients'].genders"
+    }
+  },
+  "layout": {
+    "src": "LeftRightLayout",
+    "regions": {
+      "left": [
+        {
+          "src": "PanelRegion",
+          "hasTabs": false,
+          "headerTitle": "Данные пациента",
+          "open": true,
+          "collapsible": false,
+          "fullScreen": false,
+          "header": true,
+          "panels": [
+            {
+              "id": "panel1",
+              "label": "Пациенты",
+              "opened": true,
+              "widgetId": "proto_patients"
+            }
+          ]
+        }
+      ],
+      "right": [
+        {
+          "src": "PanelRegion",
+          "hasTabs": false,
+          "headerTitle": "Контакты",
+          "open": true,
+          "collapsible": true,
+          "fullScreen": false,
+          "panels": [
+            {
+              "id": "panel1",
+              "label": "Контакты",
+              "opened": true,
+              "widgetId": "proto_contacts"
+            }
+          ]
+        },
+        {
+          "src": "PanelRegion",
+          "hasTabs": false,
+          "headerTitle": "Карточка",
+          "open": true,
+          "collapsible": true,
+          "fullScreen": false,
+          "panels": [
+            {
+              "id": "panel1",
+              "opened": true,
+              "widgetId": "proto_form"
+            }
+          ]
+        }
+      ]
+    }
+  },
   "page": {
-    "title": "Список контактов",
-    "modelLink": "models.resolve['proto_patients'].name"
+    "title": "Список контактов"
   }
 }
