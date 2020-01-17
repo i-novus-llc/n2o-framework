@@ -33,7 +33,7 @@ public class PageAccessTransformer extends BaseAccessTransformer<StandardPage, C
                 p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
         collectPageAccess(compiled, context.getSourceId((BindProcessor) p), accessSchema, p);
         Map<String, Widget> widgets = compiled.getWidgets();
-        if (compiled.getLayout() != null && compiled.getLayout().getRegions() != null) {
+        if (compiled.getRegions() != null) {
             for (List<Region> regions : compiled.getRegions().values()) {
                 for (Region region : regions) {
                     for (Region.Item item : region.getItems()) {
