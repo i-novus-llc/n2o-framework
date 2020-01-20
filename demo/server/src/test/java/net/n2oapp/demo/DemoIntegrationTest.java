@@ -52,12 +52,12 @@ public class DemoIntegrationTest {
     }
 
     @Test
-    public void testClientCreation() {
-        protoPage.assertClientCreation();
+    public void testAddClient() {
+        protoPage.assertAddClient();
     }
 
     @Test
-    public void testClientCreationFromModal() {
-        protoPage.assertClientCreationFromModal();
+    public void testCreateClient() {
+        protoPage.assertCreateClient();
     }
 }
