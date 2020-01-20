@@ -70,12 +70,6 @@ public class ProtoPage implements ProtoPageSelectors {
         return page(ProtoPage.class);
     }
 
-    public ProtoPage assertCurrentPageIs(Integer expected) {
-        $(".n2o-pagination-info").parent().findAll(".page-item").get(expected - 1)
-                .shouldHave(Condition.attribute("class", "page-item active"));
-        return page(ProtoPage.class);
-    }
-
     /**
      * Проверка создания клиента
      */
