@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.meta.control.CodeViewer;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция контрола просмотра кода
  */
@@ -24,9 +26,14 @@ public class CodeViewerCompiler extends StandardFieldCompiler<CodeViewer, N2oCod
         CodeViewer codeViewer = new CodeViewer();
         codeViewer.setText(source.getText().trim());
         codeViewer.setLanguage(source.getLanguage());
-        codeViewer.setTheme(source.getTheme());
-        codeViewer.setShowLineNumbers(source.getShowLineNumbers());
-        codeViewer.setStartingLineNumber(source.getStartingLineNumber());
+        codeViewer.setDarkTheme(source.getTheme() != null && source.getTheme().equals(N2oCodeViewer.ColorTheme.dark));
+        codeViewer.setShowLineNumbers(p.cast(source.getShowLineNumbers(),
+                p.resolve(property("n2o.api.control.code.show-line-numbers"), Boolean.class)));
+        codeViewer.setStartingLineNumber(p.cast(source.getStartingLineNumber(), 1));
+        codeViewer.setHideButtons(p.cast(source.getHideButtons(),
+                p.resolve(property("n2o.api.control.code.hide-buttons"), Boolean.class)));
+        codeViewer.setHideOverflow(p.cast(source.getHideOverflow(),
+                p.resolve(property("n2o.api.control.code.hide-overflow"), Boolean.class)));
         return compileStandardField(codeViewer, source, context, p);
     }
 

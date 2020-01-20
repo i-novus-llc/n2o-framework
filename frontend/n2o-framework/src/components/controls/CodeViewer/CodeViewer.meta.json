@@ -1,7 +1,10 @@
 {
-  "text": "if (a == b) return true;",
-  "theme": "light",
-  "language": "java",
+  "visible": true,
+  "darkTheme": false,
+  "value": "",
+  "language": "javascript",
   "showLineNumbers": true,
-  "startingLineNumber": 5
+  "hideButtons": false,
+  "hideOverflow": false,
+  "startingLineNumber": 1
 }

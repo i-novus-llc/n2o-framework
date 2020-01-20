@@ -464,29 +464,46 @@
                 <xs:sequence>
                     <xs:element name="children" type="xs:string" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
-                <xs:attribute name="language" type="codeLanguage" use="optional">
+                <xs:attribute name="language" type="codeLanguage">
                     <xs:annotation>
                         <xs:documentation>Язык кода.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="theme" type="xs:string" use="optional">
+                <xs:attribute name="theme" type="colorTheme" default="light">
                     <xs:annotation>
                         <xs:documentation>Цвет фона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="show-line-numbers" type="xs:boolean" use="optional" default="true">
+                <xs:attribute name="show-line-numbers" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Отображение нумерации строк.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="starting-line-number" type="xs:integer" use="optional" default="1">
+                <xs:attribute name="starting-line-number" type="xs:integer" default="1">
                     <xs:annotation>
                         <xs:documentation>Значение, с которого будет производиться нумерация.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="hide-buttons" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Скрытие кнопок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="hide-overflow" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Скрытие вертикальной полосы прокрутки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="colorTheme">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="light"/>
+            <xs:enumeration value="dark"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="codeLanguage">
         <xs:restriction base="xs:string">
