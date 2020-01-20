@@ -65,4 +65,9 @@ public class DemoIntegrationTest {
     public void testUpdateClient() {
         protoPage.assertUpdateClient();
     }
+
+    @Test
+    public void testViewClient() {
+        protoPage.assertViewClient();
+    }
 }

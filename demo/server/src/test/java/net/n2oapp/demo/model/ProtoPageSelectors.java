@@ -27,17 +27,14 @@ public interface ProtoPageSelectors extends BasePage {
         return $$(".btn-toolbar button").find(Condition.text("Добавить клиента"));
     }
 
+    default SelenideElement getButtonByLabel(String label) {
+        return $$(".btn-toolbar button").find(Condition.text(label));
+    }
+
     default SelenideElement getActiveBreadcrumbItem() {
         return $(".active.breadcrumb-item");
     }
 
-    default SelenideElement getCreateButton() {
-        return $$(".btn-toolbar button").find(Condition.text("Создать"));
-    }
-
-    default SelenideElement getUpdateButton() {
-        return $$(".btn-toolbar button").find(Condition.text("Изменить"));
-    }
 
     default ElementsCollection getMainTablePaginationButtons() {
         return $(".pagination ").$$("li");

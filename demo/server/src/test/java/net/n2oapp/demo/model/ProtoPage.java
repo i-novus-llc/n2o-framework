@@ -110,7 +110,7 @@ public class ProtoPage implements ProtoPageSelectors {
      * Проверка создания клиента через модальное окно
      */
     public ProtoPage assertCreateClient() {
-        getCreateButton().click();
+        getButtonByLabel("Создать").click();
 
         ProtoClient protoClient = page(ProtoClient.class);
         protoClient.getModalTitle().shouldBe(Condition.text("Карточка клиента"));
@@ -155,7 +155,7 @@ public class ProtoPage implements ProtoPageSelectors {
         String vip = row.get(5);
 
         getMainTableRows().get(1).click();
-        getUpdateButton().click();
+        getButtonByLabel("Изменить").click();
 
         ProtoClient protoClient = page(ProtoClient.class);
         protoClient.getInputByLabel("Фамилия").shouldBe(Condition.value(surname));
@@ -183,6 +183,43 @@ public class ProtoPage implements ProtoPageSelectors {
         assert gender.equals(row.get(4));
         assert vip.equals(row.get(5));
 
+        return page(ProtoPage.class);
+    }
+
+    /**
+     * Просмотр клиента через модальное окно
+     */
+    public ProtoPage assertViewClient() {
+        List<String> row = getRow(getMainTableRows(), 1);
+        String surname = row.get(0);
+        String name = row.get(1);
+        String patronymic = row.get(2);
+        String birthDate = row.get(3);
+        String gender = row.get(4);
+        String vip = row.get(5);
+
+        getMainTableRows().get(1).click();
+        getButtonByLabel("Просмотр").click();
+
+        ProtoClient protoClient = page(ProtoClient.class);
+        protoClient.getInputByLabel("Фамилия").shouldBe(Condition.value(surname));
+        protoClient.getInputByLabel("Фамилия").shouldBe(Condition.attribute("disabled"));
+        protoClient.getInputByLabel("Имя").shouldBe(Condition.value(name));
+        protoClient.getInputByLabel("Имя").shouldBe(Condition.attribute("disabled"));
+        protoClient.getInputByLabel("Отчество").shouldBe(Condition.value(patronymic));
+        protoClient.getInputByLabel("Отчество").shouldBe(Condition.attribute("disabled"));
+        protoClient.getInputSelectByLabel("Пол").shouldBe(Condition.text(gender));
+        protoClient.getInputSelectByLabel("Пол").$(".n2o-input-container.form-control").shouldBe(Condition.cssClass("disabled"));
+        protoClient.getInputByLabel("Дата рождения").shouldBe(Condition.value(birthDate));
+        protoClient.getInputByLabel("Дата рождения").shouldBe(Condition.attribute("disabled"));
+        protoClient.getCheckboxByLabel("VIP").parent().$("input").shouldBe(Condition.value(vip));
+        protoClient.getCheckboxByLabel("VIP").parent().$("input").shouldBe(Condition.attribute("disabled"));
+
+        protoClient.getCloseCrossButton().click();
+        getActiveBreadcrumbItem().shouldBe(Condition.text("Список контактов"));
+
+        assert getMainTableActivePageNumber() == 1;
+        assert getMainTableActiveRowNumber() == 1;
         return page(ProtoPage.class);
     }
 

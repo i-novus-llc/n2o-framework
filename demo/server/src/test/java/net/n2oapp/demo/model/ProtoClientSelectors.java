@@ -1,6 +1,7 @@
 package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -40,5 +41,9 @@ public interface ProtoClientSelectors extends BasePage {
 
     default SelenideElement getCloseButton() {
         return $$("button").findBy(Condition.text("Закрыть"));
+    }
+
+    default SelenideElement getCloseCrossButton() {
+        return Selenide.$$("button").findBy(Condition.attribute("class", "close"));
     }
 }
