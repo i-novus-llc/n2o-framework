@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.codeborne.selenide.Configuration.browser;
@@ -33,14 +34,23 @@ public class DemoIntegrationTest {
         protoPage = open("http://localhost:" + port, ProtoPage.class);
     }
 
+    @Test
+    @Primary
+    public void checkAllElementsExists() {
+        protoPage.checkAllElementsExists();
+    }
+
     /**
-     * Тест поиска людей по фамилии
+     * Тест поиска людей по полу
      */
     @Test
-    public void testSurname() {
-        protoPage.findBySurname("Иванов");
-        protoPage.tableShouldHaveSize(1);
-        protoPage.assertSurname(0, "Иванова");
+    public void testGender() {
+        protoPage.assertGender();
+    }
+
+    @Test
+    public void testSorting() {
+        protoPage.assertSorting();
     }
 
     /**
@@ -48,9 +58,6 @@ public class DemoIntegrationTest {
      */
     @Test
     public void testBirthday() {
-        protoPage.findByBirthday("01.01.1940", "01.12.1940");
-        protoPage.tableShouldHaveSize(2);
-        protoPage.assertSurname(0, "Кручинина");
-        protoPage.assertSurname(1, "Мишин");
+        protoPage.assertBirthday();
     }
 }

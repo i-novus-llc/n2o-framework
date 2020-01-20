@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция региона в виде вкладок.
  */
@@ -34,6 +36,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         region.setPlace(source.getPlace());
         region.setItems(initItems(source, p, TabsRegion.Tab.class));
         region.setAlwaysRefresh(source.getAlwaysRefresh() != null ? source.getAlwaysRefresh() : false);
+        region.setLazy(p.cast(source.getLazy(), p.resolve(property("n2o.api.default.region.tabs.lazy"), Boolean.class)));
         return region;
     }
 
