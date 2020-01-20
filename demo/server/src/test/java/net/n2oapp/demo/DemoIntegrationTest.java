@@ -1,5 +1,6 @@
 package net.n2oapp.demo;
 
+import net.n2oapp.demo.model.ProtoPage;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -48,5 +49,10 @@ public class DemoIntegrationTest {
     @Test
     public void testSorting() {
         protoPage.assertSorting();
+    }
+
+    @Test
+    public void testClientCreation() {
+        protoPage.assertClientCreation();
     }
 }

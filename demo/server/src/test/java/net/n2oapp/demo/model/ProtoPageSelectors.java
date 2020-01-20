@@ -1,15 +1,16 @@
-package net.n2oapp.demo;
+package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
+
 /**
  * Селекторы для страницы ProtoPage
  */
-
-import static com.codeborne.selenide.Selenide.*;
 
 public interface ProtoPageSelectors extends BasePage {
 
@@ -23,6 +24,14 @@ public interface ProtoPageSelectors extends BasePage {
 
     default SelenideElement getMainTableFilter() {
         return $(".n2o-filter");
+    }
+
+    default SelenideElement getAddClientButton() {
+        return $$(".btn-toolbar button").find(Condition.text("Добавить клиента"));
+    }
+
+    default ElementsCollection getMainTablePaginationButtons() {
+        return $(".pagination ").$$("li");
     }
 
     /////

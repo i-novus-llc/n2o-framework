@@ -1,4 +1,4 @@
-package net.n2oapp.demo;
+package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
@@ -17,7 +17,7 @@ public interface BasePage {
      * Получение колонки таблицы
      *
      * @param rows - строки таблицы
-     * @param col - номер колонки
+     * @param col  - номер колонки
      */
     default List<String> getCol(ElementsCollection rows, int col) {
         List<String> result = new ArrayList<>();
@@ -29,7 +29,7 @@ public interface BasePage {
      * Получение строки таблицы
      *
      * @param rows строки таблицы
-     * @param row - номер строки
+     * @param row  - номер строки
      */
     default List<String> getRow(ElementsCollection rows, int row) {
         List<String> result = new ArrayList<>();
@@ -41,7 +41,9 @@ public interface BasePage {
      * Извлечение значения из ячейки таблицы
      */
     default String getCellValue(SelenideElement cell) {
-        return cell.$("input[type=\"checkbox\"]").is(Condition.exist) ? cell.$("input").getAttribute("checked") : cell.getText();
+        return cell.$("input[type=\"checkbox\"]").is(Condition.exist)
+                ? "true".equals(cell.$("input").getAttribute("checked")) ? "true" : "false"
+                : cell.getText();
     }
 
     //
