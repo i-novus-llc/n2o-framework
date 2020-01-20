@@ -5,7 +5,7 @@
       route="test"
       src="StandardPage"
       modal-size="lg">
-    <toolbar place="BottomRight" generate="submit, close">
+   <toolbar place="bottomRight" generate="submit, close">
        <button action-id="testId" validate="true" model="filter"/>
        <sub-menu>
            <menu-item action-id="miTestId" validate="true" />
@@ -26,7 +26,7 @@
                 </columns>
             </table>
         </region>
-        <tabs place="single" src="TabsRegion">
+        <tabs place="single" src="TabsRegion" lazy="true">
             <table>
                 <columns>
                     <column id="test1" text-field-id="test1"/>
