@@ -1,5 +1,7 @@
 package net.n2oapp.demo.model;
 
+import com.codeborne.selenide.Condition;
+
 import static com.codeborne.selenide.Selenide.page;
 
 /**
@@ -8,7 +10,7 @@ import static com.codeborne.selenide.Selenide.page;
 public class ProtoClient implements ProtoClientSelectors {
 
     public ProtoClient assertPatronymic(String expected) {
-        assert expected.equals(getInputByLabel("Отчество").getValue());
+        getInputByLabel("Отчество").shouldBe(Condition.value(expected));
         return page(ProtoClient.class);
     }
 

@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Тестирование маппинга java модели в json text-area
+ * Тестирование маппинга java модели в json alert
  */
-public class TextAreaJsonTest extends JsonMetadataTestBase {
+public class AlertJsonTest extends JsonMetadataTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -23,15 +23,15 @@ public class TextAreaJsonTest extends JsonMetadataTestBase {
         builder.ios()
                 .packs(new N2oWidgetsPack(), new N2oActionsPack(),
                         new N2oFieldSetsPack(), new N2oAllDataPack(), new N2oControlsV2IOPack())
-                .compilers(new TextAreaCompiler());
+                .compilers(new AlertCompiler());
     }
 
     @Test
-    public void testTextArea() {
-        check("net/n2oapp/framework/config/mapping/testTextArea.widget.xml",
-                "components/controls/TextArea/TextArea.meta.json")
+    public void testAlert() {
+        check("net/n2oapp/framework/config/mapping/testAlert.widget.xml",
+                "components/controls/Alert/Alert.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
                 .exclude("src", "id", "style", "disabled")
-                .assertEquals(new WidgetContext("testTextArea"));
+                .assertEquals(new WidgetContext("testAlert"));
     }
 }

@@ -3,10 +3,10 @@ package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebDriverRunner;
 
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 
 /**
@@ -76,6 +76,9 @@ public class ProtoPage implements ProtoPageSelectors {
     public ProtoPage assertClientCreation() {
         getAddClientButton().click();
 
+        assert WebDriverRunner.url().endsWith("/#/create2");
+        getActiveBreadcrumbItem().shouldBe(Condition.text("Карточка клиента"));
+
         ProtoClient protoClient = page(ProtoClient.class);
         protoClient.assertPatronymic("Тест");
         protoClient.getInputByLabel("Фамилия").setValue("Иванов");
@@ -86,18 +89,19 @@ public class ProtoPage implements ProtoPageSelectors {
         protoClient.getCheckboxByLabel("VIP").click();
         protoClient.getSaveButton().click();
 
+        getActiveBreadcrumbItem().shouldBe(Condition.text("Список контактов"));
 
-        assert "1".equals(getMainTablePaginationButtons()
-                .stream().filter(li -> li.getAttribute("class").contains("active")).findFirst().get().getText());
+        assert getMainTableActivePageNumber() == 1;
+        assert getMainTableActiveRowNumber() == 0;
 
-        assert getMainTableRows().get(0).getAttribute("class").contains("table-active");
+        List<String> row = getRow(getMainTableRows(), 0);
 
-        assert "Иванов".equals(getCol(getMainTableRows(), 0).get(0));
-        assert "Алексей".equals(getCol(getMainTableRows(), 1).get(0));
-        assert "Петрович".equals(getCol(getMainTableRows(), 2).get(0));
-        assert "17.01.2020".equals(getCol(getMainTableRows(), 3).get(0));
-        assert "Мужской".equals(getCol(getMainTableRows(), 4).get(0));
-        assert "true".equals(getCol(getMainTableRows(), 5).get(0));
+        assert "Иванов".equals(row.get(0));
+        assert "Алексей".equals(row.get(1));
+        assert "Петрович".equals(row.get(2));
+        assert "17.01.2020".equals(row.get(3));
+        assert "Мужской".equals(row.get(4));
+        assert "true".equals(row.get(5));
 
         return page(ProtoPage.class);
     }
