@@ -219,7 +219,7 @@
                 </xs:attribute>
                 <xs:attribute name="visible" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Условие видимости.</xs:documentation>
+                        <xs:documentation>Видимость.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

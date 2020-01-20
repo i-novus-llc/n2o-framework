@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetColumn;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
@@ -27,11 +28,7 @@ public class FieldSetColumnCompiler implements BaseSourceCompiler<FieldSet.Colum
         column.setClassName(source.getCssClass());
         column.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         column.setSize(source.getSize());
-        column.setVisible(
-                source.getVisible() != null && source.getVisible().startsWith("{") && source.getVisible().endsWith("}") ?
-                        "`" + source.getVisible().substring(1, source.getVisible().length() - 1) + "`" :
-                        source.getVisible()
-        );
+        column.setVisible(ScriptProcessor.resolveExpression(source.getVisible()));
 
         if (source.getItems() != null && source.getItems().length > 0) {
             if (source.getItems()[0] instanceof N2oField) {
