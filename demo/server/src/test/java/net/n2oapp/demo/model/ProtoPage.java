@@ -3,6 +3,7 @@ package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.WebDriverRunner;
 
 import java.util.List;
 
@@ -75,6 +76,9 @@ public class ProtoPage implements ProtoPageSelectors {
     public ProtoPage assertClientCreation() {
         getAddClientButton().click();
 
+        assert WebDriverRunner.url().endsWith("/#/create2");
+        getActiveBreadcrumbItem().shouldBe(Condition.text("Карточка клиента"));
+
         ProtoClient protoClient = page(ProtoClient.class);
         protoClient.assertPatronymic("Тест");
         protoClient.getInputByLabel("Фамилия").setValue("Иванов");
@@ -85,13 +89,10 @@ public class ProtoPage implements ProtoPageSelectors {
         protoClient.getCheckboxByLabel("VIP").click();
         protoClient.getSaveButton().click();
 
+        getActiveBreadcrumbItem().shouldBe(Condition.text("Список контактов"));
 
-        getMainTablePaginationButtons()
-                .stream().filter(li -> li.getAttribute("class")
-                .contains("active"))
-                .findFirst().get().shouldBe(Condition.text("1"));
-
-        assert getMainTableRows().get(0).getAttribute("class").contains("table-active");
+        assert getMainTableActivePageNumber() == 1;
+        assert getMainTableActiveRowNumber() == 0;
 
         List<String> row = getRow(getMainTableRows(), 0);
 
