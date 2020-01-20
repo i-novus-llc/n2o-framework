@@ -6,7 +6,6 @@ import com.codeborne.selenide.Condition;
 
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.page;
 
 /**
@@ -87,17 +86,21 @@ public class ProtoPage implements ProtoPageSelectors {
         protoClient.getSaveButton().click();
 
 
-        assert "1".equals(getMainTablePaginationButtons()
-                .stream().filter(li -> li.getAttribute("class").contains("active")).findFirst().get().getText());
+        getMainTablePaginationButtons()
+                .stream().filter(li -> li.getAttribute("class")
+                .contains("active"))
+                .findFirst().get().shouldBe(Condition.text("1"));
 
         assert getMainTableRows().get(0).getAttribute("class").contains("table-active");
 
-        assert "Иванов".equals(getCol(getMainTableRows(), 0).get(0));
-        assert "Алексей".equals(getCol(getMainTableRows(), 1).get(0));
-        assert "Петрович".equals(getCol(getMainTableRows(), 2).get(0));
-        assert "17.01.2020".equals(getCol(getMainTableRows(), 3).get(0));
-        assert "Мужской".equals(getCol(getMainTableRows(), 4).get(0));
-        assert "true".equals(getCol(getMainTableRows(), 5).get(0));
+        List<String> row = getRow(getMainTableRows(), 0);
+
+        assert "Иванов".equals(row.get(0));
+        assert "Алексей".equals(row.get(1));
+        assert "Петрович".equals(row.get(2));
+        assert "17.01.2020".equals(row.get(3));
+        assert "Мужской".equals(row.get(4));
+        assert "true".equals(row.get(5));
 
         return page(ProtoPage.class);
     }
