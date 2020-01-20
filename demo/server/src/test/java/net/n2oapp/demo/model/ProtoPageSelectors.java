@@ -1,9 +1,6 @@
 package net.n2oapp.demo.model;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selectors;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -28,6 +25,10 @@ public interface ProtoPageSelectors extends BasePage {
 
     default SelenideElement getAddClientButton() {
         return $$(".btn-toolbar button").find(Condition.text("Добавить клиента"));
+    }
+
+    default SelenideElement getActiveBreadcrumbItem() {
+        return $(".active.breadcrumb-item");
     }
 
     default SelenideElement getCreateButton() {
@@ -62,5 +63,18 @@ public interface ProtoPageSelectors extends BasePage {
 
     default SelenideElement getFilterSearchButton() {
         return getMainTableFilter().$$("button").findBy(Condition.text("Найти"));
+    }
+
+    default Integer getMainTableActivePageNumber() {
+        return Integer.valueOf(Selenide.$(".pagination li.active").text());
+    }
+
+    default Integer getMainTableActiveRowNumber() {
+        ElementsCollection collection = Selenide.$$("tbody tr");
+        for (int i = 0; i < collection.size(); i++) {
+            if (collection.get(i).getAttribute("class").contains("table-active"))
+                return i;
+        }
+        return -1;
     }
 }

@@ -23,6 +23,12 @@ public interface ProtoClientSelectors extends BasePage {
         return selenideElement.$$(".n2o-checkbox").findBy(Condition.matchesText(label)).find("label");
     }
 
+    default SelenideElement getModalTitle() {
+        if ($$(".modal-content").size() == 1)
+            return $(".modal-title");
+        return null;
+    }
+
     default SelenideElement getSaveButton() {
         return $$("button").findBy(Condition.text("Сохранить"));
     }
