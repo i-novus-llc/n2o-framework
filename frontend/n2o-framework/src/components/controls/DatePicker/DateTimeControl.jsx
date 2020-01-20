@@ -150,7 +150,6 @@ class DateTimeControl extends React.Component {
   onChange(inputName) {
     const { onChange } = this.props;
     const value = this.getValue(inputName);
-    console.warn(value)
     onChange(value);
   }
 
@@ -198,8 +197,6 @@ class DateTimeControl extends React.Component {
           }
         }
       );
-
-      // setTimeout(() => findDOMNode(this._control).focus(), 0);
     }
   }
   /**
@@ -220,7 +217,6 @@ class DateTimeControl extends React.Component {
         inputs: { ...this.state.inputs, [inputName]: newDate },
       },
       () => {
-        // console.warn(this.state.inputs);
         return isFunction(callback) ? callback() : this.onChange(inputName);
       }
     );
