@@ -14,6 +14,7 @@ import {
   List as Virtualizer,
 } from 'react-virtualized';
 import { getIndex } from '../Table/Table';
+import SecurityCheck from '../../../core/auth/SecurityCheck';
 
 const SCROLL_OFFSET = 100;
 
@@ -152,7 +153,13 @@ class List extends Component {
   }
 
   renderRow({ index, key, style, parent }) {
-    const { divider, hasMoreButton, fetchOnScroll, hasSelect } = this.props;
+    const {
+      divider,
+      hasMoreButton,
+      fetchOnScroll,
+      hasSelect,
+      rows,
+    } = this.props;
     const { data } = this.state;
     let moreBtn = null;
     if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
@@ -169,7 +176,7 @@ class List extends Component {
       );
     }
 
-    return (
+    const Component = (
       <React.Fragment>
         <CellMeasurer
           key={key}
@@ -190,6 +197,17 @@ class List extends Component {
         </CellMeasurer>
         {moreBtn}
       </React.Fragment>
+    );
+
+    return isEmpty(rows) ? (
+      <Component />
+    ) : (
+      <SecurityCheck
+        config={rows.security}
+        render={({ permissions }) => {
+          return permissions ? <Component /> : null;
+        }}
+      />
     );
   }
 
