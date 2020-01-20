@@ -7,11 +7,20 @@ import get from 'lodash/get';
 import Text from '../../../../snippets/Typography/Text/Text';
 
 /** Описание */
-function TextCell({ model, fieldKey, id, visible, preLine, ...rest }) {
+function TextCell({
+  model,
+  fieldKey,
+  id,
+  visible,
+  preLine,
+  subTextFieldKey,
+  ...rest
+}) {
   return (
     visible && (
       <Text
         text={model && get(model, fieldKey || id)}
+        subText={model && subTextFieldKey && get(model, subTextFieldKey)}
         preLine={preLine}
         {...rest}
       />
@@ -36,6 +45,14 @@ TextCell.propTypes = {
    * Формат
    */
   format: PropTypes.string,
+  /**
+   * Ключ значения сабтекста из модели
+   */
+  subTextFieldKey: PropTypes.string,
+  /**
+   * Формат сабтекста
+   */
+  subTextFormat: PropTypes.string,
   /**
    * Флаг видимости
    */
