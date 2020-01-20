@@ -34,6 +34,10 @@ public interface ProtoPageSelectors extends BasePage {
         return $$(".btn-toolbar button").find(Condition.text("Создать"));
     }
 
+    default SelenideElement getUpdateButton() {
+        return $$(".btn-toolbar button").find(Condition.text("Изменить"));
+    }
+
     default ElementsCollection getMainTablePaginationButtons() {
         return $(".pagination ").$$("li");
     }
