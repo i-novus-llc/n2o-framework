@@ -14,6 +14,7 @@ import Text from '../../../../snippets/Text/Text';
  * @reactProps {string} text - текст бейджа
  * @reactProps {string} placement - положение бейджа("left" или "right")
  * @reactProps {string} color - цветовая схема бейджа(["default", "danger", "success", "warning", "info")
+ * @reactProps {bool} badgeIsStatus - флаг отрисовки баджа как статус
  * @example
  * <BadgeCell model={model} filedKey={'name'} text="info"/>
  */
@@ -32,6 +33,7 @@ class BadgeCell extends React.Component {
       badgeFormat,
       color,
       visible,
+      badgeIsStatus,
     } = this.props;
     const style = {
       display: 'flex',
@@ -41,14 +43,32 @@ class BadgeCell extends React.Component {
       marginLeft: placement === 'right' && 5,
       marginRight: placement === 'left' && 5,
     };
+
+    const badgeStatusStyle = {
+      width: '10px',
+      height: '10px',
+      margin: '8px 15px 0 0',
+    };
+
     const badgeText = get(model, fieldKey || id);
     return (
       visible && (
         <div style={style}>
           <Text text={text} format={format} />
           {!isNil(badgeText) && (
-            <Badge style={badgeStyle} color={color}>
-              <Text text={get(model, fieldKey || id)} format={badgeFormat} />
+            <Badge
+              style={
+                badgeIsStatus
+                  ? Object.assign(badgeStyle, badgeStatusStyle)
+                  : badgeStyle
+              }
+              color={color}
+            >
+              {badgeIsStatus ? (
+                ' '
+              ) : (
+                <Text text={get(model, fieldKey || id)} format={badgeFormat} />
+              )}
             </Badge>
           )}
         </div>
@@ -101,6 +121,10 @@ BadgeCell.propTypes = {
    * Флаг видимости
    */
   visible: PropTypes.bool,
+  /**
+   * Флаг отрисовки баджа как статус
+   */
+  badgeIsStatus: PropTypes.bool,
 };
 
 BadgeCell.defaultProps = {
@@ -108,6 +132,7 @@ BadgeCell.defaultProps = {
   color: 'secondary',
   placement: 'right',
   visible: true,
+  badgeIsStatus: false,
 };
 
 export default BadgeCell;
