@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.codeborne.selenide.Configuration.browser;
@@ -30,17 +31,22 @@ public class DemoIntegrationTest {
 
     @Before
     public void openProtoPage() {
-        protoPage = open("http://localhost:" + port, ProtoPage.class)
-                .findBySurname("Иванов");
+        protoPage = open("http://localhost:" + port, ProtoPage.class);
     }
 
     @Test
-    public void testTableSize() {
-        protoPage.tableShouldHaveSize(1);
+    @Primary
+    public void checkAllElementsExists() {
+        protoPage.checkAllElementsExists();
     }
 
     @Test
-    public void testSurname() {
-        protoPage.assertSurname(0, "Иванова");
+    public void testGender() {
+        protoPage.assertGender();
+    }
+
+    @Test
+    public void testSorting() {
+        protoPage.assertSorting();
     }
 }
