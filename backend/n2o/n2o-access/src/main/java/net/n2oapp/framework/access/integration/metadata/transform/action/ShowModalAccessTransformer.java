@@ -19,7 +19,7 @@ public class ShowModalAccessTransformer extends AbstractActionTransformer<ShowMo
 
     @Override
     public ShowModal transform(ShowModal compiled, PageContext context, CompileProcessor p) {
-        mapSecurity(compiled, compiled.getPageId(), compiled.getObjectId(), compiled.getOperationId(), p);
+        mapSecurity(compiled, compiled.getPageId(), compiled.getObjectId(), compiled.getOperationId(), null, p);
         return compiled;
     }
 }
