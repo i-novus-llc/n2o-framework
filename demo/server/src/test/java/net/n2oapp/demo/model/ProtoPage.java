@@ -102,4 +102,38 @@ public class ProtoPage implements ProtoPageSelectors {
         return page(ProtoPage.class);
     }
 
+    /**
+     * Проверка создания клиента через модально окно
+     */
+    public ProtoPage assertClientCreationFromModal() {
+        getCreateButton().click();
+
+        ProtoClient protoClient = page(ProtoClient.class);
+        protoClient.assertPatronymic("Тест");
+        protoClient.getInputByLabel("Фамилия").setValue("Иванов");
+        protoClient.getInputByLabel("Имя").setValue("Алексей");
+        protoClient.getInputByLabel("Отчество").setValue("Петрович");
+        protoClient.getRadioByLabel("Мужской").click();
+        protoClient.getInputByLabel("Дата рождения").setValue("17.01.2020");
+        protoClient.getCheckboxByLabel("VIP").click();
+        protoClient.getSaveButton().click();
+
+        protoClient = page(ProtoClient.class);
+        protoClient.getCloseButton().click();
+
+        assert "1".equals(getMainTablePaginationButtons()
+                .stream().filter(li -> li.getAttribute("class").contains("active")).findFirst().get().getText());
+
+        assert getMainTableRows().get(0).getAttribute("class").contains("table-active");
+
+        assert "Иванов".equals(getCol(getMainTableRows(), 0).get(0));
+        assert "Алексей".equals(getCol(getMainTableRows(), 1).get(0));
+        assert "Петрович".equals(getCol(getMainTableRows(), 2).get(0));
+        assert "17.01.2020".equals(getCol(getMainTableRows(), 3).get(0));
+        assert "Мужской".equals(getCol(getMainTableRows(), 4).get(0));
+        assert "true".equals(getCol(getMainTableRows(), 5).get(0));
+
+        return page(ProtoPage.class);
+    }
+
 }

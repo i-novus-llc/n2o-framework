@@ -55,4 +55,9 @@ public class DemoIntegrationTest {
     public void testClientCreation() {
         protoPage.assertClientCreation();
     }
+
+    @Test
+    public void testClientCreationFromModal() {
+        protoPage.assertClientCreationFromModal();
+    }
 }
