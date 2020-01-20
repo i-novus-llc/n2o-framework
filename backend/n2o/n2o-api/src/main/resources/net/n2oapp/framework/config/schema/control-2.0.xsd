@@ -32,6 +32,7 @@
     <xs:element name="field" type="fieldCustom"/>
     <xs:element name="text" type="controlText"/>
     <xs:element name="rating" type="controlRating"/>
+    <xs:element name="alert" type="controlAlertDefinition"/>
     <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
 
     <xs:complexType name="controls">
@@ -63,6 +64,7 @@
             <xs:element name="text" type="controlText" minOccurs="0"/>
             <xs:element name="slider" type="controlSliderDefinition" minOccurs="0"/>
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
+            <xs:element name="alert" type="controlAlertDefinition" minOccurs="0"/>
             <xs:element name="auto-complete" type="controlAutoCompleteDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
@@ -568,6 +570,38 @@
                 <xs:attribute name="show-tooltip" type="xs:boolean">
                     <xs:annotation>
                         <xs:documentation>Показать подсказку</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlAlertDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="header" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст заголовка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="footer" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст нижней части.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет оповещения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fade" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Включение плавного отображения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="tag" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Тэг.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
