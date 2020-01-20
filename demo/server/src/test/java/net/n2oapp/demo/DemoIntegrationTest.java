@@ -46,6 +46,7 @@ public class DemoIntegrationTest {
         protoPage.assertGender();
     }
 
+    @Test
     public void testSorting() {
         protoPage.assertSorting();
     }
