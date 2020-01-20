@@ -13,6 +13,11 @@ public interface ProtoClientSelectors extends BasePage {
         return selenideElement.$$("label").findBy(Condition.matchesText(label)).parent().find("input");
     }
 
+    default SelenideElement getInputSelectByLabel(String label) {
+        SelenideElement selenideElement = $$(".modal-content").size() == 1 ? $(".modal-content") : $(".n2o-page");
+        return selenideElement.$$("label").findBy(Condition.matchesText(label)).parent().find("div");
+    }
+
     default SelenideElement getRadioByLabel(String label) {
         SelenideElement selenideElement = $$(".modal-content").size() == 1 ? $(".modal-content") : $(".n2o-page");
         return selenideElement.$$(".n2o-radio-container label").findBy(Condition.matchesText(label));

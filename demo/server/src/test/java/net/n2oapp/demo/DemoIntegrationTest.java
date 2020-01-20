@@ -62,7 +62,7 @@ public class DemoIntegrationTest {
     }
 
     @Test
-    public void testClientUpdateFromModal() {
-        protoPage.assertClientUpdateFromModal();
+    public void testUpdateClient() {
+        protoPage.assertUpdateClient();
     }
 }
