@@ -840,6 +840,7 @@
                           "id": "genders",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
+                          "sortFieldId": "name",
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
                             "queryMapping": {}
@@ -1474,6 +1475,7 @@
                           "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
+                          "sortFieldId": "name",
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
