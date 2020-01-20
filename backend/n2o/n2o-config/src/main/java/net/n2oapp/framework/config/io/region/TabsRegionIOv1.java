@@ -15,6 +15,7 @@ public class TabsRegionIOv1 extends BaseRegionIOv1<N2oTabsRegion> {
     public void io(Element e, N2oTabsRegion r, IOProcessor p) {
         super.io(e, r, p);
         p.attributeBoolean(e, "always-refresh", r::getAlwaysRefresh, r::setAlwaysRefresh);
+        p.attributeBoolean(e, "lazy", r::getLazy, r::setLazy);
     }
 
     @Override
@@ -24,6 +25,6 @@ public class TabsRegionIOv1 extends BaseRegionIOv1<N2oTabsRegion> {
 
     @Override
     public Class<N2oTabsRegion> getElementClass() {
-        return N2oTabsRegion.class ;
+        return N2oTabsRegion.class;
     }
 }

@@ -32,7 +32,6 @@ public class SimpleMenuIOv2 implements NamespaceIO<N2oSimpleMenu> {
     public void io(Element e, N2oSimpleMenu m, IOProcessor p) {
         p.attribute(e, "ref-id", m::getRefId, m::setRefId);
         p.attribute(e, "src", m::getSrc, m::setSrc);
-        p.attribute(e, "welcome-page-id", m::getWelcomePageId, m::setWelcomePageId);
         p.anyChildren(e, null, m::getMenuItems, m::setMenuItems, p.oneOf(N2oSimpleMenu.MenuItem.class)
                 .add("page", N2oSimpleMenu.PageItem.class, this::page)
                 .add("a", N2oSimpleMenu.AnchorItem.class, this::anchor)
