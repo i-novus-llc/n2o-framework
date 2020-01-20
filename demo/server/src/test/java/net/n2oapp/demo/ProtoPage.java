@@ -1,65 +1,86 @@
 package net.n2oapp.demo;
 
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selectors;
+
+import com.codeborne.selenide.CollectionCondition;
+
+import java.util.List;
 
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Selenide.page;
 
 /**
- * Главная страница демо приложения
+ * Тесты ProtoPage
  */
-public class ProtoPage {
+public class ProtoPage implements ProtoPageSelectors {
 
-    public ProtoPage tableShouldHaveSize(int size) {
-        $$("tbody tr").shouldHaveSize(size);
+    /**
+     * Проверка правильности селекторов
+     */
+    public ProtoPage checkAllElementsExists() {
+        getMainTableHead().shouldBe(exist);
+        getMainTableRows().shouldBe(CollectionCondition.sizeGreaterThan(0));
+        getMainTableFilter().shouldBe(exist);
+
+        getTableHeaderSurname().shouldBe(exist);
+        getFilterGenderMale().shouldBe(exist);
+        getFilterGenderFemale().shouldBe(exist);
+        getFilterGenderUnknown().shouldBe(exist);
+        getFilterSearchButton().shouldBe(exist);
         return page(ProtoPage.class);
     }
 
-    public ProtoPage findByName(String name) {
-        $$(".n2o-filter input").get(1).val(name);
-        $(".n2o-filter").$(Selectors.byText("Найти")).click();
+    /**
+     * Проверка работы фильтра по полу
+     */
+    public ProtoPage assertGender() {
+        getFilterGenderFemale().click();
+        getFilterSearchButton().click();
+        assert isAllMatch(getCol(getMainTableRows(), 4), "Женский");
+
+        getFilterGenderFemale().click();
+        getFilterGenderMale().click();
+        getFilterSearchButton().click();
+        assert isAllMatch(getCol(getMainTableRows(), 4), "Мужской");
+
+        getFilterGenderMale().click();
+        getFilterGenderUnknown().click();
+        getFilterSearchButton().click();
+        assert getCol(getMainTableRows(), 4).isEmpty();
+
         return page(ProtoPage.class);
     }
 
-    public ProtoPage findBySurname(String surname) {
-        $$(".n2o-filter input").get(0).val(surname);
-        $(".n2o-filter").$(Selectors.byText("Найти")).click();
+    /**
+     * Проверка работы сортировки по фамилии
+     */
+    public ProtoPage assertSorting() {
+        getTableHeaderSurname().click();
+
+        assert isSorted(getCol(getMainTableRows(), 0), true);
+
+        getTableHeaderSurname().click();
+        assert isSorted(getCol(getMainTableRows(), 0), false);
+
+        getTableHeaderSurname().click();
+        List<String> list = getCol(getMainTableRows(), 0);
+        assert !isSorted(list, true);
+        assert !isSorted(list, false);
+
         return page(ProtoPage.class);
     }
 
-    public ProtoPage findByGender(String gender) {
-        $(".n2o-filter").$(Selectors.byText(gender)).click();
-        $(".n2o-filter").$(Selectors.byText("Найти")).click();
-        return page(ProtoPage.class);
-    }
+    /**
+     * Проверка работы очистки фильтра
+     */
+    public void assertClearFilter() {
+        getFilterName().val("Мария");
+        getFilterGenderFemale().click();
+        getFilterVip().click();
 
-    public ProtoPage findByVip() {
-        $(".n2o-filter").$(Selectors.byText("VIP")).click();
-        $(".n2o-filter").$(Selectors.byText("Найти")).click();
-        return page(ProtoPage.class);
-    }
+        getFilterClearButton().click();
 
-    public ProtoPage assertSurname(Integer rowIndex, String surname) {
-        $$("tbody tr").get(rowIndex).$("button").shouldHave(text(surname));
-        return page(ProtoPage.class);
-    }
-
-    public ProtoPage clearFilters() {
-        $(".n2o-filter").$(Selectors.byText("Сбросить")).click();
-        return page(ProtoPage.class);
-    }
-
-    public ProtoPage assertClearFilterFields() {
-        ElementsCollection fields = $$(".n2o-filter input");
-        fields.get(0).shouldHave(value(""));
-        fields.get(1).shouldHave(value(""));
-        fields.get(2).shouldHave(value(""));
-        fields.get(3).shouldHave(value(""));
-        fields.get(4).shouldNotHave(checked);
-        fields.get(5).shouldNotHave(checked);
-        fields.get(6).shouldNotHave(checked);
-        fields.get(7).shouldNotHave(checked);
-        return page(ProtoPage.class);
+        getFilterName().shouldHave(value(""));
+//        getFilterGenderFemale().getAttribute("checked");
+//        getFilterVip().shouldNotHave(attribute("checked"));
     }
 }
