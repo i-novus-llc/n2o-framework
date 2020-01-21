@@ -72,7 +72,7 @@ public class ProtoPage implements ProtoPageSelectors {
     /**
      * Проверка работы очистки фильтра
      */
-    public void assertClearFilter() {
+    public ProtoPage assertClearFilter() {
         getFilterName().val("Римма");
         getFilterGenderFemale().click();
         getFilterVip().$("label").click();
@@ -86,5 +86,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getFilterName().shouldHave(value(""));
         getFilterGenderFemale().$("input").shouldNotHave(attribute("checked"));
         getFilterVip().$("input").shouldNotHave(attribute("checked"));
+
+        return page(ProtoPage.class);
     }
 }
