@@ -6,6 +6,7 @@ import com.codeborne.selenide.Condition;
 
 import java.util.List;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 
 /**
@@ -72,14 +73,15 @@ public class ProtoPage implements ProtoPageSelectors {
     /**
      * Проверка работы поиска по фамилии и имени
      */
-    public void assertNameAndSurname() {
+    public ProtoPage assertNameAndSurname() {
         getFilterSurname().val("Лапа");
         getFilterName().val("ера");
         getFilterSearchButton().click();
 
         getMainTableRows().shouldHaveSize(1);
-        List<String> values = getRow(getMainTableRows(), 0);
-        assert values.get(0).equals("Лапаева");
-        assert values.get(1).equals("Вера");
+        getMainTableRows().get(0).$$("td").get(0).shouldHave(text("Лапаева"));
+        getMainTableRows().get(0).$$("td").get(1).shouldHave(text("Вера"));
+
+        return page(ProtoPage.class);
     }
 }
