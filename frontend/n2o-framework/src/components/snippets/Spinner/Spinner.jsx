@@ -4,7 +4,6 @@ import cx from 'classnames';
 import eq from 'lodash/eq';
 import values from 'lodash/values';
 import PropTypes from 'prop-types';
-import delay from 'lodash/delay';
 
 const TYPE = {
   INLINE: 'inline',
@@ -18,14 +17,12 @@ class BaseSpinner extends Component {
     super(props);
 
     this.state = {
-      loading: true,
+      loading: false,
       showSpinner: false,
     };
 
     this.renderCoverSpiner = this.renderCoverSpiner.bind(this);
     this.renderLineSpinner = this.renderLineSpinner.bind(this);
-    this.enableSpinner = this.enableSpinner.bind(this);
-    this.timerBeforeTurningOnSpinner = setTimeout(this.enableSpinner, 1000);
   }
 
   static setSpinner(component) {
@@ -33,24 +30,29 @@ class BaseSpinner extends Component {
   }
 
   componentDidMount() {
+    this.setState({
+      loading: this.props.loading,
+    });
     const { delay } = this.props;
     this.setLoadingWithTimeout(false, delay);
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.loading !== this.state.loading) {
-      if (prevState.loading === true) {
-        this.setState({
-          showSpinner: false,
-        });
-      }
-      return this.timerBeforeTurningOnSpinner;
+    if (prevProps.loading !== this.props.loading) {
+      this.setState(
+        {
+          loading: this.props.loading,
+        },
+        () =>
+          setTimeout(
+            () =>
+              this.state.loading
+                ? this.setState({ showSpinner: true })
+                : this.setState({ showSpinner: false }),
+            400
+          )
+      );
     }
-  }
-
-  enableSpinner() {
-    let nextState = this.state.loading;
-    this.setState({ showSpinner: nextState });
   }
 
   setLoadingWithTimeout = (loading, timeout) => {
@@ -67,7 +69,7 @@ class BaseSpinner extends Component {
       loading,
       ...rest
     } = this.props;
-    const { loading: stateLoading, showSpinner } = this.state;
+    const { showSpinner } = this.state;
     return (
       <div
         className={cx('n2o-spinner-wrapper', {
@@ -92,7 +94,7 @@ class BaseSpinner extends Component {
     const { type, children, delay, loading, ...rest } = this.props;
     const { loading: stateLoading } = this.state;
 
-    return loading || stateLoading ? (
+    return loading ? (
       <Comp className="spinner" {...rest} />
     ) : React.Children.count(children) ? (
       children
@@ -127,7 +129,7 @@ BaseSpinner.defaultProps = {
   text: '',
   transparent: false,
   color: 'primary',
-  minSpinnerTimeToShow: 250,
+  minSpinnerTimeToShow: 0,
 };
 
 export default BaseSpinner;
