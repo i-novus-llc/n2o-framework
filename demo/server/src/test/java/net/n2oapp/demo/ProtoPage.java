@@ -1,38 +1,90 @@
 package net.n2oapp.demo;
 
-import com.codeborne.selenide.Selectors;
+
+import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Condition;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 
 /**
- * Главная страница демо приложения
+ * Тесты ProtoPage
  */
-public class ProtoPage {
+public class ProtoPage implements ProtoPageSelectors {
 
-    public ProtoPage findBySurname(String query) {
-        $$(".n2o-filter input").get(0).val(query);
-        $(".n2o-filter").$(Selectors.byText("Найти")).click();
+    /**
+     * Проверка правильности селекторов
+     */
+    public ProtoPage checkAllElementsExists() {
+        getMainTableHead().shouldBe(Condition.exist);
+        getMainTableRows().shouldBe(CollectionCondition.sizeGreaterThan(0));
+        getMainTableFilter().shouldBe(Condition.exist);
+
+        getTableHeaderSurname().shouldBe(Condition.exist);
+        getFilterGenderMale().shouldBe(Condition.exist);
+        getFilterGenderFemale().shouldBe(Condition.exist);
+        getFilterGenderUnknown().shouldBe(Condition.exist);
+        getFilterSearchButton().shouldBe(Condition.exist);
         return page(ProtoPage.class);
     }
 
-    public ProtoPage tableShouldHaveSize(int size) {
-        $$("tbody tr").shouldHaveSize(size);
+    /**
+     * Проверка работы фильтра по полу
+     */
+    public ProtoPage assertGender() {
+        getFilterGenderFemale().click();
+        getFilterSearchButton().click();
+        assert isAllMatch(getCol(getMainTableRows(), 4), "Женский");
+
+        getFilterGenderFemale().click();
+        getFilterGenderMale().click();
+        getFilterSearchButton().click();
+        assert isAllMatch(getCol(getMainTableRows(), 4), "Мужской");
+
+        getFilterGenderMale().click();
+        getFilterGenderUnknown().click();
+        getFilterSearchButton().click();
+        assert getCol(getMainTableRows(), 4).isEmpty();
+
         return page(ProtoPage.class);
     }
 
-    public ProtoPage assertSurname(Integer rowIndex, String surname) {
-        $$("tbody tr").get(rowIndex).$("button").shouldHave(text(surname));
+    /**
+     * Проверка работы сортировки по фамилии
+     */
+    public ProtoPage assertSorting() {
+        getTableHeaderSurname().click();
+
+        assert isSorted(getCol(getMainTableRows(), 0), true);
+
+        getTableHeaderSurname().click();
+        assert isSorted(getCol(getMainTableRows(), 0), false);
+
+        getTableHeaderSurname().click();
+        List<String> list = getCol(getMainTableRows(), 0);
+        assert !isSorted(list, true);
+        assert !isSorted(list, false);
+
         return page(ProtoPage.class);
     }
 
-    public ProtoPage assertCurrentPageNumber(int pageNumber) {
-        $(".n2o-pagination .active").shouldHave(text(String.valueOf(pageNumber)));
-        return page(ProtoPage.class);
-    }
+    /**
+     * Проверка корректности работы пагинации
+     */
+    public ProtoPage assertPagination() {
+        getMainTableRows().shouldHaveSize(10);
+        getCurrentActivePageLink().shouldHave(text("1"));
+        getPageLinks().texts().contains("2");
 
-    public ProtoPage tableShouldHavePage(int pageNumber) {
-        $$(".n2o-pagination li").get(pageNumber - 1).exists();
+        getPageLinks().get(1).click();
+
+        getMainTableRows().shouldHaveSize(10);
+        getCurrentActivePageLink().shouldHave(text("2"));
+        getPageLinks().texts().containsAll(Arrays.asList("1", "3"));
+
         return page(ProtoPage.class);
     }
 }
