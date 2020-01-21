@@ -55,7 +55,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((N2oCheckboxCell) listWidget.getList().get("subHeader")).getDisabled(), is("`!(name!='Мария')`"));
 
         assertThat(listWidget.getList().get("rightTop").getSrc(), is("LinkCell"));
-        assertThat(((N2oLinkCell) listWidget.getList().get("rightTop")).getActionId(), is("rightTopId"));
+        assertThat(((N2oLinkCell) listWidget.getList().get("rightTop")).getUrl().endsWith("test"), is(true));
 
         assertThat(listWidget.getList().get("rightBottom").getSrc(), is("IconCell"));
         assertThat(listWidget.getList().get("rightBottom").getCssClass(), is("test"));

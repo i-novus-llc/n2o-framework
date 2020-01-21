@@ -199,7 +199,7 @@ class DateTimeControl extends React.Component {
         }
       );
 
-      setTimeout(() => findDOMNode(this._control).focus(), 0);
+      setTimeout(() => this._control && findDOMNode(this._control).focus(), 0);
     }
   }
   /**
