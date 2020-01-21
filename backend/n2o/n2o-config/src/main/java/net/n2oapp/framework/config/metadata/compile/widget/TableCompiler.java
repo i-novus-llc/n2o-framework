@@ -113,29 +113,6 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         return table;
     }
 
-    private void compileRowClick(N2oTable source, TableWidgetComponent component, CompileContext<?, ?> context,
-                                 CompileProcessor p, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, CompiledObject object) {
-        N2oRowClick rowClick = source.getRows().getRowClick();
-        if (rowClick != null) {
-            Object enabledCondition = ScriptProcessor.resolveExpression(rowClick.getEnabled());
-            if (enabledCondition == null || enabledCondition instanceof String || Boolean.TRUE.equals(enabledCondition)) {
-                AbstractAction action = null;
-                if (rowClick.getActionId() != null) {
-                    MetaActions actions = p.getScope(MetaActions.class);
-                    action = (AbstractAction) actions.get(rowClick.getActionId());
-                } else if (rowClick.getAction() != null) {
-                    action = p.compile(rowClick.getAction(), context, widgetScope,
-                            widgetRouteScope, new ComponentScope(rowClick), object);
-                }
-                RowClick rc = new RowClick(action);
-                if (action != null && StringUtils.isJs(enabledCondition))
-                    rc.setEnablingCondition((String) ScriptProcessor.removeJsBraces(enabledCondition));
-                component.setRowClick(rc);
-                component.setRows(new TableWidgetComponent.Rows());
-            }
-        }
-    }
-
     @Override
     protected QueryContext getQueryContext(Table widget, N2oTable source, CompileContext<?, ?> context, String route, CompiledQuery query,
                                            ValidationList validationList, SubModelsScope subModelsScope,

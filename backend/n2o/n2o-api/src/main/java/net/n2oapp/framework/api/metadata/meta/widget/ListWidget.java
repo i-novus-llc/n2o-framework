@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
+import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class ListWidget extends Widget {
     @JsonProperty
     private Pagination paging;
     @JsonProperty
-    private Action rowClick;
+    private RowClick rowClick;
     @JsonProperty
     private Rows rows;
 }
