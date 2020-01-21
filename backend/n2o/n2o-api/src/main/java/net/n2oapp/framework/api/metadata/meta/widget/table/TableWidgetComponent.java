@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
+import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
@@ -40,7 +41,7 @@ public class TableWidgetComponent extends WidgetComponent {
     @JsonProperty("sorting")
     private Map<String, String> sorting;
     @JsonProperty("rowClick")
-    private Action rowClick;
+    private RowClick rowClick;
     @JsonProperty("rows")
     private Rows rows;
 }

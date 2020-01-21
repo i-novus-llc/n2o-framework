@@ -6,9 +6,9 @@ import net.n2oapp.framework.api.metadata.event.action.N2oCustomAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oRefresh;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.meta.action.CustomActionPayload;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +23,7 @@ public class TableSettingsGeneratorUtil {
         N2oButton columnsButton = new N2oButton();
         columnsButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.columns.description"));
         columnsButton.setIcon("fa fa-table");
-        columnsButton.setDropdownSrc(p.resolve(property("n2o.api.action.columns.dropdownSrc"), String.class));
+        columnsButton.setSrc(p.resolve(property("n2o.api.action.columns.src"), String.class));
         columnsButton.setModel(ReduxModel.FILTER);
         return columnsButton;
     }
@@ -41,7 +41,9 @@ public class TableSettingsGeneratorUtil {
         filterButton.setWidgetId(widgetId);
         Map<String, Object> props = new HashMap<>();
         props.put("type", p.resolve(property("n2o.api.action.filters.type"), String.class));
-        props.put("payload", Collections.singletonMap("widgetId", widgetId));
+        CustomActionPayload payload = new CustomActionPayload();
+        payload.put("widgetId", widgetId);
+        props.put("payload", payload);
         filterAction.setProperties(props);
         filterButton.setAction(filterAction);
         filterButton.setModel(ReduxModel.FILTER);
@@ -62,7 +64,7 @@ public class TableSettingsGeneratorUtil {
         N2oButton resizeButton = new N2oButton();
         resizeButton.setDescription(p.getMessage("n2o.api.action.toolbar.button.resize.description"));
         resizeButton.setIcon("fa fa-bars");
-        resizeButton.setDropdownSrc(p.resolve(property("n2o.api.action.resize.dropdownSrc"), String.class));
+        resizeButton.setSrc(p.resolve(property("n2o.api.action.resize.src"), String.class));
         resizeButton.setModel(ReduxModel.FILTER);
         return resizeButton;
     }

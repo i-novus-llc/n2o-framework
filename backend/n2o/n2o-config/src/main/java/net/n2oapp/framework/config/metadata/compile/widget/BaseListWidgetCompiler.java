@@ -7,9 +7,9 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidge
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
+import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
@@ -40,13 +40,14 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
     /**
      * Компиляция действия клика по строке
      */
-    protected Action compileRowClick(N2oAbstractListWidget source, CompileContext<?, ?> context,
-                                     CompileProcessor p, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, CompiledObject object) {
-        AbstractAction action = null;
+    protected RowClick compileRowClick(N2oAbstractListWidget source, CompileContext<?, ?> context,
+                                       CompileProcessor p, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, CompiledObject object) {
+        RowClick rc = null;
         if (source.getRows() != null && source.getRows().getRowClick() != null) {
             N2oRowClick rowClick = source.getRows().getRowClick();
             Object enabledCondition = ScriptProcessor.resolveExpression(rowClick.getEnabled());
             if (enabledCondition == null || enabledCondition instanceof String || Boolean.TRUE.equals(enabledCondition)) {
+                AbstractAction action = null;
                 if (rowClick.getActionId() != null) {
                     MetaActions actions = p.getScope(MetaActions.class);
                     action = (AbstractAction) actions.get(rowClick.getActionId());
@@ -54,10 +55,12 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
                     action = p.compile(rowClick.getAction(), context, widgetScope,
                             widgetRouteScope, new ComponentScope(rowClick), object);
                 }
-                if (action != null && StringUtils.isJs(enabledCondition))
-                    action.setEnablingCondition((String) ScriptProcessor.removeJsBraces(enabledCondition));
+                rc = new RowClick(action);
+                if (action != null && StringUtils.isJs(enabledCondition)) {
+                    rc.setEnablingCondition((String) ScriptProcessor.removeJsBraces(enabledCondition));
+                }
             }
         }
-        return action;
+        return rc;
     }
 }

@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.meta.toolbar;
 
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 
 import java.util.List;
@@ -19,8 +19,8 @@ public class Toolbar extends StrictMap<String, List<Group>> implements Compiled 
      * @param id Идентификатор
      * @return Кнопка
      */
-    public Button getButton(String id) {
-        Optional<Button> first = values().stream().flatMap(List::stream).flatMap(g -> g.getButtons().stream()).filter(b -> id.equals(b.getId())).findFirst();
+    public AbstractButton getButton(String id) {
+        Optional<AbstractButton> first = values().stream().flatMap(List::stream).flatMap(g -> g.getButtons().stream()).filter(b -> id.equals(b.getId())).findFirst();
         return first.orElse(null);
     }
 

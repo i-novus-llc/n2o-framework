@@ -168,8 +168,7 @@ stories
     fetchMock.get('begin:n2o/page', page);
     const rowClick = {
       rowClick: {
-        src: 'perform',
-        options: {
+        action: {
           type: 'n2o/modals/INSERT',
           payload: {
             pageUrl: '/Uid',

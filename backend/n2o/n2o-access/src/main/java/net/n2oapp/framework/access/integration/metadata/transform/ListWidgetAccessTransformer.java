@@ -18,8 +18,8 @@ public class ListWidgetAccessTransformer extends BaseAccessTransformer<ListWidge
 
     @Override
     public ListWidget transform(ListWidget compiled, CompileContext<?, ?> context, CompileProcessor p) {
-        if (compiled.getRows() != null) {
-            transfer(compiled.getRowClick(), compiled.getRows());
+        if (compiled.getRows() != null && compiled.getRowClick().getAction() != null) {
+            transfer(compiled.getRowClick().getAction(), compiled.getRows());
         }
         return compiled;
     }

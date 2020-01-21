@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.widget;
 
 
 import net.n2oapp.framework.config.io.fieldset.*;
+import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import net.n2oapp.framework.config.selective.persister.SelectiveStandardPersister;
@@ -31,7 +32,8 @@ public class FormXmlIOTest {
                         .addPersister(new RowElementIO4())
                         .addControlPersister()
                         .addPersister(new ColElementIO4())
-                        .addPersister(new FormElementIOV4()));
+                        .addPersister(new FormElementIOV4()))
+                .ios(new ButtonIO());
 
         assert tester.check("net/n2oapp/framework/config/io/widget/form/testFormWidgetIOv4.widget.xml");
     }

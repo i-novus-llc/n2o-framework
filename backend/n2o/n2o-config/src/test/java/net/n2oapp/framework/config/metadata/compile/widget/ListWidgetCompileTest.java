@@ -4,9 +4,9 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oProgressBarCell;
 import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
+import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -55,7 +55,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((N2oCheckboxCell) listWidget.getList().get("subHeader")).getDisabled(), is("`!(name!='Мария')`"));
 
         assertThat(listWidget.getList().get("rightTop").getSrc(), is("LinkCell"));
-        assertThat(((N2oLinkCell) listWidget.getList().get("rightTop")).getActionId(), is("rightTopId"));
+        assertThat(((N2oLinkCell) listWidget.getList().get("rightTop")).getUrl().endsWith("test"), is(true));
 
         assertThat(listWidget.getList().get("rightBottom").getSrc(), is("IconCell"));
         assertThat(listWidget.getList().get("rightBottom").getCssClass(), is("test"));
@@ -70,8 +70,8 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
     public void testRowClick() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testListWidgetRowClick.page.xml")
                 .get(new PageContext("testListWidgetRowClick"));
-        List<AbstractAction> rowClicks = new ArrayList<>();
-        page.getWidgets().forEach((s, widget) -> rowClicks.add((AbstractAction) ((ListWidget) widget).getRowClick()));
+        List<RowClick> rowClicks = new ArrayList<>();
+        page.getWidgets().forEach((s, widget) -> rowClicks.add(((ListWidget) widget).getRowClick()));
 
         assertThat(rowClicks.size(), is(8));
         assertThat(rowClicks.get(0), nullValue());

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withHandlers } from 'recompose';
+import { compose, withHandlers, getContext } from 'recompose';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
@@ -10,6 +10,7 @@ import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
 import map from 'lodash/map';
 import set from 'lodash/set';
+import isUndefined from 'lodash/isUndefined';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
@@ -22,6 +23,8 @@ import PropTypes from 'prop-types';
 import { makeGetFilterModelSelector } from '../../../selectors/models';
 import { getContainerColumns } from '../../../selectors/columns';
 import evalExpression from '../../../utils/evalExpression';
+import { push } from 'connected-react-router';
+import compileUrl from '../../../utils/compileUrl';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
@@ -219,16 +222,39 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export const withWidgetHandlers = withHandlers({
-  onRowClickAction: ({ rowClick, onActionImpl }) => model => {
-    const { enablingCondition } = rowClick;
-    const allowRowClick = evalExpression(enablingCondition, model);
+export const withWidgetHandlers = compose(
+  getContext({
+    store: PropTypes.object,
+  }),
+  withHandlers({
+    onRowClickAction: ({ rowClick, dispatch, store }) => model => {
+      const state = store.getState();
+      const {
+        enablingCondition,
+        action,
+        url,
+        pathMapping,
+        queryMapping,
+        inner,
+        target,
+      } = rowClick;
+      const allowRowClick = evalExpression(enablingCondition, model);
+      const compiledUrl = compileUrl(url, { pathMapping, queryMapping }, state);
 
-    if (allowRowClick || !allowRowClick) {
-      onActionImpl(rowClick);
-    }
-  },
-});
+      if (action && (allowRowClick || isUndefined(allowRowClick))) {
+        dispatch(action);
+      } else if (url) {
+        if (inner) {
+          dispatch(push(compiledUrl));
+        } else if (target === '_blank') {
+          window.open(compiledUrl);
+        } else {
+          window.location = compiledUrl;
+        }
+      }
+    },
+  })
+);
 
 const enhance = compose(
   widgetContainer(
@@ -275,10 +301,10 @@ const enhance = compose(
           multiHeader: props.multiHeader,
           bordered: props.bordered,
           rowClick: props.rowClick,
-          onActionImpl: props.onActionImpl,
           expandedFieldId: props.expandedFieldId,
           className: props.className,
           rows: props.rows,
+          dispatch: props.dispatch,
         };
       },
     },

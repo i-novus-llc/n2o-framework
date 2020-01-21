@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { pick, keys } from 'lodash';
 import Card from 'reactstrap/lib/Card';
 import CardBody from 'reactstrap/lib/CardBody';
 import withProviders from './decorators/ProvidersDecorator';

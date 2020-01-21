@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Тестирвоание маппинга java модели в json text-area
+ * Тестирование маппинга java модели в json text-area
  */
 public class TextAreaJsonTest extends JsonMetadataTestBase {
     @Override
@@ -34,6 +34,4 @@ public class TextAreaJsonTest extends JsonMetadataTestBase {
                 .exclude("src", "id", "style", "disabled")
                 .assertEquals(new WidgetContext("testTextArea"));
     }
-
-
 }
