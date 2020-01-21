@@ -183,6 +183,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         dispatch(dataRequestWidget(widgetId, options));
       }
 
+      /**
+       * @deprecated
+       */
       onActionImpl({ src, component, options }) {
         const { dispatch } = this.props;
         dispatch(callActionImpl(src || component, { ...options, dispatch }));
