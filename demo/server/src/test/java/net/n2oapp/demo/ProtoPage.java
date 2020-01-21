@@ -73,11 +73,14 @@ public class ProtoPage implements ProtoPageSelectors {
     /**
      * Проверка работы фильтра по дате рождения
      */
-    public void assertBirthday() {
+    public ProtoPage assertBirthday() {
         getFilterBirthdayStart().val("01.01.1940");
         getFilterBirthdayEnd().val("01.12.1940");
         getFilterSearchButton().click();
         getMainTableRows().shouldHaveSize(2);
-        assert getCol(getMainTableRows(), 0).containsAll(Arrays.asList("Кручинина", "Мишин"));
+        getMainTableRows().get(0).shouldHave(Condition.text("Кручинина"));
+        getMainTableRows().get(1).shouldHave(Condition.text("Мишин"));
+
+        return page(ProtoPage.class);
     }
 }
