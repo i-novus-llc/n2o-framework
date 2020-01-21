@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.aware.SrcAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -15,37 +14,30 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-
 /**
  * Абстрактаня реализация компиляции действия
  */
-public abstract class AbstractActionCompiler<D extends Action & SrcAware, S extends N2oAction>
+public abstract class AbstractActionCompiler<D extends Action, S extends N2oAction>
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
     public void compileAction(D compiled, S source, CompileProcessor p) {
-        compiled.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.src"), String.class)));
-        if (source.getId() != null) {
-            compiled.setId(source.getId());
-        } else {
+        if (source.getId() == null) {
             ComponentScope componentScope = p.getScope(ComponentScope.class);
             if (componentScope != null) {
                 IdAware component = componentScope.unwrap(IdAware.class);
                 if (component != null) {
                     source.setId(component.getId());
-                    compiled.setId(component.getId());
                 } else {
                     WidgetScope widgetScope = p.getScope(WidgetScope.class);
                     if (widgetScope != null) {
                         source.setId(widgetScope.getClientWidgetId() + "_row");
-                        compiled.setId(source.getId());
                     }
                 }
             }
         }
         MetaActions widgetActions = p.getScope(MetaActions.class);
-        if (widgetActions != null) {
-            widgetActions.addAction(compiled);
+        if (widgetActions != null && source.getId() != null) {
+            widgetActions.addAction(source.getId(), compiled);
         }
     }
 

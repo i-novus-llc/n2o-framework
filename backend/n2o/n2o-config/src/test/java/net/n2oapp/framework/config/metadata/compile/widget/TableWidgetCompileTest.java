@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
@@ -16,6 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -63,9 +63,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("paddingTop"), is("0"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
-        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getSubMenu().get(0).getId(), is("testAction2"));
-        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
-        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getSubMenu().get(0).getStyle().get("paddingTop"), is("0"));
+        assertThat(((Submenu)table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getId(), is("testAction2"));
+        assertThat(((Submenu)table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
+        assertThat(((Submenu)table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("paddingTop"), is("0"));
         //columns
         assertThat(table.getComponent().getCells().size(), is(2));
         assertThat(((N2oAbstractCell) table.getComponent().getCells().get(0)).getReactStyle().get("marginLeft"), is("10px"));
@@ -100,18 +100,18 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
     public void testRowClick() {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.page.xml")
                 .get(new PageContext("testTable4RowClickCompile"));
-        List<AbstractAction> rowClicks = new ArrayList<>();
-        page.getWidgets().forEach((s, widget) -> rowClicks.add((AbstractAction) ((TableWidgetComponent) widget.getComponent()).getRowClick()));
+        List<TableWidgetComponent> rowClicks = new ArrayList<>();
+        page.getWidgets().forEach((s, widget) -> rowClicks.add((TableWidgetComponent) widget.getComponent()));
 
         assertThat(rowClicks.size(), is(8));
-        assertThat(rowClicks.get(0), nullValue());
-        assertThat(rowClicks.get(1).getEnablingCondition(), nullValue(String.class));
-        assertThat(rowClicks.get(2).getEnablingCondition(), is("false"));
-        assertThat(rowClicks.get(3).getEnablingCondition(), is("true"));
-        assertThat(rowClicks.get(4).getEnablingCondition(), is("1==1"));
-        assertThat(rowClicks.get(5).getEnablingCondition(), is("false"));
-        assertThat(rowClicks.get(6).getEnablingCondition(), is("true"));
-        assertThat(rowClicks.get(7).getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.get(0).getRowClick(), nullValue());
+        assertThat(rowClicks.get(1).getRowClick().getEnablingCondition(), nullValue(String.class));
+        assertThat(rowClicks.get(2).getRowClick().getEnablingCondition(), is("false"));
+        assertThat(rowClicks.get(3).getRowClick().getEnablingCondition(), is("true"));
+        assertThat(rowClicks.get(4).getRowClick().getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.get(5).getRowClick().getEnablingCondition(), is("false"));
+        assertThat(rowClicks.get(6).getRowClick().getEnablingCondition(), is("true"));
+        assertThat(rowClicks.get(7).getRowClick().getEnablingCondition(), is("1==1"));
     }
 
     @Test

@@ -19,7 +19,7 @@ public class TableBinder implements BaseMetadataBinder<Table> {
     @Override
     public Table bind(Table compiled, BindProcessor p) {
         if (compiled.getComponent().getRowClick() != null)
-            p.bind(compiled.getComponent().getRowClick());
+            p.bind(compiled.getComponent().getRowClick().getAction());
         return compiled;
     }
 }
