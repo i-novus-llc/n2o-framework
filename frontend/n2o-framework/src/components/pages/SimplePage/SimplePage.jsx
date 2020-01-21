@@ -2,19 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { mapProps } from 'recompose';
-import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
+import Factory from '../../../core/factory/Factory';
+import DefaultPage from '../DefaultPage';
 
-function SimplePage({ id, widget }) {
+function SimplePage({ id, widget, ...rest }) {
   return (
-    <div className="n2o-simple-page">
-      <Factory
-        key={`simple-page-${id}`}
-        level={WIDGETS}
-        {...widget}
-        pageId={id}
-      />
-    </div>
+    <DefaultPage {...rest}>
+      <div className="n2o-simple-page">
+        <Factory
+          key={`simple-page-${id}`}
+          level={WIDGETS}
+          {...widget}
+          pageId={id}
+        />
+      </div>
+    </DefaultPage>
   );
 }
 
