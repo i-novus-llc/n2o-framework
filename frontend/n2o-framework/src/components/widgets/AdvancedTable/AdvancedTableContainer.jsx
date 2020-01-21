@@ -219,12 +219,14 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const withWidgetHandlers = withHandlers({
+export const withWidgetHandlers = withHandlers({
   onRowClickAction: ({ rowClick, onActionImpl }) => model => {
     const { enablingCondition } = rowClick;
     const allowRowClick = evalExpression(enablingCondition, model);
-    (allowRowClick && onActionImpl(rowClick)) ||
-      (allowRowClick === undefined && onActionImpl(rowClick));
+
+    if (allowRowClick || !allowRowClick) {
+      onActionImpl(rowClick);
+    }
   },
 });
 

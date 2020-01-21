@@ -15,10 +15,8 @@ import widgetContainer from '../WidgetContainer';
 import List from './List';
 import withColumn from '../Table/withColumn';
 import TableCell from '../Table/TableCell';
-import {
-  withContainerLiveCycle,
-  withWidgetHandlers,
-} from '../Table/TableContainer';
+import { withContainerLiveCycle } from '../Table/TableContainer';
+import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer';
 import { createStructuredSelector } from 'reselect';
 import { setTableSelectedId } from '../../../actions/widgets';
 
@@ -141,7 +139,9 @@ class ListContainer extends React.Component {
       divider,
       hasSelect,
       selectedId,
+      rows,
     } = this.props;
+
     return {
       onFetchMore: this.handleFetchMore,
       onItemClick: this.handleItemClick,
@@ -154,6 +154,7 @@ class ListContainer extends React.Component {
       divider,
       hasSelect,
       selectedId,
+      rows,
     };
   }
   render() {

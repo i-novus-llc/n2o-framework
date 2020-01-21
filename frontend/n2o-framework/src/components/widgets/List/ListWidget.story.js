@@ -18,7 +18,7 @@ stories.addParameters({
   },
 });
 
-const urlPattern = 'n2o/data/testListWidget';
+const urlPattern = '*';
 const delay = ms => new Promise(r => setTimeout(() => r(), ms));
 stories
   .addDecorator(withPage(metadata))
