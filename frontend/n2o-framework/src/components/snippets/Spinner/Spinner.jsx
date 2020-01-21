@@ -17,7 +17,7 @@ class BaseSpinner extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
       showSpinner: false,
     };
 
@@ -129,7 +129,7 @@ BaseSpinner.defaultProps = {
   text: '',
   transparent: false,
   color: 'primary',
-  minSpinnerTimeToShow: 0,
+  minSpinnerTimeToShow: 250,
 };
 
 export default BaseSpinner;
