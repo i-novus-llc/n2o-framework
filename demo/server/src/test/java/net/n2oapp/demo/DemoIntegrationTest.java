@@ -49,4 +49,12 @@ public class DemoIntegrationTest {
     public void testSorting() {
         protoPage.assertSorting();
     }
+
+    /**
+     * Тест ячейки VIP
+     */
+    @Test
+    public void testVipCell() {
+        protoPage.assertVipCell();
+    }
 }

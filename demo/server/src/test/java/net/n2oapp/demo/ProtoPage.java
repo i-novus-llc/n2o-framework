@@ -3,9 +3,11 @@ package net.n2oapp.demo;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 
 import java.util.List;
 
+import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Selenide.*;
 
 /**
@@ -65,6 +67,19 @@ public class ProtoPage implements ProtoPageSelectors {
         List<String> list = getCol(getMainTableRows(), 0);
         assert !isSorted(list, true);
         assert !isSorted(list, false);
+
+        return page(ProtoPage.class);
+    }
+
+
+    /**
+     * Проверка работы ячейки VIP
+     */
+    public ProtoPage assertVipCell() {
+        SelenideElement vipCell = getMainTableVipCell(2);
+        vipCell.$("input").shouldHave(attribute("checked"));
+        vipCell.click();
+        vipCell.$("input").shouldNotHave(attribute("checked"));
 
         return page(ProtoPage.class);
     }

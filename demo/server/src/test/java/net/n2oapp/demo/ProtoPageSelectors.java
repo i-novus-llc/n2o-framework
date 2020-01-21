@@ -46,4 +46,8 @@ public interface ProtoPageSelectors extends BasePage {
     default SelenideElement getFilterSearchButton() {
         return getMainTableFilter().$$("button").findBy(Condition.text("Найти"));
     }
+
+    default SelenideElement getMainTableVipCell(int rowNumber) {
+        return getMainTableRows().get(rowNumber).$$("td").get(5);
+    }
 }
