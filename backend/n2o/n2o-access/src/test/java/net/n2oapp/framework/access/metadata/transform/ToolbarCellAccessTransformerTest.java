@@ -20,6 +20,7 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertTrue;
 
 public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
@@ -57,5 +58,15 @@ public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
         assertTrue(security.getPermissions().contains("permission"));
         assertThat(security.getUsernames().size(), is(1));
         assertTrue(security.getUsernames().contains("user"));
+
+        security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidgets()
+                .get("testToolbarCellAccessTransformer_main")
+                .getComponent()).getCells().get(0)).getToolbar().get(0).getButtons().get(2)
+                .getProperties().get(Security.SECURITY_PROP_NAME)).getSecurityMap().get("url");
+
+        assertThat(security.getRoles().size(), is(1));
+        assertTrue(security.getRoles().contains("role"));
+        assertThat(security.getPermissions(), nullValue());
+        assertThat(security.getUsernames(), nullValue());
     }
 }

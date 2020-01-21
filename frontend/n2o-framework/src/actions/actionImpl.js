@@ -6,6 +6,10 @@ import {
 import createActionHelper from './createActionHelper';
 
 /**
+ * @deprecated
+ */
+
+/**
  * Экшен начала инвока
  * @param widgetId
  * @param dataProvider
