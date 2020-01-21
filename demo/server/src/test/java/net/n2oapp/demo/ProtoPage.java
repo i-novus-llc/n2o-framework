@@ -77,13 +77,14 @@ public class ProtoPage implements ProtoPageSelectors {
     public ProtoPage assertPagination() {
         getMainTableRows().shouldHaveSize(10);
         getCurrentActivePageLink().shouldHave(text("1"));
-        getPageLinks().texts().contains("2");
+        getPageLinks().get(1).shouldHave(text("2"));
 
         getPageLinks().get(1).click();
 
         getMainTableRows().shouldHaveSize(10);
         getCurrentActivePageLink().shouldHave(text("2"));
-        getPageLinks().texts().containsAll(Arrays.asList("1", "3"));
+        getPageLinks().get(0).shouldHave(text("1"));
+        getPageLinks().get(2).shouldHave(text("3"));
 
         return page(ProtoPage.class);
     }
