@@ -14,10 +14,9 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 @Getter
 @Setter
 public class N2oActionCell extends N2oAbstractCell implements ModelAware {
-    @JsonProperty
     private String actionId;
     private N2oAction action;
-    @JsonProperty("action")//todo а для чего тогда actionId  ?
+    @JsonProperty("action")
     private Action compiledAction;
     private ReduxModel model;
 }
