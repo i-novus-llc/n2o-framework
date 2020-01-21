@@ -2,11 +2,14 @@ version: "3.6"
 
 services:
   frontend:
+    image: "${DOCKER_REGISTRY}/n2o/demo:${TAG}"
     build:
       context: demo/server
   docs:
+    image: "${DOCKER_REGISTRY}/n2o/demo:${TAG}"
     build:
       context: docs
   storybook:
+    image: "${DOCKER_REGISTRY}/n2o/storybook:${TAG}"
     build:
       context: frontend/n2o-framework
