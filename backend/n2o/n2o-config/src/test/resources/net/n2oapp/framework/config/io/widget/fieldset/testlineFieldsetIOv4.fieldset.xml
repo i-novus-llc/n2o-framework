@@ -4,7 +4,7 @@
       enabling-condition="true" enabling-condition-on="true"
       collapsible="true" expand="true" label="testLabel" style="margin-left:10px;width:300px">
     <row class="test1" style="margin-left:10px;width:300px">
-        <col class="test1" style="margin-left:10px;width:300px">
+        <col class="test1" style="margin-left:10px;width:300px" visible="{a==b}">
             <input-text id="test" />
         </col>
         <col class="test2"/>
