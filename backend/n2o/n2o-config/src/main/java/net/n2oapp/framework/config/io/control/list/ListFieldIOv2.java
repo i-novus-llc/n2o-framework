@@ -17,6 +17,7 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
         super.io(e, m, p);
         p.attribute(e, "query-id", m::getQueryId, m::setQueryId);
         p.attribute(e, "label-field-id", m::getLabelFieldId, m::setLabelFieldId);
+        p.attribute(e, "sort-field-id", m::getSortFieldId, m::setSortFieldId);
         p.attribute(e, "badge-field-id", m::getBadgeFieldId, m::setBadgeFieldId);
         p.attribute(e, "badge-color-field-id", m::getBadgeColorFieldId, m::setBadgeColorFieldId);
         p.attribute(e, "search-filter-id", m::getSearchFilterId, m::setSearchFilterId);
