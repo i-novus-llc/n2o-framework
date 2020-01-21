@@ -73,14 +73,18 @@ public class ProtoPage implements ProtoPageSelectors {
      * Проверка работы очистки фильтра
      */
     public void assertClearFilter() {
-        getFilterName().val("Мария");
+        getFilterName().val("Римма");
         getFilterGenderFemale().click();
-        getFilterVip().click();
+        getFilterVip().$("label").click();
+
+        getFilterSearchButton().click();
+        getMainTableRows().shouldHaveSize(2);
 
         getFilterClearButton().click();
+        getMainTableRows().shouldHaveSize(10);
 
         getFilterName().shouldHave(value(""));
-//        getFilterGenderFemale().getAttribute("checked");
-//        getFilterVip().shouldNotHave(attribute("checked"));
+        getFilterGenderFemale().$("input").shouldNotHave(attribute("checked"));
+        getFilterVip().$("input").shouldNotHave(attribute("checked"));
     }
 }
