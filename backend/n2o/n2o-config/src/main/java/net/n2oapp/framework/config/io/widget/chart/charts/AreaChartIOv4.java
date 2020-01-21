@@ -20,11 +20,11 @@ public class AreaChartIOv4 extends StandardChartIOv4<N2oAreaChart> {
     }
 
     private void areaChartIOv4(Element e, N2oAreaChartItem c, IOProcessor p) {
-        p.attribute(e, "data-key", c::getDataKey, c::setDataKey);
+        p.attribute(e, "field-id", c::getFieldId, c::setFieldId);
         p.attributeEnum(e, "line-type", c::getLineType, c::setLineType, ChartLineType.class);
         p.attribute(e, "color", c::getColor, c::setColor);
-        p.attribute(e, "stroke", c::getStroke, c::setStroke);
-        p.attributeBoolean(e, "label", c::getLabel, c::setLabel);
+        p.attribute(e, "stroke-color", c::getStrokeColor, c::setStrokeColor);
+        p.attributeBoolean(e, "has-label", c::getHasLabel, c::setHasLabel);
     }
 
     @Override

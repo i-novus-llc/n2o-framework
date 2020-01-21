@@ -9,14 +9,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oPieChart extends N2oAbstractChart {
-    private Integer cx;
-    private Integer cy;
+    private Integer centerX;
+    private Integer centerY;
     private Integer innerRadius;
     private Integer outerRadius;
     private Integer startAngle;
     private Integer endAngle;
-    private String nameKey;
-    private String dataKey;
+    private String nameFieldId;
+    private String valueFieldId;
     private String color;
-    private Boolean label;
+    private Boolean hasLabel;
 }

@@ -15,12 +15,12 @@ public abstract class StandardChartIOv4<T extends N2oStandardChart>  extends Abs
     @Override
     public void io(Element e, T c, IOProcessor p) {
         super.io(e, c, p);
-        p.attribute(e, "x-data-key", c::getXAxisDataKey, c::setXAxisDataKey);
+        p.attribute(e, "x-field-id", c::getXAxisFieldId, c::setXAxisFieldId);
         p.attributeEnum(e, "x-orientation", c::getXAxisOrientation, c::setXAxisOrientation, N2oStandardChart.XAxisOrientationType.class);
-        p.attributeBoolean(e, "x-label", c::getXLabel, c::setXLabel);
-        p.attribute(e, "y-data-key", c::getYAxisDataKey, c::setYAxisDataKey);
+        p.attributeBoolean(e, "x-has-label", c::getXHasLabel, c::setXHasLabel);
+        p.attribute(e, "y-field-id", c::getYAxisFieldId, c::setYAxisFieldId);
         p.attributeEnum(e, "y-orientation", c::getYAxisOrientation, c::setYAxisOrientation, N2oStandardChart.YAxisOrientationType.class);
-        p.attributeBoolean(e, "y-label", c::getYLabel, c::setYLabel);
+        p.attributeBoolean(e, "y-has-label", c::getYHasLabel, c::setYHasLabel);
         p.attribute(e, "grid-stroke-dasharray", c::getGridStrokeDashArray, c::setGridStrokeDashArray);
         p.attributeBoolean(e, "grid-horizontal", c::getGridHorizontal, c::setGridHorizontal);
         p.attributeBoolean(e, "grid-vertical", c::getGridVertical, c::setGridVertical);

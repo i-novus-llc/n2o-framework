@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chart xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
        width="600" height="400">
-    <areas x-data-key="name" tooltip-separator=":" grid-stroke-dasharray="3 3">
-        <area data-key="uv" color="#8884d8"/>
-        <area data-key="pv" color="#82ca9d"/>
-        <area data-key="amt" color="#ffc658"/>
+    <areas x-field-id="name" tooltip-separator=":" grid-stroke-dasharray="3 3">
+        <area field-id="uv" color="#8884d8"/>
+        <area field-id="pv" color="#82ca9d"/>
+        <area field-id="amt" color="#ffc658"/>
     </areas>
 </chart>

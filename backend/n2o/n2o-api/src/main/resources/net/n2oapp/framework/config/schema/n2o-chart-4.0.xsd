@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/n2o-chart-4.0"
-           xmlns:wgt="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="areas" type="areaChartDefinition"/>
@@ -8,21 +7,6 @@
     <xs:element name="lines" type="lineChartDefinition"/>
     <xs:element name="pie" type="pieChartDefinition"/>
 
-    <xs:complexType name="charts">
-        <xs:complexContent>
-            <xs:extension base="wgt:widgetDefinition">
-                <xs:annotation>
-                    <xs:documentation>Виджет диаграмма.</xs:documentation>
-                </xs:annotation>
-                <xs:sequence>
-                    <xs:element name="areas" type="areaChartDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="bars" type="barChartDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="lines" type="lineChartDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="pie" type="pieChartDefinition" minOccurs="0" maxOccurs="1"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
 
     <xs:simpleType name="xAxisOrientationType">
         <xs:annotation>
@@ -62,7 +46,7 @@
     </xs:simpleType>
 
     <xs:complexType name="chartComponentBaseDefinition">
-        <xs:attribute name="x-data-key" type="xs:string">
+        <xs:attribute name="x-field-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Ключ значений по оси x.</xs:documentation>
             </xs:annotation>
@@ -72,12 +56,12 @@
                 <xs:documentation>Положение оси x.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="x-label" type="xs:boolean" default="false">
+        <xs:attribute name="x-has-label" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Подпись оси x.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="y-data-key" type="xs:string">
+        <xs:attribute name="y-field-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Ключ значений по оси y.</xs:documentation>
             </xs:annotation>
@@ -87,7 +71,7 @@
                 <xs:documentation>Положение оси y.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="y-label" type="xs:boolean" default="false">
+        <xs:attribute name="y-has-label" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Подпись оси y.</xs:documentation>
             </xs:annotation>
@@ -182,17 +166,17 @@
         <xs:annotation>
             <xs:documentation>Область.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="data-key" type="xs:string">
+        <xs:attribute name="field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Ключ в данных.</xs:documentation>
+                <xs:documentation>Идентификатор поля выборки значений области.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Цвет зоны.</xs:documentation>
+                <xs:documentation>Цвет области.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="stroke" type="xs:string">
+        <xs:attribute name="stroke-color" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Цвет линии.</xs:documentation>
             </xs:annotation>
@@ -202,7 +186,7 @@
                 <xs:documentation>Тип интерполяции линии.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="label" type="xs:boolean" default="false">
+        <xs:attribute name="has-label" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Наличие подписи значений.</xs:documentation>
             </xs:annotation>
@@ -211,19 +195,19 @@
 
     <xs:complexType name="barDefinition">
         <xs:annotation>
-            <xs:documentation>Столбец.</xs:documentation>
+            <xs:documentation>Столбцы.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="data-key" type="xs:string">
+        <xs:attribute name="field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Ключ в данных.</xs:documentation>
+                <xs:documentation>Идентификатор поля выборки значений столбцов.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Цвет зоны.</xs:documentation>
+                <xs:documentation>Цвет столбцов.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="label" type="xs:boolean" default="false">
+        <xs:attribute name="has-label" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Наличие подписи значений.</xs:documentation>
             </xs:annotation>
@@ -234,9 +218,9 @@
         <xs:annotation>
             <xs:documentation>Линия.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="data-key" type="xs:string">
+        <xs:attribute name="field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Ключ в данных.</xs:documentation>
+                <xs:documentation>Идентификатор поля выборки значений линии.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="color" type="xs:string">
@@ -249,7 +233,7 @@
                 <xs:documentation>Тип интерполяции линии.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="label" type="xs:boolean" default="false">
+        <xs:attribute name="has-label" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Наличие подписи значений.</xs:documentation>
             </xs:annotation>
@@ -260,12 +244,12 @@
         <xs:annotation>
             <xs:documentation>Компонент круговой диаграммы.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="cx" type="xs:integer">
+        <xs:attribute name="center-x" type="xs:integer">
             <xs:annotation>
                 <xs:documentation>Координата центра по x.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="cy" type="xs:integer">
+        <xs:attribute name="center-y" type="xs:integer">
             <xs:annotation>
                 <xs:documentation>Координата центра по y.</xs:documentation>
             </xs:annotation>
@@ -290,22 +274,22 @@
                 <xs:documentation>Конечный угол графика (в градусах).</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="name-key" type="xs:string">
+        <xs:attribute name="name-field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Ключ названия сектора.</xs:documentation>
+                <xs:documentation>Идентификатор поля выборки имен секторов.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="data-key" type="xs:string">
+        <xs:attribute name="value-field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Ключ значения сектора.</xs:documentation>
+                <xs:documentation>Идентификатор поля выборки значений секторов.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="color" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Заливка выбранным цветом.</xs:documentation>
+                <xs:documentation>Цвет круговой области.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="label" type="xs:boolean" default="false">
+        <xs:attribute name="has-label" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Наличие подписи значений.</xs:documentation>
             </xs:annotation>

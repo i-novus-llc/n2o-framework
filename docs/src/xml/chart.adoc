@@ -15,7 +15,7 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|x-data-key
+|x-field-id
 |Строка
 |Ключ значений по оси x
 |
@@ -25,12 +25,12 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Положение оси x
 |bottom
 
-|x-label
+|x-has-label
 |true false
 |Подпись оси x
 |false
 
-|y-data-key
+|y-field-id
 |Строка
 |Ключ значений по оси y
 |
@@ -40,7 +40,7 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Положение оси y
 |left
 
-|y-label
+|y-has-label
 |true false
 |Подпись оси y
 |false
@@ -76,8 +76,7 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 Пример::
 [source,xml]
 ----
-<bars x-data-key="xdata" y-data-key="ydata" grid-x="0" grid-y="0"
-        grid-width="100" grid-height="100">
+<bars x-field-id="xdata" y-field-id="ydata">
     ...
 </bars>
 ----
@@ -127,12 +126,12 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|cx
+|center-x
 |Число
 |Координата центра по x
 |
 
-|cy
+|center-y
 |Число
 |Координата центра по y
 |
@@ -157,22 +156,22 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Конечный угол графика (в градусах)
 |360
 
-|name-key
-|Число
-|Ключ названия сектора
+|name-field-id
+|Строка
+|Идентификатор поля выборки имен секторов
 |
 
-|data-key
-|Число
-|Ключ значения сектора
+|value-field-id
+|Строка
+|Идентификатор поля выборки значений секторов
 |
 
 |color
 |Строка
-|Заливка выбранным цветом
+|Цвет круговой области
 |
 
-|label
+|has-label
 |true false
 |Наличие подписи значений
 |false
@@ -182,7 +181,7 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 Пример::
 [source,xml]
 ----
-<pie outer-radius="100" name-key="name" data-key="data" color="#ac8213"/>
+<pie outer-radius="100" name-field-id="name" value-field-id="data" color="#ac8213"/>
 ----
 
 === Элементы графиков/диаграмм
@@ -195,9 +194,9 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|data-key
+|field-id
 |Строка
-|Ключ в данных
+|Идентификатор поля выборки значений области
 |
 
 |line-type
@@ -208,15 +207,15 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 
 |color
 |Строка
-|Цвет зоны
+|Цвет области
 |
 
-|stroke
+|stroke-color
 |Строка
 |Цвет линии
 |
 
-|label
+|has-label
 |true false
 |Наличие подписи значений
 |false
@@ -226,28 +225,28 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 Пример::
 [source,xml]
 ----
-<area data-key="uv" color="#8884d8"/>
+<area field-id="uv" color="#8884d8"/>
 ----
 
 === <bar>
-Столбец.
+Столбцы.
 
 Атрибуты::
 [cols="2,1,4,4"]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|data-key
+|field-id
 |Строка
-|Ключ в данных
+|Идентификатор поля выборки значений столбцов
 |
 
 |color
 |Строка
-|Цвет зоны
+|Цвет столбцов
 |
 
-|label
+|has-label
 |true false
 |Наличие подписи значений
 |false
@@ -257,7 +256,7 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 Пример::
 [source,xml]
 ----
-<bar data-key="uv" color="#8884d8"/>
+<bar field-id="uv" color="#8884d8"/>
 ----
 
 
@@ -269,9 +268,9 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|data-key
+|field-id
 |Строка
-|Ключ в данных
+|Идентификатор поля выборки значений линии
 |
 
 |type
@@ -285,7 +284,7 @@ monotoneX monotoneY monotone step stepBefore stepAfter
 |Цвет линии
 |
 
-|label
+|has-label
 |true false
 |Наличие подписи значений
 |false
@@ -295,5 +294,5 @@ monotoneX monotoneY monotone step stepBefore stepAfter
 Пример::
 [source,xml]
 ----
-<line data-key="uv" line-type="monotone" color="#8884d8"/>
+<line field-id="uv" line-type="monotone" color="#8884d8"/>
 ----

@@ -10,8 +10,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLineType;
 @Getter
 @Setter
 public class N2oLineChartItem extends N2oStandardChartItem {
-    private String dataKey;
+    private String fieldId;
     private ChartLineType type;
     private String color;
-    private Boolean label;
+    private Boolean hasLabel;
 }

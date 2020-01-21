@@ -12,10 +12,10 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class ChartAxis implements Serializable {
-    @JsonProperty
-    private String dataKey;
+    @JsonProperty("dataKey")
+    private String fieldId;
     @JsonProperty
     private String orientation;
-    @JsonProperty
-    private Boolean label;
+    @JsonProperty("label")
+    private Boolean hasLabel;
 }

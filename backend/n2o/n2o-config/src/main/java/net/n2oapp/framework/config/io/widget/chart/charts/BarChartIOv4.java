@@ -19,9 +19,9 @@ public class BarChartIOv4 extends StandardChartIOv4<N2oBarChart> {
     }
 
     private void barChartIOv4(Element e, N2oBarChartItem c, IOProcessor p) {
-        p.attribute(e, "data-key", c::getDataKey, c::setDataKey);
+        p.attribute(e, "field-id", c::getFieldId, c::setFieldId);
         p.attribute(e, "color", c::getColor, c::setColor);
-        p.attributeBoolean(e, "label", c::getLabel, c::setLabel);
+        p.attributeBoolean(e, "has-label", c::getHasLabel, c::setHasLabel);
     }
 
     @Override

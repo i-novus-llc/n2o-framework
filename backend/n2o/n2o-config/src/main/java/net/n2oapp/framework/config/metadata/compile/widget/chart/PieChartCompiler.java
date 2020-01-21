@@ -21,16 +21,16 @@ public class PieChartCompiler extends AbstractChartCompiler<PieChart, N2oPieChar
         PieChart chart = new PieChart();
         build(chart, source, context, p, property("n2o.api.widget.chart.pie"));
         chart.setType(ChartType.pie);
-        chart.getComponent().setCx(source.getCx());
-        chart.getComponent().setCy(source.getCy());
+        chart.getComponent().setCenterX(source.getCenterX());
+        chart.getComponent().setCenterY(source.getCenterY());
         chart.getComponent().setInnerRadius(p.cast(source.getInnerRadius(), 0));
         chart.getComponent().setOuterRadius(source.getOuterRadius());
         chart.getComponent().setStartAngle(p.cast(source.getStartAngle(), 0));
         chart.getComponent().setEndAngle(p.cast(source.getEndAngle(), 360));
-        chart.getComponent().setNameKey(source.getNameKey());
-        chart.getComponent().setDataKey(source.getDataKey());
+        chart.getComponent().setNameFieldId(source.getNameFieldId());
+        chart.getComponent().setValueFieldId(source.getValueFieldId());
         chart.getComponent().setColor(source.getColor());
-        chart.getComponent().setLabel(p.cast(source.getLabel(), p.resolve(property("n2o.api.default.widget.chart.label"), Boolean.class)));
+        chart.getComponent().setHasLabel(p.cast(source.getHasLabel(), p.resolve(property("n2o.api.default.widget.chart.has-label"), Boolean.class)));
         return chart;
     }
 

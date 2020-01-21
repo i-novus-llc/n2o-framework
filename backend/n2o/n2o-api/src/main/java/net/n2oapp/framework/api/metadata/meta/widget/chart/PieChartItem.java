@@ -10,10 +10,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PieChartItem extends AbstractChartItem {
-    @JsonProperty
-    private Integer cx;
-    @JsonProperty
-    private Integer cy;
+    @JsonProperty("cx")
+    private Integer centerX;
+    @JsonProperty("cy")
+    private Integer centerY;
     @JsonProperty
     private Integer innerRadius;
     @JsonProperty
@@ -22,12 +22,12 @@ public class PieChartItem extends AbstractChartItem {
     private Integer startAngle;
     @JsonProperty
     private Integer endAngle;
-    @JsonProperty
-    private String nameKey;
-    @JsonProperty
-    private String dataKey;
+    @JsonProperty("nameKey")
+    private String nameFieldId;
+    @JsonProperty("dataKey")
+    private String valueFieldId;
     @JsonProperty("fill")
     private String color;
-    @JsonProperty
-    private Boolean label;
+    @JsonProperty("label")
+    private Boolean hasLabel;
 }

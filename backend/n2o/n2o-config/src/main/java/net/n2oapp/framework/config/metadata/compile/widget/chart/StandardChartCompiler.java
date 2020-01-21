@@ -16,14 +16,14 @@ public abstract class StandardChartCompiler<D extends StandardChartWidgetCompone
 
     public D compileStandardChart(D chart, S source, CompileContext<?, ?> context, CompileProcessor p) {
         ChartAxis xAxis = new ChartAxis();
-        xAxis.setDataKey(source.getXAxisDataKey());
+        xAxis.setFieldId(source.getXAxisFieldId());
         xAxis.setOrientation((p.cast(source.getXAxisOrientation(), N2oStandardChart.XAxisOrientationType.bottom)).toString());
-        xAxis.setLabel(p.cast(source.getXLabel(), p.resolve(property("n2o.api.default.widget.chart.axis.label"), Boolean.class)));
+        xAxis.setHasLabel(p.cast(source.getXHasLabel(), p.resolve(property("n2o.api.default.widget.chart.axis.has-label"), Boolean.class)));
         chart.setXAxis(xAxis);
         ChartAxis yAxis = new ChartAxis();
-        yAxis.setDataKey(source.getYAxisDataKey());
+        yAxis.setFieldId(source.getYAxisFieldId());
         yAxis.setOrientation((p.cast(source.getYAxisOrientation(), N2oStandardChart.YAxisOrientationType.left)).toString());
-        yAxis.setLabel(p.cast(source.getYLabel(), p.resolve(property("n2o.api.default.widget.chart.axis.label"), Boolean.class)));
+        yAxis.setHasLabel(p.cast(source.getYHasLabel(), p.resolve(property("n2o.api.default.widget.chart.axis.has-label"), Boolean.class)));
         chart.setYAxis(yAxis);
         ChartGrid grid = new ChartGrid();
         grid.setStrokeDashArray(source.getGridStrokeDashArray());

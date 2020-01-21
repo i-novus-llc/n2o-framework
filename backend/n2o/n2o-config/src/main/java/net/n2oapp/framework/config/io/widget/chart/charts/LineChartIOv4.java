@@ -20,10 +20,10 @@ public class LineChartIOv4 extends StandardChartIOv4<N2oLineChart> {
     }
 
     private void lineChartIOv4(Element e, N2oLineChartItem c, IOProcessor p) {
-        p.attribute(e, "data-key", c::getDataKey, c::setDataKey);
+        p.attribute(e, "field-id", c::getFieldId, c::setFieldId);
         p.attributeEnum(e, "type", c::getType, c::setType, ChartLineType.class);
         p.attribute(e, "color", c::getColor, c::setColor);
-        p.attributeBoolean(e, "label", c::getLabel, c::setLabel);
+        p.attributeBoolean(e, "has-label", c::getHasLabel, c::setHasLabel);
     }
 
     @Override

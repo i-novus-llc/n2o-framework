@@ -10,12 +10,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LineChartItem extends AbstractChartItem {
-    @JsonProperty
-    private String dataKey;
+    @JsonProperty("dataKey")
+    private String fieldId;
     @JsonProperty
     private ChartLineType type;
     @JsonProperty("stroke")
     private String color;
-    @JsonProperty
-    private Boolean label;
+    @JsonProperty("label")
+    private Boolean hasLabel;
 }
