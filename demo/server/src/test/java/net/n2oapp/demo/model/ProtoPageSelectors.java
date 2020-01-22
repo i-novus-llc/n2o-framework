@@ -24,7 +24,7 @@ public interface ProtoPageSelectors extends BasePage {
     }
 
     default SelenideElement getAddClientButton() {
-        return Selenide.$$(".buttons-toolbar.btn-toolbar a").find(Condition.text("Добавить клиента"));
+        return $$(".btn-group a").find(Condition.text("Добавить клиента"));
     }
 
     default SelenideElement getActiveBreadcrumbItem() {
@@ -32,7 +32,7 @@ public interface ProtoPageSelectors extends BasePage {
     }
 
     default SelenideElement getCreateButton() {
-        return $$(".btn-toolbar button").find(Condition.text("Создать"));
+        return $$(".btn-group button").find(Condition.text("Создать"));
     }
 
     /////
