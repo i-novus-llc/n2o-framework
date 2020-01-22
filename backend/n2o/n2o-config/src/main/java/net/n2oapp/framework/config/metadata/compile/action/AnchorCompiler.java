@@ -8,17 +8,14 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.PageRoutes;
-import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
-import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionOptions;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
@@ -40,14 +37,14 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
 
     @Override
     public LinkAction compile(N2oAnchor source, CompileContext<?, ?> context, CompileProcessor p) {
-        LinkAction linkAction = new LinkAction(new LinkActionOptions());
+        LinkActionImpl linkAction = new LinkActionImpl();
         source.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.link.src"), String.class)));
         compileAction(linkAction, source, p);
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         String path = RouteUtil.absolute(source.getHref(), routeScope != null ? routeScope.getUrl() : null);
-        linkAction.getOptions().setPath(path);
+        linkAction.setUrl(path);
         Target target = p.cast(source.getTarget(), RouteUtil.isApplicationUrl(source.getHref()) ? Target.application : Target.self);
-        linkAction.getOptions().setTarget(target);
+        linkAction.setTarget(target);
         PageRoutes pageRoutes = p.getScope(PageRoutes.class);
         if (pageRoutes != null && Target.application.equals(source.getTarget())) {
             PageRoutes.Route pageRoute = new PageRoutes.Route(path);
@@ -61,7 +58,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
     private void initPathMapping(LinkAction compiled, N2oAnchor source, CompileProcessor p, ParentRouteScope routeScope ) {
         Map<String, ModelLink> pathMapping = new StrictMap<>();
         if (routeScope != null && routeScope.getPathMapping() != null) {
-            List<String> pathParams = RouteUtil.getParams(compiled.getOptions().getPath());
+            List<String> pathParams = RouteUtil.getParams(compiled.getUrl());
             routeScope.getPathMapping().forEach((k, v) -> {
                 if (pathParams.contains(k)) {
                     pathMapping.put(k, v);
@@ -98,11 +95,11 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
                         link.setValue(p.resolveJS(pathParam.getValue()));
                         queryMapping.put(pathParam.getName(), link);
                     }
-                    compiled.getOptions().setQueryMapping(queryMapping);
+                    compiled.setQueryMapping(queryMapping);
                 }
             }
         }
-        compiled.getOptions().setPathMapping(pathMapping);
+        compiled.setPathMapping(pathMapping);
     }
 
     private String getRef (String value) {
