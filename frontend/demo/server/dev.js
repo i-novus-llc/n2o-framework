@@ -8,14 +8,14 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const options = {
-  target: "https://n2o.i-novus.ru/dev/",
+  target: "https://n2o.i-novus.ru/next/demo/",
   changeOrigin: true,
   ws: true
 };
 
 const exampleProxy = proxy(options);
 
-app.use(bodyParser());
+app.use(bodyParser.json());
 
 app.get("/n2o/page/proto", (req, res) => {
   const json = require("./json/proto.json");

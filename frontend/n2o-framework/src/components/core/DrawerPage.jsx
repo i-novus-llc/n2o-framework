@@ -5,7 +5,7 @@ import { compose } from 'recompose';
 import Page from './Page';
 import cn from 'classnames';
 import Spinner from '../snippets/Spinner/Spinner';
-import Actions from '../actions/Actions';
+import Toolbar from '../buttons/Toolbar';
 import withOverlayMethods from './withOverlayMethods';
 
 /**
@@ -51,6 +51,7 @@ function DrawerPage(props) {
 
   const showSpinner = !visible || loading || typeof loading === 'undefined';
   const classes = cn({ 'd-none': loading });
+
   return (
     <div className="drawer-page-overlay">
       <Spinner
@@ -62,7 +63,7 @@ function DrawerPage(props) {
       >
         <Drawer
           visible={!loading && visible}
-          onHandleClick={() => rest.closeOverlay(false)}
+          onHandleClick={() => rest.closeOverlay(true)}
           title={title}
           backdrop={false}
           footer={
@@ -70,20 +71,15 @@ function DrawerPage(props) {
               <div
                 className={cn('n2o-modal-actions', {
                   'n2o-disabled': disabled,
-                  classes,
                 })}
               >
-                <Actions
+                <Toolbar
                   toolbar={toolbar.bottomLeft}
-                  actions={actions}
                   containerKey={containerKey}
-                  pageId={pageId}
                 />
-                <Actions
+                <Toolbar
                   toolbar={toolbar.bottomRight}
-                  actions={actions}
                   containerKey={containerKey}
-                  pageId={pageId}
                 />
               </div>
             )
@@ -95,7 +91,8 @@ function DrawerPage(props) {
                 pageUrl={pageUrl}
                 pageId={pageId}
                 pageMapping={pageMapping}
-                needMetadata
+                containerKey={containerKey}
+                needMetadata={true}
               />
             ) : src ? (
               rest.renderFromSrc(src)

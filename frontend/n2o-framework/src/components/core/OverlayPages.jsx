@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-import { get, omit } from 'lodash';
+import get from 'lodash/get';
+import omit from 'lodash/omit';
 import { closeOverlay, hidePrompt } from '../../actions/overlays';
 import { overlaysSelector } from '../../selectors/overlays';
 
@@ -18,7 +19,7 @@ import DrawerPage from './DrawerPage';
 function OverlayPages(props) {
   const renderModalPage = overlay => (
     <ModalPage
-      key={get(overlay, 'props.pageId', '')}
+      key={get(overlay, 'pageId', '')}
       {...props}
       {...overlay}
       {...overlay.props}
@@ -26,7 +27,7 @@ function OverlayPages(props) {
   );
   const renderDrawerPage = overlay => (
     <DrawerPage
-      key={get(overlay, 'props.pageId', '')}
+      key={get(overlay, 'pageId', '')}
       {...props}
       {...overlay}
       {...overlay.props}

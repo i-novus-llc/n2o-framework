@@ -33,17 +33,20 @@ import withOverlayMethods from './withOverlayMethods';
  */
 function ModalPage(props) {
   const {
+    entityKey,
+    toolbar,
+    visible,
+    title,
+    loading,
     pageUrl,
     pageId,
     src,
     pathMapping,
     queryMapping,
     size,
+    actions,
     containerKey,
-    toolbar,
-    visible,
-    title,
-    loading,
+    close,
     disabled,
     ...rest
   } = props;
@@ -57,11 +60,11 @@ function ModalPage(props) {
   const classes = cn({ 'd-none': loading });
 
   return (
-      <div className={'modal-page-overlay'}>
+    <div className="modal-page-overlay">
       <Spinner type="cover" loading={showSpinner} color="light" transparent>
         <Modal
           isOpen={visible}
-          toggle={() => rest.closeOverlay(false)}
+          toggle={() => rest.closeOverlay(true)}
           size={size}
           backdrop={false}
           style={{
@@ -70,7 +73,7 @@ function ModalPage(props) {
         >
           <ModalHeader
             className={classes}
-            toggle={() => rest.closeOverlay(false)}
+            toggle={() => rest.closeOverlay(true)}
           >
             {title}
           </ModalHeader>
@@ -80,8 +83,8 @@ function ModalPage(props) {
                 pageUrl={pageUrl}
                 pageId={pageId}
                 pageMapping={pageMapping}
-                  containerKey={containerKey}
-                  needMetadata={true}
+                containerKey={containerKey}
+                needMetadata={true}
               />
             ) : src ? (
               rest.renderFromSrc(src)
@@ -94,11 +97,11 @@ function ModalPage(props) {
                   'n2o-disabled': disabled,
                 })}
               >
-                  <Toolbar
+                <Toolbar
                   toolbar={toolbar.bottomLeft}
                   containerKey={containerKey}
                 />
-                  <Toolbar
+                <Toolbar
                   toolbar={toolbar.bottomRight}
                   containerKey={containerKey}
                 />
