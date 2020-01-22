@@ -149,17 +149,18 @@ public class ProtoPage implements ProtoPageSelectors {
         List<String> row = getRow(getMainTableRows(), 1);
 
         String surname = row.get(0);
+        String name = row.get(1);
         String patronymic = row.get(2);
         String birthDate = row.get(3);
         String gender = row.get(4);
         String vip = row.get(5);
 
-        getMainTableRows().get(1).click();
-        getButtonByLabel("Изменить").click();
+        getMainTableCell(1, 4).click();
+        getUpdateButton().click();
 
         ProtoClient protoClient = page(ProtoClient.class);
         protoClient.getInputByLabel("Фамилия").shouldBe(Condition.value(surname));
-        protoClient.getInputByLabel("Имя").shouldBe(Condition.value("Лада"));
+        protoClient.getInputByLabel("Имя").shouldBe(Condition.value(name));
         protoClient.getInputByLabel("Отчество").shouldBe(Condition.value(patronymic));
         protoClient.getInputSelectByLabel("Пол").shouldBe(Condition.text(gender));
         protoClient.getInputByLabel("Дата рождения").shouldBe(Condition.value(birthDate));

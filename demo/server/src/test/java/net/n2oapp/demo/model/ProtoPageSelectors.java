@@ -19,12 +19,16 @@ public interface ProtoPageSelectors extends BasePage {
         return $("table tbody").waitUntil(Condition.exist, 5000).$$("tr");
     }
 
+    default SelenideElement getMainTableCell(int row, int col) {
+        return getMainTableRows().get(row).$$("td").get(col);
+    }
+
     default SelenideElement getMainTableFilter() {
         return $(".n2o-filter");
     }
 
     default SelenideElement getAddClientButton() {
-        return $$(".btn-toolbar button").find(Condition.text("Добавить клиента"));
+        return $$(".btn-group a").find(Condition.text("Добавить клиента"));
     }
 
     default SelenideElement getButtonByLabel(String label) {
@@ -35,6 +39,13 @@ public interface ProtoPageSelectors extends BasePage {
         return $(".active.breadcrumb-item");
     }
 
+    default SelenideElement getCreateButton() {
+        return $$(".btn-group button").find(Condition.text("Создать"));
+    }
+
+    default SelenideElement getUpdateButton() {
+        return $$(".btn-group button").find(Condition.text("Изменить"));
+    }
 
     default ElementsCollection getMainTablePaginationButtons() {
         return $(".pagination ").$$("li");
