@@ -85,7 +85,7 @@ describe('utils', () => {
     expect(
       mapToValue(val, defaultTime, dateFormat, locale, defaultName)[
         defaultName
-      ].format('DD/MM/YYYY')
+        ].format('DD/MM/YYYY')
     ).toBe('16/07/2019');
   });
 
