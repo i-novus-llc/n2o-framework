@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { find } from 'lodash';
+import find from 'lodash/find';
 
 /**
  * селектор модольных окон
@@ -25,7 +25,6 @@ export const makeShowPromptByName = name =>
   createSelector(
     overlaysSelector,
     overlaysState => {
-      console.log('pointt', overlaysState);
       return find(overlaysState, overlay => overlay.name === name).showPrompt;
     }
   );

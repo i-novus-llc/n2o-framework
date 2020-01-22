@@ -53,6 +53,7 @@ function withOverlayMethods(WrappedComponent) {
 
     render() {
       return (
+        // {this.props.showPrompt && this.showPrompt()}
         <WrappedComponent
           {...this.props}
           closeOverlay={this.closeOverlay}

@@ -7,7 +7,7 @@ import ModalFooter from 'reactstrap/lib/ModalFooter';
 import { compose } from 'recompose';
 import Page from './Page';
 import cn from 'classnames';
-import Actions from '../actions/Actions';
+import Toolbar from '../buttons/Toolbar';
 import Spinner from '../snippets/Spinner/Spinner';
 import withOverlayMethods from './withOverlayMethods';
 
@@ -33,6 +33,11 @@ import withOverlayMethods from './withOverlayMethods';
  */
 function ModalPage(props) {
   const {
+    entityKey,
+    toolbar,
+    visible,
+    title,
+    loading,
     pageUrl,
     pageId,
     src,
@@ -41,10 +46,7 @@ function ModalPage(props) {
     size,
     actions,
     containerKey,
-    toolbar,
-    visible,
-    title,
-    loading,
+    close,
     disabled,
     ...rest
   } = props;
@@ -56,12 +58,13 @@ function ModalPage(props) {
 
   const showSpinner = !visible || loading || typeof loading === 'undefined';
   const classes = cn({ 'd-none': loading });
+
   return (
-    <div className={cn('modal-page-overlay')}>
+    <div className="modal-page-overlay">
       <Spinner type="cover" loading={showSpinner} color="light" transparent>
         <Modal
           isOpen={visible}
-          toggle={() => rest.closeOverlay(false)}
+          toggle={() => rest.closeOverlay(true)}
           size={size}
           backdrop={false}
           style={{
@@ -70,7 +73,7 @@ function ModalPage(props) {
         >
           <ModalHeader
             className={classes}
-            toggle={() => rest.closeOverlay(false)}
+            toggle={() => rest.closeOverlay(true)}
           >
             {title}
           </ModalHeader>
@@ -80,7 +83,8 @@ function ModalPage(props) {
                 pageUrl={pageUrl}
                 pageId={pageId}
                 pageMapping={pageMapping}
-                needMetadata
+                containerKey={containerKey}
+                needMetadata={true}
               />
             ) : src ? (
               rest.renderFromSrc(src)
@@ -93,17 +97,13 @@ function ModalPage(props) {
                   'n2o-disabled': disabled,
                 })}
               >
-                <Actions
+                <Toolbar
                   toolbar={toolbar.bottomLeft}
-                  actions={actions}
                   containerKey={containerKey}
-                  pageId={pageId}
                 />
-                <Actions
+                <Toolbar
                   toolbar={toolbar.bottomRight}
-                  actions={actions}
                   containerKey={containerKey}
-                  pageId={pageId}
                 />
               </div>
             </ModalFooter>
