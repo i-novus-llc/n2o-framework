@@ -52,10 +52,10 @@ public interface ProtoPageSelectors extends BasePage {
     }
 
     default SelenideElement getCurrentActivePageLink() {
-        return getMainTablePagination().$(".active");
+        return getMainTablePagination().$(".page-item.active");
     }
 
     default ElementsCollection getPageLinks() {
-        return getMainTablePagination().$$("li");
+        return getMainTablePagination().$$(".page-item");
     }
 }
