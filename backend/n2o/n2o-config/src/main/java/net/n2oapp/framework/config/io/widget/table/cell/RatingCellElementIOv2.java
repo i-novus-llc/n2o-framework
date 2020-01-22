@@ -13,7 +13,7 @@ public class RatingCellElementIOv2 extends AbstractCellElementIOv2<N2oRatingCell
     @Override
     public void io(Element e, N2oRatingCell c, IOProcessor p) {
         super.io(e, c, p);
-        p.attributeBoolean(e, "showTooltip", c::getShowTooltip, c::setShowTooltip);
+        p.attributeBoolean(e, "show-tooltip", c::getShowTooltip, c::setShowTooltip);
         p.attributeBoolean(e, "half", c::getHalf, c::setHalf);
         p.attributeInteger(e, "max", c::getMax, c::setMax);
     }

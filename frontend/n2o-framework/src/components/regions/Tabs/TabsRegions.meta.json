@@ -1,6 +1,7 @@
 {
   "src": "TabsRegion",
   "alwaysRefresh": true,
+  "lazy": true,
   "tabs": [
     {
       "id": "tab1",
