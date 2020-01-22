@@ -26,6 +26,7 @@ class FormWidget extends React.Component {
    */
   getWidgetProps() {
     const { resolveProps } = this.context;
+
     return {
       fieldsets: values(
         resolveProps(this.props.form.fieldsets, Fieldsets.StandardFieldset)

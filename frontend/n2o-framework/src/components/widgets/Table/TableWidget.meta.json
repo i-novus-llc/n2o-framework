@@ -24,17 +24,20 @@
               "id": "menuItem0",
               "actionId": "menuItem0",
               "hint": "Изменить видимость фильтров",
+              "src": "PerformButton",
               "icon": "fa fa-filter"
             },
             {
               "id": "menuItem1",
               "icon": "fa fa-table",
               "hint": "Изменить видимость колонок",
+              "src": "PerformButton",
               "dropdownSrc": "ToggleColumn"
             },
             {
               "id": "menuItem2",
               "hint": "Обновить данные",
+              "src": "PerformButton",
               "icon": "fa fa-refresh",
               "actionId": "menuItem2"
             },
@@ -42,12 +45,14 @@
               "id": "menuItem3",
               "icon": "fa fa-bars",
               "hint": "Изменить размер",
+              "src": "PerformButton",
               "dropdownSrc": "ChangeSize"
             },
             {
               "id": "menuItem4",
               "hint": "Экспортировать данные",
               "icon": "fa fa-download",
+              "src": "PerformButton",
               "actionId": "exportModal"
             }
           ]
@@ -112,14 +117,16 @@
                 "buttons": [
                   {
                     "id": "export",
-                    "title": "Загрузить",
+                    "label": "Загрузить",
                     "actionId": "export",
+                    "src": "PerformButton",
                     "className": "btn-primary",
                     "icon": "fa fa-download"
                   },
                   {
                     "id": "cancelExport",
-                    "title": "Отменить",
+                    "label": "Отменить",
+                    "src": "PerformButton",
                     "actionId": "destroyModal"
                   }
                 ]

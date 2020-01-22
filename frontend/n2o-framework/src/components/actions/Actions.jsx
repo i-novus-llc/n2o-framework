@@ -24,10 +24,14 @@ const ConfirmMode = {
 };
 
 /**
+ * @deprecated
+ */
+
+/**
  * Компонент redux-обертка для тулбара
  * @reactProps {object} actions - объект с src экшенов
  * @reactProps {object} toolbar - массив из групп кнопок
- * @reactProps {string} containerKey - id контейнера (widgetId, pageId...)
+ * @reactProps {string} entityKey - id контейнера (widgetId, pageId...)
  * @reactProps {function} resolve
  * @reactProps {object} options
  * @reactProps {string} className
