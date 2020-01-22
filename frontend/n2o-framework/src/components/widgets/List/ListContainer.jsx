@@ -15,10 +15,8 @@ import widgetContainer from '../WidgetContainer';
 import List from './List';
 import withColumn from '../Table/withColumn';
 import TableCell from '../Table/TableCell';
-import {
-  withContainerLiveCycle,
-  withWidgetHandlers,
-} from '../Table/TableContainer';
+import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer';
+import { withContainerLiveCycle } from '../Table/TableContainer';
 import { createStructuredSelector } from 'reselect';
 import { setTableSelectedId } from '../../../actions/widgets';
 
