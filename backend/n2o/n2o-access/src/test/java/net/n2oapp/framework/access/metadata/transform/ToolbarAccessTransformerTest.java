@@ -4,12 +4,10 @@ import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessT
 import net.n2oapp.framework.access.integration.metadata.transform.action.InvokeActionAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
-import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -72,7 +70,6 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObjectToolbar.getUsernames().size(), is(1));
         assertThat(securityObjectToolbar.getUsernames().contains("user"), is(true));
         assertThat(securityObjectToolbar.getRoles(), nullValue());
-
     }
 
     @Test
@@ -135,7 +132,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         assertFalse(((Security) subMenu3.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().isEmpty());
 
         //Если одна из кнопок не имеет security, то subMenu тоже не будет иметь security
-        Submenu subMenu4 = (Submenu)page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(3);
+        Submenu subMenu4 = (Submenu) page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(3);
         assertThat(subMenu4.getSubMenu().get(0).getProperties().get(SECURITY_PROP_NAME), notNullValue());
 //        assertThat(subMenu4.getSubMenu().get(1).getProperties().isEmpty(), is(true));
         assertThat(subMenu4.getProperties(), nullValue());

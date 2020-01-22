@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
@@ -76,11 +75,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidgets().get("testRoute_line2").getName(), is("test2"));
 
         assertThat(page.getToolbar().get("TopLeft"), notNullValue());
-        assertThat(page.getToolbar().get("TopLeft").get(0).getButtons().get(0).getActionId(), is("close"));
         assertThat(page.getToolbar().get("TopLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
-        assertThat(page.getToolbar().get("TopLeft").get(0).getButtons().get(1).getSubMenu().get(0).getActionId(), is("test2"));
-        assertThat(page.getToolbar().get("TopLeft").get(1).getButtons().get(0).getActionId(), is("test3"));
-        assertThat(page.getToolbar().get("TopLeft").get(1).getButtons().get(1).getSubMenu().get(0).getActionId(), is("test4"));
         assertThat(page.getActions().containsKey("close"), is(true));
 
     }

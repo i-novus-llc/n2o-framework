@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 
@@ -24,11 +23,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         if (widgets != null) {
             widgets.values().forEach(p::bind);
         }
-        if (page.getToolbar() != null) {
-            for (List<Group> grp : page.getToolbar().values()) {
-                grp.forEach(g -> {if (g.getButtons() != null) g.getButtons().forEach(p::bind);});
-            }
-        }
+
         if (page.getRoutes() != null) {
             Map<String, BindLink> pathMappings = new HashMap<>();
             page.getRoutes().getPathMapping().forEach((k, v) -> pathMappings.put(k, Redux.createBindLink(v)));

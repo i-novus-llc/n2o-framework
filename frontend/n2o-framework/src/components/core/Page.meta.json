@@ -40,7 +40,7 @@
             "buttons": [
               {
                 "id": "redirect",
-                "src": "PerformButton",
+                "src": "StandardButton",
                 "label": "Вперед"
               }
             ]
