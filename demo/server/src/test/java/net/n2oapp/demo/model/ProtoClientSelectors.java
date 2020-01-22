@@ -10,7 +10,7 @@ public interface ProtoClientSelectors extends BasePage {
 
     default SelenideElement getInputByLabel(String label) {
         SelenideElement selenideElement = $$(".modal-content").size() == 1 ? $(".modal-content") : $(".n2o-page");
-        return selenideElement.$$("label").findBy(Condition.matchesText(label)).parent().find("input");
+        return selenideElement.$$(".n2o-field-label").findBy(Condition.matchesText(label)).parent().find("input");
     }
 
     default SelenideElement getInputSelectByLabel(String label) {
@@ -39,6 +39,6 @@ public interface ProtoClientSelectors extends BasePage {
     }
 
     default SelenideElement getCloseButton() {
-        return $$("button").findBy(Condition.text("Закрыть"));
+        return $$(".btn-group a").find(Condition.text("Закрыть"));
     }
 }
