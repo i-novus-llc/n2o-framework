@@ -323,7 +323,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
                     compiledObject.setId(widget.getObjectId());
                 }
                 Action action = p.compile(a.getAction(), context, pageScope, routeScope, pageRoutes, compiledObject, breadcrumbs, validationList, new ComponentScope(a));
-                actions.addAction(action);
+                actions.addAction(a.getId(), action);
             });
         }
     }

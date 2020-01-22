@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
@@ -45,7 +45,7 @@ public class TableBinderTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml");
         PageContext context = new PageContext("testTableRowClick", "/p/w/:param/row");
         TableWidgetComponent component = (TableWidgetComponent) ((SimplePage) pipeline.get(context, new DataSet().add("param", "1"))).getWidget().getComponent();
-        assertThat(((LinkAction) component.getRowClick()).getOptions().getPath(), is("/p/w/1/row/:p_w_row_main_id/p_w_row_main_row"));
-        assertThat(((LinkAction) component.getRowClick()).getOptions().getPathMapping().containsKey("p_w_row_main_id"), is(true));
+        assertThat(((LinkActionImpl) component.getRowClick().getAction()).getUrl(), is("/p/w/1/row/:p_w_row_main_id/p_w_row_main_row"));
+        assertThat(((LinkActionImpl) component.getRowClick().getAction()).getPathMapping().containsKey("p_w_row_main_id"), is(true));
     }
 }

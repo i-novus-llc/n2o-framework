@@ -88,14 +88,14 @@
                 "buttons": [
                   {
                     "id": "export",
-                    "title": "Загрузить",
+                    "label": "Загрузить",
                     "actionId": "export",
                     "className": "btn-primary",
                     "icon": "fa fa-download"
                   },
                   {
                     "id": "cancelExport",
-                    "title": "Отменить",
+                    "label": "Отменить",
                     "actionId": "destroyModal"
                   }
                 ]
@@ -165,7 +165,7 @@
             "buttons": [
               {
                 "id": "1",
-                "title": "",
+                "label": "",
                 "icon": "fa fa-plus",
                 "hint": "Make a cat clever",
                 "size": "md",
@@ -174,7 +174,7 @@
               },
               {
                 "id": "2",
-                "title": "",
+                "label": "",
                 "icon": "fa fa-trash",
                 "hint": "Delete",
                 "size": "md",

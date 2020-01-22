@@ -279,6 +279,78 @@
       "autoFocus": true
     }
   },
+  "toolbar": {
+    "bottomRight": [
+      {
+        "id": "bottomRight0",
+        "buttons": [
+          {
+            "src": "PerformButton",
+            "id": "submit",
+            "label": "Сохранить",
+            "action": {
+              "type": "n2o/actionImpl/START_INVOKE",
+              "payload": {
+                "widgetId": "proto_create_main",
+                "pageId": "proto_create",
+                "dataProvider": {
+                  "url": "n2o/data/proto/create/submit",
+                  "pathMapping": {},
+                  "method": "POST"
+                },
+                "modelLink": "models.resolve['proto_create_main']"
+              },
+              "meta": {
+                "success": {
+                  "refresh": {
+                    "type": "widget",
+                    "options": {
+                      "widgetId": "proto_patients"
+                    }
+                  },
+                  "redirect": {
+                    "path": "/proto/:id/update2",
+                    "pathMapping": {},
+                    "queryMapping": {},
+                    "target": "application"
+                  },
+                  "closeLastModal": true
+                },
+                "fail": {}
+              }
+            },
+            "conditions": {
+              "enabled": [
+                {
+                  "expression": "!_.isEmpty(this)",
+                  "modelLink": "models.resolve['proto_create_main']"
+                }
+              ]
+            },
+            "validate": true,
+            "validatedWidgetId": "proto_create_main",
+            "color": "primary"
+          },
+          {
+            "src": "PerformButton",
+            "id": "close",
+            "label": "Закрыть",
+            "action": {
+              "type": "n2o/modals/CLOSE",
+              "payload": {
+                "prompt": true,
+                "name": "proto_create"
+              },
+              "meta": {
+                "closeLastModal": true
+              }
+            },
+            "conditions": {}
+          }
+        ]
+      }
+    ]
+  },
 
   "models": {
     "resolve['proto_create_main'].patrName": {

@@ -56,6 +56,10 @@
 
 .n2o-dropdown-menu {
   z-index: 100;
+
+  & > .btn {
+    width: 100%;
+  }
 }
 .capitalize {
   text-transform: capitalize;

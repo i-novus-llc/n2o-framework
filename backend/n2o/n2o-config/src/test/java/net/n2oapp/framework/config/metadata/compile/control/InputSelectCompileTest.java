@@ -59,6 +59,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(0).getExpression(), is("true"));
 
         InputSelect inputSelect = (InputSelect) field.getControl();
+        assertThat(inputSelect.getSortFieldId(), is("sortName"));
         assertThat(inputSelect.getBadgeFieldId(), is("badgeFieldId"));
         assertThat(inputSelect.getBadgeColorFieldId(), is("badgeColorFieldId"));
         assertThat(inputSelect.getClosePopupOnSelect(), is(false));

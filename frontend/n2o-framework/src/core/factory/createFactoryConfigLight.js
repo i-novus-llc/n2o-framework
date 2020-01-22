@@ -42,6 +42,7 @@ import fieldsets from '../../components/widgets/Form/fieldsets';
 import fields from '../../components/widgets/Form/fields';
 import actions from '../../impl/actions';
 import snippets from '../../components/snippets';
+import buttons from '../../components/buttons';
 
 export const factoriesLight = {
   controls: {
@@ -88,6 +89,7 @@ export const factoriesLight = {
   fields,
   actions,
   snippets,
+  buttons,
 };
 
 export default function createFactoryConfigLight(customConfig) {

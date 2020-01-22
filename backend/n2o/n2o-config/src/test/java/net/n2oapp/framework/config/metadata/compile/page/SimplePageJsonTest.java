@@ -34,6 +34,7 @@ public class SimplePageJsonTest extends JsonMetadataTestBase {
                         "widget.toolbar.topLeft[0].buttons[0].conditions",
                         "widget.toolbar.topLeft[0].buttons[0].confirm",
                         "widget.toolbar.topLeft[0].buttons[0].hint",
+                        "widgets.test_wireframe.toolbar.topLeft[0].buttons[0].src",
                         "widget.toolbar.topLeft[0].buttons[0].hintPosition")
                 .assertEquals();
     }
