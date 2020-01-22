@@ -32,11 +32,6 @@
                 <xs:documentation>Реализация меню</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="welcome-page-id" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Ссылка на страницу</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="subMenuDef">

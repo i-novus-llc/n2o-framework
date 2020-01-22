@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, setDisplayName } from 'recompose';
+import { compose, setDisplayName, withHandlers } from 'recompose';
 import withCell from '../../withCell';
 import imageShapes from './imageShapes';
 import get from 'lodash/get';
@@ -43,7 +43,7 @@ class ImageCell extends React.Component {
       model,
       id,
       shape,
-      callActionImpl,
+      onClick,
       action,
       visible,
     } = this.props;
@@ -59,7 +59,7 @@ class ImageCell extends React.Component {
             src={get(model, fieldKey || id)}
             alt={title}
             className={getImageClass(shape)}
-            onClick={callActionImpl}
+            onClick={onClick}
           />
         </div>
       )
@@ -105,5 +105,10 @@ ImageCell.defaultProps = {
 export { ImageCell };
 export default compose(
   setDisplayName('ImageCell'),
-  withCell
+  withCell,
+  withHandlers({
+    onClick: ({ callAction, model }) => () => {
+      callAction(model);
+    },
+  })
 )(ImageCell);

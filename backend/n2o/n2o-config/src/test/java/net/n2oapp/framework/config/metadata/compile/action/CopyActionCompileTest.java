@@ -42,19 +42,17 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testCopyAction", "/w"));
 
         CopyAction testAction = (CopyAction) table.getActions().get("test");
-        assertThat(testAction.getSrc(), is("perform"));
-        assertThat(testAction.getOptions().getType(), is("n2o/models/COPY"));
-        assertThat(testAction.getOptions().getPayload().getSource().getKey(), is("w"));
-        assertThat(testAction.getOptions().getPayload().getSource().getPrefix(), is("edit"));
-        assertThat(testAction.getOptions().getPayload().getTarget().getKey(), is("w"));
-        assertThat(testAction.getOptions().getPayload().getTarget().getPrefix(), is("filter"));
+        assertThat(testAction.getType(), is("n2o/models/COPY"));
+        assertThat(testAction.getPayload().getSource().getKey(), is("w"));
+        assertThat(testAction.getPayload().getSource().getPrefix(), is("edit"));
+        assertThat(testAction.getPayload().getTarget().getKey(), is("w"));
+        assertThat(testAction.getPayload().getTarget().getPrefix(), is("filter"));
 
         CopyAction menuItem0action = (CopyAction) table.getActions().get("menuItem0");
-        assertThat(menuItem0action.getSrc(), is("perform"));
-        assertThat(menuItem0action.getOptions().getType(), is("n2o/models/COPY"));
-        assertThat(menuItem0action.getOptions().getPayload().getSource().getKey(), is("w"));
-        assertThat(menuItem0action.getOptions().getPayload().getSource().getPrefix(), is("edit"));
-        assertThat(menuItem0action.getOptions().getPayload().getTarget().getKey(), is("w"));
-        assertThat(menuItem0action.getOptions().getPayload().getTarget().getPrefix(), is("resolve"));
+        assertThat(menuItem0action.getType(), is("n2o/models/COPY"));
+        assertThat(menuItem0action.getPayload().getSource().getKey(), is("w"));
+        assertThat(menuItem0action.getPayload().getSource().getPrefix(), is("edit"));
+        assertThat(menuItem0action.getPayload().getTarget().getKey(), is("w"));
+        assertThat(menuItem0action.getPayload().getTarget().getPrefix(), is("resolve"));
     }
 }
