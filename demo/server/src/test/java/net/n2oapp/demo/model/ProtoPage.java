@@ -199,7 +199,7 @@ public class ProtoPage implements ProtoPageSelectors {
         String gender = row.get(4);
         String vip = row.get(5);
 
-        getMainTableRows().get(1).click();
+        getMainTableCell(1, 4).click();
         getButtonByLabel("Просмотр").click();
 
         ProtoClient protoClient = page(ProtoClient.class);

@@ -35,20 +35,16 @@ public interface ProtoPageSelectors extends BasePage {
         return $$(".btn-toolbar button").find(Condition.text(label));
     }
 
+    default SelenideElement getAnchorByLabel(String label) {
+        return $$(".btn-toolbar a").find(Condition.text(label));
+    }
+
     default SelenideElement getActiveBreadcrumbItem() {
         return $(".active.breadcrumb-item");
     }
 
-    default SelenideElement getCreateButton() {
-        return $$(".btn-group button").find(Condition.text("Создать"));
-    }
-
     default SelenideElement getUpdateButton() {
         return $$(".btn-group button").find(Condition.text("Изменить"));
-    }
-
-    default ElementsCollection getMainTablePaginationButtons() {
-        return $(".pagination ").$$("li");
     }
 
     /////
