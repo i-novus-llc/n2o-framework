@@ -4,11 +4,8 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.io.*;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
-import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
-import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import org.jdom.Element;
 import org.jdom.Namespace;
 
 import java.util.HashMap;
@@ -64,8 +61,9 @@ public class NamespaceIOFactoryByMap<T extends NamespaceUriAware, R extends Name
 
     @Override
     public NamespaceIOFactory<T, R, P> add(NamespaceIO<? extends T> nio) {
-        names.computeIfAbsent(nio.getNamespaceUri(), k -> new HashMap<>()).put(nio.getElementName(), (R) nio);
-        classes.computeIfAbsent(nio.getNamespaceUri(), k -> new HashMap<>()).put(nio.getElementClass(), (P) nio);
+        ProxyNamespaceIO<? extends T> proxy = new ProxyNamespaceIO<>(nio);
+        names.computeIfAbsent(nio.getNamespaceUri(), k -> new HashMap<>()).put(nio.getElementName(), (R) proxy);
+        classes.computeIfAbsent(nio.getNamespaceUri(), k -> new HashMap<>()).put(nio.getElementClass(), (P) proxy);
         return this;
     }
 
