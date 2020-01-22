@@ -24,7 +24,7 @@ public interface ProtoPageSelectors extends BasePage {
     }
 
     default SelenideElement getAddClientButton() {
-        return $$(".btn-toolbar button").find(Condition.text("Добавить клиента"));
+        return Selenide.$$(".buttons-toolbar.btn-toolbar a").find(Condition.text("Добавить клиента"));
     }
 
     default SelenideElement getActiveBreadcrumbItem() {
