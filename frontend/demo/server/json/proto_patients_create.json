@@ -236,7 +236,7 @@
             "id": "close",
             "label": "Закрыть",
             "action": {
-              "type": "n2o/overlays/CLOSE",
+              "type": "n2o/modals/CLOSE",
               "payload": {
                 "prompt": true,
                 "name": "proto_create"
@@ -284,7 +284,7 @@
       }
     },
     "close": {
-      "type": "n2o/overlays/CLOSE",
+        "type": "n2o/overlays/CLOSE",
       "payload": {
         "prompt": true,
         "name": "proto_create"

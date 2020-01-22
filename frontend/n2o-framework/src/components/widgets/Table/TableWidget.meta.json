@@ -127,7 +127,6 @@
                     "id": "cancelExport",
                     "label": "Отменить",
                     "src": "PerformButton",
-                    "actionId": "destroyOverlay"
                   }
                 ]
               }

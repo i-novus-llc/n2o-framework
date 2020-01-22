@@ -394,7 +394,7 @@
                 "label": "Создать",
                 "icon": "fa fa-plus",
                 "action": {
-                  "type": "n2o/overlays/INSERT",
+                  "type": "n2o/modals/INSERT",
                   "payload": {
                     "name": "proto_create",
                     "pageId": "proto_create",
@@ -402,8 +402,7 @@
                     "pathMapping": {},
                     "queryMapping": {},
                     "closeButton": true,
-                    "visible": true,
-                    "mode": "modal"
+                    "visible": true
                   }
                 },
                 "hint": "Создать",
@@ -416,7 +415,7 @@
                 "label": "Изменить",
                 "icon": "fa fa-pencil",
                 "action": {
-                  "type": "n2o/overlays/INSERT",
+                  "type": "n2o/modals/INSERT",
                   "payload": {
                     "name": "proto_update_patient",
                     "pageId": "proto_update_patient",
@@ -428,8 +427,7 @@
                     },
                     "queryMapping": {},
                     "closeButton": true,
-                    "visible": true,
-                    "mode": "modal"
+                    "visible": true
                   }
                 },
                 "hint": "Изменить",
@@ -537,7 +535,7 @@
                 "label": "Просмотр",
                 "icon": "fa fa-book",
                 "action": {
-                  "type": "n2o/overlays/INSERT",
+                  "type": "n2o/modals/INSERT",
                   "payload": {
                     "name": "proto_view",
                     "pageId": "proto_view",
@@ -549,8 +547,7 @@
                     },
                     "queryMapping": {},
                     "closeButton": true,
-                    "visible": true,
-                    "mode": "modal"
+                    "visible": true
                   }
                 },
                 "hint": "Кнопка блокируется, если в фильтре имя Анна",
@@ -621,7 +618,7 @@
       },
       "actions": {
         "update_patient": {
-          "type": "n2o/overlays/INSERT",
+          "type": "n2o/modals/INSERT",
           "payload": {
             "name": "proto_update_patient",
             "pageId": "proto_update_patient",
@@ -633,12 +630,12 @@
             },
             "queryMapping": {},
             "closeButton": true,
-            "visible": true,
-            "mode": "modal"
+            "visible": true
+              "mode": "modal"
           }
         },
         "update": {
-          "type": "n2o/overlays/INSERT",
+            "type": "n2o/overlays/INSERT",
           "payload": {
             "name": "proto_update",
             "pageId": "proto_update",
@@ -650,8 +647,8 @@
             },
             "queryMapping": {},
             "closeButton": true,
-            "visible": true,
-            "mode": "modal"
+              "visible": true,
+              "mode": "modal"
           }
         },
         "menuItem5": {},
@@ -690,7 +687,7 @@
         },
         "update2": {},
         "view": {
-          "type": "n2o/overlays/INSERT",
+            "type": "n2o/overlays/INSERT",
           "payload": {
             "name": "proto_view",
             "pageId": "proto_view",
@@ -702,8 +699,8 @@
             },
             "queryMapping": {},
             "closeButton": true,
-            "visible": true,
-            "mode": "modal"
+              "visible": true,
+              "mode": "modal"
           }
         },
         "surname": {},
@@ -735,7 +732,7 @@
           }
         },
         "name": {
-          "type": "n2o/overlays/INSERT",
+            "type": "n2o/overlays/INSERT",
           "payload": {
             "name": "proto_name",
             "pageId": "proto_name",
@@ -747,12 +744,12 @@
             },
             "queryMapping": {},
             "closeButton": true,
-            "visible": true,
-            "mode": "modal"
+              "visible": true,
+              "mode": "modal"
           }
         },
         "create": {
-          "type": "n2o/overlays/INSERT",
+          "type": "n2o/modals/INSERT",
           "payload": {
             "name": "proto_create",
             "pageId": "proto_create",
@@ -760,8 +757,7 @@
             "pathMapping": {},
             "queryMapping": {},
             "closeButton": true,
-            "visible": true,
-            "mode": "modal"
+            "visible": true
           }
         },
         "vip": {
@@ -792,6 +788,9 @@
           }
         }
       },
+            "type": "n2o/overlays/INSERT",
+              "visible": true,
+              "mode": "modal"
       "paging": {
         "size": 10
       },
@@ -927,7 +926,7 @@
             "fieldKey": "name",
             "src": "LinkCell",
             "action": {
-              "type": "n2o/overlays/INSERT",
+                "type": "n2o/overlays/INSERT",
               "payload": {
                 "name": "proto_name",
                 "pageId": "proto_name",
@@ -939,8 +938,8 @@
                 },
                 "queryMapping": {},
                 "closeButton": true,
-                "visible": true,
-                "mode": "modal"
+                  "visible": true,
+                  "mode": "modal"
               }
             }
           },
@@ -1093,8 +1092,7 @@
                         "id": "update",
                         "label": "Изменить",
                         "icon": "fa fa-pencil",
-                        "action": {
-                          "type": "n2o/overlays/INSERT",
+                  "type": "n2o/overlays/INSERT",
                           "payload": {
                             "name": "proto_update",
                             "pageId": "proto_update",
@@ -1106,8 +1104,8 @@
                             },
                             "queryMapping": {},
                             "closeButton": true,
-                            "visible": true,
-                            "mode": "modal"
+                    "visible": true,
+                    "mode": "modal"
                           }
                         },
                         "conditions": {}
@@ -1188,7 +1186,7 @@
                 "label": "Создать",
                 "icon": "fa fa-plus",
                 "action": {
-                  "type": "n2o/overlays/INSERT",
+                  "type": "n2o/modals/INSERT",
                   "payload": {
                     "name": "proto_contacts_create",
                     "pageId": "proto_contacts_create",
@@ -1200,8 +1198,7 @@
                     },
                     "queryMapping": {},
                     "closeButton": true,
-                    "visible": true,
-                    "mode": "modal"
+                    "visible": true
                   }
                 },
                 "conditions": {}
@@ -1212,7 +1209,7 @@
       },
       "actions": {
         "create": {
-          "type": "n2o/overlays/INSERT",
+            "type": "n2o/overlays/INSERT",
           "payload": {
             "name": "proto_contacts_create",
             "pageId": "proto_contacts_create",
@@ -1224,12 +1221,12 @@
             },
             "queryMapping": {},
             "closeButton": true,
-            "visible": true,
-            "mode": "modal"
+              "visible": true,
+              "mode": "modal"
           }
         },
         "update": {
-          "type": "n2o/overlays/INSERT",
+            "type": "n2o/overlays/INSERT",
           "payload": {
             "name": "proto_contacts_update",
             "pageId": "proto_contacts_update",
@@ -1244,8 +1241,8 @@
             },
             "queryMapping": {},
             "closeButton": true,
-            "visible": true,
-            "mode": "modal"
+              "visible": true,
+              "mode": "modal"
           }
         },
         "delete": {
@@ -1308,7 +1305,7 @@
                   "label": "Изменить",
                   "icon": "fa fa-pencil",
                   "action": {
-                    "type": "n2o/overlays/INSERT",
+                "type": "n2o/overlays/INSERT",
                     "payload": {
                       "name": "proto_contacts_update",
                       "pageId": "proto_contacts_update",
@@ -1323,8 +1320,8 @@
                       },
                       "queryMapping": {},
                       "closeButton": true,
-                      "visible": true,
-                      "mode": "modal"
+                  "visible": true,
+                  "mode": "modal"
                     }
                   },
                   "conditions": {},
