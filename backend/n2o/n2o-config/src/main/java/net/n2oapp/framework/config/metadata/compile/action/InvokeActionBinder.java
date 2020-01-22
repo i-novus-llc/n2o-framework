@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class InvokeActionBinder implements BaseMetadataBinder<InvokeAction> {
     @Override
     public InvokeAction bind(InvokeAction action, BindProcessor p) {
-        WidgetDataProvider dataProvider = action.getOptions().getPayload().getDataProvider();
+        WidgetDataProvider dataProvider = action.getPayload().getDataProvider();
         String url = p.resolveUrl(dataProvider.getUrl(), dataProvider.getPathMapping(), dataProvider.getQueryMapping());
         dataProvider.setUrl(url);
         return action;

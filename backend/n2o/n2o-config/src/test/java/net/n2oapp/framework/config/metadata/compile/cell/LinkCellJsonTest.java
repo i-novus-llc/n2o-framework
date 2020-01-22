@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.table.cell.LinkCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
@@ -44,7 +43,7 @@ public class LinkCellJsonTest extends JsonMetadataTestBase {
     public void linkCellWithInlineOpenPage() {
         check("net/n2oapp/framework/config/mapping/testLinkCell.page.xml",
                 "components/widgets/Table/cells/LinkCell/LinkCell.meta.json")
-                .exclude("className","style", "action", "actionId")
+                .exclude("className","style","url")
                 .cutXml("widgets.testLinkCell_main.table.cells[1]")
                 .assertEquals();
     }

@@ -501,7 +501,7 @@ link:#_Переключатель_switch[Переключатель цвета]
 |Наименование|Тип|Описание|Значение по умолчанию
 
 
-|showTooltip
+|show-tooltip
 |true false
 |Показать подсказку
 |false
@@ -525,7 +525,7 @@ link:#_Переключатель_switch[Переключатель цвета]
 Пример::
 [source,xml]
 ----
-<rating showTooltip="true" half="true"/>
+<rating show-tooltip="true" half="true"/>
 ----
 
 === <cell>

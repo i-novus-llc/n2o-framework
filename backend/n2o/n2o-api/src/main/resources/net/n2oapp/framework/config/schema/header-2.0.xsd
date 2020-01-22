@@ -10,7 +10,12 @@
             <xs:element name="nav" type="menu:menuDefinition" minOccurs="1" maxOccurs="1"/>
             <xs:element name="extra-menu" type="menu:menuDefinition" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
-        <xs:attribute name="home-page-id" type="xs:string" use="optional">
+        <xs:attribute name="welcome-page-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Ссылка на главную страницу</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="home-page-url" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Домашняя страница</xs:documentation>
             </xs:annotation>

@@ -20231,18 +20231,15 @@ exports[`Storyshots Действия/Ссылка Link Метаданные: C:\
 </div>"
 `;
 
-exports[`Storyshots Контролы/AutoComplete Компонент: /home/aahmetov/projects/n2o-framework/frontend/n2o-framework/src/components/controls/AutoComplete/__snapshots__/AutoComplete.story.storyshot 1`] = `
+exports[`Storyshots Кнопки Выпадающий список: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\Dropdown\\__snapshots__\\Dropdown.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
     <ol className=\\"breadcrumb\\">
       <li className=\\"breadcrumb-item active\\">
-        Контролы
+        Кнопки
       </li>
       <li className=\\"breadcrumb-item active\\">
-        AutoComplete
-      </li>
-      <li className=\\"breadcrumb-item active\\">
-        Компонент
+        Выпадающий список
       </li>
     </ol>
   </nav>
@@ -20254,10 +20251,349 @@ exports[`Storyshots Контролы/AutoComplete Компонент: /home/aahm
             <FactoryProvider config={{...}} securityBlackList={{...}}>
               <Connect(ConnectedRouter) history={{...}}>
                 <div>
-                  <Story info=\\"\\\\n      Компонент AutoComplete\\\\n      ~~~js\\\\n      import AutoComplete from \\\\'n2o-framework/lib/components/controls/AutoComplete/AutoComplete\\\\';\\\\n      \\\\n      <AutoComplete\\\\n            valueFieldId=\\"name\\"\\\\n            options={[\\\\n                {\\\\n                    id: 1,\\\\n                    name: \\\\'a\\\\'\\\\n                },\\\\n                {\\\\n                    id: 2,\\\\n                    name: \\\\'ab\\\\'\\\\n                },\\\\n                {\\\\n                    id: 3,\\\\n                    name: \\\\'abc\\\\'\\\\n                }\\\\n            ]}\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
-                    <Connect(WithFetchData) valueFieldId=\\"name\\" labelFieldId=\\"name\\" options={{...}} />
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <withPropsOnChange(Connect(ButtonContainer)) id=\\"dropdownButton\\" src=\\"DropdownButton\\" hint=\\"Всплывающая подсказка\\" visible={true} disabled={false} count=\\"9\\" label=\\"Еще\\" icon=\\"fa fa-graduation-cap\\" size=\\"md\\" color=\\"primary\\" subMenu={{...}} />
                   </Story>
-                  <withContext(Connect(OverlayPages)) />
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки Выполнение redux action: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\Perform\\__snapshots__\\Perform.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Выполнение redux action
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <withPropsOnChange(Connect(ButtonContainer)) id=\\"performButton\\" src=\\"PerformButton\\" hint=\\"Всплывающая подсказка\\" confirm={{...}} visible={true} disabled={false} count=\\"9\\" label=\\"Выполнить\\" icon=\\"fa fa-bolt\\" size=\\"md\\" color=\\"primary\\" action={{...}} />
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки Ссылка: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\Link\\__snapshots__\\Link.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Ссылка
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <div className=\\"d-flex align-items-center\\">
+                        <withPropsOnChange(Connect(ButtonContainer)) id=\\"linkButton\\" src=\\"LinkButton\\" hint=\\"Всплывающая подсказка\\" visible={true} disabled={false} count=\\"9\\" label=\\"Внешняя ссылка\\" icon=\\"fa fa-external-link\\" size=\\"md\\" color=\\"primary\\" url=\\"/my/path\\" target=\\"_blank\\" inner={false} />
+                        <div className=\\"mr-4\\">
+                          <withPropsOnChange(Connect(ButtonContainer)) id=\\"linkButton\\" src=\\"LinkButton\\" hint=\\"Всплывающая подсказка\\" confirm={{...}} visible={true} disabled={false} count=\\"9\\" label=\\"Внутреняя ссылка\\" icon=\\"fa fa-link\\" size=\\"md\\" color=\\"secondary\\" url=\\"/my/path\\" inner={true} />
+                        </div>
+                        <Switch>
+                          <Route path=\\"*\\" render={[Function: render]} />
+                        </Switch>
+                      </div>
+                    </div>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Page Buttons с предустановленным visible/disabled: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Page Buttons с предустановленным visible/disabled
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div className=\\"row mb-2\\">
+                      Кнопку не видно, потому что она скрыта
+                      <Toolbar toolbar={{...}} entityKey=\\"visibleTest\\" />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      Кнопка неактивна
+                      <Toolbar toolbar={{...}} entityKey=\\"disabledTest\\" />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      Дропдаун не видно, потому что он скрыт
+                      <Toolbar toolbar={{...}} entityKey=\\"notVisibleDropDown\\" />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      Дропдаун неактивен
+                      <Toolbar toolbar={{...}} entityKey=\\"dropdownDisabled\\" />
+                    </div>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Варианты кнопок: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Варианты кнопок
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Метаданные для виджета: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Метаданные для виджета
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Toolbar toolbar={{...}} entityKey=\\"metaBtns\\" />
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Ограничение доступа на выпадающие списки: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Ограничение доступа на выпадающие списки
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <small>
+                        Введите 
+                        <mark>
+                          admin
+                        </mark>
+                        , чтобы увидеть выпадающий список
+                      </small>
+                      <Connect(AuthButton) />
+                      <br />
+                      <Toolbar toolbar={{...}} entityKey=\\"metaBtns\\" />
+                    </div>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Ограничение доступа на кнопки: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Ограничение доступа на кнопки
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <small>
+                        Введите 
+                        <mark>
+                          admin
+                        </mark>
+                        , чтобы увидеть скрытую кнопку
+                      </small>
+                      <Connect(AuthButton) />
+                      <br />
+                      <Toolbar actions={[undefined]} toolbar={{...}} entityKey=\\"metaBtns\\" />
+                    </div>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
                 </div>
               </Connect(ConnectedRouter)>
             </FactoryProvider>

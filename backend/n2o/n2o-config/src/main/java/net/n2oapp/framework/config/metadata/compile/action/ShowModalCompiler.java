@@ -30,7 +30,7 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
     @Override
     public ShowModal compile(N2oShowModal source, CompileContext<?, ?> context, CompileProcessor p) {
         ShowModal showModal = new ShowModal();
-        showModal.getOptions().setType(p.resolve(property("n2o.api.action.show_modal.type"), String.class));
+        showModal.setType(p.resolve(property("n2o.api.action.show_modal.type"), String.class));
         showModal.setObjectId(source.getObjectId());
         showModal.setOperationId(source.getOperationId());
         showModal.setPageId(source.getPageId());
@@ -51,7 +51,7 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
     protected void initPageRoute(ShowModal compiled,
                                  String route,
                                  Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping) {
-        ShowModalPayload payload = compiled.getOptions().getPayload();
+        ShowModalPayload payload = compiled.getPayload();
         String modalPageId = convertPathToId(route);
         payload.setName(modalPageId);
         payload.setPageId(modalPageId);
@@ -61,7 +61,7 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
     }
 
     private void compilePayload(ShowModal showModal, N2oShowModal source, CompileContext<?, ?> context, CompileProcessor p) {
-        ShowModalPayload payload = showModal.getOptions().getPayload();
+        ShowModalPayload payload = showModal.getPayload();
         payload.setSize(source.getModalSize());
         payload.setCloseButton(true);
         payload.setMode(p.cast(source.getType(), ShowModalMode.modal));

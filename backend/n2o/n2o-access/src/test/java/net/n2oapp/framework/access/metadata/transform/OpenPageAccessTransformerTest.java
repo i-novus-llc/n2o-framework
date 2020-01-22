@@ -80,6 +80,13 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getPermissions(), nullValue());
         assertThat(securityObject.getRoles().size(), is(1));
         assertTrue(securityObject.getRoles().contains("admin"));
+
+        securityObject = ((Security) page.getWidgets().get("testOpenPageAccessTransformer_widgetId").getToolbar().get("topLeft")
+                .get(0).getButtons().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url");
+        assertThat(securityObject.getUsernames(), nullValue());
+        assertThat(securityObject.getRoles(), nullValue());
+        assertThat(securityObject.getPermissions().size(), is(1));
+        assertTrue(securityObject.getPermissions().contains("permission2"));
     }
 
     @Test
@@ -134,5 +141,12 @@ public class OpenPageAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObject.getRoles().size(), is(1));
         assertTrue(securityObject.getRoles().contains("admin"));
         assertThat(securityObject.getAnonymous(), nullValue());
+
+        securityObject = ((Security) page.getWidgets().get("testOpenPageAccessTransformer_widgetId").getToolbar().get("topLeft")
+                .get(0).getButtons().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url");
+        assertThat(securityObject.getUsernames(), nullValue());
+        assertThat(securityObject.getRoles(), nullValue());
+        assertThat(securityObject.getPermissions(), nullValue());
+        assertTrue(securityObject.getAnonymous());
     }
 }
