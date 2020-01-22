@@ -76,11 +76,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidgets().get("testRoute_line2").getName(), is("test2"));
 
         assertThat(page.getToolbar().get("tbTopLeft"), notNullValue());
-        assertThat(page.getToolbar().get("tbTopLeft").get(0).getButtons().get(0).getActionId(), is("close"));
         assertThat(page.getToolbar().get("tbTopLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
-        assertThat(page.getToolbar().get("tbTopLeft").get(0).getButtons().get(1).getSubMenu().get(0).getActionId(), is("test2"));
-        assertThat(page.getToolbar().get("tbTopLeft").get(1).getButtons().get(0).getActionId(), is("test3"));
-        assertThat(page.getToolbar().get("tbTopLeft").get(1).getButtons().get(1).getSubMenu().get(0).getActionId(), is("test4"));
         assertThat(page.getActions().containsKey("close"), is(true));
 
     }

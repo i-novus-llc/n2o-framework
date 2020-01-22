@@ -25,14 +25,14 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     public CopyAction compile(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
         CopyAction copyAction = new CopyAction();
         compileAction(copyAction, source, p);
-        copyAction.getOptions().setType(p.resolve(property("n2o.api.action.copy.type"), String.class));
+        copyAction.setType(p.resolve(property("n2o.api.action.copy.type"), String.class));
         String targetWidgetId = initTargetWidget(source, context, p);
         CopyActionPayload.ClientModel sourceModel = new CopyActionPayload.ClientModel(targetWidgetId,
                 p.cast(source.getSourceModel(), ReduxModel.EDIT).getId());
         CopyActionPayload.ClientModel targetModel = new CopyActionPayload.ClientModel(targetWidgetId,
                 p.cast(source.getTargetModel(), ReduxModel.RESOLVE).getId());
-        copyAction.getOptions().getPayload().setSource(sourceModel);
-        copyAction.getOptions().getPayload().setTarget(targetModel);
+        copyAction.getPayload().setSource(sourceModel);
+        copyAction.getPayload().setTarget(targetModel);
         return copyAction;
     }
 

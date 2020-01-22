@@ -17,6 +17,8 @@ public abstract class ListControl extends Control {
     @JsonProperty
     private String labelFieldId;
     @JsonProperty
+    private String sortFieldId;
+    @JsonProperty
     private String badgeFieldId;
     @JsonProperty
     private String badgeColorFieldId;

@@ -19,6 +19,8 @@ import org.junit.Test;
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.is;
 
 public class PageAccessTransformerTest extends SourceCompileTestBase {
     @Override
@@ -75,5 +77,13 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
                 .get("testRegionAccessTransformer_testTable").getProperties()
                 .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(regionSecurityObject, equalTo(widgetSecurityObject));
+
+        Security.SecurityObject pageSecurityObject = ((Security)page.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page");
+        assertThat(pageSecurityObject.getRoles(), nullValue());
+        assertThat(pageSecurityObject.getPermissions().size(), is(1));
+        assertThat(pageSecurityObject.getUsernames(), nullValue());
+        assertThat(pageSecurityObject.getAnonymous(), nullValue());
+        assertThat(pageSecurityObject.getAuthenticated(), nullValue());
+        assertThat(pageSecurityObject.getPermitAll(), nullValue());
     }
 }
