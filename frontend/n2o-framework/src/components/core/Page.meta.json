@@ -40,8 +40,8 @@
             "buttons": [
               {
                 "id": "redirect",
-                "actionId": "redirect",
-                "title": "Вперед"
+                "src": "PerformButton",
+                "label": "Вперед"
               }
             ]
           }

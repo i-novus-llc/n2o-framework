@@ -5,7 +5,8 @@
         "buttons": [
           {
             "id": "testBtn11",
-            "title": "Создать",
+            "label": "Создать",
+            "src": "PerformButton",
             "actionId": "dummy",
             "icon": "fa fa-plus",
             "hint": "Создать запись",
@@ -17,9 +18,10 @@
           },
           {
             "id": "testBtn12",
-            "title": "Изменить",
+            "label": "Изменить",
             "actionId": "dummy",
             "icon": "fa fa-pencil",
+            "src": "PerformButton",
             "hint": "Изменить запись",
             "count": "1",
             "size": "md",
@@ -29,7 +31,8 @@
           },
           {
             "id": "testBtn13",
-            "title": "Удалить",
+            "label": "Удалить",
+            "src": "PerformButton",
             "actionId": "dummy",
             "icon": "fa fa-trash",
             "hint": "Удалить запись",
@@ -45,8 +48,9 @@
         "buttons": [
           {
             "id": "testBtn21",
-            "title": "Копировать",
+            "label": "Копировать",
             "actionId": "dummy",
+            "src": "PerformButton",
             "icon": "fa fa-clone",
             "hint": "Копировать запись",
             "count": "9",
@@ -57,9 +61,10 @@
           },
           {
             "id": "testBtn22",
-            "title": "Еще",
+            "label": "Еще",
             "icon": "fa fa-info-circle",
             "hint": "Доп. опции",
+            "src": "DropdownButton",
             "size": "md",
             "color": "primary",
             "visible": true,
@@ -67,8 +72,9 @@
             "subMenu": [
               {
                 "id": "testBtn221",
+                "src": "PerformButton",
                 "actionId": "dummy",
-                "title": "Подписать",
+                "label": "Подписать",
                 "icon": "fa fa-paper-plane",
                 "hint": "Подписать запись",
                 "count": "4",

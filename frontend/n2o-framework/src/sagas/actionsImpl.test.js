@@ -17,6 +17,10 @@ import {
 import createActionHelper from '../actions/createActionHelper';
 import fetchMock from 'fetch-mock';
 
+/**
+ * @deprecated
+ */
+
 const dataProvider = {
   method: 'POST',
   pathMapping: {
