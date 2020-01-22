@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.meta.action.invoke;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.action.AbstractReduxAction;
+import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
 
 /**
@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
  */
 @Getter
 @Setter
-public class InvokeAction extends AbstractReduxAction<InvokeActionPayload, AsyncMetaSaga> {
+public class InvokeAction extends AbstractAction<InvokeActionPayload, AsyncMetaSaga> {
 
     private String objectId;
     private String operationId;

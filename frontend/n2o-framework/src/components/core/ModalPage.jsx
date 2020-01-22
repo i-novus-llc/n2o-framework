@@ -14,7 +14,7 @@ import {
   makePageLoadingByIdSelector,
   makePageTitleByIdSelector,
 } from '../../selectors/pages';
-import Actions from '../actions/Actions';
+import Toolbar from '../buttons/Toolbar';
 import withActions from './withActions';
 import Spinner from '../snippets/Spinner/Spinner';
 import { makeShowPromptByName } from '../../selectors/modals';
@@ -79,7 +79,6 @@ class ModalPage extends React.Component {
       pathMapping,
       queryMapping,
       size,
-      actions,
       containerKey,
       toolbar,
       visible,
@@ -96,8 +95,9 @@ class ModalPage extends React.Component {
 
     const showSpinner = !visible || loading || typeof loading === 'undefined';
     const classes = cn({ 'd-none': loading });
+
     return (
-      <div className={cn('modal-page-overlay')}>
+      <div className={'modal-page-overlay'}>
         {showPrompt && this.showPrompt()}
         <Spinner type="cover" loading={showSpinner} color="light" transparent>
           <Modal
@@ -121,7 +121,8 @@ class ModalPage extends React.Component {
                   pageUrl={pageUrl}
                   pageId={pageId}
                   pageMapping={pageMapping}
-                  needMetadata
+                  containerKey={containerKey}
+                  needMetadata={true}
                 />
               ) : src ? (
                 this.renderFromSrc(src)
@@ -134,17 +135,13 @@ class ModalPage extends React.Component {
                     'n2o-disabled': disabled,
                   })}
                 >
-                  <Actions
+                  <Toolbar
                     toolbar={toolbar.bottomLeft}
-                    actions={actions}
                     containerKey={containerKey}
-                    pageId={pageId}
                   />
-                  <Actions
+                  <Toolbar
                     toolbar={toolbar.bottomRight}
-                    actions={actions}
                     containerKey={containerKey}
-                    pageId={pageId}
                   />
                 </div>
               </ModalFooter>
