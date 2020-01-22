@@ -13,6 +13,7 @@ import {
   TOGGLE_BUTTON_VISIBILITY,
   TOGGLE_BUTTON_DISABLED,
   CHANGE_BUTTON_ICON,
+  REMOVE_BUTTON,
 } from '../constants/toolbar';
 import createActionHelper from './createActionHelper';
 
@@ -31,8 +32,12 @@ export function callActionImpl(actionSrc, options) {
  * @param key
  * @param visible
  */
-export function changeButtonVisiblity(key, id, visible) {
-  return createActionHelper(CHANGE_BUTTON_VISIBILITY)({ key, id, visible });
+export function changeButtonVisiblity(key, buttonId, visible) {
+  return createActionHelper(CHANGE_BUTTON_VISIBILITY)({
+    key,
+    buttonId,
+    visible,
+  });
 }
 
 /**
@@ -64,8 +69,12 @@ export function toggleButtonVisiblity(key, buttonId) {
  * @param key
  * @param disabled
  */
-export function changeButtonDisabled(key, id, disabled) {
-  return createActionHelper(CHANGE_BUTTON_DISABLED)({ key, id, disabled });
+export function changeButtonDisabled(key, buttonId, disabled) {
+  return createActionHelper(CHANGE_BUTTON_DISABLED)({
+    key,
+    buttonId,
+    disabled,
+  });
 }
 
 /**
@@ -164,20 +173,18 @@ export function changeButtonClass(key, buttonId, className) {
   return createActionHelper(CHANGE_BUTTON_CLASS)({ key, buttonId, className });
 }
 
+export function removeButton(key) {
+  return createActionHelper(REMOVE_BUTTON)({ key });
+}
+
 /**
  * Экшен регистрации кнопки в редаксе
  * @param key
- * @param id
- * @param size
- * @param title
+ * @param buttonId
  * @param count
- * @param icon
- * @param color
  * @param visible
  * @param disabled
- * @param hint
- * @param className
- * @param style
+ * @param conditions
  */
 export function registerButton(
   key,
@@ -203,17 +210,9 @@ export function registerButton(
 ) {
   return createActionHelper(REGISTER_BUTTON)({
     key,
-    id,
-    size,
-    title,
+    buttonId,
     count,
-    color,
     visible,
-    hint,
-    parentId,
-    icon,
-    className,
-    style,
     disabled,
     containerKey,
     conditions,

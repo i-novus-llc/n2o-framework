@@ -1,7 +1,7 @@
 <object xmlns="http://n2oapp.net/framework/config/schema/object-3.0" name="Контакты">
     <fields>
         <field id="id" domain="integer" mapping="['id']"/>
-        <reference id="individual" object-id="ProtoPatient" name="Пациент" required="true" mapping="['indiv_id']"/>
+        <reference id="individual" object-id="ProtoClient" name="Клиент" required="true" mapping="['indiv_id']"/>
         <reference id="type" name="Тип контакта">
             <field id="id" domain="integer" mapping="['type_id']"/>
             <field id="name" domain="string"/>

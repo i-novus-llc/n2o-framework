@@ -6,7 +6,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
 
 import java.io.Serializable;
 import java.util.List;
@@ -41,7 +40,7 @@ public class TableWidgetComponent extends WidgetComponent {
     @JsonProperty("sorting")
     private Map<String, String> sorting;
     @JsonProperty("rowClick")
-    private Action rowClick;
+    private RowClick rowClick;
     @JsonProperty("rows")
     private Rows rows;
 

@@ -1,4 +1,4 @@
-.n2o-buttons-cell{
+.n2o-buttons-cell {
   .btn{
     display: inline-flex;
     align-items: center;
@@ -15,7 +15,7 @@
 
     min-width: 10rem;
 
-     padding: .5rem 0;
+    padding: .5rem 0;
     margin: .125rem 0 0;
     border: 1px solid rgba(0,0,0,.15);
     font-size: 1rem;
@@ -38,15 +38,19 @@
     }
   }
 
-  .n2o-dropdown-icon{
+  .n2o-dropdown-icon {
     transition: all 0.15s linear;
     margin: 0 0 0 5px;
     padding: 0;
   }
 
-  .dropdown.show{
+  .dropdown.show {
     .n2o-dropdown-icon{
       transform: rotate(180deg);
     }
+  }
+
+  & .dropdown-toggle {
+    background-color: transparent !important;
   }
 }

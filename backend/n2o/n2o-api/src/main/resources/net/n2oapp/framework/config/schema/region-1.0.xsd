@@ -44,9 +44,15 @@
                 <xs:annotation>
                     <xs:documentation>Регион в виде вкладок.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="always-refresh" type="xs:boolean" use="optional">
+                <xs:attribute name="always-refresh" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Возможность обновления данных при переключении между вкладками</xs:documentation>
+                        <xs:documentation>Возможность обновления данных при переключении между вкладками
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="lazy" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Ленивая загрузка вкладок</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

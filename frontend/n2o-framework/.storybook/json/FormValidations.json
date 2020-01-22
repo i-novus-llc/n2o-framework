@@ -5,13 +5,16 @@
     },
     "toolbar": {
       "topLeft": [
-        [
-          {
-            "id": "update",
-            "title": "Сохранить",
-            "actionId": "update"
-          }
-        ]
+        {
+        "buttons": [
+            {
+              "id": "update",
+              "label": "Сохранить",
+              "src": "PerformButton",
+              "validate": true
+            }
+          ]
+        }
       ]
     },
     "actions": {
