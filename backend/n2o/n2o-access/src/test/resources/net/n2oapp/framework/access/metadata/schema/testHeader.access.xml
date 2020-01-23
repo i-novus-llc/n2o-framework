@@ -2,6 +2,7 @@
     <user id="user">
         <page-access pages="testHeaderAccessTransformer"/>
         <object-access object-id="testObjectAccessTransformer"/>
+        <url-access pattern="/otherTest"/>
     </user>
     <role id="role">
         <page-access pages="testHeaderAccessTransformer"/>
@@ -12,5 +13,6 @@
     <permission id="permission">
         <page-access pages="test"/>
         <object-access object-id="test" actions="create"/>
+        <url-access pattern="/test/*"/>
     </permission>
 </access>

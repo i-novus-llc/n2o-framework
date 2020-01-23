@@ -2,6 +2,9 @@ version: "3.6"
 
 services:
   frontend:
+    image: "${DOCKER_REGISTRY}/n2o/demo:${TAG}"
+    ports:
+      - "8080"
     deploy:
       resources:
         limits:
@@ -10,6 +13,9 @@ services:
         constraints:
           - node.labels.dc == hetzner
   docs:
+    image: "${DOCKER_REGISTRY}/n2o/demo:${TAG}"
+    ports:
+      - "80"
     deploy:
       resources:
         limits:
@@ -18,6 +24,9 @@ services:
         constraints:
           - node.labels.dc == hetzner
   storybook:
+    image: "${DOCKER_REGISTRY}/n2o/demo:${TAG}"
+    ports:
+      - "80"
     deploy:
       resources:
         limits:

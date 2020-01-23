@@ -19,6 +19,9 @@ public class TabsRegion extends Region {
     @JsonProperty
     private Boolean alwaysRefresh;
 
+    @JsonProperty
+    private Boolean lazy;
+
     @Override
     @JsonProperty("tabs")
     public List<? extends Item> getItems() {
