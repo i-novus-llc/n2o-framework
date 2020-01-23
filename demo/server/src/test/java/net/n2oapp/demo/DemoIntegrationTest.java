@@ -27,7 +27,7 @@ public class DemoIntegrationTest {
     @BeforeClass
     public static void configure() {
         browser = "chrome";
-        headless = false;
+        headless = true;
     }
 
     @Before
