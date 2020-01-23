@@ -115,7 +115,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getButton(mainPage, "Сохранить").click();
 
 
-        getMainTableActivePageNumber(0).shouldHave(Condition.cssClass("active"));
+        getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
         getRowElements($(".n2o-page-body"), 0).get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
 
         getRowElements(mainPage, 0).get(0).shouldHave(Condition.text("Иванов"));
@@ -146,7 +146,7 @@ public class ProtoPage implements ProtoPageSelectors {
 
         getButton(getPage(), "Закрыть").click();
 
-        getMainTableActivePageNumber(0).shouldHave(Condition.cssClass("active"));
+        getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
         getRowElements(mainPage, 0).get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
 
         getRowElements(mainPage, 0).get(0).shouldHave(Condition.text("Иванов"));
@@ -187,7 +187,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getInput(modalPage, "Отчество").setValue("Петрович");
         getButton(modalPage, "Сохранить").click();
 
-        getMainTableActivePageNumber(0).shouldHave(Condition.cssClass("active"));
+        getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
         getRowElements(mainPage, 1).get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
 
         getRowElements(mainPage, 1).get(0).shouldHave(Condition.text("Иванов"));

@@ -45,7 +45,7 @@ public interface ProtoPageSelectors {
         return BasePage.getButton(getMainTableFilter(), ("Сбросить"));
     }
 
-    default SelenideElement getMainTableActivePageNumber(Integer idx) {
+    default SelenideElement getMainTablePaginationButton(Integer idx) {
         return $$(".pagination li").get(idx);
     }
 }
