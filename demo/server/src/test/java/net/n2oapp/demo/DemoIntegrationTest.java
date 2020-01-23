@@ -61,7 +61,7 @@ public class DemoIntegrationTest {
      * Тест очистки поиска
      */
     @Test
-    public void testClear() {
+    public void testClearFilter() {
         protoPage.testClearFilter();
     }
 }
