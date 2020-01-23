@@ -313,8 +313,9 @@ class DateTimeControl extends React.Component {
         select={this.select}
         setPlacement={this.setPlacement}
         setVisibility={this.setVisibility}
-        max={parseDate(max, "yyyy-MM-dd'T'HH:mm:ss")}
-        min={parseDate(min, "yyyy-MM-dd'T'HH:mm:ss")}
+        max={parseDate(max, this.props.dateFormat)}
+        min={parseDate(min, this.props.dateFormat)}
+        date={this.props.date}
         locale={locale}
       />
     );
@@ -353,7 +354,6 @@ class DateTimeControl extends React.Component {
     } = this.props;
     const { inputs } = this.state;
     const dateInputGroupProps = pick(this.props, ['max', 'min']);
-
     return (
       <div className="n2o-date-picker-container">
         <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
