@@ -15,7 +15,7 @@ public class ChartAxis implements Serializable {
     @JsonProperty("dataKey")
     private String fieldId;
     @JsonProperty
-    private String orientation;
+    private String position;
     @JsonProperty("label")
     private Boolean hasLabel;
 }

@@ -11,10 +11,10 @@ import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLegendIconType;
 @Setter
 public class N2oStandardChart extends N2oAbstractChart {
     private String xAxisFieldId;
-    private XAxisOrientationType xAxisOrientation;
+    private XAxisPositionEnum xAxisPosition;
     private Boolean xHasLabel;
     private String yAxisFieldId;
-    private YAxisOrientationType yAxisOrientation;
+    private YAxisPositionEnum yAxisPosition;
     private Boolean yHasLabel;
     private String gridStrokeDashArray;
     private Boolean gridHorizontal;
@@ -25,7 +25,7 @@ public class N2oStandardChart extends N2oAbstractChart {
     /**
      * Положение оси X
      */
-    public enum XAxisOrientationType {
+    public enum XAxisPositionEnum {
         top,
         bottom
     }
@@ -33,7 +33,7 @@ public class N2oStandardChart extends N2oAbstractChart {
     /**
      * Положение оси y
      */
-    public enum YAxisOrientationType {
+    public enum YAxisPositionEnum {
         left,
         right
     }

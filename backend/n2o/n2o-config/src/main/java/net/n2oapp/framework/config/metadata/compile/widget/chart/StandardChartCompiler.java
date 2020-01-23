@@ -17,12 +17,12 @@ public abstract class StandardChartCompiler<D extends StandardChartWidgetCompone
     public D compileStandardChart(D chart, S source, CompileContext<?, ?> context, CompileProcessor p) {
         ChartAxis xAxis = new ChartAxis();
         xAxis.setFieldId(source.getXAxisFieldId());
-        xAxis.setOrientation((p.cast(source.getXAxisOrientation(), N2oStandardChart.XAxisOrientationType.bottom)).toString());
+        xAxis.setPosition((p.cast(source.getXAxisPosition(), N2oStandardChart.XAxisPositionEnum.bottom)).toString());
         xAxis.setHasLabel(p.cast(source.getXHasLabel(), p.resolve(property("n2o.api.default.widget.chart.axis.has-label"), Boolean.class)));
         chart.setXAxis(xAxis);
         ChartAxis yAxis = new ChartAxis();
         yAxis.setFieldId(source.getYAxisFieldId());
-        yAxis.setOrientation((p.cast(source.getYAxisOrientation(), N2oStandardChart.YAxisOrientationType.left)).toString());
+        yAxis.setPosition((p.cast(source.getYAxisPosition(), N2oStandardChart.YAxisPositionEnum.left)).toString());
         yAxis.setHasLabel(p.cast(source.getYHasLabel(), p.resolve(property("n2o.api.default.widget.chart.axis.has-label"), Boolean.class)));
         chart.setYAxis(yAxis);
         ChartGrid grid = new ChartGrid();

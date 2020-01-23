@@ -8,7 +8,7 @@
     <xs:element name="pie" type="pieChartDefinition"/>
 
 
-    <xs:simpleType name="xAxisOrientationType">
+    <xs:simpleType name="xAxisPosition">
         <xs:annotation>
             <xs:documentation>Положение оси x.</xs:documentation>
         </xs:annotation>
@@ -18,7 +18,7 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="yAxisOrientationType">
+    <xs:simpleType name="yAxisPosition">
         <xs:annotation>
             <xs:documentation>Положение оси y.</xs:documentation>
         </xs:annotation>
@@ -51,14 +51,14 @@
                 <xs:documentation>Ключ значений по оси x.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="x-orientation" type="xAxisOrientationType" default="bottom">
+        <xs:attribute name="x-position" type="xAxisPosition" default="bottom">
             <xs:annotation>
                 <xs:documentation>Положение оси x.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="x-has-label" type="xs:boolean" default="false">
             <xs:annotation>
-                <xs:documentation>Подпись оси x.</xs:documentation>
+                <xs:documentation>Наличие подписи оси x.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="y-field-id" type="xs:string">
@@ -66,14 +66,14 @@
                 <xs:documentation>Ключ значений по оси y.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="y-orientation" type="yAxisOrientationType" default="left">
+        <xs:attribute name="y-position" type="yAxisPosition" default="left">
             <xs:annotation>
                 <xs:documentation>Положение оси y.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="y-has-label" type="xs:boolean" default="false">
             <xs:annotation>
-                <xs:documentation>Подпись оси y.</xs:documentation>
+                <xs:documentation>Наличие подписи оси y.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="grid-stroke-dasharray" type="xs:string">

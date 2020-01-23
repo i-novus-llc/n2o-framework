@@ -16,10 +16,10 @@ public abstract class StandardChartIOv4<T extends N2oStandardChart>  extends Abs
     public void io(Element e, T c, IOProcessor p) {
         super.io(e, c, p);
         p.attribute(e, "x-field-id", c::getXAxisFieldId, c::setXAxisFieldId);
-        p.attributeEnum(e, "x-orientation", c::getXAxisOrientation, c::setXAxisOrientation, N2oStandardChart.XAxisOrientationType.class);
+        p.attributeEnum(e, "x-position", c::getXAxisPosition, c::setXAxisPosition, N2oStandardChart.XAxisPositionEnum.class);
         p.attributeBoolean(e, "x-has-label", c::getXHasLabel, c::setXHasLabel);
         p.attribute(e, "y-field-id", c::getYAxisFieldId, c::setYAxisFieldId);
-        p.attributeEnum(e, "y-orientation", c::getYAxisOrientation, c::setYAxisOrientation, N2oStandardChart.YAxisOrientationType.class);
+        p.attributeEnum(e, "y-position", c::getYAxisPosition, c::setYAxisPosition, N2oStandardChart.YAxisPositionEnum.class);
         p.attributeBoolean(e, "y-has-label", c::getYHasLabel, c::setYHasLabel);
         p.attribute(e, "grid-stroke-dasharray", c::getGridStrokeDashArray, c::setGridStrokeDashArray);
         p.attributeBoolean(e, "grid-horizontal", c::getGridHorizontal, c::setGridHorizontal);

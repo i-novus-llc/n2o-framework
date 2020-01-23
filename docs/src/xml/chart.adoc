@@ -20,14 +20,14 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Ключ значений по оси x
 |
 
-|x-orientation
+|x-position
 |top bottom
 |Положение оси x
 |bottom
 
 |x-has-label
 |true false
-|Подпись оси x
+|Наличие подписи оси x
 |false
 
 |y-field-id
@@ -35,14 +35,14 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 |Ключ значений по оси y
 |
 
-|y-orientation
+|y-position
 |left right
 |Положение оси y
 |left
 
 |y-has-label
 |true false
-|Подпись оси y
+|Наличие подписи оси y
 |false
 
 |grid-stroke-dasharray
