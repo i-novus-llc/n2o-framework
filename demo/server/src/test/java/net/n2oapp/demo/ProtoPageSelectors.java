@@ -36,14 +36,10 @@ public interface ProtoPageSelectors {
     }
 
     default SelenideElement getFilterSearchButton() {
-        return BasePage.getButton(getMainTableFilter(),("Найти"));
+        return BasePage.getButton(getMainTableFilter(), "Найти");
     }
 
     default SelenideElement getFilterResetButton() {
-        return BasePage.getButton(getMainTableFilter(),("Сбросить"));
-    }
-
-    default SelenideElement getFilterClearButton() {
-        return getMainTableFilter().$$("button").findBy(Condition.text("Сбросить"));
+        return BasePage.getButton(getMainTableFilter(), "Сбросить");
     }
 }

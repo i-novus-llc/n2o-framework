@@ -108,7 +108,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getFilterSearchButton().click();
         getMainTableRows().shouldHaveSize(2);
 
-        getFilterClearButton().click();
+        getFilterResetButton().click();
         getMainTableRows().shouldHaveSize(10);
 
         getInput(getMainTableFilter(), "Имя").shouldHave(value(""));
