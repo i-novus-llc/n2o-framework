@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oAbstractListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
+import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
@@ -41,16 +41,16 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
      * Компиляция действия клика по строке
      */
     protected RowClick compileRowClick(N2oAbstractListWidget source, CompileContext<?, ?> context,
-                                       CompileProcessor p, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, CompiledObject object) {
+                                       CompileProcessor p, WidgetScope widgetScope,
+                                       ParentRouteScope widgetRouteScope, CompiledObject object, MetaActions widgetActions) {
         RowClick rc = null;
         if (source.getRows() != null && source.getRows().getRowClick() != null) {
             N2oRowClick rowClick = source.getRows().getRowClick();
             Object enabledCondition = ScriptProcessor.resolveExpression(rowClick.getEnabled());
             if (enabledCondition == null || enabledCondition instanceof String || Boolean.TRUE.equals(enabledCondition)) {
-                AbstractAction action = null;
+                Action action = null;
                 if (rowClick.getActionId() != null) {
-                    MetaActions actions = p.getScope(MetaActions.class);
-                    action = (AbstractAction) actions.get(rowClick.getActionId());
+                    action = widgetActions.get(rowClick.getActionId());
                 } else if (rowClick.getAction() != null) {
                     action = p.compile(rowClick.getAction(), context, widgetScope,
                             widgetRouteScope, new ComponentScope(rowClick), object);

@@ -58,7 +58,16 @@
                     </click>
                 </rows>
             </table>
-
+            <table>
+                <actions>
+                    <action id="test">
+                        <close/>
+                    </action>
+                </actions>
+                <rows>
+                    <click action-id="test"/>
+                </rows>
+            </table>
         </panel>
     </regions>
 </page>
