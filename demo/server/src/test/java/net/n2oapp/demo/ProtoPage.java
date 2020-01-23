@@ -100,7 +100,7 @@ public class ProtoPage implements ProtoPageSelectors {
     /**
      * Проверка работы поиска по фамилии и имени
      */
-    public void testNameAndSurname() {
+    public void testFilterByNameAndSurname() {
         getInput(getMainTableFilter(), "Фамилия").val("Лапа");
         getInput(getMainTableFilter(), "Имя").val("ера");
         getFilterSearchButton().click();

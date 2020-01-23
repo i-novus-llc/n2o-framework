@@ -61,7 +61,7 @@ public class DemoIntegrationTest {
      * Тест поиска людей по фимилии и имени
      */
     @Test
-    public void testNameAndSurname() {
-        protoPage.testNameAndSurname();
+    public void testFilterByNameAndSurname() {
+        protoPage.testFilterByNameAndSurname();
     }
 }
