@@ -4,7 +4,6 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { closeModal, hidePrompt } from '../../actions/modals';
 import { modalsSelector } from '../../selectors/modals';
-import compileUrl from '../../utils/compileUrl';
 
 import ModalPage from './ModalPage';
 
