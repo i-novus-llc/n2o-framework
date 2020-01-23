@@ -10,7 +10,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.codeborne.selenide.Configuration.*;
+import static com.codeborne.selenide.Configuration.browser;
+import static com.codeborne.selenide.Configuration.headless;
 import static com.codeborne.selenide.Selenide.open;
 
 @RunWith(SpringRunner.class)
@@ -26,7 +27,7 @@ public class DemoIntegrationTest {
     @BeforeClass
     public static void configure() {
         browser = "chrome";
-        headless = true;
+        headless = false;
     }
 
     @Before
