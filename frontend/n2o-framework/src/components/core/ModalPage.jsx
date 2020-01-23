@@ -79,7 +79,6 @@ class ModalPage extends React.Component {
       pathMapping,
       queryMapping,
       size,
-      containerKey,
       toolbar,
       visible,
       title,
@@ -121,7 +120,6 @@ class ModalPage extends React.Component {
                   pageUrl={pageUrl}
                   pageId={pageId}
                   pageMapping={pageMapping}
-                  containerKey={containerKey}
                   needMetadata={true}
                 />
               ) : src ? (
@@ -135,14 +133,8 @@ class ModalPage extends React.Component {
                     'n2o-disabled': disabled,
                   })}
                 >
-                  <Toolbar
-                    toolbar={toolbar.bottomLeft}
-                    containerKey={containerKey}
-                  />
-                  <Toolbar
-                    toolbar={toolbar.bottomRight}
-                    containerKey={containerKey}
-                  />
+                  <Toolbar toolbar={toolbar.bottomLeft} entityKey={pageId} />
+                  <Toolbar toolbar={toolbar.bottomRight} entityKey={pageId} />
                 </div>
               </ModalFooter>
             )}

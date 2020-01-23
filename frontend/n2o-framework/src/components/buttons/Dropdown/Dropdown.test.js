@@ -1,9 +1,8 @@
 import React from 'react';
-import Dropdown from './Dropdown';
-import { DropdownToggle, DropdownItem } from 'reactstrap';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 
+import Dropdown from './Dropdown';
 import createFactoryConfig from '../../../core/factory/createFactoryConfig';
 import FactoryProvider from '../../../core/factory/FactoryProvider';
 
@@ -25,7 +24,7 @@ const setup = props => {
 describe('<Dropdown />', () => {
   it('Создание', () => {
     const { wrapper } = setup();
-    expect(wrapper.find('ButtonDropdown').exists()).toBeTruthy();
+    expect(wrapper.find('.n2o-dropdown').exists()).toBeTruthy();
   });
 
   it('Создание элементов списка', () => {
@@ -42,7 +41,7 @@ describe('<Dropdown />', () => {
       count: 'count',
       subMenu: [
         {
-          src: 'PerformButton',
+          src: 'StandardButton',
           id: 'id',
           tag: 'tag',
           label: 'label',
@@ -58,24 +57,19 @@ describe('<Dropdown />', () => {
     });
 
     // проверка пропсов SimpleButton
-    expect(
-      wrapper
-        .find('SimpleButton')
-        .at(0)
-        .props()
-    ).toEqual({
-      caret: true,
-      color: 'color',
-      count: undefined,
-      disabled: false,
-      icon: 'icon',
-      id: expect.any(String),
-      label: 'label',
-      onClick: expect.any(Function),
-      outline: 'outline',
-      size: 'size',
-      tag: DropdownToggle,
-      visible: true,
-    });
+    const props = wrapper
+      .find('SimpleButton')
+      .at(0)
+      .props();
+    expect(props.caret).toBeTruthy();
+    expect(props.className).toBe('n2o-dropdown-control dropdown-toggle');
+    expect(props.color).toBe('color');
+    expect(props.count).toBe(undefined);
+    expect(props.disabled).toBeFalsy();
+    expect(props.icon).toBe('icon');
+    expect(props.label).toBe('label');
+    expect(props.outline).toBe('outline');
+    expect(props.size).toBe('size');
+    expect(props.visible).toBeTruthy();
   });
 });
