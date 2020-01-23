@@ -502,13 +502,14 @@
                 <xs:annotation>
                     <xs:documentation>Html виджет.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="url" type="xs:string">
+                <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Адрес запроса за html кодом.</xs:documentation>
+                        <xs:documentation>
+                            Путь к html файлу. Если не задан, необходимо задать содержимое в теле
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
-            <!--todo:реализовать-->
         </xs:complexContent>
     </xs:complexType>
 

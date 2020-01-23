@@ -10,6 +10,8 @@ import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.config.util.FileSystemUtil.getContentByUri;
+
 /**
  * Компиляция html виджета
  */
@@ -31,7 +33,7 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
         widgetScope.setClientWidgetId(widget.getId());
         widgetScope.setWidgetId(source.getId());
         MetaActions widgetActions = new MetaActions();
-        widget.setUrl(source.getUrl());
+        widget.setHtml(source.getSrc() != null ? getContentByUri(source.getSrc()) : source.getHtml().trim());
         compileToolbarAndAction(widget, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
         return widget;
     }
