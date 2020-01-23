@@ -33,12 +33,12 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
         if (context instanceof ModalPageContext) {
             CloseAction closeAction = new CloseAction();
             compileAction(closeAction, source, p);
-            closeAction.getOptions().setType(p.resolve(property("n2o.api.action.close.type"), String.class));
-            closeAction.getOptions().setMeta(initMeta(closeAction, source, context, p));
+            closeAction.setType(p.resolve(property("n2o.api.action.close.type"), String.class));
+            closeAction.setMeta(initMeta(closeAction, source, context, p));
             CloseActionPayload payload = new CloseActionPayload();
             payload.setPageId(((ModalPageContext) context).getClientPageId());
             payload.setPrompt(p.cast(((ModalPageContext) context).getUnsavedDataPromptOnClose(), source.getPrompt(), true));
-            closeAction.getOptions().setPayload(payload);
+            closeAction.setPayload(payload);
             return closeAction;
         } else {
             N2oAnchor anchor = new N2oAnchor();
@@ -53,7 +53,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
                 anchor.setHref("/");
                 anchor.setTarget(Target.application);
             }
-            return new AnchorCompiler().compile(anchor, context, p);//todo нужно получать компилятор из фабрики
+            return p.compile(anchor, context);
         }
     }
 

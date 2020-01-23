@@ -1,6 +1,7 @@
 package net.n2oapp.framework.api.metadata.local.util;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * User: iryabov
@@ -16,6 +17,10 @@ public class StrictMap<K, V> extends LinkedHashMap<K, V> {
     public StrictMap(String msg) {
         super();
         this.msg = msg;
+    }
+
+    public StrictMap(Map<? extends K, ? extends V> m) {
+        super(m);
     }
 
     @Override
