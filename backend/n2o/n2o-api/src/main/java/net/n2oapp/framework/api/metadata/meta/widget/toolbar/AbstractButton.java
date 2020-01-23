@@ -4,19 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 /**
- * Клиентская модель кнопки в меню
+ * Абстрактная модель кнопки в меню
  */
 @Getter
 @Setter
-public class Button extends MenuItem {
-    @JsonProperty
-    private List<MenuItem> subMenu;
-    @JsonProperty
-    private String dropdownSrc;
+public abstract class AbstractButton extends MenuItem {
+
     @JsonProperty
     private String color;
-
 }

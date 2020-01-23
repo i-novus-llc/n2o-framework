@@ -117,7 +117,9 @@ export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
     });
     return res;
   }
-  if (!val) return { [defaultName]: null };
+  if (!val) {
+    return { [defaultName]: null };
+  }
   const value = addTime(
     withLocale(parseDate(val, dateFormat), locale).startOf('day'),
     defaultTime[defaultName].hours,
