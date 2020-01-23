@@ -9,8 +9,11 @@ import {
   makeWidgetSizeSelector,
   makeWidgetPageSelector,
 } from '../../../selectors/widgets';
-import { makeGetModelByPrefixSelector } from '../../../selectors/models';
-import { dataRequestWidget, changePageWidget } from '../../../actions/widgets';
+import {
+  makeGetModelByPrefixSelector,
+  makeGetFilterModelSelector,
+} from '../../../selectors/models';
+import { dataRequestWidget } from '../../../actions/widgets';
 import { PREFIXES } from '../../../constants/models';
 
 /**
@@ -50,11 +53,12 @@ class TablePagination extends Component {
       withoutBody,
       prevText,
       nextText,
+      filters,
     } = this.props;
 
     return (
       <Pagination
-        onSelect={onChangePage}
+        onSelect={page => onChangePage(page, { ...filters })}
         activePage={activePage}
         count={count}
         size={size}
@@ -101,14 +105,17 @@ const mapStateToProps = createStructuredSelector({
       state,
       props
     ),
+  filters: (state, props) =>
+    makeGetFilterModelSelector(props.widgetId)(state, props),
 });
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    onChangePage: page => {
+    onChangePage: (page, filters) => {
       dispatch(
         dataRequestWidget(ownProps.widgetId, {
           page,
+          ...filters,
         })
       );
     },
