@@ -82,10 +82,10 @@
         "widgetId": "Page_Table",
         "src": "perform",
         "options": {
-          "type": "n2o/modals/INSERT",
+          "type": "n2o/overlays/INSERT",
           "payload": {
             "widgetId": "Page_Table",
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "name": "test2",
             "src": "exportModal",
             "title": "Экспортровать",
@@ -105,10 +105,10 @@
                   "widgetId": "Page_Table"
                 }
               },
-              "destroyModal": {
+              "destroyOverlay": {
                 "src": "perform",
                 "options": {
-                  "type": "n2o/modals/DESTROY"
+                  "type": "n2o/overlays/DESTROY"
                 }
               }
             },
@@ -127,7 +127,6 @@
                     "id": "cancelExport",
                     "label": "Отменить",
                     "src": "PerformButton",
-                    "actionId": "destroyModal"
                   }
                 ]
               }

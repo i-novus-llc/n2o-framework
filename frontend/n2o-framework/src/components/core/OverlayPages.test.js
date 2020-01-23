@@ -1,34 +1,35 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { mount, shallow } from 'enzyme';
-import { ModalPages } from './ModalPages';
+import { OverlayPages } from './OverlayPages';
 import mockStore from 'redux-mock-store';
 
 const setup = propsOverride => {
   const props = {
-    modals: [
+    overlays: [
       {
         pageId: 'test',
         name: 'test',
         visible: true,
+        mode: 'modal',
       },
     ],
   };
 
   return mount(
     <Provider
-      store={mockStore()({ pages: { test: {} }, modals: { name: 'test' } })}
+      store={mockStore()({ pages: { test: {} }, overlays: [{ name: 'test' }] })}
     >
-      <ModalPages {...props} {...propsOverride} />
+      <OverlayPages {...props} {...propsOverride} />
     </Provider>
   );
 };
 
-describe('<ModalPages />', () => {
+describe('<OverlayPages />', () => {
   it('компонент должен отрисоваться', () => {
     const wrapper = setup();
 
-    expect(wrapper.find('.n2o-modal-pages').exists()).toBeTruthy();
+    expect(wrapper.find('.n2o-overlay-pages').exists()).toBeTruthy();
   });
 
   it('должен отрисоваться modalPage', () => {
