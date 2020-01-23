@@ -33,7 +33,10 @@ public class HtmlWidgetCompiler extends BaseWidgetCompiler<HtmlWidget, N2oHtmlWi
         widgetScope.setClientWidgetId(widget.getId());
         widgetScope.setWidgetId(source.getId());
         MetaActions widgetActions = new MetaActions();
-        widget.setHtml(source.getSrc() != null ? getContentByUri(source.getSrc()) : source.getHtml().trim());
+        if (source.getSrc() != null)
+            widget.setHtml(getContentByUri(source.getSrc()));
+        else if (source.getHtml() != null)
+            widget.setHtml(source.getHtml().trim());
         compileToolbarAndAction(widget, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
         return widget;
     }
