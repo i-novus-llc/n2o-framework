@@ -1,11 +1,14 @@
-package net.n2oapp.demo;
+package net.n2oapp.demo.model;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.codeborne.selenide.Condition.exist;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selenide.$;
 
 /**
  * Базовые методы для автотестов
@@ -14,13 +17,27 @@ import java.util.List;
 public interface BasePage {
 
     /**
+     * Получение Страницы
+     */
+    static SelenideElement getPage() {
+        return $(".n2o-page-body");
+    }
+
+    /**
+     * Получение Модального окна
+     */
+    static SelenideElement getModalPage() {
+        return $(".modal-content");
+    }
+
+    /**
      * Получение Checkbox
      *
      * @param parent - начальный элемент
      * @param label  - текст
      */
     static SelenideElement getCheckbox(SelenideElement parent, String label) {
-        return parent.$$(".n2o-checkbox").findBy(Condition.text(label));
+        return parent.$$(".n2o-checkbox").findBy(text(label));
     }
 
     /**
@@ -34,25 +51,53 @@ public interface BasePage {
     }
 
     /**
+     * Получение RadioButton
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getRadioButton(SelenideElement parent, String label) {
+        return parent.$$(".custom-radio").findBy(text(label));
+    }
+
+    /**
      * Получение Button
      *
      * @param parent - начальный элемент
      * @param label  - текст
      */
     static SelenideElement getButton(SelenideElement parent, String label) {
-        return parent.$$(".btn").findBy(Condition.text(label));
+        return parent.$$(".btn").findBy(text(label));
     }
-
 
     /**
      * Получение input
      *
      * @param parent - начальный элемент
      * @param label  - текст
-     * @return
      */
     static SelenideElement getInput(SelenideElement parent, String label) {
-        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-input");
+        return parent.$$(".n2o-form-group").findBy(text(label)).$(".n2o-input");
+    }
+
+    /**
+     * Получение input-select
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getInputSelect(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(text(label)).$(".n2o-input-select");
+    }
+
+    /**
+     * Получение input
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getInputDate(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(text(label)).$(".n2o-date-input input");
     }
 
     /**
@@ -107,7 +152,7 @@ public interface BasePage {
      * Извлечение значения из ячейки таблицы
      */
     static String getCellValue(SelenideElement cell) {
-        return cell.$("input[type=\"checkbox\"]").is(Condition.exist) ? cell.$("input").getAttribute("checked") : cell.getText();
+        return cell.$("input[type=\"checkbox\"]").is(exist) ? cell.$("input").getAttribute("checked") : cell.getText();
     }
 
 }

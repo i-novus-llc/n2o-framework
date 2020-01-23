@@ -1,5 +1,6 @@
 package net.n2oapp.demo;
 
+import net.n2oapp.demo.model.ProtoPage;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -9,7 +10,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.codeborne.selenide.Configuration.*;
+import static com.codeborne.selenide.Configuration.browser;
+import static com.codeborne.selenide.Configuration.headless;
 import static com.codeborne.selenide.Selenide.open;
 
 @RunWith(SpringRunner.class)
@@ -47,6 +49,14 @@ public class DemoIntegrationTest {
         protoPage.testFilterByGender();
     }
 
+    /**
+     * Тест очистки поиска
+     */
+    @Test
+    public void testClearFilter() {
+        protoPage.testClearFilter();
+    }
+
     @Test
     public void testTableSorting() {
         protoPage.testTableSorting();
@@ -57,11 +67,23 @@ public class DemoIntegrationTest {
         protoPage.testTableEditBirthday();
     }
 
-    /**
-     * Тест очистки поиска
-     */
     @Test
-    public void testClearFilter() {
-        protoPage.testClearFilter();
+    public void testAddClient() {
+        protoPage.assertAddClient();
+    }
+
+    @Test
+    public void testCreateClient() {
+        protoPage.assertCreateClient();
+    }
+
+    @Test
+    public void testUpdateClient() {
+        protoPage.assertUpdateClient();
+    }
+
+    @Test
+    public void testViewClient() {
+        protoPage.assertViewClient();
     }
 }
