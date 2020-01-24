@@ -172,7 +172,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         const { widgetId, isActive, dispatch } = this.props;
         const options = {};
 
-        if (sortParam) {
+        if (sortParam && direction !== 'NONE') {
           set(options, sortParam, direction);
         }
 
