@@ -22,8 +22,7 @@
                     </sub-menu>
 
                     <button id="btn1" visible="false" enabled="false"/>
-                    <button id="btn2"/>
-                    <button id="btn3">
+                    <button id="btn2">
                         <close/>
                         <dependencies>
                             <visibility on="field1" apply-on-init="false" reset="true">a==b</visibility>
@@ -32,7 +31,6 @@
                     </button>
                     <sub-menu>
                         <menu-item visible="false" enabled="false"/>
-                        <menu-item/>
                         <menu-item>
                             <close/>
                             <dependencies>

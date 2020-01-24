@@ -110,8 +110,8 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             }
         }
 
-        button.setVisible(p.resolveJS(p.cast(source.getVisible(), "true"), Boolean.class));
-        button.setEnabled(p.resolveJS(p.cast(source.getEnabled(), "true"), Boolean.class));
+        button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+        button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
         if (source.getModel() == null)
             source.setModel(ReduxModel.RESOLVE);
         compileDependencies(button, source, context, p);
