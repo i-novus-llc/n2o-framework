@@ -88,8 +88,8 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 [source,xml]
 ----
 <areas>
-    <area data-key="uv" color="#ffcccc" stack-id="pv"/>
-    <area data-key="uv2" color="#ccccff" stack-id="pv2"/>
+    <area field-id="uv" color="#ffcccc" stack-id="pv"/>
+    <area field-id="uv2" color="#ccccff" stack-id="pv2"/>
 </areas>
 ----
 
@@ -100,8 +100,8 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 [source,xml]
 ----
 <bars>
-    <bar data-key="uv" color="#ffcccc" stack-id="pv"/>
-    <bar data-key="uv2" color="#ccccff" stack-id="pv2"/>
+    <bar field-id="uv" color="#ffcccc" stack-id="pv"/>
+    <bar field-id="uv2" color="#ccccff" stack-id="pv2"/>
 </bars>
 ----
 
@@ -112,8 +112,8 @@ http://n2oapp.net/framework/config/schema/n2o-chart-4.0
 [source,xml]
 ----
 <lines>
-    <line data-key="uv" color="#ffcccc"/>
-    <line data-key="uv2" color="#ccccff"/>
+    <line field-id="uv" color="#ffcccc"/>
+    <line field-id="uv2" color="#ccccff"/>
 </lines>
 ----
 

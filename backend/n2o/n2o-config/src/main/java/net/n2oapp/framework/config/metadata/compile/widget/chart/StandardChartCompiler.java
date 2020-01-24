@@ -14,7 +14,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 @Component
 public abstract class StandardChartCompiler<D extends StandardChartWidgetComponent, S extends N2oStandardChart> extends AbstractChartCompiler<D, S> {
 
-    public D compileStandardChart(D chart, S source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected D compileStandardChart(D chart, S source, CompileContext<?, ?> context, CompileProcessor p) {
         ChartAxis xAxis = new ChartAxis();
         xAxis.setFieldId(source.getXAxisFieldId());
         xAxis.setPosition((p.cast(source.getXAxisPosition(), N2oStandardChart.XAxisPositionEnum.bottom)).toString());
