@@ -1,16 +1,22 @@
 package net.n2oapp.framework.autotest.factory;
 
-import net.n2oapp.framework.autotest.N2oSelector;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import net.n2oapp.framework.autotest.component.button.Button;
 import net.n2oapp.framework.autotest.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.component.button.StandardButton;
+import net.n2oapp.framework.autotest.impl.N2oComponentsCollection;
 
-public class Toolbar {
+public class Toolbar extends N2oComponentsCollection {
+    public Toolbar(ElementsCollection elements, ComponentFactory factory) {
+        super(elements, factory);
+    }
+
     public StandardButton button(String label) {
         return null;
     }
 
-    StandardButton button(N2oSelector by) {
+    StandardButton button(Condition by) {
         return null;
     }
 
@@ -18,7 +24,7 @@ public class Toolbar {
         return null;
     }
 
-    DropdownButton dropdown(N2oSelector by) {
+    DropdownButton dropdown(Condition by) {
         return null;
     }
 
@@ -26,7 +32,7 @@ public class Toolbar {
         return null;
     }
 
-    <T extends Button> T button(N2oSelector by, Class<T> componentClass) {
+    <T extends Button> T button(Condition by, Class<T> componentClass) {
         return null;
     }
 }

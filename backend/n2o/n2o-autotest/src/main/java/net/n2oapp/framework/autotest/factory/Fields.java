@@ -1,10 +1,16 @@
 package net.n2oapp.framework.autotest.factory;
 
-import net.n2oapp.framework.autotest.N2oSelector;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import net.n2oapp.framework.autotest.component.field.Field;
 import net.n2oapp.framework.autotest.component.field.StandardField;
+import net.n2oapp.framework.autotest.impl.N2oComponentsCollection;
 
-public class Fields {
+public class Fields extends N2oComponentsCollection {
+
+    public Fields(ElementsCollection elements, ComponentFactory factory) {
+        super(elements, factory);
+    }
 
     public Rows row(int index) {
         return null;
@@ -14,7 +20,7 @@ public class Fields {
         return null;
     }
 
-    public StandardField field(N2oSelector by) {
+    public StandardField field(Condition by) {
         return null;
     }
 
@@ -23,7 +29,7 @@ public class Fields {
         return null;
     }
 
-    public <T extends Field> T field(N2oSelector by, Class<T> componentClass) {
+    public <T extends Field> T field(Condition by, Class<T> componentClass) {
         return null;
     }
 

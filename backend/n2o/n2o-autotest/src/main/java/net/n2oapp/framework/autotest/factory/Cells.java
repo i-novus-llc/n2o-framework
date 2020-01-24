@@ -1,9 +1,15 @@
 package net.n2oapp.framework.autotest.factory;
 
+import com.codeborne.selenide.ElementsCollection;
 import net.n2oapp.framework.autotest.component.cell.Cell;
 import net.n2oapp.framework.autotest.component.cell.TextCell;
+import net.n2oapp.framework.autotest.impl.N2oComponentsCollection;
 
-public class Cells {
+public class Cells extends N2oComponentsCollection {
+    public Cells(ElementsCollection elements, ComponentFactory factory) {
+        super(elements, factory);
+    }
+
     public TextCell cell(int index) {
         return null;
     }

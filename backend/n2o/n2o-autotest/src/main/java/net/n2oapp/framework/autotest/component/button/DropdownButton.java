@@ -1,8 +1,8 @@
 package net.n2oapp.framework.autotest.component.button;
 
-import net.n2oapp.framework.autotest.N2oSelector;
+import com.codeborne.selenide.Condition;
 
 public interface DropdownButton extends Button {
     StandardButton menuItem(String label);
-    StandardButton menuItem(N2oSelector by);
+    StandardButton menuItem(Condition by);
 }

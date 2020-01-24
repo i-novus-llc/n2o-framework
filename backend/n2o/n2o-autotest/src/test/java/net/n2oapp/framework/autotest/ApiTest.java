@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.component.control.InputControl;
 import net.n2oapp.framework.autotest.component.control.SelectControl;
 import net.n2oapp.framework.autotest.component.page.LeftRightPage;
@@ -11,16 +12,11 @@ import net.n2oapp.framework.autotest.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.component.widget.TableWidget;
 import org.junit.Test;
 
-import static net.n2oapp.framework.autotest.Matchers.whichContains;
-import static net.n2oapp.framework.autotest.Matchers.whichEquals;
-import static net.n2oapp.framework.autotest.Selectors.byId;
-
 public class ApiTest {
-    N2oAutotest n2o = new N2oAutotest();
 
     @Test
     public void testLeftRightPageAndFormAndInput() {
-        n2o.open("/proto", LeftRightPage.class)
+        N2oSelenide.open("/#/proto", LeftRightPage.class)
                 .left()
                 .region(0, PanelRegion.class)
                 .content()
@@ -34,7 +30,7 @@ public class ApiTest {
 
     @Test
     public void testStandardPageAndTabsAndToolbar() {
-        n2o.open("/proto", StandardPage.class)
+        N2oSelenide.open("/#/proto", StandardPage.class)
                 .place("single")
                 .region(0, TabsRegion.class)
                 .activeTab()
@@ -47,20 +43,20 @@ public class ApiTest {
 
     @Test
     public void testTab() {
-        n2o.open("/proto", SimplePage.class)
+        N2oSelenide.open("/#/proto", SimplePage.class)
                 .single()
                 .widget(0, FormWidget.class)
                 .fields()
                 .row(0)
                 .col(0)
-                .field(byId("name"))
+                .field(Condition.id("name"))
                 .control(SelectControl.class)
-                .select(whichContains("Мужской"));
+                .select(Condition.text("Мужской"));
     }
 
     @Test
     public void testPanel() {
-        n2o.open("/proto", LeftRightPage.class)
+        N2oSelenide.open("/#/proto", LeftRightPage.class)
                 .right()
                 .region(0, PanelRegion.class)
                 .content()
@@ -69,6 +65,6 @@ public class ApiTest {
                 .rows()
                 .row(0)
                 .cell(0)
-                .shouldHaveText(whichEquals("Joe"));
+                .textShouldHave("Joe");
     }
 }

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.component.field;
 
-import net.n2oapp.framework.autotest.N2oMatcher;
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.component.control.Control;
 
 public interface StandardField extends Field {
@@ -8,8 +8,8 @@ public interface StandardField extends Field {
 
     void shouldBeRequired();
     void shouldNotBeRequired();
-    void shouldHaveLabel(N2oMatcher which);
-    void shouldHaveMessage(N2oMatcher which);
-    void shouldHaveDescription(N2oMatcher which);
+    void labelShouldHave(Condition condition);
+    void messageShouldHave(Condition condition);
+    void shouldHaveDescription(Condition condition);
 
 }
