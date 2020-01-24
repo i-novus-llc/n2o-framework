@@ -48,7 +48,7 @@ public interface ProtoPageSelectors {
         return $$(".pagination li").get(idx);
     }
 
-    default SelenideElement getContactsTable() {
+    default SelenideElement getContactsList() {
         return $$(".n2o-panel-region").get(1).$$(".n2o-widget-list").get(0);
     }
 

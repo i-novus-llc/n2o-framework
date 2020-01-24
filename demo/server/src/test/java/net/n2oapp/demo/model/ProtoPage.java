@@ -238,8 +238,8 @@ public class ProtoPage implements ProtoPageSelectors {
         getRowElements(getMainTable(), 6).get(0).shouldBe(Condition.text("Чуканова"));
         getRowElements(getMainTable(), 6).get(4).click();
 
-        getContactsTable().click();
-        getListItemMainContainer(getListItem(getContactsTable(), 0)).get(0).shouldBe(Condition.text("3333333"));
+        getContactsList().click();
+        getListItemMainContainer(getListItem(getContactsList(), 0)).get(0).shouldBe(Condition.text("3333333"));
 
         getInput(getCardForm(), "Фамилия").shouldBe(Condition.value("Чуканова"));
         getInput(getCardForm(), "Имя").shouldBe(Condition.value("Изольда"));
@@ -247,8 +247,8 @@ public class ProtoPage implements ProtoPageSelectors {
         getCheckbox(getCardForm(), "VIP").shouldBe(Condition.enabled);
 
         getRowElements(getMainTable(), 5).get(4).click();
-        getContactsTable().click();
-        getListItemMainContainer(getListItem(getContactsTable(), 0)).get(0).shouldBe(Condition.text("+7950267859"));
+        getContactsList().click();
+        getListItemMainContainer(getListItem(getContactsList(), 0)).get(0).shouldBe(Condition.text("+7950267859"));
         getInput(getCardForm(), "Фамилия").shouldBe(Condition.value("Дуванова"));
         getInput(getCardForm(), "Имя").shouldBe(Condition.value("Ольга"));
         getRadioGroup(getCardForm(), "Пол").$(".checked").shouldBe(Condition.text("Женский"));
