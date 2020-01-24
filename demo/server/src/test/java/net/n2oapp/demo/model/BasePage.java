@@ -90,6 +90,17 @@ public interface BasePage {
     }
 
     /**
+     * Получение radio группы
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     * @return
+     */
+    static SelenideElement getRadioGroup(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-radio-container");
+    }
+
+    /**
      * Получени dateInput
      *
      * @param parent - ячейка таблицы
@@ -110,6 +121,25 @@ public interface BasePage {
 
     static ElementsCollection getRowElements(SelenideElement parent, int row) {
         return parent.$$(".n2o-table-row").get(row).$$(".n2o-advanced-table-cell-expand");
+    }
+
+    /**
+     * Полчение строки в виджете list
+     * @param parent    виджет
+     * @param row   номер строки
+     * @return
+     */
+    static SelenideElement getListItem(SelenideElement parent, int row) {
+        return parent.$$(".n2o-widget-list-item").get(row);
+    }
+
+    /**
+     * Получение главного контейнера в строке виджет list
+     * @param parent  строка в виджете list
+     * @return
+     */
+    static ElementsCollection getListItemMainContainer(SelenideElement parent) {
+        return parent.$$(".n2o-widget-list-item-main-container");
     }
 
 
