@@ -14,10 +14,12 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.ButtonCondition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
@@ -29,6 +31,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -107,8 +110,8 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             }
         }
 
-        button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
-        button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+        button.setVisible(p.resolveJS(p.cast(source.getVisible(), "true"), Boolean.class));
+        button.setEnabled(p.resolveJS(p.cast(source.getEnabled(), "true"), Boolean.class));
         if (source.getModel() == null)
             source.setModel(ReduxModel.RESOLVE);
         compileDependencies(button, source, context, p);
@@ -197,5 +200,36 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         if (!conditions.isEmpty()) {
             button.getConditions().put(ValidationType.enabled, conditions);
         }
+
+        if (source.getDependencies() != null) {
+            for (AbstractMenuItem.Dependency d : source.getDependencies()) {
+                ControlDependency dependency = new ControlDependency();
+                if (d instanceof AbstractMenuItem.EnablingDependency)
+                    dependency.setType(ValidationType.enabled);
+                else if (d instanceof AbstractMenuItem.VisibilityDependency) {
+                    dependency.setType(ValidationType.visible);
+                    Boolean isResettable = p.cast(((AbstractMenuItem.VisibilityDependency) d).getReset(),
+                            p.resolve(property("n2o.api.control.visibility.auto_reset"), Boolean.class));
+                    if (isResettable) {
+                        ControlDependency reset = new ControlDependency();
+                        reset.setType(ValidationType.reset);
+                        reset.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
+                        addDependency(reset, button, d, p);
+                    }
+                }
+                dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
+                addDependency(dependency, button, d, p);
+            }
+        }
+    }
+
+    private void addDependency(ControlDependency compiled, MenuItem menuItem, AbstractMenuItem.Dependency source, CompileProcessor p) {
+        compiled.setApplyOnInit(p.cast(source.getApplyOnInit(), true));
+        if (source.getOn() != null) {
+            List<String> ons = Arrays.asList(source.getOn());
+            ons.replaceAll(String::trim);
+            compiled.getOn().addAll(ons);
+        }
+        menuItem.addDependency(compiled);
     }
 }

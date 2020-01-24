@@ -1,81 +1,48 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-1.0"
-      xmlns:wgt="http://n2oapp.net/framework/config/schema/n2o-widget-3.0" >
-    <object-id>testJsonForm</object-id>
-    <layout>n2o/layout/single</layout>
-
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+      object-id="testJsonForm" layout="n2o/layout/single">
     <regions>
-        <region place="single" type="tabs">
-            <container id="Table">
-                <wgt:table src="test" xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-3.0" >
-                    <object-id>testJsonForm</object-id>
-                    <action-menu>
-                        <menu-item id="filter" visible="true" label="Видимость" context="true">
-                            <description>
-                                Скроется, если имя в выбранной записи Афанасий
-                            </description>
-                            <event>
-                                <invoke-action action-id="testId"/>
-                            </event>
-                            <conditions>
-                                <visibility-condition>
-                                    <expression on="test">name !== 'Афанасий'</expression>
-                                </visibility-condition>
-                            </conditions>
+        <tabs place="single">
+            <table src="test" object-id="testJsonForm">
+                <toolbar>
+                    <sub-menu>
+                        <menu-item id="filter" label="Видимость" context="true" visibility-condition="name !== 'Афанасий'">
+<!--                                Скроется, если имя в выбранной записи Афанасий-->
+                            <invoke operation-id="testId"/>
                         </menu-item>
-                        <menu-item id="enable" visible="true" label="Блокировка">
-                            <description>
-                                Заблокируется, если имя в выбранной записи Иннокентий
-                            </description>
-                            <event >
-                                <invoke-action action-id="testId"/>
-                            </event>
-                            <conditions>
-                                <enabling-condition>
-                                    <expression>name !== 'Иннокентий'</expression>
-                                </enabling-condition>
-                            </conditions>
+                        <menu-item id="enable" label="Блокировка" enabling-condition="name !== 'Иннокентий'">
+<!--                                Заблокируется, если имя в выбранной записи Иннокентий-->
+                            <invoke operation-id="testId"/>
                         </menu-item>
-                        <menu-item id="combo" visible="true" label="Комбинация">
-                            <description>
-                                Заблокируется, если имя в выбранной записи Людмила. Исчезнет, если фамилия Ревин
-                            </description>
-                            <event>
-                                <invoke-action action-id="testId"/>
-                            </event>
-                            <conditions>
-                                <visibility-condition>
-                                    <expression>
-                                        surname !== 'Ревин'
-                                    </expression>
-                                </visibility-condition>
-                                <enabling-condition>
-                                    <expression>name !== 'Людмила'</expression>
-                                </enabling-condition>
-                            </conditions>
+                        <menu-item id="combo" label="Комбинация"
+                                   enabling-condition="name !== 'Людмила'" visibility-condition="surname !== 'Ревин'">
+<!--                                Заблокируется, если имя в выбранной записи Людмила. Исчезнет, если фамилия Ревин-->
+                            <invoke operation-id="testId"/>
                         </menu-item>
-                        <menu-item id="combo" visible="true" label="Комбинация" context="false">
-                            <description>
-                                Заблокируется, если имя в выбранной записи Людмила. Исчезнет, если фамилия Ревин
-                            </description>
-                            <event>
-                                <invoke-action action-id="testId"/>
-                            </event>
-                            <conditions>
-                                <visibility-condition>
-                                    <expression>
-                                        surname !== 'Ревин'
-                                    </expression>
-                                </visibility-condition>
-                                <enabling-condition>
-                                    <expression>name !== 'Людмила'</expression>
-                                </enabling-condition>
-                            </conditions>
-                        </menu-item>
-                    </action-menu>
-                </wgt:table>
-            </container>
-        </region>
-    </regions>
+                    </sub-menu>
 
+                    <button id="btn1" visible="false" enabled="false"/>
+                    <button id="btn2"/>
+                    <button id="btn3">
+                        <close/>
+                        <dependencies>
+                            <visibility on="field1" apply-on-init="false" reset="true">a==b</visibility>
+                            <enabling apply-on-init="true">c==d</enabling>
+                        </dependencies>
+                    </button>
+                    <sub-menu>
+                        <menu-item visible="false" enabled="false"/>
+                        <menu-item/>
+                        <menu-item>
+                            <close/>
+                            <dependencies>
+                                <visibility on="field1,field2" apply-on-init="false" reset="true">a==b</visibility>
+                                <enabling apply-on-init="true">c==d</enabling>
+                            </dependencies>
+                        </menu-item>
+                    </sub-menu>
+                </toolbar>
+            </table>
+        </tabs>
+    </regions>
 </page>
