@@ -80,6 +80,16 @@ public interface BasePage {
     }
 
     /**
+     * Получение masked input
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getMaskedInput(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-input-mask");
+    }
+
+    /**
      * Получение input
      *
      * @param parent - начальный элемент
@@ -142,6 +152,14 @@ public interface BasePage {
         return parent.$$(".n2o-widget-list-item-main-container");
     }
 
+    /**
+     * Полчение списка строк в виджете list
+     * @param parent    виджет
+     * @return
+     */
+    static ElementsCollection getListItems(SelenideElement parent) {
+        return parent.$$(".n2o-widget-list-item");
+    }
 
     /**
      * Получение колонки таблицы (по возможности использовать getColElements)

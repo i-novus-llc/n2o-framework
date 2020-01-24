@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static net.n2oapp.demo.model.BasePage.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -255,4 +256,33 @@ public class ProtoPage implements ProtoPageSelectors {
         getCheckbox(getCardForm(), "VIP").shouldBe(Condition.enabled);
     }
 
+    /**
+     * Проверка создания контакта
+     */
+    public void assertCreateContact() {
+        SelenideElement mainPage = getPage();
+        getRowElements(getMainTable(), 1).get(0).shouldBe(Condition.text("Маркин"));
+        getRowElements(getMainTable(), 1).get(4).click();
+
+        SelenideElement contactsList = getContactsList();
+        contactsList.click();
+        getListItems(contactsList).shouldHave(CollectionCondition.empty);
+
+        getButton(getPanels().get(1), "Создать").click();
+        SelenideElement modalPage = getModalPage();
+        getInputSelect(modalPage, "Клиент").shouldBe(Condition.exist).click();
+        getInputSelect(modalPage, "Клиент").$("input").sendKeys("Маркин");
+        getInputSelect(modalPage, "Клиент").$$("button").shouldHaveSize(1);
+        getInputSelect(modalPage, "Клиент").$("input").sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
+        getInputSelect(modalPage, "Тип контакта").click();
+        getInputSelect(modalPage, "Тип контакта").$$("button").shouldHaveSize(3);
+        getInputSelect(modalPage, "Тип контакта").$("input").sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
+        getMaskedInput(modalPage, "Номер телефона").click();
+        getMaskedInput(modalPage, "Номер телефона").setValue("9999999999");
+        getInput(modalPage, "Примечание").setValue("рабочий телефон");
+        getButton(modalPage, "Сохранить").click();
+        $$(".modal-open").get(0).waitUntil(Condition.not(Condition.exist), 10000);
+        getListItems(contactsList).shouldHaveSize(1);
+        getListItemMainContainer(getListItem(getContactsList(), 0)).get(0).shouldBe(Condition.text("+7 (999) 999-99-99"));
+    }
 }

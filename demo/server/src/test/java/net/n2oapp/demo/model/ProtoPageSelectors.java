@@ -55,4 +55,8 @@ public interface ProtoPageSelectors {
     default SelenideElement getCardForm() {
         return $$(".n2o-panel-region").get(2).$$(".card-body").get(0);
     }
+
+    default ElementsCollection getPanels() {
+        return $$(".n2o-panel-region");
+    }
 }

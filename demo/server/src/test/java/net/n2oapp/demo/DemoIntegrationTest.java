@@ -63,6 +63,11 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testCreateContact() {
+        protoPage.assertCreateContact();
+    }
+
+    @Test
     public void testAddClient() {
         protoPage.assertAddClient();
     }
