@@ -216,6 +216,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         }
         if (query != null && query.getFieldsMap().containsKey(header.getId())) {
             header.setSortable(!query.getFieldsMap().get(header.getId()).getNoSorting());
+            header.setSortParam(query.getFieldsMap().get(header.getId()).getSortingParam());
         }
         headers.add(header);
         if (column instanceof N2oSimpleColumn) {
