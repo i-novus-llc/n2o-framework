@@ -18,6 +18,7 @@ import Fieldsets from '../Form/fieldsets';
  * @param style
  * @param rest
  * @param resolveProps
+ * @param sortParam
  * @return {*}
  * @constructor
  */
@@ -32,6 +33,7 @@ function ChartWidget(
     filter,
     className,
     style,
+    sortParam,
     ...rest
   },
   { resolveProps }
@@ -44,6 +46,7 @@ function ChartWidget(
     actions,
     pageId,
     chart,
+    sortParam,
     ...rest,
   });
 

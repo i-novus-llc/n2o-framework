@@ -49,7 +49,13 @@ class AdvancedTableWidget extends Component {
       rows,
       rowClass,
     } = this.props.table;
-    const { toolbar, actions, dataProvider, placeholder } = this.props;
+    const {
+      toolbar,
+      actions,
+      dataProvider,
+      placeholder,
+      sortParam,
+    } = this.props;
     const { resolveProps } = this.context;
     return {
       headers: values(resolveProps(headers)),
@@ -75,6 +81,7 @@ class AdvancedTableWidget extends Component {
       expandedFieldId,
       rowClass,
       className,
+      sortParam,
     };
   }
 

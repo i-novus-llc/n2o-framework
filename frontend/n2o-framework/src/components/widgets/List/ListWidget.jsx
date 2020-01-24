@@ -58,6 +58,7 @@ function ListWidget(
     nextText,
     divider,
     hasSelect,
+    sortParam,
   },
   context
 ) {
@@ -109,6 +110,7 @@ function ListWidget(
         divider={divider}
         hasSelect={hasSelect}
         placeholder={placeholder}
+        sortParam={sortParam}
       />
     </StandardWidget>
   );

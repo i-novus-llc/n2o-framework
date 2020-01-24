@@ -51,7 +51,6 @@ export const widgetState = {
   isActive: false,
   type: null,
   dataProvider: {},
-  sorting: {},
   filter: {
     key: null,
     type: null,
@@ -120,7 +119,9 @@ function resolve(state = widgetState, action) {
       }
       return {
         ...state,
-        [sortingKey]: { [action.payload.fieldKey]: action.payload.sortDirection },
+        [sortingKey]: {
+          [action.payload.fieldKey]: action.payload.sortDirection,
+        },
       };
     case CHANGE_SIZE:
       return Object.assign({}, state, {
@@ -171,13 +172,16 @@ export default function widgets(state = {}, action) {
   switch (action.type) {
     case REGISTER:
       let smartState = {};
+      const sortParam = get(action, 'payload.sortParam', 'sorting');
       const currentState = state[action.payload.widgetId] || {};
+
       if (!isEmpty(currentState)) {
         smartState = {
           selectedId: currentState.selectedId ? currentState.selectedId : null,
         };
-        if (!isEmpty(currentState.sorting)) {
-          smartState.sorting = currentState.sorting;
+
+        if (!isEmpty(currentState[sortParam])) {
+          smartState[sortParam] = currentState[sortParam];
         }
       }
       return {
