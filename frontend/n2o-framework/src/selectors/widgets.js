@@ -111,12 +111,11 @@ const makeWidgetPageIdSelector = widgetId =>
 /**
  * Селектор-генератор для получения свойства виджета - sorting
  * @param widgetId
- * @param sortParam
  */
-const makeWidgetSortingSelector = (widgetId, sortParam = 'sorting') =>
+const makeWidgetSortingSelector = widgetId =>
   createSelector(
     makeWidgetByIdSelector(widgetId),
-    widgetState => widgetState[sortParam]
+    widgetState => widgetState.sorting
   );
 
 /**

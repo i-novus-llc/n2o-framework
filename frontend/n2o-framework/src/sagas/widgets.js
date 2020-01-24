@@ -144,12 +144,10 @@ export function* resolveUrl(state, dataProvider, widgetState, options) {
   const pathParams = yield call(getParams, dataProvider.pathMapping, state);
   const basePath = pathToRegexp.compile(dataProvider.url)(pathParams);
   const queryParams = yield call(getParams, dataProvider.queryMapping, state);
-  const sortParam = get(widgetState, 'sortParam', 'sorting');
-
   const baseQuery = {
     size: widgetState.size,
     page: get(options, 'page', widgetState.page),
-    [sortParam]: widgetState[sortParam],
+    sorting: widgetState.sorting,
     ...options,
     ...queryParams,
   };

@@ -167,8 +167,8 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       }
 
       onSort(id, direction) {
-        const { widgetId, isActive, dispatch, sortParam } = this.props;
-        dispatch(sortByWidget(widgetId, id, direction, sortParam));
+        const { widgetId, isActive, dispatch } = this.props;
+        dispatch(sortByWidget(widgetId, id, direction));
         dispatch(dataRequestWidget(widgetId));
         !isActive && dispatch(setActive(widgetId));
       }
@@ -201,11 +201,9 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           page,
           defaultSorting,
           validation,
-          sortParam,
           dataProvider,
           dataProviderFromState,
         } = this.props;
-
         if (!isInit || !isEqual(dataProvider, dataProviderFromState)) {
           dispatch(
             registerWidget(widgetId, {
@@ -213,8 +211,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
               size,
               type: widgetType,
               page,
-              sortParam,
-              [sortParam]: defaultSorting,
+              sorting: defaultSorting,
               dataProvider,
               validation,
             })
@@ -286,7 +283,6 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       dispatch: PropTypes.func,
       isInit: PropTypes.bool,
       isActive: PropTypes.bool,
-      sortParam: PropTypes.string,
     };
 
     WidgetContainer.defaultProps = {
@@ -296,7 +292,6 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       resolveModel: {},
       defaultSorting: {},
       placeholder: false,
-      sortParam: 'sorting',
     };
 
     WidgetContainer.contextTypes = {
@@ -319,10 +314,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           props.modelPrefix,
           props.widgetId
         )(state, props),
-        sorting: makeWidgetSortingSelector(props.widgetId, props.sortParam)(
-          state,
-          props
-        ),
+        sorting: makeWidgetSortingSelector(props.widgetId)(state, props),
         selectedId: makeSelectedIdSelector(props.widgetId)(state, props),
         defaultSorting: props.sorting,
         isActive: makeIsActiveSelector(props.widgetId)(state, props),

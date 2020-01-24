@@ -52,7 +52,6 @@ class TreeWidget extends React.Component {
       hasCheckboxes,
       draggable,
       childrenFieldId,
-      sortParam,
     } = this.props;
     const { toolbar, actions, dataProvider, placeholder } = this.props;
     const { resolveProps } = this.context;
@@ -81,7 +80,6 @@ class TreeWidget extends React.Component {
       hasCheckboxes,
       draggable,
       childrenFieldId,
-      sortParam,
     };
   }
 
