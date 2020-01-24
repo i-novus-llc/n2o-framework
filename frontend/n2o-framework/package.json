@@ -56,7 +56,7 @@
 		"server": "node scripts/dev-server/dev-server.js",
 		"build:local": "node scripts/build.js",
 		"storybook": "start-storybook -p 6006",
-		"build-storybook": "build-storybook -c .storybook -o ./docs/storybook",
+		"build-storybook": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" build-storybook -c .storybook -o ./docs/storybook",
 		"prepublishOnly": "npm run build"
 	},
 	"dependencies": {

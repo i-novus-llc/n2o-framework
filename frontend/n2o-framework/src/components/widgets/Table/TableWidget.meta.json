@@ -126,7 +126,7 @@
                   {
                     "id": "cancelExport",
                     "label": "Отменить",
-                    "src": "PerformButton",
+                    "src": "PerformButton"
                   }
                 ]
               }
