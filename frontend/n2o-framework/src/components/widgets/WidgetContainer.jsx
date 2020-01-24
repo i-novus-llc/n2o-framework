@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, pure } from 'recompose';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isFunction from 'lodash/isFunction';
@@ -116,6 +117,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           visible,
           dataProviderFromState,
           dataProvider,
+          sorting,
         } = this.props;
         if (
           fetchOnInit &&
@@ -124,7 +126,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
             !dataProviderFromState ||
             isEmpty(dataProviderFromState))
         ) {
-          this.onFetch();
+          this.onFetch(sorting);
         }
       }
 
@@ -166,10 +168,16 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         }
       }
 
-      onSort(id, direction) {
+      onSort(id, direction, sortParam) {
         const { widgetId, isActive, dispatch } = this.props;
-        dispatch(sortByWidget(widgetId, id, direction));
-        dispatch(dataRequestWidget(widgetId));
+        const options = {};
+
+        if (sortParam) {
+          set(options, sortParam, direction);
+        }
+
+        dispatch(sortByWidget(widgetId, id, direction, sortParam));
+        dispatch(dataRequestWidget(widgetId, options));
         !isActive && dispatch(setActive(widgetId));
       }
 
