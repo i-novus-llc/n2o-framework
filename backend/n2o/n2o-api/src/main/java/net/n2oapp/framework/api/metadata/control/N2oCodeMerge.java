@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.control.plain.CodeLanguageEnum;
+import net.n2oapp.framework.api.metadata.control.plain.N2oCodeEditor;
 import net.n2oapp.framework.api.metadata.global.aware.IdAware;
 
 @Getter
@@ -14,7 +14,7 @@ public class N2oCodeMerge extends N2oStandardField {
     private Boolean collapseIdentical;
     private Boolean allowEditingOriginals;
     private Integer rows;
-    private CodeLanguageEnum language;
+    private N2oCodeEditor.Language language;
     private String leftLabel;
     private String rightLabel;
 

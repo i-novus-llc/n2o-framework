@@ -9,7 +9,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oCodeEditor extends N2oText {
-    private CodeLanguageEnum language;
+    private Language language;
     private Integer minLines;
     private Integer maxLines;
+
+
+    public enum Language {
+        sql,
+        xml,
+        javascript,
+        groovy,
+        java
+    }
 }

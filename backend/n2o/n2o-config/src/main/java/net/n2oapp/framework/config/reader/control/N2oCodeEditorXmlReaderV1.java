@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.reader.control;
 
-import net.n2oapp.framework.api.metadata.control.plain.CodeLanguageEnum;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import net.n2oapp.framework.api.metadata.control.plain.N2oCodeEditor;
@@ -13,7 +12,8 @@ public class N2oCodeEditorXmlReaderV1 extends N2oStandardControlReaderV1<N2oCode
     public N2oCodeEditor read(Element element, Namespace namespace) {
         N2oCodeEditor codeEditor = new N2oCodeEditor();
         readControlTextDefinition(element, codeEditor);
-        codeEditor.setLanguage(ReaderJdomUtil.getAttributeEnum(element, "language", CodeLanguageEnum.class));
+        codeEditor.setLanguage(
+                ReaderJdomUtil.getAttributeEnum(element, "language", N2oCodeEditor.Language.class));
         return codeEditor;
     }
 
