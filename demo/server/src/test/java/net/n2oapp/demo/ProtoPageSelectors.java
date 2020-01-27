@@ -11,14 +11,18 @@ import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.*;
 
-public interface ProtoPageSelectors extends BasePage {
+public interface ProtoPageSelectors {
+
+    default SelenideElement getMainTable() {
+        return $("table");
+    }
 
     default SelenideElement getMainTableHead() {
-        return $("table thead tr");
+        return getMainTable().$("thead tr");
     }
 
     default ElementsCollection getMainTableRows() {
-        return $("table tbody").waitUntil(Condition.exist, 5000).$$("tr");
+        return getMainTable().$("tbody").shouldBe(Condition.exist).$$("tr");
     }
 
     default SelenideElement getMainTableFilter() {
@@ -31,19 +35,11 @@ public interface ProtoPageSelectors extends BasePage {
         return getMainTableHead().$(Selectors.byText("Фамилия"));
     }
 
-    default SelenideElement getFilterGenderMale() {
-        return getMainTableFilter().$$(".n2o-checkbox").findBy(Condition.text("Мужской"));
-    }
-
-    default SelenideElement getFilterGenderFemale() {
-        return getMainTableFilter().$$(".n2o-checkbox").findBy(Condition.text("Женский"));
-    }
-
-    default SelenideElement getFilterGenderUnknown() {
-        return getMainTableFilter().$$(".n2o-checkbox").findBy(Condition.text("Не определенный"));
-    }
-
     default SelenideElement getFilterSearchButton() {
-        return getMainTableFilter().$$("button").findBy(Condition.text("Найти"));
+        return BasePage.getButton(getMainTableFilter(),("Найти"));
+    }
+
+    default SelenideElement getFilterResetButton() {
+        return BasePage.getButton(getMainTableFilter(),("Сбросить"));
     }
 }
