@@ -5,6 +5,9 @@ import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 
+/**
+ * Панель действий для автотестирования
+ */
 public interface Toolbar {
     StandardButton button(String label);
 

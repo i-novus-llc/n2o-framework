@@ -4,6 +4,9 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.ElementsCollection;
 import net.n2oapp.framework.autotest.api.collection.ComponentsCollection;
 
+/**
+ * Абстрактная реализация коллекции компонентов для автотестирования
+ */
 public abstract class N2oComponentsCollection implements ComponentsCollection {
     private ElementsCollection elements;
 

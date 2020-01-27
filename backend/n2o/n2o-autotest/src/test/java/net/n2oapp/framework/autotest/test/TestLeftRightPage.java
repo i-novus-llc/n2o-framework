@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.api;
+package net.n2oapp.framework.autotest.test;
 
 import net.n2oapp.framework.autotest.api.collection.Regions;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;

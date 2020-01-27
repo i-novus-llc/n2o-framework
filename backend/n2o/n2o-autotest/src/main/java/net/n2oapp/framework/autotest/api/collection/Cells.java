@@ -4,6 +4,9 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 
+/**
+ * Ячейки таблицы для автотестирования
+ */
 public interface Cells extends ComponentsCollection {
     TextCell cell(int index);
 

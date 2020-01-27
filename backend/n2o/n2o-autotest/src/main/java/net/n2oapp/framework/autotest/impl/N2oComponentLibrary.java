@@ -9,6 +9,9 @@ import net.n2oapp.framework.autotest.impl.component.page.N2oLeftRightPage;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Библиотека стандартных компонентов N2O для автотестирования
+ */
 public class N2oComponentLibrary implements ComponentLibrary {
     @Override
     public List<Class<? extends Component>> components() {

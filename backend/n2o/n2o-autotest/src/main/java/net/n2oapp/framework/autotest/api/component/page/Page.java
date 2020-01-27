@@ -3,6 +3,9 @@ package net.n2oapp.framework.autotest.api.component.page;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
 
+/**
+ * Страница для автотестирования
+ */
 public interface Page extends Component {
     PageToolbar toolbar();
 

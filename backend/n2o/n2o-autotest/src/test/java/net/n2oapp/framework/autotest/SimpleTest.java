@@ -1,13 +1,13 @@
 package net.n2oapp.framework.autotest;
 
 import com.codeborne.selenide.Selenide;
-import net.n2oapp.framework.autotest.api.TestLeftRightPage;
-import net.n2oapp.framework.autotest.api.TestRegion;
-import net.n2oapp.framework.autotest.api.TestWidget;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.Widget;
 import net.n2oapp.framework.autotest.impl.N2oComponentLibrary;
-import net.n2oapp.framework.autotest.page.TestPageObject;
+import net.n2oapp.framework.autotest.test.TestLeftRightPage;
+import net.n2oapp.framework.autotest.test.TestPageObject;
+import net.n2oapp.framework.autotest.test.TestRegion;
+import net.n2oapp.framework.autotest.test.TestWidget;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;

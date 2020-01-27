@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Фабрика реализаций компонентов для автотестирования
+ */
 public class ComponentFactory {
     private Set<Class<?>> components = new HashSet<>();
     private Set<Class<?>> collections = new HashSet<>();

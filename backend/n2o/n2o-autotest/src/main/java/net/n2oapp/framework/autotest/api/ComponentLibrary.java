@@ -6,6 +6,9 @@ import net.n2oapp.framework.autotest.api.component.Component;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Библиотека компонентов для автотестирования
+ */
 public interface ComponentLibrary {
     default List<Class<? extends Component>> components() {
         return Collections.emptyList();

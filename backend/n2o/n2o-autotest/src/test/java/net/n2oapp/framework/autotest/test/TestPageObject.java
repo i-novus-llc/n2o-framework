@@ -1,8 +1,6 @@
-package net.n2oapp.framework.autotest.page;
+package net.n2oapp.framework.autotest.test;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.TestRegion;
-import net.n2oapp.framework.autotest.api.TestWidget;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 
 public class TestPageObject {

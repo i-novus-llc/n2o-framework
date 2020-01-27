@@ -4,6 +4,9 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.Component;
 
+/**
+ * Абстрактная реализация компонента для автотестирования
+ */
 public abstract class N2oComponent implements Component {
     private SelenideElement element;
 

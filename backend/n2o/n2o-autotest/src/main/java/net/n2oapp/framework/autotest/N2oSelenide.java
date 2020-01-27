@@ -10,7 +10,9 @@ import net.n2oapp.framework.autotest.impl.N2oComponentLibrary;
 
 import static com.codeborne.selenide.Selenide.$;
 
-
+/**
+ * Главный класс для старта автотестирования страниц N2O
+ */
 public class N2oSelenide {
     private static ComponentFactory factory = new ComponentFactory().addLibrary(new N2oComponentLibrary());
 

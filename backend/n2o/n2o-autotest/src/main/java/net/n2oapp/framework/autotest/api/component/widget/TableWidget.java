@@ -4,6 +4,9 @@ import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.impl.collection.N2oFields;
 import net.n2oapp.framework.autotest.impl.collection.N2oTableHeaders;
 
+/**
+ * Виджет - таблица для автотестирования
+ */
 public interface TableWidget extends StandardWidget {
     Columns columns();
     Filters filters();
