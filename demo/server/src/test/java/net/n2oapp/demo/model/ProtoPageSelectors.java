@@ -1,17 +1,19 @@
-package net.n2oapp.demo;
+package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
+
 /**
  * Селекторы для страницы ProtoPage
  */
 
-import static com.codeborne.selenide.Selenide.*;
-
 public interface ProtoPageSelectors {
+
 
     default SelenideElement getMainTable() {
         return $("table");
@@ -36,10 +38,18 @@ public interface ProtoPageSelectors {
     }
 
     default SelenideElement getFilterSearchButton() {
-        return BasePage.getButton(getMainTableFilter(),("Найти"));
+        return BasePage.getButton(getMainTableFilter(), ("Найти"));
     }
 
     default SelenideElement getFilterResetButton() {
-        return BasePage.getButton(getMainTableFilter(),("Сбросить"));
+        return BasePage.getButton(getMainTableFilter(), ("Сбросить"));
+    }
+
+    default SelenideElement getMainTablePaginationButton(Integer idx) {
+        return $$(".pagination li").get(idx);
+    }
+
+    default SelenideElement getMainTablePaginationInfo() {
+        return $(".n2o-pagination .n2o-pagination-info");
     }
 }

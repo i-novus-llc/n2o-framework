@@ -1,5 +1,6 @@
 package net.n2oapp.demo;
 
+import net.n2oapp.demo.model.ProtoPage;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -27,6 +28,7 @@ public class DemoIntegrationTest {
     public static void configure() {
         browser = "chrome";
         headless = true;
+        browserSize = "1920x1200";
     }
 
     @Before
@@ -53,5 +55,35 @@ public class DemoIntegrationTest {
     @Test
     public void testTableEditBirthday() {
         protoPage.testTableEditBirthday();
+    }
+
+    @Test
+    public void testAddClient() {
+        protoPage.assertAddClient();
+    }
+
+    @Test
+    public void testCreateClient() {
+        protoPage.assertCreateClient();
+    }
+
+    @Test
+    public void testUpdateClient() {
+        protoPage.assertUpdateClient();
+    }
+
+    @Test
+    public void testViewClient() {
+        protoPage.assertViewClient();
+    }
+
+    @Test
+    public void testTableInPlaceDelete() {
+        protoPage.testTableInPlaceDelete();
+    }
+
+    @Test
+    public void testTableRowDelete() {
+        protoPage.testTableRowDelete();
     }
 }

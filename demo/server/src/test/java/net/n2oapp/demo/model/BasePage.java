@@ -1,17 +1,42 @@
-package net.n2oapp.demo;
+package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.$;
 
 /**
  * Базовые методы для автотестов
  */
 
 public interface BasePage {
+
+    /**
+     * Получение Страницы
+     */
+    static SelenideElement getPage() {
+        return $(".n2o-page-body");
+    }
+
+    /**
+     * Получение регионов
+     */
+    static ElementsCollection getRegions() {
+        return $$(".n2o-panel-region");
+    }
+
+    /**
+     * Получение модального окна
+     */
+    static SelenideElement getModalPage() {
+        return $(".modal-content");
+    }
 
     /**
      * Получение Checkbox
@@ -24,6 +49,16 @@ public interface BasePage {
     }
 
     /**
+     * Получение RadioButton
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getRadioButton(SelenideElement parent, String label) {
+        return parent.$$(".custom-radio").findBy(Condition.text(label));
+    }
+
+    /**
      * Получение Button
      *
      * @param parent - начальный элемент
@@ -33,16 +68,34 @@ public interface BasePage {
         return parent.$$(".btn").findBy(Condition.text(label));
     }
 
+    /**
+     * Получение input
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getInput(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-input");
+    }
+
+    /**
+     * Получение input-select
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getInputSelect(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-input-select");
+    }
 
     /**
      * Получение input
      *
      * @param parent - начальный элемент
      * @param label  - текст
-     * @return
      */
-    static SelenideElement getInput(SelenideElement parent, String label) {
-        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-input");
+    static SelenideElement getInputDate(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-date-input input");
     }
 
     /**
@@ -52,6 +105,18 @@ public interface BasePage {
      */
     static SelenideElement getDatePicker(SelenideElement parent) {
         return parent.$(".n2o-date-picker .n2o-advanced-table-edit-control");
+    }
+
+    static SelenideElement getModalDialog(String title) {
+        return $$(".modal-dialog").findBy(Condition.text(title));
+    }
+
+    static ElementsCollection getAlerts() {
+        return $$(".n2o-alerts .n2o-alert-body").filter(Condition.visible);
+    }
+
+    static SelenideElement getModalDialogBody(String title) {
+        return getModalDialog(title).$(".modal-body");
     }
 
     /**
@@ -68,6 +133,15 @@ public interface BasePage {
         return parent.$$(".n2o-table-row").get(row).$$(".n2o-advanced-table-cell-expand");
     }
 
+    /**
+     * Скролирование страницы
+     *
+     * @param x pix
+     * @param y pix
+     */
+    static void scrollPage(int x, int y) {
+        Selenide.executeJavaScript("window.scrollBy(arguments[0], arguments[1]);", x, y);
+    }
 
     /**
      * Получение колонки таблицы (по возможности использовать getColElements)
