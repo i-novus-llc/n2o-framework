@@ -16,22 +16,18 @@ import {
  * @reactProps {string} label - Текст заголовка столбца
  * @reactProps {function} onSort - эвент сортировки. Вызывает при смене направления сортировки
  */
-class TextTableHeader extends React.Component {
-  render() {
-    const { id, sortable, sorting, label, onSort } = this.props;
-
-    return (
-      <span>
-        {sortable ? (
-          <Sorter sorting={sorting} columnKey={id} onSort={onSort}>
-            {label}
-          </Sorter>
-        ) : (
-          label
-        )}
-      </span>
-    );
-  }
+function TextTableHeader({ id, sortable, sorting, label, onSort }) {
+  return (
+    <span>
+      {sortable ? (
+        <Sorter sorting={sorting} columnKey={id} onSort={onSort}>
+          {label}
+        </Sorter>
+      ) : (
+        label
+      )}
+    </span>
+  );
 }
 
 TextTableHeader.propTypes = {
@@ -40,6 +36,7 @@ TextTableHeader.propTypes = {
   sorting: PropTypes.string,
   label: PropTypes.string,
   onSort: PropTypes.func,
+  sortParam: PropTypes.string,
 };
 
 const enhance = compose(
@@ -52,6 +49,8 @@ const enhance = compose(
         ])
       );
     },
+    onSort: ({ sortParam, onSort }) => (columnKey, direction) =>
+      onSort(columnKey, direction, sortParam),
   }),
   lifecycle({
     componentDidMount() {

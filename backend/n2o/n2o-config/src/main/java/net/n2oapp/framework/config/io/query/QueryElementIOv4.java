@@ -45,6 +45,7 @@ public class QueryElementIOv4 implements NamespaceIO<N2oQuery> {
         p.hasElement(e, "sorting", t::getHasSorting, t::setHasSorting);
         p.element(e, "sorting", t::getSortingBody, t::setSortingBody);
         p.childAttribute(e, "sorting", "mapping", t::getSortingMapping, t::setSortingMapping);
+        p.childAttribute(e, "sorting", "param", t::getSortingParam, t::setSortingParam);
         p.hasElement(e, "select", t::getHasSelect, t::setHasSelect);
         p.element(e, "select", t::getSelectBody, t::setSelectBody);
         p.childAttribute(e, "select", "default-value", t::getSelectDefaultValue, t::setSelectDefaultValue);

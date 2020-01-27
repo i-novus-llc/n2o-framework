@@ -141,7 +141,7 @@ class AdvancedTableContainer extends React.Component {
           columnId: header.id,
           widgetId,
           as: 'div',
-          sorting: sorting && sorting[header.id],
+          sorting: sorting && sorting[header.sortParam || header.id],
           onSort,
         }),
         label: header.title,

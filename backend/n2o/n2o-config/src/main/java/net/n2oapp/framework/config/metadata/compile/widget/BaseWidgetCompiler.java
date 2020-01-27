@@ -328,7 +328,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             for (N2oQuery.Field field : query.getSortingFields()) {
                 String sortParam = RouteUtil.normalizeParam("sorting." + source.getId() + "_" + field.getId());
                 BindLink onSet = Redux.createSortLink(compiled.getId(), field.getId());
-                ReduxAction onGet = Redux.dispatchSortWidget(compiled.getId(), field.getId(), colon(sortParam));
+                ReduxAction onGet = Redux.dispatchSortWidget(compiled.getId(), field.getId(), field.getSortingParam(), colon(sortParam));
                 routes.addQueryMapping(sortParam, onGet, onSet);
             }
         }

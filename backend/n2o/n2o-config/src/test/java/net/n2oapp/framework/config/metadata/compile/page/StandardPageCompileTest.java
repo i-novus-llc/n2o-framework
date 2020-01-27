@@ -62,8 +62,8 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getLayout().getRegions().get("left").get(0).getSrc(), is("TabsRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("ListRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(1).getSrc(), is("PanelRegion"));
-        assertThat(((PanelRegion)page.getLayout().getRegions().get("single").get(1)).getStyle().get("width"), is("300px"));
-        assertThat(((PanelRegion)page.getLayout().getRegions().get("single").get(1)).getStyle().get("marginLeft"), is("10px"));
+        assertThat(((PanelRegion) page.getLayout().getRegions().get("single").get(1)).getStyle().get("width"), is("300px"));
+        assertThat(((PanelRegion) page.getLayout().getRegions().get("single").get(1)).getStyle().get("marginLeft"), is("10px"));
         assertThat(page.getLayout().getRegions().get("single").get(2).getSrc(), is("NoneRegion"));
         assertThat(page.getLayout().getRegions().get("single").get(0).getClass(), is(equalTo(LineRegion.class)));
         assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("ListRegion"));
@@ -113,6 +113,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getPathMapping().get("page_detail4_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
         assertThat(page.getRoutes().getPathMapping().get("page_detail4_id").getPayload().get("widgetId"), is("page_detail4"));
         assertThat(page.getRoutes().getPathMapping().get("page_detail4_id").getPayload().get("value"), is(":page_detail4_id"));
+        assertThat(page.getRoutes().getQueryMapping().get("sorting_detail_parent_id").getOnGet().getPayload().get("sortParam"), is("sorting_parent_id"));
         assertThat(page.getWidgets().get("page_detail").getFilter("parent.id").getParam(), is("master_id"));
 
         assertThat(((PageContext) route("/page/master/1", Page.class)).getClientPageId(), is(context.getClientPageId()));
@@ -247,7 +248,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     public void validateObjectIdForMainWidget() {
         PageContext validateObjectIdForMainWidget = new PageContext("testStandardPageObject");
         validateObjectIdForMainWidget.setSubmitOperationId("test");
-        compile(                "net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
+        compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
                 .get(validateObjectIdForMainWidget);
 
     }
