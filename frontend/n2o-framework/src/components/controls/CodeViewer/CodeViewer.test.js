@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CodeViewer from './CodeViewer';
+import { CodeViewer } from './CodeViewer';
 
 const setup = propOverrides => {
   const props = Object.assign(
@@ -21,13 +21,13 @@ const setup = propOverrides => {
 describe('<CodeViewer />', () => {
   it('виден по visible', () => {
     let { wrapper } = setup({ visible: false });
-    expect(wrapper.find('.n2o-code-viewer')).isEqual(false);
+    expect(wrapper.find('.n2o-code-viewer').exists()).toEqual(false);
     wrapper = setup({ visible: true }).wrapper;
-    expect(wrapper.find('.n2o-code-viewer')).isEqual(true);
+    expect(wrapper.find('.n2o-code-viewer').exists()).toEqual(true);
   });
 
   it('SyntaxHighlighter доступен по show', () => {
     let { wrapper } = setup({ show: true });
-    expect(wrapper.find('SyntaxHighlighter')).toBe(true);
+    expect(wrapper.find('SyntaxHighlighter').exists()).toEqual(true);
   });
 });
