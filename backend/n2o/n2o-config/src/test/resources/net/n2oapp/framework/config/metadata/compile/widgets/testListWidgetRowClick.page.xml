@@ -58,7 +58,13 @@
                     </click>
                 </rows>
             </list>
-
+            <list>
+                <rows>
+                    <click>
+                        <a href="https://www.google.com/"/>
+                    </click>
+                </rows>
+            </list>
         </panel>
     </regions>
 </page>

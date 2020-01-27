@@ -73,7 +73,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         List<RowClick> rowClicks = new ArrayList<>();
         page.getWidgets().forEach((s, widget) -> rowClicks.add(((ListWidget) widget).getRowClick()));
 
-        assertThat(rowClicks.size(), is(8));
+        assertThat(rowClicks.size(), is(9));
         assertThat(rowClicks.get(0), nullValue());
         assertThat(rowClicks.get(1).getEnablingCondition(), nullValue(String.class));
         assertThat(rowClicks.get(2).getEnablingCondition(), is("false"));

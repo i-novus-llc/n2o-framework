@@ -103,7 +103,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         List<TableWidgetComponent> rowClicks = new ArrayList<>();
         page.getWidgets().forEach((s, widget) -> rowClicks.add((TableWidgetComponent) widget.getComponent()));
 
-        assertThat(rowClicks.size(), is(9));
+        assertThat(rowClicks.size(), is(10));
         assertThat(rowClicks.get(0).getRowClick(), nullValue());
         assertThat(rowClicks.get(1).getRowClick().getEnablingCondition(), nullValue(String.class));
         assertThat(rowClicks.get(2).getRowClick().getEnablingCondition(), is("false"));
