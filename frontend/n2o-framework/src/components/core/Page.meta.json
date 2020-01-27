@@ -23,11 +23,20 @@
   "breadcrumb": [
     {
       "label": "Первая",
-      "path": "/"
+      "path": "/",
+      "title": "Первая c title"
     },
     {
       "label": "Вторая",
       "path": "/test"
+    },
+    {
+      "label": "Третья без path"
+    },
+    {
+      "label": "Четвертая",
+      "path": "/test",
+      "modelLink": true
     }
   ],
   "widgets": {

@@ -4,10 +4,15 @@ import Breadcrumb from 'reactstrap/lib/Breadcrumb';
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
 
 function DefaultBreadcrumb({ items }) {
-  const crumbs = items.map(({ label, path, modelLink }, index) => {
+  const crumbs = items.map(({ label, path, title, modelLink }, index) => {
+    const caption = title ? title : label;
     return (
       <BreadcrumbItem key={index} active={index === items.length - 1}>
-        {index !== items.length - 1 ? <Link to={path}>{label}</Link> : label}
+        {path && index !== items.length - 1 ? (
+          <Link to={path}>{caption}</Link>
+        ) : (
+          caption
+        )}
       </BreadcrumbItem>
     );
   });

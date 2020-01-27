@@ -6,6 +6,7 @@ import { storiesOf } from '@storybook/react';
 
 import { getStubData } from 'N2oStorybook/fetchMock';
 import DefaultBreadcrumb from './DefaultBreadcrumb';
+import BreadcrumbContainer from './BreadcrumbContainer';
 import metadata from '../Page.meta';
 import Page from '../Page';
 import PropTypes from 'prop-types';
@@ -15,7 +16,7 @@ const stories = storiesOf('Функциональность/Хлебные кр�
 
 const PageContext = withContext(
   {
-    defaultBreadcrumb: PropTypes.node,
+    defaultBreadcrumb: PropTypes.func,
   },
   props => ({
     defaultBreadcrumb: DefaultBreadcrumb,
@@ -23,7 +24,6 @@ const PageContext = withContext(
 )(Page);
 
 stories
-
   .add('Метаданные', () => {
     const withForward = JSON.parse(JSON.stringify(metadata));
     withForward.id = 'OtherPage';
@@ -43,7 +43,7 @@ stories
       return withForward;
     });
 
-    fetchMock.get('begin:n2o/data', getStubData);
+    fetchMock.get('*', getStubData);
 
     return (
       <Switch>
@@ -64,8 +64,14 @@ stories
     );
   })
   .add('Плейсхолдер', () => {
-    fetchMock.restore().get('begin:n2o/page', url => {
+    fetchMock.restore().get('*', url => {
       return PlaceholderBreadCrumb;
     });
     return <PageContext pageId="testSimplePageJson" pageUrl="Page" />;
+  })
+  .add('C props title', () => {
+    return <DefaultBreadcrumb items={metadata.breadcrumb.slice(0, 2)} />;
+  })
+  .add('без props path', () => {
+    return <DefaultBreadcrumb items={metadata.breadcrumb} />;
   });
