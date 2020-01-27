@@ -163,7 +163,7 @@ public class ProtoPage implements ProtoPageSelectors {
      */
     public void assertUpdateClient() {
         SelenideElement mainPage = getPage();
-        List<String> row = getRow(getMainTableRows(), 1);
+        List<String> row = getRow(getMainTableRows(), 2);
 
         String surname = row.get(0);
         String name = row.get(1);
@@ -172,7 +172,7 @@ public class ProtoPage implements ProtoPageSelectors {
         String gender = row.get(4);
         String vip = "true".equals(row.get(5)) ? "true" : "false";
 
-        getRowElements(mainPage, 1).get(4).click();
+        getRowElements(mainPage, 2).get(4).click();
         getButton(mainPage, "Изменить").click();
 
         SelenideElement modalPage = getModalPage();
@@ -189,14 +189,14 @@ public class ProtoPage implements ProtoPageSelectors {
         getButton(modalPage, "Сохранить").click();
 
         getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
-        getRowElements(mainPage, 1).get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
+        getRowElements(mainPage, 2).get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
 
-        getRowElements(mainPage, 1).get(0).shouldHave(Condition.text("Иванов"));
-        getRowElements(mainPage, 1).get(1).shouldHave(Condition.text("Алексей"));
-        getRowElements(mainPage, 1).get(2).shouldHave(Condition.text("Петрович"));
-        getRowElements(mainPage, 1).get(3).shouldHave(Condition.text(birthDate));
-        getRowElements(mainPage, 1).get(4).shouldHave(Condition.text(gender));
-        getRowElements(mainPage, 1).get(5).$("input")
+        getRowElements(mainPage, 2).get(0).shouldHave(Condition.text("Иванов"));
+        getRowElements(mainPage, 2).get(1).shouldHave(Condition.text("Алексей"));
+        getRowElements(mainPage, 2).get(2).shouldHave(Condition.text("Петрович"));
+        getRowElements(mainPage, 2).get(3).shouldHave(Condition.text(birthDate));
+        getRowElements(mainPage, 2).get(4).shouldHave(Condition.text(gender));
+        getRowElements(mainPage, 2).get(5).$("input")
                 .shouldHave("true".equals(vip) ? Condition.attribute("checked") : Condition.not(Condition.attribute("checked")));
 
     }
@@ -205,7 +205,7 @@ public class ProtoPage implements ProtoPageSelectors {
      * Просмотр клиента через модальное окно
      */
     public void assertViewClient() {
-        List<String> row = getRow(getMainTableRows(), 1);
+        List<String> row = getRow(getMainTableRows(), 2);
         String surname = row.get(0);
         String name = row.get(1);
         String patronymic = row.get(2);
@@ -214,7 +214,7 @@ public class ProtoPage implements ProtoPageSelectors {
         String vip = "true".equals(row.get(5)) ? "true" : "false";
 
         SelenideElement mainPage = getPage();
-        getRowElements(mainPage, 1).get(4).click();
+        getRowElements(mainPage, 2).get(4).click();
         getButton(mainPage, "Просмотр").click();
 
         SelenideElement modalPage = getModalPage();
@@ -260,9 +260,11 @@ public class ProtoPage implements ProtoPageSelectors {
      * Проверка создания контакта
      */
     public void assertCreateContact() {
-        SelenideElement mainPage = getPage();
-        getRowElements(getMainTable(), 1).get(0).shouldBe(Condition.text("Маркин"));
-        getRowElements(getMainTable(), 1).get(4).click();
+        getMainTableHead().shouldBe(Condition.exist);
+        getInput(getMainTableFilter(), "Фамилия").setValue("Маркин");
+        getFilterSearchButton().click();
+        getRowElements(getMainTable(), 0).get(0).shouldBe(Condition.text("Маркин"));
+        getRowElements(getMainTable(), 0).get(4).click();
 
         SelenideElement contactsList = getContactsList();
         contactsList.click();
