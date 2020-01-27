@@ -1,0 +1,7 @@
+package net.n2oapp.framework.autotest.api.component.page;
+
+import net.n2oapp.framework.autotest.api.collection.Widgets;
+
+public interface SimplePage extends StandardPage {
+    Widgets single();
+}

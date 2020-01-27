@@ -1,26 +1,37 @@
 package net.n2oapp.framework.autotest;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.Selenide;
-import net.n2oapp.framework.autotest.component.page.Page;
-import net.n2oapp.framework.autotest.factory.ComponentFactory;
+import com.codeborne.selenide.SelenideElement;
+import net.n2oapp.framework.autotest.api.collection.ComponentsCollection;
+import net.n2oapp.framework.autotest.api.component.Component;
+import net.n2oapp.framework.autotest.api.component.page.Page;
+import net.n2oapp.framework.autotest.impl.N2oComponentLibrary;
 
 import static com.codeborne.selenide.Selenide.$;
 
 
 public class N2oSelenide {
-    private static ComponentFactory factory = new ComponentFactory();
+    private static ComponentFactory factory = new ComponentFactory().addLibrary(new N2oComponentLibrary());
 
-    public static <T extends Page> T open(String relativeOrAbsoluteUrl, Class<T> componentClass) {
+    public static <T extends Page> T open(String relativeOrAbsoluteUrl, Class<T> pageClass) {
         Selenide.open(relativeOrAbsoluteUrl);
-        return factory.component($("body"), componentClass);
+        return page(pageClass);
     }
 
-    public static <T extends Page> T page(Class<T> componentClass) {
-        return factory.component($("body"), componentClass);
+    public static <T extends Page> T page(Class<T> pageClass) {
+        return factory.produce($("body"), pageClass);
     }
 
-    static ComponentFactory factory() {
-        factory = new ComponentFactory();
-        return factory;
+    public static <T extends Component> T component(SelenideElement element, Class<T> componentClass) {
+        return factory.produce(element, componentClass);
+    }
+
+    public static <T extends ComponentsCollection> T collection(ElementsCollection elements, Class<T> collectionClass) {
+        return factory.produce(elements, collectionClass);
+    }
+
+    public static void setFactory(ComponentFactory newFactory) {
+        factory = newFactory;
     }
 }

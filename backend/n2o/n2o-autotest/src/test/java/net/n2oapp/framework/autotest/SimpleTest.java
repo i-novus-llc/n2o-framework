@@ -1,11 +1,12 @@
 package net.n2oapp.framework.autotest;
 
 import com.codeborne.selenide.Selenide;
-import net.n2oapp.framework.autotest.component.TestLeftRightPage;
-import net.n2oapp.framework.autotest.component.TestRegion;
-import net.n2oapp.framework.autotest.component.TestWidget;
-import net.n2oapp.framework.autotest.component.region.SimpleRegion;
-import net.n2oapp.framework.autotest.component.widget.Widget;
+import net.n2oapp.framework.autotest.api.TestLeftRightPage;
+import net.n2oapp.framework.autotest.api.TestRegion;
+import net.n2oapp.framework.autotest.api.TestWidget;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.widget.Widget;
+import net.n2oapp.framework.autotest.impl.N2oComponentLibrary;
 import net.n2oapp.framework.autotest.page.TestPageObject;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,7 +26,9 @@ public class SimpleTest {
 
     @BeforeClass
     public static void beforeClass() throws Exception {
-        N2oSelenide.factory().components(new TestRegion(), new TestWidget(), new TestLeftRightPage());
+        N2oSelenide.setFactory(new ComponentFactory()
+                .addLibrary(new N2oComponentLibrary())
+                .addComponents(TestRegion.class, TestWidget.class, TestLeftRightPage.class));
     }
 
     @Test
