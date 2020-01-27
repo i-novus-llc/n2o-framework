@@ -108,7 +108,6 @@ public class SelectiveStandardReader extends SelectiveReader {
         addReader(new OpenPageReaderV1());
         addReader(new ShowModalFormReaderV1());
         addReader(new ShowModalWithActionReaderV1());
-        addReader(new CustomReaderV1());
         addReader(new ActionAndCloseReaderV1());
         addReader(new CloseEventReaderV1());
         addReader(new ValidateEventReaderV1());

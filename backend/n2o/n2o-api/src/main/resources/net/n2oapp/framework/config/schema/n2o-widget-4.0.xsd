@@ -237,6 +237,11 @@
                             <xs:documentation>Паджинация.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
+                    <xs:element name="rows" type="rowsListDefinition" maxOccurs="1" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Настройки строк списка.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -321,6 +326,9 @@
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="children" use="optional" default="collapse">
+                    <xs:annotation>
+                        <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде</xs:documentation>
+                    </xs:annotation>
                     <xs:simpleType>
                         <xs:annotation>
                             <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде</xs:documentation>
@@ -543,6 +551,12 @@
                 <xs:documentation>Стиль.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="rowsListDefinition">
+        <xs:sequence>
+            <xs:element name="click" type="clickDefinition" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="switchDefinition">

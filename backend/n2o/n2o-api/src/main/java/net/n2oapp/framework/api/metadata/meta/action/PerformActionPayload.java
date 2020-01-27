@@ -7,12 +7,12 @@ import java.util.Map;
 /**
  * Настраиваемая полезная нагрузка действия
  */
-public class CustomActionPayload extends StrictMap<String, Object> implements ActionPayload {
+public class PerformActionPayload extends StrictMap<String, Object> implements ActionPayload {
 
-    public CustomActionPayload() {
+    public PerformActionPayload() {
     }
 
-    public CustomActionPayload(Map<String, Object> params) {
+    public PerformActionPayload(Map<String, Object> params) {
         super();
         putAll(params);
     }

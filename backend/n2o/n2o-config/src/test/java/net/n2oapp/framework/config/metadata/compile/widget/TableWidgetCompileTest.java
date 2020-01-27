@@ -103,7 +103,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         List<TableWidgetComponent> rowClicks = new ArrayList<>();
         page.getWidgets().forEach((s, widget) -> rowClicks.add((TableWidgetComponent) widget.getComponent()));
 
-        assertThat(rowClicks.size(), is(8));
+        assertThat(rowClicks.size(), is(10));
         assertThat(rowClicks.get(0).getRowClick(), nullValue());
         assertThat(rowClicks.get(1).getRowClick().getEnablingCondition(), nullValue(String.class));
         assertThat(rowClicks.get(2).getRowClick().getEnablingCondition(), is("false"));
@@ -112,6 +112,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(rowClicks.get(5).getRowClick().getEnablingCondition(), is("false"));
         assertThat(rowClicks.get(6).getRowClick().getEnablingCondition(), is("true"));
         assertThat(rowClicks.get(7).getRowClick().getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.get(8).getRowClick().getAction(), notNullValue());
     }
 
     @Test
