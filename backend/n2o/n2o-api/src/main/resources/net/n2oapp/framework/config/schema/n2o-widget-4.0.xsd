@@ -311,7 +311,8 @@
                 </xs:attribute>
                 <xs:attribute name="scroll-x" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина таблицы, после которой появится горизонтальный скрол.</xs:documentation>
+                        <xs:documentation>Ширина таблицы, после которой появится горизонтальный скрол.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="scroll-y" type="xs:string">
@@ -400,10 +401,36 @@
                         <xs:documentation>Направление сортировки по умолчанию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:element name="dependencies" type="columnDependenciesDefinition">
+                    <xs:annotation>
+                        <xs:documentation>Зависимости столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="columnDependenciesDefinition" abstract="true">
+        <xs:sequence>
+            <xs:element name="visibility" type="visibilityDependencyDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Видимость столбца.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="visibilityDependencyDefinition">
+        <xs:attribute name="ref-widget-id" type="xs:string"/>
+        <xs:attribute name="ref-model" type="reduxModelEnum"/>
+    </xs:complexType>
+
+    <xs:simpleType name="reduxModelEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="resolve"/>
+            <xs:enumeration value="filter"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:complexType name="formReferenceDefinition">
         <xs:complexContent>
@@ -519,7 +546,9 @@
         </xs:sequence>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Поле выборки, отвечающее за класс строки(таким образом можно задать цвет, стиль, фон строки).</xs:documentation>
+                <xs:documentation>Поле выборки, отвечающее за класс строки(таким образом можно задать цвет, стиль, фон
+                    строки).
+                </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
@@ -568,10 +597,10 @@
             <xs:extension base="act:actions">
 
                 <xs:attribute name="action-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
-                        </xs:documentation>
-                    </xs:annotation>
+                <xs:annotation>
+                    <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
+                    </xs:documentation>
+                </xs:annotation>
                 <xs:attribute name="enabled" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Условие доступности действия

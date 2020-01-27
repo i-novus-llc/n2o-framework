@@ -282,9 +282,11 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testTableColumnVisibility"));
         List<ColumnHeader> columnHeaders = ((Table) page.getWidgets().entrySet().iterator().next().getValue()).getComponent().getHeaders();
         assertThat(columnHeaders.get(0).getVisible(), nullValue());
-        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getExpression(), is("`abc == 1`"));
-        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['panel1']"));
+        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getExpression(), is("abc == 1"));
+        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.filter['table']"));
         assertThat(columnHeaders.get(1).getVisible(), is(Boolean.TRUE));
         assertThat(columnHeaders.get(2).getVisible(), nullValue());
+        assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getExpression(), is("type == 1"));
+        assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['form']"));
     }
 }

@@ -39,12 +39,12 @@
             </icon>
         </column>
         <column text-field-id="test4">
-            <dependencies>
-                <visibility on="type" ref-widget-id="master" ref-model="resolve">type == 1</visibility>
-            </dependencies>
             <checkbox src="test" enabled="true" action-id="update" class="classTest">
                 <close src="test"/>
             </checkbox>
+            <dependencies>
+                <visibility ref-widget-id="master" ref-model="resolve">type == 1</visibility>
+            </dependencies>
         </column>
         <column text-field-id="test5">
             <progress src="test" value="firstName" class="classTest" active="false" size="large" striped="false"

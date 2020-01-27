@@ -67,12 +67,11 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
         p.attribute(e, "width", c::getWidth, c::setWidth);
         p.attributeBoolean(e, "resizable", c::getResizable, c::setResizable);
         p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPosition.class);
-        p.anyChildren(e, "dependencies", c::getColumnVisibility, c::setColumnVisibility, p.oneOf(AbstractColumn.ColumnVisibility.class)
+        p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(AbstractColumn.ColumnVisibility.class)
                 .add("visibility", AbstractColumn.ColumnVisibility.class, this::dependency));
     }
 
     private void dependency(Element e, AbstractColumn.ColumnVisibility t, IOProcessor p) {
-        p.attributeArray(e, "on", ",", t::getOn, t::setOn);
         p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
         p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
         p.text(e, t::getValue, t::setValue);

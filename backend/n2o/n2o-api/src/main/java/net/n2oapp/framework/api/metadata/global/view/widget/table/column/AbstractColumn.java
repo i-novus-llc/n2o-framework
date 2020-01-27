@@ -30,14 +30,13 @@ public abstract class AbstractColumn implements IdAware, Serializable {
     private String sortingFieldId;
     private DirectionType sortingDirection;
     private ColumnFixedPosition fixed;
-    private ColumnVisibility[] columnVisibility;
+    private ColumnVisibility[] columnVisibilities;
 
     public abstract boolean isDynamic();
 
     @Getter
     @Setter
     public static class ColumnVisibility implements Source {
-        private String[] on;
         private String value;
         private String refWidgetId;
         private ReduxModel refModel;

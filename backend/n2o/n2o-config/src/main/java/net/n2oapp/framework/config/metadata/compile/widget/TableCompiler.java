@@ -223,16 +223,17 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         } else {
             header.setVisible(p.resolveJS(column.getVisible(), Boolean.class));
         }
-        if (column.getColumnVisibility() != null) {
-            for (AbstractColumn.ColumnVisibility visibility : column.getColumnVisibility()) {
-                if (visibility.getOn() != null) {
-                    for (String on : visibility.getOn()) {
-                        compileColumnVisibility(visibility, header, source.getId(), on, p);
-                    }
-                } else {
-                    compileColumnVisibility(visibility, header, source.getId(), null, p);
+        if (column.getColumnVisibilities() != null) {
+            for (AbstractColumn.ColumnVisibility visibility : column.getColumnVisibilities()) {
+                String refWidgetId = p.cast(visibility.getRefWidgetId(), source.getId());
+                ReduxModel refModel = p.cast(visibility.getRefModel(), ReduxModel.FILTER);
+                Condition condition = new Condition();
+                condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
+                condition.setModelLink(new ModelLink(refModel, refWidgetId).getBindLink());
+                if (!header.getConditions().containsKey(ValidationType.visible)) {
+                    header.getConditions().put(ValidationType.visible, new ArrayList<>());
                 }
-
+                header.getConditions().get(ValidationType.visible).add(condition);
             }
         }
 
@@ -254,18 +255,6 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
             cell = p.compile(cell, context, columnIndex, widgetScope, widgetRouteScope, new ComponentScope(column), object, widgetActions);
             cells.add(cell);
         }
-    }
-
-    private void compileColumnVisibility(AbstractColumn.ColumnVisibility visibility, ColumnHeader header, String widgetId, String fieldId, CompileProcessor p) {
-        String refWidgetId = p.cast(visibility.getRefWidgetId(), widgetId);
-        ReduxModel refModel = p.cast(visibility.getRefModel(), ReduxModel.FILTER);
-        Condition condition = new Condition();
-        condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
-        condition.setModelLink(new ModelLink(refModel, refWidgetId, fieldId).getBindLink());
-        if (!header.getConditions().containsKey(ValidationType.visible)) {
-            header.getConditions().put(ValidationType.visible, new ArrayList<>());
-        }
-        header.getConditions().get(ValidationType.visible).add(condition);
     }
 
     private AbstractTable.Filter createFilter(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
