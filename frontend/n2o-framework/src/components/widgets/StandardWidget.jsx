@@ -20,7 +20,7 @@ import Toolbar from '../buttons/Toolbar';
  */
 class StandardWidget extends React.Component {
   renderSection(place) {
-    const { widgetId, toolbar, actions, filter } = this.props;
+    const { widgetId, toolbar, filter } = this.props;
     if (this.props[place] && React.isValidElement(this.props[place]))
       return this.props[place];
     const filterProps = {

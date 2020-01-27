@@ -16,6 +16,8 @@ include::action.adoc[]
 
 include::cell.adoc[]
 
+include::chart.adoc[]
+
 include::object.adoc[]
 
 include::query.adoc[]

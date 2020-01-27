@@ -95,7 +95,7 @@ function resolve(state = buttonState, action) {
  * @ignore
  */
 export default function toolbar(state = {}, action) {
-  const { key, id: buttonId } = action.payload || {};
+  const { key, buttonId } = action.payload || {};
   switch (action.type) {
     case REGISTER_BUTTON:
       return Object.assign({}, state, {

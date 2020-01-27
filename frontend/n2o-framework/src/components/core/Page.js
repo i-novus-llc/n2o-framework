@@ -44,8 +44,6 @@ function Page(props) {
     disabled,
     status,
     toolbar,
-    actions,
-    containerKey,
     defaultTemplate: Template = React.Fragment,
     defaultBreadcrumb,
     defaultErrorPages,
@@ -80,8 +78,8 @@ function Page(props) {
         )}
         {toolbar && (toolbar.topLeft || toolbar.topRight) && (
           <div className="n2o-page-actions">
-            <Toolbar entityKey={containerKey} toolbar={toolbar.topLeft} />
-            <Toolbar entityKey={containerKey} toolbar={toolbar.topRight} />
+            <Toolbar entityKey={pageId} toolbar={toolbar.topLeft} />
+            <Toolbar entityKey={pageId} toolbar={toolbar.topRight} />
           </div>
         )}
         <div className="n2o-page">
@@ -110,8 +108,8 @@ function Page(props) {
         </div>
         {toolbar && (toolbar.bottomLeft || toolbar.bottomRight) && (
           <div className="n2o-page-actions">
-            <Toolbar entityKey={containerKey} toolbar={toolbar.bottomLeft} />
-            <Toolbar entityKey={containerKey} toolbar={toolbar.bottomRight} />
+            <Toolbar entityKey={pageId} toolbar={toolbar.bottomLeft} />
+            <Toolbar entityKey={pageId} toolbar={toolbar.bottomRight} />
           </div>
         )}
       </div>

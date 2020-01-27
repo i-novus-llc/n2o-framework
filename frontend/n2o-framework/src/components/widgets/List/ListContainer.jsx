@@ -139,7 +139,9 @@ class ListContainer extends React.Component {
       divider,
       hasSelect,
       selectedId,
+      rows,
     } = this.props;
+
     return {
       onFetchMore: this.handleFetchMore,
       onItemClick: this.handleItemClick,
@@ -152,6 +154,7 @@ class ListContainer extends React.Component {
       divider,
       hasSelect,
       selectedId,
+      rows,
     };
   }
   render() {
