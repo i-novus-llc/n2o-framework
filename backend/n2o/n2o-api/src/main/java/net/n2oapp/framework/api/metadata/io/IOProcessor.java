@@ -4,14 +4,16 @@ import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
-
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import org.jdom.Element;
 import org.jdom.Namespace;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Процессор считывания и записи DOM элементов
@@ -379,7 +381,7 @@ public interface IOProcessor {
      */
     @Deprecated
     default void extensionAttributes(Element element, Supplier<Map<N2oNamespace, Map<String, String>>> getter,
-                             Consumer<Map<N2oNamespace, Map<String, String>>> setter) {
+                                     Consumer<Map<N2oNamespace, Map<String, String>>> setter) {
         anyAttributes(element, getter, setter);
     }
 
