@@ -8,10 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
-import net.n2oapp.framework.api.metadata.meta.control.Field;
-import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
@@ -63,9 +60,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("paddingTop"), is("0"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
-        assertThat(((Submenu)table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getId(), is("testAction2"));
-        assertThat(((Submenu)table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
-        assertThat(((Submenu)table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("paddingTop"), is("0"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getId(), is("testAction2"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("paddingTop"), is("0"));
         //columns
         assertThat(table.getComponent().getCells().size(), is(2));
         assertThat(((N2oAbstractCell) table.getComponent().getCells().get(0)).getReactStyle().get("marginLeft"), is("10px"));
@@ -284,7 +281,10 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
                 .get(new PageContext("testTableColumnVisibility"));
         List<ColumnHeader> columnHeaders = ((Table) page.getWidgets().entrySet().iterator().next().getValue()).getComponent().getHeaders();
-        assertThat(columnHeaders.get(0).getVisible(), is(Boolean.FALSE));
+        assertThat(columnHeaders.get(0).getVisible(), nullValue());
+        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getExpression(), is("`abc == 1`"));
+        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['panel1']"));
         assertThat(columnHeaders.get(1).getVisible(), is(Boolean.TRUE));
+        assertThat(columnHeaders.get(2).getVisible(), nullValue());
     }
 }
