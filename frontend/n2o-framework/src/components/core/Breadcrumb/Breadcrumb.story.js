@@ -6,7 +6,6 @@ import { storiesOf } from '@storybook/react';
 
 import { getStubData } from 'N2oStorybook/fetchMock';
 import DefaultBreadcrumb from './DefaultBreadcrumb';
-import BreadcrumbContainer from './BreadcrumbContainer';
 import metadata from '../Page.meta';
 import Page from '../Page';
 import PropTypes from 'prop-types';
