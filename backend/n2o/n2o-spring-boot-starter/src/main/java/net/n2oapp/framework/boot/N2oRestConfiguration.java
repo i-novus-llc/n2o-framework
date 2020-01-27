@@ -54,6 +54,10 @@ public class N2oRestConfiguration {
     @Value("${n2o.project-name:N2O}")
     private String projectName;
 
+    @Value("${n2o.ui.message.stacktrace:true}")
+    private Boolean showStacktrace;
+
+
     @Bean
     ControllerFactory controllerFactory(Map<String, SetController> setControllers, Map<String, GetController> getControllers) {
         Map<String, Object> controllers = new HashMap<>();
@@ -71,7 +75,7 @@ public class N2oRestConfiguration {
 
     @Bean
     public ErrorMessageBuilder errorMessageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
-        return new ErrorMessageBuilder(messageSourceAccessor);
+        return new ErrorMessageBuilder(messageSourceAccessor, showStacktrace);
     }
 
     @Bean
