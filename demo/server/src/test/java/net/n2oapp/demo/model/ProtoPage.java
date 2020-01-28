@@ -3,6 +3,7 @@ package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
 
@@ -11,7 +12,6 @@ import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
 import static net.n2oapp.demo.model.BasePage.*;
-import static net.n2oapp.demo.model.BasePage.getRowElements;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -164,7 +164,7 @@ public class ProtoPage implements ProtoPageSelectors {
      */
     public void assertUpdateClient() {
         SelenideElement mainPage = getPage();
-        List<String> row = getRow(getMainTableRows(), 1);
+        List<String> row = getRow(getMainTableRows(), 2);
 
         String surname = row.get(0);
         String name = row.get(1);
@@ -173,7 +173,7 @@ public class ProtoPage implements ProtoPageSelectors {
         String gender = row.get(4);
         String vip = "true".equals(row.get(5)) ? "true" : "false";
 
-        getRowElements(mainPage, 1).get(4).click();
+        getRowElements(mainPage, 2).get(4).click();
         getButton(mainPage, "Изменить").click();
 
         SelenideElement modalPage = getModalPage();
@@ -190,16 +190,57 @@ public class ProtoPage implements ProtoPageSelectors {
         getButton(modalPage, "Сохранить").click();
 
         getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
-        getRowElements(mainPage, 1).get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
+        getRowElements(mainPage, 2).get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
 
-        getRowElements(mainPage, 1).get(0).shouldHave(Condition.text("Иванов"));
-        getRowElements(mainPage, 1).get(1).shouldHave(Condition.text("Алексей"));
-        getRowElements(mainPage, 1).get(2).shouldHave(Condition.text("Петрович"));
-        getRowElements(mainPage, 1).get(3).shouldHave(Condition.text(birthDate));
-        getRowElements(mainPage, 1).get(4).shouldHave(Condition.text(gender));
-        getRowElements(mainPage, 1).get(5).$("input")
+        getRowElements(mainPage, 2).get(0).shouldHave(Condition.text("Иванов"));
+        getRowElements(mainPage, 2).get(1).shouldHave(Condition.text("Алексей"));
+        getRowElements(mainPage, 2).get(2).shouldHave(Condition.text("Петрович"));
+        getRowElements(mainPage, 2).get(3).shouldHave(Condition.text(birthDate));
+        getRowElements(mainPage, 2).get(4).shouldHave(Condition.text(gender));
+        getRowElements(mainPage, 2).get(5).$("input")
                 .shouldHave("true".equals(vip) ? Condition.attribute("checked") : Condition.not(Condition.attribute("checked")));
 
+    }
+
+    /**
+     * Проверка изменения клиента через тулбар ячейку
+     */
+    public void assertUpdateClientFromToolbarCell() {
+        SelenideElement mainPage = getPage();
+        List<String> row = getRow(getMainTableRows(), 2);
+
+        String surname = row.get(0);
+        String name = row.get(1);
+        String patronymic = row.get(2);
+        String birthDate = row.get(3);
+        String gender = row.get(4);
+        String vip = "true".equals(row.get(5)) ? "true" : "false";
+
+        ElementsCollection rowElements = getRowElements(mainPage, 2);
+        rowElements.get(4).click();
+        rowElements.get(6).click();
+        getButton(rowElements.get(6), "Изменить").click();
+
+        SelenideElement modalPage = getModalPage();
+        getInput(modalPage, "Фамилия").shouldHave(Condition.value(surname));
+        getInput(modalPage, "Имя").shouldHave(Condition.value(name));
+        getInput(modalPage, "Отчество").shouldHave(Condition.value(patronymic));
+        getRadioButton(modalPage, gender).shouldHave(Condition.cssClass("checked"));
+        getInputDate(modalPage, "Дата рождения").shouldHave(Condition.value(birthDate));
+        getCheckbox(modalPage, "VIP").$("input").shouldHave(Condition.attribute("value", vip));
+
+        getInput(modalPage, "Фамилия").setValue("Иванова");
+        getInput(modalPage, "Имя").setValue("Наталья");
+        getInput(modalPage, "Отчество").setValue("Петровна");
+        getButton(modalPage, "Сохранить").click();
+
+        getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
+
+        rowElements = getRowElements(mainPage, 2);
+        rowElements.get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
+        rowElements.shouldHave(CollectionCondition.texts("Иванова", "Наталья", "Петровна", birthDate, gender, "", ""));
+        rowElements.get(5).$("input")
+                .shouldHave("true".equals(vip) ? Condition.attribute("checked") : Condition.not(Condition.attribute("checked")));
     }
 
     /**
@@ -247,7 +288,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getButton(getRowElements(getMainTable(), 8).get(6), "Удалить").shouldBe(Condition.exist).click();
 
         getModalDialog("Предупреждение").should(Condition.exist);
-        getModalDialogBody("Предупреждение").should(Condition.matchText(row.get(0)+" "+row.get(1)));
+        getModalDialogBody("Предупреждение").should(Condition.matchText(row.get(0) + " " + row.get(1)));
         getButton(getModalDialog("Предупреждение"), "Да").click();
         getModalDialog("Предупреждение").shouldNot(Condition.exist);
 
@@ -273,7 +314,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getButton(getRegions().get(0), "Удалить").click();
 
         getModalDialog("Предупреждение").should(Condition.exist);
-        getModalDialogBody("Предупреждение").should(Condition.matchText(row.get(0)+" "+row.get(1)));
+        getModalDialogBody("Предупреждение").should(Condition.matchText(row.get(0) + " " + row.get(1)));
         getButton(getModalDialog("Предупреждение"), "Да").click();
         getModalDialog("Предупреждение").shouldNot(Condition.exist);
 

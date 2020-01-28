@@ -72,6 +72,11 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testUpdateClientFromToolbarCell() {
+        protoPage.assertUpdateClientFromToolbarCell();
+    }
+
+    @Test
     public void testViewClient() {
         protoPage.assertViewClient();
     }
