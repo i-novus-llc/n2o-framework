@@ -116,12 +116,9 @@ function resolve(state = widgetState, action) {
           sorting: {},
         };
       }
-
-      const key = get(action, 'payload.sortParam', action.payload.fieldKey);
-
       return {
         ...state,
-        sorting: { [key]: action.payload.sortDirection },
+        sorting: { [action.payload.fieldKey]: action.payload.sortDirection },
       };
     case CHANGE_SIZE:
       return Object.assign({}, state, {
