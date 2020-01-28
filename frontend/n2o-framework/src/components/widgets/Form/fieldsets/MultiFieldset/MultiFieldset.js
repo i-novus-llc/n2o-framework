@@ -8,12 +8,11 @@ function MultiFieldset({
   label,
   addButtonLabel,
   removeButtonLabel,
-  removeAllButtonLabel,
-  copyButtonLabel,
   needAddButton,
   needRemoveButton,
   needCopyButton,
   needRemoveAllButton,
+  canRemoveFirstItem,
   render,
   rows,
 }) {
@@ -33,8 +32,7 @@ function MultiFieldset({
             needRemoveAllButton={needRemoveAllButton}
             addButtonLabel={addButtonLabel}
             removeButtonLabel={removeButtonLabel}
-            copyButtonLabel={copyButtonLabel}
-            removeAllButtonLabel={removeAllButtonLabel}
+            canRemoveFirstItem={canRemoveFirstItem}
           />
         )}
       />

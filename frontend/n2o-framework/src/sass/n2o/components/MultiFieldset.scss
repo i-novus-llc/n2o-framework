@@ -1,28 +1,38 @@
 .n2o-multi-fieldset {
-  &__item {
+  &__container {
     padding: 1rem 0;
 
     border-bottom: 1px solid $gray-200;
+  }
 
-    &:first-child {
-      padding-top: 0;
-    }
+  &__label {
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+  }
+
+  &__item {
+    position: relative;
   }
 
   &__actions {
-    & > .btn {
-      width: 100%;
+    display: flex;
+    align-items: center;
+
+    &--inner {
+      position: absolute;
+
+      right: 0;
+      top: 0;
     }
 
-    &--commons {
-      margin: 1rem 0;
+    &--common {
+      align-items: stretch;
+      flex-direction: column;
 
-      & > .btn {
-        margin-bottom: 10px;
+      margin-top: 0.5rem;
 
-        &:last-child {
-          margin-bottom: 0;
-        }
+      & > .btn:not(:last-child) {
+        margin-bottom: 0.5rem;
       }
     }
   }

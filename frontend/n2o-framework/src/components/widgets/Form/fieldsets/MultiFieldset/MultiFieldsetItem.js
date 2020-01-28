@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, withHandlers } from 'recompose';
+import { compose, defaultProps, withHandlers } from 'recompose';
 import isEmpty from 'lodash/isEmpty';
 import Button from 'reactstrap/lib/Button';
 
@@ -10,9 +10,7 @@ export function MultiFieldsetItem({
   rows,
   label,
   addButtonLabel,
-  removeButtonLabel,
   removeAllButtonLabel,
-  copyButtonLabel,
   needAddButton,
   needRemoveButton,
   needRemoveAllButton,
@@ -20,29 +18,63 @@ export function MultiFieldsetItem({
   onAdd,
   onRemove,
   onRemoveAll,
+  onCopy,
+  canRemoveFirstItem,
+  resolvePlaceholder,
 }) {
   return (
     <>
       {fields.map((member, index) => (
-        <div className="n2o-multi-fieldset__item">
-          {label && <div className='n2o-multi-fieldset__label'>{`${label} ${++index}`}</div>}
-          {render(rows, member)}
-          <div className="n2o-multi-fieldset__actions">
-            {needRemoveButton && index > 0 && (
-              <Button className='n2o-multi-fieldset__remove' onClick={onRemove(index)}>{removeButtonLabel}</Button>
+        <div className="n2o-multi-fieldset__container">
+          <div className="n2o-multi-fieldset__item">
+            {label && (
+              <div className="n2o-multi-fieldset__label">
+                {resolvePlaceholder(index)}
+              </div>
             )}
-            {needCopyButton && <Button className='n2o-multi-fieldset__copy'>{copyButtonLabel}</Button>}
+            {render(rows, member)}
+            <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--inner">
+              {needCopyButton && (
+                <Button
+                  className="n2o-multi-fieldset__copy"
+                  color="link"
+                  size="sm"
+                  onClick={onCopy(index)}
+                >
+                  <i className="fa fa-copy" />
+                </Button>
+              )}
+              {needRemoveButton && index > +!canRemoveFirstItem - 1 && (
+                <Button
+                  className="n2o-multi-fieldset__remove"
+                  color="link"
+                  size="sm"
+                  onClick={onRemove(index)}
+                >
+                  <i className="fa fa-trash" />
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       ))}
-      {!isEmpty(fields) && (
-        <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--commons">
-          {needAddButton && <Button className='n2o-multi-fieldset__add' onClick={onAdd}>{addButtonLabel}</Button>}
-          {needRemoveAllButton && (
-            <Button className='n2o-multi-fieldset__remove-all' onClick={onRemoveAll}>{removeAllButtonLabel}</Button>
-          )}
-        </div>
-      )}
+      <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--common">
+        {needAddButton && (
+          <Button className="n2o-multi-fieldset__add" onClick={onAdd}>
+            <i className="fa fa-plus mr-1" />
+            {addButtonLabel}
+          </Button>
+        )}
+        {!isEmpty(fields) && needRemoveAllButton && (
+          <Button
+            className="n2o-multi-fieldset__remove-all"
+            onClick={onRemoveAll}
+          >
+            <i className="fa fa-trash mr-1" />
+            {removeAllButtonLabel}
+          </Button>
+        )}
+      </div>
     </>
   );
 }
@@ -60,27 +92,34 @@ MultiFieldsetItem.propTypes = {
   needRemoveButton: PropTypes.bool,
   needRemoveAllButton: PropTypes.bool,
   needCopyButton: PropTypes.bool,
+  canRemoveFirstItem: PropTypes.bool,
 };
 
-MultiFieldsetItem.defaultProps = {
+const defaultComponentProps = {
   render: () => {},
   rows: [],
   label: null,
   addButtonLabel: 'Добавить',
-  removeButtonLabel: 'Удалить',
   removeAllButtonLabel: 'Удалить все',
-  copyButtonLabel: 'Копировать',
   needAddButton: true,
   needRemoveButton: true,
   needRemoveAllButton: false,
   needCopyButton: false,
+  canRemoveFirstItem: false,
 };
 
+MultiFieldsetItem.defaultProps = defaultComponentProps;
+
 const enhance = compose(
+  defaultProps(defaultComponentProps),
   withHandlers({
     onAdd: ({ fields }) => () => fields.push({}),
     onRemove: ({ fields }) => index => () => fields.remove(index),
-    onRemoveAll: ({ fields }) => () => fields.splice(1, fields.length),
+    onRemoveAll: ({ fields, canRemoveFirstItem }) => () =>
+      fields.splice(+!canRemoveFirstItem, fields.length),
+    onCopy: ({ fields }) => index => () => fields.push(fields.get(index)),
+    resolvePlaceholder: ({ label }) => value =>
+      label.replace('{value}', value + 1),
   })
 );
 

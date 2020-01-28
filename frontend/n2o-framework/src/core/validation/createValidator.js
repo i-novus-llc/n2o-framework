@@ -59,7 +59,7 @@ export const validateField = (
   formName,
   state,
   isTouched = false
-) => (values, dispatch) => {
+) => (values, dispatch, props, currentFieldId) => {
   const registeredFields = get(state, ['form', formName, 'registeredFields']);
   const fields = get(state, ['form', formName, 'fields']);
   const validation = pickBy(validationConfig, (value, key) =>
@@ -110,7 +110,9 @@ export const validateField = (
       });
     }
   });
+
   return Promise.all(promiseList).then(() => {
+
     const messagesAction = compact(
       map(errors, (messages, fieldId) => {
         if (!isEmpty(messages)) {
@@ -119,11 +121,19 @@ export const validateField = (
             !isEqual(message, get(registeredFields, [fieldId, 'message'])) ||
             !get(fields, [fieldId, 'touched'])
           ) {
-            return addFieldMessage(formName, fieldId, message, isTouched);
+            console.log('point')
+            console.log(formName)
+            console.log(fieldId)
+            console.log(message)
+            console.log(errors)
+            console.log(registeredFields)
+            return addFieldMessage(formName, registeredFields[fieldId].type === 'FieldArray' ? currentFieldId : fieldId, message, isTouched);
           }
         }
       })
     );
+
+
 
     map(registeredFields, (field, key) => {
       if (!has(errors, key) && get(field, 'message', null)) {

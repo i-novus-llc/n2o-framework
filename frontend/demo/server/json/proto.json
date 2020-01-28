@@ -1426,8 +1426,9 @@
           {
             "src": "MultiFieldset",
             "needRemoveAllButton": true,
+            "needCopyButton": true,
             "name": "members",
-            "label": "Пациенты",
+            "label": "{value}. Такой вот плейсхолдер",
             "rows": [
               {
                 "cols": [
@@ -1460,62 +1461,20 @@
                     ]
                   }
                 ]
-              },
-              {
-                "cols": [
-                  {
-                    "size": 8,
-                    "fields": [
-                      {
-                        "src": "StandardField",
-                        "id": "gender",
-                        "enabled": false,
-                        "label": "Пол",
-                        "dependency": [],
-                        "control": {
-                          "src": "RadioGroup",
-                          "id": "gender",
-                          "valueFieldId": "id",
-                          "labelFieldId": "name",
-                          "sortFieldId": "name",
-                          "size": 30,
-                          "dataProvider": {
-                            "url": "n2o/data/ProtoGender",
-                            "queryMapping": {}
-                          },
-                          "type": "n2o"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "fields": [
-                      {
-                        "src": "StandardField",
-                        "style": {
-                          "fontWeight": "bold"
-                        },
-                        "id": "vip",
-                        "enabled": false,
-                        "dependency": [],
-                        "control": {
-                          "src": "Checkbox",
-                          "style": {
-                            "fontWeight": "bold"
-                          },
-                          "id": "vip",
-                          "label": "VIP",
-                          "defaultUnchecked": "null"
-                        }
-                      }
-                    ]
-                  }
-                ]
               }
             ]
           }
         ],
-        "validation": {},
+        "validation": {
+          "members": [
+            {
+              "severity": "danger",
+              "validationKey": "members",
+              "text": "Валидации на members",
+              "type": "required"
+            }
+          ]
+        },
         "modelPrefix": "resolve",
         "fetchOnInit": false,
         "autoFocus": true
