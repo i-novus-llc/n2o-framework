@@ -242,5 +242,10 @@
                 <xs:documentation>Маппинг плейсхолдера направления сортировки в провайдере. По умолчанию [fieldId]Direction.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="param" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Параметр сортировки. По умолчанию fieldId.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 </xs:schema>
