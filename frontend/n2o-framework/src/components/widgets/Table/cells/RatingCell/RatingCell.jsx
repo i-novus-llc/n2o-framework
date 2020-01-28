@@ -1,0 +1,88 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import withCell from '../../withCell';
+import compose from 'recompose/compose';
+import set from 'lodash/set';
+import withHandlers from 'recompose/withHandlers';
+import Rating from '../../../../controls/Rating/Rating';
+
+const RatingCell = ({
+  visible,
+  max,
+  rating,
+  half,
+  showTooltip,
+  handleChange,
+}) => {
+  return visible ? (
+    <Rating
+      max={max}
+      rating={rating}
+      half={half}
+      showTooltip={showTooltip}
+      onChange={handleChange}
+    />
+  ) : null;
+};
+
+RatingCell.propTypes = {
+  /**
+   * ID ячейки
+   */
+  id: PropTypes.string,
+  /**
+   * Модель данных
+   */
+  model: PropTypes.object,
+  /**
+   * Ключ значения из модели
+   */
+  fieldKey: PropTypes.string,
+  /**
+   * Флаг видимости
+   */
+  visible: PropTypes.bool,
+  /**
+   * Максимально значение рейтинга
+   */
+  max: PropTypes.number,
+  /**
+   * Значение рейтинга
+   */
+  rating: PropTypes.number,
+  /**
+   * Дробные числа рейтинга
+   */
+  half: PropTypes.bool,
+  /**
+   * Флаг показа подсказки
+   */
+  showTooltip: PropTypes.bool,
+};
+
+RatingCell.defaultProps = {
+  visible: true,
+};
+
+export { RatingCell };
+export default compose(
+  withCell,
+  withHandlers({
+    handleChange: ({
+      callActionImpl,
+      action,
+      model,
+      fieldKey,
+      id,
+    }) => rating => {
+      const data = set(
+        {
+          ...model,
+        },
+        fieldKey || id,
+        rating
+      );
+      callActionImpl(rating, { action, model: data });
+    },
+  })
+)(RatingCell);
