@@ -28,15 +28,16 @@
     },
     {
       "label": "Вторая",
-      "path": "/test"
+      "path": "/test",
+      "title": "Вторая c title"
     },
     {
-      "label": "Третья без path"
+      "label": "Третья без path",
+      "title": "Третья без path"
     },
     {
       "label": "Четвертая",
-      "path": "/test",
-      "modelLink": true
+      "path": "/test2"
     }
   ],
   "widgets": {

@@ -10,6 +10,7 @@ import metadata from '../Page.meta';
 import Page from '../Page';
 import PropTypes from 'prop-types';
 import { PlaceholderBreadCrumb } from 'N2oStorybook/json';
+import page from '../OpenPage.meta';
 
 const stories = storiesOf('Функциональность/Хлебные крошки', module);
 
@@ -50,13 +51,21 @@ stories
           path="/test"
           exact
           component={() => (
-            <PageContext pageId="OtherPage" pageUrl="OtherPage" />
+            <PageContext
+              pageId="OtherPage"
+              pageUrl="OtherPage"
+              metadata={metadata}
+            />
           )}
         />
         <Route
           path="/"
           component={() => (
-            <PageContext pageId="testSimplePageJson" pageUrl="Page" />
+            <PageContext
+              pageId="testSimplePageJson"
+              pageUrl="Page"
+              metadata={metadata}
+            />
           )}
         />
       </Switch>
@@ -66,10 +75,13 @@ stories
     fetchMock.restore().get('*', url => {
       return PlaceholderBreadCrumb;
     });
-    return <PageContext pageId="testSimplePageJson" pageUrl="Page" />;
-  })
-  .add('C props title', () => {
-    return <DefaultBreadcrumb items={metadata.breadcrumb.slice(0, 2)} />;
+    return (
+      <PageContext
+        pageId="testSimplePageJson"
+        pageUrl="Page"
+        metadata={metadata}
+      />
+    );
   })
   .add('без props path', () => {
     return <DefaultBreadcrumb items={metadata.breadcrumb} />;

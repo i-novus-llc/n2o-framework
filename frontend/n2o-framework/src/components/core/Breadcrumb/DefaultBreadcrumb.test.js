@@ -84,17 +84,6 @@ describe('<DefaultBreadcrumb />', () => {
 
     expect(wrapper.find('Breadcrumb').exists()).toBeTruthy();
   });
-
-  it('label заменился на title', () => {
-    const wrapper = setup2();
-
-    expect(
-      wrapper
-        .find('BreadcrumbItem')
-        .at(0)
-        .text()
-    ).toBe('FirstTitle');
-  });
   it('если отсутствует path, элемент не ссылка', () => {
     const wrapper = setup2();
 
