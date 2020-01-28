@@ -164,8 +164,8 @@
             <button action-id="test3" class="test" icon="test" label="test" type="icon">
                 <close src="test"/>
                 <dependencies>
-                    <enabling on="test1" apply-on-init="true">condition1</enabling>
-                    <visibility on="test2, test3" apply-on-init="false" reset="false">condition2</visibility>
+                    <enabling on="test1" ref-model="filter" ref-widget-id="test">condition1</enabling>
+                    <visibility on="test2, test3" ref-model="filter" ref-widget-id="test">condition2</visibility>
                 </dependencies>
             </button>
             <button enabled="false" visible="false"/>
@@ -173,8 +173,8 @@
                 <menu-item action-id="test1" icon="test" label="test" class="test" style="margin-left:10px;width:300px">
                     <close src="test"/>
                     <dependencies>
-                        <enabling on="test1" apply-on-init="true">condition1</enabling>
-                        <visibility on="test2, test3" apply-on-init="false" reset="true">condition2</visibility>
+                        <enabling on="test1" ref-model="resolve">condition1</enabling>
+                        <visibility on="test2, test3" ref-widget-id="test">condition2</visibility>
                     </dependencies>
                 </menu-item>
                 <menu-item action-id="test2" icon="test" label="test" class="test" enabled="false" visible="false"/>

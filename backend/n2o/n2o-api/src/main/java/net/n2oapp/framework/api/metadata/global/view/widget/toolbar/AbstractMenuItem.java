@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
@@ -53,16 +54,14 @@ public abstract class AbstractMenuItem extends ActionComponent implements Extens
     public static class Dependency implements Source {
         private String[] on;
         private String value;
-        private Boolean applyOnInit;
+        private String refWidgetId;
+        private ReduxModel refModel;
     }
 
     public static class EnablingDependency extends Dependency {
     }
 
-    @Getter
-    @Setter
     public static class VisibilityDependency extends Dependency {
-        private Boolean reset;
     }
 
     @Deprecated

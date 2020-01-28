@@ -13,7 +13,6 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -48,32 +47,18 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
 
         assertThat(buttons.get(1).getVisible(), is(false));
         assertThat(buttons.get(1).getEnabled(), is(false));
-        assertThat(buttons.get(2).getDependencies().get(0).getType(), is(ValidationType.reset));
-        assertThat(buttons.get(2).getDependencies().get(0).getOn().get(0), is("field1"));
-        assertThat(buttons.get(2).getDependencies().get(0).getApplyOnInit(), is(false));
-        assertThat(buttons.get(2).getDependencies().get(0).getExpression(), is("a==b"));
-        assertThat(buttons.get(2).getDependencies().get(1).getType(), is(ValidationType.visible));
-        assertThat(buttons.get(2).getDependencies().get(1).getOn().get(0), is("field1"));
-        assertThat(buttons.get(2).getDependencies().get(1).getApplyOnInit(), is(false));
-        assertThat(buttons.get(2).getDependencies().get(1).getExpression(), is("a==b"));
-        assertThat(buttons.get(2).getDependencies().get(2).getType(), is(ValidationType.enabled));
-        assertThat(buttons.get(2).getDependencies().get(2).getOn().isEmpty(), is(true));
-        assertThat(buttons.get(2).getDependencies().get(2).getApplyOnInit(), is(true));
-        assertThat(buttons.get(2).getDependencies().get(2).getExpression(), is("c==d"));
+        assertThat(buttons.get(2).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.filter['test'].field1"));
+        assertThat(buttons.get(2).getConditions().get(ValidationType.visible).get(0).getExpression(), is("a==b"));
+        assertThat(buttons.get(2).getConditions().get(ValidationType.enabled).get(1).getModelLink(), is("models.filter['testButtonDependency_tab1']"));
+        assertThat(buttons.get(2).getConditions().get(ValidationType.enabled).get(1).getExpression(), is("c==d"));
 
         assertThat(((Submenu) buttons.get(3)).getSubMenu().get(0).getVisible(), is(false));
         assertThat(((Submenu) buttons.get(3)).getSubMenu().get(0).getEnabled(), is(false));
-        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getDependencies().get(0).getType(), is(ValidationType.reset));
-        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getDependencies().get(0).getOn(), is(Arrays.asList("field1", "field2")));
-        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getDependencies().get(0).getApplyOnInit(), is(false));
-        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getDependencies().get(0).getExpression(), is("a==b"));
-        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getDependencies().get(1).getType(), is(ValidationType.visible));
-        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getDependencies().get(1).getOn(), is(Arrays.asList("field1", "field2")));
-        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getDependencies().get(1).getApplyOnInit(), is(false));
-        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getDependencies().get(1).getExpression(), is("a==b"));
-        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getDependencies().get(2).getType(), is(ValidationType.enabled));
-        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getDependencies().get(2).getOn().isEmpty(), is(true));
-        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getDependencies().get(2).getApplyOnInit(), is(true));
-        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getDependencies().get(2).getExpression(), is("c==d"));
+        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.filter['test'].field1"));
+        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getConditions().get(ValidationType.visible).get(0).getExpression(), is("a==b"));
+        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getConditions().get(ValidationType.visible).get(1).getModelLink(), is("models.filter['test'].field2"));
+        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getConditions().get(ValidationType.visible).get(1).getExpression(), is("a==b"));
+        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getConditions().get(ValidationType.enabled).get(1).getModelLink(), is("models.filter['testButtonDependency_tab1']"));
+        assertThat(((Submenu) buttons.get(3)).getSubMenu().get(1).getConditions().get(ValidationType.enabled).get(1).getExpression(), is("c==d"));
     }
 }

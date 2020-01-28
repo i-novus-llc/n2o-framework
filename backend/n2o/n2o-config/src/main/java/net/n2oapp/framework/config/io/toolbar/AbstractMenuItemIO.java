@@ -46,18 +46,14 @@ public abstract class AbstractMenuItemIO<T extends AbstractMenuItem> implements 
         p.attribute(e, "confirm-cancel-label", mi::getConfirmCancelLabel, mi::setConfirmCancelLabel);
         p.anyChildren(e, "dependencies", mi::getDependencies, mi::setDependencies, p.oneOf(AbstractMenuItem.Dependency.class)
                 .add("enabling", AbstractMenuItem.EnablingDependency.class, this::dependency)
-                .add("visibility", AbstractMenuItem.VisibilityDependency.class, this::visibilityDependency));
+                .add("visibility", AbstractMenuItem.VisibilityDependency.class, this::dependency));
     }
 
     private void dependency(Element e, AbstractMenuItem.Dependency t, IOProcessor p) {
+        p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
+        p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
         p.attributeArray(e, "on", ",", t::getOn, t::setOn);
-        p.attributeBoolean(e, "apply-on-init", t::getApplyOnInit, t::setApplyOnInit);
         p.text(e, t::getValue, t::setValue);
-    }
-
-    private void visibilityDependency(Element e, AbstractMenuItem.VisibilityDependency t, IOProcessor p) {
-        dependency(e, t, p);
-        p.attributeBoolean(e, "reset", t::getReset, t::setReset);
     }
 
     @Override

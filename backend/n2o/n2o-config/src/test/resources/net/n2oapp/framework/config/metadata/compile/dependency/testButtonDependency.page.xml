@@ -25,8 +25,8 @@
                     <button id="btn2">
                         <close/>
                         <dependencies>
-                            <visibility on="field1" apply-on-init="false" reset="true">a==b</visibility>
-                            <enabling apply-on-init="true">c==d</enabling>
+                            <visibility on="field1" ref-widget-id="test" ref-model="filter">a==b</visibility>
+                            <enabling>c==d</enabling>
                         </dependencies>
                     </button>
                     <sub-menu>
@@ -34,8 +34,8 @@
                         <menu-item>
                             <close/>
                             <dependencies>
-                                <visibility on="field1,field2" apply-on-init="false" reset="true">a==b</visibility>
-                                <enabling apply-on-init="true">c==d</enabling>
+                                <visibility on="field1,field2" ref-widget-id="test" ref-model="filter">a==b</visibility>
+                                <enabling>c==d</enabling>
                             </dependencies>
                         </menu-item>
                     </sub-menu>

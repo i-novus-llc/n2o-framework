@@ -311,7 +311,7 @@
                     <xs:documentation>Условие доступности.</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="visibility" type="visibilityDependencyDefinition" minOccurs="0">
+            <xs:element name="visibility" type="baseDependencyDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Условие видимости.</xs:documentation>
                 </xs:annotation>
@@ -320,29 +320,32 @@
     </xs:complexType>
 
     <xs:complexType name="baseDependencyDefinition" abstract="true">
+        <xs:attribute name="ref-widget-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-model" type="reduxModel" use="optional">
+            <xs:annotation>
+                <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="on" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Поля, от которых зависит условие.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="apply-on-init" type="xs:boolean" default="true">
-            <xs:annotation>
-                <xs:documentation>Срабатывание при инициализации виджета.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="visibilityDependencyDefinition" abstract="true">
-        <xs:complexContent>
-            <xs:extension base="baseDependencyDefinition">
-                <xs:attribute name="reset" type="xs:boolean" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Сбросить значение при скрытии.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
+    <xs:simpleType name="reduxModel">
+        <xs:annotation>
+            <xs:documentation>Модель данных.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="resolve"/>
+            <xs:enumeration value="filter"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="textType">
         <xs:annotation>
