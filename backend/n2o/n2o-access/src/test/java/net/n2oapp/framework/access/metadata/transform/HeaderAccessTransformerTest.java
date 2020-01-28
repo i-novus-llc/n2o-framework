@@ -37,6 +37,7 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
         HeaderAccessTransformer headerAccessTransformer = new HeaderAccessTransformer();
         builder.packs(new N2oHeaderPack(), new N2oAllPagesPack(), new AccessSchemaPack())
                 .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.page.xml"))
+                .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"))
                 .transformers(headerAccessTransformer);
     }
 
