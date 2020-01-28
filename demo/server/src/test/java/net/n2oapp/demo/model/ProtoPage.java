@@ -29,6 +29,7 @@ public class ProtoPage implements ProtoPageSelectors {
 
         getTableHeaderSurname().shouldBe(exist);
         getFilterSearchButton().shouldBe(exist);
+        getRegions().shouldHaveSize(3);
     }
 
     /**
@@ -250,4 +251,56 @@ public class ProtoPage implements ProtoPageSelectors {
         getCheckbox(modalPage, "VIP").$("input").shouldHave(attribute("disabled"));
     }
 
+    /**
+     * Тест удаления клиента (предпоследняя строка) из тулбара в колонке
+     */
+    public void testTableInPlaceDelete() {
+        List<String> row = getRowElements(getMainTable(), 8).shouldHaveSize(7).texts();
+        List<String> nRow = getRowElements(getMainTable(), 9).shouldHaveSize(7).texts();
+
+        String count = getMainTablePaginationInfo().should(exist).getText();
+        Integer total = Integer.valueOf(count.split(" ")[1]);
+
+        getButton(getRowElements(getMainTable(), 8).get(6), "").shouldBe(exist).click();
+        getButton(getRowElements(getMainTable(), 8).get(6), "Удалить").shouldBe(exist).click();
+
+        getModalDialog("Предупреждение").should(exist);
+        getModalDialogBody("Предупреждение").should(matchText(row.get(0) + " " + row.get(1)));
+        getButton(getModalDialog("Предупреждение"), "Да").click();
+        getModalDialog("Предупреждение").shouldNot(exist);
+
+        getAlerts().shouldHave(CollectionCondition.size(1)).get(0).should(matchText(row.get(0)));
+        count = getMainTablePaginationInfo().should(exist).getText();
+        assertThat(Integer.valueOf(count.split(" ")[1]), is(total - 1));
+
+        List<String> aRow = getRowElements(getMainTable(), 8).shouldHaveSize(7).texts();
+        assertThat(aRow.get(0).equals(row.get(0)) || aRow.get(1).equals(row.get(1)), is(false));
+        assertThat(nRow.get(0).equals(aRow.get(0)) && nRow.get(1).equals(aRow.get(1)), is(true));
+    }
+
+    /**
+     * Тест удаления клиента (предпоследняя строка) из тулбара таблицы
+     */
+    public void testTableRowDelete() {
+        List<String> row = getRowElements(getMainTable(), 8).shouldHaveSize(7).texts();
+        List<String> nRow = getRowElements(getMainTable(), 9).shouldHaveSize(7).texts();
+        String count = getMainTablePaginationInfo().should(exist).getText();
+        Integer total = Integer.valueOf(count.split(" ")[1]);
+
+        getRowElements(getMainTable(), 8).get(4).click();
+        getButton(getRegions().get(0), "Удалить").click();
+
+        getModalDialog("Предупреждение").should(exist);
+        getModalDialogBody("Предупреждение").should(matchText(row.get(0) + " " + row.get(1)));
+        getButton(getModalDialog("Предупреждение"), "Да").click();
+        getModalDialog("Предупреждение").shouldNot(exist);
+
+        getAlerts().shouldHave(CollectionCondition.size(1)).get(0).should(matchText(row.get(0)));
+        count = getMainTablePaginationInfo().should(exist).getText();
+        assertThat(Integer.valueOf(count.split(" ")[1]), is(total - 1));
+
+        List<String> aRow = getRowElements(getMainTable(), 8).shouldHaveSize(7).texts();
+        assertThat(aRow.get(0).equals(row.get(0)) || aRow.get(1).equals(row.get(1)), is(false));
+        assertThat(nRow.get(0).equals(aRow.get(0)) && nRow.get(1).equals(aRow.get(1)), is(true));
+    }
 }
