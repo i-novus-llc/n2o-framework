@@ -1,0 +1,29 @@
+.n2o-multi-fieldset {
+  &__item {
+    padding: 1rem 0;
+
+    border-bottom: 1px solid $gray-200;
+
+    &:first-child {
+      padding-top: 0;
+    }
+  }
+
+  &__actions {
+    & > .btn {
+      width: 100%;
+    }
+
+    &--commons {
+      margin: 1rem 0;
+
+      & > .btn {
+        margin-bottom: 10px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}

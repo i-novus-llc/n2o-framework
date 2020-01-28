@@ -169,7 +169,7 @@ class Fieldset extends React.Component {
     return fields;
   }
 
-  renderRow(rowId, row) {
+  renderRow(rowId, row, member = null) {
     const {
       labelPosition,
       labelWidth,
@@ -191,6 +191,7 @@ class Fieldset extends React.Component {
         autoFocusId={autoFocusId}
         form={form}
         modelPrefix={modelPrefix}
+        member={member}
       />
     );
   }
@@ -216,9 +217,9 @@ class Fieldset extends React.Component {
       <div className={classes} style={style}>
         <ElementType
           {...rest}
-          render={rows => {
+          render={(rows, member = null) => {
             this.fields = this.calculateAllFields(rows);
-            return rows.map((row, id) => this.renderRow(id, row));
+            return rows.map((row, id) => this.renderRow(id, row, member));
           }}
         />
       </div>

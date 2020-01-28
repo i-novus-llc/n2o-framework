@@ -14,6 +14,7 @@ function FieldsetCol({
   labelAlignment,
   modelPrefix,
   form,
+  member
 }) {
   return (
     <Col xs={col.size || defaultCol} key={colId} className={col.className}>
@@ -30,6 +31,7 @@ function FieldsetCol({
               autoFocus={autoFocus}
               form={form}
               modelPrefix={modelPrefix}
+              id={member ? `${member}.${field.id}` : field.id}
               {...field}
             />
           );

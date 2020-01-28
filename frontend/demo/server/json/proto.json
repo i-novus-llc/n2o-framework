@@ -1424,7 +1424,10 @@
       "form": {
         "fieldsets": [
           {
-            "src": "StandardFieldset",
+            "src": "MultiFieldset",
+            "needRemoveAllButton": true,
+            "name": "members",
+            "label": "Пациенты",
             "rows": [
               {
                 "cols": [

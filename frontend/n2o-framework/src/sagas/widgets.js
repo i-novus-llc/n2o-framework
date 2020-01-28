@@ -164,10 +164,52 @@ export function* setWidgetDataSuccess(
   baseQuery,
   currentDatasource
 ) {
-  const data = yield call(fetchSaga, FETCH_WIDGET_DATA, {
+  let data = yield call(fetchSaga, FETCH_WIDGET_DATA, {
     basePath,
     baseQuery,
   });
+  if (widgetId === 'proto_form') {
+    data = {
+      meta: {},
+      list: [
+        {
+          id: 5607677,
+          surname: 'Плюхина',
+          name: 'Лада',
+          patrName: 'Всеволодовна',
+          fullName: 'Плюхина Лада Всеволодовна',
+          birthday: '1927-01-01T00:00:00',
+          age: 93,
+          gender: {
+            name: 'Женский',
+            id: 2,
+          },
+          members: [
+            {
+              surname: 'test',
+              name: 'test',
+            },
+            {
+              surname: 'test',
+              name: 'test',
+            },
+          ],
+          genderName: 'Женский',
+          vip: false,
+          hasCitizenship: false,
+          ethnicGroupName: 'русские',
+          socialGroupName: 'Студент ВУЗа',
+          nationality: {
+            name: 'Буряты',
+            id: 17,
+          },
+        },
+      ],
+      count: 1,
+      size: 1,
+      page: 1,
+    };
+  }
   if (isEqual(data.list, currentDatasource)) {
     yield put(setModel(PREFIXES.datasource, widgetId, null));
     yield put(setModel(PREFIXES.datasource, widgetId, data.list));
@@ -235,6 +277,7 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
       if (routes && routes.queryMapping) {
         yield* routesQueryMapping(state, routes, location);
       }
+
       yield call(
         setWidgetDataSuccess,
         widgetId,
