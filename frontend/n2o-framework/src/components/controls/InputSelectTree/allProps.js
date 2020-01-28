@@ -14,7 +14,7 @@ export const defaultProps = {
   imageFieldId: 'image',
   badgeFieldId: 'badge',
   badgeColorFieldId: 'color',
-  filter: 'startsWith',
+  filter: '',
   hasCheckboxes: false,
   multiSelect: false,
   closePopupOnSelect: false,

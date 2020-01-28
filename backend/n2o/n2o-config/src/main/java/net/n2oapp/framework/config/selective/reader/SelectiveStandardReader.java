@@ -82,6 +82,7 @@ public class SelectiveStandardReader extends SelectiveReader {
                 .addReader(new SelectTreeIOv2())
                 .addReader(new SelectIOv2())
                 .addReader(new TextAreaIOv2())
+                .addReader(new SliderIOv2())
                 .addReader(new TextEditorIOv2())
                 .addReader(new CodeEditorIOv2());
         return this;

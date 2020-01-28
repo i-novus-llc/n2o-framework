@@ -1,12 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  isEmpty,
-  filter,
-  map,
-  isUndefined,
-  pull,
-} from 'lodash';
+import { isEmpty, filter, map, isUndefined, pull } from 'lodash';
 import { compose, setDisplayName } from 'recompose';
 import Tabs from './Tabs';
 import Tab from './Tab';
