@@ -121,7 +121,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
                 .get(new WidgetContext("testTable4SortableCompile"));
         assertThat(table.getId(), is("$testTable4SortableCompile"));
-        assertThat(table.getComponent().getHeaders().size(), is(6));
+        assertThat(table.getComponent().getHeaders().size(), is(5));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
 
         assertThat(headers.get(0).getId(), is("id"));
@@ -142,9 +142,6 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(headers.get(4).getId(), is("notInQuery"));
         assertThat(headers.get(4).getLabel(), is("notInQueryLabel"));
-
-        assertThat(headers.get(5).getSortable(), is(true));
-        assertThat(headers.get(5).getSortParam(), is("custom_sort_param"));
 
         QueryContext context = (QueryContext) route("/testTable4SortableCompile", CompiledQuery.class);
         assertThat(context.getSortingMap().get("id"), is("id"));
@@ -264,7 +261,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
                 .get(new WidgetContext("testTable4SortableCompile"));
         assertThat(table.getId(), is("$testTable4SortableCompile"));
-        assertThat(table.getComponent().getHeaders().size(), is(6));
+        assertThat(table.getComponent().getHeaders().size(), is(5));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
 
         assertThat(headers.get(0).getWidth(), is("100"));
