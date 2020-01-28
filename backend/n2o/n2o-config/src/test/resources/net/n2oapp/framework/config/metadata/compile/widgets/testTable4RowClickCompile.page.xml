@@ -58,7 +58,25 @@
                     </click>
                 </rows>
             </table>
-
+            <table>
+                <actions>
+                    <action id="test">
+                        <close/>
+                    </action>
+                </actions>
+                <rows>
+                    <click action-id="test"/>
+                </rows>
+            </table>
+            <table>
+                <rows>
+                    <click>
+                        <a href="https://www.google.com/?q=:q">
+                            <query-param name="q" value="{id}"/>
+                        </a>
+                    </click>
+                </rows>
+            </table>
         </panel>
     </regions>
 </page>

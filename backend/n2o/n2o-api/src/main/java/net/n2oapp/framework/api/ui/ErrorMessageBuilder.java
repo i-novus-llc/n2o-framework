@@ -18,15 +18,21 @@ import java.util.StringTokenizer;
 public class ErrorMessageBuilder {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private MessageSourceAccessor messageSourceAccessor;
+    private Boolean showStacktrace = true;
 
     public ErrorMessageBuilder(MessageSourceAccessor messageSourceAccessor) {
         this.messageSourceAccessor = messageSourceAccessor;
     }
 
+    public ErrorMessageBuilder(MessageSourceAccessor messageSourceAccessor, Boolean showStacktrace) {
+        this.messageSourceAccessor = messageSourceAccessor;
+        this.showStacktrace = showStacktrace;
+    }
+
     public ResponseMessage build(Exception e) {
         ResponseMessage resp = new ResponseMessage();
         resp.setText(buildText(e));
-        if (!(e instanceof N2oUserException))
+        if (showStacktrace && !(e instanceof N2oUserException))
             resp.setStacktrace(getStackFrames(getStackTrace(e)));
         if (e instanceof N2oException) {
             resp.setChoice(((N2oException) e).getChoice());
