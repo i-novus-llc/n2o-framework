@@ -143,12 +143,11 @@ public abstract class Redux {
      * @param direction Направление сортировки
      * @return Redux действие
      */
-    public static ReduxAction dispatchSortWidget(String widgetId, String field, String sortingParam, Object direction) {
+    public static ReduxAction dispatchSortWidget(String widgetId, String field, Object direction) {
         Map<String, Object> params = new LinkedHashMap<>();
         params.put("widgetId", widgetId);
         params.put("fieldKey", field);
         params.put("sortDirection", direction);
-        params.put("sortParam", sortingParam);
         return new ReduxAction("n2o/widgets/SORT_BY", params);
     }
 

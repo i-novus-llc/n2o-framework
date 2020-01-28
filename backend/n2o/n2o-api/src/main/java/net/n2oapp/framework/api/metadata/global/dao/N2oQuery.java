@@ -115,7 +115,6 @@ public class N2oQuery extends N2oMetadata implements NameAware, ExtensionAttribu
         private String expression;
         private String sortingBody;
         private String sortingMapping;
-        private String sortingParam;
         private String selectBody; //= select body
         private String selectDefaultValue; // = default value in select
         private String selectMapping; // = selectMapping in select

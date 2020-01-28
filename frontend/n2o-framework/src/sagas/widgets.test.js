@@ -277,7 +277,6 @@ describe('Проверка саги widgets', () => {
       baseQuery: {
         size: undefined,
         page: undefined,
-        sorting: {},
       },
     });
   });
