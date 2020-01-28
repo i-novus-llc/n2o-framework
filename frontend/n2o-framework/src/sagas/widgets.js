@@ -12,8 +12,6 @@ import isEqual from 'lodash/isEqual';
 import isNil from 'lodash/isNil';
 import pick from 'lodash/pick';
 import get from 'lodash/get';
-import unset from 'lodash/unset';
-import map from 'lodash/map';
 import mapValues from 'lodash/mapValues';
 import omit from 'lodash/omit';
 import keys from 'lodash/keys';
@@ -146,18 +144,13 @@ export function* resolveUrl(state, dataProvider, widgetState, options) {
   const pathParams = yield call(getParams, dataProvider.pathMapping, state);
   const basePath = pathToRegexp.compile(dataProvider.url)(pathParams);
   const queryParams = yield call(getParams, dataProvider.queryMapping, state);
-  const sorting = Object.assign({}, widgetState.sorting);
-
-  map(options, (value, key) => unset(sorting, key));
-
   const baseQuery = {
     size: widgetState.size,
     page: get(options, 'page', widgetState.page),
-    sorting,
+    sorting: widgetState.sorting,
     ...options,
     ...queryParams,
   };
-
   return {
     basePath,
     baseQuery,
