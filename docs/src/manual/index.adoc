@@ -22,6 +22,8 @@ include::filters.adoc[]
 
 include::validation.adoc[]
 
+include::routing.adoc[]
+
 include::setting.adoc[]
 
 include::context.adoc[]

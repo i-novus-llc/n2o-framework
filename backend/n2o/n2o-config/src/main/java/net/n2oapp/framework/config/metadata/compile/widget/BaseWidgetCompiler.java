@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -31,7 +30,6 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -69,6 +67,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
         compiled.setObjectId(object != null ? object.getId() : null);
+        if (p.getScope(WidgetObjectScope.class) != null)
+            p.getScope(WidgetObjectScope.class).put(source.getId(), object);
         compiled.setQueryId(source.getQueryId());
         compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));
         compiled.setRoute(initWidgetRoute(source, p));
@@ -99,7 +99,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
             String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
             return normalize(colon(selectedId)) + normalize(source.getId());
-
         }
         return normalize(source.getId());
     }
@@ -663,13 +662,5 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         } else {
             return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
         }
-    }
-
-    protected Pagination createPaging(Integer size, Boolean prev, Boolean next, String property, CompileProcessor p) {
-        Pagination pagination = new Pagination();
-        pagination.setSize(size != null ? size : p.resolve(Placeholders.property(property), Integer.class));
-        pagination.setPrev(prev);
-        pagination.setNext(next);
-        return pagination;
     }
 }

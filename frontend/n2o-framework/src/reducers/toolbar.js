@@ -13,6 +13,7 @@ import {
   CHANGE_BUTTON_ICON,
   CHANGE_BUTTON_CLASS,
   CHANGE_BUTTON_STYLE,
+  REMOVE_BUTTON,
 } from '../constants/toolbar';
 import { RESET_STATE } from '../constants/widgets';
 import { generateKey } from '../utils/id';
@@ -94,7 +95,7 @@ function resolve(state = buttonState, action) {
  * @ignore
  */
 export default function toolbar(state = {}, action) {
-  const { key, id: buttonId } = action.payload || {};
+  const { key, buttonId } = action.payload || {};
   switch (action.type) {
     case REGISTER_BUTTON:
       return Object.assign({}, state, {
@@ -121,6 +122,11 @@ export default function toolbar(state = {}, action) {
           [buttonId]: resolve(state[key][buttonId], action),
         },
       });
+    case REMOVE_BUTTON:
+      return {
+        ...state,
+        [key]: undefined,
+      };
     case RESET_STATE:
       const { widgetId } = action.payload;
       return {

@@ -27,9 +27,7 @@
       "hasSelect": false,
       "hasFocus": false,
       "rowClick": {
-        "enablingCondition" : "deleted==false",
-        "src": "dummyImpl",
-        "options": {
+        "action": {
           "type": "n2o/modals/INSERT",
           "payload": {
             "pageUrl": "/Uid",

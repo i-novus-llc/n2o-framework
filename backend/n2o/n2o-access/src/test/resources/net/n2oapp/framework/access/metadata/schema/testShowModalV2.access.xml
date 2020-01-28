@@ -19,5 +19,6 @@
     </permission>
     <anonymous>
         <object-access object-id="testObjectAccessTransformer" operations="*"/>
+        <url-access pattern="/test/*"/>
     </anonymous>
 </access>

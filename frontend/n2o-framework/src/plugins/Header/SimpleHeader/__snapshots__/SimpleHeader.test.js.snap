@@ -62,6 +62,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
         ]
       }
       fixed={false}
+      homePageUrl="/"
       items={
         Array [
           Object {

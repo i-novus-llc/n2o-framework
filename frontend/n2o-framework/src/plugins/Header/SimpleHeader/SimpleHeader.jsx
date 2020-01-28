@@ -9,7 +9,6 @@ import Input from 'reactstrap/lib/Input';
 import NavbarBrand from 'reactstrap/lib/NavbarBrand';
 import NavbarToggler from 'reactstrap/lib/NavbarToggler';
 import Collapse from 'reactstrap/lib/Collapse';
-import SecurityCheck from '../../../core/auth/SecurityCheck';
 
 import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
@@ -108,6 +107,7 @@ class SimpleHeader extends React.Component {
       style,
       className,
       search,
+      homePageUrl,
     } = this.props;
     const isInversed = color === 'inverse';
     const navColor = isInversed ? 'primary' : 'light';
@@ -137,7 +137,7 @@ class SimpleHeader extends React.Component {
           dark={isInversed}
           expand="md"
         >
-          <NavbarBrand href="/">
+          <NavbarBrand href={homePageUrl}>
             <NavbarBrandContent brand={brand} brandImage={brandImage} />
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
@@ -215,6 +215,10 @@ SimpleHeader.propTypes = {
    */
   search: PropTypes.bool,
   /**
+   * Адрес ссылка бренда
+   */
+  homePageUrl: PropTypes.string,
+  /**
    * Цвет хедера
    */
   color: PropTypes.oneOf(['inverse', 'default']),
@@ -239,6 +243,7 @@ SimpleHeader.propTypes = {
 SimpleHeader.defaultProps = {
   color: 'default',
   fixed: true,
+  homePageUrl: '/',
   collapsed: true,
   className: '',
   items: [],
