@@ -380,10 +380,10 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|collapsible
-|true false
-|Возможность раскрытия и сворачивания виджетов
-|true
+|title
+|Строка
+|Заголовок
+|
 
 |class
 |https://getbootstrap.com/docs/4.0/components/card/#background-and-color[CSS класс]
@@ -395,14 +395,34 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |Стиль панели
 |
 
-|header
+|collapsible
 |true false
-|С заголовком?
+|Возможность раскрытия и сворачивания виджетов
 |true
 
-|title
+|header
+|true false
+|Наличие заголовка
+|true
+
+|icon
+|CSS класс
+|Класс иконки
+|
+
+|color
 |Строка
-|Заголовок
+|Стиль панели
+|
+
+|open
+|true false
+|Раскрытие панели
+|true
+
+|footer-title
+|Строка
+|Заголовок для футера
 |
 
 |===

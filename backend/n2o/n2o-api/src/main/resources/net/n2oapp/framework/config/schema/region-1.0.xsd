@@ -85,11 +85,6 @@
                         <xs:documentation>Заголовок.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="collapsible" type="xs:boolean" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Возможность раскрытия и сворачивания виджетов.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="class" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>CSS класс панели.</xs:documentation>
@@ -100,14 +95,38 @@
                         <xs:documentation>Стиль панели.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="collapsible" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Возможность раскрытия и сворачивания виджетов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="header" type="xs:boolean" use="optional">
                     <xs:annotation>
-                        <xs:documentation>С заголовком.</xs:documentation>
+                        <xs:documentation>Наличие заголовка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Класс иконки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Стиль панели.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="open" type="xs:boolean" use="optional" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Раскрытие панели.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="footer-title" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок для футера.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
 
 </xs:schema>
