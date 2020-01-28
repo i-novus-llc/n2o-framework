@@ -41,17 +41,11 @@ public class DemoIntegrationTest {
         protoPage.checkAllElementsExists();
     }
 
-    /**
-     * Тест поиска по полу
-     */
     @Test
     public void testFilterByGender() {
         protoPage.testFilterByGender();
     }
 
-    /**
-     * Тест очистки поиска
-     */
     @Test
     public void testClearFilter() {
         protoPage.testClearFilter();
@@ -80,6 +74,11 @@ public class DemoIntegrationTest {
     @Test
     public void testUpdateClient() {
         protoPage.assertUpdateClient();
+    }
+
+    @Test
+    public void testUpdateClientFromToolbarCell() {
+        protoPage.assertUpdateClientFromToolbarCell();
     }
 
     @Test
