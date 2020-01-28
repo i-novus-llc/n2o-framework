@@ -166,9 +166,8 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
      * @param source исходная модель поля
      */
     protected void compileDependencies(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p) {
-        String widgetId = initWidgetId(source, context, p);
-
         if (source.getVisibilityConditions() != null) {
+            String widgetId = initWidgetId(source, context, p);
             List<Condition> conditions = new ArrayList<>();
             for (N2oButtonCondition n2oCondition : source.getVisibilityConditions()) {
                 Condition condition = new Condition();
@@ -180,6 +179,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         }
         List<Condition> conditions = new ArrayList<>();
         if (source.getEnablingConditions() != null) {
+            String widgetId = initWidgetId(source, context, p);
             for (N2oButtonCondition n2oCondition : source.getEnablingConditions()) {
                 Condition condition = new Condition();
                 condition.setExpression(n2oCondition.getExpression().trim());
@@ -190,6 +190,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE)) {
             ComponentScope componentScope = p.getScope(ComponentScope.class);
             if (componentScope == null || componentScope.unwrap(N2oCell.class) == null) {
+                String widgetId = initWidgetId(source, context, p);
                 Condition condition = new Condition();
                 condition.setExpression("!_.isEmpty(this)");
                 condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
@@ -201,6 +202,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         }
 
         if (source.getDependencies() != null) {
+            String widgetId = initWidgetId(source, context, p);
             for (AbstractMenuItem.Dependency d : source.getDependencies()) {
                 ValidationType validationType = null;
                 if (d instanceof AbstractMenuItem.EnablingDependency)
