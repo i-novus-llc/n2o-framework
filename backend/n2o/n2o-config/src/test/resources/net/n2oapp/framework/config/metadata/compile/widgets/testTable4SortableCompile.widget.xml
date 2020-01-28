@@ -8,7 +8,6 @@
         <column text-field-id="name" sorting-field-id="id"/>
         <column text-field-id="comments" />
         <column text-field-id="notInQuery" label="notInQueryLabel"/>
-        <column text-field-id="customSorting" label="customSorting"/>
     </columns>
 
 </table>

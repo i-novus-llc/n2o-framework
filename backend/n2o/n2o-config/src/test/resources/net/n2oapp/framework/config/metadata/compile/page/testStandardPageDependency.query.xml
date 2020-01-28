@@ -24,7 +24,7 @@
         </field>
         <field id="parent.id" domain="integer">
             <select/>
-            <sorting param="sorting_parent_id"/>
+            <sorting/>
             <filters >
                 <eq filter-id="parent.id"/>
             </filters>
