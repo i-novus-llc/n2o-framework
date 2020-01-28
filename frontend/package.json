@@ -16,7 +16,7 @@
     "build:n2o": "lerna run --scope n2o-framework build",
     "build:libs": "lerna run --scope n2o-framework --scope n2o-auth --scope n2o-notifications --scope n2o-ecp-plugin --parallel build",
     "build:projects": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" lerna run --scope n2o-demo-client --scope n2o-simple-project --parallel build",
-    "build:storybook": "lerna run --scope n2o-framework build-storybook",
+    "build:storybook": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" lerna run --scope n2o-framework build-storybook",
     "changeVersion": "lerna version patch --no-git-tag-version --no-push --yes",
     "clean": "lerna run clean && lerna clean",
     "compile:dist:watch": "lerna run --stream --scope n2o-framework compile:dist:watch",
