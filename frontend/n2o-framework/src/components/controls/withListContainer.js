@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
+import omit from 'lodash';
 import { connect } from 'react-redux';
 import { makeAlertsByKeySelector } from '../../selectors/alerts';
 
@@ -115,7 +116,7 @@ function withListContainer(WrappedComponent) {
 
     return (
       <WrappedComponent
-        {...rest}
+        {...omit(rest, 'data')}
         labelFieldId={labelFieldId}
         data={data}
         isLoading={loading}
