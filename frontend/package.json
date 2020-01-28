@@ -23,7 +23,7 @@
     "compile:es:watch": "lerna run --stream --scope n2o-framework compile:es:watch",
     "compile:lib:watch": "lerna run --stream --scope n2o-framework compile:lib:watch",
     "compile:watch": "concurrently --kill-others \"npm run compile:es:watch\" \"npm run compile:lib:watch\" \"npm run compile:dist:watch\"",
-    "dev": "lerna run --scope n2o-framework storybook",
+    "dev": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" lerna run --scope n2o-framework storybook",
     "docs": "lerna run --scope n2o-framework esdoc && lerna run --scope n2o-framework build-storybook",
     "esdoc:n2o": "lerna run --scope n2o-framework esdoc",
     "eslint": "lerna run --scope n2o-framework eslint",
