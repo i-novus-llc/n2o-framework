@@ -103,7 +103,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         List<TableWidgetComponent> rowClicks = new ArrayList<>();
         page.getWidgets().forEach((s, widget) -> rowClicks.add((TableWidgetComponent) widget.getComponent()));
 
-        assertThat(rowClicks.size(), is(8));
+        assertThat(rowClicks.size(), is(10));
         assertThat(rowClicks.get(0).getRowClick(), nullValue());
         assertThat(rowClicks.get(1).getRowClick().getEnablingCondition(), nullValue(String.class));
         assertThat(rowClicks.get(2).getRowClick().getEnablingCondition(), is("false"));
@@ -112,6 +112,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(rowClicks.get(5).getRowClick().getEnablingCondition(), is("false"));
         assertThat(rowClicks.get(6).getRowClick().getEnablingCondition(), is("true"));
         assertThat(rowClicks.get(7).getRowClick().getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.get(8).getRowClick().getAction(), notNullValue());
     }
 
     @Test
@@ -120,7 +121,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
                 .get(new WidgetContext("testTable4SortableCompile"));
         assertThat(table.getId(), is("$testTable4SortableCompile"));
-        assertThat(table.getComponent().getHeaders().size(), is(5));
+        assertThat(table.getComponent().getHeaders().size(), is(6));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
 
         assertThat(headers.get(0).getId(), is("id"));
@@ -141,6 +142,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(headers.get(4).getId(), is("notInQuery"));
         assertThat(headers.get(4).getLabel(), is("notInQueryLabel"));
+
+        assertThat(headers.get(5).getSortable(), is(true));
+        assertThat(headers.get(5).getSortParam(), is("custom_sort_param"));
 
         QueryContext context = (QueryContext) route("/testTable4SortableCompile", CompiledQuery.class);
         assertThat(context.getSortingMap().get("id"), is("id"));
@@ -260,7 +264,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
                 .get(new WidgetContext("testTable4SortableCompile"));
         assertThat(table.getId(), is("$testTable4SortableCompile"));
-        assertThat(table.getComponent().getHeaders().size(), is(5));
+        assertThat(table.getComponent().getHeaders().size(), is(6));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
 
         assertThat(headers.get(0).getWidth(), is("100"));

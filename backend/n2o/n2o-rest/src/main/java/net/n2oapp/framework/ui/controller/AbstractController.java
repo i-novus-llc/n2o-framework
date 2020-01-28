@@ -1,6 +1,5 @@
 package net.n2oapp.framework.ui.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.api.Direction;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
@@ -8,17 +7,14 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
-import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
@@ -105,14 +101,22 @@ public abstract class AbstractController {
         Integer count = data.getInteger("count");
         criteria.setCount(count);
         if (query != null) {
-            criteria.setSortings(getSortings(data, queryCtx.getSortingMap()));
+            criteria.setSortings(getSortings(data, queryCtx.getSortingMap(), query.getSortingFields()));
             prepareRestrictions(query, criteria, data);
         }
         return criteria;
     }
 
 
-    private List<Sorting> getSortings(DataSet data, Map<String, String> sortingMap) {
+    private List<Sorting> getSortings(DataSet data, Map<String, String> sortingMap, List<N2oQuery.Field> fields) {
+        if (fields != null) {
+            fields.forEach(f -> {
+                if (f.getSortingParam() != null && data.containsKey(f.getSortingParam())) {
+                    data.add("sorting." + f.getId(), data.get(f.getSortingParam()));
+                }
+            });
+        }
+
         List<Sorting> sortings = new ArrayList<>();
         DataSet sortingsData = data.getDataSet("sorting");
         if (sortingsData == null)

@@ -191,9 +191,15 @@ export function alertRemoveWidget(widgetId, alertKey) {
  * @param widgetId
  * @param fieldKey
  * @param sortDirection
+ * @param sortParam
  */
-export function sortByWidget(widgetId, fieldKey, sortDirection) {
-  return createActionHelper(SORT_BY)({ widgetId, fieldKey, sortDirection });
+export function sortByWidget(widgetId, fieldKey, sortDirection, sortParam) {
+  return createActionHelper(SORT_BY)({
+    widgetId,
+    fieldKey,
+    sortDirection,
+    sortParam,
+  });
 }
 
 /**

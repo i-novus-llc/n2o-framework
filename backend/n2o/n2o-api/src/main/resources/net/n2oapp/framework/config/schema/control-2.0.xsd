@@ -1204,7 +1204,7 @@
             <xs:element name="close" type="act:closeDefinition" minOccurs="0"/>
             <xs:element name="set-value" type="act:setValueDefinition" minOccurs="0"/>
             <xs:element name="execute-query" type="act:executeQueryDefinition" minOccurs="0"/>
-            <xs:element name="custom" type="act:customDefinition" minOccurs="0"/>
+            <xs:element name="perform" type="act:performDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">
 

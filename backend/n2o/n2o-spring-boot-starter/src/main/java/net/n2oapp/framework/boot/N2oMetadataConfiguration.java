@@ -92,7 +92,7 @@ public class N2oMetadataConfiguration {
     @Value("${n2o.config.path}")
     private String configPath;
 
-    @Value("${n2o.project.path:}" )
+    @Value("${n2o.project.path:}")
     private List<String> projectPaths;
 
     @Value("${n2o.config.readonly}")
@@ -101,7 +101,6 @@ public class N2oMetadataConfiguration {
     @Value("${n2o.config.ignores}")
     private List<String> ignores;
 
-    @Primary
     @Bean(name = "n2oObjectMapper")
     public ObjectMapper n2oObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();

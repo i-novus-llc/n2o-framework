@@ -37,8 +37,10 @@ const withColumn = WrappedComponent => {
         columnIsInit,
         columnVisible = true,
         columnDisabled = false,
+        sortParam,
         dispatch,
       } = this.props;
+
       !columnIsInit &&
         dispatch(
           registerColumn(
@@ -46,7 +48,8 @@ const withColumn = WrappedComponent => {
             columnId,
             label,
             columnVisible,
-            columnDisabled
+            columnDisabled,
+            sortParam
           )
         );
     }

@@ -247,7 +247,7 @@ http://localhost:8080/n2o/data/persons
 <field id="name">
   <filters>
     <like filter-id="name" param="name_like"/>
-  <filters>
+  </filters>
   ...
 </field>
 ----
