@@ -29,6 +29,17 @@
                         <xs:documentation>Реализация региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="class" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>CSS класс панели.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Стиль панели.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+
                 <xs:anyAttribute>
                     <xs:annotation>
                         <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -83,16 +94,6 @@
                 <xs:attribute name="title" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Заголовок.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="class" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>CSS класс панели.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="style" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Стиль панели.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="collapsible" type="xs:boolean" use="optional">
