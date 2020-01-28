@@ -158,6 +158,11 @@
                         <xs:documentation>Зависимость от полей</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -264,6 +269,11 @@
                         <xs:documentation>Возможность поиска по значению</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -287,6 +297,16 @@
                         </xs:complexType>
                     </xs:element>
                 </xs:sequence>
+                <xs:attribute name="begin-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию начала интервала</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="end-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию конца интервала</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

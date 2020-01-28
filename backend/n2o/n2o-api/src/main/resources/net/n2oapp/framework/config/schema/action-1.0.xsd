@@ -61,6 +61,7 @@
                 <xs:sequence>
                     <xs:element name="pre-filters" type="preFiltersDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="pre-fields" type="preFieldsDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="params" type="paramsDefinition" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>
                 <xs:attribute name="page-name" type="xs:string" use="optional">
                     <xs:annotation>
@@ -629,6 +630,41 @@
         <xs:attribute name="routable" type="xs:boolean" use="optional">
             <xs:annotation>
                 <xs:documentation>Попадает ли фильтр в url. По умолчанию false.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="paramsDefinition">
+        <xs:annotation>
+            <xs:documentation>Предустановленные параметры действия</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="param" type="actionParamDefinition" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="actionParamDefinition">
+        <xs:annotation>
+            <xs:documentation>Предустановленные параметры</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Название параметра, которое и попадет в url.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-widget-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-model" type="reduxModel" use="optional">
+            <xs:annotation>
+                <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="value" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Значение параметра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

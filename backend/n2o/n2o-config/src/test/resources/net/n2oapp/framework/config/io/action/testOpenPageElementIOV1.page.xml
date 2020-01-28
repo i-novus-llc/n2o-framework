@@ -22,6 +22,9 @@
                 <pre-fields>
                     <contains field-id="test" value="test" values="test1 , test2"/>
                 </pre-fields>
+                <params>
+                    <param name="test" ref-model="filter" ref-widget-id="main" value="{id}"/>
+                </params>
             </open-page>
         </action>
     </actions>

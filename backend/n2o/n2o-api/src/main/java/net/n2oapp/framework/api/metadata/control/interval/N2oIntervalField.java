@@ -12,4 +12,6 @@ import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 public abstract class N2oIntervalField extends N2oStandardField {
     private String begin;
     private String end;
+    private String beginParam;
+    private String endParam;
 }
