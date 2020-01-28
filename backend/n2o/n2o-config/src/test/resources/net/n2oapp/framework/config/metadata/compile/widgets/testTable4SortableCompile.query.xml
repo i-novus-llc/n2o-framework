@@ -11,5 +11,9 @@
         </field>
 
         <field id="comments" domain="string"/>
+
+        <field id="customSorting" domain="string">
+            <sorting param="custom_sort_param"/>
+        </field>
     </fields>
 </query>

@@ -33,6 +33,7 @@ const enhance = compose(
       label: get(model, fieldKey || id, ''),
       color: 'link',
       model,
+      entityKey: widgetId,
     }),
   }),
   mapProps(({ createButton, ...rest }) => ({

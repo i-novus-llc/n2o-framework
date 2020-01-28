@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -31,7 +30,6 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -330,7 +328,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             for (N2oQuery.Field field : query.getSortingFields()) {
                 String sortParam = RouteUtil.normalizeParam("sorting." + source.getId() + "_" + field.getId());
                 BindLink onSet = Redux.createSortLink(compiled.getId(), field.getId());
-                ReduxAction onGet = Redux.dispatchSortWidget(compiled.getId(), field.getId(), colon(sortParam));
+                ReduxAction onGet = Redux.dispatchSortWidget(compiled.getId(), field.getId(), field.getSortingParam(), colon(sortParam));
                 routes.addQueryMapping(sortParam, onGet, onSet);
             }
         }
@@ -664,13 +662,5 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         } else {
             return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
         }
-    }
-
-    protected Pagination createPaging(Integer size, Boolean prev, Boolean next, String property, CompileProcessor p) {
-        Pagination pagination = new Pagination();
-        pagination.setSize(size != null ? size : p.resolve(Placeholders.property(property), Integer.class));
-        pagination.setPrev(prev);
-        pagination.setNext(next);
-        return pagination;
     }
 }

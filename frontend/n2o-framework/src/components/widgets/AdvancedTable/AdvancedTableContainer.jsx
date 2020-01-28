@@ -23,7 +23,7 @@ import PropTypes from 'prop-types';
 import { makeGetFilterModelSelector } from '../../../selectors/models';
 import { getContainerColumns } from '../../../selectors/columns';
 import evalExpression from '../../../utils/evalExpression';
-import { push } from 'connected-react-router';
+import { replace } from 'connected-react-router';
 import compileUrl from '../../../utils/compileUrl';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
@@ -141,7 +141,7 @@ class AdvancedTableContainer extends React.Component {
           columnId: header.id,
           widgetId,
           as: 'div',
-          sorting: sorting && sorting[header.id],
+          sorting: sorting && sorting[header.sortParam || header.id],
           onSort,
         }),
         label: header.title,
@@ -235,7 +235,6 @@ export const withWidgetHandlers = compose(
         url,
         pathMapping,
         queryMapping,
-        inner,
         target,
       } = rowClick;
       const allowRowClick = evalExpression(enablingCondition, model);
@@ -244,8 +243,8 @@ export const withWidgetHandlers = compose(
       if (action && (allowRowClick || isUndefined(allowRowClick))) {
         dispatch(action);
       } else if (url) {
-        if (inner) {
-          dispatch(push(compiledUrl));
+        if (target === 'application') {
+          dispatch(replace(compiledUrl));
         } else if (target === '_blank') {
           window.open(compiledUrl);
         } else {
