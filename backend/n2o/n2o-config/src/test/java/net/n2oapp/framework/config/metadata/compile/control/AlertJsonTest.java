@@ -29,9 +29,9 @@ public class AlertJsonTest extends JsonMetadataTestBase {
     @Test
     public void testAlert() {
         check("net/n2oapp/framework/config/mapping/testAlert.widget.xml",
-                "components/controls/Alert/Alert.meta.json")
+                "components/widgets/Form/fields/AlertField/AlertField.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
-                .exclude("src", "id", "style", "disabled")
+                .exclude("src", "id", "style", "visible", "className")
                 .assertEquals(new WidgetContext("testAlert"));
     }
 }

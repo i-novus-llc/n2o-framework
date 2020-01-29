@@ -21,13 +21,13 @@ const setup = propOverrides => {
 describe('<CodeViewer />', () => {
   it('виден по visible', () => {
     let { wrapper } = setup({ visible: false });
-    expect(wrapper.find('.n2o-code-viewer')).toHaveLength(0);
+    expect(wrapper.find('.n2o-code-viewer').exists()).toEqual(false);
     wrapper = setup({ visible: true }).wrapper;
-    expect(wrapper.find('.n2o-code-viewer')).toHaveLength(1);
+    expect(wrapper.find('.n2o-code-viewer').exists()).toEqual(true);
   });
 
   it('SyntaxHighlighter доступен по show', () => {
     let { wrapper } = setup({ show: true });
-    expect(wrapper.find('SyntaxHighlighter')).toHaveLength(1);
+    expect(wrapper.find('SyntaxHighlighter').exists()).toEqual(true);
   });
 });
