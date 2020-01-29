@@ -11,6 +11,7 @@ import net.n2oapp.framework.access.metadata.schema.N2oAccessSchema;
 import net.n2oapp.framework.access.metadata.schema.io.SimpleAccessIOv2;
 import net.n2oapp.framework.access.metadata.schema.simple.SimpleAccessSchemaPersister;
 import net.n2oapp.framework.access.metadata.schema.simple.SimpleAccessSchemaReaderV1;
+import net.n2oapp.framework.access.metadata.schema.simple.SimpleAccessSchemaValidator;
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.register.MetaType;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -31,6 +32,7 @@ public class AccessSchemaPack implements MetadataPack<N2oApplicationBuilder> {
                 .packs(new AccessPointsV1Pack())
                 .packs(new AccessPointsIOV2Pack())
                 .packs(new AccessTransformersPack())
-                .extensions(new SecurityExtensionAttributeMapper());
+                .extensions(new SecurityExtensionAttributeMapper())
+                .validators(new SimpleAccessSchemaValidator());
     }
 }
