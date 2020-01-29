@@ -166,7 +166,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getRowElements(mainPage, 0).get(2).shouldHave(Condition.text("Петрович"));
         getRowElements(mainPage, 0).get(3).shouldHave(Condition.text("17.01.2020"));
         getRowElements(mainPage, 0).get(4).shouldHave(Condition.text("Мужской"));
-        getRowElements(mainPage, 0).get(5).$("input").shouldHave(Condition.checked);
+        getRowElements(mainPage, 0).get(5).$("input").shouldBe(Condition.checked);
     }
 
     /**
@@ -208,7 +208,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getRowElements(mainPage, 2).get(3).shouldHave(Condition.text(birthDate));
         getRowElements(mainPage, 2).get(4).shouldHave(Condition.text(gender));
         getRowElements(mainPage, 2).get(5).$("input")
-                .shouldHave("true".equals(vip) ? Condition.checked : Condition.not(Condition.checked));
+                .shouldBe("true".equals(vip) ? Condition.checked : Condition.not(Condition.checked));
 
     }
 
@@ -250,7 +250,7 @@ public class ProtoPage implements ProtoPageSelectors {
         rowElements.get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
         rowElements.shouldHave(CollectionCondition.texts("Иванова", "Наталья", "Петровна", birthDate, gender, "", ""));
         rowElements.get(5).$("input")
-                .shouldHave("true".equals(vip) ? Condition.checked : Condition.not(Condition.checked));
+                .shouldBe("true".equals(vip) ? Condition.checked : Condition.not(Condition.checked));
     }
 
     /**
