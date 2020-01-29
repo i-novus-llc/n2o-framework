@@ -1,5 +1,6 @@
 package net.n2oapp.demo;
 
+import net.n2oapp.demo.model.ProtoPage;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -26,6 +27,7 @@ public class DemoIntegrationTest {
     public static void configure() {
         browser = "chrome";
         headless = true;
+        browserSize = "1920x1200";
     }
 
     @Before
@@ -39,12 +41,14 @@ public class DemoIntegrationTest {
         protoPage.checkAllElementsExists();
     }
 
-    /**
-     * Тест поиска людей по полу
-     */
     @Test
     public void testFilterByGender() {
         protoPage.testFilterByGender();
+    }
+
+    @Test
+    public void testFilterByNameAndSurname() {
+        protoPage.testFilterByNameAndSurname();
     }
 
     @Test
@@ -57,11 +61,38 @@ public class DemoIntegrationTest {
         protoPage.testTableEditBirthday();
     }
 
-    /**
-     * Тест поиска людей по фимилии и имени
-     */
     @Test
-    public void testFilterByNameAndSurname() {
-        protoPage.testFilterByNameAndSurname();
+    public void testAddClient() {
+        protoPage.assertAddClient();
+    }
+
+    @Test
+    public void testCreateClient() {
+        protoPage.assertCreateClient();
+    }
+
+    @Test
+    public void testUpdateClient() {
+        protoPage.assertUpdateClient();
+    }
+
+    @Test
+    public void testUpdateClientFromToolbarCell() {
+        protoPage.assertUpdateClientFromToolbarCell();
+    }
+
+    @Test
+    public void testViewClient() {
+        protoPage.assertViewClient();
+    }
+
+    @Test
+    public void testTableInPlaceDelete() {
+        protoPage.testTableInPlaceDelete();
+    }
+
+    @Test
+    public void testTableRowDelete() {
+        protoPage.testTableRowDelete();
     }
 }

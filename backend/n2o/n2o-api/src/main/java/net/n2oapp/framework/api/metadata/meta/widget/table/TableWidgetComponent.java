@@ -3,11 +3,10 @@ package net.n2oapp.framework.api.metadata.meta.widget.table;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
+import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -17,36 +16,28 @@ import java.util.Map;
 @Getter
 @Setter
 public class TableWidgetComponent extends WidgetComponent {
-    @JsonProperty("className")
+    @JsonProperty
     private String className;
-    @JsonProperty("size")
+    @JsonProperty
     private Integer size;
-    @JsonProperty("rowClass")
+    @JsonProperty
     private String rowClass;
-    @JsonProperty("hasFocus")
+    @JsonProperty
     private Boolean hasFocus = true;
-    @JsonProperty("hasSelect")
+    @JsonProperty
     private Boolean hasSelect = true;
     @JsonProperty
     private Scroll scroll;
     @JsonProperty
     private String tableSize;
-
-    @JsonProperty("cells")
+    @JsonProperty
     private List<N2oCell> cells;
-    @JsonProperty("headers")
+    @JsonProperty
     private List<ColumnHeader> headers;
-
-    @JsonProperty("sorting")
+    @JsonProperty
     private Map<String, String> sorting;
-    @JsonProperty("rowClick")
+    @JsonProperty
     private RowClick rowClick;
-    @JsonProperty("rows")
+    @JsonProperty
     private Rows rows;
-
-    @Setter
-    @Getter
-    public static class Rows implements JsonPropertiesAware, Serializable {
-        private Map<String, Object> properties;
-    }
 }
