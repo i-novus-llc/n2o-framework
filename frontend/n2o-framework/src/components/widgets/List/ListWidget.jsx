@@ -21,6 +21,7 @@ import Pagination from '../Table/TablePagination';
  * @param {object} dataProvider - конфиг dataProvider
  * @param {boolean} fetchOnInit - флаг запроса при инициализации
  * @param {object} list - объект конфиг секций в виджете
+ * @param {object} placeholder
  * @param {object|null} rowClick - кастомный клик
  * @param {boolean} hasMoreButton - флаг включения загрузки по нажатию на кнопку
  * @param {number} maxHeight - максимальная высота виджета
@@ -30,6 +31,7 @@ import Pagination from '../Table/TablePagination';
  * @param {string} nextText - текст next кнопки пагинации
  * @param {boolean} divider - флаг разделителя между строками
  * @param {boolean} hasSelect - флаг включения выбора строк
+ * @param {boolean} rows - настройка security
  * @param {object} context - контекст
  * @returns {*}
  * @constructor
@@ -58,6 +60,7 @@ function ListWidget(
     nextText,
     divider,
     hasSelect,
+    rows,
   },
   context
 ) {
@@ -109,6 +112,7 @@ function ListWidget(
         divider={divider}
         hasSelect={hasSelect}
         placeholder={placeholder}
+        rows={rows}
       />
     </StandardWidget>
   );

@@ -21,7 +21,7 @@ import Factory from '../../core/factory/Factory';
 import { LAYOUTS, REGIONS } from '../../core/factory/factoryLevels';
 import BreadcrumbContainer from './Breadcrumb/BreadcrumbContainer';
 import DocumentTitle from './DocumentTitle';
-import Actions from '../actions/Actions';
+import Toolbar from '../buttons/Toolbar';
 
 import {
   makePageDisabledByIdSelector,
@@ -44,8 +44,6 @@ function Page(props) {
     disabled,
     status,
     toolbar,
-    actions,
-    containerKey,
     defaultTemplate: Template = React.Fragment,
     defaultBreadcrumb,
     defaultErrorPages,
@@ -80,18 +78,8 @@ function Page(props) {
         )}
         {toolbar && (toolbar.topLeft || toolbar.topRight) && (
           <div className="n2o-page-actions">
-            <Actions
-              toolbar={toolbar.topLeft}
-              actions={actions}
-              containerKey={containerKey}
-              pageId={pageId}
-            />
-            <Actions
-              toolbar={toolbar.topRight}
-              actions={actions}
-              containerKey={containerKey}
-              pageId={pageId}
-            />
+            <Toolbar entityKey={pageId} toolbar={toolbar.topLeft} />
+            <Toolbar entityKey={pageId} toolbar={toolbar.topRight} />
           </div>
         )}
         <div className="n2o-page">
@@ -120,18 +108,8 @@ function Page(props) {
         </div>
         {toolbar && (toolbar.bottomLeft || toolbar.bottomRight) && (
           <div className="n2o-page-actions">
-            <Actions
-              toolbar={toolbar.bottomLeft}
-              actions={actions}
-              containerKey={containerKey}
-              pageId={pageId}
-            />
-            <Actions
-              toolbar={toolbar.bottomRight}
-              actions={actions}
-              containerKey={containerKey}
-              pageId={pageId}
-            />
+            <Toolbar entityKey={pageId} toolbar={toolbar.bottomLeft} />
+            <Toolbar entityKey={pageId} toolbar={toolbar.bottomRight} />
           </div>
         )}
       </div>

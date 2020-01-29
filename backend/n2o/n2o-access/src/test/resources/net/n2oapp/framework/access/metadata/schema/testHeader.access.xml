@@ -11,8 +11,6 @@
         <page-access pages="testHeaderAccessTransformer"/>
     </role>
     <permission id="permission">
-        <page-access pages="test"/>
-        <object-access object-id="test" actions="create"/>
         <url-access pattern="/test/*"/>
     </permission>
 </access>
