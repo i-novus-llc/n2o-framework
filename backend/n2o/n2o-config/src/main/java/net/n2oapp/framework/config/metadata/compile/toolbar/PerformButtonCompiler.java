@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -49,8 +50,10 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             LinkAction linkAction = ((LinkAction) button.getAction());
             button.setUrl(linkAction.getUrl());
             button.setTarget(linkAction.getTarget());
-            button.setPathMapping(linkAction.getPathMapping());
-            button.setQueryMapping(linkAction.getQueryMapping());
+            if (linkAction.getPathMapping() != null)
+                button.setPathMapping(new StrictMap<>(linkAction.getPathMapping()));
+            if (linkAction.getQueryMapping() != null)
+                button.setQueryMapping(new StrictMap<>(linkAction.getQueryMapping()));
         }
         return button;
     }

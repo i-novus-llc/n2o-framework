@@ -37,4 +37,10 @@
         </extra>
     </content>
 
+    <rows>
+        <click enabled="true">
+            <a href="https://www.google.com/"/>
+        </click>
+    </rows>
+
 </list>

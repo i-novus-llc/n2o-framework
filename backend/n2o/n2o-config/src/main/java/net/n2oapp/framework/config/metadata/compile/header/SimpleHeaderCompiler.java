@@ -11,8 +11,6 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
@@ -35,19 +33,21 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
         header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         header.setSearch(false);
         initWelcomePage(source, p);
+        header.setHomePageUrl(source.getHomePageUrl());
         header.setItems(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());
         header.setExtraItems(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
         return header;
     }
 
     private void initWelcomePage(N2oSimpleHeader source, CompileProcessor p) {
+
         String welcomePageId;
-        if (source.getMenu() != null && source.getMenu().getWelcomePageId() != null)
-            welcomePageId = source.getMenu().getWelcomePageId();
-        else if (source.getHomePageId() != null)
-            welcomePageId = source.getHomePageId();
+        if (source.getMenu() != null && source.getWelcomePageId() != null)
+            welcomePageId = source.getWelcomePageId();
         else
             welcomePageId = p.resolve(property("n2o.ui.homepage.id"), String.class);
+
+
         PageContext context = new PageContext(welcomePageId, "/");
         p.addRoute(context);
     }

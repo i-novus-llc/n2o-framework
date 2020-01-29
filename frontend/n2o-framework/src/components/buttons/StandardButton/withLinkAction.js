@@ -1,5 +1,5 @@
 import { compose, mapProps } from 'recompose';
-import { push } from 'connected-react-router';
+import { replace } from 'connected-react-router';
 import withActionButton from '../withActionButton';
 import compileUrl from '../../../utils/compileUrl';
 import mappingProps from '../Simple/mappingProps';
@@ -18,8 +18,9 @@ export default compose(
       if (isModifiedEvent(e)) {
         return;
       }
-      if (props.inner) {
-        props.dispatch(push(compiledUrl));
+
+      if (target === 'application') {
+        props.dispatch(replace(compiledUrl));
       } else if (target === '_blank') {
         window.open(compiledUrl);
       } else {

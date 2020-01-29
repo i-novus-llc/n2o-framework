@@ -26,6 +26,7 @@ public class InputSelectJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/metadata/compile/field/testInputSelectJson.widget.xml",
                 "components/controls/InputSelect/InputSelect.meta.json")
                 .exclude("src", "id", "disabled", "hasSearch", "data", "queryId", "loading", "value", "filter", "closePopupOnSelect",
+                        "sortFieldId",
                         "data[0].icon", "data[0].image", "data[0].dob", "data[0].country",
                         "data[1].icon", "data[1].image", "data[1].dob", "data[1].country",
                         "data[2].icon", "data[2].image", "data[2].dob", "data[2].country",

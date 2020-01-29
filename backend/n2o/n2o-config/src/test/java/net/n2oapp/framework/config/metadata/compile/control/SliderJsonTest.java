@@ -27,7 +27,7 @@ public class SliderJsonTest extends JsonMetadataTestBase {
                 "components/controls/Slider/Slider.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
                 .exclude("src", "id", "tooltipPlacement", "disabled", "showTooltip", "dots", "marks",
-                        "pushable", "valueFieldId", "labelFieldId", "tooltipFormatter") /// TODO: поведение formatter должно быть корректно
+                        "pushable", "valueFieldId", "labelFieldId", "tooltipFormatter", "sortFieldId") /// TODO: поведение formatter должно быть корректно
                 .assertEquals();
     }
 

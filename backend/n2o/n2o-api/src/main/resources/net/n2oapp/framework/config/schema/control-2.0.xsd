@@ -10,6 +10,7 @@
     <xs:element name="text-area" type="controlTextAreaDefinition"/>
     <xs:element name="text-editor" type="controlTextEditorDefinition"/>
     <xs:element name="code-editor" type="controlCodeEditor"/>
+    <xs:element name="code" type="controlCodeViewer"/>
     <xs:element name="input-text" type="controlInputTextDefinition"/>
     <xs:element name="output-text" type="controlOutputTextDefinition"/>
     <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
@@ -31,6 +32,7 @@
     <xs:element name="field" type="fieldCustom"/>
     <xs:element name="text" type="controlText"/>
     <xs:element name="rating" type="controlRating"/>
+    <xs:element name="alert" type="controlAlertDefinition"/>
     <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
 
     <xs:complexType name="controls">
@@ -39,6 +41,7 @@
             <xs:element name="text-area" type="controlTextAreaDefinition" minOccurs="0"/>
             <xs:element name="text-editor" type="controlTextEditorDefinition" minOccurs="0"/>
             <xs:element name="code-editor" type="controlCodeEditor" minOccurs="0"/>
+            <xs:element name="code" type="controlCodeViewer" minOccurs="0"/>
             <xs:element name="input-text" type="controlInputTextDefinition" minOccurs="0"/>
             <xs:element name="input-money" type="controlInputMoneyDefinition" minOccurs="0"/>
             <xs:element name="output-text" type="controlOutputTextDefinition" minOccurs="0"/>
@@ -61,6 +64,7 @@
             <xs:element name="text" type="controlText" minOccurs="0"/>
             <xs:element name="slider" type="controlSliderDefinition" minOccurs="0"/>
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
+            <xs:element name="alert" type="controlAlertDefinition" minOccurs="0"/>
             <xs:element name="auto-complete" type="controlAutoCompleteDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
@@ -384,6 +388,11 @@
                         <xs:documentation>Поле выборки, содержащее наименование файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="sort-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Поле сортировки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="message-field-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, содержащее сообщение файла.</xs:documentation>
@@ -434,20 +443,11 @@
 
     <xs:complexType name="controlCodeEditor">
         <xs:complexContent>
-            <xs:extension base="controlTextDefinition">
-                <xs:attribute name="language" use="optional">
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="language" type="codeLanguage" use="optional">
                     <xs:annotation>
                         <xs:documentation>Язык кода.</xs:documentation>
                     </xs:annotation>
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="sql"/>
-                            <xs:enumeration value="xml"/>
-                            <xs:enumeration value="javascript"/>
-                            <xs:enumeration value="groovy"/>
-                            <xs:enumeration value="java"/>
-                        </xs:restriction>
-                    </xs:simpleType>
                 </xs:attribute>
                 <xs:attribute name="min-lines" type="xs:positiveInteger" use="optional">
                     <xs:annotation>
@@ -463,6 +463,62 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="controlCodeViewer">
+        <xs:complexContent>
+            <xs:extension base="controlDefinition">
+                <xs:sequence>
+                    <xs:element name="children" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="language" type="codeLanguage">
+                    <xs:annotation>
+                        <xs:documentation>Язык кода.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="theme" type="colorTheme" default="light">
+                    <xs:annotation>
+                        <xs:documentation>Цвет фона.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="show-line-numbers" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Отображение нумерации строк.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="starting-line-number" type="xs:integer" default="1">
+                    <xs:annotation>
+                        <xs:documentation>Значение, с которого будет производиться нумерация.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="hide-buttons" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Скрытие кнопок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="hide-overflow" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Скрытие вертикальной полосы прокрутки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="colorTheme">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="light"/>
+            <xs:enumeration value="dark"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="codeLanguage">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="sql"/>
+            <xs:enumeration value="xml"/>
+            <xs:enumeration value="javascript"/>
+            <xs:enumeration value="groovy"/>
+            <xs:enumeration value="java"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <!--<xs:complexType name="updateModelPreFilterDefinition">-->
     <!--<xs:complexContent>-->
@@ -536,6 +592,38 @@
                 <xs:attribute name="show-tooltip" type="xs:boolean">
                     <xs:annotation>
                         <xs:documentation>Показать подсказку</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlAlertDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="header" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст заголовка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="footer" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст нижней части.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет оповещения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fade" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Включение плавного отображения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="tag" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Тэг.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1165,7 +1253,7 @@
             <xs:element name="close" type="act:closeDefinition" minOccurs="0"/>
             <xs:element name="set-value" type="act:setValueDefinition" minOccurs="0"/>
             <xs:element name="execute-query" type="act:executeQueryDefinition" minOccurs="0"/>
-            <xs:element name="custom" type="act:customDefinition" minOccurs="0"/>
+            <xs:element name="perform" type="act:performDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">
 

@@ -14,7 +14,7 @@
           "buttons": [
             {
               "id": "filter",
-              "src": "PerformButton",
+              "src": "StandardButton",
               "visible": true,
               "conditions": {
                 "visible": [
@@ -29,7 +29,7 @@
             },
             {
               "id": "enable",
-              "src": "PerformButton",
+              "src": "StandardButton",
               "visible": true,
               "conditions": {
                 "enabled": [
@@ -45,7 +45,7 @@
             {
               "id": "combo",
               "visible": true,
-              "src": "PerformButton",
+              "src": "StandardButton",
               "conditions": {
                 "visible": [
                   {
@@ -71,7 +71,7 @@
               "subMenu": [
                 {
                   "id": "menuItem4",
-                  "src": "PerformButton",
+                  "src": "StandardButton",
                   "conditions": {
                     "visible": [
                       {
@@ -91,7 +91,7 @@
                 },
                 {
                   "id": "menuItem5",
-                  "src": "PerformButton",
+                  "src": "StandardButton",
                   "conditions": {
                     "visible": [
                       {

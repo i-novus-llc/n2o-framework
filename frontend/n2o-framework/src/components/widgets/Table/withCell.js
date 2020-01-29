@@ -90,6 +90,7 @@ export default function(WrappedComponent) {
         action={defaultAction}
         model={defaultModel}
         fieldKey={fieldKey}
+        widgetId={widgetId}
         {...rest}
       />
     );

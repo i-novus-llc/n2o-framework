@@ -50,11 +50,11 @@ class AdvancedTableFilter extends Component {
 
   onSetFilter() {
     const { onFilter, id } = this.props;
-    onFilter &&
-      onFilter({
-        id,
-        value: this.state.value,
-      });
+
+    onFilter({
+      id,
+      value: this.state.value,
+    });
   }
 
   render() {

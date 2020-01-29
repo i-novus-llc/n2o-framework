@@ -6,18 +6,20 @@ import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSc
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 
 public abstract class AbstractActionTransformer<D extends Action> extends BaseAccessTransformer<D, PageContext> {
 
-    protected void mapSecurity(Action compiled, String pageId, String objectId, String operationId, CompileProcessor p) {
+    protected void mapSecurity(AbstractAction compiled, String pageId, String objectId, String operationId, String url, CompileProcessor p) {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
                 p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
         if (objectId == null && pageId != null)
             objectId = p.getSource(pageId, N2oPage.class).getObjectId();
         collectObjectAccess(compiled, objectId, operationId, accessSchema, p);
         collectPageAccess(compiled, pageId, accessSchema, p);
+        collectUrlAccess(compiled, url, accessSchema, p);
     }
 
 }

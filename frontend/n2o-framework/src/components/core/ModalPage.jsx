@@ -79,12 +79,12 @@ class ModalPage extends React.Component {
       pathMapping,
       queryMapping,
       size,
-      entityKey,
       toolbar,
       visible,
       title,
       loading,
-      close,
+      disabled,
+      showPrompt,
     } = this.props;
 
     const pageMapping = {
@@ -97,17 +97,21 @@ class ModalPage extends React.Component {
 
     return (
       <div className={'modal-page-overlay'}>
+        {showPrompt && this.showPrompt()}
         <Spinner type="cover" loading={showSpinner} color="light" transparent>
           <Modal
             isOpen={visible}
-            toggle={close}
+            toggle={() => this.closeModal(true)}
             size={size}
             backdrop={false}
             style={{
               zIndex: 10,
             }}
           >
-            <ModalHeader className={classes} toggle={close}>
+            <ModalHeader
+              className={classes}
+              toggle={() => this.closeModal(true)}
+            >
               {title}
             </ModalHeader>
             <ModalBody className={classes}>
@@ -116,7 +120,6 @@ class ModalPage extends React.Component {
                   pageUrl={pageUrl}
                   pageId={pageId}
                   pageMapping={pageMapping}
-                  containerKey={entityKey}
                   needMetadata={true}
                 />
               ) : src ? (
@@ -125,15 +128,13 @@ class ModalPage extends React.Component {
             </ModalBody>
             {toolbar && (
               <ModalFooter className={classes}>
-                <div className="n2o-modal-actions">
-                  <Toolbar
-                    toolbar={toolbar.bottomLeft}
-                    containerKey={entityKey}
-                  />
-                  <Toolbar
-                    toolbar={toolbar.bottomRight}
-                    containerKey={entityKey}
-                  />
+                <div
+                  className={cn('n2o-modal-actions', {
+                    'n2o-disabled': disabled,
+                  })}
+                >
+                  <Toolbar toolbar={toolbar.bottomLeft} entityKey={pageId} />
+                  <Toolbar toolbar={toolbar.bottomRight} entityKey={pageId} />
                 </div>
               </ModalFooter>
             )}

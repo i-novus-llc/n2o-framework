@@ -334,6 +334,11 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |Возможность обновления данных при переключении между вкладками
 |false
 
+|lazy
+|true false
+|Ленивая загрузка вкладок
+|true
+
 |===
 
 Пример::
