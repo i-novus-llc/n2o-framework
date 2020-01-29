@@ -108,7 +108,6 @@ public class SelectiveStandardReader extends SelectiveReader {
         addReader(new OpenPageReaderV1());
         addReader(new ShowModalFormReaderV1());
         addReader(new ShowModalWithActionReaderV1());
-        addReader(new CustomReaderV1());
         addReader(new ActionAndCloseReaderV1());
         addReader(new CloseEventReaderV1());
         addReader(new ValidateEventReaderV1());
@@ -145,7 +144,6 @@ public class SelectiveStandardReader extends SelectiveReader {
         addReader(new EditFormXmlReaderV3());
         addReader(new TableXmlReaderV3());
         addReader(new TreeXmlReaderV3());
-        addReader(new N2oChartReaderV3());
         addReader(new CustomWidgetXmlReaderV3());
         addReader(new HtmlWidgetXmlReaderV3());
         addReader(new WizardXmlReaderV3());
