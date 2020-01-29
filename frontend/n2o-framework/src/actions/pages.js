@@ -8,6 +8,7 @@ import {
   ENABLE,
   SET_STATUS,
 } from '../constants/pages';
+import { DESTROY } from '../constants/modals';
 import createActionHelper from './createActionHelper';
 
 /**
@@ -58,7 +59,7 @@ export function mapUrl(pageId) {
  * @param pageId
  */
 export function resetPage(pageId) {
-  return createActionHelper(RESET)({ pageId });
+  return createActionHelper(RESET)({ pageId }) && createActionHelper(DESTROY)();
 }
 
 /**
