@@ -58,7 +58,7 @@ function withGetWidget(WrappedComponent) {
       );
 
       if (isEmpty(dependencies)) {
-        return undefined;
+        return true;
       }
 
       const model = getModelsByDependency(dependencies)(

@@ -1,0 +1,26 @@
+.code-viewer {
+  &-body {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  &-actions {
+  margin-bottom: 10px;
+    &-copy {
+      cursor: pointer;
+      opacity: 0.6;
+      &:hover {
+        opacity: 1;
+        transition: opacity .3s;
+      }
+    }
+    &-code {
+      margin-left: 10px;
+      opacity: 0.6;
+      cursor: pointer;
+      &:hover {
+        opacity: 1;
+        transition: opacity .3s;
+      }
+    }
+  }
+}
