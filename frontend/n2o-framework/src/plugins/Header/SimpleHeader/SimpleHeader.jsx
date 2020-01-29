@@ -29,6 +29,7 @@ import NavItemContainer from './NavItemContainer';
  * @example
  * //каждый item состоит из id {string}, label {string}, type {string} ('text', 'type' или 'dropdown'),
  * //href {string}(для ссылок), linkType {string}(для ссылок; значения - 'outer' или 'inner')
+ * //badge {string} (текст баджа), badgeColor {string} (цвет баджа), target {string} ('newWindow' или null)
  * //subItems {array} (массив из элементов дропдауна)
  *<SimpleHeader  items = { [
  *     {
@@ -36,6 +37,7 @@ import NavItemContainer from './NavItemContainer';
  *       label: 'link',
  *       href: '/test',
  *       type: 'link',
+ *       target: 'newWindow',
  *     },
  *     {
  *       id: 'dropdown',
@@ -189,6 +191,7 @@ SimpleHeader.propTypes = {
       subItems: PropTypes.array,
       badge: PropTypes.string,
       badgeColor: PropTypes.string,
+      target: PropTypes.string,
     })
   ),
   /**
@@ -204,6 +207,7 @@ SimpleHeader.propTypes = {
       subItems: PropTypes.array,
       badge: 'badge',
       badgeColor: 'color',
+      target: PropTypes.string,
     })
   ),
   /**

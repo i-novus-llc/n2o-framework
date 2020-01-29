@@ -12,7 +12,8 @@
     <xs:element name="clear" type="clearDefinition"/>
     <xs:element name="set-value" type="setValueDefinition"/>
     <xs:element name="execute-query" type="executeQueryDefinition"/>
-    <xs:element name="custom" type="customDefinition"/>
+    <xs:element name="perform" type="performDefinition"/>
+
 
     <xs:complexType name="actions">
         <xs:sequence>
@@ -26,7 +27,7 @@
             <xs:element name="clear" type="clearDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="set-value" type="setValueDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="execute-query" type="executeQueryDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="custom" type="customDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="perform" type="performDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
@@ -453,12 +454,18 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="customDefinition">
+    <xs:complexType name="performDefinition">
         <xs:complexContent>
             <xs:extension base="actionDefinition">
                 <xs:annotation>
                     <xs:documentation>Кастомное действие.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="type" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Тип действия.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

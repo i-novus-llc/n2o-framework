@@ -10,8 +10,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.codeborne.selenide.Configuration.browser;
-import static com.codeborne.selenide.Configuration.headless;
+import static com.codeborne.selenide.Configuration.*;
 import static com.codeborne.selenide.Selenide.open;
 
 @RunWith(SpringRunner.class)
@@ -28,6 +27,7 @@ public class DemoIntegrationTest {
     public static void configure() {
         browser = "chrome";
         headless = true;
+        browserSize = "1920x1200";
     }
 
     @Before
@@ -72,7 +72,22 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testUpdateClientFromToolbarCell() {
+        protoPage.assertUpdateClientFromToolbarCell();
+    }
+
+    @Test
     public void testViewClient() {
         protoPage.assertViewClient();
+    }
+
+    @Test
+    public void testTableInPlaceDelete() {
+        protoPage.testTableInPlaceDelete();
+    }
+
+    @Test
+    public void testTableRowDelete() {
+        protoPage.testTableRowDelete();
     }
 }

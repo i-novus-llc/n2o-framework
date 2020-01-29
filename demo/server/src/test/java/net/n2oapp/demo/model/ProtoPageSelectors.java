@@ -48,4 +48,8 @@ public interface ProtoPageSelectors {
     default SelenideElement getMainTablePaginationButton(Integer idx) {
         return $$(".pagination li").get(idx);
     }
+
+    default SelenideElement getMainTablePaginationInfo() {
+        return $(".n2o-pagination .n2o-pagination-info");
+    }
 }
