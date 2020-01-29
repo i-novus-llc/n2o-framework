@@ -174,7 +174,7 @@
 		"enzyme": "^3.9.0",
 		"enzyme-adapter-react-16": "^1.13.0",
 		"enzyme-to-json": "^3.1.0",
-		"esdoc": "1.0.1",
+		"esdoc": "1.1.0",
 		"esdoc-ecmascript-proposal-plugin": "^1.0.0",
 		"esdoc-jsx-plugin": "^1.0.0",
 		"esdoc-react-plugin": "^1.0.1",

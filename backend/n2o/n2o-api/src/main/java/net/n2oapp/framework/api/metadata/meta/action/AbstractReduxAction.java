@@ -10,10 +10,11 @@ import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
  */
 @Getter
 @Setter
+@Deprecated
 public abstract class AbstractReduxAction<P extends ActionPayload, M extends MetaSaga>
-        extends AbstractAction<ReduxActionOptions<P, M>> {
+        extends AbstractAction<P, M> {
 
     public AbstractReduxAction(P payload, M meta) {
-        super(new ReduxActionOptions<>(payload, meta));
+        super(payload, meta);
     }
 }

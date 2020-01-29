@@ -105,6 +105,7 @@
                           "id": "gender",
                           "valueFieldId": "id",
                           "labelFieldId": "name",
+                          "sortFieldId": "name",
                           "size": 30,
                           "dataProvider": {
                             "url": "n2o/data/ProtoGender",
@@ -208,8 +209,39 @@
         "id": "bottomRight0",
         "buttons": [
           {
+            "src": "PerformButton",
             "id": "submit",
-            "actionId": "submit",
+            "label": "Сохранить",
+            "action": {
+              "type": "n2o/actionImpl/START_INVOKE",
+              "payload": {
+                "widgetId": "proto_create2_main",
+                "pageId": "proto_create2",
+                "dataProvider": {
+                  "url": "n2o/data/proto/create2/submit",
+                  "pathMapping": {},
+                  "method": "POST"
+                },
+                "modelLink": "models.resolve['proto_create2_main']"
+              },
+              "meta": {
+                "success": {
+                  "refresh": {
+                    "type": "widget",
+                    "options": {
+                      "widgetId": "proto_patients"
+                    }
+                  },
+                  "redirect": {
+                    "path": "/proto/:id",
+                    "pathMapping": {},
+                    "queryMapping": {},
+                    "target": "application"
+                  }
+                },
+                "fail": {}
+              }
+            },
             "conditions": {
               "enabled": [
                 {
@@ -220,14 +252,17 @@
             },
             "validate": true,
             "validatedWidgetId": "proto_create2_main",
-            "color": "primary",
-            "title": "Сохранить"
+            "color": "primary"
           },
           {
+            "src": "PerformButton",
             "id": "close",
-            "actionId": "close",
+            "label": "Закрыть",
             "conditions": {},
-            "title": "Закрыть"
+            "url": "/proto",
+            "target": "application",
+            "pathMapping": {},
+            "queryMapping": {}
           }
         ]
       }
@@ -244,49 +279,36 @@
   ],
   "actions": {
     "submit": {
-      "id": "submit",
-      "src": "perform",
-      "options": {
-        "type": "n2o/actionImpl/START_INVOKE",
-        "payload": {
-          "widgetId": "proto_create2_main",
-          "pageId": "proto_create2",
-          "dataProvider": {
-            "url": "n2o/data/proto/create2/submit",
-            "pathMapping": {},
-            "method": "POST"
-          },
-          "modelLink": "models.resolve['proto_create2_main']"
+      "type": "n2o/actionImpl/START_INVOKE",
+      "payload": {
+        "widgetId": "proto_create2_main",
+        "pageId": "proto_create2",
+        "dataProvider": {
+          "url": "n2o/data/proto/create2/submit",
+          "pathMapping": {},
+          "method": "POST"
         },
-        "meta": {
-          "success": {
-            "refresh": {
-              "type": "widget",
-              "options": {
-                "widgetId": "proto_patients"
-              }
-            },
-            "redirect": {
-              "path": "/proto/:id",
-              "pathMapping": {},
-              "queryMapping": {},
-              "target": "application"
+        "modelLink": "models.resolve['proto_create2_main']"
+      },
+      "meta": {
+        "success": {
+          "refresh": {
+            "type": "widget",
+            "options": {
+              "widgetId": "proto_patients"
             }
           },
-          "fail": {}
-        }
+          "redirect": {
+            "path": "/proto/:id",
+            "pathMapping": {},
+            "queryMapping": {},
+            "target": "application"
+          }
+        },
+        "fail": {}
       }
     },
-    "close": {
-      "id": "close",
-      "src": "link",
-      "options": {
-        "path": "/proto",
-        "target": "application",
-        "pathMapping": {},
-        "queryMapping": {}
-      }
-    }
+    "close": {}
   },
   "models": {
     "resolve['proto_create2_main'].patrName": {

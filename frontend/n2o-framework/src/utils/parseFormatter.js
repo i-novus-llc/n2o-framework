@@ -42,7 +42,6 @@ function parseFormatter(data, typeAndformat = false) {
 
   const type = typeAndFormat[0];
   const format = join(slice(typeAndFormat, 1), ' ');
-
   return typesFunctions[type]({ data: str, format });
 }
 
