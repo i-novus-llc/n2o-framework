@@ -120,7 +120,6 @@ public class SelectiveStandardPersister extends SelectivePersister {
                 .addPersister(OpenPagePersister.getInstance())
                 .addPersister(ShowModalFromClassifierPersister.getInstance())
                 .addPersister(ShowModalPersister.getInstance())
-                .addPersister(new CustomPersister())
                 .addPersister(OnClickPersister.getInstance())
                 .addPersister(SetValueExpressionEventPersister.getInstance());
     }
