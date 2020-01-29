@@ -13,7 +13,7 @@
     "buttons": [
       {
         "id": "redirect",
-        "title": "Пример Link",
+        "label": "Пример Link",
         "actionId": "redirect",
         "hint": "Пример Link"
       }

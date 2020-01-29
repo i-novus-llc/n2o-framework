@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -35,7 +35,7 @@ public class SubmitGeneratorTest extends SourceCompileTestBase {
     public void submitLabelFromButton() {
         read().compile().get(new PageContext("testSubmitGeneratorButton", "/p"));
         Page page = routeAndGet("/p/1/test1", Page.class);
-        Button submit = page.getToolbar().getButton("submit");
+        AbstractButton submit = page.getToolbar().getButton("submit");
         assertThat(submit, notNullValue());
         assertThat(submit.getLabel(), is("button"));
 

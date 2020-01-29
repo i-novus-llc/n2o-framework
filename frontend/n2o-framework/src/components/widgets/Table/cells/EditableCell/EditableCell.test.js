@@ -5,29 +5,26 @@ import InputText from '../../../../controls/InputText/InputText';
 
 const action = {
   id: 'update',
-  src: 'perform',
-  options: {
-    type: 'n2o/actionImpl/START_INVOKE',
-    payload: {
-      widgetId: '__patients',
-      dataProvider: {
-        url: 'n2o/data/update',
-        pathMapping: {},
-        method: 'POST',
-      },
-      modelLink: "models.resolve['__patients']",
+  type: 'n2o/actionImpl/START_INVOKE',
+  payload: {
+    widgetId: '__patients',
+    dataProvider: {
+      url: 'n2o/data/update',
+      pathMapping: {},
+      method: 'POST',
     },
-    meta: {
-      success: {
-        refresh: {
-          type: 'widget',
-          options: {
-            widgetId: '__patients',
-          },
+    modelLink: "models.resolve['__patients']",
+  },
+  meta: {
+    success: {
+      refresh: {
+        type: 'widget',
+        options: {
+          widgetId: '__patients',
         },
       },
-      fail: {},
     },
+    fail: {},
   },
 };
 
@@ -61,13 +58,16 @@ describe('Тесты EditableCell', function() {
     expect(wrapper.find('.n2o-editable-cell-control').exists()).toEqual(true);
   });
   it('срабатывает onChange', () => {
+    const dispatch = sinon.spy();
+    const callAction = sinon.spy();
     const wrapper = setup({
       control: {
         component: InputText,
       },
       editFieldId: 'name',
-      callInvoke: () => {},
       onResolve: () => {},
+      dispatch,
+      callAction,
     });
     expect(wrapper.state().model).toEqual({});
     wrapper
@@ -93,6 +93,7 @@ describe('Тесты EditableCell', function() {
       .simulate('change', { target: { value: 'Sergey' } });
     expect(wrapper.state().prevModel).toEqual({ name: 'Ivan' });
     expect(wrapper.state().model).toEqual({ name: 'Sergey' });
+    expect(callAction.called).toBeTruthy();
   });
   it('срабатывает onBlur', () => {
     const wrapper = setup({
@@ -114,9 +115,10 @@ describe('Тесты EditableCell', function() {
     expect(wrapper.state().editing).toEqual(false);
   });
   it('правильно работает логика изменения значения', () => {
-    const callInvoke = sinon.spy();
     const onResolve = sinon.spy();
     const onSetSelectedId = sinon.spy();
+    const dispatch = sinon.spy();
+    const callAction = sinon.spy();
 
     const wrapper = setup({
       control: {
@@ -130,9 +132,10 @@ describe('Тесты EditableCell', function() {
         part: 'Ivanovich',
       },
       action,
-      callInvoke,
+      callAction,
       onResolve,
       onSetSelectedId,
+      dispatch,
     });
 
     wrapper
@@ -150,15 +153,6 @@ describe('Тесты EditableCell', function() {
 
     expect(onResolve.called).toEqual(true);
     expect(onSetSelectedId.called).toEqual(true);
-    expect(callInvoke.calledOnce).toEqual(true);
-    expect(callInvoke.getCall(0).args[0]).toEqual({
-      id: 1,
-      surname: 'Ivanov',
-      name: 'Sergey',
-      part: 'Ivanovich',
-    });
-    expect(callInvoke.getCall(0).args[1]).toEqual(
-      action.options.payload.dataProvider
-    );
+    expect(callAction.calledOnce).toBeTruthy();
   });
 });

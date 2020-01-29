@@ -19,7 +19,7 @@ const withActions = Component => {
 
   const mapStateToProps = (state, props) => {
     return {
-      containerKey: props.pageId,
+      entityKey: props.pageId,
       actions: makePageActionsByIdSelector(props.pageId)(state),
       toolbar: makePageToolbarByIdSelector(props.pageId)(state),
     };
