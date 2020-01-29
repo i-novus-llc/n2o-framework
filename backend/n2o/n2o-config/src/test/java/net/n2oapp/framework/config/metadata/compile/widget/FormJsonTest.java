@@ -1,8 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
 import org.junit.Before;
