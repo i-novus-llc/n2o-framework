@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * "Сырая" модель обычной страницы (page)
  */
-public class N2oSimplePage extends N2oBasePage {
+public class N2oSimplePage extends N2oPage {
 
     private N2oWidget widget;
 

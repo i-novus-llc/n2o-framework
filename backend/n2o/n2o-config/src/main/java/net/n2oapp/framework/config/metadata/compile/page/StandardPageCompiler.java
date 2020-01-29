@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2OStandardPage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -16,19 +16,19 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class StandardPageCompiler extends PageCompiler<N2oStandardPage> {
+public class StandardPageCompiler extends BasePageCompiler<N2OStandardPage> {
     @Override
     public Class<? extends Source> getSourceClass() {
-        return N2oStandardPage.class;
+        return N2OStandardPage.class;
     }
 
     @Override
-    public StandardPage compile(N2oStandardPage source, PageContext context, CompileProcessor p) {
+    public StandardPage compile(N2OStandardPage source, PageContext context, CompileProcessor p) {
         return compilePage(source, context, p, source.getRegions());
     }
 
     @Override
-    protected void initRegions(N2oStandardPage source, StandardPage page, CompileProcessor p, PageContext context,
+    protected void initRegions(N2OStandardPage source, StandardPage page, CompileProcessor p, PageContext context,
                                PageScope pageScope) {
         Map<String, List<Region>> regionMap = new HashMap<>();
         if (source.getRegions() != null) {

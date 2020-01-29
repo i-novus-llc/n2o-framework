@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.test;
 
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
@@ -47,7 +47,7 @@ public abstract class JsonMetadataTestBase extends N2oTestBase {
     }
 
     private CompileContext<?,?> getContext(CompileInfo info) {
-        if (N2oBasePage.class.isAssignableFrom(info.getBaseSourceClass()))
+        if (N2oPage.class.isAssignableFrom(info.getBaseSourceClass()))
             return new PageContext(info.getId());
         else if (N2oWidget.class.isAssignableFrom(info.getBaseSourceClass()))
             return new WidgetContext(info.getId());

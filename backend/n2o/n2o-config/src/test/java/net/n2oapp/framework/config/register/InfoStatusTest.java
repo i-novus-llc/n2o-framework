@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.register;
 import net.n2oapp.context.CacheTemplateByMapMock;
 import net.n2oapp.context.StaticSpringContext;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oSourceTypesPack;
@@ -51,23 +51,23 @@ public class InfoStatusTest {
     @Test
     public void testSystemServer() throws Exception {
         //system path
-        InfoConstructor info = new InfoConstructor(new ConfigId("page", metaModelRegister.get(N2oBasePage.class)));
+        InfoConstructor info = new InfoConstructor(new ConfigId("page", metaModelRegister.get(N2oPage.class)));
         info.setLocalPath("page.page.xml");
         Assert.assertTrue(InfoStatus.calculateStatusByFile(info) == InfoStatus.Status.SYSTEM);
 
         //system path, test dir
-        info = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info.setLocalPath("test/page.page.xml");
         Assert.assertTrue(InfoStatus.calculateStatusByFile(info) == InfoStatus.Status.SYSTEM);
 
         //server path
-        info = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info.setLocalPath("page.page.xml");
         info.setOverride(true);
         Assert.assertTrue(InfoStatus.calculateStatusByFile(info) == InfoStatus.Status.SERVER);
 
         //server path, test dir
-        info = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info.setLocalPath("test/page.page.xml");
         info.setOverride(true);
         Assert.assertTrue(InfoStatus.calculateStatusByFile(info) == InfoStatus.Status.SERVER);
@@ -95,11 +95,11 @@ public class InfoStatusTest {
         File unmodified = new File(tempFolder.getRoot().getAbsolutePath()+"/config/ancestor/testObj.object.xml");
         createFile("classpath:/net/n2oapp/framework/config/ancestor/testObj.object.xml",unmodified);
         //system -> server
-        info = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info.setLocalPath("config/ancestor/testObj.object.xml");
         info.setUri("classpath:/net/n2oapp/framework/config/ancestor/testObj.object.xml");
 
-        info2 = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        info2 = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info2.setLocalPath("config/ancestor/testObj.object.xml");
         info2.setUri(PathUtil.convertRootPathToUrl(modified.getAbsolutePath()));
         info2.setOverride(true);
@@ -110,10 +110,10 @@ public class InfoStatusTest {
     @Test
     public void testNotEqAncestor() throws Exception {
         //server2 -> system1
-        InfoConstructor info = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        InfoConstructor info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info.setUri("test1/page.page.xml");
         info.setLocalPath("test1/page.page.xml");
-        InfoConstructor info2 = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        InfoConstructor info2 = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info2.setLocalPath("test2/page.page.xml");
         info2.setUri("jar:/system/path/test2/page.page.xml");
         info2.setOverride(true);
@@ -121,10 +121,10 @@ public class InfoStatusTest {
         Assert.assertTrue(InfoStatus.calculateStatusByFile(info2) == InfoStatus.Status.DUPLICATE);
 
         //system1 -> server2
-        info = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info.setLocalPath("test1/page.page.xml");
         info.setUri("test1/page.page.xml");
-        info2 = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        info2 = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info2.setLocalPath("test2/page.page.xml");
         info2.setUri("jar:/system/path/test2/page.page.xml");
         info2.setOverride(true);
@@ -132,23 +132,23 @@ public class InfoStatusTest {
         Assert.assertTrue(InfoStatus.calculateStatusByFile(info) == InfoStatus.Status.DUPLICATE);
 
         //system1 -> system2
-        info = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info.setLocalPath("test1/page.page.xml");
         info.setUri("test1/page.page.xml");
-        info2 = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        info2 = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info2.setLocalPath("test2/page.page.xml");
         info2.setUri("jar:/system/path/test2/page.page.xml");
         info.setAncestor(info2);
         Assert.assertTrue(InfoStatus.calculateStatusByFile(info) == InfoStatus.Status.DUPLICATE);
 
         //server1 -> system2 -> system1
-        info = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        info = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info.setLocalPath("test1/page.page.xml");
         info.setUri("test1/page.page.xml");
-        info2 = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        info2 = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info2.setLocalPath("test2/page.page.xml");
         info2.setUri("jar:/system/path/test2/page.page.xml");
-        InfoConstructor info3 = new InfoConstructor("page", metaModelRegister.get(N2oBasePage.class));
+        InfoConstructor info3 = new InfoConstructor("page", metaModelRegister.get(N2oPage.class));
         info3.setLocalPath("test1/page.page.xml");
         info3.setUri("file:/config/path/test1/page.page.xml");
         info3.setOverride(true);

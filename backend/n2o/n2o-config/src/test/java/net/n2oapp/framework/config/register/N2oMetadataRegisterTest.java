@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.register;
 
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
@@ -38,7 +38,7 @@ public class N2oMetadataRegisterTest {
         assertThat(register.contains("test", N2oMetadata.class), is(false));
 
         //существование не дочернего класса
-        assertThat(register.contains("test", N2oBasePage.class), is(false));
+        assertThat(register.contains("test", N2oPage.class), is(false));
 
         //существование отсутствующего идентификатора
         assertThat(register.contains("test2", N2oWidget.class), is(false));

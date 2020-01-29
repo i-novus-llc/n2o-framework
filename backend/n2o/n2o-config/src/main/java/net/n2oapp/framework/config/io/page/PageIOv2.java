@@ -2,13 +2,13 @@ package net.n2oapp.framework.config.io.page;
 
 import net.n2oapp.framework.api.metadata.aware.BaseElementClassAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import org.jdom.Namespace;
 
 /**
  * Страница версии 2.0
  */
-public interface PageIOv2 extends NamespaceUriAware, BaseElementClassAware<N2oBasePage> {
+public interface PageIOv2 extends NamespaceUriAware, BaseElementClassAware<N2oPage> {
     Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/page-2.0");
 
 
@@ -23,8 +23,8 @@ public interface PageIOv2 extends NamespaceUriAware, BaseElementClassAware<N2oBa
     }
 
     @Override
-    default Class<N2oBasePage> getBaseElementClass() {
-        return N2oBasePage.class;
+    default Class<N2oPage> getBaseElementClass() {
+        return N2oPage.class;
     }
 
 }

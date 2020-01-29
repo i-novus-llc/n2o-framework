@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2OStandardPage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -20,13 +20,13 @@ import org.springframework.stereotype.Component;
  * Чтение\запись страницы  версии 2.0
  */
 @Component
-public class StandardPageElementIOv2 implements NamespaceIO<N2oStandardPage> {
+public class StandardPageElementIOv2 implements NamespaceIO<N2OStandardPage> {
     private Namespace regionDefaultNamespace = RegionIOv1.NAMESPACE;
     private Namespace pageDefaultNamespace = PageIOv2.NAMESPACE;
     private Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
 
     @Override
-    public void io(Element e, N2oStandardPage m, IOProcessor p) {
+    public void io(Element e, N2OStandardPage m, IOProcessor p) {
         p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "object-id", m::getObjectId, m::setObjectId);
@@ -52,13 +52,13 @@ public class StandardPageElementIOv2 implements NamespaceIO<N2oStandardPage> {
     }
 
     @Override
-    public Class<N2oStandardPage> getElementClass() {
-        return N2oStandardPage.class;
+    public Class<N2OStandardPage> getElementClass() {
+        return N2OStandardPage.class;
     }
 
     @Override
-    public N2oStandardPage newInstance(Element element) {
-        return new N2oStandardPage();
+    public N2OStandardPage newInstance(Element element) {
+        return new N2OStandardPage();
     }
 
     @Override

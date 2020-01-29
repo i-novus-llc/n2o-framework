@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.event.action.*;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCustomWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
@@ -85,7 +85,7 @@ public class WidgetXmlReaderTest {
 
     @Test
     public void refWidget() {
-        N2oBasePage page = pageReader.readByPath("net/n2oapp/framework/config/reader/widget/testWidgetReaderRefForm.page.xml");
+        N2oPage page = pageReader.readByPath("net/n2oapp/framework/config/reader/widget/testWidgetReaderRefForm.page.xml");
         assertRefWidget(page);
     }
 
@@ -199,7 +199,7 @@ public class WidgetXmlReaderTest {
         assert custom.getSrc().equals("test");
     }
 
-    protected void assertRefWidget(N2oBasePage page) {
+    protected void assertRefWidget(N2oPage page) {
         assert page.getContainers().size() == 3;
         assert page.getContainers().get(0).getId().equals("form");
         assert page.getContainers().get(1).getId().equals("table");

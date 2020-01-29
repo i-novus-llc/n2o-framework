@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class N2oLeftRightPage extends N2oPage {
+public class N2OLeftRightPage extends N2OBasePage {
 
     private N2oRegion[] left;
     private String leftWidth;

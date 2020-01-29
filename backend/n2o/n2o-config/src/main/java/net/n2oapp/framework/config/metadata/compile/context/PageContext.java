@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PageContext extends BaseCompileContext<Page, N2oBasePage> {
+public class PageContext extends BaseCompileContext<Page, N2oPage> {
 
     private List<Breadcrumb> breadcrumbs;
     /**
@@ -89,11 +89,11 @@ public class PageContext extends BaseCompileContext<Page, N2oBasePage> {
     private String clientPageId;
 
     public PageContext(String sourcePageId) {
-        super(sourcePageId, N2oBasePage.class, Page.class);
+        super(sourcePageId, N2oPage.class, Page.class);
     }
 
     public PageContext(String sourcePageId, String route) {
-        super(route, sourcePageId, N2oBasePage.class, Page.class);
+        super(route, sourcePageId, N2oPage.class, Page.class);
     }
 
     public PageContext(PageContext context) {

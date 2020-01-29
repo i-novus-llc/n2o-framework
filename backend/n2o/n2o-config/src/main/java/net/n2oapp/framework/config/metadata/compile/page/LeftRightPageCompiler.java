@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oLeftRightPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2OLeftRightPage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.meta.page.RegionWidth;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -14,20 +14,20 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component
-public class LeftRightPageCompiler extends PageCompiler<N2oLeftRightPage> {
+public class LeftRightPageCompiler extends BasePageCompiler<N2OLeftRightPage> {
     @Override
-    public StandardPage compile(N2oLeftRightPage source, PageContext context, CompileProcessor p) {
+    public StandardPage compile(N2OLeftRightPage source, PageContext context, CompileProcessor p) {
         List<N2oRegion> allRegions = new ArrayList<>();
         allRegions.addAll(Arrays.asList(source.getLeft()));
         allRegions.addAll(Arrays.asList(source.getRight()));
-        StandardPage page = compilePage(source, context, p, allRegions.toArray(new N2oRegion[allRegions.size()]));
+        StandardPage page = compilePage(source, context, p, allRegions.toArray(new N2oRegion[0]));
         page.setWidth(new RegionWidth(source.getLeftWidth(), source.getRightWidth()));
         page.setSrc("LeftRightPage");
         return page;
     }
 
     @Override
-    protected void initRegions(N2oLeftRightPage source, StandardPage page, CompileProcessor p, PageContext context, PageScope pageScope) {
+    protected void initRegions(N2OLeftRightPage source, StandardPage page, CompileProcessor p, PageContext context, PageScope pageScope) {
         Map<String, List<Region>> regionMap = new HashMap<>();
         IndexScope index = new IndexScope();
         mapRegion(source.getRight(), "right", regionMap, p, context, pageScope, index);
@@ -37,7 +37,7 @@ public class LeftRightPageCompiler extends PageCompiler<N2oLeftRightPage> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
-        return N2oLeftRightPage.class;
+        return N2OLeftRightPage.class;
     }
 
     private void mapRegion(N2oRegion[] regions, String position, Map<String, List<Region>> regionMap,

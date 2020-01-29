@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 
 @Component
-public class SimplePageCompiler extends BasePageCompiler<N2oSimplePage, SimplePage> {
+public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> {
 
     private static final String MAIN_WIDGET_ID = "main";
 
