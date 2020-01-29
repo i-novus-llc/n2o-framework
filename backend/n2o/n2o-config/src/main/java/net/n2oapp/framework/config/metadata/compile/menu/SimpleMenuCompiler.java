@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.menu;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
@@ -49,7 +49,7 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
             if (mi.getPageId() == null) {
                 item.setHref(mi.getHref());
             } else {
-                N2oPage page = p.getSource(mi.getPageId(), N2oPage.class);
+                N2oBasePage page = p.getSource(mi.getPageId(), N2oBasePage.class);
                 if (item.getLabel() == null) {
                     item.setLabel(page.getName() == null ? page.getId() : page.getName());
                 }

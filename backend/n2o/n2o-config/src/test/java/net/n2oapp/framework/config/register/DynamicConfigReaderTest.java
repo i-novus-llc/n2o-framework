@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.register;
 
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
@@ -30,7 +30,7 @@ public class DynamicConfigReaderTest {
                         setId(new N2oObject(), "amb?object1"))));
         JavaSourceLoader reader = new JavaSourceLoader(providerFactory, cache::add);
         //проверяем чтение
-        SourceMetadata metadata = reader.load(new JavaInfo("sec", N2oPage.class), "role");
+        SourceMetadata metadata = reader.load(new JavaInfo("sec", N2oBasePage.class), "role");
         assert metadata.getId().equals("sec?role");
         cache.clear();
         metadata = reader.load(new JavaInfo("sec", N2oObject.class), "role");
@@ -41,7 +41,7 @@ public class DynamicConfigReaderTest {
         assert ids.contains("sec?role");
         cache.clear();
         //проверяем чтение
-        metadata = reader.load(new JavaInfo("amb", N2oPage.class), "page1");
+        metadata = reader.load(new JavaInfo("amb", N2oBasePage.class), "page1");
         //проверяем кэширование
         ids = cache.stream().map(SourceMetadata::getId).collect(Collectors.toList());
         assert ids.size() == 3;
@@ -50,7 +50,7 @@ public class DynamicConfigReaderTest {
         assert ids.contains("amb?object1");
 
         assert metadata.getId().equals("amb?page1");
-        metadata = reader.load(new JavaInfo("amb", N2oPage.class), "page2");
+        metadata = reader.load(new JavaInfo("amb", N2oBasePage.class), "page2");
         assert metadata.getId().equals("amb?page2");
         metadata = reader.load(new JavaInfo("amb", N2oObject.class), "object1");
         assert metadata.getId().equals("amb?object1");

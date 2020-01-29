@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.event.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCustomWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTree;
@@ -127,7 +127,7 @@ public abstract class BaseWidgetReaderTest {
         assert custom.getSrc().equals("test");
     }
 
-    protected void assertRefWidget(N2oPage page) {
+    protected void assertRefWidget(N2oBasePage page) {
         assert page.getContainers().size() == 3;
         assert page.getContainers().get(0).getId().equals("form");
         assert page.getContainers().get(1).getId().equals("table");

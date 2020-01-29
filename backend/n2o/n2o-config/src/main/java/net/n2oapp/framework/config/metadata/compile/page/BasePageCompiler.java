@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
-import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
+import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
+import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageProperty;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
@@ -19,7 +19,7 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
  *
  * @param <S> Тип исходной модели страницы
  */
-public abstract class BasePageCompiler<S extends N2oPage, C extends Page> implements BaseSourceCompiler<C, S, PageContext> {
+public abstract class BasePageCompiler<S extends N2oBasePage, C extends Page> implements BaseSourceCompiler<C, S, PageContext> {
 
     /**
      * Получение базового маршрута страницы
@@ -29,7 +29,7 @@ public abstract class BasePageCompiler<S extends N2oPage, C extends Page> implem
      * @param p       Процессор сборки
      * @return Маршрут
      */
-    protected String initPageRoute(N2oPage source, PageContext context, CompileProcessor p) {
+    protected String initPageRoute(N2oBasePage source, PageContext context, CompileProcessor p) {
         return normalize(p.cast(context.getRoute((N2oCompileProcessor) p), source.getRoute(), normalize(source.getId())));
     }
 

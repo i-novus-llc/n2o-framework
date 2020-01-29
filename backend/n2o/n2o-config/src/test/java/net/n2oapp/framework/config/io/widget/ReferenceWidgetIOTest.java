@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.io.widget;
 
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.config.reader.page.PageXmlReaderV1;
 import net.n2oapp.framework.config.reader.widget.BaseWidgetReaderTest;
 import net.n2oapp.framework.config.reader.widget.widget3.FormXmlReaderV3;
@@ -23,7 +23,7 @@ public class ReferenceWidgetIOTest extends BaseWidgetReaderTest {
 
     @Test
     public void testRefForm() {
-        N2oPage page = pageReader.readByPath("net/n2oapp/framework/config/reader/widget/testWidgetBaseReaderRefForm.page.xml");
+        N2oBasePage page = pageReader.readByPath("net/n2oapp/framework/config/reader/widget/testWidgetBaseReaderRefForm.page.xml");
         assertRefWidget(page);
     }
 }

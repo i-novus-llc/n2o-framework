@@ -26,4 +26,7 @@ public class StandardPage extends Page {
 
     @JsonProperty
     private Map<String, Action> actions;
+
+    @JsonProperty
+    private RegionWidth width;
 }

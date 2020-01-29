@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.groovy;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.util.async.MultiThreadRunner;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 import org.junit.Ignore;
@@ -53,7 +53,7 @@ public class GroovyScriptProcessorTest {
         assert objects.stream().anyMatch(o -> o.getId().equals("object3"));
 
         //страницы
-        Set<N2oPage> pages = GroovyScriptProcessor.collectFromScript(content, N2oPage.class);
+        Set<N2oBasePage> pages = GroovyScriptProcessor.collectFromScript(content, N2oBasePage.class);
         assert pages.size() == 2;
         assert pages.stream().anyMatch(p -> p.getId().equals("page1"));
         assert pages.stream().anyMatch(p -> p.getId().equals("page2"));

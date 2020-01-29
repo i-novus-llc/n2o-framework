@@ -1,16 +1,16 @@
 package net.n2oapp.framework.access.metadata.schema.simple;
 
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.access.functions.StreamUtil;
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectAccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFiltersAccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oPageAccessPoint;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
-import net.n2oapp.framework.access.functions.StreamUtil;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
 
@@ -60,6 +60,6 @@ public class SimpleAccessSchemaValidator extends TypedMetadataValidator<N2oSimpl
 
     private void checkPageAccess(N2oPageAccessPoint pageAccessPoint, ValidateProcessor p) {
         p.checkNotNull(pageAccessPoint.getPage(), "Не задан page-id в page-access");
-        p.checkForExists(pageAccessPoint.getPage(), N2oPage.class, "Страница {0} заданая в page-access не существует");
+        p.checkForExists(pageAccessPoint.getPage(), N2oBasePage.class, "Страница {0} заданая в page-access не существует");
     }
 }

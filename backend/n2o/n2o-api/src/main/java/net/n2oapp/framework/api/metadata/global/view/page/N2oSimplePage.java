@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * "Сырая" модель простой страницы (simple-page)
+ * "Сырая" модель обычной страницы (page)
  */
-public class N2oSimplePage extends N2oPage {
+public class N2oSimplePage extends N2oBasePage {
 
     private N2oWidget widget;
 

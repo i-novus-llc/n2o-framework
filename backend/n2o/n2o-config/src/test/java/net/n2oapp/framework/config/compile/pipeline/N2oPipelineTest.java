@@ -5,8 +5,9 @@ import net.n2oapp.cache.template.CacheTemplate;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.*;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
@@ -14,9 +15,8 @@ import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.factory.MockMetadataFactory;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
 import net.n2oapp.framework.config.register.XmlInfo;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
@@ -28,9 +28,7 @@ import java.util.Properties;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 /**
@@ -80,15 +78,15 @@ public class N2oPipelineTest {
 
     @Test
     public void readPipeline() {
-        XmlInfo pageInfo = new XmlInfo("pageId", N2oPage.class, "", "");
+        XmlInfo pageInfo = new XmlInfo("pageId", N2oBasePage.class, "", "");
 
         when(metadataRegister.get("pageId", N2oSimplePage.class)).thenReturn(pageInfo);
-        when(metadataRegister.get("pageId", N2oPage.class)).thenReturn(pageInfo);
+        when(metadataRegister.get("pageId", N2oBasePage.class)).thenReturn(pageInfo);
 
         PageContext context = mock(PageContext.class);
         when(context.getSourceId(any())).thenReturn("pageId");
         when(context.getCompiledId(any())).thenReturn("pageId");
-        when(context.getSourceClass()).thenReturn(N2oPage.class);
+        when(context.getSourceClass()).thenReturn(N2oBasePage.class);
         when(context.getCompiledClass()).thenReturn(Page.class);
 
         //read
@@ -143,10 +141,10 @@ public class N2oPipelineTest {
 
     @Test
     public void compilePipeline() {
-        XmlInfo pageInfo = new XmlInfo("pageId", N2oPage.class, "", "");
+        XmlInfo pageInfo = new XmlInfo("pageId", N2oBasePage.class, "", "");
         when(metadataRegister.get("pageId", N2oSimplePage.class)).thenReturn(pageInfo);
-        when(metadataRegister.get("pageId", N2oPage.class)).thenReturn(pageInfo);
-        XmlInfo pageInfo2 = new XmlInfo("page2", N2oPage.class, "", "");
+        when(metadataRegister.get("pageId", N2oBasePage.class)).thenReturn(pageInfo);
+        XmlInfo pageInfo2 = new XmlInfo("page2", N2oBasePage.class, "", "");
         when(metadataRegister.get("page2", N2oSimplePage.class)).thenReturn(pageInfo2);
         N2oSimplePage page2 = new N2oSimplePage();
         page2.setId("page2");
@@ -155,7 +153,7 @@ public class N2oPipelineTest {
         PageContext context = mock(PageContext.class);
         when(context.getSourceId(any())).thenReturn("pageId");
         when(context.getCompiledId(any())).thenReturn("pageId");
-        when(context.getSourceClass()).thenReturn(N2oPage.class);
+        when(context.getSourceClass()).thenReturn(N2oBasePage.class);
         when(context.getCompiledClass()).thenReturn(Page.class);
 
         //compile
@@ -199,7 +197,7 @@ public class N2oPipelineTest {
         PageContext context = mock(PageContext.class);
         when(context.getSourceId(any())).thenReturn("pageId");
         when(context.getCompiledId(any())).thenReturn("pageId");
-        when(context.getSourceClass()).thenReturn(N2oPage.class);
+        when(context.getSourceClass()).thenReturn(N2oBasePage.class);
         when(context.getCompiledClass()).thenReturn(Page.class);
         DataSet data = new DataSet();
 

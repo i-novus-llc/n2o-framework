@@ -3,11 +3,11 @@ package net.n2oapp.framework.config.metadata.compile.dynamic;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oSqlQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -44,7 +44,7 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
                 .sources(new JavaInfo("testDynamic", N2oObject.class),
                         new JavaInfo("testDynamic", N2oQuery.class),
                         new JavaInfo("testDynamic", N2oTable.class),
-                        new JavaInfo("testDynamic", N2oPage.class),
+                        new JavaInfo("testDynamic", N2oBasePage.class),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/dynamic/formForTestDynamic.widget.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"))

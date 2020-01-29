@@ -1,11 +1,11 @@
 package net.n2oapp.framework.config;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
@@ -24,7 +24,7 @@ public class N2oApplicationBuilderTest {
                 .scanners(new MockInfoScanner())
                 .loaders(new XmlMetadataLoader(new ReaderFactoryByMap().register(new SimplePageElementIOv2())))
                 .compilers( new StandardPageCompiler())
-                .sources(new XmlInfo("test", N2oPage.class, "classpath:", "net/n2oapp/framework/config/test.page.xml"))
+                .sources(new XmlInfo("test", N2oBasePage.class, "classpath:", "net/n2oapp/framework/config/test.page.xml"))
                 .routes(new RouteInfo("/test", new PageContext("test")))
                 .scan()
                 .read()

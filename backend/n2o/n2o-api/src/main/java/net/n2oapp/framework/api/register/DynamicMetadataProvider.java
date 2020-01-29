@@ -1,14 +1,16 @@
 package net.n2oapp.framework.api.register;
 
-
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Поставщик динамических метаданных
@@ -34,7 +36,7 @@ public interface DynamicMetadataProvider {
     }
 
     default Collection<Class<? extends SourceMetadata>> getMetadataClasses() {
-        return Arrays.asList(N2oObject.class, N2oQuery.class, N2oPage.class, N2oWidget.class, N2oFieldSet.class);
+        return Arrays.asList(N2oObject.class, N2oQuery.class, N2oBasePage.class, N2oWidget.class, N2oFieldSet.class);
     }
 
     /**

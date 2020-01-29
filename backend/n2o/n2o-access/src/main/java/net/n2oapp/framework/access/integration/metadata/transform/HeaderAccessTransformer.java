@@ -5,7 +5,7 @@ import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSc
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.header.CompiledHeader;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
@@ -50,7 +50,7 @@ public class HeaderAccessTransformer extends BaseAccessTransformer<CompiledHeade
         if (si.getPageId() == null) {
             collectUrlAccess(si, si.getHref(), schema, p);
         } else {
-            String objectId = p.getSource(si.getPageId(), N2oPage.class).getObjectId();
+            String objectId = p.getSource(si.getPageId(), N2oBasePage.class).getObjectId();
             collectObjectAccess(si, objectId, null, schema, p);
         }
     }

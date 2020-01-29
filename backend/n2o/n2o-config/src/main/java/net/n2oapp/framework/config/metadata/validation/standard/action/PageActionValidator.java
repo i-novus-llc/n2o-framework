@@ -4,13 +4,11 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 
 /**
  * Валидатор действия открытия страницы
@@ -23,7 +21,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                 "Действие открытия страницы: " + source.getId() +
                         " ссылается на несуществующий объект: " + source.getObjectId());
 
-        p.checkForExists(source.getPageId(), N2oPage.class,
+        p.checkForExists(source.getPageId(), N2oBasePage.class,
                 "Действие открытия страницы: " + source.getId() +
                         " ссылается на несуществующую страницу: " + source.getPageId());
         if (source.getSubmitOperationId() != null && source.getObjectId() != null) {
