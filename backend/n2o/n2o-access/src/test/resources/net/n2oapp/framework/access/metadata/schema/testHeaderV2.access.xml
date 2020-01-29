@@ -12,8 +12,6 @@
         <page-access page-id="testHeaderAccessTransformer"/>
     </role>
     <permission id="permission">
-        <page-access page-id="test"/>
-        <object-access object-id="test" operations="create"/>
     </permission>
     <anonymous>
         <object-access object-id="testObjectAccessTransformer"/>
