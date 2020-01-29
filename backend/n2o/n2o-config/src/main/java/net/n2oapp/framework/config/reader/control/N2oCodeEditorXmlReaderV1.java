@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class N2oCodeEditorXmlReaderV1 extends N2oStandardControlReaderV1<N2oCodeEditor> {
+
     @Override
     public N2oCodeEditor read(Element element, Namespace namespace) {
         N2oCodeEditor codeEditor = new N2oCodeEditor();
