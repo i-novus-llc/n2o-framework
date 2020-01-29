@@ -7,7 +7,7 @@
         </toolbar>
         <actions>
             <action id="redirect">
-                <custom src="link" />
+                <perform src="link" />
             </action>
         </actions>
     </widget>

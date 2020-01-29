@@ -3422,7 +3422,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Apple
-                           
+
                           <span className=\\"label label-default\\">
                             <Icon name=\\"fa fa-apple\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3431,7 +3431,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Github
-                           
+
                           <span className=\\"label label-primary\\">
                             <Icon name=\\"fa fa-github\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3440,7 +3440,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Android
-                           
+
                           <span className=\\"label label-success\\">
                             <Icon name=\\"fa fa-android\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3449,7 +3449,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Telegram
-                           
+
                           <span className=\\"label label-danger\\">
                             <Icon name=\\"fa fa-telegram\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3577,7 +3577,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Apple
-                           
+
                           <span className=\\"label label-default\\">
                             <Icon name=\\"fa fa-apple\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3586,7 +3586,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Github
-                           
+
                           <span className=\\"label label-primary\\">
                             <Icon name=\\"fa fa-github\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3595,7 +3595,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Android
-                           
+
                           <span className=\\"label label-success\\">
                             <Icon name=\\"fa fa-android\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3604,7 +3604,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Telegram
-                           
+
                           <span className=\\"label label-danger\\">
                             <Icon name=\\"fa fa-telegram\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -4036,7 +4036,7 @@ exports[`Storyshots UI Компоненты/Меню слева Ограниче
                       <getContext(Connect(Security)) brand=\\"N2O Framework\\" brandImage=\\"https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2018/04/1525068825bootstrap-logo-png-logo-228.png\\" className=\\"\\" visible={true} userBox={{...}} extra={{...}} items={{...}} />
                       <div style={{...}}>
                         <small>
-                          Введите 
+                          Введите
                           <mark>
                             admin
                           </mark>
@@ -4087,7 +4087,7 @@ exports[`Storyshots UI Компоненты/Меню слева Ограниче
                       <getContext(Connect(Security)) brand=\\"N2O Framework\\" brandImage=\\"https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2018/04/1525068825bootstrap-logo-png-logo-228.png\\" className=\\"\\" visible={true} userBox={{...}} extra={{...}} items={{...}} />
                       <div style={{...}}>
                         <small>
-                          Введите 
+                          Введите
                           <mark>
                             admin
                           </mark>
@@ -10570,7 +10570,7 @@ exports[`Storyshots Виджеты/Таблица Ограничение дос�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -10619,7 +10619,7 @@ exports[`Storyshots Виджеты/Таблица Ограничение дос�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -11454,7 +11454,7 @@ exports[`Storyshots Виджеты/Форма Ограничение досту�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -11503,7 +11503,7 @@ exports[`Storyshots Виджеты/Форма Ограничение досту�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -12519,7 +12519,7 @@ exports[`Storyshots Действия Ограничение доступа на 
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -12565,7 +12565,7 @@ exports[`Storyshots Действия Ограничение доступа на 
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -12611,7 +12611,7 @@ exports[`Storyshots Действия Ограничение доступа на 
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -12657,7 +12657,7 @@ exports[`Storyshots Действия Ограничение доступа на 
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -13788,7 +13788,7 @@ exports[`Storyshots Кнопки/Тулбар Ограничение досту�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -13837,7 +13837,7 @@ exports[`Storyshots Кнопки/Тулбар Ограничение досту�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -14641,7 +14641,7 @@ exports[`Storyshots Контролы/InputSelect Компонент : C:\\Users\
         InputSelect
       </li>
       <li className=\\"breadcrumb-item active\\">
-        Компонент 
+        Компонент
       </li>
     </ol>
   </nav>
@@ -14679,7 +14679,7 @@ exports[`Storyshots Контролы/InputSelect Компонент : C:\\Users\
         InputSelect
       </li>
       <li className=\\"breadcrumb-item active\\">
-        Компонент 
+        Компонент
       </li>
     </ol>
   </nav>
@@ -15715,7 +15715,7 @@ exports[`Storyshots Контролы/InputSelectTree Компонент : C:\\Us
         InputSelectTree
       </li>
       <li className=\\"breadcrumb-item active\\">
-        Компонент 
+        Компонент
       </li>
     </ol>
   </nav>
@@ -15753,7 +15753,7 @@ exports[`Storyshots Контролы/InputSelectTree Компонент : C:\\Us
         InputSelectTree
       </li>
       <li className=\\"breadcrumb-item active\\">
-        Компонент 
+        Компонент
       </li>
     </ol>
   </nav>
@@ -22120,14 +22120,14 @@ exports[`Storyshots Контролы/Ползунок Тултип: C:\\Users\\s
                         tooltipFormatter:
                       </h4>
                       <div>
-                        tooltipFormatter = 
+                        tooltipFormatter =
                         <code>
                           &quot;\${this}%&quot;
                         </code>
                       </div>
                       <Component showTooltip={true} tooltipPlacement=\\"top\\" tooltipFormatter=\\"\${this}%\\" />
                       <div>
-                        tooltipFormatter = 
+                        tooltipFormatter =
                         <code>
                           &quot;t=\${this}℃&quot;
                         </code>
@@ -22201,14 +22201,14 @@ exports[`Storyshots Контролы/Ползунок Тултип: C:\\Users\\s
                         tooltipFormatter:
                       </h4>
                       <div>
-                        tooltipFormatter = 
+                        tooltipFormatter =
                         <code>
                           &quot;\${this}%&quot;
                         </code>
                       </div>
                       <Component showTooltip={true} tooltipPlacement=\\"top\\" tooltipFormatter=\\"\${this}%\\" />
                       <div>
-                        tooltipFormatter = 
+                        tooltipFormatter =
                         <code>
                           &quot;t=\${this}℃&quot;
                         </code>
@@ -23984,12 +23984,12 @@ exports[`Storyshots Ограничение доступа Аутентифика
                     <div>
                       <Connect(AuthButton) />
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
                         , чтобы увидеть старницу
-                         
+
                         <mark>
                           Администрирование
                         </mark>
@@ -24061,12 +24061,12 @@ exports[`Storyshots Ограничение доступа Аутентифика
                     <div>
                       <Connect(AuthButton) />
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
                         , чтобы увидеть старницу
-                         
+
                         <mark>
                           Администрирование
                         </mark>
@@ -24138,7 +24138,7 @@ exports[`Storyshots Ограничение доступа Использован
                     <div>
                       <Connect(AuthButton) />
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -24184,7 +24184,7 @@ exports[`Storyshots Ограничение доступа Использован
                     <div>
                       <Connect(AuthButton) />
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -25095,7 +25095,7 @@ exports[`Storyshots Регионы/Вкладки Автоматические �
                     <button className=\\"btn btn-secondary\\" onClick={[Function: onClick]}>
                       Скрыть виджет Page_Table_2
                     </button>
-                     
+
                     <button className=\\"btn btn-secondary\\" onClick={[Function: onClick]}>
                       Показать виджет Page_Table_2
                     </button>
@@ -25142,7 +25142,7 @@ exports[`Storyshots Регионы/Вкладки Автоматические �
                     <button className=\\"btn btn-secondary\\" onClick={[Function: onClick]}>
                       Скрыть виджет Page_Table_2
                     </button>
-                     
+
                     <button className=\\"btn btn-secondary\\" onClick={[Function: onClick]}>
                       Показать виджет Page_Table_2
                     </button>
@@ -25372,7 +25372,7 @@ exports[`Storyshots Регионы/Вкладки Ограничение дос�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -25421,7 +25421,7 @@ exports[`Storyshots Регионы/Вкладки Ограничение дос�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -25920,7 +25920,7 @@ exports[`Storyshots Регионы/Лист Ограничение доступ�
                   <Story info=\\"\\\\n      Компонент \\\\'Регион Список\\\\'\\\\n      ~~~js\\\\n      import ListRegion from \\\\'n2o-framework/lib/components/regions/List/ListRegion\\\\';\\\\n      \\\\n      <ListRegion \\\\n          pageId=\\"Page\\"\\\\n          items={[\\\\n            {\\\\n              \\"widgetId\\": \\"Page_Html\\",\\\\n              \\"label\\": \\"HTML\\",\\\\n              \\"opened\\": true\\\\n            },\\\\n            {\\\\n              \\"widgetId\\": \\"Page.SecureHtml\\",\\\\n              \\"label\\": \\"HTML (secure)\\",\\\\n              \\"opened\\": true,\\\\n              \\"security\\": {\\\\n                \\"roles\\": [\\"admin\\"]\\\\n              }\\\\n            }\\\\n          ]}\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -25969,7 +25969,7 @@ exports[`Storyshots Регионы/Лист Ограничение доступ�
                   <Story info=\\"\\\\n      Компонент \\\\'Регион Список\\\\'\\\\n      ~~~js\\\\n      import ListRegion from \\\\'n2o-framework/lib/components/regions/List/ListRegion\\\\';\\\\n      \\\\n      <ListRegion \\\\n          pageId=\\"Page\\"\\\\n          items={[\\\\n            {\\\\n              \\"widgetId\\": \\"Page_Html\\",\\\\n              \\"label\\": \\"HTML\\",\\\\n              \\"opened\\": true\\\\n            },\\\\n            {\\\\n              \\"widgetId\\": \\"Page.SecureHtml\\",\\\\n              \\"label\\": \\"HTML (secure)\\",\\\\n              \\"opened\\": true,\\\\n              \\"security\\": {\\\\n                \\"roles\\": [\\"admin\\"]\\\\n              }\\\\n            }\\\\n          ]}\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -26538,7 +26538,7 @@ exports[`Storyshots Регионы/Панель Ограничение дост�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -26587,7 +26587,7 @@ exports[`Storyshots Регионы/Панель Ограничение дост�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -28132,7 +28132,7 @@ exports[`Storyshots Ячейки/ButtonsCell Метаданные: C:\\Users\\sl
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -28181,7 +28181,7 @@ exports[`Storyshots Ячейки/ButtonsCell Метаданные: C:\\Users\\sl
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>

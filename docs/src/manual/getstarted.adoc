@@ -234,15 +234,19 @@ java -jar target/myproject-1.0.jar
 
 Приложение на N2O Framework может автоматически подхватывать изменения сделанные в N2O XML файлах.
 
-Для этого, при запуске сервера, в аргументе командной строки укажите путь к папке с XML файлами:
+Для этого, при запуске сервера, в аргументе командной строки укажите путь к проекту:
 ----
-java -jar target/myproject-1.0.jar --n2o.config.path=/myproject/src/main/resources/META-INF/conf
+java -jar target/myproject-1.0.jar --n2o.project.path=/myProject
 ----
+(в IDEA можно указать: Run/Debug Configurations -> Program arguments)
 
-При старте сервера в консоли командной строки будет напечатан путь,
+При старте сервера будет произведено сканирование директорий
+в больших проектах для ускорения сканирования - рекомендуется через запятую указать более точные пути
+
+в консоли командной строки будут напечатаны найденые пути,
 из которого N2O Framework будет брать XML файлы:
 ----
-n.n2oapp.framework.config.ConfigStarter  : Start monitoring path: /myproject/src/main/resources/META-INF/conf
+n.n2oapp.framework.config.ConfigStarter  : Start monitoring path: [/myProject/src/main/resources/META-INF/conf]
 net.n2oapp.watchdir.WatchDir             : WatchDir is started.
 n.n2oapp.framework.config.ConfigStarter  : N2O was started
 ----

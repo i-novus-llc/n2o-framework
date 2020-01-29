@@ -36,6 +36,7 @@ function Page(props, context) {
     metadata,
     loading,
     status,
+    toolbar,
     defaultTemplate: Template = React.Fragment,
     defaultErrorPages,
     page,
