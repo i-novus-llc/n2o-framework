@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Directi
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.api.metadata.io.NamespaceIOFactory;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
 import net.n2oapp.framework.config.io.control.ControlIOv2;
 import net.n2oapp.framework.config.io.fieldset.FieldsetIOv4;
@@ -79,7 +80,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
 
     private void column(Element e, N2oSimpleColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
-        p.anyChild(e, null, c::getCell, c::setCell, p.anyOf(N2oCell.class), CellIOv2.NAMESPACE);
+        p.anyChild(e, null, c::getCell, c::setCell, (NamespaceIOFactory) p.anyOf(N2oCell.class).ignore("dependencies"), CellIOv2.NAMESPACE);
     }
 
 

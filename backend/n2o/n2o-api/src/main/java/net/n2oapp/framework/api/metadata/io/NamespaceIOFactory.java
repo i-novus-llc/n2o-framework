@@ -27,6 +27,20 @@ public interface NamespaceIOFactory<T extends NamespaceUriAware, R extends Names
     NamespaceIOFactory<T, R, P> add(NamespaceIO<? extends T> nio);
 
     /**
+     * Игнорировать элементы
+     * @param elementNames Список элементов
+     * @return Фабрика
+     */
+    NamespaceIOFactory<T, R, P> ignore(String... elementNames);
+
+    /**
+     * Нужно ли игнорировать элемент
+     * @param elementName Имя элемента
+     * @return Фабрика
+     */
+    boolean isIgnored(String elementName);
+
+    /**
      * Добавить типизированный ридер / персистер
      * @param namespace Неймспейс
      * @param tio Типизированный ридер / персистер

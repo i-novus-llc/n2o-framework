@@ -8,10 +8,10 @@
                     <column visible="true" text-field-id=""></column>
                     <column text-field-id=""></column>
                     <column text-field-id="visibilityTest">
-                        <badge/>
                         <dependencies>
                             <visibility ref-widget-id="form" ref-model="resolve">type == 1</visibility>
                         </dependencies>
+                        <badge/>
                     </column>
                 </columns>
             </table>

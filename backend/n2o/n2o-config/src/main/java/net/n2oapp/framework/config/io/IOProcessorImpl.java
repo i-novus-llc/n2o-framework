@@ -20,7 +20,10 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -213,6 +216,8 @@ public final class IOProcessorImpl implements IOProcessor {
             }
             for (Object child : seqE.getChildren()) {
                 Element childE = (Element) child;
+                if (factory.isIgnored(childE.getName()))
+                    continue;
                 T childT = read(factory, childE, seqE.getNamespace(), defaultNamespace);
                 if (childT != null) {
                     setter.accept(childT);
@@ -339,7 +344,7 @@ public final class IOProcessorImpl implements IOProcessor {
     @Override
     @SuppressWarnings("unchecked")
     public void childrenToStringArray(Element element, String sequences, String childrenName,
-                               Supplier<String[]> getter, Consumer<String[]> setter) {
+                                      Supplier<String[]> getter, Consumer<String[]> setter) {
         if (r) {
             List<String> result = new ArrayList<>();
             Element seqE;
@@ -820,7 +825,7 @@ public final class IOProcessorImpl implements IOProcessor {
 
     @Override
     public void anyAttributes(Element element, Supplier<Map<N2oNamespace, Map<String, String>>> getter,
-                                    Consumer<Map<N2oNamespace, Map<String, String>>> setter) {
+                              Consumer<Map<N2oNamespace, Map<String, String>>> setter) {
         if (r) {
             N2oNamespace elementNamespace = new N2oNamespace(element.getNamespace());
             Map<N2oNamespace, Map<String, String>> extensions = new HashMap<>();
