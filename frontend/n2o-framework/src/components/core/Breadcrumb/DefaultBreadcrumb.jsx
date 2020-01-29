@@ -1,29 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { withState, withHandlers, compose } from 'recompose';
-import filter from 'lodash/filter';
-import head from 'lodash/head';
+import { withState, compose } from 'recompose';
 import isEmpty from 'lodash/isEmpty';
 import has from 'lodash/has';
 import isUndefined from 'lodash/isUndefined';
+import isNull from 'lodash/isNull';
 import Breadcrumb from 'reactstrap/lib/Breadcrumb';
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
 
 function DefaultBreadcrumb({ items, title, setTitle }) {
-  // const findInitTitle = items => {
-  //   if (!isEmpty(items)) {
-  //     const initItem = head(filter(items, item => item.path === '/'));
-  //     return has(initItem, 'title') ? initItem.title : '';
-  //   }
-  //   return '';
-  // };
-  // const initTitle = findInitTitle(items);
+  const findInitTitle = items => {
+    if (!isEmpty(items)) {
+      const initItem = items[items.length - 1];
+      return has(initItem, 'title') ? initItem.title : '';
+    }
+    return '';
+  };
+  const initTitle = findInitTitle(items);
   const crumbs = items.map(({ label, path, title }, index) => {
     return (
       <BreadcrumbItem key={index} active={index === items.length - 1}>
         {path && index !== items.length - 1 ? (
           <Link
-            onClick={() => !isUndefined(title) && setTitle(title)}
+            onClick={() =>
+              !isUndefined(title) ? setTitle(title) : setTitle('')
+            }
             to={path}
             key={index}
           >
@@ -38,9 +39,9 @@ function DefaultBreadcrumb({ items, title, setTitle }) {
   return (
     <>
       <Breadcrumb>{crumbs}</Breadcrumb>
-      <h1>{title}</h1>
+      {!isNull(title) ? <h1>{title}</h1> : <h1>{initTitle}</h1>}
     </>
   );
 }
 
-export default compose(withState('title', 'setTitle', ''))(DefaultBreadcrumb);
+export default compose(withState('title', 'setTitle', null))(DefaultBreadcrumb);

@@ -37,7 +37,8 @@
     },
     {
       "label": "Четвертая",
-      "path": "/test2"
+      "path": "/test2",
+      "title": "Четвертая"
     }
   ],
   "widgets": {
