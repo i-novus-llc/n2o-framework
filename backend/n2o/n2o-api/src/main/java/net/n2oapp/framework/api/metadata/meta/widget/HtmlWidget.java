@@ -11,5 +11,5 @@ import lombok.Setter;
 @Setter
 public class HtmlWidget extends Widget {
     @JsonProperty
-    private String url;
+    private String html;
 }
