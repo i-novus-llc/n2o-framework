@@ -23,6 +23,8 @@ public class HeaderItem implements Compiled, PropertiesAware {
     @JsonProperty
     private String icon;
     @JsonProperty
+    private String target;
+    @JsonProperty
     private SimpleMenu subItems;
     @JsonProperty("type")
     private String type;
