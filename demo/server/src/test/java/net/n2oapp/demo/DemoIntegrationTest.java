@@ -52,6 +52,11 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testSurnameCell() {
+        protoPage.testSurnameCell();
+    }
+
+    @Test
     public void testTableEditBirthday() {
         protoPage.testTableEditBirthday();
     }

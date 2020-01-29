@@ -69,6 +69,32 @@ public class ProtoPage implements ProtoPageSelectors {
     }
 
     /**
+     * Проверка работы ячейки Фамилия
+     */
+    public void testSurnameCell() {
+        getRowElements(getMainTable(), 4).get(0).$(".btn").click();
+        SelenideElement openPage = getPage();
+        getBreadcrumbActiveItem().shouldHave(Condition.text("Карточка клиента: "));
+
+        getInput(openPage, "Фамилия").shouldHave(Condition.value("Вольваков"));
+        getInput(openPage, "Имя").shouldHave(Condition.value("Вениамин"));
+        getInput(openPage, "Отчество").shouldHave(Condition.value("Тихонович"));
+        getRadioButton(openPage, "Мужской").$("input").shouldBe(Condition.checked);
+        getInputDate(openPage, "Дата рождения").shouldHave(Condition.value("04.06.1932"));
+        getCheckbox(openPage, "VIP").$("input").shouldBe(Condition.checked);
+
+        getInput(openPage, "Фамилия").setValue("Сергеев");
+        getInput(openPage, "Имя").setValue("Николай");
+        getInput(openPage, "Отчество").setValue("Петрович");
+        getButton(openPage, "Сохранить").click();
+
+        getMainTablePaginationActiveButton().shouldHave(Condition.text("1"));
+        getRowElements(getMainTable(), 4).get(0).shouldHave(Condition.text("Сергеев"));
+        getRowElements(getMainTable(), 4).get(1).shouldHave(Condition.text("Николай"));
+        getRowElements(getMainTable(), 4).get(2).shouldHave(Condition.text("Петрович"));
+    }
+
+    /**
      * Проверка редактирования даты в таблице
      */
     public void testTableEditBirthday() {
