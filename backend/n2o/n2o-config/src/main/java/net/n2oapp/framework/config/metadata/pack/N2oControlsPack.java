@@ -20,6 +20,7 @@ public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
                 new CheckboxGroupCompiler(),
                 new TextEditorCompiler(),
                 new CodeEditorCompiler(),
+                new CodeViewerCompiler(),
                 new MaskedInputCompiler(),
                 new HtmlControlCompiler(),
                 new TextAreaCompiler(),
