@@ -20,8 +20,9 @@ public class LeftRightPageCompiler extends PageCompiler<N2oLeftRightPage> {
         List<N2oRegion> allRegions = new ArrayList<>();
         allRegions.addAll(Arrays.asList(source.getLeft()));
         allRegions.addAll(Arrays.asList(source.getRight()));
-        StandardPage page = compilePage(source, context, p, allRegions.toArray(N2oRegion[]::new));
+        StandardPage page = compilePage(source, context, p, allRegions.toArray(new N2oRegion[allRegions.size()]));
         page.setWidth(new RegionWidth(source.getLeftWidth(), source.getRightWidth()));
+        page.setSrc("LeftRightPage");
         return page;
     }
 
