@@ -244,6 +244,47 @@ public class ProtoPage implements ProtoPageSelectors {
     }
 
     /**
+     * Проверка изменения клиента через окно с бредкрампом
+     */
+    public void assertUpdateClientFromBreadcrumbPage() {
+        SelenideElement mainPage = getPage();
+        List<String> row = getRow(getMainTableRows(), 3);
+
+        String surname = row.get(0);
+        String name = row.get(1);
+        String patronymic = row.get(2);
+        String birthDate = row.get(3);
+        String gender = row.get(4);
+        String vip = "true".equals(row.get(5)) ? "true" : "false";
+
+        ElementsCollection rowElements = getRowElements(mainPage, 3);
+        rowElements.get(4).shouldBe(Condition.exist).click();
+        SelenideElement editButton = mainPage.$(".fa-edit").shouldBe(Condition.exist);
+        editButton.click();
+
+        SelenideElement openPage = getPage();
+        getInput(openPage, "Фамилия").shouldHave(Condition.value(surname));
+        getInput(openPage, "Имя").shouldHave(Condition.value(name));
+        getInput(openPage, "Отчество").shouldHave(Condition.value(patronymic));
+        getRadioButton(openPage, gender).shouldHave(Condition.cssClass("checked"));
+        getInputDate(openPage, "Дата рождения").shouldHave(Condition.value(birthDate));
+        getCheckbox(openPage, "VIP").$("input").shouldHave(Condition.attribute("value", vip));
+
+        getInput(openPage, "Фамилия").setValue("Иванова");
+        getInput(openPage, "Имя").setValue("Наталья");
+        getInput(openPage, "Отчество").setValue("Петровна");
+        getButton(openPage, "Сохранить").click();
+
+        getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
+
+        rowElements = getRowElements(mainPage, 3);
+        rowElements.get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
+        rowElements.shouldHave(CollectionCondition.texts("Иванова", "Наталья", "Петровна", birthDate, gender, "", ""));
+        rowElements.get(5).$("input")
+                .shouldHave("true".equals(vip) ? Condition.attribute("checked") : Condition.not(Condition.attribute("checked")));
+    }
+
+    /**
      * Просмотр клиента через модальное окно
      */
     public void assertViewClient() {

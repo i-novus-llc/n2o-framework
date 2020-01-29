@@ -77,6 +77,11 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testUpdateClientFromBreadcrumbPage() {
+        protoPage.assertUpdateClientFromBreadcrumbPage();
+    }
+
+    @Test
     public void testViewClient() {
         protoPage.assertViewClient();
     }
