@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
-import net.n2oapp.framework.api.metadata.global.view.page.N2OLeftRightPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oLeftRightPage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -19,13 +19,13 @@ import org.springframework.stereotype.Component;
  * Чтение\запись страницы c двумя регионами версии 2.0
  */
 @Component
-public class LeftRightPageElementIOV2 implements NamespaceIO<N2OLeftRightPage> {
+public class LeftRightPageElementIOV2 implements NamespaceIO<N2oLeftRightPage> {
     private Namespace regionDefaultNamespace = RegionIOv1.NAMESPACE;
     private Namespace pageDefaultNamespace = PageIOv2.NAMESPACE;
     private Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
 
     @Override
-    public void io(Element e, N2OLeftRightPage m, IOProcessor p) {
+    public void io(Element e, N2oLeftRightPage m, IOProcessor p) {
         p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "object-id", m::getObjectId, m::setObjectId);
@@ -54,13 +54,13 @@ public class LeftRightPageElementIOV2 implements NamespaceIO<N2OLeftRightPage> {
     }
 
     @Override
-    public Class<N2OLeftRightPage> getElementClass() {
-        return N2OLeftRightPage.class;
+    public Class<N2oLeftRightPage> getElementClass() {
+        return N2oLeftRightPage.class;
     }
 
     @Override
-    public N2OLeftRightPage newInstance(Element element) {
-        return new N2OLeftRightPage();
+    public N2oLeftRightPage newInstance(Element element) {
+        return new N2oLeftRightPage();
     }
 
     @Override

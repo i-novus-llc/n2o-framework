@@ -81,4 +81,6 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> implements
             pageProperty.setModelLink(context.getParentModelLink());
         return pageProperty;
     }
+
+    protected abstract String getPropertyPageSrc();
 }

@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * "Сырая" модель обычной страницы (page)
+ * "Сырая" модель простой страницы (simple-page)
  */
 public class N2oSimplePage extends N2oPage {
 

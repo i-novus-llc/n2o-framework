@@ -10,9 +10,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Модель страницы с правыми и левыми регионами (left-right-page)
+ */
 @Getter
 @Setter
-public class N2OLeftRightPage extends N2OBasePage {
+public class N2oLeftRightPage extends N2oBasePage {
 
     private N2oRegion[] left;
     private String leftWidth;

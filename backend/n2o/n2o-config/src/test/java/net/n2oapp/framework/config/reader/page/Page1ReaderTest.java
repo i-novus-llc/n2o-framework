@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.reader.page;
 
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.global.view.page.N2OStandardPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
 import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ public class Page1ReaderTest {
 
     @Test
     public void testPage1ReaderWithRegions() throws Exception{
-        N2OStandardPage page = new SelectiveStandardReader().addReader(new PageXmlReaderV1()).addWidgetReaderV3().addFieldSet3Reader()
+        N2oStandardPage page = new SelectiveStandardReader().addReader(new PageXmlReaderV1()).addWidgetReaderV3().addFieldSet3Reader()
                 .readByPath("net/n2oapp/framework/config/reader/page/testPageElementReaderV1WithRegions.page.xml");
         assert page.getPostfix().equals("page");
         assert page.getName().equals("pageV1");
@@ -42,7 +42,7 @@ public class Page1ReaderTest {
 
     @Test
     public void testPage1ReaderWithContainers() {
-        N2OStandardPage page = new SelectiveStandardReader().addReader(new PageXmlReaderV1()).addWidgetReaderV3().addFieldSet3Reader()
+        N2oStandardPage page = new SelectiveStandardReader().addReader(new PageXmlReaderV1()).addWidgetReaderV3().addFieldSet3Reader()
                 .readByPath("net/n2oapp/framework/config/reader/page/testPageElementReaderV1WithContainers.page.xml");
         assert page.getPostfix().equals("page");
         assert page.getName().equals("pageV1");

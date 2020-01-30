@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.register.mock;
 
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.global.view.page.N2OStandardPage;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
 import net.n2oapp.framework.api.register.DynamicMetadataProvider;
 
 import java.util.Arrays;
@@ -40,7 +40,7 @@ public class TestDynamicMetadataProvider implements DynamicMetadataProvider {
     @Override
     public List<? extends N2oMetadata> read(String context) {
         if (autogen) {
-            N2oPage page = new N2OStandardPage();
+            N2oPage page = new N2oStandardPage();
             page.setId(code+'$'+context);
             return Arrays.asList(page);
         }

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.reader.page;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
-import net.n2oapp.framework.api.metadata.global.view.page.N2OStandardPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
 import net.n2oapp.framework.api.metadata.global.view.region.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.reader.AbstractFactoredReader;
@@ -24,13 +24,13 @@ import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
  * Считывает страницу версии 1.0
  */
 @Component
-public class PageXmlReaderV1 extends AbstractFactoredReader<N2OStandardPage> {
+public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
 
     @Override
-    public N2OStandardPage read(Element root, Namespace namespace) {
+    public N2oStandardPage read(Element root, Namespace namespace) {
         String elementName = root.getName();
         if (!elementName.equals("page")) throw new MetadataReaderException("element <page> not found");
-        N2OStandardPage n2oPage = new N2OStandardPage();
+        N2oStandardPage n2oPage = new N2oStandardPage();
         n2oPage.setObjectId(ReaderJdomUtil.getElementString(root, "object-id"));
         n2oPage.setName(ReaderJdomUtil.getElementString(root, "name"));
         n2oPage.setSrc(ReaderJdomUtil.getElementString(root, "src"));
@@ -50,7 +50,7 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2OStandardPage> {
         return n2oPage;
     }
 
-    private void readRegions(N2OStandardPage n2oPage, List<N2oRegion> regions, Element regionsElem) {
+    private void readRegions(N2oStandardPage n2oPage, List<N2oRegion> regions, Element regionsElem) {
         n2oPage.setResultContainer(getAttributeString(regionsElem, "result-container"));
         List regionElements = regionsElem.getChildren();
         for (Object r : regionElements) {
@@ -100,7 +100,7 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2OStandardPage> {
         return region;
     }
 
-    private void readContainers(N2OStandardPage n2oPage, List<N2oRegion> regions, Element containers) {
+    private void readContainers(N2oStandardPage n2oPage, List<N2oRegion> regions, Element containers) {
         n2oPage.setResultContainer(getAttributeString(containers, "result-container"));
         List containerElements = containers.getChildren();
         for(Object c : containerElements) {
@@ -144,8 +144,8 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2OStandardPage> {
     }
 
     @Override
-    public Class<N2OStandardPage> getElementClass() {
-        return N2OStandardPage.class;
+    public Class<N2oStandardPage> getElementClass() {
+        return N2oStandardPage.class;
     }
 
     @Override

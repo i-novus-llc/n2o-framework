@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
-import net.n2oapp.framework.api.metadata.global.view.page.N2OBasePage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
-public abstract class BasePageCompiler<S extends N2OBasePage> extends PageCompiler<S, StandardPage> {
+public abstract class BasePageCompiler<S extends N2oBasePage> extends PageCompiler<S, StandardPage> {
 
     protected abstract void initRegions(S source, StandardPage page, CompileProcessor p, PageContext context, PageScope pageScope);
 
@@ -75,7 +75,7 @@ public abstract class BasePageCompiler<S extends N2OBasePage> extends PageCompil
         initRegions(source, page, p, context, pageScope);
         CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
         page.setObject(object);
-        page.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.page.src"), String.class)));
+        page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
         page.setProperties(p.mapAttributes(source));
         if (context.getSubmitOperationId() != null)
             initToolbarGenerate(source, resultWidgetId);

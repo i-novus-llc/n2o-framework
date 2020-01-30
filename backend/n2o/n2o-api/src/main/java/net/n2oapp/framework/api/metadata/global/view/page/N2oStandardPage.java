@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class N2OStandardPage extends N2OBasePage {
+public class N2oStandardPage extends N2oBasePage {
     private N2oRegion[] regions;
 
     @Override

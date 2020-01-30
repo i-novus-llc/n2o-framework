@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.register;
 
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.global.view.page.N2OStandardPage;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.mock.TestDynamicMetadataProvider;
@@ -22,11 +22,11 @@ public class DynamicConfigReaderTest {
         N2oDynamicMetadataProviderFactory providerFactory = new N2oDynamicMetadataProviderFactory();
         providerFactory.add(
                 new TestDynamicMetadataProvider("sec", asList(
-                        setId(new N2OStandardPage(), "sec?role"),
+                        setId(new N2oStandardPage(), "sec?role"),
                         setId(new N2oObject(), "sec?role"))),
                 new TestDynamicMetadataProvider("amb", asList(
-                        setId(new N2OStandardPage(), "amb?page1"),
-                        setId(new N2OStandardPage(), "amb?page2"),
+                        setId(new N2oStandardPage(), "amb?page1"),
+                        setId(new N2oStandardPage(), "amb?page2"),
                         setId(new N2oObject(), "amb?object1"))));
         JavaSourceLoader reader = new JavaSourceLoader(providerFactory, cache::add);
         //проверяем чтение
