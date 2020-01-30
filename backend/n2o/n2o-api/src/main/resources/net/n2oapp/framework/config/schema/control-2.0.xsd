@@ -3,6 +3,7 @@
            targetNamespace="http://n2oapp.net/framework/config/schema/control-2.0"
            xmlns:obj="http://n2oapp.net/framework/config/schema/object-3.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-1.0"
+           xmlns:btn="http://n2oapp.net/framework/config/schema/button-1.0"
            xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0">
 
 
@@ -34,6 +35,7 @@
     <xs:element name="rating" type="controlRating"/>
     <xs:element name="alert" type="controlAlertDefinition"/>
     <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
+    <xs:element name="button" type="btn:buttonDefinition"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -66,6 +68,7 @@
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
             <xs:element name="alert" type="controlAlertDefinition" minOccurs="0"/>
             <xs:element name="auto-complete" type="controlAutoCompleteDefinition" minOccurs="0"/>
+            <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
