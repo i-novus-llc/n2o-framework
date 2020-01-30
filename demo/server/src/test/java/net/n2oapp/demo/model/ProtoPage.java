@@ -95,6 +95,31 @@ public class ProtoPage implements ProtoPageSelectors {
     }
 
     /**
+     * Проверка работы ячейки Имя
+     */
+    public void testNameCell() {
+        getRowElements(getMainTable(), 5).get(1).$(".btn").click();
+        SelenideElement modalPage = getModalPage().shouldBe(Condition.exist);
+
+        getInput(modalPage, "Фамилия").shouldHave(Condition.value("Дуванова"));
+        getInput(modalPage, "Имя").shouldHave(Condition.value("Ольга"));
+        getInput(modalPage, "Отчество").shouldHave(Condition.value("Юлиевна"));
+        getRadioButton(modalPage, "Женский").$("input").shouldBe(Condition.checked);
+        getInputDate(modalPage, "Дата рождения").shouldHave(Condition.value("02.09.1932"));
+        getCheckbox(modalPage, "VIP").$("input").shouldBe(Condition.checked);
+
+        getInput(modalPage, "Фамилия").setValue("Григорьева");
+        getInput(modalPage, "Имя").setValue("Александра");
+        getInput(modalPage, "Отчество").setValue("Петровна");
+        getButton(modalPage, "Сохранить").click();
+
+        getMainTablePaginationActiveButton().shouldHave(Condition.text("1"));
+        getRowElements(getMainTable(), 5).get(0).shouldHave(Condition.text("Григорьева"));
+        getRowElements(getMainTable(), 5).get(1).shouldHave(Condition.text("Александра"));
+        getRowElements(getMainTable(), 5).get(2).shouldHave(Condition.text("Петровна"));
+    }
+
+    /**
      * Проверка работы ячейки Отчество
      */
     public void testPatronymicCell() {

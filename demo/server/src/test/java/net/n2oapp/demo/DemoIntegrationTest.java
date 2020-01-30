@@ -57,6 +57,11 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testNameCell() {
+        protoPage.testNameCell();
+    }
+
+    @Test
     public void testPatronymicCell() {
         protoPage.testPatronymicCell();
     }
