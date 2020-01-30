@@ -15,23 +15,24 @@ import net.n2oapp.watchdir.FileChangeListener;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Collection;
 import java.util.List;
 
 /**
- * Слушатель измениний xml файлов метаданных в папке ${n2o.config.path}
+ * Слушатель измениний xml файлов метаданных в папке ${n2o.config.path && n2o.project.path}
  */
 public class XMLChangeListener implements FileChangeListener {
     private static final Logger log = LoggerFactory.getLogger(XMLChangeListener.class);
-    private final String watchFolderPath;
+    private final Collection<String> watchFolderPaths;
     private final MetadataRegister configRegister;
     private final SourceTypeRegister sourceTypeRegister;
     private final N2oEventBus eventBus;
 
-    public XMLChangeListener(String configPath,
+    public XMLChangeListener(Collection<String> configPath,
                              MetadataRegister configRegister,
                              SourceTypeRegister sourceTypeRegister,
                              N2oEventBus eventBus) {
-        this.watchFolderPath = configPath;
+        this.watchFolderPaths = configPath;
         this.configRegister = configRegister;
         this.sourceTypeRegister = sourceTypeRegister;
         this.eventBus = eventBus;
@@ -104,7 +105,7 @@ public class XMLChangeListener implements FileChangeListener {
     private void deleteSourceFromMemoryByPath(String path) {
         if (path.lastIndexOf('/') <= path.lastIndexOf('.')) return; //Хак для отсеивания временных файлов
 
-        Node node = Node.byAbsolutePath(path, watchFolderPath);
+        Node node = Node.byAbsolutePath(path, getConfigPath(path));
         List<SourceInfo> sourceInfoList = configRegister.find(s -> s instanceof FileInfo && ((FileInfo) s).getLocalPath().startsWith(node.getLocalPath()));
         for (SourceInfo info : sourceInfoList) {
             configRegister.remove(info.getId(), info.getBaseSourceClass());
@@ -114,7 +115,7 @@ public class XMLChangeListener implements FileChangeListener {
     }
 
     private SourceInfo getSourceInfo(String path) {
-        return RegisterUtil.createFolderInfo(Node.byAbsolutePath(path, watchFolderPath), sourceTypeRegister);
+        return RegisterUtil.createFolderInfo(Node.byAbsolutePath(path, getConfigPath(path)), sourceTypeRegister);
     }
 
     private void addSourceFromMemory(Path path) {
@@ -127,6 +128,13 @@ public class XMLChangeListener implements FileChangeListener {
     private static boolean isXMl(Path file) {
         String fileName = "" + file.getFileName();
         return fileName.toLowerCase().endsWith(".xml");
+    }
+
+    private String getConfigPath(String file) {
+        for (String path : watchFolderPaths) {
+            if (file.startsWith(path)) return path;
+        }
+        return "";
     }
 
 }

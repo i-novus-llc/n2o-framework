@@ -7,7 +7,7 @@ import StandardWidgetLayout from '../layouts/StandardWidgetLayout/StandardWidget
 import Section from '../layouts/Section';
 import WidgetAlerts from './WidgetAlerts';
 import WidgetFilters from './WidgetFilters';
-import Actions from '../actions/Actions';
+import Toolbar from '../buttons/Toolbar';
 
 /**
  * Виджет таблица
@@ -20,7 +20,7 @@ import Actions from '../actions/Actions';
  */
 class StandardWidget extends React.Component {
   renderSection(place) {
-    const { widgetId, toolbar, actions, filter } = this.props;
+    const { widgetId, toolbar, filter } = this.props;
     if (this.props[place] && React.isValidElement(this.props[place]))
       return this.props[place];
     const filterProps = {
@@ -33,37 +33,13 @@ class StandardWidget extends React.Component {
       case 'top':
         return <WidgetFilters widgetId={widgetId} {...filterProps} />;
       case 'topLeft':
-        return (
-          <Actions
-            toolbar={toolbar.topLeft}
-            actions={actions}
-            containerKey={widgetId}
-          />
-        );
+        return <Toolbar toolbar={toolbar.topLeft} entityKey={widgetId} />;
       case 'topRight':
-        return (
-          <Actions
-            toolbar={toolbar.topRight}
-            actions={actions}
-            containerKey={widgetId}
-          />
-        );
+        return <Toolbar toolbar={toolbar.topRight} entityKey={widgetId} />;
       case 'bottomLeft':
-        return (
-          <Actions
-            toolbar={toolbar.bottomLeft}
-            actions={actions}
-            containerKey={widgetId}
-          />
-        );
+        return <Toolbar toolbar={toolbar.bottomLeft} entityKey={widgetId} />;
       case 'bottomRight':
-        return (
-          <Actions
-            toolbar={toolbar.bottomRight}
-            actions={actions}
-            containerKey={widgetId}
-          />
-        );
+        return <Toolbar toolbar={toolbar.bottomRight} entityKey={widgetId} />;
       case 'right':
         return <WidgetFilters widgetId={widgetId} {...filterProps} />;
       default:
