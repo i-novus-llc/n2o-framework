@@ -31,7 +31,9 @@ public interface ProtoPageSelectors {
         return $(".n2o-filter");
     }
 
-    /////
+    default SelenideElement getMainTablePagination() {
+        return $(".n2o-pagination");
+    }
 
     default SelenideElement getTableHeaderSurname() {
         return getMainTableHead().$(Selectors.byText("Фамилия"));
@@ -45,11 +47,15 @@ public interface ProtoPageSelectors {
         return BasePage.getButton(getMainTableFilter(), ("Сбросить"));
     }
 
-    default SelenideElement getMainTablePaginationButton(Integer idx) {
-        return $$(".pagination li").get(idx);
+    default SelenideElement getMainTablePaginationButton(int idx) {
+        return getMainTablePagination().$$(".page-item").get(idx);
+    }
+
+    default SelenideElement getMainTablePaginationActiveButton() {
+        return getMainTablePagination().$(".page-item.active");
     }
 
     default SelenideElement getMainTablePaginationInfo() {
-        return $(".n2o-pagination .n2o-pagination-info");
+        return getMainTablePagination().$(".n2o-pagination-info");
     }
 }
