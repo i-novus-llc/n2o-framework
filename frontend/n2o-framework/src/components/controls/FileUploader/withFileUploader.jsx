@@ -152,7 +152,7 @@ const FileUploaderControl = WrappedComponent => {
           uploaderClass: null,
         },
         () => {
-          if (!autoUpload) {
+          if (autoUpload) {
             this.startUpload(files);
           } else {
             onChange(files);
