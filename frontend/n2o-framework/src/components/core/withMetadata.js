@@ -11,6 +11,7 @@ import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 
 import { metadataRequest, resetPage, mapUrl } from '../../actions/pages';
+import { destroyModal } from '../../actions/modals';
 import {
   makePageMetadataByIdSelector,
   makePageLoadingByIdSelector,
@@ -142,7 +143,7 @@ const withMetadata = Component => {
     return {
       getMetadata: (pageId, pageUrl, pageMapping, rootPage) =>
         dispatch(metadataRequest(pageId, rootPage, pageUrl, pageMapping)),
-      reset: pageId => dispatch(resetPage(pageId)),
+      reset: pageId => dispatch(resetPage(pageId)) && dispatch(destroyModal()),
       routeMap: pageId => dispatch(mapUrl(pageId)),
     };
   }

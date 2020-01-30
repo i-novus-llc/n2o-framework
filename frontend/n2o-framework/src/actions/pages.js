@@ -59,7 +59,7 @@ export function mapUrl(pageId) {
  * @param pageId
  */
 export function resetPage(pageId) {
-  return createActionHelper(DESTROY)() && createActionHelper(RESET)({ pageId });
+  return createActionHelper(RESET)({ pageId });
 }
 
 /**
