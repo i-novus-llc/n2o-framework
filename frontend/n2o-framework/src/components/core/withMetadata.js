@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { batchActions } from 'redux-batched-actions';
 import PropTypes from 'prop-types';
 import { compose, withProps, pure } from 'recompose';
 import { createStructuredSelector } from 'reselect';
@@ -11,6 +12,7 @@ import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 
 import { metadataRequest, resetPage, mapUrl } from '../../actions/pages';
+import { destroyModal } from '../../actions/modals';
 import {
   makePageMetadataByIdSelector,
   makePageLoadingByIdSelector,
@@ -145,7 +147,8 @@ const withMetadata = Component => {
     return {
       getMetadata: (pageId, pageUrl, pageMapping, rootPage) =>
         dispatch(metadataRequest(pageId, rootPage, pageUrl, pageMapping)),
-      reset: pageId => dispatch(resetPage(pageId)),
+      reset: pageId =>
+        dispatch(batchActions([resetPage(pageId), destroyModal()])),
       routeMap: pageId => dispatch(mapUrl(pageId)),
     };
   }
