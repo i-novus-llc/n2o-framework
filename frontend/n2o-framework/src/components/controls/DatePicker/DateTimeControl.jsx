@@ -301,6 +301,7 @@ class DateTimeControl extends React.Component {
     const { inputs, isPopUpVisible, placement } = this.state;
     const popUp = (
       <PopUp
+        dateFormat={this.props.dateFormat}
         time={this.defaultTime}
         type={this.props.type}
         isTimeSet={this.state.isTimeSet}
