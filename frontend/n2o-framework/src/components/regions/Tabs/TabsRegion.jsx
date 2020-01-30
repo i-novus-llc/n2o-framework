@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
-import isUndefined from 'lodash/isUndefined';
 import pull from 'lodash/pull';
+import get from 'lodash/get';
 import { compose, setDisplayName } from 'recompose';
 import Tabs from './Tabs';
 import Tab from './Tab';
@@ -70,13 +70,16 @@ class TabRegion extends React.Component {
       lazy,
     } = this.props;
     const { readyTabs, visibleTabs } = this.state;
+
     return (
       <Tabs onChangeActive={this.handleChangeActive}>
         {tabs.map(tab => {
           const { security } = tab;
           const widgetProps = getWidgetProps(tab.widgetId);
           const widgetMeta = getWidget(pageId, tab.widgetId);
-          const visible = getVisible(pageId, tab.widgetId);
+          const dependencyVisible = getVisible(pageId, tab.widgetId);
+          const widgetVisible = get(widgetProps, 'isVisible', true);
+          const tabVisible = get(visibleTabs, tab.widgetId, true);
 
           const tabProps = {
             key: tab.widgetId,
@@ -84,12 +87,7 @@ class TabRegion extends React.Component {
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
-            visible:
-              visible ||
-              ((!isEmpty(widgetProps) ? widgetProps.isVisible : true) &&
-                (!isUndefined(visibleTabs[tab.widgetId])
-                  ? visibleTabs[tab.widgetId]
-                  : true)),
+            visible: dependencyVisible && widgetVisible && tabVisible,
           };
 
           const tabEl = (
@@ -105,12 +103,12 @@ class TabRegion extends React.Component {
           );
 
           const onPermissionsSet = permissions => {
-            this.setState({
+            this.setState(prevState => ({
               visibleTabs: {
-                ...visibleTabs,
+                ...prevState.visibleTabs,
                 [tab.widgetId]: !!permissions,
               },
-            });
+            }));
           };
 
           return isEmpty(security) ? (
