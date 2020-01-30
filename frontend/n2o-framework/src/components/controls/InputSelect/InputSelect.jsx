@@ -281,9 +281,7 @@ class InputSelect extends React.Component {
     if (!disabled && isExpanded !== previousIsExpanded) {
       this.setState({ isExpanded });
       onToggle(isExpanded);
-      if (isExpanded && (inputFocus || isEmpty(input))) {
-        onOpen();
-      } else onClose();
+      isExpanded && (inputFocus || isEmpty(input)) ? onOpen() : onClose();
     }
   }
 
