@@ -1,11 +1,10 @@
 package net.n2oapp.framework.config.persister.control;
 
 import net.n2oapp.framework.api.metadata.control.multi.N2oEditGrid;
-import net.n2oapp.framework.api.metadata.control.plain.N2oCodeEditor;
 import net.n2oapp.framework.config.persister.util.PersisterJdomUtil;
 import org.jdom.Element;
-import org.springframework.stereotype.Component;
 import org.jdom.Namespace;
+import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setAttribute;
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setSubChild;
