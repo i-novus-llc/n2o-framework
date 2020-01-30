@@ -69,14 +69,39 @@ public class ProtoPage implements ProtoPageSelectors {
     }
 
     /**
+     * Проверка работы ячейки Отчество
+     */
+    public void testPatronymicCell() {
+        getRowElements(getMainTable(), 6).get(2).$(".btn").click();
+        SelenideElement openPage = getPage();
+        getBreadcrumbActiveItem().shouldHave(Condition.text("Карточка клиента: "));
+
+        getInput(openPage, "Фамилия").shouldHave(Condition.value("Чуканова"));
+        getInput(openPage, "Имя").shouldHave(Condition.value("Изольда"));
+        getInput(openPage, "Отчество").shouldHave(Condition.value("Тихоновна"));
+        getRadioButton(openPage, "Женский").$("input").shouldBe(Condition.checked);
+        getInputDate(openPage, "Дата рождения").shouldHave(Condition.value("16.10.1932"));
+        getCheckbox(openPage, "VIP").$("input").shouldBe(Condition.checked);
+
+        getInput(openPage, "Фамилия").setValue("Сергеева");
+        getInput(openPage, "Имя").setValue("Анастасия");
+        getInput(openPage, "Отчество").setValue("Михайловна");
+        getButton(openPage, "Сохранить").click();
+
+        getMainTablePaginationActiveButton().shouldHave(Condition.text("1"));
+        getRowElements(getMainTable(), 6).get(0).shouldHave(Condition.text("Сергеева"));
+        getRowElements(getMainTable(), 6).get(1).shouldHave(Condition.text("Анастасия"));
+        getRowElements(getMainTable(), 6).get(2).shouldHave(Condition.text("Михайловна"));
+    }
+
+    /**
      * Проверка работы ячейки VIP
      */
     public void testVipCell() {
         getRowElements(getMainTable(), 2).get(5).$("input").shouldBe(Condition.checked);
-        getRowElements(getMainTable(), 2).get(5).click();
-        getRowElements(getMainTable(), 2).get(5).$("input").shouldBe(Condition.checked);
+        getRowElements(getMainTable(), 2).get(5).click(-10, 0);
+        getRowElements(getMainTable(), 2).get(5).$("input").shouldNotBe(Condition.checked);
     }
-
 
     /**
      * Проверка редактирования даты в таблице

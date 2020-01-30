@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFormValues, reset } from 'redux-form';
 import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import difference from 'lodash/difference';
 import map from 'lodash/map';
 import unset from 'lodash/unset';
@@ -18,6 +19,7 @@ import { flatFields } from './Form/utils';
 import { makeGetFilterModelSelector } from '../../selectors/models';
 import { makeWidgetFilterVisibilitySelector } from '../../selectors/widgets';
 import { validateField } from '../../core/validation/createValidator';
+import propsResolver from '../../utils/propsResolver';
 
 function generateFormName(props) {
   return `${props.widgetId}_filter`;
@@ -148,7 +150,13 @@ class WidgetFilters extends React.Component {
   }
 
   render() {
-    const { fieldsets, visible, hideButtons, validation } = this.props;
+    const {
+      fieldsets,
+      visible,
+      hideButtons,
+      validation,
+      filterModel,
+    } = this.props;
     const { defaultValues } = this.state;
 
     return (
@@ -160,7 +168,10 @@ class WidgetFilters extends React.Component {
       >
         <ReduxForm
           form={this.formName}
-          fieldsets={fieldsets}
+          fieldsets={propsResolver(
+            fieldsets,
+            !isEmpty(filterModel) ? filterModel : defaultValues
+          )}
           onChange={this.handleChangeModel}
           initialValues={defaultValues}
           validation={validation}
