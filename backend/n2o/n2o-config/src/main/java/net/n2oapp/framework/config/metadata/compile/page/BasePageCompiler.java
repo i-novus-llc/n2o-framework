@@ -32,6 +32,9 @@ import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
+/**
+ * Базовая компиляция страницы с регионами
+ */
 public abstract class BasePageCompiler<S extends N2oBasePage> extends PageCompiler<S, StandardPage> {
 
     protected abstract void initRegions(S source, StandardPage page, CompileProcessor p, PageContext context, PageScope pageScope);

@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+/**
+ * Компиляция страницы с правыми и левыми регионами
+ */
 @Component
 public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage> {
     @Override

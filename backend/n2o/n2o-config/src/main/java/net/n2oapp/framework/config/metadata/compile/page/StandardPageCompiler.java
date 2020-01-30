@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Компиляция стандартной страницы с регионами
+ */
 @Component
 public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     @Override
