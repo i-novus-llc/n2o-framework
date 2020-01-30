@@ -31,8 +31,11 @@ const withMetadata = Component => {
 
     componentDidUpdate(prevProps) {
       const { pageId, metadata, error, routeMap, reset } = this.props;
-
-      if (!isEmpty(metadata) && this.shouldGetPageMetadata(prevProps)) {
+      if (
+        isEqual(metadata, prevProps.metadata) &&
+        !isEmpty(metadata) &&
+        this.shouldGetPageMetadata(prevProps)
+      ) {
         reset(prevProps.pageId);
         this.fetchMetadata();
       } else if (
