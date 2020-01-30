@@ -25,6 +25,7 @@ import SliderContainer from './Slider/Slider';
 import Rating from './Rating/Rating';
 import Pills from './Pills';
 import AutoComplete from './AutoComplete/AutoComplete';
+import CodeViewer from './CodeViewer/CodeViewer';
 
 export default {
   InputText: InputText,
@@ -35,6 +36,7 @@ export default {
   PasswordInput: PasswordInput,
   CheckboxGroup: CheckboxGroup,
   CodeEditor: CodeEditor,
+  CodeViewer: CodeViewer,
   Html: Html,
   InputMask: InputMask,
   InputNumber: InputNumber,
