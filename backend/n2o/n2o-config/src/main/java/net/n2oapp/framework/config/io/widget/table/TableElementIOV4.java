@@ -80,7 +80,7 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
 
     private void column(Element e, N2oSimpleColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
-        p.anyChild(e, null, c::getCell, c::setCell, (NamespaceIOFactory) p.anyOf(N2oCell.class).ignore("dependencies"), CellIOv2.NAMESPACE);
+        p.anyChild(e, null, c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("dependencies"), CellIOv2.NAMESPACE);
     }
 
 
