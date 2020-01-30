@@ -3,24 +3,27 @@ import PropTypes from 'prop-types';
 import withCell from '../../withCell';
 import compose from 'recompose/compose';
 import set from 'lodash/set';
+import get from 'lodash/get';
 import withHandlers from 'recompose/withHandlers';
 import Rating from '../../../../controls/Rating/Rating';
 
 const RatingCell = ({
   visible,
   max,
-  rating,
   half,
   showTooltip,
   handleChange,
+  model,
+  fieldKey,
+  id,
 }) => {
   return visible ? (
     <Rating
       max={max}
-      rating={rating}
+      rating={model && get(model, fieldKey || id)}
       half={half}
       showTooltip={showTooltip}
-      onChange={handleChange}
+      onChange={rating => handleChange(rating)}
     />
   ) : null;
 };

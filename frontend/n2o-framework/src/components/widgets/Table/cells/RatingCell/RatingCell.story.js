@@ -45,6 +45,7 @@ const metadata = {
         },
         {
           ...RatingCellJson,
+          src: 'RatingCell',
         },
       ],
       headers: [
