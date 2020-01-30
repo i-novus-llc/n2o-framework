@@ -47,6 +47,11 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testFilterByBirthday() {
+        protoPage.testFilterByBirthday();
+    }
+
+    @Test
     public void testTableSorting() {
         protoPage.testTableSorting();
     }

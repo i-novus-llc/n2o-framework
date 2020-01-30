@@ -106,6 +106,26 @@ public interface BasePage {
     }
 
     /**
+     * Получение стартового значения интервала даты
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getDateIntervalStart(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-date-input-first input");
+    }
+
+    /**
+     * Получение конечного значения интервала даты
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getDateIntervalEnd(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-date-input-last input");
+    }
+
+    /**
      * Получени dateInput
      *
      * @param parent - ячейка таблицы
