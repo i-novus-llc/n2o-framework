@@ -2,11 +2,13 @@ package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.$;
 
 /**
@@ -23,10 +25,24 @@ public interface BasePage {
     }
 
     /**
+     * Получение регионов
+     */
+    static ElementsCollection getRegions() {
+        return $$(".n2o-panel-region");
+    }
+
+    /**
      * Получение модального окна
      */
     static SelenideElement getModalPage() {
         return $(".modal-content");
+    }
+
+    /**
+     * Получение названия страницы с хлебными крошками
+     */
+    static SelenideElement getBreadcrumbActiveItem() {
+        return $(".active.breadcrumb-item");
     }
 
     /**
@@ -119,6 +135,18 @@ public interface BasePage {
         return parent.$(".n2o-date-picker .n2o-advanced-table-edit-control");
     }
 
+    static SelenideElement getModalDialog(String title) {
+        return $$(".modal-dialog").findBy(Condition.text(title));
+    }
+
+    static ElementsCollection getAlerts() {
+        return $$(".n2o-alerts .n2o-alert-body").filter(Condition.visible);
+    }
+
+    static SelenideElement getModalDialogBody(String title) {
+        return getModalDialog(title).$(".modal-body");
+    }
+
     /**
      * Возвращает колонку таблицы
      *
@@ -131,6 +159,16 @@ public interface BasePage {
 
     static ElementsCollection getRowElements(SelenideElement parent, int row) {
         return parent.$$(".n2o-table-row").get(row).$$(".n2o-advanced-table-cell-expand");
+    }
+
+    /**
+     * Скролирование страницы
+     *
+     * @param x pix
+     * @param y pix
+     */
+    static void scrollPage(int x, int y) {
+        Selenide.executeJavaScript("window.scrollBy(arguments[0], arguments[1]);", x, y);
     }
 
     /**

@@ -3,6 +3,7 @@ package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.Keys;
 
@@ -30,6 +31,7 @@ public class ProtoPage implements ProtoPageSelectors {
 
         getTableHeaderSurname().shouldBe(Condition.exist);
         getFilterSearchButton().shouldBe(Condition.exist);
+        getRegions().shouldHaveSize(3);
     }
 
     /**
@@ -65,6 +67,58 @@ public class ProtoPage implements ProtoPageSelectors {
         List<String> list = getColElements(getMainTable().shouldBe(Condition.exist), 1).texts();
         assertThat(isSorted(list, true), is(false));
         assertThat(isSorted(list, false), is(false));
+    }
+
+    /**
+     * Проверка работы ячейки Фамилия
+     */
+    public void testSurnameCell() {
+        getRowElements(getMainTable(), 4).get(0).$(".btn").click();
+        SelenideElement openPage = getPage();
+        getBreadcrumbActiveItem().shouldHave(Condition.text("Карточка клиента: "));
+
+        getInput(openPage, "Фамилия").shouldHave(Condition.value("Вольваков"));
+        getInput(openPage, "Имя").shouldHave(Condition.value("Вениамин"));
+        getInput(openPage, "Отчество").shouldHave(Condition.value("Тихонович"));
+        getRadioButton(openPage, "Мужской").$("input").shouldBe(Condition.checked);
+        getInputDate(openPage, "Дата рождения").shouldHave(Condition.value("04.06.1932"));
+        getCheckbox(openPage, "VIP").$("input").shouldBe(Condition.checked);
+
+        getInput(openPage, "Фамилия").setValue("Сергеев");
+        getInput(openPage, "Имя").setValue("Николай");
+        getInput(openPage, "Отчество").setValue("Петрович");
+        getButton(openPage, "Сохранить").click();
+
+        getMainTablePaginationActiveButton().shouldHave(Condition.text("1"));
+        getRowElements(getMainTable(), 4).get(0).shouldHave(Condition.text("Сергеев"));
+        getRowElements(getMainTable(), 4).get(1).shouldHave(Condition.text("Николай"));
+        getRowElements(getMainTable(), 4).get(2).shouldHave(Condition.text("Петрович"));
+    }
+
+    /**
+     * Проверка работы ячейки Отчество
+     */
+    public void testPatronymicCell() {
+        getRowElements(getMainTable(), 6).get(2).$(".btn").click();
+        SelenideElement openPage = getPage();
+        getBreadcrumbActiveItem().shouldHave(Condition.text("Карточка клиента: "));
+
+        getInput(openPage, "Фамилия").shouldHave(Condition.value("Чуканова"));
+        getInput(openPage, "Имя").shouldHave(Condition.value("Изольда"));
+        getInput(openPage, "Отчество").shouldHave(Condition.value("Тихоновна"));
+        getRadioButton(openPage, "Женский").$("input").shouldBe(Condition.checked);
+        getInputDate(openPage, "Дата рождения").shouldHave(Condition.value("16.10.1932"));
+        getCheckbox(openPage, "VIP").$("input").shouldBe(Condition.checked);
+
+        getInput(openPage, "Фамилия").setValue("Сергеева");
+        getInput(openPage, "Имя").setValue("Анастасия");
+        getInput(openPage, "Отчество").setValue("Михайловна");
+        getButton(openPage, "Сохранить").click();
+
+        getMainTablePaginationActiveButton().shouldHave(Condition.text("1"));
+        getRowElements(getMainTable(), 6).get(0).shouldHave(Condition.text("Сергеева"));
+        getRowElements(getMainTable(), 6).get(1).shouldHave(Condition.text("Анастасия"));
+        getRowElements(getMainTable(), 6).get(2).shouldHave(Condition.text("Михайловна"));
     }
 
     /**
@@ -202,6 +256,47 @@ public class ProtoPage implements ProtoPageSelectors {
     }
 
     /**
+     * Проверка изменения клиента через тулбар ячейку
+     */
+    public void assertUpdateClientFromToolbarCell() {
+        SelenideElement mainPage = getPage();
+        List<String> row = getRow(getMainTableRows(), 2);
+
+        String surname = row.get(0);
+        String name = row.get(1);
+        String patronymic = row.get(2);
+        String birthDate = row.get(3);
+        String gender = row.get(4);
+        String vip = "true".equals(row.get(5)) ? "true" : "false";
+
+        ElementsCollection rowElements = getRowElements(mainPage, 2);
+        rowElements.get(4).click();
+        rowElements.get(6).click();
+        getButton(rowElements.get(6), "Изменить").click();
+
+        SelenideElement modalPage = getModalPage();
+        getInput(modalPage, "Фамилия").shouldHave(Condition.value(surname));
+        getInput(modalPage, "Имя").shouldHave(Condition.value(name));
+        getInput(modalPage, "Отчество").shouldHave(Condition.value(patronymic));
+        getRadioButton(modalPage, gender).shouldHave(Condition.cssClass("checked"));
+        getInputDate(modalPage, "Дата рождения").shouldHave(Condition.value(birthDate));
+        getCheckbox(modalPage, "VIP").$("input").shouldHave(Condition.attribute("value", vip));
+
+        getInput(modalPage, "Фамилия").setValue("Иванова");
+        getInput(modalPage, "Имя").setValue("Наталья");
+        getInput(modalPage, "Отчество").setValue("Петровна");
+        getButton(modalPage, "Сохранить").click();
+
+        getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
+
+        rowElements = getRowElements(mainPage, 2);
+        rowElements.get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
+        rowElements.shouldHave(CollectionCondition.texts("Иванова", "Наталья", "Петровна", birthDate, gender, "", ""));
+        rowElements.get(5).$("input")
+                .shouldHave("true".equals(vip) ? Condition.attribute("checked") : Condition.not(Condition.attribute("checked")));
+    }
+
+    /**
      * Просмотр клиента через модальное окно
      */
     public void assertViewClient() {
@@ -230,6 +325,59 @@ public class ProtoPage implements ProtoPageSelectors {
         getInputDate(modalPage, "Дата рождения").shouldHave(Condition.attribute("disabled"));
         getCheckbox(modalPage, "VIP").$("input").shouldHave(Condition.attribute("value", vip));
         getCheckbox(modalPage, "VIP").$("input").shouldHave(Condition.attribute("disabled"));
+    }
+
+    /**
+     * Тест удаления клиента (предпоследняя строка) из тулбара в колонке
+     */
+    public void testTableInPlaceDelete() {
+        List<String> row = getRowElements(getMainTable(), 8).shouldHaveSize(7).texts();
+        List<String> nRow = getRowElements(getMainTable(), 9).shouldHaveSize(7).texts();
+
+        String count = getMainTablePaginationInfo().should(Condition.exist).getText();
+        Integer total = Integer.valueOf(count.split(" ")[1]);
+
+        getButton(getRowElements(getMainTable(), 8).get(6), "").shouldBe(Condition.exist).click();
+        getButton(getRowElements(getMainTable(), 8).get(6), "Удалить").shouldBe(Condition.exist).click();
+
+        getModalDialog("Предупреждение").should(Condition.exist);
+        getModalDialogBody("Предупреждение").should(Condition.matchText(row.get(0) + " " + row.get(1)));
+        getButton(getModalDialog("Предупреждение"), "Да").click();
+        getModalDialog("Предупреждение").shouldNot(Condition.exist);
+
+        getAlerts().shouldHave(CollectionCondition.size(1)).get(0).should(Condition.matchText(row.get(0)));
+        count = getMainTablePaginationInfo().should(Condition.exist).getText();
+        assertThat(Integer.valueOf(count.split(" ")[1]), is(total - 1));
+
+        List<String> aRow = getRowElements(getMainTable(), 8).shouldHaveSize(7).texts();
+        assertThat(aRow.get(0).equals(row.get(0)) || aRow.get(1).equals(row.get(1)), is(false));
+        assertThat(nRow.get(0).equals(aRow.get(0)) && nRow.get(1).equals(aRow.get(1)), is(true));
+    }
+
+    /**
+     * Тест удаления клиента (предпоследняя строка) из тулбара таблицы
+     */
+    public void testTableRowDelete() {
+        List<String> row = getRowElements(getMainTable(), 8).shouldHaveSize(7).texts();
+        List<String> nRow = getRowElements(getMainTable(), 9).shouldHaveSize(7).texts();
+        String count = getMainTablePaginationInfo().should(Condition.exist).getText();
+        Integer total = Integer.valueOf(count.split(" ")[1]);
+
+        getRowElements(getMainTable(), 8).get(4).click();
+        getButton(getRegions().get(0), "Удалить").click();
+
+        getModalDialog("Предупреждение").should(Condition.exist);
+        getModalDialogBody("Предупреждение").should(Condition.matchText(row.get(0) + " " + row.get(1)));
+        getButton(getModalDialog("Предупреждение"), "Да").click();
+        getModalDialog("Предупреждение").shouldNot(Condition.exist);
+
+        getAlerts().shouldHave(CollectionCondition.size(1)).get(0).should(Condition.matchText(row.get(0)));
+        count = getMainTablePaginationInfo().should(Condition.exist).getText();
+        assertThat(Integer.valueOf(count.split(" ")[1]), is(total - 1));
+
+        List<String> aRow = getRowElements(getMainTable(), 8).shouldHaveSize(7).texts();
+        assertThat(aRow.get(0).equals(row.get(0)) || aRow.get(1).equals(row.get(1)), is(false));
+        assertThat(nRow.get(0).equals(aRow.get(0)) && nRow.get(1).equals(aRow.get(1)), is(true));
     }
 
     /**
