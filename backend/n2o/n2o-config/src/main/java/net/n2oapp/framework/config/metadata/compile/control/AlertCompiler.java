@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.plain.N2oAlert;
 import net.n2oapp.framework.api.metadata.meta.control.Alert;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -14,10 +13,10 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция поля для вывода оповещения
  */
 @Component
-public class AlertCompiler extends StandardFieldCompiler<Alert, N2oAlert> {
+public class AlertCompiler extends FieldCompiler<Alert, N2oAlert> {
 
     @Override
-    public StandardField<Alert> compile(N2oAlert source, CompileContext<?, ?> context, CompileProcessor p) {
+    public Alert compile(N2oAlert source, CompileContext<?, ?> context, CompileProcessor p) {
         Alert alert = new Alert();
         alert.setText(source.getText().trim());
         alert.setHeader(source.getHeader());
@@ -25,11 +24,12 @@ public class AlertCompiler extends StandardFieldCompiler<Alert, N2oAlert> {
         alert.setColor(source.getColor());
         alert.setFade(p.cast(source.getFade(), p.resolve(property("n2o.api.control.alert.fade"), Boolean.class)));
         alert.setTag(source.getTag());
-        return compileStandardField(alert, source, context, p);
+        compileField(alert, source, context, p);
+        return alert;
     }
 
     @Override
-    protected String getControlSrcProperty() {
+    protected String getSrcProperty() {
         return "n2o.api.control.alert.src";
     }
 
