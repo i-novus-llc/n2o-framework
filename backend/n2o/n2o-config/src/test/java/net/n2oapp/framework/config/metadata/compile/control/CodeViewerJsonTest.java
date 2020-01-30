@@ -8,9 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Тестирование маппинга java модели в json alert
+ * Тестирование маппинга java модели в json code
  */
-public class AlertJsonTest extends JsonMetadataTestBase {
+public class CodeViewerJsonTest extends JsonMetadataTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -23,15 +23,15 @@ public class AlertJsonTest extends JsonMetadataTestBase {
         builder.ios()
                 .packs(new N2oWidgetsPack(), new N2oActionsPack(),
                         new N2oFieldSetsPack(), new N2oAllDataPack(), new N2oControlsV2IOPack())
-                .compilers(new AlertCompiler());
+                .compilers(new CodeViewerCompiler());
     }
 
     @Test
-    public void testAlert() {
-        check("net/n2oapp/framework/config/mapping/testAlert.widget.xml",
-                "components/widgets/Form/fields/AlertField/AlertField.meta.json")
-                .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0]")
-                .exclude("src", "id", "style", "visible", "className")
-                .assertEquals(new WidgetContext("testAlert"));
+    public void testCodeViewer() {
+        check("net/n2oapp/framework/config/mapping/testCodeViewer.widget.xml",
+                "components/controls/CodeViewer/CodeViewer.meta.json")
+                .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
+                .exclude("src", "disabled", "visible", "id")
+                .assertEquals(new WidgetContext("testCodeViewer"));
     }
 }
