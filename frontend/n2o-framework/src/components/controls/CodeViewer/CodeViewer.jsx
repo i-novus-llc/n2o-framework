@@ -95,11 +95,11 @@ CodeViewer.propTypes = {
   /**
    * Cкрыть кнопки
    */
-  hideButtons: PropTypes.hideButtons,
+  hideButtons: PropTypes.bool,
   /**
    * Скрыть вертикальную прокрутку
    */
-  hideOverflow: PropTypes.overflow,
+  hideOverflow: PropTypes.bool,
 };
 
 CodeViewer.defaultProps = {
