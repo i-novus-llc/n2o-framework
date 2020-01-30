@@ -52,8 +52,28 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testFilterByBirthday() {
+        protoPage.testFilterByBirthday();
+    }
+
+    @Test
     public void testTableSorting() {
         protoPage.testTableSorting();
+    }
+
+    @Test
+    public void testSurnameCell() {
+        protoPage.testSurnameCell();
+    }
+
+    @Test
+    public void testNameCell() {
+        protoPage.testNameCell();
+    }
+
+    @Test
+    public void testPatronymicCell() {
+        protoPage.testPatronymicCell();
     }
 
     @Test
@@ -79,6 +99,11 @@ public class DemoIntegrationTest {
     @Test
     public void testUpdateClientFromToolbarCell() {
         protoPage.assertUpdateClientFromToolbarCell();
+    }
+
+    @Test
+    public void testUpdateClientFromBreadcrumbPage() {
+        protoPage.assertUpdateClientFromBreadcrumbPage();
     }
 
     @Test
