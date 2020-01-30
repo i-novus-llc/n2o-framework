@@ -39,6 +39,13 @@ public interface BasePage {
     }
 
     /**
+     * Получение названия страницы с хлебными крошками
+     */
+    static SelenideElement getBreadcrumbActiveItem() {
+        return $(".active.breadcrumb-item");
+    }
+
+    /**
      * Получение Checkbox
      *
      * @param parent - начальный элемент

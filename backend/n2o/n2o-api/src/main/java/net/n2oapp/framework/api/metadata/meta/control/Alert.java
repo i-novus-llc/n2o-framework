@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Alert extends Control {
+public class Alert extends Field {
     @JsonProperty
     private String text;
     @JsonProperty

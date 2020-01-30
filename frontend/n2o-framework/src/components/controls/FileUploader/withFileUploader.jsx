@@ -138,8 +138,7 @@ const FileUploaderControl = WrappedComponent => {
      * @param files
      */
     handleDrop(files) {
-      const { onChange, autoUpload } = this.props;
-
+      const { onChange, autoUpload, onBlur } = this.props;
       this.setState(
         {
           files: [
@@ -157,6 +156,7 @@ const FileUploaderControl = WrappedComponent => {
             this.startUpload(files);
           } else {
             onChange(files);
+            onBlur(files);
           }
         }
       );
@@ -173,6 +173,7 @@ const FileUploaderControl = WrappedComponent => {
         multi,
         valueFieldId,
         onChange,
+        onBlur,
         deleteUrl,
         onDelete,
         deleteRequest,
@@ -194,7 +195,11 @@ const FileUploaderControl = WrappedComponent => {
       });
 
       if (value) {
-        onChange(multi ? value.filter(f => f[valueFieldId] !== id) : null);
+        const newValue = multi
+          ? value.filter(f => f[valueFieldId] !== id)
+          : null;
+        onChange(newValue);
+        onBlur(newValue);
       }
     }
 
@@ -390,6 +395,7 @@ const FileUploaderControl = WrappedComponent => {
     showSize: true,
     value: [],
     onChange: () => {},
+    onBlur: () => {},
     onStart: () => {},
     onSuccess: () => {},
     onDelete: () => {},
