@@ -39,6 +39,13 @@ public interface BasePage {
     }
 
     /**
+     * Получение названия страницы с хлебными крошками
+     */
+    static SelenideElement getBreadcrumbActiveItem() {
+        return $(".active.breadcrumb-item");
+    }
+
+    /**
      * Получение Checkbox
      *
      * @param parent - начальный элемент
@@ -96,6 +103,26 @@ public interface BasePage {
      */
     static SelenideElement getInputDate(SelenideElement parent, String label) {
         return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-date-input input");
+    }
+
+    /**
+     * Получение стартового значения интервала даты
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getDateIntervalStart(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-date-input-first input");
+    }
+
+    /**
+     * Получение конечного значения интервала даты
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getDateIntervalEnd(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-date-input-last input");
     }
 
     /**
