@@ -27,17 +27,17 @@
       "title": "Первая c title"
     },
     {
-      "label": "Вторая",
-      "path": "/test",
+      "label": "Вторая без path",
       "title": "Вторая c title"
     },
     {
-      "label": "Третья без path",
-      "title": "Третья без path"
+      "label": "Третья",
+      "path": "/test3",
+      "title": "Третья"
     },
     {
       "label": "Четвертая",
-      "path": "/test2",
+      "path": "/test4",
       "title": "Четвертая"
     }
   ],
