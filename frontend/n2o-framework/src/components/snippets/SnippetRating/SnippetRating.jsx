@@ -13,7 +13,7 @@ class SnippetRating extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: Math.ceil(props.rating),
+      value: props.half ? props.rating : Math.ceil(props.rating),
     };
     this.id = id();
     this.onChangeAndSetState = this.onChangeAndSetState.bind(this);
