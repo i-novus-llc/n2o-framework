@@ -3,7 +3,9 @@ package net.n2oapp.framework.config.io.control.plain;
 import net.n2oapp.framework.api.metadata.control.plain.N2oAlert;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AlertIOv2 extends PlainFieldIOv2<N2oAlert> {
 
     @Override
