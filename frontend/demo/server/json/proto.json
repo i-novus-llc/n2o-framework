@@ -1145,6 +1145,27 @@
     },
     "proto_contacts": {
       "src": "ListWidget",
+      "rowClick": {
+        "id": "contacts_row",
+        "src": "link",
+        "options": {
+          "path": "https://www.google.com/",
+          "target": "self",
+          "pathMapping": {
+          },
+          "queryMapping": {
+          }
+        },
+        "enablingCondition": "1 == 1"
+      },
+      "rows": {
+        "security": {
+          "test": {
+            "denied": false,
+            "permitAll": true
+          }
+        }
+      },
       "dataProvider": {
         "url": "n2o/data/proto/:proto_patients_id/contacts",
         "pathMapping": {

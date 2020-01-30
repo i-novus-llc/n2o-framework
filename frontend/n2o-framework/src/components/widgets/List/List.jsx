@@ -14,6 +14,7 @@ import {
   List as Virtualizer,
 } from 'react-virtualized';
 import { getIndex } from '../Table/Table';
+import SecurityCheck from '../../../core/auth/SecurityCheck';
 
 const SCROLL_OFFSET = 100;
 
@@ -119,7 +120,7 @@ class List extends Component {
     this._virtualizer = el;
   }
 
-  onItemClick(index) {
+  onItemClick(index, runCallback = true) {
     const { onItemClick, rowClick, hasSelect } = this.props;
     if (!rowClick && hasSelect) {
       this.setState({ selectedIndex: index }, () => {
@@ -128,7 +129,8 @@ class List extends Component {
         }
       });
     }
-    onItemClick(index);
+
+    if (runCallback) onItemClick(index);
   }
 
   fetchMore() {
@@ -152,7 +154,13 @@ class List extends Component {
   }
 
   renderRow({ index, key, style, parent }) {
-    const { divider, hasMoreButton, fetchOnScroll, hasSelect } = this.props;
+    const {
+      divider,
+      hasMoreButton,
+      fetchOnScroll,
+      hasSelect,
+      rows,
+    } = this.props;
     const { data } = this.state;
     let moreBtn = null;
     if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
@@ -178,15 +186,34 @@ class List extends Component {
           columnIndex={0}
           rowIndex={index}
         >
-          <ListItem
-            {...data[index]}
-            hasSelect={hasSelect}
-            key={key}
-            style={style}
-            divider={divider}
-            selected={this.state.selectedIndex === index}
-            onClick={() => this.onItemClick(index)}
-          />
+          {isEmpty(rows) ? (
+            <ListItem
+              {...data[index]}
+              hasSelect={hasSelect}
+              key={key}
+              style={style}
+              divider={divider}
+              selected={this.state.selectedIndex === index}
+              onClick={() => this.onItemClick(index)}
+            />
+          ) : (
+            <SecurityCheck
+              cofig={rows.security}
+              render={({ permissions }) => {
+                return (
+                  <ListItem
+                    {...data[index]}
+                    hasSelect={hasSelect}
+                    key={key}
+                    style={style}
+                    divider={divider}
+                    selected={this.state.selectedIndex === index}
+                    onClick={() => this.onItemClick(index, !!permissions)}
+                  />
+                );
+              }}
+            />
+          )}
         </CellMeasurer>
         {moreBtn}
       </React.Fragment>
@@ -303,6 +330,10 @@ List.propTypes = {
    * Линия разделитель
    */
   divider: PropTypes.bool,
+  /**
+   * Настройка security
+   */
+  rows: PropTypes.object,
   selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 List.defaultProps = {
@@ -314,6 +345,7 @@ List.defaultProps = {
   hasMoreButton: false,
   fetchOnScroll: false,
   divider: true,
+  rows: {},
 };
 
 export default List;
