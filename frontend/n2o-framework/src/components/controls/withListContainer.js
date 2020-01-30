@@ -116,7 +116,7 @@ function withListContainer(WrappedComponent) {
 
     return (
       <WrappedComponent
-        {...omit(rest, 'data')}
+        {...rest}
         labelFieldId={labelFieldId}
         data={data}
         isLoading={loading}
