@@ -3,6 +3,7 @@
            targetNamespace="http://n2oapp.net/framework/config/schema/control-2.0"
            xmlns:obj="http://n2oapp.net/framework/config/schema/object-3.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-1.0"
+           xmlns:btn="http://n2oapp.net/framework/config/schema/button-1.0"
            xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0">
 
 
@@ -10,6 +11,7 @@
     <xs:element name="text-area" type="controlTextAreaDefinition"/>
     <xs:element name="text-editor" type="controlTextEditorDefinition"/>
     <xs:element name="code-editor" type="controlCodeEditor"/>
+    <xs:element name="code" type="controlCodeViewer"/>
     <xs:element name="input-text" type="controlInputTextDefinition"/>
     <xs:element name="output-text" type="controlOutputTextDefinition"/>
     <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
@@ -33,6 +35,7 @@
     <xs:element name="rating" type="controlRating"/>
     <xs:element name="alert" type="controlAlertDefinition"/>
     <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
+    <xs:element name="button" type="btn:buttonDefinition"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -40,6 +43,7 @@
             <xs:element name="text-area" type="controlTextAreaDefinition" minOccurs="0"/>
             <xs:element name="text-editor" type="controlTextEditorDefinition" minOccurs="0"/>
             <xs:element name="code-editor" type="controlCodeEditor" minOccurs="0"/>
+            <xs:element name="code" type="controlCodeViewer" minOccurs="0"/>
             <xs:element name="input-text" type="controlInputTextDefinition" minOccurs="0"/>
             <xs:element name="input-money" type="controlInputMoneyDefinition" minOccurs="0"/>
             <xs:element name="output-text" type="controlOutputTextDefinition" minOccurs="0"/>
@@ -64,6 +68,7 @@
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
             <xs:element name="alert" type="controlAlertDefinition" minOccurs="0"/>
             <xs:element name="auto-complete" type="controlAutoCompleteDefinition" minOccurs="0"/>
+            <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -441,20 +446,11 @@
 
     <xs:complexType name="controlCodeEditor">
         <xs:complexContent>
-            <xs:extension base="controlTextDefinition">
-                <xs:attribute name="language" use="optional">
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="language" type="codeLanguage" use="optional">
                     <xs:annotation>
                         <xs:documentation>Язык кода.</xs:documentation>
                     </xs:annotation>
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="sql"/>
-                            <xs:enumeration value="xml"/>
-                            <xs:enumeration value="javascript"/>
-                            <xs:enumeration value="groovy"/>
-                            <xs:enumeration value="java"/>
-                        </xs:restriction>
-                    </xs:simpleType>
                 </xs:attribute>
                 <xs:attribute name="min-lines" type="xs:positiveInteger" use="optional">
                     <xs:annotation>
@@ -470,6 +466,62 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="controlCodeViewer">
+        <xs:complexContent>
+            <xs:extension base="controlDefinition">
+                <xs:sequence>
+                    <xs:element name="children" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="language" type="codeLanguage">
+                    <xs:annotation>
+                        <xs:documentation>Язык кода.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="theme" type="colorTheme" default="light">
+                    <xs:annotation>
+                        <xs:documentation>Цвет фона.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="show-line-numbers" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Отображение нумерации строк.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="starting-line-number" type="xs:integer" default="1">
+                    <xs:annotation>
+                        <xs:documentation>Значение, с которого будет производиться нумерация.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="hide-buttons" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Скрытие кнопок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="hide-overflow" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Скрытие вертикальной полосы прокрутки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="colorTheme">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="light"/>
+            <xs:enumeration value="dark"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="codeLanguage">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="sql"/>
+            <xs:enumeration value="xml"/>
+            <xs:enumeration value="javascript"/>
+            <xs:enumeration value="groovy"/>
+            <xs:enumeration value="java"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <!--<xs:complexType name="updateModelPreFilterDefinition">-->
     <!--<xs:complexContent>-->
