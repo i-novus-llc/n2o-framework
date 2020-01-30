@@ -8,7 +8,6 @@ import {
   ENABLE,
   SET_STATUS,
 } from '../constants/pages';
-import { DESTROY } from '../constants/modals';
 import createActionHelper from './createActionHelper';
 
 /**
