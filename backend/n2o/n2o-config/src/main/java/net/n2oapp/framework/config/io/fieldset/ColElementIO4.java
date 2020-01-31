@@ -22,6 +22,7 @@ public class ColElementIO4 implements NamespaceIO<N2oFieldsetColumn> {
         p.attribute(e, "class", col::getCssClass, col::setCssClass);
         p.attribute(e, "style", col::getStyle, col::setStyle);
         p.attributeInteger(e, "size", col::getSize, col::setSize);
+        p.attribute(e, "visible", col::getVisible, col::setVisible);
         p.anyChildren(e, null, col::getItems, col::setItems, p.anyOf(SourceComponent.class), DEFAULT_NAMESPACE, controlDefaultNamespace);
     }
 

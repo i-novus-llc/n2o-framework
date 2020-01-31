@@ -2,16 +2,15 @@ package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.Selectors;
 import com.codeborne.selenide.SelenideElement;
 
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 /**
  * Селекторы для страницы ProtoPage
  */
-
 public interface ProtoPageSelectors {
 
 
@@ -36,7 +35,7 @@ public interface ProtoPageSelectors {
     }
 
     default SelenideElement getTableHeaderSurname() {
-        return getMainTableHead().$(Selectors.byText("Фамилия"));
+        return getMainTableHead().$(byText("Фамилия"));
     }
 
     default SelenideElement getFilterSearchButton() {
@@ -56,6 +55,18 @@ public interface ProtoPageSelectors {
     }
 
     default SelenideElement getMainTablePaginationInfo() {
-        return $(".n2o-pagination .n2o-pagination-info");
+        return getMainTablePagination().$(".n2o-pagination-info");
+    }
+
+    default SelenideElement getContactsList() {
+        return $$(".n2o-panel-region").get(1).$$(".n2o-widget-list").get(0);
+    }
+
+    default SelenideElement getCardForm() {
+        return $$(".n2o-panel-region").get(2).$$(".card-body").get(0);
+    }
+
+    default ElementsCollection getPanels() {
+        return $$(".n2o-panel-region");
     }
 }
