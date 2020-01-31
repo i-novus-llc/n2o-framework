@@ -71,7 +71,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
         if (!(context instanceof ModalPageContext))
             page.setRoutes(pageRoutes);
         //compile region
-        page.setLayout(createLayout(source, p, context, pageScope));
+        page.setLayout(createLayout(source, p, context, pageScope, pageRoutes));
         CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
         page.setObject(object);
         if (context.getSubmitOperationId() != null)
@@ -224,14 +224,14 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
     }
 
     private Layout createLayout(N2oStandardPage source, CompileProcessor p, PageContext context,
-                                PageScope pageScope) {
+                                PageScope pageScope, PageRoutes pageRoutes) {
         Layout layout = new Layout();
         layout.setSrc(p.cast(source.getLayout(), p.resolve(property("n2o.api.page.layout.src"), String.class)));
         Map<String, List<Region>> regionMap = new HashMap<>();
         if (source.getRegions() != null) {
             IndexScope index = new IndexScope();
             for (N2oRegion n2oRegion : source.getRegions().getRegions()) {
-                Region region = p.compile(n2oRegion, context, index, pageScope);
+                Region region = p.compile(n2oRegion, context, index, pageScope, pageRoutes);
                 String place = p.cast(n2oRegion.getPlace(), "single");
                 if (regionMap.get(place) != null) {
                     regionMap.get(place).add(region);
