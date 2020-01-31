@@ -137,15 +137,15 @@ public class ProtoPage implements ProtoPageSelectors {
      * Проверка работы ячейки Отчество
      */
     public void testPatronymicCell() {
-        getRowElements(getMainTable(), 6).get(2).$(".btn").click();
+        getRowElements(getMainTable(), 7).get(2).$(".btn").click();
         SelenideElement openPage = getPage();
         getBreadcrumbActiveItem().shouldHave(Condition.text("Карточка клиента: "));
 
-        getInput(openPage, "Фамилия").shouldHave(Condition.value("Чуканова"));
-        getInput(openPage, "Имя").shouldHave(Condition.value("Изольда"));
-        getInput(openPage, "Отчество").shouldHave(Condition.value("Тихоновна"));
+        getInput(openPage, "Фамилия").shouldHave(Condition.value("Иванова"));
+        getInput(openPage, "Имя").shouldHave(Condition.value("Зинаида"));
+        getInput(openPage, "Отчество").shouldHave(Condition.value("Виталиевна"));
         getRadioButton(openPage, "Женский").$("input").shouldBe(Condition.checked);
-        getInputDate(openPage, "Дата рождения").shouldHave(Condition.value("16.10.1932"));
+        getInputDate(openPage, "Дата рождения").shouldHave(Condition.value("11.09.1933"));
         getCheckbox(openPage, "VIP").$("input").shouldBe(Condition.checked);
 
         getInput(openPage, "Фамилия").setValue("Сергеева");
@@ -154,9 +154,9 @@ public class ProtoPage implements ProtoPageSelectors {
         getButton(openPage, "Сохранить").click();
 
         getMainTablePaginationActiveButton().shouldHave(Condition.text("1"));
-        getRowElements(getMainTable(), 6).get(0).shouldHave(Condition.text("Сергеева"));
-        getRowElements(getMainTable(), 6).get(1).shouldHave(Condition.text("Анастасия"));
-        getRowElements(getMainTable(), 6).get(2).shouldHave(Condition.text("Михайловна"));
+        getRowElements(getMainTable(), 7).get(0).shouldHave(Condition.text("Сергеева"));
+        getRowElements(getMainTable(), 7).get(1).shouldHave(Condition.text("Анастасия"));
+        getRowElements(getMainTable(), 7).get(2).shouldHave(Condition.text("Михайловна"));
     }
 
     /**
@@ -477,8 +477,6 @@ public class ProtoPage implements ProtoPageSelectors {
         getRowElements(getMainTable(), 5).get(4).click();
         getContactsList().click();
         getListItemMainContainer(getListItem(getContactsList(), 0)).get(0).shouldBe(Condition.text("+7950267859"));
-        getInput(getCardForm(), "Фамилия").shouldBe(Condition.value("Дуванова"));
-        getInput(getCardForm(), "Имя").shouldBe(Condition.value("Ольга"));
         getRadioGroup(getCardForm(), "Пол").$(".checked").shouldBe(Condition.text("Женский"));
         getCheckbox(getCardForm(), "VIP").shouldBe(Condition.enabled);
     }
