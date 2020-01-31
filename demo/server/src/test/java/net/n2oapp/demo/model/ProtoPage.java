@@ -54,6 +54,19 @@ public class ProtoPage implements ProtoPageSelectors {
     }
 
     /**
+     * Проверка работы фильтра по дате рождения
+     */
+    public void testFilterByBirthday() {
+        getDateIntervalStart(getMainTableFilter(), "Дата рождения").val("01.01.1940");
+        getDateIntervalEnd(getMainTableFilter(), "Дата рождения").val("01.12.1940");
+        getFilterSearchButton().click();
+
+        getMainTableRows().shouldHaveSize(2);
+        getRowElements(getMainTable(), 0).get(0).shouldHave(Condition.text("Кручинина"));
+        getRowElements(getMainTable(), 1).get(0).shouldHave(Condition.text("Мишин"));
+    }
+
+    /**
      * Проверка работы сортировки по фамилии
      */
     public void testTableSorting() {
@@ -93,6 +106,31 @@ public class ProtoPage implements ProtoPageSelectors {
         getRowElements(getMainTable(), 4).get(0).shouldHave(Condition.text("Сергеев"));
         getRowElements(getMainTable(), 4).get(1).shouldHave(Condition.text("Николай"));
         getRowElements(getMainTable(), 4).get(2).shouldHave(Condition.text("Петрович"));
+    }
+
+    /**
+     * Проверка работы ячейки Имя
+     */
+    public void testNameCell() {
+        getRowElements(getMainTable(), 5).get(1).$(".btn").click();
+        SelenideElement modalPage = getModalPage().shouldBe(Condition.exist);
+
+        getInput(modalPage, "Фамилия").shouldHave(Condition.value("Дуванова"));
+        getInput(modalPage, "Имя").shouldHave(Condition.value("Ольга"));
+        getInput(modalPage, "Отчество").shouldHave(Condition.value("Юлиевна"));
+        getRadioButton(modalPage, "Женский").$("input").shouldBe(Condition.checked);
+        getInputDate(modalPage, "Дата рождения").shouldHave(Condition.value("02.09.1932"));
+        getCheckbox(modalPage, "VIP").$("input").shouldBe(Condition.checked);
+
+        getInput(modalPage, "Фамилия").setValue("Григорьева");
+        getInput(modalPage, "Имя").setValue("Александра");
+        getInput(modalPage, "Отчество").setValue("Петровна");
+        getButton(modalPage, "Сохранить").click();
+
+        getMainTablePaginationActiveButton().shouldHave(Condition.text("1"));
+        getRowElements(getMainTable(), 5).get(0).shouldHave(Condition.text("Григорьева"));
+        getRowElements(getMainTable(), 5).get(1).shouldHave(Condition.text("Александра"));
+        getRowElements(getMainTable(), 5).get(2).shouldHave(Condition.text("Петровна"));
     }
 
     /**
@@ -290,6 +328,47 @@ public class ProtoPage implements ProtoPageSelectors {
         getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
 
         rowElements = getRowElements(mainPage, 2);
+        rowElements.get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
+        rowElements.shouldHave(CollectionCondition.texts("Иванова", "Наталья", "Петровна", birthDate, gender, "", ""));
+        rowElements.get(5).$("input")
+                .shouldHave("true".equals(vip) ? Condition.attribute("checked") : Condition.not(Condition.attribute("checked")));
+    }
+
+    /**
+     * Проверка изменения клиента через окно с бредкрампом
+     */
+    public void assertUpdateClientFromBreadcrumbPage() {
+        SelenideElement mainPage = getPage();
+        List<String> row = getRow(getMainTableRows(), 3);
+
+        String surname = row.get(0);
+        String name = row.get(1);
+        String patronymic = row.get(2);
+        String birthDate = row.get(3);
+        String gender = row.get(4);
+        String vip = "true".equals(row.get(5)) ? "true" : "false";
+
+        ElementsCollection rowElements = getRowElements(mainPage, 3);
+        rowElements.get(4).shouldBe(Condition.exist).click();
+        SelenideElement editButton = mainPage.$(".fa-edit").shouldBe(Condition.exist);
+        editButton.click();
+
+        SelenideElement openPage = getPage();
+        getInput(openPage, "Фамилия").shouldHave(Condition.value(surname));
+        getInput(openPage, "Имя").shouldHave(Condition.value(name));
+        getInput(openPage, "Отчество").shouldHave(Condition.value(patronymic));
+        getRadioButton(openPage, gender).shouldHave(Condition.cssClass("checked"));
+        getInputDate(openPage, "Дата рождения").shouldHave(Condition.value(birthDate));
+        getCheckbox(openPage, "VIP").$("input").shouldHave(Condition.attribute("value", vip));
+
+        getInput(openPage, "Фамилия").setValue("Иванова");
+        getInput(openPage, "Имя").setValue("Наталья");
+        getInput(openPage, "Отчество").setValue("Петровна");
+        getButton(openPage, "Сохранить").click();
+
+        getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
+
+        rowElements = getRowElements(mainPage, 3);
         rowElements.get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
         rowElements.shouldHave(CollectionCondition.texts("Иванова", "Наталья", "Петровна", birthDate, gender, "", ""));
         rowElements.get(5).$("input")
