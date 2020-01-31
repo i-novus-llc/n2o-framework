@@ -47,6 +47,11 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testFilterByNameAndSurname() {
+        protoPage.testFilterByNameAndSurname();
+    }
+
+    @Test
     public void testFilterByBirthday() {
         protoPage.testFilterByBirthday();
     }

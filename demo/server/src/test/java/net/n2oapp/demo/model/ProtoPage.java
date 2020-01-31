@@ -54,6 +54,19 @@ public class ProtoPage implements ProtoPageSelectors {
     }
 
     /**
+     * Проверка работы фильтра по фамилии и имени
+     */
+    public void testFilterByNameAndSurname() {
+        getInput(getMainTableFilter(), "Фамилия").val("Лапа");
+        getInput(getMainTableFilter(), "Имя").val("ера");
+        getFilterSearchButton().click();
+
+        getMainTableRows().shouldHaveSize(1);
+        getRowElements(getMainTable(), 0).get(0).shouldHave(Condition.text("Лапаева"));
+        getRowElements(getMainTable(), 0).get(1).shouldHave(Condition.text("Вера"));
+    }
+
+    /**
      * Проверка работы фильтра по дате рождения
      */
     public void testFilterByBirthday() {
