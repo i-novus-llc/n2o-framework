@@ -1,12 +1,12 @@
 import {
-  insertModal,
-  showModal,
-  hideModal,
-  destroyModal,
-  closeModal,
+  insertOverlay,
+  showOverlay,
+  hideOverlay,
+  destroyOverlay,
+  closeOverlay,
   hidePrompt,
   showPrompt,
-} from './modals';
+} from './overlays';
 import {
   INSERT,
   DESTROY,
@@ -15,14 +15,14 @@ import {
   CLOSE,
   SHOW_PROMPT,
   HIDE_PROMPT,
-} from '../constants/modals';
+} from '../constants/overlays';
 
 const name = 'MODAL_NAME';
 
-describe('Тесты экшенов modals', () => {
-  describe('Проверка экшена insertModal', () => {
+describe('Тесты экшенов overlays', () => {
+  describe('Проверка экшена insertOverlay', () => {
     it('Генирирует правильное событие', () => {
-      const action = insertModal(
+      const action = insertOverlay(
         name,
         true,
         'TITLE',
@@ -34,61 +34,65 @@ describe('Тесты экшенов modals', () => {
       expect(action.type).toEqual(INSERT);
     });
     it('Возвращает правильный payload', () => {
-      const action = insertModal(
+      const action = insertOverlay(
         name,
         true,
+        'drawer',
         'TITLE',
         'lg',
         true,
         'page_id',
         'TableWidget'
       );
-      expect(action.payload.name).toEqual(name);
-      expect(action.payload.visible).toEqual(true);
-      expect(action.payload.title).toEqual('TITLE');
-      expect(action.payload.size).toEqual('lg');
-      expect(action.payload.closeButton).toEqual(true);
-      expect(action.payload.pageId).toEqual('page_id');
-      expect(action.payload.src).toEqual('TableWidget');
+      expect(action.payload).toMatchObject({
+        0: 'TITLE',
+        1: 'lg',
+        2: true,
+        3: 'page_id',
+        4: 'TableWidget',
+        mode: 'drawer',
+        name: 'MODAL_NAME',
+        visible: true,
+      });
     });
   });
 
-  describe('Проверка экшена showModal', () => {
+  describe('Проверка экшена showOverlay', () => {
     it('Генирирует правильное событие', () => {
-      const action = showModal(name);
+      const action = showOverlay(name);
       expect(action.type).toEqual(SHOW);
     });
     it('Возвращает правильный payload', () => {
-      const action = showModal(name);
+      const action = showOverlay(name);
       expect(action.payload.name).toEqual(name);
     });
   });
 
-  describe('Проверка экшена hideModal', () => {
+  describe('Проверка экшена hideOverlay', () => {
     it('Генирирует правильное событие', () => {
-      const action = hideModal(name);
+      const action = hideOverlay(name);
       expect(action.type).toEqual(HIDE);
     });
     it('Возвращает правильный payload', () => {
-      const action = hideModal(name);
+      const action = hideOverlay(name);
       expect(action.payload.name).toEqual(name);
     });
   });
 
-  describe('Проверка экшена destroyModal', () => {
+  describe('Проверка экшена destroyOverlay', () => {
     it('Генирирует правильное событие', () => {
-      const action = destroyModal();
+      const action = destroyOverlay();
       expect(action.type).toEqual(DESTROY);
     });
   });
 
-  describe('Проверка экшена closeModal', () => {
+  describe('Проверка экшена closeOverlay', () => {
     it('Генирирует правильное событие', () => {
-      const action = closeModal('test', true);
+      const action = closeOverlay('test', true);
       expect(action.type).toEqual(CLOSE);
     });
     it('Возвращает правильный payload', () => {
-      const action = closeModal('test', true);
+      const action = closeOverlay('test', true);
       expect(action.payload).toEqual({
         name: 'test',
         prompt: true,

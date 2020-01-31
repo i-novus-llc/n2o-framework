@@ -41,7 +41,7 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
                 .get(context);
         CloseAction testAction = (CloseAction) page.getWidgets().get("p_w_a_main").getActions().get("test");
-        assertThat(testAction.getType(), is("n2o/modals/CLOSE"));
+        assertThat(testAction.getType(), is("n2o/overlays/CLOSE"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPageId(), is("p_w_a"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPrompt(), is(true));
 

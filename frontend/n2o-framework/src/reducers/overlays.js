@@ -6,28 +6,24 @@ import {
   SHOW,
   SHOW_PROMPT,
   HIDE_PROMPT,
-} from '../constants/modals';
+} from '../constants/overlays';
 
 const defaultState = {
   visible: false,
   name: null,
   showPrompt: false,
-  props: {
-    title: null,
-    closeButton: null,
-    pageId: null,
-    size: 'lg',
-    src: null,
-  },
+  mode: 'modal',
+  props: {},
 };
 
 function resolve(state = defaultState, action) {
   switch (action.type) {
     case INSERT:
-      const { visible, name, ...props } = action.payload;
+      const { visible, name, mode, ...props } = action.payload;
       return Object.assign({}, state, {
         visible,
         name,
+        mode,
         props: Object.assign({}, props),
       });
     case SHOW:
@@ -44,11 +40,11 @@ function resolve(state = defaultState, action) {
 }
 
 /**
- * Редюсер экшенов модалок
+ * Редюсер экшенов оверлеев
  */
-export default function modals(state = [], action) {
+export default function overlays(state = [], action) {
   const index = state.findIndex(
-    modal => modal.name === get(action, 'payload.name')
+    overlay => overlay.name === get(action, 'payload.name')
   );
   switch (action.type) {
     case INSERT:

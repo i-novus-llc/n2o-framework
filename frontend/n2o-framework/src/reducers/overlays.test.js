@@ -1,13 +1,13 @@
-import { INSERT, DESTROY, HIDE, SHOW } from '../constants/modals';
-import modals from './modals';
+import { INSERT, DESTROY, HIDE, SHOW } from '../constants/overlays';
+import overlays from './overlays';
 
-describe('Тесты modals reducer', () => {
+describe('Тесты overlays reducer', () => {
   it('Проверка INSERT', () => {
     expect(
-      modals(
+      overlays(
         [
           {
-            name: 'stateModal',
+            name: 'stateOverlay',
           },
         ],
         {
@@ -20,7 +20,7 @@ describe('Тесты modals reducer', () => {
       )
     ).toEqual([
       {
-        name: 'stateModal',
+        name: 'stateOverlay',
       },
       {
         name: 'testName',
@@ -32,10 +32,10 @@ describe('Тесты modals reducer', () => {
 
   it('Проверка SHOW', () => {
     expect(
-      modals(
+      overlays(
         [
           {
-            name: 'stateModal',
+            name: 'stateOverlay',
             modal: {},
             visible: false,
           },
@@ -43,13 +43,13 @@ describe('Тесты modals reducer', () => {
         {
           type: SHOW,
           payload: {
-            name: 'stateModal',
+            name: 'stateOverlay',
           },
         }
       )
     ).toEqual([
       {
-        name: 'stateModal',
+        name: 'stateOverlay',
         modal: {},
         visible: true,
       },
@@ -58,10 +58,10 @@ describe('Тесты modals reducer', () => {
 
   it('Проверка HIDE', () => {
     expect(
-      modals(
+      overlays(
         [
           {
-            name: 'stateModal',
+            name: 'stateOverlay',
             modal: {},
             visible: true,
           },
@@ -69,13 +69,13 @@ describe('Тесты modals reducer', () => {
         {
           type: HIDE,
           payload: {
-            name: 'stateModal',
+            name: 'stateOverlay',
           },
         }
       )
     ).toEqual([
       {
-        name: 'stateModal',
+        name: 'stateOverlay',
         modal: {},
         visible: false,
       },
@@ -84,11 +84,11 @@ describe('Тесты modals reducer', () => {
 
   it('Проверка DESTROY', () => {
     expect(
-      modals(
+      overlays(
         [
           {
             modal: {
-              name: 'stateModal',
+              name: 'stateOverlay',
             },
             visible: true,
           },
