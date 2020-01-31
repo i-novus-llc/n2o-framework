@@ -8,6 +8,7 @@ import CheckboxCell from './CheckboxCell/CheckboxCell';
 import CollapsedCell from './CollapsedCell/CollapsedCell';
 import ButtonsCell from './ButtonsCell/ButtonsCell';
 import EditableCell from './EditableCell/EditableCell';
+import RatingCell from './RatingCell/RatingCell';
 
 export default {
   TextCell: TextCell,
@@ -20,4 +21,5 @@ export default {
   CollapsedCell: CollapsedCell,
   ButtonsCell: ButtonsCell,
   EditableCell: EditableCell,
+  RatingCell: RatingCell,
 };

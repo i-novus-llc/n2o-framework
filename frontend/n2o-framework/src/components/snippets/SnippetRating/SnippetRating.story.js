@@ -2,9 +2,9 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import withForm from 'N2oStorybook/decorators/withForm';
-import Rating from './Rating';
+import SnippetRating from './SnippetRating';
 
-import meta from './Raiting.meta';
+import meta from './SnippetRating.meta';
 import Factory from '../../../core/factory/Factory';
 
 const form = withForm({ src: 'Rating' });
@@ -13,7 +13,7 @@ const stories = storiesOf('Контролы/Рейтинг', module);
 
 stories.addParameters({
   info: {
-    propTables: [Rating],
+    propTables: [SnippetRating],
     propTablesExclude: [Factory],
   },
 });
@@ -28,7 +28,7 @@ stories
         rating: meta.rating,
         showTooltip: meta.showTooltip,
       };
-      return <Rating {...props} />;
+      return <SnippetRating {...props} />;
     },
     {
       info: {
@@ -57,7 +57,7 @@ stories
   .add(
     'Тултип',
     () => {
-      return <Rating {...meta} showTooltip={true} rating={2.5555555} />;
+      return <SnippetRating {...meta} showTooltip={true} rating={2.5555555} />;
     },
     {
       info: {
@@ -81,7 +81,12 @@ stories
     'Частичный выбор',
     () => {
       return (
-        <Rating {...meta} showTooltip={true} half={true} rating={2.5555555} />
+        <SnippetRating
+          {...meta}
+          showTooltip={true}
+          half={true}
+          rating={2.5555555}
+        />
       );
     },
     {
