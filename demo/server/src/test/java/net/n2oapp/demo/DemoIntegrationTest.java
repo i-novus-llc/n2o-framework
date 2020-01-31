@@ -76,6 +76,17 @@ public class DemoIntegrationTest {
         protoPage.testTableEditBirthday();
     }
 
+
+    @Test
+    public void testMasterDetail() {
+        protoPage.testMasterDetail();
+    }
+
+    @Test
+    public void testCreateContact() {
+        protoPage.assertCreateContact();
+    }
+
     @Test
     public void testAddClient() {
         protoPage.assertAddClient();

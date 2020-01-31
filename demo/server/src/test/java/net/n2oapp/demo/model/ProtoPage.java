@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static net.n2oapp.demo.model.BasePage.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -136,15 +137,15 @@ public class ProtoPage implements ProtoPageSelectors {
      * Проверка работы ячейки Отчество
      */
     public void testPatronymicCell() {
-        getRowElements(getMainTable(), 6).get(2).$(".btn").click();
+        getRowElements(getMainTable(), 7).get(2).$(".btn").click();
         SelenideElement openPage = getPage();
         getBreadcrumbActiveItem().shouldHave(Condition.text("Карточка клиента: "));
 
-        getInput(openPage, "Фамилия").shouldHave(Condition.value("Чуканова"));
-        getInput(openPage, "Имя").shouldHave(Condition.value("Изольда"));
-        getInput(openPage, "Отчество").shouldHave(Condition.value("Тихоновна"));
+        getInput(openPage, "Фамилия").shouldHave(Condition.value("Иванова"));
+        getInput(openPage, "Имя").shouldHave(Condition.value("Зинаида"));
+        getInput(openPage, "Отчество").shouldHave(Condition.value("Виталиевна"));
         getRadioButton(openPage, "Женский").$("input").shouldBe(Condition.checked);
-        getInputDate(openPage, "Дата рождения").shouldHave(Condition.value("16.10.1932"));
+        getInputDate(openPage, "Дата рождения").shouldHave(Condition.value("11.09.1933"));
         getCheckbox(openPage, "VIP").$("input").shouldBe(Condition.checked);
 
         getInput(openPage, "Фамилия").setValue("Сергеева");
@@ -153,9 +154,9 @@ public class ProtoPage implements ProtoPageSelectors {
         getButton(openPage, "Сохранить").click();
 
         getMainTablePaginationActiveButton().shouldHave(Condition.text("1"));
-        getRowElements(getMainTable(), 6).get(0).shouldHave(Condition.text("Сергеева"));
-        getRowElements(getMainTable(), 6).get(1).shouldHave(Condition.text("Анастасия"));
-        getRowElements(getMainTable(), 6).get(2).shouldHave(Condition.text("Михайловна"));
+        getRowElements(getMainTable(), 7).get(0).shouldHave(Condition.text("Сергеева"));
+        getRowElements(getMainTable(), 7).get(1).shouldHave(Condition.text("Анастасия"));
+        getRowElements(getMainTable(), 7).get(2).shouldHave(Condition.text("Михайловна"));
     }
 
     /**
@@ -378,7 +379,7 @@ public class ProtoPage implements ProtoPageSelectors {
      * Просмотр клиента через модальное окно
      */
     public void assertViewClient() {
-        List<String> row = getRow(getMainTableRows(), 1);
+        List<String> row = getRow(getMainTableRows(), 2);
         String surname = row.get(0);
         String name = row.get(1);
         String patronymic = row.get(2);
@@ -387,7 +388,7 @@ public class ProtoPage implements ProtoPageSelectors {
         String vip = "true".equals(row.get(5)) ? "true" : "false";
 
         SelenideElement mainPage = getPage();
-        getRowElements(mainPage, 1).get(4).click();
+        getRowElements(mainPage, 2).get(4).click();
         getButton(mainPage, "Просмотр").click();
 
         SelenideElement modalPage = getModalPage();
@@ -456,5 +457,59 @@ public class ProtoPage implements ProtoPageSelectors {
         List<String> aRow = getRowElements(getMainTable(), 8).shouldHaveSize(7).texts();
         assertThat(aRow.get(0).equals(row.get(0)) || aRow.get(1).equals(row.get(1)), is(false));
         assertThat(nRow.get(0).equals(aRow.get(0)) && nRow.get(1).equals(aRow.get(1)), is(true));
+    }
+
+    /**
+     * Проверка master-detail связи
+     */
+    public void testMasterDetail() {
+        getRowElements(getMainTable(), 6).get(0).shouldBe(Condition.text("Чуканова"));
+        getRowElements(getMainTable(), 6).get(4).click();
+
+        getContactsList().click();
+        getListItemMainContainer(getListItem(getContactsList(), 0)).get(0).shouldBe(Condition.text("3333333"));
+
+        getInput(getCardForm(), "Фамилия").shouldBe(Condition.value("Чуканова"));
+        getInput(getCardForm(), "Имя").shouldBe(Condition.value("Изольда"));
+        getRadioGroup(getCardForm(), "Пол").$(".checked").shouldBe(Condition.text("Женский"));
+        getCheckbox(getCardForm(), "VIP").shouldBe(Condition.enabled);
+
+        getRowElements(getMainTable(), 5).get(4).click();
+        getContactsList().click();
+        getListItemMainContainer(getListItem(getContactsList(), 0)).get(0).shouldBe(Condition.text("+7950267859"));
+        getRadioGroup(getCardForm(), "Пол").$(".checked").shouldBe(Condition.text("Женский"));
+        getCheckbox(getCardForm(), "VIP").shouldBe(Condition.enabled);
+    }
+
+    /**
+     * Проверка создания контакта
+     */
+    public void assertCreateContact() {
+        getMainTableHead().shouldBe(Condition.exist);
+        getInput(getMainTableFilter(), "Фамилия").setValue("Маркин");
+        getFilterSearchButton().click();
+        getRowElements(getMainTable(), 0).get(0).shouldBe(Condition.text("Маркин"));
+        getRowElements(getMainTable(), 0).get(4).click();
+
+        SelenideElement contactsList = getContactsList();
+        contactsList.click();
+        getListItems(contactsList).shouldHave(CollectionCondition.empty);
+
+        getButton(getPanels().get(1), "Создать").click();
+        SelenideElement modalPage = getModalPage();
+        getInputSelect(modalPage, "Клиент").shouldBe(Condition.exist).click();
+        getInputSelect(modalPage, "Клиент").$("input").sendKeys("Маркин");
+        getInputSelect(modalPage, "Клиент").$$("button").shouldHaveSize(1);
+        getInputSelect(modalPage, "Клиент").$("input").sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
+        getInputSelect(modalPage, "Тип контакта").click();
+        getInputSelect(modalPage, "Тип контакта").$$("button").shouldHaveSize(3);
+        getInputSelect(modalPage, "Тип контакта").$("input").sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
+        getMaskedInput(modalPage, "Номер телефона").click();
+        getMaskedInput(modalPage, "Номер телефона").setValue("9999999999");
+        getInput(modalPage, "Примечание").setValue("рабочий телефон");
+        getButton(modalPage, "Сохранить").click();
+        $$(".modal-open").get(0).waitUntil(Condition.not(Condition.exist), 10000);
+        getListItems(contactsList).shouldHaveSize(1);
+        getListItemMainContainer(getListItem(getContactsList(), 0)).get(0).shouldBe(Condition.text("+7 (999) 999-99-99"));
     }
 }
