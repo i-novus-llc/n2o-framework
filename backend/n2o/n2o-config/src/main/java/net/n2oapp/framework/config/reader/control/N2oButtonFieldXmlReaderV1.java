@@ -36,7 +36,7 @@ public class N2oButtonFieldXmlReaderV1 extends N2oStandardControlReaderV1<N2oBut
         if (eventElement != null && eventElement.getChildren() != null && !eventElement.getChildren().isEmpty()) {
             N2oAction event = (N2oAction) readerFactory.produce((Element) eventElement.getChildren().get(0),
                     element.getNamespace(), DEFAULT_EVENT_NAMESPACE_URI).read((Element) eventElement.getChildren().get(0));
-            buttonField.setEvent(event);
+            buttonField.setAction(event);
         }
         return buttonField;
     }
