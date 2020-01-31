@@ -10,12 +10,13 @@ import metadata from '../Page.meta';
 import Page from '../Page';
 import PropTypes from 'prop-types';
 import { PlaceholderBreadCrumb } from 'N2oStorybook/json';
+import page from '../OpenPage.meta';
 
 const stories = storiesOf('Функциональность/Хлебные крошки', module);
 
 const PageContext = withContext(
   {
-    defaultBreadcrumb: PropTypes.node,
+    defaultBreadcrumb: PropTypes.func,
   },
   props => ({
     defaultBreadcrumb: DefaultBreadcrumb,
@@ -23,7 +24,6 @@ const PageContext = withContext(
 )(Page);
 
 stories
-
   .add('Метаданные', () => {
     const withForward = JSON.parse(JSON.stringify(metadata));
     withForward.id = 'OtherPage';
@@ -43,7 +43,7 @@ stories
       return withForward;
     });
 
-    fetchMock.get('begin:n2o/data', getStubData);
+    fetchMock.get('*', getStubData);
 
     return (
       <Switch>
@@ -51,21 +51,38 @@ stories
           path="/test"
           exact
           component={() => (
-            <PageContext pageId="OtherPage" pageUrl="OtherPage" />
+            <PageContext
+              pageId="OtherPage"
+              pageUrl="OtherPage"
+              metadata={metadata}
+            />
           )}
         />
         <Route
           path="/"
           component={() => (
-            <PageContext pageId="testSimplePageJson" pageUrl="Page" />
+            <PageContext
+              pageId="testSimplePageJson"
+              pageUrl="Page"
+              metadata={metadata}
+            />
           )}
         />
       </Switch>
     );
   })
   .add('Плейсхолдер', () => {
-    fetchMock.restore().get('begin:n2o/page', url => {
+    fetchMock.restore().get('*', url => {
       return PlaceholderBreadCrumb;
     });
-    return <PageContext pageId="testSimplePageJson" pageUrl="Page" />;
+    return (
+      <PageContext
+        pageId="testSimplePageJson"
+        pageUrl="Page"
+        metadata={metadata}
+      />
+    );
+  })
+  .add('без props path', () => {
+    return <DefaultBreadcrumb items={metadata.breadcrumb} />;
   });

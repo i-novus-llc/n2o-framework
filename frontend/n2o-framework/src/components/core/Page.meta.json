@@ -23,11 +23,22 @@
   "breadcrumb": [
     {
       "label": "Первая",
-      "path": "/"
+      "path": "/",
+      "title": "Первая c title"
     },
     {
-      "label": "Вторая",
-      "path": "/test"
+      "label": "Вторая без path",
+      "title": "Вторая c title"
+    },
+    {
+      "label": "Третья",
+      "path": "/test3",
+      "title": "Третья"
+    },
+    {
+      "label": "Четвертая",
+      "path": "/test4",
+      "title": "Четвертая"
     }
   ],
   "widgets": {

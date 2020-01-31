@@ -62,6 +62,10 @@ export default compose(
             item.label,
             getModelSelector(item.modelLink)(props.store.getState())
           ),
+          title: propsResolver(
+            item.title,
+            getModelSelector(item.modelLink)(props.store.getState())
+          ),
         };
       }
 
