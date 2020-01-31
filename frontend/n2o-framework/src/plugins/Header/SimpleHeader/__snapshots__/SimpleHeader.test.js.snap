@@ -75,6 +75,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                 "admin",
               ],
             },
+            "target": "newWindow",
             "type": "link",
           },
           Object {
@@ -229,6 +230,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                 "admin",
                               ],
                             },
+                            "target": "newWindow",
                             "type": "link",
                           }
                         }
@@ -243,6 +245,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                             <a
                               className="nav-link"
                               href="/"
+                              target="_blank"
                             >
                               ссылка
                             </a>
@@ -362,6 +365,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                               aria-current="page"
                                               className="nav-link dropdown-item"
                                               exact={true}
+                                              target={null}
                                               to="/pageRoute"
                                             >
                                               <Route
@@ -372,6 +376,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                                   aria-current={null}
                                                   className="nav-link dropdown-item"
                                                   replace={false}
+                                                  target={null}
                                                   to="/pageRoute"
                                                 >
                                                   <a
@@ -379,6 +384,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                                     className="nav-link dropdown-item"
                                                     href="/pageRoute"
                                                     onClick={[Function]}
+                                                    target={null}
                                                   >
                                                     Название страницы
                                                   </a>
@@ -422,6 +428,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                               aria-current="page"
                                               className="nav-link dropdown-item"
                                               exact={true}
+                                              target={null}
                                               to="/pageRoute1"
                                             >
                                               <Route
@@ -432,6 +439,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                                   aria-current={null}
                                                   className="nav-link dropdown-item"
                                                   replace={false}
+                                                  target={null}
                                                   to="/pageRoute1"
                                                 >
                                                   <a
@@ -439,6 +447,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                                     className="nav-link dropdown-item"
                                                     href="/pageRoute1"
                                                     onClick={[Function]}
+                                                    target={null}
                                                   >
                                                     элемент списка №2
                                                   </a>
@@ -612,6 +621,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                               aria-current="page"
                                               className="nav-link dropdown-item"
                                               exact={true}
+                                              target={null}
                                               to="/"
                                             >
                                               <Route
@@ -623,6 +633,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                                   className="nav-link dropdown-item active"
                                                   replace={false}
                                                   style={Object {}}
+                                                  target={null}
                                                   to="/"
                                                 >
                                                   <a
@@ -631,6 +642,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                                     href="/"
                                                     onClick={[Function]}
                                                     style={Object {}}
+                                                    target={null}
                                                   >
                                                     элемент списка №1
                                                   </a>
@@ -674,6 +686,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                               aria-current="page"
                                               className="nav-link dropdown-item"
                                               exact={true}
+                                              target={null}
                                               to="/"
                                             >
                                               <Route
@@ -685,6 +698,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                                   className="nav-link dropdown-item active"
                                                   replace={false}
                                                   style={Object {}}
+                                                  target={null}
                                                   to="/"
                                                 >
                                                   <a
@@ -693,6 +707,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                                                     href="/"
                                                     onClick={[Function]}
                                                     style={Object {}}
+                                                    target={null}
                                                   >
                                                     элемент списка №2
                                                   </a>
