@@ -160,6 +160,15 @@ public class ProtoPage implements ProtoPageSelectors {
     }
 
     /**
+     * Проверка работы ячейки VIP
+     */
+    public void testVipCell() {
+        getRowElements(getMainTable(), 2).get(5).$("input").shouldBe(Condition.checked);
+        getRowElements(getMainTable(), 2).get(5).click(-10, 0);
+        getRowElements(getMainTable(), 2).get(5).$("input").shouldNotBe(Condition.checked);
+    }
+
+    /**
      * Проверка редактирования даты в таблице
      */
     public void testTableEditBirthday() {
@@ -216,7 +225,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getRowElements(mainPage, 0).get(2).shouldHave(Condition.text("Петрович"));
         getRowElements(mainPage, 0).get(3).shouldHave(Condition.text("17.01.2020"));
         getRowElements(mainPage, 0).get(4).shouldHave(Condition.text("Мужской"));
-        getRowElements(mainPage, 0).get(5).$("input").shouldHave(Condition.attribute("checked"));
+        getRowElements(mainPage, 0).get(5).$("input").shouldBe(Condition.checked);
     }
 
     /**
@@ -247,7 +256,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getRowElements(mainPage, 0).get(2).shouldHave(Condition.text("Петрович"));
         getRowElements(mainPage, 0).get(3).shouldHave(Condition.text("17.01.2020"));
         getRowElements(mainPage, 0).get(4).shouldHave(Condition.text("Мужской"));
-        getRowElements(mainPage, 0).get(5).$("input").shouldHave(Condition.attribute("checked"));
+        getRowElements(mainPage, 0).get(5).$("input").shouldBe(Condition.checked);
     }
 
     /**
@@ -289,7 +298,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getRowElements(mainPage, 2).get(3).shouldHave(Condition.text(birthDate));
         getRowElements(mainPage, 2).get(4).shouldHave(Condition.text(gender));
         getRowElements(mainPage, 2).get(5).$("input")
-                .shouldHave("true".equals(vip) ? Condition.attribute("checked") : Condition.not(Condition.attribute("checked")));
+                .shouldBe("true".equals(vip) ? Condition.checked : Condition.not(Condition.checked));
 
     }
 
@@ -331,7 +340,7 @@ public class ProtoPage implements ProtoPageSelectors {
         rowElements.get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
         rowElements.shouldHave(CollectionCondition.texts("Иванова", "Наталья", "Петровна", birthDate, gender, "", ""));
         rowElements.get(5).$("input")
-                .shouldHave("true".equals(vip) ? Condition.attribute("checked") : Condition.not(Condition.attribute("checked")));
+                .shouldBe("true".equals(vip) ? Condition.checked : Condition.not(Condition.checked));
     }
 
     /**

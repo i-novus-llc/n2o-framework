@@ -72,6 +72,11 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testVipCell() {
+        protoPage.testVipCell();
+    }
+
+    @Test
     public void testTableEditBirthday() {
         protoPage.testTableEditBirthday();
     }
