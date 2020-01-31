@@ -56,16 +56,6 @@ public interface BasePage {
     }
 
     /**
-     * Получение поля Checkbox
-     *
-     * @param parent - начальный элемент
-     * @param label  - текст
-     */
-    static SelenideElement getCheckboxInput(SelenideElement parent, String label) {
-        return getCheckbox(parent, label).$(".n2o-input");
-    }
-
-    /**
      * Получение RadioButton
      *
      * @param parent - начальный элемент

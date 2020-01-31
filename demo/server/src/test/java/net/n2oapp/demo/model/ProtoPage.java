@@ -95,8 +95,8 @@ public class ProtoPage implements ProtoPageSelectors {
         getMainTableRows().shouldHaveSize(10);
 
         getInput(getMainTableFilter(), "Имя").shouldHave(Condition.value(""));
-        getCheckboxInput(getMainTableFilter(), "Женский").shouldNotBe(Condition.checked);
-        getCheckboxInput(getMainTableFilter(), "VIP").shouldNotBe(Condition.checked);
+        getCheckbox(getMainTableFilter(), "Женский").$("input").shouldNotBe(Condition.checked);
+        getCheckbox(getMainTableFilter(), "VIP").$("input").shouldNotBe(Condition.checked);
     }
 
     /**
