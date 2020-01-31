@@ -12,6 +12,7 @@ exports[`<Breadcrumb /> тестирует снэпшот контейнера �
       className="breadcrumb-item"
     >
       <a
+        className="n2o-breadcrumb-link"
         href="/redirectTest"
         onClick={[Function]}
       >
@@ -22,7 +23,11 @@ exports[`<Breadcrumb /> тестирует снэпшот контейнера �
       aria-current="page"
       className="active breadcrumb-item"
     >
-      Test
+      <span
+        className="n2o-breadcrumb-link n2o-breadcrumb-link_active"
+      >
+        Test
+      </span>
     </li>
   </ol>
 </nav>
