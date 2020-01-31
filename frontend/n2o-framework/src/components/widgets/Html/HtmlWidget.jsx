@@ -1,30 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import StandardWidget from '../StandardWidget';
-import Html from './Html';
+import HtmlContainer from './HtmlContainer';
 import dependency from '../../../core/dependency';
 
 /**
- * Виджет таблица
+ * HtmlWidget
  * @reactProps {string} containerId - id конейтенера
  * @reactProps {string} pageId - id страницы
  * @reactProps {boolean} fetchOnInit - фетчить / не фетчить данные при инициализации
  * @reactProps {boolean} url - url для фетчинга
  * @reactProps {string} widgetId - id виджета
- * @reactProps {object} toolbar
- * @reactProps {object} actions
  * @reactProps {string} html - html код
  * @reactProps {object} dataProvider
+ * @reactProps {object} datasource
  */
+
 class HtmlWidget extends React.Component {
   /**
    * Мэппинг пропсов
    */
   getWidgetProps() {
     return {
-      id: this.props.widgetId,
-      ...this.props.html,
+      id: this.props.id,
+      url: this.props.url,
       dataProvider: this.props.dataProvider,
+      datasource: this.props.datasource,
+      ...this.props.html,
     };
   }
 
@@ -37,9 +39,10 @@ class HtmlWidget extends React.Component {
       id: widgetId,
       toolbar,
       actions,
-      size,
       className,
       style,
+      pageId,
+      datasource,
     } = this.props;
     return (
       <StandardWidget
@@ -47,9 +50,16 @@ class HtmlWidget extends React.Component {
         toolbar={toolbar}
         actions={actions}
         className={className}
+        fetchOnInit={fetchOnInit}
         style={style}
       >
-        <Html {...this.getWidgetProps()} />
+        <HtmlContainer
+          pageId={pageId}
+          widgetId={widgetId}
+          fetchOnInit={fetchOnInit}
+          datasource={datasource}
+          {...this.getWidgetProps()}
+        />
       </StandardWidget>
     );
   }

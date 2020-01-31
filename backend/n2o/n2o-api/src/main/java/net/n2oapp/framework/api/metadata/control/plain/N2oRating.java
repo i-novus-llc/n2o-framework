@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oRating extends N2oPlainField {
-
     private Integer max;
     private Boolean half;
     private Boolean showTooltip;
