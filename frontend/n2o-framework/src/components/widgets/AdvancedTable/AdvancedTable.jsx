@@ -32,6 +32,7 @@ import AdvancedTableRowWithAction from './AdvancedTableRowWithAction';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
+import RadioN2O from '../../controls/Radio/RadioN2O';
 import AdvancedTableCell from './AdvancedTableCell';
 import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
 import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
@@ -46,6 +47,11 @@ const KEY_CODES = {
   DOWN: 'down',
   UP: 'up',
   SPACE: 'space',
+};
+
+const rowSelectionType = {
+  CHECKBOX: 'checkbox',
+  RADIO: 'radio',
 };
 
 /**
@@ -439,6 +445,17 @@ class AdvancedTable extends Component {
     }));
   }
 
+  handleChangeRadioChecked(event, index) {
+    const checked = !event.target.checked;
+    const checkedState = {
+      [index]: checked,
+    };
+    this.props.onSetSelection(checkedState);
+    this.setState(() => ({
+      checked: checkedState,
+    }));
+  }
+
   handleResize(index) {
     return (e, { size }) => {
       this.setState(({ columns }) => {
@@ -481,28 +498,38 @@ class AdvancedTable extends Component {
     };
   }
 
-  createSelectionColumn(columns) {
+  createSelectionColumn(columns, rowSelection) {
     const isSomeFixed = some(columns, c => c.fixed);
     return {
-      title: (
-        <AdvancedTableSelectionColumn
-          setRef={this.setSelectionRef}
-          onChange={this.checkAll}
-        />
-      ),
+      title:
+        rowSelection === rowSelectionType.CHECKBOX ? (
+          <AdvancedTableSelectionColumn
+            setRef={this.setSelectionRef}
+            onChange={this.checkAll}
+            rowSelection={rowSelection}
+          />
+        ) : null,
       dataIndex: 'row-selection',
       key: 'row-selection',
       className: 'n2o-advanced-table-selection-container',
       width: 30,
       fixed: isSomeFixed && 'left',
-      render: (value, model) => (
-        <CheckboxN2O
-          className="n2o-advanced-table-row-checkbox"
-          inline={true}
-          checked={this.state.checked[model.id]}
-          onChange={event => this.handleChangeChecked(event, model.id)}
-        />
-      ),
+      render: (value, model) =>
+        rowSelection === rowSelectionType.CHECKBOX ? (
+          <CheckboxN2O
+            className="n2o-advanced-table-row-checkbox"
+            inline={true}
+            checked={this.state.checked[model.id]}
+            onChange={event => this.handleChangeChecked(event, model.id)}
+          />
+        ) : rowSelection === rowSelectionType.RADIO ? (
+          <RadioN2O
+            className="n2o-advanced-table-row-radio"
+            inline={true}
+            checked={this.state.checked[model.id]}
+            onChange={event => this.handleChangeRadioChecked(event, model.id)}
+          />
+        ) : null,
     };
   }
 
@@ -565,8 +592,11 @@ class AdvancedTable extends Component {
         hasSpan: col.hasSpan,
       }),
     }));
-    if (rowSelection) {
-      newColumns = [this.createSelectionColumn(columns), ...newColumns];
+    if (!!rowSelection) {
+      newColumns = [
+        this.createSelectionColumn(columns, rowSelection),
+        ...newColumns,
+      ];
     }
     return newColumns;
   }
@@ -645,7 +675,7 @@ class AdvancedTable extends Component {
             components={this.components}
             rowKey={this.getRowKey}
             expandIcon={this.renderIcon}
-            expandIconAsCell={rowSelection && expandable}
+            expandIconAsCell={!!rowSelection && expandable}
             expandedRowRender={this.renderExpandedRow()}
             expandedRowKeys={this.state.expandedRowKeys}
             onExpandedRowsChange={this.handleExpandedRowsChange}
@@ -687,9 +717,9 @@ AdvancedTable.propTypes = {
    */
   bordered: PropTypes.bool,
   /**
-   * Флаг включения выбора строк
+   * Тип выбора строк
    */
-  rowSelection: PropTypes.bool,
+  rowSelection: PropTypes.string,
   /**
    * Флаг включения саб контента
    */
@@ -717,7 +747,7 @@ AdvancedTable.defaultProps = {
   data: [],
   bordered: false,
   tableSize: 'sm',
-  rowSelection: false,
+  rowSelection: '',
   expandable: false,
   onFocus: () => {},
   onSetSelection: () => {},
