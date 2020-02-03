@@ -33,6 +33,11 @@ http://n2oapp.net/framework/config/schema/page-2.0
 |URL страницы
 |Формируется из идентификатора страницы
 
+|modal-size
+|sm lg
+|Размер модального окна, если страница открыта в модальном окне
+|
+
 |===
 
 Тело::
@@ -56,6 +61,11 @@ link:#_Виджеты[Виджет]
 |Строка
 |URL страницы
 |Формируется из идентификатора страницы
+
+|modal-size
+|sm lg
+|Размер модального окна, если страница открыта в модальном окне
+|
 
 |object-id
 |Ссылка на link:#_Объект_object[объект]
@@ -82,6 +92,58 @@ link:#_Виджеты[Виджет]
     layout="LeftRightLayout">
     <regions>...</regions>
     <actions>...</actions>
+    <toolbar>...</toolbar>
+</page>
+----
+
+=== <searchable-page>
+Страница с поисковой строкой.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|name
+|Строка
+|Наименование страницы
+|
+
+|route
+|Строка
+|URL страницы
+|Формируется из идентификатора страницы
+
+|modal-size
+|sm lg
+|Размер модального окна, если страница открыта в модальном окне
+|
+
+|object-id
+|Ссылка на link:#_Объект_object[объект]
+|Главный объект страницы
+|
+
+|layout
+|React компонент
+|Вёрстка шаблона страницы
+|
+
+|===
+
+Тело::
+link:#_Поисковая_строка[Поисковая строка]
+
+Пример::
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+    name="Моя страница"
+    object-id="myObject"
+    layout="LeftRightLayout">
+    <search-bar/>
+    <regions>...</regions>
     <toolbar>...</toolbar>
 </page>
 ----
@@ -212,6 +274,62 @@ link:#_Действия[Обработчик действия]
   <button>...</button>
   <sub-menu>...</sub-menu>
 </toolbar>
+----
+
+==== <search-bar>
+Поисковая строка.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|class
+|Строка
+|CSS класс
+|
+
+|trigger
+|change enter button
+|Триггер запуска поиска
+|
+
+|placeholder
+|Строка
+|Подсказка для ввода
+|
+
+|button-label
+|Строка
+|Подпись кнопки
+|
+
+|button-icon
+|Строка
+|Иконка кнопки
+|
+
+|search-widget-id
+|Строка
+|Идентификатор виджета для которого производится поиск
+|
+
+|search-filter-id
+|Строка
+|Идентификатор фильтра
+|
+
+|search-param
+|Строка
+|Параметр поиска
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<search-bar button-label="Искать" search-widget-id="main" search-filter-id="name"/>
 ----
 
 ===== <button>

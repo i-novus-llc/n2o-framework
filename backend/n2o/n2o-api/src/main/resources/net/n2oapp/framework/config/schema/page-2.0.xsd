@@ -8,6 +8,7 @@
 
     <xs:element name="page" type="standardPageDefinition"/>
     <xs:element name="simple-page" type="simplePageDefinition"/>
+    <xs:element name="searchable-page" type="searchablePageDefinition"/>
 
     <xs:complexType name="pageDefinition" abstract="true">
         <xs:annotation>
@@ -101,6 +102,92 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="searchablePageDefinition">
+        <xs:annotation>
+            <xs:documentation>Страница c возможностью вставки поля поиска</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="regions" type="regionsDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="toolbar" type="pageToolbarDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="search-bar" type="searchBarDefinition" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Наименование страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="route" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>URL страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="modal-size" type="ac:modalSize" use="optional">
+            <xs:annotation>
+                <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="object-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Объект выборки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="layout" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Вёрстка шаблона страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:anyAttribute>
+            <xs:annotation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:complexType name="searchBarDefinition">
+        <xs:annotation>
+            <xs:documentation>Поисковая строка</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>CSS класс.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="trigger" type="triggerType">
+            <xs:annotation>
+                <xs:documentation>Триггер запуска поиска.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="placeholder" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Подсказка для ввода.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="button-label" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Подпись кнопки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="button-icon" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Иконка кнопки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="search-widget-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор виджета для которого производится поиск.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="search-filter-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор фильтра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="search-param" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Параметр поиска.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 
     <xs:complexType name="regionsDefinition">
         <xs:annotation>
@@ -270,4 +357,11 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="triggerType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="change"/>
+            <xs:enumeration value="enter"/>
+            <xs:enumeration value="button"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>
