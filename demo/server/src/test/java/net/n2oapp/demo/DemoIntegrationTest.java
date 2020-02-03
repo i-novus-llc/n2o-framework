@@ -57,6 +57,11 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testClearFilter() {
+        protoPage.testClearFilter();
+    }
+
+    @Test
     public void testTableSorting() {
         protoPage.testTableSorting();
     }

@@ -13,6 +13,7 @@ import java.util.List;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 import static net.n2oapp.demo.model.BasePage.*;
+import static net.n2oapp.demo.model.BasePage.getRowElements;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -77,6 +78,25 @@ public class ProtoPage implements ProtoPageSelectors {
         getMainTableRows().shouldHaveSize(2);
         getRowElements(getMainTable(), 0).get(0).shouldHave(Condition.text("Кручинина"));
         getRowElements(getMainTable(), 1).get(0).shouldHave(Condition.text("Мишин"));
+    }
+
+    /**
+     * Проверка работы очистки фильтра
+     */
+    public void testClearFilter() {
+        getInput(getMainTableFilter(), "Имя").val("Римма");
+        getCheckbox(getMainTableFilter(), "Женский").click();
+        getCheckbox(getMainTableFilter(), "VIP").click(-10, 0);
+
+        getFilterSearchButton().click();
+        getMainTableRows().shouldHaveSize(2);
+
+        getFilterResetButton().click();
+        getMainTableRows().shouldHaveSize(10);
+
+        getInput(getMainTableFilter(), "Имя").shouldHave(Condition.value(""));
+        getCheckbox(getMainTableFilter(), "Женский").$("input").shouldNotBe(Condition.checked);
+        getCheckbox(getMainTableFilter(), "VIP").$("input").shouldNotBe(Condition.checked);
     }
 
     /**

@@ -39,11 +39,11 @@ public interface ProtoPageSelectors {
     }
 
     default SelenideElement getFilterSearchButton() {
-        return BasePage.getButton(getMainTableFilter(), ("Найти"));
+        return BasePage.getButton(getMainTableFilter(), "Найти");
     }
 
     default SelenideElement getFilterResetButton() {
-        return BasePage.getButton(getMainTableFilter(), ("Сбросить"));
+        return BasePage.getButton(getMainTableFilter(), "Сбросить");
     }
 
     default SelenideElement getMainTablePaginationButton(int idx) {
