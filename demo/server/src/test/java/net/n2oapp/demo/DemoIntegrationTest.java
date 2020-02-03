@@ -62,6 +62,11 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testPagination() {
+        protoPage.testPagination();
+    }
+
+    @Test
     public void testSurnameCell() {
         protoPage.testSurnameCell();
     }
@@ -85,7 +90,6 @@ public class DemoIntegrationTest {
     public void testTableEditBirthday() {
         protoPage.testTableEditBirthday();
     }
-
 
     @Test
     public void testMasterDetail() {

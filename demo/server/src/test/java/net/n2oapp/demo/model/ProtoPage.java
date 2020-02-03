@@ -96,6 +96,21 @@ public class ProtoPage implements ProtoPageSelectors {
     }
 
     /**
+     * Проверка корректности работы пагинации
+     */
+    public void testPagination() {
+        getMainTableRows().shouldHaveSize(10);
+        getMainTablePaginationActiveButton().shouldHave(Condition.text("1"));
+        getMainTablePaginationButton(1).shouldHave(Condition.text("2"));
+        getMainTablePaginationButton(1).click();
+
+        getMainTableRows().shouldHaveSize(10);
+        getMainTablePaginationActiveButton().shouldHave(Condition.text("2"));
+        getMainTablePaginationButton(0).shouldHave(Condition.text("1"));
+        getMainTablePaginationButton(2).shouldHave(Condition.text("3"));
+    }
+
+    /**
      * Проверка работы ячейки Фамилия
      */
     public void testSurnameCell() {
@@ -204,7 +219,6 @@ public class ProtoPage implements ProtoPageSelectors {
         getRowElements(getMainTable(), 0).get(3).shouldBe(Condition.text(exDate));
     }
 
-
     private boolean isSorted(List<String> list, Boolean dir) {
         for (int i = 0; i < list.size() - 1; i++) {
             if ((dir && list.get(i).compareTo(list.get(i + 1)) >= 0)
@@ -261,7 +275,7 @@ public class ProtoPage implements ProtoPageSelectors {
 
         getButton(getPage(), "Закрыть").click();
 
-        getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
+        getMainTablePaginationActiveButton().shouldHave(Condition.text("1"));
         getRowElements(mainPage, 0).get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
 
         getRowElements(mainPage, 0).get(0).shouldHave(Condition.text("Иванов"));
@@ -302,7 +316,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getInput(modalPage, "Отчество").setValue("Петрович");
         getButton(modalPage, "Сохранить").click();
 
-        getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
+        getMainTablePaginationActiveButton().shouldHave(Condition.text("1"));
         getRowElements(mainPage, 2).get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
 
         getRowElements(mainPage, 2).get(0).shouldHave(Condition.text("Иванов"));
@@ -347,7 +361,7 @@ public class ProtoPage implements ProtoPageSelectors {
         getInput(modalPage, "Отчество").setValue("Петровна");
         getButton(modalPage, "Сохранить").click();
 
-        getMainTablePaginationButton(0).shouldHave(Condition.cssClass("active"));
+        getMainTablePaginationActiveButton().shouldHave(Condition.text("1"));
 
         rowElements = getRowElements(mainPage, 2);
         rowElements.get(0).parent().parent().shouldHave(Condition.cssClass("table-active"));
