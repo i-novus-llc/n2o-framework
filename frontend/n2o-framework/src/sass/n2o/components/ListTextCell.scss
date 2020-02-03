@@ -1,0 +1,19 @@
+.list-text-cell__tooltip-container {
+  padding: 0;
+  border: 1px solid #3f515e;
+  border-radius: 3px;
+  background-color: #fff;
+}
+
+.list-text-cell__tooltip-container__body {
+  padding: 3px;
+}
+
+.tooltip-arrow[data-placement*='bottom']::before {
+  border-color: transparent transparent #3f515e transparent!important;
+}
+
+.tooltip-container__body__divider {
+  margin: 0;
+  padding: 0;
+}
