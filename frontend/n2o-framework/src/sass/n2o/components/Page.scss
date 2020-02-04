@@ -9,6 +9,10 @@
     display: flex;
     justify-content: space-between;
 
+    & .n2o-page__left + .n2o-page__right {
+      margin-left: 20px;
+    }
+
     & .n2o-page__left,
     & .n2o-page__right {
       width: 49%;
