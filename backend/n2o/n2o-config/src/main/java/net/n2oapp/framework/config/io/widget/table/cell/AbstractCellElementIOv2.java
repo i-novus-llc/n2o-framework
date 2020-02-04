@@ -8,7 +8,7 @@ import org.jdom.Element;
 
 
 /**
- * Чтение\запись абстрактнрой ячейки
+ * Чтение\запись абстрактной ячейки
  */
 public abstract class AbstractCellElementIOv2<T extends N2oAbstractCell> implements NamespaceIO<T>, CellIOv2 {
 

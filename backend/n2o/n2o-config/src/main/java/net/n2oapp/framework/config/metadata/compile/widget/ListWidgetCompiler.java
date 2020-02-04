@@ -3,10 +3,12 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.widget.list.N2oListWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
+import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
@@ -17,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class ListWidgetCompiler extends BaseWidgetCompiler<ListWidget, N2oListWidget> {
+public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oListWidget> {
     @Override
     protected String getPropertyWidgetSrc() {
         return "n2o.api.widget.list.src";
@@ -46,13 +48,11 @@ public class ListWidgetCompiler extends BaseWidgetCompiler<ListWidget, N2oListWi
         MetaActions widgetActions = new MetaActions();
         compileToolbarAndAction(listWidget, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
         compileList(source, listWidget, context, widgetActions, p, widgetScope, widgetRoute, widgetActions, object);
-        Boolean prev = null;
-        Boolean next = null;
-        if (source.getPagination() != null) {
-            prev = source.getPagination().getPrev();
-            next = source.getPagination().getNext();
+        if (source.getRows() != null) {
+            listWidget.setRows(new Rows());
+            listWidget.setRowClick(compileRowClick(source, context, p, widgetScope, widgetRoute, object, widgetActions));
         }
-        listWidget.setPaging(createPaging(source.getSize(), prev, next, "n2o.api.default.widget.list.size", p));
+        listWidget.setPaging(compilePaging(source, p.resolve(Placeholders.property("n2o.api.default.widget.list.size"), Integer.class)));
         return listWidget;
     }
 

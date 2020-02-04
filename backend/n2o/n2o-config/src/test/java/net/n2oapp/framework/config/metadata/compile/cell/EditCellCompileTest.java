@@ -3,11 +3,11 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.EditType;
 import net.n2oapp.framework.api.metadata.meta.control.EditCell;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
-import net.n2oapp.framework.api.metadata.meta.control.Text;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.CloseActionElementIOV1;
 import net.n2oapp.framework.config.io.widget.table.cell.EditCellElementIOv2;
+import net.n2oapp.framework.config.metadata.compile.action.AnchorCompiler;
 import net.n2oapp.framework.config.metadata.compile.action.CloseActionCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -37,7 +37,7 @@ public class EditCellCompileTest extends SourceCompileTestBase {
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack()
         ,new N2oControlsPack(), new N2oControlsV2IOPack());
         builder.ios(new EditCellElementIOv2(), new CloseActionElementIOV1());
-        builder.compilers(new EditCellCompiler(), new CloseActionCompiler());
+        builder.compilers(new EditCellCompiler(), new CloseActionCompiler(), new AnchorCompiler());
     }
 
     @Test
@@ -48,7 +48,6 @@ public class EditCellCompileTest extends SourceCompileTestBase {
         EditCell cell = (EditCell)table.getComponent().getCells().get(0);
 
         assertThat(cell.getSrc(), is("EditableCell"));
-        assertThat(cell.getActionId(), is("actionTest"));
         assertThat(cell.getFormat(), is("formatTest"));
         assertThat(cell.getEditType(), is(EditType.inline));
 

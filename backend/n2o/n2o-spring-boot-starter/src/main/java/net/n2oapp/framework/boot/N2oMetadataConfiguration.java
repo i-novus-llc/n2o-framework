@@ -19,7 +19,6 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
 import net.n2oapp.framework.api.metadata.menu.N2oMenu;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineOperation;
@@ -59,6 +58,8 @@ import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFa
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
+import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;
+import net.n2oapp.framework.config.register.storage.PathUtil;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import net.n2oapp.framework.config.warmup.HeaderWarmUpper;
@@ -76,9 +77,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static java.util.Arrays.asList;
 
@@ -93,10 +92,15 @@ public class N2oMetadataConfiguration {
     @Value("${n2o.config.path}")
     private String configPath;
 
+    @Value("${n2o.project.path:}")
+    private List<String> projectPaths;
+
     @Value("${n2o.config.readonly}")
     private boolean readonly;
 
-    @Primary
+    @Value("${n2o.config.ignores}")
+    private List<String> ignores;
+
     @Bean(name = "n2oObjectMapper")
     public ObjectMapper n2oObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -257,8 +261,9 @@ public class N2oMetadataConfiguration {
                                        ConfigMetadataLocker locker,
                                        WatchDir watchDir,
                                        N2oApplicationBuilder applicationBuilder,
-                                       Environment environment) {
-        return new ConfigStarter(applicationBuilder, eventBus, locker, watchDir, configPath);
+                                       XmlInfoScanner xmlInfoScanner) {
+        Collection<String> configPaths = PathUtil.getConfigPaths(configPath, projectPaths, xmlInfoScanner.getPattern(), ignores);
+        return new ConfigStarter(applicationBuilder, eventBus, locker, watchDir, configPaths);
     }
 
     @Bean

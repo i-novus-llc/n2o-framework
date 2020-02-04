@@ -122,9 +122,9 @@
     "exportModal": {
       "src": "perform",
       "options": {
-        "type": "n2o/modals/INSERT",
+        "type": "n2o/overlays/INSERT",
         "payload": {
-          "type": "n2o/modals/INSERT",
+          "type": "n2o/overlays/INSERT",
           "name": "test2",
           "src": "exportModal",
           "title": "Экспортровать",
@@ -138,11 +138,11 @@
                 "widgetId": "ProtoPage.patients"
               }
             },
-            "destroyModal": {
+            "destroyOverlay": {
               "src": "perform",
               "options": {
                 "action": {
-                  "type": "n2o/modals/DESTROY"
+                  "type": "n2o/overlays/DESTROY"
                 }
               }
             }
@@ -160,7 +160,7 @@
                 {
                   "id": "cancelExport",
                   "title": "Отменить",
-                  "actionId": "destroyModal"
+                  "actionId": "destroyOverlay"
                 }
               ]
             }

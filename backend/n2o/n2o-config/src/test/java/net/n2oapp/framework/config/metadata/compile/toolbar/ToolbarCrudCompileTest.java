@@ -2,10 +2,13 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
+import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -58,26 +61,30 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
         assertThat(form.getToolbar().get("topLeft").get(0).getButtons().size(), is(4));
         assertThat(form.getToolbar().get("bottomLeft").get(0).getButtons().size(), is(1));
         List<String> buttonsId = form.getToolbar().get("topLeft").get(0)
-                .getButtons().stream().map(Button::getId).collect(Collectors.toList());
+                .getButtons().stream().map(AbstractButton::getId).collect(Collectors.toList());
         List<String> buttonsLabel = form.getToolbar().get("topLeft").get(0)
-                .getButtons().stream().map(Button::getLabel).collect(Collectors.toList());
-        List<String> buttonsActionId = form.getToolbar().get("topLeft").get(0)
-                .getButtons().stream().map(Button::getActionId).collect(Collectors.toList());
+                .getButtons().stream().map(AbstractButton::getLabel).collect(Collectors.toList());
+        List<String> buttonsAction = form.getToolbar().get("topLeft").get(0)
+                .getButtons().stream().map(AbstractButton::getAction).map(a -> {
+                    if (a instanceof ShowModal) return ((ShowModal) a).getOperationId();
+                    if (a instanceof InvokeAction) return ((InvokeAction) a).getOperationId();
+                    return null;
+                }).collect(Collectors.toList());
 
         assertThat(buttonsId.contains("create"), is(true));
         assertThat(buttonsId.contains("update"), is(true));
         assertThat(buttonsId.contains("delete"), is(true));
 
-        assertThat(buttonsActionId.contains("create"), is(true));
-        assertThat(buttonsActionId.contains("update"), is(true));
-        assertThat(buttonsActionId.contains("delete"), is(true));
+        assertThat(buttonsAction.contains("create"), is(true));
+        assertThat(buttonsAction.contains("update"), is(true));
+        assertThat(buttonsAction.contains("delete"), is(true));
 
         assertThat(buttonsLabel.contains("Создать"), is(true));
         assertThat(buttonsLabel.contains("Изменить"), is(true));
         assertThat(buttonsLabel.contains("Удалить"), is(true));
 
-        for (Button button : form.getToolbar().get("topLeft").get(0).getButtons()) {
-            if ("delete".equalsIgnoreCase(button.getActionId())) {
+        for (AbstractButton button : form.getToolbar().get("topLeft").get(0).getButtons()) {
+            if ("delete".equalsIgnoreCase(button.getId())) {
                 assertThat(button.getConfirm().getText(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.text")));
                 assertThat(button.getConfirm().getTitle(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.title")));
                 assertThat(button.getConfirm().getOkLabel(), is(builder.getEnvironment().getMessageSource().getMessage("n2o.confirm.default.okLabel")));
@@ -102,9 +109,8 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testCloseActionModal.page.xml").get(context);
         CloseAction close = (CloseAction) page.getActions().get("close");
 
-        assertThat(close.getId(), Matchers.is("close"));
-        assertThat(close.getOptions().getType(), Matchers.is("n2o/modals/CLOSE"));
-        assertThat(((CloseActionPayload) close.getOptions().getPayload()).getPrompt(), Matchers.is(true));
+        assertThat(close.getType(), Matchers.is("n2o/overlays/CLOSE"));
+        assertThat(((CloseActionPayload) close.getPayload()).getPrompt(), Matchers.is(true));
 //        assertThat(close.getOptions().getMeta().getRedirect().getPath(), is("/test/:id"));
 //        assertThat(close.getOptions().getMeta().getRedirect().getTarget(), is(RedirectTargetType.application));
 //        assertThat(close.getOptions().getMeta().getRedirect().getPathMapping().get("id").getBindLink(), is("models.resolve['testCloseActionModal_update_main'].id"));

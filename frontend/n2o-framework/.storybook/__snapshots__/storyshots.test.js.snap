@@ -3422,7 +3422,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Apple
-                           
+
                           <span className=\\"label label-default\\">
                             <Icon name=\\"fa fa-apple\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3431,7 +3431,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Github
-                           
+
                           <span className=\\"label label-primary\\">
                             <Icon name=\\"fa fa-github\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3440,7 +3440,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Android
-                           
+
                           <span className=\\"label label-success\\">
                             <Icon name=\\"fa fa-android\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3449,7 +3449,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Telegram
-                           
+
                           <span className=\\"label label-danger\\">
                             <Icon name=\\"fa fa-telegram\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3577,7 +3577,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Apple
-                           
+
                           <span className=\\"label label-default\\">
                             <Icon name=\\"fa fa-apple\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3586,7 +3586,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Github
-                           
+
                           <span className=\\"label label-primary\\">
                             <Icon name=\\"fa fa-github\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3595,7 +3595,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Android
-                           
+
                           <span className=\\"label label-success\\">
                             <Icon name=\\"fa fa-android\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -3604,7 +3604,7 @@ exports[`Storyshots UI Компоненты/Иконка Использован�
                       <div className=\\"col-md-2\\">
                         <h5>
                           Telegram
-                           
+
                           <span className=\\"label label-danger\\">
                             <Icon name=\\"fa fa-telegram\\" disabled={false} spin={false} bordered={false} circular={false} />
                           </span>
@@ -4036,7 +4036,7 @@ exports[`Storyshots UI Компоненты/Меню слева Ограниче
                       <getContext(Connect(Security)) brand=\\"N2O Framework\\" brandImage=\\"https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2018/04/1525068825bootstrap-logo-png-logo-228.png\\" className=\\"\\" visible={true} userBox={{...}} extra={{...}} items={{...}} />
                       <div style={{...}}>
                         <small>
-                          Введите 
+                          Введите
                           <mark>
                             admin
                           </mark>
@@ -4087,7 +4087,7 @@ exports[`Storyshots UI Компоненты/Меню слева Ограниче
                       <getContext(Connect(Security)) brand=\\"N2O Framework\\" brandImage=\\"https://dab1nmslvvntp.cloudfront.net/wp-content/uploads/2018/04/1525068825bootstrap-logo-png-logo-228.png\\" className=\\"\\" visible={true} userBox={{...}} extra={{...}} items={{...}} />
                       <div style={{...}}>
                         <small>
-                          Введите 
+                          Введите
                           <mark>
                             admin
                           </mark>
@@ -10532,7 +10532,7 @@ exports[`Storyshots Виджеты/Таблица Ограничение дос�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -10581,7 +10581,7 @@ exports[`Storyshots Виджеты/Таблица Ограничение дос�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -11416,7 +11416,7 @@ exports[`Storyshots Виджеты/Форма Ограничение досту�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -11465,7 +11465,7 @@ exports[`Storyshots Виджеты/Форма Ограничение досту�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -12481,7 +12481,7 @@ exports[`Storyshots Действия Ограничение доступа на 
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -12527,7 +12527,7 @@ exports[`Storyshots Действия Ограничение доступа на 
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -12573,7 +12573,7 @@ exports[`Storyshots Действия Ограничение доступа на 
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -12619,7 +12619,7 @@ exports[`Storyshots Действия Ограничение доступа на 
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -13448,6 +13448,380 @@ exports[`Storyshots Действия/Ссылка Link Метаданные: C:\
 </div>"
 `;
 
+exports[`Storyshots Кнопки Выпадающий список: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\Dropdown\\__snapshots__\\Dropdown.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Выпадающий список
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <withPropsOnChange(Connect(ButtonContainer)) id=\\"dropdownButton\\" src=\\"DropdownButton\\" hint=\\"Всплывающая подсказка\\" visible={true} disabled={false} count=\\"9\\" label=\\"Еще\\" icon=\\"fa fa-graduation-cap\\" size=\\"md\\" color=\\"primary\\" subMenu={{...}} />
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки Выполнение redux action: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\Perform\\__snapshots__\\Perform.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Выполнение redux action
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <withPropsOnChange(Connect(ButtonContainer)) id=\\"performButton\\" src=\\"PerformButton\\" hint=\\"Всплывающая подсказка\\" confirm={{...}} visible={true} disabled={false} count=\\"9\\" label=\\"Выполнить\\" icon=\\"fa fa-bolt\\" size=\\"md\\" color=\\"primary\\" action={{...}} />
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки Ссылка: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\Link\\__snapshots__\\Link.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Ссылка
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <div className=\\"d-flex align-items-center\\">
+                        <withPropsOnChange(Connect(ButtonContainer)) id=\\"linkButton\\" src=\\"LinkButton\\" hint=\\"Всплывающая подсказка\\" visible={true} disabled={false} count=\\"9\\" label=\\"Внешняя ссылка\\" icon=\\"fa fa-external-link\\" size=\\"md\\" color=\\"primary\\" url=\\"/my/path\\" target=\\"_blank\\" inner={false} />
+                        <div className=\\"mr-4\\">
+                          <withPropsOnChange(Connect(ButtonContainer)) id=\\"linkButton\\" src=\\"LinkButton\\" hint=\\"Всплывающая подсказка\\" confirm={{...}} visible={true} disabled={false} count=\\"9\\" label=\\"Внутреняя ссылка\\" icon=\\"fa fa-link\\" size=\\"md\\" color=\\"secondary\\" url=\\"/my/path\\" inner={true} />
+                        </div>
+                        <Switch>
+                          <Route path=\\"*\\" render={[Function: render]} />
+                        </Switch>
+                      </div>
+                    </div>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Page Buttons с предустановленным visible/disabled: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Page Buttons с предустановленным visible/disabled
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div className=\\"row mb-2\\">
+                      Кнопку не видно, потому что она скрыта
+                      <Toolbar toolbar={{...}} entityKey=\\"visibleTest\\" />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      Кнопка неактивна
+                      <Toolbar toolbar={{...}} entityKey=\\"disabledTest\\" />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      Дропдаун не видно, потому что он скрыт
+                      <Toolbar toolbar={{...}} entityKey=\\"notVisibleDropDown\\" />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      Дропдаун неактивен
+                      <Toolbar toolbar={{...}} entityKey=\\"dropdownDisabled\\" />
+                    </div>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Варианты кнопок: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Варианты кнопок
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} />
+                    </div>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Метаданные для виджета: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Метаданные для виджета
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Toolbar toolbar={{...}} entityKey=\\"metaBtns\\" />
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Ограничение доступа на выпадающие списки: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Ограничение доступа на выпадающие списки
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <small>
+                        Введите
+                        <mark>
+                          admin
+                        </mark>
+                        , чтобы увидеть выпадающий список
+                      </small>
+                      <Connect(AuthButton) />
+                      <br />
+                      <Toolbar toolbar={{...}} entityKey=\\"metaBtns\\" />
+                    </div>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Ограничение доступа на кнопки: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Ограничение доступа на кнопки
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <small>
+                        Введите
+                        <mark>
+                          admin
+                        </mark>
+                        , чтобы увидеть скрытую кнопку
+                      </small>
+                      <Connect(AuthButton) />
+                      <br />
+                      <Toolbar actions={[undefined]} toolbar={{...}} entityKey=\\"metaBtns\\" />
+                    </div>
+                  </Story>
+                  <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Контролы/AutoComplete Компонент: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\AutoComplete\\__snapshots__\\AutoComplete.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -14229,7 +14603,7 @@ exports[`Storyshots Контролы/InputSelect Компонент : C:\\Users\
         InputSelect
       </li>
       <li className=\\"breadcrumb-item active\\">
-        Компонент 
+        Компонент
       </li>
     </ol>
   </nav>
@@ -14267,7 +14641,7 @@ exports[`Storyshots Контролы/InputSelect Компонент : C:\\Users\
         InputSelect
       </li>
       <li className=\\"breadcrumb-item active\\">
-        Компонент 
+        Компонент
       </li>
     </ol>
   </nav>
@@ -15303,7 +15677,7 @@ exports[`Storyshots Контролы/InputSelectTree Компонент : C:\\Us
         InputSelectTree
       </li>
       <li className=\\"breadcrumb-item active\\">
-        Компонент 
+        Компонент
       </li>
     </ol>
   </nav>
@@ -15341,7 +15715,7 @@ exports[`Storyshots Контролы/InputSelectTree Компонент : C:\\Us
         InputSelectTree
       </li>
       <li className=\\"breadcrumb-item active\\">
-        Компонент 
+        Компонент
       </li>
     </ol>
   </nav>
@@ -21708,14 +22082,14 @@ exports[`Storyshots Контролы/Ползунок Тултип: C:\\Users\\s
                         tooltipFormatter:
                       </h4>
                       <div>
-                        tooltipFormatter = 
+                        tooltipFormatter =
                         <code>
                           &quot;\${this}%&quot;
                         </code>
                       </div>
                       <Component showTooltip={true} tooltipPlacement=\\"top\\" tooltipFormatter=\\"\${this}%\\" />
                       <div>
-                        tooltipFormatter = 
+                        tooltipFormatter =
                         <code>
                           &quot;t=\${this}℃&quot;
                         </code>
@@ -21789,14 +22163,14 @@ exports[`Storyshots Контролы/Ползунок Тултип: C:\\Users\\s
                         tooltipFormatter:
                       </h4>
                       <div>
-                        tooltipFormatter = 
+                        tooltipFormatter =
                         <code>
                           &quot;\${this}%&quot;
                         </code>
                       </div>
                       <Component showTooltip={true} tooltipPlacement=\\"top\\" tooltipFormatter=\\"\${this}%\\" />
                       <div>
-                        tooltipFormatter = 
+                        tooltipFormatter =
                         <code>
                           &quot;t=\${this}℃&quot;
                         </code>
@@ -23572,12 +23946,12 @@ exports[`Storyshots Ограничение доступа Аутентифика
                     <div>
                       <Connect(AuthButton) />
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
                         , чтобы увидеть старницу
-                         
+
                         <mark>
                           Администрирование
                         </mark>
@@ -23649,12 +24023,12 @@ exports[`Storyshots Ограничение доступа Аутентифика
                     <div>
                       <Connect(AuthButton) />
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
                         , чтобы увидеть старницу
-                         
+
                         <mark>
                           Администрирование
                         </mark>
@@ -23726,7 +24100,7 @@ exports[`Storyshots Ограничение доступа Использован
                     <div>
                       <Connect(AuthButton) />
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -23772,7 +24146,7 @@ exports[`Storyshots Ограничение доступа Использован
                     <div>
                       <Connect(AuthButton) />
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -24683,7 +25057,7 @@ exports[`Storyshots Регионы/Вкладки Автоматические �
                     <button className=\\"btn btn-secondary\\" onClick={[Function: onClick]}>
                       Скрыть виджет Page_Table_2
                     </button>
-                     
+
                     <button className=\\"btn btn-secondary\\" onClick={[Function: onClick]}>
                       Показать виджет Page_Table_2
                     </button>
@@ -24730,7 +25104,7 @@ exports[`Storyshots Регионы/Вкладки Автоматические �
                     <button className=\\"btn btn-secondary\\" onClick={[Function: onClick]}>
                       Скрыть виджет Page_Table_2
                     </button>
-                     
+
                     <button className=\\"btn btn-secondary\\" onClick={[Function: onClick]}>
                       Показать виджет Page_Table_2
                     </button>
@@ -24960,7 +25334,7 @@ exports[`Storyshots Регионы/Вкладки Ограничение дос�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -25009,7 +25383,7 @@ exports[`Storyshots Регионы/Вкладки Ограничение дос�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -25508,7 +25882,7 @@ exports[`Storyshots Регионы/Лист Ограничение доступ�
                   <Story info=\\"\\\\n      Компонент \\\\'Регион Список\\\\'\\\\n      ~~~js\\\\n      import ListRegion from \\\\'n2o-framework/lib/components/regions/List/ListRegion\\\\';\\\\n      \\\\n      <ListRegion \\\\n          pageId=\\"Page\\"\\\\n          items={[\\\\n            {\\\\n              \\"widgetId\\": \\"Page_Html\\",\\\\n              \\"label\\": \\"HTML\\",\\\\n              \\"opened\\": true\\\\n            },\\\\n            {\\\\n              \\"widgetId\\": \\"Page.SecureHtml\\",\\\\n              \\"label\\": \\"HTML (secure)\\",\\\\n              \\"opened\\": true,\\\\n              \\"security\\": {\\\\n                \\"roles\\": [\\"admin\\"]\\\\n              }\\\\n            }\\\\n          ]}\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -25557,7 +25931,7 @@ exports[`Storyshots Регионы/Лист Ограничение доступ�
                   <Story info=\\"\\\\n      Компонент \\\\'Регион Список\\\\'\\\\n      ~~~js\\\\n      import ListRegion from \\\\'n2o-framework/lib/components/regions/List/ListRegion\\\\';\\\\n      \\\\n      <ListRegion \\\\n          pageId=\\"Page\\"\\\\n          items={[\\\\n            {\\\\n              \\"widgetId\\": \\"Page_Html\\",\\\\n              \\"label\\": \\"HTML\\",\\\\n              \\"opened\\": true\\\\n            },\\\\n            {\\\\n              \\"widgetId\\": \\"Page.SecureHtml\\",\\\\n              \\"label\\": \\"HTML (secure)\\",\\\\n              \\"opened\\": true,\\\\n              \\"security\\": {\\\\n                \\"roles\\": [\\"admin\\"]\\\\n              }\\\\n            }\\\\n          ]}\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -26126,7 +26500,7 @@ exports[`Storyshots Регионы/Панель Ограничение дост�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -26175,7 +26549,7 @@ exports[`Storyshots Регионы/Панель Ограничение дост�
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -27720,7 +28094,7 @@ exports[`Storyshots Ячейки/ButtonsCell Метаданные: C:\\Users\\sl
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
@@ -27769,7 +28143,7 @@ exports[`Storyshots Ячейки/ButtonsCell Метаданные: C:\\Users\\sl
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <div>
                       <small>
-                        Введите 
+                        Введите
                         <mark>
                           admin
                         </mark>
