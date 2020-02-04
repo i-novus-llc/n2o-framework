@@ -78,6 +78,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(dataProvider.getQueryMapping(), nullValue());
         assertThat(dataProvider.getPathMapping(), notNullValue());
         assertThat(dataProvider.getPathMapping().get("w_id"), notNullValue());
+        assertThat(dataProvider.getOptimistic(), is(true));
         assertThat(route("/w/:w_id/menuItem0", CompiledObject.class), notNullValue());
     }
 
