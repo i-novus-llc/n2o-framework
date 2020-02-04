@@ -39,20 +39,22 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         region.setItems(initItems(source, p, TabsRegion.Tab.class));
         region.setAlwaysRefresh(source.getAlwaysRefresh() != null ? source.getAlwaysRefresh() : false);
         region.setLazy(p.cast(source.getLazy(), p.resolve(property("n2o.api.default.region.tabs.lazy"), Boolean.class)));
-        region.setActiveParam(p.cast(source.getActiveParam(), region.getId()));
-        region.setRoutable(p.cast(source.getRoutable(), p.resolve(property("n2o.api.default.region.tabs.routable"), Boolean.class)));
-        compileTabsRoute(region, p);
+        compileTabsRoute(source, region.getId(), p);
         return region;
     }
 
-    private void compileTabsRoute(TabsRegion region, CompileProcessor p) {
+    private void compileTabsRoute(N2oTabsRegion source, String regionId, CompileProcessor p) {
+        String activeParam = p.cast(source.getActiveParam(), regionId);
+        Boolean routable = p.cast(source.getRoutable(), p.resolve(property("n2o.api.default.region.tabs.routable"), Boolean.class));
+
         PageRoutes routes = p.getScope(PageRoutes.class);
-        if (routes == null || !Boolean.TRUE.equals(region.getRoutable()))
+        if (routes == null || !Boolean.TRUE.equals(routable))
             return;
+
         routes.addQueryMapping(
-                region.getActiveParam(),
-                Redux.dispatchSetActiveRegionEntity(region.getId(), region.getActiveParam()),
-                Redux.createActiveRegionEntityLink(region.getId())
+                activeParam,
+                Redux.dispatchSetActiveRegionEntity(regionId, activeParam),
+                Redux.createActiveRegionEntityLink(regionId)
         );
     }
 

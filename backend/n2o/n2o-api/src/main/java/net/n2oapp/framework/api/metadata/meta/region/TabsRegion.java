@@ -18,8 +18,6 @@ public class TabsRegion extends Region {
     private Boolean alwaysRefresh;
     @JsonProperty
     private Boolean lazy;
-    private String activeParam;
-    private Boolean routable;
 
     @Override
     @JsonProperty("tabs")
