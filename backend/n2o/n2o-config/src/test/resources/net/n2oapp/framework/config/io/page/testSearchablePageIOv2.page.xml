@@ -5,9 +5,8 @@
                  layout="LeftRightLayout"
                  route="test"
                  modal-size="lg">
-    <search-bar class="n2o-search-bar" placeholder="Поиск" trigger="enter"
-                button-icon="fa fa-search" button-label="Искать"
-                search-filter-id="test1" search-widget-id="test2" search-param="q"/>
+    <search-bar placeholder="Поиск" button-icon="fa fa-search" search-filter-id="test1"
+                search-widget-id="test2" search-param="q"/>
     <toolbar place="bottomRight" generate="submit, close">
         <button action-id="testId" validate="true" model="filter"/>
         <sub-menu>

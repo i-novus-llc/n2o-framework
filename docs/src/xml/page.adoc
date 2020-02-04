@@ -144,6 +144,7 @@ link:#_Поисковая_строка[Поисковая строка]
     layout="LeftRightLayout">
     <search-bar/>
     <regions>...</regions>
+    <actions>...</actions>
     <toolbar>...</toolbar>
 </page>
 ----
@@ -284,24 +285,9 @@ link:#_Действия[Обработчик действия]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|class
-|Строка
-|CSS класс
-|
-
-|trigger
-|change enter button
-|Триггер запуска поиска
-|
-
 |placeholder
 |Строка
 |Подсказка для ввода
-|
-
-|button-label
-|Строка
-|Подпись кнопки
 |
 
 |button-icon
