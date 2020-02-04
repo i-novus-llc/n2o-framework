@@ -204,6 +204,7 @@ exports[`<SimpleHeader /> проверяет создание компонент
                 unmountOnExit={false}
               >
                 <div
+                  aria-expanded="false"
                   className="collapse navbar-collapse"
                   style={Object {}}
                 >
