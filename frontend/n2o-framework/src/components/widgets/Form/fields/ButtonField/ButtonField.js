@@ -5,7 +5,7 @@ import StandardButton from '../../../../buttons/StandardButton/StandardButton';
 
 function ButtonField({ className, ...rest }) {
   return (
-    <div className={cn('n2o-button-field', className)}>
+    <div className={cn('n2o-button-field n2o-form-group', className)}>
       <StandardButton {...rest} />
     </div>
   );
