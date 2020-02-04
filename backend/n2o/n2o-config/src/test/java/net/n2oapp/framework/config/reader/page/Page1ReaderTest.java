@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.reader.page;
 
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
 import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
 import org.junit.Test;

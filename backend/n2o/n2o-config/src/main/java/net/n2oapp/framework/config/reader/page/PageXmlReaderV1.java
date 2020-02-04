@@ -18,10 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeBoolean;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeEnum;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeString;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getChild;
+import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
 
 /**
  * Считывает страницу версии 1.0

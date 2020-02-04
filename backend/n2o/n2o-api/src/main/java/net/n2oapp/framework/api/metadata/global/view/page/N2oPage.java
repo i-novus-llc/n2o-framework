@@ -42,6 +42,7 @@ public abstract class N2oPage extends N2oMetadata implements NameAware, Extensio
 
     /**
      * Получение списка виджетов на странице
+     *
      * @return список виджетов
      */
     public abstract List<N2oWidget> getContainers();
@@ -50,5 +51,4 @@ public abstract class N2oPage extends N2oMetadata implements NameAware, Extensio
     public Class<? extends N2oMetadata> getSourceBaseClass() {
         return N2oPage.class;
     }
-
 }

@@ -6,13 +6,10 @@ import net.n2oapp.framework.config.io.page.StandardPageElementIOv2;
 import net.n2oapp.framework.config.io.region.PanelRegionIOv1;
 import net.n2oapp.framework.config.io.widget.HtmlWidgetElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
-import net.n2oapp.framework.config.metadata.compile.region.PanelRegionCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.HtmlWidgetCompiler;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 /**
  * Тестирвоание маппинга java модели в json для простого региона
