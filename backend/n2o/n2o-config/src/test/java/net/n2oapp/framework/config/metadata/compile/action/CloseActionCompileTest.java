@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
@@ -41,7 +40,7 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
         context.setClientPageId("p_w_a");
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseAction.page.xml")
                 .get(context);
-        CloseAction testAction = (CloseAction) page.getWidgets().get("p_w_a_main").getActions().get("test");
+        CloseAction testAction = (CloseAction) page.getWidget().getToolbar().getButton("test").getAction();
         assertThat(testAction.getType(), is("n2o/overlays/CLOSE"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPageId(), is("p_w_a"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPrompt(), is(true));
