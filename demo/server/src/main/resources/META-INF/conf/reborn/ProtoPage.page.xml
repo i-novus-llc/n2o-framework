@@ -10,7 +10,7 @@
                        redirect-url-after-submit="../:id"/>
         </button>
     </toolbar>
-    <left>
+    <left width="60%">
         <panel place="left" header="true" collapsible="false" title="Данные клиента">
             <table id="clients" name="Клиенты" query-id="ProtoClient" size="10" route="/">
                 <actions>
