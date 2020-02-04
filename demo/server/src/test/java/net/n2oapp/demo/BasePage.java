@@ -20,7 +20,7 @@ public interface BasePage {
      * @param label  - текст
      */
     static SelenideElement getCheckbox(SelenideElement parent, String label) {
-        return parent.$$(".n2o-checkbox").findBy(Condition.text(label));
+        return parent.$$(".custom-checkbox").findBy(Condition.text(label));
     }
 
     /**

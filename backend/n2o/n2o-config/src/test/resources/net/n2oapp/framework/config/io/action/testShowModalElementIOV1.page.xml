@@ -3,7 +3,7 @@
     <actions>
         <action model="filter">
             <show-modal src="test"
-                        page-id="test"
+                        page-id="test" type="drawer"
                         submit-operation-id="create" submit-label="Отправить"
                         refresh-on-close="false" refresh-widget-id="testWidget"
                         upload="query" modal-size="lg" submit-model="resolve">
