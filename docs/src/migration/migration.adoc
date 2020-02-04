@@ -4,7 +4,13 @@
 
 ==== Миграция с 7.4 на 7.5
 
+*Изменения в сборке*
+
+- Модули: n2o-engine-sql, n2o-engine-ejb, n2o-config-ehcache, n2o-config-hazelcast
+перенесены в стартер: `n2o-spring-boot-starter`
+
 *Изменения в настройках*
+
 - Вместо `n2o.access.N2oObjectAccessPoint.default=false` используется настройка `n2o.access.deny_objects=true`,
 и другие настройки:
 ```
