@@ -258,7 +258,7 @@ class Calendar extends React.Component {
       isDateFromNextMonth(day, displayesMonth) ||
       isDateFromPrevMonth(day, displayesMonth);
     const selected = day.isSame(value);
-    const current = day.format(dateFormat) === moment().format(dateFormat);
+    const current = day.format('DD.MM.YYYY') === moment().format('DD.MM.YYYY');
     const props = {
       day,
       otherMonth,
