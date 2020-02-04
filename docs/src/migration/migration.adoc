@@ -6,8 +6,8 @@
 
 *Изменения в сборке*
 
-- Модули: n2o-engine-sql, n2o-engine-ejb, n2o-config-ehcache, n2o-config-hazelcast
-перенесены в стартер: `n2o-spring-boot-starter`
+- Модули `n2o-engine-sql`, `n2o-engine-ejb`, `n2o-config-ehcache`, `n2o-config-hazelcast` удалены.
+Вместо них нужно использовать зависимости `spring-jdbc`, `ejb-api`, `ehcache`, `hazelcast` соответственно.
 
 *Изменения в настройках*
 
