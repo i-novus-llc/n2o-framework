@@ -46,20 +46,48 @@ export default function createValidator(
   };
 }
 
+function addError(
+  fieldId,
+  { text = true, severity = true },
+  options = {},
+  errors
+) {
+  if (!errors[fieldId]) {
+    errors[fieldId] = [];
+  }
+
+  errors[fieldId].push({});
+  const last = errors[fieldId].length - 1;
+
+  if (isBoolean(text)) {
+    errors[fieldId][last].text = options.text;
+  } else {
+    errors[fieldId][last].text = text;
+  }
+
+  if (isBoolean(severity)) {
+    errors[fieldId][last].severity = options.severity;
+  } else {
+    errors[fieldId][last].severity = severity;
+  }
+
+  return errors;
+}
+
 /**
  * функция валидации
  * @param validationConfig
  * @param formName
  * @param state
  * @param isTouched
- * @returns {Promise<any[]>}
+ * @returns {function(*=, *=, *, *=): Promise<void[]>}
  */
 export const validateField = (
   validationConfig,
   formName,
   state,
   isTouched = false
-) => (values, dispatch, props, currentFieldId) => {
+) => (values, dispatch) => {
   const registeredFields = get(state, ['form', formName, 'registeredFields']);
   const fields = get(state, ['form', formName, 'fields']);
   const validation = pickBy(validationConfig, (value, key) =>
@@ -67,21 +95,7 @@ export const validateField = (
   );
   const errors = {};
   const promiseList = [Promise.resolve()];
-  const addError = (
-    fieldId,
-    { text = true, severity = true },
-    options = {}
-  ) => {
-    !errors[fieldId] && (errors[fieldId] = []);
-    errors[fieldId].push({});
-    const last = errors[fieldId].length - 1;
-    isBoolean(text)
-      ? (errors[fieldId][last].text = options.text)
-      : (errors[fieldId][last].text = text);
-    isBoolean(severity)
-      ? (errors[fieldId][last].severity = options.severity)
-      : (errors[fieldId][last].severity = severity);
-  };
+
   each(validation, (validationList, fieldId) => {
     if (isArray(validationList)) {
       each(validationList, options => {
@@ -94,7 +108,7 @@ export const validateField = (
               isValid.then(
                 resp => {
                   each(resp && resp.message, m => {
-                    addError(fieldId, m, options);
+                    addError(fieldId, m, options, errors);
                   });
                   resolve();
                 },
@@ -105,14 +119,13 @@ export const validateField = (
             })
           );
         } else if (!isValid) {
-          addError(fieldId, {}, options);
+          addError(fieldId, {}, options, errors);
         }
       });
     }
   });
 
   return Promise.all(promiseList).then(() => {
-
     const messagesAction = compact(
       map(errors, (messages, fieldId) => {
         if (!isEmpty(messages)) {
@@ -121,19 +134,16 @@ export const validateField = (
             !isEqual(message, get(registeredFields, [fieldId, 'message'])) ||
             !get(fields, [fieldId, 'touched'])
           ) {
-            console.log('point')
-            console.log(formName)
-            console.log(fieldId)
-            console.log(message)
-            console.log(errors)
-            console.log(registeredFields)
-            return addFieldMessage(formName, registeredFields[fieldId].type === 'FieldArray' ? currentFieldId : fieldId, message, isTouched);
+            return addFieldMessage(
+              formName,
+              fieldId,
+              message,
+              isTouched
+            );
           }
         }
       })
     );
-
-
 
     map(registeredFields, (field, key) => {
       if (!has(errors, key) && get(field, 'message', null)) {

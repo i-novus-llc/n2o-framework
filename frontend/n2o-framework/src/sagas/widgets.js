@@ -189,9 +189,7 @@ export function* setWidgetDataSuccess(
               surname: 'test',
               name: 'test',
             },
-            {
-
-            },
+            {},
           ],
           genderName: 'Женский',
           vip: false,

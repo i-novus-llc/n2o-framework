@@ -23,6 +23,7 @@ function FieldsetCol({
           const autoFocus = field.id && autoFocusId && field.id === autoFocusId;
           const key = 'field' + i;
           const name = member ? `${member}.${field.id}` : field.id;
+
           return (
             <ReduxField
               labelPosition={labelPosition}

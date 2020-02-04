@@ -17,11 +17,6 @@ const exampleProxy = proxy(options);
 
 app.use(bodyParser());
 
-// app.get('/config', (req, res) => {
-//   res.setHeader('Content-Type', 'application/json');
-//   res.send({"messages":{},"menu":{"brand":"N2O","color":"inverse","fixed":false,"collapsed":true,"search":false,"items":[{"id":"menuItem0","label":"Контакты","href":"/proto","linkType":"inner","type":"link"}],"extraItems":[]},"user":{"username":null,"testProperty":"testProperty"}})
-// });
-
 app.get("/n2o/page/proto", (req, res) => {
   const json = require("./json/proto.json");
   res.setHeader("Content-Type", "application/json");
@@ -55,14 +50,7 @@ app.get("/n2o/page/proto/patients/:patientId/update2", (req, res) => {
 app.all("/sign/get", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Access-Control-Allow-Origin", "*");
-  // res.send({
-  //   docPackId: 6303,
-  //   docTypeId: 3,
-  //   hash: "9eff17fa13a36e67cb64464020141425fb331e964642057409ab4759e2c4a9e5",
-  //   id: 15642,
-  //   roleId: 4,
-  //   userId: 65
-  // });
+
   res.send(
     JSON.stringify([
       {
@@ -93,51 +81,7 @@ app.all("/sign/set", (req, res) => {
   res.send(200);
 });
 
-
 app.use("/n2o", exampleProxy);
-
-
-// app.get('/n2o/data/proto/5607677/card?', (req, res) => {
-//   const json = `{
-//   "meta": {},
-//   "list": [
-//     {
-//       "id": 5607677,
-//       "surname": "Плюхина",
-//       "name": "Лада",
-//       "patrName": "Всеволодовна",
-//       "fullName": "Плюхина Лада Всеволодовна",
-//       "birthday": "1927-01-01T00:00:00",
-//       "age": 93,
-//       "gender": {
-//         "name": "Женский",
-//         "id": 2
-//       },
-//       members: [
-//        {
-//         surname: 'test',
-//         name: 'test'
-//        }
-//       ],
-//       "genderName": "Женский",
-//       "vip": false,
-//       "hasCitizenship": false,
-//       "ethnicGroupName": "русские",
-//       "socialGroupName": "Студент ВУЗа",
-//       "nationality": {
-//         "name": "Буряты",
-//         "id": 17
-//       }
-//     }
-//   ],
-//   "count": 1,
-//   "size": 1,
-//   "page": 1
-// }`;
-//
-//   res.setHeader('Content-Type', 'application/json');
-//   res.send(json);
-// });
 
 app.listen(9000, () => {
   console.log("Example app listening on port 9000!");

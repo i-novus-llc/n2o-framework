@@ -32,7 +32,7 @@ export function MultiFieldsetItem({
                 {resolvePlaceholder(index)}
               </div>
             )}
-            {render(rows, member)}
+            {render(rows, { member })}
             <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--inner">
               {needCopyButton && (
                 <Button

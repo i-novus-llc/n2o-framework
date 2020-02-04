@@ -7,9 +7,7 @@ import isNull from 'lodash/isNull';
 import isNaN from 'lodash/isNaN';
 import isString from 'lodash/isString';
 import isObject from 'lodash/isObject';
-import isArray from 'lodash/isArray';
 import get from 'lodash/get';
-import every from 'lodash/every';
 import evalExpression from '../../utils/evalExpression';
 import fetchSaga from '../../sagas/fetch.js';
 import { FETCH_VALIDATE } from '../api.js';
@@ -39,14 +37,11 @@ export function required(fieldId, values, options = {}) {
   if (options.expression && !evalExpression(options.expression, values)) {
     return true;
   }
-
   if (isString(value)) {
     return value !== '';
-  } else if (isArray(value)) {
-    return every(value, item => every(item, v => !isEmpty(v)));
   } else if (isObject(value)) {
     return !isEmpty(value);
-  }  else {
+  } else {
     return (
       !isUndefined(values[fieldId]) &&
       !isNull(values[fieldId]) &&

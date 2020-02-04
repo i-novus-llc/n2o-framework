@@ -63,27 +63,27 @@ export function fetchIfChangeDependencyValue(prevState, state, ref) {
 export const getFieldsKeys = fieldsets => {
   const keys = [];
 
-  const mapFields = (fields, name) => {
-    map(fields, ({ id }) => keys.push(name ? `${name}[].${id}` : id));
+  const mapFields = fields => {
+    map(fields, ({ id }) => keys.push(id));
   };
 
-  const mapCols = (cols, name) => {
+  const mapCols = cols => {
     map(cols, col => {
       if (has(col, 'cols')) {
-        mapCols(col.cols, name);
+        mapCols(col.cols);
       } else if (has(col, 'fields')) {
-        mapFields(col.fields, name);
+        mapFields(col.fields);
       } else if (has(col, 'fieldsets')) {
         keys.push(...getFieldsKeys(col.fieldsets));
       }
     });
   };
 
-  map(fieldsets, ({ rows, name = null }) => {
-    return map(rows, row => {
-      mapCols(row.cols, name);
-    });
-  });
+  map(fieldsets, ({ rows }) =>
+    map(rows, row => {
+      mapCols(row.cols);
+    })
+  );
 
   return keys;
 };
