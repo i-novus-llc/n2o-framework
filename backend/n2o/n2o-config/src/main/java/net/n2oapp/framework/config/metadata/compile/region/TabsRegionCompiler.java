@@ -34,7 +34,6 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     public TabsRegion compile(N2oTabsRegion source, PageContext context, CompileProcessor p) {
         TabsRegion region = new TabsRegion();
         build(region, source, p);
-        region.setId(p.cast(source.getId(), createId(source, p, "tab")));
         region.setTabs(new ArrayList<>());
         region.setPlace(source.getPlace());
         region.setItems(initItems(source, p, TabsRegion.Tab.class));
@@ -55,6 +54,11 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                 Redux.dispatchSetActiveRegionEntity(region.getId(), region.getActiveParam()),
                 Redux.createActiveRegionEntityLink(region.getId())
         );
+    }
+
+    @Override
+    protected String createId(String regionPlace, CompileProcessor p) {
+        return createId(regionPlace, "tab", p);
     }
 
     @Override
