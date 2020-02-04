@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { pure } from 'recompose';
-import ModalPages from './ModalPages';
+import OverlayPages from './OverlayPages';
 import GlobalAlerts from './GlobalAlerts';
 
 function Root({ children }) {
@@ -9,7 +9,7 @@ function Root({ children }) {
     <React.Fragment>
       <GlobalAlerts />
       {children}
-      <ModalPages />
+      <OverlayPages />
     </React.Fragment>
   );
 }

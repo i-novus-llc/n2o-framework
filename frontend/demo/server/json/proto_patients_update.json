@@ -291,7 +291,7 @@
         "id": "bottomRight0",
         "buttons": [
           {
-            "src": "PerformButton",
+            "src": "StandardButton",
             "id": "submit",
             "label": "Сохранить",
             "action": {
@@ -338,11 +338,11 @@
             "color": "primary"
           },
           {
-            "src": "PerformButton",
+            "src": "StandardButton",
             "id": "close",
             "label": "Закрыть",
             "action": {
-              "type": "n2o/modals/CLOSE",
+              "type": "n2o/overlays/CLOSE",
               "payload": {
                 "prompt": true,
                 "name": "proto_update"
@@ -390,7 +390,7 @@
       }
     },
     "close": {
-      "type": "n2o/modals/CLOSE",
+        "type": "n2o/overlays/CLOSE",
       "payload": {
         "prompt": true,
         "name": "proto_update"
