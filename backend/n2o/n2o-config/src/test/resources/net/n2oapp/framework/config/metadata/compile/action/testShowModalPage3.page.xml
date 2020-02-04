@@ -5,7 +5,9 @@
     <regions>
         <region place="left">
             <form id="main" default-values-query-id="testShowModal">
-
+                <pre-filters>
+                    <eq field-id="id" param="id"/>
+                </pre-filters>
             </form>
         </region>
         <region place="right">

@@ -66,6 +66,9 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
             if (query.getFields() == null)
                 throw new N2oMetadataValidationException("Виджет \'" + n2oWidget.getId() + "\' имеет префильтры, но в выборке \'" + query.getId()+ "\' нет fields!");
             for (N2oPreFilter preFilter : n2oWidget.getPreFilters()) {
+                if (preFilter.getValue() != null && preFilter.getParam() != null && (preFilter.getRoutable() == null || !preFilter.getRoutable())) {
+                    throw new N2oMetadataValidationException("В префильтре по полю \'" + (preFilter.getFieldId() == null ? "" : preFilter.getFieldId()) + "\' указан value и param, но при этом routable=false, что противоречит логике работы префильтров!");
+                }
                 N2oQuery.Field exField = null;
                 for (N2oQuery.Field field : query.getFields()) {
                     if (preFilter.getFieldId().equals(field.getId())) {

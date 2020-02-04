@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.redux;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
@@ -161,6 +162,18 @@ public abstract class Redux {
         if (StringUtils.isJs(value)) {
             ModelLink link = new ModelLink(preFilter.getRefModel(),
                     CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId()));
+            link.setValue(value);
+            return link;
+        } else {
+            return new ModelLink(value);
+        }
+    }
+
+    public static ModelLink linkFilter(N2oParam param) {
+        Object value = ScriptProcessor.resolveExpression(param.getValue());
+        if (StringUtils.isJs(value)) {
+            ModelLink link = new ModelLink(param.getRefModel(),
+                    CompileUtil.generateWidgetId(param.getRefPageId(), param.getRefWidgetId()));
             link.setValue(value);
             return link;
         } else {

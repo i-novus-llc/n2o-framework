@@ -16,12 +16,6 @@
                        redirect-target-after-submit="application"
                        focus-after-submit="true"
                        upload="query">
-                <pre-filters>
-                    <contains field-id="test" value="test" values="test1 , test2" routable="true"/>
-                </pre-filters>
-                <pre-fields>
-                    <contains field-id="test" value="test" values="test1 , test2"/>
-                </pre-fields>
                 <params>
                     <param name="test" ref-model="filter" ref-widget-id="main" value="{id}"/>
                 </params>

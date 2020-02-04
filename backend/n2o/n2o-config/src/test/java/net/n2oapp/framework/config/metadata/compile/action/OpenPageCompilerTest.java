@@ -210,7 +210,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(level3Page.getBreadcrumb().get(1).getLabel(), is("first"));
         assertThat(level3Page.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget/456"));
         assertThat(level3Page.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?page_view_test_secondName=test&detailId=:detailId&page_view_test_name=:page_view_test_name"));
+        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?surname=:surname&name=:name&detailId=:detailId&secondName=test"));
     }
 
     @Test
@@ -222,11 +222,11 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(linkAction.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
         assertThat(linkAction.getQueryMapping().get("detailId").getBindLink(), is("models.resolve['page_test']"));
         assertThat(linkAction.getQueryMapping().get("detailId").getValue(), is("`masterId`"));
-        assertThat(linkAction.getQueryMapping().get("page_test_name").getBindLink(), is("models.filter['page_test']"));
-        assertThat(linkAction.getQueryMapping().get("page_test_secondName").getBindLink(), nullValue());
+        assertThat(linkAction.getQueryMapping().get("name").getBindLink(), is("models.filter['page_test']"));
+        assertThat(linkAction.getQueryMapping().get("secondName").getBindLink(), nullValue());
 
         PageContext context = (PageContext) route("/page/widget/gender/masterDetail", Page.class);
-        assertThat(context.getPreFilters().size(), is(3));
+        assertThat(context.getPreFilters().size(), is(1));
         assertThat(context.getPreFilters().get(0).getRefPageId(), is("page"));
         assertThat(context.getPreFilters().get(0).getRefWidgetId(), is("test"));
         assertThat(context.getPreFilters().get(0).getRefModel(), is(ReduxModel.RESOLVE));
@@ -234,21 +234,6 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().get(0).getFieldId(), is("detailId"));
         assertThat(context.getPreFilters().get(0).getValue(), is("{masterId}"));
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));
-        assertThat(context.getPreFilters().get(1).getRefPageId(), is("page"));
-        assertThat(context.getPreFilters().get(1).getRefWidgetId(), is("test"));
-        assertThat(context.getPreFilters().get(1).getRefModel(), is(ReduxModel.FILTER));
-        assertThat(context.getPreFilters().get(1).getParam(), is("page_test_name"));
-        assertThat(context.getPreFilters().get(1).getFieldId(), is("name"));
-        assertThat(context.getPreFilters().get(1).getValue(), is("{name}"));
-        assertThat(context.getPreFilters().get(1).getType(), is(FilterType.eq));
-        assertThat(context.getPreFilters().get(2).getRefPageId(), is("page"));
-        assertThat(context.getPreFilters().get(2).getRefWidgetId(), is("test"));
-        assertThat(context.getPreFilters().get(2).getRefModel(), is(ReduxModel.RESOLVE));
-        assertThat(context.getPreFilters().get(2).getParam(), is("page_test_secondName"));
-        assertThat(context.getPreFilters().get(2).getFieldId(), is("secondName"));
-        assertThat(context.getPreFilters().get(2).getValue(), is("test"));
-        assertThat(context.getPreFilters().get(2).getType(), is(FilterType.eq));
-
 
         Page openPage = read().compile().get(context);
         assertThat(openPage.getId(), is("page_widget_masterDetail"));
@@ -257,20 +242,28 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(openPage.getBreadcrumb().get(1).getLabel(), is("second"));
 
         Filter filter = (Filter) openPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(0);
+        assertThat(filter.getParam(), is("name"));
+        assertThat(filter.getFilterId(), is("name"));
+        assertThat(filter.getLink().getBindLink(), is("models.filter['page_test']"));
+        assertThat(filter.getLink().getValue(), is("`name`"));
+
+        filter = (Filter) openPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(1);
+        assertThat(filter.getParam(), is("secondName"));
+        assertThat(filter.getFilterId(), is("secondName"));
+        assertThat(filter.getLink().getBindLink(), nullValue());
+        assertThat(filter.getLink().getValue(), is("test"));
+
+        filter = (Filter) openPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(2);
+        assertThat(filter.getParam(), is("surname"));
+        assertThat(filter.getFilterId(), is("surname"));
+        assertThat(filter.getLink().getBindLink(), is("models.filter['page_test']"));
+        assertThat(filter.getLink().getValue(), is("`surname`"));
+
+        filter = (Filter) openPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(3);
         assertThat(filter.getParam(), is("detailId"));
         assertThat(filter.getFilterId(), is("detailId"));
         assertThat(filter.getLink().getBindLink(), is("models.resolve['page_test']"));
         assertThat(filter.getLink().getValue(), is("`masterId`"));
-        filter = (Filter) openPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(1);
-        assertThat(filter.getParam(), is("page_test_name"));
-        assertThat(filter.getFilterId(), is("name"));
-        assertThat(filter.getLink().getBindLink(), is("models.filter['page_test']"));
-        assertThat(filter.getLink().getValue(), is("`name`"));
-        filter = (Filter) openPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(2);
-        assertThat(filter.getParam(), is("page_test_secondName"));
-        assertThat(filter.getFilterId(), is("secondName"));
-        assertThat(filter.getLink().getBindLink(), nullValue());
-        assertThat(filter.getLink().getValue(), is("test"));
 
         Map<String, ReduxAction> pathMapping = openPage.getRoutes().getPathMapping();
         assertThat(pathMapping.size(), is(1));
@@ -279,28 +272,36 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(pathMapping.get("page_widget_masterDetail_main_id").getPayload().get("value"), is(":page_widget_masterDetail_main_id"));
 
         PageContext detailContext = (PageContext) route("/page/widget/gender/masterDetail", Page.class);
-        assertThat(detailContext.getQueryRouteMapping().size(), is(3));
+        assertThat(detailContext.getQueryRouteMapping().size(), is(4));
         DataSet data = new DataSet();
         data.put("detailId", 222);
-        data.put("page_test_name", "testName");
+        data.put("name", "testName");
+        data.put("surname", "Ivanov");
         Page detailPage = read().compile().bind().get(detailContext, data);
         assertThat(detailPage.getRoutes().findRouteByUrl("/page/widget/:page_test_id/masterDetail"), notNullValue());
         assertThat(detailPage.getRoutes().findRouteByUrl("/page/widget/:page_test_id/masterDetail"), notNullValue());
         Map<String, BindLink> queryMapping = detailPage.getWidgets().get("page_widget_masterDetail_main").getDataProvider().getQueryMapping();
         assertThat(queryMapping.get("detailId").getValue(), is(222));
-        assertThat(queryMapping.get("page_test_name").getValue(), is("testName"));
+        assertThat(queryMapping.get("name").getValue(), is("testName"));
+        assertThat(queryMapping.get("surname").getValue(), is("Ivanov"));
         filter = (Filter) detailPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(0);
+        assertThat(filter.getParam(), is("name"));
+        assertThat(filter.getFilterId(), is("name"));
+        assertThat(filter.getLink().getValue(), is("testName"));
+        filter = (Filter) detailPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(1);
+        assertThat(filter.getParam(), is("secondName"));
+        assertThat(filter.getFilterId(), is("secondName"));
+        assertThat(filter.getLink().getValue(), is("test"));
+        filter = (Filter) detailPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(2);
+        assertThat(filter.getParam(), is("surname"));
+        assertThat(filter.getFilterId(), is("surname"));
+        assertThat(filter.getLink().getValue(), is("Ivanov"));
+        filter = (Filter) detailPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(3);
         assertThat(filter.getParam(), is("detailId"));
         assertThat(filter.getFilterId(), is("detailId"));
         assertThat(filter.getLink().getValue(), is(222));
-        filter = (Filter) detailPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(1);
-        assertThat(filter.getParam(), is("page_test_name"));
-        assertThat(filter.getFilterId(), is("name"));
-        assertThat(filter.getLink().getValue(), is("testName"));
-        filter = (Filter) detailPage.getWidgets().get("page_widget_masterDetail_main").getFilters().get(2);
-        assertThat(filter.getParam(), is("page_test_secondName"));
-        assertThat(filter.getFilterId(), is("secondName"));
-        assertThat(filter.getLink().getValue(), is("test"));
+        assertThat(context.getQueryRouteMapping().get("surname").getValue(), is("`surname`"));
+        assertThat(context.getQueryRouteMapping().get("surname").getBindLink(), is("models.filter['page_test']"));
     }
 
     @Test

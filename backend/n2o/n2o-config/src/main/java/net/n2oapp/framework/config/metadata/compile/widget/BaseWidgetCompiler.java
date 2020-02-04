@@ -632,7 +632,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     filter.setRoutable(p.cast(preFilter.getRoutable(), false));
                     filter.setFilterId(queryFilter.getFilterField());
                     Object prefilterValue = getPrefilterValue(preFilter);
-                    if (StringUtils.isJs(prefilterValue)) {
+                    ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+                    if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())){
+                        filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
+                    } else if (StringUtils.isJs(prefilterValue)) {
                         String widgetId = masterWidgetId;
                         if (preFilter.getRefWidgetId() != null) {
                             widgetId = preFilter.getRefPageId() == null ?

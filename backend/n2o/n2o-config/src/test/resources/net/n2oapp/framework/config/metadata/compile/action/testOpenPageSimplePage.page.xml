@@ -20,10 +20,11 @@
                            master-field-id="masterId"
                            detail-field-id="detailId"
                            master-param="detailId">
-                    <pre-filters>
-                        <eq field-id="name" value="{name}" ref-model="filter"/>
-                        <eq field-id="secondName" value="test"/>
-                    </pre-filters>
+                    <params>
+                        <param name="name" value="{name}" ref-model="filter"/>
+                        <param name="secondName" value="test"/>
+                        <param name="surname" value="{surname}" ref-model="filter"/>
+                    </params>
                 </open-page>
             </button>
         </toolbar>
