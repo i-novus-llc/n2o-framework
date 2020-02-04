@@ -29,7 +29,8 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
     @Override
     public PanelRegion compile(N2oPanelRegion source, PageContext context, CompileProcessor p) {
         PanelRegion region = new PanelRegion();
-        build(region, source, context, p);
+        build(region, source, p);
+        region.setId(p.cast(source.getId(), createId(source, p, "panel")));
         region.setPlace(source.getPlace());
         region.setClassName(source.getClassName());
         region.setStyle(StylesResolver.resolveStyles(source.getStyle()));

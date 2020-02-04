@@ -28,7 +28,8 @@ public class CustomRegionCompiler extends BaseRegionCompiler<CustomRegion, N2oCu
     @Override
     public CustomRegion compile(N2oCustomRegion source, PageContext context, CompileProcessor p) {
         CustomRegion region = new CustomRegion();
-        build(region, source, context, p);
+        build(region, source, p);
+        region.setId(p.cast(source.getId(), createId(source, p, "region")));
         region.setPlace(source.getPlace());
         region.setItems(initItems(source, p, Region.Item.class));
         return region;

@@ -3,17 +3,14 @@ package net.n2oapp.framework.config.metadata.compile.region;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.PageRoutes;
-import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.StringJoiner;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -36,9 +33,8 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     @Override
     public TabsRegion compile(N2oTabsRegion source, PageContext context, CompileProcessor p) {
         TabsRegion region = new TabsRegion();
-        build(region, source, context, p);
-        if (source.getId() == null)
-            region.setId(createId(source, region.getId()));
+        build(region, source, p);
+        region.setId(p.cast(source.getId(), createId(source, p, "tab")));
         region.setTabs(new ArrayList<>());
         region.setPlace(source.getPlace());
         region.setItems(initItems(source, p, TabsRegion.Tab.class));
@@ -50,31 +46,15 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         return region;
     }
 
-    private String createId(N2oTabsRegion source, String oldId) {
-        StringJoiner id = new StringJoiner("_");
-        if (source.getPlace() != null)
-            id.add(source.getPlace());
-        id.add("tab");
-
-        int idx = oldId.length();
-        while (Character.isDigit(oldId.charAt(--idx))) ;
-
-        id.add(oldId.substring(idx + 1));
-        return id.toString();
-    }
-
     private void compileTabsRoute(TabsRegion region, CompileProcessor p) {
         PageRoutes routes = p.getScope(PageRoutes.class);
         if (routes == null || !Boolean.TRUE.equals(region.getRoutable()))
             return;
-
-        ReduxAction onGet = new ReduxAction("n2o/regions/SET_ACTIVE_REGION_ENTITY",
-                new HashMap<String, Object>() {{
-                    put("regionId", region.getId());
-                    put("activeEntity", ":" + region.getActiveParam());
-        }});
-        BindLink onSet = new BindLink("regions." + region.getId() + ".activeEntity");
-        routes.addQueryMapping(region.getActiveParam(), onGet, onSet);
+        routes.addQueryMapping(
+                region.getActiveParam(),
+                Redux.dispatchSetActiveRegionEntity(region.getId(), region.getActiveParam()),
+                Redux.createActiveRegionEntityLink(region.getId())
+        );
     }
 
     @Override
