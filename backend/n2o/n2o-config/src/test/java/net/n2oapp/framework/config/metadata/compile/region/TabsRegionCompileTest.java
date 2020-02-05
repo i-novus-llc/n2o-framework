@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
-import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
@@ -31,7 +31,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testTabsRegionRoute() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegion.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testTabsRegion.page.xml")
                 .get(new PageContext("testTabsRegion"));
 
         Map<String, PageRoutes.Query> queryMapping = page.getRoutes().getQueryMapping();
