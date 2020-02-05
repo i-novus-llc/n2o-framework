@@ -6,33 +6,34 @@ import isArray from 'lodash/isArray';
 import map from 'lodash/map';
 
 function ProgressControl(props) {
-  const { multi, className, barClassName, bars, value, label, max } = props;
+  const { multi, barClassName, bars, value, label, max } = props;
 
   const renderProgressControl = () => {
     const multiProgressControl = multi && !isUndefined(bars) && isArray(bars);
-    const barsCollection = multiProgressControl && bars;
+    const barsCollection = multiProgressControl ? bars : [];
+
+    //map ProgressControls из bars если multi
+    const mapProgressControls = () => {
+      return map(barsCollection, bar => {
+        const { id, label } = bar;
+        return (
+          <Progress
+            bar
+            key={id}
+            className={barClassName}
+            max={max}
+            value={!isUndefined(value) && value[id]}
+            {...bar}
+          >
+            {label}
+          </Progress>
+        );
+      });
+    };
 
     //мультирежим ProgressControl
     const renderMultiProgressControl = () => {
-      return (
-        <Progress multi>
-          {map(barsCollection, bar => {
-            const { id, label } = bar;
-            return (
-              <Progress
-                bar
-                key={id}
-                className={barClassName}
-                max={max}
-                value={!isUndefined(value) && value[id]}
-                {...bar}
-              >
-                {label}
-              </Progress>
-            );
-          })}
-        </Progress>
-      );
+      return <Progress multi>{mapProgressControls()}</Progress>;
     };
 
     //одиночный режим ProgressControl
@@ -40,14 +41,16 @@ function ProgressControl(props) {
       return <Progress {...props}>{label}</Progress>;
     };
 
-    return (
-      <div className={className}>
-        {multiProgressControl
-          ? renderMultiProgressControl()
-          : renderSimpleProgressControl()}
-      </div>
-    );
+    //multi или одиночный
+    const progressControlSelection = () => {
+      return multiProgressControl
+        ? renderMultiProgressControl()
+        : renderSimpleProgressControl();
+    };
+
+    return progressControlSelection();
   };
+
   return renderProgressControl();
 }
 
@@ -77,7 +80,7 @@ ProgressControl.propTypes = {
    */
   className: PropTypes.string.isRequired,
   /**
-   * class Progress
+   * class progress-bar
    */
   barClassName: PropTypes.string.isRequired,
   /**
@@ -87,13 +90,13 @@ ProgressControl.propTypes = {
   /**
    * значение, на сколько заполнен Progress
    */
-  value: PropTypes.number || PropTypes.object,
+  value: PropTypes.number,
   /**
    * максиальное значение шкалы
    */
   max: PropTypes.number,
   /**
-   * цвет Progress
+   * цвет шкалы Progress (success, info, danger, warning)
    */
   color: PropTypes.string,
 };
