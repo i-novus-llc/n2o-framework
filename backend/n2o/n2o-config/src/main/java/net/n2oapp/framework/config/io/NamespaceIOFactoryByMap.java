@@ -50,16 +50,13 @@ public class NamespaceIOFactoryByMap<T extends NamespaceUriAware, R extends Name
     }
 
     @Override
-    public R produce(String elementName, Namespace namespace) {
-        if (names.containsKey(namespace.getURI()) && names.get(namespace.getURI()).containsKey(elementName))
-            return names.get(namespace.getURI()).get(elementName);
-        return (R) readerFactory.produce(elementName, namespace);
-    }
-
-    @Override
-    public boolean check(Namespace namespace, String elementName) {
-        return (names.containsKey(namespace.getURI()) && names.get(namespace.getURI()).containsKey(elementName))
-                || readerFactory.check(namespace, elementName);
+    public R produce(String elementName, Namespace... namespaces) {
+        if (ignoredElements.contains(elementName)) return null;
+        for (Namespace namespace : namespaces) {
+            if (names.containsKey(namespace.getURI()) && names.get(namespace.getURI()).containsKey(elementName))
+                return names.get(namespace.getURI()).get(elementName);
+        }
+        return (R) readerFactory.produce(elementName, namespaces);
     }
 
     @Override
@@ -76,11 +73,6 @@ public class NamespaceIOFactoryByMap<T extends NamespaceUriAware, R extends Name
             Collections.addAll(ignoredElements, elementNames);
         }
         return this;
-    }
-
-    @Override
-    public boolean isIgnored(String elementName) {
-        return ignoredElements.contains(elementName);
     }
 
     @Override

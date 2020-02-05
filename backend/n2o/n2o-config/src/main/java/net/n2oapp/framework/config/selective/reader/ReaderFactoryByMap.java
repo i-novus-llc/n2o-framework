@@ -8,7 +8,8 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
-import net.n2oapp.framework.api.metadata.reader.*;
+import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
+import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
 import org.jdom.Namespace;
 
@@ -39,10 +40,14 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
     }
 
     @Override
-    public NamespaceReader produce(String elementName, Namespace namespace) {
-        Map<String, NamespaceReader> innerEngines = map.get(namespace.getURI());
-        if (innerEngines == null)
-            throw new EngineNotFoundException(namespace.getURI());
+    public NamespaceReader produce(String elementName, Namespace... namespaces) {
+        Map<String, NamespaceReader> innerEngines = new HashMap<>();
+        for (Namespace namespace : namespaces) {
+            if (map.containsKey(namespace.getURI()))
+                innerEngines.putAll(map.get(namespace.getURI()));
+        }
+        if (innerEngines.isEmpty())
+            throw new EngineNotFoundException(elementName);
         NamespaceReader reader;
         reader = innerEngines.get(elementName);
         if (reader == null)
@@ -52,12 +57,6 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
         if (reader instanceof IOProcessorAware)
             ((IOProcessorAware) reader).setIOProcessor(this.ioProcessor);
         return reader;
-    }
-
-    @Override
-    public boolean check(Namespace namespace, String elementName) {
-        Map<String, NamespaceReader> innerEngines = map.get(namespace.getURI());
-        return innerEngines != null && innerEngines.get(elementName) != null;
     }
 
     @Override

@@ -14,7 +14,10 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Фабрика, генерирующая сервисы чтения xml файлов(метаданных) в объекты n2o.
@@ -29,13 +32,17 @@ public class N2oNamespaceReaderFactory<T extends NamespaceUriAware> implements N
     private volatile Map<String, Map<String, NamespaceReader<T>>> engines;
 
     @Override
-    public NamespaceReader<T> produce(String elementName, Namespace namespace) {
+    public NamespaceReader<T> produce(String elementName, Namespace... namespaces) {
         if (engines == null)
             initFactory();
-        Map<String, NamespaceReader<T>> elementReaders = engines.get(namespace.getURI());
-        if (elementReaders == null)
-            throw new EngineNotFoundException(namespace.getURI());
-        NamespaceReader<T> reader = elementReaders.get(elementName);
+        Map<String, NamespaceReader<T>> elementReaders = new HashMap<>();
+        for (Namespace namespace : namespaces) {
+            if (engines.containsKey(namespace.getURI()))
+                elementReaders.putAll(engines.get(namespace.getURI()));
+        }
+        if (elementReaders.isEmpty())
+            throw new EngineNotFoundException(elementName);
+        NamespaceReader reader = elementReaders.get(elementName);
         if (reader == null)
             throw new EngineNotFoundException(elementName);
         if (reader instanceof ReaderFactoryAware)
@@ -43,15 +50,6 @@ public class N2oNamespaceReaderFactory<T extends NamespaceUriAware> implements N
         if (reader instanceof IOProcessorAware)
             ((IOProcessorAware) reader).setIOProcessor(this.processor);
         return reader;
-    }
-
-    @Override
-    public boolean check(Namespace namespace, String elementName) {
-        if (engines == null)
-            initFactory();
-
-        Map<String, NamespaceReader<T>> elementReaders = engines.get(namespace.getURI());
-        return elementReaders != null && elementReaders.containsKey(elementName);
     }
 
     private synchronized void initFactory() {

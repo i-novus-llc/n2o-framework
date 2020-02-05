@@ -216,8 +216,6 @@ public final class IOProcessorImpl implements IOProcessor {
             }
             for (Object child : seqE.getChildren()) {
                 Element childE = (Element) child;
-                if (factory.isIgnored(childE.getName()))
-                    continue;
                 T childT = read(factory, childE, seqE.getNamespace(), defaultNamespace);
                 if (childT != null) {
                     setter.accept(childT);
@@ -1075,20 +1073,10 @@ public final class IOProcessorImpl implements IOProcessor {
     private <T extends NamespaceUriAware,
             R extends NamespaceReader<? extends T>,
             P extends NamespacePersister<? super T>> T read(NamespaceIOFactory<T, R, P> factory, Element element,
-                                                            Namespace parentNamespace, Namespace... defaultNamespace) {
-        R reader = null;
-        if (defaultNamespace != null && defaultNamespace.length > 0 && defaultNamespace[0] != null && parentNamespace.getURI().equals(element.getNamespaceURI())) {
-            for (Namespace namespace : defaultNamespace) {
-                if (factory.check(element, parentNamespace, namespace)) {
-                    reader = factory.produce(element, parentNamespace, namespace);
-                    if (reader != null) {
-                        break;
-                    }
-                }
-            }
-            if (reader == null) {
-                throw new EngineNotFoundException(element.getName());
-            }
+                                                            Namespace parentNamespace, Namespace... defaultNamespaces) {
+        R reader;
+        if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null && parentNamespace.getURI().equals(element.getNamespaceURI())) {
+            reader = factory.produce(element, parentNamespace, defaultNamespaces);
         } else {
             reader = factory.produce(element, parentNamespace, null);
         }

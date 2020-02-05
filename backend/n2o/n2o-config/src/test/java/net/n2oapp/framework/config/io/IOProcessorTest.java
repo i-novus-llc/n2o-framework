@@ -733,11 +733,6 @@ public class IOProcessorTest {
             }
 
             @Override
-            public boolean isIgnored(String elementName) {
-                return false;
-            }
-
-            @Override
             public NamespacePersister<ChildEntity> produce(Namespace namespace, Class<ChildEntity> clazz) {
                 return new NamespacePersister<ChildEntity>() {
                     @Override
@@ -770,7 +765,7 @@ public class IOProcessorTest {
             }
 
             @Override
-            public NamespaceReader<ChildEntity> produce(String elementName, Namespace namespace) {
+            public NamespaceReader<ChildEntity> produce(String elementName, Namespace... namespace) {
                 return new NamespaceReader<ChildEntity>() {
                     @Override
                     public Class<ChildEntity> getElementClass() {
@@ -815,9 +810,9 @@ public class IOProcessorTest {
 
         p = new IOProcessorImpl(new NamespaceReaderFactory() {
             @Override
-            public NamespaceReader produce(String elementName, Namespace namespace) {
+            public NamespaceReader produce(String elementName, Namespace... namespace) {
                 if ("elem1".equals(elementName))
-                    return null;
+                    throw new EngineNotFoundException(elementName);
 
                 return new NamespaceReader() {
                     @Override
