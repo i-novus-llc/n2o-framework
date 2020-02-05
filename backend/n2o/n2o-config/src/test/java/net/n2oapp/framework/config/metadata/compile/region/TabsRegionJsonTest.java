@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Тестирвоание маппинга java модели в json для простого региона
+ * Тестирование маппинга java модели в json для региона в виде вкладок
  */
 public class TabsRegionJsonTest extends JsonMetadataTestBase {
     @Override

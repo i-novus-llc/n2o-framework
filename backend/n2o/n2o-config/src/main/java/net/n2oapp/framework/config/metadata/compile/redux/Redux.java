@@ -58,6 +58,16 @@ public abstract class Redux {
     }
 
     /**
+     * Создать ссылку на активную вкладку региона
+     *
+     * @param regionId Идентификатор региона
+     * @return Ссылка на активную вкладку региона
+     */
+    public static BindLink createActiveRegionEntityLink(String regionId) {
+        return new BindLink("regions." + regionId + ".activeEntity");
+    }
+
+    /**
      * Создать ссылку на основе Redux действия
      *
      * @param reduxAction Идентификатор виджета
@@ -80,7 +90,6 @@ public abstract class Redux {
                 throw new UnsupportedOperationException("Redux action type " + reduxAction.getType() + " unsupported");
             }
         }
-
     }
 
     /**
@@ -149,6 +158,20 @@ public abstract class Redux {
         params.put("fieldKey", field);
         params.put("sortDirection", direction);
         return new ReduxAction("n2o/widgets/SORT_BY", params);
+    }
+
+    /**
+     * Установить активную вкладку региона
+     *
+     * @param regionId          Идентификатор региона
+     * @param regionActiveParam Параметр активной вкладки
+     * @return Redux действие
+     */
+    public static ReduxAction dispatchSetActiveRegionEntity(String regionId, String regionActiveParam) {
+        Map<String, Object> params = new LinkedHashMap<>();
+        params.put("regionId", regionId);
+        params.put("activeEntity", ":" + regionActiveParam);
+        return new ReduxAction("n2o/regions/SET_ACTIVE_REGION_ENTITY", params);
     }
 
     public static ModelLink linkFilter(N2oPreFilter preFilter) {

@@ -29,7 +29,7 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
     @Override
     public PanelRegion compile(N2oPanelRegion source, PageContext context, CompileProcessor p) {
         PanelRegion region = new PanelRegion();
-        build(region, source, context, p);
+        build(region, source, p);
         region.setPlace(source.getPlace());
         region.setClassName(source.getClassName());
         region.setStyle(StylesResolver.resolveStyles(source.getStyle()));
@@ -50,6 +50,11 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
             region.setHeaderTitle(source.getTitle());
         }
         return region;
+    }
+
+    @Override
+    protected String createId(String regionPlace, CompileProcessor p) {
+        return createId(regionPlace, "panel", p);
     }
 
     @Override

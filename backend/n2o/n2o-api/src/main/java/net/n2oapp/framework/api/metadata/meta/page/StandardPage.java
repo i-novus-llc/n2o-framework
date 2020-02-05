@@ -19,19 +19,14 @@ import java.util.Map;
 @Getter
 @Setter
 public class StandardPage extends Page {
-
     @JsonProperty
     private Map<String, Widget> widgets;
-
     @JsonProperty
     private Map<String, List<Region>> regions;
-
     @JsonProperty
     private Toolbar toolbar;
-
     @JsonProperty
     private Map<String, Action> actions;
-
     @JsonProperty
     private RegionWidth width;
 
@@ -39,15 +34,14 @@ public class StandardPage extends Page {
     @Setter
     @NoArgsConstructor
     public class RegionWidth implements Compiled {
+        @JsonProperty
+        private String left;
+        @JsonProperty
+        private String right;
 
         public RegionWidth(String left, String right) {
             this.left = left;
             this.right = right;
         }
-
-        @JsonProperty
-        private String left;
-        @JsonProperty
-        private String right;
     }
 }
