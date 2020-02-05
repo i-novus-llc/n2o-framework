@@ -24,7 +24,6 @@ import eq from 'lodash/eq';
 import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import includes from 'lodash/includes';
-import has from 'lodash/has';
 import isNumber from 'lodash/isNumber';
 import toArray from 'lodash/toArray';
 import AdvancedTableRow from './AdvancedTableRow';
@@ -364,6 +363,7 @@ class AdvancedTable extends Component {
   setSelectAndFocus(selectIndex, focusIndex) {
     this.setState({ selectIndex, focusIndex }, () => {
       this.focusActiveRow();
+      this.handleChangeRadioChecked(selectIndex);
     });
   }
 
@@ -405,8 +405,8 @@ class AdvancedTable extends Component {
     const { onSetSelection } = this.props;
     const newChecked = {};
     onSetSelection(checked ? toArray(this.props.data) : []);
-    forOwn(this.state.checked, (v, k) => {
-      newChecked[k] = checked;
+    forOwn(this.state.checked, (value, key) => {
+      newChecked[key] = checked;
     });
     this.setState(() => ({
       checkedAll: checked,
@@ -432,6 +432,7 @@ class AdvancedTable extends Component {
       checkedAll = true;
     }
     selectAllCheckbox.indeterminate = isSomeOneChecked && !isAllChecked;
+    selectAllCheckbox.checked = isAllChecked;
     forOwn(checkedState, (v, k) => {
       if (v) {
         const item = find(data, i => i.id.toString() === k.toString());
@@ -445,10 +446,11 @@ class AdvancedTable extends Component {
     }));
   }
 
-  handleChangeRadioChecked(event, index) {
-    const checked = !event.target.checked;
+  handleChangeRadioChecked(index) {
+    const { rowSelection } = this.props;
+    if (rowSelection !== rowSelectionType.RADIO) return;
     const checkedState = {
-      [index]: checked,
+      [index]: true,
     };
     this.props.onSetSelection(checkedState);
     this.setState(() => ({
@@ -506,7 +508,6 @@ class AdvancedTable extends Component {
           <AdvancedTableSelectionColumn
             setRef={this.setSelectionRef}
             onChange={this.checkAll}
-            rowSelection={rowSelection}
           />
         ) : null,
       dataIndex: 'row-selection',
@@ -602,8 +603,7 @@ class AdvancedTable extends Component {
   }
 
   getScroll() {
-    if (!some(this.state.columns, col => has(col, 'fixed')))
-      return this.props.scroll;
+    if (!some(this.state.columns, col => col.fixed)) return this.props.scroll;
     const { scroll, columns } = this.props;
     const calcXScroll = () => {
       const getWidth = (
