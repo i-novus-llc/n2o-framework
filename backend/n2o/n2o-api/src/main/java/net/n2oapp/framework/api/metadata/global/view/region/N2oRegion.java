@@ -19,10 +19,7 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oRegion implements Source, IdAware, SrcAware, NamespaceUriAware, SourceMetadata, ExtensionAttributesAware {
-    /**
-     * @deprecated
-     */
-    @Deprecated
+
     private String width;
     /**
      * @deprecated

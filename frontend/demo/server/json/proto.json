@@ -350,9 +350,20 @@
       }
     }
   },
+  "breadcrumb": [
+    {
+      "label": "Список контактов"
+    }
+  ],
+  "models": {
+    "filter['proto_patients'].genders": {
+      "link": "models.filter['proto_patients'].genders"
+    }
+  },
   "widgets": {
     "proto_patients": {
       "src": "AdvancedTableWidget",
+      "id": "proto_patients",
       "dataProvider": {
         "url": "n2o/data/proto",
         "pathMapping": {},
@@ -1145,6 +1156,7 @@
     },
     "proto_contacts": {
       "src": "ListWidget",
+      "id": "proto_contacts",
       "rowClick": {
         "id": "contacts_row",
         "src": "link",
@@ -1395,6 +1407,7 @@
     },
     "proto_form": {
       "src": "FormWidget",
+      "id": "proto_form",
       "dataProvider": {
         "url": "n2o/data/proto/:patient_id/card",
         "pathMapping": {
@@ -1604,6 +1617,19 @@
       ]
     }
   },
+  "actions": {
+    "create2": {
+      "id": "create2",
+      "src": "link",
+      "options": {
+        "path": "/proto/create2",
+        "target": "application",
+        "pathMapping": {},
+        "queryMapping": {}
+      }
+    }
+  },
+  "src": "LeftRightPage",
   "page": {
     "title": "Список контактов"
   }
