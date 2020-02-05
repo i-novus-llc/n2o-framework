@@ -1,7 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.ClearActionElementIOV1;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
@@ -34,9 +35,9 @@ public class ClearActionCompileTest extends SourceCompileTestBase {
 
     @Test
     public void clearActionTest() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testClearAction.page.xml")
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testClearAction.page.xml")
                 .get(new ModalPageContext("testClearAction", "/p/w/a"));
-        ClearAction testAction =  (ClearAction)page.getWidgets().get("p_w_a_main").getActions().get("test");
+        ClearAction testAction = (ClearAction) page.getWidget().getActions().get("test");
         assertThat(testAction.getType(), is("n2o/models/CLEAR"));
         assertThat(testAction.getPayload().getKey(), is("p_w_a_main"));
         assertThat(testAction.getPayload().getPrefixes()[0], is("edit"));

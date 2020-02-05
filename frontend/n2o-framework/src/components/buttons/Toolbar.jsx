@@ -16,9 +16,12 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
 
   const renderButtons = props =>
     props.component ? (
-      React.createElement(props.component, props)
+      React.createElement(
+        props.component,
+        Object.assign({}, props, { entityKey })
+      )
     ) : (
-      <Factory level={BUTTONS} entityKey={entityKey} {...props} />
+      <Factory level={BUTTONS} {...props} entityKey={entityKey} />
     );
 
   const renderBtnGroup = ({ buttons }) => (

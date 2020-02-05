@@ -2,9 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { pure } from 'recompose';
-
-import StandardWidgetLayout from '../layouts/StandardWidgetLayout/StandardWidgetLayout';
-import Section from '../layouts/Section';
 import WidgetAlerts from './WidgetAlerts';
 import WidgetFilters from './WidgetFilters';
 import Toolbar from '../buttons/Toolbar';
@@ -20,7 +17,7 @@ import Toolbar from '../buttons/Toolbar';
  */
 class StandardWidget extends React.Component {
   renderSection(place) {
-    const { widgetId, toolbar, actions, filter } = this.props;
+    const { widgetId, toolbar, filter } = this.props;
     if (this.props[place] && React.isValidElement(this.props[place]))
       return this.props[place];
     const filterProps = {
@@ -50,27 +47,51 @@ class StandardWidget extends React.Component {
   render() {
     const { widgetId, disabled, filter, className, style } = this.props;
 
+    const classes = cx([
+      'n2o-standard-widget-layout',
+      {
+        [className]: className,
+        'n2o-disabled': disabled,
+      },
+    ]);
+
     return (
-      <StandardWidgetLayout
-        className={cx(className, { 'n2o-disabled': disabled })}
-        style={style}
-      >
-        {filter.filterPlace === 'left' && (
-          <Section place="left">{this.renderSection('left')}</Section>
-        )}
-        <Section place="top">
-          {filter.filterPlace === 'top' && this.renderSection('top')}
-          <WidgetAlerts widgetId={widgetId} />
-        </Section>
-        <Section place="topLeft">{this.renderSection('topLeft')}</Section>
-        <Section place="topRight">{this.renderSection('topRight')}</Section>
-        <Section place="center">{this.props.children}</Section>
-        <Section place="bottomLeft">{this.renderSection('bottomLeft')}</Section>
-        <Section place="bottomRight">
-          {this.renderSection('bottomRight')}
-        </Section>
-        {filter.filterPlace === 'right' && this.renderSection('right')}
-      </StandardWidgetLayout>
+      <div className={classes} style={style}>
+        {filter.filterPlace === 'left' && this.renderSection('left')}
+        <div className="n2o-standard-widget-layout-center">
+          <div>
+            {filter.filterPlace === 'top' && this.renderSection('top')}
+            <WidgetAlerts widgetId={widgetId} />
+          </div>
+          <div className="d-flex justify-content-between">
+            <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--left">
+              {this.renderSection('topLeft')}
+            </div>
+            <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--right">
+              {this.renderSection('topRight')}
+            </div>
+          </div>
+          <div>
+            <div />
+            <div>{this.props.children}</div>
+            <div />
+          </div>
+          <div className={'d-flex justify-content-between'}>
+            <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--left">
+              {this.renderSection('bottomLeft')}
+            </div>
+            <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--right">
+              {this.renderSection('bottomRight')}
+            </div>
+          </div>
+          <div>
+            <div />
+          </div>
+        </div>
+        <div className="n2o-standard-widget-layout-aside n2o-standard-widget-layout-aside--right">
+          {filter.filterPlace === 'right' && this.renderSection('right')}
+        </div>
+      </div>
     );
   }
 }

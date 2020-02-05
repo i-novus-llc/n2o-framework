@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, mapProps } from 'recompose';
 import map from 'lodash/map';
+import { Manager, Reference, Popper } from 'react-popper';
+import onClickOutside from 'react-onclickoutside';
+import cn from 'classnames';
 
-import ButtonDropdown from 'reactstrap/lib/ButtonDropdown';
-import DropdownToggle from 'reactstrap/lib/DropdownToggle';
-import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
 
 import Factory from '../../../core/factory/Factory';
@@ -23,33 +23,68 @@ class DropdownButton extends React.Component {
     }));
   };
 
+  handleClickOutside = () => {
+    const { open } = this.state;
+
+    if (open) {
+      this.toggle();
+    }
+  };
+
   render() {
     const { subMenu, ...rest } = this.props;
     const { open } = this.state;
 
     return (
-      <ButtonDropdown
-        classname="n2o-dropdown-control"
-        isOpen={open}
-        toggle={this.toggle}
-      >
-        <SimpleButton {...rest} tag={DropdownToggle} caret />
-        <DropdownMenu className="n2o-dropdown-menu">
-          {map(subMenu, ({ src, component, ...rest }) => {
-            return component ? (
-              React.createElement(component, rest)
-            ) : (
-              <Factory
-                key={rest.id}
+      <div className="n2o-dropdown">
+        <Manager>
+          <Reference>
+            {({ ref }) => (
+              <SimpleButton
                 {...rest}
-                level={BUTTONS}
-                src={src}
-                tag={DropdownItem}
+                onClick={this.toggle}
+                innerRef={ref}
+                className="n2o-dropdown-control dropdown-toggle"
+                caret
               />
-            );
-          })}
-        </DropdownMenu>
-      </ButtonDropdown>
+            )}
+          </Reference>
+          <Popper
+            placement="bottom-start"
+            modifiers={{
+              preventOverflow: {
+                boundariesElement: 'window',
+              },
+            }}
+            positionFixed={true}
+          >
+            {({ ref, style, placement }) => (
+              <div
+                ref={ref}
+                style={style}
+                data-placement={placement}
+                className={cn('dropdown-menu n2o-dropdown-menu', {
+                  'd-block': open,
+                })}
+              >
+                {map(subMenu, ({ src, component, ...rest }) => {
+                  return component ? (
+                    React.createElement(component, rest)
+                  ) : (
+                    <Factory
+                      key={rest.id}
+                      {...rest}
+                      level={BUTTONS}
+                      src={src}
+                      tag={DropdownItem}
+                    />
+                  );
+                })}
+              </div>
+            )}
+          </Popper>
+        </Manager>
+      </div>
     );
   }
 }
@@ -67,5 +102,6 @@ export default compose(
   mapProps(props => ({
     ...mappingProps(props),
     subMenu: props.subMenu,
-  }))
+  })),
+  onClickOutside
 )(DropdownButton);

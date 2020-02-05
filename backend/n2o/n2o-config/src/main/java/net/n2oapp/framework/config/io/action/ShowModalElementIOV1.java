@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.action;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
+import net.n2oapp.framework.api.metadata.event.action.ShowModalMode;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ public class ShowModalElementIOV1 extends AbstractOpenPageElementIOV1<N2oShowMod
         p.attribute(e,  "modal-size", sm::getModalSize, sm::setModalSize);
         p.attribute(e,  "object-id", sm::getObjectId, sm::setObjectId);
         p.attribute(e,"refresh-widget-id", sm::getRefreshWidgetId, sm::setRefreshWidgetId);
+        p.attributeEnum(e,  "type", sm::getType, sm::setType, ShowModalMode.class);
     }
 
     @Override

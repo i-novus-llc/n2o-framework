@@ -10,7 +10,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
-import javax.xml.transform.URIResolver;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +74,11 @@ public class FileSystemUtil {
         return getNodesByLocationPattern(locationPattern, name -> true);
     }
 
+    public static List<Node> getNodesByLocationPattern(List<String> locationPattern) {
+        List<Node> nodes = new ArrayList<>();
+        locationPattern.forEach(ptn -> nodes.addAll(getNodesByLocationPattern(ptn, name -> true)));
+        return nodes;
+    }
 
     public static final Predicate<String> FILE_NAME_WITHOUT_DOTS = s -> {
         int idx = s.lastIndexOf('.');

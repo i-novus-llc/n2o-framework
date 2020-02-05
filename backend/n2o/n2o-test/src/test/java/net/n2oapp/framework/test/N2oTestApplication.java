@@ -1,6 +1,6 @@
 package net.n2oapp.framework.test;
 
-import net.n2oapp.framework.engine.sql.jdbc.EnableRoutingDataSource;
+import net.n2oapp.framework.boot.sql.jdbc.EnableRoutingDataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

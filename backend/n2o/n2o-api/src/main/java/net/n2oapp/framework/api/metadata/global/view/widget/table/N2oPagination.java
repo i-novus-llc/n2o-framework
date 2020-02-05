@@ -1,6 +1,5 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table;
 
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 
 /**

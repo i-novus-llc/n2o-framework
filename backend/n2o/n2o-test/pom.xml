@@ -28,9 +28,9 @@
         </dependency>
 
         <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-engine-sql</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>

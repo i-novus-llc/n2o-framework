@@ -1,0 +1,17 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <actions>
+        <action id="act1">
+            <a href="http://ya.ru"/>
+        </action>
+    </actions>
+    <fields>
+        <button id="btn1" >
+            <a href="test2/:param1/:param2?param3=:param3" target="application">
+                <path-param name="param1" value="{field1}"/>
+                <path-param name="param2" value="{field2}"/>
+                <query-param name="param3" value="{field3}"/>
+            </a>
+        </button>
+        <button id="btn2" action-id="act1"/>
+    </fields>
+</form>

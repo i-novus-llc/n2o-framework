@@ -37,11 +37,9 @@ public class XmlInfoScanner implements MetadataScanner<InfoConstructor>, Metadat
 
     @Override
     public List<InfoConstructor> scan() {
-        List<InfoConstructor> infoConstructors = collectInfo(
+        return collectInfo(
                 FileSystemUtil.getNodesByLocationPattern(pattern),
-                (node) ->
-                        RegisterUtil.createXmlInfo(node, sourceTypeRegister));
-        return infoConstructors;
+                (node) -> RegisterUtil.createXmlInfo(node, sourceTypeRegister));
     }
 
     @Override
@@ -51,5 +49,9 @@ public class XmlInfoScanner implements MetadataScanner<InfoConstructor>, Metadat
 
     public SourceTypeRegister getSourceTypeRegister() {
         return sourceTypeRegister;
+    }
+
+    public String getPattern() {
+        return pattern;
     }
 }

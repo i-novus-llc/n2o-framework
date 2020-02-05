@@ -150,7 +150,6 @@ class DateTimeControl extends React.Component {
   onChange(inputName) {
     const { onChange } = this.props;
     const value = this.getValue(inputName);
-
     onChange(value);
   }
 
@@ -198,8 +197,6 @@ class DateTimeControl extends React.Component {
           }
         }
       );
-
-      setTimeout(() => this._control && findDOMNode(this._control).focus(), 0);
     }
   }
   /**
@@ -215,12 +212,13 @@ class DateTimeControl extends React.Component {
             .add(59, 'm')
             .add(59, 's')
         : date;
-
     this.setState(
       {
         inputs: { ...this.state.inputs, [inputName]: newDate },
       },
-      () => (isFunction(callback) ? callback() : this.onChange(inputName))
+      () => {
+        return isFunction(callback) ? callback() : this.onChange(inputName);
+      }
     );
   }
   onInputBlur(date, inputName) {
@@ -303,6 +301,7 @@ class DateTimeControl extends React.Component {
     const { inputs, isPopUpVisible, placement } = this.state;
     const popUp = (
       <PopUp
+        dateFormat={this.props.dateFormat}
         time={this.defaultTime}
         type={this.props.type}
         isTimeSet={this.state.isTimeSet}
@@ -315,8 +314,9 @@ class DateTimeControl extends React.Component {
         select={this.select}
         setPlacement={this.setPlacement}
         setVisibility={this.setVisibility}
-        max={parseDate(max, "yyyy-MM-dd'T'HH:mm:ss")}
-        min={parseDate(min, "yyyy-MM-dd'T'HH:mm:ss")}
+        max={parseDate(max, this.props.dateFormat)}
+        min={parseDate(min, this.props.dateFormat)}
+        date={this.props.date}
         locale={locale}
       />
     );
@@ -355,7 +355,6 @@ class DateTimeControl extends React.Component {
     } = this.props;
     const { inputs } = this.state;
     const dateInputGroupProps = pick(this.props, ['max', 'min']);
-
     return (
       <div className="n2o-date-picker-container">
         <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
