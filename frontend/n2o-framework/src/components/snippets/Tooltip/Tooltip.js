@@ -19,12 +19,14 @@ export default function Tooltip({
   placement,
   hideArrow,
   children,
+  trigger,
 }) {
   return (
     <React.Fragment>
       {children}
       {hint && (
         <UncontrolledTooltip
+          trigger={trigger}
           delay={delay}
           placement={placement}
           target={target}

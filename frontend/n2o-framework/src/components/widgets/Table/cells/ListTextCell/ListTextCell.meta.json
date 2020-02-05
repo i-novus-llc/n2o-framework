@@ -2,7 +2,7 @@
   "id": "someId",
   "src": "ListTextCell",
   "label": "объектов {value}",
-  "fieldKey": ["Первый объект", "Второй объект", "Третий объект"],
+  "fieldKey": "test",
   "trigger": "click",
   "placement" : "bottom"
 }

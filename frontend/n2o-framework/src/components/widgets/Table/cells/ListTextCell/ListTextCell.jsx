@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Tooltip from './Tooltip';
 import { compose, setDisplayName } from 'recompose';
 import withCell from '../../withCell';
+import Tooltip from './Tooltip';
 
 function ListTextCell(props) {
   return (
