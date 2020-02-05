@@ -15,5 +15,10 @@
                 <eq/>
             </filters>
         </field>
+        <field id="surname">
+            <filters>
+                <eq/>
+            </filters>
+        </field>
     </fields>
 </query>

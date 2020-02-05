@@ -51,7 +51,6 @@
             </xs:element>
             <xs:element name="toolbar" type="tool:widgetToolbarDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="pre-filters" type="preFiltersDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="pre-fields" type="preFieldsDefinition" maxOccurs="1" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="optional">
             <xs:annotation>
@@ -847,21 +846,6 @@
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="preFieldsDefinition">
-        <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="eq" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="in" type="preFieldDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="contains" type="preFieldDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="more" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="less" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNotNull" type="preFieldDefBase" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNull" type="preFieldDefBase" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="preFieldDefBase">

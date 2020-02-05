@@ -34,18 +34,17 @@
                     </button>
                     <button id="updateWithPrefilters">
                         <show-modal page-id="testShowModalPage" submit-operation-id="update" detail-field-id="id" upload="query">
-                            <pre-filters>
-                                <eq field-id="secondId" value="1" param="secondId"/>
-                                <eq field-id="name" value="{name}" ref-widget-id="second" ref-model="filter"/>
-                            </pre-filters>
+                            <params>
+                                <param name="name" value="{name}" ref-widget-id="second" ref-model="filter"/>
+                            </params>
                         </show-modal>
                     </button>
                     <button id="updateEditWithPrefilters" model="edit">
                         <show-modal page-id="testShowModalPage3" upload="defaults"
                                     submit-operation-id="update" route="/updateEditWithPrefilters">
-                            <pre-filters>
-                                <eq field-id="id" value="{id}"/>
-                            </pre-filters>
+                            <params>
+                                <param name="id" value="{id}"/>
+                            </params>
                         </show-modal>
                     </button>
                 </toolbar>

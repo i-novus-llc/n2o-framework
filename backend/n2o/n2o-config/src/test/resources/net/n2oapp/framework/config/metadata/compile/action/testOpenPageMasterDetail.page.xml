@@ -8,6 +8,11 @@
                         <open-page page-id="testOpenPageSimplePageAction1" route="/level3"/>
                     </button>
                 </toolbar>
+                <pre-filters>
+                    <eq field-id="name" param="name"/>
+                    <eq field-id="secondName" param="secondName"/>
+                    <eq field-id="surname" param="surname"/>
+                </pre-filters>
             </form>
         </region>
     </regions>

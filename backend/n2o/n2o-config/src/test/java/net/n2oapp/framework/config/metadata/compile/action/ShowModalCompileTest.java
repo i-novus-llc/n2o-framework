@@ -287,25 +287,13 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         PageContext modalContext = (PageContext) route("/p/123/updateWithPrefilters", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPage"));
-        assertThat(modalContext.getPreFilters().size(), is(3));
+        assertThat(modalContext.getPreFilters().size(), is(1));
         assertThat(modalContext.getPreFilters().get(0).getRefWidgetId(), is("main"));
         assertThat(modalContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(modalContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(modalContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(modalContext.getPreFilters().get(0).getRefModel(), is(ReduxModel.RESOLVE));
         assertThat(modalContext.getPreFilters().get(0).getValue(), is("{id}"));
-        //assertThat(modalContext.getPreFilters().get(1).getRefWidgetId(), is("main"));
-        //assertThat(modalContext.getPreFilters().get(1).getRefPageId(), is("p"));
-        assertThat(modalContext.getPreFilters().get(1).getFieldId(), is("secondId"));
-        assertThat(modalContext.getPreFilters().get(1).getType(), is(FilterType.eq));
-        //assertThat(modalContext.getPreFilters().get(1).getRefModel(), is(ReduxModel.RESOLVE));
-        assertThat(modalContext.getPreFilters().get(1).getValue(), is("1"));
-        assertThat(modalContext.getPreFilters().get(2).getRefWidgetId(), is("second"));
-        assertThat(modalContext.getPreFilters().get(2).getRefPageId(), is("p"));
-        assertThat(modalContext.getPreFilters().get(2).getFieldId(), is("name"));
-        assertThat(modalContext.getPreFilters().get(2).getType(), is(FilterType.eq));
-        assertThat(modalContext.getPreFilters().get(2).getRefModel(), is(ReduxModel.FILTER));
-        assertThat(modalContext.getPreFilters().get(2).getValue(), is("{name}"));
         assertThat(modalContext.getUpload(), is(UploadType.query));
 
         Page modalPage = read().compile().get(modalContext);
@@ -313,27 +301,25 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalPage.getBreadcrumb(), nullValue());
         Widget modalWidget = modalPage.getWidgets().get("p_updateWithPrefilters_main");
         List<Filter> filters = modalWidget.getFilters();
-        assertThat(filters.get(0).getParam(), is("p_main_id"));
-        assertThat(filters.get(0).getFilterId(), is("id"));
-        assertThat(filters.get(0).getRoutable(), is(false));
-        assertThat(filters.get(0).getLink().getBindLink(), is("models.resolve['p_main']"));
-        assertThat(filters.get(0).getLink().getValue(), is("`id`"));
-        assertThat(filters.get(1).getParam(), is("secondId"));
-        assertThat(filters.get(1).getFilterId(), is("secondId"));
-        assertThat(filters.get(1).getRoutable(), is(false));
-        assertThat(filters.get(1).getLink().getBindLink(), nullValue());
-        assertThat(filters.get(1).getLink().getValue(), is(1));
-        assertThat(filters.get(2).getParam(), is("p_main_name"));
-        assertThat(filters.get(2).getFilterId(), is("name_eq"));
+        assertThat(filters.get(2).getParam(), is("p_main_id"));
+        assertThat(filters.get(2).getFilterId(), is("id"));
         assertThat(filters.get(2).getRoutable(), is(false));
-        assertThat(filters.get(2).getLink().getBindLink(), is("models.filter['p_second']"));
-        assertThat(filters.get(2).getLink().getValue(), is("`name`"));
+        assertThat(filters.get(2).getLink().getBindLink(), is("models.resolve['p_main']"));
+        assertThat(filters.get(2).getLink().getValue(), is("`id`"));
+        assertThat(filters.get(0).getParam(), is("p_updateWithPrefilters_main_secondId"));
+        assertThat(filters.get(0).getFilterId(), is("secondId"));
+        assertThat(filters.get(0).getRoutable(), is(false));
+        assertThat(filters.get(0).getLink().getBindLink(), nullValue());
+        assertThat(filters.get(0).getLink().getValue(), is(1));
+        assertThat(filters.get(1).getParam(), is("name"));
+        assertThat(filters.get(1).getFilterId(), is("name_eq"));
+        assertThat(filters.get(1).getRoutable(), is(false));
+        assertThat(filters.get(1).getLink().getBindLink(), is("models.filter['p_second']"));
+        assertThat(filters.get(1).getLink().getValue(), is("`name`"));
 
         assertThat(modalWidget.getDataProvider().getPathMapping().get("p_main_id").getBindLink(), is("models.resolve['p_main'].id"));
-        assertThat(modalWidget.getDataProvider().getQueryMapping().get("secondId").getBindLink(), nullValue());
-        assertThat(modalWidget.getDataProvider().getQueryMapping().get("secondId").getValue(), is(1));
-        assertThat(modalWidget.getDataProvider().getQueryMapping().get("p_main_name").getBindLink(), is("models.filter['p_second']"));
-        assertThat(modalWidget.getDataProvider().getQueryMapping().get("p_main_name").getValue(), is("`name`"));
+        assertThat(modalWidget.getDataProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
+        assertThat(modalWidget.getDataProvider().getQueryMapping().get("name").getValue(), is("`name`"));
 
         assertThat(modalWidget.getUpload(), is(UploadType.query));
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
@@ -367,7 +353,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
         ShowModal showModal = (ShowModal) rootPage.getWidgets().get("p_main").getActions().get("updateEditWithPrefilters");
-        assertThat(showModal.getPayload().getQueryMapping().get("p_main_id").getBindLink(), is("models.edit['p_main']"));
+        assertThat(showModal.getPayload().getQueryMapping().get("id").getBindLink(), is("models.edit['p_main']"));
 
         Page showModalPage = routeAndGet("/p/updateEditWithPrefilters", Page.class);
         assertThat(showModalPage.getId(), is("p_updateEditWithPrefilters"));

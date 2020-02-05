@@ -4,7 +4,7 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreField;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -37,8 +37,7 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
         p.attribute(e, "route", op::getRoute, op::setRoute);
         p.childrenByEnum(e, "pre-filters", op::getPreFilters, op::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
-        p.childrenByEnum(e, "pre-fields", op::getPreFields, op::setPreFields, N2oPreField::getType,
-                N2oPreField::setType, N2oPreField::new, FilterType.class, this::prefield);
+        p.children(e, "params", "param", op::getParams, op::setParams, N2oParam.class, this::param);
     }
 
     private void prefilter(Element e, N2oPreFilter pf, IOProcessor p) {
@@ -52,10 +51,11 @@ public abstract class AbstractOpenPageElementIOV1<T extends N2oAbstractPageActio
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }
 
-    private void prefield(Element e, N2oPreField pf, IOProcessor p) {
-        p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
-        p.attribute(e, "value", pf::getValue, pf::setValue);
-        p.attributeArray(e, "values", ",", pf::getValues, pf::setValues);
+    private void param(Element e, N2oParam param, IOProcessor p) {
+        p.attribute(e, "name", param::getName, param::setName);
+        p.attribute(e, "value", param::getValue, param::setValue);
+        p.attribute(e, "ref-widget-id", param::getRefWidgetId, param::setRefWidgetId);
+        p.attributeEnum(e, "ref-model", param::getRefModel, param::setRefModel, ReduxModel.class);
     }
 
 }

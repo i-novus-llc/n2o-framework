@@ -19,5 +19,10 @@
                 <eq filter-id="secondName"/>
             </filters>
         </field>
+        <field id="surname">
+            <filters>
+                <eq filter-id="surname"/>
+            </filters>
+        </field>
     </fields>
 </query>

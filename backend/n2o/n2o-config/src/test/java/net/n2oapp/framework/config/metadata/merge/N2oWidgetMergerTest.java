@@ -51,7 +51,6 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
         assertThat(widget.getQueryId(), is("parent"));
         assertThat(widget.getObjectId(), is("parent"));
         assertThat(widget.getPreFilters().length, is(2));
-        assertThat(widget.getPreFields().length, is(2));
         assertThat(widget.getVisible(), is("true"));
 
         assertThat(widget.getExtAttributes().get(new N2oNamespace(Namespace.getNamespace("ext", "http://example.com/n2o/ext-1.0"))).get("extAttr1"), is("child1"));

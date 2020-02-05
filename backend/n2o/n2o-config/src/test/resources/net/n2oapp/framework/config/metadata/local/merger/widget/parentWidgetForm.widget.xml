@@ -23,7 +23,4 @@
     <pre-filters>
         <eq field-id="id" value="1"/>
     </pre-filters>
-    <pre-fields>
-        <eq field-id="id" value="1"/>
-    </pre-fields>
 </form>

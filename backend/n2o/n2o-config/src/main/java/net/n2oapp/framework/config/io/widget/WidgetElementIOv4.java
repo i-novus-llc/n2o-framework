@@ -5,7 +5,6 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
@@ -49,8 +48,6 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
         p.childAttributeEnum(e, "actions", "generate", m::getActionGenerate, m::setActionGenerate, GenerateType.class);
         p.childrenByEnum(e, "pre-filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
-        p.childrenByEnum(e, "pre-fields", m::getPreFields, m::setPreFields, N2oPreField::getType,
-                N2oPreField::setType, N2oPreField::new, FilterType.class, this::prefield);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIO());
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
     }
@@ -78,12 +75,6 @@ public abstract class WidgetElementIOv4<T extends N2oWidget> implements Namespac
         p.attributeEnum(e, "ref-model", pf::getRefModel, pf::setRefModel, ReduxModel.class);
         p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
         p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
-    }
-
-    private void prefield(Element e, N2oPreField pf, IOProcessor p) {
-        p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
-        p.attribute(e, "value", pf::getValue, pf::setValue);
-        p.attributeArray(e, "values", ",", pf::getValues, pf::setValues);
     }
 
 }

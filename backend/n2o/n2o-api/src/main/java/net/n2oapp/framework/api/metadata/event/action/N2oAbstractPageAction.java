@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.event.action;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreField;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
@@ -43,8 +43,9 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction {
 
     //todo rename to resultWidgetId
     private String resultContainerId;
+    @Deprecated
     private N2oPreFilter[] preFilters;
-    private N2oPreField[] preFields;
+    private N2oParam[] params;
 
     @Deprecated
     private RefreshPolity refreshPolity;

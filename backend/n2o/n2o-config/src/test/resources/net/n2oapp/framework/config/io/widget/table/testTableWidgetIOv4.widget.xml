@@ -111,9 +111,6 @@
             <close src="test"/>
         </action>
     </actions>
-    <pre-fields>
-        <contains field-id="test" values="test1,test2"/>
-    </pre-fields>
     <pre-filters>
         <contains field-id="test" values="test1,test2" value="test" routable="true"/>
     </pre-filters>

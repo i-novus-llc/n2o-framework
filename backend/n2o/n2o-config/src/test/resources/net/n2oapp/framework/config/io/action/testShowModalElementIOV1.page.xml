@@ -7,12 +7,6 @@
                         submit-operation-id="create" submit-label="Отправить"
                         refresh-on-close="false" refresh-widget-id="testWidget"
                         upload="query" modal-size="lg" submit-model="resolve">
-                <pre-filters>
-                    <contains field-id="test" value="test" values="test1 , test2"/>
-                </pre-filters>
-                <pre-fields>
-                    <contains field-id="test" value="test" values="test1 , test2"/>
-                </pre-fields>
             </show-modal>
         </action>
     </actions>
