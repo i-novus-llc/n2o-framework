@@ -75,13 +75,14 @@ export const withLiveCycleMethods = lifecycle({
       (prevProps.datasource && !datasource)
     ) {
       setDefaultValues({});
-    } else if (
-      isEqual(prevProps.resolveModel, resolveModel) &&
-      !isEqual(prevProps.reduxFormValues, reduxFormValues) &&
-      isEqual(datasource, resolveModel)
-    ) {
-      setDefaultValues(reduxFormValues);
     }
+    // else if (
+    //   isEqual(prevProps.resolveModel, resolveModel) &&
+    //   !isEqual(prevProps.reduxFormValues, reduxFormValues) &&
+    //   isEqual(datasource, resolveModel)
+    // ) {
+    //   setDefaultValues(reduxFormValues);
+    // }
   },
 });
 
@@ -156,5 +157,5 @@ export default compose(
   withLiveCycleMethods,
   withPropsOnChangeWidget,
   withWidgetHandlers,
-  onlyUpdateForKeys(['initialValues'])
+  onlyUpdateForKeys(['initialValues', 'fields'])
 )(ReduxForm);

@@ -34,18 +34,6 @@ function hasError(messages) {
     .reduce((res, msg) => msg.severity === 'danger' || res, false);
 }
 
-export default function createValidator(
-  validationConfig = {},
-  formName,
-  state,
-  fields
-) {
-  return {
-    asyncValidate: validateField(validationConfig, formName, state),
-    asyncBlurFields: fields || [],
-  };
-}
-
 function addError(
   fieldId,
   { text = true, severity = true },
@@ -74,6 +62,16 @@ function addError(
   return errors;
 }
 
+function getMultiFields(registeredFields, fieldId) {
+  const regExp = new RegExp(`${fieldId}(\\[.*]).*$`);
+
+  return compact(
+    map(registeredFields, (field, fieldId) =>
+      regExp.test(fieldId) ? fieldId : null
+    )
+  );
+}
+
 /**
  * функция валидации
  * @param validationConfig
@@ -99,27 +97,46 @@ export const validateField = (
   each(validation, (validationList, fieldId) => {
     if (isArray(validationList)) {
       each(validationList, options => {
-        const isValid =
-          isFunction(presets[options.type]) &&
-          presets[options.type](fieldId, values, options, dispatch);
-        if (isPromise(isValid)) {
-          promiseList.push(
-            new Promise(resolve => {
-              isValid.then(
-                resp => {
-                  each(resp && resp.message, m => {
-                    addError(fieldId, m, options, errors);
-                  });
-                  resolve();
-                },
-                () => {
-                  resolve();
-                }
-              );
-            })
-          );
-        } else if (!isValid) {
-          addError(fieldId, {}, options, errors);
+        const resolveValidationResult = (isValid, fieldId) => {
+          if (isPromise(isValid)) {
+            promiseList.push(
+              new Promise(resolve => {
+                isValid.then(
+                  resp => {
+                    each(resp && resp.message, message => {
+                      addError(fieldId, message, options, errors);
+                    });
+                    resolve();
+                  },
+                  () => {
+                    resolve();
+                  }
+                );
+              })
+            );
+          } else if (!isValid) {
+            addError(fieldId, {}, options, errors);
+          }
+        };
+
+        const validationFunction = presets[options.type];
+
+        if (options.multi) {
+          const multiFields = getMultiFields(registeredFields, fieldId);
+
+          map(multiFields, fieldId => {
+            const isValid =
+              isFunction(validationFunction) &&
+              validationFunction(fieldId, values, options, dispatch);
+
+            resolveValidationResult(isValid, fieldId);
+          });
+        } else {
+          const isValid =
+            isFunction(validationFunction) &&
+            validationFunction(fieldId, values, options, dispatch);
+
+          resolveValidationResult(isValid, fieldId);
         }
       });
     }
@@ -134,12 +151,7 @@ export const validateField = (
             !isEqual(message, get(registeredFields, [fieldId, 'message'])) ||
             !get(fields, [fieldId, 'touched'])
           ) {
-            return addFieldMessage(
-              formName,
-              fieldId,
-              message,
-              isTouched
-            );
+            return addFieldMessage(formName, fieldId, message, isTouched);
           }
         }
       })
@@ -151,8 +163,22 @@ export const validateField = (
       }
     });
 
-    messagesAction && dispatch(batchActions(messagesAction));
+    if (messagesAction) {
+      dispatch(batchActions(messagesAction));
+    }
 
     return hasError(errors);
   });
 };
+
+export default function createValidator(
+  validationConfig = {},
+  formName,
+  state,
+  fields
+) {
+  return {
+    asyncValidate: validateField(validationConfig, formName, state),
+    asyncBlurFields: fields || [],
+  };
+}
