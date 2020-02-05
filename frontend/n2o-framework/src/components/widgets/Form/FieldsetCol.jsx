@@ -14,7 +14,8 @@ function FieldsetCol({
   labelAlignment,
   modelPrefix,
   form,
-  member,
+  parentName,
+  parentIndex,
 }) {
   return (
     <Col xs={col.size || defaultCol} key={colId} className={col.className}>
@@ -22,7 +23,7 @@ function FieldsetCol({
         col.fields.map((field, i) => {
           const autoFocus = field.id && autoFocusId && field.id === autoFocusId;
           const key = 'field' + i;
-          const name = member ? `${member}.${field.id}` : field.id;
+          const name = parentName ? `${parentName}.${field.id}` : field.id;
 
           return (
             <ReduxField
@@ -34,6 +35,7 @@ function FieldsetCol({
               form={form}
               modelPrefix={modelPrefix}
               name={name}
+              parentIndex={parentIndex}
               {...field}
             />
           );

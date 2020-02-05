@@ -24,7 +24,7 @@ export function MultiFieldsetItem({
 }) {
   return (
     <>
-      {fields.map((member, index) => (
+      {fields.map((parentName, index) => (
         <div className="n2o-multi-fieldset__container">
           <div className="n2o-multi-fieldset__item">
             {label && (
@@ -32,7 +32,7 @@ export function MultiFieldsetItem({
                 {resolvePlaceholder(index)}
               </div>
             )}
-            {render(rows, { member })}
+            {render(rows, { parentName, parentIndex: index })}
             <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--inner">
               {needCopyButton && (
                 <Button

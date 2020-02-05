@@ -1438,7 +1438,15 @@
                         "src": "StandardField",
                         "id": "surname",
                         "label": "Фамилия",
-                        "dependency": [],
+                        "dependency": [
+                          {
+                            "type": "enabled",
+                            "parentId": "members",
+                            "on": ["members[#index].name"],
+                            "expression": "members[#index].name !== 'test'",
+                            "applyOnInit": true
+                          }
+                        ],
                         "control": {
                           "src": "InputText",
                           "id": "surname"
