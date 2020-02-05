@@ -9,28 +9,40 @@ import 'react-popper-tooltip/dist/styles.css';
 import TooltipHOC from '../../../../snippets/Tooltip/Tooltip';
 
 function Tooltip(props) {
-  const { model, fieldKey, label, id, trigger } = props;
+  const { model, fieldKey, label, id, trigger, labelDashed } = props;
+
   const tooltipList = model && get(model, fieldKey);
   const validTooltipList = model && fieldKey && isArray(tooltipList);
   const listLength = validTooltipList ? tooltipList.length : 0;
+  const triggerClassName = cn({
+    'list-text-cell__trigger_dashed': labelDashed,
+    'list-text-cell__trigger': !labelDashed || isUndefined(labelDashed),
+  });
+  const withPlaceholder = label => label.replace(/{value}/gm, listLength);
 
-  //ищет placeholder {value} в label, заменяет на длину массива
-  const withPlaceholder = label => {
+  //ищет placeholder {value} в label, заменяет его на длину массива
+  const replacePlaceholder = label => {
     const placeholder = '{value}';
     const hasPlaceholder = !isUndefined(label) && label.match(placeholder);
     if (isUndefined(label)) {
       return listLength;
     } else if (hasPlaceholder) {
-      return label.replace(/{value}/gm, listLength);
+      return withPlaceholder(label);
     } else {
       return `${listLength + ' ' + label}`;
     }
   };
 
+  //trigger для появления tooltip, отображает label
   const Trigger = () => {
-    return <span id={id}>{withPlaceholder(label)}</span>;
+    return (
+      <span className={triggerClassName} id={id}>
+        {replacePlaceholder(label)}
+      </span>
+    );
   };
 
+  //hint отображает лист полученный из model
   const tooltipBody = () => {
     return (
       <div>
