@@ -447,12 +447,12 @@ class AdvancedTable extends Component {
   }
 
   handleChangeRadioChecked(index) {
-    const { rowSelection } = this.props;
+    const { rowSelection, onSetSelection } = this.props;
     if (rowSelection !== rowSelectionType.RADIO) return;
     const checkedState = {
       [index]: true,
     };
-    this.props.onSetSelection(checkedState);
+    onSetSelection(checkedState);
     this.setState(() => ({
       checked: checkedState,
     }));
@@ -528,7 +528,7 @@ class AdvancedTable extends Component {
             className="n2o-advanced-table-row-radio"
             inline={true}
             checked={this.state.checked[model.id]}
-            onChange={event => this.handleChangeRadioChecked(event, model.id)}
+            onChange={() => this.handleChangeRadioChecked(model.id)}
           />
         ) : null,
     };
