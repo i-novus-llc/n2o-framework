@@ -39,7 +39,7 @@ public class ReaderFactoryByMap implements NamespaceReaderFactory, IOProcessorAw
     }
 
     @Override
-    public NamespaceReader produce(Namespace namespace, String elementName) {
+    public NamespaceReader produce(String elementName, Namespace namespace) {
         Map<String, NamespaceReader> innerEngines = map.get(namespace.getURI());
         if (innerEngines == null)
             throw new EngineNotFoundException(namespace.getURI());

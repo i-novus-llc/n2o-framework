@@ -770,7 +770,7 @@ public class IOProcessorTest {
             }
 
             @Override
-            public NamespaceReader<ChildEntity> produce(Namespace namespace, String elementName) {
+            public NamespaceReader<ChildEntity> produce(String elementName, Namespace namespace) {
                 return new NamespaceReader<ChildEntity>() {
                     @Override
                     public Class<ChildEntity> getElementClass() {
@@ -815,7 +815,7 @@ public class IOProcessorTest {
 
         p = new IOProcessorImpl(new NamespaceReaderFactory() {
             @Override
-            public NamespaceReader produce(Namespace namespace, String elementName) {
+            public NamespaceReader produce(String elementName, Namespace namespace) {
                 if ("elem1".equals(elementName))
                     return null;
 
@@ -858,9 +858,9 @@ public class IOProcessorTest {
         } catch (EngineNotFoundException e) {
             assertThat(e.getMessage(), is("Engine for 'elem1' not found"));
         }
-        p.anyChild(in3, null, entity::getChildEntity, entity::setChildEntity, (NamespaceIOFactory) p.anyOf(ChildEntity.class).ignore("elem1", "elem2"), null);
+        p.anyChild(in3, null, entity::getChildEntity, entity::setChildEntity, p.anyOf(ChildEntity.class).ignore("elem1", "elem2"), null);
         assertThat(entity.getChildEntity().getAtt(), is("elem3"));
-        p.anyChild(in3, null, entity::getChildEntity, entity::setChildEntity, (NamespaceIOFactory) p.anyOf(ChildEntity.class).ignore("elem1", "elem3"), null);
+        p.anyChild(in3, null, entity::getChildEntity, entity::setChildEntity, p.anyOf(ChildEntity.class).ignore("elem1", "elem3"), null);
         assertThat(entity.getChildEntity().getAtt(), is("elem2"));
 
     }

@@ -11,15 +11,15 @@ import org.jdom.Namespace;
  */
 public interface NamespaceReaderFactory<T extends NamespaceUriAware, R extends NamespaceReader<? extends T>> extends ElementReaderFactory<T, R> {
 
-    R produce(Namespace namespace, String elementName);
+    R produce(String elementName, Namespace namespace);
 
     default R produce(Element element) {
-        return produce(element.getNamespace(), element.getName());
+        return produce(element.getName(), element.getNamespace());
     }
 
     default R produce(Element element, Namespace parentNamespace, Namespace defaultNamespace){
         if (defaultNamespace != null && element.getNamespace().getURI().equals(parentNamespace.getURI())) {
-            return produce(defaultNamespace, element.getName());
+            return produce(element.getName(), defaultNamespace);
         } else {
             return produce(element);
         }

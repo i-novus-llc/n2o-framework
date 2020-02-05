@@ -50,10 +50,10 @@ public class NamespaceIOFactoryByMap<T extends NamespaceUriAware, R extends Name
     }
 
     @Override
-    public R produce(Namespace namespace, String elementName) {
+    public R produce(String elementName, Namespace namespace) {
         if (names.containsKey(namespace.getURI()) && names.get(namespace.getURI()).containsKey(elementName))
             return names.get(namespace.getURI()).get(elementName);
-        return (R) readerFactory.produce(namespace, elementName);
+        return (R) readerFactory.produce(elementName, namespace);
     }
 
     @Override

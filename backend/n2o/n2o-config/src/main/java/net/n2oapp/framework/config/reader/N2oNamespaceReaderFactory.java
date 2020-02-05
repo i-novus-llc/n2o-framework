@@ -29,7 +29,7 @@ public class N2oNamespaceReaderFactory<T extends NamespaceUriAware> implements N
     private volatile Map<String, Map<String, NamespaceReader<T>>> engines;
 
     @Override
-    public NamespaceReader<T> produce(Namespace namespace, String elementName) {
+    public NamespaceReader<T> produce(String elementName, Namespace namespace) {
         if (engines == null)
             initFactory();
         Map<String, NamespaceReader<T>> elementReaders = engines.get(namespace.getURI());
