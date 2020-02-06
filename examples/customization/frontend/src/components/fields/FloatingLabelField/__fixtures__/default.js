@@ -1,5 +1,5 @@
 import React from "react";
-import controls from "n2o/lib/components/controls";
+import controls from "n2o-framework/lib/components/controls";
 import FloatingLabelField from "../FloatingLabelField";
 
 export default [

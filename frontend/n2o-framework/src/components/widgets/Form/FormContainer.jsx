@@ -22,6 +22,7 @@ import { FORM } from '../widgetTypes';
 import { getFieldsKeys } from './utils';
 import createValidator from '../../../core/validation/createValidator';
 import { PREFIXES } from '../../../constants/models';
+import propsResolver from '../../../utils/propsResolver';
 
 const arrayMergeFunction = (destinationArray, sourceArray) => sourceArray;
 
@@ -157,5 +158,11 @@ export default compose(
   withLiveCycleMethods,
   withPropsOnChangeWidget,
   withWidgetHandlers,
-  onlyUpdateForKeys(['initialValues', 'fields'])
+  onlyUpdateForKeys(['initialValues', 'fields']),
+  withProps(({ fieldsets, resolveModel, initialValues }) => ({
+    fieldsets: propsResolver(
+      fieldsets,
+      !isEmpty(resolveModel) ? resolveModel : initialValues
+    ),
+  }))
 )(ReduxForm);
