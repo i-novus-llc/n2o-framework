@@ -14,6 +14,5 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 public class SimplePage extends Page {
     @JsonProperty
     private Widget widget;
-    @JsonProperty
-    private Toolbar toolbar;
+
 }
