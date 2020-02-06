@@ -18,8 +18,10 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
+import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.control.Control;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
@@ -151,6 +153,14 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                     defaultValues.add(control.getId(), modelLink);
                 }
             }
+        }
+        if (source.getParam() != null) {
+            PageRoutes routes = p.getScope(PageRoutes.class);
+            if (routes == null)
+                return;
+            WidgetScope widgetScope = p.getScope(WidgetScope.class);
+            BindLink onSet = new ModelLink(ReduxModel.RESOLVE, widgetScope.getWidgetId(), control.getId());
+            routes.addQueryMapping(source.getParam(), null, onSet);
         }
     }
 

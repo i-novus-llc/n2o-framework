@@ -51,7 +51,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oActionsPack(), new N2oRegionsPack(), new N2oWidgetsPack(),
-                new N2oControlsPack(), new N2oAllDataPack(), new N2oCellsPack());
+                new N2oControlsPack(), new N2oAllDataPack(), new N2oCellsPack(), new N2oFieldSetsPack());
         builder.ios(new OpenPageElementIOV1(), new InvokeActionElementIOV1(), new CloseActionElementIOV1());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"),
@@ -59,6 +59,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction1.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterDetail.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testDefaultValue.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testRefbook.query.xml"));
     }
 
@@ -382,5 +383,16 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(queryModelLink.getParam(), nullValue());
         assertThat(queryModelLink.getValue(), is("`name`"));
         assertThat(queryModelLink.getBindLink(), is("models.resolve['testOpenPageMasterParam_form']"));
+    }
+
+    @Test
+    public void testDefaultParam() {
+        compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml")
+                .get(new PageContext("testOpenPageSimplePage", "/page"));
+        PageContext context = (PageContext) route("/page/widget/defaultValue", Page.class);
+        Page openPage = read().compile().get(context);
+        Map<String, PageRoutes.Query> queryMapping = openPage.getRoutes().getQueryMapping();
+        assertThat(queryMapping.size(), is(1));
+        assertThat(queryMapping.get("name").getOnSet().getBindLink(), is("models.resolve['main'].name"));
     }
 }

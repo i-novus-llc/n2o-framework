@@ -27,6 +27,13 @@
                     </params>
                 </open-page>
             </button>
+            <button id="testDefaultValue">
+                <open-page page-id="testDefaultValue" route="/defaultValue" upload="defaults">
+                    <params>
+                        <param name="name" value="{name}"/>
+                    </params>
+                </open-page>
+            </button>
         </toolbar>
     </table>
 </simple-page>
