@@ -1,5 +1,6 @@
 {
   "List": {
+    "id": "$testListWidget",
     "src": "ListWidget",
     "className": "n2o",
     "dataProvider": {

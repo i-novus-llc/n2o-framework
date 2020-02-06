@@ -20,6 +20,7 @@ import java.util.*;
 @Getter
 @Setter
 public abstract class Widget<T extends WidgetComponent> extends Component {
+    @JsonProperty
     private String id;
     private String route;
     /**
