@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Исходная модель страницы с полем поиска
+ * Исходная модель страницы с поисковой строкой
  */
 @Getter
 @Setter

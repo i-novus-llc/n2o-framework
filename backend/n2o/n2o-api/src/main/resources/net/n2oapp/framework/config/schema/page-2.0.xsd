@@ -169,7 +169,7 @@
         <xs:complexContent>
             <xs:extension base="standardPageDefinition">
             <xs:annotation>
-                <xs:documentation>Страница c возможностью вставки поля поиска</xs:documentation>
+                <xs:documentation>Страница c поисковой строкой</xs:documentation>
             </xs:annotation>
                 <xs:sequence>
                     <xs:element name="search-bar" type="searchBarDefinition" maxOccurs="1" minOccurs="0"/>
