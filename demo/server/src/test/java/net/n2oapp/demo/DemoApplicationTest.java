@@ -30,9 +30,6 @@ public class DemoApplicationTest {
     @Test
     public void pageWelcome() {
         RestTemplate restTemplate = new RestTemplate();
-        Map<?, ?> page = restTemplate.getForObject("http://localhost:" + port + "/n2o/page/", Map.class);
-        assertThat(page.get("layout"), notNullValue());
-
         Map<?, ?> result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/?size=10&page=1&sorting.birthday=ASC", Map.class);
         assertThat(result.get("list"), notNullValue());
         assertThat((Integer) result.get("count"), greaterThan(1));
@@ -49,9 +46,6 @@ public class DemoApplicationTest {
     @Test
     public void pageProto() {
         RestTemplate restTemplate = new RestTemplate();
-        Map<?, ?> page =   restTemplate.getForObject("http://localhost:" + port + "/n2o/page/proto", Map.class);
-        assertThat(page.get("layout"), notNullValue());
-
         Map<?, ?> result = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/proto", Map.class);
         assertThat(result.get("list"), notNullValue());
         List<Map<?, ?>> list = (List<Map<?, ?>>) result.get("list");
@@ -62,16 +56,14 @@ public class DemoApplicationTest {
     public void create() {
         RestTemplate restTemplate = new RestTemplate();
         Map<?, ?> page = restTemplate.getForObject("http://localhost:" + port + "/n2o/page/create", Map.class);
-        assertThat(page.get("layout"), notNullValue());
-        assertThat(((Map) ((Map) page.get("layout")).get("regions")).get("single"), notNullValue());
+        assertThat(((Map) page.get("widget")).get("src"), is("FormWidget"));
     }
 
     @Test
     public void update() {
         RestTemplate restTemplate = new RestTemplate();
         Map<?, ?> page = restTemplate.getForObject("http://localhost:" + port + "/n2o/page/1/update", Map.class);
-        assertThat(page.get("layout"), notNullValue());
-        assertThat(((Map) ((Map) page.get("layout")).get("regions")).get("single"), notNullValue());
+        assertThat(((Map) page.get("widget")).get("src"), is("FormWidget"));
 
         Map<?, ?> data = restTemplate.getForObject("http://localhost:" + port + "/n2o/data/1/update", Map.class);
         assertThat(((List) data.get("list")).size(), is(1));
