@@ -51,6 +51,49 @@ stories
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
         placement="позиция tooltip (bottom, right, top, left) default=bottom"
+        theme="light или dark(default)"
+       />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'light theme',
+    () => {
+      return (
+        <ListTextCell
+          id={'testId'}
+          label={'объектов'}
+          fieldKey={'test'}
+          model={{
+            test: [
+              'Первый объект',
+              'Второй объект',
+              'Третий объект',
+              'Четвертый объект',
+              'Пятый объект',
+            ],
+          }}
+          theme={'light'}
+        />
+      );
+    },
+    {
+      info: {
+        text: `
+      ~~~js
+      import ListTextCell from 'n2o-framework/lib/components/widgets/Table/cells/ListTextCell/ListTextCell';
+      
+      <ListTextCell
+        id="id компонента"
+        src="src копонента"
+        label="{value} объектов, текст с плейсхолдером. {value} - длина массива. Если {value} нет, то длина вставиться перед словом"
+        fieldKey="Ключ по которому берутся данные из model"
+        trigger="hover или click, default=hover"
+        labelDashed="флаг underline dashed для label, default=false"
+        placement="позиция tooltip (bottom, right, top, left) default=bottom"
+        theme="light или dark(default)"
        />
       ~~~
       `,
@@ -93,6 +136,7 @@ stories
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
         placement="позиция tooltip (bottom, right, top, left) default=bottom"
+        theme="light или dark(default)"
        />
       ~~~
       `,
@@ -134,6 +178,7 @@ stories
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
         placement="позиция tooltip (bottom, right, top, left) default=bottom"
+        theme="light или dark(default)"
        />
       ~~~
       `,
@@ -232,6 +277,7 @@ stories
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
         placement="позиция tooltip (bottom, right, top, left) default=bottom"
+        theme="light или dark(default)"
        />
       ~~~
       `,
@@ -383,6 +429,163 @@ stories
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
         placement="позиция tooltip (bottom, right, top, left) default=bottom"
+        theme="light или dark(default)"
+       />
+      ~~~
+      `,
+      },
+    }
+  )
+
+  .add(
+    'placement light theme',
+    () => {
+      const props = {
+        headers: [
+          {
+            id: 'ListTextCell',
+            component: TextTableHeader,
+            label: 'bottom',
+          },
+        ],
+        cells: [
+          {
+            id: 'secondary',
+            component: ListTextCell,
+            fieldKey: 'test',
+            label: 'объекта',
+            src: 'ListTextCell',
+            placement: 'bottom',
+            theme: 'light',
+          },
+        ],
+        datasource: [
+          {
+            test: ['Первый объект', 'Второй объект', 'Третий объект'],
+          },
+        ],
+      };
+      const props2 = {
+        headers: [
+          {
+            id: 'ListTextCell',
+            component: TextTableHeader,
+            label: 'right',
+          },
+        ],
+        cells: [
+          {
+            id: 'secondary',
+            component: ListTextCell,
+            fieldKey: 'test',
+            label: 'объекта',
+            src: 'ListTextCell',
+            placement: 'right',
+            theme: 'light',
+          },
+        ],
+        datasource: [
+          {
+            test: ['Первый объект', 'Второй объект', 'Третий объект'],
+          },
+        ],
+      };
+      const props3 = {
+        headers: [
+          {
+            id: 'ListTextCell',
+            component: TextTableHeader,
+            label: 'top',
+          },
+        ],
+        cells: [
+          {
+            id: 'secondary',
+            component: ListTextCell,
+            fieldKey: 'test',
+            label: 'объекта',
+            src: 'ListTextCell',
+            placement: 'top',
+            theme: 'light',
+          },
+        ],
+        datasource: [
+          {
+            test: ['Первый объект', 'Второй объект', 'Третий объект'],
+          },
+        ],
+      };
+      const props4 = {
+        headers: [
+          {
+            id: 'ListTextCell',
+            component: TextTableHeader,
+            label: 'left',
+          },
+        ],
+        cells: [
+          {
+            id: 'secondary',
+            component: ListTextCell,
+            fieldKey: 'test',
+            label: 'объекта',
+            src: 'ListTextCell',
+            placement: 'left',
+            theme: 'light',
+          },
+        ],
+        datasource: [
+          {
+            test: ['Первый объект', 'Второй объект', 'Третий объект'],
+          },
+        ],
+      };
+      return (
+        <div
+          style={{
+            display: 'flex',
+            width: '750px',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Table
+            headers={props.headers}
+            cells={props.cells}
+            datasource={props.datasource}
+          />
+          <Table
+            headers={props2.headers}
+            cells={props2.cells}
+            datasource={props2.datasource}
+          />
+          <Table
+            headers={props3.headers}
+            cells={props3.cells}
+            datasource={props3.datasource}
+          />
+          <Table
+            headers={props4.headers}
+            cells={props4.cells}
+            datasource={props4.datasource}
+          />
+        </div>
+      );
+    },
+    {
+      info: {
+        text: `
+      ~~~js
+      import ListTextCell from 'n2o-framework/lib/components/widgets/Table/cells/ListTextCell/ListTextCell';
+      
+      <ListTextCell
+        id="id компонента"
+        src="src копонента"
+        label="{value} объектов, текст с плейсхолдером. {value} - длина массива. Если {value} нет, то длина вставиться перед словом"
+        fieldKey="Ключ по которому берутся данные из model"
+        trigger="hover или click, default=hover"
+        labelDashed="флаг underline dashed для label, default=false"
+        placement="позиция tooltip (bottom, right, top, left) default=bottom"
+        theme="light или dark(default)"
        />
       ~~~
       `,
@@ -447,6 +650,7 @@ stories
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
         placement="позиция tooltip (bottom, right, top, left) default=bottom"
+        theme="light или dark(default)"
        />
       ~~~
       `,

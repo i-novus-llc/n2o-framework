@@ -54,4 +54,5 @@ ListTextCell.defaultProps = {
   trigger: 'hover',
   fieldKey: [],
   labelDashed: false,
+  theme: 'dark',
 };
