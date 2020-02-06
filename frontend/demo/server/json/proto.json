@@ -1547,21 +1547,6 @@
       }
     ]
   },
-  "breadcrumb": [
-    {
-      "label": "Список контактов"
-    }
-  ],
-  "actions": {
-    "create2": {}
-  },
-  "models": {
-    "filter['proto_patients'].genders": {
-      "link": "models.filter['proto_patients'].genders"
-    }
-  },
-  "layout": {
-    "src": "LeftRightLayout",
     "regions": {
       "left": [
         {
@@ -1615,8 +1600,7 @@
           ]
         }
       ]
-    }
-  },
+    },
   "actions": {
     "create2": {
       "id": "create2",
