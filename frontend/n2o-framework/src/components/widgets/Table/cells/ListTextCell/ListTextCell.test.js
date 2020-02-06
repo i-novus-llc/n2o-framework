@@ -6,7 +6,10 @@ import { Provider } from 'react-redux';
 
 const defaultProps = {
   label: 'объекта',
-  fieldKey: ['Первый объект', 'Второй объект', 'Третий объект'],
+  fieldKey: 'test',
+  model: {
+    test: ['первый', 'второй', 'третий'],
+  },
 };
 
 const setupImageCell = propsOverride => {
