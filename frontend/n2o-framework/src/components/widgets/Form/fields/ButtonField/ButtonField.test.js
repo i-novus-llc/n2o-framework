@@ -1,19 +1,18 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import mockStore from 'redux-mock-store';
-import ButtonField from "./ButtonField";
-
+import ButtonField from './ButtonField';
 
 const setup = () => {
   const props = {
-    label: 'Поле "ButtonField"'
+    label: 'Поле "ButtonField"',
   };
 
   return mount(
     <Provider store={mockStore()({})}>
       <ButtonField {...props} />
     </Provider>
-  )
+  );
 };
 
 describe('<ButtonField />', () => {

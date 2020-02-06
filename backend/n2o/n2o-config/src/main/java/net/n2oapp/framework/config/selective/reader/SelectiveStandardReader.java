@@ -16,6 +16,7 @@ import net.n2oapp.framework.config.io.fieldset.PanelFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
+import net.n2oapp.framework.config.io.page.LeftRightPageElementIOV2;
 import net.n2oapp.framework.config.io.page.SearchablePageElementIOv2;
 import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
 import net.n2oapp.framework.config.io.page.StandardPageElementIOv2;
@@ -47,6 +48,7 @@ public class SelectiveStandardReader extends SelectiveReader {
     public SelectiveStandardReader addPage2() {
         return addReader(new SimplePageElementIOv2())
                 .addReader(new StandardPageElementIOv2())
+                .addReader(new LeftRightPageElementIOV2())
                 .addReader(new SearchablePageElementIOv2())
                 .addReader(new LineRegionIOv1())
                 .addReader(new PanelRegionIOv1())

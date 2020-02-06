@@ -333,6 +333,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="optimistic" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Включение режима optimistic запросов на сервер
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
