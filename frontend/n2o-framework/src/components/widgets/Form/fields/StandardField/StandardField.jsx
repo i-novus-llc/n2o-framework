@@ -141,7 +141,7 @@ class StandardField extends React.Component {
                 onChange={onChange}
                 {...control}
                 {...props}
-                className={cx(control && control.className, {
+                className={cx(control.className, {
                   [validationClass]: touched,
                 })}
               />

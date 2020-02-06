@@ -34,16 +34,42 @@ function hasError(messages) {
     .reduce((res, msg) => msg.severity === 'danger' || res, false);
 }
 
-export default function createValidator(
-  validationConfig = {},
-  formName,
-  state,
-  fields
+function addError(
+  fieldId,
+  { text = true, severity = true },
+  options = {},
+  errors
 ) {
-  return {
-    asyncValidate: validateField(validationConfig, formName, state),
-    asyncBlurFields: fields || [],
-  };
+  if (!errors[fieldId]) {
+    errors[fieldId] = [];
+  }
+
+  errors[fieldId].push({});
+  const last = errors[fieldId].length - 1;
+
+  if (isBoolean(text)) {
+    errors[fieldId][last].text = options.text;
+  } else {
+    errors[fieldId][last].text = text;
+  }
+
+  if (isBoolean(severity)) {
+    errors[fieldId][last].severity = options.severity;
+  } else {
+    errors[fieldId][last].severity = severity;
+  }
+
+  return errors;
+}
+
+function getMultiFields(registeredFields, fieldId) {
+  const regExp = new RegExp(`${fieldId}(\\[.*]).*$`);
+
+  return compact(
+    map(registeredFields, (field, fieldId) =>
+      regExp.test(fieldId) ? fieldId : null
+    )
+  );
 }
 
 /**
@@ -52,7 +78,7 @@ export default function createValidator(
  * @param formName
  * @param state
  * @param isTouched
- * @returns {Promise<any[]>}
+ * @returns {function(*=, *=, *, *=): Promise<void[]>}
  */
 export const validateField = (
   validationConfig,
@@ -67,49 +93,55 @@ export const validateField = (
   );
   const errors = {};
   const promiseList = [Promise.resolve()];
-  const addError = (
-    fieldId,
-    { text = true, severity = true },
-    options = {}
-  ) => {
-    !errors[fieldId] && (errors[fieldId] = []);
-    errors[fieldId].push({});
-    const last = errors[fieldId].length - 1;
-    isBoolean(text)
-      ? (errors[fieldId][last].text = options.text)
-      : (errors[fieldId][last].text = text);
-    isBoolean(severity)
-      ? (errors[fieldId][last].severity = options.severity)
-      : (errors[fieldId][last].severity = severity);
-  };
+
   each(validation, (validationList, fieldId) => {
     if (isArray(validationList)) {
       each(validationList, options => {
-        const isValid =
-          isFunction(presets[options.type]) &&
-          presets[options.type](fieldId, values, options, dispatch);
-        if (isPromise(isValid)) {
-          promiseList.push(
-            new Promise(resolve => {
-              isValid.then(
-                resp => {
-                  each(resp && resp.message, m => {
-                    addError(fieldId, m, options);
-                  });
-                  resolve();
-                },
-                () => {
-                  resolve();
-                }
-              );
-            })
-          );
-        } else if (!isValid) {
-          addError(fieldId, {}, options);
+        const resolveValidationResult = (isValid, fieldId) => {
+          if (isPromise(isValid)) {
+            promiseList.push(
+              new Promise(resolve => {
+                isValid.then(
+                  resp => {
+                    each(resp && resp.message, message => {
+                      addError(fieldId, message, options, errors);
+                    });
+                    resolve();
+                  },
+                  () => {
+                    resolve();
+                  }
+                );
+              })
+            );
+          } else if (!isValid) {
+            addError(fieldId, {}, options, errors);
+          }
+        };
+
+        const validationFunction = presets[options.type];
+
+        if (options.multi) {
+          const multiFields = getMultiFields(registeredFields, fieldId);
+
+          map(multiFields, fieldId => {
+            const isValid =
+              isFunction(validationFunction) &&
+              validationFunction(fieldId, values, options, dispatch);
+
+            resolveValidationResult(isValid, fieldId);
+          });
+        } else {
+          const isValid =
+            isFunction(validationFunction) &&
+            validationFunction(fieldId, values, options, dispatch);
+
+          resolveValidationResult(isValid, fieldId);
         }
       });
     }
   });
+
   return Promise.all(promiseList).then(() => {
     const messagesAction = compact(
       map(errors, (messages, fieldId) => {
@@ -131,8 +163,22 @@ export const validateField = (
       }
     });
 
-    messagesAction && dispatch(batchActions(messagesAction));
+    if (messagesAction) {
+      dispatch(batchActions(messagesAction));
+    }
 
     return hasError(errors);
   });
 };
+
+export default function createValidator(
+  validationConfig = {},
+  formName,
+  state,
+  fields
+) {
+  return {
+    asyncValidate: validateField(validationConfig, formName, state),
+    asyncBlurFields: fields || [],
+  };
+}
