@@ -6,14 +6,10 @@ import net.n2oapp.framework.config.io.page.StandardPageElementIOv2;
 import net.n2oapp.framework.config.io.region.LineRegionIOv1;
 import net.n2oapp.framework.config.io.widget.HtmlWidgetElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
-import net.n2oapp.framework.config.metadata.compile.region.LineRegionCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.HtmlWidgetCompiler;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.Properties;
 
 /**
  * Тестирвоание маппинга java модели в json для простого региона
@@ -32,7 +28,7 @@ public class LineRegionJsonTest extends JsonMetadataTestBase {
     public void lineRegion() {
         check("net/n2oapp/framework/config/mapping/testLineRegionJson.page.xml",
                 "components/regions/List/ListRegion.meta.json")
-                .cutXml("layout.regions.single[0]")
+                .cutXml("regions.single[0]")
                 .changeValue("items[0].widgetId", "testLineRegionJson_html")
                 .exclude("items[0].widgetId", "items[0].opened", "items[1]", "items[0].id")
                         .assertEquals();

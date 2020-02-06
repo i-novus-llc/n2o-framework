@@ -21,11 +21,9 @@ import org.springframework.context.ApplicationContext;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.Properties;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Тестирование статуса метеданной

@@ -73,6 +73,7 @@ class PopUp extends React.PureComponent {
               max={max}
               min={min}
               locale={locale}
+              dateFormat={dateFormat}
             />
           );
         })}

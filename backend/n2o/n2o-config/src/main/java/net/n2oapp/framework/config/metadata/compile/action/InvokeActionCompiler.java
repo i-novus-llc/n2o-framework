@@ -146,9 +146,10 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         InvokeActionPayload payload = invokeAction.getPayload();
         AsyncMetaSaga metaSaga = invokeAction.getMeta();
         WidgetDataProvider dataProvider = new WidgetDataProvider();
+        dataProvider.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
         Map<String, BindLink> pathMapping = new StrictMap<>();
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-        String path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor)p), "");
+        String path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null && model.equals(ReduxModel.RESOLVE)) {
             String widgetSelectedId = widgetScope.getClientWidgetId() + "_id";

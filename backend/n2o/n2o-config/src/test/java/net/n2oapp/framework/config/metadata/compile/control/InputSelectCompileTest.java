@@ -2,8 +2,9 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Models;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.*;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -41,7 +42,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testInputSelectDataProvider() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelect.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelect.page.xml")
                 .get(new PageContext("testInputSelect"));
         Form form = (Form) page.getWidgets().get("testInputSelect_main");
 

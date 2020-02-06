@@ -12,7 +12,7 @@ import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 
 import { metadataRequest, resetPage, mapUrl } from '../../actions/pages';
-import { destroyModal } from '../../actions/modals';
+import { destroyOverlay } from '../../actions/overlays';
 import {
   makePageMetadataByIdSelector,
   makePageLoadingByIdSelector,
@@ -33,8 +33,11 @@ const withMetadata = Component => {
 
     componentDidUpdate(prevProps) {
       const { pageId, metadata, error, routeMap, reset } = this.props;
-
-      if (!isEmpty(metadata) && this.shouldGetPageMetadata(prevProps)) {
+      if (
+        isEqual(metadata, prevProps.metadata) &&
+        !isEmpty(metadata) &&
+        this.shouldGetPageMetadata(prevProps)
+      ) {
         reset(prevProps.pageId);
         this.fetchMetadata();
       } else if (
@@ -145,7 +148,7 @@ const withMetadata = Component => {
       getMetadata: (pageId, pageUrl, pageMapping, rootPage) =>
         dispatch(metadataRequest(pageId, rootPage, pageUrl, pageMapping)),
       reset: pageId =>
-        dispatch(batchActions([resetPage(pageId), destroyModal()])),
+        dispatch(batchActions([resetPage(pageId), destroyOverlay()])),
       routeMap: pageId => dispatch(mapUrl(pageId)),
     };
   }

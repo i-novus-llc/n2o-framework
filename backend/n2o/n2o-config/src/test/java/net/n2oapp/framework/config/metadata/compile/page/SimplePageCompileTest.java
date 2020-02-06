@@ -1,8 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-
-import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.region.CustomRegion;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
@@ -53,17 +52,12 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
 
     @Test
     public void simplePage() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testSimplePage.page.xml")
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/page/testSimplePage.page.xml")
                 .get(new PageContext("testSimplePage"));
         assertThat(page.getId(), is("test_route"));
-        assertThat(page.getLayout().getSrc(), is("SingleLayout"));
-        assertThat(page.getWidgets().get("test_route_main"), notNullValue());
-        assertThat(page.getLayout().getRegions().size(), is(1));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getClass(), is(equalTo(CustomRegion.class)));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("NoneRegion"));
-        assertThat(page.getWidgets().size(), is(1));
-        assertThat(page.getWidgets().values().iterator().next().getClass(), is(equalTo(HtmlWidget.class)));
-        assertThat(page.getWidgets().size(), is(1));
+        assertThat(page.getSrc(), is("SimplePage"));
+        assertThat(page.getWidget(), notNullValue());
+        assertThat(page.getWidget().getClass(), is(equalTo(HtmlWidget.class)));
         assertThat(page.getRoutes().getList().size(), is(2));
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/test/route"));
         assertThat(page.getRoutes().getList().get(1).getPath(), is("/test/route/:test_route_main_id"));

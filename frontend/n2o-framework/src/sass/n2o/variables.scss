@@ -264,3 +264,15 @@ $footer-height: 40px !default;
 
 //Toolbar
 $toolbar-margin: 5px 0 5px 0;
+
+//Drawer
+$drawer-backdrop-bg: #000 !default;
+$drawer-content-bg: #fff !default;
+$drawer-left-shadow: 2px 0 8px rgba(0, 0, 0, 0.15) !default;
+$drawer-right-shadow: -2px 0 8px rgba(0, 0, 0, 0.15) !default;
+$drawer-top-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !default;
+$drawer-bottom-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15) !default;
+$drawer-content-pd: 40px 0 40px 0 !default;
+$drawer-border: 1px solid #90a4ae !default;
+$drawer-icon-color: #333 !default;
+$drawer-animation: 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86) !default;
