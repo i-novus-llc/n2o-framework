@@ -4,6 +4,8 @@ import { compose, defaultProps, withHandlers } from 'recompose';
 import isEmpty from 'lodash/isEmpty';
 import Button from 'reactstrap/lib/Button';
 
+const INDEX_PLACEHOLDER = '#index';
+
 export function MultiFieldsetItem({
   fields,
   render,
@@ -119,7 +121,7 @@ const enhance = compose(
       fields.splice(+!canRemoveFirstItem, fields.length),
     onCopy: ({ fields }) => index => () => fields.push(fields.get(index)),
     resolvePlaceholder: ({ label }) => value =>
-      label.replace('{value}', value + 1),
+      label.replace(INDEX_PLACEHOLDER, value + 1),
   })
 );
 

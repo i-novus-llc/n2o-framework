@@ -1428,7 +1428,7 @@
             "needRemoveAllButton": true,
             "needCopyButton": true,
             "name": "members",
-            "label": "{value}. Такой вот плейсхолдер",
+            "label": "#index. Такой вот плейсхолдер",
             "rows": [
               {
                 "cols": [
@@ -1441,7 +1441,6 @@
                         "dependency": [
                           {
                             "type": "enabled",
-                            "parentId": "members",
                             "on": ["members[#index].name"],
                             "expression": "members[#index].name !== 'test'",
                             "applyOnInit": true
