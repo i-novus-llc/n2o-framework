@@ -31,7 +31,7 @@ const arrowClassName = theme =>
 function Tooltip(props) {
   const { model, fieldKey, label, labelDashed, theme } = props;
 
-  const tooltipList = model && get(model, fieldKey);
+  const tooltipList = get(model, fieldKey);
   const validTooltipList = model && fieldKey && isArray(tooltipList);
   const listLength = validTooltipList ? tooltipList.length : 0;
 
