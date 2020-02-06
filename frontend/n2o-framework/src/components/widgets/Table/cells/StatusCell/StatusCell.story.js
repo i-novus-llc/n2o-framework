@@ -30,6 +30,7 @@ stories.add('Компонент', () => {
         component: StatusCell,
         color: 'info',
         fieldKey: 'test',
+        visible: true,
       },
     ],
     datasource: [{ test: 'текст статуса' }],
