@@ -47,6 +47,10 @@ ListTextCell.propTypes = {
    * применить к label dashed underline
    */
   labelDashed: PropTypes.bool.isRequired,
+  /**
+   * dark(default) или light тема tooltip
+   */
+  theme: PropTypes.string.isRequired,
 };
 
 ListTextCell.defaultProps = {

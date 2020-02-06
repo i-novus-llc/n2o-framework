@@ -109,8 +109,6 @@ function Tooltip(props) {
       label={props.label}
       labelDashed={props.labelDashed}
       delayShow={200}
-      usePortal={true}
-      {...props}
     >
       {Trigger}
     </TooltipTrigger>
