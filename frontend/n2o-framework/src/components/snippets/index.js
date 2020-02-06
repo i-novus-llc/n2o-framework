@@ -9,6 +9,7 @@ import Paragraph from './Typography/Paragraph/Paragraph';
 import Spinner from './Spinner/Spinner';
 import PopoverConfirm from './PopoverConfirm/PopoverConfirm';
 import SearchBar from './SearchBar/SearchBar';
+import Drawer from './Drawer/Drawer';
 
 export default {
   Alert,
@@ -22,4 +23,5 @@ export default {
   Spinner,
   PopoverConfirm,
   SearchBar,
+  Drawer,
 };

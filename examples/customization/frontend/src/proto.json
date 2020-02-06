@@ -776,7 +776,7 @@
           "id": "create",
           "src": "perform",
           "options": {
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "payload": {
               "name": "proto_patients_create",
               "pageId": "proto_patients_create",
@@ -792,7 +792,7 @@
           "id": "update",
           "src": "perform",
           "options": {
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "payload": {
               "name": "proto_patients_update",
               "pageId": "proto_patients_update",
@@ -1084,7 +1084,7 @@
           "id": "create",
           "src": "perform",
           "options": {
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "payload": {
               "name": "proto_patients_contacts_create",
               "pageId": "proto_patients_contacts_create",
@@ -1104,7 +1104,7 @@
           "id": "update",
           "src": "perform",
           "options": {
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "payload": {
               "name": "proto_patients_contacts_update",
               "pageId": "proto_patients_contacts_update",

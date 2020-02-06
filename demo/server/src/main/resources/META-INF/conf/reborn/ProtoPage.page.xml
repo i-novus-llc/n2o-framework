@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-      src="LeftRightPage" name="Список контактов" route="/">
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+                 name="Список контактов" route="/">
     <toolbar place="topRight">
         <button id="create2" widget-id="clients" description="Добавить клиента"
                 color="primary" label="Добавить клиента" icon="fa fa-plus"
@@ -10,7 +10,7 @@
                        redirect-url-after-submit="../:id"/>
         </button>
     </toolbar>
-    <regions>
+    <left width="60%">
         <panel place="left" header="true" collapsible="false" title="Данные клиента">
             <table id="clients" name="Клиенты" query-id="ProtoClient" size="10" route="/">
                 <actions>
@@ -106,6 +106,8 @@
                 <toolbar place="bottomRight" generate="tableSettings"/>
             </table>
         </panel>
+    </left>
+    <right>
         <panel place="right" title="Контакты">
             <list id="contacts" detail-field-id="individualId" depends-on="clients"
                   name="Контакты" query-id="ProtoContacts" visible="{name != 'Мария'}">
@@ -136,5 +138,5 @@
             <form id="form" ref-id="ProtoClient" route="/:client_id/card"
                   depends-on="clients" master-field-id="id" detail-field-id="id"/>
         </panel>
-    </regions>
-</page>
+    </right>
+</left-right-page>

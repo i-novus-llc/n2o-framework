@@ -1,6 +1,8 @@
 package net.n2oapp.framework.config.io.page;
 
 import net.n2oapp.framework.config.io.action.CloseActionElementIOV1;
+import net.n2oapp.framework.config.io.toolbar.ButtonIO;
+import net.n2oapp.framework.config.io.toolbar.SubmenuIO;
 import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsV1IOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
@@ -24,7 +26,8 @@ public class StandardPageXmlIOv2Test {
                         .addPersister(new TableElementIOV4())
                         .addPersister(new StandardPageElementIOv2())
                         .addPersister(new CloseActionElementIOV1()))
-                .addPack(new N2oRegionsV1IOPack());
+                .addPack(new N2oRegionsV1IOPack())
+                .ios(new ButtonIO(), new SubmenuIO());
 
         assert tester.check("net/n2oapp/framework/config/io/page/testStandardPageIOv2.page.xml");
     }

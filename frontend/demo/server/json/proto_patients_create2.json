@@ -272,46 +272,151 @@
                           "fontSize": "10pt",
                           "fontWeight": "bold"
                         },
-                        "id": "defaultField"
-                      }
-                    }
-                  ]
-                }
-              ]
+                        "style": {"color": "grey", "fontSize": "12pt"}
+                      }]}
+                ]
+              }
+            ]
+          }
+        ],
+        "validation": {
+          "gender": [
+            {
+              "severity": "danger",
+              "validationKey": "gender",
+              "text": "Поле обязательно для заполнения",
+              "type": "required"
+            }
+          ],
+          "surname": [
+            {
+              "severity": "danger",
+              "validationKey": "surname",
+              "text": "Поле обязательно для заполнения",
+              "type": "required"
+            }
+          ],
+          "name": [
+            {
+              "severity": "danger",
+              "validationKey": "name",
+              "text": "Поле обязательно для заполнения",
+              "type": "required"
             }
           ]
-        }
-      ],
-      "validation": {
-        "gender": [
+        },
+        "modelPrefix": "resolve",
+        "fetchOnInit": false,
+        "autoFocus": true
+      }
+    }
+  },
+  "toolbar": {
+    "bottomRight": [
+      {
+        "id": "bottomRight0",
+        "buttons": [
           {
-            "severity": "danger",
-            "validationKey": "gender",
-            "text": "Поле обязательно для заполнения",
-            "type": "required"
-          }
-        ],
-        "surname": [
+            "src": "PerformButton",
+            "id": "submit",
+            "label": "Сохранить",
+            "action": {
+              "type": "n2o/actionImpl/START_INVOKE",
+              "payload": {
+                "widgetId": "proto_create2_main",
+                "pageId": "proto_create2",
+                "dataProvider": {
+                  "url": "n2o/data/proto/create2/submit",
+                  "pathMapping": {},
+                  "method": "POST"
+                },
+                "modelLink": "models.resolve['proto_create2_main']"
+              },
+              "meta": {
+                "success": {
+                  "refresh": {
+                    "type": "widget",
+                    "options": {
+                      "widgetId": "proto_patients"
+                    }
+                  },
+                  "redirect": {
+                    "path": "/proto/:id",
+                    "pathMapping": {},
+                    "queryMapping": {},
+                    "target": "application"
+                  }
+                },
+                "fail": {}
+              }
+            },
+            "conditions": {
+              "enabled": [
+                {
+                  "expression": "!_.isEmpty(this)",
+                  "modelLink": "models.resolve['proto_create2_main']"
+                }
+              ]
+            },
+            "validate": true,
+            "validatedWidgetId": "proto_create2_main",
+            "color": "primary"
+          },
           {
-            "severity": "danger",
-            "validationKey": "surname",
-            "text": "Поле обязательно для заполнения",
-            "type": "required"
-          }
-        ],
-        "name": [
-          {
-            "severity": "danger",
-            "validationKey": "name",
-            "text": "Поле обязательно для заполнения",
-            "type": "required"
+            "src": "PerformButton",
+            "id": "close",
+            "label": "Закрыть",
+            "conditions": {},
+            "url": "/proto",
+            "target": "application",
+            "pathMapping": {},
+            "queryMapping": {}
           }
         ]
-      },
-      "modelPrefix": "resolve",
-      "fetchOnInit": false,
-      "autoFocus": true
+      }
+    ]
+  },
+  "breadcrumb": [
+    {
+      "label": "Список контактов",
+      "path": "/proto"
+    },
+    {
+      "label": "Карточка пациента"
     }
+  ],
+  "actions": {
+    "submit": {
+      "type": "n2o/actionImpl/START_INVOKE",
+      "payload": {
+        "widgetId": "proto_create2_main",
+        "pageId": "proto_create2",
+        "dataProvider": {
+          "url": "n2o/data/proto/create2/submit",
+          "pathMapping": {},
+          "method": "POST"
+        },
+        "modelLink": "models.resolve['proto_create2_main']"
+      },
+      "meta": {
+        "success": {
+          "refresh": {
+            "type": "widget",
+            "options": {
+              "widgetId": "proto_patients"
+            }
+          },
+          "redirect": {
+            "path": "/proto/:id",
+            "pathMapping": {},
+            "queryMapping": {},
+            "target": "application"
+          }
+        },
+        "fail": {}
+      }
+    },
+    "close": {}
   },
   "src": "SimplePage",
   "page": {

@@ -379,6 +379,71 @@
       "autoFocus": true
     }
   },
+  "toolbar": {
+    "bottomRight": [
+      {
+        "id": "bottomRight0",
+        "buttons": [
+          {
+            "src": "PerformButton",
+            "id": "submit",
+            "label": "Сохранить",
+            "action": {
+              "type": "n2o/actionImpl/START_INVOKE",
+              "payload": {
+                "widgetId": "proto_update2_main",
+                "pageId": "proto_update2",
+                "dataProvider": {
+                  "url": "n2o/data/proto/5607677/update2/submit",
+                  "pathMapping": {},
+                  "method": "POST"
+                },
+                "modelLink": "models.resolve['proto_update2_main']"
+              },
+              "meta": {
+                "success": {
+                  "refresh": {
+                    "type": "widget",
+                    "options": {
+                      "widgetId": "proto_patients"
+                    }
+                  },
+                  "redirect": {
+                    "path": "/proto/5607677",
+                    "pathMapping": {},
+                    "queryMapping": {},
+                    "target": "application"
+                  }
+                },
+                "fail": {}
+              }
+            },
+            "conditions": {
+              "enabled": [
+                {
+                  "expression": "!_.isEmpty(this)",
+                  "modelLink": "models.resolve['proto_update2_main']"
+                }
+              ]
+            },
+            "validate": true,
+            "validatedWidgetId": "proto_update2_main",
+            "color": "primary"
+          },
+          {
+            "src": "PerformButton",
+            "id": "close",
+            "label": "Закрыть",
+            "conditions": {},
+            "url": "/proto/:proto_patients_id",
+            "target": "application",
+            "pathMapping": {},
+            "queryMapping": {}
+          }
+        ]
+      }
+    ]
+  },
   "src": "SimplePage",
   "page": {
     "title": "Карточка пациента: 5607677"

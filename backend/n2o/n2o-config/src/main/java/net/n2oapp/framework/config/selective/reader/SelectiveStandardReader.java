@@ -16,6 +16,7 @@ import net.n2oapp.framework.config.io.fieldset.PanelFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
+import net.n2oapp.framework.config.io.page.LeftRightPageElementIOV2;
 import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
 import net.n2oapp.framework.config.io.page.StandardPageElementIOv2;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
@@ -46,6 +47,7 @@ public class SelectiveStandardReader extends SelectiveReader {
     public SelectiveStandardReader addPage2() {
         return addReader(new SimplePageElementIOv2())
                 .addReader(new StandardPageElementIOv2())
+                .addReader(new LeftRightPageElementIOV2())
                 .addReader(new LineRegionIOv1())
                 .addReader(new PanelRegionIOv1())
                 .addReader(new TabsRegionIOv1());
@@ -108,7 +110,6 @@ public class SelectiveStandardReader extends SelectiveReader {
         addReader(new OpenPageReaderV1());
         addReader(new ShowModalFormReaderV1());
         addReader(new ShowModalWithActionReaderV1());
-        addReader(new CustomReaderV1());
         addReader(new ActionAndCloseReaderV1());
         addReader(new CloseEventReaderV1());
         addReader(new ValidateEventReaderV1());
@@ -145,9 +146,7 @@ public class SelectiveStandardReader extends SelectiveReader {
         addReader(new EditFormXmlReaderV3());
         addReader(new TableXmlReaderV3());
         addReader(new TreeXmlReaderV3());
-        addReader(new N2oChartReaderV3());
         addReader(new CustomWidgetXmlReaderV3());
-        addReader(new HtmlWidgetXmlReaderV3());
         addReader(new WizardXmlReaderV3());
 
         return this;

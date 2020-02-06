@@ -4,13 +4,14 @@
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
            xmlns:cell="http://n2oapp.net/framework/config/schema/n2o-cell-2.0"
            xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-4.0"
+           xmlns:chart="http://n2oapp.net/framework/config/schema/n2o-chart-4.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="table" type="tableReferenceDefinition"/>
     <xs:element name="list" type="listWidgetReferenceDefinition"/>
     <xs:element name="form" type="formReferenceDefinition"/>
     <xs:element name="tree" type="treeReferenceDefinition"/>
-    <!--<xs:element name="chart" type="chartReferenceDefinition"/>-->
+    <xs:element name="chart" type="chartReferenceDefinition"/>
     <xs:element name="widget" type="customReferenceDefinition"/>
     <xs:element name="html" type="htmlReferenceDefinition"/>
 
@@ -20,7 +21,7 @@
             <xs:element name="form" type="formReferenceDefinition" minOccurs="0"/>
             <xs:element name="tree" type="treeReferenceDefinition" minOccurs="0"/>
             <xs:element name="list" type="listWidgetReferenceDefinition" minOccurs="0"/>
-            <!--<xs:element name="chart" type="chartReferenceDefinition" minOccurs="0"/>-->
+            <xs:element name="chart" type="chartReferenceDefinition" minOccurs="0"/>
             <xs:element name="widget" type="customReferenceDefinition" minOccurs="0"/>
             <xs:element name="html" type="htmlReferenceDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
@@ -236,6 +237,11 @@
                             <xs:documentation>Паджинация.</xs:documentation>
                         </xs:annotation>
                     </xs:element>
+                    <xs:element name="rows" type="rowsListDefinition" maxOccurs="1" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Настройки строк списка.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -320,15 +326,18 @@
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="children" use="optional" default="collapse">
+                    <xs:annotation>
+                        <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде</xs:documentation>
+                    </xs:annotation>
                     <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде</xs:documentation>
+                        </xs:annotation>
                         <xs:restriction base="xs:string">
                             <xs:enumeration value="collapse"/>
                             <xs:enumeration value="expand"/>
                         </xs:restriction>
                     </xs:simpleType>
-                    <xs:annotation>
-                        <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде</xs:documentation>
-                    </xs:annotation>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
@@ -479,8 +488,23 @@
                 <xs:annotation>
                     <xs:documentation>Виджет диаграмма.</xs:documentation>
                 </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="areas" type="chart:areaChartDefinition" minOccurs="0"/>
+                    <xs:element name="bars" type="chart:barChartDefinition" minOccurs="0"/>
+                    <xs:element name="lines" type="chart:lineChartDefinition" minOccurs="0"/>
+                    <xs:element name="pie" type="chart:pieChartDefinition" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="width" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ширина диаграммы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Высота диаграммы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
-            <!--todo:реализовать-->
         </xs:complexContent>
     </xs:complexType>
 
@@ -502,13 +526,14 @@
                 <xs:annotation>
                     <xs:documentation>Html виджет.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="url" type="xs:string">
+                <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Адрес запроса за html кодом.</xs:documentation>
+                        <xs:documentation>
+                            Путь к html файлу. Если не задан, необходимо задать содержимое в теле
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
-            <!--todo:реализовать-->
         </xs:complexContent>
     </xs:complexType>
 
@@ -527,6 +552,12 @@
                 <xs:documentation>Стиль.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="rowsListDefinition">
+        <xs:sequence>
+            <xs:element name="click" type="clickDefinition" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="switchDefinition">
@@ -572,6 +603,7 @@
                         <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
                         </xs:documentation>
                     </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="enabled" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Условие доступности действия

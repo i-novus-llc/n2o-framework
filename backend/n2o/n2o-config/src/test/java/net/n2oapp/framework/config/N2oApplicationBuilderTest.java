@@ -2,10 +2,10 @@ package net.n2oapp.framework.config;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;

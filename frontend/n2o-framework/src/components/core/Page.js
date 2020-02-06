@@ -14,6 +14,10 @@ import {
 } from 'recompose';
 
 import Factory from '../../core/factory/Factory';
+import { LAYOUTS, REGIONS } from '../../core/factory/factoryLevels';
+import BreadcrumbContainer from './Breadcrumb/BreadcrumbContainer';
+import DocumentTitle from './DocumentTitle';
+import Toolbar from '../buttons/Toolbar';
 
 import {
   makePageDisabledByIdSelector,
@@ -32,6 +36,7 @@ function Page(props, context) {
     metadata,
     loading,
     status,
+    toolbar,
     defaultTemplate: Template = React.Fragment,
     defaultErrorPages,
     page,

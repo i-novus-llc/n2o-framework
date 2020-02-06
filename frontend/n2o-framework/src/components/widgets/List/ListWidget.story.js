@@ -18,7 +18,7 @@ stories.addParameters({
   },
 });
 
-const urlPattern = 'n2o/data/testListWidget';
+const urlPattern = '*';
 const delay = ms => new Promise(r => setTimeout(() => r(), ms));
 stories
   .addDecorator(withPage(metadata))
@@ -168,9 +168,8 @@ stories
     fetchMock.get('begin:n2o/page', page);
     const rowClick = {
       rowClick: {
-        src: 'perform',
-        options: {
-          type: 'n2o/modals/INSERT',
+        action: {
+          type: 'n2o/overlays/INSERT',
           payload: {
             pageUrl: '/Uid',
             size: 'sm',

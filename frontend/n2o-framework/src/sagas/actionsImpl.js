@@ -34,6 +34,10 @@ import { successInvoke, failInvoke } from '../actions/actionImpl';
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
 import { MAP_URL, METADATA_REQUEST } from '../constants/pages';
 
+/**
+ * @deprecated
+ */
+
 export function* validate(options) {
   const isTouched = true;
   const state = yield select();
@@ -169,9 +173,14 @@ export function* handleInvoke(apiProvider, action) {
   }
 }
 
+export function* handleDummy() {
+  alert('AHOY!');
+}
+
 export default (apiProvider, factories) => {
   return [
     throttle(500, CALL_ACTION_IMPL, handleAction, factories),
     throttle(500, START_INVOKE, handleInvoke, apiProvider),
+    takeEvery('n2o/button/Dummy', handleDummy),
   ];
 };

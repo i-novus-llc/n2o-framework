@@ -215,113 +215,13 @@ link:#_Действия[Обработчик действия]
 ----
 
 ===== <button>
-Кнопка.
-
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|id
-|Строка
-|Идентификатор кнопки
-|Вычисляется из `action-id`
-
-|action-id
-|Ссылка на link:#__action[действие страницы]
-|Действие страницы, которое будет вызвано при нажатии на кнопку
-|
-
-|label
-|Строка
-|Заголовок кнопки
-|Вычисляется из `action-id`
-
-|icon
-|http://fontawesome.io/icons/[CSS класс]
-|Иконка
-|Вычисляется из `action-id`
-
-|type
-|text, icon, textAndIcon
-|Кнопка с иконкой или без
-|Если задан `icon`, то `iconAndText`, иначе `text`
-
-|class
-|https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
-|Css класс кнопки
-|
-
-|style
-|CSS свойство
-|Стиль кнопки
-|
-
-|===
-
-Тело::
-link:#_Действия[Обработчик действия]
-
-Пример::
-[source,xml]
-----
-<button action-id="create"/>
-----
-
-[source,xml]
-----
-<button
-  label="Добавить в реестр"
-  icon="fa-plus"
-  type="textAndIcon">
-  <open-page page-id="register" action-id="create"/>
-</button>
-----
+link:#_Кнопки_button[Кнопка]
 
 ===== <sub-menu>
-Кнопка с выпадающим меню.
+link:#_Кнопки_sub-menu[Кнопка с выпадающим меню]
 
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|label
-|Строка
-|Заголовок кнопки
-|Вычисляется из действия кнопки
-
-|icon
-|http://fontawesome.io/icons/[CSS класс]
-|Иконка
-|
-
-|type
-|text, icon, textAndIcon
-|Кнопка с иконкой или без
-|Если задан `icon`, то `iconAndText`, иначе `text`
-
-|class
-|https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
-|Css класс кнопки
-|
-
-|style
-|CSS свойство
-|Стиль кнопки
-|
-
-|===
-
-Пример::
-[source,xml]
-----
-<sub-menu>
-  <menu-item>...<menu-item>
-  <menu-item>...<menu-item>
-  <menu-item>...<menu-item>
-</sub-menu>
-----
+===== <link>
+link:#_Кнопки_link[Ссылка]
 
 ====== <menu-item>
 Пункт выпадающего меню.
@@ -396,7 +296,7 @@ http://n2oapp.net/framework/config/schema/region-1.0
 === Базовые свойства
 
 Атрибуты::
-[cols="2,1,4"]
+[cols="2,1,4,4"]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
@@ -414,6 +314,16 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |React компонент
 |Реализация региона
 |Для каждого вида региона своё значение по умолчанию
+
+|class
+|https://getbootstrap.com/docs/4.0/components/card/#background-and-color[CSS класс]
+|CSS класс панели
+|
+
+|style
+|CSS свойство
+|Стиль панели
+|
 
 |===
 
@@ -433,6 +343,11 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |true false
 |Возможность обновления данных при переключении между вкладками
 |false
+
+|lazy
+|true false
+|Ленивая загрузка вкладок
+|true
 
 |===
 
@@ -475,29 +390,39 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
+|title
+|Строка
+|Заголовок
+|
+
 |collapsible
 |true false
 |Возможность раскрытия и сворачивания виджетов
 |true
 
-|class
-|https://getbootstrap.com/docs/4.0/components/card/#background-and-color[CSS класс]
-|CSS класс панели
+|header
+|true false
+|Наличие заголовка
+|true
+
+|icon
+|CSS класс
+|Класс иконки
 |
 
-|style
-|CSS свойство
+|color
+|Строка
 |Стиль панели
 |
 
-|header
+|open
 |true false
-|С заголовком?
+|Раскрытие панели
 |true
 
-|title
+|footer-title
 |Строка
-|Заголовок
+|Заголовок для футера
 |
 
 |===

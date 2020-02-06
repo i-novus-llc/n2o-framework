@@ -56,7 +56,7 @@
 		"server": "node scripts/dev-server/dev-server.js",
 		"build:local": "node scripts/build.js",
 		"storybook": "start-storybook -p 6006",
-		"build-storybook": "build-storybook -c .storybook -o ./docs/storybook",
+		"build-storybook": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" build-storybook -c .storybook -o ./docs/storybook",
 		"prepublishOnly": "npm run build"
 	},
 	"dependencies": {
@@ -91,6 +91,7 @@
 		"prop-types": "15.6.1",
 		"query-string": "5.1.1",
 		"rc-collapse": "~1.10.0",
+		"rc-drawer": "^3.0.2",
 		"rc-slider": "^8.6.11",
 		"rc-switch": "~1.8.0",
 		"rc-table": "6.4.3",
@@ -110,6 +111,7 @@
 		"react-router-bootstrap": "0.24.4",
 		"react-router-dom": "4.3.1",
 		"react-rte": "0.16.0",
+		"react-syntax-highlighter": "^11.0.2",
 		"react-text-mask": "5.4.3",
 		"react-textarea-autosize": "7.0.4",
 		"react-virtualized": "^9.21.0",
@@ -173,7 +175,7 @@
 		"enzyme": "^3.9.0",
 		"enzyme-adapter-react-16": "^1.13.0",
 		"enzyme-to-json": "^3.1.0",
-		"esdoc": "1.0.1",
+		"esdoc": "1.1.0",
 		"esdoc-ecmascript-proposal-plugin": "^1.0.0",
 		"esdoc-jsx-plugin": "^1.0.0",
 		"esdoc-react-plugin": "^1.0.1",

@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
@@ -34,6 +33,10 @@ public class SimplePageJsonTest extends JsonMetadataTestBase {
                         "widget.toolbar.topLeft[0].buttons[0].conditions",
                         "widget.toolbar.topLeft[0].buttons[0].confirm",
                         "widget.toolbar.topLeft[0].buttons[0].hint",
+                        "widget.toolbar.topLeft[0].buttons[0].src",
+                        "widget.toolbar.topLeft[0].buttons[0].action",
+                        "layout.regions.single[0].items[0].id",
+                        "layout.regions.single[0].items[0].label",
                         "widget.toolbar.topLeft[0].buttons[0].hintPosition")
                 .assertEquals();
     }

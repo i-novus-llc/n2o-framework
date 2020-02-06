@@ -47,6 +47,7 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     @JsonProperty
     private Toolbar toolbar;
     @JsonProperty
+    @Deprecated
     private Map<String, Action> actions;
     @JsonProperty
     private WidgetDependency dependency;
