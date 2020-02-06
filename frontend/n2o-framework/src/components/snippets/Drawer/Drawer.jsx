@@ -85,7 +85,7 @@ Drawer.propTypes = {
   onClose: PropTypes.func,
   onHandleClick: PropTypes.func,
   /**
-   * Включение на маски(backdrop)
+   * Включение маски(backdrop)
    */
   backdrop: PropTypes.bool,
   /**
