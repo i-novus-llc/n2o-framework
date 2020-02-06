@@ -37,16 +37,12 @@ public class NamespaceIOFactoryByMap<T extends NamespaceUriAware, R extends Name
     }
 
     @Override
-    public P produce(Namespace namespace, Class<T> clazz) {
-        if (classes.containsKey(namespace.getURI()) && classes.get(namespace.getURI()).containsKey(clazz))
-            return classes.get(namespace.getURI()).get(clazz);
-        return (P) persisterFactory.produce(namespace, clazz);
-    }
-
-    @Override
-    public boolean check(Namespace namespace, Class<T> clazz) {
-        return (classes.containsKey(namespace.getURI()) && classes.get(namespace.getURI()).containsKey(clazz))
-                || persisterFactory.check(namespace, clazz);
+    public P produce(Class<T> clazz, Namespace... namespaces) {
+        for (Namespace namespace : namespaces) {
+            if (classes.containsKey(namespace.getURI()) && classes.get(namespace.getURI()).containsKey(clazz))
+                return classes.get(namespace.getURI()).get(clazz);
+        }
+        return (P) persisterFactory.produce(clazz, namespaces);
     }
 
     @Override

@@ -733,7 +733,7 @@ public class IOProcessorTest {
             }
 
             @Override
-            public NamespacePersister<ChildEntity> produce(Namespace namespace, Class<ChildEntity> clazz) {
+            public NamespacePersister<ChildEntity> produce(Class<ChildEntity> clazz, Namespace... namespace) {
                 return new NamespacePersister<ChildEntity>() {
                     @Override
                     public Class<ChildEntity> getElementClass() {
