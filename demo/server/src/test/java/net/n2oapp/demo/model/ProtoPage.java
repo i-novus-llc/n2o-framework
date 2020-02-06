@@ -321,7 +321,7 @@ public class ProtoPage implements ProtoPageSelectors {
         String vip = "true".equals(row.get(5)) ? "true" : "false";
 
         getRowElements(mainPage, 2).get(4).click();
-        getButton(mainPage, "Изменить").click();
+        getButton(mainPage, "Изменить").shouldBe(Condition.exist).click();
 
         SelenideElement modalPage = getModalPage();
         getInput(modalPage, "Фамилия").shouldHave(Condition.value(surname));
@@ -366,7 +366,7 @@ public class ProtoPage implements ProtoPageSelectors {
         ElementsCollection rowElements = getRowElements(mainPage, 2);
         rowElements.get(4).click();
         rowElements.get(6).click();
-        getButton(rowElements.get(6), "Изменить").click();
+        getButton(rowElements.get(6), "Изменить").shouldBe(Condition.exist).click();
 
         SelenideElement modalPage = getModalPage();
         getInput(modalPage, "Фамилия").shouldHave(Condition.value(surname));
