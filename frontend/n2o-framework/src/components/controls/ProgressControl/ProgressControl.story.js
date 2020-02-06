@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import ProgressControl from './ProgressControl';
 import ProgressControlMeta from './ProgressControl.meta';
 
-const stories = storiesOf('UI Компоненты/ProgressControl', module);
+const stories = storiesOf('Контролы/ProgressControl', module);
 
 stories.add(
   'Компонент',
