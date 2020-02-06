@@ -180,7 +180,10 @@ function InputSelectTree({
     const mode = ['includes', 'startsWith', 'endsWith'];
 
     if (mode.includes(filter)) {
-      return String.prototype[filter].call(node.props[labelFieldId], input);
+      return String.prototype[filter].call(
+        node.props[labelFieldId].toLowerCase(),
+        input.toLowerCase()
+      );
     }
     return true;
   };
@@ -369,14 +372,12 @@ function InputSelectTree({
 
   const getPopupContainer = container => container;
 
-  const open = !loading ? dropdownExpanded : false;
-
   return (
     <TreeSelect
       ref={setControlRef}
       tabIndex={1}
       {...value && { value: setValue(value) }}
-      open={open}
+      open={dropdownExpanded}
       onDropdownVisibleChange={handleDropdownVisibleChange}
       className={cx('n2o form-control', 'n2o-input-select-tree', className, {
         loading,
@@ -401,10 +402,16 @@ function InputSelectTree({
       prefixCls="n2o-select-tree"
       showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
       getPopupContainer={getPopupContainer}
-      notFoundContent={intl.formatMessage({
-        id: 'inputSelectTree.notFoundContent',
-        defaultMessage: notFoundContent || ' ',
-      })}
+      notFoundContent={
+        loading ? (
+          <InlineSpinner />
+        ) : (
+          intl.formatMessage({
+            id: 'inputSelectTree.notFoundContent',
+            defaultMessage: notFoundContent || ' ',
+          })
+        )
+      }
       placeholder={intl.formatMessage({
         id: 'inputSelectTree.placeholder',
         defaultMessage: placeholder || ' ',

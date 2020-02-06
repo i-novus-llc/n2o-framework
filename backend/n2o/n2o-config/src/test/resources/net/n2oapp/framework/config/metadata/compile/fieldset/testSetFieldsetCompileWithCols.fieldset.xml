@@ -3,10 +3,10 @@
     <col>
         <input-text id="testCol1"/>
     </col>
-    <col>
+    <col visible="false">
         <input-text id="testCol2"/>
     </col>
-    <col>
+    <col visible="{a==b}">
         <input-text id="testCol3"/>
     </col>
     <input-text id="testCol4"/>

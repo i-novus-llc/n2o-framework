@@ -8,7 +8,11 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.control.*;
+import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
+import net.n2oapp.framework.api.metadata.meta.control.Field;
+import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
@@ -95,12 +99,12 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testRowClick() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.page.xml")
                 .get(new PageContext("testTable4RowClickCompile"));
         List<TableWidgetComponent> rowClicks = new ArrayList<>();
         page.getWidgets().forEach((s, widget) -> rowClicks.add((TableWidgetComponent) widget.getComponent()));
 
-        assertThat(rowClicks.size(), is(8));
+        assertThat(rowClicks.size(), is(10));
         assertThat(rowClicks.get(0).getRowClick(), nullValue());
         assertThat(rowClicks.get(1).getRowClick().getEnablingCondition(), nullValue(String.class));
         assertThat(rowClicks.get(2).getRowClick().getEnablingCondition(), is("false"));
@@ -109,6 +113,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(rowClicks.get(5).getRowClick().getEnablingCondition(), is("false"));
         assertThat(rowClicks.get(6).getRowClick().getEnablingCondition(), is("true"));
         assertThat(rowClicks.get(7).getRowClick().getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.get(8).getRowClick().getAction(), notNullValue());
     }
 
     @Test
@@ -150,7 +155,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testFilters() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4FiltersCompile.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4FiltersCompile.page.xml")
                 .get(new PageContext("testTable4FiltersCompile"));
         Table table = (Table) page.getWidgets().get("testTable4FiltersCompile_main");
         Filter filter = table.getFilter("name");
@@ -278,7 +283,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testColumnVisibility() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
                 .get(new PageContext("testTableColumnVisibility"));
         List<ColumnHeader> columnHeaders = ((Table) page.getWidgets().entrySet().iterator().next().getValue()).getComponent().getHeaders();
         assertThat(columnHeaders.get(0).getVisible(), nullValue());

@@ -11,7 +11,7 @@ import { metaSagas } from './sagas/meta';
 import globalSagas from './sagas/global';
 import { conditionsSaga } from './sagas/conditions';
 import { widgetDependencySagas } from './sagas/widgetDependency';
-import { modalsSagas } from './sagas/modals';
+import { overlaysSagas } from './sagas/overlays';
 
 export default function generateSagas(dispatch, config) {
   return function* rootSaga() {
@@ -27,7 +27,7 @@ export default function generateSagas(dispatch, config) {
       ...globalSagas(config.apiProvider),
       ...conditionsSaga,
       ...widgetDependencySagas,
-      ...modalsSagas,
+      ...overlaysSagas,
       ...defaultTo(config.customSagas, []),
     ]);
   };

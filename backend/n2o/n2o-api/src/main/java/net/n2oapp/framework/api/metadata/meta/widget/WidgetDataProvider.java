@@ -24,4 +24,6 @@ public class WidgetDataProvider implements Compiled {
     private RequestMethod method;
     @JsonProperty
     private String quickSearchParam;
+    @JsonProperty
+    private Boolean optimistic;
 }
