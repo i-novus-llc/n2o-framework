@@ -296,7 +296,7 @@ http://n2oapp.net/framework/config/schema/region-1.0
 === Базовые свойства
 
 Атрибуты::
-[cols="2,1,4"]
+[cols="2,1,4,4"]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
@@ -314,6 +314,16 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |React компонент
 |Реализация региона
 |Для каждого вида региона своё значение по умолчанию
+
+|class
+|https://getbootstrap.com/docs/4.0/components/card/#background-and-color[CSS класс]
+|CSS класс панели
+|
+
+|style
+|CSS свойство
+|Стиль панели
+|
 
 |===
 
@@ -380,29 +390,39 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
+|title
+|Строка
+|Заголовок
+|
+
 |collapsible
 |true false
 |Возможность раскрытия и сворачивания виджетов
 |true
 
-|class
-|https://getbootstrap.com/docs/4.0/components/card/#background-and-color[CSS класс]
-|CSS класс панели
+|header
+|true false
+|Наличие заголовка
+|true
+
+|icon
+|CSS класс
+|Класс иконки
 |
 
-|style
-|CSS свойство
+|color
+|Строка
 |Стиль панели
 |
 
-|header
+|open
 |true false
-|С заголовком?
+|Раскрытие панели
 |true
 
-|title
+|footer-title
 |Строка
-|Заголовок
+|Заголовок для футера
 |
 
 |===

@@ -6,18 +6,10 @@ import ModalBody from 'reactstrap/lib/ModalBody';
 import ModalFooter from 'reactstrap/lib/ModalFooter';
 import { compose } from 'recompose';
 import Page from './Page';
-import { connect } from 'react-redux';
 import cn from 'classnames';
-import { createStructuredSelector } from 'reselect';
-import {
-  makePageDisabledByIdSelector,
-  makePageLoadingByIdSelector,
-  makePageTitleByIdSelector,
-} from '../../selectors/pages';
 import Toolbar from '../buttons/Toolbar';
-import withActions from './withActions';
 import Spinner from '../snippets/Spinner/Spinner';
-import { makeShowPromptByName } from '../../selectors/modals';
+import withOverlayMethods from './withOverlayMethods';
 
 /**
  * Компонент, отображающий модальное окно
@@ -39,118 +31,87 @@ import { makeShowPromptByName } from '../../selectors/modals';
  *             pageId={pageId}
  *  />
  */
-class ModalPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.closeModal = this.closeModal.bind(this);
-    this.closePrompt = this.closePrompt.bind(this);
-    this.showPrompt = this.showPrompt.bind(this);
-  }
+function ModalPage(props) {
+  const {
+    entityKey,
+    toolbar,
+    visible,
+    title,
+    loading,
+    pageUrl,
+    pageId,
+    src,
+    pathMapping,
+    queryMapping,
+    size,
+    actions,
+    containerKey,
+    close,
+    disabled,
+    ...rest
+  } = props;
 
-  renderFromSrc(src) {
-    const { resolveProps } = this.context;
-    const Component = resolveProps(src, null);
-    return <Component />;
-  }
+  const pageMapping = {
+    pathMapping,
+    queryMapping,
+  };
 
-  closeModal(prompt) {
-    const { name, close } = this.props;
-    close(name, prompt);
-  }
+  const showSpinner = !visible || loading || typeof loading === 'undefined';
+  const classes = cn({ 'd-none': loading });
 
-  closePrompt() {
-    const { name, hidePrompt } = this.props;
-    hidePrompt(name);
-  }
-
-  showPrompt() {
-    if (window.confirm(this.context.defaultPromptMessage)) {
-      this.closeModal(false);
-    } else {
-      this.closePrompt();
-    }
-  }
-
-  render() {
-    const {
-      pageUrl,
-      pageId,
-      src,
-      pathMapping,
-      queryMapping,
-      size,
-      containerKey,
-      toolbar,
-      visible,
-      title,
-      loading,
-      disabled,
-      showPrompt,
-    } = this.props;
-
-    const pageMapping = {
-      pathMapping,
-      queryMapping,
-    };
-
-    const showSpinner = !visible || loading || typeof loading === 'undefined';
-    const classes = cn({ 'd-none': loading });
-
-    return (
-      <div className={'modal-page-overlay'}>
-        {showPrompt && this.showPrompt()}
-        <Spinner type="cover" loading={showSpinner} color="light" transparent>
-          <Modal
-            isOpen={visible}
-            toggle={() => this.closeModal(true)}
-            size={size}
-            backdrop={false}
-            style={{
-              zIndex: 10,
-            }}
+  return (
+    <div className="modal-page-overlay">
+      <Spinner type="cover" loading={showSpinner} color="light" transparent>
+        <Modal
+          isOpen={visible}
+          toggle={() => rest.closeOverlay(true)}
+          size={size}
+          backdrop={false}
+          style={{
+            zIndex: 10,
+          }}
+        >
+          <ModalHeader
+            className={classes}
+            toggle={() => rest.closeOverlay(true)}
           >
-            <ModalHeader
-              className={classes}
-              toggle={() => this.closeModal(true)}
-            >
-              {title}
-            </ModalHeader>
-            <ModalBody className={classes}>
-              {pageUrl ? (
-                <Page
-                  pageUrl={pageUrl}
-                  pageId={pageId}
-                  pageMapping={pageMapping}
+            {title}
+          </ModalHeader>
+          <ModalBody className={classes}>
+            {pageUrl ? (
+              <Page
+                pageUrl={pageUrl}
+                pageId={pageId}
+                pageMapping={pageMapping}
+                containerKey={containerKey}
+                needMetadata={true}
+              />
+            ) : src ? (
+              rest.renderFromSrc(src)
+            ) : null}
+          </ModalBody>
+          {toolbar && (
+            <ModalFooter className={classes}>
+              <div
+                className={cn('n2o-modal-actions', {
+                  'n2o-disabled': disabled,
+                })}
+              >
+                <Toolbar
+                  toolbar={toolbar.bottomLeft}
                   containerKey={containerKey}
-                  needMetadata={true}
                 />
-              ) : src ? (
-                this.renderFromSrc(src)
-              ) : null}
-            </ModalBody>
-            {toolbar && (
-              <ModalFooter className={classes}>
-                <div
-                  className={cn('n2o-modal-actions', {
-                    'n2o-disabled': disabled,
-                  })}
-                >
-                  <Toolbar
-                    toolbar={toolbar.bottomLeft}
-                    containerKey={containerKey}
-                  />
-                  <Toolbar
-                    toolbar={toolbar.bottomRight}
-                    containerKey={containerKey}
-                  />
-                </div>
-              </ModalFooter>
-            )}
-          </Modal>
-        </Spinner>
-      </div>
-    );
-  }
+                <Toolbar
+                  toolbar={toolbar.bottomRight}
+                  containerKey={containerKey}
+                />
+              </div>
+            </ModalFooter>
+          )}
+        </Modal>
+      </Spinner>
+    </div>
+  );
 }
 
 export const ModalWindow = ModalPage;
@@ -209,14 +170,4 @@ ModalPage.contextTypes = {
   resolveProps: PropTypes.func,
 };
 
-const mapStateToProps = createStructuredSelector({
-  title: (state, { pageId }) => makePageTitleByIdSelector(pageId)(state),
-  loading: (state, { pageId }) => makePageLoadingByIdSelector(pageId)(state),
-  disabled: (state, { pageId }) => makePageDisabledByIdSelector(pageId)(state),
-  showPrompt: (state, { name }) => makeShowPromptByName(name)(state),
-});
-
-export default compose(
-  connect(mapStateToProps),
-  withActions
-)(ModalPage);
+export default compose(withOverlayMethods)(ModalPage);

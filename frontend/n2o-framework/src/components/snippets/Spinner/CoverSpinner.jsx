@@ -31,7 +31,6 @@ class CoverSpinner extends Component {
   render() {
     const { deferredStart } = this.state;
     const { animationClass, message, mode } = this.props;
-
     return (
       <div
         className={cx(

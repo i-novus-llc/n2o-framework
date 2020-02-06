@@ -18,10 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeBoolean;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeEnum;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeString;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getChild;
+import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
 
 /**
  * Считывает страницу версии 1.0
@@ -36,7 +33,7 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
         N2oStandardPage n2oPage = new N2oStandardPage();
         n2oPage.setObjectId(ReaderJdomUtil.getElementString(root, "object-id"));
         n2oPage.setName(ReaderJdomUtil.getElementString(root, "name"));
-        n2oPage.setLayout(convertLayoutToReact(ReaderJdomUtil.getElementString(root, "layout")));
+        n2oPage.setSrc(ReaderJdomUtil.getElementString(root, "src"));
         List<N2oRegion> regions = new ArrayList<>();
         Element containers = root.getChild("containers", namespace);
         if (containers != null) {
@@ -46,23 +43,11 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
         if (regionsElem != null) {
             readRegions(n2oPage, regions, regionsElem);
         }
-        n2oPage.setN2oRegions(regions.toArray(new N2oRegion[regions.size()]));
+        n2oPage.setRegions(regions.toArray(new N2oRegion[regions.size()]));
         n2oPage.setModalWidth(ReaderJdomUtil.getElementString(root, "modal-width"));
         n2oPage.setMinModalWidth(ReaderJdomUtil.getElementString(root, "modal-min-width"));
         n2oPage.setMaxModalWidth(ReaderJdomUtil.getElementString(root, "modal-max-width"));
         return n2oPage;
-    }
-
-    private String convertLayoutToReact(String layout) {
-        if (layout.endsWith("Layout"))
-            return layout;
-        switch (layout) {
-            case "n2o/layout/single" : return "SingleLayout";
-            case "n2o/layout/left-right" : return "LeftRightLayout";
-            case "n2o/layout/top-bottom" : return "TopBottomLayout";
-            case "n2o/layout/left-right(top-bottom)" : return "LeftTopBottomLayout";
-        }
-        return layout;
     }
 
     private void readRegions(N2oStandardPage n2oPage, List<N2oRegion> regions, Element regionsElem) {

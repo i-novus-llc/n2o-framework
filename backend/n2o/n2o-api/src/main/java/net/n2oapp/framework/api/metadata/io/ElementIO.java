@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.io;
 import org.jdom.Element;
 
 /**
- * Считываение и запись DOM элементов
+ * Считывание и запись DOM элементов
  */
 @FunctionalInterface
 public interface ElementIO<T> {

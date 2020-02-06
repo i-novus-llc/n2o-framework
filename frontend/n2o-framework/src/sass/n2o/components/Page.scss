@@ -1,7 +1,23 @@
-.n2o-page-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: $spacer;
+.n2o-page {
+  &-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: $spacer;
+  }
+
+  &__left-right-layout {
+    display: flex;
+    justify-content: space-between;
+
+    & .n2o-page__left + .n2o-page__right {
+      margin-left: 20px;
+    }
+
+    & .n2o-page__left,
+    & .n2o-page__right {
+      width: 49%;
+    }
+  }
 }
 
 .n2o-disabled-page {
