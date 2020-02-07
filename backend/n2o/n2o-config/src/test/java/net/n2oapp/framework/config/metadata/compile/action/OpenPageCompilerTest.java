@@ -63,6 +63,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterDetail.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testDefaultValue.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testDefaultValueInTable.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testRefbook.query.xml"));
     }
 
@@ -393,6 +394,11 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         Page openPage = read().compile().get(context);
         Map<String, PageRoutes.Query> queryMapping = openPage.getRoutes().getQueryMapping();
         assertThat(queryMapping.size(), is(1));
-        assertThat(queryMapping.get("name").getOnSet().getBindLink(), is("models.resolve['main'].name"));
+        assertThat(queryMapping.get("name").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].name"));
+        context = (PageContext) route("/page/widget/defaultValueInTable", Page.class);
+        openPage = read().compile().get(context);
+        queryMapping = openPage.getRoutes().getQueryMapping();
+        assertThat(queryMapping.size(), is(1));
+        assertThat(queryMapping.get("name").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValueInTable_main'].name"));
     }
 }

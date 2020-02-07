@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -21,19 +22,25 @@ import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.PageRoutes;
+
+import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.control.Control;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
+import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.*;
+
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 
 /**
  * Абстрактная реализация компиляции поля ввода
@@ -114,6 +121,28 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
 
     private void compileDefaultValues(D control, S source, CompileProcessor p) {
         UploadScope uploadScope = p.getScope(UploadScope.class);
+        if (source.getParam() != null) {
+            PageRoutes routes = p.getScope(PageRoutes.class);
+            if (routes == null)
+                return;
+            ReduxModel model = ReduxModel.RESOLVE;
+            ComponentScope componentScope = p.getScope(ComponentScope.class);
+            if (componentScope != null) {
+                ModelAware modelAware = componentScope.unwrap(ModelAware.class);
+                if (modelAware != null && modelAware.getModel() != null) {
+                    model = modelAware.getModel();
+                }
+            }
+            if ((model.equals(ReduxModel.RESOLVE) && uploadScope != null && UploadType.defaults.equals(uploadScope.getUpload()))
+                    || !model.equals(ReduxModel.RESOLVE)) {
+                WidgetScope widgetScope = p.getScope(WidgetScope.class);
+                BindLink onSet = new ModelLink(model, widgetScope.getClientWidgetId(), control.getId());
+                //todo убрать onGet после   https://jira.i-novus.ru/browse/NNO-3931
+                ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getClientWidgetId(), model, control.getId(),
+                        colon(source.getParam()));
+                routes.addQueryMapping(source.getParam(), onGet, onSet);
+            }
+        }
         if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()))
             return;
         ModelsScope defaultValues = p.getScope(ModelsScope.class);
@@ -153,14 +182,6 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                     defaultValues.add(control.getId(), modelLink);
                 }
             }
-        }
-        if (source.getParam() != null) {
-            PageRoutes routes = p.getScope(PageRoutes.class);
-            if (routes == null)
-                return;
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            BindLink onSet = new ModelLink(ReduxModel.RESOLVE, widgetScope.getWidgetId(), control.getId());
-            routes.addQueryMapping(source.getParam(), null, onSet);
         }
     }
 

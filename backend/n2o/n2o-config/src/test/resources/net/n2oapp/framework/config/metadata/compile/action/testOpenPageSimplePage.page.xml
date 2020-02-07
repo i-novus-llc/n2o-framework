@@ -34,6 +34,13 @@
                     </params>
                 </open-page>
             </button>
+            <button id="testDefaultValueInTable">
+                <open-page page-id="testDefaultValueInTable" route="/defaultValueInTable">
+                    <params>
+                        <param name="name" value="{name}"/>
+                    </params>
+                </open-page>
+            </button>
         </toolbar>
     </table>
 </simple-page>
