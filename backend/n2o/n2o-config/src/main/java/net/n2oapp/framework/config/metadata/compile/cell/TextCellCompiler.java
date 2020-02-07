@@ -4,13 +4,12 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция кастомной ячейки
+ * Компиляция ячейки с текстом
  */
 @Component
 public class TextCellCompiler extends AbstractCellCompiler<N2oTextCell, N2oTextCell> {
@@ -25,6 +24,8 @@ public class TextCellCompiler extends AbstractCellCompiler<N2oTextCell, N2oTextC
         build(cell, source, context, p, property("n2o.default.cell.text.src"));
         cell.setCssClass(p.cast(source.getCssClass(), compileSwitch(source.getClassSwitch(), p)));
         cell.setFormat(source.getFormat());
+        cell.setSubTextFieldKey(source.getSubTextFieldKey());
+        cell.setSubTextFormat(source.getSubTextFormat());
         return cell;
     }
 }

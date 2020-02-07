@@ -7,8 +7,8 @@ import createXhrProxy from "react-cosmos-xhr-proxy";
 import createContextProxy from "react-cosmos-context-proxy";
 
 // We can import app files here
-import history from "n2o/lib/history";
-import configureStore from "n2o/lib/store";
+import history from "n2o-framework/lib/history";
+import configureStore from "n2o-framework/lib/store";
 
 // Read more about configuring Redux in the Redux proxy section below
 const ReduxProxy = createReduxProxy({

@@ -31,13 +31,6 @@
         </dependency>
 
         <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-config</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
@@ -54,19 +47,6 @@
         <!--<artifactId>n2o-access</artifactId>-->
         <!--<version>${project.version}</version>-->
         <!--</dependency>-->
-
-        <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-engine-sql</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-config-ehcache</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>com.h2database</groupId>

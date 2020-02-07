@@ -1,7 +1,8 @@
 {
   "lerna": "3.18.3",
   "version": "7.5.0-SNAPSHOT",
-  "npmClient": "npm",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
   "npmClientArgs": [
     "--no-package-lock"
   ],
