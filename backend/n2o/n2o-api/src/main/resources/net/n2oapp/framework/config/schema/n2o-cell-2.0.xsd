@@ -82,9 +82,19 @@
                 <xs:sequence>
                     <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>
-                <xs:attribute name="format" type="xs:string" use="optional">
+                <xs:attribute name="format" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Формат текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="subtext-field-id">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор поля второго уровня текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="subtext-format">
+                    <xs:annotation>
+                        <xs:documentation>Формат второго уровня текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

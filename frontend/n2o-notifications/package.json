@@ -13,7 +13,7 @@
 	"scripts": {
 		"build": "nwb build-react-component --no-demo",
 		"clean": "nwb clean-module && nwb clean-demo",
-		"prepublishOnly": "npm run build",
+		"prepublishOnly": "yarn run build",
 		"start": "nwb serve-react-demo",
 		"test": "nwb test-react",
 		"test:coverage": "nwb test-react --coverage",
