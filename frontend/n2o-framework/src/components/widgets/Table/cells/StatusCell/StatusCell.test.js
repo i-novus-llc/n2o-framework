@@ -19,7 +19,6 @@ const setup = propOverrides => {
         component: StatusCell,
         color: 'info',
         fieldKey: 'test',
-        visible: true,
       },
     ],
     datasource: [{ test: 'test-text' }],

@@ -62,6 +62,7 @@ StatusCell.propTypes = {
 };
 
 StatusCell.defaultProps = {
+  visible: true,
   model: {},
   color: '',
 };
