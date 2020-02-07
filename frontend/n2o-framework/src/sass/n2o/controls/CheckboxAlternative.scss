@@ -1,3 +1,12 @@
+.custom-checkbox-align {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: $checkbox-width;
+  height: $checkbox-height;
+  z-index: 10;
+  opacity: 0;
+}
 .custom-checkbox {
 
   margin: $custom-checkbox-margin;
@@ -43,13 +52,7 @@
     }
   }
   & .custom-control-input {
-    z-index: 10;
-    position: absolute;
-    top: 5px;
-    left: 0;
-    width: $checkbox-width;
-    height: $checkbox-height;
-    opacity: 0;
+    @extend .custom-checkbox-align;
     & ~ .custom-control-label {
       &::after {
         top: $checkbox-position-top;

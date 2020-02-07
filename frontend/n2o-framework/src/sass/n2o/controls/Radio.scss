@@ -1,3 +1,18 @@
+.custom-radio-button-align {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+.custom-radio-align {
+  z-index: 1;
+  left: 0;
+  top: 4px;
+  width: $n2o-radio-width;
+  height: $n2o-radio-height;
+}
+
 div.radio {
   & > .n2o-radio {
     padding-left: 0;
@@ -89,13 +104,9 @@ div.radio {
 .btn {
   > .alt-radio {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
     margin: 0;
-    z-index: 10;
     opacity: 0;
+    @extend .custom-radio-button-align;
   }
 }
 
@@ -124,11 +135,7 @@ div.radio {
   }
 }
 .custom-control-input {
-  z-index: 1;
-  left: 0;
-  top: 4px;
-  width: $n2o-radio-width;
-  height: $n2o-radio-height;
+  @extend .custom-radio-align;
 }
 .n2o-radio-container {
   & .custom-radio {
