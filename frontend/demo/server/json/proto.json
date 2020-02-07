@@ -350,20 +350,9 @@
       }
     }
   },
-  "breadcrumb": [
-    {
-      "label": "Список контактов"
-    }
-  ],
-  "models": {
-    "filter['proto_patients'].genders": {
-      "link": "models.filter['proto_patients'].genders"
-    }
-  },
   "widgets": {
     "proto_patients": {
       "src": "AdvancedTableWidget",
-      "id": "proto_patients",
       "dataProvider": {
         "url": "n2o/data/proto",
         "pathMapping": {},
@@ -1407,7 +1396,6 @@
     },
     "proto_form": {
       "src": "FormWidget",
-      "id": "proto_form",
       "dataProvider": {
         "url": "n2o/data/proto/:patient_id/card",
         "pathMapping": {
@@ -1493,20 +1481,16 @@
                     "fields": [
                       {
                         "src": "StandardField",
-                        "style": {
-                          "fontWeight": "bold"
-                        },
                         "id": "vip",
                         "enabled": false,
                         "dependency": [],
+                        "style": {"fontWeight": "bold"},
                         "control": {
                           "src": "Checkbox",
-                          "style": {
-                            "fontWeight": "bold"
-                          },
                           "id": "vip",
                           "label": "VIP",
-                          "defaultUnchecked": "null"
+                          "defaultUnchecked": "null",
+                          "style": {"fontWeight": "bold"}
                         }
                       }
                     ]
@@ -1617,19 +1601,6 @@
       ]
     }
   },
-  "actions": {
-    "create2": {
-      "id": "create2",
-      "src": "link",
-      "options": {
-        "path": "/proto/create2",
-        "target": "application",
-        "pathMapping": {},
-        "queryMapping": {}
-      }
-    }
-  },
-  "src": "LeftRightPage",
   "page": {
     "title": "Список контактов"
   }
