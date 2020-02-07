@@ -223,7 +223,12 @@ stories
     return <AdvancedTable columns={columns} data={data} />;
   })
   .add('Выбор строк чекбоксом', () => {
-    return <AdvancedTable columns={columns} data={data} rowSelection={true} />;
+    return (
+      <AdvancedTable columns={columns} data={data} rowSelection="checkbox" />
+    );
+  })
+  .add('Выбор строк радио', () => {
+    return <AdvancedTable columns={columns} data={data} rowSelection="radio" />;
   })
   .add('Фильтр в заголовках', () => {
     return (
