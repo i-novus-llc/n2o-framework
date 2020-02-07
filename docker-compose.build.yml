@@ -6,7 +6,7 @@ services:
     build:
       context: demo/server
   docs:
-    image: "${DOCKER_REGISTRY}/n2o/demo:${TAG}"
+    image: "${DOCKER_REGISTRY}/n2o/docs:${TAG}"
     build:
       context: docs
   storybook:
