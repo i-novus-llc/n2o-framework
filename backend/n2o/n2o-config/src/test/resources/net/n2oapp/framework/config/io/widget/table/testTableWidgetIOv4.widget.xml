@@ -26,7 +26,14 @@
         <column id="testId" label="labelTest" text-field-id="firstName" sorting-field-id="firstName"
                 sorting-direction="asc"
                 icon="iconTest" visible="true" tooltip-field-id="testTooltip" type="icon" width="200">
-            <text src="srcTest" class="testClass" style="margin-left:10px;width:300px" />
+            <text src="srcTest" class="testClass" style="margin-left:10px;width:300px"
+                  format="0,0.00" subtext-field-id="test" subtext-format="0,0.00">
+                <switch value-field-id="test">
+                    <case value="1">a</case>
+                    <case value="2">b</case>
+                    <case value="3">c</case>
+                </switch>
+            </text>
         </column>
         <column text-field-id="test2">
             <link src="srcTest" action-id="update">

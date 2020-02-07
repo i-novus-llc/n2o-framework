@@ -1,5 +1,6 @@
 {
   "id": "testSimplePageJson",
+  "src": "SimplePage",
   "page": {
     "title": "`'Вторая: ' + id`",
     "modelLink": "pages['testSimplePageJson'].metadata"
@@ -7,15 +8,15 @@
   "routes": {
     "list": [
       {
-        "path" : "/test",
+        "path": "/test",
         "exact": true
       },
       {
-        "path" : "/test/wireframe",
+        "path": "/test/wireframe",
         "exact": true
       },
       {
-        "path" : "/test/wireframe/:wireframe_id",
+        "path": "/test/wireframe/:wireframe_id",
         "exact": true
       }
     ]
@@ -30,17 +31,16 @@
       "path": "/test"
     }
   ],
-  "widgets": {
-    "Page_Wireframe": {
+  "widget": {
+    "id": "test_wireframe",
       "src": "WireframeWidget",
-      "name": "name",
       "toolbar": {
         "topLeft": [
           {
             "buttons": [
               {
                 "id": "redirect",
-                "src": "PerformButton",
+                "src": "StandardButton",
                 "label": "Вперед"
               }
             ]
@@ -55,28 +55,6 @@
             "path": "/test"
           }
         }
-      },
-      "wireframe": {
-        "className": "",
-        "title": "Виджет первой страницы",
-        "height": 300,
-        "fetchOnInit": false
       }
-    }
-  },
-  "layout": {
-    "src": "SingleLayout",
-    "regions": {
-      "single": [
-        {
-          "src": "NoneRegion",
-          "items": [
-            {
-              "widgetId": "Page_Wireframe"
-            }
-          ]
-        }
-      ]
-    }
   }
 }

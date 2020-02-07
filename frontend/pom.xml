@@ -36,20 +36,20 @@
                         <executions>
 
                             <execution>
-                                <id>install-node-and-npm</id>
+                                <id>install-node-and-yarn</id>
                                 <goals>
-                                    <goal>install-node-and-npm</goal>
+                                    <goal>install-node-and-yarn</goal>
                                 </goals>
                                 <configuration>
                                     <nodeVersion>v10.16.0</nodeVersion>
-                                    <npmVersion>6.9.0</npmVersion>
+                                    <yarnVersion>v1.6.0</yarnVersion>
                                 </configuration>
                             </execution>
 
                             <execution>
-                                <id>npm install</id>
+                                <id>yarn install</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
@@ -60,9 +60,9 @@
                             </execution>
 
                             <execution>
-                                <id>npm run build:libs</id>
+                                <id>yarn run build:libs</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
@@ -71,11 +71,11 @@
                                     <arguments>run build:libs</arguments>
                                 </configuration>
                             </execution>
-                            
+
                             <execution>
-                                <id>npm run build:projects</id>
+                                <id>yarn run build:projects</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
@@ -86,9 +86,9 @@
                             </execution>
 
                             <execution>
-                                <id>npm run test</id>
+                                <id>yarn run test</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
@@ -99,9 +99,9 @@
                             </execution>
 
                             <execution>
-                                <id>npm run docs</id>
+                                <id>yarn run docs</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
