@@ -9,6 +9,7 @@ import CollapsedCell from './CollapsedCell/CollapsedCell';
 import ButtonsCell from './ButtonsCell/ButtonsCell';
 import EditableCell from './EditableCell/EditableCell';
 import RatingCell from './RatingCell/RatingCell';
+import ListTextCell from './ListTextCell/ListTextCell';
 
 export default {
   TextCell: TextCell,
@@ -22,4 +23,5 @@ export default {
   ButtonsCell: ButtonsCell,
   EditableCell: EditableCell,
   RatingCell: RatingCell,
+  ListTextCell: ListTextCell,
 };
