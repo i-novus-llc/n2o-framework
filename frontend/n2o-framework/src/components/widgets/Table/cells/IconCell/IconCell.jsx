@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Text from '../../../../snippets/Text/Text';
 import Icon from '../../../../snippets/Icon/Icon';
 import { iconCellTypes, textPlaceTypes } from './cellTypes';
+import Tooltip from '../../../../snippets/Tooltip/Tooltip';
 
 /**
  * Ячейка таблицы с иконкой
@@ -13,7 +14,7 @@ import { iconCellTypes, textPlaceTypes } from './cellTypes';
  * @reactProps {string} type - тип ячейки
  * @reactProps {string} textPlace - расположение текста
  */
-function IconCell({ id, model, visible, icon, type, textPlace }) {
+function IconCell({ id, model, visible, icon, type, textPlace, hint }) {
   const text = model[id];
   return (
     visible && (
@@ -27,7 +28,7 @@ function IconCell({ id, model, visible, icon, type, textPlace }) {
               display: 'inline-block',
             }}
           >
-            <Text text={text} />
+            <Tooltip theme={'dark'} hint={hint} label={<Text text={text} />} />
           </div>
         )}
       </div>

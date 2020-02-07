@@ -1,70 +1,96 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
+import TooltipTrigger from 'react-popper-tooltip';
+import isUndefined from 'lodash/isUndefined';
+import isArray from 'lodash/isArray';
+import map from 'lodash/map';
+import cn from 'classnames';
+import 'react-popper-tooltip/dist/styles.css';
 
-/**
- * HOC для добавления подсказки при наведение
- * @param target
- * @param hint
- * @param delay
- * @param placement
- * @param hideArrow
- * @param children
- * @returns {function()}
- */
-export default function Tooltip({
-  target,
-  hint,
-  delay,
-  placement,
-  hideArrow,
-  children,
-}) {
+const triggerClassName = labelDashed =>
+  cn({
+    'list-text-cell__trigger_dashed': labelDashed,
+    'list-text-cell__trigger': !labelDashed || isUndefined(labelDashed),
+  });
+
+const tooltipContainerClassName = theme =>
+  cn({
+    'list-text-cell__tooltip-container dark': theme === 'dark',
+    'list-text-cell__tooltip-container light': theme === 'light',
+  });
+
+const arrowClassName = theme =>
+  cn({
+    'tooltip-arrow light': theme === 'light',
+    'tooltip-arrow dark': theme === 'dark',
+  });
+
+function Tooltip(props) {
+  const { hint, label, labelDashed, theme } = props;
+
+  //trigger для появления tooltip, отображает label
+  const Trigger = ({ getTriggerProps, triggerRef }) => {
+    return (
+      <span
+        {...getTriggerProps({
+          ref: triggerRef,
+          className: triggerClassName(labelDashed),
+        })}
+      >
+        {label}
+      </span>
+    );
+  };
+
+  //hint отображает лист
+  const TooltipBody = ({
+    getTooltipProps,
+    getArrowProps,
+    tooltipRef,
+    arrowRef,
+    placement,
+  }) => {
+    return (
+      <div
+        {...getTooltipProps({
+          ref: tooltipRef,
+          className: tooltipContainerClassName(theme),
+        })}
+      >
+        <div
+          {...getArrowProps({
+            ref: arrowRef,
+            'data-placement': placement,
+            className: arrowClassName(theme),
+          })}
+        />
+        {isArray(hint) ? (
+          map(hint, (tooltipItem, index) => (
+            <div
+              key={index}
+              className="list-text-cell__tooltip-container__body"
+            >
+              {tooltipItem}
+            </div>
+          ))
+        ) : (
+          <div className="list-text-cell__tooltip-container__body">{hint}</div>
+        )}
+      </div>
+    );
+  };
   return (
-    <React.Fragment>
-      {children}
-      {hint && (
-        <UncontrolledTooltip
-          delay={delay}
-          placement={placement}
-          target={target}
-          hideArrow={hideArrow}
-        >
-          {hint}
-        </UncontrolledTooltip>
-      )}
-    </React.Fragment>
+    <TooltipTrigger
+      placement={props.placement}
+      trigger={props.trigger}
+      tooltip={TooltipBody}
+      fieldKey={props.fieldKey}
+      label={props.label}
+      labelDashed={props.labelDashed}
+      delayShow={200}
+    >
+      {Trigger}
+    </TooltipTrigger>
   );
 }
 
-Tooltip.propTypes = {
-  target: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-  hint: PropTypes.string,
-  delay: PropTypes.oneOfType([
-    PropTypes.shape({ show: PropTypes.number, hide: PropTypes.number }),
-    PropTypes.number,
-  ]),
-  placement: PropTypes.oneOf([
-    'auto',
-    'auto-start',
-    'auto-end',
-    'top',
-    'top-start',
-    'top-end',
-    'right',
-    'right-start',
-    'right-end',
-    'bottom',
-    'bottom-start',
-    'bottom-end',
-    'left',
-    'left-start',
-    'left-end',
-  ]),
-  hideArrow: PropTypes.bool,
-};
-
-Tooltip.defaultProps = {
-  delay: 0,
-  placement: 'top',
-};
+export default Tooltip;
