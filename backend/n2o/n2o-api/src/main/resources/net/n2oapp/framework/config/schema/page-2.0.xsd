@@ -182,6 +182,11 @@
         <xs:annotation>
             <xs:documentation>Поисковая строка</xs:documentation>
         </xs:annotation>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>CSS класс стилей.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="placeholder" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Подсказка для ввода.</xs:documentation>

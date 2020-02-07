@@ -20,6 +20,7 @@ public class SearchablePageElementIOv2 extends BasePageElementIOv2<N2oSearchable
     }
 
     public void searchBar(Element e, N2oSearchablePage.N2oSearchBar sb, IOProcessor p) {
+        p.attribute(e, "class", sb::getClassName, sb::setClassName);
         p.attribute(e, "placeholder", sb::getPlaceholder, sb::setPlaceholder);
         p.attribute(e, "button-icon", sb::getButtonIcon, sb::setButtonIcon);
         p.attribute(e, "search-widget-id", sb::getSearchWidgetId, sb::setSearchWidgetId);

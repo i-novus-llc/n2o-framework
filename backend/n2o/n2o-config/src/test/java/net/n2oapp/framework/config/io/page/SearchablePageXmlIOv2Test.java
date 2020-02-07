@@ -11,7 +11,7 @@ import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
 import org.junit.Test;
 
 /**
- * Тестирование чтения и записи страницы с полем поиска
+ * Тестирование чтения и записи страницы с поисковой строкой
  */
 public class SearchablePageXmlIOv2Test {
     @Test

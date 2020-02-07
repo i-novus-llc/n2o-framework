@@ -35,12 +35,11 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 /**
  * Базовая компиляция страницы с регионами
  */
-public abstract class BasePageCompiler<S extends N2oBasePage> extends PageCompiler<S, StandardPage> {
+public abstract class BasePageCompiler<S extends N2oBasePage, D extends StandardPage> extends PageCompiler<S, D> {
 
-    protected abstract void initRegions(S source, StandardPage page, CompileProcessor p, PageContext context, PageScope pageScope);
+    protected abstract void initRegions(S source, D page, CompileProcessor p, PageContext context, PageScope pageScope);
 
-    public StandardPage compilePage(S source, PageContext context, CompileProcessor p, N2oRegion[] regions) {
-        StandardPage page = new StandardPage();
+    public D compilePage(S source, D page, PageContext context, CompileProcessor p, N2oRegion[] regions) {
         List<N2oWidget> sourceWidgets = collectWidgets(regions);
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
