@@ -60,8 +60,8 @@ stories
         dateFormat: 'DD/MM/YYYY',
         timeFormat: 'HH:mm',
         defaultTime: '12:00',
-        min: '2012-12-05',
-        max: '2021-12-05',
+        min: '12/01/2020',
+        max: '01/01/2021',
         disabled: false,
         locale: 'ru',
       };

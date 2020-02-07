@@ -2,7 +2,7 @@ package net.n2oapp.framework.access.metadata.transform;
 
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -41,7 +41,7 @@ public class ListWidgetAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testRegion.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testListWidgetAccessTransformer.page.xml");
 
-        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform())
+        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testListWidgetAccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) ((ListWidget) page.getWidgets()

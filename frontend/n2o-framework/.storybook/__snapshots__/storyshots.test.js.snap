@@ -1422,6 +1422,116 @@ exports[`Storyshots UI Компоненты/Divider Стилизация цве�
 </div>"
 `;
 
+exports[`Storyshots UI Компоненты/Drawer Компонент: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\Drawer\\__snapshots__\\Drawer.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        UI Компоненты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Drawer
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n    Компонент \\\\'Drawer\\\\'\\\\n    ~~~js\\\\n    import Drawer from \\\\'n2o-framework/frontend/n2o-framework/lib/components/snippets/Drawer\\\\';\\\\n      \\\\n    <Drawer\\\\n      title=\\"title\\"\\\\n      footer=\\"footer\\"\\\\n      visible={true}\\\\n      animation={true}\\\\n      closable={true},\\\\n      backdropClosable={false},\\\\n      visible={true},\\\\n      backdrop={true},\\\\n      backdropClosable={false}\\\\n      width={\\\\'10%\\\\'},\\\\n      height={\\\\'100%\\\\'}\\\\n    />\\\\n    ~~~\\\\n    \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <State store={{...}} parseState={[Function]}>
+                      <Drawer title={{...}} footer=\\"footer\\" visible={false} onClose={[Function: onClose]} onHandleClick={[Function: onHandleClick]} backdropClosable={false} width=\\"10%\\" height=\\"100%\\" animation={true}>
+                        <p>
+                          Some contents...
+                        </p>
+                        <p>
+                          Some contents...
+                        </p>
+                        <p>
+                          Some contents...
+                        </p>
+                      </Drawer>
+                      <div className=\\"d-flex justify-content-center\\">
+                        <Button onClick={[Function: onClick]} color=\\"secondary\\" tag=\\"button\\">
+                          Open
+                        </Button>
+                      </div>
+                    </State>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots UI Компоненты/Drawer Компонент: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\snippets\\Drawer\\__snapshots__\\Drawer.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        UI Компоненты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Drawer
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n    Компонент \\\\'Drawer\\\\'\\\\n    ~~~js\\\\n    import Drawer from \\\\'n2o-framework/frontend/n2o-framework/lib/components/snippets/Drawer\\\\';\\\\n      \\\\n    <Drawer\\\\n      title=\\"title\\"\\\\n      footer=\\"footer\\"\\\\n      visible={true}\\\\n      animation={true}\\\\n      closable={true},\\\\n      backdropClosable={false},\\\\n      visible={true},\\\\n      backdrop={true},\\\\n      backdropClosable={false}\\\\n      width={\\\\'10%\\\\'},\\\\n      height={\\\\'100%\\\\'}\\\\n    />\\\\n    ~~~\\\\n    \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <State store={{...}} parseState={[Function]}>
+                      <Drawer title={{...}} footer=\\"footer\\" visible={false} onClose={[Function: onClose]} onHandleClick={[Function: onHandleClick]} backdropClosable={false} width=\\"10%\\" height=\\"100%\\" animation={true}>
+                        <p>
+                          Some contents...
+                        </p>
+                        <p>
+                          Some contents...
+                        </p>
+                        <p>
+                          Some contents...
+                        </p>
+                      </Drawer>
+                      <div className=\\"d-flex justify-content-center\\">
+                        <Button onClick={[Function: onClick]} color=\\"secondary\\" tag=\\"button\\">
+                          Open
+                        </Button>
+                      </div>
+                    </State>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots UI Компоненты/Placeholder/type=form Компонент: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\Placeholder\\components\\Form\\__snapshots__\\Form.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -7066,6 +7176,82 @@ exports[`Storyshots Виджеты/Advanced Table Resizable колонки: C:\\
 </div>"
 `;
 
+exports[`Storyshots Виджеты/Advanced Table expand список: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\AdvancedTable\\__snapshots__\\AdvancedTableWidget.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Виджеты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Advanced Table
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        expand список
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <AdvancedTable columns={{...}} data={{...}} table={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Виджеты/Advanced Table expand список: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\AdvancedTable\\__snapshots__\\AdvancedTableWidget.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Виджеты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Advanced Table
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        expand список
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <AdvancedTable columns={{...}} data={{...}} table={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Виджеты/Advanced Table Вид дерево: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\AdvancedTable\\__snapshots__\\AdvancedTableWidget.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -8244,6 +8430,44 @@ exports[`Storyshots Виджеты/HtmlWidget Метаданные: C:\\Users\\s
 </div>"
 `;
 
+exports[`Storyshots Виджеты/HtmlWidget Метаданные: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\Html\\__snapshots__\\HtmlWidget.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Виджеты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        HtmlWidget
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Метаданные
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Connect(UniversalDependency) dataProvider={{...}} src=\\"HtmlWidget\\" html={{...}} id=\\"Page_Html\\" pageId=\\"Page_Html\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Виджеты/HtmlWidget Метаданные: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Html\\__snapshots__\\Html.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -8271,6 +8495,44 @@ exports[`Storyshots Виджеты/HtmlWidget Метаданные: C:\\Users\\s
                     <Html id=\\"MockWidget\\" html=\\"\\" url=\\"/html-data\\" />
                   </Story>
                   <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Виджеты/HtmlWidget Метаданные: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Html\\__snapshots__\\HtmlWidget.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Виджеты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        HtmlWidget
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Метаданные
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Connect(UniversalDependency) dataProvider={{...}} src=\\"HtmlWidget\\" html={{...}} id=\\"Page_Html\\" pageId=\\"Page_Html\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
                 </div>
               </Connect(ConnectedRouter)>
             </FactoryProvider>
@@ -13448,6 +13710,41 @@ exports[`Storyshots Действия/Ссылка Link Метаданные: C:\
 </div>"
 `;
 
+exports[`Storyshots Кнопки Выпадающий список: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\buttons\\Dropdown\\__snapshots__\\Dropdown.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Выпадающий список
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <withPropsOnChange(Connect(ButtonContainer)) id=\\"dropdownButton\\" src=\\"DropdownButton\\" hint=\\"Всплывающая подсказка\\" visible={true} disabled={false} count=\\"9\\" label=\\"Еще\\" icon=\\"fa fa-graduation-cap\\" size=\\"md\\" color=\\"primary\\" subMenu={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Кнопки Выпадающий список: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\Dropdown\\__snapshots__\\Dropdown.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -13483,6 +13780,41 @@ exports[`Storyshots Кнопки Выпадающий список: C:\\Users\\s
 </div>"
 `;
 
+exports[`Storyshots Кнопки Выполнение redux action: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\buttons\\StandardButton\\__snapshots__\\StandardButton.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Выполнение redux action
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <branch(StandardButton) hint=\\"Всплывающая подсказка\\" confirm={{...}} visible={true} disabled={false} count=\\"9\\" label=\\"Выполнить\\" icon=\\"fa fa-bolt\\" size=\\"md\\" color=\\"primary\\" action={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Кнопки Выполнение redux action: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\Perform\\__snapshots__\\Perform.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -13507,6 +13839,86 @@ exports[`Storyshots Кнопки Выполнение redux action: C:\\Users\\s
                     <withPropsOnChange(Connect(ButtonContainer)) id=\\"performButton\\" src=\\"PerformButton\\" hint=\\"Всплывающая подсказка\\" confirm={{...}} visible={true} disabled={false} count=\\"9\\" label=\\"Выполнить\\" icon=\\"fa fa-bolt\\" size=\\"md\\" color=\\"primary\\" action={{...}} />
                   </Story>
                   <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки Выполнение redux action: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\StandardButton\\__snapshots__\\StandardButton.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Выполнение redux action
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <branch(StandardButton) hint=\\"Всплывающая подсказка\\" confirm={{...}} visible={true} disabled={false} count=\\"9\\" label=\\"Выполнить\\" icon=\\"fa fa-bolt\\" size=\\"md\\" color=\\"primary\\" action={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки Ссылка: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\buttons\\StandardButton\\__snapshots__\\StandardButton.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Ссылка
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <div className=\\"d-flex align-items-center\\">
+                        <branch(StandardButton) hint=\\"Высплывающая подсказка\\" visible={true} label=\\"Внешняя ссылка\\" icon=\\"fa fa-external-link\\" color=\\"primary\\" url=\\"/my/path\\" target=\\"_blank\\" />
+                        <div className=\\"mr-4\\">
+                          <branch(StandardButton) hint=\\"Высплывающая подсказка\\" visible={true} label=\\"Внутренняя ссылка\\" icon=\\"fa fa-link\\" color=\\"secondary\\" url=\\"/my/path\\" inner={true} />
+                        </div>
+                        <Switch>
+                          <Route path=\\"*\\" render={[Function: render]} />
+                        </Switch>
+                      </div>
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
                 </div>
               </Connect(ConnectedRouter)>
             </FactoryProvider>
@@ -13563,6 +13975,104 @@ exports[`Storyshots Кнопки Ссылка: C:\\Users\\sliskov\\Projects\\n2o
 </div>"
 `;
 
+exports[`Storyshots Кнопки Ссылка: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\StandardButton\\__snapshots__\\StandardButton.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Ссылка
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <div className=\\"d-flex align-items-center\\">
+                        <branch(StandardButton) hint=\\"Высплывающая подсказка\\" visible={true} label=\\"Внешняя ссылка\\" icon=\\"fa fa-external-link\\" color=\\"primary\\" url=\\"/my/path\\" target=\\"_blank\\" />
+                        <div className=\\"mr-4\\">
+                          <branch(StandardButton) hint=\\"Высплывающая подсказка\\" visible={true} label=\\"Внутренняя ссылка\\" icon=\\"fa fa-link\\" color=\\"secondary\\" url=\\"/my/path\\" inner={true} />
+                        </div>
+                        <Switch>
+                          <Route path=\\"*\\" render={[Function: render]} />
+                        </Switch>
+                      </div>
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Page Buttons с предустановленным visible/disabled: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Page Buttons с предустановленным visible/disabled
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div className=\\"row mb-2\\">
+                      Кнопку не видно, потому что она скрыта
+                      <Toolbar toolbar={{...}} entityKey=\\"visibleTest\\" onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      Кнопка неактивна
+                      <Toolbar toolbar={{...}} entityKey=\\"disabledTest\\" onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      Дропдаун не видно, потому что он скрыт
+                      <Toolbar toolbar={{...}} entityKey=\\"notVisibleDropDown\\" onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      Дропдаун неактивен
+                      <Toolbar toolbar={{...}} entityKey=\\"dropdownDisabled\\" onClick={[Function: onClick]} />
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Кнопки/Тулбар Page Buttons с предустановленным visible/disabled: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -13605,6 +14115,76 @@ exports[`Storyshots Кнопки/Тулбар Page Buttons с предустан
                     </div>
                   </Story>
                   <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Варианты кнопок: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Варианты кнопок
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} onClick={[Function: onClick]} />
+                    </div>
+                    <div className=\\"row mb-2\\">
+                      <Toolbar toolbar={{...}} onClick={[Function: onClick]} />
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
                 </div>
               </Connect(ConnectedRouter)>
             </FactoryProvider>
@@ -13686,6 +14266,44 @@ exports[`Storyshots Кнопки/Тулбар Варианты кнопок: C:\
 </div>"
 `;
 
+exports[`Storyshots Кнопки/Тулбар Метаданные для виджета: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Метаданные для виджета
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Toolbar toolbar={{...}} entityKey=\\"metaBtns\\" onClick={[Function: onClick]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Кнопки/Тулбар Метаданные для виджета: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -13713,6 +14331,55 @@ exports[`Storyshots Кнопки/Тулбар Метаданные для вид
                     <Toolbar toolbar={{...}} entityKey=\\"metaBtns\\" />
                   </Story>
                   <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Ограничение доступа на выпадающие списки: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Ограничение доступа на выпадающие списки
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <small>
+                        Введите 
+                        <mark>
+                          admin
+                        </mark>
+                        , чтобы увидеть выпадающий список
+                      </small>
+                      <Connect(AuthButton) />
+                      <br />
+                      <Toolbar toolbar={{...}} entityKey=\\"metaBtns\\" onClick={[Function: onClick]} />
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
                 </div>
               </Connect(ConnectedRouter)>
             </FactoryProvider>
@@ -13762,6 +14429,55 @@ exports[`Storyshots Кнопки/Тулбар Ограничение досту�
                     </div>
                   </Story>
                   <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/Тулбар Ограничение доступа на кнопки: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\buttons\\__snapshots__\\Toolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тулбар
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Ограничение доступа на кнопки
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <small>
+                        Введите 
+                        <mark>
+                          admin
+                        </mark>
+                        , чтобы увидеть скрытую кнопку
+                      </small>
+                      <Connect(AuthButton) />
+                      <br />
+                      <Toolbar actions={[undefined]} toolbar={{...}} entityKey=\\"metaBtns\\" onClick={[Function: onClick]} />
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
                 </div>
               </Connect(ConnectedRouter)>
             </FactoryProvider>
@@ -22190,6 +22906,82 @@ exports[`Storyshots Контролы/Ползунок Тултип: C:\\Users\\s
 </div>"
 `;
 
+exports[`Storyshots Контролы/Просмотрщик кода Компонент: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\CodeViewer\\__snapshots__\\CodeViewer.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Просмотрщик кода
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      Компонент \\\\'Просмотрщик кода\\\\'\\\\n      ~~~js\\\\n      import CodeViewer from \\\\'n2o-framework/lib/components/controls/CodeViewer/CodeViewer\\\\';\\\\n      \\\\n      <CodeViewer \\\\n        visible={true}\\\\n        language=\\"javascript\\"\\\\n        showLineNumbers={true}\\\\n        hideButtons={false}\\\\n        startingLineNumber={1}\\\\n        hideOverflow={false}\\\\n      >\\\\n        {value}\\\\n      </CodeViewer>\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <withState(withState(withHandlers(CodeViewer))) visible={true} language=\\"javascript\\" showLineNumbers={true} value=\\"function makeWorker() {\\\\n  let name = \\"Pete\\";\\\\n\\\\n  return function() {\\\\n    alert(name);\\\\n  };\\\\n}\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/Просмотрщик кода Компонент: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\CodeViewer\\__snapshots__\\CodeViewer.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Просмотрщик кода
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      Компонент \\\\'Просмотрщик кода\\\\'\\\\n      ~~~js\\\\n      import CodeViewer from \\\\'n2o-framework/lib/components/controls/CodeViewer/CodeViewer\\\\';\\\\n      \\\\n      <CodeViewer \\\\n        visible={true}\\\\n        language=\\"javascript\\"\\\\n        showLineNumbers={true}\\\\n        hideButtons={false}\\\\n        startingLineNumber={1}\\\\n        hideOverflow={false}\\\\n      >\\\\n        {value}\\\\n      </CodeViewer>\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <withState(withState(withHandlers(CodeViewer))) visible={true} language=\\"javascript\\" showLineNumbers={true} value=\\"function makeWorker() {\\\\n  let name = \\"Pete\\";\\\\n\\\\n  return function() {\\\\n    alert(name);\\\\n  };\\\\n}\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Контролы/Радио N2O радио группа: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\RadioGroup\\__snapshots__\\RadioGroupN2O.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -23176,6 +23968,44 @@ exports[`Storyshots Контролы/Рейтинг Компонент: C:\\User
 </div>"
 `;
 
+exports[`Storyshots Контролы/Рейтинг Компонент: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\SnippetRating\\__snapshots__\\SnippetRating.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Рейтинг
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      Компонент \\\\'Рейтинг\\\\'\\\\n      ~~~js\\\\n      import Rating from \\\\'n2o-framework/lib/components/controls/Rating/Rating\\\\';\\\\n      \\\\n      <Rating\\\\n          max={5}\\\\n          half={false}\\\\n          rating={0}\\\\n          showTooltip={false}\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <SnippetRating max={5} half={false} rating={0} showTooltip={false} onChange={[Function: onChange]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Контролы/Рейтинг Компонент: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\Rating\\__snapshots__\\Rating.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -23203,6 +24033,44 @@ exports[`Storyshots Контролы/Рейтинг Компонент: C:\\User
                     <Rating max={5} half={false} rating={0} showTooltip={false} onChange={[Function: onChange]} />
                   </Story>
                   <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/Рейтинг Компонент: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\snippets\\SnippetRating\\__snapshots__\\SnippetRating.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Рейтинг
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      Компонент \\\\'Рейтинг\\\\'\\\\n      ~~~js\\\\n      import Rating from \\\\'n2o-framework/lib/components/controls/Rating/Rating\\\\';\\\\n      \\\\n      <Rating\\\\n          max={5}\\\\n          half={false}\\\\n          rating={0}\\\\n          showTooltip={false}\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <SnippetRating max={5} half={false} rating={0} showTooltip={false} onChange={[Function: onChange]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
                 </div>
               </Connect(ConnectedRouter)>
             </FactoryProvider>
@@ -23252,6 +24120,44 @@ exports[`Storyshots Контролы/Рейтинг Метаданные: C:\\Us
 </div>"
 `;
 
+exports[`Storyshots Контролы/Рейтинг Метаданные: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\SnippetRating\\__snapshots__\\SnippetRating.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Рейтинг
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Метаданные
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Контролы/Рейтинг Метаданные: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\Rating\\__snapshots__\\Rating.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -23279,6 +24185,44 @@ exports[`Storyshots Контролы/Рейтинг Метаданные: C:\\Us
                     <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
                   </Story>
                   <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/Рейтинг Метаданные: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\snippets\\SnippetRating\\__snapshots__\\SnippetRating.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Рейтинг
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Метаданные
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
                 </div>
               </Connect(ConnectedRouter)>
             </FactoryProvider>
@@ -23328,6 +24272,44 @@ exports[`Storyshots Контролы/Рейтинг Тултип: C:\\Users\\sli
 </div>"
 `;
 
+exports[`Storyshots Контролы/Рейтинг Тултип: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\SnippetRating\\__snapshots__\\SnippetRating.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Рейтинг
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тултип
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      Компонент \\\\'Рейтинг\\\\'\\\\n      ~~~js\\\\n      import Rating from \\\\'n2o-framework/lib/components/controls/Rating/Rating\\\\';\\\\n      \\\\n      <Rating\\\\n          max={5}\\\\n          half={false}\\\\n          rating={2.5555555}\\\\n          showTooltip={true}\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <SnippetRating max={5} half={false} rating={2.5555555} showTooltip={true} onChange={[Function: onChange]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Контролы/Рейтинг Тултип: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\Rating\\__snapshots__\\Rating.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -23355,6 +24337,44 @@ exports[`Storyshots Контролы/Рейтинг Тултип: C:\\Users\\sli
                     <Rating max={5} half={false} rating={2.5555555} showTooltip={true} onChange={[Function: onChange]} />
                   </Story>
                   <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/Рейтинг Тултип: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\snippets\\SnippetRating\\__snapshots__\\SnippetRating.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Рейтинг
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Тултип
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      Компонент \\\\'Рейтинг\\\\'\\\\n      ~~~js\\\\n      import Rating from \\\\'n2o-framework/lib/components/controls/Rating/Rating\\\\';\\\\n      \\\\n      <Rating\\\\n          max={5}\\\\n          half={false}\\\\n          rating={2.5555555}\\\\n          showTooltip={true}\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <SnippetRating max={5} half={false} rating={2.5555555} showTooltip={true} onChange={[Function: onChange]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
                 </div>
               </Connect(ConnectedRouter)>
             </FactoryProvider>
@@ -23404,6 +24424,44 @@ exports[`Storyshots Контролы/Рейтинг Частичный выбо�
 </div>"
 `;
 
+exports[`Storyshots Контролы/Рейтинг Частичный выбор: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\SnippetRating\\__snapshots__\\SnippetRating.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Рейтинг
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Частичный выбор
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      Компонент \\\\'Рейтинг\\\\'\\\\n      ~~~js\\\\n      import Rating from \\\\'n2o-framework/lib/components/controls/Rating/Rating\\\\';\\\\n      \\\\n      <Rating\\\\n          max={5}\\\\n          half={true}\\\\n          rating={2.5555555}\\\\n          showTooltip={true}\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <SnippetRating max={5} half={true} rating={2.5555555} showTooltip={true} onChange={[Function: onChange]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Контролы/Рейтинг Частичный выбор: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\Rating\\__snapshots__\\Rating.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -23431,6 +24489,44 @@ exports[`Storyshots Контролы/Рейтинг Частичный выбо�
                     <Rating max={5} half={true} rating={2.5555555} showTooltip={true} onChange={[Function: onChange]} />
                   </Story>
                   <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/Рейтинг Частичный выбор: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\snippets\\SnippetRating\\__snapshots__\\SnippetRating.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Рейтинг
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Частичный выбор
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      Компонент \\\\'Рейтинг\\\\'\\\\n      ~~~js\\\\n      import Rating from \\\\'n2o-framework/lib/components/controls/Rating/Rating\\\\';\\\\n      \\\\n      <Rating\\\\n          max={5}\\\\n          half={true}\\\\n          rating={2.5555555}\\\\n          showTooltip={true}\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <SnippetRating max={5} half={true} rating={2.5555555} showTooltip={true} onChange={[Function: onChange]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
                 </div>
               </Connect(ConnectedRouter)>
             </FactoryProvider>
@@ -29163,6 +30259,82 @@ exports[`Storyshots Ячейки/Индикатор Штриховка: C:\\User
                     <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
                   </Story>
                   <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/Рейтинг Компонент: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\RatingCell\\__snapshots__\\RatingCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Рейтинг
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} propTableCompare={[Function: propTableCompare]} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"TableWidget\\" dataProvider={{...}} paging={{...}} table={{...}} id=\\"Page_Table\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/Рейтинг Компонент: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\RatingCell\\__snapshots__\\RatingCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Рейтинг
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"TableWidget\\" dataProvider={{...}} paging={{...}} table={{...}} id=\\"Page_Table\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
                 </div>
               </Connect(ConnectedRouter)>
             </FactoryProvider>

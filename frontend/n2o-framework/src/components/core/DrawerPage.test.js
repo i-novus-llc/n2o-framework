@@ -4,6 +4,9 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from '../../reducers';
 import history from '../../history';
+import FactoryProvider from "../../core/factory/FactoryProvider";
+import createFactoryConfig from "../../core/factory/createFactoryConfig";
+
 function configureStore() {
   return createStore(rootReducer(history));
 }
@@ -18,7 +21,9 @@ const setup = (propOverrides, storeOverrides) => {
   };
   return mount(
     <Provider store={{ ...store, ...storeOverrides }}>
-      <DrawerWindow {...props} {...propOverrides} />
+      <FactoryProvider config={createFactoryConfig({})}>
+        <DrawerWindow {...props} {...propOverrides} />
+      </FactoryProvider>
     </Provider>
   );
 };

@@ -4,7 +4,7 @@ import Row from "reactstrap/lib/Row";
 import Col from "reactstrap/lib/Col";
 import Button from "reactstrap/lib/Button";
 import Jumbotron from "reactstrap/lib/Jumbotron";
-import ReduxField from "n2o/lib/components/widgets/Form/ReduxField";
+import ReduxField from "n2o-framework/lib/components/widgets/Form/ReduxField";
 import PropTypes from "prop-types";
 
 class AddMemberFieldset extends React.Component {
