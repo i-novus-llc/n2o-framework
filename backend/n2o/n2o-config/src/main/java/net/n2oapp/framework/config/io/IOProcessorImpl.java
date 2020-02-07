@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.io;
 
-import net.n2oapp.engine.factory.EngineNotFoundException;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.DomainProcessor;
@@ -201,11 +200,11 @@ public final class IOProcessorImpl implements IOProcessor {
 
     @Override
     public <T extends NamespaceUriAware,
-            R extends NamespaceReader<T>,
-            P extends NamespacePersister<T>> void anyChild(Element element, String sequences,
-                                                           Supplier<T> getter, Consumer<T> setter,
-                                                           NamespaceIOFactory<T, R, P> factory,
-                                                           Namespace defaultNamespace) {
+            R extends NamespaceReader<? extends T>,
+            P extends NamespacePersister<? super T>> void anyChild(Element element, String sequences,
+                                                                   Supplier<T> getter, Consumer<T> setter,
+                                                                   NamespaceIOFactory<T, R, P> factory,
+                                                                   Namespace defaultNamespace) {
         if (r) {
             Element seqE;
             if (sequences != null) {
@@ -1073,20 +1072,10 @@ public final class IOProcessorImpl implements IOProcessor {
     private <T extends NamespaceUriAware,
             R extends NamespaceReader<? extends T>,
             P extends NamespacePersister<? super T>> T read(NamespaceIOFactory<T, R, P> factory, Element element,
-                                                            Namespace parentNamespace, Namespace... defaultNamespace) {
-        R reader = null;
-        if (defaultNamespace != null && defaultNamespace.length > 0 && defaultNamespace[0] != null && parentNamespace.getURI().equals(element.getNamespaceURI())) {
-            for (Namespace namespace : defaultNamespace) {
-                if (factory.check(element, parentNamespace, namespace)) {
-                    reader = factory.produce(element, parentNamespace, namespace);
-                    if (reader != null) {
-                        break;
-                    }
-                }
-            }
-            if (reader == null) {
-                throw new EngineNotFoundException(element.getName());
-            }
+                                                            Namespace parentNamespace, Namespace... defaultNamespaces) {
+        R reader;
+        if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null && parentNamespace.getURI().equals(element.getNamespaceURI())) {
+            reader = factory.produce(element, parentNamespace, defaultNamespaces);
         } else {
             reader = factory.produce(element, parentNamespace, null);
         }
@@ -1103,28 +1092,13 @@ public final class IOProcessorImpl implements IOProcessor {
     private <T extends NamespaceUriAware,
             R extends NamespaceReader<? extends T>,
             P extends NamespacePersister<? super T>> Element persist(NamespaceIOFactory<T, R, P> factory, T entity,
-                                                                     Namespace parentNamespace, Namespace... defaultNamespace) {
-        P persister = null;
-
-        if (defaultNamespace != null && defaultNamespace.length > 0 && defaultNamespace[0] != null) {
-            for (Namespace namespace : defaultNamespace) {
-                if (entity.getNamespaceUri().equals(parentNamespace.getURI())) {
-                    if (factory.check(namespace, (Class<T>) entity.getClass()))
-                        persister = factory.produce(namespace, (Class<T>) entity.getClass());
-                } else {
-                    if (factory.check(entity.getNamespace(), (Class<T>) entity.getClass()))
-                        persister = factory.produce(entity.getNamespace(), (Class<T>) entity.getClass());
-                }
-                if (persister != null) {
-                    break;
-                }
-            }
-            if (persister == null) {
-                throw new EngineNotFoundException(defaultNamespace[0].getURI());
-            }
-        } else {
+                                                                     Namespace parentNamespace, Namespace... defaultNamespaces) {
+        P persister;
+        if (defaultNamespaces != null && defaultNamespaces.length > 0 && defaultNamespaces[0] != null
+                && entity.getNamespaceUri().equals(parentNamespace.getURI()))
+            persister = factory.produce((Class<T>) entity.getClass(), defaultNamespaces);
+        else
             persister = factory.produce(entity);
-        }
 
         if (persister != null) {
             if (persister instanceof IOProcessorAware)
