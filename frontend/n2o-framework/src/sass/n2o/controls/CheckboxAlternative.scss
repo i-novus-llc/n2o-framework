@@ -43,6 +43,13 @@
     }
   }
   & .custom-control-input {
+    z-index: 10;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: $checkbox-width;
+    height: $checkbox-height;
+    opacity: 0;
     & ~ .custom-control-label {
       &::after {
         top: $checkbox-position-top;

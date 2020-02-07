@@ -1,8 +1,17 @@
 .btn {
+  position: relative;
+}
+
+.btn {
   > input[type=checkbox] {
     position: absolute;
-    clip: rect(0, 0, 0, 0);
+    left: 0;
+    top: 0;
+    opacity: 0;
     pointer-events: none;
+    z-index: 10;
+    width: 65.48px;
+    height: 38px;
   }
 }
 
