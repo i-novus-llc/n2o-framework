@@ -10,6 +10,8 @@ import isEqual from 'lodash/isEqual';
 import split from 'lodash/split';
 import includes from 'lodash/includes';
 
+import { compose } from 'recompose';
+import withRightPlaceholder from '../withRightPlaceholder';
 import Input from '../Input/Input';
 
 import {
@@ -298,4 +300,4 @@ InputNumber.propTypes = {
   precision: PropTypes.number,
 };
 
-export default InputNumber;
+export default compose(withRightPlaceholder)(InputNumber);
