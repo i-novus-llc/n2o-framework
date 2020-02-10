@@ -39,7 +39,7 @@ import {
  *             step='0.1'
  *             name='InputNumberExample' />
  */
-class InputNumber extends React.Component {
+export class InputNumber extends React.Component {
   constructor(props) {
     super(props);
     const value = props.value;

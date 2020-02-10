@@ -806,9 +806,8 @@
                         "label": "Фамилия",
                         "dependency": [],
                         "control": {
-                          "src": "TextArea",
-                          "id": "surname",
-                          "rightPlaceholder": "шт"
+                          "src": "InputText",
+                          "id": "surname"
                         }
                       }
                     ]

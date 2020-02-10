@@ -5,28 +5,50 @@ import InputNumber from './InputNumber/InputNumber';
 import InputText from './InputText/InputText';
 import TextArea from './TextArea/TextArea';
 
-const setup = propsOverride => {
+const setupMoney = propsOverride => {
   return mount(<InputMoney {...propsOverride} />);
 };
-
+const setupNumber = propsOverride => {
+  return mount(<InputNumber {...propsOverride} />);
+};
+const setupMask = propsOverride => {
+  return mount(<InputMask {...propsOverride} />);
+};
+const setupText = propsOverride => {
+  return mount(<InputText {...propsOverride} />);
+};
+const setupArea = propsOverride => {
+  return mount(<TextArea {...propsOverride} />);
+};
 describe('Проверка компонента-обертки withRightPlaceholder', () => {
   it('InputMoney', () => {
-    const wrapper = setup({ rightPlaceholder: 'шт' });
+    const wrapper = setupMoney({ rightPlaceholder: 'test' });
     expect(wrapper.find('.n2o-control-container-placeholder').exists()).toEqual(
       true
     );
   });
   it('InputMask', () => {
-    const wrapper = setup({ allowDecimal: true });
-    expect(wrapper.instance().convertToMoney('123.33')).toEqual('123,33');
+    const wrapper = setupMask({ rightPlaceholder: 'test' });
+    expect(wrapper.find('.n2o-control-container-placeholder').exists()).toEqual(
+      true
+    );
   });
   it('InputNumber', () => {
-    const wrapper = setup({
-      prefix: '# ',
-      includeThousandsSeparator: true,
-      thousandsSeparatorSymbol: ' ',
-      decimalSymbol: ',',
-    });
-    expect(wrapper.instance().convertToFloat('# 1 234,55')).toEqual('1234.55');
+    const wrapper = setupNumber({ rightPlaceholder: 'test' });
+    expect(wrapper.find('.n2o-control-container-placeholder').exists()).toEqual(
+      true
+    );
+  });
+  it('InputText', () => {
+    const wrapper = setupText({ rightPlaceholder: 'test' });
+    expect(wrapper.find('.n2o-control-container-placeholder').exists()).toEqual(
+      true
+    );
+  });
+  it('setupArea', () => {
+    const wrapper = setupArea({ rightPlaceholder: 'test' });
+    expect(wrapper.find('.n2o-control-container-placeholder').exists()).toEqual(
+      true
+    );
   });
 });
