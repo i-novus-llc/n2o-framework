@@ -51,6 +51,7 @@
     "lint-staged": "^7.2.2",
     "mocha": "^3.4.2",
     "node-sass": "^4.9.2",
+    "npm-cli-login": "^0.1.1",
     "npm-registry-client": "^8.6.0",
     "prettier": "1.16.4",
     "react-addons-test-utils": "15.4.2",
