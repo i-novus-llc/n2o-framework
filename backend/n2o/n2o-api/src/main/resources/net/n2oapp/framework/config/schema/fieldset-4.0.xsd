@@ -42,6 +42,11 @@
                     <xs:element name="row" type="rowDefinition" minOccurs="0"/>
                     <xs:element name="col" type="colDefinition" minOccurs="0"/>
                 </xs:sequence>
+                <xs:attribute name="id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор филдсета.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="ref-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Ссылка на файл филдсета.</xs:documentation>

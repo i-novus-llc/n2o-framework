@@ -24,7 +24,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тест филсета с горизонтальной линией
  */
-
 public class LineFieldSetCompileTest extends SourceCompileTestBase {
 
     @Override

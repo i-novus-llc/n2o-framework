@@ -18,6 +18,7 @@ public abstract class FieldsetElementIOv4<T extends N2oFieldSet> implements Name
 
     @Override
     public void io(Element e, T fs, IOProcessor p) {
+        p.attribute(e, "id", fs::getId, fs::setId);
         p.attribute(e, "ref-id", fs::getRefId, fs::setRefId);
         p.attribute(e, "src", fs::getSrc, fs::setSrc);
         p.attribute(e, "class", fs::getCssClass, fs::setCssClass);
