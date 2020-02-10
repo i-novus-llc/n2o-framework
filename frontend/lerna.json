@@ -4,7 +4,8 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "npmClientArgs": [
-    "--no-package-lock"
+    "--no-package-lock",
+    "--no-lockfile"
   ],
   "packages": [
     "demo",
