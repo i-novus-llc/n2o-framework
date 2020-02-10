@@ -270,47 +270,6 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 </checkbox-line>
 ----
 
-=== <panel>
-Панель с набором полей.
-
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|icon
-|http://fontawesome.io/icons/[CSS класс]
-|Иконка панели
-|
-
-|class
-|https://getbootstrap.com/docs/4.0/components/card/#background-and-color[CSS класс]
-|Стиль филдсета
-|
-
-|style
-|CSS свойства
-|Список CSS свойств
-|
-
-|header
-|true false
-|Наличие шапки панели
-|true
-
-|===
-
-Пример::
-[source,xml]
-----
-<panel title="Карточка"
-  header="true"
-  class="bg-primary"
-  style="color: red; background-color: black">
-  ...
-</panel>
-----
-
 === <multi-set>
 Филдсет с динамическим числом полей.
 

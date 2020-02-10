@@ -35,17 +35,15 @@ public class LineFieldSetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oControlsPack(), new N2oFieldSetsPack())
-                .ios(new SetFieldsetElementIOv4(), new ColElementIO4(), new RowElementIO4(), new LineFieldsetElementIOv4())
-                .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/fieldset/testLineFieldsetCompileWithFields.fieldset.xml"));
+        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack())
+                .ios(new LineFieldsetElementIOv4());
     }
 
     @Test
     public void testLineFieldSetWithField() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/fieldset/testLineFieldsetCompile.widget.xml")
                 .get(new WidgetContext("testLineFieldsetCompile"));
-        FormWidgetComponent component = form.getComponent();
-        List<FieldSet> fields = component.getFieldsets();
+        List<FieldSet> fields = form.getComponent().getFieldsets();
         assertThat(fields.size(), is(4));
 
         assertThat(fields.get(0), instanceOf(LineFieldSet.class));
@@ -53,20 +51,23 @@ public class LineFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(fields.get(2), instanceOf(LineFieldSet.class));
         assertThat(fields.get(3), instanceOf(LineFieldSet.class));
 
+        assertThat(fields.get(0).getSrc(), is("LineFieldset"));
         assertThat(((LineFieldSet)fields.get(0)).getHasArrow(), is(true));
         assertThat(((LineFieldSet)fields.get(0)).getCollapsible(), is(false));
 
+        assertThat(fields.get(1).getSrc(), is("LineFieldset"));
         assertThat(((LineFieldSet)fields.get(1)).getLabel(), is("test"));
         assertThat(((LineFieldSet)fields.get(1)).getHasArrow(), is(true));
         assertThat(((LineFieldSet)fields.get(1)).getCollapsible(), is(false));
 
+        assertThat(fields.get(2).getSrc(), is("LineFieldset"));
         assertThat(((LineFieldSet)fields.get(2)).getHasArrow(), is(true));
         assertThat(((LineFieldSet)fields.get(2)).getCollapsible(), is(true));
         assertThat(((LineFieldSet)fields.get(2)).getExpand(), is(true));
 
+        assertThat(fields.get(3).getSrc(), is("LineFieldset"));
         assertThat(((LineFieldSet)fields.get(3)).getHasArrow(), is(true));
         assertThat(((LineFieldSet)fields.get(3)).getCollapsible(), is(true));
         assertThat(((LineFieldSet)fields.get(3)).getExpand(), is(false));
     }
-
 }

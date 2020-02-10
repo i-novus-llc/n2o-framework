@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.io.widget;
 
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oLineFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oMultiFieldSet;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oPanelFieldSet;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oSetFieldSet;
 import net.n2oapp.framework.config.io.control.plain.InputTextIOv2;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsIOPack;
@@ -29,13 +28,6 @@ public class FieldsetXmlIOTest {
     public void testIOLineFieldset() {
         assert tester.check("net/n2oapp/framework/config/io/widget/fieldset/testLineFieldsetIOv4.fieldset.xml",
                 (N2oLineFieldSet fs) -> {
-                });
-    }
-
-    @Test
-    public void testIOPanelFieldset() {
-        assert tester.check("net/n2oapp/framework/config/io/widget/fieldset/testPanelFieldsetIOv4.fieldset.xml",
-                (N2oPanelFieldSet fs) -> {
                 });
     }
 

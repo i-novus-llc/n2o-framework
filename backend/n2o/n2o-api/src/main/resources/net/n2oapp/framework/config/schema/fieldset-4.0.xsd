@@ -5,7 +5,6 @@
 
     <xs:element name="set" type="setDefinition"/>
     <xs:element name="line" type="lineDefinition"/>
-    <xs:element name="panel" type="panelDefinition"/>
     <xs:element name="multi-set" type="multiSetDefinition"/>
 
     <xs:complexType name="fields">
@@ -25,7 +24,6 @@
                 <xs:sequence>
                     <xs:element name="set" type="setDefinition" minOccurs="0"/>
                     <xs:element name="line" type="lineDefinition" minOccurs="0"/>
-                    <xs:element name="panel" type="panelDefinition" minOccurs="0"/>
                     <xs:element name="multi-set" type="multiSetDefinition" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
@@ -140,36 +138,6 @@
                 <xs:attribute name="label" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Загаловок филдсета.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="panelDefinition">
-        <xs:complexContent>
-            <xs:extension base="fieldsetDefinition">
-                <xs:annotation>
-                    <xs:documentation>Филдсет в виде панели.</xs:documentation>
-                </xs:annotation>
-                <xs:attribute name="icon" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Иконка панели.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="class" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>CSS класс филдсета.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="style" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Стиль филдсета.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="header" type="xs:boolean" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Наличие шапки панели.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -298,6 +266,5 @@
             <xs:enumeration value="right"/>
         </xs:restriction>
     </xs:simpleType>
-
 
 </xs:schema>

@@ -21,6 +21,7 @@ import static org.hamcrest.Matchers.is;
  * Тест филдсета с динамическим числом полей
  */
 public class MultiFieldSetCompileTest extends SourceCompileTestBase {
+
     @Override
     @Before
     public void setUp() throws Exception {

@@ -13,7 +13,6 @@ public class N2oFieldSetsIOPack implements MetadataPack<ReadersBuilder> {
     @Override
     public void build(ReadersBuilder b) {
         b.ios(new SetFieldsetElementIOv4(),
-                new PanelFieldsetElementIOv4(),
                 new LineFieldsetElementIOv4(),
                 new MultiFieldsetElementIOv4(),
                 new ColElementIO4(),

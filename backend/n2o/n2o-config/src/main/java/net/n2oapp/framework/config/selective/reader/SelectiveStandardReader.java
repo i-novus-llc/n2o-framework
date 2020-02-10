@@ -12,7 +12,7 @@ import net.n2oapp.framework.config.io.dataprovider.RestDataProviderIOv1;
 import net.n2oapp.framework.config.io.dataprovider.SqlDataProviderIOv1;
 import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
 import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
-import net.n2oapp.framework.config.io.fieldset.PanelFieldsetElementIOv4;
+import net.n2oapp.framework.config.io.fieldset.MultiFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
@@ -98,8 +98,10 @@ public class SelectiveStandardReader extends SelectiveReader {
     }
 
     public SelectiveStandardReader addFieldSet4Reader() {
-        return addControlReader().addReader(new SetFieldsetElementIOv4()).addReader(new LineFieldsetElementIOv4())
-                .addReader(new PanelFieldsetElementIOv4());
+        return addControlReader()
+                .addReader(new SetFieldsetElementIOv4())
+                .addReader(new LineFieldsetElementIOv4())
+                .addReader(new MultiFieldsetElementIOv4());
     }
 
     public SelectiveStandardReader addEventsReader() {
