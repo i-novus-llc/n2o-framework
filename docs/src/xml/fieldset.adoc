@@ -306,3 +306,62 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 </panel>
 ----
 
+=== <multi-set>
+Филдсет с динамическим числом полей.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|add-label
+|Строка
+|Заголовок кнопки добавления
+|
+
+|remove-all-label
+|Строка
+|Заголовок кнопки удаления всех добавленных филдсетов
+|
+
+|can-remove-first
+|true false
+|Удаление первого элемента
+|false
+
+|can-add
+|true false
+|Добавление новых филдсетов
+|true
+
+|can-remove
+|true false
+|Удаление новых филдсетов
+|true
+
+|can-remove-all
+|true false
+|Удаление всех добавленных филдсетов
+|false
+
+|can-copy
+|true false
+|Копирование филдсета в новый (вместе с данными)
+|false
+
+
+|===
+
+Пример::
+
+[source,xml]
+----
+<multi-set label="Участник #index"
+    add-label="Добавить участника"
+    remove-all-label="Удалить всех участников"
+    can-remove-first="true"
+    can-add="true"
+    can-remove-all="true">
+    ...
+</multi-set>
+----

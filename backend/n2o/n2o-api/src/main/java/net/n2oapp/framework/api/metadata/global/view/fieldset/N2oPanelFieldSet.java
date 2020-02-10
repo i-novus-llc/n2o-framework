@@ -5,7 +5,6 @@ package net.n2oapp.framework.api.metadata.global.view.fieldset;
  */
 public class N2oPanelFieldSet extends N2oFieldSet {
     private String icon;
-    private String fieldSetClass;
     private Boolean header;
     public static final String DEFAULT_SRC = "PanelFieldset";
 
@@ -19,14 +18,6 @@ public class N2oPanelFieldSet extends N2oFieldSet {
 
     public void setIcon(String icon) {
         this.icon = icon;
-    }
-
-    public String getFieldSetClass() {
-        return fieldSetClass;
-    }
-
-    public void setFieldSetClass(String fieldSetClass) {
-        this.fieldSetClass = fieldSetClass;
     }
 
     public Boolean getHeader() {

@@ -6,6 +6,7 @@
     <xs:element name="set" type="setDefinition"/>
     <xs:element name="line" type="lineDefinition"/>
     <xs:element name="panel" type="panelDefinition"/>
+    <xs:element name="multi-set" type="multiSetDefinition"/>
 
     <xs:complexType name="fields">
         <xs:complexContent>
@@ -25,6 +26,7 @@
                     <xs:element name="set" type="setDefinition" minOccurs="0"/>
                     <xs:element name="line" type="lineDefinition" minOccurs="0"/>
                     <xs:element name="panel" type="panelDefinition" minOccurs="0"/>
+                    <xs:element name="multi-set" type="multiSetDefinition" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -163,6 +165,51 @@
                 <xs:attribute name="header" type="xs:boolean" use="optional">
                     <xs:annotation>
                         <xs:documentation>Наличие шапки панели.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="multiSetDefinition">
+        <xs:complexContent>
+            <xs:extension base="fieldsetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Филдсет с динамическим числом полей.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="add-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок кнопки добавления.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="remove-all-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок кнопки удаления всех добавленных филдсетов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-remove-first" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Удаление первого элемента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-add" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Добавление новых филдсетов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-remove" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Удаление новых филдсетов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-remove-all" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Удаление всех добавленных филдсетов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-copy" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Копирование филдсета в новый (вместе с данными).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

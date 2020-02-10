@@ -18,7 +18,6 @@ import java.util.Set;
 @Getter
 @Setter
 public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttributesAware, CssClassAware {
-
     private SourceComponent[] items;
     private String label;
     private String src;
@@ -30,8 +29,6 @@ public abstract class N2oFieldSet extends N2oMetadata implements ExtensionAttrib
     private String dependencyCondition;
     private String[] dependsOn;
     private Set<String> visibilityConditions;
-    private String enablingCondition;
-    private String enablingConditionOn;
     private String visible;
     private String enabled;
     private Map<N2oNamespace, Map<String, String>> extAttributes;
