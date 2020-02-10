@@ -61,6 +61,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(component.getFieldsets().size(), is(4));
 
         assertThat(component.getFieldsets().get(0).getSrc(), is("StandardFieldset"));
+        assertThat(component.getFieldsets().get(0).getLabel(), is("set"));
         assertThat(component.getFieldsets().get(0).getRows().size(), is(3));
         assertThat(component.getFieldsets().get(0).getRows().get(0).getCols().size(), is(1));
         assertThat(component.getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().size(), is(1));
