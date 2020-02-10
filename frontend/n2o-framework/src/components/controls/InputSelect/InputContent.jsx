@@ -6,6 +6,8 @@ import ReactDOM from 'react-dom';
 import find from 'lodash/find';
 import reduce from 'lodash/reduce';
 import split from 'lodash/split';
+import isEqual from 'lodash/isEqual';
+import { compose, lifecycle, withState } from 'recompose';
 
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
 
@@ -38,154 +40,40 @@ import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
  * @reactProps {boolean} isExpanded - флаг видимости popUp
  */
 
-function InputContent({
-  disabled,
-  value,
-  placeholder,
-  onRemoveItem,
-  onFocus,
-  onBlur,
-  inputFocus,
-  isSelected,
-  selected,
-  labelFieldId,
-  valueFieldId,
-  clearSelected,
-  multiSelect,
-  collapseSelected,
-  lengthToGroup,
-  onInputChange,
-  openPopUp,
-  closePopUp,
-  activeValueId,
-  setActiveValueId,
-  disabledValues,
-  options,
-  onSelect,
-  onClick,
-  isExpanded,
-  autoFocus,
-  selectedPadding,
-  setTextareaRef,
-  setSelectedListRef,
-  _textarea,
-  _selectedList,
-  setRef,
-  tags,
-}) {
-  /**
-   * Обработчик изменения инпута при нажатии на клавишу
-   * @param e - событие изменения
-   * @private
-   */
+class InputContent extends React.Component {
+  constructor(props) {
+    super(props);
 
-  const handleKeyDown = e => {
-    if (
-      multiSelect &&
-      e.key === 'Backspace' &&
-      selected.length &&
-      !e.target.value
-    ) {
-      const endElementOfSelect = selected[selected.length - 1];
-      onRemoveItem(endElementOfSelect);
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (!isExpanded) {
-        openPopUp(true);
-        setActiveValueId(
-          getFirstNotDisabledId(options, selected, disabledValues, valueFieldId)
-        );
-      } else {
-        if (activeValueId) {
-          setActiveValueId(
-            getNextId(
-              options,
-              activeValueId,
-              valueFieldId,
-              selected,
-              disabledValues
-            )
-          );
-        } else {
-          setActiveValueId(
-            getFirstNotDisabledId(
-              options,
-              selected,
-              disabledValues,
-              valueFieldId
-            )
-          );
-        }
-      }
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActiveValueId(
-        getPrevId(
-          options,
-          activeValueId,
-          valueFieldId,
-          selected,
-          disabledValues
-        )
-      );
-    } else if (e.key === 'Enter') {
-      e.preventDefault();
-      const newValue =
-        find(options, item => item[valueFieldId] === activeValueId) || value;
+    this.state = {
+      paddingTextArea: {},
+    };
+  }
 
-      if (newValue) {
-        onSelect(newValue);
-        setActiveValueId(null);
-      }
-    } else if (e.key === 'Escape') {
-      closePopUp(false);
+  componentDidMount() {
+    this.calcPaddingTextarea();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { paddingTextArea } = this.state;
+    if (!isEqual(prevProps._selectedList, this.props._selectedList)) {
+      this.calcPaddingTextarea();
     }
-  };
+  }
 
-  const handleClick = ({ target }) => {
-    target.select();
-    onClick && onClick();
-  };
-
-  /**
-   * Обработчик изменения инпута
-   * @param e - событие изменения
-   * @private
-   */
-
-  const handleInputChange = e => {
-    onInputChange(e.target.value);
-
-    if (tags) {
-      setActiveValueId(null);
-    }
-  };
-
-  const getPlaceholder = selected.length > 0 ? '' : placeholder;
-  let inputEl = null;
-
-  const handleRef = input => {
-    const el = input && ReactDOM.findDOMNode(input);
-    if (el && isSelected) {
-      el.select();
-    } else if (el && inputFocus) {
-      inputFocus && el.focus();
-    }
-  };
-
-  const getHeight = el => {
+  getHeight(el) {
     return el.clientHeight;
-  };
+  }
 
-  const getWidth = el => {
+  getWidth(el) {
     return el.clientWidth;
-  };
+  }
 
-  const getMargin = (item, propertyName) => {
+  getMargin(item, propertyName) {
     return +split(window.getComputedStyle(item)[propertyName], 'px')[0];
-  };
+  }
 
-  const calcPaddingTextarea = () => {
+  calcPaddingTextarea() {
+    const { _textarea, _selectedList, selected } = this.props;
     if (_textarea && _selectedList) {
       let mainWidth = undefined;
       let mainHeight = undefined;
@@ -196,10 +84,10 @@ function InputContent({
       mainWidth = reduce(
         selectedList,
         (acc, item) => {
-          const marginLeft = getMargin(item, 'margin-left');
-          const marginRight = getMargin(item, 'margin-right');
+          const marginLeft = this.getMargin(item, 'margin-left');
+          const marginRight = this.getMargin(item, 'margin-right');
           const newWidth = acc + item.offsetWidth + marginRight + marginLeft;
-          if (newWidth >= getWidth(_selectedList)) {
+          if (newWidth >= this.getWidth(_selectedList)) {
             acc = 0;
           }
           return acc + item.offsetWidth + marginLeft + marginRight;
@@ -209,37 +97,197 @@ function InputContent({
       const lastItem = selectedList[selectedList.length - 1];
 
       if (lastItem) {
-        mainHeight = getHeight(_textarea) - getHeight(lastItem);
+        mainHeight = this.getHeight(_textarea) - this.getHeight(lastItem);
       }
 
-      return {
-        paddingTop: selected.length === 0 ? 5 : mainHeight,
-        paddingLeft: selected.length === 0 ? 10 : mainWidth || undefined,
-      };
+      this.setState({
+        paddingTextArea: {
+          paddingTop: selected.length === 0 ? 5 : mainHeight,
+          paddingLeft: selected.length === 0 ? 10 : mainWidth || undefined,
+        },
+      });
     }
-  };
+  }
 
-  const INPUT_STYLE = {
-    paddingLeft: selectedPadding ? selectedPadding : undefined,
-  };
+  render() {
+    const {
+      disabled,
+      value,
+      placeholder,
+      onRemoveItem,
+      onFocus,
+      onBlur,
+      inputFocus,
+      isSelected,
+      selected,
+      labelFieldId,
+      valueFieldId,
+      clearSelected,
+      multiSelect,
+      collapseSelected,
+      lengthToGroup,
+      onInputChange,
+      openPopUp,
+      closePopUp,
+      activeValueId,
+      setActiveValueId,
+      disabledValues,
+      options,
+      onSelect,
+      onClick,
+      isExpanded,
+      autoFocus,
+      selectedPadding,
+      setTextareaRef,
+      setSelectedListRef,
+      setRef,
+      tags,
+    } = this.props;
+    /**
+     * Обработчик изменения инпута при нажатии на клавишу
+     * @param e - событие изменения
+     * @private
+     */
+    const handleKeyDown = e => {
+      if (
+        multiSelect &&
+        e.key === 'Backspace' &&
+        selected.length &&
+        !e.target.value
+      ) {
+        const endElementOfSelect = selected[selected.length - 1];
+        onRemoveItem(endElementOfSelect);
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!isExpanded) {
+          openPopUp(true);
+          setActiveValueId(
+            getFirstNotDisabledId(
+              options,
+              selected,
+              disabledValues,
+              valueFieldId
+            )
+          );
+        } else {
+          if (activeValueId) {
+            setActiveValueId(
+              getNextId(
+                options,
+                activeValueId,
+                valueFieldId,
+                selected,
+                disabledValues
+              )
+            );
+          } else {
+            setActiveValueId(
+              getFirstNotDisabledId(
+                options,
+                selected,
+                disabledValues,
+                valueFieldId
+              )
+            );
+          }
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setActiveValueId(
+          getPrevId(
+            options,
+            activeValueId,
+            valueFieldId,
+            selected,
+            disabledValues
+          )
+        );
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const newValue =
+          find(options, item => item[valueFieldId] === activeValueId) || value;
 
-  return (
-    <React.Fragment>
-      {multiSelect ? (
-        <React.Fragment>
-          <SelectedItems
-            selected={selected}
-            labelFieldId={labelFieldId}
-            onRemoveItem={onRemoveItem}
-            onDeleteAll={clearSelected}
-            disabled={disabled}
-            collapseSelected={collapseSelected}
-            lengthToGroup={lengthToGroup}
-            setRef={setSelectedListRef}
-          />
-          <textarea
+        if (newValue) {
+          onSelect(newValue);
+          setActiveValueId(null);
+        }
+      } else if (e.key === 'Escape') {
+        closePopUp(false);
+      }
+    };
+
+    const handleClick = ({ target }) => {
+      target.select();
+      onClick && onClick();
+    };
+
+    /**
+     * Обработчик изменения инпута
+     * @param e - событие изменения
+     * @private
+     */
+
+    const handleInputChange = e => {
+      onInputChange(e.target.value);
+
+      if (tags) {
+        setActiveValueId(null);
+      }
+    };
+
+    const getPlaceholder = selected.length > 0 ? '' : placeholder;
+    let inputEl = null;
+
+    const handleRef = input => {
+      const el = input && ReactDOM.findDOMNode(input);
+      if (el && isSelected) {
+        el.select();
+      } else if (el && inputFocus) {
+        inputFocus && el.focus();
+      }
+    };
+
+    const INPUT_STYLE = {
+      paddingLeft: selectedPadding ? selectedPadding : undefined,
+    };
+
+    return (
+      <React.Fragment>
+        {multiSelect ? (
+          <React.Fragment>
+            <SelectedItems
+              selected={selected}
+              labelFieldId={labelFieldId}
+              onRemoveItem={onRemoveItem}
+              onDeleteAll={clearSelected}
+              disabled={disabled}
+              collapseSelected={collapseSelected}
+              lengthToGroup={lengthToGroup}
+              setRef={setSelectedListRef}
+            />
+            <textarea
+              onKeyDown={handleKeyDown}
+              ref={setTextareaRef}
+              placeholder={getPlaceholder}
+              disabled={disabled}
+              value={value}
+              onChange={handleInputChange}
+              onClick={handleClick}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              className={cn('form-control n2o-inp', {
+                'n2o-inp--multi': multiSelect,
+              })}
+              autoFocus={autoFocus}
+              style={{
+                ...this.state.paddingTextArea,
+              }}
+            />
+          </React.Fragment>
+        ) : (
+          <input
             onKeyDown={handleKeyDown}
-            ref={setTextareaRef}
+            ref={setRef}
             placeholder={getPlaceholder}
             disabled={disabled}
             value={value}
@@ -247,34 +295,15 @@ function InputContent({
             onClick={handleClick}
             onFocus={onFocus}
             onBlur={onBlur}
-            className={cn('form-control n2o-inp', {
-              'n2o-inp--multi': multiSelect,
-            })}
+            type="text"
+            className="form-control n2o-inp"
             autoFocus={autoFocus}
-            style={{
-              ...calcPaddingTextarea(),
-            }}
+            style={INPUT_STYLE}
           />
-        </React.Fragment>
-      ) : (
-        <input
-          onKeyDown={handleKeyDown}
-          ref={setRef}
-          placeholder={getPlaceholder}
-          disabled={disabled}
-          value={value}
-          onChange={handleInputChange}
-          onClick={handleClick}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          type="text"
-          className="form-control n2o-inp"
-          autoFocus={autoFocus}
-          style={INPUT_STYLE}
-        />
-      )}
-    </React.Fragment>
-  );
+        )}
+      </React.Fragment>
+    );
+  }
 }
 
 InputContent.propTypes = {
@@ -312,5 +341,20 @@ InputContent.defaultProps = {
   collapseSelected: true,
   autoFocus: false,
 };
+
+// export default compose(
+//   withState('selectedList', 'setList', false),
+//   lifecycle({
+//     componentWillUnmount() {
+//       this.props.setList(false);
+//     },
+//     componentDidMount() {
+//       const selectedList = ReactDOM.findDOMNode(
+//         this.props._selectedList
+//       ).querySelectorAll('.selected-item');
+//       this.props.setList(selectedList);
+//     },
+//   })
+// )(InputContent);
 
 export default InputContent;
