@@ -1428,7 +1428,11 @@
       "form": {
         "fieldsets": [
           {
-            "src": "StandardFieldset",
+            "src": "MultiFieldset",
+            "needRemoveAllButton": true,
+            "needCopyButton": true,
+            "name": "members",
+            "label": "#index. Такой вот плейсхолдер",
             "rows": [
               {
                 "cols": [
@@ -1438,7 +1442,14 @@
                         "src": "StandardField",
                         "id": "surname",
                         "label": "Фамилия",
-                        "dependency": [],
+                        "dependency": [
+                          {
+                            "type": "enabled",
+                            "on": ["members[#index].name"],
+                            "expression": "members[#index].name !== 'test'",
+                            "applyOnInit": true
+                          }
+                        ],
                         "control": {
                           "src": "InputText",
                           "id": "surname"
@@ -1461,62 +1472,21 @@
                     ]
                   }
                 ]
-              },
-              {
-                "cols": [
-                  {
-                    "size": 8,
-                    "fields": [
-                      {
-                        "src": "StandardField",
-                        "id": "gender",
-                        "enabled": false,
-                        "label": "Пол",
-                        "dependency": [],
-                        "control": {
-                          "src": "RadioGroup",
-                          "id": "gender",
-                          "valueFieldId": "id",
-                          "labelFieldId": "name",
-                          "sortFieldId": "name",
-                          "size": 30,
-                          "dataProvider": {
-                            "url": "n2o/data/ProtoGender",
-                            "queryMapping": {}
-                          },
-                          "type": "n2o"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "fields": [
-                      {
-                        "src": "StandardField",
-                        "style": {
-                          "fontWeight": "bold"
-                        },
-                        "id": "vip",
-                        "enabled": false,
-                        "dependency": [],
-                        "control": {
-                          "src": "Checkbox",
-                          "style": {
-                            "fontWeight": "bold"
-                          },
-                          "id": "vip",
-                          "label": "VIP",
-                          "defaultUnchecked": "null"
-                        }
-                      }
-                    ]
-                  }
-                ]
               }
             ]
           }
         ],
-        "validation": {},
+        "validation": {
+          "members": [
+            {
+              "severity": "danger",
+              "validationKey": "members",
+              "text": "Валидации на members",
+              "type": "required",
+              "multi": true
+            }
+          ]
+        },
         "modelPrefix": "resolve",
         "fetchOnInit": false,
         "autoFocus": true
