@@ -34,10 +34,6 @@ describe('<Base />', () => {
       const wrapper = mount(<Base tag="div" small={true} />);
       expect(wrapper.find('small').exists()).toBeTruthy();
     });
-    it('subText', () => {
-      const wrapper = mount(<Base subText={'subTextTest'} tag="div" />);
-      expect(wrapper.contains('subTextTest')).toBeTruthy();
-    });
   });
 
   describe('color', () => {

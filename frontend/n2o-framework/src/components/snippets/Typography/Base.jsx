@@ -21,18 +21,11 @@ const PropsEnd = createContext();
 
 const EndTag = () => (
   <PropsEnd.Consumer>
-    {({ text, format, children, subText, subTextFormat }) => {
-      return (
-        <div className="d-flex flex-column">
-          <span>{!isNil(text) ? parseFormatter(text, format) : children}</span>
-          {!isNil(subText) ? (
-            <span className="text-muted">
-              {!isNil(subText) ? parseFormatter(subText, subTextFormat) : null}
-            </span>
-          ) : null}
-        </div>
-      );
-    }}
+    {({ text, format, children }) => (
+      <Fragment>
+        {!isNil(text) ? parseFormatter(text, format) : children}
+      </Fragment>
+    )}
   </PropsEnd.Consumer>
 );
 
@@ -103,8 +96,6 @@ class Base extends Component {
       copyable,
       editable,
       className,
-      subText,
-      subTextFormat,
       ...rest
     } = this.props;
 
@@ -143,9 +134,7 @@ class Base extends Component {
         color={color}
       >
         <ContentEditable editable={edit} onChange={this.handleContentEditable}>
-          <PropsEnd.Provider
-            value={{ text, format, children, subText, subTextFormat }}
-          >
+          <PropsEnd.Provider value={{ text, format, children }}>
             <Wrappers />
           </PropsEnd.Provider>
         </ContentEditable>

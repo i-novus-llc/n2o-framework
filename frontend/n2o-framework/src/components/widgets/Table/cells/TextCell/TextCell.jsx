@@ -14,16 +14,26 @@ function TextCell({
   visible,
   preLine,
   subTextFieldKey,
+  subTextFormat,
   ...rest
 }) {
   return (
     visible && (
-      <Text
-        text={model && get(model, fieldKey || id)}
-        subText={model && subTextFieldKey && get(model, subTextFieldKey)}
-        preLine={preLine}
-        {...rest}
-      />
+      <div className="d-flex flex-column">
+        <Text
+          text={model && get(model, fieldKey || id)}
+          subText={model && subTextFieldKey && get(model, subTextFieldKey)}
+          preLine={preLine}
+          {...rest}
+        />
+        {subTextFieldKey ? (
+          <Text
+            className="text-muted"
+            text={model && subTextFieldKey && get(model, subTextFieldKey)}
+            format={subTextFormat}
+          />
+        ) : null}
+      </div>
     )
   );
 }
