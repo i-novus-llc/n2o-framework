@@ -15,8 +15,6 @@ public class LineFieldSet extends FieldSet {
     @JsonProperty
     private Boolean expand;
     @JsonProperty
-    private String label;
-    @JsonProperty
     private final Boolean hasArrow = true;
     @JsonProperty
     private final String type = "line";

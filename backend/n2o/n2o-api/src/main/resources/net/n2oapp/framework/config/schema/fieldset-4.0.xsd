@@ -162,27 +162,27 @@
                 </xs:attribute>
                 <xs:attribute name="can-remove-first" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Удаление первого элемента.</xs:documentation>
+                        <xs:documentation>Возможность удаления первого элемента.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="can-add" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Добавление новых филдсетов.</xs:documentation>
+                        <xs:documentation>Возможность добавления новых филдсетов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="can-remove" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Удаление новых филдсетов.</xs:documentation>
+                        <xs:documentation>Возможность удаления новых филдсетов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="can-remove-all" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Удаление всех добавленных филдсетов.</xs:documentation>
+                        <xs:documentation>Возможность удаления всех добавленных филдсетов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="can-copy" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Копирование филдсета в новый (вместе с данными).</xs:documentation>
+                        <xs:documentation>Возможность копирования филдсета в новый (вместе с данными).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
