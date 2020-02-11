@@ -140,7 +140,7 @@ public class SpringRestDataProviderEngineTest {
         actionEngine.invoke(dataProvider, request);
         assertThat(restTemplate.getQuery(), is("http://www.example.org/findAll;id;name;join=table2;join=table3?id=123&name=test&sort=id,ASC&sort=name,DESC&offset=2&limit=1&count=3&page=1"));
         Map<String, Object> body = (Map<String, Object>) restTemplate.getRequestBody();
-        assertThat(body.get("id"), is(123));
+        assertThat(body.get("id"), is("123"));
         assertThat(body.get("name"), is("test"));
 
         restTemplate = new TestRestTemplate("");
@@ -173,7 +173,7 @@ public class SpringRestDataProviderEngineTest {
         assertThat(body.get("count"), is(3));
         assertThat(body.get("name"), is("test"));
         assertThat(body.get("nameSortDir"), is("DESC"));
-        assertThat(body.get("id"), is(123));
+        assertThat(body.get("id"), is("123"));
         assertThat(body.get("page"), is(1));
     }
 
@@ -293,9 +293,10 @@ public class SpringRestDataProviderEngineTest {
         request.put("space", " ");
         request.put("cyrillic", "ы");
         request.put("quote", "\"");
-        request.put("filters", Arrays.asList("f1={space}", "f2={cyrillic}", "f3={quote}"));
+        request.put("param", "{abc}");
+        request.put("filters", Arrays.asList("f1={space}", "f2={cyrillic}", "f3={quote}", "f4={param}"));
 
         actionEngine.invoke(dataProvider, request);
-        assertThat(restClient.getQuery(), is("http://localhost:8080/test/path?f1=%20&f2=%D1%8B&f3=%22"));
+        assertThat(restClient.getQuery(), is("http://localhost:8080/test/path?f1=%20&f2=%D1%8B&f3=%22&f4=%7Babc%7D"));
     }
 }

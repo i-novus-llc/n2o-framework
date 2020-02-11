@@ -6,9 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import org.apache.commons.io.IOUtils;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
@@ -16,7 +19,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BinaryOperator;
 
 import static net.n2oapp.framework.engine.data.QueryUtil.normalizeQueryParams;
@@ -152,16 +159,24 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         if (!str.contains("{") || !str.contains("}")) return str;
         String paramKey = str.substring(str.indexOf('{') + 1, str.indexOf('}'));
         if (!(args.get(paramKey) instanceof List)) {
-            return replacePlaceholder(str, paramKey, args.get(paramKey));
+            args.put(paramKey, resolveType(str, args.get(paramKey)));
+            return str;
         }
-        Optional<String> result = ((List<String>) args.get(paramKey))
+        List<String> params = ((List<String>) args.get(paramKey));
+        AtomicInteger i = new AtomicInteger();
+        Optional<String> result = params
                 .stream()
-                .map(item -> replacePlaceholder(str, paramKey, item))
+                .map(item -> {
+                            String newParamKey = paramKey + i.incrementAndGet();
+                            args.put(newParamKey, resolveType(str, item));
+                            return str.replace(Placeholders.ref(paramKey), Placeholders.ref(newParamKey));
+                        }
+                )
                 .reduce(reducer);
         return result.orElse("");
     }
 
-    private String replacePlaceholder(String target, String key, Object value) {
+    private String resolveType(String target, Object value) {
         if (value == null)
             return target;
         String result;
@@ -175,7 +190,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
             }
         }
 
-        return target.replace("{" + key + "}", result);
+        return result;
     }
 
     private static String getURL(String host, Integer port, String url) {
