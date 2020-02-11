@@ -7,7 +7,6 @@ import find from 'lodash/find';
 import reduce from 'lodash/reduce';
 import split from 'lodash/split';
 import isEqual from 'lodash/isEqual';
-import { compose, lifecycle, withState } from 'recompose';
 
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
 
@@ -54,8 +53,7 @@ class InputContent extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { paddingTextArea } = this.state;
-    if (!isEqual(prevProps._selectedList, this.props._selectedList)) {
+    if (!isEqual(prevProps.selected, this.props.selected)) {
       this.calcPaddingTextarea();
     }
   }
@@ -143,6 +141,7 @@ class InputContent extends React.Component {
       setRef,
       tags,
     } = this.props;
+    const { paddingTextArea } = this.state;
     /**
      * Обработчик изменения инпута при нажатии на клавишу
      * @param e - событие изменения
@@ -280,7 +279,7 @@ class InputContent extends React.Component {
               })}
               autoFocus={autoFocus}
               style={{
-                ...this.state.paddingTextArea,
+                ...paddingTextArea,
               }}
             />
           </React.Fragment>
@@ -341,20 +340,5 @@ InputContent.defaultProps = {
   collapseSelected: true,
   autoFocus: false,
 };
-
-// export default compose(
-//   withState('selectedList', 'setList', false),
-//   lifecycle({
-//     componentWillUnmount() {
-//       this.props.setList(false);
-//     },
-//     componentDidMount() {
-//       const selectedList = ReactDOM.findDOMNode(
-//         this.props._selectedList
-//       ).querySelectorAll('.selected-item');
-//       this.props.setList(selectedList);
-//     },
-//   })
-// )(InputContent);
 
 export default InputContent;
