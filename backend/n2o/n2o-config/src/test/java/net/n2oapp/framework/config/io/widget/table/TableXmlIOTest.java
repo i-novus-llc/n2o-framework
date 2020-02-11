@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.io.widget;
+package net.n2oapp.framework.config.io.widget.table;
 
 import net.n2oapp.framework.config.io.action.CloseActionElementIOV1;
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
@@ -6,7 +6,6 @@ import net.n2oapp.framework.config.io.control.plain.InputTextIOv2;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.io.toolbar.SubmenuIO;
-import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
 import net.n2oapp.framework.config.io.widget.table.cell.*;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
