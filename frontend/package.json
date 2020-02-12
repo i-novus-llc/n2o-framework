@@ -22,13 +22,13 @@
     "compile:dist:watch": "lerna run --stream --scope n2o-framework compile:dist:watch",
     "compile:es:watch": "lerna run --stream --scope n2o-framework compile:es:watch",
     "compile:lib:watch": "lerna run --stream --scope n2o-framework compile:lib:watch",
-    "compile:watch": "concurrently --kill-others \"npm run compile:es:watch\" \"npm run compile:lib:watch\" \"npm run compile:dist:watch\"",
+    "compile:watch": "concurrently --kill-others \"yarn run compile:es:watch\" \"yarn run compile:lib:watch\" \"yarn run compile:dist:watch\"",
     "dev": "cross-env NODE_OPTIONS=\"--max-old-space-size=4096\" lerna run --scope n2o-framework storybook",
     "docs": "lerna run --scope n2o-framework esdoc && lerna run --scope n2o-framework build-storybook",
     "esdoc:n2o": "lerna run --scope n2o-framework esdoc",
     "eslint": "lerna run --scope n2o-framework eslint",
     "eslint:generate": "lerna run --scope n2o-framework eslint:generate",
-    "prepare": "lerna bootstrap --no-ci",
+    "prepare": "lerna bootstrap --no-ci --registry=https://registry.npmjs.org",
     "prettier:n2o": "lerna run --scope n2o-framework prettier",
     "release": "lerna publish from-package --no-git-tag-version --no-push --yes",
     "start:demo": "lerna run --scope n2o-demo-client start",
@@ -51,6 +51,7 @@
     "lint-staged": "^7.2.2",
     "mocha": "^3.4.2",
     "node-sass": "^4.9.2",
+    "npm-cli-login": "^0.1.1",
     "npm-registry-client": "^8.6.0",
     "prettier": "1.16.4",
     "react-addons-test-utils": "15.4.2",
@@ -64,13 +65,14 @@
   },
   "lint-staged": {
     "n2o/src/**/*.{js,jsx}": [
-      "npm run prettier:n2o",
+      "yarn run prettier:n2o",
       "git add",
-      "npm run test:n2o:hook"
+      "yarn run test:n2o:hook"
     ]
   },
   "dependencies": {
     "@babel/core": "^7.7.2",
-    "babel-loader": "^8.0.6"
+    "babel-loader": "^8.0.6",
+    "yarn": "^1.22.0"
   }
 }
