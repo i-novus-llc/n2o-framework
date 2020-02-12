@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
@@ -12,39 +11,29 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
-import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
-import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
-import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
+import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
-import net.n2oapp.framework.api.metadata.meta.control.FetchValueDependency;
-import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
-import net.n2oapp.framework.api.metadata.meta.control.Field;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
-import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
-import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
+import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -195,41 +184,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     protected void compileFilters(S source, CompileProcessor p) {
         FiltersScope filtersScope = p.getScope(FiltersScope.class);
         if (filtersScope != null) {
@@ -241,14 +195,14 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             filters.forEach(f -> {
                 Filter filter = new Filter();
                 filter.setFilterId(f.getFilterField());
-                filter.setParam(widgetScope.getClientWidgetId() + "_" + f.getParam());
-                filter.setReloadable(true);
+                filter.setParam(widgetScope.getWidgetId() + "_" + f.getParam());
+                filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
                 link.setSubModelQuery(subModelQuery);
                 link.setValue(p.resolveJS(Placeholders.ref(f.getFilterField())));
                 filter.setLink(link);
-                filtersScope.getFilters().add(filter);
+                filtersScope.addFilter(filter);
             });
         }
     }
