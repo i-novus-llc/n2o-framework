@@ -110,6 +110,7 @@ const enhance = compose(
     searchWidgetId: get(props, 'metadata.searchWidgetId'),
     searchModelPrefix: get(props, 'metadata.searchModelPrefix'),
     searchModelKey: get(props, 'metadata.searchModelKey'),
+    searchBar: get(props, 'metadata.searchBar', {}),
   })),
   withHandlers({
     onSearch: ({
