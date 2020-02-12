@@ -31,8 +31,11 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
     @Test
     public void inlineMenu() {
         CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
+                "net/n2oapp/framework/config/metadata/header/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/header/headerWithMenu.header.xml").get(new HeaderContext("headerWithMenu"));
 
+        Assert.assertEquals("/pageRoute", header.getHomePageUrl());
+        Assert.assertEquals("10px", header.getStyle().get("marginLeft"));
         Assert.assertEquals(3, header.getItems().size());
         Assert.assertEquals(2, header.getItems().get(0).getSubItems().size());
         Assert.assertEquals("test2", header.getItems().get(0).getSubItems().get(0).getLabel());
@@ -43,6 +46,7 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
         Assert.assertEquals("#{username}", header.getExtraItems().get(0).getLabel());
         Assert.assertEquals("Test", header.getExtraItems().get(0).getSubItems().get(0).getLabel());
         Assert.assertEquals("https://ya.ru/", header.getExtraItems().get(0).getSubItems().get(0).getHref());
+        Assert.assertEquals("test-icon", header.getExtraItems().get(0).getSubItems().get(0).getIcon());
         Assert.assertEquals(HeaderItem.LinkType.outer, header.getExtraItems().get(0).getSubItems().get(0).getLinkType());
     }
 
@@ -50,8 +54,10 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
     public void externalMenu() {
         CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
                 "net/n2oapp/framework/config/metadata/header/headerWithExternalMenu.header.xml",
+                "net/n2oapp/framework/config/metadata/header/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/header/testMenu.menu.xml").get(new HeaderContext("headerWithExternalMenu"));
 
+        Assert.assertEquals("http://google.com/", header.getHomePageUrl());
         Assert.assertEquals(3, header.getItems().size());
         Assert.assertEquals(2, header.getItems().get(0).getSubItems().size());
         Assert.assertEquals("test2", header.getItems().get(0).getSubItems().get(0).getLabel());
@@ -63,6 +69,7 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
     @Test
     public void testBind() {
         CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
+                "net/n2oapp/framework/config/metadata/header/testPage.page.xml",
                 "net/n2oapp/framework/config/metadata/header/headerWithMenu.header.xml")
                 .bind().get(new HeaderContext("headerWithMenu"), null);
 

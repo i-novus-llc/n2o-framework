@@ -1,24 +1,32 @@
 {
-  "name": "n2o-simple-project",
-  "version": "7.4.0",
-  "private": true,
-  "homepage": ".",
-  "dependencies": {
-    "n2o": "^7.3.0",
-    "n2o-auth": "^7.3.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject"
-  },
-  "proxy": {
-    "/n2o": {
-      "target": "http://172.16.1.130:7777/",
-      "changeOrigin": true
-    }
-  }
+	"name": "n2o-simple-project",
+	"version": "7.5.0",
+	"private": true,
+	"homepage": ".",
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"eject": "react-scripts eject"
+	},
+	"dependencies": {
+		"n2o-auth": "^7.5.0",
+		"n2o-framework": "^7.5.0",
+		"react": "^16.4.1",
+		"react-dom": "^16.4.1"
+	},
+	"devDependencies": {
+		"react-scripts": "^3.1.1"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
 }

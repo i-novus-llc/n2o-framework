@@ -1,14 +1,19 @@
 package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
+import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
+import org.jdom.Namespace;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,13 +54,13 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         ModelLink testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
         testML.setValue("`testField`");
         //проверяем, что заменился линк
-        processor.resolveLink(testML);
+        BindLink resultLink = processor.resolveLink(testML);
 //        assertThat(testML.getBindLink(), nullValue());todo может можно оставить bindLink с конктантой?
-        assertThat(testML.getValue(), is("testValue"));
+        assertThat(resultLink.getValue(), is("testValue"));
         testML = new ModelLink(ReduxModel.RESOLVE, "widgetId");
-        processor.resolveLink(testML);
+        resultLink = processor.resolveLink(testML);
         //проверяем, что замена не произошла
-        assertThat(testML.getBindLink(), is("models.resolve['widgetId']"));
+        assertThat(resultLink.getBindLink(), is("models.resolve['widgetId']"));
     }
 
     @Test
@@ -104,7 +109,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         doAnswer(invocation -> {
             DataSet data = invocation.getArgument(1);
             data.put("name", "Joe");
-            return null;
+            return data;
         }).when(subModelsProcessor).executeSubModels(anyList(), any());
 
 
@@ -228,5 +233,31 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         assertThat(processor.resolveJS("{name}", String.class), is("`name`"));
         assertThat(processor.resolveJS("true", Boolean.class), is(true));
         assertThat(processor.resolveJS("false", Boolean.class), is(false));
+    }
+
+    @Test
+    public void testMapping() {
+        final Map<String, String> map = new HashMap<>();
+        CompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment());
+        ExtensionAttributesAware extAttributes = new ExtensionAttributesAware() {
+            @Override
+            public void setExtAttributes(Map<N2oNamespace, Map<String, String>> extAttributes) {
+            }
+
+            @Override
+            public Map<N2oNamespace, Map<String, String>> getExtAttributes() {
+                Map<N2oNamespace, Map<String, String>> attrs = new HashMap<>();
+                attrs.put(new N2oNamespace(Namespace.getNamespace("test")), map);
+                return attrs;
+            }
+        };
+
+        map.put("a", "1");
+        map.put("b", "true");
+        map.put("c", "string");
+        Map<String, Object> result = processor.mapAttributes(extAttributes);
+        assertThat(result.get("a"), is(1));
+        assertThat(result.get("b"), is(true));
+        assertThat(result.get("c"), is("string"));
     }
 }

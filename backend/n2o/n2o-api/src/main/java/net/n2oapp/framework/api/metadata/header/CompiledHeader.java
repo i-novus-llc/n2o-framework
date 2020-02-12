@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Map;
+
 /**
  * Собранный хедер
  */
@@ -15,6 +17,8 @@ public class CompiledHeader extends Header {
     @JsonProperty
     private String brandImage;
     @JsonProperty
+    private String homePageUrl;
+    @JsonProperty
     private String activeId;
     @JsonProperty
     private String color;
@@ -24,6 +28,8 @@ public class CompiledHeader extends Header {
     private Boolean collapsed;
     @JsonProperty
     private String className;
+    @JsonProperty
+    private Map<String, String> style;
     @JsonProperty
     private Boolean search;
     private String welcomePage;

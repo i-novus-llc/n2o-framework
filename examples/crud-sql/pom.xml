@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <n2o.version>7.4.0-SNAPSHOT</n2o.version>
+        <n2o.version>7.5.0-SNAPSHOT</n2o.version>
     </properties>
 
     <dependencies>
@@ -31,12 +31,6 @@
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-web</artifactId>
-            <version>${n2o.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-engine-sql</artifactId>
             <version>${n2o.version}</version>
         </dependency>
 

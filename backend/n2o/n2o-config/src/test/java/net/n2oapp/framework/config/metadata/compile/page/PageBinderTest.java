@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
@@ -138,8 +138,8 @@ public class PageBinderTest extends SourceCompileTestBase {
         List<String> ids = new ArrayList<>();
         ids.add("1");
         ids.add("2");
-        data.put("testSubModels_w1_testMultiUrl_id", ids);
-        data.put("testSubModels_w1_testSingleUrl_id", "1");
+        data.put("w1_testMultiUrl_id", ids);
+        data.put("w1_testSingleUrl_id", "1");
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModels.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testModel.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml")
@@ -161,8 +161,8 @@ public class PageBinderTest extends SourceCompileTestBase {
         //multi поле по умолчанию
         assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w2'].testMulti").getValue()).get(0)).getValues().get("name"), is("test1"));
 
-        data.put("testSubModels_w0_testSingleDefault_id", "2");
-        data.put("testSubModels_w0_testMultiDefault_id", Arrays.asList("1", "2"));
+        data.put("w0_testSingleDefault_id", "2");
+        data.put("w0_testMultiDefault_id", Arrays.asList("1", "2"));
         page = bind("net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModels.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testModel.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml")

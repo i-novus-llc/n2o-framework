@@ -14,10 +14,7 @@ import org.mozilla.javascript.ast.Name;
 import org.mozilla.javascript.ast.NodeVisitor;
 import org.mozilla.javascript.ast.PropertyGet;
 
-import javax.script.Bindings;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import javax.script.*;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -36,6 +33,7 @@ public class ScriptProcessor {
 
     private final static ScriptEngineManager engineMgr = new ScriptEngineManager();
     private static volatile ScriptEngine scriptEngine;
+    private static String MOMENT_JS;
 
 
     @Deprecated
@@ -97,14 +95,14 @@ public class ScriptProcessor {
     public static String resolveFunction(String text) {
         if (text == null)
             return null;
-        String trimmedText = text.trim();
+        String trimmedText = StringUtils.simplify(text);
         if (trimmedText.startsWith("(function")) {
             return text;
         }
         if (trimmedText.startsWith("function")) {
             return String.format("(%s)()", trimmedText);
         }
-        if (trimmedText.contains("return")) {
+        if (trimmedText.contains("return ")) {
             return String.format("(function(){%s})()", trimmedText);
         } else {
             return trimmedText;
@@ -522,7 +520,9 @@ public class ScriptProcessor {
     @SuppressWarnings("unchecked")
     public static <T> T eval(String script, DataSet dataSet) throws ScriptException {
         ScriptEngine scriptEngine = getScriptEngine();
+        Bindings global = scriptEngine.getContext().getBindings(ScriptContext.GLOBAL_SCOPE);
         Bindings bindings = scriptEngine.createBindings();
+        bindings.putAll(global);
         for (String key : dataSet.keySet()) {
             Object var = dataSet.get(key);
             if (var instanceof Collection) {
@@ -530,6 +530,9 @@ public class ScriptProcessor {
             } else {
                 bindings.put(key, var);
             }
+        }
+        if (isNeedMoment(script)) {
+            scriptEngine.eval(MOMENT_JS, bindings);
         }
         return (T) scriptEngine.eval(script, bindings);
     }
@@ -612,18 +615,20 @@ public class ScriptProcessor {
     private static synchronized void createScriptEngine() {
         if (scriptEngine == null) {
             scriptEngine = engineMgr.getEngineByName("JavaScript");
+            Bindings bindings = scriptEngine.createBindings();
             URL momentUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/moment.js");
             URL lodashUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/lodash.js");
             URL numeralUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/numeral.js");
             URL n2oUrl = ScriptProcessor.class.getClassLoader().getResource("META-INF/resources/js/n2o.js");
             try {
-                scriptEngine.eval(IOUtils.toString(momentUrl, "UTF-8"));
-                scriptEngine.eval(IOUtils.toString(lodashUrl, "UTF-8"));
-                scriptEngine.eval(IOUtils.toString(numeralUrl, "UTF-8"));
-                scriptEngine.eval(IOUtils.toString(n2oUrl, "UTF-8"));
+                MOMENT_JS = IOUtils.toString(momentUrl, "UTF-8");
+                scriptEngine.eval(IOUtils.toString(lodashUrl, "UTF-8"), bindings);
+                scriptEngine.eval(IOUtils.toString(numeralUrl, "UTF-8"), bindings);
+                scriptEngine.eval(IOUtils.toString(n2oUrl, "UTF-8"), bindings);
             } catch (IOException | ScriptException e) {
                 throw new N2oException(e);
             }
+            scriptEngine.getContext().setBindings(bindings, ScriptContext.GLOBAL_SCOPE);
         }
     }
 

@@ -10,12 +10,46 @@
             <xs:element name="nav" type="menu:menuDefinition" minOccurs="1" maxOccurs="1"/>
             <xs:element name="extra-menu" type="menu:menuDefinition" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
-        <xs:attribute name="home-page-id" type="xs:string" use="optional"/>
-        <xs:attribute name="brand-name" type="xs:string" use="optional"/>
-        <xs:attribute name="logo-src" type="xs:string" use="optional"/>
-        <xs:attribute name="src" use="optional"/>
-        <xs:attribute name="class" use="optional"/>
-        <xs:attribute name="color" use="optional"/>
+        <xs:attribute name="welcome-page-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Ссылка на главную страницу</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="home-page-url" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Домашняя страница</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="brand-name" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Заголовок хедера</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="logo-src" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Адрес ресурса с логотипом</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" use="optional">
+            <xs:annotation>
+                <xs:documentation>Реализация хедера</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" use="optional">
+            <xs:annotation>
+                <xs:documentation>Список CSS свойств</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" use="optional">
+            <xs:annotation>
+                <xs:documentation>Стиль хедера</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="color" use="optional">
+            <xs:annotation>
+                <xs:documentation>Цветовая схема хедера</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
 </xs:schema>

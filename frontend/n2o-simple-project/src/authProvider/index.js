@@ -1,10 +1,14 @@
-import { map, values, intersection, isEmpty, indexOf } from 'lodash';
+import map from 'lodash/map';
+import values from 'lodash/values';
+import intersection from 'lodash/intersection';
+import isEmpty from 'lodash/isEmpty';
+import indexOf from 'lodash/indexOf';
 import {
   SECURITY_LOGIN,
   SECURITY_LOGOUT,
   SECURITY_ERROR,
   SECURITY_CHECK,
-} from 'n2o/lib/core/auth/authTypes';
+} from 'n2o-framework/lib/core/auth/authTypes';
 
 function checkPermission(cfg = {}, user = {}) {
   if (cfg.denied) return false;

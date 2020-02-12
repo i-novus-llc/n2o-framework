@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <panel place="right">
+            <table>
+                <rows>
+                    <click enabled="false">
+                        <close/>
+                    </click>
+                </rows>
+            </table>
+            <table>
+                <rows>
+                    <click enabled="true">
+                        <close/>
+                    </click>
+                </rows>
+            </table>
+            <table>
+                <rows>
+                    <click enabled="{false}">
+                        <close/>
+                    </click>
+                </rows>
+            </table>
+            <table>
+                <rows>
+                    <click enabled="{true}">
+                        <close/>
+                    </click>
+                </rows>
+            </table>
+            <table>
+                <rows>
+                    <click enabled="{1==1}">
+                        <close/>
+                    </click>
+                </rows>
+            </table>
+            <table>
+                <rows>
+                    <click enabled="`false`">
+                        <close/>
+                    </click>
+                </rows>
+            </table>
+            <table>
+                <rows>
+                    <click enabled="`true`">
+                        <close/>
+                    </click>
+                </rows>
+            </table>
+            <table>
+                <rows>
+                    <click enabled="`1==1`">
+                        <close/>
+                    </click>
+                </rows>
+            </table>
+            <table>
+                <actions>
+                    <action id="test">
+                        <close/>
+                    </action>
+                </actions>
+                <rows>
+                    <click action-id="test"/>
+                </rows>
+            </table>
+            <table>
+                <rows>
+                    <click>
+                        <a href="https://www.google.com/?q=:q">
+                            <query-param name="q" value="{id}"/>
+                        </a>
+                    </click>
+                </rows>
+            </table>
+        </panel>
+    </regions>
+</page>

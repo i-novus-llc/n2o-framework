@@ -1,10 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.LineRegion;
+import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -47,37 +48,34 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
 
     @Test
     public void layout() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPage.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPage.page.xml")
                 .get(new PageContext("testStandardPage"));
 
         assertThat(page.getId(), is("testRoute"));
         assertThat(page.getObject().getId(), is("utObjectField"));
 
-        assertThat(page.getLayout().getSrc(), is("SingleLayout"));
-        assertThat(page.getLayout().getProperties(), hasEntry("attr1", "val1"));
-        assertThat(page.getLayout().getRegions().get("single").size(), is(3));
-        assertThat(page.getLayout().getRegions().get("left").size(), is(1));
-        assertThat(page.getLayout().getRegions().size(), is(2));
-        assertThat(page.getLayout().getRegions().get("left").get(0).getSrc(), is("TabsRegion"));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("ListRegion"));
-        assertThat(page.getLayout().getRegions().get("single").get(1).getSrc(), is("PanelRegion"));
-        assertThat(page.getLayout().getRegions().get("single").get(2).getSrc(), is("NoneRegion"));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getClass(), is(equalTo(LineRegion.class)));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("ListRegion"));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getProperties().get("attr1"), is("testAttribute"));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getItems().get(0).getProperties().get("attr1"), is("htmlTestAttribute"));
+        assertThat(page.getSrc(), is("StandardPage"));
+        assertThat(page.getRegions().get("single").size(), is(3));
+        assertThat(page.getRegions().get("left").size(), is(1));
+        assertThat(page.getRegions().size(), is(2));
+        assertThat(page.getRegions().get("left").get(0).getSrc(), is("TabsRegion"));
+        assertThat(page.getRegions().get("single").get(0).getSrc(), is("ListRegion"));
+        assertThat(page.getRegions().get("single").get(1).getSrc(), is("PanelRegion"));
+        assertThat(((PanelRegion) page.getRegions().get("single").get(1)).getStyle().get("width"), is("300px"));
+        assertThat(((PanelRegion) page.getRegions().get("single").get(1)).getStyle().get("marginLeft"), is("10px"));
+        assertThat(page.getRegions().get("single").get(2).getSrc(), is("NoneRegion"));
+        assertThat(page.getRegions().get("single").get(0).getClass(), is(equalTo(LineRegion.class)));
+        assertThat(page.getRegions().get("single").get(0).getSrc(), is("ListRegion"));
+        assertThat(page.getRegions().get("single").get(0).getProperties().get("attr1"), is("testAttribute"));
+        assertThat(page.getRegions().get("single").get(0).getItems().get(0).getProperties().get("attr1"), is("htmlTestAttribute"));
 
         assertThat(page.getWidgets().size(), is(2));
-        assertThat(page.getWidgets().get("testRoute_w0").getProperties().get("attr1"), is("htmlTestAttribute"));
-        assertThat(page.getWidgets().get("testRoute_w0").getName(), is("test1"));
-        assertThat(page.getWidgets().get("testRoute_w1").getName(), is("test2"));
+        assertThat(page.getWidgets().get("testRoute_line1").getProperties().get("attr1"), is("htmlTestAttribute"));
+        assertThat(page.getWidgets().get("testRoute_line1").getName(), is("test1"));
+        assertThat(page.getWidgets().get("testRoute_line2").getName(), is("test2"));
 
-        assertThat(page.getToolbar().get("tbTopLeft"), notNullValue());
-        assertThat(page.getToolbar().get("tbTopLeft").get(0).getButtons().get(0).getActionId(), is("close"));
-        assertThat(page.getToolbar().get("tbTopLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
-        assertThat(page.getToolbar().get("tbTopLeft").get(0).getButtons().get(1).getSubMenu().get(0).getActionId(), is("test2"));
-        assertThat(page.getToolbar().get("tbTopLeft").get(1).getButtons().get(0).getActionId(), is("test3"));
-        assertThat(page.getToolbar().get("tbTopLeft").get(1).getButtons().get(1).getSubMenu().get(0).getActionId(), is("test4"));
+        assertThat(page.getToolbar().get("TopLeft"), notNullValue());
+        assertThat(page.getToolbar().get("TopLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
         assertThat(page.getActions().containsKey("close"), is(true));
 
     }
@@ -85,7 +83,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     @Test
     public void routes() {
         PageContext context = new PageContext("testRoutes", "/page");
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testRoutes.page.xml")
                 .get(context);
         assertThat(page.getId(), is("page"));
@@ -124,16 +122,16 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
 
     @Test
     public void masterDetails() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.page.xml")
                 .get(new PageContext("testStandardPageDependency"));
         assertThat(page.getWidgets().size(), is(3));
         assertThat(page.getWidgets().get("testStandardPageDependency_master"), notNullValue());
         assertThat(page.getWidgets().get("testStandardPageDependency_detail"), notNullValue());
-        assertThat(page.getWidgets().get("testStandardPageDependency_w0"), notNullValue());
+        assertThat(page.getWidgets().get("testStandardPageDependency_panel1"), notNullValue());
 
         assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getFetch().get(0).getOn(), is("models.resolve['testStandardPageDependency_master']"));
-        assertThat(page.getWidgets().get("testStandardPageDependency_w0").getDependency().getFetch().get(0).getOn(), is("models.resolve['testStandardPageDependency_detail']"));
+        assertThat(page.getWidgets().get("testStandardPageDependency_panel1").getDependency().getFetch().get(0).getOn(), is("models.resolve['testStandardPageDependency_detail']"));
 
         List<Filter> preFilters = page.getWidgets().get("testStandardPageDependency_detail").getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
@@ -145,18 +143,18 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(((QueryContext) route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail", CompiledQuery.class)).getFilters().size(), is(1));
         assertThat(((QueryContext) route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail", CompiledQuery.class)).getFilters().get(0).getParam(), is("testStandardPageDependency_master_id"));
 
-        preFilters = page.getWidgets().get("testStandardPageDependency_w0").getFilters();
+        preFilters = page.getWidgets().get("testStandardPageDependency_panel1").getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
         assertThat(preFilters.get(0).getParam(), is("parent_id"));
         assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testStandardPageDependency_detail'].parent.id"));
         assertThat(preFilters.get(0).getLink().getFieldId(), is("parent.id"));
-        dataProvider = page.getWidgets().get("testStandardPageDependency_w0").getDataProvider();
+        dataProvider = page.getWidgets().get("testStandardPageDependency_panel1").getDataProvider();
         assertThat(dataProvider.getQueryMapping().get("parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_detail'].parent.id"));
 
         assertThat(page.getRoutes().getQueryMapping().size(), is(6));
 
         //Условия видимости виджетов
-        assertThat(page.getWidgets().get("testStandardPageDependency_w0").getVisible(), is(true));
+        assertThat(page.getWidgets().get("testStandardPageDependency_panel1").getVisible(), is(true));
         assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getVisible().get(0).getOn(), is("models.resolve['testStandardPageDependency_master']"));
         assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getVisible().get(0).getCondition(), is("parent.id == 1"));
 
@@ -164,10 +162,10 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
 
     @Test
     public void preFilters() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testWidgetPrefilters.page.xml")
                 .get(new PageContext("testWidgetPrefilters"));
-        assertThat(page.getRoutes().getQueryMapping().size(), is(10));
+        assertThat(page.getRoutes().getQueryMapping().size(), is(11));
 
         WidgetDataProvider dataProvider = page.getWidgets().get("testWidgetPrefilters_detail1").getDataProvider();
         List<Filter> preFilters = page.getWidgets().get("testWidgetPrefilters_detail1").getFilters();
@@ -176,21 +174,21 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testWidgetPrefilters_master1'].id"));
         assertThat(preFilters.get(0).getLink().getFieldId(), is("id"));
         assertThat(preFilters.get(1).getFilterId(), is("name"));
-        assertThat(preFilters.get(1).getParam(), is("testWidgetPrefilters_detail1_name"));
+        assertThat(preFilters.get(1).getParam(), is("nameParam"));
         assertThat(preFilters.get(1).getLink().getBindLink(), nullValue());
         assertThat(preFilters.get(1).getLink().getValue(), is("test"));
         assertThat(preFilters.get(2).getFilterId(), is("genders*.id"));
         assertThat(preFilters.get(2).getParam(), is("testWidgetPrefilters_detail1_genders_id"));
         assertThat(preFilters.get(2).getLink().getValue(), is(Arrays.asList(1, 2)));
         assertThat(dataProvider.getPathMapping().get("testWidgetPrefilters_master1_id").getBindLink(), is("models.resolve['testWidgetPrefilters_master1'].id"));
-        assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail1_name").getBindLink(), nullValue());
-        assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail1_name").getValue(), is("test"));
+        assertThat(dataProvider.getQueryMapping().get("nameParam").getBindLink(), nullValue());
+        assertThat(dataProvider.getQueryMapping().get("nameParam").getValue(), is("test"));
         assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail1_genders_id").getBindLink(), nullValue());
         assertThat(dataProvider.getQueryMapping().get("testWidgetPrefilters_detail1_genders_id").getValue(), is(Arrays.asList(1, 2)));
         QueryContext queryCompileContext = (QueryContext) route("/testWidgetPrefilters/master1/:testWidgetPrefilters_master1_id/detail1", CompiledQuery.class);
         assertThat(queryCompileContext.getFilters().size(), is(3));
         assertThat(queryCompileContext.getFilters().get(0).getParam(), is("testWidgetPrefilters_master1_id"));
-        assertThat(queryCompileContext.getFilters().get(1).getParam(), is("testWidgetPrefilters_detail1_name"));
+        assertThat(queryCompileContext.getFilters().get(1).getParam(), is("nameParam"));
         assertThat(queryCompileContext.getFilters().get(2).getParam(), is("testWidgetPrefilters_detail1_genders_id"));
 
         dataProvider = page.getWidgets().get("testWidgetPrefilters_detail2").getDataProvider();
@@ -226,21 +224,30 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
      */
     @Test
     public void testChainFetching() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testChainWidgetFetching.page.xml")
                 .get(new PageContext("testChainWidgetFetching"));
 
-        assertThat(page.getWidgets().get("__form").getDataProvider().getPathMapping().size(), is(1));
-        assertThat(page.getWidgets().get("__form").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['__table'].id"));
+        assertThat(page.getWidgets().get("form").getDataProvider().getPathMapping().size(), is(1));
+        assertThat(page.getWidgets().get("form").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['table'].id"));
 
-        assertThat(page.getWidgets().get("__form2").getDataProvider().getPathMapping().size(), is(2));
-        assertThat(page.getWidgets().get("__form2").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['__table'].id"));
-        assertThat(page.getWidgets().get("__form2").getDataProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['__form'].id"));
+        assertThat(page.getWidgets().get("form2").getDataProvider().getPathMapping().size(), is(2));
+        assertThat(page.getWidgets().get("form2").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['table'].id"));
+        assertThat(page.getWidgets().get("form2").getDataProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['form'].id"));
 
-        assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().size(), is(3));
-        assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['__table'].id"));
-        assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['__form'].id"));
-        assertThat(page.getWidgets().get("__form3").getDataProvider().getPathMapping().get("param3").getBindLink(), is("models.resolve['__form2'].id"));
+        assertThat(page.getWidgets().get("form3").getDataProvider().getPathMapping().size(), is(3));
+        assertThat(page.getWidgets().get("form3").getDataProvider().getPathMapping().get("param1").getBindLink(), is("models.resolve['table'].id"));
+        assertThat(page.getWidgets().get("form3").getDataProvider().getPathMapping().get("param2").getBindLink(), is("models.resolve['form'].id"));
+        assertThat(page.getWidgets().get("form3").getDataProvider().getPathMapping().get("param3").getBindLink(), is("models.resolve['form2'].id"));
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void validateObjectIdForMainWidget() {
+        PageContext validateObjectIdForMainWidget = new PageContext("testStandardPageObject");
+        validateObjectIdForMainWidget.setSubmitOperationId("test");
+        compile(                "net/n2oapp/framework/config/metadata/compile/page/testStandardPageObject.page.xml")
+                .get(validateObjectIdForMainWidget);
 
     }
 }

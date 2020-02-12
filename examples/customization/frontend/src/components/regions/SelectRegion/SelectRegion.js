@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { compose } from "recompose";
-import { FormGroup, Label, Input } from "reactstrap";
-import { isEmpty, filter, map, pick, difference, pullAll, first } from "lodash";
+import FormGroup from "reactstrap/lib/FormGroup";
+import Label from "reactstrap/lib/Label";
+import Input from "reactstrap/lib/Input";
 
-import withWidgetProps from "n2o/lib/components/regions/withWidgetProps";
-import Factory from "n2o/lib/core/factory/Factory";
-import { WIDGETS } from "n2o/lib/core/factory/factoryLevels";
-import SecurityCheck from "n2o/lib/core/auth/SecurityCheck";
+import withWidgetProps from "n2o-framework/lib/components/regions/withWidgetProps";
+import Factory from "n2o-framework/lib/core/factory/Factory";
+import { WIDGETS } from "n2o-framework/lib/core/factory/factoryLevels";
 
 /**
  *

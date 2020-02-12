@@ -56,7 +56,7 @@ public class N2oValidationModule extends N2oModule {
 
     @Override
     public void processQuery(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        if (requestInfo.isValidationEnable() && requestInfo.getSize() != 1) {
+        if (requestInfo.isValidationEnable()) {
             List<FailInfo> fails = processor.validate(buildInfo(requestInfo, requestInfo.getData()), beforeQuery);
             prepareResponse(fails, responseInfo);
         }
@@ -65,7 +65,7 @@ public class N2oValidationModule extends N2oModule {
     @Override
     public void processQueryResult(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, CollectionPage<DataSet> page) {
         final Collection<DataSet> list = page.getCollection();
-        if (requestInfo.isValidationEnable() && !list.isEmpty() && requestInfo.getSize() == 1) {
+        if (requestInfo.isValidationEnable() && !list.isEmpty()) {
             List<FailInfo> fails = processor.validate(buildInfo(requestInfo, list.iterator().next()), afterSuccessQuery);
             prepareResponse(fails, responseInfo);
         }
@@ -87,7 +87,7 @@ public class N2oValidationModule extends N2oModule {
         Map<String, String> paramsMap = requestInfo.getQuery().getParamToFilterIdMap();
         for (String key : dataSet.keySet()) {
             if (paramsMap.containsKey(key)) {
-                if (DataSet.isSpreadKey(paramsMap.get(key)) && !(result.get(key) instanceof Collection))
+                if (DataSet.isSpreadKey(paramsMap.get(key)) && !(dataSet.get(key) instanceof Collection))
                     result.put(paramsMap.get(key), Collections.singletonList(dataSet.get(key)));
                 else
                     result.put(paramsMap.get(key), dataSet.get(key));

@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.action;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.aware.SrcAware;
+import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 
 import java.util.Map;
 
@@ -12,18 +12,19 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class AbstractAction<O extends ActionOptions> implements Action {
-    @JsonProperty
-    private String id;
-    @JsonProperty
-    private String src;
-    @JsonProperty
-    private O options;
-    //for PropertiesAware
-    private Map<String, Object> properties;
+public abstract class AbstractAction<P extends ActionPayload, M extends MetaSaga> implements Action {
 
+    @JsonProperty
+    private String type;
+    @JsonProperty
+    private P payload;
+    @JsonProperty
+    private M meta;
 
-    public AbstractAction(O options) {
-        this.options = options;
+    protected Map<String, Object> properties;
+
+    public AbstractAction(P payload, M meta) {
+        this.payload = payload;
+        this.meta = meta;
     }
 }

@@ -4,6 +4,7 @@ import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.QueryProcessor;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
@@ -29,8 +30,18 @@ public abstract class DefaultValuesController extends GetController {
 
     @Override
     public GetDataResponse execute(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        DataSet defaultModel = extractDefaultModel(requestInfo, responseInfo);
-        return new GetDataResponse(defaultModel, requestInfo.getCriteria(), responseInfo, requestInfo.getSuccessAlertWidgetId());
+        try {
+            DataSet defaultModel = extractDefaultModel(requestInfo, responseInfo);
+            return new GetDataResponse(defaultModel, requestInfo.getCriteria(), responseInfo, requestInfo.getSuccessAlertWidgetId());
+        } catch (N2oException e) {
+            String widgetId = requestInfo.getFailAlertWidgetId() == null
+                    ? requestInfo.getMessagesForm()
+                    : requestInfo.getFailAlertWidgetId();
+            GetDataResponse response = new GetDataResponse(getErrorMessageBuilder().buildMessages(e), widgetId);
+            response.setStatus(e.getHttpStatus());
+            return response;
+        }
+
     }
 
     protected DataSet extractDefaultModel(QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {

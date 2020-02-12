@@ -52,23 +52,31 @@
   ],
   "extraItems": [
     {
-      "id": "text",
+      "id": "menuItem0",
       "label": "текст",
-      "type": "text"
+      "href": "/",
+      "linkType": "outer",
+      "type": "link"
     },
     {
       "id": "dropdown1",
       "label": "список №2",
       "type": "dropdown",
+      "href": "/",
+      "linkType": "inner",
       "subItems": [
         {
+          "id": "menuItem2",
           "label": "элемент списка №1",
           "href": "/",
+          "linkType": "outer",
           "type": "link"
         },
         {
+          "id": "menuItem3",
           "label": "элемент списка №2",
           "type": "link",
+          "linkType": "outer",
           "href": "/"
         }
       ]

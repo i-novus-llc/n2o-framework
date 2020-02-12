@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.global.view.ActionComponent;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class AbstractMenuItem extends ActionComponent implements ExtensionAttributesAware {
+public abstract class AbstractMenuItem extends ActionComponent implements ExtensionAttributesAware, NamespaceUriAware {
     private String description;
     private Boolean readonly;
     private String namespaceUri;
@@ -23,6 +24,7 @@ public abstract class AbstractMenuItem extends ActionComponent implements Extens
     private LabelType type;
     private String actionId;
     private String className;
+    private String style;
     private Map<String, Object> properties;
     private Boolean defaultAction;
     private Boolean primary;
@@ -36,6 +38,7 @@ public abstract class AbstractMenuItem extends ActionComponent implements Extens
     private RefreshPolity refreshPolity;
     private Map<N2oNamespace, Map<String, String>> extAttributes;
     private Boolean confirm;
+    private ConfirmType confirmType;
     private String confirmText;
     private String confirmTitle;
     private String confirmOkLabel;

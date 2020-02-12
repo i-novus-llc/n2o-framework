@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
@@ -14,20 +15,20 @@ import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.factory.MockMetadataFactory;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
 import net.n2oapp.framework.config.register.XmlInfo;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Properties;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 /**
@@ -71,6 +72,8 @@ public class N2oPipelineTest {
         when(env.getReadCompilePipelineFunction()).thenReturn(p -> p.read().transform().validate().cache().copy().compile().transform().cache().copy());
         when(env.getCompilePipelineFunction()).thenReturn(p -> p.compile().transform().cache());
         when(env.getBindPipelineFunction()).thenReturn(p -> p.bind());
+
+        when(env.getSystemProperties()).thenReturn(new SimplePropertyResolver(new Properties()));
     }
 
     @Test

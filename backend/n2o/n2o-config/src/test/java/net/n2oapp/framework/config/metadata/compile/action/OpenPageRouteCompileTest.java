@@ -1,8 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.action.link.LinkAction;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -41,13 +42,13 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      */
     @Test
     public void masterDetailWithPathParam() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
-        LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withParam");
-        assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/:detailId/open1"));
-        assertThat(action.getOptions().getPathMapping().get("detailId"), notNullValue());
-        assertThat(action.getOptions().getQueryMapping().isEmpty(), is(true));
+        LinkActionImpl action = (LinkActionImpl) page.getWidgets().get("test_detail").getActions().get("withParam");
+        assertThat(action.getUrl(), is("/test/master/:masterId/detail/:detailId/open1"));
+        assertThat(action.getPathMapping().get("detailId"), notNullValue());
+        assertThat(action.getQueryMapping().isEmpty(), is(true));
 
     }
 
@@ -57,12 +58,12 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      */
     @Test
     public void masterDetailWithoutPathParam() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
-        LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withoutParam");
-        assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/open2"));
-        assertThat(action.getOptions().getQueryMapping().get("detailId"), notNullValue());
+        LinkActionImpl action = (LinkActionImpl) page.getWidgets().get("test_detail").getActions().get("withoutParam");
+        assertThat(action.getUrl(), is("/test/master/:masterId/detail/open2"));
+        assertThat(action.getQueryMapping().get("test_detail_detailId"), notNullValue());
     }
 
     /**
@@ -71,13 +72,13 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
      */
     @Test
     public void masterDetailWithPathParamWithoutMasterDetail() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
-        LinkAction action = (LinkAction) page.getWidgets().get("test_detail").getActions().get("withParamWithoutMasterDetail");
-        assertThat(action.getOptions().getPath(), is("/test/master/:masterId/detail/:detailId/open3"));
-        assertThat(action.getOptions().getPathMapping().get("detailId"), notNullValue());
-        assertThat(action.getOptions().getQueryMapping().isEmpty(), is(true));
+        LinkActionImpl action = (LinkActionImpl) page.getWidgets().get("test_detail").getActions().get("withParamWithoutMasterDetail");
+        assertThat(action.getUrl(), is("/test/master/:masterId/detail/:detailId/open3"));
+        assertThat(action.getPathMapping().get("detailId"), notNullValue());
+        assertThat(action.getQueryMapping().isEmpty(), is(true));
         routeAndGet("/test/master/1/detail/2/open3", Page.class);
         QueryContext queryContext = (QueryContext) route("/test/master/1/detail/2/open3/main", CompiledQuery.class);
         assertThat(queryContext.getFilters().isEmpty(), is(true));

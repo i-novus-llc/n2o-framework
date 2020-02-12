@@ -4,7 +4,8 @@ import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessT
 import net.n2oapp.framework.access.integration.metadata.transform.action.InvokeActionAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -45,23 +46,21 @@ public class InvokeActionAccessTransformerTest extends SourceCompileTestBase {
 
         ReadCompileTerminalPipeline<?> pipeline = compile("net/n2oapp/framework/access/metadata/schema/testInvoke.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testInvokeActionAccessTransformer.page.xml");
-        Page page = pipeline.transform().get(new PageContext("testInvokeActionAccessTransformer"));
+        StandardPage page = (StandardPage) pipeline.transform().get(new PageContext("testInvokeActionAccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        assertThat(securityObject.getRoles(), nullValue());
-        assertThat(securityObject.getPermissions().size(), is(1));
-        assertTrue(securityObject.getPermissions().contains("permission"));
-        assertThat(securityObject.getUsernames().size(), is(1));
-        assertTrue(securityObject.getUsernames().contains("user"));
+        assertThat(securityObject.getRoles().size(), is(1));
+        assertThat(securityObject.getRoles().stream().findFirst().get(), is("role"));
+        assertThat(securityObject.getPermissions(), nullValue());
+        assertThat(securityObject.getUsernames(), nullValue());
 
         securityObject = ((Security) page.getActions().get("update")
                 .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        assertThat(securityObject.getRoles(), nullValue());
-        assertThat(securityObject.getPermissions().size(), is(1));
-        assertTrue(securityObject.getPermissions().contains("permission"));
-        assertThat(securityObject.getUsernames().size(), is(1));
-        assertTrue(securityObject.getUsernames().contains("user"));
+        assertThat(securityObject.getRoles().size(), is(1));
+        assertThat(securityObject.getRoles().stream().findFirst().get(), is("role"));
+        assertThat(securityObject.getPermissions(), nullValue());
+        assertThat(securityObject.getUsernames(), nullValue());
     }
 
     @Test
@@ -70,24 +69,22 @@ public class InvokeActionAccessTransformerTest extends SourceCompileTestBase {
 
         ReadCompileTerminalPipeline<?> pipeline = compile("net/n2oapp/framework/access/metadata/schema/testInvokeV2.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testInvokeActionAccessTransformer.page.xml");
-        Page page = pipeline.transform().get(new PageContext("testInvokeActionAccessTransformer"));
+        StandardPage page = (StandardPage) pipeline.transform().get(new PageContext("testInvokeActionAccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        assertThat(securityObject.getRoles(), nullValue());
-        assertThat(securityObject.getPermissions().size(), is(1));
-        assertTrue(securityObject.getPermissions().contains("permission"));
-        assertThat(securityObject.getUsernames().size(), is(1));
-        assertTrue(securityObject.getUsernames().contains("user"));
+        assertThat(securityObject.getRoles().size(), is(1));
+        assertThat(securityObject.getRoles().stream().findFirst().get(), is("role"));
+        assertThat(securityObject.getPermissions(), nullValue());
+        assertThat(securityObject.getUsernames(), nullValue());
         assertTrue(securityObject.getAnonymous());
 
         securityObject = ((Security) page.getActions().get("update")
                 .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        assertThat(securityObject.getRoles(), nullValue());
-        assertThat(securityObject.getPermissions().size(), is(1));
-        assertTrue(securityObject.getPermissions().contains("permission"));
-        assertThat(securityObject.getUsernames().size(), is(1));
-        assertTrue(securityObject.getUsernames().contains("user"));
+        assertThat(securityObject.getRoles().size(), is(1));
+        assertThat(securityObject.getRoles().stream().findFirst().get(), is("role"));
+        assertThat(securityObject.getPermissions(), nullValue());
+        assertThat(securityObject.getUsernames(), nullValue());
         assertTrue(securityObject.getAnonymous());
 
     }

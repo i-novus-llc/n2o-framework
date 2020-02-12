@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.register;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.config.register.scanner.OverrideInfoScanner;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 
 import java.io.IOException;
@@ -11,6 +10,7 @@ import java.util.List;
 /**
  * Статусы метаданных
  */
+@Deprecated
 public class InfoStatus {
 
     public enum Status {

@@ -3,8 +3,6 @@ package net.n2oapp.framework.config.test;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.meta.Page;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
@@ -81,7 +79,7 @@ public class JsonChecker {
     }
 
     /**
-     * Переместить значение узела json в другой путь
+     * Переместить значение узла json в другой путь
      * @param jsonNodePath Путь к узлу
      * @param jsonChangeNodePath Путь, куда переместить значение
      */
@@ -101,7 +99,7 @@ public class JsonChecker {
                     jsonResource,
                     xmlCutPath, jsonCutPath,
                     jsonExcludePaths,
-                    jsonChangeValuePath, jsonChangeNodePath, new DataSet());
+                    jsonChangeValuePath, jsonChangeNodePath, new HashMap<>());
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -112,7 +110,7 @@ public class JsonChecker {
      * @param route Адрес получения метаданной
      * @param compiledClass Класс собранной метаданной
      */
-    public void assertEquals(String route, Class<? extends Compiled> compiledClass, DataSet queryParams) {
+    public void assertEquals(String route, Class<? extends Compiled> compiledClass, Map<String, String[]> queryParams) {
         try {
             tester.check(route, compiledClass,
                     jsonResource,

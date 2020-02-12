@@ -90,162 +90,293 @@
       }
     }
   },
-  "widgets": {
-    "proto_update2_main": {
-      "src": "FormWidget",
-      "dataProvider": {
-        "url": "n2o/data/proto/5607677/update2",
-        "pathMapping": {},
-        "queryMapping": {}
-      },
-      "actions": {},
-      "form": {
-        "fieldsets": [
-          {
-            "src": "StandardFieldset",
-            "rows": [
-              {
-                "cols": [
+  "breadcrumb": [
+    {
+      "label": "Список контактов",
+      "path": "/proto/5607677"
+    },
+    {
+      "label": "Карточка пациента: 5607677"
+    }
+  ],
+  "models": {},
+  "widget": {
+    "src": "FormWidget",
+    "id": "proto_update2_main",
+    "dataProvider": {
+      "url": "n2o/data/proto/5607677/update2",
+      "pathMapping": {},
+      "queryMapping": {}
+    },
+    "toolbar": {
+      "bottomRight": [
+        {
+          "id": "bottomRight0",
+          "buttons": [
+            {
+              "id": "submit",
+              "actionId": "submit",
+              "conditions": {
+                "enabled": [
                   {
-                    "fields": [
-                      {
-                        "src": "StandardField",
-                        "id": "surname",
-                        "required": true,
-                        "label": "Фамилия",
-                        "dependency": [],
-                        "control": {
-                          "src": "InputText",
-                          "id": "surname",
-                          "placeholder": "Введите значение"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "fields": [
-                      {
-                        "src": "StandardField",
-                        "id": "name",
-                        "required": true,
-                        "label": "Имя",
-                        "dependency": [],
-                        "control": {
-                          "src": "InputText",
-                          "id": "name"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "fields": [
-                      {
-                        "src": "StandardField",
-                        "id": "patrName",
-                        "label": "Отчество",
-                        "dependency": [],
-                        "control": {
-                          "src": "InputText",
-                          "id": "patrName"
-                        }
-                      }
-                    ]
+                    "expression": "!_.isEmpty(this)",
+                    "modelLink": "models.resolve['proto_update2_main']"
                   }
                 ]
               },
-              {
-                "cols": [
-                  {
-                    "size": 5,
-                    "fields": [
-                      {
-                        "src": "StandardField",
-                        "id": "gender",
-                        "required": true,
-                        "label": "Пол",
-                        "dependency": [],
-                        "control": {
-                          "src": "RadioGroup",
-                          "id": "gender",
-                          "valueFieldId": "id",
-                          "labelFieldId": "name",
-                          "size": 30,
-                          "dataProvider": {
-                            "url": "n2o/data/ProtoGender",
-                            "queryMapping": {}
-                          },
-                          "type": "n2o"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "size": 5,
-                    "fields": [
-                      {
-                        "src": "StandardField",
-                        "id": "birthday",
-                        "label": "Дата рождения",
-                        "dependency": [],
-                        "control": {
-                          "src": "DatePicker",
-                          "id": "birthday",
-                          "dateFormat": "DD.MM.YYYY",
-                          "utc": false,
-                          "outputFormat": "YYYY-MM-DDTHH:mm:ss"
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "fields": [
-                      {
-                        "src": "StandardField",
-                        "id": "vip",
-                        "dependency": [],
-                        "control": {
-                          "src": "Checkbox",
-                          "id": "vip",
-                          "label": "VIP"
-                        }
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        "validation": {
-          "gender": [
+              "validate": true,
+              "validatedWidgetId": "proto_update2_main",
+              "color": "primary",
+              "title": "Сохранить"
+            },
             {
-              "severity": "danger",
-              "validationKey": "gender",
-              "text": "Поле обязательно для заполнения",
-              "type": "required"
-            }
-          ],
-          "surname": [
-            {
-              "severity": "danger",
-              "validationKey": "surname",
-              "text": "Поле обязательно для заполнения",
-              "type": "required"
-            }
-          ],
-          "name": [
-            {
-              "severity": "danger",
-              "validationKey": "name",
-              "text": "Поле обязательно для заполнения",
-              "type": "required"
+              "id": "close",
+              "actionId": "close",
+              "conditions": {},
+              "title": "Закрыть"
             }
           ]
-        },
-        "modelPrefix": "resolve",
-        "fetchOnInit": true,
-        "autoFocus": true
+        }
+      ]
+    },
+    "actions": {
+      "submit": {
+        "id": "submit",
+        "src": "perform",
+        "options": {
+          "type": "n2o/actionImpl/START_INVOKE",
+          "payload": {
+            "widgetId": "proto_update2_main",
+            "pageId": "proto_update2",
+            "dataProvider": {
+              "url": "n2o/data/proto/5607677/update2/submit",
+              "pathMapping": {},
+              "method": "POST"
+            },
+            "modelLink": "models.resolve['proto_update2_main']"
+          },
+          "meta": {
+            "success": {
+              "refresh": {
+                "type": "widget",
+                "options": {
+                  "widgetId": "proto_patients"
+                }
+              },
+              "redirect": {
+                "path": "/proto/5607677",
+                "pathMapping": {},
+                "queryMapping": {},
+                "target": "application"
+              }
+            },
+            "fail": {}
+          }
+        }
+      },
+      "close": {
+        "id": "close",
+        "src": "link",
+        "options": {
+          "path": "/proto/5607677",
+          "target": "application",
+          "pathMapping": {},
+          "queryMapping": {}
+        }
       }
+    },
+    "form": {
+      "fieldsets": [
+        {
+          "src": "StandardFieldset",
+          "rows": [
+            {
+              "cols": [
+                {
+                  "fields": [
+                    {
+                      "src": "StandardField",
+                      "id": "surname",
+                      "required": true,
+                      "label": "Фамилия",
+                      "dependency": [],
+                      "control": {
+                        "src": "InputText",
+                        "id": "surname",
+                        "placeholder": "Введите значение"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "src": "StandardField",
+                      "id": "name",
+                      "required": true,
+                      "label": "Имя",
+                      "dependency": [
+                        {
+                          "type": "fetchValue",
+                          "on": [
+                            "defaultField"
+                          ],
+                          "applyOnInit": true,
+                          "dataProvider": {
+                            "url": "n2o/data/ProtoPatient",
+                            "queryMapping": {
+                              "id": {
+                                "value": 5607677
+                              }
+                            }
+                          },
+                          "valueFieldId": "name"
+                        }
+                      ],
+                      "control": {
+                        "src": "InputText",
+                        "id": "name"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "src": "StandardField",
+                      "id": "patrName",
+                      "label": "Отчество",
+                      "dependency": [],
+                      "control": {
+                        "src": "InputText",
+                        "id": "patrName"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "size": 5,
+                  "fields": [
+                    {
+                      "src": "StandardField",
+                      "id": "gender",
+                      "required": true,
+                      "label": "Пол",
+                      "dependency": [],
+                      "control": {
+                        "src": "RadioGroup",
+                        "id": "gender",
+                        "valueFieldId": "id",
+                        "labelFieldId": "name",
+                        "size": 30,
+                        "dataProvider": {
+                          "url": "n2o/data/ProtoGender",
+                          "queryMapping": {}
+                        },
+                        "type": "n2o"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "size": 5,
+                  "fields": [
+                    {
+                      "src": "StandardField",
+                      "id": "birthday",
+                      "label": "Дата рождения",
+                      "dependency": [],
+                      "control": {
+                        "src": "DatePicker",
+                        "id": "birthday",
+                        "dateFormat": "DD.MM.YYYY",
+                        "utc": false,
+                        "outputFormat": "YYYY-MM-DDTHH:mm:ss"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "fields": [
+                    {
+                      "src": "StandardField",
+                      "id": "vip",
+                      "dependency": [],
+                      "control": {
+                        "src": "Checkbox",
+                        "id": "vip",
+                        "label": "VIP",
+                        "defaultUnchecked": "null"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "fields": [
+                    {
+                      "src": "StandardField",
+                      "style": {
+                        "color": "grey",
+                        "fontSize": "12pt"
+                      },
+                      "id": "defaultField",
+                      "label": "Введите что-нибудь, чтобы загрузилось Имя по умолчанию",
+                      "dependency": [],
+                      "control": {
+                        "src": "InputText",
+                        "style": {
+                          "color": "grey",
+                          "borderRadius": "10px",
+                          "fontSize": "10pt",
+                          "fontWeight": "bold"
+                        },
+                        "id": "defaultField"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "validation": {
+        "gender": [
+          {
+            "severity": "danger",
+            "validationKey": "gender",
+            "text": "Поле обязательно для заполнения",
+            "type": "required"
+          }
+        ],
+        "surname": [
+          {
+            "severity": "danger",
+            "validationKey": "surname",
+            "text": "Поле обязательно для заполнения",
+            "type": "required"
+          }
+        ],
+        "name": [
+          {
+            "severity": "danger",
+            "validationKey": "name",
+            "text": "Поле обязательно для заполнения",
+            "type": "required"
+          }
+        ]
+      },
+      "modelPrefix": "resolve",
+      "fetchOnInit": true,
+      "autoFocus": true
     }
   },
   "toolbar": {
@@ -254,8 +385,39 @@
         "id": "bottomRight0",
         "buttons": [
           {
+            "src": "PerformButton",
             "id": "submit",
-            "actionId": "submit",
+            "label": "Сохранить",
+            "action": {
+              "type": "n2o/actionImpl/START_INVOKE",
+              "payload": {
+                "widgetId": "proto_update2_main",
+                "pageId": "proto_update2",
+                "dataProvider": {
+                  "url": "n2o/data/proto/5607677/update2/submit",
+                  "pathMapping": {},
+                  "method": "POST"
+                },
+                "modelLink": "models.resolve['proto_update2_main']"
+              },
+              "meta": {
+                "success": {
+                  "refresh": {
+                    "type": "widget",
+                    "options": {
+                      "widgetId": "proto_patients"
+                    }
+                  },
+                  "redirect": {
+                    "path": "/proto/5607677",
+                    "pathMapping": {},
+                    "queryMapping": {},
+                    "target": "application"
+                  }
+                },
+                "fail": {}
+              }
+            },
             "conditions": {
               "enabled": [
                 {
@@ -266,92 +428,23 @@
             },
             "validate": true,
             "validatedWidgetId": "proto_update2_main",
-            "color": "primary",
-            "title": "Сохранить"
+            "color": "primary"
           },
           {
+            "src": "PerformButton",
             "id": "close",
-            "actionId": "close",
+            "label": "Закрыть",
             "conditions": {},
-            "title": "Закрыть"
+            "url": "/proto/:proto_patients_id",
+            "target": "application",
+            "pathMapping": {},
+            "queryMapping": {}
           }
         ]
       }
     ]
   },
-  "breadcrumb": [
-    {
-      "label": "Список контактов",
-      "path": "/proto/5607677"
-    },
-    {
-      "label": "Карточка пациента: 5607677"
-    }
-  ],
-  "actions": {
-    "submit": {
-      "id": "submit",
-      "src": "perform",
-      "options": {
-        "type": "n2o/actionImpl/START_INVOKE",
-        "payload": {
-          "widgetId": "proto_update2_main",
-          "pageId": "proto_update2",
-          "dataProvider": {
-            "url": "n2o/data/proto/5607677/update2/submit",
-            "pathMapping": {},
-            "method": "POST"
-          },
-          "modelLink": "models.resolve['proto_update2_main']"
-        },
-        "meta": {
-          "success": {
-            "refresh": {
-              "type": "widget",
-              "options": {
-                "widgetId": "proto_patients"
-              }
-            },
-            "redirect": {
-              "path": "/proto/5607677",
-              "pathMapping": {},
-              "queryMapping": {},
-              "target": "application"
-            }
-          },
-          "fail": {}
-        }
-      }
-    },
-    "close": {
-      "id": "close",
-      "src": "link",
-      "options": {
-        "path": "/proto/5607677",
-        "target": "application",
-        "pathMapping": {},
-        "queryMapping": {}
-      }
-    }
-  },
-  "models": {},
-  "layout": {
-    "src": "SingleLayout",
-    "regions": {
-      "single": [
-        {
-          "src": "NoneRegion",
-          "items": [
-            {
-              "id": "none1",
-              "label": "Карточка пациента",
-              "widgetId": "proto_update2_main"
-            }
-          ]
-        }
-      ]
-    }
-  },
+  "src": "SimplePage",
   "page": {
     "title": "Карточка пациента: 5607677"
   }

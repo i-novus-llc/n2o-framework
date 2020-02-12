@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.io.control.list;
 
 import net.n2oapp.criteria.filters.FilterType;
-import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -18,9 +17,10 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
         super.io(e, m, p);
         p.attribute(e, "query-id", m::getQueryId, m::setQueryId);
         p.attribute(e, "label-field-id", m::getLabelFieldId, m::setLabelFieldId);
+        p.attribute(e, "sort-field-id", m::getSortFieldId, m::setSortFieldId);
         p.attribute(e, "badge-field-id", m::getBadgeFieldId, m::setBadgeFieldId);
         p.attribute(e, "badge-color-field-id", m::getBadgeColorFieldId, m::setBadgeColorFieldId);
-        p.attribute(e, "search-field-id", m::getSearchFieldId, m::setSearchFieldId);
+        p.attribute(e, "search-filter-id", m::getSearchFilterId, m::setSearchFilterId);
         p.attribute(e, "group-field-id", m::getGroupFieldId, m::setGroupFieldId);
         p.attribute(e, "image-field-id", m::getImageFieldId, m::setImageFieldId);
         p.attribute(e, "icon-field-id", m::getIconFieldId, m::setIconFieldId);
@@ -32,16 +32,6 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
         p.children(e, "options", "option", m::getOptions, m::setOptions, HashMap::new, this::option);
         p.childrenByEnum(e, "pre-filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
-    }
-
-    private void prefilter(Element e, N2oPreFilter pf, IOProcessor p) {
-        p.attribute(e, "field-id", pf::getFieldId, pf::setFieldId);
-        p.attribute(e, "value", pf::getValueAttr, pf::setValueAttr);
-        p.attribute(e, "values", pf::getValuesAttr, pf::setValuesAttr);
-        p.attributeBoolean(e, "required", pf::getRequired, pf::setRequired);
-        p.attribute(e, "ref-widget-id", pf::getRefWidgetId, pf::setRefWidgetId);
-        p.attributeEnum(e, "ref-model", pf::getRefModel, pf::setRefModel, ReduxModel.class);
-        p.childrenToStringArray(e, null, "value", pf::getValueList, pf::setValueList);
     }
 
     private void option(Element e, Map<String, String> map, IOProcessor p) {

@@ -7,7 +7,7 @@
             </action>
         </actions>
         <toolbar>
-            <button action-id="test"/>
+            <button id="test" action-id="test"/>
         </toolbar>
     </table>
 </simple-page>

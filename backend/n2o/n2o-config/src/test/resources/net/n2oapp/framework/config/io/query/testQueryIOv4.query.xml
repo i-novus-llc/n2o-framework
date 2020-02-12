@@ -40,6 +40,7 @@
         <field id="individualId" domain="integer">
             <filters>
                 <eq filter-id="individualId" required="true">ic.indiv_id = :individualId</eq>
+                <eqOrIsNull filter-id="surname"/>
             </filters>
         </field>
     </fields>

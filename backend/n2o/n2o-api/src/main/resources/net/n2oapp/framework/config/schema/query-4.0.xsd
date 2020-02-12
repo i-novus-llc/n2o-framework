@@ -176,7 +176,9 @@
         </xs:annotation>
         <xs:sequence>
             <xs:element name="eq" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="eqOrIsNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="in" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="inOrIsNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="like" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="likeStart" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="isNull" type="filterDef" maxOccurs="unbounded" minOccurs="0"/>

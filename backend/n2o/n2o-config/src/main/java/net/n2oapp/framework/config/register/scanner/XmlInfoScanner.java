@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static net.n2oapp.context.StaticSpringContext.getBean;
 import static net.n2oapp.framework.config.register.RegisterUtil.collectInfo;
 
 /**
@@ -38,11 +37,9 @@ public class XmlInfoScanner implements MetadataScanner<InfoConstructor>, Metadat
 
     @Override
     public List<InfoConstructor> scan() {
-        List<InfoConstructor> infoConstructors = collectInfo(
+        return collectInfo(
                 FileSystemUtil.getNodesByLocationPattern(pattern),
-                (node) ->
-                        RegisterUtil.createXmlInfo(node, sourceTypeRegister));
-        return infoConstructors;
+                (node) -> RegisterUtil.createXmlInfo(node, sourceTypeRegister));
     }
 
     @Override
@@ -52,5 +49,9 @@ public class XmlInfoScanner implements MetadataScanner<InfoConstructor>, Metadat
 
     public SourceTypeRegister getSourceTypeRegister() {
         return sourceTypeRegister;
+    }
+
+    public String getPattern() {
+        return pattern;
     }
 }

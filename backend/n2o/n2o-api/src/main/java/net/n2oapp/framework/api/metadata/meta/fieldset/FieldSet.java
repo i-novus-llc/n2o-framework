@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.control.Field;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -43,6 +44,8 @@ public abstract class FieldSet extends Component implements Compiled {
         @JsonProperty
         private String className;
         @JsonProperty
+        private Map<String, String> style;
+        @JsonProperty
         private List<Column> cols;
     }
 
@@ -52,7 +55,11 @@ public abstract class FieldSet extends Component implements Compiled {
         @JsonProperty
         private String className;
         @JsonProperty
+        private Map<String, String> style;
+        @JsonProperty
         private Integer size;
+        @JsonProperty
+        private Object visible;
         @JsonProperty
         private List<FieldSet> fieldsets;
         @JsonProperty

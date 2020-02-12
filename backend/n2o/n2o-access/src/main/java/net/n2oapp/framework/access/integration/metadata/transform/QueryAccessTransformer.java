@@ -24,13 +24,13 @@ public class QueryAccessTransformer extends BaseAccessTransformer<CompiledQuery,
     public CompiledQuery transform(CompiledQuery compiled, QueryContext context, CompileProcessor p) {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema) p.getCompiled(
                 new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
-        mapSecurity(compiled, accessSchema);
+        mapSecurity(compiled, accessSchema, p);
         return compiled;
     }
 
-    private void mapSecurity(CompiledQuery compiled, SimpleCompiledAccessSchema schema) {
+    private void mapSecurity(CompiledQuery compiled, SimpleCompiledAccessSchema schema, CompileProcessor p) {
         if (compiled.getObject() != null) {
-            collectObjectAccess(compiled, compiled.getObject().getId(), null, schema);
+            collectObjectAccess(compiled, compiled.getObject().getId(), null, schema, p);
             collectObjectFilters(compiled, compiled.getObject().getId(), null, schema);
         }
     }

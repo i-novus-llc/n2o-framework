@@ -10,12 +10,13 @@
               visible="false"
               query-id="testQueryId"
               label-field-id="testLabel"
-              search-field-id="testSearch"
+              search-filter-id="testSearch"
               group-field-id="testGroup"
               image-field-id="testImage"
               icon-field-id="testIcon"
               format="testFormat"
               cache="true"
+              sort-field-id="sortFieldId"
               size="10">
     <default-value id="1" name="testName" isTest="true"/>
     <options>

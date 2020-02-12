@@ -63,6 +63,11 @@ http://n2oapp.net/framework/config/schema/widget-4.0
 |CSS класс, который будет добавлен к виджету
 |
 
+|style
+|CSS свойство
+|Стиль виджета
+|
+
 |name
 |Строка
 |Наименование виджета
@@ -262,6 +267,11 @@ link:#_Действия[Обработчик действия]
 
 |class
 |https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|CSS класс кнопки
+|
+
+|style
+|CSS свойство
 |Стиль кнопки
 |
 
@@ -334,6 +344,11 @@ link:#_Действия[Обработчик действия]
 |Стиль кнопки
 |
 
+|style
+|CSS свойство
+|Стиль кнопки
+|
+
 |===
 
 Пример::
@@ -371,6 +386,11 @@ link:#_Действия[Обработчик действия]
 
 |class
 |https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|Css класс пункта меню
+|
+
+|style
+|CSS свойство
 |Стиль пункта меню
 |
 
@@ -466,6 +486,11 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 |Строка
 |Высота таблицы (% или px), после которой появится вертикальный скрол
 |
+
+|children
+|collapse, expand
+|Отображение дочерних записей в свернутом или раскрытом виде
+|collapse
 |===
 
 Пример::
@@ -473,8 +498,8 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
-  name="Моя таблица"
-  query-id="myQuery" size="10">
+  name="Моя таблица" query-id="myQuery"
+  size="10" children="expand">
   <filters>...</filters>
   <toolbar>...</toolbar>
   <columns>...</columns>
@@ -592,6 +617,11 @@ link:#_Ячейки[Ячейка]
 |class
 |Строка
 |CSS класс строки
+|
+
+|style
+|CSS свойство
+|Стиль строки
 |
 
 |===
@@ -785,10 +815,6 @@ two-models - 2х модельный режим (при первой загруз
 |Наименование узла дерева
 |
 
-|has-children-field-id
-|Ссылка на поле выборки с `domain="boolean"`
-|Наличие дочерних элементов
-|
 
 |icon-field-id
 |Ссылка на поле выборки
@@ -833,12 +859,10 @@ two-models - 2х модельный режим (при первой загруз
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <tree xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
-  name="Моё дерево"
-  query-id="myQuery"
-  parent-field-id="parent.id"
-  label-field-id="displayName"
-  has-children-field-id="hasChildren"
-  icon-field-id="iconAddress">
+    name="Моё дерево"
+    parent-field-id="parentId"
+    label-field-id="name"
+    query-id="tree">
 </tree>
 ----
 
@@ -847,43 +871,6 @@ two-models - 2х модельный режим (при первой загруз
 Записи должны ссылаться "сами на себя" (parent-field-id), образуя древовидную структуру.
 
 
-Пример::
-[source,xml]
-----
-<inheritance-nodes
-    />
-----
-
-==== <grouping-nodes>
-
-Структура группировки записей выборки.
-
-[NOTE]
-Каждая запись должна содержать все узлы иерархии.
-
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|search-field-id
-|Ссылка на поле выборки
-|Поле поиска по дереву
-|Берется из атрибута `label-field-id` самого глубокого `<node>`
-
-|===
-
-
-Тело::
-link:#__node[Корневой узел]
-
-Пример::
-[source,xml]
-----
-<grouping-nodes>
-  <node>...</node><!--Корневой узел-->
-</grouping-nodes>
-----
 
 ===== <node>
 
@@ -991,6 +978,33 @@ link:#__node[Дочерний узел]
 === <chart>
 Виджет график.
 
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|width
+|Число
+|Ширина
+|
+
+|height
+|Число
+|Высота
+|
+
+|===
+
+Тело::
+Список link:#_Графики[графиков]
+
+Пример::
+[source,xml]
+----
+<chart width="600" height="400">
+    <areas>...</areas>
+</chart>
+----
 
 === <html>
 Виджет отображающий HTML содержимое.
@@ -1000,9 +1014,10 @@ link:#__node[Дочерний узел]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|content-field-id
-|Идентификатор
-|Поле выборки, содержащее HTML содержимое виджета
+|src
+|Строка
+|Путь к html файлу.
+Если не задан, необходимо задать содержимое в теле.
 |
 
 |===
@@ -1010,7 +1025,8 @@ link:#__node[Дочерний узел]
 Пример::
 [source,xml]
 ----
-<html query-id="article" content-field-id="content"/>
+<html query-id="article" src="file.html">
+</html>
 ----
 
 

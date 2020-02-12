@@ -4,11 +4,8 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.io.*;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
-import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
-import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import org.jdom.Element;
 import org.jdom.Namespace;
 
 import java.util.HashMap;
@@ -44,6 +41,12 @@ public class NamespaceIOFactoryByMap<T extends NamespaceUriAware, R extends Name
     }
 
     @Override
+    public boolean check(Namespace namespace, Class<T> clazz) {
+        return (classes.containsKey(namespace.getURI()) && classes.get(namespace.getURI()).containsKey(clazz))
+                || persisterFactory.check(namespace, clazz);
+    }
+
+    @Override
     public R produce(Namespace namespace, String elementName) {
         if (names.containsKey(namespace.getURI()) && names.get(namespace.getURI()).containsKey(elementName))
             return names.get(namespace.getURI()).get(elementName);
@@ -51,9 +54,16 @@ public class NamespaceIOFactoryByMap<T extends NamespaceUriAware, R extends Name
     }
 
     @Override
+    public boolean check(Namespace namespace, String elementName) {
+        return (names.containsKey(namespace.getURI()) && names.get(namespace.getURI()).containsKey(elementName))
+                || readerFactory.check(namespace, elementName);
+    }
+
+    @Override
     public NamespaceIOFactory<T, R, P> add(NamespaceIO<? extends T> nio) {
-        names.computeIfAbsent(nio.getNamespaceUri(), k -> new HashMap<>()).put(nio.getElementName(), (R) nio);
-        classes.computeIfAbsent(nio.getNamespaceUri(), k -> new HashMap<>()).put(nio.getElementClass(), (P) nio);
+        ProxyNamespaceIO<? extends T> proxy = new ProxyNamespaceIO<>(nio);
+        names.computeIfAbsent(nio.getNamespaceUri(), k -> new HashMap<>()).put(nio.getElementName(), (R) proxy);
+        classes.computeIfAbsent(nio.getNamespaceUri(), k -> new HashMap<>()).put(nio.getElementClass(), (P) proxy);
         return this;
     }
 

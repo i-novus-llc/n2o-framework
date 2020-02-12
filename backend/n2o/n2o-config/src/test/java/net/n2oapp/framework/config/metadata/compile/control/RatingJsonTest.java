@@ -23,7 +23,7 @@ public class RatingJsonTest extends JsonMetadataTestBase {
     @Test
     public void testRating() {
         check("net/n2oapp/framework/config/mapping/testRating.widget.xml",
-                "components/controls/Rating/Raiting.meta.json")
+                "components/snippets/SnippetRating/SnippetRating.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0].control")
                 .exclude("rating", "src", "id")
                 .assertEquals();

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:wgt="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
-           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
+           xmlns:btn="http://n2oapp.net/framework/config/schema/button-1.0"
            xmlns:ac="http://n2oapp.net/framework/config/schema/action-1.0"
            xmlns:reg="http://n2oapp.net/framework/config/schema/region-1.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/page-2.0">
 
     <xs:element name="page" type="standardPageDefinition"/>
     <xs:element name="simple-page" type="simplePageDefinition"/>
+    <xs:element name="left-right-page" type="leftRightPageDefinition"/>
 
     <xs:complexType name="pageDefinition" abstract="true">
         <xs:annotation>
@@ -30,18 +31,24 @@
         </xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="standardPageDefinition">
+    <xs:complexType name="leftRightPageDefinition">
         <xs:annotation>
-            <xs:documentation>Страница с регионами page-2.0</xs:documentation>
+            <xs:documentation>Страница c двумя регионами page-2.0</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="regions" type="regionsDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="actions" type="actionsDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="left" type="leftRightRegionsDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="right" type="leftRightRegionsDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="toolbar" type="pageToolbarDefinition" maxOccurs="1" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Наименование страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Реализация страницы</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="route" type="xs:string" use="optional">
@@ -59,9 +66,60 @@
                 <xs:documentation>Объект выборки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="layout" type="xs:string" use="optional">
+        <xs:anyAttribute>
             <xs:annotation>
-                <xs:documentation>Вёрстка шаблона страницы.</xs:documentation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:complexType name="leftRightRegionsDefinition">
+        <xs:complexContent>
+            <xs:extension base="regionsDefinition">
+                <xs:annotation>
+                    <xs:documentation>Регионы для left-right-page</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="width" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Ширина региона</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="standardPageDefinition">
+        <xs:annotation>
+            <xs:documentation>Страница с регионами page-2.0</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="regions" type="regionsDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="actions" type="actionsDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="toolbar" type="pageToolbarDefinition" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Наименование страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Реализация страницы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="route" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>URL страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="modal-size" type="ac:modalSize" use="optional">
+            <xs:annotation>
+                <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="object-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Объект выборки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>
@@ -77,6 +135,11 @@
                 <xs:annotation>
                     <xs:documentation>Страница с единственным виджетом page-2.0</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="src" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Реализация страницы</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="name" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Наименование страницы.</xs:documentation>
@@ -200,8 +263,8 @@
             <xs:documentation>Меню управляющих кнопок страницы.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="button" type="tool:buttonDefinition" minOccurs="0"/>
-            <xs:element name="sub-menu" type="tool:subMenuDefinition" minOccurs="0"/>
+            <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
+            <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0"/>
             <xs:element name="group" type="pageGroupDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="place" type="placeType" use="optional">
@@ -222,8 +285,8 @@
             <xs:documentation>Группа кнопок.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="button" type="tool:buttonDefinition"/>
-            <xs:element name="sub-menu" type="tool:subMenuDefinition"/>
+            <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
+            <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="generate" type="xs:string" use="optional">
             <xs:annotation>

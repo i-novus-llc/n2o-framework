@@ -74,9 +74,11 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(((StandardField)component.getFieldsets().get(1).getRows().get(0).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol1"));
         assertThat(component.getFieldsets().get(1).getRows().get(1).getCols().size(), is(1));
         assertThat(component.getFieldsets().get(1).getRows().get(1).getCols().get(0).getFields().size(), is(1));
+        assertThat(component.getFieldsets().get(1).getRows().get(1).getCols().get(0).getVisible(), is(false));
         assertThat(((StandardField)component.getFieldsets().get(1).getRows().get(1).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol2"));
         assertThat(component.getFieldsets().get(1).getRows().get(2).getCols().size(), is(1));
         assertThat(component.getFieldsets().get(1).getRows().get(2).getCols().get(0).getFields().size(), is(1));
+        assertThat(component.getFieldsets().get(1).getRows().get(2).getCols().get(0).getVisible(), is("`a==b`"));
         assertThat(((StandardField)component.getFieldsets().get(1).getRows().get(2).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol3"));
         assertThat(component.getFieldsets().get(1).getRows().get(3).getCols().size(), is(1));
         assertThat(component.getFieldsets().get(1).getRows().get(3).getCols().get(0).getFields().size(), is(1));
@@ -170,7 +172,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetVisibility.object.xml"
         );
         pipeline.get(new PageContext("testFieldsetVisibility"));
-        ActionContext context = (ActionContext) builder.route("/testFieldsetVisibility/1/action", CompiledObject.class);
+        ActionContext context = (ActionContext) builder.route("/testFieldsetVisibility/1/action", CompiledObject.class, null);
 
         assertThat(context, notNullValue());
 

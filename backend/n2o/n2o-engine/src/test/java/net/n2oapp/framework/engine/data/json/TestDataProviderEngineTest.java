@@ -32,16 +32,22 @@ public class TestDataProviderEngineTest {
     @Rule
     public TemporaryFolder testFolder = new TemporaryFolder();
 
-    private File tempFile;
+    private File testFile;
+    private File emptyFile;
 
 
     @Before
     public void prepareJsonFile() throws IOException {
-        tempFile = testFolder.newFile("test.json");
-        FileWriter fileWriter = new FileWriter(tempFile);
+        testFile = testFolder.newFile("test.json");
+        FileWriter fileWriter = new FileWriter(testFile);
         fileWriter.write("[" +
                 "{\"id\":1, \"name\":\"test1\", \"type\":\"1\"}" +
                 "]");
+        fileWriter.close();
+
+        emptyFile = testFolder.newFile("test2.json");
+        fileWriter = new FileWriter(emptyFile);
+        fileWriter.write("[]");
         fileWriter.close();
     }
 
@@ -52,7 +58,7 @@ public class TestDataProviderEngineTest {
         engine.setPathOnDisk(testFolder.getRoot() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setFile(tempFile.getName());
+        provider.setFile(testFile.getName());
 
         //Проверка, что после создания json файл содержит ожидаемые данные
         provider.setOperation(findAll);
@@ -71,7 +77,7 @@ public class TestDataProviderEngineTest {
         engine.setPathOnDisk(testFolder.getRoot() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setFile(tempFile.getName());
+        provider.setFile(testFile.getName());
 
         //Добавление новых данных
         provider.setOperation(create);
@@ -88,7 +94,7 @@ public class TestDataProviderEngineTest {
         TypeFactory typeFactory = objectMapper.getTypeFactory();
         CollectionType collectionType = typeFactory.constructCollectionType(
                 List.class, HashMap.class);
-        List<Map> result = objectMapper.readValue(tempFile, collectionType);
+        List<Map> result = objectMapper.readValue(testFile, collectionType);
 
         assertThat(result.size(), is(2));
         assertThat(result.get(0).get("id"), is(9));
@@ -106,7 +112,7 @@ public class TestDataProviderEngineTest {
         engine.setPathOnDisk(testFolder.getRoot() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setFile(tempFile.getName());
+        provider.setFile(testFile.getName());
 
         //Обновление данных
         provider.setOperation(update);
@@ -123,7 +129,7 @@ public class TestDataProviderEngineTest {
         TypeFactory typeFactory = objectMapper.getTypeFactory();
         CollectionType collectionType = typeFactory.constructCollectionType(
                 List.class, HashMap.class);
-        List<Map> result = objectMapper.readValue(tempFile, collectionType);
+        List<Map> result = objectMapper.readValue(testFile, collectionType);
 
         assertThat(result.size(), is(1));
         assertThat(result.get(0).get("id"), is(1));
@@ -138,7 +144,7 @@ public class TestDataProviderEngineTest {
         engine.setPathOnDisk(testFolder.getRoot() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setFile(tempFile.getName());
+        provider.setFile(testFile.getName());
 
         //Удаление данных
         provider.setOperation(delete);
@@ -153,7 +159,7 @@ public class TestDataProviderEngineTest {
         TypeFactory typeFactory = objectMapper.getTypeFactory();
         CollectionType collectionType = typeFactory.constructCollectionType(
                 List.class, HashMap.class);
-        List<Map> result = objectMapper.readValue(tempFile, collectionType);
+        List<Map> result = objectMapper.readValue(testFile, collectionType);
 
         assertThat(result.size(), is(0));
     }
@@ -165,7 +171,7 @@ public class TestDataProviderEngineTest {
         engine.setPathOnDisk(testFolder.getRoot() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setFile(tempFile.getName());
+        provider.setFile(testFile.getName());
 
         //Проверка исходных данных в файле
         List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
@@ -175,7 +181,7 @@ public class TestDataProviderEngineTest {
         assertThat(result.get(0).get("type"), is("1"));
 
         //Добавление новых данных
-        FileWriter fileWriter = new FileWriter(tempFile);
+        FileWriter fileWriter = new FileWriter(testFile);
         fileWriter.write("[" +
                 "{\"id\":9, \"name\":\"test9\", \"type\":\"9\"}," +
                 "{\"id\":1, \"name\":\"test1\", \"type\":\"1\"}" +
@@ -200,7 +206,7 @@ public class TestDataProviderEngineTest {
         engine.setPathOnDisk(testFolder.getRoot() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setFile(tempFile.getName());
+        provider.setFile(testFile.getName());
 
         //Проверка исходных данных в файле
         List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
@@ -210,7 +216,7 @@ public class TestDataProviderEngineTest {
         assertThat(result.get(0).get("type"), is("1"));
 
         //Добавление новых данных
-        FileWriter fileWriter = new FileWriter(tempFile);
+        FileWriter fileWriter = new FileWriter(testFile);
         fileWriter.write("[" +
                 "{\"id\":9, \"name\":\"test9\", \"type\":\"9\"}," +
                 "{\"id\":1, \"name\":\"test1\", \"type\":\"1\"}" +
@@ -237,7 +243,7 @@ public class TestDataProviderEngineTest {
         engine.setPathOnDisk(testFolder.getRoot() + "/");
 
         N2oTestDataProvider provider = new N2oTestDataProvider();
-        provider.setFile(tempFile.getName());
+        provider.setFile(testFile.getName());
 
         //Проверка исходных данных в файле
         List<Map> result = (List<Map>) engine.invoke(provider, new LinkedHashMap<>());
@@ -247,7 +253,7 @@ public class TestDataProviderEngineTest {
         assertThat(result.get(0).get("type"), is("1"));
 
         //Добавление новых данных
-        FileWriter fileWriter = new FileWriter(tempFile);
+        FileWriter fileWriter = new FileWriter(testFile);
         fileWriter.write("[" +
                 "{\"id\":9, \"name\":\"test9\", \"type\":\"9\"}," +
                 "{\"id\":8, \"name\":\"test8\", \"type\":\"8\"}," +
@@ -303,6 +309,25 @@ public class TestDataProviderEngineTest {
 
         Map result = (Map) engine.invoke(provider, inParams);
         assertThat(result.get("id"), is(999L));
+    }
+
+    /**
+     * Проверка, что при пустом фильтре в findOne будет по умолчанию использоваться :eq
+     */
+    @Test
+    public void testFindOneWithoutFilterOperation() {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile("testNumericPrimaryKey.json");
+        provider.setOperation(findOne);
+
+        Map<String, Object> inParams = new LinkedHashMap<>();
+        inParams.put("age", 20);
+        inParams.put("name", "Олег");
+
+        Map result = (Map) engine.invoke(provider, inParams);
+        assertThat(result.get("id"), is(5607657L));
     }
 
     @Test
@@ -444,6 +469,24 @@ public class TestDataProviderEngineTest {
         assertThat(result.get(0).get("id"), is(1L));
         assertThat(result.get(1).get("id"), is(999L));
         assertThat(result.get(2).get("id"), is(5607775L));
+        inParams.put("filters", Arrays.asList("name :in :name"));
+        inParams.put("name", "Денис");
+        //Фильтр по name "in" (проверка одиночного значения)
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("name"), is("Денис"));
+
+        //Фильтр по "isNull"
+        inParams.put("filters", Arrays.asList("age:isNull:age_isNull"));
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("id"), is(5607771L));
+
+        //Фильтр по "isNotNull"
+        inParams.put("filters", Arrays.asList("newAge:isNotNull:age_isNotNull"));
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("id"), is(5607771L));
     }
 
     @Test
@@ -767,5 +810,36 @@ public class TestDataProviderEngineTest {
         result = (List<Map>) engine.invoke(provider, inParamsForRead);
         result = result.stream().filter(map -> map.get("testId").equals("a7e0973e-5dfc-4f77-8e1b-2c284d70453d")).collect(Collectors.toList());
         assertThat(result.size(), is(0));
+    }
+
+    @Test
+    public void testCreateOnEmptyFile() throws IOException {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        engine.setPathOnDisk(testFolder.getRoot() + "/");
+
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile(emptyFile.getName());
+
+        //Добавление новых данных в пустой файл
+        provider.setOperation(create);
+
+        Map<String, Object> inParamsForCreate = new LinkedHashMap<>();
+        inParamsForCreate.put("name", "test10");
+        inParamsForCreate.put("type", "10");
+
+        engine.invoke(provider, inParamsForCreate);
+
+        //Проверка, что после create, json файл содержит ожидаемые данные
+        ObjectMapper objectMapper = new ObjectMapper();
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        CollectionType collectionType = typeFactory.constructCollectionType(
+                List.class, HashMap.class);
+        List<Map> result = objectMapper.readValue(emptyFile, collectionType);
+
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("id"), is(1));
+        assertThat(result.get(0).get("name"), is("test10"));
+        assertThat(result.get(0).get("type"), is("10"));
     }
 }

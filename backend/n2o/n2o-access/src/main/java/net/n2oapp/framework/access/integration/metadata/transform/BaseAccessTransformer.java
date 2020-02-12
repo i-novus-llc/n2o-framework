@@ -5,10 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.SecurityFilters;
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
-import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectAccessPoint;
-import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFilter;
-import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFiltersAccessPoint;
-import net.n2oapp.framework.access.metadata.accesspoint.model.N2oPageAccessPoint;
+import net.n2oapp.framework.access.metadata.accesspoint.model.*;
 import net.n2oapp.framework.access.metadata.schema.permission.N2oPermission;
 import net.n2oapp.framework.access.metadata.schema.role.N2oRole;
 import net.n2oapp.framework.access.metadata.schema.simple.SimpleCompiledAccessSchema;
@@ -19,8 +16,8 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.CompiledClassAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
+import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileTransformer;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,25 +25,21 @@ import java.util.stream.Stream;
 
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static net.n2oapp.framework.access.metadata.SecurityFilters.SECURITY_FILTERS_PROP_NAME;
-import static net.n2oapp.framework.access.simple.PermissionAndRoleCollector.OBJECT_ACCESS;
-import static net.n2oapp.framework.access.simple.PermissionAndRoleCollector.PAGE_ACCESS;
+import static net.n2oapp.framework.access.simple.PermissionAndRoleCollector.*;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 @Getter
 @Setter
 public abstract class BaseAccessTransformer<D extends Compiled, C extends CompileContext<?, ?>>
         implements CompileTransformer<D, C>, CompiledClassAware {
 
-    @Value("${n2o.access.N2oObjectAccessPoint.default:false}")
-    private Boolean defaultObjectAccess;
-
-    @Value("${n2o.access.N2oPageAccessPoint.default:true}")
-    private Boolean defaultPageAccess;
-
-    @Value("${n2o.access.N2oUrlAccessPoint.default:true}")
-    private Boolean defaultUrlAccess;
+    private static String DEFAULT_OBJECT_ACCESS_DENIED = "n2o.access.deny_objects";
+    private static String DEFAULT_PAGE_ACCESS_DENIED = "n2o.access.deny_pages";
+    private static String DEFAULT_URL_ACCESS_DENIED = "n2o.access.deny_urls";
 
     protected void collectObjectAccess(PropertiesAware compiled, String objectId,
-                                       String operationId, SimpleCompiledAccessSchema schema) {
+                                       String operationId, SimpleCompiledAccessSchema schema,
+                                       CompileProcessor p) {
         if (objectId == null) return;
         Security security = getSecurity(compiled);
         Security.SecurityObject securityObject = new Security.SecurityObject();
@@ -129,13 +122,17 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         }
 
         if (securityObject.isEmpty()) {
-            securityObject.setPermitAll(defaultObjectAccess);
-            securityObject.setDenied(!defaultObjectAccess);
+            Boolean defaultObjectAccessDenied = p.resolve(property(DEFAULT_OBJECT_ACCESS_DENIED), Boolean.class);
+            securityObject.setPermitAll(!defaultObjectAccessDenied);
+            securityObject.setDenied(defaultObjectAccessDenied);
         }
         security.getSecurityMap().put("object", securityObject);
     }
 
-    protected void collectPageAccess(PropertiesAware compiled, String pageId, SimpleCompiledAccessSchema schema) {
+    protected void collectPageAccess(PropertiesAware compiled, String pageId, SimpleCompiledAccessSchema schema,
+                                     CompileProcessor p) {
+        if (pageId == null)
+            return;
         Security security = getSecurity(compiled);
         if (security.getSecurityMap() == null) {
             security.setSecurityMap(new HashMap<>());
@@ -223,10 +220,109 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         }
 
         if (securityObject.isEmpty()) {
-            securityObject.setPermitAll(defaultPageAccess);
-            securityObject.setDenied(!defaultPageAccess);
+            Boolean defaultPageAccessDenied = p.resolve(property(DEFAULT_PAGE_ACCESS_DENIED), Boolean.class);
+            securityObject.setPermitAll(!defaultPageAccessDenied);
+            securityObject.setDenied(defaultPageAccessDenied);
         }
         security.getSecurityMap().put("page", securityObject);
+    }
+
+    protected void collectUrlAccess(PropertiesAware compiled, String url, SimpleCompiledAccessSchema schema,
+                                     CompileProcessor p) {
+        if (url == null)
+            return;
+        Security security = getSecurity(compiled);
+        if (security.getSecurityMap() == null) {
+            security.setSecurityMap(new HashMap<>());
+        } else if (security.getSecurityMap().get("url") != null
+                || security.getSecurityMap().get("custom") != null) return;
+
+        Security.SecurityObject securityObject = new Security.SecurityObject();
+
+        if (schema.getPermitAllPoints() != null) {
+            schema.getPermitAllPoints().stream()
+                    .filter(ap -> ap instanceof N2oUrlAccessPoint
+                            && ((N2oUrlAccessPoint) ap).getMatcher().matches(url))
+                    .collect(Collectors.collectingAndThen(
+                            Collectors.toList(),
+                            list -> {
+                                if (list.size() == 1) {
+                                    securityObject.setPermitAll(true);
+                                }
+                                return list;
+                            }
+                    ));
+        }
+
+        if (schema.getAuthenticatedPoints() != null) {
+            schema.getAuthenticatedPoints().stream()
+                    .filter(ap -> ap instanceof N2oUrlAccessPoint
+                            && ((N2oUrlAccessPoint) ap).getMatcher().matches(url))
+                    .collect(Collectors.collectingAndThen(
+                            Collectors.toList(),
+                            list -> {
+                                if (list.size() == 1) {
+                                    securityObject.setAuthenticated(true);
+                                }
+                                return list;
+                            }
+                    ));
+        }
+
+        if (schema.getAnonymousPoints() != null) {
+            schema.getAnonymousPoints().stream()
+                    .filter(ap -> ap instanceof N2oUrlAccessPoint
+                            && ((N2oUrlAccessPoint) ap).getMatcher().matches(url))
+                    .collect(Collectors.collectingAndThen(
+                            Collectors.toList(),
+                            list -> {
+                                if (list.size() == 1) {
+                                    securityObject.setAnonymous(true);
+                                }
+                                return list;
+                            }
+                    ));
+        }
+
+        List<N2oRole> roles = PermissionAndRoleCollector.collectRoles(N2oUrlAccessPoint.class,
+                URL_ACCESS.apply(url), schema);
+        if (roles != null && roles.size() > 0) {
+            securityObject.setRoles(
+                    roles
+                            .stream()
+                            .map(N2oRole::getId)
+                            .collect(Collectors.toSet())
+            );
+        }
+
+        List<N2oPermission> permissions = PermissionAndRoleCollector.collectPermission(N2oUrlAccessPoint.class,
+                URL_ACCESS.apply(url), schema);
+        if (permissions != null && permissions.size() > 0) {
+            securityObject.setPermissions(
+                    permissions
+                            .stream()
+                            .map(N2oPermission::getId)
+                            .collect(Collectors.toSet())
+            );
+        }
+
+        List<N2oUserAccess> userAccesses = PermissionAndRoleCollector.collectUsers(N2oUrlAccessPoint.class,
+                URL_ACCESS.apply(url), schema);
+        if (userAccesses != null && userAccesses.size() > 0) {
+            securityObject.setUsernames(
+                    userAccesses
+                            .stream()
+                            .map(N2oUserAccess::getId)
+                            .collect(Collectors.toSet())
+            );
+        }
+
+        if (securityObject.isEmpty()) {
+            Boolean defaultUrlAccessDenied = p.resolve(property(DEFAULT_URL_ACCESS_DENIED), Boolean.class);
+            securityObject.setPermitAll(!defaultUrlAccessDenied);
+            securityObject.setDenied(defaultUrlAccessDenied);
+        }
+        security.getSecurityMap().put("url", securityObject);
     }
 
     private Security getSecurity(PropertiesAware compiled) {

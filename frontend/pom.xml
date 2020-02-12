@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>framework</artifactId>
-        <version>7.4.0-SNAPSHOT</version>
+        <version>7.5.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
     <artifactId>frontend</artifactId>
     <packaging>jar</packaging>
+
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
 
     <profiles>
         <profile>
@@ -32,78 +35,78 @@
                         <executions>
 
                             <execution>
-                                <id>install-node-and-npm</id>
+                                <id>install-node-and-yarn</id>
                                 <goals>
-                                    <goal>install-node-and-npm</goal>
+                                    <goal>install-node-and-yarn</goal>
                                 </goals>
                                 <configuration>
-                                    <nodeVersion>v8.11.3</nodeVersion>
-                                    <npmVersion>5.6.0</npmVersion>
+                                    <nodeVersion>v10.16.0</nodeVersion>
+                                    <yarnVersion>v1.6.0</yarnVersion>
                                 </configuration>
                             </execution>
 
                             <execution>
-                                <id>npm install</id>
+                                <id>yarn install</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
-                                        <max_old_space_size>2000</max_old_space_size>
+                                        <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
                                     <arguments>install</arguments>
                                 </configuration>
                             </execution>
 
                             <execution>
-                                <id>npm run bootstrap</id>
+                                <id>yarn run build:libs</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
-                                        <max_old_space_size>2000</max_old_space_size>
+                                        <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
-                                    <arguments>run bootstrap</arguments>
+                                    <arguments>run build:libs</arguments>
                                 </configuration>
                             </execution>
 
                             <execution>
-                                <id>npm run build</id>
+                                <id>yarn run build:projects</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
-                                        <max_old_space_size>2000</max_old_space_size>
+                                        <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
-                                    <arguments>run build</arguments>
+                                    <arguments>run build:projects</arguments>
                                 </configuration>
                             </execution>
 
                             <execution>
-                                <id>npm run test</id>
+                                <id>yarn run test</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
-                                        <max_old_space_size>2000</max_old_space_size>
+                                        <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
                                     <arguments>run test</arguments>
                                 </configuration>
                             </execution>
 
                             <execution>
-                                <id>npm run dev:docs</id>
+                                <id>yarn run docs</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
-                                        <max_old_space_size>2000</max_old_space_size>
+                                        <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
-                                    <arguments>run dev:docs</arguments>
+                                    <arguments>run docs</arguments>
                                 </configuration>
                             </execution>
 

@@ -31,6 +31,7 @@ public class ToolbarCellElementIOv2 extends AbstractCellElementIOv2<N2oToolbarCe
 
     private void button(Element e, N2oButton b, IOProcessor p) {
         menuItem(e, b, p);
+        p.attribute(e, "color", b::getColor, b::setColor);
         p.attributeEnum(e, "type", b::getType, b::setType, LabelType.class);
         p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);
         p.attribute(e, "widget-id", b::getWidgetId, b::setWidgetId);
@@ -44,6 +45,7 @@ public class ToolbarCellElementIOv2 extends AbstractCellElementIOv2<N2oToolbarCe
         p.attribute(e, "description", s::getDescription, s::setDescription);
         p.attribute(e, "icon", s::getIcon, s::setIcon);
         p.attribute(e, "class", s::getClassName, s::setClassName);
+        p.attribute(e, "style", s::getStyle, s::setStyle);
         p.attributeEnum(e, "type", s::getType, s::setType, LabelType.class);
         p.attributeArray(e, "generate", ",", s::getGenerate, s::setGenerate);
         p.children(e, null, "menu-item", s::getMenuItems, s::setMenuItems, N2oMenuItem.class, this::submenu);
@@ -58,12 +60,15 @@ public class ToolbarCellElementIOv2 extends AbstractCellElementIOv2<N2oToolbarCe
         p.attributeBoolean(e, "validate", mi::getValidate, mi::setValidate);
         p.attribute(e, "action-id", mi::getActionId, mi::setActionId);
         p.attribute(e, "class", mi::getClassName, mi::setClassName);
+        p.attribute(e, "style", mi::getStyle, mi::setStyle);
         p.attribute(e, "description", mi::getDescription, mi::setDescription);
         p.attributeBoolean(e,"confirm", mi::getConfirm, mi::setConfirm);
         p.attribute(e, "confirm-text", mi::getConfirmText, mi::setConfirmText);
+        p.attributeEnum(e, "confirm-type", mi::getConfirmType, mi::setConfirmType, ConfirmType.class);
         p.attribute(e, "confirm-title", mi::getConfirmTitle, mi::setConfirmTitle);
         p.attribute(e, "confirm-ok-label", mi::getConfirmOkLabel, mi::setConfirmOkLabel);
         p.attribute(e, "confirm-cancel-label", mi::getConfirmCancelLabel, mi::setConfirmCancelLabel);
+        p.attribute(e, "tooltip-position", mi::getTooltipPosition, mi::setTooltipPosition);
         p.anyAttributes(e, mi::getExtAttributes, mi::setExtAttributes);
     }
 

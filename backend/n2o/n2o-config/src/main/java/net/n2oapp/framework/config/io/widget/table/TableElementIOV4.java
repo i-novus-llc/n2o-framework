@@ -1,20 +1,19 @@
 package net.n2oapp.framework.config.io.widget.table;
 
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.Size;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.ColumnFixedPosition;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.DirectionType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.action.ActionIOv1;
 import net.n2oapp.framework.config.io.control.ControlIOv2;
 import net.n2oapp.framework.config.io.fieldset.FieldsetIOv4;
-import net.n2oapp.framework.config.io.widget.WidgetElementIOv4;
+import net.n2oapp.framework.config.io.widget.AbstractListWidgetElementIOv4;
 import net.n2oapp.framework.config.io.widget.table.cell.CellIOv2;
-import net.n2oapp.framework.config.io.widget.table.cell.SwitchIO;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
@@ -22,13 +21,12 @@ import org.springframework.stereotype.Component;
  * Чтение\запись таблицы
  */
 @Component
-public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
+public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
 
     @Override
     public String getElementName() {
         return "table";
     }
-
 
     @Override
     public Class<N2oTable> getElementClass() {
@@ -44,11 +42,10 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
         p.attribute(e, "scroll-y", t::getScrollY, t::setScrollY);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns,
                 p.oneOf(AbstractColumn.class).add("column", N2oSimpleColumn.class, this::column));
-        p.child(e, null, "rows", t::getRows, t::setRows, N2oRow::new, this::rows);
-        p.child(e, null, "pagination", t::getPagination, t::setPagination, N2oPagination::new, this::pagination);
         p.childAttributeEnum(e, "filters", "place", t::getFilterPosition, t::setFilterPosition, N2oTable.FilterPosition.class);
         p.childAttributeBoolean(e, "filters", "search-on-change", t::getSearchOnChange, t::setSearchOnChange);
-        p.anyChildren(e, "filters", t::getFilters, t::setFilters, p.anyOf(), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
+        p.anyChildren(e, "filters", t::getFilters, t::setFilters, p.anyOf(SourceComponent.class), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
+        p.attributeEnum(e, "children", t::getChildren, t::setChildren, N2oTable.ChildrenToggle.class);
     }
 
     private void abstractColumn(Element e, AbstractColumn c, IOProcessor p) {
@@ -69,28 +66,5 @@ public class TableElementIOV4 extends WidgetElementIOv4<N2oTable> {
     private void column(Element e, N2oSimpleColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
         p.anyChild(e, null, c::getCell, c::setCell, p.anyOf(N2oCell.class), CellIOv2.NAMESPACE);
-    }
-
-
-    private void rows(Element e, N2oRow r, IOProcessor p) {
-        p.attribute(e, "class", r::getRowClass, r::setRowClass);
-        p.child(e, null, "switch", r::getColor, r::setColor, new SwitchIO());
-        p.child(e, null, "click", r::getRowClick, r::setRowClick, N2oRowClick::new, this::rowClick);
-    }
-
-
-    private void pagination(Element e, N2oPagination page, IOProcessor p) {
-        p.attribute(e, "src", page::getSrc, page::setSrc);
-        p.attributeBoolean(e, "prev", page::getPrev, page::setPrev);
-        p.attributeBoolean(e, "next", page::getNext, page::setNext);
-        p.attributeBoolean(e, "last", page::getLast, page::setLast);
-        p.attributeBoolean(e, "first", page::getFirst, page::setFirst);
-        p.attributeBoolean(e, "show-count", page::getShowCount, page::setShowCount);
-        p.attributeBoolean(e, "hide-single-page", page::getHideSinglePage, page::setHideSinglePage);
-    }
-
-    private void rowClick(Element e, N2oRowClick m, IOProcessor p) {
-        p.attribute(e, "action-id", m::getActionId, m::setActionId);
-        p.anyChild(e, null, m::getAction, m::setAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
     }
 }

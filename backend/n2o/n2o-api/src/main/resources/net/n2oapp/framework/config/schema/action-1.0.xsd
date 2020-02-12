@@ -12,7 +12,8 @@
     <xs:element name="clear" type="clearDefinition"/>
     <xs:element name="set-value" type="setValueDefinition"/>
     <xs:element name="execute-query" type="executeQueryDefinition"/>
-    <xs:element name="custom" type="customDefinition"/>
+    <xs:element name="perform" type="performDefinition"/>
+
 
     <xs:complexType name="actions">
         <xs:sequence>
@@ -26,7 +27,7 @@
             <xs:element name="clear" type="clearDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="set-value" type="setValueDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="execute-query" type="executeQueryDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="custom" type="customDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="perform" type="performDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку обработчик действий.</xs:documentation>
@@ -149,6 +150,11 @@
                         <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="object-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор объекта</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="master-param" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Параметр фильтра</xs:documentation>
@@ -174,7 +180,11 @@
                         <xs:documentation>Размер модального окна.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="object-id" type="xs:string" use="optional"/>
+                <xs:attribute name="object-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор объекта</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="master-param" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Параметр фильтра</xs:documentation>
@@ -192,6 +202,11 @@
                         <xs:documentation>
                             Предупредить о несохраненных данных на форме при закрытии модального окна?
                         </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="type" type="showModalMode" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Вид отображения модального окна. По умолчанию modal</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -315,6 +330,13 @@
                     <xs:annotation>
                         <xs:documentation>
                             Показать сообщение о неудачном выполнении действия
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="optimistic" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Включение режима optimistic запросов на сервер
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -444,12 +466,18 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="customDefinition">
+    <xs:complexType name="performDefinition">
         <xs:complexContent>
             <xs:extension base="actionDefinition">
                 <xs:annotation>
                     <xs:documentation>Кастомное действие.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="type" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Тип действия.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -605,6 +633,16 @@
                 <xs:documentation>Параметр фильтра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="reset-on-change" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation>Сбрасывать значение при изменении в модели.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="routable" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Попадает ли фильтр в url. По умолчанию false.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="preFieldDefValue">
@@ -645,6 +683,16 @@
             <xs:enumeration value="resolve"/>
             <xs:enumeration value="edit"/>
             <xs:enumeration value="filter"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="showModalMode">
+        <xs:annotation>
+            <xs:documentation>Вид отображения модального окна</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="modal"/>
+            <xs:enumeration value="drawer"/>
         </xs:restriction>
     </xs:simpleType>
 

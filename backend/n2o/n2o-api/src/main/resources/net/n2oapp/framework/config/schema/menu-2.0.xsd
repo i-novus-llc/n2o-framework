@@ -6,13 +6,32 @@
 
     <xs:complexType name="menuDefinition">
         <xs:sequence>
-            <xs:element name="page" type="pageDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="a" type="aDef" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="sub-menu" type="subMenuDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="page" type="pageDef" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Ссылка на страницу</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="a" type="aDef" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Открыть страницу браузера</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="sub-menu" type="subMenuDef" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Кнопка с выпадающим меню</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
-        <xs:attribute name="ref-id"/>
-        <xs:attribute name="src" use="optional"/>
-        <xs:attribute name="welcome-page-id" type="xs:string" use="optional"/>
+        <xs:attribute name="ref-id">
+            <xs:annotation>
+                <xs:documentation>Ссылка на родительский файл меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" use="optional">
+            <xs:annotation>
+                <xs:documentation>Реализация меню</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="subMenuDef">
@@ -20,8 +39,16 @@
             <xs:element name="page" type="pageDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="a" type="aDef" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="label" type="xs:string" use="required"/>
-        <xs:attribute name="icon" type="xs:string" use="optional"/>
+        <xs:attribute name="label" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Подпись кнопки</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Иконка</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -30,10 +57,26 @@
     </xs:complexType>
 
     <xs:complexType name="pageDef">
-        <xs:attribute name="label" type="xs:string" use="optional"/>
-        <xs:attribute name="page-id" type="xs:string" use="required"/>
-        <xs:attribute name="icon" type="xs:string" use="optional"/>
-        <xs:attribute name="route" type="xs:string" use="optional"/>
+        <xs:attribute name="label" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Заголовок кнопки</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="page-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Ссылка на страницу</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Иконка</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="route" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>URL страницы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -42,10 +85,26 @@
     </xs:complexType>
 
     <xs:complexType name="aDef">
-        <xs:attribute name="label" type="xs:string" use="required"/>
-        <xs:attribute name="href" type="xs:string" use="required"/>
-        <xs:attribute name="icon" type="xs:string" use="optional"/>
-        <xs:attribute name="target" use="optional" type="redirectTarget"/>
+        <xs:attribute name="label" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Подпись кнопки</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="href" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Адрес URL</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Иконка</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="target" use="optional" type="redirectTarget">
+            <xs:annotation>
+                <xs:documentation>Сценарий открытия страницы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -55,8 +114,16 @@
 
     <xs:simpleType name="redirectTarget">
         <xs:restriction>
-            <xs:enumeration value="self"/>
-            <xs:enumeration value="newWindow"/>
+            <xs:enumeration value="self">
+                <xs:annotation>
+                    <xs:documentation>Открыть в текущей вкладке</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="newWindow">
+                <xs:annotation>
+                    <xs:documentation>Открыть в новой вкладке</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
         </xs:restriction>
     </xs:simpleType>
 

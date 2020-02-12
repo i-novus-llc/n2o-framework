@@ -29,6 +29,11 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |Стиль филдсета
 |
 
+|style
+|CSS свойства
+|Список CSS свойств
+|
+
 |place
 |Строка
 |Место расположения филдсета
@@ -124,6 +129,11 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |Стиль строки
 |
 
+|style
+|CSS свойства
+|Список CSS свойств
+|
+
 |===
 
 Тело::
@@ -165,6 +175,16 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |class
 |CSS класс
 |Стиль столбца
+|
+
+|style
+|CSS свойства
+|Список CSS свойств
+|
+
+|visible
+|true false
+|Видимость
 |
 
 |===
@@ -263,6 +283,11 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |Стиль филдсета
 |
 
+|style
+|CSS свойства
+|Список CSS свойств
+|
+
 |header
 |true false
 |Наличие шапки панели
@@ -275,7 +300,8 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 ----
 <panel title="Карточка"
   header="true"
-  class="bg-primary">
+  class="bg-primary"
+  style="color: red; background-color: black">
   ...
 </panel>
 ----

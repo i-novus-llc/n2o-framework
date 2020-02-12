@@ -4,19 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Компонент ввода редактирования кода
+ * Компонент редактора кода
  */
 @Getter
 @Setter
 public class N2oCodeEditor extends N2oText {
-    private Language language;
-
-
-    public enum Language {
-        sql,
-        xml,
-        javascript,
-        groovy,
-        java
-    }
+    private CodeLanguageEnum language;
+    private Integer minLines;
+    private Integer maxLines;
 }

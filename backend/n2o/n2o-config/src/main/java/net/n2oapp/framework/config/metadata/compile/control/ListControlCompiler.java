@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -31,6 +32,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     protected StandardField<T> compileListControl(T listControl, S source, CompileContext<?, ?> context, CompileProcessor p) {
         listControl.setFormat(p.resolveJS(source.getFormat()));
         listControl.setLabelFieldId(p.cast(p.resolveJS(source.getLabelFieldId()), "name"));
+        listControl.setSortFieldId(p.cast(source.getSortFieldId(), listControl.getLabelFieldId()));
         listControl.setValueFieldId(p.cast(p.resolveJS(source.getValueFieldId()), "id"));
         listControl.setIconFieldId(p.resolveJS(source.getIconFieldId()));
         listControl.setBadgeFieldId(p.resolveJS(source.getBadgeFieldId()));
@@ -116,7 +118,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + route);
 
         if (listControl.getHasSearch() != null && listControl.getHasSearch()) {
-            String searchFilterId = p.cast(source.getSearchFieldId(), listControl.getLabelFieldId());
+            String searchFilterId = p.cast(source.getSearchFilterId(), listControl.getLabelFieldId());
             if (query.getFilterIdToParamMap().containsKey(searchFilterId)) {
                 dataProvider.setQuickSearchParam(query.getFilterIdToParamMap().get(searchFilterId));
             } else if (searchFilterId != null && listControl.getHasSearch()) {
@@ -144,6 +146,13 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                     queryMap.put(filterParam, link);
                 } else {
                     queryMap.put(filterParam, new ModelLink(prefilterValue));
+                }
+
+                if (Boolean.TRUE.equals(preFilter.getResetOnChange())
+                        && StringUtils.isLink(preFilter.getValue())) {
+                    N2oField.ResetDependency reset = new N2oField.ResetDependency();
+                    reset.setOn(new String[]{preFilter.getValue().substring(1, preFilter.getValue().length() - 1)});
+                    source.addDependency(reset);
                 }
             }
         }

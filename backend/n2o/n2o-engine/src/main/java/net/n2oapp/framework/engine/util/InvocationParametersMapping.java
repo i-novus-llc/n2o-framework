@@ -6,13 +6,13 @@ import net.n2oapp.criteria.dataset.DataSetMapper;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
 import net.n2oapp.framework.api.data.CriteriaConstructor;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.properties.StaticProperties;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
@@ -44,16 +44,13 @@ public class InvocationParametersMapping {
      * @param inMapping  маппинг входных данных
      * @return
      */
-    public static Object[] mapToArgs(N2oArgumentsInvocation invocation, DataSet inDataSet, Map<String, String> inMapping) {
+    public static Object[] mapToArgs(N2oArgumentsInvocation invocation, DataSet inDataSet, Map<String, String> inMapping,
+                                     DomainProcessor domainProcessor) {
         inMapping = changeInMappingForEntity(invocation, inMapping);
         if (invocation.getArguments() == null || invocation.getArguments().length == 0) {
             return null;
         }
-        List<String> argClasses = new ArrayList<>();
-        for (Argument arg : invocation.getArguments()) {
-            argClasses.add(arg.getClassName());
-        }
-        return MappingProcessor.map(inDataSet, inMapping, argClasses);
+        return MappingProcessor.map(inDataSet, inMapping, invocation.getArguments(), domainProcessor);
     }
 
     /**
@@ -64,13 +61,7 @@ public class InvocationParametersMapping {
      * @return
      */
     public static Map<String, Object> mapToMap(DataSet dataSet, Map<String, String> mapping) {
-        if (StaticProperties.get("n2o.engine.mapper").equals("spel")) {
-            return DataSetMapper.mapToMap(dataSet, mapping, null);
-        } else {
-            DataSet result = new DataSet();
-            mapping.forEach((key, value) -> result.put(value, dataSet.get(key)));
-            return result;
-        }
+        return DataSetMapper.mapToMap(dataSet, mapping, null);
     }
 
 

@@ -5,7 +5,7 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>framework</artifactId>
-        <version>7.4.0-SNAPSHOT</version>
+        <version>7.5.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>backend</artifactId>
@@ -80,14 +80,14 @@
 
     <profiles>
         <profile>
-            <id>sonar-coverage</id>
+            <id>jacoco</id>
             <build>
                 <pluginManagement>
                     <plugins>
                         <plugin>
                             <groupId>org.jacoco</groupId>
                             <artifactId>jacoco-maven-plugin</artifactId>
-                            <version>0.7.8</version>
+                            <version>0.8.2</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>
@@ -97,6 +97,7 @@
                         <artifactId>jacoco-maven-plugin</artifactId>
                         <configuration>
                             <append>true</append>
+                            <destFile>${project.basedir}/../target/jacoco.exec</destFile>
                         </configuration>
                         <executions>
                             <execution>

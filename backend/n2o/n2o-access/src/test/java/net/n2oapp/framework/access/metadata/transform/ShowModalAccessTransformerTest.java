@@ -4,7 +4,8 @@ import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessT
 import net.n2oapp.framework.access.integration.metadata.transform.action.ShowModalAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -18,8 +19,7 @@ import org.junit.Test;
 
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertTrue;
 
 public class ShowModalAccessTransformerTest extends SourceCompileTestBase {
@@ -47,7 +47,7 @@ public class ShowModalAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testShowModal.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testShowModalAccessTransformer.page.xml");
 
-        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testShowModalAccessTransformer"));
+        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testShowModalAccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
@@ -90,7 +90,7 @@ public class ShowModalAccessTransformerTest extends SourceCompileTestBase {
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testShowModalV2.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testShowModalAccessTransformer.page.xml");
 
-        Page page = (Page) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testShowModalAccessTransformer"));
+        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testShowModalAccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) page.getToolbar().get("bottomRight")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
@@ -119,6 +119,15 @@ public class ShowModalAccessTransformerTest extends SourceCompileTestBase {
         assertTrue(securityObject.getRoles().contains("role"));
         assertThat(securityObject.getUsernames(), nullValue());
         assertThat(securityObject.getAnonymous(), is(true));
+
+        securityObject = ((Security) page.getWidgets().get("testShowModalAccessTransformer_widgetId").getToolbar().get("topLeft")
+                .get(0).getButtons().get(1).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+        assertThat(securityObject, notNullValue());
+        assertThat(securityObject.getPermissions().size(), is(1));
+        assertTrue(securityObject.getPermissions().contains("permission"));
+        assertThat(securityObject.getRoles().size(), is(1));
+        assertTrue(securityObject.getRoles().contains("admin"));
+        assertTrue(securityObject.getUsernames().contains("user"));
 
         securityObject = ((Security) page.getWidgets().get("testShowModalAccessTransformer_widgetId").getToolbar().get("topLeft")
                 .get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page");

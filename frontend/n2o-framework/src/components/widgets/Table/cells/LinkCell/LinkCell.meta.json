@@ -1,0 +1,11 @@
+{
+  "id": "name",
+  "src": "LinkCell",
+  "fieldKey": "name",
+  "className" : "n2o",
+  "style" : {},
+  "icon": "icon",
+  "type": "text",
+  "url": "/page/widget/test",
+  "target": "application"
+}

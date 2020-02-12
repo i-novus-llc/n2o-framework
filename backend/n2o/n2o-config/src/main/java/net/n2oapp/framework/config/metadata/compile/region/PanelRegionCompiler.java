@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,15 +32,16 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         build(region, source, context, p);
         region.setPlace(source.getPlace());
         region.setClassName(source.getClassName());
+        region.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         region.setItems(initItems(source, p, PanelRegion.Panel.class));
-        //  region.setColor();
-        //region.setIcon();
+        region.setColor(source.getColor());
+        region.setIcon(source.getIcon());
         if (region.getItems() != null && !region.getItems().isEmpty()) {
             region.setHasTabs(region.getItems().size() > 1);
         }
         region.setHeader(source.getHeader());
-        //  region.setFooterTitle();
-        region.setOpen(true);
+        region.setFooterTitle(source.getFooterTitle());
+        region.setOpen(p.cast(source.getOpen(), true));
         region.setCollapsible(source.getCollapsible() != null ? source.getCollapsible() : true);
         region.setFullScreen(false);
         if (source.getTitle() == null && region.getItems().size() == 1) {

@@ -1,7 +1,10 @@
 package net.n2oapp.framework.engine.util;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
@@ -70,10 +73,10 @@ public class MappingProcessor {
      * @param mapping      выражение преобразования
      * @param defaultValue значение по умолчанию
      */
-    public static void outMap(DataSet target, Object value, String fieldId, String mapping, Object defaultValue) {
+    public static void outMap(DataSet target, Object value, String fieldId, String mapping, Object defaultValue, ContextProcessor contextProcessor) {
         Expression expression = readParser.parseExpression(mapping);
         Object obj = expression.getValue(value);
-        target.put(fieldId, obj == null ? defaultValue : obj);
+        target.put(fieldId, obj == null ? contextProcessor.resolve(defaultValue) : obj);
     }
 
     /**
@@ -81,11 +84,16 @@ public class MappingProcessor {
      *
      * @param dataSet         исходные данные
      * @param mapping         правила маппинга
-     * @param argumentClasses список названий классов
+     * @param arguments       список аргументов
      * @return массив объектов
      */
-    public static Object[] map(DataSet dataSet, Map<String, String> mapping, List<String> argumentClasses) {
-        Object[] instances = instantiateArguments(argumentClasses);
+    public static Object[] map(DataSet dataSet, Map<String, String> mapping, Argument[] arguments,
+                               DomainProcessor domainProcessor) {
+        List<String> argClasses = new ArrayList<>();
+        for (Argument arg : arguments) {
+            argClasses.add(arg.getClassName());
+        }
+        Object[] instances = instantiateArguments(argClasses);
         Object[] result;
         if (instances == null || instances.length == 0) {
             result = new Object[mapping.size()];
@@ -98,6 +106,11 @@ public class MappingProcessor {
                     : "[" + idx + "]");
             expression.setValue(result, dataSet.get(map.getKey()));
             idx++;
+        }
+        for (int i=0; i < result.length; i++) {
+            if (result[i] == null && arguments[i].getDefaultValue() != null) {
+                result[i] = domainProcessor.deserialize(arguments[i].getDefaultValue());
+            }
         }
         return result;
     }

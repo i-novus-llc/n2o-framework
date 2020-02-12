@@ -3,8 +3,10 @@
     <columns>
         <column text-field-id="name">
             <toolbar src="ButtonsCell">
-                <button id="1" label="Кнопка" icon="fa fa-vk" description="Подсказка" visible="true">
-                    <custom src="dummyImpl"/>
+                <button id="testBut" label="Кнопка" icon="fa fa-vk" description="Подсказка" visible="true"
+                        tooltip-position="top" confirm="true"
+                        confirm-text="Вы хотите совершить действие?" confirm-title="Вы уверены?" confirm-ok-label="Да">
+                    <perform src="dummyImpl"/>
                 </button>
             </toolbar>
         </column>
