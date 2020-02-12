@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,7 +110,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         public Object extractData(ClientHttpResponse response) throws IOException {
             String result;
             try (InputStream body = response.getBody()) {
-                result = IOUtils.toString(body, "UTF-8");
+                result = IOUtils.toString(body, StandardCharsets.UTF_8);
             }
             Object data = null;
             if (result != null && !result.isEmpty()) {
@@ -159,6 +160,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         if (!str.contains("{") || !str.contains("}")) return str;
         String paramKey = str.substring(str.indexOf('{') + 1, str.indexOf('}'));
         if (!(args.get(paramKey) instanceof List)) {
+            if (args.get(paramKey) == null) return "";
             args.put(paramKey, resolveType(str, args.get(paramKey)));
             return str;
         }
@@ -167,6 +169,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         Optional<String> result = params
                 .stream()
                 .map(item -> {
+                            if (item == null) return "";
                             String newParamKey = paramKey + i.incrementAndGet();
                             args.put(newParamKey, resolveType(str, item));
                             return str.replace(Placeholders.ref(paramKey), Placeholders.ref(newParamKey));

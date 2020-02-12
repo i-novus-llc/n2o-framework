@@ -267,7 +267,7 @@ public class SpringRestDataProviderEngineTest {
         dataProvider.setMethod(N2oRestDataProvider.Method.GET);
         Map<String, Object> request = new HashMap<>();
         request.put("filters", new ArrayList<>());
-        request.put("filter1*.id", Arrays.asList("1", "2"));
+        request.put("filter1*.id", Arrays.asList("1", "2", null));
         request.put("filter2*.name", Arrays.asList("a", "b"));
         request.put("filter3*.value", "testValue");
         ((List) request.get("filters")).add("filter1={filter1*.id}");
@@ -294,7 +294,8 @@ public class SpringRestDataProviderEngineTest {
         request.put("cyrillic", "ы");
         request.put("quote", "\"");
         request.put("param", "{abc}");
-        request.put("filters", Arrays.asList("f1={space}", "f2={cyrillic}", "f3={quote}", "f4={param}"));
+        request.put("nullParam", null);
+        request.put("filters", Arrays.asList("f1={space}", "f2={cyrillic}", "f3={quote}", "f4={param}", "f5={nullParam}"));
 
         actionEngine.invoke(dataProvider, request);
         assertThat(restClient.getQuery(), is("http://localhost:8080/test/path?f1=%20&f2=%D1%8B&f3=%22&f4=%7Babc%7D"));
