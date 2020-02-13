@@ -7,6 +7,7 @@ import pickBy from 'lodash/pickBy';
 import isObject from 'lodash/isObject';
 import isEmpty from 'lodash/isEmpty';
 import assign from 'lodash/assign';
+import defaultTo from 'lodash/defaultTo';
 import flatten from 'flat';
 import invariant from 'invariant';
 import queryString from 'query-string';
@@ -88,7 +89,10 @@ export const defaultApiProvider = {
         queryString.stringify(
           flatten(clearEmptyParams(options.baseQuery), { safe: true })
         ),
-      ].join('')
+      ].join(''),
+      {
+        headers: defaultTo(options.headers, {}),
+      }
     ),
   [FETCH_INVOKE_DATA]: options =>
     request(
@@ -103,6 +107,7 @@ export const defaultApiProvider = {
         method: options.baseMethod || 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...defaultTo(options.headers, {}),
         },
         body: JSON.stringify(options.model || {}),
       }

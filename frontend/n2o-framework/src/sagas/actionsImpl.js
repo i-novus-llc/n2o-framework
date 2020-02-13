@@ -90,7 +90,13 @@ export function* handleAction(factories, action) {
 
 export function* resolveMapping(dataProvider, state) {
   const pathParams = yield call(getParams, dataProvider.pathMapping, state);
-  return pathToRegexp.compile(dataProvider.url)(pathParams);
+  const headers = yield call(getParams, dataProvider.headersMapping, state);
+
+  return {
+    path: pathToRegexp.compile(dataProvider.url)(pathParams),
+    pathParams,
+    headers,
+  };
 }
 
 /**
@@ -102,7 +108,7 @@ export function* resolveMapping(dataProvider, state) {
  */
 export function* fetchInvoke(dataProvider, model, apiProvider) {
   const state = yield select();
-  const path = yield resolveMapping(dataProvider, state);
+  const { path, headers } = yield resolveMapping(dataProvider, state);
   const response = yield call(
     fetchSaga,
     FETCH_INVOKE_DATA,
@@ -111,6 +117,7 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
       baseQuery: {},
       baseMethod: dataProvider.method,
       model,
+      headers,
     },
     apiProvider
   );
