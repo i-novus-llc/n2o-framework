@@ -1,7 +1,5 @@
 package net.n2oapp.demo;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.WebDriverRunner;
 import net.n2oapp.demo.model.ProtoPage;
 import org.junit.Before;
 import org.junit.BeforeClass;
