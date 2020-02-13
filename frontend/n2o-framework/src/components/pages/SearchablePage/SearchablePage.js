@@ -14,7 +14,7 @@ import Alert from '../../snippets/Alerts/Alert';
 import DocumentTitle from '../../core/DocumentTitle';
 import DefaultBreadcrumb from '../../core/Breadcrumb/DefaultBreadcrumb';
 import BreadcrumbContainer from '../../core/Breadcrumb/BreadcrumbContainer';
-import Actions from '../../actions/Actions';
+import Toolbar from "../../buttons/Toolbar";
 import PageRegions from '../PageRegions';
 import SearchBar from '../../snippets/SearchBar/SearchBar';
 
@@ -22,10 +22,8 @@ function SearchablePage({
   id,
   metadata,
   toolbar = {},
-  actions,
-  containerKey,
-  error,
   pageId,
+  error,
   regions,
   disabled,
   onSearch,
@@ -49,13 +47,7 @@ function SearchablePage({
             items={metadata.breadcrumb}
           />
         )}
-        <Actions
-          className="ml-3"
-          toolbar={toolbar.breadcrumbLeft}
-          actions={actions}
-          containerKey={containerKey}
-          pageId={pageId}
-        />
+        <Toolbar className='ml-2' entityKey={pageId} toolbar={toolbar.breadcrumbLeft} />
         <SearchBar
           {...searchBar}
           initialValue={filterValue}
@@ -64,37 +56,13 @@ function SearchablePage({
         />
       </div>
       <div className="n2o-page-actions">
-        <Actions
-          className="ml-3"
-          toolbar={toolbar.topLeft}
-          actions={actions}
-          containerKey={containerKey}
-          pageId={pageId}
-        />
-        <Actions
-          className="ml-3"
-          toolbar={toolbar.topRight}
-          actions={actions}
-          containerKey={containerKey}
-          pageId={pageId}
-        />
+        <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.topLeft} />
+        <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.topRight} />
       </div>
       <PageRegions id={id} regions={regions} />
       <div className="n2o-page-actions">
-        <Actions
-          className="ml-3"
-          toolbar={toolbar.bottomLeft}
-          actions={actions}
-          containerKey={containerKey}
-          pageId={pageId}
-        />
-        <Actions
-          className="ml-3"
-          toolbar={toolbar.bottomRight}
-          actions={actions}
-          containerKey={containerKey}
-          pageId={pageId}
-        />
+        <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.bottomLeft} />
+        <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.bottomRight} />
       </div>
     </div>
   );
@@ -111,6 +79,7 @@ const enhance = compose(
     searchModelPrefix: get(props, 'metadata.searchModelPrefix'),
     searchModelKey: get(props, 'metadata.searchModelKey'),
     searchBar: get(props, 'metadata.searchBar', {}),
+    toolbar: get(props, 'metadata.toolbar', {})
   })),
   withHandlers({
     onSearch: ({
