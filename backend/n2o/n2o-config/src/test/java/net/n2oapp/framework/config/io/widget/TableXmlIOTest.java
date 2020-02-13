@@ -12,8 +12,8 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 
-/*
- *Тестирование чтения и записи таблицы версии 4
+/**
+ * Тестирование чтения и записи таблицы версии 4
  */
 public class TableXmlIOTest {
     @Test

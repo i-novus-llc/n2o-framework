@@ -1,6 +1,6 @@
 {
 	"name": "n2o-auth",
-	"version": "7.5.0-SNAPSHOT",
+	"version": "7.5.0",
 	"description": "Пакеты для работы с N2O Security",
 	"main": "lib/index.js",
 	"module": "es/index.js",
@@ -11,13 +11,13 @@
 	"scripts": {
 		"build": "nwb build-web-module",
 		"clean": "nwb clean-module",
-		"prepublishOnly": "npm run build",
+		"prepublishOnly": "yarn run build",
 		"test": "nwb test",
 		"test:coverage": "nwb test --coverage",
 		"test:watch": "nwb test --server"
 	},
 	"dependencies": {
-		"n2o-framework": "^7.5.0-SNAPSHOT"
+		"n2o-framework": "^7.5.0"
 	},
 	"devDependencies": {
 		"chai": "^4.2.0",

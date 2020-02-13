@@ -1,7 +1,9 @@
 package net.n2oapp.demo;
 
+import net.n2oapp.demo.model.ProtoPage;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +28,7 @@ public class DemoIntegrationTest {
     public static void configure() {
         browser = "chrome";
         headless = true;
+        browserSize = "1920x1200";
     }
 
     @Before
@@ -45,12 +48,103 @@ public class DemoIntegrationTest {
     }
 
     @Test
+    public void testFilterByNameAndSurname() {
+        protoPage.testFilterByNameAndSurname();
+    }
+
+    @Test
+    public void testFilterByBirthday() {
+        protoPage.testFilterByBirthday();
+    }
+
+    @Test
+    public void testClearFilter() {
+        protoPage.testClearFilter();
+    }
+
+    @Test
     public void testTableSorting() {
         protoPage.testTableSorting();
     }
 
     @Test
+    public void testPagination() {
+        protoPage.testPagination();
+    }
+
+    @Test
+    public void testSurnameCell() {
+        protoPage.testSurnameCell();
+    }
+
+    @Test
+    public void testNameCell() {
+        protoPage.testNameCell();
+    }
+
+    @Test
+    public void testPatronymicCell() {
+        protoPage.testPatronymicCell();
+    }
+
+    @Test
+    public void testVipCell() {
+        protoPage.testVipCell();
+    }
+
+    @Test
     public void testTableEditBirthday() {
         protoPage.testTableEditBirthday();
+    }
+
+    @Test
+    public void testMasterDetail() {
+        protoPage.testMasterDetail();
+    }
+
+    @Test
+    public void testCreateContact() {
+        protoPage.assertCreateContact();
+    }
+
+    @Test
+    public void testAddClient() {
+        protoPage.assertAddClient();
+    }
+
+    @Test
+    public void testCreateClient() {
+        protoPage.assertCreateClient();
+    }
+
+    @Test
+    public void testUpdateClient() {
+        protoPage.assertUpdateClient();
+    }
+
+    @Test
+    @Ignore
+    public void testUpdateClientFromToolbarCell() {
+        protoPage.assertUpdateClientFromToolbarCell();
+    }
+
+    @Test
+    public void testUpdateClientFromBreadcrumbPage() {
+        protoPage.assertUpdateClientFromBreadcrumbPage();
+    }
+
+    @Test
+    public void testViewClient() {
+        protoPage.assertViewClient();
+    }
+
+    @Test
+    public void testTableInPlaceDelete() {
+        protoPage.testTableInPlaceDelete();
+    }
+
+    @Test
+    public void testTableRowDelete() {
+        protoPage.testTableRowDelete();
     }
 }
