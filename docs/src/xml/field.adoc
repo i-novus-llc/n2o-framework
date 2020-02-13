@@ -1177,27 +1177,27 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 Пример::
 [source,xml]
 ----
-  <interval-field id="range">
-             <begin>
-                 <input-text id="start-range" domain="integer" max="5" min="0"/>
-             </begin>
-             <end>
-                 <input-text id="end-range" domain="integer" max="5" min="0"/>
-             </end>
-         </interval-field>
+<interval-field id="range">
+    <begin>
+        <input-text id="start-range" domain="integer" max="5" min="0"/>
+    </begin>
+    <end>
+        <input-text id="end-range" domain="integer" max="5" min="0"/>
+    </end>
+</interval-field>
 ----
 
 ===== <begin>
 Начало интервала
 
 Тело::
-Список link:#_Поля_ввода[полей]
+link:#_Поля_ввода[Поле ввода]
 
 ===== <end>
 Конец интервала
 
 Тело::
-Список link:#_Поля_ввода[полей]
+link:#_Поля_ввода[Поле ввода]
 
 
 === <text-area>
