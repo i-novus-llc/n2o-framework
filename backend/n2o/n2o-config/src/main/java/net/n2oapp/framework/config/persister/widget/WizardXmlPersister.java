@@ -19,7 +19,7 @@ public class WizardXmlPersister extends WidgetXmlPersister<N2oWizard> {
     public Element getWidget(N2oWizard n2o, Namespace namespace) {
         Element element = new Element(getElementName(), namespace);
         persistWidget(element, n2o, namespace);
-        NamespacePersister fieldSetPersister = (NamespacePersister) persisterFactory.produce(namespace, N2oFieldSet.class);
+        NamespacePersister fieldSetPersister = persisterFactory.produce(N2oFieldSet.class, namespace);
         PersisterJdomUtil.setChildren(element, "steps", "step", n2o.getSteps(), (s, n) -> {
             Element step = new Element("step", n.getURI());
             PersisterJdomUtil.setAttribute(step, "name", s.getName());
