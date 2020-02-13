@@ -1,6 +1,7 @@
 package net.n2oapp.demo;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.WebDriverRunner;
 import net.n2oapp.demo.model.ProtoPage;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -29,10 +30,10 @@ public class DemoIntegrationTest {
 
     @BeforeClass
     public static void configure() {
-        Configuration.browserCapabilities = new DesiredCapabilities();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox","--disable-dev-shm-usage","--no-zygote","--disable-extensions","--whitelisted-ips");
-        Configuration.browserCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+//        Configuration.browserCapabilities = new DesiredCapabilities();
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("--no-sandbox","--disable-dev-shm-usage","--no-zygote","--disable-extensions","--whitelisted-ips");
+//        Configuration.browserCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
         browser = "chrome";
         headless = true;
