@@ -26,6 +26,8 @@ public class DemoIntegrationTest {
 
     @BeforeClass
     public static void configure() {
+        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
+
         browser = "chrome";
         headless = true;
         browserSize = "1920x1200";

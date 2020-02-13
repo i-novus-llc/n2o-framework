@@ -1,28 +1,23 @@
 package net.n2oapp.framework.config.io;
 
+import net.n2oapp.engine.factory.EngineNotFoundException;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.io.ElementIOFactory;
-import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import net.n2oapp.framework.api.metadata.io.NamespaceIOFactory;
-import net.n2oapp.framework.api.metadata.io.TypedElementIO;
+import net.n2oapp.framework.api.metadata.io.*;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
+import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
-import org.custommonkey.xmlunit.*;
+import org.custommonkey.xmlunit.DetailedDiff;
+import org.custommonkey.xmlunit.XMLUnit;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.jdom.Attribute;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.Namespace;
+import org.jdom.*;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 import org.junit.Assert;
@@ -30,18 +25,15 @@ import org.junit.Test;
 import org.springframework.core.env.PropertyResolver;
 import org.xml.sax.SAXException;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-
 import java.util.Map;
 import java.util.Properties;
 
-
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.mock;
 
 
 /**
@@ -92,7 +84,7 @@ public class IOProcessorTest {
         }
     }
 
-    static public class ExtAttributesEntity extends BaseEntity  implements ExtensionAttributesAware {
+    static public class ExtAttributesEntity extends BaseEntity implements ExtensionAttributesAware {
         private Map<N2oNamespace, Map<String, String>> extensions;
         private Map<N2oNamespace, Map<String, String>> childExtensions;
 
@@ -736,7 +728,12 @@ public class IOProcessorTest {
             }
 
             @Override
-            public NamespacePersister<ChildEntity> produce(Namespace namespace, Class<ChildEntity> clazz) {
+            public NamespaceIOFactory<ChildEntity, NamespaceReader<ChildEntity>, NamespacePersister<ChildEntity>> ignore(String... ignore) {
+                return this;
+            }
+
+            @Override
+            public NamespacePersister<ChildEntity> produce(Class<ChildEntity> clazz, Namespace... namespace) {
                 return new NamespacePersister<ChildEntity>() {
                     @Override
                     public Class<ChildEntity> getElementClass() {
@@ -768,7 +765,7 @@ public class IOProcessorTest {
             }
 
             @Override
-            public NamespaceReader<ChildEntity> produce(Namespace namespace, String elementName) {
+            public NamespaceReader<ChildEntity> produce(String elementName, Namespace... namespace) {
                 return new NamespaceReader<ChildEntity>() {
                     @Override
                     public Class<ChildEntity> getElementClass() {
@@ -810,6 +807,57 @@ public class IOProcessorTest {
         p.anyChild(out2, null, childEntity2::getChildEntity, childEntity2::setChildEntity, factory, null);
         assertThat(in1, isSimilarTo(out1));
         assertThat(in2, isSimilarTo(out2));
+
+        p = new IOProcessorImpl(new NamespaceReaderFactory() {
+            @Override
+            public NamespaceReader produce(String elementName, Namespace... namespace) {
+                if ("elem1".equals(elementName))
+                    throw new EngineNotFoundException(elementName);
+
+                return new NamespaceReader() {
+                    @Override
+                    public Class getElementClass() {
+                        return ChildEntity.class;
+                    }
+
+                    @Override
+                    public String getElementName() {
+                        return null;
+                    }
+
+                    @Override
+                    public String getNamespaceUri() {
+                        return null;
+                    }
+
+                    @Override
+                    public Object read(Element element) {
+                        ChildEntity entity = new ChildEntity();
+                        entity.setAtt(element.getName());
+                        return entity;
+                    }
+                };
+            }
+
+            @Override
+            public void add(NamespaceReader reader) {
+
+            }
+        });
+        Element in3 = dom("net/n2oapp/framework/config/io/ioprocessor23.xml");
+        BaseEntity entity = new BaseEntity();
+        try {
+
+            p.anyChild(in3, null, entity::getChildEntity, entity::setChildEntity, p.anyOf(ChildEntity.class), Namespace.getNamespace("http://example.com/n2o/ext-1.0"));
+            assert false;
+        } catch (EngineNotFoundException e) {
+            assertThat(e.getMessage(), is("Engine for 'elem1' not found"));
+        }
+        p.anyChild(in3, null, entity::getChildEntity, entity::setChildEntity, p.anyOf(ChildEntity.class).ignore("elem1", "elem2"), null);
+        assertThat(entity.getChildEntity().getAtt(), is("elem3"));
+        p.anyChild(in3, null, entity::getChildEntity, entity::setChildEntity, p.anyOf(ChildEntity.class).ignore("elem1", "elem3"), null);
+        assertThat(entity.getChildEntity().getAtt(), is("elem2"));
+
     }
 
     @Test
