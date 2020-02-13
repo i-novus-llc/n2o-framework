@@ -106,7 +106,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         Widget modalWidget = modalPage.getWidget();
         assertThat(modalWidget.getUpload(), is(UploadType.defaults));
 
-        List<AbstractButton> buttons = modalPage.getWidget().getToolbar().get("bottomRight").get(0).getButtons();
+        List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.size(), is(2));
         assertThat(buttons.get(0).getId(), is("submit"));
         assertThat(buttons.get(0).getAction(), notNullValue());
@@ -318,7 +318,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalWidget.getDataProvider().getQueryMapping().get("name").getValue(), is("`name`"));
 
         assertThat(modalWidget.getUpload(), is(UploadType.query));
-        List<AbstractButton> buttons = modalPage.getWidget().getToolbar().get("bottomRight").get(0).getButtons();
+        List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.size(), is(2));
         assertThat(buttons.get(0).getId(), is("submit"));
         assertThat(buttons.get(0).getAction(), notNullValue());
