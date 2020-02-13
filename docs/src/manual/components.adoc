@@ -42,10 +42,6 @@ image::images/page_standard.png[]
 </page>
 ----
 
-Возможные места расположения регионов на странице
-определяются шаблоном. Шаблон страницы задается атрибутом `layout`.
-Шаблон по умолчанию `SingleLayout`. Местоположение региона можно задать через `place`:
-
 image::images/page_left_right.png[]
 
 .Страница с разметкой регионов "слева и справа"
@@ -53,12 +49,27 @@ image::images/page_left_right.png[]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-      layout="LeftRightLayout" name="Моя страница">
+      name="Моя страница">
   <regions>
     <panel place="left">...</panel>
     <panel place="right">...</panel>
   </regions>
 </page>
+----
+
+image::images/page_searchable.png[]
+
+.Страница с поисковой строкой
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+      name="Моя страница">
+  <search-bar search-widget-id="table" search-filter-id="name" search-param="name"/>
+  <regions>
+    <!-- Регионы -->
+  </regions>
+</searchable-page>
 ----
 
 .Виды страниц
@@ -73,6 +84,10 @@ image::images/page_left_right.png[]
 |<page>
 |StandardPage
 |link:https://n2oapp.net/sandbox/new/manual/page/standard[Страница с регионами]
+
+|<searchable-page>
+|SearchablePage
+|link:https://n2oapp.net/sandbox/new/manual/page/searchable[Страница с поисковой строкой]
 
 |===
 
