@@ -72,11 +72,6 @@ link:#_Виджеты[Виджет]
 |Главный объект страницы
 |
 
-|layout
-|React компонент
-|Вёрстка шаблона страницы
-|
-
 |===
 
 Тело::
@@ -123,11 +118,6 @@ link:#_Виджеты[Виджет]
 |Главный объект страницы
 |
 
-|layout
-|React компонент
-|Вёрстка шаблона страницы
-|
-
 |===
 
 Тело::
@@ -139,8 +129,7 @@ link:#_Поисковая_строка[Поисковая строка]
 <?xml version='1.0' encoding='UTF-8'?>
 <searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
     name="Моя страница"
-    object-id="myObject"
-    layout="LeftRightLayout">
+    object-id="myObject">
     <search-bar/>
     <regions>...</regions>
     <actions>...</actions>
