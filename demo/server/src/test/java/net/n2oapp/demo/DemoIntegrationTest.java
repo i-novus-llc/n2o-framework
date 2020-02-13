@@ -8,8 +8,6 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Primary;
@@ -30,10 +28,7 @@ public class DemoIntegrationTest {
 
     @BeforeClass
     public static void configure() {
-        Configuration.browserCapabilities = new DesiredCapabilities();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox","--whitelisted-ips=''");
-        Configuration.browserCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
 
         browser = "chrome";
         headless = true;
