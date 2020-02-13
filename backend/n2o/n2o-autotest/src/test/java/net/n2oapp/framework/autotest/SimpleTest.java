@@ -3,7 +3,8 @@ package net.n2oapp.framework.autotest;
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.Widget;
-import net.n2oapp.framework.autotest.impl.N2oComponentLibrary;
+import net.n2oapp.framework.autotest.impl.collection.N2oRegions;
+import net.n2oapp.framework.autotest.impl.collection.N2oWidgets;
 import net.n2oapp.framework.autotest.test.TestLeftRightPage;
 import net.n2oapp.framework.autotest.test.TestPageObject;
 import net.n2oapp.framework.autotest.test.TestRegion;
@@ -16,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static com.codeborne.selenide.Configuration.headless;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SimpleTest.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -26,8 +29,11 @@ public class SimpleTest {
 
     @BeforeClass
     public static void beforeClass() throws Exception {
+        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
+        headless = true;
+
         N2oSelenide.setFactory(new ComponentFactory()
-                .addLibrary(new N2oComponentLibrary())
+                .addCollections(N2oRegions.class, N2oWidgets.class)
                 .addComponents(TestRegion.class, TestWidget.class, TestLeftRightPage.class));
     }
 
