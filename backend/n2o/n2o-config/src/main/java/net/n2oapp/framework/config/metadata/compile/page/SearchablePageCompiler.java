@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
+import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -47,8 +48,9 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         }
         page.setSearchBar(searchBar);
 
-        compilePage(source, page, context, p, source.getRegions());
-        compileSearchBarRoute(page, source.getSearchBar().getSearchParam());
+        SearchBarScope searchBarScope = new SearchBarScope(page.getSearchWidgetId(), page.getSearchModelKey());
+        compilePage(source, page, context, p, source.getRegions(), searchBarScope);
+        compileSearchBarRoute(page, source.getSearchBar());
         return page;
     }
 
@@ -73,13 +75,12 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         }
     }
 
-    private void compileSearchBarRoute(SearchablePage page, String param) {
+    private void compileSearchBarRoute(SearchablePage page, N2oSearchablePage.N2oSearchBar searchBar) {
         ReduxModel model = ReduxModel.valueOf(page.getSearchModelPrefix().toUpperCase());
-        page.getRoutes().addQueryMapping(
-                param,
-                Redux.dispatchUpdateModel(page.getSearchWidgetId(), model, page.getSearchModelKey(), colon(param)),
-                new ModelLink(model, page.getSearchWidgetId(), param)
-        );
+        String param = searchBar.getSearchWidgetId() + "_" + searchBar.getSearchParam();
+        ModelLink modelLink = new ModelLink(model, page.getSearchWidgetId());
+        modelLink.setFieldValue(page.getSearchModelKey());
+        page.getRoutes().addQueryMapping(param, Redux.dispatchUpdateModel(page.getSearchWidgetId(), model, page.getSearchModelKey(), colon(param)), modelLink);
     }
 
     @Override

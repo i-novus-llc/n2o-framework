@@ -26,7 +26,7 @@ public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage, St
         if ((source.getLeftWidth() != null && !source.getLeftWidth().isEmpty()) ||
                 (source.getRightWidth() != null && !source.getRightWidth().isEmpty()))
             page.setWidth(page.new RegionWidth(source.getLeftWidth(), source.getRightWidth()));
-        return compilePage(source, page, context, p, allRegions.toArray(new N2oRegion[0]));
+        return compilePage(source, page, context, p, allRegions.toArray(new N2oRegion[0]), null);
     }
 
     @Override

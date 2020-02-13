@@ -43,7 +43,7 @@ public class SearchablePage extends StandardPage {
 
         @Getter
         @Setter
-        public static class Button {
+        public static class Button implements Serializable {
             @JsonProperty
             private String icon;
         }
