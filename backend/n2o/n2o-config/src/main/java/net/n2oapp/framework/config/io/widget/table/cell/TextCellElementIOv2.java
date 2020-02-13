@@ -14,6 +14,8 @@ public class TextCellElementIOv2 extends AbstractCellElementIOv2<N2oTextCell> {
     public void io(Element e, N2oTextCell c, IOProcessor p) {
         super.io(e, c, p);
         p.attribute(e, "format", c::getFormat, c::setFormat);
+        p.attribute(e, "subtext-field-id", c::getSubTextFieldKey, c::setSubTextFieldKey);
+        p.attribute(e, "subtext-format", c::getSubTextFormat, c::setSubTextFormat);
         p.child(e, null, "switch", c::getClassSwitch, c::setClassSwitch, new SwitchIO());
     }
 

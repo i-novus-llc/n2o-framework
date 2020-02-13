@@ -5,7 +5,13 @@ import each from 'lodash/each';
 import isString from 'lodash/isString';
 import evalExpression, { parseExpression } from './evalExpression';
 
-const blackList = ['dataProvider', 'action', 'actions'];
+const blackList = [
+  'dataProvider',
+  'action',
+  'actions',
+  'queryMapping',
+  'pathMapping',
+];
 
 export function resolve(code) {
   return new Function(

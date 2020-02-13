@@ -8,8 +8,8 @@ import com.codeborne.selenide.SelenideElement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 
 /**
  * Базовые методы для автотестов
@@ -36,6 +36,13 @@ public interface BasePage {
      */
     static SelenideElement getModalPage() {
         return $(".modal-content");
+    }
+
+    /**
+     * Получение названия страницы с хлебными крошками
+     */
+    static SelenideElement getBreadcrumbActiveItem() {
+        return $(".active.breadcrumb-item");
     }
 
     /**
@@ -89,6 +96,16 @@ public interface BasePage {
     }
 
     /**
+     * Получение masked input
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getMaskedInput(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-input-mask");
+    }
+
+    /**
      * Получение input
      *
      * @param parent - начальный элемент
@@ -96,6 +113,35 @@ public interface BasePage {
      */
     static SelenideElement getInputDate(SelenideElement parent, String label) {
         return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-date-input input");
+    }
+
+    /**
+     * Получение стартового значения интервала даты
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getDateIntervalStart(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-date-input-first input");
+    }
+
+    /**
+     * Получение конечного значения интервала даты
+     *
+     * @param parent - начальный элемент
+     * @param label  - текст
+     */
+    static SelenideElement getDateIntervalEnd(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-date-input-last input");
+    }
+
+
+    /**
+     * Получение radio группы
+     * @return
+     */
+    static SelenideElement getRadioGroup(SelenideElement parent, String label) {
+        return parent.$$(".n2o-form-group").findBy(Condition.text(label)).$(".n2o-radio-container");
     }
 
     /**
@@ -141,6 +187,34 @@ public interface BasePage {
      */
     static void scrollPage(int x, int y) {
         Selenide.executeJavaScript("window.scrollBy(arguments[0], arguments[1]);", x, y);
+    }
+
+    /**
+     * Полчение строки в виджете list
+     * @param parent    виджет
+     * @param row   номер строки
+     * @return
+     */
+    static SelenideElement getListItem(SelenideElement parent, int row) {
+        return parent.$$(".n2o-widget-list-item").get(row);
+    }
+
+    /**
+     * Получение главного контейнера в строке виджет list
+     * @param parent  строка в виджете list
+     * @return
+     */
+    static ElementsCollection getListItemMainContainer(SelenideElement parent) {
+        return parent.$$(".n2o-widget-list-item-main-container");
+    }
+
+    /**
+     * Полчение списка строк в виджете list
+     * @param parent    виджет
+     * @return
+     */
+    static ElementsCollection getListItems(SelenideElement parent) {
+        return parent.$$(".n2o-widget-list-item");
     }
 
     /**

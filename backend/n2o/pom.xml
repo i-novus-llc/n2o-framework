@@ -3,31 +3,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>n2o</artifactId>
-    <version>7.5.0-SNAPSHOT</version>
+    <version>7.5.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>n2o</name>
 
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>backend</artifactId>
-        <version>7.5.0-SNAPSHOT</version>
+        <version>7.5.1-SNAPSHOT</version>
     </parent>
 
     <modules>
         <module>n2o-api</module>
         <module>n2o-config</module>
-        <module>n2o-config-ehcache</module>
-        <module>n2o-config-hazelcast</module>
         <module>n2o-mvc</module>
         <module>n2o-engine</module>
-        <module>n2o-engine-sql</module>
-        <module>n2o-engine-ejb</module>
         <module>n2o-rest</module>
         <module>n2o-access</module>
-        <module>n2o-test</module>
-        <module>n2o-spring-boot-starter</module>
         <module>n2o-export</module>
-	<module>n2o-autotest</module>
+        <module>n2o-test</module>
+        <module>n2o-autoconfigure</module>
+        <module>n2o-spring-boot-starter</module>
+        <module>n2o-autotest</module>
     </modules>
 
     <properties>

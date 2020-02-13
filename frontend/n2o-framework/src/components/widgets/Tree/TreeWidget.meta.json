@@ -1,5 +1,6 @@
 {
   "Page_Tree": {
+    "id": "$testJsonTree",
     "src": "TreeWidget",
     "dataProvider": {
       "url": "n2o/data",

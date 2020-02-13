@@ -28,12 +28,11 @@ public class StandardPageElementIOv2 implements NamespaceIO<N2oStandardPage> {
     @Override
     public void io(Element e, N2oStandardPage m, IOProcessor p) {
         p.attribute(e, "name", m::getName, m::setName);
+        p.attribute(e, "src", m::getSrc, m::setSrc);
         p.attribute(e, "object-id", m::getObjectId, m::setObjectId);
         p.attribute(e, "route", m::getRoute, m::setRoute);
-        p.attribute(e, "layout", m::getLayout, m::setLayout);
         p.attribute(e, "modal-size", m::getModalSize, m::setModalSize);
-        p.anyChildren(e, "regions", m::getN2oRegions, m::setN2oRegions, p.anyOf(N2oRegion.class), regionDefaultNamespace);
-        p.childAnyAttributes(e, "regions", m::getLayoutExtAttributes, m::setLayoutExtAttributes);
+        p.anyChildren(e, "regions", m::getRegions, m::setRegions, p.anyOf(N2oRegion.class), regionDefaultNamespace);
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionsBar::new, this::action);
         p.childAttributeEnum(e, "actions", "generate", m::getActionGenerate, m::setActionGenerate, GenerateType.class);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIO());
