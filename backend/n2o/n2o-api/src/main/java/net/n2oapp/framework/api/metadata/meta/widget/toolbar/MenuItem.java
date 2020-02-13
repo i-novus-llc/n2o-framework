@@ -38,7 +38,7 @@ public class MenuItem extends Component implements IdAware, Serializable {
     @JsonProperty
     private String hintPosition;
     @JsonProperty
-    private Map<ValidationType, List<ButtonCondition>> conditions = new HashMap<>();
+    private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
     @JsonProperty
     private Confirm confirm;
     @JsonProperty

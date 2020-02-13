@@ -16,7 +16,7 @@ import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.ButtonCondition;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -165,20 +165,20 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
     protected void compileDependencies(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getVisibilityConditions() != null) {
             String widgetId = initWidgetId(source, context, p);
-            List<ButtonCondition> conditions = new ArrayList<>();
+            List<Condition> conditions = new ArrayList<>();
             for (N2oButtonCondition n2oCondition : source.getVisibilityConditions()) {
-                ButtonCondition condition = new ButtonCondition();
+                Condition condition = new Condition();
                 condition.setExpression(n2oCondition.getExpression().trim());
                 condition.setModelLink(new ModelLink(source.getModel(), widgetId).getBindLink());
                 conditions.add(condition);
             }
             button.getConditions().put(ValidationType.visible, conditions);
         }
-        List<ButtonCondition> conditions = new ArrayList<>();
+        List<Condition> conditions = new ArrayList<>();
         if (source.getEnablingConditions() != null) {
             String widgetId = initWidgetId(source, context, p);
             for (N2oButtonCondition n2oCondition : source.getEnablingConditions()) {
-                ButtonCondition condition = new ButtonCondition();
+                Condition condition = new Condition();
                 condition.setExpression(n2oCondition.getExpression().trim());
                 condition.setModelLink(new ModelLink(source.getModel(), widgetId).getBindLink());
                 conditions.add(condition);
@@ -188,7 +188,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             ComponentScope componentScope = p.getScope(ComponentScope.class);
             if (componentScope == null || componentScope.unwrap(N2oCell.class) == null) {
                 String widgetId = initWidgetId(source, context, p);
-                ButtonCondition condition = new ButtonCondition();
+                Condition condition = new Condition();
                 condition.setExpression("!_.isEmpty(this)");
                 condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
                 conditions.add(condition);

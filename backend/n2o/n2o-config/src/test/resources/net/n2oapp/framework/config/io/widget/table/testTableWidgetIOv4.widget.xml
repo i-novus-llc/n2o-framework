@@ -13,7 +13,8 @@
                                 redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
                     </menu-item>
                 </sub-menu>
-                <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass" confirm="true" confirm-type="popover">
+                <button label="Удалить" action-id="testAction" icon="testIcon" class="testClass" confirm="true"
+                        confirm-type="popover">
                     <invoke operation-id="testId" route="route" src="src"
                             redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
                 </button>
@@ -48,9 +49,13 @@
             <checkbox src="test" enabled="true" action-id="update" class="classTest">
                 <close src="test"/>
             </checkbox>
+            <dependencies>
+                <visibility ref-widget-id="master" ref-model="resolve">type == 1</visibility>
+            </dependencies>
         </column>
         <column text-field-id="test5">
-            <progress src="test" value="firstName" class="classTest" active="false" size="large" striped="false" color="test"/>
+            <progress src="test" value="firstName" class="classTest" active="false" size="large" striped="false"
+                      color="test"/>
         </column>
         <column text-field-id="test6">
             <image src="test" url="testUrl" class="classTest" width="200px" action-id="actionTest" shape="circle">
@@ -95,6 +100,12 @@
         <column text-field-id="test12">
             <rating src="test" show-tooltip="true" max="3" half="true"/>
         </column>
+        <column text-field-id="testDependencies">
+            <dependencies>
+                <visibility ref-model="resolve" ref-widget-id="tableWidget"/>
+            </dependencies>
+            <rating src="test" show-tooltip="true" max="3" half="true"/>
+        </column>
     </columns>
     <rows class="test">
         <switch value-field-id="gender.id">
@@ -125,7 +136,8 @@
         <contains field-id="test" values="test1,test2" value="test" routable="true"/>
     </pre-filters>
     <toolbar place="bottomLeft">
-        <button action-id="test1" class="test" icon="test" label="test" type="icon" validate="true" tooltip-position="bottom">
+        <button action-id="test1" class="test" icon="test" label="test" type="icon" validate="true"
+                tooltip-position="bottom">
             <close src="test"/>
         </button>
         <button action-id="test2" class="test" icon="test" label="test" type="icon">
@@ -154,7 +166,8 @@
     </toolbar>
 
     <toolbar place="topLeft">
-        <button action-id="test1" class="test" icon="test" label="test" type="icon" enabling-condition="test" confirm-type="popover"
+        <button action-id="test1" class="test" icon="test" label="test" type="icon" enabling-condition="test"
+                confirm-type="popover"
                 visibility-condition="test">
             <close src="test"/>
         </button>
@@ -172,7 +185,8 @@
                 <close src="test"/>
             </button>
             <sub-menu style="margin-left:10px;width:300px">
-                <menu-item action-id="test1" icon="test" label="test" class="test" style="margin-left:10px;width:300px"/>
+                <menu-item action-id="test1" icon="test" label="test" class="test"
+                           style="margin-left:10px;width:300px"/>
                 <menu-item action-id="test2" icon="test" label="test" class="test"/>
                 <menu-item action-id="test3" icon="test" label="test" class="test"/>
             </sub-menu>
