@@ -9,9 +9,9 @@ import { formPluginSagas } from './sagas/formPlugin';
 import { fieldDependencySagas } from './sagas/fieldDependency';
 import { metaSagas } from './sagas/meta';
 import globalSagas from './sagas/global';
-import { toolbarSagas } from './sagas/toolbar';
+import { conditionsSaga } from './sagas/conditions';
 import { widgetDependencySagas } from './sagas/widgetDependency';
-import { modalsSagas } from './sagas/modals';
+import { overlaysSagas } from './sagas/overlays';
 
 export default function generateSagas(dispatch, config) {
   return function* rootSaga() {
@@ -25,9 +25,9 @@ export default function generateSagas(dispatch, config) {
       ...authSagas(config.security),
       ...metaSagas,
       ...globalSagas(config.apiProvider),
-      ...toolbarSagas,
+      ...conditionsSaga,
       ...widgetDependencySagas,
-      ...modalsSagas,
+      ...overlaysSagas,
       ...defaultTo(config.customSagas, []),
     ]);
   };

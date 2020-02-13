@@ -4,7 +4,8 @@ import net.n2oapp.framework.access.integration.metadata.transform.ToolbarCellAcc
 import net.n2oapp.framework.access.integration.metadata.transform.action.InvokeActionAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
@@ -46,9 +47,8 @@ public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/access/metadata/schema/testToolbar.access.xml",
                 "net/n2oapp/framework/access/metadata/transform/testToolbarCellAccessTransformer.page.xml"
         );
-        Page page = pipeline.transform().get(new PageContext("testToolbarCellAccessTransformer"));
-        Security.SecurityObject security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidgets()
-                .get("testToolbarCellAccessTransformer_main")
+        SimplePage page = (SimplePage) pipeline.transform().get(new PageContext("testToolbarCellAccessTransformer"));
+        Security.SecurityObject security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidget()
                 .getComponent()).getCells().get(0)).getToolbar().get(0).getButtons().get(0)
                 .getProperties().get(Security.SECURITY_PROP_NAME)).getSecurityMap().get("object");
 
@@ -59,8 +59,7 @@ public class ToolbarCellAccessTransformerTest extends SourceCompileTestBase {
         assertThat(security.getUsernames().size(), is(1));
         assertTrue(security.getUsernames().contains("user"));
 
-        security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidgets()
-                .get("testToolbarCellAccessTransformer_main")
+        security = ((Security) ((ToolbarCell) ((TableWidgetComponent) page.getWidget()
                 .getComponent()).getCells().get(0)).getToolbar().get(0).getButtons().get(2)
                 .getProperties().get(Security.SECURITY_PROP_NAME)).getSecurityMap().get("url");
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import N2o from "n2o";
+import N2o from "n2o-framework";
+import createFactoryConfigLight from "n2o-framework/lib/core/factory/createFactoryConfigLight";
 import AppTemplate from "./components/AppTemplate";
-import layouts from "./components/layouts";
 import widgets from "./components/widgets";
 import regions from "./components/regions";
 import controls from "./components/controls";
@@ -11,7 +11,6 @@ import fields from "./components/fields";
 import PrintPage from './pages/PrintPage';
 
 const config = {
-  layouts,
   regions,
   widgets,
   controls,
@@ -29,7 +28,7 @@ const config = {
 
 class App extends Component {
   render() {
-    return <N2o {...config} />;
+    return <N2o {...createFactoryConfigLight(config)} />;
   }
 }
 

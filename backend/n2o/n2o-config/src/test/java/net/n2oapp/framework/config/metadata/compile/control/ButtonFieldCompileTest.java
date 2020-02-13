@@ -43,7 +43,7 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getId(), is("btn1"));
         assertThat(field, instanceOf(ButtonField.class));
         assertThat(((ButtonField)field).getAction(), notNullValue());
-        assertThat(field.getSrc(), is("StandardButton"));
+        assertThat(field.getSrc(), is("ButtonField"));
 
         assertThat(((ButtonField)field).getUrl(), Matchers.is("/test2/:param1/:param2?param3=:param3"));
         assertThat(((ButtonField)field).getTarget(), Matchers.is(Target.application));
@@ -61,7 +61,7 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field, instanceOf(ButtonField.class));
         assertThat(((ButtonField)field).getAction(), notNullValue());
         assertThat(((ButtonField)field).getUrl(), is("http://ya.ru"));
-        assertThat(field.getSrc(), is("StandardButton"));
+        assertThat(field.getSrc(), is("ButtonField"));
     }
 
 }

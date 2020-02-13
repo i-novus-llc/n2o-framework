@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>framework</artifactId>
-        <version>7.5.0-SNAPSHOT</version>
+        <version>7.5.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -36,20 +35,20 @@
                         <executions>
 
                             <execution>
-                                <id>install-node-and-npm</id>
+                                <id>install-node-and-yarn</id>
                                 <goals>
-                                    <goal>install-node-and-npm</goal>
+                                    <goal>install-node-and-yarn</goal>
                                 </goals>
                                 <configuration>
                                     <nodeVersion>v10.16.0</nodeVersion>
-                                    <npmVersion>6.9.0</npmVersion>
+                                    <yarnVersion>v1.6.0</yarnVersion>
                                 </configuration>
                             </execution>
 
                             <execution>
-                                <id>npm install</id>
+                                <id>yarn install</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
@@ -60,9 +59,9 @@
                             </execution>
 
                             <execution>
-                                <id>npm run build:libs</id>
+                                <id>yarn run build:libs</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
@@ -71,11 +70,11 @@
                                     <arguments>run build:libs</arguments>
                                 </configuration>
                             </execution>
-                            
+
                             <execution>
-                                <id>npm run build:projects</id>
+                                <id>yarn run build:projects</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
@@ -86,9 +85,9 @@
                             </execution>
 
                             <execution>
-                                <id>npm run test</id>
+                                <id>yarn run test</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>
@@ -99,9 +98,9 @@
                             </execution>
 
                             <execution>
-                                <id>npm run docs</id>
+                                <id>yarn run docs</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>yarn</goal>
                                 </goals>
                                 <configuration>
                                     <environmentVariables>

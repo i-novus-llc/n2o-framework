@@ -2,14 +2,15 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.table.cell.CheckboxCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.action.InvokeActionCompiler;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Тестирование маппинга java модели в json для ячейки чекбокса
+ */
 public class CheckboxCellJsonTest extends JsonMetadataTestBase {
     @Override
     @Before
@@ -34,5 +35,4 @@ public class CheckboxCellJsonTest extends JsonMetadataTestBase {
                 .cutXml("table.cells[0]")
                 .assertEquals();
     }
-
 }

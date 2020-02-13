@@ -17,6 +17,10 @@ public class PanelRegionIOv1 extends BaseRegionIOv1<N2oPanelRegion> {
         p.attribute(e, "title", r::getTitle, r::setTitle);
         p.attributeBoolean(e, "collapsible", r::getCollapsible, r::setCollapsible);
         p.attributeBoolean(e, "header", r::getHeader, r::setHeader);
+        p.attribute(e, "icon", r::getIcon, r::setIcon);
+        p.attribute(e, "color", r::getColor, r::setColor);
+        p.attributeBoolean(e, "open", r::getOpen, r::setOpen);
+        p.attribute(e, "footer-title", r::getFooterTitle, r::setFooterTitle);
     }
 
     @Override

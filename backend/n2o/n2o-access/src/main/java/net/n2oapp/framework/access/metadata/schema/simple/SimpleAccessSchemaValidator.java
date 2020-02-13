@@ -1,6 +1,7 @@
 package net.n2oapp.framework.access.metadata.schema.simple;
 
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.access.functions.StreamUtil;
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectAccessPoint;
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oObjectFiltersAccessPoint;
@@ -10,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.TypedMetadataValidator;
-import net.n2oapp.framework.access.functions.StreamUtil;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
 
