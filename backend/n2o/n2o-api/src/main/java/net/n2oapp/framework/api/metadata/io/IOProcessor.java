@@ -109,11 +109,11 @@ public interface IOProcessor {
      * @param <T>       класс дочернего элемента
      */
     <T extends NamespaceUriAware,
-            R extends NamespaceReader<T>,
-            P extends NamespacePersister<T>> void anyChild(Element element, String sequences,
-                                                           Supplier<T> getter, Consumer<T> setter,
-                                                           NamespaceIOFactory<T, R, P> factory,
-                                                           Namespace defaultNamespace);
+            R extends NamespaceReader<? extends T>,
+            P extends NamespacePersister<? super T>> void anyChild(Element element, String sequences,
+                                                                   Supplier<T> getter, Consumer<T> setter,
+                                                                   NamespaceIOFactory<T, R, P> factory,
+                                                                   Namespace defaultNamespace);
 
     /**
      * Считывание\запись списка дочерних элементов
