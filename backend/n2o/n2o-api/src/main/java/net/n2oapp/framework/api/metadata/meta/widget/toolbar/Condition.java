@@ -6,11 +6,11 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 
 /**
- * Клиентская модель зависимости между кнопкой и полем
+ * Клиентская модель зависимости
  */
 @Getter
 @Setter
-public class ButtonCondition implements Compiled {
+public class Condition implements Compiled {
     @JsonProperty
     private String expression;
     @JsonProperty
