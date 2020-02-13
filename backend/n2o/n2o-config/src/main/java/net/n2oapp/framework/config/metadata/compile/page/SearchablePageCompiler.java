@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.SearchablePage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
@@ -40,10 +39,10 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         searchBar.setTrigger(p.resolve(property("n2o.api.default.page.searchable.trigger"), String.class));
         searchBar.setPlaceholder(source.getSearchBar().getPlaceholder());
         if (SearchablePage.SearchBar.Trigger.BUTTON.equals(searchBar.getTrigger())) {
-            AbstractButton button = null;
+            SearchablePage.SearchBar.Button button = new SearchablePage.SearchBar.Button();
             button.setIcon(source.getSearchBar().getButtonIcon());
             searchBar.setButton(button);
-        } else {
+        } else if (SearchablePage.SearchBar.Trigger.CHANGE.equals(searchBar.getTrigger())) {
             searchBar.setThrottleDelay(p.resolve(property("n2o.api.default.page.searchable.throttle-delay"), Integer.class));
         }
         page.setSearchBar(searchBar);
@@ -79,7 +78,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         page.getRoutes().addQueryMapping(
                 param,
                 Redux.dispatchUpdateModel(page.getSearchWidgetId(), model, page.getSearchModelKey(), colon(param)),
-                new ModelLink(model, page.getSearchWidgetId())
+                new ModelLink(model, page.getSearchWidgetId(), param)
         );
     }
 

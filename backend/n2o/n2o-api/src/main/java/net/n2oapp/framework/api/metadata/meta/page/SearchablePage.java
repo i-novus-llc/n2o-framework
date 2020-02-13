@@ -3,7 +3,8 @@ package net.n2oapp.framework.api.metadata.meta.page;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
+
+import java.io.Serializable;
 
 /**
  * Клиентская модель страницы с поисковой строкой
@@ -26,7 +27,7 @@ public class SearchablePage extends StandardPage {
      */
     @Getter
     @Setter
-    public static class SearchBar {
+    public static class SearchBar implements Serializable {
         @JsonProperty
         private String className;
         @JsonProperty
@@ -34,11 +35,18 @@ public class SearchablePage extends StandardPage {
         @JsonProperty
         private String placeholder;
         @JsonProperty
-        private AbstractButton button;
+        private Button button;
         @JsonProperty
         private String icon;
         @JsonProperty
         private int throttleDelay;
+
+        @Getter
+        @Setter
+        public static class Button {
+            @JsonProperty
+            private String icon;
+        }
 
         public enum Trigger {
             CHANGE,

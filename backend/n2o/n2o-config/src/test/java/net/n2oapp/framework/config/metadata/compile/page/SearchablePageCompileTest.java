@@ -42,7 +42,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getSearchBar().getClassName(), is("n2o-search-bar"));
         assertThat(page.getSearchBar().getPlaceholder(), is("Поиск по имени"));
         assertThat(page.getSearchBar().getTrigger(), is(SearchablePage.SearchBar.Trigger.CHANGE));
-        assertThat(page.getSearchBar().getThrottleDelay(), is(400));
+        assertThat(page.getSearchBar().getThrottleDelay(), is(1000));
         assertThat(page.getSearchModelPrefix(), is("filter"));
         assertThat(page.getSearchWidgetId(), is("table1"));
         assertThat(page.getSearchModelKey(), is("name"));
@@ -55,5 +55,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(query.getOnGet().getPayload().get("value"), is(":name"));
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
         assertThat(((ModelLink) query.getOnSet()).getWidgetId(), is("table1"));
+        assertThat(((ModelLink) query.getOnSet()).getFieldId(), is("name"));
+        assertThat(((ModelLink) query.getOnSet()).getBindLink(), is("models.filter['table1'].name"));
     }
 }

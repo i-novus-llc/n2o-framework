@@ -255,7 +255,7 @@ link:#_Действия[Обработчик действия]
 |Наименование|Тип|Описание|Значение по умолчанию
 
 |place
-|topLeft, topRight, bottomLeft, bottomRight
+|topLeft, topRight, bottomLeft, bottomRight, breadcrumbLeft
 |Место расположения меню
 |topLeft
 
