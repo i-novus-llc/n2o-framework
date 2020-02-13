@@ -1,11 +1,14 @@
 package net.n2oapp.demo;
 
+import com.codeborne.selenide.Configuration;
 import net.n2oapp.demo.model.ProtoPage;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Primary;
@@ -26,6 +29,11 @@ public class DemoIntegrationTest {
 
     @BeforeClass
     public static void configure() {
+        Configuration.browserCapabilities = new DesiredCapabilities();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--no-sandbox","--disable-dev-shm-usage","--no-zygote","--disable-extensions","--whitelisted-ips");
+        Configuration.browserCapabilities.setCapability(ChromeOptions.CAPABILITY, options);
+
         browser = "chrome";
         headless = true;
         browserSize = "1920x1200";
