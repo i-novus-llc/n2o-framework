@@ -17,6 +17,7 @@ public class N2oSearchablePage extends N2oStandardPage {
         private String className;
         private String placeholder;
         private String buttonIcon;
+        private String trigger;
         private String searchWidgetId;
         private String searchFilterId;
         private String searchParam;

@@ -37,13 +37,16 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
 
         SearchablePage.SearchBar searchBar = new SearchablePage.SearchBar();
         searchBar.setClassName(source.getSearchBar().getClassName());
-        searchBar.setTrigger(p.resolve(property("n2o.api.page.searchable.trigger"), String.class));
+        searchBar.setTrigger(SearchablePage.SearchBar.TriggerType.valueOf(p.cast(
+                source.getSearchBar().getTrigger(),
+                p.resolve(property("n2o.api.page.searchable.trigger"), String.class))
+        ));
         searchBar.setPlaceholder(source.getSearchBar().getPlaceholder());
-        if (SearchablePage.SearchBar.Trigger.BUTTON.equals(searchBar.getTrigger())) {
+        if (SearchablePage.SearchBar.TriggerType.BUTTON.equals(searchBar.getTrigger())) {
             SearchablePage.SearchBar.Button button = new SearchablePage.SearchBar.Button();
             button.setIcon(source.getSearchBar().getButtonIcon());
             searchBar.setButton(button);
-        } else if (SearchablePage.SearchBar.Trigger.CHANGE.equals(searchBar.getTrigger())) {
+        } else if (SearchablePage.SearchBar.TriggerType.CHANGE.equals(searchBar.getTrigger())) {
             searchBar.setThrottleDelay(p.resolve(property("n2o.api.page.searchable.throttle-delay"), Integer.class));
         }
         page.setSearchBar(searchBar);

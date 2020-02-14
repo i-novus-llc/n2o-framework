@@ -39,7 +39,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getSrc(), is("SearchablePage"));
         assertThat(page.getSearchBar().getClassName(), is("n2o-search-bar"));
         assertThat(page.getSearchBar().getPlaceholder(), is("Поиск по имени"));
-        assertThat(page.getSearchBar().getTrigger(), is(SearchablePage.SearchBar.Trigger.CHANGE));
+        assertThat(page.getSearchBar().getTrigger(), is(SearchablePage.SearchBar.TriggerType.CHANGE));
         assertThat(page.getSearchBar().getThrottleDelay(), is(1000));
         assertThat(page.getSearchModelPrefix(), is("filter"));
         assertThat(page.getSearchWidgetId(), is("table"));

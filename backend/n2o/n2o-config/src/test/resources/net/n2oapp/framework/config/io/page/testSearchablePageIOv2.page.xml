@@ -4,7 +4,7 @@
                  object-id="object"
                  route="test"
                  modal-size="lg">
-    <search-bar class="n2o-search-bar" placeholder="Поиск" button-icon="fa fa-search"
+    <search-bar class="n2o-search-bar" placeholder="Поиск" button-icon="fa fa-search" trigger="enter"
                 search-filter-id="test1" search-widget-id="test2" search-param="q"/>
     <toolbar place="bottomRight" generate="submit, close">
         <button action-id="testId" validate="true" model="filter"/>

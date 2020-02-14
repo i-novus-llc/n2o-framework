@@ -31,7 +31,7 @@ public class SearchablePage extends StandardPage {
         @JsonProperty
         private String className;
         @JsonProperty
-        private Trigger trigger;
+        private TriggerType trigger;
         @JsonProperty
         private String placeholder;
         @JsonProperty
@@ -41,22 +41,20 @@ public class SearchablePage extends StandardPage {
         @JsonProperty
         private int throttleDelay;
 
+        /**
+         * Тригер вызова поиска
+         */
+        public enum TriggerType {
+            CHANGE,
+            ENTER,
+            BUTTON
+        }
+
         @Getter
         @Setter
         public static class Button implements Serializable {
             @JsonProperty
             private String icon;
         }
-
-        public enum Trigger {
-            CHANGE,
-            ENTER,
-            BUTTON
-        }
-
-        public void setTrigger(String trigger) {
-            this.trigger = Trigger.valueOf(trigger.toUpperCase());
-        }
     }
-
 }

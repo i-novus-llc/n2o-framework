@@ -23,6 +23,7 @@ public class SearchablePageElementIOv2 extends BasePageElementIOv2<N2oSearchable
         p.attribute(e, "class", sb::getClassName, sb::setClassName);
         p.attribute(e, "placeholder", sb::getPlaceholder, sb::setPlaceholder);
         p.attribute(e, "button-icon", sb::getButtonIcon, sb::setButtonIcon);
+        p.attribute(e, "trigger", sb::getTrigger, sb::setTrigger);
         p.attribute(e, "search-widget-id", sb::getSearchWidgetId, sb::setSearchWidgetId);
         p.attribute(e, "search-filter-id", sb::getSearchFilterId, sb::setSearchFilterId);
         p.attribute(e, "search-param", sb::getSearchParam, sb::setSearchParam);
