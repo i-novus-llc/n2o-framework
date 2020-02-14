@@ -38,7 +38,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
         SearchablePage.SearchBar searchBar = new SearchablePage.SearchBar();
         searchBar.setClassName(source.getSearchBar().getClassName());
         searchBar.setTrigger(SearchablePage.SearchBar.TriggerType.valueOf(p.cast(
-                source.getSearchBar().getTrigger(),
+                source.getSearchBar().getTrigger().toUpperCase(),
                 p.resolve(property("n2o.api.page.searchable.trigger"), String.class))
         ));
         searchBar.setPlaceholder(source.getSearchBar().getPlaceholder());
