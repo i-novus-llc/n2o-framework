@@ -38,6 +38,7 @@ const withColumn = WrappedComponent => {
         columnVisible = true,
         columnDisabled = false,
         dispatch,
+        conditions,
       } = this.props;
       !columnIsInit &&
         dispatch(
@@ -46,7 +47,8 @@ const withColumn = WrappedComponent => {
             columnId,
             label,
             columnVisible,
-            columnDisabled
+            columnDisabled,
+            conditions
           )
         );
     }
