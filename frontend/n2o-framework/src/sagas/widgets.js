@@ -144,6 +144,11 @@ export function* resolveUrl(state, dataProvider, widgetState, options) {
   const pathParams = yield call(getParams, dataProvider.pathMapping, state);
   const basePath = pathToRegexp.compile(dataProvider.url)(pathParams);
   const queryParams = yield call(getParams, dataProvider.queryMapping, state);
+  const headersParams = yield call(
+    getParams,
+    dataProvider.headersMapping,
+    state
+  );
   const baseQuery = {
     size: widgetState.size,
     page: get(options, 'page', widgetState.page),
@@ -154,6 +159,7 @@ export function* resolveUrl(state, dataProvider, widgetState, options) {
   return {
     basePath,
     baseQuery,
+    headers: headersParams,
   };
 }
 
@@ -162,11 +168,13 @@ export function* setWidgetDataSuccess(
   widgetState,
   basePath,
   baseQuery,
-  currentDatasource
+  currentDatasource,
+  headers
 ) {
   const data = yield call(fetchSaga, FETCH_WIDGET_DATA, {
     basePath,
     baseQuery,
+    headers,
   });
   if (isEqual(data.list, currentDatasource)) {
     yield put(setModel(PREFIXES.datasource, widgetId, null));
@@ -214,7 +222,7 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
       currentDatasource,
     } = yield call(prepareFetch, widgetId);
     if (!isEmpty(dataProvider) && dataProvider.url) {
-      const { basePath, baseQuery } = yield call(
+      const { basePath, baseQuery, headers } = yield call(
         resolveUrl,
         state,
         dataProvider,
@@ -241,7 +249,8 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
         widgetState,
         basePath,
         baseQuery,
-        currentDatasource
+        currentDatasource,
+        headers
       );
     } else {
       yield put(dataFailWidget(widgetId));

@@ -30732,6 +30732,44 @@ exports[`Storyshots Ячейки/Ссылка Ссылка с url и target=newW
 </div>"
 `;
 
+exports[`Storyshots Ячейки/Статус Компонент: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\StatusCell\\__snapshots__\\StatusCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Статус
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Ячейки/Форматирование текста Компонент: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\TextCell\\__snapshots__\\TextCell.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
