@@ -33,7 +33,6 @@
 		"lint": "yarn run eslint && yarn run stylelint",
 		"test": "yarn run test:jest && yarn run test:storybook",
 		"test:jest": "jest --noStackTrace --coverage --silent ./src",
-		"test:target": "jest ./src/sagas/meta.test.js",
 		"test:watch": "jest --watch --noStackTrace",
 		"test:hook": "jest --bail --findRelatedTests",
 		"test:generate-output": "jest --json --outputFile=./.storybook/jest-test-results.json || echo 'jest: generate-output finished'",

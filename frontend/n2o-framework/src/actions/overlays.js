@@ -14,14 +14,14 @@ import createActionHelper from './createActionHelper';
  * @param name
  * @param visible
  * @param mode
- * @param rest
+ * @param {Object} addition - объект с дополнительные параметрами
  */
-export function insertOverlay(name, visible, mode, ...rest) {
+export function insertOverlay(name, visible, mode, addition) {
   return createActionHelper(INSERT)({
     name,
     visible,
     mode,
-    ...rest,
+    ...addition,
   });
 }
 
