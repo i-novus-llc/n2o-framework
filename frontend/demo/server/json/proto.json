@@ -392,6 +392,11 @@
             "value": "`vip`",
             "link": "models.filter['proto_patients']"
           }
+        },
+        "headersMapping": {
+          "Button-Id": {
+            "value": "test"
+          }
         }
       },
       "toolbar": {
@@ -1013,6 +1018,14 @@
                       "link": "models.resolve['proto_patients'].id"
                     }
                   },
+                  "headersMapping": {
+                    "Content-Type": {
+                      "link": "models.resolve['proto_patients'].id"
+                    },
+                    "BUTTON_ID": {
+                      "value": "vip-button"
+                    }
+                  },
                   "method": "POST"
                 },
                 "modelLink": "models.resolve['proto_patients']"
@@ -1560,62 +1573,59 @@
       "link": "models.filter['proto_patients'].genders"
     }
   },
-  "layout": {
-    "src": "LeftRightLayout",
-    "regions": {
-      "left": [
-        {
-          "src": "PanelRegion",
-          "hasTabs": false,
-          "headerTitle": "Данные пациента",
-          "open": true,
-          "collapsible": false,
-          "fullScreen": false,
-          "header": true,
-          "panels": [
-            {
-              "id": "panel1",
-              "label": "Пациенты",
-              "opened": true,
-              "widgetId": "proto_patients"
-            }
-          ]
-        }
-      ],
-      "right": [
-        {
-          "src": "PanelRegion",
-          "hasTabs": false,
-          "headerTitle": "Контакты",
-          "open": true,
-          "collapsible": true,
-          "fullScreen": false,
-          "panels": [
-            {
-              "id": "panel1",
-              "label": "Контакты",
-              "opened": true,
-              "widgetId": "proto_contacts"
-            }
-          ]
-        },
-        {
-          "src": "PanelRegion",
-          "hasTabs": false,
-          "headerTitle": "Карточка",
-          "open": true,
-          "collapsible": true,
-          "fullScreen": false,
-          "panels": [
-            {
-              "id": "panel1",
-              "opened": true,
-              "widgetId": "proto_form"
-            }
-          ]
-        }
-      ]
-    }
+  "regions": {
+    "left": [
+      {
+        "src": "PanelRegion",
+        "hasTabs": false,
+        "headerTitle": "Данные пациента",
+        "open": true,
+        "collapsible": false,
+        "fullScreen": false,
+        "header": true,
+        "panels": [
+          {
+            "id": "panel1",
+            "label": "Пациенты",
+            "opened": true,
+            "widgetId": "proto_patients"
+          }
+        ]
+      }
+    ],
+    "right": [
+      {
+        "src": "PanelRegion",
+        "hasTabs": false,
+        "headerTitle": "Контакты",
+        "open": true,
+        "collapsible": true,
+        "fullScreen": false,
+        "panels": [
+          {
+            "id": "panel1",
+            "label": "Контакты",
+            "opened": true,
+            "widgetId": "proto_contacts"
+          }
+        ]
+      },
+      {
+        "src": "PanelRegion",
+        "hasTabs": false,
+        "headerTitle": "Карточка",
+        "open": true,
+        "collapsible": true,
+        "fullScreen": false,
+        "panels": [
+          {
+            "id": "panel1",
+            "opened": true,
+            "widgetId": "proto_form"
+          }
+        ]
+      }
+    ]
   },
   "actions": {
     "create2": {

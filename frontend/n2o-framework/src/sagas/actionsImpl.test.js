@@ -170,6 +170,12 @@ describe('Проверка саги actionsImpl', () => {
     );
 
     const result = await promise.toPromise();
-    expect(result).toEqual('n2o/data/patients/111/vip');
+    expect(result).toEqual({
+      headers: {},
+      path: 'n2o/data/patients/111/vip',
+      pathParams: {
+        __patients_id: 111,
+      },
+    });
   });
 });
