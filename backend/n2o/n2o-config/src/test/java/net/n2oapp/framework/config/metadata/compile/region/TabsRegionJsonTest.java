@@ -35,7 +35,7 @@ public class TabsRegionJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testTabsRegionJson.page.xml",
                 "components/regions/Tabs/TabsRegions.meta.json")
                 .cutXml("regions.single[0]")
-                .exclude("tabs[0].fetchOnInit", "tabs[0].opened", "tabs[0].widgetId", "tabs[1]")
+                .exclude("id", "tabs[0].fetchOnInit", "tabs[0].opened", "tabs[0].widgetId", "tabs[1]")
                 .assertEquals();
 
     }
