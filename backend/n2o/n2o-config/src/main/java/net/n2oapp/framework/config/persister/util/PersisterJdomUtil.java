@@ -171,7 +171,7 @@ public class PersisterJdomUtil {
             try {
                 persister = (NamespacePersister<E>) persisterFactory.produce(value);
             } catch (EngineNotFoundException ex) {
-                persister = (NamespacePersister<E>) persisterFactory.produce(Namespace.getNamespace(defaultNamespaceUri), value.getClass());
+                persister = (NamespacePersister<E>) persisterFactory.produce(value.getClass(), Namespace.getNamespace(defaultNamespaceUri));
             }
             Element subChild = persister.persist(value, element.getNamespace());
             if (childName != null)
