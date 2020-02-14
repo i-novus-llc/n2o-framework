@@ -3,7 +3,7 @@
       object-id="testJsonForm" layout="n2o/layout/single">
     <regions>
         <tabs place="single">
-            <table src="test" object-id="testJsonForm">
+            <table id="table" src="test" object-id="testJsonForm">
                 <toolbar>
                     <sub-menu>
                         <menu-item id="filter" label="Видимость" context="true" visibility-condition="name !== 'Афанасий'">
@@ -22,7 +22,8 @@
                     </sub-menu>
 
                     <button id="btn1" visible="false" enabled="false"/>
-                    <button id="btn2">
+                    <button id="btn2" visible="{property1}" enabled="{property2}"/>
+                    <button id="btn3">
                         <close/>
                         <dependencies>
                             <visibility on="field1" ref-widget-id="test" ref-model="filter">a==b</visibility>
@@ -31,6 +32,7 @@
                     </button>
                     <sub-menu>
                         <menu-item visible="false" enabled="false"/>
+                        <menu-item visible="{property1}" enabled="{property2}"/>
                         <menu-item>
                             <close/>
                             <dependencies>

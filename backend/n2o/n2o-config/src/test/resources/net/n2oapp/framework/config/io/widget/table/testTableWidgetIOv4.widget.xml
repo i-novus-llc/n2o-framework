@@ -181,11 +181,11 @@
         </sub-menu>
         <group>
             <button action-id="test3" class="test" icon="test" label="test" type="icon">
-                <close src="test"/>
                 <dependencies>
                     <enabling on="test1" ref-model="filter" ref-widget-id="test">condition1</enabling>
                     <visibility on="test2, test3" ref-model="filter" ref-widget-id="test">condition2</visibility>
                 </dependencies>
+                <close src="test"/>
             </button>
             <button enabled="false" visible="false"/>
             <sub-menu style="margin-left:10px;width:300px">
