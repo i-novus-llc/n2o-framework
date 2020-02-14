@@ -8,13 +8,14 @@ import flow from 'lodash/flow';
 import keys from 'lodash/keys';
 import { reset, touch } from 'redux-form';
 import { batchActions } from 'redux-batched-actions';
-import { MAP_URL } from '../constants/pages';
+
 import { GLOBAL_KEY } from '../constants/alerts';
 import { addAlerts, removeAlerts } from '../actions/alerts';
 import { addFieldMessage } from '../actions/formPlugin';
 import { metadataRequest } from '../actions/pages';
 import { dataRequestWidget } from '../actions/widgets';
 import { updateWidgetDependency } from '../actions/dependency';
+import { insertOverlay } from '../actions/overlays';
 import compileUrl from '../utils/compileUrl';
 import { id } from '../utils/id';
 
@@ -114,6 +115,18 @@ export function* updateWidgetDependencyEffect({ meta }) {
   yield put(updateWidgetDependency(widgetId));
 }
 
+export function* userDialogEffect({ meta }) {
+  const { title, description, toolbar } = meta.dialog;
+
+  yield put(
+    insertOverlay('dialog', true, 'dialog', {
+      title,
+      description,
+      toolbar,
+    })
+  );
+}
+
 export const metaSagas = [
   takeEvery(action => action.meta && action.meta.alert, alertEffect),
   takeEvery(action => action.meta && action.meta.redirect, redirectEffect),
@@ -124,4 +137,5 @@ export const metaSagas = [
     action => action.meta && action.meta.updateWidgetDependency,
     updateWidgetDependencyEffect
   ),
+  takeEvery(action => action.meta && action.meta.dialog, userDialogEffect),
 ];

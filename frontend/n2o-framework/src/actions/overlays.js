@@ -16,7 +16,7 @@ import createActionHelper from './createActionHelper';
  * @param mode
  * @param rest
  */
-export function insertOverlay(name, visible, mode, ...rest) {
+export function insertOverlay(name, visible, mode, rest) {
   return createActionHelper(INSERT)({
     name,
     visible,

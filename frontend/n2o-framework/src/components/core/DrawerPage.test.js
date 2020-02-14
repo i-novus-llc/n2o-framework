@@ -4,8 +4,8 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from '../../reducers';
 import history from '../../history';
-import FactoryProvider from "../../core/factory/FactoryProvider";
-import createFactoryConfig from "../../core/factory/createFactoryConfig";
+import FactoryProvider from '../../core/factory/FactoryProvider';
+import createFactoryConfig from '../../core/factory/createFactoryConfig';
 
 function configureStore() {
   return createStore(rootReducer(history));
