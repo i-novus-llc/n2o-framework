@@ -58,10 +58,10 @@ public abstract class Redux {
     }
 
     /**
-     * Создать ссылку на активную вкладку региона
+     * Создать ссылку на активный элемент региона
      *
      * @param regionId Идентификатор региона
-     * @return Ссылка на активную вкладку региона
+     * @return Ссылка на активный элемент региона
      */
     public static BindLink createActiveRegionEntityLink(String regionId) {
         return new BindLink("regions." + regionId + ".activeEntity");
@@ -161,10 +161,10 @@ public abstract class Redux {
     }
 
     /**
-     * Установить активную вкладку региона
+     * Установить активный элемент региона
      *
      * @param regionId          Идентификатор региона
-     * @param regionActiveParam Параметр активной вкладки
+     * @param regionActiveParam Параметр активного элемента
      * @return Redux действие
      */
     public static ReduxAction dispatchSetActiveRegionEntity(String regionId, String regionActiveParam) {

@@ -38,14 +38,14 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         region.setPlace(source.getPlace());
         region.setItems(initItems(source, p, TabsRegion.Tab.class));
         region.setAlwaysRefresh(source.getAlwaysRefresh() != null ? source.getAlwaysRefresh() : false);
-        region.setLazy(p.cast(source.getLazy(), p.resolve(property("n2o.api.default.region.tabs.lazy"), Boolean.class)));
+        region.setLazy(p.cast(source.getLazy(), p.resolve(property("n2o.api.region.tabs.lazy"), Boolean.class)));
         compileTabsRoute(source, region.getId(), p);
         return region;
     }
 
     private void compileTabsRoute(N2oTabsRegion source, String regionId, CompileProcessor p) {
         String activeParam = p.cast(source.getActiveParam(), regionId);
-        Boolean routable = p.cast(source.getRoutable(), p.resolve(property("n2o.api.default.region.tabs.routable"), Boolean.class));
+        Boolean routable = p.cast(source.getRoutable(), p.resolve(property("n2o.api.region.tabs.routable"), Boolean.class));
 
         PageRoutes routes = p.getScope(PageRoutes.class);
         if (routes == null || !Boolean.TRUE.equals(routable))
