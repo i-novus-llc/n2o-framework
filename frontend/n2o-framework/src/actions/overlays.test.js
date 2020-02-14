@@ -22,37 +22,31 @@ const name = 'MODAL_NAME';
 describe('Тесты экшенов overlays', () => {
   describe('Проверка экшена insertOverlay', () => {
     it('Генирирует правильное событие', () => {
-      const action = insertOverlay(
-        name,
-        true,
-        'TITLE',
-        'lg',
-        true,
-        'page_id',
-        'TableWidget'
-      );
+      const action = insertOverlay(name, true, 'TITLE', {
+        size: 'lg',
+        visible: true,
+        pageId: 'page_id',
+        widgetId: 'TableWidget',
+      });
       expect(action.type).toEqual(INSERT);
     });
     it('Возвращает правильный payload', () => {
-      const action = insertOverlay(
-        name,
-        true,
-        'drawer',
-        'TITLE',
-        'lg',
-        true,
-        'page_id',
-        'TableWidget'
-      );
-      expect(action.payload).toMatchObject({
-        0: 'TITLE',
-        1: 'lg',
-        2: true,
-        3: 'page_id',
-        4: 'TableWidget',
+      const action = insertOverlay(name, true, 'drawer', {
+        title: 'TITLE',
+        size: 'lg',
+        visible: true,
+        pageId: 'page_id',
+        widgetId: 'TableWidget',
+      });
+
+      expect(action.payload).toEqual({
         mode: 'drawer',
         name: 'MODAL_NAME',
         visible: true,
+        pageId: 'page_id',
+        size: 'lg',
+        title: 'TITLE',
+        widgetId: 'TableWidget',
       });
     });
   });

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, withHandlers } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import map from 'lodash/map';
@@ -25,14 +24,25 @@ const PageComponent = {
   [ModalMode.DIALOG]: PageDialog,
 };
 
+const prepareProps = (props, overlay = {}) =>
+  Object.assign({}, props, overlay, defaultTo(overlay.props, {}));
+
+const renderOverlays = ({ overlays, ...rest }) =>
+  map(
+    overlays,
+    ({ mode, ...overlay }) =>
+      has(PageComponent, mode) &&
+      React.createElement(PageComponent[mode], prepareProps(rest, overlay))
+  );
+
 /**
  * Компонент, отображающий все оверлейные окна
  * @reactProps {object} overlays - Массив объектов (из Redux)
  * @example
  *  <OverlayPages/>
  */
-function OverlayPages({ renderOverlays, overlays }) {
-  return <div className="n2o-overlay-pages">{renderOverlays(overlays)}</div>;
+function OverlayPages(props) {
+  return <div className="n2o-overlay-pages">{renderOverlays(props)}</div>;
 }
 
 const mapStateToProps = createStructuredSelector({
@@ -57,25 +67,7 @@ OverlayPages.defaultProps = {
 };
 
 export { OverlayPages };
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  withHandlers({
-    prepareProps: props => overlay => ({
-      ...props,
-      ...overlay,
-      ...defaultTo(overlay.props, {})
-    }),
-  }),
-  withHandlers({
-    renderOverlays: ({ prepareProps }) => overlays =>
-      map(
-        overlays,
-        ({ mode, ...rest }) =>
-          has(PageComponent, mode) &&
-          React.createElement(PageComponent[mode], prepareProps(rest))
-      ),
-  }),
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(OverlayPages);
