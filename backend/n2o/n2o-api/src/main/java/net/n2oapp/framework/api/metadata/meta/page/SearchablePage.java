@@ -39,7 +39,7 @@ public class SearchablePage extends StandardPage {
         @JsonProperty
         private String icon;
         @JsonProperty
-        private int throttleDelay;
+        private Integer throttleDelay;
 
         /**
          * Тригер вызова поиска
@@ -50,11 +50,7 @@ public class SearchablePage extends StandardPage {
             BUTTON
         }
 
-        @Getter
-        @Setter
         public static class Button implements Serializable {
-            @JsonProperty
-            private String icon;
         }
     }
 }

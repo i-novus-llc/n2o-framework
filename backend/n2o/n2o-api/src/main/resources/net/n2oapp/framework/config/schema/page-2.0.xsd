@@ -192,16 +192,6 @@
                 <xs:documentation>Подсказка для ввода.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="button-icon" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Иконка кнопки.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="trigger" type="triggerType" default="change">
-            <xs:annotation>
-                <xs:documentation>Триггер запуска поиска.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="search-widget-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Идентификатор виджета для которого производится поиск.</xs:documentation>
@@ -385,14 +375,6 @@
             <xs:enumeration value="resolve"/>
             <xs:enumeration value="edit"/>
             <xs:enumeration value="selected"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="triggerType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="change"/>
-            <xs:enumeration value="enter"/>
-            <xs:enumeration value="button"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>
