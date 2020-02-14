@@ -4,12 +4,9 @@ import MaskedInput from 'react-text-mask';
 import cn from 'classnames';
 import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
-import filter from 'lodash/filter';
-import toNumber from 'lodash/toNumber';
-import toString from 'lodash/toString';
-import replace from 'lodash/replace';
-import isNaN from 'lodash/isNaN';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
+import { compose } from 'recompose';
+import withRightPlaceholder from '../withRightPlaceholder';
 
 /**
  * Компонент интерфейса разбивки по страницам
@@ -301,4 +298,4 @@ InputMask.propTypes = {
   disabled: PropTypes.bool,
 };
 
-export default InputMask;
+export default compose(withRightPlaceholder)(InputMask);
