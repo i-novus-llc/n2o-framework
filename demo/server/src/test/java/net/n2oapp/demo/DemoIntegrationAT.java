@@ -1,25 +1,34 @@
 package net.n2oapp.demo;
 
 import com.codeborne.selenide.Selenide;
-import net.n2oapp.demo.model.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import net.n2oapp.demo.model.ProtoClient;
+import net.n2oapp.demo.model.ProtoContacts;
+import net.n2oapp.demo.model.ProtoPage;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import static com.codeborne.selenide.Configuration.*;
+import static com.codeborne.selenide.Configuration.browserSize;
+import static com.codeborne.selenide.Configuration.headless;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DemoApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DemoIntegrationAT {
 
     @LocalServerPort
@@ -27,7 +36,7 @@ public class DemoIntegrationAT {
 
     private ProtoPage protoPage;
 
-    @BeforeClass
+    @BeforeAll
     public static void configure() {
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
 
@@ -35,16 +44,28 @@ public class DemoIntegrationAT {
         browserSize = "1920x1200";
     }
 
-    @Before
+    @BeforeEach
     public void openProtoPage() {
         protoPage = Selenide.open("http://localhost:" + port, ProtoPage.class);
         protoPage.shouldBeClientsPage();
     }
 
     /**
+     * Проверка отдачи статики
+     */
+    @Test
+    @Order(1)
+    public void checkStaticContent() throws IOException {
+        HttpUriRequest request = new HttpGet("http://localhost:" + port + "/index.html");
+        HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
+        assertThat(httpResponse.getStatusLine().getStatusCode(), equalTo(HttpStatus.SC_OK));
+    }
+
+    /**
      * Проверка работы фильтра по полу
      */
     @Test
+    @Order(2)
     public void testFilterByGender() {
         protoPage.genderFilterCheck("Женский");
         protoPage.genderFilterShouldBeUnchecked("Мужской");
@@ -74,6 +95,7 @@ public class DemoIntegrationAT {
      * Проверка работы фильтра по фамилии и имени
      */
     @Test
+    @Order(3)
     public void testFilterByNameAndSurname() {
         protoPage.getSurnameFilter().shouldBeEnabled();
         protoPage.getFirstNameFilter().shouldBeEnabled();
