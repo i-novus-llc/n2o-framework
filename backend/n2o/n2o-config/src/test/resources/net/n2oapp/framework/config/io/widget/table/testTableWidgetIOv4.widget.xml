@@ -166,8 +166,7 @@
     </toolbar>
 
     <toolbar place="topLeft">
-        <button action-id="test1" class="test" icon="test" label="test" type="icon" enabling-condition="test"
-                confirm-type="popover"
+        <button action-id="test1" class="test" icon="test" label="test" type="icon" enabling-condition="test" confirm-type="popover"
                 visibility-condition="test">
             <close src="test"/>
         </button>
@@ -182,12 +181,22 @@
         </sub-menu>
         <group>
             <button action-id="test3" class="test" icon="test" label="test" type="icon">
+                <dependencies>
+                    <enabling on="test1" ref-model="filter" ref-widget-id="test">condition1</enabling>
+                    <visibility on="test2, test3" ref-model="filter" ref-widget-id="test">condition2</visibility>
+                </dependencies>
                 <close src="test"/>
             </button>
+            <button enabled="false" visible="false"/>
             <sub-menu style="margin-left:10px;width:300px">
-                <menu-item action-id="test1" icon="test" label="test" class="test"
-                           style="margin-left:10px;width:300px"/>
-                <menu-item action-id="test2" icon="test" label="test" class="test"/>
+                <menu-item action-id="test1" icon="test" label="test" class="test" style="margin-left:10px;width:300px">
+                    <close src="test"/>
+                    <dependencies>
+                        <enabling on="test1" ref-model="resolve">condition1</enabling>
+                        <visibility on="test2, test3" ref-widget-id="test">condition2</visibility>
+                    </dependencies>
+                </menu-item>
+                <menu-item action-id="test2" icon="test" label="test" class="test" enabled="false" visible="false"/>
                 <menu-item action-id="test3" icon="test" label="test" class="test"/>
             </sub-menu>
             <sub-menu>
