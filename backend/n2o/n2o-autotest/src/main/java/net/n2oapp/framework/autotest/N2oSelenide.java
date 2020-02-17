@@ -5,7 +5,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.collection.ComponentsCollection;
 import net.n2oapp.framework.autotest.api.component.Component;
-import net.n2oapp.framework.autotest.api.component.page.Modal;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.N2oComponentLibrary;
 

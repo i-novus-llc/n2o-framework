@@ -119,21 +119,21 @@ public class ProtoPage {
     }
 
     public void clientsCountShouldBe(int count) {
-        getTable().paging().totalElementsShouldBe(Condition.matchesText(""+count));
+        getTable().paging().totalElementsShouldBe(count);
     }
 
     public ProtoClient clickSurnameCell(int row) {
-        getTableCell(row, 0, TextCell.class).element().$(".btn").click();
+        getTableCell(row, 0, LinkCell.class).click();
         return getProtoClient();
     }
 
     public ProtoClient clickNameCell(int row) {
-        getTableCell(row, 1, TextCell.class).element().$(".btn").click();
+        getTableCell(row, 1, LinkCell.class).click();
         return getModalProtoClient();
     }
 
     public ProtoClient clickPatronymicCell(int row) {
-        getTableCell(row, 2, TextCell.class).element().$(".btn").click();
+        getTableCell(row, 2, LinkCell.class).click();
         return getProtoClient();
     }
 
@@ -252,7 +252,7 @@ public class ProtoPage {
     }
 
     private <T extends Cell> T getTableCell(int row, int col, Class<T> componentClass) {
-        return getTable().columns().rows().row(row).cell(col, componentClass);//.element().$(".btn").click();
+        return getTable().columns().rows().row(row).cell(col, componentClass);
     }
 
     private Fields getFilterFields() {

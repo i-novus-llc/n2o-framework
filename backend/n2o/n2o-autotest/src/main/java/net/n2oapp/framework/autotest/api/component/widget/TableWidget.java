@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.api.component.widget;
 
-import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
@@ -44,7 +43,7 @@ public interface TableWidget extends StandardWidget {
 
         int totalElements();
 
-        void totalElementsShouldBe(Condition condition);
+        void totalElementsShouldBe(int count);
     }
 
     interface Rows {

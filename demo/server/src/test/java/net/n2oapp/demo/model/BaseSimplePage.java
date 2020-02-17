@@ -2,7 +2,7 @@ package net.n2oapp.demo.model;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
-import net.n2oapp.framework.autotest.api.component.page.Modal;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 
@@ -48,7 +48,7 @@ public abstract class BaseSimplePage {
         if (simplePage != null)
             return simplePage.single().widget(FormWidget.class).fields();
         else
-            return modal.page(SimplePage.class).single().widget(FormWidget.class).fields();
+            return modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
     }
 
 }

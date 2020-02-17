@@ -132,8 +132,8 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         }
 
         @Override
-        public void totalElementsShouldBe(Condition condition) {
-            element().$(".n2o-pagination .n2o-pagination-info").should(condition);
+        public void totalElementsShouldBe(int count) {
+            element().$(".n2o-pagination .n2o-pagination-info").should(Condition.matchesText("" + count));
         }
 
     }
