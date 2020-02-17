@@ -7,7 +7,7 @@ import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись ячейки с текстом со стилем или без.
+ * Чтение\запись ячейки со значком
  */
 @Component
 public class BadgeCellElementIOv2 extends AbstractCellElementIOv2<N2oBadgeCell> {

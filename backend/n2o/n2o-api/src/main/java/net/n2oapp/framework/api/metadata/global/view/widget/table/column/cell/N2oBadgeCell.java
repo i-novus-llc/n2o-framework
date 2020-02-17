@@ -6,7 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 
 /**
- * Исходная модель ячейки с текстом.
+ * Исходная модель ячейки со значком.
  */
 @Getter
 @Setter

@@ -23,51 +23,6 @@
                 </sub-menu>
             </toolbar>
         </column>
-        <column id="testId" label="labelTest" text-field-id="firstName" sorting-field-id="firstName"
-                sorting-direction="asc"
-                icon="iconTest" visible="true" tooltip-field-id="testTooltip" type="icon" width="200">
-            <text/>
-        </column>
-        <column text-field-id="test3">
-            <icon src="test" icon="iconClass" text="textTest" type="icon" position="left">
-            </icon>
-        </column>
-        <column text-field-id="test4">
-            <checkbox src="test" enabled="true" action-id="update" class="classTest">
-                <close src="test"/>
-            </checkbox>
-        </column>
-        <column text-field-id="test6">
-            <image src="test" url="testUrl" class="classTest" width="200px" action-id="actionTest" shape="circle">
-                <close src="test"/>
-            </image>
-        </column>
-        <column text-field-id="test7">
-            <edit src="test" action-id="update">
-                <input-text id="test"/>
-            </edit>
-        </column>
-        <column text-field-id="test8">
-            <toolbar src="test">
-                <button label="labelTest" action-id="testActionId" class="testClass" icon="testIcon">
-                    <close src="test"/>
-                </button>
-            </toolbar>
-        </column>
-        <column text-field-id="test9">
-            <cell>
-                <close src="test"/>
-            </cell>
-        </column>
-        <column text-field-id="test10">
-            <badge position="left" text="test" src="test" color="test">
-                <switch value-field-id="gender.id">
-                    <case value="1">Мужской</case>
-                    <case value="2">Женский</case>
-                    <default>Неопределенный</default>
-                </switch>
-            </badge>
-        </column>
     </columns>
     <rows class="test">
         <switch value-field-id="gender.id">

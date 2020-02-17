@@ -10,8 +10,7 @@ import java.util.Map;
 
 
 /**
- * @author iryabov
- * @since 10.12.2015
+ * Настраиваемая ячейка
  */
 @Getter
 @Setter

@@ -247,7 +247,7 @@
                         </xs:annotation>
                     </xs:any>
                 </xs:sequence>
-                <xs:attribute name="enabled" type="xs:boolean" use="optional">
+                <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Доступность чекбокса.</xs:documentation>
                     </xs:annotation>
@@ -255,13 +255,6 @@
                 <xs:attribute name="action-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Действие, которое выполнится при клике по чекбоксу.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="model" type="clientModel">
-                    <xs:annotation>
-                        <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокирована.
-                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -344,13 +337,6 @@
                         <xs:documentation>Форма изображения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="model" type="clientModel">
-                    <xs:annotation>
-                        <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокирована.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -405,16 +391,6 @@
                 <xs:documentation>Генерация стандартных действий. Возможные значения: update, delete. Можно писать
                     несколько идентификаторов через запятую.
                 </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="src" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Реализация ячейки.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="style" type="xs:string" use="optional">
-            <xs:annotation>
-                <xs:documentation>Стиль колонки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -663,13 +639,6 @@
                         </xs:annotation>
                     </xs:any>
                 </xs:sequence>
-                <xs:attribute name="model" type="clientModel">
-                    <xs:annotation>
-                        <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокирована.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:anyAttribute>
                     <xs:annotation>
                         <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -741,18 +710,6 @@
             <xs:enumeration value="circle"/>
             <xs:enumeration value="rounded"/>
             <xs:enumeration value="polaroid"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="clientModel">
-        <xs:annotation>
-            <xs:documentation>Модель, над которой выполняется действие на клиенте.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="filter"/>
-            <xs:enumeration value="resolve"/>
-            <xs:enumeration value="edit"/>
-            <xs:enumeration value="selected"/>
         </xs:restriction>
     </xs:simpleType>
 
