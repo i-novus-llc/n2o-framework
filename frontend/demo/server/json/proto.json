@@ -1,115 +1,115 @@
 {
-  "id": "_",
+  "id": "proto",
   "routes": {
     "list": [
       {
-        "path": "/create2",
+        "path": "/proto/create2",
         "exact": true,
         "isOtherPage": true
       },
       {
-        "path": "/:clients_id/contacts/:contacts_id/update",
+        "path": "/proto/:proto_clients_id/contacts/:proto_contacts_id/update",
         "exact": true,
         "isOtherPage": true
       },
       {
-        "path": "/:clients_id/contacts/create",
+        "path": "/proto/:proto_clients_id/contacts/create",
         "exact": true,
         "isOtherPage": true
       },
       {
-        "path": "/:clients_id/update",
+        "path": "/proto/:proto_clients_id/update",
         "exact": true,
         "isOtherPage": true
       },
       {
-        "path": "/:clients_id/name",
+        "path": "/proto/:proto_clients_id/name",
         "exact": true,
         "isOtherPage": true
       },
       {
-        "path": "/:clients_id/surname",
+        "path": "/proto/:proto_clients_id/surname",
         "exact": true,
         "isOtherPage": true
       },
       {
-        "path": "/:clients_id/view",
+        "path": "/proto/:proto_clients_id/view",
         "exact": true,
         "isOtherPage": true
       },
       {
-        "path": "/:clients_id/update2",
+        "path": "/proto/:proto_clients_id/update2",
         "exact": true,
         "isOtherPage": true
       },
       {
-        "path": "/:clients_id/update_client",
+        "path": "/proto/:proto_clients_id/update_client",
         "exact": true,
         "isOtherPage": true
       },
       {
-        "path": "/create",
+        "path": "/proto/create",
         "exact": true,
         "isOtherPage": true
       },
       {
-        "path": "/",
+        "path": "/proto",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/:clients_id",
+        "path": "/proto/:proto_clients_id",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/:clients_id/contacts",
+        "path": "/proto/:proto_clients_id/contacts",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/:clients_id/contacts/:contacts_id",
+        "path": "/proto/:proto_clients_id/contacts/:proto_contacts_id",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/:client_id/card",
+        "path": "/proto/:client_id/card",
         "exact": true,
         "isOtherPage": false
       },
       {
-        "path": "/:client_id/card/:form_id",
+        "path": "/proto/:client_id/card/:proto_form_id",
         "exact": true,
         "isOtherPage": false
       }
     ],
     "pathMapping": {
-      "clients_id": {
+      "proto_clients_id": {
         "type": "n2o/widgets/CHANGE_SELECTED_ID",
         "payload": {
-          "widgetId": "clients",
-          "value": ":clients_id"
+          "widgetId": "proto_clients",
+          "value": ":proto_clients_id"
         }
       },
-      "contacts_id": {
+      "proto_contacts_id": {
         "type": "n2o/widgets/CHANGE_SELECTED_ID",
         "payload": {
-          "widgetId": "contacts",
-          "value": ":contacts_id"
+          "widgetId": "proto_contacts",
+          "value": ":proto_contacts_id"
         }
       },
       "client_id": {
         "type": "n2o/widgets/CHANGE_SELECTED_ID",
         "payload": {
-          "widgetId": "clients",
+          "widgetId": "proto_clients",
           "value": ":client_id"
         }
       },
-      "form_id": {
+      "proto_form_id": {
         "type": "n2o/widgets/CHANGE_SELECTED_ID",
         "payload": {
-          "widgetId": "form",
-          "value": ":form_id"
+          "widgetId": "proto_form",
+          "value": ":proto_form_id"
         }
       }
     },
@@ -119,14 +119,14 @@
           "type": "n2o/models/UPDATE",
           "payload": {
             "prefix": "filter",
-            "key": "clients",
+            "key": "proto_clients",
             "field": "surname",
             "value": ":clients_surname"
           }
         },
         "set": {
           "value": "`surname`",
-          "link": "models.filter['clients']"
+          "link": "models.filter['proto_clients']"
         }
       },
       "clients_name": {
@@ -134,14 +134,14 @@
           "type": "n2o/models/UPDATE",
           "payload": {
             "prefix": "filter",
-            "key": "clients",
+            "key": "proto_clients",
             "field": "name",
             "value": ":clients_name"
           }
         },
         "set": {
           "value": "`name`",
-          "link": "models.filter['clients']"
+          "link": "models.filter['proto_clients']"
         }
       },
       "clients_bdate_begin": {
@@ -149,14 +149,14 @@
           "type": "n2o/models/UPDATE",
           "payload": {
             "prefix": "filter",
-            "key": "clients",
+            "key": "proto_clients",
             "field": "bdate.begin",
             "value": ":clients_bdate_begin"
           }
         },
         "set": {
           "value": "`bdate.begin`",
-          "link": "models.filter['clients']"
+          "link": "models.filter['proto_clients']"
         }
       },
       "clients_bdate_end": {
@@ -164,14 +164,14 @@
           "type": "n2o/models/UPDATE",
           "payload": {
             "prefix": "filter",
-            "key": "clients",
+            "key": "proto_clients",
             "field": "bdate.end",
             "value": ":clients_bdate_end"
           }
         },
         "set": {
           "value": "`bdate.end`",
-          "link": "models.filter['clients']"
+          "link": "models.filter['proto_clients']"
         }
       },
       "clients_genders_id": {
@@ -179,7 +179,7 @@
           "type": "n2o/models/UPDATE_MAP",
           "payload": {
             "prefix": "filter",
-            "key": "clients",
+            "key": "proto_clients",
             "field": "genders",
             "value": ":clients_genders_id",
             "map": "id"
@@ -187,7 +187,7 @@
         },
         "set": {
           "value": "`genders.map(function(t){return t.id})`",
-          "link": "models.filter['clients']"
+          "link": "models.filter['proto_clients']"
         }
       },
       "clients_vip": {
@@ -195,157 +195,157 @@
           "type": "n2o/models/UPDATE",
           "payload": {
             "prefix": "filter",
-            "key": "clients",
+            "key": "proto_clients",
             "field": "vip",
             "value": ":clients_vip"
           }
         },
         "set": {
           "value": "`vip`",
-          "link": "models.filter['clients']"
+          "link": "models.filter['proto_clients']"
         }
       },
       "sorting_clients_surname": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "clients",
+            "widgetId": "proto_clients",
             "fieldKey": "surname",
             "sortDirection": ":sorting_clients_surname"
           }
         },
         "set": {
-          "link": "widgets['clients'].sorting.surname"
+          "link": "widgets['proto_clients'].sorting.surname"
         }
       },
       "sorting_clients_name": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "clients",
+            "widgetId": "proto_clients",
             "fieldKey": "name",
             "sortDirection": ":sorting_clients_name"
           }
         },
         "set": {
-          "link": "widgets['clients'].sorting.name"
+          "link": "widgets['proto_clients'].sorting.name"
         }
       },
       "sorting_clients_patrName": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "clients",
+            "widgetId": "proto_clients",
             "fieldKey": "patrName",
             "sortDirection": ":sorting_clients_patrName"
           }
         },
         "set": {
-          "link": "widgets['clients'].sorting.patrName"
+          "link": "widgets['proto_clients'].sorting.patrName"
         }
       },
       "sorting_clients_birthday": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "clients",
+            "widgetId": "proto_clients",
             "fieldKey": "birthday",
             "sortDirection": ":sorting_clients_birthday"
           }
         },
         "set": {
-          "link": "widgets['clients'].sorting.birthday"
+          "link": "widgets['proto_clients'].sorting.birthday"
         }
       },
       "sorting_clients_age": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "clients",
+            "widgetId": "proto_clients",
             "fieldKey": "age",
             "sortDirection": ":sorting_clients_age"
           }
         },
         "set": {
-          "link": "widgets['clients'].sorting.age"
+          "link": "widgets['proto_clients'].sorting.age"
         }
       },
       "sorting_contacts_value": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "contacts",
+            "widgetId": "proto_contacts",
             "fieldKey": "value",
             "sortDirection": ":sorting_contacts_value"
           }
         },
         "set": {
-          "link": "widgets['contacts'].sorting.value"
+          "link": "widgets['proto_contacts'].sorting.value"
         }
       },
       "sorting_form_surname": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "form",
+            "widgetId": "proto_form",
             "fieldKey": "surname",
             "sortDirection": ":sorting_form_surname"
           }
         },
         "set": {
-          "link": "widgets['form'].sorting.surname"
+          "link": "widgets['proto_form'].sorting.surname"
         }
       },
       "sorting_form_name": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "form",
+            "widgetId": "proto_form",
             "fieldKey": "name",
             "sortDirection": ":sorting_form_name"
           }
         },
         "set": {
-          "link": "widgets['form'].sorting.name"
+          "link": "widgets['proto_form'].sorting.name"
         }
       },
       "sorting_form_patrName": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "form",
+            "widgetId": "proto_form",
             "fieldKey": "patrName",
             "sortDirection": ":sorting_form_patrName"
           }
         },
         "set": {
-          "link": "widgets['form'].sorting.patrName"
+          "link": "widgets['proto_form'].sorting.patrName"
         }
       },
       "sorting_form_birthday": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "form",
+            "widgetId": "proto_form",
             "fieldKey": "birthday",
             "sortDirection": ":sorting_form_birthday"
           }
         },
         "set": {
-          "link": "widgets['form'].sorting.birthday"
+          "link": "widgets['proto_form'].sorting.birthday"
         }
       },
       "sorting_form_age": {
         "get": {
           "type": "n2o/widgets/SORT_BY",
           "payload": {
-            "widgetId": "form",
+            "widgetId": "proto_form",
             "fieldKey": "age",
             "sortDirection": ":sorting_form_age"
           }
         },
         "set": {
-          "link": "widgets['form'].sorting.age"
+          "link": "widgets['proto_form'].sorting.age"
         }
       }
     }
@@ -365,7 +365,7 @@
             "hintPosition": "bottom",
             "conditions": {},
             "color": "primary",
-            "url": "/create2",
+            "url": "/proto/create2",
             "target": "application",
             "pathMapping": {},
             "queryMapping": {}
@@ -380,41 +380,41 @@
     }
   ],
   "models": {
-    "filter['clients'].genders": {
-      "link": "models.filter['clients'].genders"
+    "filter['proto_clients'].genders": {
+      "link": "models.filter['proto_clients'].genders"
     }
   },
   "widgets": {
-    "clients": {
+    "proto_clients": {
       "src": "AdvancedTableWidget",
-      "id": "clients",
+      "id": "proto_clients",
       "dataProvider": {
-        "url": "n2o/data/",
+        "url": "n2o/data/proto",
         "pathMapping": {},
         "queryMapping": {
           "clients_surname": {
             "value": "`surname`",
-            "link": "models.filter['clients']"
+            "link": "models.filter['proto_clients']"
           },
           "clients_name": {
             "value": "`name`",
-            "link": "models.filter['clients']"
+            "link": "models.filter['proto_clients']"
           },
           "clients_bdate_begin": {
             "value": "`bdate.begin`",
-            "link": "models.filter['clients']"
+            "link": "models.filter['proto_clients']"
           },
           "clients_bdate_end": {
             "value": "`bdate.end`",
-            "link": "models.filter['clients']"
+            "link": "models.filter['proto_clients']"
           },
           "clients_genders_id": {
             "value": "`genders.map(function(t){return t.id})`",
-            "link": "models.filter['clients']"
+            "link": "models.filter['proto_clients']"
           },
           "clients_vip": {
             "value": "`vip`",
-            "link": "models.filter['clients']"
+            "link": "models.filter['proto_clients']"
           }
         }
       },
@@ -431,9 +431,9 @@
                 "action": {
                   "type": "n2o/overlays/INSERT",
                   "payload": {
-                    "name": "create",
-                    "pageId": "create",
-                    "pageUrl": "/create",
+                    "name": "proto_create",
+                    "pageId": "proto_create",
+                    "pageUrl": "/proto/create",
                     "pathMapping": {},
                     "queryMapping": {},
                     "closeButton": true,
@@ -453,12 +453,12 @@
                 "action": {
                   "type": "n2o/overlays/INSERT",
                   "payload": {
-                    "name": "clients_id_update_client",
-                    "pageId": "clients_id_update_client",
-                    "pageUrl": "/:clients_id/update_client",
+                    "name": "proto_update_client",
+                    "pageId": "proto_update_client",
+                    "pageUrl": "/proto/:proto_clients_id/update_client",
                     "pathMapping": {
-                      "clients_id": {
-                        "link": "models.resolve['clients'].id"
+                      "proto_clients_id": {
+                        "link": "models.resolve['proto_clients'].id"
                       }
                     },
                     "queryMapping": {},
@@ -473,7 +473,7 @@
                   "enabled": [
                     {
                       "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['clients']"
+                      "modelLink": "models.resolve['proto_clients']"
                     }
                   ]
                 }
@@ -485,25 +485,25 @@
                 "action": {
                   "type": "n2o/actionImpl/START_INVOKE",
                   "payload": {
-                    "widgetId": "clients",
+                    "widgetId": "proto_clients",
                     "dataProvider": {
-                      "url": "n2o/data//:clients_id/delete",
+                      "url": "n2o/data/proto/:proto_clients_id/delete",
                       "pathMapping": {
-                        "clients_id": {
-                          "link": "models.resolve['clients'].id"
+                        "proto_clients_id": {
+                          "link": "models.resolve['proto_clients'].id"
                         }
                       },
                       "method": "POST",
                       "optimistic": false
                     },
-                    "modelLink": "models.resolve['clients']"
+                    "modelLink": "models.resolve['proto_clients']"
                   },
                   "meta": {
                     "success": {
                       "refresh": {
                         "type": "widget",
                         "options": {
-                          "widgetId": "clients"
+                          "widgetId": "proto_clients"
                         }
                       }
                     },
@@ -516,7 +516,7 @@
                   "enabled": [
                     {
                       "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['clients']"
+                      "modelLink": "models.resolve['proto_clients']"
                     }
                   ]
                 },
@@ -525,7 +525,7 @@
                   "title": "Предупреждение",
                   "okLabel": "Да",
                   "cancelLabel": "Нет",
-                  "modelLink": "models.resolve['clients']",
+                  "modelLink": "models.resolve['proto_clients']",
                   "mode": "modal"
                 }
               }
@@ -547,22 +547,22 @@
                   "enabled": [
                     {
                       "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['clients']"
+                      "modelLink": "models.resolve['proto_clients']"
                     }
                   ],
                   "visible": [
                     {
                       "expression": "name!='Мария'",
-                      "modelLink": "models.resolve['clients']"
+                      "modelLink": "models.resolve['proto_clients']"
                     }
                   ]
                 },
                 "color": "light",
-                "url": "/:clients_id/update2",
+                "url": "/proto/:proto_clients_id/update2",
                 "target": "application",
                 "pathMapping": {
-                  "clients_id": {
-                    "link": "models.resolve['clients'].id"
+                  "proto_clients_id": {
+                    "link": "models.resolve['proto_clients'].id"
                   }
                 },
                 "queryMapping": {}
@@ -575,12 +575,12 @@
                 "action": {
                   "type": "n2o/overlays/INSERT",
                   "payload": {
-                    "name": "clients_id_view",
-                    "pageId": "clients_id_view",
-                    "pageUrl": "/:clients_id/view",
+                    "name": "proto_view",
+                    "pageId": "proto_view",
+                    "pageUrl": "/proto/:proto_clients_id/view",
                     "pathMapping": {
-                      "clients_id": {
-                        "link": "models.resolve['clients'].id"
+                      "proto_clients_id": {
+                        "link": "models.resolve['proto_clients'].id"
                       }
                     },
                     "queryMapping": {},
@@ -595,11 +595,11 @@
                   "enabled": [
                     {
                       "expression": "name!='Анна'",
-                      "modelLink": "models.resolve['clients']"
+                      "modelLink": "models.resolve['proto_clients']"
                     },
                     {
                       "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['clients']"
+                      "modelLink": "models.resolve['proto_clients']"
                     }
                   ]
                 },
@@ -619,7 +619,7 @@
                 "action": {
                   "type": "n2o/widgets/TOGGLE_FILTER_VISIBILITY",
                   "payload": {
-                    "widgetId": "clients"
+                    "widgetId": "proto_clients"
                   }
                 },
                 "hint": "Изменить видимость фильтров",
@@ -641,7 +641,7 @@
                 "action": {
                   "type": "n2o/widgets/DATA_REQUEST",
                   "payload": {
-                    "widgetId": "clients"
+                    "widgetId": "proto_clients"
                   }
                 },
                 "hint": "Обновить данные",
@@ -664,12 +664,12 @@
         "update": {
           "type": "n2o/overlays/INSERT",
           "payload": {
-            "name": "clients_id_update",
-            "pageId": "clients_id_update",
-            "pageUrl": "/:clients_id/update",
+            "name": "proto_update",
+            "pageId": "proto_update",
+            "pageUrl": "/proto/:proto_clients_id/update",
             "pathMapping": {
-              "clients_id": {
-                "link": "models.resolve['clients'].id"
+              "proto_clients_id": {
+                "link": "models.resolve['proto_clients'].id"
               }
             },
             "queryMapping": {},
@@ -681,37 +681,37 @@
         "menuItem5": {
           "type": "n2o/widgets/TOGGLE_FILTER_VISIBILITY",
           "payload": {
-            "widgetId": "clients"
+            "widgetId": "proto_clients"
           }
         },
         "menuItem7": {
           "type": "n2o/widgets/DATA_REQUEST",
           "payload": {
-            "widgetId": "clients"
+            "widgetId": "proto_clients"
           }
         },
         "delete": {
           "type": "n2o/actionImpl/START_INVOKE",
           "payload": {
-            "widgetId": "clients",
+            "widgetId": "proto_clients",
             "dataProvider": {
-              "url": "n2o/data//:clients_id/delete",
+              "url": "n2o/data/proto/:proto_clients_id/delete",
               "pathMapping": {
-                "clients_id": {
-                  "link": "models.resolve['clients'].id"
+                "proto_clients_id": {
+                  "link": "models.resolve['proto_clients'].id"
                 }
               },
               "method": "POST",
               "optimistic": false
             },
-            "modelLink": "models.resolve['clients']"
+            "modelLink": "models.resolve['proto_clients']"
           },
           "meta": {
             "success": {
               "refresh": {
                 "type": "widget",
                 "options": {
-                  "widgetId": "clients"
+                  "widgetId": "proto_clients"
                 }
               }
             },
@@ -722,12 +722,12 @@
         "view": {
           "type": "n2o/overlays/INSERT",
           "payload": {
-            "name": "clients_id_view",
-            "pageId": "clients_id_view",
-            "pageUrl": "/:clients_id/view",
+            "name": "proto_view",
+            "pageId": "proto_view",
+            "pageUrl": "/proto/:proto_clients_id/view",
             "pathMapping": {
-              "clients_id": {
-                "link": "models.resolve['clients'].id"
+              "proto_clients_id": {
+                "link": "models.resolve['proto_clients'].id"
               }
             },
             "queryMapping": {},
@@ -740,25 +740,25 @@
         "update_birthday": {
           "type": "n2o/actionImpl/START_INVOKE",
           "payload": {
-            "widgetId": "clients",
+            "widgetId": "proto_clients",
             "dataProvider": {
-              "url": "n2o/data//:clients_id/update_birthday",
+              "url": "n2o/data/proto/:proto_clients_id/update_birthday",
               "pathMapping": {
-                "clients_id": {
-                  "link": "models.resolve['clients'].id"
+                "proto_clients_id": {
+                  "link": "models.resolve['proto_clients'].id"
                 }
               },
               "method": "POST",
               "optimistic": false
             },
-            "modelLink": "models.resolve['clients']"
+            "modelLink": "models.resolve['proto_clients']"
           },
           "meta": {
             "success": {
               "refresh": {
                 "type": "widget",
                 "options": {
-                  "widgetId": "clients"
+                  "widgetId": "proto_clients"
                 }
               }
             },
@@ -768,12 +768,12 @@
         "name": {
           "type": "n2o/overlays/INSERT",
           "payload": {
-            "name": "clients_id_name",
-            "pageId": "clients_id_name",
-            "pageUrl": "/:clients_id/name",
+            "name": "proto_name",
+            "pageId": "proto_name",
+            "pageUrl": "/proto/:proto_clients_id/name",
             "pathMapping": {
-              "clients_id": {
-                "link": "models.resolve['clients'].id"
+              "proto_clients_id": {
+                "link": "models.resolve['proto_clients'].id"
               }
             },
             "queryMapping": {},
@@ -785,9 +785,9 @@
         "create": {
           "type": "n2o/overlays/INSERT",
           "payload": {
-            "name": "create",
-            "pageId": "create",
-            "pageUrl": "/create",
+            "name": "proto_create",
+            "pageId": "proto_create",
+            "pageUrl": "/proto/create",
             "pathMapping": {},
             "queryMapping": {},
             "closeButton": true,
@@ -798,25 +798,25 @@
         "vip": {
           "type": "n2o/actionImpl/START_INVOKE",
           "payload": {
-            "widgetId": "clients",
+            "widgetId": "proto_clients",
             "dataProvider": {
-              "url": "n2o/data//:clients_id/vip",
+              "url": "n2o/data/proto/:proto_clients_id/vip",
               "pathMapping": {
-                "clients_id": {
-                  "link": "models.resolve['clients'].id"
+                "proto_clients_id": {
+                  "link": "models.resolve['proto_clients'].id"
                 }
               },
               "method": "POST",
               "optimistic": false
             },
-            "modelLink": "models.resolve['clients']"
+            "modelLink": "models.resolve['proto_clients']"
           },
           "meta": {
             "success": {
               "refresh": {
                 "type": "widget",
                 "options": {
-                  "widgetId": "clients"
+                  "widgetId": "proto_clients"
                 }
               }
             },
@@ -826,12 +826,12 @@
         "update_client": {
           "type": "n2o/overlays/INSERT",
           "payload": {
-            "name": "clients_id_update_client",
-            "pageId": "clients_id_update_client",
-            "pageUrl": "/:clients_id/update_client",
+            "name": "proto_update_client",
+            "pageId": "proto_update_client",
+            "pageUrl": "/proto/:proto_clients_id/update_client",
             "pathMapping": {
-              "clients_id": {
-                "link": "models.resolve['clients'].id"
+              "proto_clients_id": {
+                "link": "models.resolve['proto_clients'].id"
               }
             },
             "queryMapping": {},
@@ -959,11 +959,11 @@
             "id": "surname",
             "fieldKey": "surname",
             "src": "LinkCell",
-            "url": "/:clients_id/surname",
+            "url": "/proto/:proto_clients_id/surname",
             "target": "application",
             "pathMapping": {
-              "clients_id": {
-                "link": "models.resolve['clients'].id"
+              "proto_clients_id": {
+                "link": "models.resolve['proto_clients'].id"
               }
             },
             "queryMapping": {},
@@ -976,12 +976,12 @@
             "action": {
               "type": "n2o/overlays/INSERT",
               "payload": {
-                "name": "clients_id_name",
-                "pageId": "clients_id_name",
-                "pageUrl": "/:clients_id/name",
+                "name": "proto_name",
+                "pageId": "proto_name",
+                "pageUrl": "/proto/:proto_clients_id/name",
                 "pathMapping": {
-                  "clients_id": {
-                    "link": "models.resolve['clients'].id"
+                  "proto_clients_id": {
+                    "link": "models.resolve['proto_clients'].id"
                   }
                 },
                 "queryMapping": {},
@@ -1016,25 +1016,25 @@
             "action": {
               "type": "n2o/actionImpl/START_INVOKE",
               "payload": {
-                "widgetId": "clients",
+                "widgetId": "proto_clients",
                 "dataProvider": {
-                  "url": "n2o/data//:clients_id/update_birthday",
+                  "url": "n2o/data/proto/:proto_clients_id/update_birthday",
                   "pathMapping": {
-                    "clients_id": {
-                      "link": "models.resolve['clients'].id"
+                    "proto_clients_id": {
+                      "link": "models.resolve['proto_clients'].id"
                     }
                   },
                   "method": "POST",
                   "optimistic": false
                 },
-                "modelLink": "models.resolve['clients']"
+                "modelLink": "models.resolve['proto_clients']"
               },
               "meta": {
                 "success": {
                   "refresh": {
                     "type": "widget",
                     "options": {
-                      "widgetId": "clients"
+                      "widgetId": "proto_clients"
                     }
                   }
                 },
@@ -1057,25 +1057,25 @@
             "action": {
               "type": "n2o/actionImpl/START_INVOKE",
               "payload": {
-                "widgetId": "clients",
+                "widgetId": "proto_clients",
                 "dataProvider": {
-                  "url": "n2o/data//:clients_id/vip",
+                  "url": "n2o/data/proto/:proto_clients_id/vip",
                   "pathMapping": {
-                    "clients_id": {
-                      "link": "models.resolve['clients'].id"
+                    "proto_clients_id": {
+                      "link": "models.resolve['proto_clients'].id"
                     }
                   },
                   "method": "POST",
                   "optimistic": false
                 },
-                "modelLink": "models.resolve['clients']"
+                "modelLink": "models.resolve['proto_clients']"
               },
               "meta": {
                 "success": {
                   "refresh": {
                     "type": "widget",
                     "options": {
-                      "widgetId": "clients"
+                      "widgetId": "proto_clients"
                     }
                   }
                 },
@@ -1105,25 +1105,25 @@
                         "action": {
                           "type": "n2o/actionImpl/START_INVOKE",
                           "payload": {
-                            "widgetId": "clients",
+                            "widgetId": "proto_clients",
                             "dataProvider": {
-                              "url": "n2o/data//:clients_id/delete",
+                              "url": "n2o/data/proto/:proto_clients_id/delete",
                               "pathMapping": {
-                                "clients_id": {
-                                  "link": "models.resolve['clients'].id"
+                                "proto_clients_id": {
+                                  "link": "models.resolve['proto_clients'].id"
                                 }
                               },
                               "method": "POST",
                               "optimistic": false
                             },
-                            "modelLink": "models.resolve['clients']"
+                            "modelLink": "models.resolve['proto_clients']"
                           },
                           "meta": {
                             "success": {
                               "refresh": {
                                 "type": "widget",
                                 "options": {
-                                  "widgetId": "clients"
+                                  "widgetId": "proto_clients"
                                 }
                               }
                             },
@@ -1136,7 +1136,7 @@
                           "title": "Предупреждение",
                           "okLabel": "Да",
                           "cancelLabel": "Нет",
-                          "modelLink": "models.resolve['clients']",
+                          "modelLink": "models.resolve['proto_clients']",
                           "mode": "modal"
                         }
                       },
@@ -1148,12 +1148,12 @@
                         "action": {
                           "type": "n2o/overlays/INSERT",
                           "payload": {
-                            "name": "clients_id_update",
-                            "pageId": "clients_id_update",
-                            "pageUrl": "/:clients_id/update",
+                            "name": "proto_update",
+                            "pageId": "proto_update",
+                            "pageUrl": "/proto/:proto_clients_id/update",
                             "pathMapping": {
-                              "clients_id": {
-                                "link": "models.resolve['clients'].id"
+                              "proto_clients_id": {
+                                "link": "models.resolve['proto_clients'].id"
                               }
                             },
                             "queryMapping": {},
@@ -1227,14 +1227,14 @@
         "autoFocus": true
       }
     },
-    "contacts": {
+    "proto_contacts": {
       "src": "ListWidget",
-      "id": "contacts",
+      "id": "proto_contacts",
       "dataProvider": {
-        "url": "n2o/data/:clients_id/contacts",
+        "url": "n2o/data/proto/:proto_clients_id/contacts",
         "pathMapping": {
-          "clients_id": {
-            "link": "models.resolve['clients'].id"
+          "proto_clients_id": {
+            "link": "models.resolve['proto_clients'].id"
           }
         },
         "queryMapping": {}
@@ -1252,12 +1252,12 @@
                 "action": {
                   "type": "n2o/overlays/INSERT",
                   "payload": {
-                    "name": "clients_id_contacts_create",
-                    "pageId": "clients_id_contacts_create",
-                    "pageUrl": "/:clients_id/contacts/create",
+                    "name": "proto_contacts_create",
+                    "pageId": "proto_contacts_create",
+                    "pageUrl": "/proto/:proto_clients_id/contacts/create",
                     "pathMapping": {
-                      "clients_id": {
-                        "link": "models.resolve['clients'].id"
+                      "proto_clients_id": {
+                        "link": "models.resolve['proto_clients'].id"
                       }
                     },
                     "queryMapping": {},
@@ -1276,12 +1276,12 @@
         "create": {
           "type": "n2o/overlays/INSERT",
           "payload": {
-            "name": "clients_id_contacts_create",
-            "pageId": "clients_id_contacts_create",
-            "pageUrl": "/:clients_id/contacts/create",
+            "name": "proto_contacts_create",
+            "pageId": "proto_contacts_create",
+            "pageUrl": "/proto/:proto_clients_id/contacts/create",
             "pathMapping": {
-              "clients_id": {
-                "link": "models.resolve['clients'].id"
+              "proto_clients_id": {
+                "link": "models.resolve['proto_clients'].id"
               }
             },
             "queryMapping": {},
@@ -1293,15 +1293,15 @@
         "update": {
           "type": "n2o/overlays/INSERT",
           "payload": {
-            "name": "clients_id_contacts_update",
-            "pageId": "clients_id_contacts_update",
-            "pageUrl": "/:clients_id/contacts/:contacts_id/update",
+            "name": "proto_contacts_update",
+            "pageId": "proto_contacts_update",
+            "pageUrl": "/proto/:proto_clients_id/contacts/:proto_contacts_id/update",
             "pathMapping": {
-              "clients_id": {
-                "link": "models.resolve['clients'].id"
+              "proto_clients_id": {
+                "link": "models.resolve['proto_clients'].id"
               },
-              "contacts_id": {
-                "link": "models.resolve['contacts'].id"
+              "proto_contacts_id": {
+                "link": "models.resolve['proto_contacts'].id"
               }
             },
             "queryMapping": {},
@@ -1313,28 +1313,28 @@
         "delete": {
           "type": "n2o/actionImpl/START_INVOKE",
           "payload": {
-            "widgetId": "contacts",
+            "widgetId": "proto_contacts",
             "dataProvider": {
-              "url": "n2o/data/:clients_id/contacts/:contacts_id/delete",
+              "url": "n2o/data/proto/:proto_clients_id/contacts/:proto_contacts_id/delete",
               "pathMapping": {
-                "contacts_id": {
-                  "link": "models.resolve['contacts'].id"
+                "proto_contacts_id": {
+                  "link": "models.resolve['proto_contacts'].id"
                 },
-                "clients_id": {
-                  "link": "models.resolve['clients'].id"
+                "proto_clients_id": {
+                  "link": "models.resolve['proto_clients'].id"
                 }
               },
               "method": "POST",
               "optimistic": false
             },
-            "modelLink": "models.resolve['contacts']"
+            "modelLink": "models.resolve['proto_contacts']"
           },
           "meta": {
             "success": {
               "refresh": {
                 "type": "widget",
                 "options": {
-                  "widgetId": "contacts"
+                  "widgetId": "proto_contacts"
                 }
               }
             },
@@ -1345,12 +1345,12 @@
       "dependency": {
         "fetch": [
           {
-            "on": "models.resolve['clients']"
+            "on": "models.resolve['proto_clients']"
           }
         ],
         "visible": [
           {
-            "on": "models.resolve['clients']",
+            "on": "models.resolve['proto_clients']",
             "condition": "name != 'Мария'"
           }
         ]
@@ -1373,15 +1373,15 @@
                   "action": {
                     "type": "n2o/overlays/INSERT",
                     "payload": {
-                      "name": "clients_id_contacts_update",
-                      "pageId": "clients_id_contacts_update",
-                      "pageUrl": "/:clients_id/contacts/:contacts_id/update",
+                      "name": "proto_contacts_update",
+                      "pageId": "proto_contacts_update",
+                      "pageUrl": "/proto/:proto_clients_id/contacts/:proto_contacts_id/update",
                       "pathMapping": {
-                        "clients_id": {
-                          "link": "models.resolve['clients'].id"
+                        "proto_clients_id": {
+                          "link": "models.resolve['proto_clients'].id"
                         },
-                        "contacts_id": {
-                          "link": "models.resolve['contacts'].id"
+                        "proto_contacts_id": {
+                          "link": "models.resolve['proto_contacts'].id"
                         }
                       },
                       "queryMapping": {},
@@ -1401,28 +1401,28 @@
                   "action": {
                     "type": "n2o/actionImpl/START_INVOKE",
                     "payload": {
-                      "widgetId": "contacts",
+                      "widgetId": "proto_contacts",
                       "dataProvider": {
-                        "url": "n2o/data/:clients_id/contacts/:contacts_id/delete",
+                        "url": "n2o/data/proto/:proto_clients_id/contacts/:proto_contacts_id/delete",
                         "pathMapping": {
-                          "contacts_id": {
-                            "link": "models.resolve['contacts'].id"
+                          "proto_contacts_id": {
+                            "link": "models.resolve['proto_contacts'].id"
                           },
-                          "clients_id": {
-                            "link": "models.resolve['clients'].id"
+                          "proto_clients_id": {
+                            "link": "models.resolve['proto_clients'].id"
                           }
                         },
                         "method": "POST",
                         "optimistic": false
                       },
-                      "modelLink": "models.resolve['contacts']"
+                      "modelLink": "models.resolve['proto_contacts']"
                     },
                     "meta": {
                       "success": {
                         "refresh": {
                           "type": "widget",
                           "options": {
-                            "widgetId": "contacts"
+                            "widgetId": "proto_contacts"
                           }
                         }
                       },
@@ -1459,14 +1459,14 @@
         "size": 5
       }
     },
-    "form": {
+    "proto_form": {
       "src": "FormWidget",
-      "id": "form",
+      "id": "proto_form",
       "dataProvider": {
-        "url": "n2o/data/:client_id/card",
+        "url": "n2o/data/proto/:client_id/card",
         "pathMapping": {
           "client_id": {
-            "link": "models.resolve['clients'].id"
+            "link": "models.resolve['proto_clients'].id"
           }
         },
         "queryMapping": {}
@@ -1475,7 +1475,7 @@
       "dependency": {
         "fetch": [
           {
-            "on": "models.resolve['clients']"
+            "on": "models.resolve['proto_clients']"
           }
         ]
       },
@@ -1592,7 +1592,7 @@
             "id": "panel1",
             "label": "Клиенты",
             "opened": true,
-            "widgetId": "clients"
+            "widgetId": "proto_clients"
           }
         ]
       }
@@ -1610,10 +1610,12 @@
             "id": "panel1",
             "label": "Контакты",
             "opened": true,
-            "widgetId": "contacts"
+            "widgetId": "proto_contacts"
           }
         ]
-      },
+      }
+    ],
+    "top": [
       {
         "src": "PanelRegion",
         "hasTabs": false,
@@ -1625,7 +1627,7 @@
           {
             "id": "panel1",
             "opened": true,
-            "widgetId": "form"
+            "widgetId": "proto_form"
           }
         ]
       }
@@ -1635,9 +1637,13 @@
     "create2": {}
   },
   "width": {
-    "left": "60%"
+    "left": "59%",
+    "right": "40%"
   },
-  "src": "LeftRightPage",
+  "fixed": "right",
+  "fixedOffset": 50,
+  "needScrollButton": true,
+  "src": "TopLeftRightPage",
   "page": {
     "title": "Список контактов"
   }
