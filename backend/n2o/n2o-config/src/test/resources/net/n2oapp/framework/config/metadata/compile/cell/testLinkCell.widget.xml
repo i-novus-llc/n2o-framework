@@ -14,7 +14,15 @@
             <link icon="{id}" type="iconAndText"/>
         </column>
         <column text-field-id="test5">
-            <link url="/test/{uid}"/>
+            <link url="/test/{uid}" target="newWindow" />
+        </column>
+        <column text-field-id="test6">
+            <link action-id="update"/>
+        </column>
+        <column text-field-id="test7">
+            <link>
+                <close/>
+            </link>
         </column>
     </columns>
 </table>

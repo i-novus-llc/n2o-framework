@@ -22,6 +22,9 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 
+/**
+ * Тест на компиляцию переключаемой ячейки
+ */
 public class SwitchCellCompileTest extends SourceCompileTestBase {
     @Override
     @Before
@@ -32,8 +35,8 @@ public class SwitchCellCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oCellsPack());
-        builder.ios(new SwitchCellElementIOv2());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oCellsPack())
+                .ios(new SwitchCellElementIOv2());
     }
 
     @Test

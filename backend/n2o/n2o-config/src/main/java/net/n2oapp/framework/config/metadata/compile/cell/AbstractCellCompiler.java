@@ -21,9 +21,9 @@ import java.util.Map;
  * Компиляция абстрактной ячейки
  */
 public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends N2oAbstractCell>
-        implements BaseSourceCompiler<D, S, CompileContext<?,?>> {
+        implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
-    protected D build(D compiled, S source, CompileContext<?,?> context, CompileProcessor p, String defaultSrc) {
+    protected D build(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p, String defaultSrc) {
         ComponentScope columnScope = p.getScope(ComponentScope.class);
         if (columnScope != null) {
             AbstractColumn column = columnScope.unwrap(AbstractColumn.class);

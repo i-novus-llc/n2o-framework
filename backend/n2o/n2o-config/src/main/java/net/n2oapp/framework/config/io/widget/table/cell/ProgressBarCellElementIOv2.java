@@ -6,14 +6,13 @@ import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
 /**
- *Чтение\запись ячейки с индикатором прогресса
+ * Чтение\запись ячейки с индикатором прогресса
  */
 @Component
-public class ProgressCellElementIOv2 extends AbstractCellElementIOv2<N2oProgressBarCell> {
+public class ProgressBarCellElementIOv2 extends AbstractCellElementIOv2<N2oProgressBarCell> {
     @Override
     public void io(Element e, N2oProgressBarCell c, IOProcessor p) {
         super.io(e, c, p);
-        p.attribute(e, "value", c::getValue, c::setValue);
         p.attributeBoolean(e, "active", c::getActive, c::setActive);
         p.attributeEnum(e, "size", c::getSize, c::setSize, N2oProgressBarCell.Size.class);
         p.attributeBoolean(e, "striped", c::getStriped, c::setStriped);
@@ -22,7 +21,7 @@ public class ProgressCellElementIOv2 extends AbstractCellElementIOv2<N2oProgress
 
     @Override
     public String getElementName() {
-        return "progress" ;
+        return "progress";
     }
 
     @Override

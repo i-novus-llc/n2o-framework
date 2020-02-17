@@ -131,27 +131,17 @@
                 </xs:sequence>
                 <xs:attribute name="url" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Адрес URL открываемой страницы
-                        </xs:documentation>
+                        <xs:documentation>Адрес URL открываемой страницы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="target" type="acn:aType" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Сценарий открытия ссылки
-                        </xs:documentation>
+                        <xs:documentation>Сценарий открытия ссылки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="action-id" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Действие виджета, которое будет вызвано при клике по ссылке.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="model" type="clientModel">
-                    <xs:annotation>
-                        <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокирована.
-                        </xs:documentation>
+                        <xs:documentation>Действие виджета, которое будет вызвано при клике по ссылке.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="icon" type="xs:string" use="optional">
@@ -217,7 +207,7 @@
                         <xs:documentation>Класс иконки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="type" type="iconType" use="optional">
+                <xs:attribute name="type" type="iconType" use="optional" default="icon">
                     <xs:annotation>
                         <xs:documentation>С текстом или без.</xs:documentation>
                     </xs:annotation>
@@ -225,13 +215,6 @@
                 <xs:attribute name="position" type="positionType" use="optional">
                     <xs:annotation>
                         <xs:documentation>Расположение.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="model" type="clientModel">
-                    <xs:annotation>
-                        <xs:documentation>Модель, над которой выполнится действие. Если модель пустая, то кнопка будет
-                            заблокирована.
-                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -291,11 +274,6 @@
                 <xs:annotation>
                     <xs:documentation>Индикатор прогресса.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="value" type="xs:integer" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Значение прогресса (число от 0 до 100).</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="color" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Цвет индикатора.</xs:documentation>
@@ -518,10 +496,7 @@
                 <xs:annotation>
                     <xs:documentation>Ячейка с рейтингом.</xs:documentation>
                 </xs:annotation>
-                <xs:sequence>
-                    <xs:element name="switch" type="switchDefinition" minOccurs="0" maxOccurs="1"/>
-                </xs:sequence>
-                <xs:attribute name="showTooltip" type="xs:boolean" use="optional" default="false">
+                <xs:attribute name="show-tooltip" type="xs:boolean" use="optional" default="false">
                     <xs:annotation>
                         <xs:documentation>Показать подсказку.</xs:documentation>
                     </xs:annotation>

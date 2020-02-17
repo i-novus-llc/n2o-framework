@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oProgressBarCell;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -21,14 +20,12 @@ public class ProgressBarCellCompiler extends AbstractCellCompiler<N2oProgressBar
     }
 
     @Override
-    public N2oProgressBarCell compile(N2oProgressBarCell source, CompileContext<?,?> context, CompileProcessor p) {
+    public N2oProgressBarCell compile(N2oProgressBarCell source, CompileContext<?, ?> context, CompileProcessor p) {
         N2oProgressBarCell cell = new N2oProgressBarCell();
         build(cell, source, context, p, property("n2o.default.cell.progress.bar.src"));
         cell.setStriped(source.getStriped());
         cell.setActive(source.getActive());
-        if (source.getSize() != null) {
-            cell.setSize(source.getSize());
-        }
+        cell.setSize(p.cast(source.getSize(), N2oProgressBarCell.Size.normal));
         cell.setColor(source.getColor());
         return cell;
     }
