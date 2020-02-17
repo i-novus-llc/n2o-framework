@@ -9,6 +9,10 @@ import net.n2oapp.framework.autotest.api.component.Component;
 public interface Page extends Component {
     PageToolbar toolbar();
 
+    Breadcrumb breadcrumb();
+
+    Dialog dialog(String title);
+
     interface PageToolbar {
         Toolbar topLeft();
 
@@ -17,5 +21,19 @@ public interface Page extends Component {
         Toolbar bottomLeft();
 
         Toolbar bottomRight();
+    }
+
+    interface Breadcrumb {
+        void activeShouldHaveText(String text);
+    }
+
+    interface Dialog {
+        void shouldBeVisible();
+
+        void shouldHaveText(String text);
+
+        void click(String label);
+
+        void shouldBeClosed(long timeOut);
     }
 }

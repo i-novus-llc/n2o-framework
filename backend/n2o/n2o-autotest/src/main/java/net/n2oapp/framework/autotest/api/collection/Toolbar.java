@@ -8,7 +8,8 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 /**
  * Панель действий для автотестирования
  */
-public interface Toolbar {
+public interface Toolbar extends ComponentsCollection {
+
     StandardButton button(String label);
 
     StandardButton button(Condition findBy);

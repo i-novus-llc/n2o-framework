@@ -8,4 +8,6 @@ public interface StandardButton extends Button {
 
     void shouldBeDisabled();
     void shouldBeEnabled();
+
+    void shouldHaveLabel(String label);
 }

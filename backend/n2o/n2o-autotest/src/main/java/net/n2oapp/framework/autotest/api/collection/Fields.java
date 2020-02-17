@@ -7,7 +7,7 @@ import net.n2oapp.framework.autotest.api.component.field.StandardField;
 /**
  * Поля формы для автотестирования
  */
-public interface Fields {
+public interface Fields extends ComponentsCollection {
     StandardField field(String label);
 
     StandardField field(Condition findBy);

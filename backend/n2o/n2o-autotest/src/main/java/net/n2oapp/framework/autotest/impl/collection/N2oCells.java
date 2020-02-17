@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 
+
 import static net.n2oapp.framework.autotest.N2oSelenide.component;
 
 public class N2oCells extends N2oComponentsCollection implements Cells {
