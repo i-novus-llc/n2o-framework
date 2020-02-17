@@ -168,8 +168,7 @@
                         <include>**/*Tests.java</include>
                     </includes>
                     <excludes>
-                        <exclude>**/*IntegrationTest.java</exclude>
-                        <exclude>**/*IntegrationTests.java</exclude>
+                        <exclude>**/*AT.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -183,8 +182,7 @@
                         <additionalClasspathElement>${basedir}/target/classes</additionalClasspathElement>
                     </additionalClasspathElements>
                     <includes>
-                        <include>**/*IntegrationTest.java</include>
-                        <include>**/*IntegrationTests.java</include>
+                        <include>**/*AT.java</include>
                     </includes>
                 </configuration>
                 <executions>

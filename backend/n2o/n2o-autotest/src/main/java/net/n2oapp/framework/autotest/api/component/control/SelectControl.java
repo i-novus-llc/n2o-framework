@@ -11,4 +11,5 @@ public interface SelectControl extends Control {
     void find(String query);
     void select(int index);
     void select(Condition by);
+    void shouldSelected(String value);
 }

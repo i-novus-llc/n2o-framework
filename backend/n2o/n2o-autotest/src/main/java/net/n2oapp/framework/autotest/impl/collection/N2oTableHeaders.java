@@ -7,6 +7,9 @@ import net.n2oapp.framework.autotest.api.component.header.TableHeader;
 
 import static net.n2oapp.framework.autotest.N2oSelenide.component;
 
+/**
+ * Заголовки столбцов таблицы для автотестирования
+ */
 public class N2oTableHeaders extends N2oComponentsCollection implements TableHeaders {
 
     public StandardTableHeader header(int index) {

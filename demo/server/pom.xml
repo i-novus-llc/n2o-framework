@@ -64,9 +64,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.codeborne</groupId>
-            <artifactId>selenide</artifactId>
-            <version>5.7.0</version>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-autotest</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
 
