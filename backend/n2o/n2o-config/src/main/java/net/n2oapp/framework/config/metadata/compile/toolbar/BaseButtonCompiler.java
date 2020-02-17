@@ -18,6 +18,7 @@ import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
@@ -37,6 +38,7 @@ import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefau
 
 /**
  * Компиляция ToolbarItem
+ *
  * @param <S>
  */
 public abstract class BaseButtonCompiler<S extends GroupItem, B extends AbstractButton> implements BaseSourceCompiler<B, S, CompileContext<?, ?>> {
@@ -107,8 +109,6 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             }
         }
 
-        button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
-        button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
         if (source.getModel() == null)
             source.setModel(ReduxModel.RESOLVE);
         compileDependencies(button, source, context, p);
@@ -197,5 +197,59 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         if (!conditions.isEmpty()) {
             button.getConditions().put(ValidationType.enabled, conditions);
         }
+
+
+        String widgetId = initWidgetId(source, context, p);
+        if (source.getDependencies() != null) {
+            for (AbstractMenuItem.Dependency d : source.getDependencies()) {
+                ValidationType validationType = null;
+                if (d instanceof AbstractMenuItem.EnablingDependency)
+                    validationType = ValidationType.enabled;
+                else if (d instanceof AbstractMenuItem.VisibilityDependency)
+                    validationType = ValidationType.visible;
+
+                if (d.getOn() != null)
+                    for (String on : d.getOn())
+                        compileCondition(d, button, validationType, widgetId, on, p);
+                else
+                    compileCondition(d, button, validationType, widgetId, null, p);
+            }
+        }
+
+        if (StringUtils.isLink(source.getVisible())) {
+            Condition condition = new Condition();
+            condition.setExpression(source.getVisible().substring(1, source.getVisible().length() - 1));
+            condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
+            if (!button.getConditions().containsKey(ValidationType.visible))
+                button.getConditions().put(ValidationType.visible, new ArrayList<>());
+            button.getConditions().get(ValidationType.visible).add(condition);
+        } else {
+            button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+        }
+
+        if (StringUtils.isLink(source.getEnabled())) {
+            Condition condition = new Condition();
+            condition.setExpression(source.getEnabled().substring(1, source.getEnabled().length() - 1));
+            condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
+            if (!button.getConditions().containsKey(ValidationType.enabled))
+                button.getConditions().put(ValidationType.enabled, new ArrayList<>());
+            button.getConditions().get(ValidationType.enabled).add(condition);
+        } else {
+            button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+        }
+    }
+
+    private void compileCondition(AbstractMenuItem.Dependency dependency, MenuItem menuItem, ValidationType validationType,
+                                  String widgetId, String fieldId, CompileProcessor p) {
+        String refWidgetId = p.cast(dependency.getRefWidgetId(), widgetId);
+        ReduxModel refModel = p.cast(dependency.getRefModel(), ReduxModel.FILTER);
+
+        Condition condition = new Condition();
+        condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
+        condition.setModelLink(new ModelLink(refModel, refWidgetId, fieldId).getBindLink());
+
+        if (!menuItem.getConditions().containsKey(validationType))
+            menuItem.getConditions().put(validationType, new ArrayList<>());
+        menuItem.getConditions().get(validationType).add(condition);
     }
 }
