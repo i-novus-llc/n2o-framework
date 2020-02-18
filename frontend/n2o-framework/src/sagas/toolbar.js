@@ -24,13 +24,13 @@ export function* resolveButton(button) {
 
     if (visible) {
       const nextVisible = resolveConditions(visible, state);
-      yield put(changeButtonVisiblity(button.key, button.id, nextVisible));
+      yield put(changeButtonVisiblity(button.key, button.buttonId, nextVisible));
       yield call(setParentVisibleIfAllChildChangeVisible, button);
     }
 
     if (enabled) {
       const nextEnable = resolveConditions(enabled, state);
-      yield put(changeButtonDisabled(button.key, button.id, !nextEnable));
+      yield put(changeButtonDisabled(button.key, button.buttonId, !nextEnable));
     }
   }
 
@@ -38,7 +38,7 @@ export function* resolveButton(button) {
     const { modelLink, on } = button.resolveEnabled;
     const modelOnLink = get(state, modelLink, {});
     const nextEnabled = on.some(o => modelOnLink[o]);
-    yield put(changeButtonDisabled(button.key, button.id, !nextEnabled));
+    yield put(changeButtonDisabled(button.key, button.buttonId, !nextEnabled));
   }
 }
 

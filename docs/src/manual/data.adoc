@@ -447,7 +447,6 @@ link:https://n2oapp.net/sandbox/new/data/providers/rest[Пример]
   </in-parameters>
 </operation>
 ----
-link:https://n2oapp.net/sandbox/new/data/providers/java[Пример]
 
 === Типы данных
 Типы данных в N2O предназначены для правильной передачи значений от клиента
@@ -558,7 +557,7 @@ link:https://n2oapp.net/sandbox/new/data/binding/simple[Пример]
 ----
 В json представлении модель данных `gender` выглядит так:
 
-[source,json]
+[source,java]
 ----
 {
     "gender": {
@@ -587,7 +586,7 @@ link:https://n2oapp.net/sandbox/new/data/binding/select[Пример]
 ----
 
 В json представлении модель данных `period` выглядит так:
-[source,json]
+[source,java]
 ----
 {
     "period": {
@@ -617,7 +616,7 @@ link:https://n2oapp.net/sandbox/new/data/binding/interval[Пример]
 </select>
 ----
 Модель данных `regions` в json:
-[source,json]
+[source,java]
 ----
 {
     "regions": [
@@ -643,15 +642,18 @@ link:https://n2oapp.net/sandbox/new/data/binding/interval[Пример]
 === Маппинг данных в провайдерах
 Входные и выходные параметры провайдера могут несоответствовать полям ввода.
 Для их приведения в соответствие используется атрибут `mapping`.
+Выражение в `mapping` записывается на языке link:https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#expressions[SpEL].
 
 Провайдеры делятся по типу входных параметров: "ключ значение" и "массив значений".
 
 Java провайдеры используют тип параметров "массив значений".
 Поэтому в маппинге java нужно обращаться к номеру аргумента, например, `[0]`.
 
-Провайдеры sql и rest используют "ключ значение". Поэтому в маппинге нужно обращаться к ключу, например, `['name']`.
+Провайдеры sql и rest используют "ключ значение".
+Поэтому в маппинге нужно обращаться к ключу, например, `['name']`.
 
 ==== Маппинг фильтров
+
 ===== Маппинг фильтров в sql и rest
 
 .Маппинг фильтров в sql провайдере
@@ -745,7 +747,7 @@ POST /api/myentity
 ----
 
 .Тело запроса
-[source,json]
+[source,java]
 ----
 {
     "firstName" : "John",
@@ -826,7 +828,6 @@ class Calculator {
   </in-parameters>
 </operation>
 ----
-link:https://n2oapp.net/sandbox/new/data/providers/mapping_java_primitive[Пример]
 
 ====== Маппинг сущности
 
@@ -870,7 +871,6 @@ class MyEntity {
   </in-parameters>
 </operation>
 ----
-link:https://n2oapp.net/sandbox/new/data/providers/mapping_java_entity[Пример]
 
 ====== Маппинг критериев
 
@@ -903,19 +903,18 @@ N2O поддерживает несколько базовых классов к
 ----
 @Service
 class MyService {
-  public Page<Person> getList(MyCriteria criteria)  { ... }
+  public List<MyEntity> getList(MyCriteria criteria)  { ... }
 }
 ----
 
 [source,java]
 ----
-class MyCriteria implements Pageable {
+class MyCriteria extends Criteria {
   private Date birtdayBefore;
   private Date birtdayAfter;
   //getters and setters
 }
 ----
-link:https://n2oapp.net/sandbox/new/data/providers/mapping_java_criteria[Пример]
 
 Тип `criteria` может быть задан только один раз среди всех аргументов.
 Маппинг фильтров в критерии задаётся напрямую, без указания порядкового номера аргумента.
@@ -992,7 +991,7 @@ GET /api/myentity/items
 ----
 
 .Ответ rest сервиса
-[source,json]
+[source,java]
 ----
 {
   "data" : [
@@ -1098,7 +1097,7 @@ POST /api/myentity
 ----
 
 .Ответ rest
-[source,json]
+[source,java]
 ----
 {
   "result" : 123
@@ -1305,54 +1304,6 @@ class MyService {
 </object>
 ----
 
-==== Интерпретаторы маппинга
-Выражение в `mapping` может интерпретироваться несколькими способами:
-
-.Интерпретаторы для маппинга
-[cols="1,4"]
-|===
-|Маппер|Описание
-
-|dataset
-|Простой интерпретатор работающий с `Map`.
-
-|spel
-|Интерпретатор https://docs.spring.io/spring/docs/current/spring-framework-reference/html/expressions.html[SpEL выражений].
-
-|javascript
-|Интерпретатор JavaScript.
-
-|groovy
-|Интерпретатор Groovy.
-
-|===
-
-Интерпретатор задаётся атрибутом `mapper`:
-
-.Интерпретатор маппинга spel
-[source,xml]
-----
-<in-parameters>
-  <param id="name" mapping="['first_name']" mapper="spel"/>
-  <param id="gender.id" mapping="['gender_id']" mapper="dataset"/>
-</in-parameters>
-<out-parameters>
-  <param id="id" mapping="[0][0]['id']" mapper="spel"/>
-</out-parameters>
-----
-
-.Интерпретатор маппинга dataset
-[source,xml]
-----
-<in-parameters>
-  <param id="name" mapping="first_name" mapper="dataset"/>
-  <param id="gender.id" mapping="gender_id" mapper="dataset"/>
-</in-parameters>
-<out-parameters>
-  <param id="id" mapping="[0][0].id" mapper="dataset"/>
-</out-parameters>
-----
-
 === Загрузка данных в виджет
 Виджеты могут получать данные из разных источников.
 Источник задаётся атрибутом `upload`.
@@ -1374,10 +1325,6 @@ class MyService {
 |Получение данных из выборки, за исключением полей с `copied="false"`.
 При этом `id` будет `null`.
 |Открытие формы для копирования существующей записи.
-
-|resolve
-|Копирование данных родительского виджета.
-|Открытие формы на редактирование записи в таблице.
 
 |===
 
