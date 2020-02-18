@@ -220,6 +220,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         Map<String, Widget> compiledWidgets = new StrictMap<>();
         IndexScope indexScope = new IndexScope();
         List<N2oWidget> independents = getSourceIndependents(sourceWidgets);
+        if (searchBarScope != null && searchBarScope.getWidgetId() == null) {
+            searchBarScope.setWidgetId(independents.get(0).getId());
+        }
         independents.forEach(w -> compileWidget(w, pageRoutes, routeScope, null, null,
                 sourceWidgets, compiledWidgets,
                 context, p,

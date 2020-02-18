@@ -45,12 +45,12 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getSearchWidgetId(), is("table"));
         assertThat(page.getSearchModelKey(), is("name"));
 
-        PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");
+        PageRoutes.Query query = page.getRoutes().getQueryMapping().get("name");
         assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
         assertThat(query.getOnGet().getPayload().get("prefix"), is("filter"));
         assertThat(query.getOnGet().getPayload().get("key"), is("table"));
         assertThat(query.getOnGet().getPayload().get("field"), is("name"));
-        assertThat(query.getOnGet().getPayload().get("value"), is(":table_name"));
+        assertThat(query.getOnGet().getPayload().get("value"), is(":name"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
         assertThat(query.getOnSet().getBindLink(), is("models.filter['table']"));
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
