@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.is;
 
 
 /**
- * Тест на компиляцию переключаемой ячейки
+ * Тест на компиляцию переключателя ячеек
  */
 public class SwitchCellCompileTest extends SourceCompileTestBase {
     @Override

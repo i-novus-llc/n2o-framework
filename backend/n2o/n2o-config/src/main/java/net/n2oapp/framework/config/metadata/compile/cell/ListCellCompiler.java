@@ -19,9 +19,9 @@ public class ListCellCompiler extends AbstractCellCompiler<N2oListCell, N2oListC
     @Override
     public N2oListCell compile(N2oListCell source, CompileContext<?, ?> context, CompileProcessor p) {
         N2oListCell cell = new N2oListCell();
-        build(cell, source, context, p, property("n2o.default.cell.list.src"));
+        build(cell, source, context, p, property("n2o.api.cell.list.src"));
         cell.setColor(source.getColor() != null ? source.getColor() : compileSwitch(source.getN2oSwitch(), p));
-        cell.setSize(source.getSize() != null ? source.getSize() : p.resolve(property("n2o.default.cell.list.size"), Integer.class));
+        cell.setSize(source.getSize() != null ? source.getSize() : p.resolve(property("n2o.api.cell.list.size"), Integer.class));
         cell.setLabelFieldId(source.getLabelFieldId());
         return cell;
     }

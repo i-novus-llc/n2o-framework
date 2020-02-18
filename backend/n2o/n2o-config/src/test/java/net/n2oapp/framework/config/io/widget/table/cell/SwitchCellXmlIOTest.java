@@ -12,7 +12,7 @@ public class SwitchCellXmlIOTest {
     @Test
     public void testSwitchCell() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
-        tester.ios(new TableElementIOV4())
+        tester.ios(new TableElementIOV4(), new SwitchCellElementIOv2())
         .addPack(new N2oCellsIOPack());
 
         assert tester.check("net/n2oapp/framework/config/io/widget/table/cell/testSwitchCellIOv4.widget.xml");

@@ -22,7 +22,7 @@ public class ProgressBarCellCompiler extends AbstractCellCompiler<N2oProgressBar
     @Override
     public N2oProgressBarCell compile(N2oProgressBarCell source, CompileContext<?, ?> context, CompileProcessor p) {
         N2oProgressBarCell cell = new N2oProgressBarCell();
-        build(cell, source, context, p, property("n2o.default.cell.progress.bar.src"));
+        build(cell, source, context, p, property("n2o.api.cell.progress.bar.src"));
         cell.setStriped(source.getStriped());
         cell.setActive(source.getActive());
         cell.setSize(p.cast(source.getSize(), N2oProgressBarCell.Size.normal));

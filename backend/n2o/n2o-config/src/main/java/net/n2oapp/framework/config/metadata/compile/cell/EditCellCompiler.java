@@ -27,7 +27,7 @@ public class EditCellCompiler extends AbstractCellCompiler<EditCell, N2oEditCell
     @Override
     public EditCell compile(N2oEditCell source, CompileContext<?, ?> context, CompileProcessor p) {
         EditCell cell = new EditCell();
-        build(cell, source, context, p, property("n2o.default.cell.edit.src"));
+        build(cell, source, context, p, property("n2o.api.cell.edit.src"));
         compileAction(cell, source, context, p);
 
         if (source.getN2oField() != null) {

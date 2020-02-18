@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Клиентская модель переключаемой ячейки таблицы
+ * Клиентская модель переключателя ячеек таблицы
  */
 @Getter
 @Setter
