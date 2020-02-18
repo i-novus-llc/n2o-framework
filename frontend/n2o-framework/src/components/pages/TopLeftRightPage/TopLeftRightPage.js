@@ -155,11 +155,12 @@ const enhance = compose(
         setFixed(position.y <= 0);
       }, 100);
     },
-    scrollTo: () => () => {
+    scrollTo: ({ setShowScrollButton }) => () => {
       window.scrollTo({
         top: 0,
         behavior: 'smooth',
       });
+      setShowScrollButton(false);
     },
   }),
   lifecycle({
