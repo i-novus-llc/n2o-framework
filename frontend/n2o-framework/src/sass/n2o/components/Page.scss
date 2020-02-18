@@ -44,21 +44,26 @@
     &--fixed {
       z-index: 2;
     }
-
-    //&--animate-down {
-    //  //animation: fix-block-animation-down 0.5s;
-    //}
-    //
-    //&--animate-up {
-    //  //animation: fix-block-animation-up 0.5s;
-    //}
   }
 
   &__scroll-to-top {
-    position: fixed;
+    position: fixed !important;
 
     right: 100px;
     bottom: 100px;
+
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+    z-index: 5;
+    transition: 0.5s;
+    opacity: 0;
+    pointer-events: none;
+
+    &--show {
+      opacity: 1;
+      pointer-events: auto;
+    }
   }
 }
 

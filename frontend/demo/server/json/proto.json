@@ -1641,7 +1641,6 @@
     "right": "40%"
   },
   "fixed": "right",
-  "fixedOffset": 50,
   "needScrollButton": true,
   "src": "TopLeftRightPage",
   "page": {

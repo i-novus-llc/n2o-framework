@@ -9,6 +9,7 @@ import {
 } from 'recompose';
 import get from 'lodash/get';
 import map from 'lodash/map';
+import cn from 'classnames';
 import Button from 'reactstrap/lib/Button';
 
 import { REGIONS } from '../../../core/factory/factoryLevels';
@@ -22,6 +23,8 @@ const FixedPlace = {
   RIGHT: 'right',
 };
 
+let timeoutId = null;
+
 function TopLeftRightPage({
   id,
   regions,
@@ -31,7 +34,8 @@ function TopLeftRightPage({
   fixed,
   isFixed,
   style,
-  needScrollButton,
+  scrollTo,
+  showScrollButton,
   ...rest
 }) {
   const topRegion = get(regions, 'top', null);
@@ -46,7 +50,7 @@ function TopLeftRightPage({
       >
         <FixedContainer
           className="n2o-page__top"
-          name="top"
+          name={FixedPlace.TOP}
           setRef={setFixedElementRef}
           width={width}
           fixed={fixed}
@@ -61,7 +65,7 @@ function TopLeftRightPage({
         <div className="n2o-page__left-right-layout">
           <FixedContainer
             className="n2o-page__left"
-            name="left"
+            name={FixedPlace.LEFT}
             setRef={setFixedElementRef}
             width={width}
             fixed={fixed}
@@ -75,7 +79,7 @@ function TopLeftRightPage({
 
           <FixedContainer
             className="n2o-page__right"
-            name="right"
+            name={FixedPlace.RIGHT}
             setRef={setFixedElementRef}
             width={width}
             fixed={fixed}
@@ -87,11 +91,15 @@ function TopLeftRightPage({
             ))}
           </FixedContainer>
         </div>
-        {needScrollButton && (
-          <Button color="link" className="n2o-page__scroll-to-top">
-            <i className="fa fa-arrow-circle-up" />
-          </Button>
-        )}
+        <Button
+          onClick={scrollTo}
+          color="link"
+          className={cn('n2o-page__scroll-to-top', {
+            'n2o-page__scroll-to-top--show': showScrollButton,
+          })}
+        >
+          <i className="fa fa-arrow-circle-up" />
+        </Button>
       </div>
     </DefaultPage>
   );
@@ -114,6 +122,7 @@ const enhance = compose(
   withState('eventListens', 'setEventListens', false),
   withState('isFixed', 'setFixed', null),
   withState('style', 'setStyle', {}),
+  withState('showScrollButton', 'setShowScrollButton', false),
   mapProps(props => ({
     ...props,
     width: get(props, 'metadata.width', {}),
@@ -123,49 +132,34 @@ const enhance = compose(
   })),
   withHandlers({
     addScrollEvent: ({
-      fixed,
       fixedOffset,
       setFixed,
-      setEventListens,
       setStyle,
-    }) => (element, containerRef) => {
-      let timeoutId = null;
+      fixedElementRef,
+      setShowScrollButton,
+      needScrollButton,
+    }) => () => {
+      if (timeoutId) clearTimeout(timeoutId);
 
-      window.addEventListener('scroll', () => {
-        if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        if (needScrollButton) {
+          setShowScrollButton(window.scrollY > 100);
+        }
+        const position = fixedElementRef.getBoundingClientRect();
+        const translateY = Math.abs(position.top) + fixedOffset;
+        let style = {
+          transform: `translate(0, ${translateY}px)`,
+        };
 
-        timeoutId = setTimeout(() => {
-          // const containerPosition = containerRef.getBoundingClientRect();
-          const position = element.getBoundingClientRect();
-          // const rightPosition =
-          //   containerPosition.right - containerPosition.width;
-          // const leftPosition = containerPosition.left;
-          const translateY = Math.abs(position.top) + fixedOffset;
-          console.log('point');
-          console.log(position.top);
-          console.log(Math.abs(position.top));
-          console.log(fixedOffset);
-          console.log(translateY);
-          let style = {
-            // position: 'relative',
-            // width: position.width,
-            // height: position.height,
-            // top: 0,
-            transform: `translate(0, ${translateY}px)`,
-          };
-
-          // if (fixed === FixedPlace.RIGHT) {
-          //   set(style, 'right', rightPosition);
-          // } else {
-          //   set(style, 'left', leftPosition);
-          // }
-
-          setStyle(position.y <= 0 ? style : {});
-          setFixed(position.y <= 0);
-        }, 50);
+        setStyle(position.y <= 0 ? style : {});
+        setFixed(position.y <= 0);
+      }, 100);
+    },
+    scrollTo: () => () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
       });
-
-      setEventListens(true);
     },
   }),
   lifecycle({
@@ -175,11 +169,20 @@ const enhance = compose(
         containerRef,
         fixedElementRef,
         addScrollEvent,
+        setEventListens,
       } = this.props;
 
       if (!eventListens && containerRef && fixedElementRef) {
-        addScrollEvent(fixedElementRef, containerRef);
+        window.addEventListener('scroll', addScrollEvent);
+
+        setEventListens(true);
       }
+    },
+
+    componentWillUnmount() {
+      const { addScrollEvent } = this.props;
+
+      window.removeEventListener('scroll', addScrollEvent);
     },
   })
 );
