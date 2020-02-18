@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.LineRegion;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
@@ -48,39 +48,34 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
 
     @Test
     public void layout() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPage.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPage.page.xml")
                 .get(new PageContext("testStandardPage"));
 
         assertThat(page.getId(), is("testRoute"));
         assertThat(page.getObject().getId(), is("utObjectField"));
 
-        assertThat(page.getLayout().getSrc(), is("SingleLayout"));
-        assertThat(page.getLayout().getProperties(), hasEntry("attr1", "val1"));
-        assertThat(page.getLayout().getRegions().get("single").size(), is(3));
-        assertThat(page.getLayout().getRegions().get("left").size(), is(1));
-        assertThat(page.getLayout().getRegions().size(), is(2));
-        assertThat(page.getLayout().getRegions().get("left").get(0).getSrc(), is("TabsRegion"));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("ListRegion"));
-        assertThat(page.getLayout().getRegions().get("single").get(1).getSrc(), is("PanelRegion"));
-        assertThat(((PanelRegion)page.getLayout().getRegions().get("single").get(1)).getStyle().get("width"), is("300px"));
-        assertThat(((PanelRegion)page.getLayout().getRegions().get("single").get(1)).getStyle().get("marginLeft"), is("10px"));
-        assertThat(page.getLayout().getRegions().get("single").get(2).getSrc(), is("NoneRegion"));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getClass(), is(equalTo(LineRegion.class)));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getSrc(), is("ListRegion"));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getProperties().get("attr1"), is("testAttribute"));
-        assertThat(page.getLayout().getRegions().get("single").get(0).getItems().get(0).getProperties().get("attr1"), is("htmlTestAttribute"));
+        assertThat(page.getSrc(), is("StandardPage"));
+        assertThat(page.getRegions().get("single").size(), is(3));
+        assertThat(page.getRegions().get("left").size(), is(1));
+        assertThat(page.getRegions().size(), is(2));
+        assertThat(page.getRegions().get("left").get(0).getSrc(), is("TabsRegion"));
+        assertThat(page.getRegions().get("single").get(0).getSrc(), is("ListRegion"));
+        assertThat(page.getRegions().get("single").get(1).getSrc(), is("PanelRegion"));
+        assertThat(((PanelRegion) page.getRegions().get("single").get(1)).getStyle().get("width"), is("300px"));
+        assertThat(((PanelRegion) page.getRegions().get("single").get(1)).getStyle().get("marginLeft"), is("10px"));
+        assertThat(page.getRegions().get("single").get(2).getSrc(), is("NoneRegion"));
+        assertThat(page.getRegions().get("single").get(0).getClass(), is(equalTo(LineRegion.class)));
+        assertThat(page.getRegions().get("single").get(0).getSrc(), is("ListRegion"));
+        assertThat(page.getRegions().get("single").get(0).getProperties().get("attr1"), is("testAttribute"));
+        assertThat(page.getRegions().get("single").get(0).getItems().get(0).getProperties().get("attr1"), is("htmlTestAttribute"));
 
         assertThat(page.getWidgets().size(), is(2));
         assertThat(page.getWidgets().get("testRoute_line1").getProperties().get("attr1"), is("htmlTestAttribute"));
         assertThat(page.getWidgets().get("testRoute_line1").getName(), is("test1"));
         assertThat(page.getWidgets().get("testRoute_line2").getName(), is("test2"));
 
-        assertThat(page.getToolbar().get("tbTopLeft"), notNullValue());
-        assertThat(page.getToolbar().get("tbTopLeft").get(0).getButtons().get(0).getActionId(), is("close"));
-        assertThat(page.getToolbar().get("tbTopLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
-        assertThat(page.getToolbar().get("tbTopLeft").get(0).getButtons().get(1).getSubMenu().get(0).getActionId(), is("test2"));
-        assertThat(page.getToolbar().get("tbTopLeft").get(1).getButtons().get(0).getActionId(), is("test3"));
-        assertThat(page.getToolbar().get("tbTopLeft").get(1).getButtons().get(1).getSubMenu().get(0).getActionId(), is("test4"));
+        assertThat(page.getToolbar().get("TopLeft"), notNullValue());
+        assertThat(page.getToolbar().get("TopLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
         assertThat(page.getActions().containsKey("close"), is(true));
 
     }
@@ -88,7 +83,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     @Test
     public void routes() {
         PageContext context = new PageContext("testRoutes", "/page");
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testRoutes.page.xml")
                 .get(context);
         assertThat(page.getId(), is("page"));
@@ -127,7 +122,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
 
     @Test
     public void masterDetails() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.page.xml")
                 .get(new PageContext("testStandardPageDependency"));
         assertThat(page.getWidgets().size(), is(3));
@@ -167,7 +162,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
 
     @Test
     public void preFilters() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testWidgetPrefilters.page.xml")
                 .get(new PageContext("testWidgetPrefilters"));
         assertThat(page.getRoutes().getQueryMapping().size(), is(11));
@@ -229,7 +224,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
      */
     @Test
     public void testChainFetching() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/widgets/testChainWidgetFetching.page.xml")
                 .get(new PageContext("testChainWidgetFetching"));
 

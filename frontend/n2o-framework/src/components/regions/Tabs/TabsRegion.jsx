@@ -94,7 +94,9 @@ class TabRegion extends React.Component {
           const { security } = tab;
           const widgetProps = getWidgetProps(tab.widgetId);
           const widgetMeta = getWidget(pageId, tab.widgetId);
-          const visible = getVisible(pageId, tab.widgetId);
+          const dependencyVisible = getVisible(pageId, tab.widgetId);
+          const widgetVisible = get(widgetProps, 'isVisible', true);
+          const tabVisible = get(visibleTabs, tab.widgetId, true);
 
           const tabProps = {
             key: tab.id,
@@ -102,12 +104,7 @@ class TabRegion extends React.Component {
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
-            visible:
-              visible ||
-              ((!isEmpty(widgetProps) ? widgetProps.isVisible : true) &&
-                (!isUndefined(visibleTabs[tab.id])
-                  ? visibleTabs[tab.id]
-                  : true)),
+            visible: dependencyVisible && widgetVisible && tabVisible,
           };
 
           const tabEl = (
@@ -123,12 +120,12 @@ class TabRegion extends React.Component {
           );
 
           const onPermissionsSet = permissions => {
-            this.setState({
+            this.setState(prevState => ({
               visibleTabs: {
-                ...visibleTabs,
+                ...prevState.visibleTabs,
                 [tab.widgetId]: !!permissions,
               },
-            });
+            }));
           };
 
           return isEmpty(security) ? (

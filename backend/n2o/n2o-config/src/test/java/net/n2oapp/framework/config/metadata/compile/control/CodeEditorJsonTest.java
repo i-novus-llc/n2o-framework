@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Тестирвоание маппинга java модели в json input-text
+ * Тестирование маппинга java модели в json code-editor
  */
 public class CodeEditorJsonTest extends JsonMetadataTestBase {
     @Override

@@ -31,10 +31,15 @@ public class NoneRegionCompiler extends BaseRegionCompiler<NoneRegion, N2oNoneRe
     @Override
     public NoneRegion compile(N2oNoneRegion source, PageContext context, CompileProcessor p) {
         NoneRegion region = new NoneRegion();
-        build(region, source, context, p);
+        build(region, source, p);
         region.setPlace(source.getPlace());
         region.setItems(initItems(source, p, Region.Item.class));
         return region;
+    }
+
+    @Override
+    protected String createId(String regionPlace, CompileProcessor p) {
+        return createId(regionPlace, "none", p);
     }
 
     @Override

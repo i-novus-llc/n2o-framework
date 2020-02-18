@@ -1,5 +1,6 @@
 {
   "List": {
+    "id": "$testListWidget",
     "src": "ListWidget",
     "className": "n2o",
     "dataProvider": {
@@ -52,10 +53,10 @@
         "widgetId": "Page_Table",
         "src": "perform",
         "options": {
-          "type": "n2o/modals/INSERT",
+          "type": "n2o/overlays/INSERT",
           "payload": {
             "widgetId": "Page_Table",
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "name": "test2",
             "src": "exportModal",
             "title": "Экспортровать",
@@ -78,7 +79,7 @@
               "destroyModal": {
                 "src": "perform",
                 "options": {
-                  "type": "n2o/modals/DESTROY"
+                  "type": "n2o/overlays/DESTROY"
                 }
               }
             },
@@ -87,14 +88,14 @@
                 "buttons": [
                   {
                     "id": "export",
-                    "title": "Загрузить",
+                    "label": "Загрузить",
                     "actionId": "export",
                     "className": "btn-primary",
                     "icon": "fa fa-download"
                   },
                   {
                     "id": "cancelExport",
-                    "title": "Отменить",
+                    "label": "Отменить",
                     "actionId": "destroyModal"
                   }
                 ]
@@ -164,7 +165,7 @@
             "buttons": [
               {
                 "id": "1",
-                "title": "",
+                "label": "",
                 "icon": "fa fa-plus",
                 "hint": "Make a cat clever",
                 "size": "md",
@@ -173,7 +174,7 @@
               },
               {
                 "id": "2",
-                "title": "",
+                "label": "",
                 "icon": "fa fa-trash",
                 "hint": "Delete",
                 "size": "md",

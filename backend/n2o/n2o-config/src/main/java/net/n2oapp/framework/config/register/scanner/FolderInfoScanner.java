@@ -9,6 +9,8 @@ import net.n2oapp.framework.config.register.storage.PathUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static net.n2oapp.framework.config.register.RegisterUtil.collectInfo;
@@ -21,17 +23,23 @@ import static net.n2oapp.framework.config.util.FileSystemUtil.getNodesByLocation
 @Component
 public class FolderInfoScanner implements OverrideInfoScanner<InfoConstructor>, MetadataEnvironmentAware {
 
-    private String configPath;
+    private final Collection<String> configPaths;
     private SourceTypeRegister sourceTypeRegister;
 
-    public FolderInfoScanner(@Value("${n2o.config.path}") String configPath) {
-        this.configPath = configPath;
+    public FolderInfoScanner(@Value("${n2o.config.path}") String configPath,
+                             @Value("${n2o.project.path:}") List<String> projectPaths,
+                             @Value("${n2o.config.ignores}") List<String> ignores,
+                             XmlInfoScanner xmlInfoScanner) {
+        configPaths = PathUtil.getConfigPaths(configPath, projectPaths, xmlInfoScanner.getPattern(), ignores);
     }
 
     @Override
     public List<InfoConstructor> scan() {
-        String uri = convertRootPathToUrl(configPath);
-        String xmlPattern = PathUtil.convertUrlToPattern(uri, "xml", "*.*");
+        List<String> xmlPattern = new ArrayList<>();
+        for (String s : configPaths) {
+            String uri = convertRootPathToUrl(s);
+            xmlPattern.add(PathUtil.convertUrlToPattern(uri, "xml", "*.*"));
+        }
        // String groovyPattern = PathUtil.convertUrlToPattern(path, "groovy", "*.*");
         /*nodes.addAll(collectInfo(getNodesByLocationPattern(groovyPattern), FolderInfoScanner.class,
                 (node, scannerClass) -> RegisterUtil.createScriptInfo(node, scannerClass)));*/

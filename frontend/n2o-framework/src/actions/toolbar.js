@@ -30,15 +30,21 @@ export function callActionImpl(actionSrc, options) {
 /**
  * Экшен смены видимости кнопки
  * @param key
+ * @param id
  * @param visible
  */
-export function changeButtonVisiblity(key, id, visible) {
-  return createActionHelper(CHANGE_BUTTON_VISIBILITY)({ key, id, visible });
+export function changeButtonVisiblity(key, buttonId, visible) {
+  return createActionHelper(CHANGE_BUTTON_VISIBILITY)({
+    key,
+    buttonId,
+    visible,
+  });
 }
 
 /**
  * Экшен показа кнопки
  * @param key
+ * @param buttonId
  */
 export function setButtonVisible(key, buttonId) {
   return changeButtonVisiblity(key, buttonId, true);
@@ -47,6 +53,7 @@ export function setButtonVisible(key, buttonId) {
 /**
  * Экшен скрытия кнопки
  * @param key
+ * @param buttonId
  */
 export function setButtonHidden(key, buttonId) {
   return changeButtonVisiblity(key, buttonId, false);
@@ -55,6 +62,7 @@ export function setButtonHidden(key, buttonId) {
 /**
  * Экшен изменения видимости кнопки на противоположенное
  * @param key
+ * @param buttonId
  */
 export function toggleButtonVisiblity(key, buttonId) {
   return createActionHelper(TOGGLE_BUTTON_VISIBILITY)({ key, buttonId });
@@ -63,15 +71,21 @@ export function toggleButtonVisiblity(key, buttonId) {
 /**
  * Экшен изменения свойства блокировки
  * @param key
+ * @param id
  * @param disabled
  */
-export function changeButtonDisabled(key, id, disabled) {
-  return createActionHelper(CHANGE_BUTTON_DISABLED)({ key, id, disabled });
+export function changeButtonDisabled(key, buttonId, disabled) {
+  return createActionHelper(CHANGE_BUTTON_DISABLED)({
+    key,
+    buttonId,
+    disabled,
+  });
 }
 
 /**
  * Экшен блокирования кнопки
  * @param key
+ * @param buttonId
  */
 export function setButtonDisabled(key, buttonId) {
   return changeButtonDisabled(key, buttonId, true);
@@ -80,6 +94,7 @@ export function setButtonDisabled(key, buttonId) {
 /**
  * Экшен разблокирования кнопки
  * @param key
+ * @param buttonId
  */
 export function setButtonEnabled(key, buttonId) {
   return changeButtonDisabled(key, buttonId, false);
@@ -88,6 +103,7 @@ export function setButtonEnabled(key, buttonId) {
 /**
  * Экшен изменнения свойства блокировки на противоположенное
  * @param key
+ * @param buttonId
  */
 export function toggleButtonDisabled(key, buttonId) {
   return createActionHelper(TOGGLE_BUTTON_DISABLED)({ key, buttonId });
@@ -96,6 +112,7 @@ export function toggleButtonDisabled(key, buttonId) {
 /**
  * Экшен изменения заголовка кнопки
  * @param key
+ * @param buttonId
  * @param title
  */
 export function changeButtonTitle(key, buttonId, title) {
@@ -105,6 +122,7 @@ export function changeButtonTitle(key, buttonId, title) {
 /**
  * Экшен изменения размера кнопки
  * @param key
+ * @param buttonId
  * @param size
  */
 export function changeButtonSize(key, buttonId, size) {
@@ -114,6 +132,7 @@ export function changeButtonSize(key, buttonId, size) {
 /**
  * Экшен изменения цета кнопки
  * @param key
+ * @param buttonId
  * @param color
  */
 export function changeButtonColor(key, buttonId, color) {
@@ -123,6 +142,7 @@ export function changeButtonColor(key, buttonId, color) {
 /**
  * Экшен изменения счетчика кнопки
  * @param key
+ * @param buttonId
  * @param count
  */
 export function changeButtonCount(key, buttonId, count) {
@@ -132,6 +152,7 @@ export function changeButtonCount(key, buttonId, count) {
 /**
  * Экшен изменения подсказки кнопки
  * @param key
+ * @param buttonId
  * @param hint
  */
 export function changeButtonHint(key, buttonId, hint) {
@@ -141,6 +162,7 @@ export function changeButtonHint(key, buttonId, hint) {
 /**
  * Экшен изменения иконки кнопки
  * @param key
+ * @param buttonId
  * @param icon
  */
 export function changeButtonIcon(key, buttonId, icon) {
@@ -150,6 +172,7 @@ export function changeButtonIcon(key, buttonId, icon) {
 /**
  * Экшен изменения объекта стиля кнопки
  * @param key
+ * @param buttonId
  * @param style
  */
 export function changeButtonStyle(key, buttonId, style) {
@@ -159,6 +182,7 @@ export function changeButtonStyle(key, buttonId, style) {
 /**
  * Экшен изменения css-класса кнопки
  * @param key
+ * @param buttonId
  * @param className
  */
 export function changeButtonClass(key, buttonId, className) {
@@ -172,17 +196,23 @@ export function removeButton(key) {
 /**
  * Экшен регистрации кнопки в редаксе
  * @param key
+ * @param buttonId
  * @param id
  * @param size
  * @param title
  * @param count
  * @param icon
  * @param color
+ * @param resolveEnabled
  * @param visible
+ * @param parentId
  * @param disabled
  * @param hint
  * @param className
  * @param style
+ * @param containerKey
+ * @param conditions
+ * @param hintPosition
  */
 export function registerButton(
   key,
@@ -208,17 +238,9 @@ export function registerButton(
 ) {
   return createActionHelper(REGISTER_BUTTON)({
     key,
-    id,
-    size,
-    title,
+    buttonId,
     count,
-    color,
     visible,
-    hint,
-    parentId,
-    icon,
-    className,
-    style,
     disabled,
     containerKey,
     conditions,

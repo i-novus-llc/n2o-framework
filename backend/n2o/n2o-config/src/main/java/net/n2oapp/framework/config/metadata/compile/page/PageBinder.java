@@ -1,14 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,15 +18,12 @@ import java.util.Map;
 /**
  * Базовое связывание данных на странице
  */
-@Component
-public class PageBinder implements BaseMetadataBinder<Page> {
-    @Override
-    public Page bind(Page page, BindProcessor p) {
-        if (page.getWidgets() != null) {
-            page.getWidgets().values().forEach(p::bind);
+public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D> {
+    public D bindPage(D page, BindProcessor p, Map<String, Widget> widgets) {
+        if (widgets != null) {
+            widgets.values().forEach(p::bind);
         }
-        if (page.getActions() != null)
-            page.getActions().values().forEach(p::bind);
+
         if (page.getRoutes() != null) {
             Map<String, BindLink> pathMappings = new HashMap<>();
             page.getRoutes().getPathMapping().forEach((k, v) -> pathMappings.put(k, Redux.createBindLink(v)));
@@ -53,7 +50,7 @@ public class PageBinder implements BaseMetadataBinder<Page> {
                     }
                 }
             });
-            resolveLinks(page.getModels(), collectFilterLinks(page.getModels(), page.getWidgets()), p);
+            resolveLinks(page.getModels(), collectFilterLinks(page.getModels(), widgets), p);
         }
         if (page.getPageProperty() != null) {
             page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(),
@@ -99,10 +96,5 @@ public class PageBinder implements BaseMetadataBinder<Page> {
                     p.resolveSubModels(models.get(param), filterLinks);
                 }
         );
-    }
-
-    @Override
-    public Class<? extends Compiled> getCompiledClass() {
-        return Page.class;
     }
 }

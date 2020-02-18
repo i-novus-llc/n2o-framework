@@ -1,8 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.dependency;
 
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Button;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -35,9 +36,9 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testButtonDependency() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/dependency/testButtonDependency.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dependency/testButtonDependency.page.xml")
                 .get(new PageContext("testButtonDependency"));
-        List<Button> buttons = page.getWidgets().get("testButtonDependency_Table").getToolbar().get("topLeft").get(0).getButtons();
+        List<AbstractButton> buttons = page.getWidgets().get("testButtonDependency_Table").getToolbar().get("topLeft").get(0).getButtons();
         assertThat(buttons.get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testButtonDependency_Table']"));
         assertThat(buttons.get(1).getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['testButtonDependency_Table']"));
         assertThat(buttons.get(2).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testButtonDependency_Table']"));

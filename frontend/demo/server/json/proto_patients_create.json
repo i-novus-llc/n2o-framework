@@ -185,8 +185,40 @@
         "id": "bottomRight0",
         "buttons": [
           {
+            "src": "StandardButton",
             "id": "submit",
-            "actionId": "submit",
+            "label": "Сохранить",
+            "action": {
+              "type": "n2o/actionImpl/START_INVOKE",
+              "payload": {
+                "widgetId": "proto_create_main",
+                "pageId": "proto_create",
+                "dataProvider": {
+                  "url": "n2o/data/proto/create/submit",
+                  "pathMapping": {},
+                  "method": "POST"
+                },
+                "modelLink": "models.resolve['proto_create_main']"
+              },
+              "meta": {
+                "success": {
+                  "refresh": {
+                    "type": "widget",
+                    "options": {
+                      "widgetId": "proto_patients"
+                    }
+                  },
+                  "redirect": {
+                    "path": "/proto/:id/update2",
+                    "pathMapping": {},
+                    "queryMapping": {},
+                    "target": "application"
+                  },
+                  "closeLastModal": true
+                },
+                "fail": {}
+              }
+            },
             "conditions": {
               "enabled": [
                 {
@@ -197,14 +229,23 @@
             },
             "validate": true,
             "validatedWidgetId": "proto_create_main",
-            "color": "primary",
-            "title": "Сохранить"
+            "color": "primary"
           },
           {
+            "src": "StandardButton",
             "id": "close",
-            "actionId": "close",
-            "conditions": {},
-            "title": "Закрыть"
+            "label": "Закрыть",
+            "action": {
+              "type": "n2o/overlays/CLOSE",
+              "payload": {
+                "prompt": true,
+                "name": "proto_create"
+              },
+              "meta": {
+                "closeLastModal": true
+              }
+            },
+            "conditions": {}
           }
         ]
       }
@@ -212,52 +253,44 @@
   },
   "actions": {
     "submit": {
-      "id": "submit",
-      "src": "perform",
-      "options": {
-        "type": "n2o/actionImpl/START_INVOKE",
-        "payload": {
-          "widgetId": "proto_create_main",
-          "pageId": "proto_create",
-          "dataProvider": {
-            "url": "n2o/data/proto/create/submit",
-            "pathMapping": {},
-            "method": "POST"
-          },
-          "modelLink": "models.resolve['proto_create_main']"
+      "type": "n2o/actionImpl/START_INVOKE",
+      "payload": {
+        "widgetId": "proto_create_main",
+        "pageId": "proto_create",
+        "dataProvider": {
+          "url": "n2o/data/proto/create/submit",
+          "pathMapping": {},
+          "method": "POST"
         },
-        "meta": {
-          "success": {
-            "refresh": {
-              "type": "widget",
-              "options": {
-                "widgetId": "proto_patients"
-              }
-            },
-            "redirect": {
-              "path": "/proto/:id/update2",
-              "pathMapping": {},
-              "queryMapping": {},
-              "target": "application"
-            },
-            "closeLastModal": true
+        "modelLink": "models.resolve['proto_create_main']"
+      },
+      "meta": {
+        "success": {
+          "refresh": {
+            "type": "widget",
+            "options": {
+              "widgetId": "proto_patients"
+            }
           },
-          "fail": {}
-        }
+          "redirect": {
+            "path": "/proto/:id/update2",
+            "pathMapping": {},
+            "queryMapping": {},
+            "target": "application"
+          },
+          "closeLastModal": true
+        },
+        "fail": {}
       }
     },
     "close": {
-      "id": "close",
-      "src": "perform",
-      "options": {
-        "type": "n2o/modals/CLOSE",
-        "payload": {
-          "prompt": true,
-          "name": "proto_create"
-        },
-        "meta": {
-          "closeLastModal": true
-        }
+        "type": "n2o/overlays/CLOSE",
+      "payload": {
+        "prompt": true,
+        "name": "proto_create"
+      },
+      "meta": {
+        "closeLastModal": true
       }
     }
   },

@@ -24,6 +24,7 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private String refreshWidgetId;
     private Boolean messageOnSuccess;
     private Boolean messageOnFail;
+    private Boolean optimistic;
 
     public N2oInvokeAction() {
     }

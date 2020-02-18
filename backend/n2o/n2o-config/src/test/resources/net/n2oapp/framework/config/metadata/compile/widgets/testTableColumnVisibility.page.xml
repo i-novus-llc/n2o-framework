@@ -2,12 +2,26 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
     <regions>
         <panel place="top">
-            <table>
+            <table id="table">
                 <columns>
-                    <column visible="false" text-field-id=""></column>
+                    <column visible="{abc == 1}" text-field-id=""></column>
                     <column visible="true" text-field-id=""></column>
+                    <column text-field-id=""></column>
+                    <column text-field-id="visibilityTest">
+                        <dependencies>
+                            <visibility ref-widget-id="form" ref-model="resolve">type == 1</visibility>
+                        </dependencies>
+                        <badge/>
+                    </column>
                 </columns>
             </table>
+        </panel>
+        <panel place="bottom">
+            <form id="form">
+                <fields>
+                    <input-text id="type"/>
+                </fields>
+            </form>
         </panel>
     </regions>
 </page>

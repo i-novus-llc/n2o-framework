@@ -7,7 +7,7 @@ import models from './reducers/models';
 import global from './reducers/global';
 import pages from './reducers/pages';
 import alerts from './reducers/alerts';
-import modals from './reducers/modals';
+import overlays from './reducers/overlays';
 import columns from './reducers/columns';
 import toolbar from './reducers/toolbar';
 import formPlugin from './reducers/formPlugin';
@@ -37,7 +37,7 @@ export default (history, customReducers = {}) =>
     global,
     pages,
     alerts,
-    modals,
+    overlays,
     columns,
     toolbar,
     user,

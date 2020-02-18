@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import cn from 'classnames';
-import isEmpty from 'lodash/isEmpty';
 import find from 'lodash/find';
-import has from 'lodash/has';
 import get from 'lodash/get';
 import { createStructuredSelector } from 'reselect';
 import {
@@ -16,12 +13,11 @@ import {
   mapProps,
 } from 'recompose';
 
-import Section from '../layouts/Section';
 import Factory from '../../core/factory/Factory';
 import { LAYOUTS, REGIONS } from '../../core/factory/factoryLevels';
 import BreadcrumbContainer from './Breadcrumb/BreadcrumbContainer';
 import DocumentTitle from './DocumentTitle';
-import Actions from '../actions/Actions';
+import Toolbar from '../buttons/Toolbar';
 
 import {
   makePageDisabledByIdSelector,
@@ -30,24 +26,18 @@ import {
 import { rootPageSelector } from '../../selectors/global';
 import withMetadata from './withMetadata';
 import withActions from './withActions';
-import Alert from '../snippets/Alerts/Alert';
 import Spinner from '../snippets/Spinner/Spinner';
 import { SimpleTemplate } from './templates';
 import Root from './Root';
+import { PAGES } from '../../core/factory/factoryLevels';
 
-function Page(props) {
+function Page(props, context) {
   const {
-    pageId,
     metadata,
     loading,
-    error,
-    disabled,
     status,
     toolbar,
-    actions,
-    containerKey,
     defaultTemplate: Template = React.Fragment,
-    defaultBreadcrumb,
     defaultErrorPages,
     page,
     rootPage,
@@ -64,77 +54,19 @@ function Page(props) {
   const errorPage = getErrorPage();
 
   const renderDefaultBody = () => {
+    const defaultPage = get(metadata, 'src', context.defaultPage);
+    const regions = get(metadata, 'regions', {});
+
     return errorPage ? (
       React.createElement(errorPage)
     ) : (
-      <div className={cn('n2o-page-body', { 'n2o-disabled-page': disabled })}>
-        {error && <Alert {...error} visible />}
-        {!isEmpty(metadata) && metadata.page && (
-          <DocumentTitle {...metadata.page} />
-        )}
-        {!isEmpty(metadata) && metadata.breadcrumb && (
-          <BreadcrumbContainer
-            defaultBreadcrumb={defaultBreadcrumb}
-            items={metadata.breadcrumb}
-          />
-        )}
-        {toolbar && (toolbar.topLeft || toolbar.topRight) && (
-          <div className="n2o-page-actions">
-            <Actions
-              toolbar={toolbar.topLeft}
-              actions={actions}
-              containerKey={containerKey}
-              pageId={pageId}
-            />
-            <Actions
-              toolbar={toolbar.topRight}
-              actions={actions}
-              containerKey={containerKey}
-              pageId={pageId}
-            />
-          </div>
-        )}
-        <div className="n2o-page">
-          {has(metadata, 'layout') && (
-            <Factory
-              level={LAYOUTS}
-              src={metadata.layout.src}
-              {...metadata.layout}
-            >
-              {Object.keys(metadata.layout.regions).map((place, i) => {
-                return (
-                  <Section place={place} key={'section' + i}>
-                    {metadata.layout.regions[place].map((region, j) => (
-                      <Factory
-                        key={`region-${place}-${j}`}
-                        level={REGIONS}
-                        {...region}
-                        pageId={metadata.id}
-                      />
-                    ))}
-                  </Section>
-                );
-              })}
-            </Factory>
-          )}
-        </div>
-        {toolbar && (toolbar.bottomLeft || toolbar.bottomRight) && (
-          <div className="n2o-page-actions">
-            <Actions
-              toolbar={toolbar.bottomLeft}
-              actions={actions}
-              containerKey={containerKey}
-              pageId={pageId}
-            />
-            <Actions
-              toolbar={toolbar.bottomRight}
-              actions={actions}
-              containerKey={containerKey}
-              pageId={pageId}
-            />
-          </div>
-        )}
-      </div>
+      <Factory
+        id={get(metadata, 'id')}
+        src={defaultPage}
+        level={PAGES}
+        regions={regions}
+        {...props}
+      />
     );
   };
 
@@ -152,6 +84,10 @@ function Page(props) {
     </Spinner>
   );
 }
+
+Page.contextTypes = {
+  defaultPage: PropTypes.string,
+};
 
 Page.propTypes = {
   pageId: PropTypes.string,
@@ -200,6 +136,7 @@ export default compose(
       PropTypes.element,
       PropTypes.node,
     ]),
+    defaultPage: PropTypes.string,
   }),
   defaultProps({
     defaultTemplate: SimpleTemplate,

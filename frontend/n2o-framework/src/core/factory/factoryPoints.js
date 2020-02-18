@@ -2,11 +2,12 @@ export default [
   'controls',
   'widgets',
   'regions',
-  'layouts',
+  'pages',
   'headers',
   'cells',
   'fieldsets',
   'fields',
   'actions',
   'snippets',
+  'buttons',
 ];
