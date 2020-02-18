@@ -31,7 +31,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSearchablePage() {
+    public void testSearchablePageDefault() {
         SearchablePage page = (SearchablePage) compile("net/n2oapp/framework/config/metadata/compile/page/testSearchablePage.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml")
                 .get(new PageContext("testSearchablePage"));
@@ -45,6 +45,29 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getSearchWidgetId(), is("table"));
         assertThat(page.getSearchModelKey(), is("name"));
 
+        PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");
+        assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
+        assertThat(query.getOnGet().getPayload().get("prefix"), is("filter"));
+        assertThat(query.getOnGet().getPayload().get("key"), is("table"));
+        assertThat(query.getOnGet().getPayload().get("field"), is("name"));
+        assertThat(query.getOnGet().getPayload().get("value"), is(":table_name"));
+        assertThat(query.getOnSet().getValue(), is("`name`"));
+        assertThat(query.getOnSet().getBindLink(), is("models.filter['table']"));
+        assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
+        assertThat(((ModelLink) query.getOnSet()).getWidgetId(), is("table"));
+
+        BindLink bindLink = page.getWidgets().get("testSearchablePage_table").getDataProvider().getQueryMapping().get("name");
+        assertThat(bindLink.getValue(), is("`name`"));
+        assertThat(bindLink.getBindLink(), is("models.filter['table']"));
+    }
+
+    @Test
+    public void testSearchablePage() {
+        SearchablePage page = (SearchablePage) compile("net/n2oapp/framework/config/metadata/compile/page/testSearchablePage2.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml")
+                .get(new PageContext("testSearchablePage2"));
+
+        assertThat(page.getSrc(), is("SearchablePage"));
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("name");
         assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
         assertThat(query.getOnGet().getPayload().get("prefix"), is("filter"));
@@ -56,7 +79,7 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
         assertThat(((ModelLink) query.getOnSet()).getWidgetId(), is("table"));
 
-        BindLink bindLink = page.getWidgets().get("testSearchablePage_table").getDataProvider().getQueryMapping().get("name");
+        BindLink bindLink = page.getWidgets().get("testSearchablePage2_table").getDataProvider().getQueryMapping().get("name");
         assertThat(bindLink.getValue(), is("`name`"));
         assertThat(bindLink.getBindLink(), is("models.filter['table']"));
     }
