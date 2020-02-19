@@ -244,11 +244,13 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
                                               SubModelsScope subModelsScope, UploadScope uploadScope, MomentScope momentScope) {
         List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
                 widgetQuery, object, modelsScope, filtersScope, subModelsScope, uploadScope, momentScope);
-        SourceComponent[] filterColumnsFilters = Arrays.stream(source.getColumns()).filter(c -> c instanceof N2oFilterColumn)
-                .map(c -> ((N2oFilterColumn) c).getFilter())
-                .toArray(SourceComponent[]::new);
-        initFieldSets(filterColumnsFilters, context, p, widgetScope, widgetQuery, object, modelsScope,
-                filtersScope, subModelsScope, uploadScope, momentScope);
+        if (source.getColumns() != null) {
+            SourceComponent[] filterColumnsFilters = Arrays.stream(source.getColumns()).filter(c -> c instanceof N2oFilterColumn)
+                    .map(c -> ((N2oFilterColumn) c).getFilter())
+                    .toArray(SourceComponent[]::new);
+            initFieldSets(filterColumnsFilters, context, p, widgetScope, widgetQuery, object, modelsScope,
+                    filtersScope, subModelsScope, uploadScope, momentScope);
+        }
 
         if (fieldSets.isEmpty())
             return null;
