@@ -1,0 +1,13 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" object-id="utBlank">
+    <fields>
+        <interval-field id="range" required="true">
+            <begin>
+                <input-text id="beginTest" domain="integer" min="0"/>
+            </begin>
+            <end>
+                <input-text id="endTest" domain="integer" max="10">
+                </input-text>
+            </end>
+        </interval-field>
+    </fields>
+</form>

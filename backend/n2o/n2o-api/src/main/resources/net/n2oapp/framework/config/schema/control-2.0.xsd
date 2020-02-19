@@ -36,6 +36,7 @@
     <xs:element name="alert" type="controlAlertDefinition"/>
     <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
     <xs:element name="button" type="btn:buttonDefinition"/>
+    <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -69,6 +70,7 @@
             <xs:element name="alert" type="controlAlertDefinition" minOccurs="0"/>
             <xs:element name="auto-complete" type="controlAutoCompleteDefinition" minOccurs="0"/>
             <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
+            <xs:element name="interval-field" type="controlRangeFieldDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -629,6 +631,17 @@
                         <xs:documentation>Тэг.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlRangeFieldDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:sequence>
+                    <xs:element name="begin" type="controls" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="end" type="controls" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
