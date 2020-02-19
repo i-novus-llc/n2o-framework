@@ -5,10 +5,7 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Size;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.ColumnFixedPosition;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.DirectionType;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.control.ControlIOv2;
@@ -41,8 +38,9 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attributeEnum(e, "table-size", t::getTableSize, t::setTableSize, Size.class);
         p.attribute(e, "scroll-x", t::getScrollX, t::setScrollX);
         p.attribute(e, "scroll-y", t::getScrollY, t::setScrollY);
-        p.anyChildren(e, "columns", t::getColumns, t::setColumns,
-                p.oneOf(AbstractColumn.class).add("column", N2oSimpleColumn.class, this::column));
+        p.anyChildren(e, "columns", t::getColumns, t::setColumns, p.oneOf(AbstractColumn.class)
+                .add("column", N2oSimpleColumn.class, this::column)
+                .add("filter-column", N2oFilterColumn.class, this::filterColumn));
         p.childAttributeEnum(e, "filters", "place", t::getFilterPosition, t::setFilterPosition, N2oTable.FilterPosition.class);
         p.childAttributeBoolean(e, "filters", "search-on-change", t::getSearchOnChange, t::setSearchOnChange);
         p.anyChildren(e, "filters", t::getFilters, t::setFilters, p.anyOf(SourceComponent.class), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
@@ -75,5 +73,11 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
     private void column(Element e, N2oSimpleColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
         p.anyChild(e, null, c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("dependencies"), CellIOv2.NAMESPACE);
+    }
+
+    private void filterColumn(Element e, N2oFilterColumn c, IOProcessor p) {
+        abstractColumn(e, c, p);
+        p.anyChild(e, "filter", c::getFilter, c::setFilter, p.anyOf(SourceComponent.class), ControlIOv2.NAMESPACE);
+        p.anyChild(e, null, c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("filter"), CellIOv2.NAMESPACE);
     }
 }

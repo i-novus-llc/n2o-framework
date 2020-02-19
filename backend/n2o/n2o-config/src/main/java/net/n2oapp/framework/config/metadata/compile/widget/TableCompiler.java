@@ -2,8 +2,10 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.Validation;
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -12,6 +14,7 @@ import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oFilterColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
@@ -226,6 +229,12 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             }
             cell = p.compile(cell, context, columnIndex, widgetScope, widgetRouteScope, new ComponentScope(column), object, widgetActions);
             cells.add(cell);
+
+            if (column instanceof N2oFilterColumn) {
+                header.setFilterable(true);
+                Compiled compile = p.compile(((N2oFilterColumn) column).getFilter(), context);
+                header.setFilterControl(((StandardField) compile).getControl());
+            }
         }
     }
 
@@ -235,6 +244,12 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
                                               SubModelsScope subModelsScope, UploadScope uploadScope, MomentScope momentScope) {
         List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
                 widgetQuery, object, modelsScope, filtersScope, subModelsScope, uploadScope, momentScope);
+        SourceComponent[] filterColumnsFilters = Arrays.stream(source.getColumns()).filter(c -> c instanceof N2oFilterColumn)
+                .map(c -> ((N2oFilterColumn) c).getFilter())
+                .toArray(SourceComponent[]::new);
+        initFieldSets(filterColumnsFilters, context, p, widgetScope, widgetQuery, object, modelsScope,
+                filtersScope, subModelsScope, uploadScope, momentScope);
+
         if (fieldSets.isEmpty())
             return null;
         AbstractTable.Filter filter = new AbstractTable.Filter();

@@ -286,6 +286,8 @@
                             <xs:sequence>
                                 <xs:element name="column" type="columnDefinition" maxOccurs="unbounded"
                                             minOccurs="1"/>
+                                <xs:element name="filter-column" type="filterColumnDefinition" maxOccurs="unbounded"
+                                            minOccurs="0"/>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
@@ -414,6 +416,21 @@
                 <xs:element name="dependencies" type="columnDependenciesDefinition">
                     <xs:annotation>
                         <xs:documentation>Зависимости столбца.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="filterColumnDefinition">
+    <xs:annotation>
+        <xs:documentation>Фильтруемый столбец таблицы.</xs:documentation>
+    </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="columnDefinition">
+                <xs:element name="filter" type="fs:fields">
+                    <xs:annotation>
+                        <xs:documentation>Фильтр столбца.</xs:documentation>
                     </xs:annotation>
                 </xs:element>
             </xs:extension>

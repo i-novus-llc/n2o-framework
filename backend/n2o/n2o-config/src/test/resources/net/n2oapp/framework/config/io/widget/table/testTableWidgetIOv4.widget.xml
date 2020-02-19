@@ -106,6 +106,13 @@
             </dependencies>
             <rating src="test" show-tooltip="true" max="3" half="true"/>
         </column>
+
+        <filter-column text-field-id="test" label="label">
+            <filter>
+                <ctr:input-text id="name" label="label"/>
+            </filter>
+            <text format="test" visible="true"/>
+        </filter-column>
     </columns>
     <rows class="test">
         <switch value-field-id="gender.id">

@@ -517,7 +517,8 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 <columns>
   <column>...</column>
   <column>...</column>
-  <column>...</column>
+  <filter-column>...</filter-column>
+  <filter-column>...</filter-column>
 </columns>
 ----
 
@@ -605,6 +606,106 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 
 Тело::
 link:#_Ячейки[Ячейка]
+
+===== <filter-column>
+Фильтруемый столбец таблицы.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|id
+|Строка
+|Идентификатор столбца
+|Эквивалентно `text-field-id`
+
+|text-field-id
+|Ссылка на поле выборки
+|Поле выборки, отображаемое в столбце
+|
+
+|tooltip-field-id
+|Ссылка на поле выборки
+|Поле выборки, отображаемое при наведении на ячейку
+|
+
+|visible
+|true / false
+|Столбец видимый по умолчанию?
+|true
+
+|width
+|Число
+|Ширина столбца (px)
+|
+
+|resizable
+|true false
+|Можно ли изменить ширину столбца
+|false
+
+|label
+|Строка
+|Наименование заголовка столбца
+|Из наименования поля выборки `text-field-id`
+
+|icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка заголовка столбца
+|
+
+|type
+|text icon textAndIcon
+|Заголовок с иконкой или без
+|Если задан `icon`, то `iconAndText`, иначе `text`
+
+|sorting-field-id
+|Ссылка на поле выборки
+|Поле, по которому сортируется столбец
+|Эквивалентно `text-field-id`
+
+|sorting-direction
+|asc, desc
+|Направление сортировки по умолчанию
+|
+
+|fixed
+|left right
+|Прилипание столбца к краю
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<filter-column
+  label="Имя"
+  text-field-id="firstName"
+  sorting-field-id="firstName"
+  sorting-direction="asc">
+  ...
+</filter-column>
+----
+
+Тело::
+link:#_Ячейки[Ячейка]
+link:#_Фильтр_столбца[Поле фильтра]
+
+==== <filter>
+Фильтр столбца.
+
+Тело::
+link:#_Поля_ввода[Поле ввода]
+
+Пример::
+[source,xml]
+----
+<filter>
+  <input-text>...</input-text> <!--Поле-->
+</filter>
+----
 
 ==== <rows>
 Настройки цвета строк таблицы.
