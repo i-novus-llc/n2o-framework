@@ -3,9 +3,11 @@ package net.n2oapp.framework.config.register;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
+import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.config.reader.GroovySourceReader;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
+import net.n2oapp.framework.config.register.scanner.FolderInfoScanner;
 import net.n2oapp.framework.config.register.storage.Node;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import org.slf4j.Logger;
@@ -75,9 +77,14 @@ public class RegisterUtil {
 
 
     public static InfoConstructor createXmlInfo(String localPath, String uri, SourceTypeRegister sourceTypeRegister) {
+        return createXmlInfo(FolderInfoScanner.class, localPath, uri, sourceTypeRegister);
+    }
+
+    public static InfoConstructor createXmlInfo(Class<? extends MetadataScanner> scannerClass, String localPath, String uri, SourceTypeRegister sourceTypeRegister) {
         InfoConstructor info = new InfoConstructor(getConfigIdByLocalPath(localPath, sourceTypeRegister));
         info.setLocalPath(localPath);
         info.setUri(uri);
+        info.setScannerClass(scannerClass);
         baseForXmlInfo(info);
         return info;
     }

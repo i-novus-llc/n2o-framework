@@ -40,7 +40,7 @@ public class DefaultXmlInfoScanner implements DefaultInfoScanner<InfoConstructor
         List<InfoConstructor> infoConstructors = collectInfo(
                 FileSystemUtil.getNodesByLocationPattern(pattern),
                 (node) ->
-                        RegisterUtil.createXmlInfo(node, sourceTypeRegister));
+                        RegisterUtil.createXmlInfo(DefaultXmlInfoScanner.class, node.getLocalPath(), node.getURI(), sourceTypeRegister));
         return infoConstructors;
     }
 
