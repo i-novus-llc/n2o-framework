@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -290,5 +291,35 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(columnHeaders.get(2).getVisible(), nullValue());
         assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getExpression(), is("type == 1"));
         assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['form']"));
+    }
+
+    @Test
+    public void testMultiColumn() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testMultiColumn.page.xml")
+                .get(new PageContext("testMultiColumn"));
+
+        List<ColumnHeader> headers = ((Table) page.getWidget()).getComponent().getHeaders();
+        assertThat(headers.size(), is(2));
+        assertThat(headers.get(0).getId(), is("test1"));
+        assertThat(headers.get(0).getMultiHeader(), nullValue());
+        assertThat(headers.get(0).getChildren(), nullValue());
+        assertThat(headers.get(1).getLabel(), is("label"));
+        assertThat(headers.get(1).getMultiHeader(), is(true));
+
+        headers = headers.get(1).getChildren();
+        assertThat(headers.size(), is(2));
+        assertThat(headers.get(0).getMultiHeader(), is(true));
+        assertThat(headers.get(1).getId(), is("test4"));
+        assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
+        assertThat(headers.get(1).getChildren(), nullValue());
+
+        headers = headers.get(0).getChildren();
+        assertThat(headers.size(), is(2));
+        assertThat(headers.get(0).getId(), is("test2"));
+        assertThat(headers.get(0).getMultiHeader(), is(nullValue()));
+        assertThat(headers.get(0).getChildren(), nullValue());
+        assertThat(headers.get(1).getId(), is("test3"));
+        assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
+        assertThat(headers.get(1).getChildren(), nullValue());
     }
 }

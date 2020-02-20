@@ -106,6 +106,18 @@
             </dependencies>
             <rating src="test" show-tooltip="true" max="3" half="true"/>
         </column>
+        <multi-column label="test">
+            <column text-field-id="test1">
+                <cell>
+                    <close src="test"/>
+                </cell>
+            </column>
+            <multi-column>
+                <column text-field-id="test2"/>
+                <column text-field-id="test3"/>
+            </multi-column>
+            <column text-field-id="test4"/>
+        </multi-column>
     </columns>
     <rows class="test">
         <switch value-field-id="gender.id">

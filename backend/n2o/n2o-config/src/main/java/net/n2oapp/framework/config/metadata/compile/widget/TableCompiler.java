@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oMultiColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
@@ -157,7 +158,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             Map<String, String> sortings = new HashMap<>();
             IndexScope columnIndex = new IndexScope();
             for (AbstractColumn column : source.getColumns()) {
-                compileHeaderWithCell(source, object, query, headers, cells, column, context, p, columnIndex, widgetScope, widgetRouteScope, widgetActions);
+                compileHeaderWithCell(source, object, query, headers, cells, null, column, context, p, columnIndex, widgetScope, widgetRouteScope, widgetActions);
                 if (column.getSortingDirection() != null) {
                     sortings.put(column.getTextFieldId(), column.getSortingDirection().toString().toUpperCase());
                 }
@@ -172,61 +173,75 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
     }
 
     private void compileHeaderWithCell(N2oTable source, CompiledObject object, CompiledQuery query, List<ColumnHeader> headers, List<N2oCell> cells,
-                                       AbstractColumn column,
+                                       ColumnHeader parentHeader, AbstractColumn column,
                                        CompileContext<?, ?> context, CompileProcessor p,
                                        IndexScope columnIndex, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions) {
         ColumnHeader header = new ColumnHeader();
-        column.setId(p.cast(column.getId(), column.getTextFieldId()));
-        column.setSortingFieldId(p.cast(column.getSortingFieldId(), column.getTextFieldId()));
-        header.setId(column.getId());
-        header.setIcon(column.getLabelIcon());
-        header.setWidth(column.getWidth());
-        header.setResizable(column.getResizable());
-        header.setFixed(column.getFixed());
-
-        if (StringUtils.isLink(column.getVisible())) {
-            Condition condition = new Condition();
-            condition.setExpression(column.getVisible().substring(1, column.getVisible().length() - 1));
-            condition.setModelLink(new ModelLink(ReduxModel.FILTER, source.getId()).getBindLink());
-            if (!header.getConditions().containsKey(ValidationType.visible)) {
-                header.getConditions().put(ValidationType.visible, new ArrayList<>());
+        if (column instanceof N2oMultiColumn) {
+            header.setLabel(column.getLabelName());
+            header.setMultiHeader(true);
+            header.setChildren(new ArrayList<>());
+            for (AbstractColumn subColumn : ((N2oMultiColumn) column).getChildren()) {
+                compileHeaderWithCell(source, object, query, headers, cells, header, subColumn, context, p, columnIndex,
+                        widgetScope, widgetRouteScope, widgetActions);
             }
-            header.getConditions().get(ValidationType.visible).add(condition);
         } else {
-            header.setVisible(p.resolveJS(column.getVisible(), Boolean.class));
-        }
-        if (column.getColumnVisibilities() != null) {
-            for (AbstractColumn.ColumnVisibility visibility : column.getColumnVisibilities()) {
-                String refWidgetId = p.cast(visibility.getRefWidgetId(), source.getId());
-                ReduxModel refModel = p.cast(visibility.getRefModel(), ReduxModel.FILTER);
+            column.setId(p.cast(column.getId(), column.getTextFieldId()));
+            column.setSortingFieldId(p.cast(column.getSortingFieldId(), column.getTextFieldId()));
+            header.setId(column.getId());
+            header.setIcon(column.getLabelIcon());
+            header.setWidth(column.getWidth());
+            header.setResizable(column.getResizable());
+            header.setFixed(column.getFixed());
+
+            if (StringUtils.isLink(column.getVisible())) {
                 Condition condition = new Condition();
-                condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
-                condition.setModelLink(new ModelLink(refModel, refWidgetId).getBindLink());
+                condition.setExpression(column.getVisible().substring(1, column.getVisible().length() - 1));
+                condition.setModelLink(new ModelLink(ReduxModel.FILTER, source.getId()).getBindLink());
                 if (!header.getConditions().containsKey(ValidationType.visible)) {
                     header.getConditions().put(ValidationType.visible, new ArrayList<>());
                 }
                 header.getConditions().get(ValidationType.visible).add(condition);
+            } else {
+                header.setVisible(p.resolveJS(column.getVisible(), Boolean.class));
+            }
+            if (column.getColumnVisibilities() != null) {
+                for (AbstractColumn.ColumnVisibility visibility : column.getColumnVisibilities()) {
+                    String refWidgetId = p.cast(visibility.getRefWidgetId(), source.getId());
+                    ReduxModel refModel = p.cast(visibility.getRefModel(), ReduxModel.FILTER);
+                    Condition condition = new Condition();
+                    condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
+                    condition.setModelLink(new ModelLink(refModel, refWidgetId).getBindLink());
+                    if (!header.getConditions().containsKey(ValidationType.visible)) {
+                        header.getConditions().put(ValidationType.visible, new ArrayList<>());
+                    }
+                    header.getConditions().get(ValidationType.visible).add(condition);
+                }
+            }
+
+            if (query != null && query.getFieldsMap().containsKey(column.getTextFieldId())) {
+                header.setLabel(p.cast(column.getLabelName(), query.getFieldsMap().get(column.getTextFieldId()).getName()));
+            } else {
+                header.setLabel(column.getLabelName());
+            }
+            if (query != null && query.getFieldsMap().containsKey(header.getId())) {
+                header.setSortable(!query.getFieldsMap().get(header.getId()).getNoSorting());
+            }
+
+            if (column instanceof N2oSimpleColumn) {
+                N2oCell cell = ((N2oSimpleColumn) column).getCell();
+                if (cell == null) {
+                    cell = new N2oTextCell();
+                }
+                cell = p.compile(cell, context, columnIndex, widgetScope, widgetRouteScope, new ComponentScope(column), object, widgetActions);
+                cells.add(cell);
             }
         }
 
-
-        if (query != null && query.getFieldsMap().containsKey(column.getTextFieldId())) {
-            header.setLabel(p.cast(column.getLabelName(), query.getFieldsMap().get(column.getTextFieldId()).getName()));
-        } else {
-            header.setLabel(column.getLabelName());
-        }
-        if (query != null && query.getFieldsMap().containsKey(header.getId())) {
-            header.setSortable(!query.getFieldsMap().get(header.getId()).getNoSorting());
-        }
-        headers.add(header);
-        if (column instanceof N2oSimpleColumn) {
-            N2oCell cell = ((N2oSimpleColumn) column).getCell();
-            if (cell == null) {
-                cell = new N2oTextCell();
-            }
-            cell = p.compile(cell, context, columnIndex, widgetScope, widgetRouteScope, new ComponentScope(column), object, widgetActions);
-            cells.add(cell);
-        }
+        if (parentHeader == null)
+            headers.add(header);
+        else
+            parentHeader.getChildren().add(header);
     }
 
     private AbstractTable.Filter createFilter(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
