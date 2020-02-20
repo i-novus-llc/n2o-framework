@@ -1493,6 +1493,11 @@
                         "id": "surname",
                         "label": "Фамилия",
                         "dependency": [],
+                        "dataProvider": {
+                          "url": "/auto-save",
+                          "queryMapping": {},
+                          "pathMapping": {}
+                        },
                         "control": {
                           "src": "InputText",
                           "id": "surname"
