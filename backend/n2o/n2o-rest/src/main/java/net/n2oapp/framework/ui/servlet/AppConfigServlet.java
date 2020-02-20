@@ -2,7 +2,9 @@ package net.n2oapp.framework.ui.servlet;
 
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.header.Header;
+import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
+import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,8 +55,11 @@ public class AppConfigServlet extends HttpServlet {
     private Header getMenu() {
         if (headerSourceId != null && !headerSourceId.isEmpty())
             return pipeline.get(new HeaderContext(headerSourceId), null);
-
-        return pipeline.get(new HeaderContext("default"), null);
+        List<SourceInfo> headers = environment.getMetadataRegister().find(N2oHeader.class);
+        if (headers == null || headers.isEmpty()) {
+            return pipeline.get(new HeaderContext("default"), null);
+        }
+        return pipeline.get(new HeaderContext(headers.get(0).getId()), null);
     }
 
     private Map<String, String> getMessages() {
