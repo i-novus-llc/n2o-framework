@@ -400,7 +400,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         PageContext context = (PageContext) route("/page/widget/defaultValue", Page.class);
         SimplePage openPage = (SimplePage) read().compile().get(context);
         Map<String, PageRoutes.Query> queryMapping = openPage.getRoutes().getQueryMapping();
-        assertThat(queryMapping.size(), is(2));
+        assertThat(queryMapping.size(), is(3));
         ReduxAction onGet = queryMapping.get("name").getOnGet();
         assertThat(onGet.getPayload().get("prefix"), is("resolve"));
         assertThat(onGet.getPayload().get("key"), is("page_widget_defaultValue_main"));
@@ -416,6 +416,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
 
         DataSet data = new DataSet();
         data.put("detailId", 222);
+        data.put("birthDay", "2022-02-14T00:00:00");
         data.put("name", "testName");
         data.put("surname", "Ivanov");
         openPage = (SimplePage) read().compile().bind().get(context, data);

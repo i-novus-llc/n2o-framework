@@ -10,10 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Базовое связывание данных на странице
@@ -50,10 +47,10 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                     }
                 }
             });
-            //порядок вызова функций важен, сначала удаляются значения по умолчанию которые резолвятся из url, потом разрешаются submodels
-            resolveParams(page, p);
+            //порядок вызова функций важен, сначала разрешаются submodels, потом удаляются значения по умолчанию которые резолвятся из url
             List<ModelLink> filterLinks = collectFilterLinks(page.getModels(), widgets);
             resolveLinks(page.getModels(), filterLinks, p);
+            resolveParams(page, p);
         }
         if (page.getPageProperty() != null) {
             page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(),
@@ -72,11 +69,12 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             page.getRoutes().getQueryMapping().forEach((k, v) -> {
                 if (v.getOnGet() != null && v.getOnGet().getPayload() != null &&
                         v.getOnGet().getPayload().containsKey("value") &&
-                        p.canResolveParam(v.getOnGet().getPayload().get("value").toString().replace(":", ""))) {
-                    page.getModels().remove(
-                            createModelKey(v.getOnGet().getPayload().get("prefix").toString(),
-                                    v.getOnGet().getPayload().get("key").toString(),
-                                    v.getOnGet().getPayload().get("field").toString()));
+                        p.canResolveParam(v.getOnGet().getPayload().get("value").toString().replace(":", "")) &&
+                        ((ModelLink)v.getOnSet()).getSubModelQuery() == null) {
+                    Optional<String> key = page.getModels().keySet().stream().filter(mk -> page.getModels().get(mk).equalsLink(v.getOnSet())).findFirst();
+                    if (key.isPresent()) {
+                        page.getModels().remove(key.get());
+                    }
                 }
             });
         }
@@ -118,12 +116,5 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                     p.resolveSubModels(models.get(param), filterLinks);
                 }
         );
-    }
-
-    private String createModelKey(String prefix, String key, String field) {
-        if(field != null) {
-            return String.format("%s['%s'].%s", prefix, key, field);
-        }
-        return String.format("%s['%s']", prefix, key);
     }
 }

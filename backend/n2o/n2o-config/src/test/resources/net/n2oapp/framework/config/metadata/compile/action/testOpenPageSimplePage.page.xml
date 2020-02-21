@@ -31,6 +31,7 @@
                 <open-page page-id="testDefaultValue" route="/defaultValue" upload="defaults">
                     <params>
                         <param name="name" value="{name}"/>
+                        <param name="birthDay" value="2022-02-14T00:00:00"/>
                         <param name="gender_id" value="1"/>
                     </params>
                 </open-page>
