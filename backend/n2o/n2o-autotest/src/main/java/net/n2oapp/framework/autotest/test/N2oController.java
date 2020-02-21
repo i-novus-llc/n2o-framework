@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,10 +23,6 @@ import java.util.Map;
 public class N2oController {
 
     private N2oApplicationBuilder builder;
-
-    @Value("${n2o.config.path}")
-    private String basePath;
-
 
     @GetMapping("/n2o/config")
     public Map config() {
