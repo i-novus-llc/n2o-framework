@@ -150,7 +150,7 @@ export function fetchInputSelectData(
 export function saveFieldData(url, options) {
   return request(
     [
-      options.basePath,
+      url,
       '?',
       queryString.stringify(
         flatten(clearEmptyParams(options.baseQuery), { safe: true })

@@ -8,7 +8,6 @@ import flow from 'lodash/flow';
 import keys from 'lodash/keys';
 import { reset, touch } from 'redux-form';
 import { batchActions } from 'redux-batched-actions';
-import { MAP_URL } from '../constants/pages';
 import { GLOBAL_KEY } from '../constants/alerts';
 import { addAlerts, removeAlerts } from '../actions/alerts';
 import { addFieldMessage } from '../actions/formPlugin';
@@ -17,6 +16,7 @@ import { dataRequestWidget } from '../actions/widgets';
 import { updateWidgetDependency } from '../actions/dependency';
 import compileUrl from '../utils/compileUrl';
 import { id } from '../utils/id';
+import { CALL_ALERT_META } from '../constants/meta';
 
 export function* alertEffect(action) {
   try {
@@ -115,7 +115,10 @@ export function* updateWidgetDependencyEffect({ meta }) {
 }
 
 export const metaSagas = [
-  takeEvery(action => action.meta && action.meta.alert, alertEffect),
+  takeEvery(
+    [action => action.meta && action.meta.alert, CALL_ALERT_META],
+    alertEffect
+  ),
   takeEvery(action => action.meta && action.meta.redirect, redirectEffect),
   takeEvery(action => action.meta && action.meta.refresh, refreshEffect),
   takeEvery(action => action.meta && action.meta.clearForm, clearFormEffect),
