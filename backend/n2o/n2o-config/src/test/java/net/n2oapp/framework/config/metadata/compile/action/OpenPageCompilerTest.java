@@ -3,13 +3,19 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
+import net.n2oapp.framework.api.metadata.meta.control.Field;
+import net.n2oapp.framework.api.metadata.meta.control.InputSelect;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -58,12 +64,13 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         builder.ios(new OpenPageElementIOV1(), new InvokeActionElementIOV1(), new CloseActionElementIOV1());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testGender.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction1.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterDetail.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testDefaultValue.page.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testDefaultValueInTable.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testPreFilter.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testRefbook.query.xml"));
     }
 
@@ -391,14 +398,39 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml")
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
         PageContext context = (PageContext) route("/page/widget/defaultValue", Page.class);
-        Page openPage = read().compile().get(context);
+        SimplePage openPage = (SimplePage) read().compile().get(context);
         Map<String, PageRoutes.Query> queryMapping = openPage.getRoutes().getQueryMapping();
-        assertThat(queryMapping.size(), is(1));
-        assertThat(queryMapping.get("name").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].name"));
-        context = (PageContext) route("/page/widget/defaultValueInTable", Page.class);
-        openPage = read().compile().get(context);
+        assertThat(queryMapping.size(), is(2));
+        ReduxAction onGet = queryMapping.get("name").getOnGet();
+        assertThat(onGet.getPayload().get("prefix"), is("resolve"));
+        assertThat(onGet.getPayload().get("key"), is("page_widget_defaultValue_main"));
+        assertThat(onGet.getPayload().get("field"), is("surname"));
+        assertThat(onGet.getPayload().get("value"), is(":name"));
+        assertThat(queryMapping.get("name").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].surname"));
+        onGet = queryMapping.get("gender_id").getOnGet();
+        assertThat(onGet.getPayload().get("prefix"), is("resolve"));
+        assertThat(onGet.getPayload().get("key"), is("page_widget_defaultValue_main"));
+        assertThat(onGet.getPayload().get("field"), is("gender.id"));
+        assertThat(onGet.getPayload().get("value"), is(":gender_id"));
+        assertThat(queryMapping.get("gender_id").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].gender.id"));
+
+        DataSet data = new DataSet();
+        data.put("detailId", 222);
+        data.put("name", "testName");
+        data.put("surname", "Ivanov");
+        openPage = (SimplePage) read().compile().bind().get(context, data);
+        assertThat(openPage.getModels().size(), is(0));
+
+        context = (PageContext) route("/page/widget/defaultValueQuery", Page.class);
+        openPage = (SimplePage) read().compile().get(context);
         queryMapping = openPage.getRoutes().getQueryMapping();
-        assertThat(queryMapping.size(), is(1));
-        assertThat(queryMapping.get("name").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValueInTable_main'].name"));
+        assertThat(queryMapping.size(), is(0));
+
+        context = (PageContext) route("/page/widget/testPreFilter", Page.class);
+        openPage = (SimplePage) read().compile().get(context);
+        Map<String, BindLink> queryMapping1 = ((InputSelect) ((StandardField) ((Form) openPage.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0)
+                .getCols().get(0).getFields().get(0)).getControl()).getDataProvider().getQueryMapping();
+        assertThat(queryMapping1.size(), is(1));
+        assertThat(queryMapping1.get("id").getValue(), is(1));
     }
 }

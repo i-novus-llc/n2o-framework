@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
@@ -19,18 +18,15 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.control.Control;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
-import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
@@ -102,6 +98,22 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
     }
 
     /**
+     * Сборка значений по умолчанию у поля из параметров заданных
+     *
+     * @param source Исходная модель поля
+     * @param p      Процессор сборки
+     * @return Значение по умолчанию поля
+     */
+    protected void compileParams(D control, S source, WidgetParamScope paramScope, UploadScope uploadScope, ReduxModel model, CompileProcessor p) {
+        if (source.getParam() != null) {
+            ModelLink onSet = new ModelLink(model, paramScope.getClientWidgetId(), control.getId());
+            ReduxAction onGet = Redux.dispatchUpdateModel(paramScope.getClientWidgetId(), model, control.getId(),
+                    colon(source.getParam()));
+            paramScope.addQueryMapping(source.getParam(), onGet, onSet);
+        }
+    }
+
+    /**
      * Возвращает информацию о вложенных моделях выборки по идентификатору поля
      *
      * @param fieldId - идентификатор поля
@@ -121,28 +133,12 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
 
     private void compileDefaultValues(D control, S source, CompileProcessor p) {
         UploadScope uploadScope = p.getScope(UploadScope.class);
-        if (source.getParam() != null) {
-            PageRoutes routes = p.getScope(PageRoutes.class);
-            if (routes == null)
-                return;
-            ReduxModel model = ReduxModel.RESOLVE;
-            ComponentScope componentScope = p.getScope(ComponentScope.class);
-            if (componentScope != null) {
-                ModelAware modelAware = componentScope.unwrap(ModelAware.class);
-                if (modelAware != null && modelAware.getModel() != null) {
-                    model = modelAware.getModel();
-                }
-            }
-            if ((model.equals(ReduxModel.RESOLVE) && uploadScope != null && UploadType.defaults.equals(uploadScope.getUpload()))
-                    || !model.equals(ReduxModel.RESOLVE)) {
-                WidgetScope widgetScope = p.getScope(WidgetScope.class);
-                BindLink onSet = new ModelLink(model, widgetScope.getClientWidgetId(), control.getId());
-                //todo убрать onGet после   https://jira.i-novus.ru/browse/NNO-3931
-                ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getClientWidgetId(), model, control.getId(),
-                        colon(source.getParam()));
-                routes.addQueryMapping(source.getParam(), onGet, onSet);
-            }
+        WidgetParamScope paramScope = p.getScope(WidgetParamScope.class);
+        if (paramScope != null) {
+            ReduxModel model = getActualModel(p);
+            compileParams(control, source, paramScope, uploadScope, model, p);
         }
+
         if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()))
             return;
         ModelsScope defaultValues = p.getScope(ModelsScope.class);
@@ -183,6 +179,15 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                 }
             }
         }
+    }
+
+    private ReduxModel getActualModel(CompileProcessor p) {
+        ReduxModel model = ReduxModel.RESOLVE;
+        ModelsScope modelsScope = p.getScope(ModelsScope.class);
+        if (modelsScope != null && modelsScope.getModel() != null) {
+            model = modelsScope.getModel();
+        }
+        return model;
     }
 
     private void compileFilters(S source, CompileProcessor p) {

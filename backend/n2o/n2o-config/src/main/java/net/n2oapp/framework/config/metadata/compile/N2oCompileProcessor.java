@@ -211,6 +211,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
+    public boolean canResolveParam(String param) {
+        return params != null && params.containsKey(param);
+    }
+
+    @Override
     public Object resolveJS(String text, Class<?> clazz) {
         String value = ScriptProcessor.resolveLinks(text);
         return env.getDomainProcessor().deserialize(value, clazz);

@@ -308,7 +308,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(filters.get(0).getLink().getBindLink(), nullValue());
         assertThat(filters.get(0).getLink().getValue(), is(1));
         assertThat(filters.get(1).getParam(), is("name"));
-        assertThat(filters.get(1).getFilterId(), is("name_eq"));
+        assertThat(filters.get(1).getFilterId(), is("name"));
         assertThat(filters.get(1).getRoutable(), is(false));
         assertThat(filters.get(1).getLink().getBindLink(), is("models.filter['p_second']"));
         assertThat(filters.get(1).getLink().getValue(), is("`name`"));

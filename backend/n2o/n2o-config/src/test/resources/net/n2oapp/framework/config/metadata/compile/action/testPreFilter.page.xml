@@ -2,8 +2,11 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
     <form query-id="testShowModal">
         <fields>
-            <input-text id="surname" param="name" default-value="Petr"/>
-            <input-select id="gender" query-id="testGender" param="gender_id"/>
+            <input-select id="gender" query-id="testGender">
+                <pre-filters>
+                    <eq field-id="id" param="gender_id"/>
+                </pre-filters>
+            </input-select>
         </fields>
     </form>
 </simple-page>
