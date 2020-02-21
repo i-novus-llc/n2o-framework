@@ -9,13 +9,20 @@ import net.n2oapp.framework.autotest.test.TestLeftRightPage;
 import net.n2oapp.framework.autotest.test.TestPageObject;
 import net.n2oapp.framework.autotest.test.TestRegion;
 import net.n2oapp.framework.autotest.test.TestWidget;
+import org.apache.commons.io.IOUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 import static com.codeborne.selenide.Configuration.headless;
 
@@ -28,7 +35,7 @@ public class SimpleTest {
     private int port;
 
     @BeforeClass
-    public static void beforeClass() throws Exception {
+    public static void beforeClass() {
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
         headless = true;
 
@@ -52,5 +59,13 @@ public class SimpleTest {
         page.getLeftWidget0().textShouldBe("Left Region 0 Widget 0");
         page.getLeftWidget1().textShouldBe("Left Region 0 Widget 1");
         page.getRightWidget0().textShouldBe("Right Region 0 Widget 0");
+    }
+
+    @RestController
+    public static class IndexController {
+        @RequestMapping("/")
+        public void index(HttpServletResponse response) throws IOException {
+            response.getOutputStream().write(IOUtils.toByteArray(new ClassPathResource("static/test.html").getInputStream()));
+        }
     }
 }
