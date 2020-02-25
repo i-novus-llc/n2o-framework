@@ -74,11 +74,11 @@
 
 
 .list-text-cell__trigger {
-  padding: 5px;
+  max-width: max-content;
 }
 
 .list-text-cell__trigger_dashed {
-  padding: 5px 5px 8px 5px;
+  max-width: max-content;
   position: relative;
 }
 
@@ -86,7 +86,7 @@
   content: '';
   display: block;
   position: absolute;
-  bottom: 8px;
+  bottom: 1px;
   width: 100%;
   border-bottom: 1px dashed black;
 }

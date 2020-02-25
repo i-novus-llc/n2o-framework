@@ -1,19 +1,27 @@
 import React from 'react';
 import TooltipTrigger from 'react-popper-tooltip';
-import { RenderTrigger, RenderTooltipBody, triggerClassName } from './utils';
 import 'react-popper-tooltip/dist/styles.css';
+import { RenderTooltipTrigger, RenderTooltipBody } from './utils';
 
 function Tooltip(props) {
-  const { hint, label, labelDashed, placement, theme } = props;
+  const {
+    hint,
+    label,
+    labelDashed,
+    placement,
+    trigger,
+    theme,
+    fieldKey,
+  } = props;
 
   //trigger для появления tooltip, отображает label
   const Trigger = ({ getTriggerProps, triggerRef }) => {
     return (
-      <RenderTrigger
+      <RenderTooltipTrigger
         getTriggerProps={getTriggerProps}
         triggerRef={triggerRef}
-        labelDashed={labelDashed}
         label={label}
+        labelDashed={labelDashed}
       />
     );
   };
@@ -31,31 +39,37 @@ function Tooltip(props) {
         getArrowProps={getArrowProps}
         tooltipRef={tooltipRef}
         arrowRef={arrowRef}
+        hint={hint}
         placement={placement}
         theme={theme}
-        hint={hint}
       />
     );
   };
-  return (
-    <TooltipTrigger
-      placement={props.placement}
-      trigger={props.trigger}
-      tooltip={TooltipBody}
-      fieldKey={props.fieldKey}
-      label={props.label}
-      labelDashed={props.labelDashed}
-      delayShow={200}
-    >
-      {Trigger}
-    </TooltipTrigger>
-  );
+
+  const RenderTooltip = () => {
+    return (
+      <TooltipTrigger
+        label={label}
+        labelDashed={labelDashed}
+        placement={placement}
+        trigger={trigger}
+        tooltip={TooltipBody}
+        fieldKey={fieldKey}
+        delayShow={200}
+      >
+        {Trigger}
+      </TooltipTrigger>
+    );
+  };
+
+  return <RenderTooltip />;
 }
 
 Tooltip.defaultProps = {
-  theme: 'dark',
+  labelDashed: false,
   placement: 'bottom',
   trigger: 'hover',
+  theme: 'dark',
 };
 
 export default Tooltip;

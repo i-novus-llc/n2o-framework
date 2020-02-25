@@ -39,12 +39,15 @@ stories.add('Компонент', () => {
         component: IconCell,
         icon: 'fa fa-plus',
         hint: 'first hint',
+        tooltipPlacement: 'right',
       },
       {
         id: 'vip',
         component: IconCell,
         icon: 'fa fa-plus',
         textPlace: textPlaceTypes.LEFT,
+        hint: 'second hint',
+        tooltipPlacement: 'top',
       },
       {
         id: 'onlyIcon',

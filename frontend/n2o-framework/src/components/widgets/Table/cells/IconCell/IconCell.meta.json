@@ -3,5 +3,5 @@
   "type": "iconAndText",
   "textPlace": "left",
   "icon": "fa fa-plus",
-  "hint": "some hint"
+  "hint": ["some hint", "another hint"]
 }

@@ -26,9 +26,19 @@ export const arrowClassName = theme =>
   });
 
 //триггер tooltip отображает label
-export function RenderTrigger(props) {
+export function RenderTooltipTrigger(props) {
   const { getTriggerProps, triggerRef, labelDashed, label } = props;
-  return (
+  console.warn(label.type.name === 'MapProps');
+  return label.type.name === 'MapProps' ? (
+    <div
+      {...getTriggerProps({
+        ref: triggerRef,
+        className: triggerClassName(labelDashed),
+      })}
+    >
+      {label}
+    </div>
+  ) : (
     <span
       {...getTriggerProps({
         ref: triggerRef,
@@ -41,8 +51,8 @@ export function RenderTrigger(props) {
 }
 
 //лист items в tooltip
-export function RenderHint({ hint }) {
-  return hint && isArray(hint) ? (
+export function RenderTooltipHint({ hint }) {
+  return !isUndefined(hint) && isArray(hint) ? (
     map(hint, (tooltipItem, index) => (
       <div key={index} className="list-text-cell__tooltip-container__body">
         {tooltipItem}
@@ -70,14 +80,16 @@ export function RenderTooltipBody(props) {
         className: tooltipContainerClassName(theme),
       })}
     >
-      <div
-        {...getArrowProps({
-          ref: arrowRef,
-          'data-placement': placement,
-          className: arrowClassName(theme),
-        })}
-      />
-      <RenderHint hint={hint} />
+      {hint && (
+        <div
+          {...getArrowProps({
+            ref: arrowRef,
+            'data-placement': placement,
+            className: arrowClassName(theme),
+          })}
+        />
+      )}
+      <RenderTooltipHint hint={hint} />
     </div>
   );
 }

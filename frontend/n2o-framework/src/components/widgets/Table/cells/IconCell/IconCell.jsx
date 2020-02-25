@@ -15,20 +15,37 @@ import Tooltip from '../../../../snippets/Tooltip/Tooltip';
  * @reactProps {string} textPlace - расположение текста
  */
 
-function RenderIcon({ icon, hint }) {
+function RenderIcon({ icon, hint, tooltipPlacement }) {
   return icon && hint ? (
-    <Tooltip hint={hint} label={<Icon name={icon} />} />
+    <Tooltip
+      hint={hint}
+      placement={tooltipPlacement}
+      label={<Icon name={icon} />}
+    />
   ) : (
     <Icon name={icon} />
   );
 }
 
-function IconCell({ id, model, visible, icon, type, textPlace, hint }) {
+function IconCell({
+  id,
+  model,
+  visible,
+  icon,
+  type,
+  textPlace,
+  hint,
+  tooltipPlacement,
+}) {
   const text = model[id];
   return (
     visible && (
       <div title={text}>
-        <RenderIcon icon={icon} hint={hint} />
+        <RenderIcon
+          icon={icon}
+          hint={hint}
+          tooltipPlacement={tooltipPlacement}
+        />
         {type === iconCellTypes.ICONANDTEXT && (
           <div
             className="n2o-cell-text"
@@ -70,6 +87,14 @@ IconCell.propTypes = {
    * Флаг видимости
    */
   visible: PropTypes.bool,
+  /**
+   *если передан - резолв tooltip, отображает подсказку
+   */
+  hint: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  /**
+   * позиция tooltip (top, right, bottom(default), left)
+   */
+  tooltipPlacement: PropTypes.string,
 };
 
 IconCell.defaultProps = {
