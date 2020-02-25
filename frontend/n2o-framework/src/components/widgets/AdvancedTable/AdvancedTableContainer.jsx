@@ -133,7 +133,7 @@ class AdvancedTableContainer extends React.Component {
     });
 
     return headers.map(header => {
-      const cell = find(cells, c => c.id === header.id);
+      const cell = find(cells, c => c.id === header.id) || {};
       return {
         ...header,
         title: this.renderCell({
