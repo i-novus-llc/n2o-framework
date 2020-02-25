@@ -101,9 +101,9 @@ link:#_Переключатель_switch[Переключатель]
 |
 
 |type
-|text, icon, iconAndText
-|Текст с иконкой или без
-|text
+|icon, iconAndText
+|С текстом или без
+|icon
 
 |===
 
