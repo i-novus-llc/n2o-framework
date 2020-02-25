@@ -38,6 +38,7 @@ stories.add('Компонент', () => {
         id: 'id',
         component: IconCell,
         icon: 'fa fa-plus',
+        hint: 'first hint',
       },
       {
         id: 'vip',

@@ -14,12 +14,21 @@ import Tooltip from '../../../../snippets/Tooltip/Tooltip';
  * @reactProps {string} type - тип ячейки
  * @reactProps {string} textPlace - расположение текста
  */
+
+function RenderIcon({ icon, hint }) {
+  return icon && hint ? (
+    <Tooltip hint={hint} label={<Icon name={icon} />} />
+  ) : (
+    <Icon name={icon} />
+  );
+}
+
 function IconCell({ id, model, visible, icon, type, textPlace, hint }) {
   const text = model[id];
   return (
     visible && (
       <div title={text}>
-        {icon && <Icon name={icon} />}
+        <RenderIcon icon={icon} hint={hint} />
         {type === iconCellTypes.ICONANDTEXT && (
           <div
             className="n2o-cell-text"
@@ -28,7 +37,7 @@ function IconCell({ id, model, visible, icon, type, textPlace, hint }) {
               display: 'inline-block',
             }}
           >
-            <Tooltip theme={'dark'} hint={hint} label={<Text text={text} />} />
+            <Text text={text} />
           </div>
         )}
       </div>

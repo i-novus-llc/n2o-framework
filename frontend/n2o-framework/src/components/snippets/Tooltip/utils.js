@@ -1,0 +1,83 @@
+import React from 'react';
+import cn from 'classnames';
+import isUndefined from 'lodash/isUndefined';
+import isArray from 'lodash/isArray';
+import map from 'lodash/map';
+
+//dashed стиль лейбла tooltip или нет
+export const triggerClassName = labelDashed =>
+  cn({
+    'list-text-cell__trigger_dashed': labelDashed,
+    'list-text-cell__trigger': !labelDashed || isUndefined(labelDashed),
+  });
+
+//тема tooltip body
+export const tooltipContainerClassName = theme =>
+  cn({
+    'list-text-cell__tooltip-container dark': theme === 'dark',
+    'list-text-cell__tooltip-container light': theme === 'light',
+  });
+
+//классы для arrow в tooltip body
+export const arrowClassName = theme =>
+  cn({
+    'tooltip-arrow light': theme === 'light',
+    'tooltip-arrow dark': theme === 'dark',
+  });
+
+//триггер tooltip отображает label
+export function RenderTrigger(props) {
+  const { getTriggerProps, triggerRef, labelDashed, label } = props;
+  return (
+    <span
+      {...getTriggerProps({
+        ref: triggerRef,
+        className: triggerClassName(labelDashed),
+      })}
+    >
+      {label}
+    </span>
+  );
+}
+
+//лист items в tooltip
+export function RenderHint({ hint }) {
+  return hint && isArray(hint) ? (
+    map(hint, (tooltipItem, index) => (
+      <div key={index} className="list-text-cell__tooltip-container__body">
+        {tooltipItem}
+      </div>
+    ))
+  ) : (
+    <div className="list-text-cell__tooltip-container__body">{hint}</div>
+  );
+}
+
+export function RenderTooltipBody(props) {
+  const {
+    getTooltipProps,
+    tooltipRef,
+    getArrowProps,
+    arrowRef,
+    theme,
+    placement,
+    hint,
+  } = props;
+  return (
+    <div
+      {...getTooltipProps({
+        ref: tooltipRef,
+        className: tooltipContainerClassName(theme),
+      })}
+    >
+      <div
+        {...getArrowProps({
+          ref: arrowRef,
+          'data-placement': placement,
+          className: arrowClassName(theme),
+        })}
+      />
+      <RenderHint hint={hint} />
+    </div>
+  );
+}

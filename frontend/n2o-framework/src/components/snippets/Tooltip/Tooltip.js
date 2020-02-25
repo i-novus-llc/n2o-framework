@@ -1,43 +1,20 @@
 import React from 'react';
 import TooltipTrigger from 'react-popper-tooltip';
-import isUndefined from 'lodash/isUndefined';
-import isArray from 'lodash/isArray';
-import map from 'lodash/map';
-import cn from 'classnames';
+import { RenderTrigger, RenderTooltipBody, triggerClassName } from './utils';
 import 'react-popper-tooltip/dist/styles.css';
 
-const triggerClassName = labelDashed =>
-  cn({
-    'list-text-cell__trigger_dashed': labelDashed,
-    'list-text-cell__trigger': !labelDashed || isUndefined(labelDashed),
-  });
-
-const tooltipContainerClassName = theme =>
-  cn({
-    'list-text-cell__tooltip-container dark': theme === 'dark',
-    'list-text-cell__tooltip-container light': theme === 'light',
-  });
-
-const arrowClassName = theme =>
-  cn({
-    'tooltip-arrow light': theme === 'light',
-    'tooltip-arrow dark': theme === 'dark',
-  });
-
 function Tooltip(props) {
-  const { hint, label, labelDashed, theme } = props;
+  const { hint, label, labelDashed, placement, theme } = props;
 
   //trigger для появления tooltip, отображает label
   const Trigger = ({ getTriggerProps, triggerRef }) => {
     return (
-      <span
-        {...getTriggerProps({
-          ref: triggerRef,
-          className: triggerClassName(labelDashed),
-        })}
-      >
-        {label}
-      </span>
+      <RenderTrigger
+        getTriggerProps={getTriggerProps}
+        triggerRef={triggerRef}
+        labelDashed={labelDashed}
+        label={label}
+      />
     );
   };
 
@@ -47,35 +24,17 @@ function Tooltip(props) {
     getArrowProps,
     tooltipRef,
     arrowRef,
-    placement,
   }) => {
     return (
-      <div
-        {...getTooltipProps({
-          ref: tooltipRef,
-          className: tooltipContainerClassName(theme),
-        })}
-      >
-        <div
-          {...getArrowProps({
-            ref: arrowRef,
-            'data-placement': placement,
-            className: arrowClassName(theme),
-          })}
-        />
-        {isArray(hint) ? (
-          map(hint, (tooltipItem, index) => (
-            <div
-              key={index}
-              className="list-text-cell__tooltip-container__body"
-            >
-              {tooltipItem}
-            </div>
-          ))
-        ) : (
-          <div className="list-text-cell__tooltip-container__body">{hint}</div>
-        )}
-      </div>
+      <RenderTooltipBody
+        getTooltipProps={getTooltipProps}
+        getArrowProps={getArrowProps}
+        tooltipRef={tooltipRef}
+        arrowRef={arrowRef}
+        placement={placement}
+        theme={theme}
+        hint={hint}
+      />
     );
   };
   return (
@@ -92,5 +51,11 @@ function Tooltip(props) {
     </TooltipTrigger>
   );
 }
+
+Tooltip.defaultProps = {
+  theme: 'dark',
+  placement: 'bottom',
+  trigger: 'hover',
+};
 
 export default Tooltip;
