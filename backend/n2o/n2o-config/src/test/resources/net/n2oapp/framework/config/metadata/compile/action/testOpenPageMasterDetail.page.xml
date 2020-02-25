@@ -3,6 +3,9 @@
     <regions>
         <region place="single">
             <form query-id="testRefbook" id="main" route="/">
+                <fields>
+                    <input-text id="name" param="name"/>
+                </fields>
                 <toolbar>
                     <button id="newPage" model="filter">
                         <open-page page-id="testOpenPageSimplePageAction1" route="/level3"/>

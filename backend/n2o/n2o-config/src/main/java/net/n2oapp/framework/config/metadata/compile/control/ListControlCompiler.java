@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.control;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oField;
@@ -14,17 +15,23 @@ import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
+import net.n2oapp.framework.config.metadata.compile.widget.UploadScope;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.*;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 public abstract class ListControlCompiler<T extends ListControl, S extends N2oListField> extends StandardFieldCompiler<T, S> {
@@ -67,6 +74,17 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         values.setValues(new HashMap<>());
         source.getDefValue().forEach((f, v) -> values.getValues().put(f, p.resolve(v)));
         return source.isSingle() ? values : Collections.singletonList(values);
+    }
+
+    @Override
+    protected void compileParams(T control, S source, WidgetParamScope paramScope, UploadScope uploadScope, ReduxModel model, CompileProcessor p) {
+        if (source.getParam() != null) {
+            String id = control.getId() + ".id";
+            BindLink onSet = new ModelLink(model, paramScope.getClientWidgetId(), id);
+            ReduxAction onGet = Redux.dispatchUpdateModel(paramScope.getClientWidgetId(), model, id,
+                    colon(source.getParam()));
+            paramScope.addQueryMapping(source.getParam(), onGet, onSet);
+        }
     }
 
     protected StandardField<T> compileFetchDependencies(StandardField<T> field, S source, CompileProcessor p) {
@@ -133,7 +151,10 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
                 String filterParam = query.getFilterIdToParamMap().get(filter.getFilterField());
                 Object prefilterValue = getPrefilterValue(preFilter);
-                if (StringUtils.isJs(prefilterValue)) {
+                ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+                if (preFilter.getParam() != null && routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(preFilter.getParam())) {
+                    queryMap.put(filterParam, routeScope.getQueryMapping().get(preFilter.getParam()));
+                } else if (StringUtils.isJs(prefilterValue)) {
                     String widgetId = modelsScope.getWidgetId();
                     if (preFilter.getRefWidgetId() != null) {
                         PageScope pageScope = p.getScope(PageScope.class);

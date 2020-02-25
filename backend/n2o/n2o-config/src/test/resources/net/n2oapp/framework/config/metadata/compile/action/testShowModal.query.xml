@@ -12,12 +12,18 @@
         </field>
         <field id="name">
             <filters>
-                <eq/>
+                <eq filter-id="name"/>
             </filters>
         </field>
         <field id="surname">
             <filters>
-                <eq/>
+                <eq filter-id="surname"/>
+            </filters>
+        </field>
+        <field id="birthday">
+            <filters>
+                <more filter-id="birthday.begin"/>
+                <less filter-id="birthday.end"/>
             </filters>
         </field>
     </fields>

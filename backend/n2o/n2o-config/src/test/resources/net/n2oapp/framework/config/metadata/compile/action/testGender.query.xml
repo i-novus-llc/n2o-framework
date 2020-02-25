@@ -1,0 +1,14 @@
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0" object-id="testShowModal">
+    <fields>
+        <field id="id">
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+        </field>
+        <field id="name">
+            <filters>
+                <eq filter-id="name"/>
+            </filters>
+        </field>
+    </fields>
+</query>

@@ -10,10 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Базовое связывание данных на странице
@@ -50,7 +47,10 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                     }
                 }
             });
-            resolveLinks(page.getModels(), collectFilterLinks(page.getModels(), widgets), p);
+            //порядок вызова функций важен, сначала разрешаются submodels, потом удаляются значения по умолчанию которые резолвятся из url
+            List<ModelLink> filterLinks = collectFilterLinks(page.getModels(), widgets);
+            resolveLinks(page.getModels(), filterLinks, p);
+            resolveParams(page, p);
         }
         if (page.getPageProperty() != null) {
             page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(),
@@ -64,6 +64,22 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         return page;
     }
 
+    private void resolveParams(D page, BindProcessor p) {
+        if (page.getRoutes() != null && page.getRoutes().getQueryMapping() != null) {
+            page.getRoutes().getQueryMapping().forEach((k, v) -> {
+                if (v.getOnGet() != null && v.getOnGet().getPayload() != null &&
+                        v.getOnGet().getPayload().containsKey("value") &&
+                        p.canResolveParam(v.getOnGet().getPayload().get("value").toString().replace(":", "")) &&
+                        ((ModelLink)v.getOnSet()).getSubModelQuery() == null) {
+                    Optional<String> key = page.getModels().keySet().stream().filter(mk -> page.getModels().get(mk).equalsLink(v.getOnSet())).findFirst();
+                    if (key.isPresent()) {
+                        page.getModels().remove(key.get());
+                    }
+                }
+            });
+        }
+    }
+
     private List<ModelLink> collectFilterLinks(Models models, Map<String, Widget> widgets) {
         List<ModelLink> links = new ArrayList<>();
         if (widgets != null) {
@@ -71,23 +87,27 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                 if (w.getFilters() != null) {
                     for (Filter f : (List<Filter>) w.getFilters()) {
                         if (f.getRoutable() && f.getLink().getSubModelQuery() != null) {
-                            ReduxModel model = f.getLink().getModel();
-                            String widgetId = f.getLink().getWidgetId();
-                            String fieldId = f.getLink().getSubModelQuery().getSubModel();
-                            ModelLink link = new ModelLink(model, widgetId, fieldId);
-                            f.getLink().setParam(f.getParam());
-                            link.setSubModelQuery(f.getLink().getSubModelQuery());
-                            if (models.get(model, widgetId, fieldId) != null)
-                                link.setValue(models.get(model, widgetId, fieldId).getValue());
-                            if (link.getValue() == null || link.isConst())
-                                models.add(model, widgetId, fieldId, link);
-                            links.add(f.getLink());
+                            createLink(links, models, f);
                         }
                     }
                 }
             }
         }
         return links;
+    }
+
+    private void createLink(List<ModelLink> links, Models models, Filter f) {
+        ReduxModel model = f.getLink().getModel();
+        String widgetId = f.getLink().getWidgetId();
+        String fieldId = f.getLink().getSubModelQuery().getSubModel();
+        ModelLink link = new ModelLink(model, widgetId, fieldId);
+        f.getLink().setParam(f.getParam());
+        link.setSubModelQuery(f.getLink().getSubModelQuery());
+        if (models.get(model, widgetId, fieldId) != null)
+            link.setValue(models.get(model, widgetId, fieldId).getValue());
+        if (link.getValue() == null || link.isConst())
+            models.add(model, widgetId, fieldId, link);
+        links.add(f.getLink());
     }
 
     private void resolveLinks(Models models, List<ModelLink> filterLinks, BindProcessor p) {
