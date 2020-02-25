@@ -10,6 +10,7 @@ import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
 import map from 'lodash/map';
 import set from 'lodash/set';
+import has from 'lodash/has';
 import isUndefined from 'lodash/isUndefined';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
@@ -132,7 +133,19 @@ class AdvancedTableContainer extends React.Component {
     });
 
     return headers.map(header => {
-      const cell = find(cells, c => c.id === header.id);
+      const cell = find(cells, c => c.id === header.id) || {};
+
+      if (has(header, 'children')) {
+        set(
+          header,
+          'children',
+          map(header.children, child => ({
+            ...child,
+            title: child.label,
+          }))
+        );
+      }
+
       return {
         ...header,
         title: this.renderCell({
@@ -144,7 +157,7 @@ class AdvancedTableContainer extends React.Component {
           sorting: sorting && sorting[header.id],
           onSort,
         }),
-        label: header.title,
+        label: header.label,
         dataIndex: header.id,
         columnId: header.id,
         key: header.id,
