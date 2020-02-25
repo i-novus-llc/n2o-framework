@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oLeftRightPage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
@@ -30,7 +31,8 @@ public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage> {
     }
 
     @Override
-    protected void initRegions(N2oLeftRightPage source, StandardPage page, CompileProcessor p, PageContext context, PageScope pageScope) {
+    protected void initRegions(N2oLeftRightPage source, StandardPage page, CompileProcessor p,
+                               PageContext context, PageScope pageScope, PageRoutes pageRoutes) {
         Map<String, List<Region>> regionMap = new HashMap<>();
         IndexScope index = new IndexScope();
         mapRegion(source.getRight(), "right", regionMap, p, context, pageScope, index);

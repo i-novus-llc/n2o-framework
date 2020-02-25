@@ -30,12 +30,17 @@ public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRe
     @Override
     public LineRegion compile(N2oLineRegion source, PageContext context, CompileProcessor p) {
         LineRegion region = new LineRegion();
-        build(region, source, context, p);
+        build(region, source, p);
         region.setPlace(source.getPlace());
         region.setItems(new ArrayList<>());
         region.setCollapsible(source.getCollapsible());
         region.setItems(initItems(source, p, Region.Item.class));
         return region;
+    }
+
+    @Override
+    protected String createId(String regionPlace, CompileProcessor p) {
+        return createId(regionPlace, "line", p);
     }
 
     @Override
@@ -47,6 +52,4 @@ public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRe
         item.setProperties(p.mapAttributes(widget));
         return item;
     }
-
-
 }
