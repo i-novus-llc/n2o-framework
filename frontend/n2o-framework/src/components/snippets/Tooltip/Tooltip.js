@@ -22,6 +22,7 @@ function Tooltip(props) {
         triggerRef={triggerRef}
         label={label}
         labelDashed={labelDashed}
+        hint={hint}
       />
     );
   };

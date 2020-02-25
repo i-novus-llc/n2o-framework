@@ -5,6 +5,7 @@
   background-color: #fff;
   font-size: 14px;
   box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  z-index: 110;
 }
 
 .list-text-cell__tooltip-container.dark {
@@ -14,12 +15,14 @@
   box-shadow: 0 0 8px rgba(0,0,0,0.2);
   color: white;
   font-size: 14px;
+  z-index: 110;
 }
 
 .list-text-cell__tooltip-container__body {
   padding: 5px;
   align-items: center;
   vertical-align: center;
+  z-index: 110;
 }
 
 .tooltip-arrow[data-placement*='bottom']::before {
