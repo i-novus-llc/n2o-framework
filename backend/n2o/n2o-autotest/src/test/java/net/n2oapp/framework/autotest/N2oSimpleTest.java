@@ -4,7 +4,6 @@ import net.n2oapp.framework.autotest.impl.collection.N2oRegions;
 import net.n2oapp.framework.autotest.impl.collection.N2oWidgets;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
-import net.n2oapp.framework.autotest.test.AutoTestApplication;
 import net.n2oapp.framework.autotest.test.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
@@ -15,17 +14,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = AutoTestApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class N2oSimpleTest extends AutoTestBase {
-
-    @LocalServerPort
-    private int port;
 
     @BeforeClass
     public static void beforeClass() {
