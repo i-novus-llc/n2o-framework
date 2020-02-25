@@ -390,6 +390,169 @@ link:#_Действия[Обработчик действия]
 </toolbar>
 ----
 
+===== <sub-menu>
+
+Кнопка c выпадающим меню
+
+Атрибуты::
+
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+
+|label
+|Строка
+|Заголовок кнопки
+|
+
+|icon
+|CSS класс
+|Иконка
+|
+
+|type
+|text, icon, textAndIcon
+|Кнопка с иконкой или без
+|Если задан `icon`, то `iconAndText`, иначе `text`
+
+|class
+|https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|CSS класс кнопки
+|
+
+|style
+|CSS свойство
+|Стиль кнопки
+|
+
+|generate
+|Строка
+|Генерация стандартных кнопок
+|
+
+|===
+
+Тело::
+<menu-item>
+
+Пример::
+
+[source,xml]
+----
+<toolbar>
+    <sub-menu>
+         <menu-item >
+            <a href="n2o.i-novus.ru"/>
+         </menu-item>
+         <menu-item action-id="linkAction"/>
+    </sub-menu>
+</toolbar>
+----
+
+====== <menu-item>
+
+Пункт выпадающего меню.
+
+Атрибуты::
+
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|action-id
+|Ссылка на link:#__action[действие виджета]
+|Действие виджета, которое будет вызвано при нажатии на кнопку
+|
+
+|widget-id
+|Строка
+|Идентификатор виджета над которым будет выполнена операция
+|Главный виджет страницы(если он один)
+
+|label
+|Строка
+|Заголовок пункта меню
+|Вычисляется из `action-id`
+
+|icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка пункта меню
+|Вычисляется из `action-id`
+
+|class
+|https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|Css класс пункта меню
+|
+
+|style
+|CSS свойство
+|Стиль пункта меню
+|
+
+|validate
+|true false
+|Валидировать форму после нажатия на кнопку?
+|Для каждого действия свои умолчания.
+
+|visible
+|true false
+|Видимость
+|
+
+|enabled
+|true false
+|Доступность
+|
+
+|tooltip-position
+|left, right, top, bottom
+|Позиция подсказки
+|left
+
+|confirm
+|boolean
+|Показать предупреждение перед выполнением действия
+|
+
+|confirm-cancel-label
+|Строка
+|Текст кнопки отмены
+|
+
+|confirm-ok-label
+|Строка
+|Текст кнопки подтверждения
+|
+
+|confirm-title
+|Строка
+|Заголовок окна предупреждения
+|
+
+|===
+
+Тело::
+link:#_Действия[Обработчик действия]
+
+Пример::
+
+[source,xml]
+----
+<sub-menu>
+  <menu-item action-id="create"/>
+</sub-menu>
+----
+
+[source,xml]
+----
+<sub-menu>
+  <menu-item label="Удалить запись" icon="fa-trash">
+    <invoke operation-id="delete"/>
+  </menu-item>
+</sub-menu>
+----
+
 === Базовые свойства простых компонентов
 
 Атрибуты::

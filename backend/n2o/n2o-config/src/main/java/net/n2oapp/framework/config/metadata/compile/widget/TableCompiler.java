@@ -71,14 +71,16 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         SubModelsScope subModelsScope = new SubModelsScope();
         UploadScope uploadScope = new UploadScope();
         uploadScope.setUpload(UploadType.defaults);
+        MetaActions widgetActions = new MetaActions();
+        ParentRouteScope widgetRouteScope = initWidgetRouteScope(table, context, p);
+        compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
         table.setFilter(createFilter(source, context, p, widgetScope, query, object,
                 new ModelsScope(ReduxModel.FILTER, table.getId(), models), new FiltersScope(table.getFilters()), subModelsScope, uploadScope,
-                new MomentScope(N2oValidation.ServerMoment.beforeQuery)));
+                new MomentScope(N2oValidation.ServerMoment.beforeQuery), widgetActions));
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new HashMap<>()) : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(table.getId(), ReduxModel.FILTER, validationList);
         //порядок вызова compileValidation и compileDataProviderAndRoutes важен
         compileValidation(table, source, validationScope);
-        ParentRouteScope widgetRouteScope = initWidgetRouteScope(table, context, p);
         PageRoutesScope pageRoutesScope = p.getScope(PageRoutesScope.class);
         if (pageRoutesScope != null) {
             pageRoutesScope.put(table.getId(), widgetRouteScope);
@@ -92,8 +94,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             component.getScroll().setX(source.getScrollX());
             component.getScroll().setY(source.getScrollY());
         }
-        MetaActions widgetActions = new MetaActions();
-        compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
+
         if (source.getRows() != null) {
             component.setRows(new Rows());
             if (source.getRows().getRowClass() != null) {
@@ -232,9 +233,9 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
     private AbstractTable.Filter createFilter(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                                               WidgetScope widgetScope, CompiledQuery widgetQuery, CompiledObject object,
                                               ModelsScope modelsScope, FiltersScope filtersScope,
-                                              SubModelsScope subModelsScope, UploadScope uploadScope, MomentScope momentScope) {
+                                              SubModelsScope subModelsScope, UploadScope uploadScope, MomentScope momentScope, MetaActions widgetActions) {
         List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
-                widgetQuery, object, modelsScope, filtersScope, subModelsScope, uploadScope, momentScope);
+                widgetQuery, object, widgetActions, modelsScope, filtersScope, subModelsScope, uploadScope, momentScope);
         if (fieldSets.isEmpty())
             return null;
         AbstractTable.Filter filter = new AbstractTable.Filter();

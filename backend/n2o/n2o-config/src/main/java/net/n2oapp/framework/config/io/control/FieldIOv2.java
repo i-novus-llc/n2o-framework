@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.config.io.toolbar.ToolbarIO;
+import net.n2oapp.framework.config.io.toolbar.FieldToolbarIO;
 import org.jdom.Element;
 
 /**
@@ -27,7 +27,7 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
         p.attribute(e, "description", m::getDescription, m::setDescription);
         p.attribute(e, "domain", m::getDomain, m::setDomain);
         p.attribute(e, "help", m::getHelp, m::setHelp);
-        p.child(e, null, "toolbar", m::getToolbar, m::setToolbar, new ToolbarIO());
+        p.child(e, null, "toolbar", m::getToolbar, m::setToolbar, new FieldToolbarIO());
         p.anyChildren(e, "dependencies", m::getDependencies, m::setDependencies, p.oneOf(N2oField.Dependency.class)
                 .add("enabling", N2oField.EnablingDependency.class, this::dependency)
                 .add("visibility", N2oField.VisibilityDependency.class, this::visibilityDependency)

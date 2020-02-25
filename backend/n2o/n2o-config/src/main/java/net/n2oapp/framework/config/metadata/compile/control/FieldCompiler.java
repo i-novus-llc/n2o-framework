@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.FetchValueDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
@@ -46,6 +47,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setVisible(source.getVisible());
         field.setEnabled(source.getEnabled());
 
+        compileFieldToolbar(field, source, context, p);
         field.setLabel(initLabel(source, p));
         field.setLabelClass(p.resolveJS(source.getLabelClass()));
         field.setHelp(p.resolveJS(source.getHelp()));
@@ -60,7 +62,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
         return null;
     }
-
 
     /**
      * Компиляция зависимостей между полями
@@ -129,6 +130,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             compiled.getOn().addAll(ons);
         }
         field.addDependency(compiled);
+    }
+
+    private void compileFieldToolbar(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
+        if (source.getToolbar() != null) {
+            Toolbar toolbar = p.compile(source.getToolbar(), context);
+            field.setToolbar(toolbar.getGroup(0).getButtons());
+        }
     }
 
     private WidgetDataProvider compileDataProvider(N2oField.FetchValueDependency field, CompileProcessor p) {

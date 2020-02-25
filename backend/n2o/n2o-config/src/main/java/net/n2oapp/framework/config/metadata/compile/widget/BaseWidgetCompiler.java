@@ -545,7 +545,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     protected List<FieldSet> initFieldSets(SourceComponent[] fields, CompileContext<?, ?> context, CompileProcessor p,
                                            WidgetScope widgetScope,
                                            CompiledQuery widgetQuery,
-                                           CompiledObject widgetObject,
+                                           CompiledObject widgetObject, MetaActions widgetActions,
                                            Object... scopes) {
         if (fields == null)
             return Collections.emptyList();
@@ -570,7 +570,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                 fieldSet = newFieldset;
             }
             fieldSets.add(p.compile(fieldSet, context,
-                    scopes, widgetQuery, widgetObject, widgetScope, fieldSetScope, indexScope));
+                    scopes, widgetQuery, widgetObject, widgetScope, fieldSetScope, indexScope, widgetActions));
         }
         return fieldSets;
     }

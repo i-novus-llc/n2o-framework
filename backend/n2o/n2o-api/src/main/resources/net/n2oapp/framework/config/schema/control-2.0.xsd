@@ -322,7 +322,8 @@
 
     <xs:complexType name="controlToolbarDefinition" abstract="true">
         <xs:sequence>
-            <xs:element name="button" type="controlToolbarButtonDefinition"/>
+            <xs:element name="button" type="controlToolbarButtonDefinition" minOccurs="0"/>
+            <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 

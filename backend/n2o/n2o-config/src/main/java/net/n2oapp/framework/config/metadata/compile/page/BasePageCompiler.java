@@ -69,6 +69,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage> extends PageCompil
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         //compile widget
         WidgetObjectScope widgetObjectScope = new WidgetObjectScope();
+        CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
         page.setWidgets(initWidgets(routeScope, pageRoutes, sourceWidgets,
                 context, p, pageScope, breadcrumb, validationList, models, pageRoutesScope, widgetObjectScope));
         registerRoutes(pageRoutes, context, p);
@@ -76,7 +77,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage> extends PageCompil
             page.setRoutes(pageRoutes);
         //compile region
         initRegions(source, page, p, context, pageScope);
-        CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
         page.setObject(object);
         page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
         page.setProperties(p.mapAttributes(source));
