@@ -11,7 +11,7 @@
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>framework</artifactId>
     <packaging>pom</packaging>
-    <version>7.5.0-SNAPSHOT</version>
+    <version>7.6.0-SNAPSHOT</version>
 
     <name>N2O Framework</name>
     <description>Framework for creating web applications with rich user interface without deep knowledge of WEB technologies and Frontend frameworks. Based on Java и ReactJS</description>
@@ -168,8 +168,7 @@
                         <include>**/*Tests.java</include>
                     </includes>
                     <excludes>
-                        <exclude>**/*IntegrationTest.java</exclude>
-                        <exclude>**/*IntegrationTests.java</exclude>
+                        <exclude>**/*AT.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -183,8 +182,7 @@
                         <additionalClasspathElement>${basedir}/target/classes</additionalClasspathElement>
                     </additionalClasspathElements>
                     <includes>
-                        <include>**/*IntegrationTest.java</include>
-                        <include>**/*IntegrationTests.java</include>
+                        <include>**/*AT.java</include>
                     </includes>
                 </configuration>
                 <executions>

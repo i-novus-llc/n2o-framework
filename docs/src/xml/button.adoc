@@ -46,6 +46,16 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |Реализация действия.
 |
 
+|visible
+|true false
+|Видимость по умолчанию.
+|true
+
+|enabled
+|true false
+|Доступность по умолчанию.
+|true
+
 |===
 
 ===== <button>
@@ -69,11 +79,6 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |validate
 |true false
 |Валидировать ли форму при нажатии на кнопку.
-|
-
-|visible
-|true false
-|Видимость по умолчанию.
 |
 
 |visibility-condition
@@ -164,6 +169,94 @@ link:#_Действия[Обработчик действия]
   <menu-item>...<menu-item>
   <menu-item>...<menu-item>
 </sub-menu>
+----
+
+==== <dependencies>
+Зависимости компонента
+
+Пример::
+[source,xml]
+----
+<button id="btn">
+  <dependencies>
+    ...
+  </dependencies>
+</button>
+----
+
+===== <enabling>
+Условие доступности
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|ref-widget-id
+|Строка
+|Идентификатор виджета, по полю которого будет фильтрация
+|
+
+|ref-model
+|resolve, filter
+|Модель виджета, по полю которого будет фильтрация
+|
+
+|on
+|Строка
+|Поля, от которых зависит условие доступности
+|Вычисляется по условию
+
+
+|===
+
+Тело::
+Java Script выражение
+
+Пример::
+[source,xml]
+----
+<dependencies>
+  <enabling on="type">type.id == 1</enabling>
+  <!-- Поле доступно, если type.id равен 1 -->
+</dependencies>
+----
+
+===== <visibility>
+Условие видимости
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|ref-widget-id
+|Строка
+|Идентификатор виджета, по полю которого будет фильтрация
+|
+
+|ref-model
+|resolve, filter
+|Модель виджета, по полю которого будет фильтрация
+|
+
+|on
+|Строка
+|Поля, от которых зависит условие доступности
+|Вычисляется по условию
+
+|===
+
+Тело::
+Java Script выражение
+
+Пример::
+[source,xml]
+----
+<dependencies>
+  <visibility on="type">type.id == 1</visibility>
+  <!-- Поле видимо, если type.id равен 1 -->
+</dependencies>
 ----
 
 ===== <link>

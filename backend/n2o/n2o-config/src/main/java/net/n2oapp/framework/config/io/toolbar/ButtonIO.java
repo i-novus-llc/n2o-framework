@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.io.toolbar;
 
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -28,6 +27,5 @@ public class ButtonIO extends AbstractMenuItemIO<N2oButton> {
         super.io(e, b, p);
         p.attribute(e, "src", b::getSrc, b::setSrc);
         p.attributeEnum(e, "type", b::getType, b::setType, LabelType.class);
-        p.anyChild(e, null, b::getAction, b::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
     }
 }
