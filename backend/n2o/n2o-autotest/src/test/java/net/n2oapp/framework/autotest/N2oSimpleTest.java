@@ -35,8 +35,8 @@ public class N2oSimpleTest extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oHeaderPack(), new N2oPagesPack(), new N2oWidgetsPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/header/test.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/header/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/simple/test.header.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/simple/index.page.xml"));
     }
 
     @Test
