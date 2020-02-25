@@ -89,8 +89,8 @@ app.all("/sign/set", (req, res) => {
 });
 
 app.use("/n2o", exampleProxy);
-app.use('/n2o/data', exampleProxy);
-app.use('/n2o/config', exampleProxy);
+app.use("/n2o/data", exampleProxy);
+app.use("/n2o/config", exampleProxy);
 
 app.listen(9000, () => {
   console.log("Example app listening on port 9000!");

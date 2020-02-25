@@ -24,7 +24,9 @@ export function* resolveButton(button) {
 
     if (visible) {
       const nextVisible = resolveConditions(visible, state);
-      yield put(changeButtonVisiblity(button.key, button.buttonId, nextVisible));
+      yield put(
+        changeButtonVisiblity(button.key, button.buttonId, nextVisible)
+      );
       yield call(setParentVisibleIfAllChildChangeVisible, button);
     }
 
