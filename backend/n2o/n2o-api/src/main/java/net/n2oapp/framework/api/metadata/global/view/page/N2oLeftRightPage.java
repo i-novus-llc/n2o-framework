@@ -16,7 +16,6 @@ import java.util.List;
 @Getter
 @Setter
 public class N2oLeftRightPage extends N2oBasePage {
-
     private N2oRegion[] left;
     private String leftWidth;
     private N2oRegion[] right;
