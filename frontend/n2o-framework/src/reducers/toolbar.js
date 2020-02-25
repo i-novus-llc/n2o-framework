@@ -1,4 +1,4 @@
-import { omit, map, filter, mapValues } from 'lodash';
+import { get, mapValues } from 'lodash';
 import {
   CHANGE_BUTTON_VISIBILITY,
   CHANGE_BUTTON_TITLE,
@@ -15,7 +15,6 @@ import {
   CHANGE_BUTTON_STYLE,
 } from '../constants/toolbar';
 import { RESET_STATE } from '../constants/widgets';
-import { generateKey } from '../utils/id';
 
 export const buttonState = {
   isInit: true,
@@ -118,7 +117,7 @@ export default function toolbar(state = {}, action) {
       return Object.assign({}, state, {
         [key]: {
           ...state[key],
-          [buttonId]: resolve(state[key][buttonId], action),
+          [buttonId]: resolve(get(state, `${key}.${buttonId}`, {}), action),
         },
       });
     case RESET_STATE:
