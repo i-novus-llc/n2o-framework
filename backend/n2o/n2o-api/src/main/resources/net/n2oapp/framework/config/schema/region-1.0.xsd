@@ -57,13 +57,22 @@
                 </xs:annotation>
                 <xs:attribute name="always-refresh" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Возможность обновления данных при переключении между вкладками
-                        </xs:documentation>
+                        <xs:documentation>Возможность обновления данных при переключении между вкладками.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="lazy" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Ленивая загрузка вкладок</xs:documentation>
+                        <xs:documentation>Ленивая загрузка вкладок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="active-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Имя параметра активной вкладки в URL.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="routable" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Восстановление активных вкладок по URL.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
