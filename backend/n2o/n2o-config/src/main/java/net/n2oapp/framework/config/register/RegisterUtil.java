@@ -77,7 +77,7 @@ public class RegisterUtil {
 
 
     public static InfoConstructor createXmlInfo(String localPath, String uri, SourceTypeRegister sourceTypeRegister) {
-        return createXmlInfo(FolderInfoScanner.class, localPath, uri, sourceTypeRegister);
+        return createXmlInfo(null, localPath, uri, sourceTypeRegister);
     }
 
     public static InfoConstructor createXmlInfo(Class<? extends MetadataScanner> scannerClass, String localPath, String uri, SourceTypeRegister sourceTypeRegister) {
