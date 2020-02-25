@@ -1,7 +1,6 @@
 package net.n2oapp.framework.ui.servlet;
 
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.api.metadata.header.CompiledHeader;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
