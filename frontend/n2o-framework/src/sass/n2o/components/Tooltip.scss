@@ -77,11 +77,11 @@
 
 
 .list-text-cell__trigger {
-  max-width: max-content;
+  max-width: content-box;
 }
 
 .list-text-cell__trigger_dashed {
-  max-width: max-content;
+  max-width: content-box;
   position: relative;
 }
 

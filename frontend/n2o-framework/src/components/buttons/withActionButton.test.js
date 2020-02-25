@@ -84,8 +84,7 @@ describe('<Link />', () => {
         onClick: () => {},
       },
     });
-
-    expect(wrapper.find('UncontrolledTooltip').exists()).toBeTruthy();
+    expect(wrapper.find('.list-text-cell__trigger').exists()).toBeTruthy();
   });
   it('Валидация по клику', async () => {
     const { store, wrapper } = setup({
