@@ -5,13 +5,13 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.control.*;
-import net.n2oapp.framework.autotest.api.component.header.StandardTableHeader;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.ListWidget;
-import net.n2oapp.framework.autotest.api.component.widget.TableWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 
 import java.util.List;
 
@@ -228,7 +228,7 @@ public class ProtoPage {
     }
 
     public RadioGroup getGenderCard() {
-       return getCardFields().field("Пол").control(RadioGroup.class);
+        return getCardFields().field("Пол").control(RadioGroup.class);
     }
 
     public Checkbox getVIPCard() {

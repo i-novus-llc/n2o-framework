@@ -13,11 +13,8 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-public class N2oSimpleTest extends AutoTestBase {
+public class N2oSimpleAT extends AutoTestBase {
 
     @BeforeClass
     public static void beforeClass() {
