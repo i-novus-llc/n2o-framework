@@ -441,6 +441,16 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |Ленивая загрузка вкладок
 |true
 
+|active-param
+|Строка
+|Имя параметра активной вкладки в URL
+|
+
+|routable
+|true false
+|Восстановление активных вкладок по URL
+|true
+
 |===
 
 Пример::
