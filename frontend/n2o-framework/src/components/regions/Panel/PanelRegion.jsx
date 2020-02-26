@@ -5,6 +5,7 @@ import { compose, setDisplayName } from 'recompose';
 import PanelShortHand from '../../snippets/Panel/PanelShortHand';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import Factory from '../../../core/factory/Factory';
+import withRegionContainer from '../withRegionContainer';
 import withWidgetProps from '../withWidgetProps';
 import withSecurity from '../../../core/auth/withSecurity';
 import { SECURITY_CHECK } from '../../../core/auth/authTypes';
@@ -105,16 +106,24 @@ class PanelRegion extends React.Component {
    * Рендер
    */
   render() {
-    const { panels, getWidgetProps } = this.props;
+    const {
+      panels,
+      getWidgetProps,
+      activeEntity,
+      changeActiveEntity,
+    } = this.props;
     const isInvisible = every(
       panels,
       item => getWidgetProps(item.widgetId).isVisible === false
     );
+
     return (
       <PanelShortHand
         tabs={this.state.tabs}
         {...this.props}
+        open={activeEntity}
         style={{ display: isInvisible && 'none' }}
+        onVisibilityChange={changeActiveEntity}
       >
         {panels.map(container => this.getContent(container))}
       </PanelShortHand>
@@ -186,6 +195,7 @@ PanelRegion.defaultProps = {
 export { PanelRegion };
 export default compose(
   setDisplayName('PanelRegion'),
+  withRegionContainer({ listKey: 'panels' }),
   withSecurity,
   withWidgetProps
 )(PanelRegion);

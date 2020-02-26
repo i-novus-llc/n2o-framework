@@ -1,6 +1,7 @@
 import each from 'lodash/each';
 import isEmpty from 'lodash/isEmpty';
 import includes from 'lodash/includes';
+import isNil from 'lodash/isNil';
 import pathToRegexp from 'path-to-regexp';
 import queryString from 'query-string';
 import linkResolver from './linkResolver';
@@ -10,7 +11,7 @@ export function getParams(mapping, state) {
   const params = {};
   each(mapping, (options, key) => {
     const value = linkResolver(state, options);
-    params[key] = value || undefined;
+    params[key] = !isNil(value) ? value : undefined;
   });
   return params;
 }
