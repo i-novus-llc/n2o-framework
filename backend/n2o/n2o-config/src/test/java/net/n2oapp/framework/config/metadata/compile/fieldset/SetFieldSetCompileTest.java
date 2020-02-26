@@ -28,6 +28,9 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ * Тест стандартного филдсета
+ */
 public class SetFieldSetCompileTest extends SourceCompileTestBase {
 
     @Override
@@ -57,6 +60,8 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         FormWidgetComponent component = form.getComponent();
         assertThat(component.getFieldsets().size(), is(4));
 
+        assertThat(component.getFieldsets().get(0).getSrc(), is("StandardFieldset"));
+        assertThat(component.getFieldsets().get(0).getLabel(), is("set"));
         assertThat(component.getFieldsets().get(0).getRows().size(), is(3));
         assertThat(component.getFieldsets().get(0).getRows().get(0).getCols().size(), is(1));
         assertThat(component.getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().size(), is(1));
@@ -68,6 +73,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(component.getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().size(), is(1));
         assertThat(((StandardField)component.getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput3"));
 
+        assertThat(component.getFieldsets().get(1).getSrc(), is("StandardFieldset"));
         assertThat(component.getFieldsets().get(1).getRows().size(), is(4));
         assertThat(component.getFieldsets().get(1).getRows().get(0).getCols().size(), is(1));
         assertThat(component.getFieldsets().get(1).getRows().get(0).getCols().get(0).getFields().size(), is(1));
@@ -84,6 +90,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(component.getFieldsets().get(1).getRows().get(3).getCols().get(0).getFields().size(), is(1));
         assertThat(((StandardField)component.getFieldsets().get(1).getRows().get(3).getCols().get(0).getFields().get(0)).getControl().getId(), is("testCol4"));
 
+        assertThat(component.getFieldsets().get(2).getSrc(), is("StandardFieldset"));
         assertThat(component.getFieldsets().get(2).getRows().size(), is(9));
         assertThat(component.getFieldsets().get(2).getRows().get(0).getCols().size(), is(3));
         assertThat(component.getFieldsets().get(2).getRows().get(0).getCols().get(0).getFields().size(), is(1));
@@ -115,6 +122,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(component.getFieldsets().get(2).getRows().get(8).getCols().get(0).getFields().size(), is(1));
         assertThat(((StandardField)component.getFieldsets().get(2).getRows().get(8).getCols().get(0).getFields().get(0)).getControl().getId(), is("testInput11"));
 
+        assertThat(component.getFieldsets().get(3).getSrc(), is("StandardFieldset"));
         assertThat(component.getFieldsets().get(3).getRows().size(), is(9));
         assertThat(component.getFieldsets().get(3).getRows().get(0).getCols().size(), is(1));
         assertThat(component.getFieldsets().get(3).getRows().get(0).getCols().get(0).getFieldsets().size(), is(1));
