@@ -6,7 +6,9 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSearchablePage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SearchablePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -56,8 +58,7 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     }
 
     @Override
-    protected void initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p,
-                               PageContext context, PageScope pageScope) {
+    protected void initRegions(N2oSearchablePage source, StandardPage page, CompileProcessor p, PageContext context, PageScope pageScope, PageRoutes pageRoutes) {
         Map<String, List<Region>> regionMap = new HashMap<>();
         if (source.getRegions() != null) {
             IndexScope index = new IndexScope();
