@@ -17,17 +17,17 @@ import java.util.*;
  * Компиляция страницы с правыми и левыми регионами
  */
 @Component
-public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage> {
+public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage, StandardPage> {
     @Override
     public StandardPage compile(N2oLeftRightPage source, PageContext context, CompileProcessor p) {
+        StandardPage page = new StandardPage();
         List<N2oRegion> allRegions = new ArrayList<>();
         allRegions.addAll(Arrays.asList(source.getLeft()));
         allRegions.addAll(Arrays.asList(source.getRight()));
-        StandardPage page = compilePage(source, context, p, allRegions.toArray(new N2oRegion[0]));
         if ((source.getLeftWidth() != null && !source.getLeftWidth().isEmpty()) ||
                 (source.getRightWidth() != null && !source.getRightWidth().isEmpty()))
             page.setWidth(page.new RegionWidth(source.getLeftWidth(), source.getRightWidth()));
-        return page;
+        return compilePage(source, page, context, p, allRegions.toArray(new N2oRegion[0]), null);
     }
 
     @Override
