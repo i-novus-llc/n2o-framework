@@ -8,6 +8,7 @@ import Text from './Typography/Text/Text';
 import Paragraph from './Typography/Paragraph/Paragraph';
 import Spinner from './Spinner/Spinner';
 import PopoverConfirm from './PopoverConfirm/PopoverConfirm';
+import SearchBar from './SearchBar/SearchBar';
 import Drawer from './Drawer/Drawer';
 
 export default {
@@ -21,5 +22,6 @@ export default {
   Paragraph,
   Spinner,
   PopoverConfirm,
+  SearchBar,
   Drawer,
 };
