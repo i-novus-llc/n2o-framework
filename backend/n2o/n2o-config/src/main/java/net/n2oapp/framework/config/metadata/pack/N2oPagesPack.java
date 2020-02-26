@@ -12,7 +12,7 @@ public class N2oPagesPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
         b.packs(new N2oPagesIOPack());
-        b.compilers(new SimplePageCompiler(), new StandardPageCompiler(), new LeftRightPageCompiler());
+        b.compilers(new SimplePageCompiler(), new StandardPageCompiler(), new LeftRightPageCompiler(), new SearchablePageCompiler());
         b.binders(new SimplePageBinder(), new StandardPageBinder());
     }
 }
