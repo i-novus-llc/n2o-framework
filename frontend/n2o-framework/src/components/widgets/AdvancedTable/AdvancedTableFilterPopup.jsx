@@ -30,7 +30,10 @@ function AdvancedTableFilterPopup({
     <React.Fragment>
       <div className="n2o-advanced-table-filter-dropdown-popup">
         {component ? (
-          React.createElement(component, childProps)
+          React.createElement(
+            component,
+            Object.assign({}, childProps, { popupPlacement: 'top-start' })
+          )
         ) : (
           <InputText value={value} onChange={onChange} />
         )}

@@ -38,7 +38,7 @@ class AdvancedTableFilter extends Component {
 
   onChangeFilter(value) {
     this.setState({
-      value: value ? value.toString() : '',
+      value,
     });
   }
 
