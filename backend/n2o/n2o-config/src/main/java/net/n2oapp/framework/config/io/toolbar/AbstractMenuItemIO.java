@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.AbstractMenuItem;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
@@ -48,7 +49,8 @@ public abstract class AbstractMenuItemIO<T extends AbstractMenuItem> implements 
         p.anyChildren(e, "dependencies", mi::getDependencies, mi::setDependencies, p.oneOf(AbstractMenuItem.Dependency.class)
                 .add("enabling", AbstractMenuItem.EnablingDependency.class, this::dependency)
                 .add("visibility", AbstractMenuItem.VisibilityDependency.class, this::dependency));
-        p.anyChild(e, null, mi::getAction, mi::setAction, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
+        p.child(e, null, "copy", mi::getCopy, mi::setCopy, AbstractMenuItem.Copy.class, this::copy);
+        p.anyChild(e, null, mi::getAction, mi::setAction, p.anyOf(N2oAction.class).ignore("dependencies", "copy"), actionDefaultNamespace);
     }
 
     private void dependency(Element e, AbstractMenuItem.Dependency t, IOProcessor p) {
@@ -56,6 +58,17 @@ public abstract class AbstractMenuItemIO<T extends AbstractMenuItem> implements 
         p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
         p.attributeArray(e, "on", ",", t::getOn, t::setOn);
         p.text(e, t::getValue, t::setValue);
+    }
+
+    private void copy(Element e, AbstractMenuItem.Copy c, IOProcessor p) {
+        p.attributeEnum(e, "source-model", c::getSourceModel, c::setSourceModel, ReduxModel.class);
+        p.attribute(e, "source-widget-id", c::getSourceWidgetId, c::setSourceWidgetId);
+        p.attribute(e, "source-field-id", c::getSourceFieldId, c::setSourceFieldId);
+        p.attributeEnum(e, "target-model", c::getTargetModel, c::setTargetModel, ReduxModel.class);
+        p.attribute(e, "target-widget-id", c::getTargetWidgetId, c::setTargetWidgetId);
+        p.attribute(e, "target-field-id", c::getTargetFieldId, c::setTargetFieldId);
+        p.attributeEnum(e, "mode", c::getMode, c::setMode, CopyMode.class);
+        p.attributeBoolean(e, "close-on-success", c::getCloseOnSuccess, c::setCloseOnSuccess);
     }
 
     @Override

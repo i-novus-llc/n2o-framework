@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 /**
  * Чтение\запись кнопки
  */
-
 @Component
 public class ButtonIO extends AbstractMenuItemIO<N2oButton> {
     @Override

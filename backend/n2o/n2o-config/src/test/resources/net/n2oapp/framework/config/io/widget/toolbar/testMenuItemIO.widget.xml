@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <toolbar>
+        <sub-menu>
+            <menu-item id="btn" label="label" widget-id="table" model="resolve" icon="icon" color="primary"
+                visible="true" enabled="true" validate="true" action-id="test" class="test" style="test"
+                visibility-condition="{a==b}" enabling-condition="{c==d}" description="desc" tooltip-position="right"
+                confirm="true" confirm-text="test" confirm-type="modal" confirm-title="title" confirm-ok-label="ok"
+                confirm-cancel-label="cancel">
+            <dependencies>
+                <enabling ref-model="resolve" ref-widget-id="ref" on="field1"/>
+                <visibility ref-model="resolve" ref-widget-id="ref" on="field2"/>
+            </dependencies>
+            <copy source-model="resolve" source-widget-id="table" source-field-id="id"
+                  target-model="resolve" target-widget-id="form" target-field-id="dictionary.id"
+                  mode="replace" close-on-success="true"/>
+            </menu-item>
+        </sub-menu>
+    </toolbar>
+</table>

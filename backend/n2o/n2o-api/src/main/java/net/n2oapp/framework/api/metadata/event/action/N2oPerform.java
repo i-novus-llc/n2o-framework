@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import java.util.Map;
 
 /**
- * Исходная модель дейсвия Perform
+ * Исходная модель действия Perform
  */
 
 @Getter

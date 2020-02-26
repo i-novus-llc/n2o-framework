@@ -6,7 +6,9 @@
                         page-id="test" type="drawer"
                         submit-operation-id="create" submit-label="Отправить"
                         refresh-on-close="false" refresh-widget-id="testWidget"
-                        upload="query" modal-size="lg" submit-model="resolve">
+                        upload="query" modal-size="lg" submit-model="resolve"
+                        submit-action="copy" target-model="resolve" target-widget-id="table"
+                        target-field-id="test" copy-mode="replace">
                 <pre-filters>
                     <contains field-id="test" value="test" values="test1 , test2"/>
                 </pre-filters>
