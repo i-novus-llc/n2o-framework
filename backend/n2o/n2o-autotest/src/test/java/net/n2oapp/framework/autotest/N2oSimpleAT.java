@@ -1,7 +1,5 @@
 package net.n2oapp.framework.autotest;
 
-import net.n2oapp.framework.autotest.impl.collection.N2oRegions;
-import net.n2oapp.framework.autotest.impl.collection.N2oWidgets;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
 import net.n2oapp.framework.autotest.test.AutoTestBase;
@@ -19,7 +17,6 @@ public class N2oSimpleAT extends AutoTestBase {
     @BeforeClass
     public static void beforeClass() {
         configureSelenide();
-        N2oSelenide.setFactory(new ComponentFactory().addCollections(N2oRegions.class, N2oWidgets.class));
     }
 
     @Before

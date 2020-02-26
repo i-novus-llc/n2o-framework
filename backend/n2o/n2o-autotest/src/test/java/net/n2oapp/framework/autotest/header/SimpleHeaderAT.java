@@ -1,12 +1,8 @@
 package net.n2oapp.framework.autotest.header;
 
-import net.n2oapp.framework.autotest.ComponentFactory;
-import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Menu;
 import net.n2oapp.framework.autotest.api.component.header.Dropdown;
 import net.n2oapp.framework.autotest.api.component.header.Link;
-import net.n2oapp.framework.autotest.impl.collection.N2oRegions;
-import net.n2oapp.framework.autotest.impl.collection.N2oWidgets;
 import net.n2oapp.framework.autotest.impl.component.header.N2oDropdown;
 import net.n2oapp.framework.autotest.impl.component.header.N2oLink;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
@@ -28,7 +24,6 @@ public class SimpleHeaderAT extends AutoTestBase {
     @BeforeClass
     public static void beforeClass() {
         configureSelenide();
-        N2oSelenide.setFactory(new ComponentFactory().addCollections(N2oRegions.class, N2oWidgets.class));
     }
 
     @Before
