@@ -16,6 +16,8 @@ public class TabsRegionIOv1 extends BaseRegionIOv1<N2oTabsRegion> {
         super.io(e, r, p);
         p.attributeBoolean(e, "always-refresh", r::getAlwaysRefresh, r::setAlwaysRefresh);
         p.attributeBoolean(e, "lazy", r::getLazy, r::setLazy);
+        p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
+        p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
     }
 
     @Override

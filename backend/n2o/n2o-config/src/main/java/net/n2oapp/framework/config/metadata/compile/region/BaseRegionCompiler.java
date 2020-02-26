@@ -11,6 +11,7 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -18,12 +19,25 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
 
     protected abstract String getPropertyRegionSrc();
 
-    protected D build(D compiled, S source, PageContext context, CompileProcessor p) {
+    protected D build(D compiled, S source, CompileProcessor p) {
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyRegionSrc()), String.class)));
-        IndexScope index = p.getScope(IndexScope.class);
-        compiled.setId(p.cast(source.getId(), source.getPlace() + (index != null ? index.get() : "")));
         compiled.setProperties(p.mapAttributes(source));
+        compiled.setId(p.cast(source.getId(), createId(source.getPlace(), p)));
         return compiled;
+    }
+
+    protected abstract String createId(String regionPlace, CompileProcessor p);
+
+    protected String createId(String regionPlace, String regionName, CompileProcessor p) {
+        StringJoiner id = new StringJoiner("_");
+        if (regionPlace != null)
+            id.add(regionPlace);
+        id.add(regionName);
+
+        IndexScope index = p.getScope(IndexScope.class);
+        if (index != null)
+            id.add("" + index.get());
+        return id.toString();
     }
 
     @SuppressWarnings("unchecked")

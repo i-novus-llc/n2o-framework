@@ -21,6 +21,8 @@ public class PanelRegionIOv1 extends BaseRegionIOv1<N2oPanelRegion> {
         p.attribute(e, "color", r::getColor, r::setColor);
         p.attributeBoolean(e, "open", r::getOpen, r::setOpen);
         p.attribute(e, "footer-title", r::getFooterTitle, r::setFooterTitle);
+        p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
+        p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
     }
 
     @Override

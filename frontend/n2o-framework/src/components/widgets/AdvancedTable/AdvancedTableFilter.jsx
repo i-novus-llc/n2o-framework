@@ -8,6 +8,7 @@ import DropdownToggle from 'reactstrap/lib/DropdownToggle';
 import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import Badge from 'reactstrap/lib/Badge';
 import Button from 'reactstrap/lib/Button';
+import { MODIFIERS } from '../../controls/DatePicker/utils';
 
 /**
  * Компонент заголовок с фильтрацией
@@ -37,7 +38,7 @@ class AdvancedTableFilter extends Component {
 
   onChangeFilter(value) {
     this.setState({
-      value: value ? value.toString() : '',
+      value,
     });
   }
 
@@ -82,6 +83,8 @@ class AdvancedTableFilter extends Component {
           <DropdownMenu
             className="n2o-advanced-table-filter-dropdown"
             tag="div"
+            modifiers={MODIFIERS}
+            positionFixed={true}
             right={true}
           >
             <AdvancedTableFilterPopup
