@@ -4,15 +4,7 @@ import 'react-popper-tooltip/dist/styles.css';
 import { RenderTooltipTrigger, RenderTooltipBody } from './utils';
 
 function Tooltip(props) {
-  const {
-    hint,
-    label,
-    labelDashed,
-    placement,
-    trigger,
-    theme,
-    fieldKey,
-  } = props;
+  const { hint, label, labelDashed, placement, trigger, theme } = props;
 
   //trigger для появления tooltip, отображает label
   const Trigger = ({ getTriggerProps, triggerRef }) => {
@@ -55,14 +47,12 @@ function Tooltip(props) {
         placement={placement}
         trigger={trigger}
         tooltip={TooltipBody}
-        fieldKey={fieldKey}
         delayShow={200}
       >
         {Trigger}
       </TooltipTrigger>
     );
   };
-
   return <RenderTooltip />;
 }
 

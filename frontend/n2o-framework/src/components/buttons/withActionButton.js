@@ -156,9 +156,8 @@ export default function withActionButton(options = {}) {
         const { confirm, hint } = this.props;
         const { confirmVisible } = this.state;
         return (
-          <React.Fragment>
+          <>
             <Tooltip
-              fieldKey={this.generatedButtonId}
               hint={hint}
               label={
                 <WrappedComponent
@@ -185,7 +184,7 @@ export default function withActionButton(options = {}) {
                 close={this.handleCloseConfirmModal}
               />
             )}
-          </React.Fragment>
+          </>
         );
       }
     }

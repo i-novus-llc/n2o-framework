@@ -31,24 +31,16 @@ export function RenderTooltipTrigger(props) {
   if (isUndefined(hint)) {
     return label;
   }
+  const bodyProps = {
+    ...getTriggerProps({
+      ref: triggerRef,
+      className: triggerClassName(labelDashed),
+    }),
+  };
   return label.type.name === 'MapProps' ? (
-    <div
-      {...getTriggerProps({
-        ref: triggerRef,
-        className: triggerClassName(labelDashed),
-      })}
-    >
-      {label}
-    </div>
+    <div {...bodyProps}>{label}</div>
   ) : (
-    <span
-      {...getTriggerProps({
-        ref: triggerRef,
-        className: triggerClassName(labelDashed),
-      })}
-    >
-      {label}
-    </span>
+    <span {...bodyProps}>{label}</span>
   );
 }
 
