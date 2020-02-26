@@ -1,6 +1,5 @@
-package net.n2oapp.framework.config.metadata.header;
+package net.n2oapp.framework.autotest.header;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
