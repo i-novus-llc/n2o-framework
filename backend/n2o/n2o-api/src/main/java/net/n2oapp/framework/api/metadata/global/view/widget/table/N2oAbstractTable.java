@@ -18,6 +18,8 @@ public abstract class N2oAbstractTable extends N2oAbstractListWidget {
     private Size tableSize;
     private String scrollX;
     private String scrollY;
+    private Boolean checkboxes;
+    private Boolean checkOnSelect;
 
     public enum PagingMode {
         on, off, lazy

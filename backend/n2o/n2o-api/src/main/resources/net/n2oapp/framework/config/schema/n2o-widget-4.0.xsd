@@ -326,13 +326,21 @@
                         <xs:documentation>Высота таблицы, после которой появится вертикальный скрол.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="children" use="optional" default="collapse">
+                <xs:attribute name="checkboxes" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде</xs:documentation>
+                        <xs:documentation>Наличие чекбоксов в первом столбце таблицы.</xs:documentation>
                     </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="check-on-select" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="children" use="optional" default="collapse">
                     <xs:simpleType>
                         <xs:annotation>
-                            <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде
+                            <xs:documentation>
+                                Отображение дочерних записей в закрытом или раскрытом виде.
                             </xs:documentation>
                         </xs:annotation>
                         <xs:restriction base="xs:string">

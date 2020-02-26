@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -84,7 +83,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             pageRoutesScope.put(table.getId(), widgetRouteScope);
         }
         compileDataProviderAndRoutes(table, source, context, p, validationList, widgetRouteScope, null, null, object);
-        component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
+        component.setSize(p.cast(source.getSize(), p.resolve("${n2o.api.widget.table.size}", Integer.class)));
         component.setClassName(source.getCssClass());
         component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
         if (source.getScrollX() != null || source.getScrollY() != null) {
@@ -111,10 +110,13 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             component.setRowClick(compileRowClick(source, context, p, widgetScope, widgetRouteScope, object, widgetActions));
         }
         compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions);
-        table.setPaging(compilePaging(source, p.resolve(Placeholders.property("n2o.api.default.widget.table.size"), Integer.class)));
+        table.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         table.setChildren(p.cast(source.getChildren(),
-                p.resolve(property("n2o.api.default.widget.table.children.toggle"), N2oTable.ChildrenToggle.class))
+                p.resolve(property("n2o.api.widget.table.children.toggle"), N2oTable.ChildrenToggle.class))
         );
+        table.setAutoCheckboxOnSelect(p.cast(source.getCheckboxes(), p.resolve(property("n2o.api.widget.table.checkboxes"), Boolean.class)));
+        if (!Boolean.FALSE.equals(source.getCheckOnSelect()))
+            table.setRowSelection(p.resolve(property("n2o.api.widget.table.row_selection"), String.class));
         return table;
     }
 

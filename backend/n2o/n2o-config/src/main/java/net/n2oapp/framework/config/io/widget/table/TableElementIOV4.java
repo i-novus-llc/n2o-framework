@@ -41,6 +41,8 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attributeEnum(e, "table-size", t::getTableSize, t::setTableSize, Size.class);
         p.attribute(e, "scroll-x", t::getScrollX, t::setScrollX);
         p.attribute(e, "scroll-y", t::getScrollY, t::setScrollY);
+        p.attributeBoolean(e, "checkboxes", t::getCheckboxes, t::setCheckboxes);
+        p.attributeBoolean(e, "check-on-select", t::getCheckOnSelect, t::setCheckOnSelect);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns,
                 p.oneOf(AbstractColumn.class).add("column", N2oSimpleColumn.class, this::column));
         p.childAttributeEnum(e, "filters", "place", t::getFilterPosition, t::setFilterPosition, N2oTable.FilterPosition.class);
