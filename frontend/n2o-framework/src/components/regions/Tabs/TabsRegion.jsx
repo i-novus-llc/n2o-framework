@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
-import pull from 'lodash/pull';
+import isUndefined from 'lodash/isUndefined';
+import find from 'lodash/find';
 import get from 'lodash/get';
+import pull from 'lodash/pull';
 import { compose, setDisplayName } from 'recompose';
+import withRegionContainer from '../withRegionContainer';
 import Tabs from './Tabs';
 import Tab from './Tab';
 import withWidgetProps from '../withWidgetProps';
@@ -31,29 +34,42 @@ class TabRegion extends React.Component {
     this.handleChangeActive = this.handleChangeActive.bind(this);
   }
 
-  handleChangeActive(widgetId, prevWidgetId) {
-    const { lazy, alwaysRefresh, getWidgetProps, fetchWidget } = this.props;
+  handleChangeActive(id, prevId) {
+    const {
+      tabs,
+      lazy,
+      alwaysRefresh,
+      getWidgetProps,
+      fetchWidget,
+      changeActiveEntity,
+    } = this.props;
     const { readyTabs } = this.state;
+    const widgetId = get(
+      find(tabs, ({ id: tabId }) => tabId === id),
+      'widgetId'
+    );
     const widgetProps = getWidgetProps(widgetId);
 
     if (lazy) {
       if (alwaysRefresh) {
-        pull(readyTabs, prevWidgetId);
+        pull(readyTabs, prevId);
       }
-      readyTabs.push(widgetId);
+      readyTabs.push(id);
       this.setState(() => ({
         readyTabs: [...readyTabs],
       }));
     } else if (alwaysRefresh || isEmpty(widgetProps.datasource)) {
       widgetProps.dataProvider && fetchWidget(widgetId);
     }
+
+    changeActiveEntity(id);
   }
 
   findReadyTabs() {
     return filter(
       map(this.props.tabs, tab => {
         if (tab.opened) {
-          return tab.widgetId;
+          return tab.id;
         }
       }),
       item => item
@@ -68,11 +84,12 @@ class TabRegion extends React.Component {
       getVisible,
       pageId,
       lazy,
+      activeEntity,
     } = this.props;
     const { readyTabs, visibleTabs } = this.state;
 
     return (
-      <Tabs onChangeActive={this.handleChangeActive}>
+      <Tabs activeId={activeEntity} onChangeActive={this.handleChangeActive}>
         {tabs.map(tab => {
           const { security } = tab;
           const widgetProps = getWidgetProps(tab.widgetId);
@@ -82,8 +99,8 @@ class TabRegion extends React.Component {
           const tabVisible = get(visibleTabs, tab.widgetId, true);
 
           const tabProps = {
-            key: tab.widgetId,
-            id: tab.widgetId,
+            key: tab.id,
+            id: tab.id,
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
@@ -93,7 +110,7 @@ class TabRegion extends React.Component {
           const tabEl = (
             <Tab {...tabProps}>
               {lazy ? (
-                readyTabs.includes(tab.widgetId) && (
+                readyTabs.includes(tab.id) && (
                   <Factory id={tab.widgetId} level={WIDGETS} {...widgetMeta} />
                 )
               ) : (
@@ -159,5 +176,6 @@ TabRegion.defaultProps = {
 export { TabRegion };
 export default compose(
   setDisplayName('TabsRegion'),
+  withRegionContainer({ listKey: 'tabs' }),
   withWidgetProps
 )(TabRegion);

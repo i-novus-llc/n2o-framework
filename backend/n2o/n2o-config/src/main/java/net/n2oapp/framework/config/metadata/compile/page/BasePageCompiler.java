@@ -38,7 +38,8 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  */
 public abstract class BasePageCompiler<S extends N2oBasePage, D extends StandardPage> extends PageCompiler<S, D> {
 
-    protected abstract void initRegions(S source, D page, CompileProcessor p, PageContext context, PageScope pageScope);
+    protected abstract void initRegions(S source, StandardPage page, CompileProcessor p, PageContext context,
+                                        PageScope pageScope, PageRoutes pageRoutes);
 
     public D compilePage(S source, D page, PageContext context, CompileProcessor p, N2oRegion[] regions, SearchBarScope searchBarScope) {
         List<N2oWidget> sourceWidgets = collectWidgets(regions);
@@ -75,7 +76,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         if (!(context instanceof ModalPageContext))
             page.setRoutes(pageRoutes);
         //compile region
-        initRegions(source, page, p, context, pageScope);
+        initRegions(source, page, p, context, pageScope, pageRoutes);
         CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
         page.setObject(object);
         page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
