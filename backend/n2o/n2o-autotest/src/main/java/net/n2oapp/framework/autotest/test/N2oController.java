@@ -27,6 +27,7 @@ import net.n2oapp.framework.ui.controller.query.SimpleDefaultValuesController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -68,7 +69,8 @@ public class N2oController {
     public Map config() {
         Map<String, Object> config = new HashMap<>();
         List<SourceInfo> headers = builder.getEnvironment().getMetadataRegister().find(N2oHeader.class);
-        config.put("menu", builder.read().transform().validate().compile().transform().bind().get(new HeaderContext(headers.get(headers.size() - 1).getId()), new DataSet()));
+        Assert.isTrue(!headers.isEmpty(), "No header metadata found");
+        config.put("menu", builder.read().transform().validate().compile().transform().bind().get(new HeaderContext(headers.get(0).getId()), new DataSet()));
         return config;
     }
 
