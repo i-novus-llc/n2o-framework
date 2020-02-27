@@ -1,7 +1,7 @@
-package net.n2oapp.framework.autotest.impl.component.header;
+package net.n2oapp.framework.autotest.impl.component.widget.table;
 
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.autotest.api.component.header.StandardTableHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
 
 /**
  * Стандартный заголовок столбца таблицы для автотестирования
