@@ -8,10 +8,9 @@ import net.n2oapp.framework.autotest.api.component.Component;
  */
 public interface SimpleHeader extends Component {
 
+    void brandNameShouldBe(String brandName);
 
-    void shouldBrandName(String brandName);
-
-    Menu menu();
+    Menu nav();
 
     Menu extra();
 

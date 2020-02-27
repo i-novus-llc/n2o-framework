@@ -6,7 +6,7 @@ import net.n2oapp.framework.autotest.api.component.Component;
  * Кнопка хедера для автотестирования
  */
 public interface MenuItem extends Component {
-    void shouldHaveLabel(String text);
+    void labelShouldHave(String text);
 
     void click();
 }

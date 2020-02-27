@@ -27,7 +27,7 @@ public class ProtoPage {
     }
 
     public void shouldBeClientsPage() {
-        leftRightPage.breadcrumb().activeShouldHaveText("Список контактов");
+        leftRightPage.breadcrumb().titleShouldHaveText("Список контактов");
     }
 
     public void tableShouldHaveSize(int size) {

@@ -10,7 +10,7 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 public abstract class N2oMenuItem extends N2oComponent implements MenuItem {
 
     @Override
-    public void shouldHaveLabel(String text) {
+    public void labelShouldHave(String text) {
         element().shouldHave(Condition.text(text));
     }
 

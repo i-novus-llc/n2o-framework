@@ -18,20 +18,20 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
     }
 
     @Override
-    public void shouldBrandName(String brandName) {
+    public void brandNameShouldBe(String brandName) {
         element().$(".navbar-brand").shouldHave(Condition.text(brandName));
     }
 
     @Override
-    public Menu menu() {
-        return N2oSelenide.collection(element().$$(".main-nav .nav-item .nav-link")
-                .exclude(Condition.cssClass("dropdown-item")), N2oMenu.class);
+    public Menu nav() {
+        return N2oSelenide.collection(element().$$(".navbar-collapse .navbar-nav").get(0).$$("ul > li")
+                , N2oMenu.class);
     }
 
     @Override
     public Menu extra() {
-        return N2oSelenide.collection(element().$$(".main-nav-extra .nav-item .nav-link")
-                .exclude(Condition.cssClass("dropdown-item")), N2oMenu.class);
+        return N2oSelenide.collection(element().$$(".navbar-collapse .navbar-nav").get(1).$$("ul > li")
+                , N2oMenu.class);
     }
 
 }

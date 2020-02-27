@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.test;
+package net.n2oapp.framework.autotest.run;
 
 import net.n2oapp.framework.autotest.api.collection.Regions;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;

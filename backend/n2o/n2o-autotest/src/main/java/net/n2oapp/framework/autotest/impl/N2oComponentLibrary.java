@@ -9,8 +9,8 @@ import net.n2oapp.framework.autotest.impl.component.button.N2oStandardButton;
 import net.n2oapp.framework.autotest.impl.component.cell.*;
 import net.n2oapp.framework.autotest.impl.component.control.*;
 import net.n2oapp.framework.autotest.impl.component.field.N2oStandardField;
-import net.n2oapp.framework.autotest.impl.component.header.N2oDropdown;
-import net.n2oapp.framework.autotest.impl.component.header.N2oLink;
+import net.n2oapp.framework.autotest.impl.component.header.N2oAnchorMenuItem;
+import net.n2oapp.framework.autotest.impl.component.header.N2oDropdownMenuItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
 import net.n2oapp.framework.autotest.impl.component.page.N2oLeftRightPage;
@@ -31,7 +31,7 @@ import java.util.List;
 public class N2oComponentLibrary implements ComponentLibrary {
     @Override
     public List<Class<? extends Component>> components() {
-        return Arrays.asList(N2oSimpleHeader.class, N2oDropdown.class, N2oLink.class, N2oLeftRightPage.class, N2oSimpleRegion.class, N2oTableWidget.class,
+        return Arrays.asList(N2oSimpleHeader.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class, N2oLeftRightPage.class, N2oSimpleRegion.class, N2oTableWidget.class,
                 N2oStandardField.class, N2oCheckBox.class, N2oStandardButton.class, N2oStandardTableHeader.class,
                 N2oInputControl.class, N2oTextCell.class, N2oLinkCell.class, N2oDateInterval.class, N2oSimplePage.class, N2oFormWidget.class,
                 N2oDateInput.class, N2oCheckboxGroup.class, N2oRadioGroup.class, N2oCheckboxCell.class, N2oMaskedInputControl.class,

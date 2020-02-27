@@ -28,7 +28,7 @@ public interface Page extends Component {
     }
 
     interface Breadcrumb {
-        void activeShouldHaveText(String text);
+        void titleShouldHaveText(String text);
     }
 
     interface Dialog {

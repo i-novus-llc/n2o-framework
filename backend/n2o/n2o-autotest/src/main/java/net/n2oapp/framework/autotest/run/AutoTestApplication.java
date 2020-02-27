@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.test;
+package net.n2oapp.framework.autotest.run;
 
 import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.boot.*;
@@ -24,7 +24,7 @@ public class AutoTestApplication {
     }
 
     @Bean
-    public ErrorMessageBuilder errorMessageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
+    ErrorMessageBuilder errorMessageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
         return new ErrorMessageBuilder(messageSourceAccessor);
     }
 }

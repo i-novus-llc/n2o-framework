@@ -59,13 +59,13 @@ public class N2oPage extends N2oComponent implements Page {
     public class N2oBreadcrumb implements Breadcrumb {
 
         @Override
-        public void activeShouldHaveText(String text) {
+        public void titleShouldHaveText(String text) {
             element().$(".breadcrumb .active.breadcrumb-item")
                     .shouldHave(Condition.text(text));
         }
     }
 
-    public class N2oDialog implements Dialog {
+    public static class N2oDialog implements Dialog {
         private final SelenideElement element;
 
         public N2oDialog(SelenideElement element) {

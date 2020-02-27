@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.test;
+package net.n2oapp.framework.autotest.run;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.page.Page;
@@ -41,12 +41,12 @@ public class AutoTestBase extends N2oTestBase {
         super.configure(builder);
     }
 
-    protected String getRootUrl() {
+    protected String getBaseUrl() {
         return "http://localhost:" + port;
     }
 
-    protected <T extends Page> T openRoot(Class<T> clazz) {
-        return N2oSelenide.open(getRootUrl(), clazz);
+    protected <T extends Page> T open(Class<T> clazz) {
+        return N2oSelenide.open(getBaseUrl(), clazz);
     }
 
     @Autowired

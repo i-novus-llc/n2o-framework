@@ -5,7 +5,7 @@ import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.Widget;
 import net.n2oapp.framework.autotest.impl.collection.N2oRegions;
 import net.n2oapp.framework.autotest.impl.collection.N2oWidgets;
-import net.n2oapp.framework.autotest.test.*;
+import net.n2oapp.framework.autotest.run.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;

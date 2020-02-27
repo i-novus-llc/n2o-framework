@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest;
 
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
-import net.n2oapp.framework.autotest.test.AutoTestBase;
+import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;

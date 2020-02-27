@@ -3,7 +3,7 @@
         color="inverse"
         brand-name="Лого" logo-src="https://avatars0.githubusercontent.com/u/25926683?s=200&amp;v=4">
     <nav>
-        <a label="ссылка" href="/" target="newWindow"/>
+        <a label="ссылка" href="/" target="self"/>
         <sub-menu label="список">
             <page page-id="index"/>
             <page page-id="testPage1" label="элемент списка №2" route="/pageRoute1"/>

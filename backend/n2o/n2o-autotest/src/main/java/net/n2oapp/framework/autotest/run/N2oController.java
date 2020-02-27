@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.test;
+package net.n2oapp.framework.autotest.run;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
@@ -98,7 +98,6 @@ public class N2oController {
 
         SetDataResponse dataResponse = dataController.setData(path, request.getParameterMap(), new DataSet(body), null);
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
-
     }
 
     public void setBuilder(N2oApplicationBuilder builder) {
