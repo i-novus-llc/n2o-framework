@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.header;
 
-import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.header.AnchorMenuItem;
 import net.n2oapp.framework.autotest.api.component.header.DropdownMenuItem;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -51,8 +50,8 @@ public class SimpleHeaderAT extends AutoTestBase {
         link.labelShouldHave("ссылка");
         link.urlShouldHave(rootUrl + "/");
 
-        Dropdown dropdown = page.header().menu().item(1, N2oDropdown.class);
-        dropdown.shouldHaveLabel("список");
+        DropdownMenuItem dropdown = page.header().nav().dropdown(1);
+        dropdown.labelShouldHave("список");
         dropdown.click();
         dropdown.item(0).labelShouldHave("Название страницы");
         dropdown.item(0).urlShouldHave(rootUrl + "/#/pageRoute");
