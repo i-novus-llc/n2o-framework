@@ -30,7 +30,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="model" type="clientModel">
+                <xs:attribute name="model" type="clientModel" default="resolve">
                     <xs:annotation>
                         <xs:documentation>
                             Модель, над которой выполнится действие. Если модель пустая, то кнопка будет заблокирована.
@@ -49,12 +49,12 @@
                 </xs:attribute>
                 <xs:attribute name="visible" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
-                        <xs:documentation>Видимость по умолчанию.</xs:documentation>
+                        <xs:documentation>Видимость кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
-                        <xs:documentation>Доступность по умолчанию.</xs:documentation>
+                        <xs:documentation>Доступность кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="validate" type="xs:boolean" use="optional" default="false">
@@ -92,17 +92,14 @@
                         <xs:documentation>Описание при наведении на кнопку.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="tooltip-position" type="tooltipPositionType" use="optional">
+                <xs:attribute name="tooltip-position" type="tooltipPositionType" use="optional" default="bottom">
                     <xs:annotation>
                         <xs:documentation>Позиция подсказки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="confirm" type="xs:boolean" use="optional">
+                <xs:attribute name="confirm" type="xs:boolean" use="optional" default="false">
                     <xs:annotation>
-                        <xs:documentation>
-                            Показать предупреждение перед выполнением действия.
-                            Варианты popover - поповер, modal - модальное окно, none - не показывать.
-                        </xs:documentation>
+                        <xs:documentation>Показать предупреждение перед выполнением действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="confirm-text" type="xs:string" use="optional">
@@ -110,7 +107,7 @@
                         <xs:documentation>Текст предупреждения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="confirm-type" type="confirmType" use="optional">
+                <xs:attribute name="confirm-type" type="confirmType" use="optional" default="modal">
                     <xs:annotation>
                         <xs:documentation>
                             Тип предупреждения перед выполнением действия: popover - поповер, modal - модальное окно.

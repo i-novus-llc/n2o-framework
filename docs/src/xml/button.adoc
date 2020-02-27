@@ -259,6 +259,66 @@ Java Script выражение
 </dependencies>
 ----
 
+===== <copy>
+Копирование данных.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|source-model
+|resolve edit filter
+|Модель, которая будет скопирована
+|resolve
+
+|source-widget-id
+|Строка
+|Идентификатор виджета источника
+|Текущий виджет
+
+|source-field-id
+|Строка
+|Идентификатор копируемого поля источника
+|Вся модель
+
+|target-model
+|resolve edit filter
+|Модель, в которую будут скопированы данные
+|resolve
+
+|target-widget-id
+|Строка
+|Идентификатор целевого виджета
+|Текущий виджет
+
+|target-field-id
+|Строка
+|Идентификатор поля целевого виджета, в которое будут скопированы данные
+|Вся модель
+
+|mode
+|merge replace add
+|Тип слияния данных
+|merge
+
+|close-on-success
+|true false
+|Закрыть окно после успешного выполнения действия
+|false
+
+|===
+
+Тело::
+Java Script выражение
+
+Пример::
+[source,xml]
+----
+<copy source-field-id="id" target-widget-id="table"
+      target-field-id="dictionary.id" close-on-success="true"/>
+----
+
 ===== <link>
 Ссылка.
 
