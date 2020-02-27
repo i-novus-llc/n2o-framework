@@ -124,7 +124,7 @@ class AdvancedTableHeaderCell extends Component {
               id={id}
               onFilter={onFilter}
               value={filters && filters[id]}
-              component={filterControl.component}
+              control={filterControl}
             >
               {cellContent}
             </AdvancedTableFilter>

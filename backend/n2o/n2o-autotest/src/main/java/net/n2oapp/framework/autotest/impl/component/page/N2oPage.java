@@ -4,13 +4,19 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
+import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 
 /**
  * Страница для автотестирования
  */
 public class N2oPage extends N2oComponent implements Page {
+
+    public SimpleHeader header() {
+        return new N2oSimpleHeader(element().$(".n2o-header"));
+    }
 
     @Override
     public PageToolbar toolbar() {
@@ -53,13 +59,13 @@ public class N2oPage extends N2oComponent implements Page {
     public class N2oBreadcrumb implements Breadcrumb {
 
         @Override
-        public void activeShouldHaveText(String text) {
+        public void titleShouldHaveText(String text) {
             element().$(".breadcrumb .active.breadcrumb-item")
-                .shouldHave(Condition.text(text));
+                    .shouldHave(Condition.text(text));
         }
     }
 
-    public class N2oDialog implements Dialog {
+    public static class N2oDialog implements Dialog {
         private final SelenideElement element;
 
         public N2oDialog(SelenideElement element) {

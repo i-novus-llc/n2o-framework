@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.test;
+package net.n2oapp.framework.autotest.run;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;

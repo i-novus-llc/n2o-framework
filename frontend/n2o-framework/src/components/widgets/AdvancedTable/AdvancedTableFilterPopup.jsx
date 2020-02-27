@@ -11,6 +11,7 @@ import Button from 'reactstrap/lib/Button';
  * @param onResetFilter - callback на сброс фильтра
  * @param onSetFilter - callback на поиск
  * @param component - компонент контрол фильтра
+ * @param controlProps
  * @returns {*}
  * @constructor
  */
@@ -20,8 +21,10 @@ function AdvancedTableFilterPopup({
   onResetFilter,
   onSetFilter,
   component,
+  controlProps,
 }) {
   const childProps = {
+    ...controlProps,
     value,
     onChange,
   };
@@ -55,12 +58,14 @@ AdvancedTableFilterPopup.propTypes = {
   onChange: PropTypes.func,
   onResetFilter: PropTypes.func,
   onSetFilter: PropTypes.func,
+  controlProps: PropTypes.object,
 };
 
 AdvancedTableFilterPopup.defaultProps = {
   onChange: () => {},
   onResetFilter: () => {},
   onSetFilter: () => {},
+  controlProps: {},
 };
 
 export { AdvancedTableFilterPopup };
