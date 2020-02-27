@@ -16,6 +16,8 @@ public class N2oPanelRegion extends N2oRegion {
     private String color;
     private Boolean open;
     private String footerTitle;
+    private String activeParam;
+    private Boolean routable;
 
     @Override
     public String getAlias() {

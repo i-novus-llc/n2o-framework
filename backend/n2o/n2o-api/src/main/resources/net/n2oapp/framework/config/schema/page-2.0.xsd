@@ -9,6 +9,7 @@
     <xs:element name="page" type="standardPageDefinition"/>
     <xs:element name="simple-page" type="simplePageDefinition"/>
     <xs:element name="left-right-page" type="leftRightPageDefinition"/>
+    <xs:element name="searchable-page" type="searchablePageDefinition"/>
 
     <xs:complexType name="pageDefinition" abstract="true">
         <xs:annotation>
@@ -164,6 +165,49 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="searchablePageDefinition">
+        <xs:complexContent>
+            <xs:extension base="standardPageDefinition">
+            <xs:annotation>
+                <xs:documentation>Страница c поисковой строкой</xs:documentation>
+            </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="search-bar" type="searchBarDefinition" maxOccurs="1" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="searchBarDefinition">
+        <xs:annotation>
+            <xs:documentation>Поисковая строка</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>CSS класс стилей.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="placeholder" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Подсказка для ввода.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="search-widget-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор виджета для которого производится поиск.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="search-filter-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор фильтра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="search-param" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Параметр поиска.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 
     <xs:complexType name="regionsDefinition">
         <xs:annotation>
@@ -310,6 +354,7 @@
             <xs:enumeration value="topRight"/>
             <xs:enumeration value="bottomLeft"/>
             <xs:enumeration value="bottomRight"/>
+            <xs:enumeration value="breadcrumbLeft"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -332,5 +377,4 @@
             <xs:enumeration value="selected"/>
         </xs:restriction>
     </xs:simpleType>
-
 </xs:schema>
