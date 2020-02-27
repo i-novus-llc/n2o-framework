@@ -445,7 +445,6 @@ link:#_Действия[Обработчик действия]
          <menu-item >
             <a href="n2o.i-novus.ru"/>
          </menu-item>
-         <menu-item action-id="linkAction"/>
     </sub-menu>
 </toolbar>
 ----
@@ -460,11 +459,6 @@ link:#_Действия[Обработчик действия]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|action-id
-|Ссылка на link:#__action[действие виджета]
-|Действие виджета, которое будет вызвано при нажатии на кнопку
-|
-
 |widget-id
 |Строка
 |Идентификатор виджета над которым будет выполнена операция
@@ -473,12 +467,12 @@ link:#_Действия[Обработчик действия]
 |label
 |Строка
 |Заголовок пункта меню
-|Вычисляется из `action-id`
+|
 
 |icon
 |http://fontawesome.io/icons/[CSS класс]
 |Иконка пункта меню
-|Вычисляется из `action-id`
+|
 
 |class
 |https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
@@ -536,13 +530,6 @@ link:#_Действия[Обработчик действия]
 link:#_Действия[Обработчик действия]
 
 Пример::
-
-[source,xml]
-----
-<sub-menu>
-  <menu-item action-id="create"/>
-</sub-menu>
-----
 
 [source,xml]
 ----

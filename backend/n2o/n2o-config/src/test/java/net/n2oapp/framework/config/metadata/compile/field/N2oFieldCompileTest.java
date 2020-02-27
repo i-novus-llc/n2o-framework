@@ -45,22 +45,14 @@ public class N2oFieldCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testFieldToolbarCompile"));
         List<AbstractButton> toolbar = ((FormWidgetComponent) page.getWidgets().get("testFieldToolbarCompile_testForm").getComponent()).getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0).getToolbar();
-        assertThat(toolbar.size(), is(3));
+        assertThat(toolbar.size(), is(2));
         assertThat(toolbar.get(0), instanceOf(PerformButton.class));
-        assertThat(toolbar.get(1), instanceOf(PerformButton.class));
-        assertThat(toolbar.get(2), instanceOf(Submenu.class));
+        assertThat(toolbar.get(1), instanceOf(Submenu.class));
         assertThat(((InvokeAction) toolbar.get(0).getAction()).getObjectId(), is("utBlank"));
         assertThat(((InvokeAction) toolbar.get(0).getAction()).getOperationId(), is("invokeInButton"));
         assertThat(((InvokeAction) toolbar.get(0).getAction()).getType(), is("n2o/actionImpl/START_INVOKE"));
 
-        assertThat(toolbar.get(1).getId(), is("invokeByActionId"));
-        assertThat(((InvokeAction) toolbar.get(1).getAction()).getObjectId(), is("utBlank"));
-        assertThat(((InvokeAction) toolbar.get(1).getAction()).getOperationId(), is("create"));
-        assertThat(((InvokeAction) toolbar.get(0).getAction()).getType(), is("n2o/actionImpl/START_INVOKE"));
-
-        Submenu submenu = (Submenu) toolbar.get(2);
+        Submenu submenu = (Submenu) toolbar.get(1);
         assertThat(((PerformButton) submenu.getSubMenu().get(0)).getUrl(), is("/testFieldToolbarCompile/n2o.i-novus.ru"));
-        assertThat(((PerformButton) submenu.getSubMenu().get(1)).getUrl(), is("/testFieldToolbarCompile/testForm/n2o.i-novus.ru"));
-        assertThat((submenu.getSubMenu().get(1)).getId(), is("linkAction"));
     }
 }

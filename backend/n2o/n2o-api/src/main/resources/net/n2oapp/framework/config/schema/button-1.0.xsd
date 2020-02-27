@@ -144,13 +144,10 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="subMenuDefinition">
+    <xs:complexType name="subMenuDefinitionAbstract" abstract="true">
         <xs:annotation>
-            <xs:documentation>Кнопка с выпадающим меню.</xs:documentation>
+            <xs:documentation>Абстрактная кнопка с выпадающим меню.</xs:documentation>
         </xs:annotation>
-        <xs:sequence>
-            <xs:element name="menu-item" type="menuItemDefinition" maxOccurs="unbounded"/>
-        </xs:sequence>
         <xs:attribute name="label" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Заголовок кнопки.</xs:documentation>
@@ -198,6 +195,35 @@
         </xs:anyAttribute>
     </xs:complexType>
 
+    <xs:complexType name="subMenuDefinition">
+        <xs:annotation>
+            <xs:documentation>Кнопка с выпадающим меню.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="subMenuDefinitionAbstract">
+                <xs:sequence>
+                    <xs:element name="menu-item" type="menuItemDefinitionWithExternalAction" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="menuItemDefinitionWithExternalAction">
+        <xs:annotation>
+            <xs:documentation>Пункт выпадающего меню с возможностью указать action-id</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="menuItemDefinition">
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="menuItemDefinition">
         <xs:annotation>
             <xs:documentation>Пункт выпадающего меню.</xs:documentation>
@@ -207,11 +233,6 @@
                 <xs:sequence>
                     <xs:element name="dependencies" type="buttonDependenciesDefinition" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>
-                <xs:attribute name="action-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="label" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Заголовок пункта меню.</xs:documentation>

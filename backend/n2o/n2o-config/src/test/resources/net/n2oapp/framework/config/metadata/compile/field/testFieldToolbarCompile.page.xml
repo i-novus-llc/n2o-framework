@@ -3,26 +3,16 @@
     <regions>
         <region>
             <form id="testForm" object-id="utBlank">
-                <actions>
-                    <action id="linkAction">
-                        <a href="n2o.i-novus.ru"/>
-                    </action>
-                    <action id="invokeByActionId" widget-id="testForm">
-                        <invoke operation-id="create"/>
-                    </action>
-                </actions>
                 <fields>
                     <input-text id="inputText">
                         <toolbar>
                             <button>
                                 <invoke operation-id="invokeInButton"/>
                             </button>
-                            <button action-id="invokeByActionId"/>
                             <sub-menu>
                                 <menu-item>
                                     <a href="n2o.i-novus.ru"/>
                                 </menu-item>
-                                <menu-item action-id="linkAction"/>
                             </sub-menu>
                         </toolbar>
                     </input-text>

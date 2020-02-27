@@ -323,9 +323,24 @@
     <xs:complexType name="controlToolbarDefinition" abstract="true">
         <xs:sequence>
             <xs:element name="button" type="controlToolbarButtonDefinition" minOccurs="0"/>
-            <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0"/>
+            <xs:element name="sub-menu" type="controlSubmenuDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
+
+
+    <xs:complexType name="controlSubmenuDefinition">
+        <xs:annotation>
+            <xs:documentation>Кнопка с выпадающим меню.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="btn:subMenuDefinitionAbstract">
+                <xs:sequence>
+                    <xs:element name="menu-item" type="btn:menuItemDefinition" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 
     <xs:complexType name="controlOptionsListInlineDefinition">
         <xs:complexContent>
@@ -1285,11 +1300,6 @@
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>CSS стиль</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="action-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Действие виджета, которое будет вызвано при нажатии</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="model" type="clientModel">
