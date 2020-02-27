@@ -114,8 +114,8 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         table.setChildren(p.cast(source.getChildren(),
                 p.resolve(property("n2o.api.widget.table.children.toggle"), N2oTable.ChildrenToggle.class))
         );
-        table.setAutoCheckboxOnSelect(p.cast(source.getCheckboxes(), p.resolve(property("n2o.api.widget.table.checkboxes"), Boolean.class)));
-        if (!Boolean.FALSE.equals(source.getCheckOnSelect()))
+        table.setAutoCheckboxOnSelect(p.cast(source.getCheckOnSelect(), p.resolve(property("n2o.api.widget.table.checkboxes"), Boolean.class)));
+        if (Boolean.TRUE.equals(source.getCheckboxes()))
             table.setRowSelection(p.resolve(property("n2o.api.widget.table.row_selection"), String.class));
         return table;
     }

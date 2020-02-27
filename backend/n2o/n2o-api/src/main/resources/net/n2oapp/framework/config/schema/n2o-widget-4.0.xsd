@@ -331,7 +331,7 @@
                         <xs:documentation>Наличие чекбоксов в первом столбце таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="check-on-select" type="xs:boolean" default="true">
+                <xs:attribute name="check-on-select" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.</xs:documentation>
                     </xs:annotation>
