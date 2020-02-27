@@ -1,8 +1,9 @@
-package net.n2oapp.framework.autotest.api.component.widget;
+package net.n2oapp.framework.autotest.api.component.widget.table;
 
 import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
+import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
 
 import java.util.List;
 
