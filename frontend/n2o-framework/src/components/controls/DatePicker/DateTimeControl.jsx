@@ -352,9 +352,11 @@ class DateTimeControl extends React.Component {
       className,
       autoFocus,
       openOnFocus,
+      popupPlacement,
     } = this.props;
     const { inputs } = this.state;
     const dateInputGroupProps = pick(this.props, ['max', 'min']);
+
     return (
       <div className="n2o-date-picker-container">
         <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
@@ -383,7 +385,7 @@ class DateTimeControl extends React.Component {
             </Reference>
             {this.state.isPopUpVisible && (
               <Popper
-                placement="bottom-start"
+                placement={popupPlacement}
                 modifiers={MODIFIERS}
                 positionFixed={true}
               >
@@ -416,10 +418,11 @@ DateTimeControl.defaultProps = {
   onChange: () => {},
   dateDivider: ' ',
   dateFormat: 'DD.MM.YYYY',
-  outputFormat: 'DD.MM.YYYY HH:mm:ss',
+  outputFormat: 'YYYY-MM-DDTHH:mm:ss',
   locale: 'ru',
   autoFocus: false,
   openOnFocus: false,
+  popupPlacement: 'bottom-start',
 };
 
 DateTimeControl.propTypes = {
@@ -454,6 +457,7 @@ DateTimeControl.propTypes = {
   timeFormat: PropTypes.string,
   autoFocus: PropTypes.bool,
   openOnFocus: PropTypes.bool,
+  popupPlacement: PropTypes.string,
 };
 
 export default DateTimeControl;

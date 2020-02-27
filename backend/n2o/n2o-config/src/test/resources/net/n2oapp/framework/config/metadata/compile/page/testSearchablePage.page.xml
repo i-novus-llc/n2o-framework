@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <search-bar search-filter-id="name"
+                class="n2o-search-bar" placeholder="Поиск по имени"/>
+    <regions>
+        <region>
+            <table id="table" query-id="testStandardPageDependency">
+                <columns>
+                    <column text-field-id="name"/>
+                </columns>
+            </table>
+        </region>
+    </regions>
+</searchable-page>
