@@ -33,13 +33,87 @@ exports[`StandardField рендерится корректно 1`] = `
       }
     }
   >
+    <div>
+      <span
+        style={
+          Object {
+            "marginLeft": 5,
+          }
+        }
+      >
+        км
+      </span>
+      <div />
+    </div>
     <div
       style={
         Object {
-          "display": "flex",
+          "fontSize": "0.8em",
         }
       }
     >
+      Введите значение
+    </div>
+    <div
+      className="n2o-validation-message"
+    />
+  </div>
+</div>
+`;
+
+exports[`StandardField рендерится корректно c toolbar 1`] = `
+<div
+  className="n2o-form-group form-group test"
+  style={
+    Object {
+      "display": "block",
+    }
+  }
+>
+  <label
+    className="n2o-field-label myLabelClass n2o-label"
+    style={
+      Object {
+        "display": "block",
+        "flex": undefined,
+        "width": undefined,
+      }
+    }
+  >
+    Мое поле
+    <span
+      className="n2o-field-label-required"
+    >
+      *
+    </span>
+  </label>
+  <div
+    style={
+      Object {
+        "width": "100%",
+      }
+    }
+  >
+    <div>
+      <div
+        className="n2o-page-actions"
+        style={
+          Object {
+            "marginTop": "5px",
+          }
+        }
+      >
+        <div
+          className="buttons-toolbar btn-toolbar"
+          onClick={[Function]}
+          role="toolbar"
+        >
+          <div
+            className="btn-group"
+            role="group"
+          />
+        </div>
+      </div>
       <span
         style={
           Object {

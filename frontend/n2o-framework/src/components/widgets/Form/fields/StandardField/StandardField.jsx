@@ -150,7 +150,7 @@ class StandardField extends React.Component {
               />
               {toolbar && toolbar.topLeft && (
                 <div className="n2o-page-actions" style={marginTop('5px')}>
-                  <Toolbar entityKey={containerKey} toolbar={toolbar.topLeft} />
+                  <Toolbar toolbar={toolbar.topLeft} entityKey={containerKey} />
                 </div>
               )}
               <Measure value={measure} />
