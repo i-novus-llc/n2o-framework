@@ -2438,6 +2438,192 @@ exports[`Storyshots UI Компоненты/PopoverConfirm Создание че
 </div>"
 `;
 
+exports[`Storyshots UI Компоненты/SearchBar Автоматический поиск: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\SearchBar\\__snapshots__\\SearchBar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        UI Компоненты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SearchBar
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Автоматический поиск
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import SearchBar from \\\\'n2o/lib/components/snippets/SearchBar/SearchBar\\\\';\\\\n      \\\\n      <SearchBar\\\\n        onSearch={onSearch}\\\\n        trigger=\\"CHANGE\\"\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <State store={{...}} parseState={[Function]}>
+                      <div>
+                        <h3>
+                          Поиск запуститься через 400ms после ввода
+                        </h3>
+                        <div>
+                          Значение: 
+                        </div>
+                        <defaultProps(withState(withHandlers(lifecycle(SearchBar)))) onSearch={[Function: onSearch]} trigger=\\"CHANGE\\" throttleDelay={400} />
+                      </div>
+                    </State>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots UI Компоненты/SearchBar Компонент: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\SearchBar\\__snapshots__\\SearchBar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        UI Компоненты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SearchBar
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import SearchBar from \\\\'n2o/lib/components/snippets/SearchBar/SearchBar\\\\';\\\\n      \\\\n      <SearchBar\\\\n        value={value}\\\\n        onSearch={onSearch}\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <State store={{...}} parseState={[Function]}>
+                      <div>
+                        <div>
+                          Значение: 
+                        </div>
+                        <defaultProps(withState(withHandlers(lifecycle(SearchBar)))) value={[undefined]} onSearch={[Function: onSearch]} trigger=\\"CHANGE\\" throttleDelay={400} />
+                      </div>
+                    </State>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots UI Компоненты/SearchBar Поиск по нажатию ENTER: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\SearchBar\\__snapshots__\\SearchBar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        UI Компоненты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SearchBar
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Поиск по нажатию ENTER
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import SearchBar from \\\\'n2o/lib/components/snippets/SearchBar/SearchBar\\\\';\\\\n      \\\\n      <SearchBar\\\\n        onSearch={onSearch}\\\\n        trigger=\\"ENTER\\"\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <State store={{...}} parseState={[Function]}>
+                      <div>
+                        <h3>
+                          Поиск запуститься при нажатии ENTER
+                        </h3>
+                        <div>
+                          Значение: 
+                        </div>
+                        <defaultProps(withState(withHandlers(lifecycle(SearchBar)))) trigger=\\"ENTER\\" onSearch={[Function: onSearch]} throttleDelay={400} />
+                      </div>
+                    </State>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots UI Компоненты/SearchBar Поиск с кнопкой: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\SearchBar\\__snapshots__\\SearchBar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        UI Компоненты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SearchBar
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Поиск с кнопкой
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import SearchBar from \\\\'n2o/lib/components/snippets/SearchBar/SearchBar\\\\';\\\\n      \\\\n      <SearchBar\\\\n        trigger=\\"BUTTON\\"\\\\n        button={{ label: \\\\'Искать\\\\', color: \\\\'primary\\\\' }}}\\\\n        onSearch={onSearch}\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <State store={{...}} parseState={[Function]}>
+                      <div>
+                        <div>
+                          Значение: 
+                        </div>
+                        <defaultProps(withState(withHandlers(lifecycle(SearchBar)))) trigger=\\"BUTTON\\" button={{...}} onSearch={[Function: onSearch]} throttleDelay={400} />
+                      </div>
+                    </State>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots UI Компоненты/TitleFieldset Без заголовков: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\Form\\fieldsets\\TitleFieldset\\__snapshots__\\TitleFieldset.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -30721,6 +30907,44 @@ exports[`Storyshots Ячейки/Ссылка Ссылка с url и target=newW
                     <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
                   </Story>
                   <withContext(Connect(ModalPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/Статус Компонент: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\StatusCell\\__snapshots__\\StatusCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Статус
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
                 </div>
               </Connect(ConnectedRouter)>
             </FactoryProvider>
