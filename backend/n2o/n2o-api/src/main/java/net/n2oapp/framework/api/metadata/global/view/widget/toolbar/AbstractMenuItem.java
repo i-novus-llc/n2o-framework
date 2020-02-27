@@ -47,7 +47,6 @@ public abstract class AbstractMenuItem extends ActionComponent implements Extens
     private String confirmCancelLabel;
     private String tooltipPosition;
     private Dependency[] dependencies;
-    private Copy copy;
 
 
     @Getter
@@ -57,19 +56,6 @@ public abstract class AbstractMenuItem extends ActionComponent implements Extens
         private String value;
         private String refWidgetId;
         private ReduxModel refModel;
-    }
-
-    @Getter
-    @Setter
-    public static class Copy implements Source {
-        private ReduxModel sourceModel;
-        private String sourceWidgetId;
-        private String sourceFieldId;
-        private ReduxModel targetModel;
-        private String targetWidgetId;
-        private String targetFieldId;
-        private CopyMode mode;
-        private Boolean closeOnSuccess;
     }
 
     public static class EnablingDependency extends Dependency {

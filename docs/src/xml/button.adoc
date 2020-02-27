@@ -309,9 +309,6 @@ Java Script выражение
 
 |===
 
-Тело::
-Java Script выражение
-
 Пример::
 [source,xml]
 ----

@@ -15,7 +15,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 /**
- * Абстрактаня реализация компиляции действия
+ * Абстрактная реализация компиляции действия
  */
 public abstract class AbstractActionCompiler<D extends Action, S extends N2oAction>
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
