@@ -151,7 +151,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         dataProvider = page.getWidgets().get("testStandardPageDependency_panel1").getDataProvider();
         assertThat(dataProvider.getQueryMapping().get("parent_id").getBindLink(), is("models.resolve['testStandardPageDependency_detail'].parent.id"));
 
-        assertThat(page.getRoutes().getQueryMapping().size(), is(6));
+        assertThat(page.getRoutes().getQueryMapping().size(), is(8));
 
         //Условия видимости виджетов
         assertThat(page.getWidgets().get("testStandardPageDependency_panel1").getVisible(), is(true));
@@ -165,7 +165,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testWidgetPrefilters.page.xml")
                 .get(new PageContext("testWidgetPrefilters"));
-        assertThat(page.getRoutes().getQueryMapping().size(), is(11));
+        assertThat(page.getRoutes().getQueryMapping().size(), is(13));
 
         WidgetDataProvider dataProvider = page.getWidgets().get("testWidgetPrefilters_detail1").getDataProvider();
         List<Filter> preFilters = page.getWidgets().get("testWidgetPrefilters_detail1").getFilters();

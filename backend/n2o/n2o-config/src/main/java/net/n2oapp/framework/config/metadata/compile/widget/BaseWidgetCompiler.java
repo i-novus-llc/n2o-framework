@@ -382,6 +382,14 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);
         }
+
+        SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
+        if (searchBarScope != null) {
+            ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(), searchBarScope.getWidgetId());
+            modelLink.setFieldValue(searchBarScope.getModelKey());
+            dataProvider.getQueryMapping().put(searchBarScope.getModelKey(), modelLink);
+        }
+
         p.addRoute(getQueryContext(widget, source, context, widgetRoute, query, validationList, subModelsScope,
                 copiedFieldScope, p, object));
         return dataProvider;
