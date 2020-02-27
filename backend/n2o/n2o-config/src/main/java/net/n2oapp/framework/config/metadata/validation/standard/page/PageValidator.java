@@ -27,7 +27,7 @@ public class PageValidator implements SourceValidator<N2oPage>, SourceClassAware
     public void validate(N2oPage page, ValidateProcessor p) {
         if (page.getObjectId() != null) {
             p.checkForExists(page.getObjectId(), N2oObject.class,
-                    "Страница '" + page.getId() + "' ссылается не несуществующий объект {0}");
+                    "Страница '" + page.getId() + "' ссылается на несуществующий объект {0}");
         }
         Set<String> widgetIds = p.safeStreamOf(page.getContainers()).map(N2oMetadata::getId).collect(Collectors.toSet());
         p.safeStreamOf(page.getContainers()).forEach(p::validate);
