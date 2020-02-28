@@ -24,7 +24,7 @@ public class SimplePageJsonTest extends JsonMetadataTestBase {
 
     @Test
     public void simplePage() {
-        check("net/n2oapp/framework/config/mapping/testSimplePageJson.page.xml",
+        check("net/n2oapp/framework/autotest/page/testSimplePageJson.page.xml",
                 "components/core/Page.meta.json")
                 .changeValue("id", "test")
                 .exclude("breadcrumb", "routes", "page.modelLink", "models",
