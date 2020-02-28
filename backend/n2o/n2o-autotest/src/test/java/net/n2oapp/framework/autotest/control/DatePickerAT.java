@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oCheckbox;
+import net.n2oapp.framework.autotest.impl.component.control.N2oDateInput;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -12,9 +12,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотест поля чекбокса
+ * Автотест поля выбора даты
  */
-public class CheckboxAT extends AutoTestBase {
+public class DatePickerAT extends AutoTestBase {
 
     @BeforeClass
     public static void beforeClass() {
@@ -34,28 +34,29 @@ public class CheckboxAT extends AutoTestBase {
     }
 
     @Test
-    public void testCheckbox() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/checkbox/index.page.xml"),
+    public void testDatePicker() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/date_picker/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
         N2oSimplePage page = open(N2oSimplePage.class);
         page.shouldExists();
 
-        N2oCheckbox checkbox = page.single().widget(FormWidget.class).fields().field("Checkbox1")
-                .control(N2oCheckbox.class);
-        checkbox.shouldExists();
+        N2oDateInput date = page.single().widget(FormWidget.class).fields().field("Date1")
+                .control(N2oDateInput.class);
+        date.shouldExists();
 
-        checkbox.shouldBeChecked();
-        checkbox.setChecked(false);
-        checkbox.shouldBeUnchecked();
+        date.val("20.02.2020");
+        date.shouldHaveValue("20.02.2020");
 
+        date.clickCalendarButton();
+        date.shouldBeActiveDay("20");
+//        date.clickDayOfMonth("10");
+        //TODO - обсудить кликабельность календаря, дней, месяцев и т.д.
 
-        checkbox = page.single().widget(FormWidget.class).fields().field("Checkbox2")
-                .control(N2oCheckbox.class);
-        checkbox.shouldExists();
+        date = page.single().widget(FormWidget.class).fields().field("Date2")
+                .control(N2oDateInput.class);
+        date.shouldExists();
 
-        checkbox.shouldBeUnchecked();
-        checkbox.setChecked(true);
-        checkbox.shouldBeChecked();
+        date.shouldHaveValue("01/01/2020 00:00:00");
     }
 }

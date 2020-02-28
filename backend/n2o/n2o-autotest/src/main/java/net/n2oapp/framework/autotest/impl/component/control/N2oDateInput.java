@@ -33,4 +33,14 @@ public class N2oDateInput extends N2oControl implements DateInput {
     public void shouldBeDisabled() {
         element().$(".n2o-date-input input").shouldBe(Condition.disabled);
     }
+
+    @Override
+    public void clickCalendarButton() {
+        element().$(".n2o-calendar-button").click();
+    }
+
+    @Override
+    public void shouldBeActiveDay(String day) {
+        element().$(".n2o-calendar-day.selected").shouldHave(Condition.text(day));
+    }
 }

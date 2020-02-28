@@ -12,4 +12,7 @@ public interface DateInput extends Control {
 
     void val(String value);
 
+    void clickCalendarButton();
+
+    void shouldBeActiveDay(String day);
 }
