@@ -21,4 +21,6 @@ public interface Toolbar extends ComponentsCollection {
     <T extends Button> T button(String label, Class<T> componentClass);
 
     <T extends Button> T button(Condition findBy, Class<T> componentClass);
+
+    <T extends Button> T button(int index, Class<T> componentClass);
 }
