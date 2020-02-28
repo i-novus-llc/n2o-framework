@@ -1,9 +1,10 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.InputControl;
 import org.openqa.selenium.Keys;
+
+import static com.codeborne.selenide.Condition.*;
 
 /**
  * Ввод текста для автотестирования
@@ -25,7 +26,42 @@ public class N2oInputControl extends N2oControl implements InputControl {
     @Override
     public void shouldHaveValue(String value) {
         SelenideElement elm = element().parent().$(".n2o-input");
-        if (elm.exists()) elm.shouldHave(Condition.value(value));
-        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.text(value));
+        if (elm.exists()) elm.shouldHave(value(value));
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(text(value));
+    }
+
+    @Override
+    public void shouldHavePlaceholder(String placeholder) {
+        element().shouldHave(attribute("placeholder", placeholder));
+    }
+
+    @Override
+    public void shouldHaveLength(String length) {
+        element().shouldHave(attribute("maxLength", length));
+    }
+
+    @Override
+    public void shouldHaveMin(String min) {
+        element().shouldHave(attribute("min", min));
+    }
+
+    @Override
+    public void shouldHaveMax(String max) {
+        element().shouldHave(attribute("max", max));
+    }
+
+    @Override
+    public void shouldHaveStep(String step) {
+        element().shouldHave(attribute("step", step));
+    }
+
+    @Override
+    public void clickPlusStepButton() {
+        element().parent().$$(".n2o-input-number-buttons button").get(0).click();
+    }
+
+    @Override
+    public void clickMinusStepButton() {
+        element().parent().$$(".n2o-input-number-buttons button").get(1).click();
     }
 }

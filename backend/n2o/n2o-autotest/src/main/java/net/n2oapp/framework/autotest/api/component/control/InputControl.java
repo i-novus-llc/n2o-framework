@@ -9,4 +9,18 @@ public interface InputControl extends Control {
     void val(String value);
 
     void shouldHaveValue(String value);
+
+    void shouldHavePlaceholder(String placeholder);
+
+    void shouldHaveLength(String length);
+
+    void shouldHaveMin(String min);
+
+    void shouldHaveMax(String max);
+
+    void shouldHaveStep(String step);
+
+    void clickPlusStepButton();
+
+    void clickMinusStepButton();
 }

@@ -6,7 +6,7 @@ import net.n2oapp.framework.autotest.api.component.control.Control;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 
 /**
- *  Стандартное поле формы для автотестирования
+ * Стандартное поле формы для автотестирования
  */
 public class N2oStandardField extends N2oField implements StandardField {
     @Override

@@ -1,0 +1,12 @@
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <form>
+        <fields>
+            <input-text id="input1" label="InputText" default-value="default" length="15"
+                        placeholder="Введите текст"/>
+            <input-text id="input2" label="InputNumber" domain="integer"
+                        default-value="5" min="-100" max="100" step="2"/>
+            <input-text id="input3" label="InputFloat" domain="numeric"
+                        default-value="0" min="-10" max="10" step="0.5"/>
+        </fields>
+    </form>
+</simple-page>
