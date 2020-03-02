@@ -9,7 +9,7 @@ import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.api.component.widget.ListWidget;
+import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 
@@ -211,7 +211,7 @@ public class ProtoPage {
     }
 
     public void contactsListShouldHaveText(int index, String text) {
-        leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).content(index).bodyShouldHaveText(text);
+        leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).content(index).body(TextCell.class).textShouldHave(text);
     }
 
     public ProtoContacts createContact() {

@@ -1,11 +1,17 @@
 package net.n2oapp.framework.autotest.widget;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.cell.BadgeCell;
+import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
+import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.control.InputControl;
 import net.n2oapp.framework.autotest.api.component.control.SelectControl;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.impl.component.button.N2oDropdownButton;
 import net.n2oapp.framework.autotest.impl.component.button.N2oStandardButton;
@@ -103,5 +109,35 @@ public class WidgetsAT extends AutoTestBase {
         widget.columns().headers().header(0).titleShouldHave(Condition.empty);
         widget.toolbar().topRight().button(1, N2oDropdownButton.class).menuItem("Имя").click();
         widget.columns().headers().header(0).titleShouldHave(Condition.text("Имя"));
+    }
+
+    @Test
+    public void testList() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/list/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/list/form.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/list/testList.query.xml"));
+        SimplePage page = open(N2oSimplePage.class);
+        ListWidget listWidget = page.single().widget(ListWidget.class);
+        listWidget.shouldHaveSize(10);
+        listWidget.content(0).body(TextCell.class).textShouldHave("body1");
+        listWidget.content(0).leftTop(ImageCell.class).srcShouldBe(getBaseUrl() + "/favicon.ico");
+        listWidget.content(0).leftBottom(TextCell.class).textShouldHave("leftBottom1");
+        listWidget.content(0).subHeader(BadgeCell.class).colorShouldBe(Colors.SUCCESS);
+        listWidget.paging().totalElementsShouldBe(11);
+        listWidget.paging().clickNext();
+        listWidget.shouldHaveSize(1);
+        listWidget.paging().clickPrev();
+        listWidget.shouldHaveSize(10);
+
+        listWidget.content(0).click();
+        SimplePage openPage = N2oSelenide.page(SimplePage.class);
+        openPage.shouldExists();
+        FormWidget form = openPage.single().widget(FormWidget.class);
+        form.shouldExists();
+        form.fields().field("body").control(InputControl.class).shouldHaveValue("body1");
+
+        page.shouldExists();
+        page.shouldExists();
+
     }
 }
