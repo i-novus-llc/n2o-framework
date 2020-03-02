@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотест поля для выбора из выпадающего списка
+ * Автотест поля для выбора из выпадающего списка (select)
  */
 public class SelectAT extends AutoTestBase {
 

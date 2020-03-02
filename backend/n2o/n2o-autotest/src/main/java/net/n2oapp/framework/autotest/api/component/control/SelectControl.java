@@ -3,7 +3,7 @@ package net.n2oapp.framework.autotest.api.component.control;
 import com.codeborne.selenide.Condition;
 
 /**
- * Компонент выбора из выпадающего списка для автотестирования
+ * Компонент выбора из выпадающего списка (select) для автотестирования
  */
 public interface SelectControl extends Control {
     void openOptions();

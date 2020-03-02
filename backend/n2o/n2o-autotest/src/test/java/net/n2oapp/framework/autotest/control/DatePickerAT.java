@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотест поля выбора даты
+ * Автотест поля выбора даты (date-time)
  */
 public class DatePickerAT extends AutoTestBase {
 

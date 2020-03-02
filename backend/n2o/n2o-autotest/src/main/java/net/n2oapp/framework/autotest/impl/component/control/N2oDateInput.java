@@ -6,7 +6,7 @@ import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import org.openqa.selenium.Keys;
 
 /**
- * Поле ввода даты для автотестирования
+ * Поле ввода даты (date-time) для автотестирования
  */
 public class N2oDateInput extends N2oControl implements DateInput {
 

@@ -5,6 +5,9 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.control.SelectControl;
 import org.openqa.selenium.Keys;
 
+/**
+ * Компонент выбора из выпадающего списка (select) для автотестирования
+ */
 public class N2oSelect extends N2oControl implements SelectControl {
     @Override
     public void openOptions() {

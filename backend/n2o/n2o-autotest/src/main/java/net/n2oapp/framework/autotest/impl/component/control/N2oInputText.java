@@ -6,7 +6,7 @@ import net.n2oapp.framework.autotest.api.component.control.InputControl;
 import org.openqa.selenium.Keys;
 
 /**
- * Ввод текста для автотестирования
+ * Компонент ввода текста (input-text) для автотестирования
  */
 public class N2oInputText extends N2oControl implements InputControl {
 
