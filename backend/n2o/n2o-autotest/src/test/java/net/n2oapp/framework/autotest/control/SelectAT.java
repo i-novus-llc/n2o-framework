@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oSelectControl;
+import net.n2oapp.framework.autotest.impl.component.control.N2oSelect;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -41,8 +41,8 @@ public class SelectAT extends AutoTestBase {
         N2oSimplePage page = open(N2oSimplePage.class);
         page.shouldExists();
 
-        N2oSelectControl input = page.single().widget(FormWidget.class).fields().field("Select1")
-                .control(N2oSelectControl.class);
+        N2oSelect input = page.single().widget(FormWidget.class).fields().field("Select1")
+                .control(N2oSelect.class);
         input.shouldExists();
 
         input.shouldSelected("");
@@ -53,7 +53,7 @@ public class SelectAT extends AutoTestBase {
         input.shouldSelected("");
 
         input = page.single().widget(FormWidget.class).fields().field("Select2")
-                .control(N2oSelectControl.class);
+                .control(N2oSelect.class);
         input.shouldExists();
 
         input.shouldNotBeClearable();

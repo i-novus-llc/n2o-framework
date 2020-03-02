@@ -5,7 +5,7 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.control.SelectControl;
 import org.openqa.selenium.Keys;
 
-public class N2oSelectControl extends N2oControl implements SelectControl {
+public class N2oSelect extends N2oControl implements SelectControl {
     @Override
     public void openOptions() {
         element().$(".n2o-input-control .n2o-popup-control").click();
@@ -43,10 +43,12 @@ public class N2oSelectControl extends N2oControl implements SelectControl {
         element().$(".n2o-input-clear").hover().shouldBe(Condition.visible).click();
     }
 
+    @Override
     public void shouldBeClearable() {
         element().$$(".n2o-input-clear").shouldHave(CollectionCondition.sizeGreaterThan(0));
     }
 
+    @Override
     public void shouldNotBeClearable() {
         element().$$(".n2o-input-clear").shouldHave(CollectionCondition.size(0));
     }

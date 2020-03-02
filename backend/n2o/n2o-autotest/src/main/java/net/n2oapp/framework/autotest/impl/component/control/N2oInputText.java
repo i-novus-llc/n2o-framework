@@ -8,7 +8,7 @@ import org.openqa.selenium.Keys;
 /**
  * Ввод текста для автотестирования
  */
-public class N2oInputControl extends N2oControl implements InputControl {
+public class N2oInputText extends N2oControl implements InputControl {
 
     @Override
     public String val() {

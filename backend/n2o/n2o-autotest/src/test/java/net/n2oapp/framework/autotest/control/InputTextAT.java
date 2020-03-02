@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oInputControl;
+import net.n2oapp.framework.autotest.impl.component.control.N2oInputText;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -41,8 +41,8 @@ public class InputTextAT extends AutoTestBase {
         N2oSimplePage page = open(N2oSimplePage.class);
         page.shouldExists();
 
-        N2oInputControl input = page.single().widget(FormWidget.class).fields().field("InputText")
-                .control(N2oInputControl.class);
+        N2oInputText input = page.single().widget(FormWidget.class).fields().field("InputText")
+                .control(N2oInputText.class);
         input.shouldExists();
 
         input.shouldHavePlaceholder("Введите текст");
@@ -63,8 +63,8 @@ public class InputTextAT extends AutoTestBase {
         N2oSimplePage page = open(N2oSimplePage.class);
         page.shouldExists();
 
-        N2oInputControl input = page.single().widget(FormWidget.class).fields().field("InputNumber")
-                .control(N2oInputControl.class);
+        N2oInputText input = page.single().widget(FormWidget.class).fields().field("InputNumber")
+                .control(N2oInputText.class);
         input.shouldExists();
 
         input.shouldHaveMin("-100");
@@ -99,8 +99,8 @@ public class InputTextAT extends AutoTestBase {
         N2oSimplePage page = open(N2oSimplePage.class);
         page.shouldExists();
 
-        N2oInputControl input = page.single().widget(FormWidget.class).fields().field("InputFloat")
-                .control(N2oInputControl.class);
+        N2oInputText input = page.single().widget(FormWidget.class).fields().field("InputFloat")
+                .control(N2oInputText.class);
         input.shouldExists();
 
         input.val("7.7");
