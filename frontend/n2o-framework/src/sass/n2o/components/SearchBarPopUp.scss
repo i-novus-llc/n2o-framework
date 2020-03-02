@@ -1,0 +1,32 @@
+.n2o-search-bar__popup {
+  width: 100%;
+  position: absolute;
+  bottom: calc(10% - 5px);
+}
+.n2o-search-bar__popup_list {
+  width: 100%;
+}
+
+.n2o-search-bar__popup_item-right {
+  display: flex;
+  position: relative;
+  padding-left: 7px;
+}
+
+.n2o-search-bar__popup_item-left {
+  display: flex;
+  position: relative;
+}
+
+
+.n2o-search-bar__popup_icon-left {
+  left: 15px;
+  font-size: 14px;
+  padding-top: 2px;
+}
+
+.n2o-search-bar__popup_icon-right {
+  font-size: 14px;
+  padding-top: 2px;
+  padding-right: 8px;
+}

@@ -10,6 +10,63 @@ const store = new Store({
 
 store.subscribe(forceReRender);
 
+const store2 = new Store({
+  menu: [
+    {
+      id: 'menuItem0',
+      label: 'Контакты',
+      href: '/proto',
+      linkType: 'inner', // inner (внутри приложения) или outer (вне приложения)
+      icon: 'fa fa-plus',
+      description: 'some description',
+    },
+    {
+      id: 'menuItem1',
+      label: 'Модули',
+      href: '/test',
+      linkType: 'inner', // inner (внутри приложения) или outer (вне приложения)
+      icon: 'fa fa-check',
+      description: 'some description 2',
+    },
+    {
+      id: 'menuItem2',
+      label: 'Задачи',
+      href: '/tasks',
+      linkType: 'inner', // inner (внутри приложения) или outer (вне приложения)
+      description: 'some description 3',
+    },
+    {
+      id: 'menuItem3',
+      label: 'Настройки',
+      href: '/settings',
+      linkType: 'outer', // inner (внутри приложения) или outer (вне приложения)
+      description: 'some description 4',
+    },
+    {
+      id: 'menuItem4',
+      label: 'Без описания 1',
+      href: '/without desc',
+      linkType: 'outer', // inner (внутри приложения) или outer (вне приложения)
+    },
+    {
+      id: 'menuItem5',
+      label: 'Без описания 2',
+      href: '/without desc',
+      linkType: 'outer', // inner (внутри приложения) или outer (вне приложения)
+    },
+    {
+      id: 'menuItem6',
+      label: 'Отчет',
+      href: '/report',
+      linkType: 'inner', // inner (внутри приложения) или outer (вне приложения)
+      icon: 'fa fa-file-text',
+      description: 'some description 5',
+    },
+  ],
+});
+
+store.subscribe(forceReRender);
+console.warn(store2.get('menu'));
 const stories = storiesOf('UI Компоненты/SearchBar', module);
 
 stories.addParameters({
@@ -115,6 +172,37 @@ stories
             button={{ label: 'Искать', color: 'primary' }}
             onSearch={value4 => store.set({ value4 })}
           />
+        </div>
+      );
+    },
+    {
+      info: {
+        text: `
+      ~~~js
+      import SearchBar from 'n2o/lib/components/snippets/SearchBar/SearchBar';
+      
+      <SearchBar
+        trigger="BUTTON"
+        button={{ label: 'Искать', color: 'primary' }}}
+        onSearch={onSearch}
+      />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'с PopUp',
+    () => {
+      return (
+        <div>
+          <div>Значение: {store.get('value4')}</div>
+          <div style={{ width: '200px' }}>
+            <SearchBar
+              onSearch={value4 => store.set({ value4 })}
+              menu={store2.get('menu')}
+            />
+          </div>
         </div>
       );
     },

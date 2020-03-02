@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import isString from 'lodash/isString';
+import isUndefined from 'lodash/isUndefined';
 import Button from 'reactstrap/lib/Button';
 import {
   compose,
@@ -10,8 +11,10 @@ import {
   lifecycle,
   defaultProps,
 } from 'recompose';
+import onClickOutsideHOC from 'react-onclickoutside';
 
 import InputText from '../../controls/InputText/InputText';
+import SearchBarPopUp from './SearchBarPopUp';
 
 let timeoutId = null;
 const ENTER_KEY_CODE = 13;
@@ -31,17 +34,32 @@ function SearchBar({
   onChange,
   onKeyDown,
   placeholder,
+  menu,
+  dropdownOpen,
+  toggleDropdown,
+  iconDirection,
 }) {
+  SearchBar.handleClickOutside = () => toggleDropdown('false');
   return (
     <div className={cn('n2o-search-bar', className)}>
       <div className="n2o-search-bar__control">
-        <InputText
-          onKeyDown={onKeyDown}
-          value={innerValue}
-          onChange={onChange}
-          placeholder={placeholder}
-        />
-        {isString(icon) ? <i className={icon} /> : icon}
+        <div>
+          <InputText
+            onKeyDown={onKeyDown}
+            value={innerValue}
+            onChange={onChange}
+            placeholder={placeholder}
+            onFocus={() => toggleDropdown('true')}
+          />
+          {isString(icon) ? <i className={icon} /> : icon}
+        </div>
+        {!isUndefined(menu) && (
+          <SearchBarPopUp
+            menu={menu}
+            dropdownOpen={dropdownOpen === 'true'}
+            iconDirection={iconDirection}
+          />
+        )}
       </div>
       {!!button && (
         <Button {...button} onClick={onClick}>
@@ -108,6 +126,10 @@ SearchBar.defaultProps = {
   onSearch: () => {},
 };
 
+const clickOutsideConfig = {
+  handleClickOutside: () => SearchBar.handleClickOutside,
+};
+
 const enhance = compose(
   defaultProps({
     trigger: SearchTrigger.CHANGE,
@@ -147,8 +169,9 @@ const enhance = compose(
         setInnerValue(value);
       }
     },
-  })
+  }),
+  withState('dropdownOpen', 'toggleDropdown', 'false')
 );
 
 export { SearchBar };
-export default enhance(SearchBar);
+export default onClickOutsideHOC(enhance(SearchBar), clickOutsideConfig);
