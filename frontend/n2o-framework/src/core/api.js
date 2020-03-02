@@ -117,7 +117,7 @@ export const defaultApiProvider = {
           flatten(clearEmptyParams(options), { safe: true })
         ),
       ].join('')
-    ),
+    ).catch(console.error),
   [FETCH_VALUE]: ({ url }) => request(url),
 };
 
