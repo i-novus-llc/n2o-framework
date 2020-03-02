@@ -46,10 +46,13 @@ public class InputTextAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldHavePlaceholder("Введите текст");
-        input.shouldHaveLength("15");
+        input.shouldHaveLength("10");
         input.shouldHaveValue("default");
         input.val("test-value");
         input.shouldHaveValue("test-value");
+        // превышение указанной длины
+        input.val("test1test2test3");
+        input.shouldHaveValue("test1test2");
     }
 
     @Test

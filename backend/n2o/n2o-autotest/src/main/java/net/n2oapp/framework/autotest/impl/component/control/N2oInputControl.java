@@ -1,10 +1,9 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.InputControl;
 import org.openqa.selenium.Keys;
-
-import static com.codeborne.selenide.Condition.*;
 
 /**
  * Ввод текста для автотестирования
@@ -26,33 +25,33 @@ public class N2oInputControl extends N2oControl implements InputControl {
     @Override
     public void shouldHaveValue(String value) {
         SelenideElement elm = element().parent().$(".n2o-input");
-        if (elm.exists()) elm.shouldHave(value(value));
-        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(text(value));
+        if (elm.exists()) elm.shouldHave(Condition.value(value));
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.text(value));
     }
 
     @Override
     public void shouldHavePlaceholder(String placeholder) {
-        element().shouldHave(attribute("placeholder", placeholder));
+        element().shouldHave(Condition.attribute("placeholder", placeholder));
     }
 
     @Override
     public void shouldHaveLength(String length) {
-        element().shouldHave(attribute("maxLength", length));
+        element().shouldHave(Condition.attribute("maxLength", length));
     }
 
     @Override
     public void shouldHaveMin(String min) {
-        element().shouldHave(attribute("min", min));
+        element().shouldHave(Condition.attribute("min", min));
     }
 
     @Override
     public void shouldHaveMax(String max) {
-        element().shouldHave(attribute("max", max));
+        element().shouldHave(Condition.attribute("max", max));
     }
 
     @Override
     public void shouldHaveStep(String step) {
-        element().shouldHave(attribute("step", step));
+        element().shouldHave(Condition.attribute("step", step));
     }
 
     @Override

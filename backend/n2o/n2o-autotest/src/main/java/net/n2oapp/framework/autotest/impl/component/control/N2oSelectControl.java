@@ -23,7 +23,9 @@ public class N2oSelectControl extends N2oControl implements SelectControl {
 
     @Override
     public void select(int index) {
-        element().parent().$$(".n2o-pop-up button").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
+        element().click();
+        element().parent().parent().$$(".n2o-select-pop-up button")
+                .shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
     }
 
     @Override
@@ -34,6 +36,19 @@ public class N2oSelectControl extends N2oControl implements SelectControl {
     @Override
     public void shouldSelected(String value) {
         element().$(".n2o-input-items").shouldHave(Condition.text(value));
+    }
+
+    @Override
+    public void clear() {
+        element().$(".n2o-input-clear").hover().shouldBe(Condition.visible).click();
+    }
+
+    public void shouldBeClearable() {
+        element().$$(".n2o-input-clear").shouldHave(CollectionCondition.sizeGreaterThan(0));
+    }
+
+    public void shouldNotBeClearable() {
+        element().$$(".n2o-input-clear").shouldHave(CollectionCondition.size(0));
     }
 
     @Override
