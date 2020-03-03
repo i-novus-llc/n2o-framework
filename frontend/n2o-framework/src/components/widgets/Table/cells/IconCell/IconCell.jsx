@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Text from '../../../../snippets/Text/Text';
 import Icon from '../../../../snippets/Icon/Icon';
 import { iconCellTypes, textPlaceTypes } from './cellTypes';
+import Tooltip from '../../../../snippets/Tooltip/Tooltip';
 
 /**
  * Ячейка таблицы с иконкой
@@ -13,12 +14,38 @@ import { iconCellTypes, textPlaceTypes } from './cellTypes';
  * @reactProps {string} type - тип ячейки
  * @reactProps {string} textPlace - расположение текста
  */
-function IconCell({ id, model, visible, icon, type, textPlace }) {
+
+function RenderIcon({ icon, hint, tooltipPlacement }) {
+  return icon && hint ? (
+    <Tooltip
+      hint={hint}
+      placement={tooltipPlacement}
+      label={<Icon name={icon} />}
+    />
+  ) : (
+    <Icon name={icon} />
+  );
+}
+
+function IconCell({
+  id,
+  model,
+  visible,
+  icon,
+  type,
+  textPlace,
+  hint,
+  tooltipPlacement,
+}) {
   const text = model[id];
   return (
     visible && (
       <div title={text}>
-        {icon && <Icon name={icon} />}
+        <RenderIcon
+          icon={icon}
+          hint={hint}
+          tooltipPlacement={tooltipPlacement}
+        />
         {type === iconCellTypes.ICONANDTEXT && (
           <div
             className="n2o-cell-text"
@@ -60,6 +87,14 @@ IconCell.propTypes = {
    * Флаг видимости
    */
   visible: PropTypes.bool,
+  /**
+   *если передан - резолв tooltip, отображает подсказку
+   */
+  hint: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  /**
+   * позиция tooltip (top, right, bottom(default), left)
+   */
+  tooltipPlacement: PropTypes.string,
 };
 
 IconCell.defaultProps = {

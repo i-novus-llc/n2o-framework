@@ -1,0 +1,7 @@
+{
+  "id": "name",
+  "type": "iconAndText",
+  "textPlace": "left",
+  "icon": "fa fa-plus",
+  "hint": ["some hint", "another hint"]
+}
