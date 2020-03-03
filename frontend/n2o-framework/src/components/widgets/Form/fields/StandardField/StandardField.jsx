@@ -87,6 +87,7 @@ class StandardField extends React.Component {
     } = this.props;
 
     const flexStyle = { display: 'flex' };
+    const width = width => ({ width: width });
     const marginTop = px => ({ marginTop: px });
 
     const validationMap = {
@@ -135,7 +136,7 @@ class StandardField extends React.Component {
           />
           <div style={styleHelper}>
             <div style={flexStyle}>
-              <div style={{ width: '100%' }}>
+              <div style={width('100%')}>
                 <Control
                   placeholder={placeholder}
                   visible={visible}
