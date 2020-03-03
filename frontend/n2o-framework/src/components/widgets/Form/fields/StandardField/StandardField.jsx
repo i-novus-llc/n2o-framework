@@ -86,6 +86,7 @@ class StandardField extends React.Component {
       ...props
     } = this.props;
 
+    const flexStyle = { display: 'flex' };
     const marginTop = px => ({ marginTop: px });
 
     const validationMap = {
@@ -133,26 +134,28 @@ class StandardField extends React.Component {
             help={help}
           />
           <div style={styleHelper}>
-            <div>
-              <Control
-                placeholder={placeholder}
-                visible={visible}
-                autoFocus={autoFocus}
-                value={value}
-                onBlur={onBlur}
-                onFocus={onFocus}
-                onChange={onChange}
-                {...control}
-                {...props}
-                className={cx(control && control.className, {
-                  [validationClass]: touched,
-                })}
-              />
-              {toolbar && toolbar.topLeft && (
-                <div className="n2o-page-actions" style={marginTop('5px')}>
-                  <Toolbar toolbar={toolbar.topLeft} entityKey={containerKey} />
-                </div>
-              )}
+            <div style={flexStyle}>
+              <div style={{ width: '100%' }}>
+                <Control
+                  placeholder={placeholder}
+                  visible={visible}
+                  autoFocus={autoFocus}
+                  value={value}
+                  onBlur={onBlur}
+                  onFocus={onFocus}
+                  onChange={onChange}
+                  {...control}
+                  {...props}
+                  className={cx(control && control.className, {
+                    [validationClass]: touched,
+                  })}
+                />
+                {toolbar && (
+                  <div className="n2o-page-actions" style={marginTop('5px')}>
+                    <Toolbar toolbar={toolbar} entityKey={containerKey} />
+                  </div>
+                )}
+              </div>
               <Measure value={measure} />
               <FieldActions actions={fieldActions} />
               {loading && (

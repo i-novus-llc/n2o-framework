@@ -2,8 +2,8 @@ import React from 'react';
 import TestRenderer from 'react-test-renderer';
 import StandardField from '../StandardField';
 
-const toolbar = {
-  topLeft: {
+const toolbar = [
+  {
     buttons: [
       {
         src: 'StandardButton',
@@ -19,7 +19,7 @@ const toolbar = {
       },
     ],
   },
-};
+];
 
 it('StandardField рендерится корректно', () => {
   const tree = TestRenderer.create(
@@ -72,7 +72,7 @@ it('StandardField рендерится корректно c toolbar', () => {
       controlClass="myControlClass"
       placeholder="TEST"
       component={() => null}
-      toolbar={toolbar}
+      toolbar={toolbar[0]}
     />
   ).toJSON();
   expect(tree).toMatchSnapshot();
@@ -101,8 +101,8 @@ it('StandardField верно приходит props toolbar', () => {
       controlClass="myControlClass"
       placeholder="TEST"
       component={() => null}
-      toolbar={toolbar}
+      toolbar={toolbar[0]}
     />
   ).root;
-  expect(tree.props.toolbar.topLeft.buttons).toEqual(toolbar.topLeft.buttons);
+  expect(tree.props.toolbar).toEqual(toolbar[0]);
 });
