@@ -5,6 +5,7 @@
 }
 .n2o-search-bar__popup_list {
   width: 100%;
+  min-width: min-content;
 }
 
 .n2o-search-bar__popup_item-right {
@@ -18,6 +19,10 @@
   position: relative;
 }
 
+.n2o-search-bar__popup_item-left.disabled.dropdown-item > a, .n2o-search-bar__popup_item-right.disabled.dropdown-item > a{
+  color: #9b9a9a;
+}
+
 
 .n2o-search-bar__popup_icon-left {
   left: 15px;
@@ -29,4 +34,8 @@
   font-size: 14px;
   padding-top: 2px;
   padding-right: 8px;
+}
+
+.n2o-search-bar__popup_desc-disabled {
+  color: #9b9a9a;
 }

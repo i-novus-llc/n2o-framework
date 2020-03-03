@@ -37,7 +37,7 @@ function SearchBar({
   menu,
   dropdownOpen,
   toggleDropdown,
-  iconDirection,
+  directionIconsInPopUp,
 }) {
   SearchBar.handleClickOutside = () => toggleDropdown('false');
   return (
@@ -57,7 +57,7 @@ function SearchBar({
           <SearchBarPopUp
             menu={menu}
             dropdownOpen={dropdownOpen === 'true'}
-            iconDirection={iconDirection}
+            directionIconsInPopUp={directionIconsInPopUp}
           />
         )}
       </div>
@@ -117,12 +117,21 @@ SearchBar.propTypes = {
    * Delay поиска при change триггере
    */
   throttleDelay: PropTypes.number,
+  /**
+   * данные и резолв для popUp
+   */
+  menu: PropTypes.array,
+  /**
+   * направление иконок и items в popUp: left(default), right
+   */
+  directionIconsInPopUp: PropTypes.string,
 };
 
 SearchBar.defaultProps = {
   trigger: SearchTrigger.CHANGE,
   button: false,
   icon: 'fa fa-search',
+  directionIconsInPopUp: 'left',
   onSearch: () => {},
 };
 

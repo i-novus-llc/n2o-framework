@@ -1,5 +1,6 @@
 import React from 'react';
-import { Dropdown, DropdownToggle } from 'reactstrap';
+import Dropdown from 'reactstrap/lib/Dropdown';
+import DropdownToggle from 'reactstrap/lib/DropdownToggle';
 import SearchBarPopUpList from './SearchBarPopUpList';
 
 function SearchBarPopUp(props) {

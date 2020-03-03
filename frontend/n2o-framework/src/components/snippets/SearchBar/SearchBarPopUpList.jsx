@@ -1,67 +1,62 @@
 import React from 'react';
-import { DropdownMenu, DropdownItem } from 'reactstrap';
-import NavLink from 'reactstrap/lib/NavLink';
-import { NavLink as RouterLink } from 'react-router-dom';
-import isString from 'lodash/isString';
-import cn from 'classnames';
+import DropdownMenu from 'reactstrap/lib/DropdownMenu';
+import DropdownItem from 'reactstrap/lib/DropdownItem';
+import {
+  RenderLink,
+  renderDescription,
+  renderDivider,
+  itemInSearchBarClassName,
+} from './utils';
+import PropTypes from 'prop-types';
 
 function SearchBarPopUpList(props) {
-  const { menu, iconDirection = 'left' } = props;
-
-  const renderIcon = icon => {
-    return isString(icon) ? (
-      <i
-        className={cn(icon, {
-          'n2o-search-bar__popup_icon-left': iconDirection === 'left',
-          'n2o-search-bar__popup_icon-right': iconDirection === 'right',
-        })}
-      />
-    ) : (
-      icon
-    );
-  };
-
-  const RenderLink = props => {
-    const { linkType, href, description, icon, label, iconDirection } = props;
-    return linkType === 'outer' ? (
-      <NavLink href={href} title={description}>
-        {renderIcon(icon)}
-        {label}
-      </NavLink>
-    ) : (
-      <RouterLink
-        exact
-        className="nav-link"
-        to={href}
-        title={description}
-        activeClassName="active"
-      >
-        {renderIcon(icon)}
-        {label}
-      </RouterLink>
-    );
-  };
+  const { menu, directionIconsInPopUp } = props;
 
   return (
     <DropdownMenu className="n2o-search-bar__popup_list">
       {menu.map(linkProps => {
-        const { id, description } = linkProps;
+        const { id, description, disabled, separateLink } = linkProps;
         return (
           <React.Fragment key={id}>
             <DropdownItem
-              className={cn({
-                'n2o-search-bar__popup_item-right': iconDirection === 'right',
-                'n2o-search-bar__popup_item-left': iconDirection === 'left',
-              })}
+              className={itemInSearchBarClassName(directionIconsInPopUp)}
+              disabled={disabled}
             >
-              <RenderLink {...linkProps} />
+              <RenderLink
+                {...linkProps}
+                directionIconsInPopUp={directionIconsInPopUp}
+              />
             </DropdownItem>
-            {description && <DropdownItem header>{description}</DropdownItem>}
+            {renderDescription(linkProps)}
+            {renderDivider(linkProps)}
           </React.Fragment>
         );
       })}
     </DropdownMenu>
   );
 }
+
+SearchBarPopUpList.propTypes = {
+  /**
+   * Данные для PopUp
+   */
+  menu: PropTypes.array,
+  /**
+   * направление иконок и items в popUp: left(default), right
+   */
+  directionIconsInPopUp: PropTypes.string,
+  /**
+   * Описание item
+   */
+  description: PropTypes.string,
+  /**
+   * резолв отключения item в popUp
+   */
+  disabled: PropTypes.bool,
+  /**
+   * резолв divider в item
+   */
+  separateLink: PropTypes.bool,
+};
 
 export default SearchBarPopUpList;

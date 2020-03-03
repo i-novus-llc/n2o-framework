@@ -24,7 +24,7 @@ const store2 = new Store({
       id: 'menuItem1',
       label: 'Модули',
       href: '/test',
-      linkType: 'inner', // inner (внутри приложения) или outer (вне приложения)
+      linkType: 'inner',
       icon: 'fa fa-check',
       description: 'some description 2',
     },
@@ -32,33 +32,37 @@ const store2 = new Store({
       id: 'menuItem2',
       label: 'Задачи',
       href: '/tasks',
-      linkType: 'inner', // inner (внутри приложения) или outer (вне приложения)
+      linkType: 'inner',
       description: 'some description 3',
     },
     {
       id: 'menuItem3',
       label: 'Настройки',
       href: '/settings',
-      linkType: 'outer', // inner (внутри приложения) или outer (вне приложения)
+      linkType: 'outer',
       description: 'some description 4',
     },
     {
       id: 'menuItem4',
       label: 'Без описания 1',
       href: '/without desc',
-      linkType: 'outer', // inner (внутри приложения) или outer (вне приложения)
+      linkType: 'outer',
     },
     {
       id: 'menuItem5',
-      label: 'Без описания 2',
-      href: '/without desc',
-      linkType: 'outer', // inner (внутри приложения) или outer (вне приложения)
+      label: 'Divided disabled',
+      href: '/divided',
+      linkType: 'outer',
+      icon: 'fa fa-times',
+      description: 'when disabled',
+      separateLink: true,
+      disabled: true,
     },
     {
       id: 'menuItem6',
       label: 'Отчет',
       href: '/report',
-      linkType: 'inner', // inner (внутри приложения) или outer (вне приложения)
+      linkType: 'inner',
       icon: 'fa fa-file-text',
       description: 'some description 5',
     },
