@@ -14,7 +14,7 @@ public class N2oStandardField extends N2oField implements StandardField {
         return N2oSelenide.component(element().$(
                 ".n2o-input, .n2o-input-container, .n2o-input-mask, " +
                 ".n2o-date-picker, .n2o-radio-container, .n2o-checkbox-group, " +
-                ".n2o-output-text, .n2o-text-editor, .n2o-code-editor"
+                ".n2o-output-text, .n2o-text-editor, .n2o-code-editor, .n2o-html"
         ), componentClass);
     }
 
