@@ -8,14 +8,17 @@ import net.n2oapp.framework.autotest.api.component.control.OutputText;
  */
 public class N2oOutputText extends N2oControl implements OutputText {
 
+    @Override
     public void shouldHaveValue(String value) {
         element().shouldHave(Condition.text(value));
     }
 
+    @Override
     public void shouldNotHaveValue() {
         element().$(".text").shouldNotBe(Condition.exist);
     }
 
+    @Override
     public void shouldHaveIcon(String icon) {
         element().$(".n2o-icon." + icon.replace(" ", ".")).shouldBe(Condition.exist);
     }
