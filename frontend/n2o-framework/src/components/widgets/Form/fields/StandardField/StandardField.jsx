@@ -4,6 +4,7 @@ import cx from 'classnames';
 
 import Control from './Control';
 import Label from './Label';
+import Toolbar from '../../../../buttons/Toolbar';
 
 import Measure from './Measure';
 import Description from './Description';
@@ -80,10 +81,15 @@ class StandardField extends React.Component {
       message,
       colLength,
       help,
+      toolbar,
+      containerKey,
       ...props
     } = this.props;
 
     const flexStyle = { display: 'flex' };
+    const width = width => ({ width: width });
+    const marginTop = px => ({ marginTop: px });
+
     const validationMap = {
       'is-valid': 'text-success',
       'is-invalid': 'text-danger',
@@ -107,7 +113,6 @@ class StandardField extends React.Component {
       flex: labelWidthPixels ? 'none' : undefined,
       ...labelStyle,
     };
-
     return (
       visible && (
         <div
@@ -131,20 +136,27 @@ class StandardField extends React.Component {
           />
           <div style={styleHelper}>
             <div style={flexStyle}>
-              <Control
-                placeholder={placeholder}
-                visible={visible}
-                autoFocus={autoFocus}
-                value={value}
-                onBlur={onBlur}
-                onFocus={onFocus}
-                onChange={onChange}
-                {...control}
-                {...props}
-                className={cx(control && control.className, {
-                  [validationClass]: touched,
-                })}
-              />
+              <div style={width('100%')}>
+                <Control
+                  placeholder={placeholder}
+                  visible={visible}
+                  autoFocus={autoFocus}
+                  value={value}
+                  onBlur={onBlur}
+                  onFocus={onFocus}
+                  onChange={onChange}
+                  {...control}
+                  {...props}
+                  className={cx(control && control.className, {
+                    [validationClass]: touched,
+                  })}
+                />
+                {toolbar && (
+                  <div className="n2o-page-actions" style={marginTop('5px')}>
+                    <Toolbar toolbar={toolbar} entityKey={containerKey} />
+                  </div>
+                )}
+              </div>
               <Measure value={measure} />
               <FieldActions actions={fieldActions} />
               {loading && (
