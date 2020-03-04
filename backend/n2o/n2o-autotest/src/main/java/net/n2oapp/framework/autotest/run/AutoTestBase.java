@@ -28,7 +28,7 @@ public class AutoTestBase extends N2oTestBase {
 
     public static void configureSelenide() {
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
-//        headless = true;
+        headless = true;
         browserSize = "1920x1200";
     }
 
