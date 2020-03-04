@@ -22,6 +22,12 @@ class SnippetRating extends Component {
     this.renderTooltip = this.renderTooltip.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value) {
+      this.setState({ value: this.props.value });
+    }
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.value !== prevState.value && nextProps.value) {
       return {
