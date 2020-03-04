@@ -38,10 +38,12 @@ class SnippetRating extends Component {
   }
 
   renderTooltip() {
-    const { rating, showTooltip } = this.props;
+    const { showTooltip } = this.props;
+    const { value } = this.state;
+
     return showTooltip ? (
       <UncontrolledTooltip placement="top" target={this.id}>
-        {round(rating, 2)}
+        {round(value, 2)}
       </UncontrolledTooltip>
     ) : null;
   }
