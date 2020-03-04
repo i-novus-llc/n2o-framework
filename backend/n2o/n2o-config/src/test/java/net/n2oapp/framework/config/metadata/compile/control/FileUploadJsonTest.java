@@ -9,6 +9,7 @@ import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.junit.Before;
 import org.junit.Test;
 
+@Deprecated
 public class FileUploadJsonTest extends JsonMetadataTestBase {
     @Override
     @Before

@@ -13,8 +13,9 @@ public class N2oDateInput extends N2oControl implements DateInput {
     @Override
     public void shouldHaveValue(String value) {
         SelenideElement elm = element().$(".n2o-date-input input");
-        if (elm.exists()) elm.shouldHave(Condition.value(value));
-        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.text(value));
+        if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ? Condition.empty : Condition.value(value));
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.text(value));
     }
 
     @Override
@@ -32,5 +33,14 @@ public class N2oDateInput extends N2oControl implements DateInput {
     @Override
     public void shouldBeDisabled() {
         element().$(".n2o-date-input input").shouldBe(Condition.disabled);
+    }
+
+    @Override
+    public void shouldHavePlaceholder(String value) {
+        Condition condition = Condition.attribute("placeholder", value);
+
+        SelenideElement elm = element().$(".n2o-date-input input");
+        if (elm.exists()) elm.shouldHave(condition);
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(condition);
     }
 }

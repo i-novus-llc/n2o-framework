@@ -9,6 +9,7 @@ import org.junit.Test;
 /**
  * Тестирвоание маппинга java модели в json password input
  */
+@Deprecated
 public class PasswordJsonTest extends JsonMetadataTestBase {
     @Override
     @Before

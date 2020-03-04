@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.test.JsonMetadataTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+@Deprecated
 public class InputSelectTreeJsonTest extends JsonMetadataTestBase {
 
     @Override

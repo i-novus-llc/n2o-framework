@@ -1,9 +1,9 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 /**
- * Ввод текста для автотестирования
+ * Компонент ввода денежных единиц для автотестирования
  */
-public interface InputControl extends Control {
+public interface InputMoneyControl extends Control {
     String val();
 
     void val(String value);

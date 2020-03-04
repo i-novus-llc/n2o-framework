@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 /**
- * Ввод текста для автотестирования
+ * Ввод текста с маской для автотестирования
  */
 public interface MaskedInputControl extends Control {
     String val();
@@ -9,4 +9,6 @@ public interface MaskedInputControl extends Control {
     void val(String value);
 
     void shouldHaveValue(String value);
+
+    void shouldHavePlaceholder(String value);
 }

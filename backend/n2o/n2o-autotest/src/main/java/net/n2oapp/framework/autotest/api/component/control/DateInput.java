@@ -12,4 +12,6 @@ public interface DateInput extends Control {
 
     void val(String value);
 
+    void shouldHavePlaceholder(String value);
+
 }

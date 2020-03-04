@@ -10,6 +10,7 @@ import org.junit.Test;
 /**
  * Тестирование маппинга java модели в json text-area
  */
+@Deprecated
 public class TextAreaJsonTest extends JsonMetadataTestBase {
     @Override
     @Before

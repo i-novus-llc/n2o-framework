@@ -2,13 +2,13 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.autotest.api.component.control.InputControl;
+import net.n2oapp.framework.autotest.api.component.control.PasswordControl;
 import org.openqa.selenium.Keys;
 
 /**
- * Ввод текста для автотестирования
+ * Поле ввода пароля для автотестирования
  */
-public class N2oInputControl extends N2oControl implements InputControl {
+public class N2oPasswordControl extends N2oControl implements PasswordControl {
 
     @Override
     public String val() {
@@ -38,5 +38,24 @@ public class N2oInputControl extends N2oControl implements InputControl {
         SelenideElement elm = element().parent().$(".n2o-input");
         if (elm.exists()) elm.shouldHave(condition);
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(condition);
+    }
+
+    @Override
+    public void clickEyeButton() {
+        element().parent().$(".n2o-input-password-toggler").hover().shouldBe(Condition.visible).click();
+    }
+
+    @Override
+    public void passwordShouldBeVisible() {
+        SelenideElement elm = element().parent().$(".n2o-input");
+        if (elm.exists()) elm.shouldHave(Condition.attribute("type", "text"));
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.attribute("type", "text"));
+    }
+
+    @Override
+    public void passwordShouldNotBeVisible() {
+        SelenideElement elm = element().parent().$(".n2o-input");
+        if (elm.exists()) elm.shouldHave(Condition.attribute("type", "password"));
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.attribute("type", "password"));
     }
 }

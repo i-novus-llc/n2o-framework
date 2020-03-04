@@ -6,7 +6,7 @@ import net.n2oapp.framework.autotest.api.component.control.MaskedInputControl;
 import org.openqa.selenium.Keys;
 
 /**
- * Ввод текста для автотестирования
+ * Ввод текста с маской для автотестирования
  */
 public class N2oMaskedInputControl extends N2oControl implements MaskedInputControl {
 
@@ -25,7 +25,18 @@ public class N2oMaskedInputControl extends N2oControl implements MaskedInputCont
     @Override
     public void shouldHaveValue(String value) {
         SelenideElement elm = element().parent().$(".n2o-input-mask");
-        if (elm.exists()) elm.shouldHave(Condition.value(value));
-        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.text(value));
+        if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.value(value));
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.text(value));
+    }
+
+    @Override
+    public void shouldHavePlaceholder(String value) {
+        Condition condition = Condition.attribute("placeholder", value);
+
+        SelenideElement elm = element().parent().$(".n2o-input-mask");
+        if (elm.exists()) elm.shouldHave(condition);
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(condition);
     }
 }
