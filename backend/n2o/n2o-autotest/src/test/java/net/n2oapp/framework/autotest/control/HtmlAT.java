@@ -11,6 +11,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Автотест для компонента ввода html
  */
@@ -45,6 +48,8 @@ public class HtmlAT extends AutoTestBase {
                 .control(N2oHtml.class);
         html.shouldExists();
 
-        html.shouldHaveValue("<h3>Hello, world!</h3><div>Hello, world2!</div>");
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("style", "margin: 10px;");
+        html.shouldHaveElementWithAttributes("h3.class1", attributes);
     }
 }

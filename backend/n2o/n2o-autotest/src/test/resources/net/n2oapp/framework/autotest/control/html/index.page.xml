@@ -2,7 +2,7 @@
     <form>
         <fields>
             <html id="html" label="Html"
-                  default-value="&lt;h3&gt;Hello, world!&lt;/h3&gt;&lt;div&gt;Hello, world2!&lt;/div&gt;"/>
+                  default-value="&lt;h3 class='class1' style='margin: 10px;'&gt;Hello, World!&lt;/h3&gt;"/>
         </fields>
     </form>
 </simple-page>
