@@ -98,7 +98,7 @@ class SnippetRating extends Component {
           value={index}
           type="radio"
           onClick={this.onChangeAndSetState}
-          checked={eq(index, value)}
+          checked={eq(+index, +value)}
         />
       </Fragment>
     );
