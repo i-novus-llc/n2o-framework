@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотест для редактора кода (code-editor)
+ * Автотест для редактора кода
  */
 public class CodeEditorAT extends AutoTestBase {
 

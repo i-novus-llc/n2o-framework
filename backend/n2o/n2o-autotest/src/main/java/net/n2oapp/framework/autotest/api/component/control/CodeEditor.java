@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 /**
- * Компонент редактирования кода (code-editor) для автотестирования
+ * Компонент редактирования кода для автотестирования
  */
 public interface CodeEditor extends Control {
 

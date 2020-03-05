@@ -7,7 +7,7 @@ import org.openqa.selenium.Keys;
 import java.util.stream.IntStream;
 
 /**
- * Компонент редактирования кода (code-editor) для автотестирования
+ * Компонент редактирования кода для автотестирования
  */
 public class N2oCodeEditor extends N2oControl implements CodeEditor {
 

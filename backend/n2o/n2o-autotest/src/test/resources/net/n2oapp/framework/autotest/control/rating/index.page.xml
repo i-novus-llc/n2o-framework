@@ -2,7 +2,7 @@
     <form>
         <fields>
             <rating id="rating1" label="Rating1"/>
-            <rating id="rating2" label="Rating2" default-value="1.5" max="7" half="true"/>
+            <rating id="rating2" label="Rating2" default-value="3.5" max="7" half="true"/>
         </fields>
     </form>
 </simple-page>

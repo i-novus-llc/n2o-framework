@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотест поля вывода текста (output-text)
+ * Автотест поля вывода текста
  */
 public class OutputTextAT extends AutoTestBase {
 

@@ -4,7 +4,7 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 
 /**
- * Компонент вывода текста (output-text) для автотестирования
+ * Компонент вывода текста для автотестирования
  */
 public class N2oOutputText extends N2oControl implements OutputText {
 
