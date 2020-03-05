@@ -11,6 +11,7 @@ import org.junit.Test;
 /**
  * Тестирвоание маппинга java модели в json для ячейки иконка
  */
+@Deprecated
 public class LinkCellJsonTest extends JsonMetadataTestBase {
     @Override
     @Before

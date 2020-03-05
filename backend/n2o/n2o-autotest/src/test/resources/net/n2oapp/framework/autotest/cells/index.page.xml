@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Название страницы" route="/pageRoute">
+    <table query-id="testTable">
+        <columns>
+            <column text-field-id="genderName">
+                <badge color="{genderId==1?'danger':'success'}"/>
+            </column>
+
+            <column text-field-id="vip">
+                <checkbox enabled="{id!=3}"/>
+            </column>
+
+            <column text-field-id="icon">
+                <icon type="iconAndText">
+                    <switch value-field-id="icon">
+                        <case value="fa fa-phone">fa fa-phone</case>
+                        <case value="fa fa-plus">fa fa-plus</case>
+                        <case value="fa fa-fax">fa fa-fax</case>
+                        <case value="fa fa-minus">fa fa-minus</case>
+                    </switch>
+                </icon>
+            </column>
+
+            <column text-field-id="image">
+                <image shape="circle" class="{genderId==1?'bg-danger':'bg-success'}"/>
+            </column>
+
+            <column text-field-id="name">
+                <link icon="fa fa-link" url="/{id}/update" target="application" />
+            </column>
+
+<!--            <column text-field-id="genderName">
+                <list>
+                    <switch value-field-id="genderId">
+                        <case value="1">Male</case>
+                        <case value="0">Female</case>
+                        <default>unknown</default>
+                    </switch>
+                </list>
+            </column>-->
+
+            <column text-field-id="progress">
+                <progress active="true" color="success" size="normal"/>
+            </column>
+
+            <column text-field-id="rating">
+                <rating max="10" showTooltip="true"/>
+            </column>
+
+            <column text-field-id="id">
+                <toolbar>
+                    <sub-menu icon="fa fa-ellipsis-v">
+                        <menu-item label="one"/>
+                        <menu-item label="two"/>
+                        <menu-item label="three"/>
+                    </sub-menu>
+                </toolbar>
+            </column>
+
+        </columns>
+
+    </table>
+</simple-page>

@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.table.cell.ListCellIOElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
@@ -15,6 +14,7 @@ import org.junit.Test;
 /**
  * Тестирвоание маппинга java модели в json ячейки со списком
  */
+@Deprecated
 public class ListCellJsonTest extends JsonMetadataTestBase {
     @Override
     @Before

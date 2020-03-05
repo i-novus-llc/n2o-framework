@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.table.cell.ImageCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
@@ -12,11 +11,11 @@ import net.n2oapp.framework.config.test.JsonMetadataTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 
 /**
  * Тестирвоание маппинга java модели в json для ячейки картинка
  */
+@Deprecated
 public class ImageCellJsonTest extends JsonMetadataTestBase {
     @Override
     @Before

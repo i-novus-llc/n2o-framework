@@ -13,6 +13,7 @@ import org.junit.Test;
 /**
  * Тестирование маппинга java модели в json для ячейки рейтинга
  */
+@Deprecated
 public class RatingCellJsonTest extends JsonMetadataTestBase {
     @Override
     @Before

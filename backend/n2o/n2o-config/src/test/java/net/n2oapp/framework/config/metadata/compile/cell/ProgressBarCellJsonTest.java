@@ -15,6 +15,7 @@ import org.junit.Test;
 /**
  * Тестирование маппинга java модели в json для ячейки иконка
  */
+@Deprecated
 public class ProgressBarCellJsonTest extends JsonMetadataTestBase {
     @Override
     @Before

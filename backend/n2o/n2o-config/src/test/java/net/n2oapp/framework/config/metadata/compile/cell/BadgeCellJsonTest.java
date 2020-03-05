@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.table.cell.BadgeCellElementIOv2;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
@@ -12,6 +11,7 @@ import org.junit.Test;
 /**
  * Тестирование маппинга java модели в json для ячейки значка
  */
+@Deprecated
 public class BadgeCellJsonTest extends JsonMetadataTestBase {
 
     @Override
