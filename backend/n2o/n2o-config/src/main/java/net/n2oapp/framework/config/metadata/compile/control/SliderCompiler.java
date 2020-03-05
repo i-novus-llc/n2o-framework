@@ -32,7 +32,7 @@ public class SliderCompiler extends ListControlCompiler<Slider, N2oSlider>{
         if (measure == null) {
             measure = "";
         }
-        slider.setTooltipFormatter(Placeholders.js("${this}" + measure));
+        slider.setTooltipFormatter("${this}" + measure);
 
         slider.setMin(source.getMin());
         slider.setMax(source.getMax());
