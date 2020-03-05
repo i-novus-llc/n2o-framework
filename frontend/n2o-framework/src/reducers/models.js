@@ -7,6 +7,9 @@ import pick from 'lodash/pick';
 import each from 'lodash/each';
 import isString from 'lodash/isString';
 import get from 'lodash/get';
+import set from 'lodash/set';
+import values from 'lodash/values';
+
 import {
   SET,
   REMOVE,
@@ -62,6 +65,28 @@ function resolveUpdate(state, action) {
   }
 
   return setIn(state, field, value);
+}
+
+function resolveCopyAction(state, { payload }) {
+  const { target, source, mode = 'replace' } = payload;
+  const newState = Object.assign({}, state);
+  const targetPath = values(target).join('.');
+  const sourcePath = values(source).join('.');
+  const sourceModel = get(state, sourcePath);
+  const targetModel = get(state, targetPath);
+
+  if (mode === 'merge') {
+    set(newState, targetPath, Object.assign({}, targetModel, sourceModel));
+  } else if (mode === 'add') {
+    if (!Array.isArray(sourceModel) || !Array.isArray(targetModel)) {
+      throw new Error('Source or target is not an array!');
+    }
+    set(newState, targetPath, [...targetModel, ...sourceModel]);
+  } else {
+    set(newState, targetPath, sourceModel);
+  }
+
+  return newState;
 }
 
 function resolve(state, action) {
@@ -134,9 +159,7 @@ export default function models(state = modelState, action) {
         [action.payload.prefix]: resolve(state[action.payload.prefix], action),
       });
     case COPY:
-      return Object.assign({}, state, {
-        [action.payload.target.prefix]: resolve(state, action),
-      });
+      return resolveCopyAction(state, action);
     case MERGE:
       return { ...merge(state, action.payload.combine) };
     case REMOVE_ALL:
