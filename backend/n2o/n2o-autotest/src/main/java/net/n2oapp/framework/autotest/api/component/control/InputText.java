@@ -1,9 +1,9 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 /**
- * Компонент ввода текста (input-text) для автотестирования
+ * Компонент ввода текста для автотестирования
  */
-public interface InputControl extends Control {
+public interface InputText extends Control {
     String val();
 
     void val(String value);

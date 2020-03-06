@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
 /**
- * Компонент Checkbox для автотестирования
+ * Компонент чекбокса для автотестирования
  */
 public interface Checkbox extends Control {
     boolean isChecked();

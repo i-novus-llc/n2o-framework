@@ -3,9 +3,9 @@ package net.n2oapp.framework.autotest.api.component.control;
 import com.codeborne.selenide.Condition;
 
 /**
- * Компонент выбора из выпадающего списка (select) для автотестирования
+ * Компонент выбора из выпадающего списка для автотестирования
  */
-public interface SelectControl extends Control {
+public interface Select extends Control {
     void openOptions();
 
     void closeOptions();
@@ -18,9 +18,9 @@ public interface SelectControl extends Control {
 
     void clear();
 
-    void shouldBeClearable();
+    void shouldBeCleanable();
 
-    void shouldNotBeClearable();
+    void shouldNotBeCleanable();
 
     void shouldSelected(String value);
 }

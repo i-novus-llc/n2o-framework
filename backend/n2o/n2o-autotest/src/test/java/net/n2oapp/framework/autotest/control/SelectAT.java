@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотест поля для выбора из выпадающего списка (select)
+ * Автотест компонента выбора из выпадающего списка
  */
 public class SelectAT extends AutoTestBase {
 
@@ -48,7 +48,7 @@ public class SelectAT extends AutoTestBase {
         input.shouldSelected("");
         input.select(1);
         input.shouldSelected("Two");
-        input.shouldBeClearable();
+        input.shouldBeCleanable();
         input.clear();
         input.shouldSelected("");
 
@@ -56,6 +56,7 @@ public class SelectAT extends AutoTestBase {
                 .control(N2oSelect.class);
         input.shouldExists();
 
-        input.shouldNotBeClearable();
+        input.select(1);
+        input.shouldNotBeCleanable();
     }
 }

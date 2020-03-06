@@ -78,12 +78,12 @@ public class ProtoPage {
         return getFilterFields().field("VIP").control(Checkbox.class);
     }
 
-    public InputControl getSurnameFilter() {
-        return getFilterFields().field("Фамилия").control(InputControl.class);
+    public InputText getSurnameFilter() {
+        return getFilterFields().field("Фамилия").control(InputText.class);
     }
 
-    public InputControl getFirstNameFilter() {
-        return getFilterFields().field("Имя").control(InputControl.class);
+    public InputText getFirstNameFilter() {
+        return getFilterFields().field("Имя").control(InputText.class);
     }
 
     public void setBirthdayStartFilter(String value) {
@@ -219,12 +219,12 @@ public class ProtoPage {
         return getModalProtoContacts();
     }
 
-    public InputControl getSurnameCard() {
-        return getCardFields().field("Фамилия").control(InputControl.class);
+    public InputText getSurnameCard() {
+        return getCardFields().field("Фамилия").control(InputText.class);
     }
 
-    public InputControl getFirstnameCard() {
-        return getCardFields().field("Имя").control(InputControl.class);
+    public InputText getFirstnameCard() {
+        return getCardFields().field("Имя").control(InputText.class);
     }
 
     public RadioGroup getGenderCard() {

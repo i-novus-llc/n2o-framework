@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.impl.component.control.N2oInputSelect;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
@@ -12,9 +13,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотест поля ввода текста с выбором из выпадающего списка (input-select)
+ * Автотест компонента ввода текста с выбором из выпадающего списка
  */
 public class InputSelectAT extends AutoTestBase {
+
+    private SimplePage page;
 
     @BeforeClass
     public static void beforeClass() {
@@ -25,6 +28,12 @@ public class InputSelectAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+
+        page = open(N2oSimplePage.class);
+        page.shouldExists();
     }
 
     @Override
@@ -35,12 +44,6 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     public void testSingle() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        N2oSimplePage page = open(N2oSimplePage.class);
-        page.shouldExists();
-
         N2oInputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect1")
                 .control(N2oInputSelect.class);
         input.shouldExists();
@@ -57,12 +60,6 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     public void testMulti() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        N2oSimplePage page = open(N2oSimplePage.class);
-        page.shouldExists();
-
         N2oInputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect2")
                 .control(N2oInputSelect.class);
         input.shouldExists();
@@ -86,12 +83,6 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     public void testCheckboxes() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        N2oSimplePage page = open(N2oSimplePage.class);
-        page.shouldExists();
-
         N2oInputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect3")
                 .control(N2oInputSelect.class);
         input.shouldExists();

@@ -2,13 +2,13 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.autotest.api.component.control.SelectControl;
+import net.n2oapp.framework.autotest.api.component.control.Select;
 import org.openqa.selenium.Keys;
 
 /**
- * Компонент выбора из выпадающего списка (select) для автотестирования
+ * Компонент выбора из выпадающего списка для автотестирования
  */
-public class N2oSelect extends N2oControl implements SelectControl {
+public class N2oSelect extends N2oControl implements Select {
     @Override
     public void openOptions() {
         element().$(".n2o-input-control .n2o-popup-control").click();
@@ -47,12 +47,12 @@ public class N2oSelect extends N2oControl implements SelectControl {
     }
 
     @Override
-    public void shouldBeClearable() {
+    public void shouldBeCleanable() {
         element().$$(".n2o-input-clear").shouldHave(CollectionCondition.sizeGreaterThan(0));
     }
 
     @Override
-    public void shouldNotBeClearable() {
+    public void shouldNotBeCleanable() {
         element().$$(".n2o-input-clear").shouldHave(CollectionCondition.size(0));
     }
 

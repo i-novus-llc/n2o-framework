@@ -8,7 +8,13 @@
                     <option id="three" name="Three"/>
                 </options>
             </select>
-            <select id="select2" label="Select2" cleanable="false"/>
+            <select id="select1" label="Select2" cleanable="false">
+                <options>
+                    <option id="one" name="One"/>
+                    <option id="two" name="Two"/>
+                    <option id="three" name="Three"/>
+                </options>
+            </select>
         </fields>
     </form>
 </simple-page>

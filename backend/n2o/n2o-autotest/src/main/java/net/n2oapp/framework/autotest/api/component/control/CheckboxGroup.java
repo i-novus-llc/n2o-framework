@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.api.component.control;
 
 
 /**
- * Компонент группы чекбоксов (checkbox-group) для автотестирования
+ * Компонент группы чекбоксов для автотестирования
  */
 public interface CheckboxGroup extends Control {
 

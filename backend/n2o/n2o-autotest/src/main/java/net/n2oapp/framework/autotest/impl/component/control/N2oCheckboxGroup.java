@@ -5,7 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 
 /**
- * Компонент группы чекбоксов (checkbox-group) для автотестирования
+ * Компонент группы чекбоксов для автотестирования
  */
 public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
     @Override

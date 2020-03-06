@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотест радиокнопок (radio-group)
+ * Автотест компонента радиокнопок
  */
 public class RadioGroupAT extends AutoTestBase {
 

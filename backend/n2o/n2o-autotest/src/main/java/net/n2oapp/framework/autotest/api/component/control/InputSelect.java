@@ -3,9 +3,9 @@ package net.n2oapp.framework.autotest.api.component.control;
 import com.codeborne.selenide.Condition;
 
 /**
- * Компонент поля ввода текста с выбором из выпадающего списка (input-select) для автотестирования
+ * Компонент ввода текста с выбором из выпадающего списка для автотестирования
  */
-public interface InputSelectControl extends Control {
+public interface InputSelect extends Control {
 
     void val(String value);
 

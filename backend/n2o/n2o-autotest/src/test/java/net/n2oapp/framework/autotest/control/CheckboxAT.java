@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотест поля чекбокса (checkbox)
+ * Автотест компонента чекбокса
  */
 public class CheckboxAT extends AutoTestBase {
 

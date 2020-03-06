@@ -3,16 +3,16 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
-import net.n2oapp.framework.autotest.api.component.control.InputSelectControl;
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import org.openqa.selenium.Keys;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
 /**
- * Компонент поля ввода текста с выбором из выпадающего списка (input-select) для автотестирования
+ * Компонент ввода текста с выбором из выпадающего списка (input-select) для автотестирования
  */
-public class N2oInputSelect extends N2oControl implements InputSelectControl {
+public class N2oInputSelect extends N2oControl implements InputSelect {
 
     private boolean isMulti() {
         return element().$(".n2o-inp").has(Condition.cssClass("n2o-inp--multi"));

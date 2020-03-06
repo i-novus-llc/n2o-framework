@@ -4,7 +4,7 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 
 /**
- * Компонент радиокнопок (radio-group) для автотестирования
+ * Компонент радиокнопок для автотестирования
  */
 public class N2oRadioGroup extends N2oControl implements RadioGroup {
 

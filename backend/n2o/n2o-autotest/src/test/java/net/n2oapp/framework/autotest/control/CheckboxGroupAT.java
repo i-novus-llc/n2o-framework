@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотест группы чекбоксов (checkbox-group)
+ * Автотест компонента группы чекбоксов
  */
 public class CheckboxGroupAT extends AutoTestBase {
 

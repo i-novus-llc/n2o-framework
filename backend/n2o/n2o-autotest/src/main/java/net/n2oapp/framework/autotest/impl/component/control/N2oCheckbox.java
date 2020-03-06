@@ -4,7 +4,7 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 
 /**
- * Компонент Checkbox для автотестирования
+ * Компонент чекбокса для автотестирования
  */
 public class N2oCheckbox extends N2oControl implements Checkbox {
 

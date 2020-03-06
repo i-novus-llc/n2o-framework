@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.impl.component.control.N2oInputText;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
@@ -12,9 +13,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотест поля для ввода текста (input-text)
+ * Автотест компонента ввода текста
  */
 public class InputTextAT extends AutoTestBase {
+
+    private SimplePage page;
 
     @BeforeClass
     public static void beforeClass() {
@@ -25,6 +28,12 @@ public class InputTextAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_text/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+
+        page = open(N2oSimplePage.class);
+        page.shouldExists();
     }
 
     @Override
@@ -35,12 +44,6 @@ public class InputTextAT extends AutoTestBase {
 
     @Test
     public void testInputText() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_text/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        N2oSimplePage page = open(N2oSimplePage.class);
-        page.shouldExists();
-
         N2oInputText input = page.single().widget(FormWidget.class).fields().field("InputText")
                 .control(N2oInputText.class);
         input.shouldExists();
@@ -57,12 +60,6 @@ public class InputTextAT extends AutoTestBase {
 
     @Test
     public void testInputNumber() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_text/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        N2oSimplePage page = open(N2oSimplePage.class);
-        page.shouldExists();
-
         N2oInputText input = page.single().widget(FormWidget.class).fields().field("InputNumber")
                 .control(N2oInputText.class);
         input.shouldExists();
@@ -93,12 +90,6 @@ public class InputTextAT extends AutoTestBase {
 
     @Test
     public void testInputFloat() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_text/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        N2oSimplePage page = open(N2oSimplePage.class);
-        page.shouldExists();
-
         N2oInputText input = page.single().widget(FormWidget.class).fields().field("InputFloat")
                 .control(N2oInputText.class);
         input.shouldExists();

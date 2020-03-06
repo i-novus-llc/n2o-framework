@@ -2,13 +2,13 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.autotest.api.component.control.InputControl;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
 import org.openqa.selenium.Keys;
 
 /**
- * Компонент ввода текста (input-text) для автотестирования
+ * Компонент ввода текста для автотестирования
  */
-public class N2oInputText extends N2oControl implements InputControl {
+public class N2oInputText extends N2oControl implements InputText {
 
     @Override
     public String val() {
