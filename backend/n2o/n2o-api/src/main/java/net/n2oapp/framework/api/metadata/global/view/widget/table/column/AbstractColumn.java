@@ -15,7 +15,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public abstract class AbstractColumn implements IdAware, Serializable {
+public abstract class AbstractColumn implements IdAware, Source {
     private String id;
     private String textFieldId;
     private String tooltipFieldId;
