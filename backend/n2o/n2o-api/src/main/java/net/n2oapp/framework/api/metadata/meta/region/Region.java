@@ -19,6 +19,7 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class Region implements Compiled, SrcAware, NameAware, IdAware {
+    @JsonProperty
     private String id;
     private String name;
     private String place;

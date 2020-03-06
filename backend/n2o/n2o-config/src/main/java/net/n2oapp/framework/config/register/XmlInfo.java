@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.register;
 
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.reader.SourceLoader;
+import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 
@@ -15,6 +16,9 @@ import java.util.Set;
  */
 public class XmlInfo extends FileInfo {
     protected boolean override;
+
+    private Class<? extends MetadataScanner> scannerClass;
+
     @Deprecated protected ConfigId configId;
     protected Set<ConfigId> dependents = new HashSet<>();//ссылки на контекстныальные метаданные, которые нужно сбросить, при изменении этого файла
     @Deprecated protected Origin origin = Origin.xml;
@@ -88,6 +92,15 @@ public class XmlInfo extends FileInfo {
     @Override
     public Class<? extends SourceLoader> getReaderClass() {
         return XmlMetadataLoader.class;
+    }
+
+    @Override
+    public Class<? extends MetadataScanner> getScannerClass() {
+        return scannerClass;
+    }
+
+    public void setScannerClass(Class<? extends MetadataScanner> scannerClass) {
+        this.scannerClass = scannerClass;
     }
 
     public ConfigId getConfigId() {
