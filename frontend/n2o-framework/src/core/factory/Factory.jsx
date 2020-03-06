@@ -7,6 +7,7 @@ import { pure } from 'recompose';
 function Factory(props, context) {
   const { src, level, security, children, ...rest } = props;
   const component = context.getComponent(src, level);
+  console.warn(props, context);
   if (component) {
     return isEmpty(security) ? (
       React.createElement(component, rest, children)
