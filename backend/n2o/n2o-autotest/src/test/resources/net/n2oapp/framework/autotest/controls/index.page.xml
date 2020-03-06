@@ -12,10 +12,8 @@
 
             <text-area label="TextArea" id="textArea" rows="6" class="n2o" placeholder="test"/>
 
-            <file-upload label="FileUpload" id="fileUpload" class="custom-class" ajax="false"
-                         upload-url="/n2o/data" delete-url="/n2o/data/delete" label-field-id="customName"
-                         value-field-id="customId" message-field-id="customResponse" url-field-id="customLink"
-                         request-param="avatar"/>
+            <file-upload label="FileUpload" id="fileUpload" multi="true"
+                         label-field-id="customName" value-field-id="customId" url-field-id="customLink"/>
 
             <input-select-tree label="InputSelectTree" id="inputSelectTree" checkboxes="true" placeholder="SelectOption"
                                label-field-id="name" parent-field-id="parentCode" value-field-id="id">

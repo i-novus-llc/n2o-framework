@@ -93,8 +93,14 @@ public class InputControlsAT extends AutoTestBase {
 
     @Test
     public void fileUploadTest() {
-        InputControl inputControl = getFields().field("FileUpload").control(InputControl.class);
-        inputControl.shouldBeEnabled();
+        FileUploadControl fileUpload = getFields().field("FileUpload").control(FileUploadControl.class);
+        fileUpload.shouldBeEnabled();
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/controls/test1.json");
+        fileUpload.uploadFilesShouldBe(1);
+        fileUpload.uploadFileNameShouldBe(0, "test1.json");
+        fileUpload.uploadFileSizeShouldBe(0, "91");
+        fileUpload.deleteFile(0);
+        fileUpload.uploadFilesShouldBe(0);
     }
 
     @Test
