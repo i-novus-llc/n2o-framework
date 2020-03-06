@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.api.component.control;
 
 
 /**
- * Компонент ввода даты (date-time) для автотестирования
+ * Компонент ввода даты для автотестирования
  */
 public interface DateInput extends Control {
 

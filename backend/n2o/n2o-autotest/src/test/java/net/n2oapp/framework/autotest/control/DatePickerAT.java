@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотест поля выбора даты (date-time)
+ * Автотест компонента ввода даты
  */
 public class DatePickerAT extends AutoTestBase {
 
@@ -47,11 +47,12 @@ public class DatePickerAT extends AutoTestBase {
 
         date.val("20.02.2020");
         date.shouldHaveValue("20.02.2020");
+        // проверка, что значения, выходящие за границы min/max, не вводятся
+        date.val("15.01.2020");
+        date.shouldHaveValue("");
+        date.val("15.03.2020");
+        date.shouldHaveValue("");
 
-        date.clickCalendarButton();
-        date.shouldBeActiveDay("20");
-//        date.clickDayOfMonth("10");
-        //TODO - обсудить кликабельность календаря, дней, месяцев и т.д.
 
         date = page.single().widget(FormWidget.class).fields().field("Date2")
                 .control(N2oDateInput.class);
