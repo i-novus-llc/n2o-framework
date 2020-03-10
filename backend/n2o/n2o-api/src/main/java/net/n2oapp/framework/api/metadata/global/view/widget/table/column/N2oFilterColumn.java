@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.widget.table.column;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 
 /**
  * Фильтруемый столбец таблицы
@@ -10,5 +10,5 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 @Getter
 @Setter
 public class N2oFilterColumn extends N2oSimpleColumn {
-    private SourceComponent filter;
+    private N2oStandardField filter;
 }

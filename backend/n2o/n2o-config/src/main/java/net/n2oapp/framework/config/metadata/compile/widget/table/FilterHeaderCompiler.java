@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.widget.table;
 
-import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -23,8 +22,8 @@ public class FilterHeaderCompiler extends SimpleHeaderCompiler<N2oFilterColumn> 
     public ColumnHeader compile(N2oFilterColumn source, CompileContext<?, ?> context, CompileProcessor p) {
         ColumnHeader header = super.compile(source, context, p);
         header.setFilterable(true);
-        Compiled compile = p.compile(source.getFilter(), context);
-        header.setFilterControl(((StandardField) compile).getControl());
+        StandardField field = p.compile(source.getFilter(), context);
+        header.setFilterControl(field.getControl());
         return header;
     }
 }

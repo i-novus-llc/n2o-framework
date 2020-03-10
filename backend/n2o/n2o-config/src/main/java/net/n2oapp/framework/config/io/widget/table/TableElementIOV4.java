@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.widget.table;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Size;
@@ -77,7 +78,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
 
     private void filterColumn(Element e, N2oFilterColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
-        p.anyChild(e, "filter", c::getFilter, c::setFilter, p.anyOf(SourceComponent.class), ControlIOv2.NAMESPACE);
+        p.anyChild(e, "filter", c::getFilter, c::setFilter, p.anyOf(N2oStandardField.class), ControlIOv2.NAMESPACE);
         p.anyChild(e, null, c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("filter"), CellIOv2.NAMESPACE);
     }
 }
