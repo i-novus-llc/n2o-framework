@@ -100,8 +100,7 @@ public class InputTextAT extends AutoTestBase {
         input.clickPlusStepButton();
         input.shouldHaveValue("8.2");
         input.clickMinusStepButton();
-        /// TODO 7.69999999999 должно ли так быть или должно округляться?
-//        input.shouldHaveValue("7.7");
+        input.shouldHaveValue("7.7");
         // проверка, что значение, измененное кнопками не выходит за границу
         input.val("9.9");
         input.clickPlusStepButton();
