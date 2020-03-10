@@ -56,7 +56,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         uploadScope.setUpload(form.getUpload());
         SubModelsScope subModelsScope = new SubModelsScope();
         CopiedFieldScope copiedFieldScope = new CopiedFieldScope();
-        form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p, widgetScope, query, object,
+        form.getComponent().setFieldsets(initFieldSets(source.getItems(), context, p, widgetScope, query, object, widgetActions,
                 new ModelsScope(ReduxModel.RESOLVE, form.getId(), models), null, subModelsScope, uploadScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeOperation), copiedFieldScope, new ComponentScope(source)));
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new HashMap<>()) : p.getScope(ValidationList.class);

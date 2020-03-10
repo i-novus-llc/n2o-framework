@@ -11,7 +11,9 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
+import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.MenuItem;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
@@ -69,9 +71,16 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
         button.setVisible(sub.getVisible());
         if (sub.getMenuItems() != null) {
             button.setSubMenu(Stream.of(sub.getMenuItems()).map(mi -> {
-                MenuItem menuItem = new MenuItem();
+                PerformButton menuItem = new PerformButton();
                 menuItem.setSrc(p.resolve(property("n2o.api.action.button.src"), String.class));
                 initItem(menuItem, mi, idx, context, p);
+                if (menuItem.getAction() instanceof LinkAction) {
+                    LinkAction linkAction = ((LinkAction) menuItem.getAction());
+                    menuItem.setUrl(linkAction.getUrl());
+                    menuItem.setTarget(linkAction.getTarget());
+                    menuItem.setPathMapping(linkAction.getPathMapping());
+                    menuItem.setQueryMapping(linkAction.getQueryMapping());
+                }
                 return menuItem;
             }).collect(Collectors.toList()));
         }
