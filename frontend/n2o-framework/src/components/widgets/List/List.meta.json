@@ -105,16 +105,10 @@
         }
       }
     },
-    "paging": {
-      "size": 10,
-      "prev": true,
-      "next": true
-    },
     "hasMoreButton": true,
     "fetchOnScroll": false,
     "maxHeight": null,
     "maxWidth": null,
-    "showPagination": false,
     "divider": true,
     "list": {
       "leftTop": {
