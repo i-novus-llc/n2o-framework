@@ -16,6 +16,7 @@ import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -135,7 +136,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     private void compileFieldToolbar(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
         if (source.getToolbar() != null) {
             Toolbar toolbar = p.compile(source.getToolbar(), context);
-            field.setToolbar(toolbar.getGroup(0).getButtons());
+            field.setToolbar(new Group[]{toolbar.getGroup(0)});
         }
     }
 

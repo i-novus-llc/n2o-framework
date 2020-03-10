@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Component;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class Field extends Component {
     @JsonProperty
     private String help;
     @JsonProperty
-    private List<AbstractButton> toolbar;
+    private Group[] toolbar;
     @JsonProperty("dependency")
     private List<ControlDependency> dependencies = new ArrayList<>();
     private List<Validation> serverValidations;

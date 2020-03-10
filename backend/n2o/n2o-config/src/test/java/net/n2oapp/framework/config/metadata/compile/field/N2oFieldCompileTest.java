@@ -44,7 +44,7 @@ public class N2oFieldCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/field/testFieldToolbarCompile.page.xml")
                 .get(new PageContext("testFieldToolbarCompile"));
         List<AbstractButton> toolbar = ((FormWidgetComponent) page.getWidgets().get("testFieldToolbarCompile_testForm").getComponent()).getFieldsets().get(0).getRows()
-                .get(0).getCols().get(0).getFields().get(0).getToolbar();
+                .get(0).getCols().get(0).getFields().get(0).getToolbar()[0].getButtons();
         assertThat(toolbar.size(), is(2));
         assertThat(toolbar.get(0), instanceOf(PerformButton.class));
         assertThat(toolbar.get(1), instanceOf(Submenu.class));
