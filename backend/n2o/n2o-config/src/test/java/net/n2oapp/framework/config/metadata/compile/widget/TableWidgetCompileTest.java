@@ -84,6 +84,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getMessagesForm(), is("$testTable4Compile_filter"));
         assertThat(table.getComponent().getHasSelect(), is(true));
         assertThat(table.getComponent().getFetchOnInit(), is(false));
+        assertThat(table.getAutoCheckboxOnSelect(), is(true));
+        assertThat(table.getRowSelection(), is("check"));
     }
 
     @Test

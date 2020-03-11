@@ -24,6 +24,10 @@ public abstract class AbstractTable<T extends TableWidgetComponent> extends Widg
     private Filter filter;
     @JsonProperty
     private N2oTable.ChildrenToggle children;
+    @JsonProperty
+    private Boolean autoCheckboxOnSelect;
+    @JsonProperty
+    private String rowSelection;
 
     @JsonProperty("table")
     @Override
