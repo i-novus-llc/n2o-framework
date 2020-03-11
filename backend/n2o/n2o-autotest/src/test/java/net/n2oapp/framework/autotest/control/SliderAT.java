@@ -47,12 +47,11 @@ public class SliderAT extends AutoTestBase {
         N2oSlider slider = page.single().widget(FormWidget.class).fields().field("Slider1")
                 .control(N2oSlider.class);
         slider.shouldExists();
-        slider.setStep(2);
 
         slider.shouldHaveValue("-10");
-        slider.val("4");
+        slider.val("4", 2);
         slider.shouldHaveValue("4");
-        slider.val("-8");
+        slider.val("-8", 2);
         slider.shouldHaveValue("-8");
     }
 
@@ -62,7 +61,7 @@ public class SliderAT extends AutoTestBase {
                 .control(N2oSlider.class);
         slider.shouldExists();
 
-        slider.shouldHaveValue("0");
+        slider.shouldHaveValue("-10");
         slider.val("4");
         slider.shouldHaveValue("4");
         slider.val("-8");
@@ -75,7 +74,7 @@ public class SliderAT extends AutoTestBase {
                 .control(N2oSlider.class);
         slider.shouldExists();
 
-        slider.shouldHaveLeftValue("0");
+        slider.shouldHaveLeftValue("-10");
         slider.shouldHaveRightValue("-10");
         slider.valRight("8");
         slider.shouldHaveRightValue("8");
@@ -84,8 +83,8 @@ public class SliderAT extends AutoTestBase {
 
         // пересекаем ползунки
         // проверяем, что первый всегда будет наименьшим
-        slider.valRight("-4");
-        slider.shouldHaveLeftValue("-4");
+        slider.valRight("-3");
+        slider.shouldHaveLeftValue("-3");
         slider.shouldHaveRightValue("-2");
     }
 }

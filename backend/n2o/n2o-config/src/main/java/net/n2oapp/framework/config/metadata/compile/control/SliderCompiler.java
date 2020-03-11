@@ -23,7 +23,7 @@ public class SliderCompiler extends ListControlCompiler<Slider, N2oSlider>{
     public StandardField<Slider> compile(N2oSlider source, CompileContext<?, ?> context, CompileProcessor p) {
         Slider slider = new Slider();
         slider.setMultiple(N2oSlider.Mode.range.equals(source.getMode()));
-        boolean isVertical = source.getVertical();
+        boolean isVertical = Boolean.TRUE.equals(source.getVertical());
         slider.setVertical(isVertical);
 
         slider.setShowTooltip(p.resolve(Placeholders.property("n2o.api.control.slider.tooltip"), Boolean.class));
