@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SnippetRating from '../../snippets/SnippetRating/SnippetRating';
 
-const Rating = ({ max, rating, half, showTooltip, onChange }) => (
+const Rating = ({ value, max, rating, half, showTooltip, onChange }) => (
   <SnippetRating
+    value={value}
     max={max}
     rating={rating}
     half={half}

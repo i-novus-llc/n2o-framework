@@ -26,7 +26,6 @@ import Pagination from '../Table/TablePagination';
  * @param {boolean} hasMoreButton - флаг включения загрузки по нажатию на кнопку
  * @param {number} maxHeight - максимальная высота виджета
  * @param {boolean} fetchOnScroll - запрос при скролле
- * @param {boolean} showPagination - флаг включения пагинации
  * @param {string} prevText - текст previous кнопки пагинации
  * @param {string} nextText - текст next кнопки пагинации
  * @param {boolean} divider - флаг разделителя между строками
@@ -55,7 +54,6 @@ function ListWidget(
     hasMoreButton,
     maxHeight,
     fetchOnScroll,
-    showPagination,
     prevText,
     nextText,
     divider,
@@ -80,7 +78,6 @@ function ListWidget(
       actions={actions}
       filter={prepareFilters()}
       bottomLeft={
-        showPagination &&
         paging && (
           <Pagination
             prev={true}
@@ -134,7 +131,6 @@ ListWidget.propTypes = {
   rowClick: PropTypes.func,
   hasMoreButton: PropTypes.bool,
   maxHeight: PropTypes.number,
-  showPagination: PropTypes.bool,
   prevText: PropTypes.string,
   nextText: PropTypes.string,
   hasSelect: PropTypes.bool,
@@ -150,7 +146,6 @@ ListWidget.defaultProps = {
   filter: {},
   list: {},
   fetchOnScroll: false,
-  showPagination: false,
   prevText: 'Назад',
   nextText: 'Вперед',
   hasSelect: false,
