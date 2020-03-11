@@ -28,8 +28,8 @@ public class SimplePageAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/testSimplePageJson.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/blank.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/simplePage/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/simple/test.header.xml"));
     }
 
     @Test
@@ -38,7 +38,6 @@ public class SimplePageAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Простая страница");
         page.shouldExists();
         StandardButton button = page.single().widget(N2oStandardWidget.class).toolbar().topLeft().button("Вперед");
-        button.shouldBeEnabled();
-        button.click();
+        button.shouldBeDisabled();
     }
 }
