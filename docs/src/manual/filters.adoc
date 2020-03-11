@@ -97,21 +97,6 @@
 </select>
 ----
 
-==== Фильтрация между страницами
-Новая страница может быть фильтрована по данным текущей страницы.
-
-.Предустановленная фильтрация данных в новых страницах
-[source,xml]
-----
-<show-modal
-  page-id="employeeCard"
-  submit-operation-id="update">
-  <pre-filters>
-    <eq field-id="status" value="1"/>
-  </pre-filters>
-</show-modal>
-----
-
 === Значения фильтров
 Значения фильтрации задаются атрибутом `value` для простых типов,
 таких как `<eq>`, `<like>`, `more`, `less` и др.
@@ -136,7 +121,6 @@
 ----
 
 Либо перечислить список значений в дочерних элементах `<value>`:
-.Фильтрация по списку значений
 [source,xml]
 ----
 <pre-filters>
@@ -144,6 +128,14 @@
     <value>1</value>
     <value>2</value>
   </in>
+</pre-filters>
+----
+
+.Фильтрация по параметру, в атрибуте param задается название параметра в url
+[source,xml]
+----
+<pre-filters>
+  <eq field-id="name" param="name" routable="true"/>
 </pre-filters>
 ----
 
