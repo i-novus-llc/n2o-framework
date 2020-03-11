@@ -18,4 +18,6 @@ public interface FileUploadControl extends Control {
     void uploadFileNameShouldBe(int index, String fileName);
 
     void uploadFileSizeShouldBe(int index, String fileSize);
+
+    void uploadFileShouldHaveLink(int index, String href);
 }

@@ -42,4 +42,10 @@ public class N2oFileUploadControl extends N2oControl implements FileUploadContro
         element().parent().$$(".n2o-file-uploader-files-list .n2o-file-uploader-item-size")
                 .get(index).shouldHave(Condition.text(fileSize));
     }
+
+    @Override
+    public void uploadFileShouldHaveLink(int index, String href) {
+        element().parent().$$(".n2o-file-uploader-files-list .n2o-file-uploader-link")
+                .get(index).shouldHave(Condition.attribute("href", href));
+    }
 }
