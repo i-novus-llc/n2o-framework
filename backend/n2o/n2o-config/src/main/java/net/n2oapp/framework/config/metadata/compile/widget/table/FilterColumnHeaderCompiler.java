@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * Компиляция хэдера фильтруемого столбца
  */
 @Component
-public class FilterHeaderCompiler extends SimpleHeaderCompiler<N2oFilterColumn> {
+public class FilterColumnHeaderCompiler extends SimpleColumnHeaderCompiler<N2oFilterColumn> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oFilterColumn.class;

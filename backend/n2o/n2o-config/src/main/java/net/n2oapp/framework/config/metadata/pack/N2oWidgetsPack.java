@@ -6,8 +6,8 @@ import net.n2oapp.framework.config.metadata.compile.N2oButtonGeneratorFactory;
 import net.n2oapp.framework.config.metadata.compile.toolbar.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.table.*;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
-import net.n2oapp.framework.config.metadata.compile.widget.table.FilterHeaderCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.table.SimpleHeaderCompiler;
+import net.n2oapp.framework.config.metadata.compile.widget.table.FilterColumnHeaderCompiler;
+import net.n2oapp.framework.config.metadata.compile.widget.table.SimpleColumnHeaderCompiler;
 
 public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
@@ -16,7 +16,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
         b.compilers(new FormCompiler(),
                 new ListWidgetCompiler(),
                 new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler(),
-                new TableCompiler(), new SimpleHeaderCompiler(), new FilterHeaderCompiler(),
+                new TableCompiler(), new SimpleColumnHeaderCompiler(), new FilterColumnHeaderCompiler(),
                 new HtmlWidgetCompiler(),
                 new CustomWidgetCompiler(),
                 new TreeCompiler(),

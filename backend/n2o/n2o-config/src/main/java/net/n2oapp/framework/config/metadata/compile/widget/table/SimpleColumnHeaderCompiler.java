@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * Компиляция простого хэдера
  */
 @Component
-public class SimpleHeaderCompiler<T extends N2oSimpleColumn> extends BaseHeaderCompiler<T> {
+public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends BaseHeaderCompiler<T> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oSimpleColumn.class;
