@@ -25,5 +25,7 @@ public interface InputSelect extends Control {
 
     void shouldSelected(String value);
 
+    void shouldBeEmpty();
+
     void shouldSelectedMulti(String... values);
 }

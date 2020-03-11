@@ -42,6 +42,11 @@ public class N2oSelect extends N2oControl implements Select {
     }
 
     @Override
+    public void shouldBeEmpty() {
+        element().$(".n2o-input-items").shouldBe(Condition.empty);
+    }
+
+    @Override
     public void clear() {
         element().$(".n2o-input-clear").hover().shouldBe(Condition.visible).click();
     }

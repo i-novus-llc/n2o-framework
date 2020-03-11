@@ -12,14 +12,6 @@ public interface InputText extends Control {
 
     void shouldHavePlaceholder(String placeholder);
 
-    void shouldHaveLength(String length);
-
-    void shouldHaveMin(String min);
-
-    void shouldHaveMax(String max);
-
-    void shouldHaveStep(String step);
-
     void clickPlusStepButton();
 
     void clickMinusStepButton();

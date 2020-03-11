@@ -35,26 +35,6 @@ public class N2oInputText extends N2oControl implements InputText {
     }
 
     @Override
-    public void shouldHaveLength(String length) {
-        element().shouldHave(Condition.attribute("maxLength", length));
-    }
-
-    @Override
-    public void shouldHaveMin(String min) {
-        element().shouldHave(Condition.attribute("min", min));
-    }
-
-    @Override
-    public void shouldHaveMax(String max) {
-        element().shouldHave(Condition.attribute("max", max));
-    }
-
-    @Override
-    public void shouldHaveStep(String step) {
-        element().shouldHave(Condition.attribute("step", step));
-    }
-
-    @Override
     public void clickPlusStepButton() {
         element().parent().$$(".n2o-input-number-buttons button").get(0).click();
     }

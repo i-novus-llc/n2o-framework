@@ -66,6 +66,11 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
+    public void shouldBeEmpty() {
+        element().$(".n2o-input-items .n2o-inp").shouldBe(Condition.empty);
+    }
+
+    @Override
     public void shouldSelectedMulti(String... values) {
         if (isMulti()) {
             ElementsCollection selectedItems = element().$$(".n2o-input-select-selected-list .selected-item");

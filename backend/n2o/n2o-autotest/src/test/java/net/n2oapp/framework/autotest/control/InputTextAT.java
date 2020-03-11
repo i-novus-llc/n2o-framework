@@ -49,7 +49,6 @@ public class InputTextAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldHavePlaceholder("Введите текст");
-        input.shouldHaveLength("10");
         input.shouldHaveValue("default");
         input.val("test-value");
         input.shouldHaveValue("test-value");
@@ -63,10 +62,6 @@ public class InputTextAT extends AutoTestBase {
         N2oInputText input = page.single().widget(FormWidget.class).fields().field("InputNumber")
                 .control(N2oInputText.class);
         input.shouldExists();
-
-        input.shouldHaveMin("-100");
-        input.shouldHaveMax("100");
-        input.shouldHaveStep("2");
 
         input.shouldHaveValue("5");
         input.val("10");

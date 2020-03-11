@@ -48,11 +48,11 @@ public class InputSelectAT extends AutoTestBase {
                 .control(N2oInputSelect.class);
         input.shouldExists();
 
-        input.shouldSelected("");
+        input.shouldBeEmpty();
         input.select(1);
         input.shouldSelected("Two");
         input.clear();
-        input.shouldSelected("");
+        input.shouldBeEmpty();
 
         input.val("Three");
         input.shouldHaveValue("Three");

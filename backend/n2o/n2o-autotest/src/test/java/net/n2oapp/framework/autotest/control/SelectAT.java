@@ -45,12 +45,12 @@ public class SelectAT extends AutoTestBase {
                 .control(N2oSelect.class);
         input.shouldExists();
 
-        input.shouldSelected("");
+        input.shouldBeEmpty();
         input.select(1);
         input.shouldSelected("Two");
         input.shouldBeCleanable();
         input.clear();
-        input.shouldSelected("");
+        input.shouldBeEmpty();
 
         input = page.single().widget(FormWidget.class).fields().field("Select2")
                 .control(N2oSelect.class);
