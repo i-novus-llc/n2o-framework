@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * Тест на компиляцию ячейки с текстом
  */
-public class TextCellCompilerTest extends SourceCompileTestBase {
+public class TextCellCompileTest extends SourceCompileTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -34,17 +34,19 @@ public class TextCellCompilerTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCompileActions() {
+    public void testTextCell() {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/cell/testTextCell.widget.xml")
                 .get(new WidgetContext("testTextCell"));
 
         N2oTextCell cell = (N2oTextCell) table.getComponent().getCells().get(0);
+        assertThat(cell.getSrc(), is("TextCell"));
         assertThat(cell.getFieldKey(), is("text"));
         assertThat(cell.getFormat(), is("0,0.00"));
         assertThat(cell.getSubTextFieldKey(), is("subtext"));
         assertThat(cell.getSubTextFormat(), is("date DD.MM.YYYY"));
 
         cell = (N2oTextCell) table.getComponent().getCells().get(1);
+        assertThat(cell.getSrc(), is("TextCell"));
         assertThat(cell.getFieldKey(), is("text2"));
         assertThat(cell.getFormat(), is("0,0.00"));
         assertThat(cell.getSubTextFieldKey(), is("subtext2"));

@@ -17,9 +17,9 @@ public class N2oIconCell extends N2oAbstractCell {
     private LabelType type;
     @JsonProperty("type")
     private IconType iconType;
-    @JsonProperty("icon")
+    @JsonProperty
     private String icon;
-    @JsonProperty()
+    @JsonProperty
     private String text;
     @JsonProperty("textPlace")
     private Position position;
