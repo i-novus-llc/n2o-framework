@@ -27,7 +27,7 @@ public class AutoCompleteCompiler extends StandardFieldCompiler<AutoComplete, N2
 
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.auto_complete";
+        return "n2o.api.control.auto_complete.src";
     }
 
     @Override

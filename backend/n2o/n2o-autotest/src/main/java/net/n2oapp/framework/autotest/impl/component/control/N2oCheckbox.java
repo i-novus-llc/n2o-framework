@@ -6,7 +6,7 @@ import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 /**
  * Компонент Checkbox для автотестирования
  */
-public class N2oCheckBox extends N2oControl implements Checkbox {
+public class N2oCheckbox extends N2oControl implements Checkbox {
 
     @Override
     public boolean isChecked() {
