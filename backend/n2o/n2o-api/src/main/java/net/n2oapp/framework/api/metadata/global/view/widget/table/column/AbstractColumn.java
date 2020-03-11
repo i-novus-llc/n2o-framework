@@ -8,8 +8,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 
-import java.io.Serializable;
-
 /**
  * Абстрактный столбец таблицы
  */

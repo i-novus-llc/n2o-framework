@@ -73,7 +73,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         table.setFilter(createFilter(source, context, p, widgetScope, query, object,
                 new ModelsScope(ReduxModel.FILTER, table.getId(), models), new FiltersScope(table.getFilters()), subModelsScope, uploadScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery)));
-        ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new HashMap<>()) : p.getScope(ValidationList.class);
+        ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new EnumMap<>(ReduxModel.class)) : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(table.getId(), ReduxModel.FILTER, validationList);
         //порядок вызова compileValidation и compileDataProviderAndRoutes важен
         compileValidation(table, source, validationScope);
@@ -172,13 +172,11 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
     }
 
     private void compileHeaderWithCell(N2oTable source, CompiledObject object, CompiledQuery query, List<ColumnHeader> headers,
-                                       AbstractColumn column, CompileContext<?, ?> context, CompileProcessor p, IndexScope columnIndex,
-                                       CellsScope cellsScope, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions) {
+                                       AbstractColumn column, CompileContext<?, ?> context, CompileProcessor p, Object... scopes) {
         column.setId(p.cast(column.getId(), column.getTextFieldId()));
         column.setSortingFieldId(p.cast(column.getSortingFieldId(), column.getTextFieldId()));
 
-        ColumnHeader header = p.compile(column, context, p, columnIndex, cellsScope, widgetScope, widgetRouteScope,
-                new ComponentScope(column), object, widgetActions);
+        ColumnHeader header = p.compile(column, context, p, new ComponentScope(column), object, scopes);
 
         if (StringUtils.isLink(column.getVisible())) {
             Condition condition = new Condition();

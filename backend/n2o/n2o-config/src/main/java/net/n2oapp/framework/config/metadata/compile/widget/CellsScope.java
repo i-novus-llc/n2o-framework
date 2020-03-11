@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 public class CellsScope implements Serializable {
-    List<N2oCell> cells;
+    private List<N2oCell> cells;
 
     public CellsScope(List<N2oCell> cells) {
         this.cells = cells;

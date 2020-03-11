@@ -31,6 +31,6 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends BaseH
         if (cellsScope != null && cellsScope.getCells() != null)
             cellsScope.getCells().add(cell);
 
-        return compileHeader(source, p);
+        return compileHeader(source);
     }
 }
