@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.api.component.header;
+package net.n2oapp.framework.autotest.api.component.widget.table;
 
 import com.codeborne.selenide.Condition;
 

@@ -128,8 +128,11 @@ class InputNumber extends React.Component {
     } else if (type === 'down') {
       newValue = currentValue - delta;
     }
+
     if (isValid(newValue, min, max)) {
-      this.setState({ value: newValue.toFixed(this.stepPrecition) }, () =>
+      newValue = newValue.toFixed(this.stepPrecition);
+
+      this.setState({ value: newValue }, () =>
         this.props.onChange(newValue)
       );
     }

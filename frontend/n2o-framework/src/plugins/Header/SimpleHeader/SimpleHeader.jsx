@@ -142,8 +142,10 @@ class SimpleHeader extends React.Component {
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav navbar>{navItems}</Nav>
-            <Nav className="ml-auto" navbar>
+            <Nav className="main-nav" navbar>
+              {navItems}
+            </Nav>
+            <Nav className="ml-auto main-nav-extra" navbar>
               {extraNavItems}
               {search && (
                 <NavItem>

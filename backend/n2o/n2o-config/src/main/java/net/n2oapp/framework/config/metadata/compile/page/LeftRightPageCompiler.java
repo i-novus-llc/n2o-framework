@@ -17,17 +17,17 @@ import java.util.*;
  * Компиляция страницы с правыми и левыми регионами
  */
 @Component
-public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage> {
+public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage, StandardPage> {
     @Override
     public StandardPage compile(N2oLeftRightPage source, PageContext context, CompileProcessor p) {
+        StandardPage page = new StandardPage();
         List<N2oRegion> allRegions = new ArrayList<>();
         allRegions.addAll(Arrays.asList(source.getLeft()));
         allRegions.addAll(Arrays.asList(source.getRight()));
-        StandardPage page = compilePage(source, context, p, allRegions.toArray(new N2oRegion[0]));
         if ((source.getLeftWidth() != null && !source.getLeftWidth().isEmpty()) ||
                 (source.getRightWidth() != null && !source.getRightWidth().isEmpty()))
             page.setWidth(page.new RegionWidth(source.getLeftWidth(), source.getRightWidth()));
-        return page;
+        return compilePage(source, page, context, p, allRegions.toArray(new N2oRegion[0]), null);
     }
 
     @Override
@@ -35,8 +35,8 @@ public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage> {
                                PageContext context, PageScope pageScope, PageRoutes pageRoutes) {
         Map<String, List<Region>> regionMap = new HashMap<>();
         IndexScope index = new IndexScope();
-        mapRegion(source.getRight(), "right", regionMap, p, context, pageScope, index);
-        mapRegion(source.getLeft(), "left", regionMap, p, context, pageScope, index);
+        mapRegion(source.getRight(), "right", regionMap, p, context, pageScope, index, pageRoutes);
+        mapRegion(source.getLeft(), "left", regionMap, p, context, pageScope, index, pageRoutes);
         page.setRegions(regionMap);
     }
 
@@ -46,11 +46,11 @@ public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage> {
     }
 
     private void mapRegion(N2oRegion[] regions, String position, Map<String, List<Region>> regionMap,
-                           CompileProcessor p, PageContext context, PageScope pageScope, IndexScope index) {
+                           CompileProcessor p, PageContext context, PageScope pageScope, IndexScope index, PageRoutes pageRoutes) {
         if (regions != null) {
             List<Region> rightRegion = new ArrayList<>();
             for (N2oRegion n2oRegion : regions) {
-                Region region = p.compile(n2oRegion, context, index, pageScope);
+                Region region = p.compile(n2oRegion, context, index, pageScope, pageRoutes);
                 rightRegion.add(region);
             }
             regionMap.put(position, rightRegion);
