@@ -78,9 +78,6 @@ public class InputTextAT extends AutoTestBase {
         input.val("-99");
         input.clickMinusStepButton();
         input.shouldHaveValue("-99");
-        // ввод некорректного значения (вне границ)
-        input.val("-101");
-        input.shouldHaveValue("");
     }
 
     @Test
@@ -103,8 +100,5 @@ public class InputTextAT extends AutoTestBase {
         input.val("-9.9");
         input.clickMinusStepButton();
         input.shouldHaveValue("-9.9");
-        // ввод некорректного значения (вне границ)
-        input.val("-10.1");
-        input.shouldHaveValue("");
     }
 }

@@ -12,26 +12,28 @@ public class N2oInputText extends N2oControl implements InputText {
 
     @Override
     public void shouldBeEmpty() {
-        element().parent().$(".n2o-input").shouldBe(Condition.empty);
+        SelenideElement elm = inputElement();
+        if (elm.exists()) inputElement().shouldBe(Condition.empty);
+        else cellInputElement().shouldBe(Condition.empty);
     }
 
     @Override
     public String val() {
-        SelenideElement elm = element().parent().$(".n2o-input");
-        return elm.exists() ? elm.val() : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();
+        SelenideElement elm = inputElement();
+        return elm.exists() ? elm.val() : cellInputElement().text();
     }
 
     @Override
     public void val(String value) {
-        element().parent().$(".n2o-input").sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
-        element().parent().$(".n2o-input").pressEnter();
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        inputElement().pressEnter();
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        SelenideElement elm = element().parent().$(".n2o-input");
+        SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(Condition.value(value));
-        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.text(value));
+        else cellInputElement().shouldHave(Condition.text(value));
     }
 
     @Override
@@ -47,5 +49,13 @@ public class N2oInputText extends N2oControl implements InputText {
     @Override
     public void clickMinusStepButton() {
         element().parent().$$(".n2o-input-number-buttons button").get(1).click();
+    }
+
+    private SelenideElement inputElement() {
+        return element().parent().$(".n2o-input");
+    }
+
+    private SelenideElement cellInputElement() {
+        return element().$(".n2o-editable-cell .n2o-editable-cell-text");
     }
 }

@@ -12,25 +12,27 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void shouldBeEmpty() {
-        element().$(".n2o-date-input input").shouldBe(Condition.empty);
+        SelenideElement elm = inputElement();
+        if (elm.exists()) elm.shouldBe(Condition.empty);
+        else cellInputElement().shouldBe(Condition.empty);
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        SelenideElement elm = element().$(".n2o-date-input input");
+        SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(Condition.value(value));
-        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.text(value));
+        else cellInputElement().shouldHave(Condition.text(value));
     }
 
     @Override
     public String val() {
-        SelenideElement elm = element().$(".n2o-date-input input");
-        return elm.exists() ? elm.val() : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();
+        SelenideElement elm = inputElement();
+        return elm.exists() ? elm.val() : cellInputElement().text();
     }
 
     @Override
     public void val(String value) {
-        element().$(".n2o-date-input input").sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
         element().click();
     }
 
@@ -45,7 +47,7 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void shouldBeDisabled() {
-        element().$(".n2o-date-input input").shouldBe(Condition.disabled);
+        inputElement().shouldBe(Condition.disabled);
     }
 
     @Override
@@ -91,5 +93,13 @@ public class N2oDateInput extends N2oControl implements DateInput {
     @Override
     public void clickNextMonthButton() {
         element().$(".n2o-calendar-header .fa-angle-right").click();
+    }
+
+    private SelenideElement inputElement() {
+        return element().$(".n2o-date-input input");
+    }
+
+    private SelenideElement cellInputElement() {
+        return element().$(".n2o-editable-cell .n2o-editable-cell-text");
     }
 }
