@@ -9,6 +9,4 @@ public interface Checkbox extends Control {
     void setChecked(boolean val);
 
     void shouldBeChecked();
-
-    void shouldBeUnchecked();
 }

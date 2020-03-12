@@ -45,6 +45,7 @@ public class RadioGroupAT extends AutoTestBase {
                 .control(N2oRadioGroup.class);
         radio.shouldExists();
 
+        radio.shouldBeEmpty();
         radio.check("Three");
         radio.shouldBeChecked("Three");
         radio.check("Two");

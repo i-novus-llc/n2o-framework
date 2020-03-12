@@ -16,8 +16,6 @@ public interface Select extends Control {
 
     void select(Condition by);
 
-    void shouldBeEmpty();
-
     void clear();
 
     void shouldBeCleanable();

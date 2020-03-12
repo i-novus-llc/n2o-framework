@@ -45,9 +45,7 @@ public class CheckboxGroupAT extends AutoTestBase {
                 .control(N2oCheckboxGroup.class);
         checkboxGroup.shouldExists();
 
-        checkboxGroup.shouldBeUnchecked("One");
-        checkboxGroup.shouldBeUnchecked("Two");
-        checkboxGroup.shouldBeUnchecked("Three");
+        checkboxGroup.shouldBeEmpty();
         checkboxGroup.check("One");
         checkboxGroup.check("Two");
         checkboxGroup.check("Three");

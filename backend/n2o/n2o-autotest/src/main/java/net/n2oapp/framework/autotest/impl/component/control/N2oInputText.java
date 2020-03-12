@@ -11,6 +11,11 @@ import org.openqa.selenium.Keys;
 public class N2oInputText extends N2oControl implements InputText {
 
     @Override
+    public void shouldBeEmpty() {
+        element().parent().$(".n2o-input").shouldBe(Condition.empty);
+    }
+
+    @Override
     public String val() {
         SelenideElement elm = element().parent().$(".n2o-input");
         return elm.exists() ? elm.val() : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();

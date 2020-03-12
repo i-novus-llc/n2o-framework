@@ -11,6 +11,11 @@ import org.openqa.selenium.Keys;
 public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
+    public void shouldBeEmpty() {
+        element().$(".n2o-date-input input").shouldBe(Condition.empty);
+    }
+
+    @Override
     public void shouldHaveValue(String value) {
         SelenideElement elm = element().$(".n2o-date-input input");
         if (elm.exists()) elm.shouldHave(Condition.value(value));

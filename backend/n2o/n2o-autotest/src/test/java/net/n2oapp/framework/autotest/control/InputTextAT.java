@@ -49,7 +49,7 @@ public class InputTextAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldHavePlaceholder("Введите текст");
-        input.shouldHaveValue("default");
+        input.shouldBeEmpty();
         input.val("test-value");
         input.shouldHaveValue("test-value");
         // превышение указанной длины

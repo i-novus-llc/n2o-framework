@@ -48,8 +48,9 @@ public class DatePickerAT extends AutoTestBase {
                 .control(N2oDateInput.class);
         date.shouldExists();
 
+        date.shouldBeEmpty();
         date.val("15.02.2020");
-//        date.shouldHaveValue("15.02.2020");
+        date.shouldHaveValue("15.02.2020");
         date.clickCalendarButton();
         date.shouldBeActiveDay("15");
         // проверка, что значения, выходящие за границы min/max, скрыты
@@ -72,9 +73,9 @@ public class DatePickerAT extends AutoTestBase {
         date.shouldHaveCurrentMonth("Январь");
         // проверка, что значения, выходящие за границы min/max, не вводятся
         date.val("05.02.2020");
-        date.shouldHaveValue("");
+        date.shouldHaveValue("12.02.2020");
         date.val("25.02.2020");
-        date.shouldHaveValue("");
+        date.shouldHaveValue("12.02.2020");
     }
 
     @Test

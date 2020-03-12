@@ -9,6 +9,12 @@ import org.openqa.selenium.Keys;
  * Компонент выбора из выпадающего списка для автотестирования
  */
 public class N2oSelect extends N2oControl implements Select {
+
+    @Override
+    public void shouldBeEmpty() {
+        element().$(".n2o-input-items").shouldBe(Condition.empty);
+    }
+
     @Override
     public void openOptions() {
         element().$(".n2o-input-control .n2o-popup-control").click();
@@ -39,11 +45,6 @@ public class N2oSelect extends N2oControl implements Select {
     @Override
     public void shouldSelected(String value) {
         element().$(".n2o-input-items").shouldHave(Condition.text(value));
-    }
-
-    @Override
-    public void shouldBeEmpty() {
-        element().$(".n2o-input-items").shouldBe(Condition.empty);
     }
 
     @Override

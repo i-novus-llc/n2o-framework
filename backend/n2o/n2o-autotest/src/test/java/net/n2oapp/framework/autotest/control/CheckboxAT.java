@@ -47,14 +47,14 @@ public class CheckboxAT extends AutoTestBase {
 
         checkbox.shouldBeChecked();
         checkbox.setChecked(false);
-        checkbox.shouldBeUnchecked();
+        checkbox.shouldBeEmpty();
 
 
         checkbox = page.single().widget(FormWidget.class).fields().field("Checkbox2")
                 .control(N2oCheckbox.class);
         checkbox.shouldExists();
 
-        checkbox.shouldBeUnchecked();
+        checkbox.shouldBeEmpty();
         checkbox.setChecked(true);
         checkbox.shouldBeChecked();
     }

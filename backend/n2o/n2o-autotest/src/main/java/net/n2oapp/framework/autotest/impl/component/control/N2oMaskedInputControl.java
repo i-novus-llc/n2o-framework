@@ -11,6 +11,11 @@ import org.openqa.selenium.Keys;
 public class N2oMaskedInputControl extends N2oControl implements MaskedInputControl {
 
     @Override
+    public void shouldBeEmpty() {
+        element().parent().$(".n2o-input-mask").shouldBe(Condition.empty);
+    }
+
+    @Override
     public String val() {
         SelenideElement elm = element().parent().$(".n2o-input-mask");
         return elm.exists() ? elm.val() : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();
