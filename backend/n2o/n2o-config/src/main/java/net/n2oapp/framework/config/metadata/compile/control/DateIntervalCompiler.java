@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
+import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.UploadScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
@@ -62,22 +63,26 @@ public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2
     }
 
     @Override
-    protected void compileParams(DateInterval control, N2oDateInterval source, WidgetParamScope paramScope, UploadScope uploadScope, ReduxModel model, CompileProcessor p) {
+    protected void compileParams(DateInterval control, N2oDateInterval source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
         if (source.getBeginParam() != null || source.getEndParam() != null) {
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            if (source.getBeginParam() != null) {
-                String fieldId = control.getId() + ".begin";
-                BindLink onSet = new ModelLink(model, widgetScope.getClientWidgetId(), fieldId);
-                ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getClientWidgetId(), model, fieldId,
-                        colon(source.getBeginParam()));
-                paramScope.addQueryMapping(source.getBeginParam(), onGet, onSet);
-            }
-            if (source.getEndParam() != null) {
-                String fieldId = control.getId() + ".end";
-                BindLink onSet = new ModelLink(model, widgetScope.getClientWidgetId(), fieldId);
-                ReduxAction onGet = Redux.dispatchUpdateModel(widgetScope.getClientWidgetId(), model, fieldId,
-                        colon(source.getEndParam()));
-                paramScope.addQueryMapping(source.getEndParam(), onGet, onSet);
+            ModelsScope modelsScope = p.getScope(ModelsScope.class);
+            if (modelsScope != null) {
+                if (source.getBeginParam() != null) {
+                    String fieldId = control.getId() + ".begin";
+                    ModelLink onSet = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId(), fieldId);
+                    onSet.setParam(source.getParam());
+                    ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), fieldId,
+                            colon(source.getBeginParam()));
+                    paramScope.addQueryMapping(source.getBeginParam(), onGet, onSet);
+                }
+                if (source.getEndParam() != null) {
+                    String fieldId = control.getId() + ".end";
+                    ModelLink onSet = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId(), fieldId);
+                    onSet.setParam(source.getParam());
+                    ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), fieldId,
+                            colon(source.getEndParam()));
+                    paramScope.addQueryMapping(source.getEndParam(), onGet, onSet);
+                }
             }
         }
     }

@@ -268,15 +268,26 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         }
         if (res.isPresent()) {
             Object value = params.get(res.get());
-            if (value instanceof String)
-                value = resolveText((String) value);
-            if (value != null) {
-                BindLink resultLink = link instanceof ModelLink ? new ModelLink((ModelLink) link) : new BindLink(link.getBindLink());
-                resultLink.setValue(value);
-                return resultLink;
-            }
+            BindLink resultLink = createLink(link, value);
+            if (resultLink != null) return resultLink;
+        }
+        if (link instanceof ModelLink && ((ModelLink) link).getParam() != null) {
+            Object value = params.get(((ModelLink) link).getParam());
+            BindLink resultLink = createLink(link, value);
+            if (resultLink != null) return resultLink;
         }
         return link;
+    }
+
+    private BindLink createLink(BindLink link, Object value) {
+        if (value instanceof String)
+            value = resolveText((String) value);
+        if (value != null) {
+            BindLink resultLink = link instanceof ModelLink ? new ModelLink((ModelLink) link) : new BindLink(link.getBindLink());
+            resultLink.setValue(value);
+            return resultLink;
+        }
+        return null;
     }
 
     @Override

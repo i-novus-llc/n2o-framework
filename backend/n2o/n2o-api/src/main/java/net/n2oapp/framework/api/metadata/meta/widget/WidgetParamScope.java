@@ -16,12 +16,7 @@ import java.util.Map;
 @Getter
 @Setter
 public class WidgetParamScope {
-    private String clientWidgetId;
     private Map<String, PageRoutes.Query> queryMapping = new LinkedHashMap<>();
-
-    public WidgetParamScope(String clientWidgetId) {
-        this.clientWidgetId = clientWidgetId;
-    }
 
     /**
      * Добавить параметр запроса

@@ -10,7 +10,10 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Базовое связывание данных на странице
@@ -27,6 +30,21 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             for (PageRoutes.Route route : page.getRoutes().getList()) {
                 route.setPath(p.resolveUrl(route.getPath(), pathMappings, null));
             }
+            if (page.getRoutes().getQueryMapping() != null) {
+                if (page.getModels() == null) {
+                    page.setModels(new Models());
+                }
+                HashMap<String, ModelLink> resolvedModelLinks = new HashMap<>();
+                page.getRoutes().getQueryMapping().keySet().stream()
+                        .filter(param -> page.getRoutes().getQueryMapping().get(param).getOnSet() instanceof ModelLink)
+                        .forEach(param -> resolvedModelLinks.put(param, (ModelLink) p.resolveLink(page.getRoutes().getQueryMapping().get(param).getOnSet())));
+                resolvedModelLinks.keySet().stream().filter(param -> resolvedModelLinks.get(param).isConst())
+                        .forEach(param -> {
+                            ModelLink modelLink = resolvedModelLinks.get(param);
+                            page.getModels().add(modelLink.getModel(), modelLink.getWidgetId(), modelLink.getFieldId(), modelLink);
+                });
+            }
+
         }
         if (page.getBreadcrumb() != null)
             page.getBreadcrumb().stream().filter(b -> b.getPath() != null)
@@ -34,6 +52,8 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                         b.setPath(p.resolveUrl(b.getPath()));
                         b.setLabel(p.resolveText(b.getLabel(), b.getModelLink()));
                     });
+
+
         if (page.getModels() != null) {
             page.getModels().values().forEach(bl -> {
                 if (bl.getValue() instanceof String) {
@@ -50,7 +70,6 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             //порядок вызова функций важен, сначала разрешаются submodels, потом удаляются значения по умолчанию которые резолвятся из url
             List<ModelLink> filterLinks = collectFilterLinks(page.getModels(), widgets);
             resolveLinks(page.getModels(), filterLinks, p);
-            resolveParams(page, p);
         }
         if (page.getPageProperty() != null) {
             page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(),
@@ -62,22 +81,6 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             }
         }
         return page;
-    }
-
-    private void resolveParams(D page, BindProcessor p) {
-        if (page.getRoutes() != null && page.getRoutes().getQueryMapping() != null) {
-            page.getRoutes().getQueryMapping().forEach((k, v) -> {
-                if (v.getOnGet() != null && v.getOnGet().getPayload() != null &&
-                        v.getOnGet().getPayload().containsKey("value") &&
-                        p.canResolveParam(v.getOnGet().getPayload().get("value").toString().replace(":", "")) &&
-                        ((ModelLink)v.getOnSet()).getSubModelQuery() == null) {
-                    Optional<String> key = page.getModels().keySet().stream().filter(mk -> page.getModels().get(mk).equalsLink(v.getOnSet())).findFirst();
-                    if (key.isPresent()) {
-                        page.getModels().remove(key.get());
-                    }
-                }
-            });
-        }
     }
 
     private List<ModelLink> collectFilterLinks(Models models, Map<String, Widget> widgets) {

@@ -72,8 +72,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage> extends PageCompil
         page.setWidgets(initWidgets(routeScope, pageRoutes, sourceWidgets,
                 context, p, pageScope, breadcrumb, validationList, models, pageRoutesScope, widgetObjectScope));
         registerRoutes(pageRoutes, context, p);
-        if (!(context instanceof ModalPageContext))
-            page.setRoutes(pageRoutes);
+        page.setRoutes(pageRoutes);
         //compile region
         initRegions(source, page, p, context, pageScope);
         CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;

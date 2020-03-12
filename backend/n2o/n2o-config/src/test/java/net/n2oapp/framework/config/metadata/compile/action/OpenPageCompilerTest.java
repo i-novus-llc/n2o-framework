@@ -8,10 +8,14 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.action.PerformActionPayload;
+import net.n2oapp.framework.api.metadata.meta.action.SelectedWidgetPayload;
+import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
+import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.InputSelect;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -141,8 +145,8 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         Map<String, ReduxAction> pathMapping = openPage.getRoutes().getPathMapping();
         assertThat(pathMapping.size(), is(1));
         assertThat(pathMapping.get("page_widget_action2_main_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
-        assertThat(pathMapping.get("page_widget_action2_main_id").getPayload().get("widgetId"), is("page_widget_action2_main"));
-        assertThat(pathMapping.get("page_widget_action2_main_id").getPayload().get("value"), is(":page_widget_action2_main_id"));
+        assertThat(((SelectedWidgetPayload)pathMapping.get("page_widget_action2_main_id").getPayload()).getWidgetId(), is("page_widget_action2_main"));
+        assertThat(((SelectedWidgetPayload)pathMapping.get("page_widget_action2_main_id").getPayload()).getValue(), is(":page_widget_action2_main_id"));
 
 
         assertThat(openPage.getWidget().getActions().size(), is(2));
@@ -279,8 +283,8 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         Map<String, ReduxAction> pathMapping = openPage.getRoutes().getPathMapping();
         assertThat(pathMapping.size(), is(1));
         assertThat(pathMapping.get("page_widget_masterDetail_main_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
-        assertThat(pathMapping.get("page_widget_masterDetail_main_id").getPayload().get("widgetId"), is("page_widget_masterDetail_main"));
-        assertThat(pathMapping.get("page_widget_masterDetail_main_id").getPayload().get("value"), is(":page_widget_masterDetail_main_id"));
+        assertThat(((SelectedWidgetPayload)pathMapping.get("page_widget_masterDetail_main_id").getPayload()).getWidgetId(), is("page_widget_masterDetail_main"));
+        assertThat(((SelectedWidgetPayload)pathMapping.get("page_widget_masterDetail_main_id").getPayload()).getValue(), is(":page_widget_masterDetail_main_id"));
 
         PageContext detailContext = (PageContext) route("/page/widget/gender/masterDetail", Page.class);
         assertThat(detailContext.getQueryRouteMapping().size(), is(4));
@@ -402,16 +406,17 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         Map<String, PageRoutes.Query> queryMapping = openPage.getRoutes().getQueryMapping();
         assertThat(queryMapping.size(), is(3));
         ReduxAction onGet = queryMapping.get("name").getOnGet();
-        assertThat(onGet.getPayload().get("prefix"), is("resolve"));
-        assertThat(onGet.getPayload().get("key"), is("page_widget_defaultValue_main"));
-        assertThat(onGet.getPayload().get("field"), is("surname"));
-        assertThat(onGet.getPayload().get("value"), is(":name"));
+        UpdateModelPayload payload = (UpdateModelPayload) onGet.getPayload();
+        assertThat(payload.getPrefix(), is("resolve"));
+        assertThat(payload.getKey(), is("page_widget_defaultValue_main"));
+        assertThat(payload.getField(), is("surname"));
+        assertThat(payload.getValue(), is(":name"));
         assertThat(queryMapping.get("name").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].surname"));
-        onGet = queryMapping.get("gender_id").getOnGet();
-        assertThat(onGet.getPayload().get("prefix"), is("resolve"));
-        assertThat(onGet.getPayload().get("key"), is("page_widget_defaultValue_main"));
-        assertThat(onGet.getPayload().get("field"), is("gender.id"));
-        assertThat(onGet.getPayload().get("value"), is(":gender_id"));
+        payload = (UpdateModelPayload) queryMapping.get("gender_id").getOnGet().getPayload();
+        assertThat(payload.getPrefix(), is("resolve"));
+        assertThat(payload.getKey(), is("page_widget_defaultValue_main"));
+        assertThat(payload.getField(), is("gender.id"));
+        assertThat(payload.getValue(), is(":gender_id"));
         assertThat(queryMapping.get("gender_id").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].gender.id"));
 
         DataSet data = new DataSet();
@@ -420,7 +425,9 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         data.put("name", "testName");
         data.put("surname", "Ivanov");
         openPage = (SimplePage) read().compile().bind().get(context, data);
-        assertThat(openPage.getModels().size(), is(0));
+        assertThat(openPage.getModels().size(), is(2));
+        assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].surname").getValue(), is("testName"));
+        assertThat(((DefaultValues)openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate").getValue()).getValues().get("begin"), is("2019-02-14T00:00:00"));
 
         context = (PageContext) route("/page/widget/defaultValueQuery", Page.class);
         openPage = (SimplePage) read().compile().get(context);
