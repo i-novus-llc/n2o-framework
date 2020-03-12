@@ -1,4 +1,3 @@
-import TextTableHeader from '../../headers/TextTableHeader';
 import SwitchCell from './SwitchCell';
 
 export const textCellProps = {
@@ -80,30 +79,4 @@ export const modelFromDefaultView = {
   switchDefault: {
     ...imageCellProps,
   },
-};
-
-export const tableProps = {
-  headers: [
-    {
-      id: 'header',
-      component: TextTableHeader,
-      label: 'Переключаемая ячейка',
-    },
-  ],
-  cells: [
-    {
-      component: SwitchCell,
-    },
-  ],
-  datasource: [
-    {
-      ...model,
-    },
-    {
-      ...model2,
-    },
-    {
-      ...modelFromDefaultView,
-    },
-  ],
 };

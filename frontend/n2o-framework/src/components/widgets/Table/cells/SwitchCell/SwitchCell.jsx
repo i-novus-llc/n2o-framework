@@ -1,42 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import isUndefined from 'lodash/isUndefined';
+
 import Factory from '../../../../../core/factory/Factory';
 import { CELLS } from '../../../../../core/factory/factoryLevels';
 
-function SwitchCell({ model }) {
-  const currentCellType = get(model, 'switchFieldId');
-  const cellsCollection = get(model, 'switchList');
-  const currentCell = get(cellsCollection, currentCellType);
+function SwitchCell(props) {
+  const currentCellType = get(props, 'switchFieldId');
+  const cellsCollection = get(props, 'switchList');
 
-  const defaultCell = get(model, 'switchDefault');
+  const defaultCell = get(props, 'switchDefault');
+  const cellProps = get(cellsCollection, currentCellType, defaultCell);
 
-  return isUndefined(currentCell) ? (
-    <Factory level={CELLS} model={defaultCell} {...defaultCell} />
-  ) : (
-    <Factory
-      level={CELLS}
-      src={currentCellType}
-      model={currentCell}
-      {...currentCell}
-    />
-  );
+  return <Factory level={CELLS} {...cellProps} />;
 }
 
 SwitchCell.propTypes = {
   /**
-   * model: модель данных,
-   * из которой по switchFieldId
+   * props: метаданные,
+   * из которых по switchFieldId
    * в switchList берется Cell.
    * Если ключ не подходит,
    * Cell по switchDefault
    **/
   model: PropTypes.object,
-};
-
-SwitchCell.defaultProps = {
-  model: {},
 };
 
 export default SwitchCell;

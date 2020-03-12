@@ -4,11 +4,7 @@ import { storiesOf } from '@storybook/react';
 import Table from '../../Table';
 import SwitchCell from './SwitchCell';
 
-import {
-  model,
-  modelFromDefaultView,
-  tableProps,
-} from './switchCellStoryProps';
+import { model, modelFromDefaultView } from './switchCellStoryProps';
 
 import switchCellJSON from './SwitchCell.meta';
 
@@ -25,7 +21,7 @@ stories
   .add(
     'Компонент',
     () => {
-      return <SwitchCell model={model} />;
+      return <SwitchCell {...model} />;
     },
     {
       info: {
@@ -33,7 +29,7 @@ stories
       ~~~js
       import SwitchCell from 'n2o-framework/lib/components/widgets/Table/cells/SwitchCell/SwitchCell';
       <SwitchCell
-        model="модель данных"
+        props="метаданные"
        />
       ~~~
       `,
@@ -43,7 +39,7 @@ stories
   .add(
     'Метаданные',
     () => {
-      return <SwitchCell model={switchCellJSON} />;
+      return <SwitchCell {...switchCellJSON} />;
     },
     {
       info: {
@@ -51,7 +47,7 @@ stories
       ~~~js
       import SwitchCell from 'n2o-framework/lib/components/widgets/Table/cells/SwitchCell/SwitchCell';
       <SwitchCell
-        model="модель данных"
+        props="метаданные"
        />
       ~~~
       `,
@@ -61,7 +57,7 @@ stories
   .add(
     'switchDefault',
     () => {
-      return <SwitchCell model={modelFromDefaultView} />;
+      return <SwitchCell {...modelFromDefaultView} />;
     },
     {
       info: {
@@ -69,25 +65,7 @@ stories
       ~~~js
       import SwitchCell from 'n2o-framework/lib/components/widgets/Table/cells/SwitchCell/SwitchCell';
       <SwitchCell
-        model="модель данных"
-       />
-      ~~~
-      `,
-      },
-    }
-  )
-  .add(
-    'в Таблице',
-    () => {
-      return <Table {...tableProps} />;
-    },
-    {
-      info: {
-        text: `
-      ~~~js
-      import SwitchCell from 'n2o-framework/lib/components/widgets/Table/cells/SwitchCell/SwitchCell';
-      <SwitchCell
-        model="модель данных"
+        props="метаданные"
        />
       ~~~
       `,
