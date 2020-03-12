@@ -52,17 +52,20 @@ public class N2oDateInput extends N2oControl implements DateInput {
 
     @Override
     public void clickCalendarButton() {
-        element().$(".n2o-calendar-button").click();
+        element().$(".btn.n2o-calendar-button").click();
     }
 
     @Override
     public void shouldBeActiveDay(String day) {
-        element().$(".n2o-calendar-day.selected").shouldHave(Condition.text(day));
+        element().$(".n2o-calendar-day.selected").shouldBe(Condition.exist).shouldHave(Condition.text(day));
     }
 
     @Override
     public void clickDay(String day) {
-        element().$$(".n2o-calendar-day").find(Condition.text(day)).shouldNotBe(Condition.cssClass("disabled")).click();
+        element().$$(".n2o-calendar-day").filter(Condition.text(day))
+                .exclude(Condition.cssClass("disabled"))
+                .exclude(Condition.cssClass("other-month"))
+                .get(0).shouldBe(Condition.exist).click();
     }
 
     @Override

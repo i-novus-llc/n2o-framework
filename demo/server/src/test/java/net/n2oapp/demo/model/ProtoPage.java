@@ -87,11 +87,11 @@ public class ProtoPage {
     }
 
     public void setBirthdayStartFilter(String value) {
-        getFilterFields().field("Дата рождения").control(DateInterval.class).setBeginValue(value);
+        getFilterFields().field("Дата рождения").control(DateInterval.class).beginVal(value);
     }
 
     public void setBirthdayEndFilter(String value) {
-        getFilterFields().field("Дата рождения").control(DateInterval.class).setEndValue(value);
+        getFilterFields().field("Дата рождения").control(DateInterval.class).endVal(value);
     }
 
     public void getGenderColumnShouldHaveTexts(List<String> values) {
