@@ -27,8 +27,7 @@ public class N2oStandardField extends N2oField implements StandardField {
 
     @Override
     public void labelShouldHave(Condition condition) {
-        //реализовать, когда понадобится
-        throw new UnsupportedOperationException();
+        element().$("label").shouldHave(condition);
     }
 
     @Override
