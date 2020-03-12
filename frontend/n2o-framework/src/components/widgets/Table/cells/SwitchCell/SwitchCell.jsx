@@ -23,7 +23,7 @@ SwitchCell.propTypes = {
    * Если ключ не подходит,
    * Cell по switchDefault
    **/
-  model: PropTypes.object,
+  props: PropTypes.object,
 };
 
 export default SwitchCell;
