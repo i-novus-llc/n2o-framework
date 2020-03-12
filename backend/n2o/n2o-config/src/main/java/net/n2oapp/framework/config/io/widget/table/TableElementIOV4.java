@@ -79,6 +79,6 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
     private void filterColumn(Element e, N2oFilterColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
         p.anyChild(e, "filter", c::getFilter, c::setFilter, p.anyOf(N2oStandardField.class), ControlIOv2.NAMESPACE);
-        p.anyChild(e, null, c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("filter"), CellIOv2.NAMESPACE);
+        p.anyChild(e, "cell", c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("filter"), CellIOv2.NAMESPACE);
     }
 }

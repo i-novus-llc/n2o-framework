@@ -111,7 +111,9 @@
             <filter>
                 <ctr:input-text id="name" label="label"/>
             </filter>
-            <text format="test" visible="true"/>
+            <cell>
+                <text format="test" visible="true"/>
+            </cell>
         </filter-column>
     </columns>
     <rows class="test">

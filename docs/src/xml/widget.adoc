@@ -685,7 +685,8 @@ link:#_Ячейки[Ячейка]
   text-field-id="firstName"
   sorting-field-id="firstName"
   sorting-direction="asc">
-  ...
+  <filter>...</filter>
+  <cell>...</cell>
 </filter-column>
 ----
 

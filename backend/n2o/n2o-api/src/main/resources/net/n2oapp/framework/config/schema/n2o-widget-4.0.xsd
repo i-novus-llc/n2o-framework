@@ -428,11 +428,18 @@
     </xs:annotation>
         <xs:complexContent>
             <xs:extension base="columnDefinition">
-                <xs:element name="filter" type="fs:fields">
-                    <xs:annotation>
-                        <xs:documentation>Фильтр столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
+                <xs:sequence>
+                    <xs:element name="filter" type="fs:fields" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>Фильтр столбца.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="cell" type="cell:cells" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>Ячейка столбца.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

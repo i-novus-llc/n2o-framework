@@ -6,7 +6,9 @@
                 <filter>
                     <input-text id="name"/>
                 </filter>
-                <badge/>
+                <cell>
+                    <badge/>
+                </cell>
             </filter-column>
             <column text-field-id="age"/>
         </columns>
