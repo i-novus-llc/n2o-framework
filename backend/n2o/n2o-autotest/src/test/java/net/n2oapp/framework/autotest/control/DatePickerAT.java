@@ -88,7 +88,7 @@ public class DatePickerAT extends AutoTestBase {
         date.val("15/02/2020 10:20:15");
         date.shouldHaveValue("15/02/2020 10:20:15");
         date.clickCalendarButton();
-        date.timeVal("23", "59", "59");
-        date.shouldHaveValue("15/02/2020 23:59:59");
+        date.timeVal("23", "59", "58");
+        date.shouldHaveValue("15/02/2020 23:59:58");
     }
 }

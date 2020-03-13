@@ -50,4 +50,8 @@ public interface DateInterval extends Control {
     void clickBeginNextMonthButton();
 
     void clickEndNextMonthButton();
+
+    void beginTimeVal(String hours, String minutes, String seconds);
+
+    void endTimeVal(String hours, String minutes, String seconds);
 }

@@ -2,7 +2,7 @@
     <form>
         <fields>
             <date-interval id="date1" label="DateInterval1" date-format="DD.MM.YYYY"/>
-            <date-interval id="date2" label="DateInterval2" date-format="DD/MM/YYYY" time-format="HH:mm:ss" utc="true"/>
+            <date-interval id="date2" label="DateInterval2" date-format="DD/MM/YYYY" time-format="HH:mm:ss"/>
         </fields>
     </form>
 </simple-page>

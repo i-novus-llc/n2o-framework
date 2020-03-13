@@ -93,5 +93,15 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.shouldExists();
 
         dateInterval.shouldBeEmpty();
+        dateInterval.beginVal("12/02/2020 08:20:15");
+        dateInterval.beginShouldHaveValue("12/02/2020 08:20:15");
+        dateInterval.endVal("15/02/2020 12:34:56");
+        dateInterval.endShouldHaveValue("15/02/2020 12:34:56");
+        // задание времени
+        dateInterval.beginTimeVal("1", "5", "9");
+        dateInterval.beginShouldHaveValue("12/02/2020 01:05:09");
+        dateInterval.endTimeVal("23", "59", "58");
+        dateInterval.endShouldHaveValue("15/02/2020 23:59:58");
+        /// TODO тест на min max
     }
 }

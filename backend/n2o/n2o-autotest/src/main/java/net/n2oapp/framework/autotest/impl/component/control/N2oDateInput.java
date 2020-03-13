@@ -41,7 +41,7 @@ public class N2oDateInput extends N2oControl implements DateInput {
         element().$(".n2o-calendar-time-container").click();
         element().$$(".n2o-pop-up .hour-picker .n2o-calendar-time-unit").find(Condition.text(hours)).click();
         element().$$(".n2o-pop-up .minute-picker .n2o-calendar-time-unit").find(Condition.text(minutes)).click();
-        element().$$(".n2o-pop-up .second-picker .n2o-calendar-time-unit").find(Condition.text(minutes)).click();
+        element().$$(".n2o-pop-up .second-picker .n2o-calendar-time-unit").find(Condition.text(seconds)).click();
         element().$$(".n2o-calendar-time-buttons button").find(Condition.text("Выбрать")).click();
     }
 
