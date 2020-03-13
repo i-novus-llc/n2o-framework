@@ -3,6 +3,7 @@ import flattenDeep from 'lodash/flattenDeep';
 import keys from 'lodash/keys';
 import map from 'lodash/map';
 import maxBy from 'lodash/maxBy';
+import isUndefined from 'lodash/isUndefined';
 
 /**
  * Дата (date) была после конца месяца другой даты(displayedMonth) или нет
@@ -335,14 +336,27 @@ export const MODIFIERS = {
  * @param date
  * @param max
  * @param min
+ * @param dateFormat
  * @returns {boolean}
  */
-export const hasInsideMixMax = (date, { max, min }) => {
+export const hasInsideMixMax = (date, { max, min }, dateFormat) => {
+  const hasFormat = range => !isUndefined(moment(range)['_f']);
+
+  const lessOrEqual = (range, dateFormat) =>
+    hasFormat(range)
+      ? moment(range) <= moment(date, dateFormat)
+      : moment(range, dateFormat) <= moment(date, dateFormat);
+
+  const moreOrEqual = (range, dateFormat) =>
+    hasFormat(range)
+      ? moment(range) >= moment(date, dateFormat)
+      : moment(range, dateFormat) >= moment(date, dateFormat);
+
   if (!max && !min) return true;
   if (
-    (!max && min && moment(min) <= moment(date)) ||
-    (max && !min && moment(max) >= moment(date)) ||
-    (max && min && moment(min) <= moment(date) && moment(max) >= moment(date))
+    (!max && min && lessOrEqual(min, dateFormat)) ||
+    (max && !min && moreOrEqual(max, dateFormat)) ||
+    (max && min && lessOrEqual(min, dateFormat) && moreOrEqual(max, dateFormat))
   ) {
     return true;
   }
