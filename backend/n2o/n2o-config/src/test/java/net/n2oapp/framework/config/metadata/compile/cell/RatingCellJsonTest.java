@@ -23,7 +23,7 @@ public class RatingCellJsonTest extends JsonMetadataTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oAllDataPack());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack());
         builder.ios(new RatingCellElementIOv2());
         builder.compilers(new RatingCellCompiler());
     }

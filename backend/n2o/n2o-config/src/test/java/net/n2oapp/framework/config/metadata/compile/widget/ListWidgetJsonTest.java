@@ -41,6 +41,7 @@ public class ListWidgetJsonTest extends JsonMetadataTestBase {
                         "list.subHeader.fieldKey",
                         "list.body.fieldKey",
                         "list.rightTop.fieldKey",
+                        "list.rightTop.type",
                         "list.rightBottom.fieldKey",
                         "list.extra.className",
                         "list.extra.style",
@@ -61,7 +62,7 @@ public class ListWidgetJsonTest extends JsonMetadataTestBase {
                         "list.extra.toolbar[0].buttons[1].hintPosition",
                         "list.extra.toolbar[0].buttons[1].conditions",
                         "list.extra.toolbar[0].buttons[1].src",
-                        "toolbar")
+                        "toolbar", "paging")
                 .assertEquals();
     }
 }
