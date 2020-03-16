@@ -4,6 +4,7 @@ import pick from 'lodash/pick';
 import every from 'lodash/every';
 import isUndefined from 'lodash/isUndefined';
 import isFunction from 'lodash/isFunction';
+import isNull from 'lodash/isNull';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Manager, Reference, Popper } from 'react-popper';
@@ -366,7 +367,7 @@ class DateTimeControl extends React.Component {
       openOnFocus,
       popupPlacement,
     } = this.props;
-    console.warn(moment(this.props.min)['_f']);
+
     const { inputs } = this.state;
     const dateInputGroupProps = pick(this.props, ['max', 'min']);
     return (
