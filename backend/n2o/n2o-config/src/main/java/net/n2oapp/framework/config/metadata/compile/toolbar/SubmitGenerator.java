@@ -4,8 +4,11 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.ButtonGenerator;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.event.action.N2oCopyAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
+import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
@@ -37,10 +40,21 @@ public class SubmitGenerator implements ButtonGenerator {
         String submitOperationId = null;
         ReduxModel submitModel = null;
         String submitLabel = null;
+        SubmitActionType submitAction = null;
+        ReduxModel targetModel = null;
+        String targetWidgetId = null;
+        String targetFieldId = null;
+        CopyMode copyMode = null;
         if (context instanceof PageContext) {
-            submitOperationId = ((PageContext) context).getSubmitOperationId();
-            submitModel = ((PageContext) context).getSubmitModel();
-            submitLabel = ((PageContext) context).getSubmitLabel();
+            PageContext pageContext = (PageContext) context;
+            submitOperationId = pageContext.getSubmitOperationId();
+            submitModel = pageContext.getSubmitModel();
+            submitLabel = pageContext.getSubmitLabel();
+            submitAction = pageContext.getSubmitAction();
+            targetModel = pageContext.getTargetModel();
+            targetWidgetId = pageContext.getTargetWidgetId();
+            targetFieldId = pageContext.getTargetFieldId();
+            copyMode = pageContext.getCopyMode();
         }
         if (submitLabel == null) {
             CompiledObject compiledObject = p.getScope(CompiledObject.class);
@@ -52,7 +66,17 @@ public class SubmitGenerator implements ButtonGenerator {
         saveButton.setLabel(p.cast(submitLabel, p.getMessage("n2o.api.action.toolbar.button.submit.label")));
         saveButton.setPrimary(true);
         saveButton.setColor("primary");
-        N2oInvokeAction saveAction = new N2oInvokeAction();
+        N2oInvokeAction saveAction;
+        if (SubmitActionType.copy.equals(submitAction)) {
+            N2oCopyAction copyAction = new N2oCopyAction();
+            copyAction.setTargetModel(targetModel);
+            copyAction.setTargetWidgetId(targetWidgetId);
+            copyAction.setTargetFieldId(targetFieldId);
+            copyAction.setMode(copyMode);
+            saveAction = copyAction;
+        } else {
+            saveAction = new N2oInvokeAction();
+        }
         if (context instanceof PageContext) {
             PageContext pageContext = (PageContext) context;
             saveAction.setCloseOnSuccess(pageContext.getCloseOnSuccessSubmit());

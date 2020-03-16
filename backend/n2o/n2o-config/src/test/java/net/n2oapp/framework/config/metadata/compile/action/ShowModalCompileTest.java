@@ -6,10 +6,12 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.ShowModalMode;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
+import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
@@ -367,5 +369,25 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         Page showModalPage = routeAndGet("/p/updateEditWithPrefilters", Page.class);
         assertThat(showModalPage.getId(), is("p_updateEditWithPrefilters"));
+    }
+
+    @Test
+    public void copyAction() {
+        Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyAction.page.xml")
+                .get(new PageContext("testShowModalCopyAction"));
+
+        PageContext modalContext = (PageContext) route("/testShowModalCopyAction/123/update", Page.class);
+        SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
+
+        CopyAction submit = (CopyAction) modalPage.getWidget().getActions().get("submit");
+        assertThat(submit.getType(), is("n2o/models/COPY"));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.RESOLVE.getId()));
+        assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyAction_update_main"));
+        assertThat(submit.getPayload().getSource().getField(), nullValue());
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyAction_table1"));
+        assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
+        assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
+        assertThat(submit.getMeta().getCloseLastModal(), is(true));
     }
 }

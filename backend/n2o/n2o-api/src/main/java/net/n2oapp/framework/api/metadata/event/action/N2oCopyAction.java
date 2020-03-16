@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
  */
 @Getter
 @Setter
-public class N2oCopyAction extends N2oAbstractAction implements N2oAction {
+public class N2oCopyAction extends N2oInvokeAction implements N2oAction {
     private ReduxModel sourceModel;
     private String sourceWidgetId;
     private String sourceFieldId;

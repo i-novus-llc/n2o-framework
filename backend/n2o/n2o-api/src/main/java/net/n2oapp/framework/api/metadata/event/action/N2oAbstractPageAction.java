@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 
 /**
  * Абстрактное действие открытия страницы
@@ -29,6 +30,10 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction {
     private String submitOperationId;
     private String submitLabel;
     private ReduxModel submitModel;
+    private SubmitActionType submitAction;
+    private ReduxModel targetModel;
+    private String targetWidgetId;
+    private CopyMode copyMode;
     private Boolean createMore;
     private Boolean focusAfterSubmit;
     private Boolean closeAfterSubmit;

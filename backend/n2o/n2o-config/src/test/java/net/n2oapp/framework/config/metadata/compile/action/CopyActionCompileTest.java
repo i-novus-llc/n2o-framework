@@ -52,8 +52,10 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         CopyAction action = (CopyAction) table.getActions().get("test");
         assertThat(action.getType(), is("n2o/models/COPY"));
         assertThat(action.getPayload().getSource().getKey(), is("testCopyAction_table1"));
+        assertThat(action.getPayload().getSource().getField(), nullValue());
         assertThat(action.getPayload().getSource().getPrefix(), is("edit"));
         assertThat(action.getPayload().getTarget().getKey(), is("testCopyAction_table1"));
+        assertThat(action.getPayload().getTarget().getField(), nullValue());
         assertThat(action.getPayload().getTarget().getPrefix(), is("filter"));
 
         action = (CopyAction) table.getActions().get("item");
@@ -91,16 +93,5 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         action = (CopyAction) table.getActions().get("btn");
         assertThat(action.getPayload().getSource().getKey(), is("table"));
         assertThat(action.getPayload().getTarget().getKey(), is("form"));
-    }
-
-    @Test
-    public void testInitExternalPageWidgetId() {
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCopyActionExternalModal.page.xml",
-                "net/n2oapp/framework/config/metadata/compile/action/testCopyActionExternal.page.xml")
-                .get(new PageContext("testCopyActionExternalModal"));
-
-        CopyAction action = (CopyAction) page.getWidget().getActions().get("btn");
-        assertThat(action.getPayload().getSource().getKey(), is("testCopyActionExternalModal_table1"));
-        assertThat(action.getPayload().getTarget().getKey(), is("testCopyActionExternal_table2"));
     }
 }
