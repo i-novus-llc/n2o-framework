@@ -294,6 +294,17 @@ class DateTimeControl extends React.Component {
       }
     }
   }
+
+  /**
+   * Приводит min, max к moment оъекту, текущему формату
+   */
+
+  parseRange(range) {
+    return !isUndefined(moment(range)['_f'])
+      ? moment(range)
+      : moment(range, this.props.dateFormat);
+  }
+
   /**
    * Рендер попапа
    */
@@ -315,16 +326,8 @@ class DateTimeControl extends React.Component {
         select={this.select}
         setPlacement={this.setPlacement}
         setVisibility={this.setVisibility}
-        max={
-          !isUndefined(moment(max)['_f'])
-            ? moment(max)
-            : moment(max, this.props.dateFormat)
-        }
-        min={
-          !isUndefined(moment(min)['_f'])
-            ? moment(min)
-            : moment(min, this.props.dateFormat)
-        }
+        max={this.parseRange(max)}
+        min={this.parseRange(min)}
         date={this.props.date}
         locale={locale}
       />

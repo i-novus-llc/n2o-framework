@@ -340,17 +340,18 @@ export const MODIFIERS = {
  * @returns {boolean}
  */
 export const hasInsideMixMax = (date, { max, min }, dateFormat) => {
+  const currentDate = moment(date, dateFormat);
   const hasFormat = range => !isUndefined(moment(range)['_f']);
 
   const lessOrEqual = (range, dateFormat) =>
     hasFormat(range)
-      ? moment(range) <= moment(date, dateFormat)
-      : moment(range, dateFormat) <= moment(date, dateFormat);
+      ? moment(range) <= currentDate
+      : moment(range, dateFormat) <= currentDate;
 
   const moreOrEqual = (range, dateFormat) =>
     hasFormat(range)
-      ? moment(range) >= moment(date, dateFormat)
-      : moment(range, dateFormat) >= moment(date, dateFormat);
+      ? moment(range) >= currentDate
+      : moment(range, dateFormat) >= currentDate;
 
   if (!max && !min) return true;
   if (
