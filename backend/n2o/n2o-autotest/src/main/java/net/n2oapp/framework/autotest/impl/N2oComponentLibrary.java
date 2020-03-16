@@ -40,7 +40,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oStandardTableHeader.class, N2oInputControl.class, N2oTextCell.class, N2oLinkCell.class, N2oDateInterval.class,
                 N2oSimplePage.class, N2oFormWidget.class, N2oDateInput.class, N2oCheckboxGroup.class, N2oRadioGroup.class,
                 N2oImageCell.class, N2oStandardPage.class, N2oTabsRegion.class, N2oLineRegion.class, N2oPanelRegion.class,
-                N2oModal.class, N2oEditCell.class, N2oBadgeCell.class);
+                N2oModal.class, N2oEditCell.class, N2oBadgeCell.class, N2oInputSelect.class, N2oSelect.class, N2oInputText.class);
     }
 
     @Override

@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Тестирвоание маппинга java модели в json field
+ * Тестирование маппинга java модели в json field
  */
 public class FieldJsonTest extends JsonMetadataTestBase {
 

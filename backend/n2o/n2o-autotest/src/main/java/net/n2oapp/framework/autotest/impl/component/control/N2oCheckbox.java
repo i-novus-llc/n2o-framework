@@ -4,9 +4,14 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 
 /**
- * Компонент Checkbox для автотестирования
+ * Компонент чекбокса для автотестирования
  */
-public class N2oCheckBox extends N2oControl implements Checkbox {
+public class N2oCheckbox extends N2oControl implements Checkbox {
+
+    @Override
+    public void shouldBeEmpty() {
+        element().shouldNotBe(Condition.checked);
+    }
 
     @Override
     public boolean isChecked() {
@@ -23,10 +28,5 @@ public class N2oCheckBox extends N2oControl implements Checkbox {
     @Override
     public void shouldBeChecked() {
         element().shouldBe(Condition.checked);
-    }
-
-    @Override
-    public void shouldBeUnchecked() {
-        element().shouldNotBe(Condition.checked);
     }
 }
