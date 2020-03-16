@@ -305,9 +305,9 @@
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
-                <xs:attribute name="selected" type="xs:boolean" default="true">
+                <xs:attribute name="selection" type="rowSelectionEnum" default="active">
                     <xs:annotation>
-                        <xs:documentation>Таблица без выделенных записей.</xs:documentation>
+                        <xs:documentation>Вариант выбора строки таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="table-size" type="sizeEnum">
@@ -716,6 +716,19 @@
             <xs:enumeration value="top"/>
             <!--по возрастанию-->
             <xs:enumeration value="left"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="rowSelectionEnum">
+        <xs:restriction base="xs:string">
+            <!--нельзя выбрать-->
+            <xs:enumeration value="none"/>
+            <!--выбор кликом по строке-->
+            <xs:enumeration value="active"/>
+            <!--выбор с помощью radio кнопок в первом столбце-->
+            <xs:enumeration value="radio"/>
+            <!--выбор с помощью чекбоксов в первом столбце-->
+            <xs:enumeration value="checkbox"/>
         </xs:restriction>
     </xs:simpleType>
 

@@ -467,10 +467,10 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|selected
-|true false
-|Таблица без выделенных записей
-|true
+|selection
+|none active radio checkbox
+|Вариант выбора строки таблицы
+|active
 
 |table-size
 |sm lg

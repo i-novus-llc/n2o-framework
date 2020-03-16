@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -82,7 +83,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getFailAlertWidgetId(), is("$testTable4Compile"));
         assertThat(queryContext.getSuccessAlertWidgetId(), is("$testTable4Compile"));
         assertThat(queryContext.getMessagesForm(), is("$testTable4Compile_filter"));
-        assertThat(table.getComponent().getHasSelect(), is(true));
+        assertThat(table.getComponent().getRowSelection(), nullValue());
+        assertThat(table.getComponent().getHasFocus(), is(false));
+        assertThat(table.getComponent().getHasSelect(), is(false));
         assertThat(table.getComponent().getFetchOnInit(), is(false));
     }
 
@@ -147,7 +150,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(context.getSortingMap().get("name"), is("id"));
         assertThat(context.getSortingMap().get("comments"), is("comments"));
 
-        assertThat(table.getComponent().getHasSelect(), is(false));
+        assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.radio));
     }
 
     @Test

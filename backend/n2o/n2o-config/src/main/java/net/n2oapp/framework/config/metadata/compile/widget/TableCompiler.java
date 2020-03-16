@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
@@ -165,9 +166,22 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             component.setHeaders(headers);
             component.setCells(cells);
             component.setSorting(sortings);
-            Boolean hasSelect = p.cast(source.getSelected(), p.resolve(property("n2o.api.widget.table.selected"), Boolean.class));
-            component.setHasSelect(hasSelect);
-            component.setHasFocus(hasSelect);
+
+            RowSelectionEnum rowSelection = p.cast(source.getSelection(), p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class));
+            switch (rowSelection) {
+                case none:
+                    component.setHasSelect(false);
+                    component.setHasFocus(false);
+                    break;
+                case active:
+                    component.setHasSelect(true);
+                    component.setHasFocus(true);
+                    break;
+                case radio:
+                case checkbox:
+                    component.setRowSelection(rowSelection);
+                    break;
+            }
         }
     }
 
