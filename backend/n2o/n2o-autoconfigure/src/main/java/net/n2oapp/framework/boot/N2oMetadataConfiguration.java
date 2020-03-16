@@ -141,6 +141,7 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public MetadataRegister metadataRegister() {
         return new N2oMetadataRegister();
     }

@@ -68,6 +68,7 @@ public class RoutingDataSourceAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public DataSourceTransactionManager routingTransactionManager(JndiRoutingDataSource routingDataSource) {
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
         transactionManager.setDataSource(routingDataSource);
@@ -77,16 +78,19 @@ public class RoutingDataSourceAutoConfiguration {
 
 
     @Bean
+    @ConditionalOnMissingBean
     public TransactionTemplate routingTransactionTemplate(DataSourceTransactionManager routingTransactionManager) {
         return new TransactionTemplate(routingTransactionManager);
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public JdbcTemplate routingJdbcTemplate(JndiRoutingDataSource routingDataSource) {
         return new JdbcTemplate(routingDataSource);
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public NamedParameterJdbcTemplate routingNamedParameterJdbcTemplate(JndiRoutingDataSource routingDataSource) {
         return new NamedParameterJdbcTemplate(routingDataSource);
     }
