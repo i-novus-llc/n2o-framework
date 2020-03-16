@@ -9,7 +9,7 @@ import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.api.component.widget.TableWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 
 public class ApiExample {
 
