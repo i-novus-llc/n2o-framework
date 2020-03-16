@@ -75,7 +75,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
@@ -142,7 +141,6 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
-    @Primary
     public MetadataRegister metadataRegister() {
         return new N2oMetadataRegister();
     }
