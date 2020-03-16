@@ -11,7 +11,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.codeborne.selenide.Configuration.browserSize;
 import static com.codeborne.selenide.Configuration.headless;
 
 /**
@@ -29,7 +28,6 @@ public class AutoTestBase extends N2oTestBase {
     public static void configureSelenide() {
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
         headless = true;
-        browserSize = "1920x1200";
     }
 
     @Override

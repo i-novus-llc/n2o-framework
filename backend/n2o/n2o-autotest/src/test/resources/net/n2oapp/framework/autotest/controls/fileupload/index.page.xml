@@ -3,19 +3,19 @@
     <form>
         <fields>
             <file-upload label="FileUpload1" id="fileUpload1" multi="true"
-                         label-field-id="customName" value-field-id="id" url-field-id="url"
+                         label-field-id="fileName" value-field-id="id" url-field-id="url"
                          upload-url="http://localhost:10000/files"
                          delete-url="http://localhost:10000/files"
             />
 
             <file-upload label="FileUpload2" id="fileUpload2" multi="false"
-                         label-field-id="customName" value-field-id="id" url-field-id="url"
+                         label-field-id="fileName" value-field-id="id" url-field-id="url"
                          upload-url="http://localhost:37775/files"
                          delete-url="http://localhost:37775/files"
             />
 
             <file-upload label="FileUpload3" id="fileUpload3" multi="true"
-                         label-field-id="customName" value-field-id="id" url-field-id="url"
+                         label-field-id="fileName" value-field-id="id" url-field-id="url"
                          upload-url="http://localhost:37775/files"
                          delete-url="http://localhost:37775/files"
             />
