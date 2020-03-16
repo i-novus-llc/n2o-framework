@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Название страницы" route="/">
+    <list id="list" query-id="testList">
+        <pagination prev="true" next="true" show-count="true"/>
+        <content>
+            <left-top text-field-id="leftTop">
+                <image url="https://git.i-novus.ru/open/n2o-framework/avatar"/>
+            </left-top>
+            <left-bottom text-field-id="leftBottom">
+                <text/>
+            </left-bottom>
+            <header text-field-id="header">
+                <text/>
+            </header>
+            <body text-field-id="body">
+                <text visible="true"/>
+            </body>
+            <sub-header text-field-id="subHeader">
+                <badge color="success"/>
+            </sub-header>
+            <right-top text-field-id="rightTop">
+                <icon visible="true" icon="fa fa-comment"/>
+            </right-top>
+            <right-bottom text-field-id="rightBottom">
+                <text visible="true"/>
+            </right-bottom>
+            <extra text-field-id="extra">
+                <toolbar>
+                    <button id="1" label="" icon="fa fa-plus" widget-id="list" description="Add"/>
+                    <button id="2" label="" icon="fa fa-trash" widget-id="list" description="Delete"/>
+                </toolbar>
+            </extra>
+        </content>
+        <rows>
+            <click>
+                <open-page page-id="form" detail-field-id="id" master-field-id="id"/>
+            </click>
+        </rows>
+    </list>
+</simple-page>
+
+
