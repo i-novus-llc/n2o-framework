@@ -4,9 +4,14 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 
 /**
- * Группа радиокнопок для автотестирования
+ * Компонент радиокнопок для автотестирования
  */
 public class N2oRadioGroup extends N2oControl implements RadioGroup {
+
+    @Override
+    public void shouldBeEmpty() {
+        element().$(".checked").shouldNotBe(Condition.exist);
+    }
 
     @Override
     public void shouldBeChecked(String label) {
