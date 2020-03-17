@@ -11,6 +11,11 @@ import org.openqa.selenium.Keys;
 public class N2oSlider extends N2oControl implements Slider {
 
     @Override
+    public void shouldBeEmpty() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void val(String value) {
         val(sliderElement(0), value, 1);
     }

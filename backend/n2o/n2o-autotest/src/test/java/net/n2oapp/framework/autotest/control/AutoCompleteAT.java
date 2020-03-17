@@ -46,6 +46,7 @@ public class AutoCompleteAT extends AutoTestBase {
                 .control(N2oAutoComplete.class);
         autoComplete.shouldExists();
 
+        autoComplete.shouldBeEmpty();
         autoComplete.val("c");
         autoComplete.shouldHaveValue("c");
         autoComplete.shouldHaveDropdownOptions("abc", "ccc");

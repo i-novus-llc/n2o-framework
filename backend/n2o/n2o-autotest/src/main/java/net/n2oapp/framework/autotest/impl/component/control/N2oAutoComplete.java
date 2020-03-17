@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.AutoComplete;
 import org.openqa.selenium.Keys;
 
@@ -12,14 +13,19 @@ import org.openqa.selenium.Keys;
 public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     @Override
+    public void shouldBeEmpty() {
+        inputElement().shouldBe(Condition.empty);
+    }
+
+    @Override
     public void val(String value) {
         element().click();
-        element().$(".n2o-inp").sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        element().$(".n2o-inp").shouldHave(Condition.value(value));
+        inputElement().shouldHave(Condition.value(value));
     }
 
     @Override
@@ -35,5 +41,9 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
     @Override
     public void chooseDropdownOption(String value) {
         element().parent().$$(".n2o-dropdown-control button").find(Condition.text(value)).shouldBe(Condition.exist).click();
+    }
+
+    private SelenideElement inputElement() {
+        return element().$(".n2o-inp");
     }
 }

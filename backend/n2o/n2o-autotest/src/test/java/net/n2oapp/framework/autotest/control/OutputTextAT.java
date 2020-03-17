@@ -16,6 +16,8 @@ import org.junit.Test;
  */
 public class OutputTextAT extends AutoTestBase {
 
+    private N2oSimplePage page;
+
     @BeforeClass
     public static void beforeClass() {
         configureSelenide();
@@ -25,6 +27,12 @@ public class OutputTextAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/output_text/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+
+        page = open(N2oSimplePage.class);
+        page.shouldExists();
     }
 
     @Override
@@ -35,32 +43,30 @@ public class OutputTextAT extends AutoTestBase {
 
     @Test
     public void testOutputText() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/output_text/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        N2oSimplePage page = open(N2oSimplePage.class);
-        page.shouldExists();
-
         N2oOutputText output = page.single().widget(FormWidget.class).fields().field("Output1")
                 .control(N2oOutputText.class);
         output.shouldExists();
 
         output.shouldHaveValue("123,46");
+    }
 
-
-        output = page.single().widget(FormWidget.class).fields().field("Output2")
+    @Test
+    public void testOutputTextWithIcon() {
+        N2oOutputText output = page.single().widget(FormWidget.class).fields().field("Output2")
                 .control(N2oOutputText.class);
         output.shouldExists();
 
         output.shouldHaveValue("test");
         output.shouldHaveIcon("fa fa-plus");
+    }
 
-
-        output = page.single().widget(FormWidget.class).fields().field("Output3")
+    @Test
+    public void testIconWithoutText() {
+        N2oOutputText output = page.single().widget(FormWidget.class).fields().field("Output3")
                 .control(N2oOutputText.class);
         output.shouldExists();
 
-        output.shouldNotHaveValue();
+        output.shouldBeEmpty();
         output.shouldHaveIcon("fa fa-plus");
     }
 }

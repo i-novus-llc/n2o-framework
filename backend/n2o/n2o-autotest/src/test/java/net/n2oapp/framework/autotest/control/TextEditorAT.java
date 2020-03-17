@@ -45,7 +45,7 @@ public class TextEditorAT extends AutoTestBase {
                 .control(N2oTextEditor.class);
         textEditor.shouldExists();
 
-        textEditor.shouldHaveValue("Default");
+        textEditor.shouldBeEmpty();
         textEditor.val("Test");
         textEditor.shouldHaveValue("Test");
     }

@@ -5,6 +5,4 @@ package net.n2oapp.framework.autotest.api.component.control;
  */
 public interface TextEditor extends Control {
     void val(String value);
-
-    void shouldHaveValue(String value);
 }

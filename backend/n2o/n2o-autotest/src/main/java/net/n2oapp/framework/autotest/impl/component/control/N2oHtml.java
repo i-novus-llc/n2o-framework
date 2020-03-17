@@ -12,6 +12,16 @@ import java.util.Map;
 public class N2oHtml extends N2oControl implements Html {
 
     @Override
+    public void shouldBeEmpty() {
+        element().shouldBe(Condition.empty);
+    }
+
+    @Override
+    public void shouldHaveValue(String value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void shouldHaveElement(String cssSelector) {
         element().$("div").$(cssSelector).shouldBe(Condition.exist);
     }

@@ -49,9 +49,7 @@ public class PillsAT extends AutoTestBase {
                 .control(N2oPills.class);
         pills.shouldExists();
 
-        pills.shouldBeUnchecked("label1");
-        pills.shouldBeUnchecked("label2");
-        pills.shouldBeUnchecked("label3");
+        pills.shouldBeEmpty();
         pills.check("label2");
         pills.shouldBeChecked("label2");
         pills.uncheck("label2");
@@ -68,9 +66,7 @@ public class PillsAT extends AutoTestBase {
                 .control(N2oPills.class);
         pills.shouldExists();
 
-        pills.shouldBeUnchecked("label4");
-        pills.shouldBeUnchecked("label5");
-        pills.shouldBeUnchecked("label6");
+        pills.shouldBeEmpty();
         pills.check("label5");
         pills.shouldBeChecked("label5");
         pills.check("label6");

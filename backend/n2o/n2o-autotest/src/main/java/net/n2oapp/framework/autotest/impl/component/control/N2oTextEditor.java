@@ -10,6 +10,11 @@ import org.openqa.selenium.Keys;
 public class N2oTextEditor extends N2oControl implements TextEditor {
 
     @Override
+    public void shouldBeEmpty() {
+        element().shouldHave(Condition.empty);
+    }
+
+    @Override
     public void val(String value) {
         element().$("span").sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
     }

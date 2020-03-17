@@ -7,7 +7,5 @@ public interface CodeEditor extends Control {
 
     void val(String value);
 
-    void shouldHaveValue(String value);
-
     void shouldHaveValue(String value, int line);
 }

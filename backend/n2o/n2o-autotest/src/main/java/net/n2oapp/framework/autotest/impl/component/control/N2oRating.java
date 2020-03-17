@@ -9,6 +9,11 @@ import net.n2oapp.framework.autotest.api.component.control.Rating;
 public class N2oRating extends N2oControl implements Rating {
 
     @Override
+    public void shouldBeEmpty() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void val(String value) {
         String id = element().$$(".rating__input").find(Condition.value(value)).shouldBe(Condition.exist).getAttribute("id");
         element().$$(".rating__label").find(Condition.attribute("for", id)).shouldBe(Condition.exist).click();

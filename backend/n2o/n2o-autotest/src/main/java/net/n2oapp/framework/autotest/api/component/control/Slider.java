@@ -16,8 +16,6 @@ public interface Slider extends Control {
 
     void valRight(String value, int step);
 
-    void shouldHaveValue(String value);
-
     void shouldHaveLeftValue(String value);
 
     void shouldHaveRightValue(String value);

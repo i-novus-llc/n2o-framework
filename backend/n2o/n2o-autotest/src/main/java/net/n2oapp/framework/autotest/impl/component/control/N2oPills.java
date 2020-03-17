@@ -8,6 +8,17 @@ import net.n2oapp.framework.autotest.api.component.control.Pills;
  * Компонент Таблетки для автотестирования
  */
 public class N2oPills extends N2oControl implements Pills {
+
+    @Override
+    public void shouldBeEmpty() {
+        element().$$(".nav-link.active").shouldHaveSize(0);
+    }
+
+    @Override
+    public void shouldHaveValue(String value) {
+        throw new UnsupportedOperationException();
+    }
+
     @Override
     public void check(String label) {
         if (!itemLink(label).is(Condition.cssClass("active")))
