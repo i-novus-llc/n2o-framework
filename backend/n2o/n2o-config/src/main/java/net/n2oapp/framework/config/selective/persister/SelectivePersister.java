@@ -117,7 +117,7 @@ public class SelectivePersister implements PersistersBuilder<SelectivePersister>
 
     @SuppressWarnings("unchecked")
     private String toString(NamespaceUriAware n2o) {
-        Element element = persisterFactory.produce(n2o.getNamespace(),  n2o.getClass()).persist(n2o,n2o.getNamespace());
+        Element element = persisterFactory.produce(n2o.getClass(),  n2o.getNamespace()).persist(n2o,n2o.getNamespace());
         return XML_OUTPUTTER.outputString(element);
     }
 

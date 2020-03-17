@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.widget.table;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
@@ -52,7 +53,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attribute(e, "id", c::getId, c::setId);
         p.attribute(e, "text-field-id", c::getTextFieldId, c::setTextFieldId);
         p.attribute(e, "tooltip-field-id", c::getTooltipFieldId, c::setTooltipFieldId);
-        p.attributeBoolean(e, "visible", c::getVisible, c::setVisible);
+        p.attribute(e, "visible", c::getVisible, c::setVisible);
         p.attribute(e, "label", c::getLabelName, c::setLabelName);
         p.attribute(e, "icon", c::getLabelIcon, c::setLabelIcon);
         p.attributeEnum(e, "type", c::getLabelType, c::setLabelType, LabelType.class);
@@ -61,10 +62,18 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attribute(e, "width", c::getWidth, c::setWidth);
         p.attributeBoolean(e, "resizable", c::getResizable, c::setResizable);
         p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPosition.class);
+        p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(AbstractColumn.ColumnVisibility.class)
+                .add("visibility", AbstractColumn.ColumnVisibility.class, this::dependency));
+    }
+
+    private void dependency(Element e, AbstractColumn.ColumnVisibility t, IOProcessor p) {
+        p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
+        p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
+        p.text(e, t::getValue, t::setValue);
     }
 
     private void column(Element e, N2oSimpleColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
-        p.anyChild(e, null, c::getCell, c::setCell, p.anyOf(N2oCell.class), CellIOv2.NAMESPACE);
+        p.anyChild(e, null, c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("dependencies"), CellIOv2.NAMESPACE);
     }
 }

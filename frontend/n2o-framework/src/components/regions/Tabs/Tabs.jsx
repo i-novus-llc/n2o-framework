@@ -62,7 +62,12 @@ class Tabs extends React.Component {
    * @return {Array|*}
    */
   get defaultOpenedId() {
-    const { children } = this.props;
+    const { children, activeId } = this.props;
+
+    if (activeId) {
+      return activeId;
+    }
+
     const foundChild = find(React.Children.toArray(children), child => {
       return child.props.active;
     });

@@ -1,6 +1,6 @@
 {
 	"name": "n2o-simple-project",
-	"version": "7.5.0",
+	"version": "7.6.0-SNAPSHOT",
 	"private": true,
 	"homepage": ".",
 	"scripts": {
@@ -9,8 +9,8 @@
 		"eject": "react-scripts eject"
 	},
 	"dependencies": {
-		"n2o-auth": "^7.5.0",
-		"n2o-framework": "^7.5.0",
+		"n2o-auth": "^7.6.0-SNAPSHOT",
+		"n2o-framework": "^7.6.0-SNAPSHOT",
 		"react": "^16.4.1",
 		"react-dom": "^16.4.1"
 	},

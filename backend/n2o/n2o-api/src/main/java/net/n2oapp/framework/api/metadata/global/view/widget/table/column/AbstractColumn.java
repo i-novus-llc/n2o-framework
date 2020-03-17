@@ -3,6 +3,8 @@ package net.n2oapp.framework.api.metadata.global.view.widget.table.column;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 
@@ -13,7 +15,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public abstract class AbstractColumn implements IdAware, Serializable{
+public abstract class AbstractColumn implements IdAware, Serializable {
     private String id;
     private String textFieldId;
     private String tooltipFieldId;
@@ -22,15 +24,21 @@ public abstract class AbstractColumn implements IdAware, Serializable{
     private String labelName;
     private String labelIcon;
     private LabelType labelType;
-    private Boolean visible;
+    private String visible;
     private Boolean resizable;
     private String visibilityCondition;
     private String sortingFieldId;
     private DirectionType sortingDirection;
     private ColumnFixedPosition fixed;
-
+    private ColumnVisibility[] columnVisibilities;
 
     public abstract boolean isDynamic();
 
-
+    @Getter
+    @Setter
+    public static class ColumnVisibility implements Source {
+        private String value;
+        private String refWidgetId;
+        private ReduxModel refModel;
+    }
 }

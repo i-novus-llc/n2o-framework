@@ -49,7 +49,7 @@ export default function columns(state = {}, action) {
       return Object.assign({}, state, {
         [key]: {
           ...state[key],
-          [columnId]: Object.assign({}, columnState, rest),
+          [columnId]: Object.assign({}, columnState, action.payload),
         },
       });
     case CHANGE_COLUMN_VISIBILITY:

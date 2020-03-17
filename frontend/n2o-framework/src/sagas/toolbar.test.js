@@ -1,12 +1,10 @@
-import { prepareButton } from './toolbar';
+import { put } from '@redux-saga/core/effects';
 import {
   CHANGE_BUTTON_DISABLED,
   CHANGE_BUTTON_VISIBILITY,
 } from '../constants/toolbar';
-import { put } from 'redux-saga/effects';
 import {
   resolveButton,
-  resolveConditions,
   setParentVisibleIfAllChildChangeVisible,
 } from './toolbar';
 import { changeButtonVisiblity } from '../actions/toolbar';
@@ -31,67 +29,6 @@ const setupResolveButton = () => {
 };
 
 describe('Проверка саги toolbar', () => {
-  it('генератор prepareButton должен вернуть массив кнопок по ключам modelLink', () => {
-    const buttons = {
-      "models.resolve['__patients-update']": [
-        {
-          name: 'buttonsButton',
-        },
-      ],
-    };
-    const payload = {
-      name: 'payloadButton',
-      conditions: {
-        visible: [
-          {
-            modelLink: "models.resolve['__patients']",
-          },
-        ],
-        enabled: [
-          {
-            modelLink: "model.resolve['__contacts']",
-          },
-        ],
-      },
-    };
-    expect(prepareButton(buttons, payload)).toEqual({
-      ...buttons,
-      "models.resolve['__patients']": [
-        {
-          name: 'payloadButton',
-          conditions: {
-            visible: [
-              {
-                modelLink: "models.resolve['__patients']",
-              },
-            ],
-            enabled: [
-              {
-                modelLink: "model.resolve['__contacts']",
-              },
-            ],
-          },
-        },
-      ],
-      "model.resolve['__contacts']": [
-        {
-          name: 'payloadButton',
-          conditions: {
-            visible: [
-              {
-                modelLink: "models.resolve['__patients']",
-              },
-            ],
-            enabled: [
-              {
-                modelLink: "model.resolve['__contacts']",
-              },
-            ],
-          },
-        },
-      ],
-    });
-  });
   it('Тестирование вызова  экшена на саге', () => {
     const gen = setupResolveButton();
     gen.next();
@@ -103,43 +40,6 @@ describe('Проверка саги toolbar', () => {
     expect(value.payload.action.type).toEqual(CHANGE_BUTTON_DISABLED);
     expect(value.payload.action.payload.disabled).toBe(true);
     expect(gen.next().done).toBe(true);
-  });
-  it('Тестирование resolveConditions', () => {
-    expect(
-      resolveConditions(
-        [
-          {
-            expression: "test === 'test'",
-            modelLink: 'model',
-          },
-        ],
-        { model: { test: 'test' } }
-      )
-    ).toBe(true);
-    expect(
-      resolveConditions(
-        [
-          {
-            expression: "test === 'test'",
-            modelLink: 'no_model',
-          },
-        ],
-        { model: { test: 'test' } }
-      )
-    ).toBe(false);
-  });
-  it('Тестирование resolveConditions на null condition', () => {
-    expect(
-      resolveConditions(
-        [
-          {
-            expression: "test === 'test'",
-            modelLink: 'model',
-          },
-        ],
-        null
-      )
-    ).toBe(false);
   });
 });
 

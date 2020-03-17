@@ -27,6 +27,8 @@ describe('Тесты columns reducer', () => {
     ).toEqual({
       testKey: {
         columnId: {
+          key: 'testKey',
+          columnId: 'columnId',
           disabled: false,
           isInit: true,
           visible: true,

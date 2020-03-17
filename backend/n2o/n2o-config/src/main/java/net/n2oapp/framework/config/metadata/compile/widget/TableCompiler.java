@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
@@ -17,13 +18,17 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.*;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
@@ -152,7 +157,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             Map<String, String> sortings = new HashMap<>();
             IndexScope columnIndex = new IndexScope();
             for (AbstractColumn column : source.getColumns()) {
-                compileHeaderWithCell(object, query, headers, cells, column, context, p, columnIndex, widgetScope, widgetRouteScope, widgetActions);
+                compileHeaderWithCell(source, object, query, headers, cells, column, context, p, columnIndex, widgetScope, widgetRouteScope, widgetActions);
                 if (column.getSortingDirection() != null) {
                     sortings.put(column.getTextFieldId(), column.getSortingDirection().toString().toUpperCase());
                 }
@@ -166,7 +171,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         }
     }
 
-    private void compileHeaderWithCell(CompiledObject object, CompiledQuery query, List<ColumnHeader> headers, List<N2oCell> cells,
+    private void compileHeaderWithCell(N2oTable source, CompiledObject object, CompiledQuery query, List<ColumnHeader> headers, List<N2oCell> cells,
                                        AbstractColumn column,
                                        CompileContext<?, ?> context, CompileProcessor p,
                                        IndexScope columnIndex, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions) {
@@ -178,7 +183,32 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         header.setWidth(column.getWidth());
         header.setResizable(column.getResizable());
         header.setFixed(column.getFixed());
-        header.setVisible(column.getVisible());
+
+        if (StringUtils.isLink(column.getVisible())) {
+            Condition condition = new Condition();
+            condition.setExpression(column.getVisible().substring(1, column.getVisible().length() - 1));
+            condition.setModelLink(new ModelLink(ReduxModel.FILTER, source.getId()).getBindLink());
+            if (!header.getConditions().containsKey(ValidationType.visible)) {
+                header.getConditions().put(ValidationType.visible, new ArrayList<>());
+            }
+            header.getConditions().get(ValidationType.visible).add(condition);
+        } else {
+            header.setVisible(p.resolveJS(column.getVisible(), Boolean.class));
+        }
+        if (column.getColumnVisibilities() != null) {
+            for (AbstractColumn.ColumnVisibility visibility : column.getColumnVisibilities()) {
+                String refWidgetId = p.cast(visibility.getRefWidgetId(), source.getId());
+                ReduxModel refModel = p.cast(visibility.getRefModel(), ReduxModel.FILTER);
+                Condition condition = new Condition();
+                condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
+                condition.setModelLink(new ModelLink(refModel, refWidgetId).getBindLink());
+                if (!header.getConditions().containsKey(ValidationType.visible)) {
+                    header.getConditions().put(ValidationType.visible, new ArrayList<>());
+                }
+                header.getConditions().get(ValidationType.visible).add(condition);
+            }
+        }
+
 
         if (query != null && query.getFieldsMap().containsKey(column.getTextFieldId())) {
             header.setLabel(p.cast(column.getLabelName(), query.getFieldsMap().get(column.getTextFieldId()).getName()));

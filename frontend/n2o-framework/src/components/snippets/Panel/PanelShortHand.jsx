@@ -9,7 +9,7 @@ import {
 } from 'recompose';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
-import set from 'lodash/set';
+import isFunction from 'lodash/isFunction';
 import cn from 'classnames';
 
 import Panel from './Panel';
@@ -165,6 +165,7 @@ PanelContainer.propTypes = {
   isFullScreen: PropTypes.bool,
   onKeyPress: PropTypes.func,
   innerRef: PropTypes.func,
+  onVisibilityChange: PropTypes.func,
 };
 
 export default compose(
@@ -192,8 +193,13 @@ export default compose(
     handleFullScreen: ({ fullScreenState, setFullScreenState }) => () =>
       setFullScreenState(!fullScreenState),
     changeActiveTab: ({ setActiveTabState }) => id => setActiveTabState(id),
-    toggleCollapse: ({ openState, setOpenState }) => () =>
-      setOpenState(!openState),
+    toggleCollapse: ({ openState, setOpenState, onVisibilityChange }) => () => {
+      if (isFunction(onVisibilityChange)) {
+        onVisibilityChange(!openState);
+      } else {
+        setOpenState(!openState);
+      }
+    },
     handleKeyPress: ({ setFullScreenState, onKeyPress }) => event => {
       if (event.key === 'Escape') {
         setFullScreenState(false);
@@ -204,18 +210,20 @@ export default compose(
   lifecycle({
     componentDidUpdate(prevProps) {
       if (!isEqual(prevProps, this.props)) {
-        const { open, isFullScreen } = this.props;
-        const state = {};
+        const {
+          open,
+          isFullScreen,
+          setFullScreenState,
+          setOpenState,
+        } = this.props;
 
         if (prevProps.open !== open) {
-          set(state, 'openState', open);
+          setOpenState(open);
         }
 
         if (prevProps.isFullScreen !== isFullScreen) {
-          set(state, 'fullScreenState', isFullScreen);
+          setFullScreenState(isFullScreen);
         }
-
-        this.setState(state);
       }
     },
   })

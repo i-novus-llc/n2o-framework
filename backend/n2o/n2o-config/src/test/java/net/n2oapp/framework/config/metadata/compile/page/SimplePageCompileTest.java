@@ -28,11 +28,10 @@ import static org.hamcrest.core.IsNull.notNullValue;
 
 
 /**
- * Тестирвоание компиляции простой страницы
+ * Тестирование компиляции простой страницы
  */
 
 public class SimplePageCompileTest extends SourceCompileTestBase {
-
 
     @Override
     @Before
