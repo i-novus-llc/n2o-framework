@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,8 +35,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Автотесты поля загрузки файлов
  */
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest(classes = AutoTestApplication.class,
-        properties = "server.port=37775",
+        properties = "server.port=7775",
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Import(FileUploadAT.FileUploadController.class)
 public class FileUploadAT extends AutoTestBase {
