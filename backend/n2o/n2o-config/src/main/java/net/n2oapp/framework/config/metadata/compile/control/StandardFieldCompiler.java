@@ -104,12 +104,16 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
      * @param p      Процессор сборки
      * @return Значение по умолчанию поля
      */
-    protected void compileParams(D control, S source, WidgetParamScope paramScope, UploadScope uploadScope, ReduxModel model, CompileProcessor p) {
+    protected void compileParams(D control, S source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
         if (source.getParam() != null) {
-            ModelLink onSet = new ModelLink(model, paramScope.getClientWidgetId(), control.getId());
-            ReduxAction onGet = Redux.dispatchUpdateModel(paramScope.getClientWidgetId(), model, control.getId(),
-                    colon(source.getParam()));
-            paramScope.addQueryMapping(source.getParam(), onGet, onSet);
+            ModelsScope modelsScope = p.getScope(ModelsScope.class);
+            if (modelsScope != null) {
+                ModelLink onSet = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId(), control.getId());
+                onSet.setParam(source.getParam());
+                ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), control.getId(),
+                        colon(source.getParam()));
+                paramScope.addQueryMapping(source.getParam(), onGet, onSet);
+            }
         }
     }
 
@@ -135,8 +139,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         UploadScope uploadScope = p.getScope(UploadScope.class);
         WidgetParamScope paramScope = p.getScope(WidgetParamScope.class);
         if (paramScope != null) {
-            ReduxModel model = getActualModel(p);
-            compileParams(control, source, paramScope, uploadScope, model, p);
+            compileParams(control, source, paramScope, uploadScope, p);
         }
 
         if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()))
@@ -179,15 +182,6 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
                 }
             }
         }
-    }
-
-    private ReduxModel getActualModel(CompileProcessor p) {
-        ReduxModel model = ReduxModel.RESOLVE;
-        ModelsScope modelsScope = p.getScope(ModelsScope.class);
-        if (modelsScope != null && modelsScope.getModel() != null) {
-            model = modelsScope.getModel();
-        }
-        return model;
     }
 
     private void compileFilters(S source, CompileProcessor p) {

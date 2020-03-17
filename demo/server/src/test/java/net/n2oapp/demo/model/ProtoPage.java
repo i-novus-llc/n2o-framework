@@ -553,10 +553,6 @@ public class ProtoPage implements ProtoPageSelectors {
 
         getButton(getPanels().get(1), "Создать").click();
         SelenideElement modalPage = getModalPage();
-        getInputSelect(modalPage, "Клиент").shouldBe(Condition.exist).click();
-        getInputSelect(modalPage, "Клиент").$("input").sendKeys("Маркин");
-        getInputSelect(modalPage, "Клиент").$$("button").shouldHaveSize(1);
-        getInputSelect(modalPage, "Клиент").$("input").sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
         getInputSelect(modalPage, "Тип контакта").click();
         getInputSelect(modalPage, "Тип контакта").$$("button").shouldHaveSize(3);
         getInputSelect(modalPage, "Тип контакта").$("input").sendKeys(Keys.ARROW_DOWN, Keys.ENTER);
