@@ -2,13 +2,13 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.autotest.api.component.control.MaskedInputControl;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
 import org.openqa.selenium.Keys;
 
 /**
- * Ввод текста для автотестирования
+ * Компонент ввода текста для автотестирования
  */
-public class N2oMaskedInputControl extends N2oControl implements MaskedInputControl {
+public class N2oInputText extends N2oControl implements InputText {
 
     @Override
     public void shouldBeEmpty() {
@@ -36,8 +36,23 @@ public class N2oMaskedInputControl extends N2oControl implements MaskedInputCont
         else cellInputElement().shouldHave(Condition.text(value));
     }
 
+    @Override
+    public void shouldHavePlaceholder(String placeholder) {
+        element().shouldHave(Condition.attribute("placeholder", placeholder));
+    }
+
+    @Override
+    public void clickPlusStepButton() {
+        element().parent().$$(".n2o-input-number-buttons button").get(0).click();
+    }
+
+    @Override
+    public void clickMinusStepButton() {
+        element().parent().$$(".n2o-input-number-buttons button").get(1).click();
+    }
+
     private SelenideElement inputElement() {
-        return element().parent().$(".n2o-input-mask");
+        return element().parent().$(".n2o-input");
     }
 
     private SelenideElement cellInputElement() {

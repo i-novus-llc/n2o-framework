@@ -5,9 +5,15 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 
 /**
- * Группа чекбоксов для автотестирования
+ * Компонент группы чекбоксов для автотестирования
  */
 public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
+
+    @Override
+    public void shouldBeEmpty() {
+        element().$$(".n2o-checkbox .n2o-input").find(Condition.checked).shouldNotBe(Condition.exist);
+    }
+
     @Override
     public void check(String label) {
         if (!inputElement(label).isSelected())
