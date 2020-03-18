@@ -56,6 +56,8 @@ public interface TableWidget extends StandardWidget {
 
         void shouldBeSelected(int row);
 
+        void shouldNotHaveSelectedRows();
+
         void columnShouldHaveTexts(int index, List<String> text);
 
         List<String> columnTexts(int index);

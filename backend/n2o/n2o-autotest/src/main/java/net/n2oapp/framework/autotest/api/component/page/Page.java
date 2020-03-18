@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.api.component.page;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 
 /**
  * Страница для автотестирования
@@ -16,6 +17,8 @@ public interface Page extends Component {
     Breadcrumb breadcrumb();
 
     Dialog dialog(String title);
+
+    Modal modal(String title);
 
     interface PageToolbar {
         Toolbar topLeft();

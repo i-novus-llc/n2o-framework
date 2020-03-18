@@ -15,6 +15,7 @@ import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
 import net.n2oapp.framework.autotest.impl.component.page.N2oLeftRightPage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
+import net.n2oapp.framework.autotest.impl.component.page.N2oStandardPage;
 import net.n2oapp.framework.autotest.impl.component.region.N2oPanelRegion;
 import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
@@ -32,9 +33,9 @@ public class N2oComponentLibrary implements ComponentLibrary {
     @Override
     public List<Class<? extends Component>> components() {
         return Arrays.asList(N2oSimpleHeader.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class, N2oLeftRightPage.class, N2oSimpleRegion.class, N2oTableWidget.class,
-                N2oStandardField.class, N2oCheckBox.class, N2oStandardButton.class, N2oStandardTableHeader.class,
+                N2oStandardField.class, N2oCheckBox.class, N2oStandardButton.class, N2oStandardTableHeader.class, N2oStandardPage.class,
                 N2oInputControl.class, N2oTextCell.class, N2oLinkCell.class, N2oDateInterval.class, N2oSimplePage.class, N2oFormWidget.class,
-                N2oDateInput.class, N2oCheckboxGroup.class, N2oRadioGroup.class, N2oCheckboxCell.class, N2oMaskedInputControl.class,
+                N2oDateInput.class, N2oCheckboxGroup.class, N2oRadioGroup.class, N2oCheckboxCell.class, N2oRadioCell.class, N2oMaskedInputControl.class,
                 N2oToolbarCell.class, N2oSelectControl.class, N2oListWidget.class, N2oPanelRegion.class, N2oModal.class, N2oEditCell.class);
     }
 
