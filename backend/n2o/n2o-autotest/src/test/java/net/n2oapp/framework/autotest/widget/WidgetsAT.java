@@ -6,8 +6,8 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.cell.BadgeCell;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
-import net.n2oapp.framework.autotest.api.component.control.InputControl;
-import net.n2oapp.framework.autotest.api.component.control.SelectControl;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -15,7 +15,7 @@ import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.impl.component.button.N2oDropdownButton;
 import net.n2oapp.framework.autotest.impl.component.button.N2oStandardButton;
-import net.n2oapp.framework.autotest.impl.component.control.N2oInputControl;
+import net.n2oapp.framework.autotest.impl.component.control.N2oInputText;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableWidget;
@@ -62,16 +62,16 @@ public class WidgetsAT extends AutoTestBase {
         form.fields().shouldHaveSize(2);
         StandardField surname = form.fields().field("Фамилия");
         surname.labelShouldHave(Condition.text("Фамилия"));
-        surname.control(N2oInputControl.class).val("test");
+        surname.control(N2oInputText.class).val("test");
 
         StandardField name = form.fields().field("Имя");
         name.shouldBeRequired();
         name.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
-        name.control(N2oInputControl.class).val("1");
-        surname.control(N2oInputControl.class).val("test");
+        name.control(N2oInputText.class).val("1");
+        surname.control(N2oInputText.class).val("test");
         name.shouldHaveValidationMessage(Condition.text("Имя должно быть test"));
-        name.control(N2oInputControl.class).val("test");
-        surname.control(N2oInputControl.class).val("test");
+        name.control(N2oInputText.class).val("test");
+        surname.control(N2oInputText.class).val("test");
         name.shouldHaveValidationMessage(Condition.empty);
     }
 
@@ -86,11 +86,11 @@ public class WidgetsAT extends AutoTestBase {
         widget.filters().shouldBeVisible();
         widget.filters().toolbar().button("searchLabel").shouldBeEnabled();
         widget.filters().toolbar().button("resetLabel").shouldBeEnabled();
-        widget.filters().fields().field("Имя").control(InputControl.class).val("test");
-        widget.filters().fields().field("Пол").control(SelectControl.class).openOptions();
-        widget.filters().fields().field("Пол").control(SelectControl.class).select(Condition.text("Мужской"));
+        widget.filters().fields().field("Имя").control(InputText.class).val("test");
+        widget.filters().fields().field("Пол").control(Select.class).openOptions();
+        widget.filters().fields().field("Пол").control(Select.class).select(Condition.text("Мужской"));
         widget.filters().toolbar().button("resetLabel").click();
-        widget.filters().fields().field("Имя").control(InputControl.class).shouldHaveValue("test");
+        widget.filters().fields().field("Имя").control(InputText.class).shouldHaveValue("test");
 
 
         widget.toolbar().topRight().button(0, N2oStandardButton.class).click();
@@ -134,7 +134,7 @@ public class WidgetsAT extends AutoTestBase {
         openPage.shouldExists();
         FormWidget form = openPage.single().widget(FormWidget.class);
         form.shouldExists();
-        form.fields().field("body").control(InputControl.class).shouldHaveValue("body1");
+        form.fields().field("body").control(InputText.class).shouldHaveValue("body1");
 
         page.shouldExists();
         page.shouldExists();
