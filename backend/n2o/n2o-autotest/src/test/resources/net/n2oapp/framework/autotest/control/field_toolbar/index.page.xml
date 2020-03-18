@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <form id="fieldToolbar" object-id="test">
+        <fields>
+            <input-text id="id">
+                <toolbar>
+                    <button label="Ссылка">
+                        <a href="https://yandex.ru/search" target="newWindow">
+                            <query-param name="text" value="{id}"/>
+                        </a>
+                    </button>
+                    <button label="Показать текст">
+                        <invoke operation-id="showText"/>
+                    </button>
+                    <button label="Открыть модальное окно">
+                        <show-modal page-id="modal" object-id="test"/>
+                    </button>
+                    <button label="Открыть страницу">
+                        <open-page page-id="modal"/>
+                    </button>
+                </toolbar>
+            </input-text>
+            <input-text id="sub">
+                <toolbar>
+                    <sub-menu>
+                        <menu-item label="Ссылка">
+                            <a href="https://yandex.ru/search" target="newWindow">
+                                <query-param name="text" value="{id}"/>
+                            </a>
+                        </menu-item>
+                        <menu-item label="Показать текст">
+                            <invoke operation-id="showText"/>
+                        </menu-item>
+                        <menu-item label="Открыть модальное окно">
+                            <show-modal page-id="modal" object-id="test"/>
+                        </menu-item>
+                        <menu-item label="Открыть страницу">
+                            <open-page page-id="modal"/>
+                        </menu-item>
+                    </sub-menu>
+                </toolbar>
+            </input-text>
+        </fields>
+    </form>
+</simple-page>
