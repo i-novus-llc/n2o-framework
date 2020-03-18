@@ -102,6 +102,36 @@ public class DateIntervalAT extends AutoTestBase {
         dateInterval.beginShouldHaveValue("12/02/2020 01:05:09");
         dateInterval.endTimeVal("23", "59", "58");
         dateInterval.endShouldHaveValue("15/02/2020 23:59:58");
-        /// TODO тест на min max
+    }
+
+    @Test
+    public void testDateIntervalMaxMin() {
+        N2oDateInterval dateInterval = page.single().widget(FormWidget.class).fields().field("DateInterval3")
+                .control(N2oDateInterval.class);
+        dateInterval.shouldExists();
+
+        // проверка, что значения, выходящие за границы min/max, не вводятся
+        dateInterval.beginVal("09.02.2020");
+        dateInterval.beginShouldBeEmpty();
+        dateInterval.beginVal("21.02.2020");
+        dateInterval.beginShouldBeEmpty();
+        dateInterval.endVal("09.02.2020");
+        dateInterval.endShouldBeEmpty();
+        dateInterval.endVal("21.02.2020");
+        dateInterval.endShouldBeEmpty();
+        dateInterval.beginVal("10.02.2020");
+        dateInterval.beginShouldHaveValue("10.02.2020");
+        dateInterval.endVal("20.02.2020");
+        dateInterval.endShouldHaveValue("20.02.2020");
+        // проверка, что значения, выходящие за границы min/max, нельзя выбрать в календаре
+        dateInterval.clickCalendarButton();
+        dateInterval.shouldBeDisableBeginDay("9");
+        dateInterval.shouldBeEnableBeginDay("10");
+        dateInterval.shouldBeEnableBeginDay("20");
+        dateInterval.shouldBeDisableBeginDay("21");
+        dateInterval.shouldBeDisableEndDay("9");
+        dateInterval.shouldBeEnableEndDay("10");
+        dateInterval.shouldBeEnableEndDay("20");
+        dateInterval.shouldBeDisableEndDay("21");
     }
 }

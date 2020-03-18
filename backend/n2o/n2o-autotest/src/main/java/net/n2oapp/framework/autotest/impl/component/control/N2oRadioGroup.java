@@ -9,6 +9,11 @@ import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 public class N2oRadioGroup extends N2oControl implements RadioGroup {
 
     @Override
+    public void shouldHaveValue(String value) {
+        shouldBeChecked(value);
+    }
+
+    @Override
     public void shouldBeEmpty() {
         element().$(".checked").shouldNotBe(Condition.exist);
     }
