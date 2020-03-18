@@ -11,6 +11,11 @@ import org.openqa.selenium.Keys;
 public class N2oSelect extends N2oControl implements Select {
 
     @Override
+    public void shouldHaveValue(String value) {
+        shouldSelected(value);
+    }
+
+    @Override
     public void shouldBeEmpty() {
         element().$(".n2o-input-items").shouldBe(Condition.empty);
     }
