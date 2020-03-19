@@ -394,6 +394,7 @@ const FileUploaderControl = WrappedComponent => {
     autoUpload: true,
     showSize: true,
     value: [],
+    sizeFieldId: 'size',
     onChange: () => {},
     onBlur: () => {},
     onStart: () => {},
