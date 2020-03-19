@@ -1,3 +1,16 @@
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
-       ref-id="childTableMerger">
+       ref-id="childTableMerger" selection="checkbox" scroll-x="100px" scroll-y="200px"
+       table-size="lg" children="expand">
+    <filters>
+        <input-text id="test1"/>
+    </filters>
+    <pagination first="true" last="true" hide-single-page="true" next="true" prev="true" show-count="true"/>
+    <rows>
+        <click action-id="actionId"/>
+    </rows>
+    <columns>
+        <column text-field-id="test1">
+            <badge/>
+        </column>
+    </columns>
 </table>
