@@ -8,14 +8,12 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 
-import java.io.Serializable;
-
 /**
  * Абстрактный столбец таблицы
  */
 @Getter
 @Setter
-public abstract class AbstractColumn implements IdAware, Serializable {
+public abstract class AbstractColumn implements IdAware, Source {
     private String id;
     private String textFieldId;
     private String tooltipFieldId;
