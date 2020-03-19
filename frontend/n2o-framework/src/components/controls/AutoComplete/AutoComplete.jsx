@@ -306,7 +306,6 @@ class AutoComplete extends React.Component {
                   value={input}
                   onFocus={this.onFocus}
                   onClick={this.onClick}
-                  onBlur={this.onBlur}
                   onRemoveItem={this._removeSelectedItem}
                   isExpanded={isExpanded}
                   setTextareaRef={this.setTextareaRef(ref)}
