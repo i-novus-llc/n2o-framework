@@ -34,7 +34,7 @@
     "start:demo": "lerna run --scope n2o-demo-client start",
     "start:notify": "lerna run --scope n2o-notifications start",
     "start:simple": "lerna run --scope n2o-simple-project start",
-    "test": "lerna run test --parallel",
+    "test": "lerna run --scope n2o-framework test",
     "test:n2o": "lerna run --scope n2o-framework test",
     "test:n2o:generate-output": "lerna run --scope n2o-framework test:generate-output",
     "test:n2o:hook": "lerna run --scope n2o-framework test:hook"
