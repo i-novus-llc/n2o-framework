@@ -11,21 +11,21 @@ import lombok.Setter;
 @Setter
 public class Slider extends ListControl{
     @JsonProperty
-    private boolean multiple;
+    private Boolean multiple;
     @JsonProperty
-    private boolean vertical;
+    private Boolean vertical;
     @JsonProperty
     private String tooltipFormatter;
     @JsonProperty
-    private int min;
+    private Integer min;
     @JsonProperty
-    private int max;
+    private Integer max;
     @JsonProperty
-    private int step;
+    private Integer step;
     @JsonProperty
-    private boolean showTooltip;
+    private Boolean showTooltip;
     @JsonProperty
     private String tooltipPlacement;
     @JsonProperty
-    private boolean disabled;
+    private Boolean disabled;
 }

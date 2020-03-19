@@ -11,15 +11,22 @@ import org.openqa.selenium.Keys;
 public class N2oMaskedInputControl extends N2oControl implements MaskedInputControl {
 
     @Override
+    public void shouldBeEmpty() {
+        SelenideElement elm = inputElement();
+        if (elm.exists()) inputElement().shouldBe(Condition.empty);
+        else cellInputElement().shouldBe(Condition.empty);
+    }
+
+    @Override
     public String val() {
-        SelenideElement elm = element().parent().$(".n2o-input-mask");
-        return elm.exists() ? elm.val() : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();
+        SelenideElement elm = inputElement();
+        return elm.exists() ? elm.val() : cellInputElement().text();
     }
 
     @Override
     public void val(String value) {
-        element().parent().$(".n2o-input-mask").sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
-        element().parent().$(".n2o-input-mask").pressEnter();
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        inputElement().pressEnter();
     }
 
     @Override
@@ -38,5 +45,13 @@ public class N2oMaskedInputControl extends N2oControl implements MaskedInputCont
         SelenideElement elm = element().parent().$(".n2o-input-mask");
         if (elm.exists()) elm.shouldHave(condition);
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(condition);
+    }
+
+    private SelenideElement inputElement() {
+        return element().parent().$(".n2o-input-mask");
+    }
+
+    private SelenideElement cellInputElement() {
+        return element().$(".n2o-editable-cell .n2o-editable-cell-text");
     }
 }
