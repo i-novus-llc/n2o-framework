@@ -7,6 +7,4 @@ public interface MaskedInputControl extends Control {
     String val();
 
     void val(String value);
-
-    void shouldHaveValue(String value);
 }

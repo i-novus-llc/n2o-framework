@@ -10,11 +10,11 @@ import lombok.Setter;
 @Setter
 public class N2oSlider extends N2oSingleListFieldAbstract {
     private Mode mode;
-    private boolean vertical;
+    private Boolean vertical;
     private String measure;
-    private int min;
-    private int max;
-    private int step;
+    private Integer min;
+    private Integer max;
+    private Integer step;
 
     public enum Mode {
         single, range

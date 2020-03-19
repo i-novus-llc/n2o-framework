@@ -9,6 +9,11 @@ import net.n2oapp.framework.autotest.api.component.control.Checkbox;
 public class N2oCheckbox extends N2oControl implements Checkbox {
 
     @Override
+    public void shouldHaveValue(String value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void shouldBeEmpty() {
         element().shouldNotBe(Condition.checked);
     }

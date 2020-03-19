@@ -11,6 +11,11 @@ import org.openqa.selenium.Keys;
 public class N2oDateInterval extends N2oControl implements DateInterval {
 
     @Override
+    public void shouldHaveValue(String value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void shouldBeEmpty() {
         beginShouldBeEmpty();
         endShouldBeEmpty();

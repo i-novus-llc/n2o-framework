@@ -11,8 +11,6 @@ public interface InputSelect extends Control {
 
     void valMulti(String... values);
 
-    void shouldHaveValue(String value);
-
     void select(int index);
 
     void select(Condition by);

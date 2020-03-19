@@ -10,6 +10,11 @@ import net.n2oapp.framework.autotest.api.component.control.CheckboxGroup;
 public class N2oCheckboxGroup extends N2oControl implements CheckboxGroup {
 
     @Override
+    public void shouldHaveValue(String value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void shouldBeEmpty() {
         element().$$(".n2o-checkbox .n2o-input").find(Condition.checked).shouldNotBe(Condition.exist);
     }
