@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.widget.table;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Size;
@@ -74,12 +75,19 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
     private ElementIOFactory<AbstractColumn, TypedElementReader<? extends AbstractColumn>, TypedElementPersister<? super AbstractColumn>> columns(IOProcessor p) {
         return p.oneOf(AbstractColumn.class)
                 .add("column", N2oSimpleColumn.class, this::column)
+                .add("filter-column", N2oFilterColumn.class, this::filterColumn)
                 .add("multi-column", N2oMultiColumn.class, this::multiColumn);
     }
 
     private void column(Element e, N2oSimpleColumn c, IOProcessor p) {
         abstractColumn(e, c, p);
         p.anyChild(e, null, c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("dependencies"), CellIOv2.NAMESPACE);
+    }
+
+    private void filterColumn(Element e, N2oFilterColumn c, IOProcessor p) {
+        abstractColumn(e, c, p);
+        p.anyChild(e, "filter", c::getFilter, c::setFilter, p.anyOf(N2oStandardField.class), ControlIOv2.NAMESPACE);
+        p.anyChild(e, "cell", c::getCell, c::setCell, p.anyOf(N2oCell.class).ignore("filter"), CellIOv2.NAMESPACE);
     }
 
     private void multiColumn(Element e, N2oMultiColumn c, IOProcessor p) {

@@ -20,7 +20,7 @@ import java.util.Map;
  * Компиляция стандартной страницы с регионами
  */
 @Component
-public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
+public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, StandardPage> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oStandardPage.class;
@@ -28,7 +28,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage> {
 
     @Override
     public StandardPage compile(N2oStandardPage source, PageContext context, CompileProcessor p) {
-        return compilePage(source, context, p, source.getRegions());
+        return compilePage(source, new StandardPage(), context, p, source.getRegions(), null);
     }
 
     @Override

@@ -374,20 +374,9 @@
       }
     ]
   },
-  "breadcrumb": [
-    {
-      "label": "Список контактов"
-    }
-  ],
-  "models": {
-    "filter['proto_clients'].genders": {
-      "link": "models.filter['proto_clients'].genders"
-    }
-  },
   "widgets": {
     "proto_clients": {
       "src": "AdvancedTableWidget",
-      "id": "proto_clients",
       "dataProvider": {
         "url": "n2o/data/proto",
         "pathMapping": {},
@@ -1461,7 +1450,6 @@
     },
     "proto_form": {
       "src": "FormWidget",
-      "id": "proto_form",
       "dataProvider": {
         "url": "n2o/data/proto/:client_id/card",
         "pathMapping": {
@@ -1547,20 +1535,16 @@
                     "fields": [
                       {
                         "src": "StandardField",
-                        "style": {
-                          "fontWeight": "bold"
-                        },
                         "id": "vip",
                         "enabled": false,
                         "dependency": [],
+                        "style": {"fontWeight": "bold"},
                         "control": {
                           "src": "Checkbox",
-                          "style": {
-                            "fontWeight": "bold"
-                          },
                           "id": "vip",
                           "label": "VIP",
-                          "defaultUnchecked": "null"
+                          "defaultUnchecked": "null",
+                          "style": {"fontWeight": "bold"}
                         }
                       }
                     ]

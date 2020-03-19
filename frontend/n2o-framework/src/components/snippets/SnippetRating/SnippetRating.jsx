@@ -22,6 +22,12 @@ class SnippetRating extends Component {
     this.renderTooltip = this.renderTooltip.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value) {
+      this.setState({ value: this.props.value });
+    }
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.value !== prevState.value && nextProps.value) {
       return {
@@ -38,10 +44,12 @@ class SnippetRating extends Component {
   }
 
   renderTooltip() {
-    const { rating, showTooltip } = this.props;
+    const { showTooltip } = this.props;
+    const { value } = this.state;
+
     return showTooltip ? (
       <UncontrolledTooltip placement="top" target={this.id}>
-        {round(rating, 2)}
+        {round(value, 2)}
       </UncontrolledTooltip>
     ) : null;
   }
@@ -90,7 +98,7 @@ class SnippetRating extends Component {
           value={index}
           type="radio"
           onClick={this.onChangeAndSetState}
-          checked={eq(index, value)}
+          checked={eq(+index, +value)}
         />
       </Fragment>
     );

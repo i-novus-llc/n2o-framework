@@ -135,6 +135,16 @@
                         <xs:documentation>Заголовок для футера.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="active-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Имя параметра активной панели в URL.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="routable" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Восстановление активных панелей по URL.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
