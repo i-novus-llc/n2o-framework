@@ -39,7 +39,7 @@ public class XmlInfoScanner implements MetadataScanner<InfoConstructor>, Metadat
     public List<InfoConstructor> scan() {
         return collectInfo(
                 FileSystemUtil.getNodesByLocationPattern(pattern),
-                (node) -> RegisterUtil.createXmlInfo(node, sourceTypeRegister));
+                (node) -> RegisterUtil.createXmlInfo(XmlInfoScanner.class, node.getLocalPath(), node.getURI(), sourceTypeRegister));
     }
 
     @Override

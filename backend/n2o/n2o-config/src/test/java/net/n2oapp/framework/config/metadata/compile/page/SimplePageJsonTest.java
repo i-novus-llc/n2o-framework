@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Тестирвоание маппинга java модели в json простой старницы
+ * Тестирование маппинга java модели в json простой страницы
  */
 public class SimplePageJsonTest extends JsonMetadataTestBase {
     @Override

@@ -15,8 +15,8 @@ setOptions({
   name: 'N2O Storybook',
   goFullScreen: false,
   showStoriesPanel: true,
-  showAddonPanel: true,
-  addonPanelInRight: true,
+  showAddonPanel: false,
+  addonPanelInRight: false,
   sortStoriesByKind: true,
 });
 

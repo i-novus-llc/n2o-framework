@@ -1,0 +1,21 @@
+{
+  "messages": {},
+  "menu": {
+    "brand": "N2O",
+    "color": "inverse",
+    "fixed": false,
+    "collapsed": true,
+    "search": false,
+    "items": [
+      {
+        "id": "menuItem0",
+        "label": "Контакты",
+        "href": "/proto",
+        "linkType": "inner",
+        "type": "link"
+      }
+    ],
+    "extraItems": []
+  },
+  "user": { "username": null, "testProperty": "testProperty" }
+}

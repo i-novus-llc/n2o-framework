@@ -24,6 +24,7 @@
         <module>n2o-test</module>
         <module>n2o-autoconfigure</module>
         <module>n2o-spring-boot-starter</module>
+        <module>n2o-autotest</module>
     </modules>
 
     <properties>
