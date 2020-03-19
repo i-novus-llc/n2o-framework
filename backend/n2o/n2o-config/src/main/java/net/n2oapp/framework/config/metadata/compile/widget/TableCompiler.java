@@ -152,66 +152,23 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
                                 WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions) {
         if (source.getColumns() != null) {
             List<ColumnHeader> headers = new ArrayList<>();
-            CellsScope cellsScope = new CellsScope(new ArrayList<>());
             Map<String, String> sortings = new HashMap<>();
             IndexScope columnIndex = new IndexScope();
+            ColumnHeaderScope columnHeaderScope = new ColumnHeaderScope(source, new ArrayList<>(), query);
             for (AbstractColumn column : source.getColumns()) {
-                compileHeaderWithCell(source, object, query, headers, column, context, p, columnIndex, cellsScope,
-                        widgetScope, widgetRouteScope, widgetActions);
+                headers.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, columnHeaderScope,
+                        widgetScope, widgetRouteScope, widgetActions));
                 if (column.getSortingDirection() != null) {
                     sortings.put(column.getTextFieldId(), column.getSortingDirection().toString().toUpperCase());
                 }
             }
             component.setHeaders(headers);
-            component.setCells(cellsScope.getCells());
+            component.setCells(columnHeaderScope.getCells());
             component.setSorting(sortings);
             Boolean hasSelect = p.cast(source.getSelected(), p.resolve(property("n2o.api.widget.table.selected"), Boolean.class));
             component.setHasSelect(hasSelect);
             component.setHasFocus(hasSelect);
         }
-    }
-
-    private void compileHeaderWithCell(N2oTable source, CompiledObject object, CompiledQuery query, List<ColumnHeader> headers,
-                                       AbstractColumn column, CompileContext<?, ?> context, CompileProcessor p, Object... scopes) {
-        column.setId(p.cast(column.getId(), column.getTextFieldId()));
-        column.setSortingFieldId(p.cast(column.getSortingFieldId(), column.getTextFieldId()));
-
-        ColumnHeader header = p.compile(column, context, p, new ComponentScope(column), object, scopes);
-
-        if (StringUtils.isLink(column.getVisible())) {
-            Condition condition = new Condition();
-            condition.setExpression(column.getVisible().substring(1, column.getVisible().length() - 1));
-            condition.setModelLink(new ModelLink(ReduxModel.FILTER, source.getId()).getBindLink());
-            if (!header.getConditions().containsKey(ValidationType.visible)) {
-                header.getConditions().put(ValidationType.visible, new ArrayList<>());
-            }
-            header.getConditions().get(ValidationType.visible).add(condition);
-        } else {
-            header.setVisible(p.resolveJS(column.getVisible(), Boolean.class));
-        }
-        if (column.getColumnVisibilities() != null) {
-            for (AbstractColumn.ColumnVisibility visibility : column.getColumnVisibilities()) {
-                String refWidgetId = p.cast(visibility.getRefWidgetId(), source.getId());
-                ReduxModel refModel = p.cast(visibility.getRefModel(), ReduxModel.FILTER);
-                Condition condition = new Condition();
-                condition.setExpression(ScriptProcessor.resolveFunction(visibility.getValue()));
-                condition.setModelLink(new ModelLink(refModel, refWidgetId).getBindLink());
-                if (!header.getConditions().containsKey(ValidationType.visible)) {
-                    header.getConditions().put(ValidationType.visible, new ArrayList<>());
-                }
-                header.getConditions().get(ValidationType.visible).add(condition);
-            }
-        }
-
-        if (query != null && query.getFieldsMap().containsKey(column.getTextFieldId())) {
-            header.setLabel(p.cast(column.getLabelName(), query.getFieldsMap().get(column.getTextFieldId()).getName()));
-        } else {
-            header.setLabel(column.getLabelName());
-        }
-        if (query != null && query.getFieldsMap().containsKey(header.getId())) {
-            header.setSortable(!query.getFieldsMap().get(header.getId()).getNoSorting());
-        }
-        headers.add(header);
     }
 
     private AbstractTable.Filter createFilter(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,

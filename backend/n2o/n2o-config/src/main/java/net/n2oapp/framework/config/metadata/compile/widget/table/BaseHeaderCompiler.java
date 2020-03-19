@@ -10,13 +10,4 @@ import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
  */
 public abstract class BaseHeaderCompiler<S extends AbstractColumn> implements BaseSourceCompiler<ColumnHeader, S, CompileContext<?, ?>> {
 
-    protected ColumnHeader compileHeader(S column) {
-        ColumnHeader header = new ColumnHeader();
-        header.setId(column.getId());
-        header.setIcon(column.getLabelIcon());
-        header.setWidth(column.getWidth());
-        header.setResizable(column.getResizable());
-        header.setFixed(column.getFixed());
-        return header;
-    }
 }

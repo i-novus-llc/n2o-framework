@@ -9,6 +9,12 @@
                     <column text-field-id="test3"/>
                 </multi-column>
                 <column text-field-id="test4"/>
+                <filter-column text-field-id="test5">
+                    <filter>
+                        <input-text id="filterId"/>
+                    </filter>
+                    <cell/>
+                </filter-column>
             </multi-column>
         </columns>
     </table>

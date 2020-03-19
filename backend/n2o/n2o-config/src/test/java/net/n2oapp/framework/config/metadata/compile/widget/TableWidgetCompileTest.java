@@ -343,11 +343,14 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(1).getMultiHeader(), is(true));
 
         headers = headers.get(1).getChildren();
-        assertThat(headers.size(), is(2));
+        assertThat(headers.size(), is(3));
         assertThat(headers.get(0).getMultiHeader(), is(true));
         assertThat(headers.get(1).getId(), is("test4"));
         assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
         assertThat(headers.get(1).getChildren(), nullValue());
+        assertThat(headers.get(2).getId(), is("test5"));
+        assertThat(headers.get(2).getFilterable(), is(true));
+        assertThat(headers.get(2).getFilterControl(), instanceOf(InputText.class));
 
         headers = headers.get(0).getChildren();
         assertThat(headers.size(), is(2));
@@ -358,6 +361,5 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
         assertThat(headers.get(1).getChildren(), nullValue());
 
-        /// TODO проверка filter-column
     }
 }
