@@ -11,6 +11,16 @@ import org.openqa.selenium.Keys;
 public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
 
     @Override
+    public void shouldBeEmpty() {
+
+    }
+
+    @Override
+    public void shouldHaveValue(String value) {
+
+    }
+
+    @Override
     public void shouldHavePlaceholder(String value) {
         element().$(".n2o-select-tree-search__field__placeholder").shouldHave(Condition.text(value));
     }

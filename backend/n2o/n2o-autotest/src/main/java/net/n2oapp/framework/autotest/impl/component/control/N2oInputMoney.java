@@ -23,6 +23,13 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
     }
 
     @Override
+    public void shouldBeEmpty() {
+        SelenideElement elm = element().parent().$(".n2o-input-money");
+        if (elm.exists()) elm.shouldHave(Condition.empty);
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.empty);
+    }
+
+    @Override
     public void shouldHaveValue(String value) {
         SelenideElement elm = element().parent().$(".n2o-input-money");
         if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ?

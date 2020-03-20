@@ -10,6 +10,11 @@ import org.openqa.selenium.Keys;
 public class N2oTextArea extends N2oControl implements TextArea {
 
     @Override
+    public void shouldBeEmpty() {
+        element().should(Condition.empty);
+    }
+
+    @Override
     public String val() {
         return element().text();
     }

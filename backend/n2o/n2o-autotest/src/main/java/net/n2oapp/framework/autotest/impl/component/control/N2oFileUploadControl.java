@@ -10,6 +10,17 @@ import java.io.File;
  */
 public class N2oFileUploadControl extends N2oControl implements FileUploadControl {
 
+
+    @Override
+    public void shouldBeEmpty() {
+
+    }
+
+    @Override
+    public void shouldHaveValue(String value) {
+
+    }
+
     @Override
     public File uploadFile(File... file) {
         return element().$("input").uploadFile(file);

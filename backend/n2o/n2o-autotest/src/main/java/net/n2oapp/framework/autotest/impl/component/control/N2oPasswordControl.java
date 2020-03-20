@@ -23,6 +23,13 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
     }
 
     @Override
+    public void shouldBeEmpty() {
+        SelenideElement elm = element().parent().$(".n2o-input");
+        if (elm.exists()) elm.shouldHave(Condition.empty);
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.empty);
+    }
+
+    @Override
     public void shouldHaveValue(String value) {
         SelenideElement elm = element().parent().$(".n2o-input");
         if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ?
