@@ -320,8 +320,13 @@ class Calendar extends React.Component {
 
   renderTime() {
     const { value, hasDefaultTime, timeFormat } = this.props;
+
     return hasDefaultTime ? (
-      this.props.value && this.props.value.format(timeFormat)
+      value ? (
+        value.format(timeFormat)
+      ) : (
+        '00:00:00'
+      )
     ) : (
       <FormattedMessage
         id="Datepicker.time-choose"
@@ -447,10 +452,12 @@ class Calendar extends React.Component {
   setTime() {
     const { value, inputName, markTimeAsSet, select } = this.props;
     const { hours, mins, seconds } = this.state.tempTimeObj;
+    const copyValue = value || moment();
     this.changeCalendarType(Calendar.BY_DAYS);
     markTimeAsSet(inputName);
+
     select(
-      addTime(value.clone().startOf('day'), hours, mins, seconds),
+      addTime(copyValue.clone().startOf('day'), hours, mins, seconds),
       inputName,
       false
     );

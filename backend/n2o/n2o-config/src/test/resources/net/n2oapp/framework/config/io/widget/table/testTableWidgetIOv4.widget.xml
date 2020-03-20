@@ -36,6 +36,15 @@
             </dependencies>
             <text/>
         </column>
+
+        <filter-column text-field-id="test" label="label">
+            <filter>
+                <ctr:input-text id="name" label="label"/>
+            </filter>
+            <cell>
+                <text format="test" visible="true"/>
+            </cell>
+        </filter-column>
     </columns>
     <rows class="test">
         <switch value-field-id="gender.id">
