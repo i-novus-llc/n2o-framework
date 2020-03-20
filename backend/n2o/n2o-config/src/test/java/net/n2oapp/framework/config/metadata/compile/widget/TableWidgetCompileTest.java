@@ -4,11 +4,16 @@ import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -290,5 +295,37 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(columnHeaders.get(2).getVisible(), nullValue());
         assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getExpression(), is("type == 1"));
         assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['form']"));
+    }
+
+    @Test
+    public void testFilterColumns() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFilterColumns.page.xml")
+                .get(new PageContext("testFilterColumns"));
+        List<ColumnHeader> columnHeaders = ((Table) page.getWidget()).getComponent().getHeaders();
+        assertThat(columnHeaders.get(0), instanceOf(ColumnHeader.class));
+        assertThat(columnHeaders.get(0).getId(), is("name"));
+        assertThat(columnHeaders.get(0).getLabel(), is("label"));
+        assertThat(columnHeaders.get(0).getFilterable(), is(true));
+        assertThat(columnHeaders.get(0).getFilterControl(), instanceOf(InputText.class));
+        assertThat(columnHeaders.get(0).getFilterControl().getId(), is("name"));
+
+        PageRoutes.Query query = page.getRoutes().getQueryMapping().get("main_name");
+        assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
+        assertThat(query.getOnGet().getPayload().get("prefix"), is("filter"));
+        assertThat(query.getOnGet().getPayload().get("key"), is("testFilterColumns_main"));
+        assertThat(query.getOnGet().getPayload().get("field"), is("name"));
+        assertThat(query.getOnGet().getPayload().get("value"), is(":main_name"));
+        assertThat(query.getOnSet().getBindLink(), is("models.filter['testFilterColumns_main']"));
+        assertThat(query.getOnSet().getValue(), is("`name`"));
+
+        BindLink link = page.getWidget().getDataProvider().getQueryMapping().get("main_name");
+        assertThat(link.getValue(), is("`name`"));
+        assertThat(link.getBindLink(), is("models.filter['testFilterColumns_main']"));
+
+        List<N2oCell> cells = ((Table) page.getWidget()).getComponent().getCells();
+        assertThat(cells.get(0), instanceOf(N2oBadgeCell.class));
+        assertThat(cells.get(0).getId(), is("name"));
+        assertThat(cells.get(1), instanceOf(N2oTextCell.class));
+        assertThat(cells.get(1).getId(), is("age"));
     }
 }
