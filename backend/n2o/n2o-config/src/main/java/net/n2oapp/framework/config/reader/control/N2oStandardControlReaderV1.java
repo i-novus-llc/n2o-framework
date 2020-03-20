@@ -23,7 +23,6 @@ import org.jdom.Namespace;
 import org.jdom.Text;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,8 +39,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    public final static Namespace DEFAULT_EVENT_NAMESPACE_URI = Namespace.getNamespace("http://n2oapp" +
-            ".net/framework/config/schema/n2o-event-1.0");
+    public final static Namespace DEFAULT_EVENT_NAMESPACE_URI = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/n2o-event-1.0");
 
     @Override
     public String getNamespaceUri() {
@@ -141,8 +139,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         res.setValue(condition);
         res.setOn(
                 ScriptProcessor.extractVars(condition).stream()
-                        .map(f -> f.contains(".") ? f.substring(0, f.indexOf(".")) : f) //клиент не учитывает
-                        // вложенные модели
+                        .map(f -> f.contains(".") ? f.substring(0, f.indexOf(".")) : f) //клиент не учитывает вложенные модели
                         .collect(Collectors.toList()).toArray(new String[0])
         );
         return res;
@@ -363,5 +360,4 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
             selectTree.setPreFilters(PreFilterReaderV1Util.getControlPreFilterListDefinition(preFilters));
         }
     }
-
 }
