@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 /**
- * Компиляция хэдера мульти-столбца
+ * Компиляция заголовка мульти-столбца таблицы
  */
 @Component
-public class MultiColumnHeaderCompiler extends BaseHeaderCompiler<N2oMultiColumn> {
+public class MultiColumnHeaderCompiler extends AbstractHeaderCompiler<N2oMultiColumn> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oMultiColumn.class;

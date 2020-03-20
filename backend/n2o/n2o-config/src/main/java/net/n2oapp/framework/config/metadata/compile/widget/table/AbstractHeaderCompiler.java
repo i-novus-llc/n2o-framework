@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 
 /**
- * Компиляция базового хэдера
+ * Компиляция абстрактного заголовка таблицы
  */
-public abstract class BaseHeaderCompiler<S extends AbstractColumn> implements BaseSourceCompiler<ColumnHeader, S, CompileContext<?, ?>> {
+public abstract class AbstractHeaderCompiler<S extends AbstractColumn> implements BaseSourceCompiler<ColumnHeader, S, CompileContext<?, ?>> {
 
 }

@@ -10,20 +10,18 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Информация для компиляции хэдеров таблиц
+ * Информация для компиляции заголовков таблиц
  */
 @Getter
 @Setter
 public class ColumnHeaderScope implements Serializable {
-    private N2oTable table;
     private List<N2oCell> cells;
     private CompiledQuery query;
 
     public ColumnHeaderScope() {
     }
 
-    public ColumnHeaderScope(N2oTable table, List<N2oCell> cells, CompiledQuery query) {
-        this.table = table;
+    public ColumnHeaderScope(List<N2oCell> cells, CompiledQuery query) {
         this.cells = cells;
         this.query = query;
     }

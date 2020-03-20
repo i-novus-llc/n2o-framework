@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
@@ -17,17 +16,13 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oFilt
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.*;
-import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
@@ -154,7 +149,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             List<ColumnHeader> headers = new ArrayList<>();
             Map<String, String> sortings = new HashMap<>();
             IndexScope columnIndex = new IndexScope();
-            ColumnHeaderScope columnHeaderScope = new ColumnHeaderScope(source, new ArrayList<>(), query);
+            ColumnHeaderScope columnHeaderScope = new ColumnHeaderScope(new ArrayList<>(), query);
             for (AbstractColumn column : source.getColumns()) {
                 headers.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, columnHeaderScope,
                         widgetScope, widgetRouteScope, widgetActions));
