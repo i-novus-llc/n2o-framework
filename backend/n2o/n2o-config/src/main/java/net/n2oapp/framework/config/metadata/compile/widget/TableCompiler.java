@@ -149,16 +149,16 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             List<ColumnHeader> headers = new ArrayList<>();
             Map<String, String> sortings = new HashMap<>();
             IndexScope columnIndex = new IndexScope();
-            ColumnHeaderScope columnHeaderScope = new ColumnHeaderScope(new ArrayList<>(), query);
+            CellsScope cellsScope = new CellsScope(new ArrayList<>());
             for (AbstractColumn column : source.getColumns()) {
-                headers.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, columnHeaderScope,
-                        widgetScope, widgetRouteScope, widgetActions));
+                headers.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope,
+                        widgetScope, widgetRouteScope, widgetActions, query));
                 if (column.getSortingDirection() != null) {
                     sortings.put(column.getTextFieldId(), column.getSortingDirection().toString().toUpperCase());
                 }
             }
             component.setHeaders(headers);
-            component.setCells(columnHeaderScope.getCells());
+            component.setCells(cellsScope.getCells());
             component.setSorting(sortings);
             Boolean hasSelect = p.cast(source.getSelected(), p.resolve(property("n2o.api.widget.table.selected"), Boolean.class));
             component.setHasSelect(hasSelect);
