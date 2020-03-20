@@ -1,8 +1,8 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.control.OutputText;
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oOutputText;
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -16,7 +16,7 @@ import org.junit.Test;
  */
 public class OutputTextAT extends AutoTestBase {
 
-    private N2oSimplePage page;
+    private SimplePage page;
 
     @BeforeClass
     public static void beforeClass() {
@@ -31,7 +31,7 @@ public class OutputTextAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/output_text/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
-        page = open(N2oSimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
     }
 
@@ -43,8 +43,8 @@ public class OutputTextAT extends AutoTestBase {
 
     @Test
     public void testOutputText() {
-        N2oOutputText output = page.single().widget(FormWidget.class).fields().field("Output1")
-                .control(N2oOutputText.class);
+        OutputText output = page.single().widget(FormWidget.class).fields().field("Output1")
+                .control(OutputText.class);
         output.shouldExists();
 
         output.shouldHaveValue("123,46");
@@ -52,8 +52,8 @@ public class OutputTextAT extends AutoTestBase {
 
     @Test
     public void testOutputTextWithIcon() {
-        N2oOutputText output = page.single().widget(FormWidget.class).fields().field("Output2")
-                .control(N2oOutputText.class);
+        OutputText output = page.single().widget(FormWidget.class).fields().field("Output2")
+                .control(OutputText.class);
         output.shouldExists();
 
         output.shouldHaveValue("test");
@@ -62,8 +62,8 @@ public class OutputTextAT extends AutoTestBase {
 
     @Test
     public void testIconWithoutText() {
-        N2oOutputText output = page.single().widget(FormWidget.class).fields().field("Output3")
-                .control(N2oOutputText.class);
+        OutputText output = page.single().widget(FormWidget.class).fields().field("Output3")
+                .control(OutputText.class);
         output.shouldExists();
 
         output.shouldBeEmpty();
