@@ -35,7 +35,19 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
     /**
      * Тип действия кнопки отправки формы
      */
-    private SubmitActionType submitAction;
+    private SubmitActionType submitActionType;
+    /**
+     * Модель, которая будет скопирована
+     */
+    private ReduxModel copyModel;
+    /**
+     * Идентификатор виджета источника
+     */
+    private String copyWidgetId;
+    /**
+     * Идентификатор копируемого поля источника
+     */
+    private String copyFieldId;
     /**
      * Модель, в которую будут скопированы данные
      */

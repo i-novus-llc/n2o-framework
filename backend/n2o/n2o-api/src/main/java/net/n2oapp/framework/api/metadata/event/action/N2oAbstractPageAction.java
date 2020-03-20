@@ -30,7 +30,10 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction {
     private String submitOperationId;
     private String submitLabel;
     private ReduxModel submitModel;
-    private SubmitActionType submitAction;
+    private SubmitActionType submitActionType;
+    private ReduxModel copyModel;
+    private String copyWidgetId;
+    private String copyFieldId;
     private ReduxModel targetModel;
     private String targetWidgetId;
     private CopyMode copyMode;

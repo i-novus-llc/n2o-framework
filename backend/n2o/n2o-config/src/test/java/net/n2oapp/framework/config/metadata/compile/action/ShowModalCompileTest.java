@@ -62,7 +62,9 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction1.page.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyActionWithTwoWidgetPage.page.xml")
+        );
     }
 
     @Test
@@ -386,6 +388,46 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submit.getPayload().getSource().getField(), nullValue());
         assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
         assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyAction_table1"));
+        assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
+        assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
+        assertThat(submit.getMeta().getCloseLastModal(), is(true));
+    }
+
+    @Test
+    public void copyActionWithTwoWidget() {
+        Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyActionWithTwoWidget.page.xml")
+                .get(new PageContext("testShowModalCopyActionWithTwoWidget"));
+
+        PageContext modalContext = (PageContext) route("/testShowModalCopyActionWithTwoWidget/123/update", Page.class);
+        StandardPage modalPage = (StandardPage) read().compile().get(modalContext);
+
+        CopyAction submit = (CopyAction) modalPage.getActions().get("submit");
+        assertThat(submit.getType(), is("n2o/models/COPY"));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidget_update_table2"));
+        assertThat(submit.getPayload().getSource().getField(), is("id"));
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidget_table1"));
+        assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
+        assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
+        assertThat(submit.getMeta().getCloseLastModal(), is(true));
+    }
+
+    @Test
+    public void copyActionWithTwoWidgetWithoutCopyAttributes() {
+        Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyActionWithTwoWidgetDefault.page.xml")
+                .get(new PageContext("testShowModalCopyActionWithTwoWidgetDefault"));
+
+        PageContext modalContext = (PageContext) route("/testShowModalCopyActionWithTwoWidgetDefault/123/update", Page.class);
+        StandardPage modalPage = (StandardPage) read().compile().get(modalContext);
+
+        CopyAction submit = (CopyAction) modalPage.getActions().get("submit");
+        assertThat(submit.getType(), is("n2o/models/COPY"));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.RESOLVE.getId()));
+        assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_update_master"));
+        assertThat(submit.getPayload().getSource().getField(), nullValue());
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_table1"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
         assertThat(submit.getMeta().getCloseLastModal(), is(true));

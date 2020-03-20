@@ -40,7 +40,10 @@ public class SubmitGenerator implements ButtonGenerator {
         String submitOperationId = null;
         ReduxModel submitModel = null;
         String submitLabel = null;
-        SubmitActionType submitAction = null;
+        SubmitActionType submitActionType = null;
+        ReduxModel copyModel = null;
+        String copyWidgetId = null;
+        String copyFieldId = null;
         ReduxModel targetModel = null;
         String targetWidgetId = null;
         String targetFieldId = null;
@@ -50,7 +53,10 @@ public class SubmitGenerator implements ButtonGenerator {
             submitOperationId = pageContext.getSubmitOperationId();
             submitModel = pageContext.getSubmitModel();
             submitLabel = pageContext.getSubmitLabel();
-            submitAction = pageContext.getSubmitAction();
+            submitActionType = pageContext.getSubmitActionType();
+            copyModel = pageContext.getCopyModel();
+            copyWidgetId = pageContext.getCopyWidgetId();
+            copyFieldId = pageContext.getCopyFieldId();
             targetModel = pageContext.getTargetModel();
             targetWidgetId = pageContext.getTargetWidgetId();
             targetFieldId = pageContext.getTargetFieldId();
@@ -67,8 +73,11 @@ public class SubmitGenerator implements ButtonGenerator {
         saveButton.setPrimary(true);
         saveButton.setColor("primary");
         N2oInvokeAction saveAction;
-        if (SubmitActionType.copy.equals(submitAction)) {
+        if (SubmitActionType.copy.equals(submitActionType)) {
             N2oCopyAction copyAction = new N2oCopyAction();
+            copyAction.setSourceModel(copyModel);
+            copyAction.setSourceWidgetId(copyWidgetId);
+            copyAction.setSourceFieldId(copyFieldId);
             copyAction.setTargetModel(targetModel);
             copyAction.setTargetWidgetId(targetWidgetId);
             copyAction.setTargetFieldId(targetFieldId);

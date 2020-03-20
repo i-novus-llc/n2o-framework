@@ -160,7 +160,10 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setSubmitOperationId(source.getSubmitOperationId());
         pageContext.setSubmitLabel(source.getSubmitLabel());
         pageContext.setSubmitModel(source.getSubmitModel());
-        pageContext.setSubmitAction(source.getSubmitAction());
+        pageContext.setSubmitActionType(source.getSubmitActionType());
+        pageContext.setCopyModel(source.getCopyModel());
+        pageContext.setCopyWidgetId(source.getCopyWidgetId());
+        pageContext.setCopyFieldId(source.getCopyFieldId());
         pageContext.setTargetModel(source.getTargetModel());
         pageContext.setTargetWidgetId(source.getTargetWidgetId());
         pageContext.setTargetFieldId(source.getTargetFieldId());
