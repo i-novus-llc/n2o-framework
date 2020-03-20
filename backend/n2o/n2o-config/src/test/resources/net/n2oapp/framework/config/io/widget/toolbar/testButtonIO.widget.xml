@@ -12,7 +12,7 @@
             </dependencies>
             <copy source-model="resolve" source-widget-id="table" source-field-id="id"
                   target-model="resolve" target-widget-id="form" target-field-id="dictionary.id"
-                  mode="replace" close-on-success="true"/>
+                  mode="replace"/>
         </button>
     </toolbar>
 </table>
