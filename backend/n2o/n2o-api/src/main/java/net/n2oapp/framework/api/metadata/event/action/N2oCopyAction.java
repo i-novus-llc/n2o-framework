@@ -18,5 +18,4 @@ public class N2oCopyAction extends N2oInvokeAction implements N2oAction {
     private String targetWidgetId;
     private String targetFieldId;
     private CopyMode mode;
-    private Boolean closeOnSuccess;
 }

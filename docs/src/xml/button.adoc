@@ -302,18 +302,13 @@ Java Script выражение
 |Тип слияния данных
 |merge
 
-|close-on-success
-|true false
-|Закрыть окно после успешного выполнения действия
-|false
-
 |===
 
 Пример::
 [source,xml]
 ----
 <copy source-field-id="id" target-widget-id="table"
-      target-field-id="dictionary.id" close-on-success="true"/>
+      target-field-id="dictionary.id"/>
 ----
 
 ===== <link>

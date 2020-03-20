@@ -67,7 +67,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getTarget().getKey(), is("testCopyAction_table1"));
         assertThat(action.getPayload().getTarget().getField(), nullValue());
         assertThat(action.getPayload().getMode(), is(CopyMode.merge));
-        assertThat(action.getMeta().getCloseLastModal(), is(false));
+        assertThat(action.getMeta().getCloseLastModal(), is(true));
 
         action = (CopyAction) table.getActions().get("btn");
         assertThat(action.getType(), is("n2o/models/COPY"));

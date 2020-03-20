@@ -33,6 +33,5 @@ public class CopyActionElementIOV1 extends AbstractActionElementIOV1<N2oCopyActi
         p.attribute(e, "target-widget-id", m::getTargetWidgetId, m::setTargetWidgetId);
         p.attribute(e, "target-field-id", m::getTargetFieldId, m::setTargetFieldId);
         p.attributeEnum(e, "mode", m::getMode, m::setMode, CopyMode.class);
-        p.attributeBoolean(e, "close-on-success", m::getCloseOnSuccess, m::setCloseOnSuccess);
     }
 }

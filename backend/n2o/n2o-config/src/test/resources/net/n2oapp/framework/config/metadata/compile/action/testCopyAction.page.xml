@@ -15,9 +15,8 @@
                         </menu-item>
                     </sub-menu>
                     <button id="btn">
-                        <copy source-model="edit" source-widget-id="table1" source-field-id="id"
-                              target-model="edit" target-widget-id="table2" target-field-id="dictionary.id"
-                              mode="replace" close-on-success="true"/>
+                        <copy source-model="edit" source-widget-id="table1" source-field-id="id" mode="replace"
+                              target-model="edit" target-widget-id="table2" target-field-id="dictionary.id"/>
                     </button>
                 </toolbar>
             </table>
