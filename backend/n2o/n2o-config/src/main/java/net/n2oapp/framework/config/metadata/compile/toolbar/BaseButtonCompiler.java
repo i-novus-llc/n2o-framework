@@ -78,7 +78,6 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         if (action != null) {
             button.setAction(action);
             if (action instanceof InvokeAction) {
-
                 operation = compiledObject != null && compiledObject.getOperations() != null
                         && compiledObject.getOperations().containsKey(((InvokeAction) action).getOperationId()) ?
                         compiledObject.getOperations().get(((InvokeAction) action).getOperationId()) : null;
