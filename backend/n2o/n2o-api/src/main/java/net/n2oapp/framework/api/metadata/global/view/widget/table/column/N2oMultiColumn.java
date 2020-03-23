@@ -10,9 +10,4 @@ import lombok.Setter;
 @Setter
 public class N2oMultiColumn extends AbstractColumn {
     private AbstractColumn[] children;
-
-    @Override
-    public boolean isDynamic() {
-        return false;
-    }
 }
