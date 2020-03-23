@@ -4,9 +4,10 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
 import net.n2oapp.framework.api.metadata.meta.control.IntervalField;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
@@ -28,14 +29,14 @@ public class IntervalFieldCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oActionsPack(), new N2oAllDataPack(), new N2oControlsPack());
-
     }
 
     @Test
     public void testIntervalField() {
-        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testIntervalField.widget" +
-                ".xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
-                .get(new WidgetContext("testIntervalField"));
+
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/control/testIntervalField.page.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
+                .get(new PageContext("testIntervalField"));
+        Form form = (Form) page.getWidget();
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         IntervalField intervalField = (IntervalField) field;
         InputText beginControl = (InputText) intervalField.getBeginControl();
@@ -48,5 +49,8 @@ public class IntervalFieldCompileTest extends SourceCompileTestBase {
 
         assertThat(field.getServerValidations().get(0).getSeverity(), is(SeverityType.danger));
         assertThat(field.getServerValidations().get(0).getFieldId(), is("range"));
+
+        assertThat(page.getModels().get("resolve['testIntervalField_main'].range.begin").getValue(), is(5));
+        assertThat(page.getModels().get("resolve['testIntervalField_main'].range.end").getValue(), is(7));
     }
 }
