@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.io.action;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oCopyAction;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,13 @@ public class CopyActionElementIOV1 extends AbstractActionElementIOV1<N2oCopyActi
 
     @Override
     public void io(Element e, N2oCopyAction m, IOProcessor p) {
-        p.attributeEnum(e,"source-model", m::getSourceModel, m::setSourceModel, ReduxModel.class);
-        p.attributeEnum(e,"target-model", m::getTargetModel, m::setTargetModel, ReduxModel.class);
+        p.attributeEnum(e, "source-model", m::getSourceModel, m::setSourceModel, ReduxModel.class);
+        p.attribute(e, "source-widget-id", m::getSourceWidgetId, m::setSourceWidgetId);
+        p.attribute(e, "source-field-id", m::getSourceFieldId, m::setSourceFieldId);
+        p.attributeEnum(e, "target-model", m::getTargetModel, m::setTargetModel, ReduxModel.class);
+        p.attribute(e, "target-widget-id", m::getTargetWidgetId, m::setTargetWidgetId);
+        p.attribute(e, "target-field-id", m::getTargetFieldId, m::setTargetFieldId);
+        p.attributeEnum(e, "mode", m::getMode, m::setMode, CopyMode.class);
+        p.attributeBoolean(e, "close-on-success", m::getCloseOnSuccess, m::setCloseOnSuccess);
     }
 }

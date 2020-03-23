@@ -3,10 +3,12 @@ package net.n2oapp.framework.config.metadata.compile.context;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 
@@ -30,6 +32,26 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      * Заголовок кнопки отправки формы
      */
     private String submitLabel;
+    /**
+     * Тип действия кнопки отправки формы
+     */
+    private SubmitActionType submitAction;
+    /**
+     * Модель, в которую будут скопированы данные
+     */
+    private ReduxModel targetModel;
+    /**
+     * Идентификатор целевого виджета
+     */
+    private String targetWidgetId;
+    /**
+     * Идентификатор поля целевого виджета, в которое будут скопированы данные
+     */
+    private String targetFieldId;
+    /**
+     * Тип слияния при копировании данных
+     */
+    private CopyMode copyMode;
     /**
      * Главный виджет страницы
      */
