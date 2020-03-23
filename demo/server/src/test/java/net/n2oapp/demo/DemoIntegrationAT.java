@@ -143,7 +143,7 @@ public class DemoIntegrationAT {
 
         protoPage.getFirstNameFilter().shouldHaveValue("");
         protoPage.genderFilterShouldBeUnchecked("Женский");
-        protoPage.getVIPFilter().shouldBeUnchecked();
+        protoPage.getVIPFilter().shouldBeEmpty();
     }
 
 
@@ -463,7 +463,7 @@ public class DemoIntegrationAT {
         modalClientCard.patronymic().shouldHaveValue("Демьянович");
         modalClientCard.birthdayShouldHaveValue("25.03.1929");
         modalClientCard.gender().shouldSelected("Мужской");
-        modalClientCard.getVIP().shouldBeUnchecked();
+        modalClientCard.getVIP().shouldBeEmpty();
 
         modalClientCard.surname().shouldBeDisabled();
         modalClientCard.firstName().shouldBeDisabled();

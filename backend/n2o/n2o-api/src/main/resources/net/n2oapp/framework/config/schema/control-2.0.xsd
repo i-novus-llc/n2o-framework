@@ -62,7 +62,7 @@
             <xs:element name="input-select" type="controlInputSelectDefinition" minOccurs="0"/>
             <xs:element name="input-select-tree" type="inputSelectTreeDefinition" minOccurs="0"/>
             <xs:element name="search-buttons" type="controlSearchButtonsDefinition" minOccurs="0"/>
-            <!--<xs:element name="html" type="controlHtml" minOccurs="0"/>-->
+            <xs:element name="html" type="controlHtml" minOccurs="0"/>
             <xs:element name="field" type="fieldCustom" minOccurs="0"/>
             <xs:element name="text" type="controlText" minOccurs="0"/>
             <xs:element name="slider" type="controlSliderDefinition" minOccurs="0"/>
