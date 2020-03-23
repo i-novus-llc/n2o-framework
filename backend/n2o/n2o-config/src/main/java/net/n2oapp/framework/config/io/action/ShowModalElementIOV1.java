@@ -21,7 +21,10 @@ public class ShowModalElementIOV1 extends AbstractOpenPageElementIOV1<N2oShowMod
         p.attribute(e, "object-id", sm::getObjectId, sm::setObjectId);
         p.attribute(e, "refresh-widget-id", sm::getRefreshWidgetId, sm::setRefreshWidgetId);
         p.attributeEnum(e, "type", sm::getType, sm::setType, ShowModalMode.class);
-        p.attributeEnum(e, "submit-action", sm::getSubmitAction, sm::setSubmitAction, SubmitActionType.class);
+        p.attributeEnum(e, "submit-action-type", sm::getSubmitActionType, sm::setSubmitActionType, SubmitActionType.class);
+        p.attributeEnum(e, "copy-model", sm::getCopyModel, sm::setCopyModel, ReduxModel.class);
+        p.attribute(e, "copy-widget-id", sm::getCopyWidgetId, sm::setCopyWidgetId);
+        p.attribute(e, "copy-field-id", sm::getCopyFieldId, sm::setCopyFieldId);
         p.attributeEnum(e, "target-model", sm::getTargetModel, sm::setTargetModel, ReduxModel.class);
         p.attribute(e, "target-widget-id", sm::getTargetWidgetId, sm::setTargetWidgetId);
         p.attribute(e, "target-field-id", sm::getTargetFieldId, sm::setTargetFieldId);
