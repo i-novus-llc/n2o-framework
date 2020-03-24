@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import defaults from 'lodash/defaults';
 import DateTimeControl from './DateTimeControl';
+import isNull from 'lodash/isNull';
 
 /**
  * Компонент для выбора временного интервала. Состоит 2 {@link DatePicker}
