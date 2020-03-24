@@ -5,7 +5,7 @@ import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryCon
 import functions from "n2o-framework/lib/utils/functions";
 import Route from "n2o-framework/lib/components/core/Route";
 import Page from "n2o-framework/lib/components/core/Page";
-
+import {BrowserRouter} from 'react-router-dom';
 import DashboardV2 from "./pages/DashboardV2";
 import Select from "./pages/Select";
 import DataGrid from "./components/widgets/DataGrid/DataGrid";
@@ -42,6 +42,7 @@ const config = {
 class App extends Component {
   render() {
     return (
+        <BrowserRouter>
       <N2O {...createFactoryConfig(config)}>
         {/* 1 полный кастом */}
         <Route path="/custom/v1" exact component={DashboardV2} />
@@ -64,6 +65,7 @@ class App extends Component {
         {/* 5 */}
         {/*<Route path="custom/:id" component={Page} render={Page} page={"DefaultPage" || "MyPage"} needMetadata={true || false} />*/}
       </N2O>
+        </BrowserRouter>
     );
   }
 }
