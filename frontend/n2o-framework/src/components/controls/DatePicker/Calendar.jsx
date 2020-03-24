@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isNull from 'lodash/isNull';
 import moment from 'moment';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
@@ -11,6 +12,7 @@ import {
   isDateFromPrevMonth,
   isDateFromNextMonth,
   addTime,
+  hasInsideMixMax,
 } from './utils';
 import { ControlType } from './DateTimeControl';
 
@@ -250,7 +252,48 @@ class Calendar extends React.Component {
     if (type === ControlType.DATE_INTERVAL) {
       const { begin } = values;
 
-      disabled = index === 1 && day.isBefore(begin);
+      // откючить дни до (range)
+      const disableDaysBefore = range => day.isBefore(range);
+      // отключить дни после (range)
+      const disableDaysAfter = range => day.isAfter(range);
+
+      // откючить дни выходящие за рамки range (min or max)
+      const disabledDaysBeyondTheScopeMinMax =
+        disableDaysBefore(min) || disableDaysAfter(max);
+      // откючить дни выходящие за рамки range (begin(дата в календаре index[1]) or max)
+      const disabledDaysBeyondTheScopeBeginMax =
+        disableDaysBefore(begin) || disableDaysAfter(max);
+
+      //default range (min or max)
+      const rangeMinMax = disabledDays =>
+        (disabledDays = disabledDaysBeyondTheScopeMinMax);
+
+      //если не выбрана дата(begin) ||  min or max
+      const hasMinOrMaxAndNullBegin =
+        (isNull(begin) && (min || max)) || (isNull(begin) && (min && max));
+
+      //если hasMinOrMaxAndNullBegin, устанавливаем default range (min or max)
+      if (hasMinOrMaxAndNullBegin) {
+        rangeMinMax(disabled);
+      } else if (min && max) {
+        disabled =
+          index === 0
+            ? disabledDaysBeyondTheScopeMinMax
+            : disabledDaysBeyondTheScopeBeginMax;
+      } else if (min) {
+        disabled =
+          index === 0
+            ? disableDaysBefore(min)
+            : index === 1 && disableDaysBefore(begin);
+      } else if (max) {
+        disabled =
+          index === 0
+            ? disableDaysAfter(max)
+            : index === 1 && disableDaysAfter(begin);
+      } else {
+        //не указан range (min, max)
+        disabled = index === 1 && disableDaysBefore(begin);
+      }
     }
 
     const displayesMonth = this.state.displayesMonth.clone();
