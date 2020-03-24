@@ -24,7 +24,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class FieldToolbar extends AutoTestBase {
+public class FieldToolbarAT extends AutoTestBase {
 
     @BeforeClass
     public static void beforeClass() {
