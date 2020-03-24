@@ -87,8 +87,6 @@ class StandardField extends React.Component {
     } = this.props;
 
     const flexStyle = { display: 'flex' };
-    const width = width => ({ width: width });
-    const marginTop = px => ({ marginTop: px });
 
     const validationMap = {
       'is-valid': 'text-success',
@@ -136,7 +134,11 @@ class StandardField extends React.Component {
           />
           <div style={styleHelper}>
             <div style={flexStyle}>
-              <div style={width('100%')}>
+              <div
+                className={cx({
+                  'n2o-form-group__form-container_with-toolbar': toolbar,
+                })}
+              >
                 <Control
                   placeholder={placeholder}
                   visible={visible}
@@ -152,9 +154,11 @@ class StandardField extends React.Component {
                   })}
                 />
                 {toolbar && (
-                  <div className="n2o-page-actions" style={marginTop('5px')}>
-                    <Toolbar toolbar={toolbar} entityKey={containerKey} />
-                  </div>
+                  <Toolbar
+                    className="n2o-page-actions__toolbar"
+                    toolbar={toolbar}
+                    entityKey={containerKey}
+                  />
                 )}
               </div>
               <Measure value={measure} />
