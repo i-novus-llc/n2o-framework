@@ -20,6 +20,7 @@ import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oListWidget;
+import net.n2oapp.framework.autotest.impl.component.widget.table.N2oFilterHeader;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oStandardTableHeader;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableWidget;
 
@@ -34,11 +35,11 @@ public class N2oComponentLibrary implements ComponentLibrary {
     public List<Class<? extends Component>> components() {
         return Arrays.asList(
                 N2oSimplePage.class, N2oLeftRightPage.class, N2oSimpleHeader.class, N2oSimpleRegion.class, N2oPanelRegion.class,
-                N2oTableWidget.class,  N2oListWidget.class, N2oFormWidget.class, N2oStandardTableHeader.class,
-                N2oModal.class, N2oStandardField.class,  N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
+                N2oTableWidget.class, N2oListWidget.class, N2oFormWidget.class, N2oStandardTableHeader.class, N2oFilterHeader.class,
+                N2oModal.class, N2oStandardField.class, N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
                 // controls
                 N2oInputText.class, N2oInputSelect.class, N2oCheckbox.class, N2oSelect.class, N2oDateInterval.class,
-                N2oDateInput.class, N2oCheckboxGroup.class, N2oRadioGroup.class,  N2oMaskedInputControl.class,
+                N2oDateInput.class, N2oCheckboxGroup.class, N2oRadioGroup.class, N2oMaskedInputControl.class,
                 N2oOutputText.class, N2oTextEditor.class, N2oCodeEditor.class, N2oHtml.class, N2oRating.class,
                 N2oSlider.class, N2oPills.class, N2oText.class, N2oAutoComplete.class,
                 // cells
