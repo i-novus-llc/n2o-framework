@@ -14,7 +14,7 @@ public class SliderIOv2 extends ListFieldIOv2<N2oSlider> {
     public void io(Element e, N2oSlider m, IOProcessor p) {
         super.io(e, m, p);
         p.attributeEnum(e, "mode", m::getMode, m::setMode, N2oSlider.Mode.class);
-        p.attributeBoolean(e, "vertical", m::isVertical, m::setVertical);
+        p.attributeBoolean(e, "vertical", m::getVertical, m::setVertical);
         p.attribute(e, "measure", m::getMeasure, m::setMeasure);
         p.attributeInteger(e, "min", m::getMin, m::setMin);
         p.attributeInteger(e, "max", m::getMax, m::setMax);
