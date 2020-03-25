@@ -67,11 +67,10 @@ class AutoComplete extends React.Component {
   };
 
   handleClickOutside = () => {
-    const { onBlur } = this.props;
     const { isExpanded } = this.state;
     if (isExpanded) {
       this._setIsExpanded(false);
-      onBlur();
+      this.onBlur();
     }
   };
 
