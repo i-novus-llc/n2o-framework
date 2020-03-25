@@ -1,0 +1,18 @@
+package net.n2oapp.framework.autotest.impl.component.field;
+
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.control.Control;
+import net.n2oapp.framework.autotest.api.component.control.IntervalField;
+
+public class N2oIntervalField extends N2oField implements IntervalField {
+
+    @Override
+    public <T extends Control> T getBegin(Class<T> control) {
+        return N2oSelenide.component(element().$(".n2o-range-field-start .d-flex").lastChild(), control);
+    }
+
+    @Override
+    public <T extends Control> T getEnd(Class<T> control) {
+        return N2oSelenide.component(element().$(".n2o-range-field-end .d-flex").lastChild(), control);
+    }
+}
