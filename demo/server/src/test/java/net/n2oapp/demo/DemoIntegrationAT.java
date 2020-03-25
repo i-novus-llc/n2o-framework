@@ -483,6 +483,7 @@ public class DemoIntegrationAT {
      * Тест удаления клиента (предпоследняя строка) из тулбара в колонке
      */
     @Test
+    @Order(4)
     public void testTableInPlaceDelete() {
         protoPage.tableShouldHaveSize(10);
         int count = protoPage.getClientsCount();
