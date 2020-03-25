@@ -33,31 +33,13 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         compileAction(copyAction, source, p);
         copyAction.setType(p.resolve(property("n2o.api.action.copy.type"), String.class));
 
-
-        PageScope pageScope = p.getScope(PageScope.class);
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-
-        String sourceWidgetId;
-        if (source.getSourceWidgetId() != null)
-            sourceWidgetId = pageScope != null ? pageScope.getGlobalWidgetId(source.getSourceWidgetId()) : source.getSourceWidgetId();
-        else
-            sourceWidgetId = widgetScope == null ? initTargetWidget(source, context, p) : widgetScope.getClientWidgetId();
+        String sourceWidgetId = getSourceWidgetId(source, context, p);
         CopyActionPayload.ClientModel sourceModel = new CopyActionPayload.ClientModel(
                 sourceWidgetId, p.cast(source.getSourceModel(), ReduxModel.RESOLVE).getId());
         if (source.getSourceFieldId() != null)
             sourceModel.setField(source.getSourceFieldId());
 
-        String targetWidgetId;
-        if (source.getTargetWidgetId() != null) {
-            if (pageScope != null) {
-                if (context instanceof ModalPageContext)
-                    targetWidgetId = ((PageContext) context).getParentWidgetId();
-                else
-                    targetWidgetId = pageScope.getGlobalWidgetId(source.getTargetWidgetId());
-            } else
-                targetWidgetId = source.getTargetWidgetId();
-        } else
-            targetWidgetId = initTargetWidget(source, context, p);
+        String targetWidgetId = getTargetWidgetId(source, context, p);
         CopyActionPayload.ClientModel targetModel = new CopyActionPayload.ClientModel(
                 targetWidgetId, p.cast(source.getTargetModel(), ReduxModel.RESOLVE).getId());
         if (source.getTargetFieldId() != null)
@@ -72,5 +54,28 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         copyAction.setMeta(meta);
 
         return copyAction;
+    }
+
+    private String getSourceWidgetId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (source.getSourceWidgetId() != null)
+            return pageScope != null ? pageScope.getGlobalWidgetId(source.getSourceWidgetId()) : source.getSourceWidgetId();
+        else
+            return widgetScope == null ? initTargetWidget(source, context, p) : widgetScope.getClientWidgetId();
+    }
+
+    private String getTargetWidgetId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        if (source.getTargetWidgetId() != null) {
+            if (pageScope != null) {
+                if (context instanceof ModalPageContext)
+                    return ((PageContext) context).getParentWidgetId();
+                else
+                    return pageScope.getGlobalWidgetId(source.getTargetWidgetId());
+            } else
+                return source.getTargetWidgetId();
+        } else
+            return initTargetWidget(source, context, p);
     }
 }
