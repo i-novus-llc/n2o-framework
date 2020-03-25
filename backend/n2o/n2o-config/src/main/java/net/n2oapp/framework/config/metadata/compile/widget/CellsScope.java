@@ -15,6 +15,9 @@ import java.util.List;
 public class CellsScope implements Serializable {
     private List<N2oCell> cells;
 
+    public CellsScope() {
+    }
+
     public CellsScope(List<N2oCell> cells) {
         this.cells = cells;
     }
