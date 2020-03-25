@@ -32,6 +32,7 @@ public class InputMoneyCompiler extends StandardFieldCompiler<InputMoney, N2oInp
         inputMoney.setThousandsSeparatorSymbol(source.getThousandsSeparator());
         inputMoney.setDecimalSymbol(source.getDecimalSeparator());
         inputMoney.setIntegerLimit(source.getIntegerLimit());
+        inputMoney.setMeasure(source.getMeasure());
         compileDecimalMode(inputMoney, source);
         return compileStandardField(inputMoney, source, context, p);
     }

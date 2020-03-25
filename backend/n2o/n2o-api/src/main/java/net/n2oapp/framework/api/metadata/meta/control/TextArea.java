@@ -15,4 +15,6 @@ public class TextArea extends Control {
     private Integer rows;
     @JsonProperty
     private String placeholder;
+    @JsonProperty
+    private String measure;
 }
