@@ -1,7 +1,7 @@
-package net.n2oapp.framework.autotest.controls;
+package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
-import net.n2oapp.framework.autotest.api.component.control.PasswordControl;
+import net.n2oapp.framework.autotest.api.component.control.TextArea;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -13,9 +13,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотесты поля ввода пароля
+ * Автотесты поля ввода многострочного текста
  */
-public class InputPasswordAT extends AutoTestBase {
+public class TextAreaAT extends AutoTestBase {
 
     private SimplePage simplePage;
 
@@ -29,7 +29,7 @@ public class InputPasswordAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/controls/password/index.page.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/controls/textarea/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/default.header.xml"));
 
         simplePage = open(SimplePage.class);
@@ -44,19 +44,14 @@ public class InputPasswordAT extends AutoTestBase {
     }
 
     @Test
-    public void inputPasswordTest() {
-        PasswordControl password = getFields().field("InputPassword").control(PasswordControl.class);
-        password.shouldBeEnabled();
-        password.shouldHavePlaceholder("EnterPassword");
-        password.shouldHaveValue("");
-        password.passwordShouldNotBeVisible();
-        password.val("S!e@c#r&e*t5%$----");
-        password.shouldHaveValue("S!e@c#r&e*t5%$-");
-        password.clickEyeButton();
-        password.passwordShouldBeVisible();
-        password.clickEyeButton();
-        password.passwordShouldNotBeVisible();
+    public void textAreaTest() {
+        TextArea textArea = getFields().field("TextArea").control(TextArea.class);
+        textArea.shouldBeEnabled();
+        textArea.shouldHaveValue("");
+        textArea.val("1\n2\n3\n4\n5\n6\n7");
+        textArea.shouldHaveValue("1\n2\n3\n4\n5\n6\n7");
     }
+
 
     private Fields getFields() {
         return simplePage.single().widget(FormWidget.class).fields();

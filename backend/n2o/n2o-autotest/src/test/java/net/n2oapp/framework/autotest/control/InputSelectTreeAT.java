@@ -1,5 +1,6 @@
-package net.n2oapp.framework.autotest.controls;
+package net.n2oapp.framework.autotest.control;
 
+import com.codeborne.selenide.CollectionCondition;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.*;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -13,9 +14,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотесты компонента ввода денежных единиц
+ * Автотесты компонента ввода с выбором в выпадающем списке в виде дерева
  */
-public class InputMoneyAT extends AutoTestBase {
+public class InputSelectTreeAT extends AutoTestBase {
 
     private SimplePage simplePage;
 
@@ -29,7 +30,7 @@ public class InputMoneyAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/controls/money/index.page.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/controls/selecttree/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/default.header.xml"));
 
         simplePage = open(SimplePage.class);
@@ -44,16 +45,32 @@ public class InputMoneyAT extends AutoTestBase {
     }
 
     @Test
-    public void inputMoneyTest() {
-        InputMoneyControl inputMoney = getFields().field("InputMoney").control(InputMoneyControl.class);
-        inputMoney.shouldBeEnabled();
-        inputMoney.shouldHaveValue("");
-        inputMoney.shouldHavePlaceholder("");
+    public void inputSelectTreeTest() {
+        InputSelectTree inputSelectTree = getFields().field("InputSelectTree").control(InputSelectTree.class);
+        inputSelectTree.shouldHavePlaceholder("SelectOption");
+        inputSelectTree.shouldBeUnselected();
+        inputSelectTree.toggleOptions();
+        inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(4));
+        inputSelectTree.setFilter("three");
 
-        inputMoney.val("100500,999");
-        inputMoney.shouldHaveValue("100 500,99 rub");
+        inputSelectTree.selectOption(0);
+        inputSelectTree.selectOption(2);
+        inputSelectTree.selectOption(1);
+
+        inputSelectTree.toggleOptions();
+
+        inputSelectTree.shouldBeSelected(0, "one");
+        inputSelectTree.shouldBeSelected(1, "two");
+        inputSelectTree.shouldBeSelected(2, "three");
+
+        inputSelectTree.removeOption(1);
+
+        inputSelectTree.shouldBeSelected(0, "one");
+        inputSelectTree.shouldBeSelected(1, "three");
+
+        inputSelectTree.removeAllOptions();
+        inputSelectTree.shouldBeUnselected();
     }
-
 
     private Fields getFields() {
         return simplePage.single().widget(FormWidget.class).fields();

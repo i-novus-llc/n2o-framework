@@ -1,7 +1,7 @@
-package net.n2oapp.framework.autotest.controls;
+package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.api.collection.Fields;
-import net.n2oapp.framework.autotest.api.component.control.TextArea;
+import net.n2oapp.framework.autotest.api.component.control.*;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -13,9 +13,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Автотесты поля ввода многострочного текста
+ * Автотесты компонента ввода денежных единиц
  */
-public class TextAreaAT extends AutoTestBase {
+public class InputMoneyAT extends AutoTestBase {
 
     private SimplePage simplePage;
 
@@ -29,7 +29,7 @@ public class TextAreaAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/controls/textarea/index.page.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/controls/money/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/default.header.xml"));
 
         simplePage = open(SimplePage.class);
@@ -44,12 +44,14 @@ public class TextAreaAT extends AutoTestBase {
     }
 
     @Test
-    public void textAreaTest() {
-        TextArea textArea = getFields().field("TextArea").control(TextArea.class);
-        textArea.shouldBeEnabled();
-        textArea.shouldHaveValue("");
-        textArea.val("1\n2\n3\n4\n5\n6\n7");
-        textArea.shouldHaveValue("1\n2\n3\n4\n5\n6\n7");
+    public void inputMoneyTest() {
+        InputMoneyControl inputMoney = getFields().field("InputMoney").control(InputMoneyControl.class);
+        inputMoney.shouldBeEnabled();
+        inputMoney.shouldHaveValue("");
+        inputMoney.shouldHavePlaceholder("");
+
+        inputMoney.val("100500,999");
+        inputMoney.shouldHaveValue("100 500,99 rub");
     }
 
 
