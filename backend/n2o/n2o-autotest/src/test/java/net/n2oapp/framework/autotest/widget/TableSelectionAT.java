@@ -6,8 +6,6 @@ import net.n2oapp.framework.autotest.api.component.cell.RadioCell;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
-import net.n2oapp.framework.autotest.impl.component.page.N2oStandardPage;
-import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -39,7 +37,7 @@ public class TableSelectionAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/table.widget.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/test.query.xml"));
-        page = open(N2oStandardPage.class);
+        page = open(StandardPage.class);
         page.shouldExists();
     }
 
@@ -52,7 +50,7 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testActiveSelection() {
-        N2oTableWidget table = page.widgets().widget(0, N2oTableWidget.class);
+        TableWidget table = page.widgets().widget(0, TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(2);
 
@@ -72,7 +70,7 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testNoneSelection() {
-        N2oTableWidget table = page.widgets().widget(1, N2oTableWidget.class);
+        TableWidget table = page.widgets().widget(1, TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(2);
 
@@ -87,7 +85,7 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testRadioSelection() {
-        N2oTableWidget table = page.widgets().widget(2, N2oTableWidget.class);
+        TableWidget table = page.widgets().widget(2, TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(3);
 
@@ -120,7 +118,7 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testCheckboxSelection() {
-        N2oTableWidget table = page.widgets().widget(3, N2oTableWidget.class);
+        TableWidget table = page.widgets().widget(3, TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(3);
 
