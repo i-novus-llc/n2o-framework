@@ -42,6 +42,5 @@ public class TextAreaCompileTest extends SourceCompileTestBase {
         assertThat(textArea.getSrc(), is("TextArea"));
         assertThat(textArea.getRows(), is(10));
         assertThat(textArea.getPlaceholder(), is("test"));
-        assertThat(textArea.getMeasure(), is("cm"));
     }
 }

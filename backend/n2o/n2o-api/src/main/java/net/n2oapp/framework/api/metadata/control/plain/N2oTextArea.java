@@ -10,5 +10,4 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oTextArea extends N2oText {
-    private String measure;
 }

@@ -45,7 +45,6 @@ public class InputMoneyCompileTest extends SourceCompileTestBase {
         assertThat(inputMoney.getRequireDecimal(), is(false));
         assertThat(inputMoney.getAllowDecimal(), is(true));
         assertThat(inputMoney.getIntegerLimit(), is(100));
-        assertThat(inputMoney.getMeasure(), is("cm"));
     }
 }
 

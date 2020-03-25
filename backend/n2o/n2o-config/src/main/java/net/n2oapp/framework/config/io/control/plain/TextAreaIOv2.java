@@ -14,7 +14,6 @@ public class TextAreaIOv2 extends PlainFieldIOv2<N2oTextArea> {
         p.attribute(e, "height", m::getHeight, m::setHeight);
         p.attributeInteger(e, "rows", m::getRows, m::setRows);
         p.attribute(e, "placeholder", m::getPlaceholder, m::setPlaceholder);
-        p.attribute(e, "measure", m::getMeasure, m::setMeasure);
     }
 
     @Override

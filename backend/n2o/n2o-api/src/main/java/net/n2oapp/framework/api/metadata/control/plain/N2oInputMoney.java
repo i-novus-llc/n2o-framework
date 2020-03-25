@@ -15,5 +15,4 @@ public class N2oInputMoney extends N2oPlainField {
     private String decimalSeparator;
     private Integer integerLimit;
     private FractionFormatting fractionFormatting;
-    private String measure;
 }

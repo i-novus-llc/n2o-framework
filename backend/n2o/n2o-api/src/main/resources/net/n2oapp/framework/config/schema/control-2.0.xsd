@@ -556,13 +556,7 @@
 
     <xs:complexType name="controlTextAreaDefinition">
         <xs:complexContent>
-            <xs:extension base="controlTextDefinition">
-                <xs:attribute name="measure" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Единица измерения.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-            </xs:extension>
+            <xs:extension base="controlTextDefinition"/>
         </xs:complexContent>
     </xs:complexType>
 
@@ -772,11 +766,6 @@
                 <xs:attribute name="fraction-formatting" type="fractionFormattingType" default="off">
                     <xs:annotation>
                         <xs:documentation>Форматирование дробной части.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="measure" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Единица измерения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

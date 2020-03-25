@@ -21,7 +21,6 @@ public class InputMoneyIOV2 extends PlainFieldIOv2<N2oInputMoney> {
         p.attribute(e, "decimal-separator", m::getDecimalSeparator, m::setDecimalSeparator);
         p.attributeInteger(e, "integer-limit", m::getIntegerLimit, m::setIntegerLimit);
         p.attributeEnum(e, "fraction-formatting", m::getFractionFormatting, m::setFractionFormatting, FractionFormatting.class);
-        p.attribute(e, "measure", m::getMeasure, m::setMeasure);
     }
 
     @Override

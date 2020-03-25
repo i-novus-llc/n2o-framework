@@ -24,6 +24,4 @@ public class InputMoney extends Control {
     private Boolean requireDecimal;
     @JsonProperty
     private Boolean allowDecimal;
-    @JsonProperty
-    private String measure;
 }
