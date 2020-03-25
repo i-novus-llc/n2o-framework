@@ -355,9 +355,9 @@ link:#_Действия[Обработчик действия]
 [source,xml]
 ----
 <sub-menu>
-  <menu-item>...<menu-item>
-  <menu-item>...<menu-item>
-  <menu-item>...<menu-item>
+  <menu-item>...</menu-item>
+  <menu-item>...</menu-item>
+  <menu-item>...</menu-item>
 </sub-menu>
 ----
 
@@ -519,6 +519,7 @@ link:#_Предустановленные_поля_pre_fields[Предустан
   <column>...</column>
   <filter-column>...</filter-column>
   <filter-column>...</filter-column>
+  <multi-column>...</multi-column>
 </columns>
 ----
 
@@ -707,6 +708,32 @@ link:#_Поля_ввода[Поле ввода]
   <input-text>...</input-text> <!--Поле-->
 </filter>
 ----
+
+===== <multi-column>
+Многоуровневый столбец таблицы.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|label
+|Строка
+|Наименование заголовка столбца
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<multi-column label="Имя">
+  <column>...</column>
+  <column>...</column>
+</multi-column>
+----
+
+Тело:: Разные виды столбцов
 
 ==== <rows>
 Настройки цвета строк таблицы.
