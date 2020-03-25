@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import org.springframework.stereotype.Component;
 
 /**
- * Компиляция хэдера фильтруемого столбца
+ * Компиляция заголовка фильтруемого столбца таблицы
  */
 @Component
 public class FilterColumnHeaderCompiler extends SimpleColumnHeaderCompiler<N2oFilterColumn> {
