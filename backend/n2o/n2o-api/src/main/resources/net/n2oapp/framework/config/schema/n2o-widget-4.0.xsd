@@ -284,8 +284,9 @@
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="column" type="columnDefinition" maxOccurs="unbounded"
-                                            minOccurs="1"/>
+                                <xs:element name="column" type="columnDefinition" maxOccurs="unbounded" minOccurs="1"/>
+                                <xs:element name="filter-column" type="filterColumnDefinition" maxOccurs="unbounded" minOccurs="0"/>
+                                <xs:element name="multi-column" type="multiColumnDefinition" maxOccurs="unbounded" minOccurs="0"/>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
@@ -345,78 +346,128 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="baseColumnDefinition">
+        <xs:annotation>
+            <xs:documentation>Базовое определение столбца таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="text-field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отображаемое в столбце.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="tooltip-field-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="visible" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Видимость столбца по умолчанию.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="width" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Ширина столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="resizable" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation>Можно ли изменить ширину столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="fixed" type="columnFixedPosition" use="optional">
+            <xs:annotation>
+                <xs:documentation>Прилипание столбца к краю.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Наименование заголовка столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Иконка заголовка столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type" type="textType" use="optional">
+            <xs:annotation>
+                <xs:documentation>Заголовок с иконкой или без.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-field-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Поле, по которому сортируется столбец.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-direction" type="sortingDirectionType" use="optional">
+            <xs:annotation>
+                <xs:documentation>Направление сортировки по умолчанию.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:element name="dependencies" type="columnDependenciesDefinition">
+            <xs:annotation>
+                <xs:documentation>Зависимости столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:element>
+    </xs:complexType>
+
     <xs:complexType name="columnDefinition">
         <xs:annotation>
             <xs:documentation>Столбец таблицы.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="cell:cells">
-                <xs:attribute name="id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="text-field-id" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Поле выборки, отображаемое в столбце.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="tooltip-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Видимость столбца по умолчанию.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="width" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Ширина столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="resizable" type="xs:boolean" use="optional" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Можно ли изменить ширину столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="fixed" type="columnFixedPosition" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Прилипание столбца к краю.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="label" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Наименование заголовка столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="icon" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Иконка заголовка столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="type" type="textType" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Заголовок с иконкой или без.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="sorting-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Поле, по которому сортируется столбец.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="sorting-direction" type="sortingDirectionType" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Направление сортировки по умолчанию.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:element name="dependencies" type="columnDependenciesDefinition">
-                    <xs:annotation>
-                        <xs:documentation>Зависимости столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
+            <xs:extension base="baseColumnDefinition">
+                <xs:extension base="cell:cells"/>
             </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="filterColumnDefinition">
+        <xs:annotation>
+            <xs:documentation>Фильтруемый столбец таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="baseColumnDefinition">
+                <xs:sequence>
+                    <xs:element name="filter" type="fs:fields" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>Фильтр столбца.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="cell" type="cell:cells" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>Ячейка столбца.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="multiColumnDefinition">
+        <xs:annotation>
+            <xs:documentation>Многоуровневый столбец таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:attribute name="label">
+                <xs:annotation>
+                    <xs:documentation>Наименование заголовка столбца.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:sequence>
+                <xs:annotation>
+                    <xs:documentation>Внутренние столбцы.</xs:documentation>
+                </xs:annotation>
+                <xs:element name="column" type="columnDefinition" minOccurs="0"/>
+                <xs:element name="filter-column" type="filterColumnDefinition" minOccurs="0"/>
+                <xs:element name="multi-column" type="multiColumnDefinition" minOccurs="0"/>
+            </xs:sequence>
         </xs:complexContent>
     </xs:complexType>
 
