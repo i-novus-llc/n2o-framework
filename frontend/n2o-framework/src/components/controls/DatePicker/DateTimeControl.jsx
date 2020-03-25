@@ -2,7 +2,9 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import pick from 'lodash/pick';
 import every from 'lodash/every';
+import isUndefined from 'lodash/isUndefined';
 import isFunction from 'lodash/isFunction';
+import isNull from 'lodash/isNull';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Manager, Reference, Popper } from 'react-popper';
@@ -293,6 +295,17 @@ class DateTimeControl extends React.Component {
       }
     }
   }
+
+  /**
+   * Приводит min, max к moment оъекту, текущему формату
+   */
+
+  parseRange(range) {
+    return !isUndefined(moment(range)['_f'])
+      ? moment(range)
+      : moment(range, this.props.dateFormat);
+  }
+
   /**
    * Рендер попапа
    */
@@ -314,8 +327,8 @@ class DateTimeControl extends React.Component {
         select={this.select}
         setPlacement={this.setPlacement}
         setVisibility={this.setVisibility}
-        max={parseDate(max, this.props.dateFormat)}
-        min={parseDate(min, this.props.dateFormat)}
+        max={this.parseRange(max)}
+        min={this.parseRange(min)}
         date={this.props.date}
         locale={locale}
       />
@@ -354,9 +367,9 @@ class DateTimeControl extends React.Component {
       openOnFocus,
       popupPlacement,
     } = this.props;
+
     const { inputs } = this.state;
     const dateInputGroupProps = pick(this.props, ['max', 'min']);
-
     return (
       <div className="n2o-date-picker-container">
         <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
