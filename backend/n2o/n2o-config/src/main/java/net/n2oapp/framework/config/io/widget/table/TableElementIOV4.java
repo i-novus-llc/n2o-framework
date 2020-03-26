@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.Size;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.*;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
@@ -38,7 +39,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
     @Override
     public void io(Element e, N2oTable t, IOProcessor p) {
         super.io(e, t, p);
-        p.attributeBoolean(e, "selected", t::getSelected, t::setSelected);
+        p.attributeEnum(e, "selection", t::getSelection, t::setSelection, RowSelectionEnum.class);
         p.attributeEnum(e, "table-size", t::getTableSize, t::setTableSize, Size.class);
         p.attribute(e, "scroll-x", t::getScrollX, t::setScrollX);
         p.attribute(e, "scroll-y", t::getScrollY, t::setScrollY);
