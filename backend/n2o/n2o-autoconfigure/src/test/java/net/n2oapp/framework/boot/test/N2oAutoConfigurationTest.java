@@ -1,5 +1,6 @@
-package net.n2oapp.framework.boot;
+package net.n2oapp.framework.boot.test;
 
+import net.n2oapp.framework.boot.N2oSqlAutoConfiguration;
 import net.n2oapp.framework.boot.sql.SqlDataProviderEngine;
 import net.n2oapp.framework.boot.sql.SqlInvocationEngine;
 import net.n2oapp.framework.boot.sql.rowmapper.PostgresIndexRowMapper;

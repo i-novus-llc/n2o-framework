@@ -61,7 +61,7 @@ public class ListWidgetJsonTest extends JsonMetadataTestBase {
                         "list.extra.toolbar[0].buttons[1].hintPosition",
                         "list.extra.toolbar[0].buttons[1].conditions",
                         "list.extra.toolbar[0].buttons[1].src",
-                        "toolbar")
+                        "toolbar", "paging")
                 .assertEquals();
     }
 }
