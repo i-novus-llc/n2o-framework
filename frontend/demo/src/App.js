@@ -5,6 +5,7 @@ import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryCon
 import functions from "n2o-framework/lib/utils/functions";
 import Route from "n2o-framework/lib/components/core/Route";
 import Page from "n2o-framework/lib/components/core/Page";
+
 import DashboardV2 from "./pages/DashboardV2";
 import Select from "./pages/Select";
 import DataGrid from "./components/widgets/DataGrid/DataGrid";
