@@ -210,15 +210,6 @@
 
     <profiles>
         <profile>
-            <id>backend</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>backend</module>
-            </modules>
-        </profile>
-        <profile>
             <id>frontend</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -228,6 +219,15 @@
                 <module>frontend/n2o-framework</module>
                 <module>frontend/demo</module>
                 <module>frontend/n2o-simple-project</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>backend</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>backend</module>
             </modules>
         </profile>
         <profile>
