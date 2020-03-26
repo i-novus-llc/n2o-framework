@@ -12,6 +12,8 @@ import Collapse from 'reactstrap/lib/Collapse';
 
 import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
+import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer';
+import { BrowserRouter } from 'react-router-dom';
 
 /**
  * Хедер-плагин
@@ -125,44 +127,35 @@ class SimpleHeader extends React.Component {
     const extraNavItems = mapItems(extraItems, { right: true });
 
     return (
-      <div
-        style={style}
-        className={`navbar-container-${
-          fixed ? 'fixed' : 'relative'
-        } ${className} n2o-header n2o-header-${color} `}
-      >
-        <Navbar
-          color={navColor}
-          light={!isInversed}
-          dark={isInversed}
-          expand="md"
+      <BrowserRouter>
+        <div
+          style={style}
+          className={`navbar-container-${
+            fixed ? 'fixed' : 'relative'
+          } ${className} n2o-header n2o-header-${color} `}
         >
-          <NavbarBrand href={homePageUrl}>
-            <NavbarBrandContent brand={brand} brandImage={brandImage} />
-          </NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="main-nav" navbar>
-              {navItems}
-            </Nav>
-            <Nav className="ml-auto main-nav-extra" navbar>
-              {extraNavItems}
-              {search && (
-                <NavItem>
-                  <InputGroup>
-                    <Input placeholder="Поиск" />
-                    <InputGroupAddon addonType="append">
-                      <span className="input-group-text">
-                        <i className="fa fa-search" aria-hidden="true" />
-                      </span>
-                    </InputGroupAddon>
-                  </InputGroup>
-                </NavItem>
-              )}
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
+          <Navbar
+            color={navColor}
+            light={!isInversed}
+            dark={isInversed}
+            expand="md"
+          >
+            <NavbarBrand href={homePageUrl}>
+              <NavbarBrandContent brand={brand} brandImage={brandImage} />
+            </NavbarBrand>
+            <NavbarToggler onClick={this.toggle} />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              <Nav className="main-nav" navbar>
+                {navItems}
+              </Nav>
+              <Nav className="ml-auto main-nav-extra" navbar>
+                {extraNavItems}
+                {search && <SearchBarContainer />}
+              </Nav>
+            </Collapse>
+          </Navbar>
+        </div>
+      </BrowserRouter>
     );
   }
 }
@@ -252,6 +245,7 @@ SimpleHeader.defaultProps = {
   extraItems: [],
   search: false,
   style: {},
+  list: [],
 };
 
 export default SimpleHeader;

@@ -15,6 +15,8 @@ import onClickOutsideHOC from 'react-onclickoutside';
 
 import InputText from '../../controls/InputText/InputText';
 import SearchBarPopUp from './SearchBarPopUp';
+import dependency from '../../../core/dependency';
+import { BrowserRouter } from 'react-router-dom';
 
 let timeoutId = null;
 const ENTER_KEY_CODE = 13;
@@ -39,6 +41,14 @@ function SearchBar({
   toggleDropdown,
   directionIconsInPopUp,
 }) {
+  const nothingFindMenuItem = [
+    {
+      id: 'Ничего не найдено',
+      label: 'Ничего не найдено',
+      href: '/',
+      disabled: true,
+    },
+  ];
   SearchBar.handleClickOutside = () => toggleDropdown('false');
   return (
     <div className={cn('n2o-search-bar', className)}>
@@ -53,13 +63,24 @@ function SearchBar({
           />
           {isString(icon) ? <i className={icon} /> : icon}
         </div>
-        {!isUndefined(menu) && (
-          <SearchBarPopUp
-            menu={menu}
-            dropdownOpen={dropdownOpen === 'true'}
-            directionIconsInPopUp={directionIconsInPopUp}
-          />
-        )}
+        {!isUndefined(menu) &&
+          (menu.length > 0 ? (
+            <BrowserRouter>
+              <SearchBarPopUp
+                menu={menu}
+                dropdownOpen={dropdownOpen === 'true'}
+                directionIconsInPopUp={directionIconsInPopUp}
+              />
+            </BrowserRouter>
+          ) : (
+            <BrowserRouter>
+              <SearchBarPopUp
+                menu={nothingFindMenuItem}
+                dropdownOpen={dropdownOpen === 'true'}
+                directionIconsInPopUp={directionIconsInPopUp}
+              />
+            </BrowserRouter>
+          ))}
       </div>
       {!!button && (
         <Button {...button} onClick={onClick}>

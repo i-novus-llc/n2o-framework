@@ -70,7 +70,6 @@ const store2 = new Store({
 });
 
 store.subscribe(forceReRender);
-console.warn(store2.get('menu'));
 const stories = storiesOf('UI Компоненты/SearchBar', module);
 
 stories.addParameters({
