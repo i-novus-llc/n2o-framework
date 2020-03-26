@@ -32,7 +32,7 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
         control.setMultiSelect(control.isHasCheckboxes());
         control.setClosePopupOnSelect(!control.isHasCheckboxes());
         control.setAjax(p.cast(source.getAjax(), false));
-        control.setSize(200);
+        control.setSize(source.getSize());
         control.setCheckingStrategy(source.getCheckingStrategy());
         control.setMaxTagCount(source.getMaxTagCount());
         source.setQueryId(p.resolveJS(source.getQueryId()));
