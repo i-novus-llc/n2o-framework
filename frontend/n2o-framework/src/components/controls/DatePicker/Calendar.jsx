@@ -240,7 +240,9 @@ class Calendar extends React.Component {
       values,
       dateFormat,
     } = this.props;
+
     let disabled = false;
+
     if (min && max) {
       disabled = day.isBefore(min) || day.isAfter(max);
     } else if (min) {
