@@ -67,11 +67,10 @@ class AutoComplete extends React.Component {
   };
 
   handleClickOutside = () => {
-    const { onBlur } = this.props;
     const { isExpanded } = this.state;
     if (isExpanded) {
       this._setIsExpanded(false);
-      onBlur();
+      this.onBlur();
     }
   };
 
@@ -306,7 +305,6 @@ class AutoComplete extends React.Component {
                   value={input}
                   onFocus={this.onFocus}
                   onClick={this.onClick}
-                  onBlur={this.onBlur}
                   onRemoveItem={this._removeSelectedItem}
                   isExpanded={isExpanded}
                   setTextareaRef={this.setTextareaRef(ref)}
