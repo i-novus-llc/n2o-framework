@@ -8,13 +8,11 @@ import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * Автотест ячеек таблицы
  */
-@Ignore //пока не работает
 public class ListCellAT extends AutoTestBase {
 
     private TableWidget.Rows rows;
@@ -47,11 +45,10 @@ public class ListCellAT extends AutoTestBase {
                 new N2oCellsPack(), new N2oAllDataPack());
     }
 
-    @Test   //TODO не работает
+    @Test
     public void listCellTest() {
         int col = -1;
-
-//        Selenide.sleep(500);
+        //TODO rows.row(0).cell(col, ListCell.class).
     }
 
 }
