@@ -28,47 +28,6 @@ stories.add(
           extraItems={simpleHeaderMetadata.extraItems}
           color="inverse"
           search={true}
-          list={[
-            {
-              id: 'menuItem1',
-              label: 'Контакты',
-              href: '/proto',
-              linkType: 'inner',
-              icon: 'fa fa-plus',
-              description: 'some description',
-            },
-            {
-              id: 'menuItem2',
-              label: 'Модули',
-              href: '/test',
-              linkType: 'inner',
-              icon: 'fa fa-check',
-              description: 'some description 2',
-            },
-            {
-              id: 'menuItem3',
-              label: 'Контент',
-              href: '/test',
-              linkType: 'inner',
-              icon: 'fa fa-check',
-            },
-            {
-              id: 'menuItem4',
-              label: 'Комбинация',
-              href: '/test',
-              linkType: 'inner',
-              icon: 'fa fa-database',
-              description: 'some description 2',
-            },
-            {
-              id: 'menuItem5',
-              label: 'Мокап',
-              href: '/test',
-              linkType: 'inner',
-              icon: 'fa fa-book',
-              description: 'some description 2',
-            },
-          ]}
         />
         <div
           style={{
