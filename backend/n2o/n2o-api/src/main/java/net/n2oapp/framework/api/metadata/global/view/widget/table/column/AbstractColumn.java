@@ -30,8 +30,6 @@ public abstract class AbstractColumn implements IdAware, Source {
     private ColumnFixedPosition fixed;
     private ColumnVisibility[] columnVisibilities;
 
-    public abstract boolean isDynamic();
-
     @Getter
     @Setter
     public static class ColumnVisibility implements Source {
