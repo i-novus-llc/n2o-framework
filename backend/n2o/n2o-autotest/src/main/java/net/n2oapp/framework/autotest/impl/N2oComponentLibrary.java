@@ -15,6 +15,7 @@ import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
 import net.n2oapp.framework.autotest.impl.component.page.N2oLeftRightPage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
+import net.n2oapp.framework.autotest.impl.component.page.N2oStandardPage;
 import net.n2oapp.framework.autotest.impl.component.region.N2oPanelRegion;
 import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
@@ -33,7 +34,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
     @Override
     public List<Class<? extends Component>> components() {
         return Arrays.asList(
-                N2oSimplePage.class, N2oLeftRightPage.class, N2oSimpleHeader.class, N2oSimpleRegion.class, N2oPanelRegion.class,
+                N2oSimplePage.class, N2oLeftRightPage.class, N2oStandardPage.class, N2oSimpleHeader.class, N2oSimpleRegion.class, N2oPanelRegion.class,
                 N2oTableWidget.class,  N2oListWidget.class, N2oFormWidget.class, N2oStandardTableHeader.class,
                 N2oModal.class, N2oStandardField.class,  N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
                 // controls

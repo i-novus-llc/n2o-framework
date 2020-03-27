@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
  */
 public interface ImageCell extends Cell {
 
+    void srcShouldBe(String src);
+
     void imageShouldBe(String url);
 
     void shapeShouldBe(ImageShape shape);
