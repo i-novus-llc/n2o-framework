@@ -24,6 +24,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
+
 public class FieldToolbarAT extends AutoTestBase {
 
     @BeforeClass
@@ -68,7 +70,7 @@ public class FieldToolbarAT extends AutoTestBase {
         toolbar.button("Открыть страницу").shouldBeEnabled();
 
         toolbar.button("Ссылка").click();
-        "test".equals(Selenide.$(".input__control.mini-suggest__input").val());
+        getWebDriver().getCurrentUrl().contains("text=test");
         Selenide.back();
 
         fields.field("id").control(N2oInputText.class).val("test");
@@ -108,7 +110,7 @@ public class FieldToolbarAT extends AutoTestBase {
         dropdownButton.menuItem("Открыть страницу").shouldBeEnabled();
 
         dropdownButton.menuItem("Ссылка").click();
-        "test".equals(Selenide.$(".input__control.mini-suggest__input").val());
+        getWebDriver().getCurrentUrl().contains("text=test");
         Selenide.back();
 
         fields.field("id").control(N2oInputText.class).val("test");
