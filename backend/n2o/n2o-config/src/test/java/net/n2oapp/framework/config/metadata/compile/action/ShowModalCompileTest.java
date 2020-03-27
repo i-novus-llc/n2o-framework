@@ -60,6 +60,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageDynamicPage.query.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction1.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPageByParams.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"));
     }
 
@@ -234,6 +235,25 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(close.getMeta().getRedirect(), nullValue());
         assertThat(close.getMeta().getRefresh(), nullValue());
         Widget modalWidget = showModal.getWidgets().get("p_updateFocus_main");
+        assertThat(modalWidget.getDataProvider().getPathMapping().size(), is(0));
+        assertThat(modalWidget.getDataProvider().getQueryMapping().size(), is(0));
+    }
+
+    @Test
+    public void updateWithoutMasterDetail() {
+        PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
+        compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
+                .get(pageContext);
+        StandardPage showModal = (StandardPage) routeAndGet("/p/123/updateByPathParams", Page.class);
+        InvokeAction submit = (InvokeAction) showModal.getActions().get("submit");
+        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
+        assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
+
+        CloseAction close = (CloseAction) showModal.getActions().get("close");
+        assertThat(close.getMeta().getRedirect(), nullValue());
+        assertThat(close.getMeta().getRefresh(), nullValue());
+        Widget modalWidget = showModal.getWidgets().get("p_updateByPathParams_main");
         assertThat(modalWidget.getDataProvider().getPathMapping().size(), is(0));
         assertThat(modalWidget.getDataProvider().getQueryMapping().size(), is(0));
     }

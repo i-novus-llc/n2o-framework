@@ -59,7 +59,8 @@
                     <xs:documentation>Действие открытия страниц.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="params" type="paramsDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="path-param" type="actionParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="query-param" type="actionParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="page-name" type="xs:string" use="optional">
                     <xs:annotation>
@@ -110,16 +111,6 @@
                 <xs:attribute name="close-after-submit" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Закрыть окно после успешного выполнения операции объекта</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="master-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Поле в модели текущего виджета</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="detail-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Поле в фильтрах мастер виджета на открываемой странице</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="redirect-url-after-submit" type="xs:string" use="optional">
@@ -622,15 +613,6 @@
                 <xs:documentation>Сбрасывать значение при изменении в модели.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-    </xs:complexType>
-
-    <xs:complexType name="paramsDefinition">
-        <xs:annotation>
-            <xs:documentation>Предустановленные параметры действия</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="param" type="actionParamDefinition" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="actionParamDefinition">

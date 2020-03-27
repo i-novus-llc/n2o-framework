@@ -318,10 +318,10 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("main_name");
         assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(query.getOnGet().getPayload().get("prefix"), is("filter"));
-        assertThat(query.getOnGet().getPayload().get("key"), is("testFilterColumns_main"));
-        assertThat(query.getOnGet().getPayload().get("field"), is("name"));
-        assertThat(query.getOnGet().getPayload().get("value"), is(":main_name"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getPrefix(), is("filter"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getKey(), is("testFilterColumns_main"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getField(), is("name"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getValue(), is(":main_name"));
         assertThat(query.getOnSet().getBindLink(), is("models.filter['testFilterColumns_main']"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
 

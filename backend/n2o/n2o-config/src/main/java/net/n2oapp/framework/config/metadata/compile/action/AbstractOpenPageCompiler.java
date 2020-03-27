@@ -153,6 +153,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         String actionRoute = initActionRoute(source, actionModelLink, p);
         String masterIdParam = initMasterLink(actionRoute, pathMapping, actionModelLink);
+        addPathMappings(source, pathMapping, widgetScope, pageScope, actionDataModel, p);
         route = normalize(route + actionRoute);
         String parentRoute = RouteUtil.absolute("../", route);// example "/:id/action" -> "/:id"
 
@@ -191,9 +192,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setPathRouteMapping(pathMapping);
         queryMapping.putAll(initPreFilterParams(preFilters, pathMapping));
 
-        if (source.getParams() != null) {
+        if (source.getQueryParams() != null) {
             List<N2oParam> params = new ArrayList<>();
-            for(N2oParam param : source.getParams()) {
+            for(N2oParam param : source.getQueryParams()) {
                 params.add(new N2oParam(param.getName(), param.getValue(),
                         p.cast(param.getRefWidgetId(), widgetScope == null ? null : widgetScope.getWidgetId()) ,
                         p.cast(param.getRefModel(), actionDataModel),
@@ -221,15 +222,29 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
         String masterIdParam = null;
         if (!actionRouteParams.isEmpty()) {
-            if (actionModelLink == null)
-                throw new N2oException("Action route contains params " + actionRoute + ", but parent widget not found");
-            if (actionRouteParams.size() > 1)
-                throw new N2oException("Action route can not contain more then one param: " + actionRoute);
             masterIdParam = actionRouteParams.get(0);
             pathMapping.put(masterIdParam, actionModelLink);
         }
         return masterIdParam;
     }
+
+    /**
+     * Добавление path-param в pathMapping
+     */
+    private void addPathMappings(S source, Map<String, ModelLink> pathMapping, WidgetScope widgetScope,
+                                 PageScope pageScope, ReduxModel actionDataModel, CompileProcessor p) {
+        if (source.getPathParams() != null) {
+            List<N2oParam> params = new ArrayList<>();
+            for(N2oParam param : source.getPathParams()) {
+                params.add(new N2oParam(param.getName(), param.getValue(),
+                        p.cast(param.getRefWidgetId(), widgetScope == null ? null : widgetScope.getWidgetId()) ,
+                        p.cast(param.getRefModel(), actionDataModel),
+                        pageScope == null ? null : pageScope.getPageId()));
+            }
+            pathMapping.putAll(initParams(params, pathMapping));
+        }
+    }
+
 
     /**
      * Добавление идентификатора текущего виджета в параметры маршрута.

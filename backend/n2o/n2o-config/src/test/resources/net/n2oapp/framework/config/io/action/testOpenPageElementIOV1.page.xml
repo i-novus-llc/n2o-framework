@@ -16,9 +16,8 @@
                        redirect-target-after-submit="application"
                        focus-after-submit="true"
                        upload="query">
-                <params>
-                    <param name="test" ref-model="filter" ref-widget-id="main" value="{id}"/>
-                </params>
+                    <path-param name="test2" ref-model="filter" ref-widget-id="main" value="{id}"/>
+                    <query-param name="test" ref-model="filter" ref-widget-id="main" value="{id}"/>
             </open-page>
         </action>
     </actions>

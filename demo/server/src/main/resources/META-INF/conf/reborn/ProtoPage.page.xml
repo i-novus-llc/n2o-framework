@@ -133,11 +133,9 @@
                 </content>
                 <toolbar>
                     <button id="createContact" label="Создать" model="filter">
-                        <show-modal page-id="ProtoContacts" upload="defaults" route="/createContact"
+                        <show-modal page-id="ProtoContacts" upload="defaults" route="/createContact" master-param=""
                             submit-operation-id="create">
-                            <params>
-                                <param name="client_id" value="{id}" ref-model="resolve" ref-widget-id="clients"/>
-                            </params>
+                                <query-param name="client_id" value="{id}" ref-model="resolve" ref-widget-id="clients"/>
                         </show-modal>
                     </button>
                 </toolbar>

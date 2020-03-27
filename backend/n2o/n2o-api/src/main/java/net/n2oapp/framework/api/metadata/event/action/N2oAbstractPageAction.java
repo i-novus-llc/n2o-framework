@@ -18,7 +18,9 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction {
     private String pageName;
     private String route;
     private UploadType upload;
+    @Deprecated
     private String masterFieldId;
+    @Deprecated
     private String detailFieldId;
     private String objectId;
     private String masterParam;
@@ -45,7 +47,8 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction {
     private String resultContainerId;
     @Deprecated
     private N2oPreFilter[] preFilters;
-    private N2oParam[] params;
+    private N2oParam[] queryParams;
+    private N2oParam[] pathParams;
 
     @Deprecated
     private RefreshPolity refreshPolity;
