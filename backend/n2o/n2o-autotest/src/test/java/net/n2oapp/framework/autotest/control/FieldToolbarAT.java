@@ -20,20 +20,20 @@ import net.n2oapp.framework.config.metadata.pack.N2oDataProvidersIOPack;
 import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class FieldToolbarAT extends AutoTestBase {
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
