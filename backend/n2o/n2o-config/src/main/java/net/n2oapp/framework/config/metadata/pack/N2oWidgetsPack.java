@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.metadata.compile.toolbar.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.table.*;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.metadata.compile.widget.table.FilterColumnHeaderCompiler;
+import net.n2oapp.framework.config.metadata.compile.widget.table.MultiColumnHeaderCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.table.SimpleColumnHeaderCompiler;
 
 public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
@@ -16,7 +17,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
         b.compilers(new FormCompiler(),
                 new ListWidgetCompiler(),
                 new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler(),
-                new TableCompiler(), new SimpleColumnHeaderCompiler(), new FilterColumnHeaderCompiler(),
+                new TableCompiler(), new SimpleColumnHeaderCompiler(), new FilterColumnHeaderCompiler(), new MultiColumnHeaderCompiler(),
                 new HtmlWidgetCompiler(),
                 new CustomWidgetCompiler(),
                 new TreeCompiler(),
