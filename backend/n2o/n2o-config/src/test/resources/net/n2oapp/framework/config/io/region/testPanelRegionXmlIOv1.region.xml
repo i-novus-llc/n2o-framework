@@ -2,5 +2,5 @@
        id="panel" class="test" place="single" src="test" style="test"
        title="header" collapsible="true" header="true"
        icon="fa fa-exclamation" color="secondary"
-       open="false" footer-title="footer">
+       open="false" footer-title="footer" active-param="active" routable="true">
 </panel>

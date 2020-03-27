@@ -5,33 +5,25 @@ import org.jdom.Namespace;
 
 /**
  * Фабрика персистеров элементов поражденных по неймспейсу
+ *
  * @param <T> Тип модели
  * @param <P> Персистер
  */
-public interface NamespacePersisterFactory<T extends NamespaceUriAware, P extends NamespacePersister<? super T>> extends ElementPersisterFactory<T,P>{
+public interface NamespacePersisterFactory<T extends NamespaceUriAware, P extends NamespacePersister<? super T>> extends ElementPersisterFactory<T, P> {
 
     /**
      * Произвести персистер по неймспейсу и классу модели
-     * @param namespace Неймспейс
-     * @param clazz Класс модели
+     *
+     * @param namespaces Неймспейсы
+     * @param clazz      Класс модели
      * @return Персистер
      */
-    P produce(Namespace namespace, Class<T> clazz);
+    P produce(Class<T> clazz, Namespace... namespaces);
 
     @Override
     @SuppressWarnings("unchecked")
     default P produce(T entity) {
-        return produce(entity.getNamespace(), (Class<T>) entity.getClass());
-    }
-
-    /**
-     * Проверяется возможность произвести персистер по неймспейсу и классу модели
-     * @param namespace Неймспейс
-     * @param clazz Класс модели
-     * @return результат проверки
-     */
-    default boolean check(Namespace namespace, Class<T> clazz) {
-        return true;
+        return produce((Class<T>) entity.getClass(), entity.getNamespace());
     }
 
     void add(NamespacePersister<T> persister);

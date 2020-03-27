@@ -8,7 +8,9 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="acn:actions">
-
+                <xs:sequence>
+                    <xs:element name="dependencies" type="buttonDependenciesDefinition" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
                 <xs:attribute name="id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Идентификатор кнопки. Вычисляется из action-id</xs:documentation>
@@ -54,9 +56,14 @@
                         <xs:documentation>Стиль кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean" use="optional">
+                <xs:attribute name="visible" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Видимость по умолчанию.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Доступность по умолчанию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="validate" type="xs:boolean" use="optional" default="false">
@@ -197,6 +204,9 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="acn:actions">
+                <xs:sequence>
+                    <xs:element name="dependencies" type="buttonDependenciesDefinition" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
                 <xs:attribute name="action-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.</xs:documentation>
@@ -227,9 +237,14 @@
                         <xs:documentation>Валидировать ли форму при нажатии на кнопку.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean" use="optional">
+                <xs:attribute name="visible" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Видимость по умолчанию.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Доступность по умолчанию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="visibility-condition" type="xs:string">
@@ -288,6 +303,49 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:complexType name="buttonDependenciesDefinition">
+        <xs:sequence>
+            <xs:element name="enabling" type="baseDependencyDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Условие доступности.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="visibility" type="baseDependencyDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Условие видимости.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="baseDependencyDefinition" abstract="true">
+        <xs:attribute name="ref-widget-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-model" type="reduxModel" use="optional">
+            <xs:annotation>
+                <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="on" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поля, от которых зависит условие.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="reduxModel">
+        <xs:annotation>
+            <xs:documentation>Модель данных.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="resolve"/>
+            <xs:enumeration value="filter"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="textType">
         <xs:annotation>
