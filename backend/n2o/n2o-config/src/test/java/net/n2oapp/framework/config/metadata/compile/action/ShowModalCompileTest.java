@@ -391,6 +391,10 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
         assertThat(submit.getMeta().getCloseLastModal(), is(true));
+
+        List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
+        assertThat(buttons.get(0).getId(), is("submit"));
+        assertThat(buttons.get(0).getAction(), is(submit));
     }
 
     @Test
@@ -411,6 +415,10 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
         assertThat(submit.getMeta().getCloseLastModal(), is(true));
+
+        List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
+        assertThat(buttons.get(0).getId(), is("submit"));
+        assertThat(buttons.get(0).getAction(), is(submit));
     }
 
     @Test
@@ -431,5 +439,9 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
         assertThat(submit.getMeta().getCloseLastModal(), is(true));
+
+        List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
+        assertThat(buttons.get(0).getId(), is("submit"));
+        assertThat(buttons.get(0).getAction(), is(submit));
     }
 }

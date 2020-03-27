@@ -5,7 +5,7 @@
             <table id="table1" query-id="testShowModal" route="/">
                 <toolbar>
                     <button id="update">
-                        <show-modal page-id="testShowModalPage" submit-operation-id="update" route="/:id/update"
+                        <show-modal page-id="testShowModalPage" route="/:id/update"
                                     submit-action-type="copy" target-model="edit" target-widget-id="table1"
                                     target-field-id="dictionary.id" copy-mode="replace"/>
                     </button>
