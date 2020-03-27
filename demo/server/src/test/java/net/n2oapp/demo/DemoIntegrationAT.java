@@ -1,6 +1,9 @@
 package net.n2oapp.demo;
 
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+
 import net.n2oapp.demo.model.ProtoClient;
 import net.n2oapp.demo.model.ProtoContacts;
 import net.n2oapp.demo.model.ProtoPage;
@@ -38,6 +41,8 @@ public class DemoIntegrationAT {
 
     @BeforeAll
     public static void configure() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
 
         headless = true;
