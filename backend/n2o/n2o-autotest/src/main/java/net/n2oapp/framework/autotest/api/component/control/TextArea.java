@@ -8,7 +8,5 @@ public interface TextArea extends Control {
 
     void val(String value);
 
-    void shouldHaveValue(String value);
-
     void shouldHavePlaceholder(String value);
 }
