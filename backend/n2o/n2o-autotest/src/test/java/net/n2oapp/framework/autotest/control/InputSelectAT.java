@@ -1,9 +1,8 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oInputSelect;
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -32,7 +31,7 @@ public class InputSelectAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
-        page = open(N2oSimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
     }
 
@@ -44,8 +43,8 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     public void testSingle() {
-        N2oInputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect1")
-                .control(N2oInputSelect.class);
+        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect1")
+                .control(InputSelect.class);
         input.shouldExists();
 
         input.shouldBeEmpty();
@@ -60,8 +59,8 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     public void testMulti() {
-        N2oInputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect2")
-                .control(N2oInputSelect.class);
+        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect2")
+                .control(InputSelect.class);
         input.shouldExists();
 
         String[] empty = new String[0];
@@ -83,8 +82,8 @@ public class InputSelectAT extends AutoTestBase {
 
     @Test
     public void testCheckboxes() {
-        N2oInputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect3")
-                .control(N2oInputSelect.class);
+        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect3")
+                .control(InputSelect.class);
         input.shouldExists();
 
         String[] empty = new String[0];

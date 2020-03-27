@@ -1,8 +1,8 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.control.Checkbox;
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oCheckbox;
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -38,11 +38,11 @@ public class CheckboxAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/checkbox/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
-        N2oSimplePage page = open(N2oSimplePage.class);
+        SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        N2oCheckbox checkbox = page.single().widget(FormWidget.class).fields().field("Checkbox1")
-                .control(N2oCheckbox.class);
+        Checkbox checkbox = page.single().widget(FormWidget.class).fields().field("Checkbox1")
+                .control(Checkbox.class);
         checkbox.shouldExists();
 
         checkbox.shouldBeChecked();
@@ -51,7 +51,7 @@ public class CheckboxAT extends AutoTestBase {
 
 
         checkbox = page.single().widget(FormWidget.class).fields().field("Checkbox2")
-                .control(N2oCheckbox.class);
+                .control(Checkbox.class);
         checkbox.shouldExists();
 
         checkbox.shouldBeEmpty();
