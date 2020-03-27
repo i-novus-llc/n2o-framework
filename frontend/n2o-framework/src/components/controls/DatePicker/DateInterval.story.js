@@ -66,8 +66,27 @@ stories
     'Min/Max',
     form(() => {
       return {
-        min: '2019-06-28 00:00:00',
-        max: '2019-06-30 00:00:00',
+        dateFormat: 'DD.MM.YYYY',
+        min: '2020-03-05 00:00:00',
+        max: '2020-03-25 00:00:00',
+      };
+    })
+  )
+  .add(
+    'Min',
+    form(() => {
+      return {
+        dateFormat: 'DD.MM.YYYY',
+        min: '2020-03-05 00:00:00',
+      };
+    })
+  )
+  .add(
+    'Max',
+    form(() => {
+      return {
+        dateFormat: 'DD.MM.YYYY',
+        max: '2020-03-25 00:00:00',
       };
     })
   );
