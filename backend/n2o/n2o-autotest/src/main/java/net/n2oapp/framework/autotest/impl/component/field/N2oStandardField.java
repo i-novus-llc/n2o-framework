@@ -20,26 +20,34 @@ public class N2oStandardField extends N2oField implements StandardField {
 
     @Override
     public void shouldBeRequired() {
-
+        element().$(".n2o-field-label-required").shouldHave(Condition.exist);
     }
 
     @Override
     public void shouldNotBeRequired() {
-
+        //реализовать, когда понадобится
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void labelShouldHave(Condition condition) {
-
+        element().$("label").shouldHave(condition);
     }
 
     @Override
     public void messageShouldHave(Condition condition) {
-
+        //реализовать, когда понадобится
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void shouldHaveDescription(Condition condition) {
+        //реализовать, когда понадобится
+        throw new UnsupportedOperationException();
+    }
 
+    @Override
+    public void shouldHaveValidationMessage(Condition condition) {
+        element().$(".n2o-validation-message").shouldHave(condition);
     }
 }
