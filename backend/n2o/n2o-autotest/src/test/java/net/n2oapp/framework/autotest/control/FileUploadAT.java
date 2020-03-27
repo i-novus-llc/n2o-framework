@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.FileUploadControl;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -10,10 +11,9 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -29,12 +29,12 @@ public class FileUploadAT extends AutoTestBase {
     @Autowired
     private FileStoreController fileStoreController;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -86,7 +86,7 @@ public class FileUploadAT extends AutoTestBase {
     }
 
     @Test
-    @Ignore //первый файл загружается два раза
+    @Ignore
     public void serialTwoFileUploadTest() {
         FileUploadControl fileUpload = getFields().field("FileUpload3").control(FileUploadControl.class);
         fileUpload.shouldBeEnabled();
