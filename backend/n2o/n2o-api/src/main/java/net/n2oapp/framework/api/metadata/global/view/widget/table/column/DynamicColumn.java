@@ -1,7 +1,7 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table.column;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oDynamicSwitch;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 
 /**
  * @author V. Alexeev.
@@ -16,10 +16,5 @@ public class DynamicColumn extends AbstractColumn {
 
     public void setN2oSwitch(N2oDynamicSwitch<N2oCell> n2oSwitch) {
         this.n2oSwitch = n2oSwitch;
-    }
-
-    @Override
-    public boolean isDynamic() {
-        return true;
     }
 }

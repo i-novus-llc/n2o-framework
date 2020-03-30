@@ -284,10 +284,9 @@
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="column" type="columnDefinition" maxOccurs="unbounded"
-                                            minOccurs="1"/>
-                                <xs:element name="filter-column" type="filterColumnDefinition" maxOccurs="unbounded"
-                                            minOccurs="0"/>
+                                <xs:element name="column" type="columnDefinition" maxOccurs="unbounded" minOccurs="1"/>
+                                <xs:element name="filter-column" type="filterColumnDefinition" maxOccurs="unbounded" minOccurs="0"/>
+                                <xs:element name="multi-column" type="multiColumnDefinition" maxOccurs="unbounded" minOccurs="0"/>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
@@ -448,6 +447,27 @@
                     </xs:element>
                 </xs:sequence>
             </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="multiColumnDefinition">
+        <xs:annotation>
+            <xs:documentation>Многоуровневый столбец таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:attribute name="label">
+                <xs:annotation>
+                    <xs:documentation>Наименование заголовка столбца.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:sequence>
+                <xs:annotation>
+                    <xs:documentation>Внутренние столбцы.</xs:documentation>
+                </xs:annotation>
+                <xs:element name="column" type="columnDefinition" minOccurs="0"/>
+                <xs:element name="filter-column" type="filterColumnDefinition" minOccurs="0"/>
+                <xs:element name="multi-column" type="multiColumnDefinition" minOccurs="0"/>
+            </xs:sequence>
         </xs:complexContent>
     </xs:complexType>
 
