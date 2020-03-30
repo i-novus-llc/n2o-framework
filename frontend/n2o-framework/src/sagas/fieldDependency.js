@@ -14,6 +14,8 @@ import isUndefined from 'lodash/isUndefined';
 import some from 'lodash/some';
 import includes from 'lodash/includes';
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
+import set from 'lodash/set';
 import { actionTypes, change } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 
@@ -32,6 +34,9 @@ import { FETCH_VALUE } from '../core/api';
 import fetchSaga from './fetch';
 import compileUrl from '../utils/compileUrl';
 import { evalResultCheck } from '../utils/evalResultCheck';
+
+let prevState = {};
+let prevResults = {};
 
 export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   try {
@@ -59,9 +64,20 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
 
 export function* modify(values, formName, fieldName, type, options = {}) {
   let _evalResult;
+
+  const prevValues = get(prevState, [formName, fieldName, type]);
+  const prevResult = get(prevResults, [formName, fieldName, type]);
+
+  if (prevValues && isEqual(prevValues, values)) return;
+
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
   }
+
+  if (!isUndefined(prevResult) && isEqual(_evalResult, prevResult)) return;
+
+  set(prevResults, [formName, fieldName, type], _evalResult);
+  set(prevState, [formName, fieldName, type], values);
 
   switch (type) {
     case 'enabled':
