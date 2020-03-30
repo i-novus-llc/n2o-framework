@@ -31,5 +31,8 @@
         <field id="rating" domain="integer">
             <select/>
         </field>
+        <field id="list">
+            <select/>
+        </field>
     </fields>
 </query>

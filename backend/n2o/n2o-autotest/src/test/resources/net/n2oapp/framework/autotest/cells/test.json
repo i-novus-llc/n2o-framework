@@ -8,7 +8,8 @@
     "icon": "fa fa-phone",
     "image": "favicon.ico",
     "progress": -50,
-    "rating" : -5
+    "rating" : -5,
+    "list": ["val1"]
   },
   {
     "id": 2,
@@ -18,7 +19,8 @@
     "vip": false,
     "icon": "fa fa-plus",
     "progress": 0,
-    "rating" : 0
+    "rating" : 0,
+    "list": ["val1", "val2", "val3"]
   },
   {
     "id": 3,
@@ -29,7 +31,8 @@
     "icon": "fa fa-fax",
     "image": "favicon.ico",
     "progress": 100,
-    "rating" : 5
+    "rating" : 5,
+    "list": []
   },
   {
     "id": 4,
@@ -39,6 +42,7 @@
     "vip": true,
     "icon": "fa fa-minus",
     "progress": 150,
-    "rating" : 15
+    "rating" : 15,
+     "list": ["val1", "val2", "val3", "val4", "val5"]
   }
 ]
