@@ -35,15 +35,17 @@ public class N2oComponentLibrary implements ComponentLibrary {
     public List<Class<? extends Component>> components() {
         return Arrays.asList(
                 N2oSimplePage.class, N2oLeftRightPage.class, N2oStandardPage.class, N2oSimpleHeader.class, N2oSimpleRegion.class, N2oPanelRegion.class,
-                N2oTableWidget.class, N2oListWidget.class, N2oFormWidget.class, N2oStandardTableHeader.class,
-                N2oModal.class, N2oStandardField.class, N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
+                N2oTableWidget.class,  N2oListWidget.class, N2oFormWidget.class, N2oStandardTableHeader.class,
+                N2oModal.class, N2oStandardField.class,  N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
                 // controls
                 N2oInputText.class, N2oInputSelect.class, N2oCheckbox.class, N2oSelect.class, N2oDateInterval.class,
-                N2oDateInput.class, N2oCheckboxGroup.class, N2oRadioGroup.class, N2oMaskedInputControl.class,
+                N2oDateInput.class, N2oCheckboxGroup.class, N2oRadioGroup.class,  N2oMaskedInputControl.class,
                 N2oOutputText.class, N2oTextEditor.class, N2oCodeEditor.class, N2oHtml.class, N2oRating.class,
                 N2oSlider.class, N2oPills.class, N2oText.class, N2oAutoComplete.class,
                 // cells
-                N2oTextCell.class, N2oLinkCell.class, N2oEditCell.class, N2oCheckboxCell.class, N2oToolbarCell.class, N2oImageCell.class, N2oBadgeCell.class
+                N2oTextCell.class, N2oLinkCell.class, N2oEditCell.class, N2oCheckboxCell.class, N2oToolbarCell.class,
+                N2oBadgeCell.class, N2oIconCell.class, N2oImageCell.class, N2oProgressBarCell.class, N2oRatingCell.class,
+                N2oListCell.class
         );
     }
 
