@@ -38,7 +38,7 @@ public class TableJsonTest extends JsonMetadataTestBase {
                         "table.cells[1].fieldKey",
                         "table.cells[1].textPlace",
                         "table.cells[2].fieldKey",
-                        "toolbar")
+                        "toolbar", "autoCheckboxOnSelect", "rowSelection")
                 .assertEquals();
     }
 
