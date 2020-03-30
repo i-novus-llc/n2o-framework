@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <form object-id="test">
+        <fields>
+            <multi-set id="members1">
+                <input-text id="name"/>
+                <input-text id="age" domain="integer">
+                    <validations>
+                        <condition id="lessThan18" message="Вам недостаточно лет"
+                                   severity="danger" on="members1[#index].age">
+                            members1[#index].age >= 18
+                        </condition>
+                    </validations>
+                </input-text>
+            </multi-set>
+        </fields>
+    </form>
+</simple-page>

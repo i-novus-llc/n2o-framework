@@ -6,6 +6,8 @@ package net.n2oapp.framework.autotest.api.component.fieldset;
 public interface MultiFieldSet extends FieldSet {
     void shouldHaveItems(int count);
 
+    MultiFieldSetItem item(int index);
+
     void addButtonShouldBeExist();
 
     void addButtonShouldNotBeExist();
@@ -13,4 +15,12 @@ public interface MultiFieldSet extends FieldSet {
     void addButtonShouldHaveLabel(String label);
 
     void clickAddButton();
+
+    void removeAllButtonShouldBeExist();
+
+    void removeAllButtonShouldNotBeExist();
+
+    void removeAllButtonShouldHaveLabel(String label);
+
+    void clickRemoveAllButton();
 }
