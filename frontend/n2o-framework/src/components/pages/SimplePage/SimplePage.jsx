@@ -2,14 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import { mapProps } from 'recompose';
+import cn from 'classnames';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import Factory from '../../../core/factory/Factory';
 import DefaultPage from '../DefaultPage';
 
-function SimplePage({ id, widget, ...rest }) {
+function SimplePage({ id, widget, slim, ...rest }) {
   return (
     <DefaultPage {...rest}>
-      <div className="n2o-simple-page">
+      <div
+        className={cn({
+          'n2o-simple-page': !slim,
+          'n2o-simple-page_slim': slim,
+        })}
+      >
         <Factory
           key={`simple-page-${id}`}
           level={WIDGETS}
@@ -24,10 +30,15 @@ function SimplePage({ id, widget, ...rest }) {
 SimplePage.propTypes = {
   id: PropTypes.string,
   widget: PropTypes.object,
+  slim: PropTypes.bool,
 };
 
 SimplePage.defaultProps = {
   widget: {},
+  /**
+   * slim флаг сжатия контента страницы к центру
+   */
+  slim: false,
 };
 
 export default mapProps(props => ({
