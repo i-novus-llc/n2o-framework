@@ -29,8 +29,8 @@ public class MaskedInputAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/controls/masked/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/default.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/masked/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
         simplePage = open(SimplePage.class);
         simplePage.shouldExists();
