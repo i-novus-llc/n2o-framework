@@ -30,7 +30,7 @@ public class ProgressBarCellAT extends AutoTestBase {
         super.setUp();
 
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/progress/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/default.header.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
