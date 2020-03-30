@@ -1,0 +1,8 @@
+{
+  "id": "someId",
+  "src": "ListTextCell",
+  "label": "объектов {value}",
+  "fieldKey": "test",
+  "trigger": "click",
+  "placement" : "bottom"
+}
