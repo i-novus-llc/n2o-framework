@@ -69,13 +69,15 @@ export function syncModel(prefix, keys, model) {
 
 /**
  * Копирование модели по префиксу и ключу в другую модель, по префиксу и ключу
- * @param {object} source - {prefix, key}
- * @param {object} target - {prefix, key}
+ * @param {object} source - {prefix, key, field}
+ * @param {object} target - {prefix, key, field}
+ * @param {string} mode
  */
-export function copyModel(source, target) {
+export function copyModel(source, target, mode) {
   return createActionHelper(COPY)({
     source,
     target,
+    mode
   });
 }
 

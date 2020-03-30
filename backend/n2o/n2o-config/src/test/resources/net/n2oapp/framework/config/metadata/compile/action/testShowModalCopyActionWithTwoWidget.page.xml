@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <region>
+            <table id="table1" query-id="testShowModal" route="/">
+                <toolbar>
+                    <button id="update">
+                        <show-modal page-id="testShowModalCopyActionWithTwoWidgetPage"
+                                    route="/:id/update" submit-action-type="copy" copy-mode="replace"
+                                    copy-model="edit" copy-widget-id="table2" copy-field-id="id"
+                                    target-model="edit" target-widget-id="table1" target-field-id="dictionary.id" />
+                    </button>
+                </toolbar>
+            </table>
+        </region>
+    </regions>
+</page>

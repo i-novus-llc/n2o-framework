@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -72,7 +73,8 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             object = p.getCompiled(new ObjectContext(objectId));
             page.setObject(object);
         }
-        if (context.getSubmitOperationId() != null && compiledWidget.getToolbar() == null) {
+        if ((context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))
+                && compiledWidget.getToolbar() == null) {
             MetaActions metaActions = new MetaActions();
             page.setToolbar(compileToolbar(context, p, metaActions, pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
             compiledWidget.getActions().putAll(metaActions);
