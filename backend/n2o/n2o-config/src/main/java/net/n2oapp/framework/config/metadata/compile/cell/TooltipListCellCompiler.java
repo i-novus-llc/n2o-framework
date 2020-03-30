@@ -22,7 +22,10 @@ public class TooltipListCellCompiler extends AbstractCellCompiler<N2oTooltipList
     public N2oTooltipListCell compile(N2oTooltipListCell source, CompileContext<?, ?> context, CompileProcessor p) {
         N2oTooltipListCell cell = new N2oTooltipListCell();
         build(cell, source, context, p, property("n2o.api.cell.tooltip_list.src"));
-        cell.setLabelFieldId(source.getLabelFieldId());
+        cell.setLabel(source.getLabel());
+        cell.setOneLabel(source.getOneLabel());
+        cell.setFewLabel(source.getFewLabel());
+        cell.setManyLabel(source.getManyLabel());
         cell.setTrigger(p.cast(source.getTrigger(), p.resolve(property("n2o.api.cell.tooltip_list.trigger"), N2oTooltipListCell.TriggerEnum.class)));
         return cell;
     }

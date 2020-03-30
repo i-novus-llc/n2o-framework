@@ -11,7 +11,13 @@ import lombok.Setter;
 @Setter
 public class N2oTooltipListCell extends N2oAbstractCell {
     @JsonProperty
-    private String labelFieldId;
+    private String label;
+    @JsonProperty
+    private String oneLabel;
+    @JsonProperty
+    private String fewLabel;
+    @JsonProperty
+    private String manyLabel;
     @JsonProperty
     private TriggerEnum trigger;
 

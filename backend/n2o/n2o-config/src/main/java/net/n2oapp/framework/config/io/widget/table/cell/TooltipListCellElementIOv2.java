@@ -14,7 +14,10 @@ public class TooltipListCellElementIOv2 extends AbstractCellElementIOv2<N2oToolt
     @Override
     public void io(Element e, N2oTooltipListCell c, IOProcessor p) {
         super.io(e, c, p);
-        p.attribute(e, "label-field-id", c::getLabelFieldId, c::setLabelFieldId);
+        p.attribute(e, "label", c::getLabel, c::setLabel);
+        p.attribute(e, "label-one", c::getOneLabel, c::setOneLabel);
+        p.attribute(e, "label-few", c::getFewLabel, c::setFewLabel);
+        p.attribute(e, "label-many", c::getManyLabel, c::setManyLabel);
         p.attributeEnum(e, "trigger", c::getTrigger, c::setTrigger, N2oTooltipListCell.TriggerEnum.class);
     }
 
