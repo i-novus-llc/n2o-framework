@@ -101,6 +101,11 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         }
 
         @Override
+        public void shouldNotHaveSelectedRows() {
+            element().$$(".n2o-table-row.table-active").shouldHaveSize(0);
+        }
+
+        @Override
         public void columnShouldHaveTexts(int index, List<String> texts) {
             if (texts == null || texts.isEmpty())
                 element().$$(".n2o-table-row td:nth-child(" + (++index) + ")").shouldHave(CollectionCondition.empty);

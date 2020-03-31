@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.modal;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
@@ -8,6 +9,10 @@ import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 public class N2oModal extends N2oComponent implements Modal {
+
+    public N2oModal(SelenideElement element) {
+        setElement(element);
+    }
 
     @Override
     public void shouldHaveTitle(String text) {

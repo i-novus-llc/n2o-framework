@@ -3,11 +3,12 @@ package net.n2oapp.framework.config.metadata.merge;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
-import net.n2oapp.framework.config.metadata.compile.widget.FormCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.N2oFormMerger;
-import net.n2oapp.framework.config.metadata.compile.widget.N2oWidgetMerger;
+import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
+import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
@@ -35,9 +36,9 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oActionsPack(), new N2oFieldSetsPack(), new N2oControlsPack())
-                .ios(new FormElementIOV4())
-                .compilers(new FormCompiler())
-                .mergers(new N2oWidgetMerger<>(), new N2oFormMerger());
+                .ios(new FormElementIOV4(), new TableElementIOV4())
+                .compilers(new FormCompiler(), new TableCompiler())
+                .mergers(new N2oWidgetMerger<>(), new N2oFormMerger(), new N2oTableMerger());
     }
 
     @Test
@@ -67,5 +68,13 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
                 "net/n2oapp/framework/config/metadata/local/merger/widget/childFormMerger.widget.xml")
                 .get("childFormMerger", N2oForm.class);
         assertThat(widget.getMode(), is(FormMode.TWO_MODELS));
+    }
+
+    @Test
+    public void testMergeTable() {
+        N2oTable widget = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentTableMerger.widget.xml",
+                "net/n2oapp/framework/config/metadata/local/merger/widget/childTableMerger.widget.xml")
+                .get("parentTableMerger", N2oTable.class);
+        assertThat(widget.getSelection(), is(RowSelectionEnum.checkbox));
     }
 }

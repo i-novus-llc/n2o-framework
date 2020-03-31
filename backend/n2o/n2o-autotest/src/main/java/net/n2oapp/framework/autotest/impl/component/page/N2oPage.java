@@ -5,9 +5,11 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
+import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
 
 /**
  * Страница для автотестирования
@@ -31,6 +33,11 @@ public class N2oPage extends N2oComponent implements Page {
     @Override
     public Dialog dialog(String title) {
         return new N2oDialog(element().$$(".modal-dialog").findBy(Condition.text(title)).parent());
+    }
+
+    @Override
+    public Modal modal(String title) {
+        return new N2oModal(element().$$(".modal-dialog").findBy(Condition.text(title)).parent());
     }
 
     public class N2oPageToolbar implements PageToolbar {
