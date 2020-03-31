@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTooltipListCell;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -16,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 /**
- * Тест на компиляцию ячейки с раскрывающимся тултипом с текстовым списком
+ * Тест на компиляцию ячейки с тултипом и раскрывающимся текстовым списком
  */
 public class TooltipListCellCompileTest extends SourceCompileTestBase {
     @Override
@@ -45,10 +46,10 @@ public class TooltipListCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getOneLabel(), is("{size} объект"));
         assertThat(cell.getFewLabel(), is("{size} объекта"));
         assertThat(cell.getManyLabel(), is("{size} объектов"));
-        assertThat(cell.getTrigger(), is(N2oTooltipListCell.TriggerEnum.click));
+        assertThat(cell.getTrigger(), is(TriggerEnum.click));
 
         cell = (N2oTooltipListCell) table.getComponent().getCells().get(1);
         assertThat(cell.getFieldKey(), is("test2"));
-        assertThat(cell.getTrigger(), is(N2oTooltipListCell.TriggerEnum.hover));
+        assertThat(cell.getTrigger(), is(TriggerEnum.hover));
     }
 }

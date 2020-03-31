@@ -3,9 +3,10 @@ package net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 
 /**
- * Ячейка таблицы с раскрывающимся тултипом с текстовым списком
+ * Ячейка с тултипом и раскрывающимся текстовым списком
  */
 @Getter
 @Setter
@@ -20,12 +21,4 @@ public class N2oTooltipListCell extends N2oAbstractCell {
     private String manyLabel;
     @JsonProperty
     private TriggerEnum trigger;
-
-    /**
-     * Тип действия, при котором раскрывается список
-     */
-    public enum TriggerEnum {
-        hover,
-        click
-    }
 }

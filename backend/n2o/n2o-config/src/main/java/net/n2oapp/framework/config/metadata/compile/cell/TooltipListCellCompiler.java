@@ -3,13 +3,14 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTooltipListCell;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция ячейки таблицы с раскрывающимся тултипом с текстовым списком
+ * Компиляция ячейки с тултипом и раскрывающимся текстовым списком
  */
 @Component
 public class TooltipListCellCompiler extends AbstractCellCompiler<N2oTooltipListCell, N2oTooltipListCell> {
@@ -26,7 +27,7 @@ public class TooltipListCellCompiler extends AbstractCellCompiler<N2oTooltipList
         cell.setOneLabel(source.getOneLabel());
         cell.setFewLabel(source.getFewLabel());
         cell.setManyLabel(source.getManyLabel());
-        cell.setTrigger(p.cast(source.getTrigger(), p.resolve(property("n2o.api.cell.tooltip_list.trigger"), N2oTooltipListCell.TriggerEnum.class)));
+        cell.setTrigger(p.cast(source.getTrigger(), p.resolve(property("n2o.api.cell.tooltip_list.trigger"), TriggerEnum.class)));
         return cell;
     }
 }

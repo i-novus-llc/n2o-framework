@@ -6,7 +6,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтение и записи ячейки с раскрывающимся тултипом с текстовым списком
+ * Тестирование чтение и записи ячейки с тултипом и раскрывающимся текстовым списком
  */
 public class TooltipListCellXmlIOTest {
     @Test

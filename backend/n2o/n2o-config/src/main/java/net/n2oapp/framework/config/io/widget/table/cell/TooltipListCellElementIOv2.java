@@ -1,12 +1,13 @@
 package net.n2oapp.framework.config.io.widget.table.cell;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.TriggerEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTooltipListCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись ячейки с раскрывающимся тултипом с текстовым списком
+ * Чтение/запись ячейки с тултипом и раскрывающимся текстовым списком
  */
 @Component
 public class TooltipListCellElementIOv2 extends AbstractCellElementIOv2<N2oTooltipListCell> {
@@ -18,7 +19,7 @@ public class TooltipListCellElementIOv2 extends AbstractCellElementIOv2<N2oToolt
         p.attribute(e, "label-one", c::getOneLabel, c::setOneLabel);
         p.attribute(e, "label-few", c::getFewLabel, c::setFewLabel);
         p.attribute(e, "label-many", c::getManyLabel, c::setManyLabel);
-        p.attributeEnum(e, "trigger", c::getTrigger, c::setTrigger, N2oTooltipListCell.TriggerEnum.class);
+        p.attributeEnum(e, "trigger", c::getTrigger, c::setTrigger, TriggerEnum.class);
     }
 
     @Override
