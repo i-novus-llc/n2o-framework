@@ -26,6 +26,6 @@ public class N2oRadioCell extends N2oCell implements RadioCell {
     }
 
     private SelenideElement radioElement() {
-        return element().$(".custom-radio .n2o-input");
+        return element().$(".custom-radio .n2o-input").shouldBe(Condition.exist);
     }
 }
