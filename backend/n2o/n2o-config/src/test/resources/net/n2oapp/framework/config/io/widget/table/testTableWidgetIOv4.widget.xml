@@ -45,6 +45,26 @@
                 <text format="test" visible="true"/>
             </cell>
         </filter-column>
+        <multi-column label="test">
+            <column text-field-id="test1">
+                <cell>
+                    <close src="test"/>
+                </cell>
+            </column>
+            <multi-column>
+                <column text-field-id="test2"/>
+                <column text-field-id="test3"/>
+            </multi-column>
+            <filter-column text-field-id="test4">
+                <filter>
+                    <ctr:input-text id="name" label="label"/>
+                </filter>
+                <cell>
+                    <text format="test" visible="true"/>
+                </cell>
+            </filter-column>
+            <column text-field-id="test5"/>
+        </multi-column>
     </columns>
     <rows class="test">
         <switch value-field-id="gender.id">
