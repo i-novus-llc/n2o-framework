@@ -6,6 +6,8 @@ package net.n2oapp.framework.autotest.api.component.widget.table;
 public interface StandardTableHeader extends TableHeader {
     void shouldHaveTitle(String title);
 
+    void shouldNotHaveTitle();
+
     void click();
 
     void shouldNotBeSorted();

@@ -91,7 +91,7 @@ public class FilterColumnAT extends AutoTestBase {
         header3.clickResetButton();
         rows.shouldHaveSize(4);
 
-        // проверка фильтрации через списковое поле
+        // проверка фильтрации через интервальное поле
         header4.openFilterDropdown();
         DateInterval header4Input = header4.filterControl(DateInterval.class);
         header4Input.beginVal("01.01.2019");

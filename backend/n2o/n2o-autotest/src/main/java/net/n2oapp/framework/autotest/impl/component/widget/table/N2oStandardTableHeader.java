@@ -13,6 +13,11 @@ public class N2oStandardTableHeader extends N2oTableHeader implements StandardTa
     }
 
     @Override
+    public void shouldNotHaveTitle() {
+        element().shouldBe(Condition.empty);
+    }
+
+    @Override
     public void click() {
         element().$("a").should(Condition.exist).click();
     }
