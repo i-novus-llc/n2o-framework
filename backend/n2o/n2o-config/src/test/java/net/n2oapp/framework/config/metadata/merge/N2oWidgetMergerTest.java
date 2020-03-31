@@ -1,15 +1,19 @@
 package net.n2oapp.framework.config.metadata.merge;
 
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.control.list.N2oInputSelect;
+import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
 import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.*;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
 import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.metadata.pack.N2oActionsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oCellsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.test.SourceMergerTestBase;
@@ -35,7 +39,7 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oActionsPack(), new N2oFieldSetsPack(), new N2oControlsPack())
+        builder.packs(new N2oActionsPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack())
                 .ios(new FormElementIOV4(), new TableElementIOV4())
                 .compilers(new FormCompiler(), new TableCompiler())
                 .mergers(new N2oWidgetMerger<>(), new N2oFormMerger(), new N2oTableMerger());
@@ -45,7 +49,7 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
     public void testMergeWidget() {
         N2oForm widget = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentWidgetForm.widget.xml",
                 "net/n2oapp/framework/config/metadata/local/merger/widget/childWidgetForm.widget.xml")
-                .get("childWidgetForm", N2oForm.class);
+                .get("parentWidgetForm", N2oForm.class);
         assertThat(widget, notNullValue());
         assertThat(widget.getDependsOn(), is("child"));
         assertThat(widget.getName(), is("Child"));
@@ -64,17 +68,49 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
 
     @Test
     public void testMergeForm() {
-        N2oForm widget = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentFormMerger.widget.xml",
+        N2oForm form = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentFormMerger.widget.xml",
                 "net/n2oapp/framework/config/metadata/local/merger/widget/childFormMerger.widget.xml")
-                .get("childFormMerger", N2oForm.class);
-        assertThat(widget.getMode(), is(FormMode.TWO_MODELS));
+                .get("parentFormMerger", N2oForm.class);
+        assertThat(form.getMode(), is(FormMode.TWO_MODELS));
+        assertThat(form.getPrompt(), is(true));
+        assertThat(form.getDefaultValuesQueryId(), is("defQueryId"));
+
+        SourceComponent[] items = form.getItems();
+        assertThat(items.length, is(2));
+        assertThat(((N2oInputSelect) items[0]).getId(), is("test2"));
+        assertThat(((N2oInputText) items[1]).getId(), is("test1"));
     }
 
     @Test
     public void testMergeTable() {
-        N2oTable widget = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentTableMerger.widget.xml",
+        N2oTable table = merge("net/n2oapp/framework/config/metadata/local/merger/widget/parentTableMerger.widget.xml",
                 "net/n2oapp/framework/config/metadata/local/merger/widget/childTableMerger.widget.xml")
                 .get("parentTableMerger", N2oTable.class);
-        assertThat(widget.getSelection(), is(RowSelectionEnum.checkbox));
+        assertThat(table.getSelection(), is(RowSelectionEnum.checkbox));
+        assertThat(table.getScrollX(), is("100px"));
+        assertThat(table.getScrollY(), is("200px"));
+        assertThat(table.getTableSize(), is(Size.lg));
+        assertThat(table.getChildren(), is(N2oTable.ChildrenToggle.expand));
+
+        AbstractColumn[] columns = table.getColumns();
+        assertThat(columns.length, is(2));
+        assertThat(columns[0].getTextFieldId(), is("test2"));
+        assertThat(columns[1].getTextFieldId(), is("test1"));
+
+        SourceComponent[] filters = table.getFilters();
+        assertThat(columns.length, is(2));
+        assertThat(((N2oInputSelect) filters[0]).getId(), is("test2"));
+        assertThat(((N2oInputText) filters[1]).getId(), is("test1"));
+
+        N2oPagination pagination = table.getPagination();
+        assertThat(pagination.getFirst(), is(true));
+        assertThat(pagination.getLast(), is(true));
+        assertThat(pagination.getPrev(), is(true));
+        assertThat(pagination.getNext(), is(true));
+        assertThat(pagination.getHideSinglePage(), is(true));
+        assertThat(pagination.getShowCount(), is(true));
+
+        N2oRow rows = table.getRows();
+        assertThat(rows.getRowClick().getActionId(), is("actionId"));
     }
 }
