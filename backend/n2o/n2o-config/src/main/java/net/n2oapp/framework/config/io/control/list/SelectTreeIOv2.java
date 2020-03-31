@@ -19,6 +19,7 @@ public class SelectTreeIOv2 extends ListFieldIOv2<N2oSelectTree> {
         p.attributeBoolean(e, "search", m::getSearch, m::setSearch);
         p.attributeBoolean(e, "checkboxes", m::getCheckboxes, m::setCheckboxes);
         p.child(e, null, "inheritance-nodes", m::getInheritanceNodes, m::setInheritanceNodes, InheritanceNodes.class, this::inheritanceNodes);
+        p.attributeInteger(e, "size", m::getSize, m::setSize);
 //        p.child(e, null, "grouping-nodes", m::getGroupingNodes, m::setGroupingNodes, GroupingNodes.class, this::groupingNodes);
     }
 
