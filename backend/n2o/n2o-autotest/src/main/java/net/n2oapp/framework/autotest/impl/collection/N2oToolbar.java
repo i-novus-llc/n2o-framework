@@ -32,6 +32,11 @@ public class N2oToolbar extends N2oComponentsCollection implements Toolbar {
     }
 
     @Override
+    public <T extends Button> T button(int index, Class<T> componentClass) {
+        return N2oSelenide.component(elements().get(index), componentClass);
+    }
+
+    @Override
     public <T extends Button> T button(String label, Class<T> componentClass) {
         return N2oSelenide.component(elements().findBy(Condition.text(label)), componentClass);
     }
