@@ -37,7 +37,8 @@ public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
                 new AlertCompiler(),
                 new ButtonFieldCompiler(),
                 new PillsCompiler(),
-                new AutoCompleteCompiler()
+                new AutoCompleteCompiler(),
+                new StatusFieldCompiler()
         );
     }
 }
