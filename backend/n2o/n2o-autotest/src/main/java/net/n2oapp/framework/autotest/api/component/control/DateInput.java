@@ -10,6 +10,8 @@ public interface DateInput extends Control {
 
     void val(String value);
 
+    void shouldHavePlaceholder(String value);
+
     void timeVal(String hours, String minutes, String seconds);
 
     void clickCalendarButton();
