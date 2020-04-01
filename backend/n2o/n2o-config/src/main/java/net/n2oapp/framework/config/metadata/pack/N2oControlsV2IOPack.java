@@ -43,6 +43,7 @@ public class N2oControlsV2IOPack implements MetadataPack<N2oApplicationBuilder> 
                 new RatingIOv2(),
                 new AlertIOv2(),
                 new AutoCompleteIOv2(),
+                new StatusFieldIOv2(),
                 new ButtonIO(),
                 new SubmenuIO(),
                 new ButtonFieldIOv2()
