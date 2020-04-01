@@ -96,13 +96,15 @@ public class TableSelectionAT extends AutoTestBase {
         RadioCell cell1 = rows.row(0).cell(0, RadioCell.class);
         RadioCell cell2 = rows.row(1).cell(0, RadioCell.class);
         RadioCell cell3 = rows.row(2).cell(0, RadioCell.class);
-        cell1.shouldBeUnchecked();
+        cell1.click();
+        cell1.shouldBeChecked();
         cell2.shouldBeUnchecked();
         cell3.shouldBeUnchecked();
         cell2.click();
         cell2.shouldBeChecked();
         cell3.click();
         cell3.shouldBeChecked();
+        cell1.shouldBeUnchecked();
         cell2.shouldBeUnchecked();
 
         rows.row(1).click();
