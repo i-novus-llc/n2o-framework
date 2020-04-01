@@ -12,9 +12,9 @@ import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Автотест для мульти-столбца таблицы
@@ -22,19 +22,18 @@ import org.junit.Test;
 public class MultiColumnAT extends AutoTestBase {
     private SimplePage page;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
 
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/table.widget.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/test.query.xml"));
         page = open(SimplePage.class);
         page.shouldExists();

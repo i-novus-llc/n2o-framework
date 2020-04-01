@@ -8,7 +8,6 @@
                     <column text-field-id="firstName" label="FirstName"/>
                     <column text-field-id="lastName" label="LastName"/>
                 </multi-column>
-                <column text-field-id="phone" label="Phone"/>
                 <filter-column text-field-id="phone" label="Phone">
                     <filter>
                         <input-text id="phone"/>
