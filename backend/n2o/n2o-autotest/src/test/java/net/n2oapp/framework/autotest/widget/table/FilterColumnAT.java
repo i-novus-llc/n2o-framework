@@ -36,7 +36,6 @@ public class FilterColumnAT extends AutoTestBase {
 
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/table.widget.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/filter_column/test.query.xml"));
         page = open(SimplePage.class);
         page.shouldExists();
