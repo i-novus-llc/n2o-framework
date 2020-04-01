@@ -35,7 +35,7 @@ stories.add(
       guide: false,
       keepCharPosition: true,
       resetOnNotValid: true,
-      rightPlaceholder: 'км',
+      measure: 'км',
     };
     const numberProps = {
       value: [1, 1],
@@ -45,14 +45,14 @@ stories.add(
       max: 1.5,
       showButtons: true,
       disabled: false,
-      rightPlaceholder: 'см',
+      measure: 'см',
     };
     const areaProps = {
       placeholder: 'Введите значение',
       disabled: false,
       rows: 5,
       maxRows: 10,
-      rightPlaceholder: 'много текста',
+      measure: 'много текста',
     };
     const moneyProps = {
       className: 'n2o',
@@ -66,7 +66,7 @@ stories.add(
       thousandsSeparatorSymbol: ' ',
       decimalSymbol: ',',
       integerLimit: null,
-      rightPlaceholder: 'руб',
+      measure: 'руб',
     };
 
     return (
@@ -81,7 +81,7 @@ stories.add(
         </div>
         <div className="m-2">
           InputText
-          <InputText value="text" rightPlaceholder="текст" />
+          <InputText value="text" measure="текст" />
         </div>
         <div className="m-2">
           TextArea
@@ -102,7 +102,7 @@ stories.add(
     
     <Input
         {...props}
-        rightPlaceholder:="руб"
+        measure:="руб"
      />
     ~~~
     `,
