@@ -23,6 +23,7 @@ public class SelectTreeIOv2 extends ListFieldIOv2<N2oSelectTree> {
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
         p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
         p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
+        p.attributeInteger(e, "size", m::getSize, m::setSize);
 
         p.child(e, null, "inheritance-nodes", m::getInheritanceNodes, m::setInheritanceNodes, InheritanceNodes.class, this::inheritanceNodes);
     }

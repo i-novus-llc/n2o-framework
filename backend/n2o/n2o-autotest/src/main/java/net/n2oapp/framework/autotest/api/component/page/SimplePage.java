@@ -5,6 +5,6 @@ import net.n2oapp.framework.autotest.api.collection.Widgets;
 /**
  *  Простая страница для автотестирования
  */
-public interface SimplePage extends StandardPage {
+public interface SimplePage extends Page {
     Widgets single();
 }
