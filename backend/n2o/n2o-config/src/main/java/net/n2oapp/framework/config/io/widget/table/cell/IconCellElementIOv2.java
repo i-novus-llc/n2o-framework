@@ -10,16 +10,18 @@ import org.jdom.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
- *Чтение\запись ячейки с иконкой
+ * Чтение\запись ячейки с иконкой
  */
 @Component
 public class IconCellElementIOv2 extends AbstractCellElementIOv2<N2oIconCell> {
     private Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
+
     @Override
-    public void io(Element e, N2oIconCell  c, IOProcessor p) {
+    public void io(Element e, N2oIconCell c, IOProcessor p) {
         super.io(e, c, p);
         p.attribute(e, "text", c::getText, c::setText);
         p.attribute(e, "icon", c::getIcon, c::setIcon);
+        p.attribute(e, "tooltip", c::getTooltip, c::setTooltip);
         p.attributeEnum(e, "type", c::getIconType, c::setIconType, IconType.class);
         p.attributeEnum(e, "position", c::getPosition, c::setPosition, Position.class);
         p.child(e, null, "switch", c::getIconSwitch, c::setIconSwitch, new SwitchIO());
@@ -27,7 +29,7 @@ public class IconCellElementIOv2 extends AbstractCellElementIOv2<N2oIconCell> {
 
     @Override
     public String getElementName() {
-        return "icon" ;
+        return "icon";
     }
 
     @Override
