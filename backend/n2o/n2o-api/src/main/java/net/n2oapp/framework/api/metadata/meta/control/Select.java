@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель компонента ввода текста с выбором из выпадающего списка
+ * Клиентская модель компонента выбора из выпадающего списка
  */
 @Getter
 @Setter
@@ -14,4 +14,12 @@ public class Select extends ListControl {
     private Boolean hasCheckboxes;
     @JsonProperty
     private Boolean cleanable;
+    @JsonProperty
+    private String selectFormat;
+    @JsonProperty
+    private String selectFormatOne;
+    @JsonProperty
+    private String selectFormatFew;
+    @JsonProperty
+    private String selectFormatMany;
 }
