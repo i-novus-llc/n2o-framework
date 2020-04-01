@@ -13,6 +13,7 @@
     <xs:element name="code-editor" type="controlCodeEditor"/>
     <xs:element name="code" type="controlCodeViewer"/>
     <xs:element name="input-text" type="controlInputTextDefinition"/>
+    <xs:element name="input-money" type="controlInputMoneyDefinition"/>
     <xs:element name="output-text" type="controlOutputTextDefinition"/>
     <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
     <xs:element name="checkbox" type="controlCheckboxDefinition"/>
@@ -440,6 +441,11 @@
                         <xs:documentation>Маска текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="measure" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Единица измерения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -696,6 +702,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="measure" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Единица измерения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -727,12 +738,36 @@
     <xs:complexType name="controlInputMoneyDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="suffix" type="xs:string"/>
-                <xs:attribute name="prefix" type="xs:string"/>
-                <xs:attribute name="thousands-separator" type="xs:string"/>
-                <xs:attribute name="decimal-separator" type="xs:string"/>
-                <xs:attribute name="integer-limit" type="xs:integer"/>
-                <xs:attribute name="fraction-formatting" type="fractionFormattingType" default="off"/>
+                <xs:attribute name="suffix" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Суффикс.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="prefix" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Префикс.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="thousands-separator" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Знак, отделяющий группу из трех разрядов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="decimal-separator" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Знак, отделяющий дробную часть.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="integer-limit" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ограничение по количеству знаков целой части.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fraction-formatting" type="fractionFormattingType" default="off">
+                    <xs:annotation>
+                        <xs:documentation>Форматирование дробной части.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
