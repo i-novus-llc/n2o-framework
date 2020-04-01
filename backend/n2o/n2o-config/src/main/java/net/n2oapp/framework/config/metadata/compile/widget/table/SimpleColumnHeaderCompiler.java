@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.widget.CellsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
@@ -41,7 +42,7 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
         if (cell == null) {
             cell = new N2oTextCell();
         }
-        cell = p.compile(cell, context);
+        cell = p.compile(cell, context, new ComponentScope(source));
         CellsScope cellsScope = p.getScope(CellsScope.class);
         if (cellsScope != null && cellsScope.getCells() != null)
             cellsScope.getCells().add(cell);
