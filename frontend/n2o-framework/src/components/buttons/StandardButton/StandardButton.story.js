@@ -72,4 +72,8 @@ stories
       </div>
     </div>
   ))
-  .add('Выполнение redux action', () => <StandardButton {...performMeta} />);
+  .add('Выполнение redux action', () => (
+    <div style={{ maxWidth: 'max-content' }}>
+      <StandardButton {...performMeta} />
+    </div>
+  ));

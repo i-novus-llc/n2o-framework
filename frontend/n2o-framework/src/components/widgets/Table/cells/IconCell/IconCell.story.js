@@ -23,6 +23,7 @@ stories.add('Метаданные', () => {
     type: IconJson.type,
     textPlace: IconJson.textPlace,
     icon: IconJson.icon,
+    hint: IconJson.hint,
     model: {
       name: 'Иван',
       age: '12',

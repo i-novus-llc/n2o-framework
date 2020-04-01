@@ -29,8 +29,7 @@ describe('<IconCell />', () => {
 
   it('проверяет класс иконки', () => {
     const wrapper = shallow(<IconCell {...props} />);
-
-    expect(wrapper.children().getElements()[0].props.name).toEqual(props.icon);
+    expect(wrapper.children().getElements()[0].props.icon).toEqual(props.icon);
   });
 
   it('проверяет расположение текста', () => {
