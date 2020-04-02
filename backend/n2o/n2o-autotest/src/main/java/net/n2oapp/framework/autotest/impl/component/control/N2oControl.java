@@ -7,7 +7,7 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 /**
  * Компоненты ввода для автотестирования
  */
-public class N2oControl extends N2oComponent implements Control {
+public abstract class N2oControl extends N2oComponent implements Control {
     @Override
     public void shouldBeEnabled() {
         element().shouldBe(Condition.enabled);

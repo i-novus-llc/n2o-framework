@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oStandardWidget;
 
@@ -31,6 +32,11 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
     }
 
     public class N2oFilters implements Filters {
+
+        @Override
+        public Toolbar toolbar() {
+            return N2oSelenide.collection(element().$$(".n2o-filter .btn"), Toolbar.class);
+        }
 
         @Override
         public Fields fields() {
