@@ -563,13 +563,13 @@ public class DemoIntegrationAT {
         protoPage.tableCellShouldHaveText(0, 0, "Маркин");
 
         ProtoContacts modalProtoContacts = protoPage.createContact();
-        modalProtoContacts.shouldHaveTitle("Контакты - Создание");
+        modalProtoContacts.shouldHaveTitle("Контакты");
         modalProtoContacts.selectContactType("Моб. телефон");
         modalProtoContacts.getPhoneNumber().val("9999999999");
         modalProtoContacts.getDescription().val("рабочий телефон");
         modalProtoContacts.save();
 
-        protoPage.shouldDialogClosed("Контакты - Создание", 6000);
+        protoPage.shouldDialogClosed("Контакты", 6000);
         protoPage.shouldBeClientsPage();
         protoPage.tableShouldHaveSize(1);
 
