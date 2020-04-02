@@ -47,7 +47,7 @@
       "headers": [
         {
           "src": "TextTableHeader",
-          "title": "Имя",
+          "label": "Имя",
           "id": "name",
           "key": "name",
           "multiHeader": true,
@@ -55,7 +55,7 @@
             {
               "src": "TextTableHeader",
               "id": "name2",
-              "title": "Имя1",
+              "label": "Имя1",
               "width": 100,
               "dataIndex": "name",
               "key": "name1"
@@ -63,7 +63,7 @@
             {
               "src": "TextTableHeader",
               "id": "name3",
-              "title": "Имя2",
+              "label": "Имя2",
               "width": 100,
               "dataIndex": "name",
               "key": "name3"
