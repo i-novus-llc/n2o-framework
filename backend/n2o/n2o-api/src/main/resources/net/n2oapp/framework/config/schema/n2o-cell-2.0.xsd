@@ -550,7 +550,12 @@
                 </xs:annotation>
                 <xs:attribute name="label" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Универсальный заголовок поля.</xs:documentation>
+                        <xs:documentation>
+                            Универсальный заголовок поля.
+                            Нужно использовать либо универсальный заголовок, либо 3 вида
+                            заголовков при разном числе элементов.
+                            Если не задать ни один, то ячейка будет пустой.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="label-one" type="xs:string">
