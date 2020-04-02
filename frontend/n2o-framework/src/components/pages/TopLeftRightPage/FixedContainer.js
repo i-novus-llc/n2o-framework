@@ -2,32 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
-function FixedContainer({
-  name,
-  className,
-  setRef,
-  fixed,
-  width,
-  style,
-  children,
-}) {
-  const fixedCurrentContainer = fixed === name;
-  const ref = fixedCurrentContainer ? setRef : undefined;
+function FixedContainer({ className, setRef, fixed, width, style, children }) {
+  const ref = fixed ? setRef : undefined;
 
   return (
     <div
       className={className}
       ref={ref}
       style={{
-        width: width[name],
-        height: fixedCurrentContainer && style.height,
+        width: width,
+        height: fixed && style.height,
       }}
     >
       <div
         className={cn('n2o-page__fixed-container', {
-          'n2o-page__fixed-container--fixed': fixedCurrentContainer,
+          'n2o-page__fixed-container--fixed': fixed,
         })}
-        style={fixedCurrentContainer ? style : {}}
+        style={fixed ? style : {}}
       >
         {children}
       </div>
@@ -36,7 +27,6 @@ function FixedContainer({
 }
 
 FixedContainer.propTypes = {
-  name: PropTypes.string,
   className: PropTypes.string,
   setRef: PropTypes.func,
   fixed: PropTypes.string,
@@ -50,7 +40,8 @@ FixedContainer.propTypes = {
 };
 
 FixedContainer.defaultProps = {
-  width: {},
+  width: 'auto',
+  style: {},
 };
 
 export default FixedContainer;

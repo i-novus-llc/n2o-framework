@@ -28,14 +28,13 @@ let timeoutId = null;
 function TopLeftRightPage({
   id,
   regions,
-  width,
   setContainerRef,
-  setFixedElementRef,
-  fixed,
+  setFixedRef,
   isFixed,
   style,
   scrollTo,
   showScrollButton,
+  places,
   ...rest
 }) {
   const topRegion = get(regions, 'top', null);
@@ -50,12 +49,10 @@ function TopLeftRightPage({
       >
         <FixedContainer
           className="n2o-page__top"
-          name={FixedPlace.TOP}
-          setRef={setFixedElementRef}
-          width={width}
-          fixed={fixed}
+          setRef={setFixedRef(FixedPlace.TOP)}
           isFixed={isFixed}
-          style={style}
+          style={style[FixedPlace.TOP]}
+          {...places[FixedPlace.TOP]}
         >
           {map(topRegion, (region, index) => (
             <Factory key={index} level={REGIONS} {...region} pageId={id} />
@@ -65,12 +62,10 @@ function TopLeftRightPage({
         <div className="n2o-page__left-right-layout">
           <FixedContainer
             className="n2o-page__left"
-            name={FixedPlace.LEFT}
-            setRef={setFixedElementRef}
-            width={width}
-            fixed={fixed}
+            setRef={setFixedRef(FixedPlace.LEFT)}
             isFixed={isFixed}
-            style={style}
+            style={style[FixedPlace.LEFT]}
+            {...places[FixedPlace.LEFT]}
           >
             {map(leftRegion, (region, index) => (
               <Factory key={index} level={REGIONS} {...region} pageId={id} />
@@ -80,11 +75,10 @@ function TopLeftRightPage({
           <FixedContainer
             className="n2o-page__right"
             name={FixedPlace.RIGHT}
-            setRef={setFixedElementRef}
-            width={width}
-            fixed={fixed}
+            setRef={setFixedRef(FixedPlace.RIGHT)}
             isFixed={isFixed}
-            style={style}
+            style={style[FixedPlace.RIGHT]}
+            {...places[FixedPlace.RIGHT]}
           >
             {map(rightRegion, (region, index) => (
               <Factory key={index} level={REGIONS} {...region} pageId={id} />
@@ -118,21 +112,19 @@ TopLeftRightPage.defaultProps = {
 
 const enhance = compose(
   withState('containerRef', 'setContainerRef', null),
-  withState('fixedElementRef', 'setFixedElementRef', null),
+  withState('fixedElementRef', 'setFixedElementRef', {}),
   withState('eventListens', 'setEventListens', false),
   withState('isFixed', 'setFixed', null),
   withState('style', 'setStyle', {}),
   withState('showScrollButton', 'setShowScrollButton', false),
   mapProps(props => ({
     ...props,
-    width: get(props, 'metadata.width', {}),
-    fixed: get(props, 'metadata.fixed', false),
-    fixedOffset: get(props, 'metadata.fixedOffset', 0),
+    places: get(props, 'metadata.places', {}),
     needScrollButton: get(props, 'metadata.needScrollButton', false),
   })),
   withHandlers({
     addScrollEvent: ({
-      fixedOffset,
+      places,
       setFixed,
       setStyle,
       fixedElementRef,
@@ -142,17 +134,38 @@ const enhance = compose(
       if (timeoutId) clearTimeout(timeoutId);
 
       timeoutId = setTimeout(() => {
+        let allStyles = {};
+        let isFixed = false;
+
         if (needScrollButton) {
           setShowScrollButton(window.scrollY > 100);
         }
-        const position = fixedElementRef.getBoundingClientRect();
-        const translateY = Math.abs(position.top) + fixedOffset;
-        let style = {
-          transform: `translate(0, ${translateY}px)`,
-        };
 
-        setStyle(position.y <= 0 ? style : {});
-        setFixed(position.y <= 0);
+        map(fixedElementRef, (ref, key) => {
+          const offset = get(places, [key, 'offset'], 0);
+          const position = ref.getBoundingClientRect();
+          const translateY = Math.abs(position.top) + offset;
+          let style = {
+            transform: `translate(0, ${translateY}px)`,
+          };
+          isFixed = position.y <= 0;
+
+          allStyles = {
+            ...allStyles,
+            [key]: position.y <= 0 ? style : {},
+          };
+        });
+
+        if (fixedElementRef.top) {
+          allStyles = {
+            ...allStyles,
+            left: allStyles.top,
+            right: allStyles.top,
+          };
+        }
+
+        setStyle(allStyles);
+        setFixed(isFixed);
       }, 100);
     },
     scrollTo: ({ setShowScrollButton }) => () => {
@@ -161,6 +174,11 @@ const enhance = compose(
         behavior: 'smooth',
       });
       setShowScrollButton(false);
+    },
+    setFixedRef: ({ fixedElementRef, setFixedElementRef }) => name => ref => {
+      if (ref && !fixedElementRef[name]) {
+        setFixedElementRef(Object.assign({}, fixedElementRef, { [name]: ref }));
+      }
     },
   }),
   lifecycle({
