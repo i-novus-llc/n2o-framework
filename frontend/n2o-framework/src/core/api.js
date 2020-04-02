@@ -103,6 +103,7 @@ export const defaultApiProvider = {
         method: options.baseMethod || 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...options.headers,
         },
         body: JSON.stringify(options.model || {}),
       }
