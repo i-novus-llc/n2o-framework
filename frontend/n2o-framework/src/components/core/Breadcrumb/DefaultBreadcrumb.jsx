@@ -7,9 +7,8 @@ import cn from 'classnames';
 import Breadcrumb from 'reactstrap/lib/Breadcrumb';
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
 
-function DefaultBreadcrumb({ items }, props) {
+function DefaultBreadcrumb({ items, title }, props) {
   const itemsWithLabels = filter(items, item => !isUndefined(item.label));
-  const title = last(itemsWithLabels).title;
   const renderTitle = !isUndefined(title) && (
     <h1 className="n2o-breadcrumb-title">{title}</h1>
   );

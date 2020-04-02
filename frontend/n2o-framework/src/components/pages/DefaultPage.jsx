@@ -47,6 +47,7 @@ function DefaultPage(
         <BreadcrumbContainer
           defaultBreadcrumb={DefaultBreadcrumb}
           items={metadata.breadcrumb}
+          title={metadata.page.title}
         />
       )}
       {toolbar && (toolbar.topLeft || toolbar.topRight) && (
