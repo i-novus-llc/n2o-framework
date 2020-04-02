@@ -614,7 +614,10 @@ class InputSelect extends React.Component {
                     imageFieldId={imageFieldId}
                     badgeFieldId={badgeFieldId}
                     badgeColorFieldId={badgeColorFieldId}
-                    onSelect={this._handleItemSelect}
+                    onSelect={item => {
+                      this._handleItemSelect(item);
+                      scheduleUpdate();
+                    }}
                     selected={this.state.value}
                     disabledValues={disabledValues}
                     groupFieldId={groupFieldId}
