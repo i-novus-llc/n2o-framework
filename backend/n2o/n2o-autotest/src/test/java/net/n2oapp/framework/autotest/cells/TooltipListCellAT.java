@@ -127,7 +127,5 @@ public class TooltipListCellAT extends AutoTestBase {
 
         TooltipListCell cell1 = rows.row(0).cell(0, TooltipListCell.class);
         cell1.shouldBeEmpty();
-        cell1.hover();
-        tooltip.shouldNotBeExist();
     }
 }
