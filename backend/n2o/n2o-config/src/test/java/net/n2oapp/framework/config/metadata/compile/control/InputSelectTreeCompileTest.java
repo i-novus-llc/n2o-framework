@@ -42,5 +42,6 @@ public class InputSelectTreeCompileTest extends SourceCompileTestBase {
         assertThat(ist.getHasChildrenFieldId(), is("testHasChildrenFieldId"));
         assertThat(ist.getCheckingStrategy(), is(CheckingStrategy.child));
         assertThat(ist.getMaxTagCount(), is(5));
+        assertThat(ist.getSize(), is(35));
     }
 }
