@@ -1,26 +1,19 @@
-import {
-  call,
-  fork,
-  put,
-  select,
-  take,
-  takeEvery,
-  throttle,
-} from 'redux-saga/effects';
+import { call, fork, put, select, take, takeEvery } from 'redux-saga/effects';
 import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import isNil from 'lodash/isNil';
 import pick from 'lodash/pick';
-import get from 'lodash/get';
 import mapValues from 'lodash/mapValues';
 import omit from 'lodash/omit';
 import keys from 'lodash/keys';
 import pickBy from 'lodash/pickBy';
 import identity from 'lodash/identity';
+import get from 'lodash/get';
 import { reset } from 'redux-form';
 import { replace } from 'connected-react-router';
-import pathToRegexp from 'path-to-regexp';
 import queryString from 'query-string';
+
+import { dataProviderResolver } from '../core/dataProviderResolver';
 import { DATA_REQUEST, DISABLE, RESOLVE } from '../constants/widgets';
 import { CLEAR, PREFIXES } from '../constants/models';
 import {
@@ -29,7 +22,6 @@ import {
   dataFailWidget,
   dataSuccessWidget,
   resetWidgetState,
-  setTableSelectedId,
   setWidgetMetadata,
 } from '../actions/widgets';
 import { setModel } from '../actions/models';
@@ -44,10 +36,9 @@ import { getLocation, rootPageSelector } from '../selectors/global';
 import { makeGetModelByPrefixSelector } from '../selectors/models';
 import fetchSaga from './fetch.js';
 import { FETCH_WIDGET_DATA } from '../core/api.js';
-import { getParams } from '../utils/compileUrl';
+import { getParams } from '../core/dataProviderResolver';
 import { generateErrorMeta } from '../utils/generateErrorMeta';
 import { id } from '../utils/id';
-import { MAP_URL, METADATA_REQUEST } from '../constants/pages';
 
 /**
  * сайд-эффекты на экшен DATA_REQUEST
@@ -132,31 +123,6 @@ export function* routesQueryMapping(state, routes, location) {
   }
 }
 
-/**
- * Получение basePath и baseQuery
- * @param state
- * @param dataProvider
- * @param widgetState
- * @param options
- * @returns {IterableIterator<*>}
- */
-export function* resolveUrl(state, dataProvider, widgetState, options) {
-  const pathParams = yield call(getParams, dataProvider.pathMapping, state);
-  const basePath = pathToRegexp.compile(dataProvider.url)(pathParams);
-  const queryParams = yield call(getParams, dataProvider.queryMapping, state);
-  const baseQuery = {
-    size: widgetState.size,
-    page: get(options, 'page', widgetState.page),
-    sorting: widgetState.sorting,
-    ...options,
-    ...queryParams,
-  };
-  return {
-    basePath,
-    baseQuery,
-  };
-}
-
 export function* setWidgetDataSuccess(
   widgetId,
   widgetState,
@@ -213,28 +179,38 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
       dataProvider,
       currentDatasource,
     } = yield call(prepareFetch, widgetId);
+
     if (!isEmpty(dataProvider) && dataProvider.url) {
+      const query = {
+        page: get(options, 'page', widgetState.page),
+        size: widgetState.size,
+        sorting: widgetState.sorting,
+      };
       const { basePath, baseQuery } = yield call(
-        resolveUrl,
+        dataProviderResolver,
         state,
         dataProvider,
-        widgetState,
+        query,
         options
       );
+
       const withoutSelectedId = getWithoutSelectedId(
         options,
         location,
         widgetState.selectedId,
         prevSelectedId
       );
+
       if (withoutSelectedId || !isQueryEqual(widgetId, basePath, baseQuery)) {
         // yield put(setTableSelectedId(widgetId, null));
       } else if (!withoutSelectedId && widgetState.selectedId) {
         baseQuery.selectedId = widgetState.selectedId;
       }
+
       if (routes && routes.queryMapping) {
         yield* routesQueryMapping(state, routes, location);
       }
+
       yield call(
         setWidgetDataSuccess,
         widgetId,
