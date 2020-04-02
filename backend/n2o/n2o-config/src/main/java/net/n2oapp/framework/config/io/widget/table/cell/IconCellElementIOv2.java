@@ -21,7 +21,6 @@ public class IconCellElementIOv2 extends AbstractCellElementIOv2<N2oIconCell> {
         super.io(e, c, p);
         p.attribute(e, "text", c::getText, c::setText);
         p.attribute(e, "icon", c::getIcon, c::setIcon);
-        p.attribute(e, "tooltip", c::getTooltip, c::setTooltip);
         p.attributeEnum(e, "type", c::getIconType, c::setIconType, IconType.class);
         p.attributeEnum(e, "position", c::getPosition, c::setPosition, Position.class);
         p.child(e, null, "switch", c::getIconSwitch, c::setIconSwitch, new SwitchIO());
