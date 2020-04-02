@@ -32,6 +32,18 @@ ListTextCell.propTypes = {
    */
   label: PropTypes.string.isRequired,
   /**
+   * Склонение заголовка для единичных значений
+   */
+  oneLabel: PropTypes.string,
+  /**
+   * Склонение заголовка для нескольких значений
+   */
+  fewLabel: PropTypes.string,
+  /**
+   * Склонение заголовка для множества значений
+   */
+  manyLabel: PropTypes.string,
+  /**
    * массив для списка tooltip
    */
   fieldKey: PropTypes.array.isRequired,

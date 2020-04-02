@@ -23,7 +23,7 @@ stories
       return (
         <ListTextCell
           id={'testId'}
-          label={'объектов'}
+          label={'Объектов {size} шт'}
           fieldKey={'test'}
           model={{
             test: [
@@ -46,7 +46,7 @@ stories
       <ListTextCell
         id="id компонента"
         src="src копонента"
-        label="{value} объектов, текст с плейсхолдером. {value} - длина массива. Если {value} нет, то длина вставиться перед словом"
+        label="{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом"
         fieldKey="Ключ по которому берутся данные из model"
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
@@ -58,13 +58,50 @@ stories
       },
     }
   )
+  .add('Склонение', () => {
+    return [
+      <ListTextCell
+        id="nounId"
+        label="Объектов {size} шт"
+        oneLabel="{size} объект"
+        fewLabel="{size} объекта"
+        manyLabel="{size} объектов"
+        fieldKey="test"
+        model={{
+          test: ['1'],
+        }}
+      />,
+      <ListTextCell
+        id="nounId"
+        label="Объектов {size} шт"
+        oneLabel="{size} объект"
+        fewLabel="{size} объекта"
+        manyLabel="{size} объектов"
+        fieldKey="test"
+        model={{
+          test: ['1', '2'],
+        }}
+      />,
+      <ListTextCell
+        id="nounId"
+        label="Объектов {size} шт"
+        oneLabel="{size} объект"
+        fewLabel="{size} объекта"
+        manyLabel="{size} объектов"
+        fieldKey="test"
+        model={{
+          test: ['1', '2', '3', '4', '5', '6'],
+        }}
+      />,
+    ];
+  })
   .add(
     'light theme',
     () => {
       return (
         <ListTextCell
           id={'testId'}
-          label={'объектов'}
+          label={'Объектов {size} шт'}
           fieldKey={'test'}
           model={{
             test: [
@@ -88,7 +125,7 @@ stories
       <ListTextCell
         id="id компонента"
         src="src копонента"
-        label="{value} объектов, текст с плейсхолдером. {value} - длина массива. Если {value} нет, то длина вставиться перед словом"
+        label="{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом"
         fieldKey="Ключ по которому берутся данные из model"
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
@@ -108,7 +145,7 @@ stories
       return (
         <ListTextCell
           {...props}
-          label={'объекта'}
+          label={'Объектов {size} шт'}
           placement={'bottom'}
           labelDashed={true}
           model={{
@@ -131,7 +168,7 @@ stories
       <ListTextCell
         id="id компонента"
         src="src копонента"
-        label="{value} объектов, текст с плейсхолдером. {value} - длина массива. Если {value} нет, то длина вставиться перед словом"
+        label="{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом"
         fieldKey="Ключ по которому берутся данные из model"
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
@@ -151,7 +188,7 @@ stories
       return (
         <ListTextCell
           {...props}
-          label={'в листе {value} объекта'}
+          label={'в листе {size} объекта'}
           placement={'bottom'}
           model={{
             test: [
@@ -173,7 +210,7 @@ stories
       <ListTextCell
         id="id компонента"
         src="src копонента"
-        label="{value} объектов, текст с плейсхолдером. {value} - длина массива. Если {value} нет, то длина вставиться перед словом"
+        label="{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом"
         fieldKey="Ключ по которому берутся данные из model"
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
@@ -231,7 +268,7 @@ stories
             component: ListTextCell,
             fieldKey: 'test',
             trigger: 'click',
-            label: 'объекта',
+            label: 'Объектов {size} шт',
             src: 'ListTextCell',
             placement: 'bottom',
           },
@@ -272,7 +309,7 @@ stories
       <ListTextCell
         id="id компонента"
         src="src копонента"
-        label="{value} объектов, текст с плейсхолдером. {value} - длина массива. Если {value} нет, то длина вставиться перед словом"
+        label="{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом"
         fieldKey="Ключ по которому берутся данные из model"
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
@@ -301,7 +338,7 @@ stories
             id: 'secondary',
             component: ListTextCell,
             fieldKey: 'test',
-            label: 'объекта',
+            label: 'Объектов {size} шт',
             src: 'ListTextCell',
             placement: 'bottom',
           },
@@ -325,7 +362,7 @@ stories
             id: 'secondary',
             component: ListTextCell,
             fieldKey: 'test',
-            label: 'объекта',
+            label: 'Объектов {size} шт',
             src: 'ListTextCell',
             placement: 'right',
           },
@@ -349,7 +386,7 @@ stories
             id: 'secondary',
             component: ListTextCell,
             fieldKey: 'test',
-            label: 'объекта',
+            label: 'Объектов {size} шт',
             src: 'ListTextCell',
             placement: 'top',
           },
@@ -373,7 +410,7 @@ stories
             id: 'secondary',
             component: ListTextCell,
             fieldKey: 'test',
-            label: 'объекта',
+            label: 'Объектов {size} шт',
             src: 'ListTextCell',
             placement: 'left',
           },
@@ -424,7 +461,7 @@ stories
       <ListTextCell
         id="id компонента"
         src="src копонента"
-        label="{value} объектов, текст с плейсхолдером. {value} - длина массива. Если {value} нет, то длина вставиться перед словом"
+        label="{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом"
         fieldKey="Ключ по которому берутся данные из model"
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
@@ -453,7 +490,7 @@ stories
             id: 'secondary',
             component: ListTextCell,
             fieldKey: 'test',
-            label: 'объекта',
+            label: 'Объектов {size} шт',
             src: 'ListTextCell',
             placement: 'bottom',
             theme: 'light',
@@ -478,7 +515,7 @@ stories
             id: 'secondary',
             component: ListTextCell,
             fieldKey: 'test',
-            label: 'объекта',
+            label: 'Объектов {size} шт',
             src: 'ListTextCell',
             placement: 'right',
             theme: 'light',
@@ -503,7 +540,7 @@ stories
             id: 'secondary',
             component: ListTextCell,
             fieldKey: 'test',
-            label: 'объекта',
+            label: 'Объектов {size} шт',
             src: 'ListTextCell',
             placement: 'top',
             theme: 'light',
@@ -528,7 +565,7 @@ stories
             id: 'secondary',
             component: ListTextCell,
             fieldKey: 'test',
-            label: 'объекта',
+            label: 'Объектов {size} шт',
             src: 'ListTextCell',
             placement: 'left',
             theme: 'light',
@@ -580,7 +617,7 @@ stories
       <ListTextCell
         id="id компонента"
         src="src копонента"
-        label="{value} объектов, текст с плейсхолдером. {value} - длина массива. Если {value} нет, то длина вставиться перед словом"
+        label="{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом"
         fieldKey="Ключ по которому берутся данные из model"
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"
@@ -645,7 +682,7 @@ stories
       <ListTextCell
         id="id компонента"
         src="src копонента"
-        label="{value} объектов, текст с плейсхолдером. {value} - длина массива. Если {value} нет, то длина вставиться перед словом"
+        label="{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом"
         fieldKey="Ключ по которому берутся данные из model"
         trigger="hover или click, default=hover"
         labelDashed="флаг underline dashed для label, default=false"

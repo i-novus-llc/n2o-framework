@@ -7,6 +7,8 @@ import get from 'lodash/get';
 import cn from 'classnames';
 import 'react-popper-tooltip/dist/styles.css';
 
+import getNoun from '../../../../../utils/getNoun';
+
 const triggerClassName = labelDashed =>
   cn({
     'list-text-cell__trigger_dashed': labelDashed,
@@ -29,24 +31,41 @@ const arrowClassName = theme =>
   });
 
 function Tooltip(props) {
-  const { model, fieldKey, label, labelDashed, theme } = props;
+  const {
+    model,
+    fieldKey,
+    label,
+    oneLabel,
+    fewLabel,
+    manyLabel,
+    labelDashed,
+    theme,
+  } = props;
 
   const tooltipList = get(model, fieldKey);
   const validTooltipList = model && fieldKey && isArray(tooltipList);
   const listLength = validTooltipList ? tooltipList.length : 0;
 
-  const withPlaceholder = label => label.replace(/{value}/gm, listLength);
+  const withPlaceholder = label => label.replace(/{size}/gm, listLength);
 
-  //ищет placeholder {value} в label, заменяет на длину массива
+  const getLabel = () =>
+    getNoun(
+      listLength,
+      oneLabel || label,
+      fewLabel || label,
+      manyLabel || label
+    );
+
+  //ищет placeholder {size} в label, заменяет на длину массива
   const replacePlaceholder = label => {
-    const placeholder = '{value}';
+    const placeholder = '{size}';
     const hasPlaceholder = !isUndefined(label) && label.match(placeholder);
     if (isUndefined(label)) {
       return listLength;
     } else if (hasPlaceholder) {
       return withPlaceholder(label);
     } else {
-      return `${listLength + ' ' + label}`;
+      return label;
     }
   };
 
@@ -59,7 +78,7 @@ function Tooltip(props) {
           className: triggerClassName(labelDashed),
         })}
       >
-        {replacePlaceholder(label)}
+        {replacePlaceholder(getLabel())}
       </span>
     );
   };

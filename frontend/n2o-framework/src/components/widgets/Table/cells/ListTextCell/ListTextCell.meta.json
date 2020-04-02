@@ -1,7 +1,10 @@
 {
   "id": "someId",
   "src": "ListTextCell",
-  "label": "объектов {value}",
+  "label": "Объектов {size} шт",
+  "oneLabel": "{size} объект",
+  "fewLabel": "${size} объекта",
+  "manyLabel": "{size} объектов",
   "fieldKey": "test",
   "trigger": "click",
   "placement" : "bottom"
