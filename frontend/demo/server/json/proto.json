@@ -1620,13 +1620,26 @@
   "actions": {
     "create2": {}
   },
-  "width": {
-    "left": "59%",
-    "right": "40%"
-  },
-  "fixed": "right",
+
+
   "needScrollButton": true,
   "src": "TopLeftRightPage",
+  "places": {
+    "top": {
+      "width": "100%",
+      "fixed": true
+    },
+    "left": {
+      "width": "30%"
+    },
+    "right": {
+      "width": "30%",
+      "fixed": true,
+      "offset": 100
+    }
+  },
+
+
   "page": {
     "title": "Список контактов"
   }
