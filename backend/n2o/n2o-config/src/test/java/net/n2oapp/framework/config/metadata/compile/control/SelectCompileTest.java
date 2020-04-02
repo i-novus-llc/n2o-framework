@@ -43,12 +43,16 @@ public class SelectCompileTest extends SourceCompileTestBase {
         assertThat(select.getSrc(), is("N2OSelect"));
         assertThat(select.getHasCheckboxes(), is(true));
         assertThat(select.getCleanable(), is(false));
-        assertThat(select.getSelectFormat(), is("Объектов {size} шт"));
         assertThat(select.getSelectFormatOne(), is("{size} объект"));
         assertThat(select.getSelectFormatFew(), is("{size} объекта"));
         assertThat(select.getSelectFormatMany(), is("{size} объектов"));
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+        select = (Select) ((StandardField) field).getControl();
+        assertThat(select.getHasCheckboxes(), is(true));
+        assertThat(select.getSelectFormat(), is("Логичных примеров {size} шт"));
+
+        field = form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
         select = (Select) ((StandardField) field).getControl();
         assertThat(select.getHasCheckboxes(), is(false));
         assertThat(select.getCleanable(), is(true));

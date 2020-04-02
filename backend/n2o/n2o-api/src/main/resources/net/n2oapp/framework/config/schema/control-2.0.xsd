@@ -919,8 +919,10 @@
                 <xs:attribute name="select-format" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Универсальный заголовок поля.
-                            Все варианты select-format будут работать только когда тип checkboxes
+                            Все варианты select-format будут работать только когда тип checkboxes.
+                            Нужно использовать либо универсальный заголовок, либо 3 вида
+                            заголовков при разном числе элементов.
+                            Если не задать ни один, то число выбранных элементов не будет отображаться
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
