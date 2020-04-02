@@ -2,7 +2,7 @@ export default [
   'controls',
   'widgets',
   'regions',
-  'layouts',
+  'pages',
   'headers',
   'cells',
   'fieldsets',

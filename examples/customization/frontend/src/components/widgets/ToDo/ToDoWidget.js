@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import StandardWidget from 'n2o/lib/components/widgets/StandardWidget';
-import dependency from 'n2o/lib/core/dependency';
+import StandardWidget from 'n2o-framework/lib/components/widgets/StandardWidget';
+import dependency from 'n2o-framework/lib/core/dependency';
 import ToDoContainer from './ToDoContainer';
 
 class ToDoWidget extends React.Component {

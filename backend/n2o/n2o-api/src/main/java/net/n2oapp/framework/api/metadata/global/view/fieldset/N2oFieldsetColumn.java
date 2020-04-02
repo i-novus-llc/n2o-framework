@@ -14,6 +14,7 @@ public class N2oFieldsetColumn implements SourceComponent, CssClassAware {
     private String cssClass;
     private String style;
     private Integer size;
+    private String visible;
     private String namespaceUri;
     private SourceComponent[] items;
 }

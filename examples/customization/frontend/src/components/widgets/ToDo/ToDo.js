@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { map, isBoolean, sortBy, isEqual } from "lodash";
 
-import { id } from "n2o/lib/utils/id";
+import { id } from "n2o-framework/lib/utils/id";
 
 import ToDoList from "./ToDoList";
 import ToDoForm from "./ToDoForm";

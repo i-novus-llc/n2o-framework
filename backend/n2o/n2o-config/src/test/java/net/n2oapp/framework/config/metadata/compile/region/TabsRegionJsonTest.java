@@ -7,16 +7,13 @@ import net.n2oapp.framework.config.io.page.StandardPageElementIOv2;
 import net.n2oapp.framework.config.io.region.TabsRegionIOv1;
 import net.n2oapp.framework.config.io.widget.HtmlWidgetElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.page.StandardPageCompiler;
-import net.n2oapp.framework.config.metadata.compile.region.TabsRegionCompiler;
 import net.n2oapp.framework.config.metadata.compile.widget.HtmlWidgetCompiler;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 /**
- * Тестирвоание маппинга java модели в json для простого региона
+ * Тестирование маппинга java модели в json для региона в виде вкладок
  */
 public class TabsRegionJsonTest extends JsonMetadataTestBase {
     @Override
@@ -37,8 +34,8 @@ public class TabsRegionJsonTest extends JsonMetadataTestBase {
     public void tabsRegion() {
         check("net/n2oapp/framework/config/mapping/testTabsRegionJson.page.xml",
                 "components/regions/Tabs/TabsRegions.meta.json")
-                 .cutXml("layout.regions.single[0]")
-                .exclude("tabs[0].fetchOnInit", "tabs[0].opened", "tabs[0].widgetId", "tabs[1]")
+                .cutXml("regions.single[0]")
+                .exclude("id", "tabs[0].fetchOnInit", "tabs[0].opened", "tabs[0].widgetId", "tabs[1]")
                 .assertEquals();
 
     }

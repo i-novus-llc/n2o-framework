@@ -22,9 +22,9 @@ public class N2oButtonFieldPersister extends N2oControlXmlPersister<N2oButtonFie
         PersisterJdomUtil.setAttribute(element, "icon", buttonField.getIcon());
         PersisterJdomUtil.setAttribute(element, "icon-field-id", buttonField.getIconFieldId());
         PersisterJdomUtil.setAttribute(element, "type", buttonField.getType());
-        if(buttonField.getEvent() != null) {
+        if (buttonField.getAction() != null) {
             Element event = new Element("event", element.getNamespace());
-            Element eventElement = persisterFactory.produce(buttonField.getEvent()).persist(buttonField.getEvent(),namespace);
+            Element eventElement = persisterFactory.produce(buttonField.getAction()).persist(buttonField.getAction(), namespace);
             PersisterJdomUtil.installPrefix(eventElement, event);
             event.addContent(eventElement);
             element.addContent(event);

@@ -8,14 +8,20 @@ const bodyParser = require("body-parser");
 const app = express();
 
 const options = {
-  target: "https://n2o.i-novus.ru/dev/",
+  target: "https://n2o.i-novus.ru/next/demo/",
   changeOrigin: true,
   ws: true
 };
 
 const exampleProxy = proxy(options);
 
-app.use(bodyParser());
+app.use(bodyParser.json());
+
+app.get("/n2o/config", (req, res) => {
+  const config = require("./json/config");
+  res.setHeader("Content-Type", "application/json");
+  res.send(config);
+});
 
 app.get("/n2o/page/proto", (req, res) => {
   const json = require("./json/proto.json");
@@ -89,6 +95,8 @@ app.all("/sign/set", (req, res) => {
 });
 
 app.use("/n2o", exampleProxy);
+app.use("/n2o/data", exampleProxy);
+app.use("/n2o/config", exampleProxy);
 
 app.listen(9000, () => {
   console.log("Example app listening on port 9000!");

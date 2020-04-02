@@ -7,11 +7,12 @@ import models from './reducers/models';
 import global from './reducers/global';
 import pages from './reducers/pages';
 import alerts from './reducers/alerts';
-import modals from './reducers/modals';
+import overlays from './reducers/overlays';
 import columns from './reducers/columns';
 import toolbar from './reducers/toolbar';
 import formPlugin from './reducers/formPlugin';
 import user from './reducers/auth';
+import regions from './reducers/regions';
 
 const formHack = (state, action) => {
   return action.meta && action.meta.form
@@ -36,9 +37,10 @@ export default (history, customReducers = {}) =>
     global,
     pages,
     alerts,
-    modals,
+    overlays,
     columns,
     toolbar,
     user,
+    regions,
     ...customReducers,
   });

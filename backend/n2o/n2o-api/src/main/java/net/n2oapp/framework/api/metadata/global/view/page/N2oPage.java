@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NameAware;
+import net.n2oapp.framework.api.metadata.aware.SrcAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
@@ -16,8 +17,9 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oPage extends N2oMetadata implements NameAware, ExtensionAttributesAware {
+public abstract class N2oPage extends N2oMetadata implements NameAware, ExtensionAttributesAware, SrcAware {
     private String name;
+    private String src;
     private String objectId;
     private String route;
     private String modalSize;
@@ -40,6 +42,7 @@ public abstract class N2oPage extends N2oMetadata implements NameAware, Extensio
 
     /**
      * Получение списка виджетов на странице
+     *
      * @return список виджетов
      */
     public abstract List<N2oWidget> getContainers();
@@ -48,5 +51,4 @@ public abstract class N2oPage extends N2oMetadata implements NameAware, Extensio
     public Class<? extends N2oMetadata> getSourceBaseClass() {
         return N2oPage.class;
     }
-
 }

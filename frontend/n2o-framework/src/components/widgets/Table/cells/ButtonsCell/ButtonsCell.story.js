@@ -329,7 +329,7 @@ const examplesDataSource = [
             action: {
               src: 'perform',
               options: {
-                type: 'n2o/modals/INSERT',
+                type: 'n2o/overlays/INSERT',
                 payload: {
                   pageUrl: '/page/widget/create',
                   size: 'sm',

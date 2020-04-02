@@ -4,9 +4,16 @@
 
 ==== Миграция с 7.4 на 7.5
 
+*Изменения в сборке*
+
+- Модули `n2o-engine-ejb`, `n2o-config-ehcache`, `n2o-config-hazelcast` удалены.
+Вместо них нужно использовать зависимости `spring-jdbc`, `ejb-api`, `ehcache`, `hazelcast` соответственно.
+
 *Изменения в настройках*
+
 - Вместо `n2o.access.N2oObjectAccessPoint.default=false` используется настройка `n2o.access.deny_objects=true`,
 и другие настройки:
++
 ```
 #Запрещен ли доступ к объектам по умолчанию
 n2o.access.deny_objects=true
@@ -19,24 +26,18 @@ n2o.access.deny_urls=false
 *Изменения в XML API*
 
 - Пустая строка в контексте ведет себя аналогично null (отсутствие значения)
-- В <input-select-tree> полностью удален <grouping-nodes>,
-        атрибуты из <inheritance-nodes> перенесены в <input-select-tree>
-
-==== Миграция с 7.4 на 7.5
-
-*Изменения в XML API*
-
-- Поле `search-field-id` в списковых компонентах переименовано в `search-filter-id`
+- В `<input-select-tree>` полностью удален `<grouping-nodes>`, атрибуты из `<inheritance-nodes>` перенесены в `<input-select-tree>`
+- Атрибут `search-field-id` в списковых компонентах переименован в `search-filter-id`
 
 ==== Миграция с 7.3 на 7.4
 
 *Изменения в настройках*
 
-- Переименованы следующие настройки: n2o.ui.header.id в n2o.header.id
-- Добавлена настройка n2o.access.strict_filtering, означающая строго ли проверяется фильтрация.
-Если true, то при указании фильтра в настройках доступа запрос за данными без этого фильтра выполняться не будет.
-- Формат дат в модели клиента изменился с DD.MM.YYYY HH:mm:ss на ISO YYYY-MM-DDTHH:mm:ss.
-Значения по умолчанию для компонентов <date-time>, <date-interval> нужно задавать в новом формате.
+- Переименованы следующие настройки: `n2o.ui.header.id` в `n2o.header.id`
+- Добавлена настройка `n2o.access.strict_filtering`, означающая строго ли проверяется фильтрация.
+Если `true`, то при указании фильтра в настройках доступа запрос за данными без этого фильтра выполняться не будет.
+- Формат дат в модели клиента изменился с `DD.MM.YYYY HH:mm:ss` на ISO `YYYY-MM-DDTHH:mm:ss`.
+Значения по умолчанию для компонентов `<date-time>`, `<date-interval>` нужно задавать в новом формате.
 
 ==== Миграция с 7.1 на 7.2
 
@@ -56,61 +57,61 @@ n2o.access.deny_urls=false
 
 *Изменения в сборке*
 
-- Вместо React компонента TableWidget используется AdvancedTableWidget (n2o.api.widget.table.src)
-- Удалён модуль n2o-header
-- Удалён модуль n2o-config-audit
+- Вместо React компонента `TableWidget` используется `AdvancedTableWidget` (`n2o.api.widget.table.src`)
+- Удалён модуль `n2o-header`
+- Удалён модуль `n2o-config-audit`
 
 *Изменения в XML API*
 
-- Для перерисовки опций в компонентах <radio-group>, <checkbox-group> вместо depends-on необходимо использовать <dependencies> <fetch>.
-- Фильтры доступа в access-schema-1.0 больше не считываются, вместо них необходимо использовать <object-filters> в access-2.0
-- Для query-4.0 больше нет автогенерации тела фильтров и элементов <select/> и <sorting/>
+- Для перерисовки опций в компонентах `<radio-group>`, `<checkbox-group>` вместо `depends-on` необходимо использовать `<dependencies>` `<fetch>`.
+- Фильтры доступа в `access-schema-1.0` больше не считываются, вместо них необходимо использовать `<object-filters>` в `access-2.0`
+- Для `query-4.0` больше нет автогенерации тела фильтров и элементов `<select/>` и `<sorting/>`
 
 *Изменения в Java API*
 
-- Изменено API у MetadataBinder, вместо CompileProcessor используется BindProcessor
-- Изменено API у SourceValidator, в метод validate добавлен аргумент ValidationProcessor
-- Изменено API у метода execute в PipelineOperation, добавлены аргументы BindProcessor, ValidationProcessor
-- Удалены deprecated классы из пакета net.n2oapp.framework.api.metadata.local.*
-- Удалены deprecated классы AuthorizationApi, SimpleAuthorizationApi, DataAccessChecker, UrlFilter
+- Изменено API у `MetadataBinder`, вместо `CompileProcessor` используется `BindProcessor`
+- Изменено API у `SourceValidator`, в метод validate добавлен аргумент `ValidationProcessor`
+- Изменено API у метода execute в `PipelineOperation`, добавлены аргументы `BindProcessor`, `ValidationProcessor`
+- Удалены deprecated классы из пакета `net.n2oapp.framework.api.metadata.local.*`
+- Удалены deprecated классы `AuthorizationApi`, `SimpleAuthorizationApi`, `DataAccessChecker`, `UrlFilter`
 
-==== Миграция с 6.1 на 7.0
+==== Миграция с 6.0 на 7.0
 
 *Изменения в сборке*
 
-- N2O теперь встраивается в Spring Boot приложение с помощью стартера n2o-spring-boot-starter
-- Статические ресурсы клиента N2O теперь нужно собирать самостоятельно, либо подключить модуль n2o-web
-- Для работы с SQL из N2O теперь необходимо подключить n2o-engine-sql модуль
-- Вместо n2o-build.properties необходимо использовать application.properties
+- N2O теперь встраивается в Spring Boot приложение с помощью стартера `n2o-spring-boot-starter`
+- Статические ресурсы клиента N2O теперь нужно собирать самостоятельно, либо подключить модуль `n2o-web`
+- Для работы с SQL из N2O теперь необходимо подключить `n2o-engine-sql` модуль
+- Вместо `n2o-build.properties` необходимо использовать `application.properties`
 
 *Изменения в XML API*
 
-- Во всех <set-value-expression> в теле необходимо в конце явно вызывать команду return с тем значением, которое хотели установить
-- Если <set-value-expression> возвращает undefined, то значение не будет установлено
+- Во всех `<set-value-expression>` в теле необходимо в конце явно вызывать команду return с тем значением, которое хотели установить
+- Если `<set-value-expression>` возвращает `undefined`, то значение не будет установлено
 - Во всех dependency условиях должны быть javaScript expression, а не statements. Т.е. запрещены многострочные команды, объявление переменных и т.п.
 - Глобальные линки упразднены. Вместо них используется ссылки на модели с URI синтаксисом
-- Стандартный формат даты и времени изменился с ГОСТ "dd.MM.yyyy HH:mm" на ISO "YYYY-MM-DDTHH:mm:ss.sssZ"
-- Вёрстка всех компонентов формы стала растягиваемой вместо фиксированной. Т.е. используется grid система bootstrap. Ширина всех полей теперь по умолчанию 100%. Если на одной строке <row> несколько полей, то их ширина пропорциональна. Разные пропорции можно задать с помощью bootstrap классов .col-md-x, где x число от 1 до 12
-- Упразднена схема n2o-widget-1.0, n2o-widget-2.0. Нужно использовать widget-4.0
-- Упразднена схема fieldset-1.0. Нужно использовать fieldset-4.0
-- Упразднена схема action-invocation-1.0. Нужно использовать n2o-invocation2-2.0
-- Упразднена схема query-1.0 и query-2.0. Нужно использовать query-3.0 или query-4.0
-- Упразднен multi-clasifier. Вместо него используйте select с type=multi или input-select с type=multi
-- У формы упразднён edit элемент. Нужно создавать кнопки самостоятельно
-- В схеме n2o-widget-3.0 не поддерживаются настройки <settings/>.  Необходимо использовать n2o-widget-4.0
-- Фильтры в схеме доступа access-1.0 больше не поддерживаются. Необходимо использовать access-2.0
+- Стандартный формат даты и времени в REST изменился с `dd.MM.yyyy HH:mm` на ISO `YYYY-MM-DDTHH:mm:ss.sssZ`
+- Вёрстка всех компонентов формы стала растягиваемой вместо фиксированной. Т.е. используется grid система bootstrap. Ширина всех полей теперь по умолчанию 100%. Если на одной строке `<row>` несколько полей, то их ширина пропорциональна. Разные пропорции можно задать с помощью bootstrap классов `.col-md-x`, где x число от 1 до 12
+- Упразднена схема `n2o-widget-1.0`, `n2o-widget-2.0`. Нужно использовать `widget-4.0`
+- Упразднена схема `fieldset-1.0`. Нужно использовать `fieldset-4.0`
+- Упразднена схема `action-invocation-1.0`. Нужно использовать `n2o-invocation2-2.0`
+- Упразднена схема `query-1.0` и `query-2.0`. Нужно использовать `query-3.0` или `query-4.0`
+- Упразднен `multi-clasifier`. Вместо него используйте `select` с `type=multi` или `input-select` с `type=multi`
+- У формы упразднён `edit` элемент. Нужно создавать кнопки самостоятельно
+- В схеме `n2o-widget-3.0` не поддерживаются настройки `<settings/>`.  Необходимо использовать `n2o-widget-4.0`
+- Фильтры в схеме доступа `access-1.0` больше не поддерживаются. Необходимо использовать `access-2.0`
 
 *Изменения в Java API*
 
-- LocalizationHolder и библиотека i18n больше не используются. Для локализации нужно использовать бин MessageSourceAccessor.
-- N2oBusinessException устарел, вместо него рекомендуется использовать N2oUserException
-- N2oException принимает и сообщения и код сообщений в качестве message (код из файлов message source). Сообщения могут быть шаблонизированы через плейсхолдеры {0}.
-- Полностью изменился процесс компиляции метаданных. Устарели классы GlobalMetadataStorage, MetadataStorage, UserMetadataStorage, N2oCompiler и все его наследники, CompileContext, MetadataValidator, Transformer и др.
-- Все методы API вместо класса N2oMetadata используют интерфейс SourceMetadata.
-- Интерфейс N2oEvent сменил название на N2oAction, класс  AbstractEvent сменил название на N2oAbstractAction, класс  Custom сменил название на N2oCustomAction, класс InvokeEvent   сменил название на N2oInvokeAction, класс ShowModal сменил название на N2oShowModal, интерфейс PageIdAwareCompileEvent сменил название на PageIdAwareCompileAction
-- Все events перенесены из net.n2oapp.framework.api.metadata.event в net.n2oapp.framework.api.metadata.event.action
-- Класс N2oFieldSet перенесен из net.n2oapp.framework.api.metadata.global.view.widget в net.n2oapp.framework.api.metadata.global.view.fieldset, N2oFieldSet  стал абстрактным. Для реализации нужно выбрать один из следующих вариантов:N2oSetFieldSet, N2oLineFieldSet, N2oPanelFieldSet, N2oCheckboxLineFieldSet
+- `LocalizationHolder` и библиотека i18n больше не используются. Для локализации нужно использовать бин `MessageSourceAccessor`.
+- `N2oBusinessException` устарел, вместо него рекомендуется использовать `N2oUserException`
+- `N2oException` принимает и сообщения и код сообщений в качестве message (код из файлов message source). Сообщения могут быть шаблонизированы через плейсхолдеры {0}.
+- Полностью изменился процесс компиляции метаданных. Устарели классы `GlobalMetadataStorage`, `MetadataStorage`, `UserMetadataStorage`, `N2oCompiler` и все его наследники, `CompileContext`, `MetadataValidator`, `Transformer` и др.
+- Все методы API вместо класса `N2oMetadata` используют интерфейс `SourceMetadata`.
+- Интерфейс `N2oEvent` сменил название на `N2oAction`, класс  `AbstractEvent` сменил название на `N2oAbstractAction`, класс  `Custom` сменил название на `N2oCustomAction`, класс `InvokeEvent`   сменил название на `N2oInvokeAction`, класс `ShowModal` сменил название на `N2oShowModal`, интерфейс `PageIdAwareCompileEvent` сменил название на `PageIdAwareCompileAction`
+- Все events перенесены из `net.n2oapp.framework.api.metadata.event` в `net.n2oapp.framework.api.metadata.event.action`
+- Класс `N2oFieldSet` перенесен из `net.n2oapp.framework.api.metadata.global.view.widget` в `net.n2oapp.framework.api.metadata.global.view.fieldset`, `N2oFieldSet`  стал абстрактным. Для реализации нужно выбрать один из следующих вариантов: `N2oSetFieldSet`, `N2oLineFieldSet`, `N2oCheckboxLineFieldSet`
 - Упразднён процессинг SQL, REST. Вместо этого нужно переопределять соответствующие бины.
-- В интерфейсе SourceLoader метод _read_ переименован в _load_.
-- Класс JavaSourceReader переименован в JavaSourceLoader.
-- N2oEvent стал классом и наследником Spring ApplicationEvent, в его конструкторе появился аргумент source, в который нужно передать инициатора события (publisher)
+- В интерфейсе `SourceLoader` метод `read` переименован в `load`.
+- Класс `JavaSourceReader` переименован в `JavaSourceLoader`.
+- `N2oEvent` стал классом и наследником Spring `ApplicationEvent`, в его конструкторе появился аргумент source, в который нужно передать инициатора события (publisher)

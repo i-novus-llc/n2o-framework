@@ -6,6 +6,7 @@ import filter from 'lodash/filter';
 import map from 'lodash/map';
 import includes from 'lodash/includes';
 import isArray from 'lodash/isArray';
+import isEmpty from 'lodash/isEmpty';
 import UncontrolledButtonDropdown from 'reactstrap/lib/UncontrolledButtonDropdown';
 import DropdownToggle from 'reactstrap/lib/DropdownToggle';
 import DropdownMenu from 'reactstrap/lib/DropdownMenu';
@@ -68,18 +69,21 @@ const enhance = compose(
 
       return map(columns, ({ key, value }, i) => {
         const checked = !includes(notActive, key);
+        const { conditions } = value;
 
         return (
-          <DropdownItem
-            key={i}
-            toggle={false}
-            onClick={() => toggleVisibility(key)}
-          >
-            <span className="n2o-dropdown-check-container">
-              {checked && <i className="fa fa-check" aria-hidden="true" />}
-            </span>
-            <span>{value.label || key}</span>
-          </DropdownItem>
+          isEmpty(conditions) && (
+            <DropdownItem
+              key={i}
+              toggle={false}
+              onClick={() => toggleVisibility(key)}
+            >
+              <span className="n2o-dropdown-check-container">
+                {checked && <i className="fa fa-check" aria-hidden="true" />}
+              </span>
+              <span>{value.label || key}</span>
+            </DropdownItem>
+          )
         );
       });
     },

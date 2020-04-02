@@ -53,6 +53,16 @@ http://n2oapp.net/framework/config/schema/n2o-cell-2.0
 |Формат текста
 |
 
+|subtext-field-id
+|Строка
+|Идентификатор поля второго уровня текста
+|
+
+|subtext-format
+|Строка
+|Формат второго уровня текста
+|
+
 |===
 
 Тело::

@@ -5,7 +5,7 @@
                 <toolbar>
                     <button id="create" model="filter">
                         <show-modal page-id="testShowModalPage" modal-size="sm" detail-field-id="id"
-                                    upload="defaults" refresh-widget-id="second"
+                                    upload="defaults" refresh-widget-id="second" type="drawer"
                                     submit-operation-id="create" submit-model="edit" route="/create"/>
                     </button>
                     <button id="update" model="resolve">

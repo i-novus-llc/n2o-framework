@@ -27,7 +27,7 @@ public class HtmlJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/metadata/compile/widgets/testJsonHtml.widget.xml",
                 "components/widgets/Html/HtmlWidget.meta.json")
                 .cutJson("widgets.Page_Html.html")
-                .exclude("src", "dataProvider", "actions", "fetchOnInit")
+                .exclude("src", "dataProvider", "actions", "fetchOnInit", "id")
                 .assertEquals();
     }
 
@@ -36,7 +36,7 @@ public class HtmlJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/metadata/compile/widgets/testJsonHtml2.widget.xml",
                 "components/widgets/Html/HtmlWidget.meta.json")
                 .cutJson("widgets.Page_Html.html")
-                .exclude("src", "dataProvider", "actions", "fetchOnInit")
+                .exclude("src", "dataProvider", "actions", "fetchOnInit", "id")
                 .assertEquals();
     }
 }

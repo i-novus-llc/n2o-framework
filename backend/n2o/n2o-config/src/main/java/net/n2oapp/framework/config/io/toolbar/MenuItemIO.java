@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.io.toolbar;
 
-import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oMenuItem;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
@@ -24,6 +23,5 @@ public class MenuItemIO extends AbstractMenuItemIO<N2oMenuItem> {
     @Override
     public void io(Element e, N2oMenuItem mi, IOProcessor p) {
         super.io(e, mi, p);
-        p.anyChild(e, null, mi::getAction, mi::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
     }
 }

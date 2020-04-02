@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<test xmlns="http://example.com/n2o/ext-1.0">
+    <elem1></elem1>
+    <elem2></elem2>
+    <elem3></elem3>
+</test>

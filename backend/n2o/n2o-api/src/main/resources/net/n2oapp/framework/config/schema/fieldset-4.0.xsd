@@ -217,6 +217,11 @@
                         <xs:documentation>Стиль строки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="visible" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Видимость.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

@@ -3,8 +3,8 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCheckboxCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oProgressBarCell;
-import net.n2oapp.framework.api.metadata.meta.Page;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.RowClick;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -68,7 +68,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testRowClick() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testListWidgetRowClick.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testListWidgetRowClick.page.xml")
                 .get(new PageContext("testListWidgetRowClick"));
         List<RowClick> rowClicks = new ArrayList<>();
         page.getWidgets().forEach((s, widget) -> rowClicks.add(((ListWidget) widget).getRowClick()));

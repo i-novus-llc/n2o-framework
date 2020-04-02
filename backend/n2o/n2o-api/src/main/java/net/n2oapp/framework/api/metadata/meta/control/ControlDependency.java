@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Клиентская молель зависимости между полями
+ * Клиентская модель зависимости между полями
  */
 @Getter
 @Setter

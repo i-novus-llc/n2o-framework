@@ -196,7 +196,7 @@ stories
     const rowClick = {
       src: 'perform',
       options: {
-        type: 'n2o/modals/INSERT',
+        type: 'n2o/overlays/INSERT',
         payload: {
           pageUrl: '/Uid',
           size: 'sm',

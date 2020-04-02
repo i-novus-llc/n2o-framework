@@ -26,6 +26,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
@@ -381,6 +382,14 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);
         }
+
+        SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
+        if (searchBarScope != null) {
+            ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(), searchBarScope.getWidgetId());
+            modelLink.setFieldValue(searchBarScope.getModelKey());
+            dataProvider.getQueryMapping().put(searchBarScope.getModelKey(), modelLink);
+        }
+
         p.addRoute(getQueryContext(widget, source, context, widgetRoute, query, validationList, subModelsScope,
                 copiedFieldScope, p, object));
         return dataProvider;

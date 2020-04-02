@@ -58,10 +58,8 @@ stories
     form(() => {
       const props = {
         dateFormat: 'DD/MM/YYYY',
-        timeFormat: 'HH:mm',
-        defaultTime: '12:00',
-        min: '2012-12-05',
-        max: '2021-12-05',
+        min: '10/03/2020',
+        max: '20/03/2020',
         disabled: false,
         locale: 'ru',
       };
@@ -193,10 +191,9 @@ stories
           <DatePicker
             popupPlacement="top"
             dateFormat={'YYYY-MM-DD'}
-            timeFormat={'hh:mm:ss'}
             dateDivider={' '}
-            min="2019-06-28 00:00:00"
-            max="2019-06-30 00:00:00"
+            min="2019-06-28"
+            max="2019-06-30"
           />
         </div>
       );

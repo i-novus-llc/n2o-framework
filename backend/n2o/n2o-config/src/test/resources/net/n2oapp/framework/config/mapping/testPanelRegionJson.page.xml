@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
   <regions>
-    <panel place="single" collapsible="true" class="test" header="true" >
+    <panel place="single" collapsible="true" class="test" header="true" title="Заголовок панели"
+           icon="fa fa-exclamation" color="secondary" footer-title="Подвал панели">
        <html opened = "true" icon="fa fa-plus" name="Первый таб" id="Page.Html" />
     </panel>
   </regions>

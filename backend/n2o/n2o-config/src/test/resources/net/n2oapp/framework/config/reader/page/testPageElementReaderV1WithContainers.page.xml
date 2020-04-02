@@ -4,7 +4,6 @@
       xmlns:fs="http://n2oapp.net/framework/config/schema/fieldset-3.0"
       xmlns:ctrl="http://n2oapp.net/framework/config/schema/n2o-control-1.0">
     <object-id>stub</object-id>
-    <layout>n2o/layout/single</layout>
     <name>pageV1</name>
     <navigation>true</navigation>
     <modal-width>500px</modal-width>
@@ -32,7 +31,4 @@
             </wgt:form>
         </container>
     </containers>
-
-
-
 </page>

@@ -15,6 +15,7 @@ import net.n2oapp.framework.config.io.fieldset.PanelFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
+import net.n2oapp.framework.config.io.page.LeftRightPageElementIOV2;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.persister.control.*;
 import net.n2oapp.framework.config.persister.event.*;
@@ -83,7 +84,8 @@ public class SelectiveStandardPersister extends SelectivePersister {
                 .addPersister(new SliderIOv2())
                 .addPersister(new TextAreaIOv2())
                 .addPersister(new TextEditorIOv2())
-                .addPersister(new CodeEditorIOv2());
+                .addPersister(new CodeEditorIOv2())
+                .addPersister(new LeftRightPageElementIOV2());
     }
 
     public SelectiveStandardPersister addFieldsetPersister() {

@@ -16,10 +16,4 @@ public class N2oSimpleColumn extends AbstractColumn {
     public void setCell(N2oCell cell) {
         this.cell = cell;
     }
-
-
-    @Override
-    public boolean isDynamic() {
-        return false;
-    }
 }

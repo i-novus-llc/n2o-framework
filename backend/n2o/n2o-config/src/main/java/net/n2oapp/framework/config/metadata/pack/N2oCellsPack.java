@@ -14,9 +14,11 @@ public class N2oCellsPack implements MetadataPack<N2oApplicationBuilder> {
                 new IconCellCompiler(),
                 new CustomCellCompiler(),
                 new LinkCellCompiler(),
+                new ListCellCompiler(),
                 new BadgeCellCompiler(),
                 new CheckboxCellCompiler(),
                 new ToolbarCellCompiler(),
-                new EditCellCompiler());
+                new EditCellCompiler(),
+                new RatingCellCompiler());
     }
 }

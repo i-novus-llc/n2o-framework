@@ -187,9 +187,13 @@ class InputSelect extends React.Component {
    * @private
    */
   _handleClick() {
-    this._setIsExpanded(true);
-    this._setSelected(false);
-    this._setInputFocus(true);
+    this.setState(
+      {
+        inputFocus: true,
+        isInputSelected: false,
+      },
+      () => this._setIsExpanded(true)
+    );
   }
 
   /**
@@ -243,8 +247,8 @@ class InputSelect extends React.Component {
    */
 
   _hideOptionsList() {
-    this._setIsExpanded(false);
     this._setInputFocus(false);
+    this._setIsExpanded(false);
   }
 
   /**
@@ -277,7 +281,7 @@ class InputSelect extends React.Component {
     if (!disabled && isExpanded !== previousIsExpanded) {
       this.setState({ isExpanded });
       onToggle(isExpanded);
-      isExpanded && (!inputFocus || isEmpty(input)) ? onOpen() : onClose();
+      isExpanded && (inputFocus || isEmpty(input)) ? onOpen() : onClose();
     }
   }
 
@@ -610,7 +614,10 @@ class InputSelect extends React.Component {
                     imageFieldId={imageFieldId}
                     badgeFieldId={badgeFieldId}
                     badgeColorFieldId={badgeColorFieldId}
-                    onSelect={this._handleItemSelect}
+                    onSelect={item => {
+                      this._handleItemSelect(item);
+                      scheduleUpdate();
+                    }}
                     selected={this.state.value}
                     disabledValues={disabledValues}
                     groupFieldId={groupFieldId}

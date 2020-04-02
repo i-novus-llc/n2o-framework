@@ -19,7 +19,7 @@ public class StandardPageValidator implements SourceValidator<N2oStandardPage>, 
 
     @Override
     public void validate(N2oStandardPage page, ValidateProcessor p) {
-        p.checkIdsUnique(page.getN2oRegions(), "Виджет {0} встречается более чем один раз на странице " + page.getId());
+        p.checkIdsUnique(page.getRegions(), "Виджет {0} встречается более чем один раз на странице " + page.getId());
         p.safeStreamOf(page.getToolbars())
                 .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions()).forEach(p::validate));
     }

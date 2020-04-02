@@ -1,5 +1,5 @@
 import React from "react";
-import StandardField from "n2o/lib/components/widgets/Form/fields/StandardField/StandardField";
+import StandardField from "n2o-framework/lib/components/widgets/Form/fields/StandardField/StandardField";
 import RatingControl from "../RatingControl";
 
 RatingControl.displayName = "Контрол: Рейтинг";

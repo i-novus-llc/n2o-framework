@@ -15,8 +15,7 @@ import { isEmpty } from "lodash";
 import moment from "moment";
 import { NavLink as RouterLink } from "react-router-dom";
 
-import NavbarBrandContent from "n2o/lib/plugins/Header/SimpleHeader/NavbarBrandContent";
-import NavItemContainer from "n2o/lib/plugins/Header/SimpleHeader/NavItemContainer";
+import NavbarBrandContent from "n2o-framework/lib/plugins/Header/SimpleHeader/NavbarBrandContent";
 
 /**
  *

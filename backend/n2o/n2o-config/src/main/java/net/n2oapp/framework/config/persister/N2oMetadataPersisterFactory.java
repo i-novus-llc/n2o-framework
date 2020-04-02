@@ -39,13 +39,16 @@ public class N2oMetadataPersisterFactory
     }
 
     @Override
-    public NamespacePersister<NamespaceUriAware> produce(Namespace namespace, Class clazz) {
+    public NamespacePersister<NamespaceUriAware> produce(Class clazz, Namespace... namespaces) {
         if (engines == null)
             initFactory();
-
-        Map<Class, NamespacePersister<NamespaceUriAware>> typedEngines = engines.get(namespace.getURI());
-        if (typedEngines == null)
-            throw new EngineNotFoundException(namespace.getURI());
+        Map<Class, NamespacePersister<NamespaceUriAware>> typedEngines = new HashMap<>();
+        for (Namespace namespace : namespaces) {
+            if (engines.containsKey(namespace.getURI()))
+                typedEngines.putAll(engines.get(namespace.getURI()));
+        }
+        if (typedEngines.isEmpty())
+            throw new EngineNotFoundException(clazz);
         NamespacePersister<NamespaceUriAware> persister = typedEngines.get(clazz);
         if (persister == null)
             throw new EngineNotFoundException(clazz);
@@ -54,15 +57,6 @@ public class N2oMetadataPersisterFactory
         if (persister instanceof IOProcessorAware)
             ((IOProcessorAware) persister).setIOProcessor(this.processor);
         return persister;
-    }
-
-    @Override
-    public boolean check(Namespace namespace, Class clazz) {
-        if (engines == null)
-            initFactory();
-
-        Map<Class, NamespacePersister<NamespaceUriAware>> typedEngines = engines.get(namespace.getURI());
-        return typedEngines != null && typedEngines.containsKey(clazz);
     }
 
     @Override

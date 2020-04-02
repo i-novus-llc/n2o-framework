@@ -1,5 +1,5 @@
 import React from "react";
-import HtmlWidget from "n2o/lib/components/widgets/Html/HtmlWidget";
+import HtmlWidget from "n2o-framework/lib/components/widgets/Html/HtmlWidget";
 import SelectRegion from "../SelectRegion";
 
 export default [

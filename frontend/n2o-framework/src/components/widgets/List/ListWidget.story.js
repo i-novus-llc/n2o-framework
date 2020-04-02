@@ -169,7 +169,7 @@ stories
     const rowClick = {
       rowClick: {
         action: {
-          type: 'n2o/modals/INSERT',
+          type: 'n2o/overlays/INSERT',
           payload: {
             pageUrl: '/Uid',
             size: 'sm',
@@ -295,7 +295,16 @@ stories
       'paging',
     ]);
     return (
-      <Factory level={WIDGETS} {...props} showPagination={true} id="List" />
+      <Factory
+        level={WIDGETS}
+        {...props}
+        paging={{
+          size: 10,
+          prev: true,
+          next: true,
+        }}
+        id="List"
+      />
     );
   })
   .add('Компонент с 1000 записей', () => {

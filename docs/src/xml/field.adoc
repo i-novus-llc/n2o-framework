@@ -1289,7 +1289,7 @@ HTML разметка с плейсхолдерами
 
 
 === <code>
-Компонент программного кода с подсветкой синтаксиса
+Компонент для просмотра программного кода с подсветкой синтаксиса
 
 Атрибуты::
 [cols="2,1,4,4"]
@@ -1297,32 +1297,48 @@ HTML разметка с плейсхолдерами
 |Наименование|Тип|Описание|Значение по умолчанию
 
 |language
-|javaScript, java, sql, xml, python, ruby, shell
-|Синтаксис языка
+|sql, xml, javascript, groovy, java
+|Язык кода
 |
 
-|file
-|Строка
-|Адрес файла, содержащего программный код
-|
+|theme
+|light dark
+|Цвет фона
+|light
 
-|height
+|show-line-numbers
+|true false
+|Отображение нумерации строк
+|true
+
+|starting-line-number
 |Число
-|Высота блока
-|
+|Значение, с которого будет производиться нумерация
+|1
+
+|hide-buttons
+|true false
+|Скрытие кнопок
+|false
+
+|hide-overflow
+|true false
+|Скрытие вертикальной полосы прокрутки
+|false
 
 |===
 
 Пример::
 [source,xml]
 ----
-<code language="sql">
-SELECT * FROM {tablename}
+<code show-line-number="true" starting-line-number="1" theme="light" language="java">
+    if (a == b)
+        return true;
 </code>
 ----
 
 Тело::
-Код с плейсхолдерами
+Программный код
 
 === <image>
 Компонент изображения

@@ -1,10 +1,11 @@
 package net.n2oapp.framework.config.metadata.compile.toolbar;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -106,10 +107,10 @@ public class ToolbarCrudCompileTest extends SourceCompileTestBase {
         context.setRefreshOnClose(true);
         context.setParentRoute("/test");
 
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/action/testCloseActionModal.page.xml").get(context);
-        CloseAction close = (CloseAction) page.getActions().get("close");
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testCloseActionModal.page.xml").get(context);
+        CloseAction close = (CloseAction) page.getWidget().getActions().get("close");
 
-        assertThat(close.getType(), Matchers.is("n2o/modals/CLOSE"));
+        assertThat(close.getType(), Matchers.is("n2o/overlays/CLOSE"));
         assertThat(((CloseActionPayload) close.getPayload()).getPrompt(), Matchers.is(true));
 //        assertThat(close.getOptions().getMeta().getRedirect().getPath(), is("/test/:id"));
 //        assertThat(close.getOptions().getMeta().getRedirect().getTarget(), is(RedirectTargetType.application));

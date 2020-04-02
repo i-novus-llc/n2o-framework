@@ -27,10 +27,10 @@
         "widgetId": "Page_Table",
         "src": "perform",
         "options": {
-          "type": "n2o/modals/INSERT",
+          "type": "n2o/overlays/INSERT",
           "payload": {
             "widgetId": "Page_Table",
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "name": "test2",
             "src": "storyModal",
             "title": "Добавить запись",
@@ -58,7 +58,7 @@
               "destroyModal": {
                 "src": "perform",
                 "options": {
-                  "type": "n2o/modals/DESTROY"
+                  "type": "n2o/overlays/DESTROY"
                 }
               }
             },

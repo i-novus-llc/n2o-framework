@@ -10,8 +10,6 @@ import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-
 /**
  * Валидатор действия открытия страницы
  */

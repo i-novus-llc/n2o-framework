@@ -8,6 +8,8 @@
 
     <xs:element name="page" type="standardPageDefinition"/>
     <xs:element name="simple-page" type="simplePageDefinition"/>
+    <xs:element name="left-right-page" type="leftRightPageDefinition"/>
+    <xs:element name="searchable-page" type="searchablePageDefinition"/>
 
     <xs:complexType name="pageDefinition" abstract="true">
         <xs:annotation>
@@ -30,18 +32,24 @@
         </xs:attribute>
     </xs:complexType>
 
-    <xs:complexType name="standardPageDefinition">
+    <xs:complexType name="leftRightPageDefinition">
         <xs:annotation>
-            <xs:documentation>Страница с регионами page-2.0</xs:documentation>
+            <xs:documentation>Страница c двумя регионами page-2.0</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="regions" type="regionsDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="actions" type="actionsDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="left" type="leftRightRegionsDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="right" type="leftRightRegionsDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="toolbar" type="pageToolbarDefinition" maxOccurs="1" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Наименование страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Реализация страницы</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="route" type="xs:string" use="optional">
@@ -59,9 +67,60 @@
                 <xs:documentation>Объект выборки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="layout" type="xs:string" use="optional">
+        <xs:anyAttribute>
             <xs:annotation>
-                <xs:documentation>Вёрстка шаблона страницы.</xs:documentation>
+                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+            </xs:annotation>
+        </xs:anyAttribute>
+    </xs:complexType>
+
+    <xs:complexType name="leftRightRegionsDefinition">
+        <xs:complexContent>
+            <xs:extension base="regionsDefinition">
+                <xs:annotation>
+                    <xs:documentation>Регионы для left-right-page</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="width" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Ширина региона</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="standardPageDefinition">
+        <xs:annotation>
+            <xs:documentation>Страница с регионами page-2.0</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="regions" type="regionsDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="actions" type="actionsDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="toolbar" type="pageToolbarDefinition" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Наименование страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Реализация страницы</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="route" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>URL страницы.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="modal-size" type="ac:modalSize" use="optional">
+            <xs:annotation>
+                <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="object-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Объект выборки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:anyAttribute>
@@ -77,6 +136,11 @@
                 <xs:annotation>
                     <xs:documentation>Страница с единственным виджетом page-2.0</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="src" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Реализация страницы</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="name" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Наименование страницы.</xs:documentation>
@@ -101,6 +165,49 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="searchablePageDefinition">
+        <xs:complexContent>
+            <xs:extension base="standardPageDefinition">
+            <xs:annotation>
+                <xs:documentation>Страница c поисковой строкой</xs:documentation>
+            </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="search-bar" type="searchBarDefinition" maxOccurs="1" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="searchBarDefinition">
+        <xs:annotation>
+            <xs:documentation>Поисковая строка</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>CSS класс стилей.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="placeholder" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Подсказка для ввода.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="search-widget-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор виджета для которого производится поиск.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="search-filter-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор фильтра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="search-param" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Параметр поиска.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 
     <xs:complexType name="regionsDefinition">
         <xs:annotation>
@@ -247,6 +354,7 @@
             <xs:enumeration value="topRight"/>
             <xs:enumeration value="bottomLeft"/>
             <xs:enumeration value="bottomRight"/>
+            <xs:enumeration value="breadcrumbLeft"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -269,5 +377,4 @@
             <xs:enumeration value="selected"/>
         </xs:restriction>
     </xs:simpleType>
-
 </xs:schema>

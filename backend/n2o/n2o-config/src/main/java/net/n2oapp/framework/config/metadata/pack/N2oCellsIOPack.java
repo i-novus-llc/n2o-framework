@@ -33,6 +33,7 @@ public class N2oCellsIOPack implements MetadataPack<ReadersBuilder> {
                 new CustomCellElementIOv2(),
                 new ToolbarCellElementIOv2(),
                 new ListCellIOElementIOv2(),
-                new IconCellElementIOv2());
+                new IconCellElementIOv2(),
+                new RatingCellElementIOv2());
     }
 }

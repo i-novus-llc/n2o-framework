@@ -13,6 +13,7 @@
                     redirect-url="/testUrl"
                     redirect-target="newWindow"
                     refresh-widget-id="testWidget"
+                    optimistic="true"
             />
         </action>
     </actions>
