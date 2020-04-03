@@ -9,7 +9,7 @@ import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.api.component.widget.ListWidget;
+import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 
@@ -78,20 +78,20 @@ public class ProtoPage {
         return getFilterFields().field("VIP").control(Checkbox.class);
     }
 
-    public InputControl getSurnameFilter() {
-        return getFilterFields().field("Фамилия").control(InputControl.class);
+    public InputText getSurnameFilter() {
+        return getFilterFields().field("Фамилия").control(InputText.class);
     }
 
-    public InputControl getFirstNameFilter() {
-        return getFilterFields().field("Имя").control(InputControl.class);
+    public InputText getFirstNameFilter() {
+        return getFilterFields().field("Имя").control(InputText.class);
     }
 
     public void setBirthdayStartFilter(String value) {
-        getFilterFields().field("Дата рождения").control(DateInterval.class).setBeginValue(value);
+        getFilterFields().field("Дата рождения").control(DateInterval.class).beginVal(value);
     }
 
     public void setBirthdayEndFilter(String value) {
-        getFilterFields().field("Дата рождения").control(DateInterval.class).setEndValue(value);
+        getFilterFields().field("Дата рождения").control(DateInterval.class).endVal(value);
     }
 
     public void getGenderColumnShouldHaveTexts(List<String> values) {
@@ -211,7 +211,7 @@ public class ProtoPage {
     }
 
     public void contactsListShouldHaveText(int index, String text) {
-        leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).content(index).bodyShouldHaveText(text);
+        leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).content(index).body(TextCell.class).textShouldHave(text);
     }
 
     public ProtoContacts createContact() {
@@ -219,12 +219,12 @@ public class ProtoPage {
         return getModalProtoContacts();
     }
 
-    public InputControl getSurnameCard() {
-        return getCardFields().field("Фамилия").control(InputControl.class);
+    public InputText getSurnameCard() {
+        return getCardFields().field("Фамилия").control(InputText.class);
     }
 
-    public InputControl getFirstnameCard() {
-        return getCardFields().field("Имя").control(InputControl.class);
+    public InputText getFirstnameCard() {
+        return getCardFields().field("Имя").control(InputText.class);
     }
 
     public RadioGroup getGenderCard() {

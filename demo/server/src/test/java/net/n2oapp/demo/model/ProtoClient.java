@@ -1,8 +1,8 @@
 package net.n2oapp.demo.model;
 
 import net.n2oapp.framework.autotest.api.component.control.Checkbox;
-import net.n2oapp.framework.autotest.api.component.control.InputControl;
-import net.n2oapp.framework.autotest.api.component.control.SelectControl;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 
@@ -19,20 +19,20 @@ public class ProtoClient extends BaseSimplePage {
         super(modal);
     }
 
-    public InputControl surname() {
-        return getFields().field("Фамилия").control(InputControl.class);
+    public InputText surname() {
+        return getFields().field("Фамилия").control(InputText.class);
     }
 
-    public InputControl firstName() {
-        return getFields().field("Имя").control(InputControl.class);
+    public InputText firstName() {
+        return getFields().field("Имя").control(InputText.class);
     }
 
-    public SelectControl gender() {
-        return getFields().field("Пол").control(SelectControl.class);
+    public Select gender() {
+        return getFields().field("Пол").control(Select.class);
     }
 
-    public InputControl patronymic() {
-        return getFields().field("Отчество").control(InputControl.class);
+    public InputText patronymic() {
+        return getFields().field("Отчество").control(InputText.class);
     }
 
     public void birthdayShouldHaveValue(String value) {
