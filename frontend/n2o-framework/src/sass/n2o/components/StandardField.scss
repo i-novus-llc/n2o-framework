@@ -89,18 +89,18 @@
   }
 }
 
-.n2o-form-group__form-container_with-toolbar {
-  width: 100%;
+.control-container {
   display: flex;
 }
-
-.n2o-page-actions__toolbar > .btn-group {
-  min-width: max-content;
-  min-height: auto;
-}
-
-.n2o-page-actions__toolbar > .btn-group > .n2o-dropdown > .n2o-dropdown-control.dropdown-toggle.btn.btn-secondary {
+.control-container_with-toolbar > .buttons-toolbar.n2o-page-actions__form-toolbar.btn-toolbar {
   min-width: max-content;
   min-height: 100%;
-  padding: 0 10px 0 10px;
+}
+
+.control-container_with-toolbar > .buttons-toolbar.n2o-page-actions__form-toolbar.btn-toolbar > .btn-group > .n2o-dropdown > .n2o-dropdown-control.dropdown-toggle.btn.btn-secondary {
+  min-height: 100%;
+}
+.n2o-page-actions__toolbar {
+  width: 100%;
+  display: flex;
 }

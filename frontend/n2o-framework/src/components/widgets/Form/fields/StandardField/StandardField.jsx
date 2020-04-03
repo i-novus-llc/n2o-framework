@@ -133,34 +133,32 @@ class StandardField extends React.Component {
             help={help}
           />
           <div style={styleHelper}>
-            <div style={flexStyle}>
-              <div
-                className={cx({
-                  'n2o-form-group__form-container_with-toolbar': toolbar,
+            <div
+              className={cx('control-container', {
+                'control-container_with-toolbar': toolbar,
+              })}
+            >
+              <Control
+                placeholder={placeholder}
+                visible={visible}
+                autoFocus={autoFocus}
+                value={value}
+                onBlur={onBlur}
+                onFocus={onFocus}
+                onChange={onChange}
+                {...control}
+                {...props}
+                className={cx(control && control.className, {
+                  [validationClass]: touched,
                 })}
-              >
-                <Control
-                  placeholder={placeholder}
-                  visible={visible}
-                  autoFocus={autoFocus}
-                  value={value}
-                  onBlur={onBlur}
-                  onFocus={onFocus}
-                  onChange={onChange}
-                  {...control}
-                  {...props}
-                  className={cx(control && control.className, {
-                    [validationClass]: touched,
-                  })}
+              />
+              {toolbar && (
+                <Toolbar
+                  className="n2o-page-actions__form-toolbar"
+                  toolbar={toolbar}
+                  entityKey={containerKey}
                 />
-                {toolbar && (
-                  <Toolbar
-                    className="n2o-page-actions__toolbar"
-                    toolbar={toolbar}
-                    entityKey={containerKey}
-                  />
-                )}
-              </div>
+              )}
               <Measure value={measure} />
               <FieldActions actions={fieldActions} />
               {loading && (
