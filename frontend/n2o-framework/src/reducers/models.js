@@ -6,6 +6,7 @@ import merge from 'lodash/merge';
 import pick from 'lodash/pick';
 import each from 'lodash/each';
 import isString from 'lodash/isString';
+import get from 'lodash/get';
 import {
   SET,
   REMOVE,
@@ -18,6 +19,7 @@ import {
   CLEAR,
   PREFIXES,
 } from '../constants/models';
+import evalExpression, { parseExpression } from '../utils/evalExpression';
 import { omitDeep, setIn } from '../tools/helpers';
 
 /**
@@ -63,6 +65,8 @@ function resolveUpdate(state, action) {
 }
 
 function resolve(state, action) {
+  const { payload } = action;
+
   switch (action.type) {
     case SET:
       return Object.assign({}, state, {
@@ -88,11 +92,20 @@ function resolve(state, action) {
       return setIn(state, [key, field], mapFn(newValue, v => ({ [map]: v })));
 
     case COPY:
+      const sourceMapper = get(payload, 'sourceMapper');
+      const expression = parseExpression(sourceMapper);
+      let model = get(
+        state,
+        `[${payload.source.prefix}][${payload.source.key}]`
+      );
+
+      if (expression) {
+        model = evalExpression(sourceMapper, model);
+      }
+
       return {
         ...state[action.payload.target.prefix],
-        [action.payload.target.key]: {
-          ...state[action.payload.source.prefix][action.payload.source.key],
-        },
+        [action.payload.target.key]: model,
       };
     case CLEAR:
       return {
