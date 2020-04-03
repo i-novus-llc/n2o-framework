@@ -1,27 +1,27 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.control.Select;
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oSelect;
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Автотест компонента выбора из выпадающего списка
  */
 public class SelectAT extends AutoTestBase {
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -38,11 +38,11 @@ public class SelectAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
-        N2oSimplePage page = open(N2oSimplePage.class);
+        SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        N2oSelect input = page.single().widget(FormWidget.class).fields().field("Select1")
-                .control(N2oSelect.class);
+        Select input = page.single().widget(FormWidget.class).fields().field("Select1")
+                .control(Select.class);
         input.shouldExists();
 
         input.shouldBeEmpty();
@@ -53,7 +53,7 @@ public class SelectAT extends AutoTestBase {
         input.shouldBeEmpty();
 
         input = page.single().widget(FormWidget.class).fields().field("Select2")
-                .control(N2oSelect.class);
+                .control(Select.class);
         input.shouldExists();
 
         input.select(1);

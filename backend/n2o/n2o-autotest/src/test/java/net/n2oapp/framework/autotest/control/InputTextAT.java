@@ -1,16 +1,15 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oInputText;
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Автотест компонента ввода текста
@@ -19,12 +18,12 @@ public class InputTextAT extends AutoTestBase {
 
     private SimplePage page;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -32,7 +31,7 @@ public class InputTextAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_text/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
-        page = open(N2oSimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
     }
 
@@ -44,8 +43,8 @@ public class InputTextAT extends AutoTestBase {
 
     @Test
     public void testInputText() {
-        N2oInputText input = page.single().widget(FormWidget.class).fields().field("InputText")
-                .control(N2oInputText.class);
+        InputText input = page.single().widget(FormWidget.class).fields().field("InputText")
+                .control(InputText.class);
         input.shouldExists();
 
         input.shouldHavePlaceholder("Введите текст");
@@ -59,8 +58,8 @@ public class InputTextAT extends AutoTestBase {
 
     @Test
     public void testInputNumber() {
-        N2oInputText input = page.single().widget(FormWidget.class).fields().field("InputNumber")
-                .control(N2oInputText.class);
+        InputText input = page.single().widget(FormWidget.class).fields().field("InputNumber")
+                .control(InputText.class);
         input.shouldExists();
 
         input.shouldHaveValue("5");
@@ -82,8 +81,8 @@ public class InputTextAT extends AutoTestBase {
 
     @Test
     public void testInputFloat() {
-        N2oInputText input = page.single().widget(FormWidget.class).fields().field("InputFloat")
-                .control(N2oInputText.class);
+        InputText input = page.single().widget(FormWidget.class).fields().field("InputFloat")
+                .control(InputText.class);
         input.shouldExists();
 
         input.val("7.7");

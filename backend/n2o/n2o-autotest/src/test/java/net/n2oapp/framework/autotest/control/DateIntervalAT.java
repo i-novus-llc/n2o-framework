@@ -1,16 +1,15 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.control.DateInterval;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oDateInterval;
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Автотест компонента ввода интервала дат
@@ -19,12 +18,12 @@ public class DateIntervalAT extends AutoTestBase {
 
     private SimplePage page;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -32,7 +31,7 @@ public class DateIntervalAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/date_interval/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
-        page = open(N2oSimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
     }
 
@@ -44,8 +43,8 @@ public class DateIntervalAT extends AutoTestBase {
 
     @Test
     public void testDateInterval() {
-        N2oDateInterval dateInterval = page.single().widget(FormWidget.class).fields().field("DateInterval1")
-                .control(N2oDateInterval.class);
+        DateInterval dateInterval = page.single().widget(FormWidget.class).fields().field("DateInterval1")
+                .control(DateInterval.class);
         dateInterval.shouldExists();
 
         dateInterval.shouldBeEmpty();
@@ -88,8 +87,8 @@ public class DateIntervalAT extends AutoTestBase {
 
     @Test
     public void testDateTimeInterval() {
-        N2oDateInterval dateInterval = page.single().widget(FormWidget.class).fields().field("DateInterval2")
-                .control(N2oDateInterval.class);
+        DateInterval dateInterval = page.single().widget(FormWidget.class).fields().field("DateInterval2")
+                .control(DateInterval.class);
         dateInterval.shouldExists();
 
         dateInterval.shouldBeEmpty();
@@ -106,8 +105,8 @@ public class DateIntervalAT extends AutoTestBase {
 
     @Test
     public void testDateIntervalMaxMin() {
-        N2oDateInterval dateInterval = page.single().widget(FormWidget.class).fields().field("DateInterval3")
-                .control(N2oDateInterval.class);
+        DateInterval dateInterval = page.single().widget(FormWidget.class).fields().field("DateInterval3")
+                .control(DateInterval.class);
         dateInterval.shouldExists();
 
         // проверка, что значения, выходящие за границы min/max, не вводятся

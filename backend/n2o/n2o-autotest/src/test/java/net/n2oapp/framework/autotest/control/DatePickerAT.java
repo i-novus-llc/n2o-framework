@@ -1,17 +1,15 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oDateInput;
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 /**
  * Автотест компонента ввода даты
  */
@@ -19,12 +17,12 @@ public class DatePickerAT extends AutoTestBase {
 
     private SimplePage page;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -32,7 +30,7 @@ public class DatePickerAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/date_picker/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
-        page = open(N2oSimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
     }
 
@@ -44,8 +42,8 @@ public class DatePickerAT extends AutoTestBase {
 
     @Test
     public void testDatePicker() {
-        N2oDateInput date = page.single().widget(FormWidget.class).fields().field("Date1")
-                .control(N2oDateInput.class);
+        DateInput date = page.single().widget(FormWidget.class).fields().field("Date1")
+                .control(DateInput.class);
         date.shouldExists();
 
         date.shouldBeEmpty();
@@ -80,8 +78,8 @@ public class DatePickerAT extends AutoTestBase {
 
     @Test
     public void testDateTime() {
-        N2oDateInput date = page.single().widget(FormWidget.class).fields().field("Date2")
-                .control(N2oDateInput.class);
+        DateInput date = page.single().widget(FormWidget.class).fields().field("Date2")
+                .control(DateInput.class);
         date.shouldExists();
 
         date.shouldHaveValue("01/01/2020 00:00:00");

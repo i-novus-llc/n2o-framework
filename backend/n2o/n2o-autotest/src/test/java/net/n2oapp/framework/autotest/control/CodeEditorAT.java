@@ -1,27 +1,27 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.control.CodeEditor;
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oCodeEditor;
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Автотест для редактора кода
  */
 public class CodeEditorAT extends AutoTestBase {
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -38,11 +38,11 @@ public class CodeEditorAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/code_editor/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
-        N2oSimplePage page = open(N2oSimplePage.class);
+        SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        N2oCodeEditor textEditor = page.single().widget(FormWidget.class).fields().field("CodeEditor")
-                .control(N2oCodeEditor.class);
+        CodeEditor textEditor = page.single().widget(FormWidget.class).fields().field("CodeEditor")
+                .control(CodeEditor.class);
         textEditor.shouldExists();
 
         textEditor.shouldHaveValue("var str = 'Hello, World!'");

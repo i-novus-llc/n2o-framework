@@ -1,28 +1,27 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.control.AutoComplete;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oAutoComplete;
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Автотест для компонента ввода текста с автозаполнением
  */
 public class AutoCompleteAT extends AutoTestBase {
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -39,11 +38,11 @@ public class AutoCompleteAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
-        SimplePage page = open(N2oSimplePage.class);
+        SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        N2oAutoComplete autoComplete = page.single().widget(FormWidget.class).fields().field("AutoComplete1")
-                .control(N2oAutoComplete.class);
+        AutoComplete autoComplete = page.single().widget(FormWidget.class).fields().field("AutoComplete1")
+                .control(AutoComplete.class);
         autoComplete.shouldExists();
 
         autoComplete.shouldBeEmpty();

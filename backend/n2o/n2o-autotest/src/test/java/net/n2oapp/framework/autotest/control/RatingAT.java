@@ -1,16 +1,15 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.control.Rating;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oRating;
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Автотест компонента ввода и отображения рейтинга
@@ -19,12 +18,12 @@ public class RatingAT extends AutoTestBase {
 
     private SimplePage page;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -32,7 +31,7 @@ public class RatingAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/rating/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
-        page = open(N2oSimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
     }
 
@@ -44,8 +43,8 @@ public class RatingAT extends AutoTestBase {
 
     @Test
     public void testRating() {
-        N2oRating rating = page.single().widget(FormWidget.class).fields().field("Rating1")
-                .control(N2oRating.class);
+        Rating rating = page.single().widget(FormWidget.class).fields().field("Rating1")
+                .control(Rating.class);
         rating.shouldExists();
 
         rating.shouldHaveValue("0");
@@ -55,8 +54,8 @@ public class RatingAT extends AutoTestBase {
 
     @Test
     public void testRatingWithHalf() {
-        N2oRating rating = page.single().widget(FormWidget.class).fields().field("Rating2")
-                .control(N2oRating.class);
+        Rating rating = page.single().widget(FormWidget.class).fields().field("Rating2")
+                .control(Rating.class);
         rating.shouldExists();
 
         rating.shouldHaveValue("3.5");

@@ -1,17 +1,15 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.control.Slider;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.impl.component.control.N2oSlider;
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 /**
  * Автотест для компонента ползунка
  */
@@ -19,12 +17,12 @@ public class SliderAT extends AutoTestBase {
 
     private SimplePage page;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -32,7 +30,7 @@ public class SliderAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/slider/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
-        page = open(N2oSimplePage.class);
+        page = open(SimplePage.class);
         page.shouldExists();
     }
 
@@ -44,8 +42,8 @@ public class SliderAT extends AutoTestBase {
 
     @Test
     public void testSlider() {
-        N2oSlider slider = page.single().widget(FormWidget.class).fields().field("Slider1")
-                .control(N2oSlider.class);
+        Slider slider = page.single().widget(FormWidget.class).fields().field("Slider1")
+                .control(Slider.class);
         slider.shouldExists();
 
         slider.shouldHaveValue("-10");
@@ -57,8 +55,8 @@ public class SliderAT extends AutoTestBase {
 
     @Test
     public void testVerticalSlider() {
-        N2oSlider slider = page.single().widget(FormWidget.class).fields().field("Slider2")
-                .control(N2oSlider.class);
+        Slider slider = page.single().widget(FormWidget.class).fields().field("Slider2")
+                .control(Slider.class);
         slider.shouldExists();
 
         slider.shouldHaveValue("-10");
@@ -70,8 +68,8 @@ public class SliderAT extends AutoTestBase {
 
     @Test
     public void testRangeModeSlider() {
-        N2oSlider slider = page.single().widget(FormWidget.class).fields().field("Slider3")
-                .control(N2oSlider.class);
+        Slider slider = page.single().widget(FormWidget.class).fields().field("Slider3")
+                .control(Slider.class);
         slider.shouldExists();
 
         slider.shouldHaveLeftValue("-10");
