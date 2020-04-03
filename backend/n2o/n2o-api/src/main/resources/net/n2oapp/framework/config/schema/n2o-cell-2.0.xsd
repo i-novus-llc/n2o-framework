@@ -215,11 +215,6 @@
                         <xs:documentation>Класс иконки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="tooltip" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Подсказка, всплывающая при наведении на иконку.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="type" type="iconType" use="optional" default="icon">
                     <xs:annotation>
                         <xs:documentation>С текстом или без.</xs:documentation>
