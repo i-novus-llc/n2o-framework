@@ -12,13 +12,10 @@ import java.util.List;
 @Getter
 @Setter
 public class TabsRegion extends Region {
-
     @JsonProperty
     private List<Tab> tabs;
-
     @JsonProperty
     private Boolean alwaysRefresh;
-
     @JsonProperty
     private Boolean lazy;
 

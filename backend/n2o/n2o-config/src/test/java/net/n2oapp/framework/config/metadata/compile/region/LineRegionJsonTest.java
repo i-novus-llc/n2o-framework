@@ -30,7 +30,7 @@ public class LineRegionJsonTest extends JsonMetadataTestBase {
                 "components/regions/List/ListRegion.meta.json")
                 .cutXml("regions.single[0]")
                 .changeValue("items[0].widgetId", "testLineRegionJson_html")
-                .exclude("items[0].widgetId", "items[0].opened", "items[1]", "items[0].id")
+                .exclude("id", "items[0].widgetId", "items[0].opened", "items[1]", "items[0].id")
                         .assertEquals();
     }
 

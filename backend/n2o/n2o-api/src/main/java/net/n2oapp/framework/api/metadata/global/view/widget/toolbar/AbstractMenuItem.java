@@ -3,6 +3,8 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.global.view.ActionComponent;
@@ -44,6 +46,23 @@ public abstract class AbstractMenuItem extends ActionComponent implements Extens
     private String confirmOkLabel;
     private String confirmCancelLabel;
     private String tooltipPosition;
+    private Dependency[] dependencies;
+
+
+    @Getter
+    @Setter
+    public static class Dependency implements Source {
+        private String[] on;
+        private String value;
+        private String refWidgetId;
+        private ReduxModel refModel;
+    }
+
+    public static class EnablingDependency extends Dependency {
+    }
+
+    public static class VisibilityDependency extends Dependency {
+    }
 
     @Deprecated
     public String getEnablingCondition() {
