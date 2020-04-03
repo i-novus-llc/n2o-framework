@@ -34,19 +34,8 @@ exports[`StandardField рендерится корректно 1`] = `
     }
   >
     <div
-      style={
-        Object {
-          "display": "flex",
-        }
-      }
+      className="control-container"
     >
-      <div
-        style={
-          Object {
-            "width": "100%",
-          }
-        }
-      />
       <span
         style={
           Object {
@@ -108,38 +97,17 @@ exports[`StandardField рендерится корректно c toolbar 1`] = `
     }
   >
     <div
-      style={
-        Object {
-          "display": "flex",
-        }
-      }
+      className="control-container control-container_with-toolbar"
     >
       <div
-        style={
-          Object {
-            "width": "100%",
-          }
-        }
+        className="buttons-toolbar n2o-page-actions__form-toolbar btn-toolbar"
+        onClick={[Function]}
+        role="toolbar"
       >
         <div
-          className="n2o-page-actions"
-          style={
-            Object {
-              "marginTop": "5px",
-            }
-          }
-        >
-          <div
-            className="buttons-toolbar btn-toolbar"
-            onClick={[Function]}
-            role="toolbar"
-          >
-            <div
-              className="btn-group"
-              role="group"
-            />
-          </div>
-        </div>
+          className="btn-group"
+          role="group"
+        />
       </div>
       <span
         style={
