@@ -6,7 +6,7 @@ import isArray from 'lodash/isArray';
 import map from 'lodash/map';
 
 function ProgressControl(props) {
-  const { multi, barClassName, bars, value, label, max } = props;
+  const { multi, barClassName, bars, value, barText, max } = props;
 
   const renderProgressControl = () => {
     const multiProgressControl = multi && !isUndefined(bars) && isArray(bars);
@@ -15,7 +15,7 @@ function ProgressControl(props) {
     //map ProgressControls из bars если multi
     const mapProgressControls = () => {
       return map(barsCollection, bar => {
-        const { id, label } = bar;
+        const { id, barText } = bar;
         return (
           <Progress
             bar
@@ -25,7 +25,7 @@ function ProgressControl(props) {
             value={!isUndefined(value) && value[id]}
             {...bar}
           >
-            {label}
+            {barText}
           </Progress>
         );
       });
@@ -38,7 +38,7 @@ function ProgressControl(props) {
 
     //одиночный режим ProgressControl
     const renderSimpleProgressControl = () => {
-      return <Progress {...props}>{label}</Progress>;
+      return <Progress {...props}>{barText}</Progress>;
     };
 
     //multi или одиночный
@@ -86,7 +86,7 @@ ProgressControl.propTypes = {
   /**
    * title на Progress
    */
-  label: PropTypes.string.isRequired,
+  barText: PropTypes.string.isRequired,
   /**
    * значение, на сколько заполнен Progress
    */
