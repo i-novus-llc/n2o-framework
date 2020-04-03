@@ -67,13 +67,19 @@ function resolveUpdate(state, action) {
   return setIn(state, field, value);
 }
 
-function resolveCopyAction(state, { payload }) {
+export function resolveCopyAction(state, { payload }) {
   const { target, source, mode = 'replace' } = payload;
   const newState = Object.assign({}, state);
   const targetPath = values(target).join('.');
   const sourcePath = values(source).join('.');
-  const sourceModel = get(state, sourcePath);
+  let sourceModel = get(state, sourcePath);
   const targetModel = get(state, targetPath);
+  const sourceMapper = get(payload, 'sourceMapper');
+  const expression = parseExpression(sourceMapper);
+
+  if (expression) {
+    sourceModel = evalExpression(expression, sourceModel);
+  }
 
   if (mode === 'merge') {
     set(newState, targetPath, Object.assign({}, targetModel, sourceModel));
@@ -90,8 +96,6 @@ function resolveCopyAction(state, { payload }) {
 }
 
 function resolve(state, action) {
-  const { payload } = action;
-
   switch (action.type) {
     case SET:
       return Object.assign({}, state, {
@@ -115,23 +119,6 @@ function resolve(state, action) {
       const newValue = isString(value) ? [value] : value;
 
       return setIn(state, [key, field], mapFn(newValue, v => ({ [map]: v })));
-
-    case COPY:
-      const sourceMapper = get(payload, 'sourceMapper');
-      const expression = parseExpression(sourceMapper);
-      let model = get(
-        state,
-        `[${payload.source.prefix}][${payload.source.key}]`
-      );
-
-      if (expression) {
-        model = evalExpression(sourceMapper, model);
-      }
-
-      return {
-        ...state[action.payload.target.prefix],
-        [action.payload.target.key]: model,
-      };
     case CLEAR:
       return {
         ...state,
