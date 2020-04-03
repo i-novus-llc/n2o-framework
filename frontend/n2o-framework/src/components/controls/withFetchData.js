@@ -104,10 +104,12 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
      * @private
      */
     async _fetchDataProvider(dataProvider, extraParams = {}) {
-      const { basePath, baseQuery: queryParams } = dataProviderResolver(
-        this.context.store.getState(),
-        dataProvider
-      );
+      const {
+        basePath,
+        baseQuery: queryParams,
+        headersParams,
+      } = dataProviderResolver(this.context.store.getState(), dataProvider);
+
       let response = this._findResponseInCache({
         basePath,
         queryParams,
@@ -115,9 +117,14 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
       });
 
       if (!response) {
-        response = await apiCaller({ ...queryParams, ...extraParams }, null, {
-          basePath,
-        });
+        response = await apiCaller(
+          { headers: headersParams, query: { ...queryParams, ...extraParams } },
+          null,
+          {
+            basePath,
+          }
+        );
+        console.log(response);
         cachingStore.add({ basePath, queryParams, extraParams }, response);
       }
 
@@ -158,7 +165,6 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
       const { dataProvider, removeAlerts } = this.props;
       const { hasError, data } = this.state;
       if (!dataProvider) return;
-
       this.setState({ loading: true });
       try {
         if (!merge && !data) this.setState({ data: [] });
@@ -166,7 +172,10 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
           dataProvider,
           extraParams
         );
+
         if (has(response, 'message')) this._addAlertMessage(response.message);
+        console.log('point');
+        console.log(response);
         this._setResponseToData(response, merge);
         hasError && removeAlerts();
       } catch (err) {

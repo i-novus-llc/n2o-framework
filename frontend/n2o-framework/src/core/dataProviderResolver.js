@@ -9,7 +9,7 @@ import isNil from 'lodash/isNil';
 import linkResolver from '../utils/linkResolver';
 
 /**
- * Получение basePath и baseQuery
+ * Получение разрешенных параметров dataProvider
  * @param state
  * @param dataProvider
  * @param query

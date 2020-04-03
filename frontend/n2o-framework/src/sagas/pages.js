@@ -165,21 +165,24 @@ export function* getMetadata(apiProvider, action) {
   let { pageId, rootPage, pageUrl, mapping } = action.payload;
   try {
     const { search } = yield select(getLocation);
+    let resolveProvider = {};
     if (!isEmpty(mapping)) {
       const state = yield select();
       const extraQueryParams = rootPage && queryString.parse(search);
-      pageUrl = dataProviderResolver(
+      resolveProvider = dataProviderResolver(
         state,
         { url: pageUrl, ...mapping },
         extraQueryParams
-      ).url;
+      );
+
+      pageUrl = resolveProvider.url;
     } else if (rootPage) {
       pageUrl = pageUrl + search;
     }
     const metadata = yield call(
       fetchSaga,
       FETCH_PAGE_METADATA,
-      { pageUrl },
+      { pageUrl, headers: resolveProvider.headersParams },
       apiProvider
     );
 

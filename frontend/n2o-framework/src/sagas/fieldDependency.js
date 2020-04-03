@@ -38,8 +38,15 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
     yield delay(300);
     yield put(setLoading(form, field, true));
     const state = yield select();
-    const { url } = yield call(dataProviderResolver, state, dataProvider);
-    const response = yield call(fetchSaga, FETCH_VALUE, { url });
+    const { url, headersParams } = yield call(
+      dataProviderResolver,
+      state,
+      dataProvider
+    );
+    const response = yield call(fetchSaga, FETCH_VALUE, {
+      url,
+      headers: headersParams,
+    });
     const model = get(response, 'list[0]', null);
 
     if (model) {
