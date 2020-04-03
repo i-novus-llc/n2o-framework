@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.register;
 
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.reader.SourceLoader;
+import net.n2oapp.framework.api.register.scan.MetadataScanner;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -27,6 +28,8 @@ public abstract class SourceInfo implements Serializable {
     }
 
     public abstract Class<? extends SourceLoader> getReaderClass();
+
+    public abstract Class<? extends MetadataScanner> getScannerClass();
 
     public String getId() {
         return id;

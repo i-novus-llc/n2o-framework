@@ -9,8 +9,10 @@ import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.SourceTypeRegister;
+import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.register.*;
+import net.n2oapp.framework.config.register.scanner.FolderInfoScanner;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import net.n2oapp.framework.config.metadata.pack.N2oSourceTypesPack;
 
@@ -84,6 +86,11 @@ public class CompileInfo extends SourceInfo {
     @Override
     public Class<? extends SourceLoader> getReaderClass() {
         return SelectiveMetadataLoader.class;
+    }
+
+    @Override
+    public Class<? extends MetadataScanner> getScannerClass() {
+        return FolderInfoScanner.class;
     }
 
     public String getId() {

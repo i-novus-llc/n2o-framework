@@ -5,16 +5,16 @@
       route="/testRoute"
       object-id="utObjectField">
     <toolbar place="TopLeft">
-        <button id="close" model="filter">
+        <button id="close" model="filter" widget-id="test">
             <close/>
         </button>
         <sub-menu>
-            <menu-item action-id="test2"/>
+            <menu-item action-id="test2" widget-id="test"/>
         </sub-menu>
         <group>
-            <button action-id="test3"/>
+            <button action-id="test3" widget-id="test"/>
             <sub-menu>
-                <menu-item action-id="test4"/>
+                <menu-item action-id="test4" widget-id="test"/>
             </sub-menu>
         </group>
     </toolbar>
