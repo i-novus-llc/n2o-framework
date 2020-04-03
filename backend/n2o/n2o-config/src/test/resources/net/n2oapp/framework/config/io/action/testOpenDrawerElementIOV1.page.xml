@@ -2,18 +2,17 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
     <actions>
         <action model="filter">
-            <show-modal src="test"
-                        page-id="test"
-                        submit-operation-id="create" submit-label="Отправить"
-                        refresh-on-close="false" refresh-widget-id="testWidget"
-                        upload="query" modal-size="lg" submit-model="resolve">
+            <open-drawer src="test" page-id="test" submit-operation-id="create" submit-label="Отправить"
+                         refresh-widget-id="testWidget" upload="query" submit-model="resolve"
+                        closable="false" backdrop="false" width="10pt" height="20pt" placement="left"
+                        level="all" backdrop-closable="true">
                 <pre-filters>
                     <contains field-id="test" value="test" values="test1 , test2"/>
                 </pre-filters>
                 <pre-fields>
                     <contains field-id="test" value="test" values="test1 , test2"/>
                 </pre-fields>
-            </show-modal>
+            </open-drawer>
         </action>
     </actions>
 </page>
