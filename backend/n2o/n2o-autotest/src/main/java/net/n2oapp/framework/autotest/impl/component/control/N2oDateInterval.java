@@ -45,12 +45,14 @@ public class N2oDateInterval extends N2oControl implements DateInterval {
 
     @Override
     public void beginShouldHaveValue(String value) {
-        firstInputElement().shouldHave(Condition.value(value));
+        element().$(".n2o-date-input-first input").shouldHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.value(value));
     }
 
     @Override
     public void endShouldHaveValue(String value) {
-        lastInputElement().shouldHave(Condition.value(value));
+        element().$(".n2o-date-input-last input").shouldHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.value(value));
     }
 
     @Override

@@ -100,15 +100,15 @@ public class WidgetsAT extends AutoTestBase {
         widget.columns().rows().row(0).cell(0).element().parent().shouldHave(Condition.cssClass("bg-danger"));
         widget.columns().rows().row(1).cell(0).element().parent().shouldHave(Condition.cssClass("bg-info"));
         widget.columns().rows().row(2).cell(0).element().parent().shouldHave(Condition.cssClass("bg-success"));
-        widget.columns().headers().header(0).titleShouldHave(Condition.text("Имя"));
-        widget.columns().headers().header(1).titleShouldHave(Condition.text("Фамилия"));
-        widget.columns().headers().header(2).titleShouldHave(Condition.text("Дата рождения"));
+        widget.columns().headers().header(0).shouldHaveTitle("Имя");
+        widget.columns().headers().header(1).shouldHaveTitle("Фамилия");
+        widget.columns().headers().header(2).shouldHaveTitle("Дата рождения");
 
         widget.toolbar().topRight().button(1, N2oDropdownButton.class).click();
         widget.toolbar().topRight().button(1, N2oDropdownButton.class).menuItem("Имя").click();
-        widget.columns().headers().header(0).titleShouldHave(Condition.empty);
+        widget.columns().headers().header(0).shouldNotHaveTitle();
         widget.toolbar().topRight().button(1, N2oDropdownButton.class).menuItem("Имя").click();
-        widget.columns().headers().header(0).titleShouldHave(Condition.text("Имя"));
+        widget.columns().headers().header(0).shouldHaveTitle("Имя");
     }
 
     @Test
