@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 
 const withRightPlaceholder = WrappedComponent => {
   return function(props) {
-    const { rightPlaceholder } = props;
+    const { measure } = props;
 
     return (
       <div className="n2o-control-container">
         <WrappedComponent {...props} />
-        {!!rightPlaceholder ? (
-          <div className="n2o-control-container-placeholder">
-            {rightPlaceholder}
-          </div>
+        {!!measure ? (
+          <div className="n2o-control-container-placeholder">{measure}</div>
         ) : null}
       </div>
     );
@@ -19,11 +17,11 @@ const withRightPlaceholder = WrappedComponent => {
 };
 
 withRightPlaceholder.propTypes = {
-  rightPlaceholder: PropTypes.string,
+  measure: PropTypes.string,
 };
 
 withRightPlaceholder.defaultProps = {
-  rightPlaceholder: '',
+  measure: '',
 };
 
 export default withRightPlaceholder;

@@ -22,31 +22,31 @@ const setupArea = propsOverride => {
 };
 describe('Проверка компонента-обертки withRightPlaceholder', () => {
   it('InputMoney', () => {
-    const wrapper = setupMoney({ rightPlaceholder: 'test' });
+    const wrapper = setupMoney({ measure: 'test' });
     expect(wrapper.find('.n2o-control-container-placeholder').exists()).toEqual(
       true
     );
   });
   it('InputMask', () => {
-    const wrapper = setupMask({ rightPlaceholder: 'test' });
+    const wrapper = setupMask({ measure: 'test' });
     expect(wrapper.find('.n2o-control-container-placeholder').exists()).toEqual(
       true
     );
   });
   it('InputNumber', () => {
-    const wrapper = setupNumber({ rightPlaceholder: 'test' });
+    const wrapper = setupNumber({ measure: 'test' });
     expect(wrapper.find('.n2o-control-container-placeholder').exists()).toEqual(
       true
     );
   });
   it('InputText', () => {
-    const wrapper = setupText({ rightPlaceholder: 'test' });
+    const wrapper = setupText({ measure: 'test' });
     expect(wrapper.find('.n2o-control-container-placeholder').exists()).toEqual(
       true
     );
   });
   it('setupArea', () => {
-    const wrapper = setupArea({ rightPlaceholder: 'test' });
+    const wrapper = setupArea({ measure: 'test' });
     expect(wrapper.find('.n2o-control-container-placeholder').exists()).toEqual(
       true
     );
