@@ -330,7 +330,7 @@
 </click>
 ----
 
-=== Параметр провайдера данных <param>
+=== Параметр провайдера данных <field>
 
 Входящий или исходящий параметр провайдера данных.
 
@@ -392,7 +392,7 @@
 Пример::
 [source,xml]
 ----
-<in-parameters>
-  <param id="gender*.id" domain="integer[]" mapping="genders"/>
-</in-parameters>
+<in>
+  <field id="gender*.id" domain="integer[]" mapping="genders"/>
+</in>
 ----

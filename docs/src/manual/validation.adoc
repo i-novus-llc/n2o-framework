@@ -73,18 +73,18 @@
           WHERE username = :username
       </sql>
     </invocation>
-    <in-parameters>
-      <param id="username"/>
-      <param id="id"/>
-    </in-parameters>
+    <in>
+      <field id="username"/>
+      <field id="id"/>
+    </in>
   </constraint>
 </validations>
 ----
 Обращение к провайдеру данных задаётся в элементе `<invocation>`.
-В элементе `<in-parameters>` задаются входные параметры провайдера.
+В элементе `<in>` задаются входные параметры провайдера.
 Одновременно, эти параметры являются триггерами срабатывания валидации.
 
-В элементе `<out-parameters>` задаются выходные параметры провайдера.
+В элементе `<out>` задаются выходные параметры провайдера.
 На них можно ссылаться в сообщении валидации.
 
 В атрибуте `result` задаётся условие проверки результата.
@@ -102,9 +102,9 @@
 ----
 <operation>
   ...
-  <in-parameters>
-    <param id="name" required="true"/>
-  </in-parameters>
+  <in>
+    <field id="name" required="true"/>
+  </in>
 </operation>
 ----
 
@@ -137,7 +137,7 @@
 .Уровни серьёзности валидаций
 [cols="1,4,2"]
 |===
-Уровень|Описание|Цвет сообщения
+|Уровень|Описание|Цвет сообщения
 
 |danger
 |Прерывает выполнение действий.
@@ -295,7 +295,7 @@
 ----
 <operation id="delete">
   ...
-  <validations white-list="checkDependencies">
+  <validations white-list="checkDependencies"/>
 </operation>
 ----
 
@@ -306,7 +306,7 @@
 ----
 <operation id="create">
   ...
-  <validations black-list="checkDependencies">
+  <validations black-list="checkDependencies"/>
 </operation>
 ----
 
@@ -399,7 +399,7 @@ http://n2oapp.net/framework/config/schema/bean-validation-1.0
 .Включение генерации валидаций JSR303 в объекте
 [source,xml]
 ----
-<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0"
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
   xmlns:bv="http://n2oapp.net/framework/config/schema/bean-validation-1.0"
   entity-class="com.example.MyEntity"
   bv:generate="true">
@@ -486,26 +486,26 @@ $bv_{id}_{annotation}
 .Точечная валидация поля с помощью bv:validate
 [source,xml]
 ----
-<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0"
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
   xmlns:bv="http://n2oapp.net/framework/config/schema/bean-validation-1.0.xml"
   entity-class="com.example.MyEntity">
   ...
   <validations>
     <constraint id="myBeanValidation"
       message="Произошла ошибка {mess} со значением {invalid}"
-      result="#this == null">
+      result="#this == null" severity="danger">
       <invocation>
         <bv:validate
           property="name"
           annotation-class="javax.validation.constraints.Pattern"/>
       </invocation>
-      <in-parameters>
-        <param id="name" mapping="name"/>
-      </in-parameters>
-      <out-parameters>
-        <param id="mess" mapping="message"/>
-        <param id="invalid" mapping="invalidValue"/>
-      </out-parameters>      
+      <in>
+        <field id="name" mapping="name"/>
+      </in>
+      <out>
+        <field id="mess" mapping="message"/>
+        <field id="invalid" mapping="invalidValue"/>
+      </out>
     </constraint>
   </validations>
 </object>
