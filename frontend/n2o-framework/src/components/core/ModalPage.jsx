@@ -102,6 +102,10 @@ function ModalPage(props) {
                   containerKey={containerKey}
                 />
                 <Toolbar
+                  toolbar={toolbar.bottomCenter}
+                  containerKey={containerKey}
+                />
+                <Toolbar
                   toolbar={toolbar.bottomRight}
                   containerKey={containerKey}
                 />
