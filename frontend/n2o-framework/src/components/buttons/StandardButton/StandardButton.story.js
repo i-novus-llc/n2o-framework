@@ -34,6 +34,7 @@ const performMeta = {
     title: 'Предупреждение',
   },
   visible: true,
+  rounded: true,
   disabled: false,
   count: '9',
   label: 'Выполнить',
