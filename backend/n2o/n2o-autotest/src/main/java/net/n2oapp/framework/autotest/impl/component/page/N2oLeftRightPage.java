@@ -11,12 +11,12 @@ import net.n2oapp.framework.autotest.impl.collection.N2oRegions;
 public class N2oLeftRightPage extends N2oPage implements LeftRightPage {
     @Override
     public Regions left() {
-        return N2oSelenide.collection(element().$$(".n2o-page__left .n2o-panel-region"), N2oRegions.class);
+        return N2oSelenide.collection(element().$$("div.n2o-page__left > div"), N2oRegions.class);
     }
 
     @Override
     public Regions right() {
-        return N2oSelenide.collection(element().$$(".n2o-page__right .n2o-panel-region"), N2oRegions.class);
+        return N2oSelenide.collection(element().$$("div.n2o-page__right > div"), N2oRegions.class);
     }
 
 }

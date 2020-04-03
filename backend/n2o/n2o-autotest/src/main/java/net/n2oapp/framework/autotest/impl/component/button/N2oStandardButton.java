@@ -7,14 +7,10 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
  * Стандартная кнопка для автотестирования
  */
 public class N2oStandardButton extends N2oButton implements StandardButton {
-    @Override
-    public void click() {
-        element().shouldBe(Condition.exist).click();
-    }
 
     @Override
     public void shouldBeDisabled() {
-        element().shouldBe(Condition.disabled);
+        element().shouldBe(Condition.attribute("disabled"));
     }
 
     @Override

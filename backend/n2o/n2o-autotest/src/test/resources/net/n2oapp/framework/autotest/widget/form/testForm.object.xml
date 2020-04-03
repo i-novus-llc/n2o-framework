@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0" name="testCopyInActions" app-name="appName"
+        module-name="moduleName">
+
+    <fields>
+        <field id="name"/>
+        <field id="surname"/>
+    </fields>
+
+    <validations>
+        <condition id="validation1" severity="warning" message="Имя должно быть test" on="name">
+            name === 'test'
+        </condition>
+    </validations>
+
+</object>
