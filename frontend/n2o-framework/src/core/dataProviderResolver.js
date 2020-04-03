@@ -9,7 +9,7 @@ import isNil from 'lodash/isNil';
 import linkResolver from '../utils/linkResolver';
 
 /**
- * Получение basePath и baseQuery
+ * Получение разрешенных параметров dataProvider
  * @param state
  * @param dataProvider
  * @param query
@@ -17,12 +17,21 @@ import linkResolver from '../utils/linkResolver';
  * @returns
  */
 export function dataProviderResolver(state, dataProvider, query, options) {
-  const { url, pathMapping, queryMapping } = dataProvider;
+  const {
+    url,
+    pathMapping,
+    queryMapping,
+    headersMapping,
+    formMapping,
+  } = dataProvider;
   const { origin, pathname } = urlParse(url);
+
   const pathParams = getParams(pathMapping, state);
-  let basePath = pathToRegexp.compile(pathname)(pathParams);
   const queryParams = getParams(queryMapping, state);
+  const headersParams = getParams(headersMapping, state);
+  const formParams = getParams(formMapping, state);
   const baseQuery = Object.assign({}, query, options, queryParams);
+  let basePath = pathToRegexp.compile(pathname)(pathParams);
   let compiledUrl = basePath;
 
   if (!isEmpty(queryParams) || !isEmpty(query)) {
@@ -40,6 +49,8 @@ export function dataProviderResolver(state, dataProvider, query, options) {
   return {
     basePath,
     baseQuery,
+    headersParams,
+    formParams,
     url: compiledUrl,
   };
 }

@@ -91,7 +91,13 @@ export function* handleAction(factories, action) {
  */
 export function* fetchInvoke(dataProvider, model, apiProvider) {
   const state = yield select();
-  const { basePath: path } = yield dataProviderResolver(state, dataProvider);
+  const submitForm = get(dataProvider, 'submitForm', true);
+  const {
+    basePath: path,
+    formParams,
+    headersParams,
+  } = yield dataProviderResolver(state, dataProvider);
+
   const response = yield call(
     fetchSaga,
     FETCH_INVOKE_DATA,
@@ -99,7 +105,8 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
       basePath: path,
       baseQuery: {},
       baseMethod: dataProvider.method,
-      model,
+      headers: headersParams,
+      model: submitForm ? Object.assign({}, model, formParams) : formParams,
     },
     apiProvider
   );

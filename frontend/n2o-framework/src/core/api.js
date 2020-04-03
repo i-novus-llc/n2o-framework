@@ -64,7 +64,6 @@ export function handleApi(api) {
 
 /**
  * Стандартный api provider
- * @type {{}}
  */
 export const defaultApiProvider = {
   [FETCH_APP_CONFIG]: options =>
@@ -79,7 +78,9 @@ export const defaultApiProvider = {
       ].join('')
     ),
   [FETCH_PAGE_METADATA]: options =>
-    request([API_PREFIX, BASE_PATH_METADATA, options.pageUrl].join('')),
+    request([API_PREFIX, BASE_PATH_METADATA, options.pageUrl].join(''), {
+      headers: options.headers,
+    }),
   [FETCH_WIDGET_DATA]: options =>
     request(
       [
@@ -88,7 +89,8 @@ export const defaultApiProvider = {
         queryString.stringify(
           flatten(clearEmptyParams(options.baseQuery), { safe: true })
         ),
-      ].join('')
+      ].join(''),
+      { headers: options.headers }
     ),
   [FETCH_INVOKE_DATA]: options =>
     request(
@@ -103,6 +105,7 @@ export const defaultApiProvider = {
         method: options.baseMethod || 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...options.headers,
         },
         body: JSON.stringify(options.model || {}),
       }
@@ -118,7 +121,7 @@ export const defaultApiProvider = {
         ),
       ].join('')
     ).catch(console.error),
-  [FETCH_VALUE]: ({ url }) => request(url),
+  [FETCH_VALUE]: ({ url, headers }) => request(url, { headers }),
 };
 
 /**
@@ -138,11 +141,16 @@ export function fetchInputSelectData(
   model,
   settings = { apiPrefix: API_PREFIX, basePath: BASE_PATH_DATA }
 ) {
+  const { query, headers } = options;
+
   return request(
     [
       settings.apiPrefix,
       settings.basePath,
-      generateFlatQuery(options, '', {}, '.'),
-    ].join('')
+      generateFlatQuery(query, '', {}, '.'),
+    ].join(''),
+    {
+      headers: headers,
+    }
   );
 }
