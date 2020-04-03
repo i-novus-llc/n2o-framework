@@ -8,6 +8,7 @@ import {
   REMOVE_ALL,
 } from '../constants/models';
 import models from './models';
+import { resolveCopyAction } from './models';
 
 describe('Тесты models reducer', () => {
   it('Проверка SET', () => {
@@ -235,44 +236,137 @@ describe('Тесты models reducer', () => {
     });
   });
 
-  it('Проверка COPY', () => {
-    expect(
-      models(
-        {
-          resolve: {
-            testKey: {
-              name: 'new name',
+  describe('Проверка COPY', () => {
+    it('Проверка COPY без mode', () => {
+      expect(
+        models(
+          {
+            resolve: {
+              testKey: {
+                name: 'new name',
+              },
+            },
+            edit: {
+              testKey: {},
             },
           },
-          edit: {
-            testKey: {},
+          {
+            type: COPY,
+            payload: {
+              source: {
+                prefix: 'resolve',
+                key: 'testKey',
+              },
+              target: {
+                prefix: 'edit',
+                key: 'testKey',
+              },
+            },
+          }
+        )
+      ).toEqual({
+        edit: {
+          testKey: {
+            name: 'new name',
           },
         },
-        {
-          type: COPY,
-          payload: {
-            source: {
-              prefix: 'resolve',
-              key: 'testKey',
+        resolve: {
+          testKey: {
+            name: 'new name',
+          },
+        },
+      });
+    });
+
+    it('Проверка COPY mode = merge', () => {
+      expect(
+        models(
+          {
+            resolve: {
+              testWidget: {
+                one: 1,
+              },
             },
-            target: {
-              prefix: 'edit',
-              key: 'testKey',
+            filter: {
+              anotherWidget: {
+                two: 2,
+              },
             },
           },
-        }
-      )
-    ).toEqual({
-      edit: {
-        testKey: {
-          name: 'new name',
+          {
+            type: COPY,
+            payload: {
+              target: {
+                prefix: 'filter',
+                key: 'anotherWidget',
+              },
+              source: {
+                prefix: 'resolve',
+                key: 'testWidget',
+              },
+              mode: 'merge',
+            },
+          }
+        )
+      ).toEqual({
+        resolve: {
+          testWidget: {
+            one: 1,
+          },
         },
-      },
-      resolve: {
-        testKey: {
-          name: 'new name',
+        filter: {
+          anotherWidget: {
+            two: 2,
+            one: 1,
+          },
         },
-      },
+      });
+    });
+
+    it('Проверка COPY mode = add', () => {
+      expect(
+        models(
+          {
+            resolve: {
+              sourceWidget: {
+                one: [1, 2, 3],
+              },
+            },
+            filter: {
+              targetWidget: {
+                two: {
+                  arr: [4, 5, 6],
+                },
+              },
+            },
+          },
+          {
+            type: COPY,
+            payload: {
+              source: { prefix: 'resolve', key: 'sourceWidget', field: 'one' },
+              target: {
+                prefix: 'filter',
+                key: 'targetWidget',
+                field: 'two.arr',
+              },
+              mode: 'add',
+            },
+          }
+        )
+      ).toEqual({
+        resolve: {
+          sourceWidget: {
+            one: [1, 2, 3],
+          },
+        },
+        filter: {
+          targetWidget: {
+            two: {
+              arr: [4, 5, 6, 1, 2, 3],
+            },
+          },
+        },
+      });
     });
   });
 
@@ -301,6 +395,125 @@ describe('Тесты models reducer', () => {
     ).toEqual({
       resolve: {},
       edit: {},
+    });
+  });
+});
+
+const createState = (resolve = {}, filter = {}) => ({
+  resolve: {
+    proto_clients: {
+      id: 1,
+      name: 'Ivan',
+      surname: 'Ivanov',
+    },
+    ...resolve,
+  },
+  filter: {
+    proto_form: {
+      test: 'test',
+    },
+    ...filter,
+  },
+});
+
+const createAction = (
+  mode = 'replace',
+  sourceMapper = null,
+  source = {},
+  target = {}
+) => ({
+  payload: {
+    source: {
+      prefix: 'resolve',
+      key: 'proto_clients',
+      ...source,
+    },
+    target: {
+      prefix: 'filter',
+      key: 'proto_form',
+      ...target,
+    },
+    mode,
+    sourceMapper,
+  },
+});
+
+describe('Тесты resolveCopyAction', () => {
+  it('должен вернуть новый state после копирования mode = "replace"', () => {
+    const newState = resolveCopyAction(createState(), createAction());
+
+    expect(newState).toEqual({
+      resolve: createState().resolve,
+      filter: {
+        proto_form: {
+          id: 1,
+          name: 'Ivan',
+          surname: 'Ivanov',
+        },
+      },
+    });
+  });
+
+  it('должен вернуть новый state после копирования mode = "merge"', () => {
+    const newState = resolveCopyAction(createState(), createAction('merge'));
+
+    expect(newState).toEqual({
+      resolve: createState().resolve,
+      filter: {
+        proto_form: {
+          id: 1,
+          name: 'Ivan',
+          surname: 'Ivanov',
+          test: 'test',
+        },
+      },
+    });
+  });
+
+  it('должен вернуть новый state после копирования mode = "add"', () => {
+    const newState = resolveCopyAction(
+      createState(
+        {
+          sourceTest: {
+            arr: [1, 2, 3],
+          },
+        },
+        {
+          targetTest: {
+            newArr: [3, 4, 5],
+          },
+        }
+      ),
+      createAction(
+        'add',
+        null,
+        {
+          prefix: 'resolve',
+          key: 'sourceTest',
+          field: 'arr',
+        },
+        {
+          prefix: 'filter',
+          key: 'targetTest',
+          field: 'newArr',
+        }
+      )
+    );
+
+    expect(newState.filter.targetTest).toEqual({
+      newArr: [3, 4, 5, 1, 2, 3],
+    });
+  });
+
+  it('должен отработать sourceMapper', () => {
+    const newState = resolveCopyAction(
+      createState(),
+      createAction('replace', '`{ test: "test", name }`')
+    );
+
+    expect(newState.filter.proto_form).toEqual({
+      test: 'test',
+      name: 'Ivan',
     });
   });
 });
