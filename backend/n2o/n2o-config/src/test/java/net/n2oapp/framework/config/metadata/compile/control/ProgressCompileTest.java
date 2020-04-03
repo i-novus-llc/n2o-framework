@@ -42,7 +42,7 @@ public class ProgressCompileTest extends SourceCompileTestBase {
         assertThat(progress.getSrc(), is("Progress"));
         assertThat(progress.getMax(), is(100));
         assertThat(progress.getAnimated(), is(true));
-        assertThat(progress.getStripped(), is(true));
+        assertThat(progress.getStriped(), is(true));
         assertThat(progress.getBarClass(), is("class"));
         assertThat(progress.getBarText(), is("text"));
         assertThat(progress.getColor(), is("info"));
@@ -50,6 +50,6 @@ public class ProgressCompileTest extends SourceCompileTestBase {
         progress = (Progress) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(progress.getAnimated(), is(false));
-        assertThat(progress.getStripped(), is(false));
+        assertThat(progress.getStriped(), is(false));
     }
 }

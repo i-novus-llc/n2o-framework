@@ -653,7 +653,7 @@
                         <xs:documentation>Включает анимацию. При включении отображает полоски.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="stripped" type="xs:boolean" default="false">
+                <xs:attribute name="striped" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Отображение полосок на шкале прогресса.</xs:documentation>
                     </xs:annotation>

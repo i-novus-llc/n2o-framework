@@ -16,8 +16,8 @@ public class Progress extends Control {
     private String barText;
     @JsonProperty
     private Boolean animated;
-    @JsonProperty("striped")
-    private Boolean stripped;
+    @JsonProperty
+    private Boolean striped;
     @JsonProperty
     private String color;
     @JsonProperty("barClassName")

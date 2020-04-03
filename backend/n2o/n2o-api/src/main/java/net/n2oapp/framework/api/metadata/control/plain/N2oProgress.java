@@ -12,7 +12,7 @@ public class N2oProgress extends N2oPlainField {
     private Integer max;
     private String barText;
     private Boolean animated;
-    private Boolean stripped;
+    private Boolean striped;
     private String color;
     private String barClass;
 }

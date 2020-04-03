@@ -17,7 +17,7 @@ public class ProgressIOv2 extends PlainFieldIOv2<N2oProgress> {
         p.attributeInteger(e, "max", m::getMax, m::setMax);
         p.attribute(e, "bar-text", m::getBarText, m::setBarText);
         p.attributeBoolean(e, "animated", m::getAnimated, m::setAnimated);
-        p.attributeBoolean(e, "stripped", m::getStripped, m::setStripped);
+        p.attributeBoolean(e, "striped", m::getStriped, m::setStriped);
         p.attribute(e, "color", m::getColor, m::setColor);
         p.attribute(e, "bar-class", m::getBarClass, m::setBarClass);
     }
