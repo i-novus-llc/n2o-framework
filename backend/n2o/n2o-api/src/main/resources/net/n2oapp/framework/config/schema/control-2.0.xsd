@@ -903,6 +903,9 @@
     <xs:complexType name="controlSelectDefinition">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
+                <xs:annotation>
+                    <xs:documentation>Компонент выбора из выпадающего списка.</xs:documentation>
+                </xs:annotation>
                 <xs:attribute name="type" type="inputSelectType">
                     <xs:annotation>
                         <xs:documentation>Тип выбора в выпадающем списке.</xs:documentation>
@@ -911,6 +914,31 @@
                 <xs:attribute name="cleanable" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Опция очистки компонента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-format" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Все варианты select-format будут работать только когда тип checkboxes.
+                            Нужно использовать либо универсальный заголовок, либо 3 вида
+                            заголовков при разном числе элементов.
+                            Если не задать ни один, то число выбранных элементов не будет отображаться
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-format-one" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при одном элементе.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-format-few" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при нескольких элементах.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-format-many" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при большом числе элементов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
