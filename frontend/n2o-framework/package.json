@@ -75,6 +75,7 @@
     "connected-react-router": "5.0.1",
     "copy-to-clipboard": "^3.2.0",
     "cpy-cli": "1.0.1",
+    "cross-env": "^7.0.2",
     "deepmerge": "1.5.2",
     "draft-js": "0.10.5",
     "draftjs-to-html": "0.8.4",

@@ -3,7 +3,8 @@
   "version": "7.4.11",
   "npmClient": "npm",
   "npmClientArgs": [
-    "--no-package-lock"
+    "--no-package-lock",
+    "--ignore @babel*"
   ],
   "packages": [
     "demo",
