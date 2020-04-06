@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.control.plain;
 
 import net.n2oapp.framework.api.metadata.control.plain.N2oProgress;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.config.io.control.FieldIOv2;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись компонента отображения прогресса
  */
 @Component
-public class ProgressIOv2 extends PlainFieldIOv2<N2oProgress> {
+public class ProgressIOv2 extends FieldIOv2<N2oProgress> {
 
     @Override
     public void io(Element e, N2oProgress m, IOProcessor p) {
