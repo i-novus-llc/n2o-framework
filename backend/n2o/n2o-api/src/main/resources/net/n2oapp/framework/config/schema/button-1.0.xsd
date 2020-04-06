@@ -61,6 +61,11 @@
                         <xs:documentation>Видимость по умолчанию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="rounded" type="xs:boolean" use="optional" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Сделать кнопку круглой.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Доступность по умолчанию.</xs:documentation>
