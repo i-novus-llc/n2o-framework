@@ -4,6 +4,7 @@ import { omit } from 'lodash';
 import { Route, Switch } from 'react-router-dom';
 
 import StandardButton from './StandardButton';
+import SimpleButton from '../Simple/Simple';
 
 const stories = storiesOf('Кнопки', module);
 

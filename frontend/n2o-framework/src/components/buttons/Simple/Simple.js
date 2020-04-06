@@ -31,7 +31,7 @@ const SimpleButton = ({
       outline={outline}
       disabled={disabled}
       onClick={onClick}
-      className={cn({ 'btn-rounded': rounded })}
+      className={cn({ 'btn–rounded': rounded })}
       {...rest}
     >
       {icon && <Icon name={icon} />}
