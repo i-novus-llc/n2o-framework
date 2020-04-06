@@ -1,32 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, defaultProps, withHandlers } from 'recompose';
 import isEmpty from 'lodash/isEmpty';
+import map from 'lodash/map';
 import Button from 'reactstrap/lib/Button';
-
-const INDEX_PLACEHOLDER = '#index';
 
 export function MultiFieldsetItem({
   fields,
   render,
   rows,
   label,
+  parentName,
   addButtonLabel,
   removeAllButtonLabel,
   needAddButton,
   needRemoveButton,
   needRemoveAllButton,
   needCopyButton,
-  onAdd,
-  onRemove,
-  onRemoveAll,
-  onCopy,
   canRemoveFirstItem,
   resolvePlaceholder,
+  onAddField,
+  onRemoveField,
+  onRemoveAll,
+  onCopyField,
 }) {
   return (
     <>
-      {fields.map((parentName, index) => (
+      {map(fields, (field, index) => (
         <div className="n2o-multi-fieldset__container">
           <div className="n2o-multi-fieldset__item">
             {label && (
@@ -34,14 +33,17 @@ export function MultiFieldsetItem({
                 {resolvePlaceholder(index)}
               </div>
             )}
-            {render(rows, { parentName, parentIndex: index })}
+            {render(rows, {
+              parentName: `${parentName}[${index}]`,
+              parentIndex: index,
+            })}
             <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--inner">
               {needCopyButton && (
                 <Button
                   className="n2o-multi-fieldset__copy"
                   color="link"
                   size="sm"
-                  onClick={onCopy(index)}
+                  onClick={onCopyField(index)}
                 >
                   <i className="fa fa-copy" />
                 </Button>
@@ -51,7 +53,7 @@ export function MultiFieldsetItem({
                   className="n2o-multi-fieldset__remove"
                   color="link"
                   size="sm"
-                  onClick={onRemove(index)}
+                  onClick={onRemoveField(index)}
                 >
                   <i className="fa fa-trash" />
                 </Button>
@@ -62,7 +64,7 @@ export function MultiFieldsetItem({
       ))}
       <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--common">
         {needAddButton && (
-          <Button className="n2o-multi-fieldset__add" onClick={onAdd}>
+          <Button className="n2o-multi-fieldset__add" onClick={onAddField}>
             <i className="fa fa-plus mr-1" />
             {addButtonLabel}
           </Button>
@@ -100,6 +102,7 @@ MultiFieldsetItem.propTypes = {
 const defaultComponentProps = {
   render: () => {},
   rows: [],
+  fields: [],
   label: null,
   addButtonLabel: 'Добавить',
   removeAllButtonLabel: 'Удалить все',
@@ -112,17 +115,4 @@ const defaultComponentProps = {
 
 MultiFieldsetItem.defaultProps = defaultComponentProps;
 
-const enhance = compose(
-  defaultProps(defaultComponentProps),
-  withHandlers({
-    onAdd: ({ fields }) => () => fields.push({}),
-    onRemove: ({ fields }) => index => () => fields.remove(index),
-    onRemoveAll: ({ fields, canRemoveFirstItem }) => () =>
-      fields.splice(+!canRemoveFirstItem, fields.length),
-    onCopy: ({ fields }) => index => () => fields.push(fields.get(index)),
-    resolvePlaceholder: ({ label }) => value =>
-      label.replace(INDEX_PLACEHOLDER, value + 1),
-  })
-);
-
-export default enhance(MultiFieldsetItem);
+export default MultiFieldsetItem;
