@@ -4,6 +4,7 @@ import { omit } from 'lodash';
 import { Route, Switch } from 'react-router-dom';
 
 import StandardButton from './StandardButton';
+import SimpleButton from '../Simple/Simple';
 
 const stories = storiesOf('Кнопки', module);
 
@@ -34,6 +35,7 @@ const performMeta = {
     title: 'Предупреждение',
   },
   visible: true,
+  rounded: true,
   disabled: false,
   count: '9',
   label: 'Выполнить',
