@@ -43,8 +43,8 @@ public class IntervalFieldAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         N2oIntervalField interval = page.single().widget(N2oFormWidget.class).fields().field("Интервал", N2oIntervalField.class);
-        N2oInputText inputBegin = interval.getBegin(N2oInputText.class);
-        N2oInputText inputEnd = interval.getEnd(N2oInputText.class);
+        N2oInputText inputBegin = interval.begin(N2oInputText.class);
+        N2oInputText inputEnd = interval.end(N2oInputText.class);
         inputBegin.shouldHaveValue("5");
         inputEnd.shouldHaveValue("10");
         inputEnd.clickPlusStepButton();
@@ -55,8 +55,8 @@ public class IntervalFieldAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         N2oIntervalField interval = page.single().widget(N2oFormWidget.class).fields().field("Дата", N2oIntervalField.class);
-        N2oDateInput inputBegin = interval.getBegin(N2oDateInput.class);
-        N2oDateInput inputEnd = interval.getEnd(N2oDateInput.class);
+        N2oDateInput inputBegin = interval.begin(N2oDateInput.class);
+        N2oDateInput inputEnd = interval.end(N2oDateInput.class);
         inputBegin.shouldHaveValue("21.11.1999");
         inputEnd.shouldHaveValue("");
     }

@@ -7,12 +7,12 @@ import net.n2oapp.framework.autotest.api.component.control.IntervalField;
 public class N2oIntervalField extends N2oField implements IntervalField {
 
     @Override
-    public <T extends Control> T getBegin(Class<T> control) {
+    public <T extends Control> T begin(Class<T> control) {
         return N2oSelenide.component(element().$(".n2o-range-field-start .d-flex").lastChild(), control);
     }
 
     @Override
-    public <T extends Control> T getEnd(Class<T> control) {
+    public <T extends Control> T end(Class<T> control) {
         return N2oSelenide.component(element().$(".n2o-range-field-end .d-flex").lastChild(), control);
     }
 }
