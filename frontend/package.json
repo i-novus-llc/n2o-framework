@@ -40,6 +40,9 @@
     "test:n2o:hook": "lerna run --scope n2o-framework test:hook"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "babel-loader": "^8.0.6",
+    "npm-cli-login": "^0.1.1",
     "concurrently": "^3.5.1",
     "cross-env": "^5.2.0",
     "express": "^4.15.3",
@@ -67,10 +70,5 @@
       "git add",
       "npm run test:n2o:hook"
     ]
-  },
-  "dependencies": {
-    "@babel/core": "^7.7.2",
-    "babel-loader": "^8.0.6",
-    "npm-cli-login": "^0.1.1"
   }
 }
