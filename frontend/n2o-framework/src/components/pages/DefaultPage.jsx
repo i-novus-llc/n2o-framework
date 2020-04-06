@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+import isUndefined from 'lodash/isUndefined';
 import cn from 'classnames';
 import Alert from '../snippets/Alerts/Alert';
 import DocumentTitle from '../core/DocumentTitle';
@@ -47,7 +48,7 @@ function DefaultPage(
         <BreadcrumbContainer
           defaultBreadcrumb={DefaultBreadcrumb}
           items={metadata.breadcrumb}
-          title={metadata.page.title}
+          title={!isUndefined(metadata.page.title) && metadata.page.title}
         />
       )}
       {toolbar && (toolbar.topLeft || toolbar.topRight) && (
