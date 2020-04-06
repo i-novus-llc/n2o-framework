@@ -4,7 +4,7 @@ import ProgressControl from './ProgressControl';
 
 const propsFromSimpleProgressControl = {
   src: 'Progress',
-  label: 'Этот Label должен отрисоваться',
+  barText: 'Этот Label должен отрисоваться',
   value: 50,
   max: 100,
   animated: false,
@@ -25,7 +25,7 @@ const propsFromMultiProgressControl = {
       id: 'progress1',
       bar: true,
       animated: true,
-      label: 'success 25%',
+      barText: 'success 25%',
       color: 'success',
     },
     {
@@ -33,21 +33,21 @@ const propsFromMultiProgressControl = {
       bar: true,
       animated: false,
       striped: true,
-      label: 'info 25%',
+      barText: 'info 25%',
       color: 'info',
     },
     {
       id: 'progress3',
       bar: true,
       animated: false,
-      label: 'danger 25%',
+      barText: 'danger 25%',
       color: 'danger',
     },
     {
       id: 'progress4',
       bar: true,
       animated: false,
-      label: 'warning 25%',
+      barText: 'warning 25%',
       color: 'warning',
     },
   ],

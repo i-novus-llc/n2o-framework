@@ -37,7 +37,7 @@ stories.add(
       
       <ProgressControl
         src=Progress
-        label=Label
+        barText=barText
         multi=false,
         value=50,
         max=100,
@@ -72,7 +72,7 @@ stories.add(
       
       <ProgressControl
         src=Progress
-        label=Label
+        barText=barText
         multi=false,
         value=50,
         max=100,
@@ -107,7 +107,7 @@ stories.add(
       
       <ProgressControl
         src=Progress
-        label=Label
+        barText=barText
         multi=false,
         value=50,
         max=100,
@@ -145,7 +145,7 @@ stories.add(
             "id": "progress1",
             "bar": true,
             "animated": true,
-            "label": "success 25%",
+            "barText": "success 25%",
             "color": "success"
           },
           {
@@ -153,7 +153,7 @@ stories.add(
             "bar": true,
             "animated": false,
             "striped": true,
-            "label": "info 25%",
+            "barText": "info 25%",
             "color": "info"
           }
           ,
@@ -161,7 +161,7 @@ stories.add(
             "id": "progress3",
             "bar": true,
             "animated": false,
-            "label": "danger 25%",
+            "barText": "danger 25%",
             "color": "danger"
           }
           ,
@@ -169,7 +169,7 @@ stories.add(
             "id": "progress4",
             "bar": true,
             "animated": false,
-            "label": "warning 25%",
+            "barText": "warning 25%",
             "color": "warning"
           }
         ]
@@ -212,7 +212,7 @@ stories.add(
             "id": "progress1",
             "bar": true,
             "animated": true,
-            "label": "success 25%",
+            "barText": "success 25%",
             "color": "success"
           },
           {
@@ -220,7 +220,7 @@ stories.add(
             "bar": true,
             "animated": false,
             "striped": true,
-            "label": "info 25%",
+            "barText": "info 25%",
             "color": "info"
           }
           ,
@@ -228,7 +228,7 @@ stories.add(
             "id": "progress3",
             "bar": true,
             "animated": false,
-            "label": "danger 25%",
+            "barText": "danger 25%",
             "color": "danger"
           }
           ,
@@ -236,7 +236,7 @@ stories.add(
             "id": "progress4",
             "bar": true,
             "animated": false,
-            "label": "warning 25%",
+            "barText": "warning 25%",
             "color": "warning"
           }
         ]

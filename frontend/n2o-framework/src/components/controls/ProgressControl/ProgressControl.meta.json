@@ -1,7 +1,7 @@
 {
   "simple" : {
     "src": "Progress",
-    "label": "Label",
+    "barText": "Label",
     "multi": false,
     "value": 50,
     "max": 100,
@@ -22,7 +22,7 @@
         "id": "progress1",
         "bar": true,
         "animated": true,
-        "label": "success 25%",
+        "barText": "success 25%",
         "color": "success"
       },
       {
@@ -30,7 +30,7 @@
         "bar": true,
         "animated": false,
         "striped": true,
-        "label": "info 25%",
+        "barText": "info 25%",
         "color": "info"
       }
     ,
@@ -38,7 +38,7 @@
         "id": "progress3",
         "bar": true,
         "animated": false,
-        "label": "danger 25%",
+        "barText": "danger 25%",
         "color": "danger"
       }
     ,
@@ -46,7 +46,7 @@
         "id": "progress4",
         "bar": true,
         "animated": false,
-        "label": "warning 25%",
+        "barText": "warning 25%",
         "color": "warning"
       }
     ],
