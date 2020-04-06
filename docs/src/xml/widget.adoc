@@ -467,10 +467,10 @@ link:#_Предустановленные_параметры_действия_pa
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|selected
-|true false
-|Таблица без выделенных записей
-|true
+|selection
+|none active radio checkbox
+|Вариант выбора строки таблицы
+|active
 
 |table-size
 |sm lg
