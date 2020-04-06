@@ -92,7 +92,7 @@ exports[`StandardField рендерится корректно c toolbar 1`] = `
   <div
     style={
       Object {
-        "width": "100%",
+        "width": "auto",
       }
     }
   >
