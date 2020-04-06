@@ -1,9 +1,9 @@
 package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.autotest.api.component.control.InputControl;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.MaskedInputControl;
-import net.n2oapp.framework.autotest.api.component.control.SelectControl;
+import net.n2oapp.framework.autotest.api.component.control.Select;
 
 /**
  * Страница "Контакты" ProtoContacts.page.xml
@@ -19,16 +19,16 @@ public class ProtoContacts extends BaseSimplePage {
     }
 
     public void selectContactType(String text) {
-        getFields().field("Тип контакта").control(SelectControl.class).openOptions();
-        getFields().field("Тип контакта").control(SelectControl.class).select(Condition.text(text));
+        getFields().field("Тип контакта").control(Select.class).openOptions();
+        getFields().field("Тип контакта").control(Select.class).select(Condition.text(text));
     }
 
     public MaskedInputControl getPhoneNumber() {
         return getFields().field("Номер телефона").control(MaskedInputControl.class);
     }
 
-    public InputControl getDescription() {
-        return getFields().field("Примечание").control(InputControl.class);
+    public InputText getDescription() {
+        return getFields().field("Примечание").control(InputText.class);
     }
 
 }

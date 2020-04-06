@@ -1,6 +1,9 @@
 package net.n2oapp.demo;
 
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+
 import net.n2oapp.demo.model.ProtoClient;
 import net.n2oapp.demo.model.ProtoContacts;
 import net.n2oapp.demo.model.ProtoPage;
@@ -38,6 +41,8 @@ public class DemoIntegrationAT {
 
     @BeforeAll
     public static void configure() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
 
         headless = true;
@@ -143,7 +148,7 @@ public class DemoIntegrationAT {
 
         protoPage.getFirstNameFilter().shouldHaveValue("");
         protoPage.genderFilterShouldBeUnchecked("Женский");
-        protoPage.getVIPFilter().shouldBeUnchecked();
+        protoPage.getVIPFilter().shouldBeEmpty();
     }
 
 
@@ -463,7 +468,7 @@ public class DemoIntegrationAT {
         modalClientCard.patronymic().shouldHaveValue("Демьянович");
         modalClientCard.birthdayShouldHaveValue("25.03.1929");
         modalClientCard.gender().shouldSelected("Мужской");
-        modalClientCard.getVIP().shouldBeUnchecked();
+        modalClientCard.getVIP().shouldBeEmpty();
 
         modalClientCard.surname().shouldBeDisabled();
         modalClientCard.firstName().shouldBeDisabled();
@@ -558,13 +563,13 @@ public class DemoIntegrationAT {
         protoPage.tableCellShouldHaveText(0, 0, "Маркин");
 
         ProtoContacts modalProtoContacts = protoPage.createContact();
-        modalProtoContacts.shouldHaveTitle("Контакты - Создание");
+        modalProtoContacts.shouldHaveTitle("Контакты");
         modalProtoContacts.selectContactType("Моб. телефон");
         modalProtoContacts.getPhoneNumber().val("9999999999");
         modalProtoContacts.getDescription().val("рабочий телефон");
         modalProtoContacts.save();
 
-        protoPage.shouldDialogClosed("Контакты - Создание", 6000);
+        protoPage.shouldDialogClosed("Контакты", 6000);
         protoPage.shouldBeClientsPage();
         protoPage.tableShouldHaveSize(1);
 

@@ -1,8 +1,0 @@
-<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
-    <fields>
-        <row>
-            <output-text id="test1"  class="n2o" icon="fa fa-plus"
-                         position="left" type="iconAndText" format="number 0,0.00"/>
-        </row>
-    </fields>
-</form>
