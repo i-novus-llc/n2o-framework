@@ -10,12 +10,6 @@
                         copy-model="edit" copy-widget-id="table" copy-field-id="test"
                         submit-action-type="copy" target-model="resolve" target-widget-id="table"
                         target-field-id="test" copy-mode="replace">
-                <pre-filters>
-                    <contains field-id="test" value="test" values="test1 , test2"/>
-                </pre-filters>
-                <pre-fields>
-                    <contains field-id="test" value="test" values="test1 , test2"/>
-                </pre-fields>
             </show-modal>
         </action>
     </actions>

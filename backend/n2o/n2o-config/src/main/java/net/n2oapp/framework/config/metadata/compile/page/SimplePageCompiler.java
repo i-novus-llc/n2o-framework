@@ -64,8 +64,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         Widget compiledWidget = p.compile(widget, context, routes, pageScope, widgetScope, pageRouteScope, breadcrumbs, validationList, models, pageRoutesScope);
         page.setWidget(compiledWidget);
         registerRoutes(routes, context, p);
-        if (!(context instanceof ModalPageContext))
-            page.setRoutes(routes);
+        page.setRoutes(routes);
         page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
         String objectId = p.cast(source.getObjectId(), compiledWidget.getObjectId());
         CompiledObject object = null;
