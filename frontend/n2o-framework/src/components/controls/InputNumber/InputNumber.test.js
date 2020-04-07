@@ -1,7 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 
-import InputNumber from './InputNumber';
+import { InputNumber } from './InputNumber';
 
 const setup = propOverrides => {
   const props = Object.assign(
