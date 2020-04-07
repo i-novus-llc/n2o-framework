@@ -51,6 +51,8 @@ function FieldsetCol({
                 modelPrefix={modelPrefix}
                 key={key}
                 form={form}
+                parentName={parentName}
+                parentIndex={parentIndex}
                 {...fieldset}
               />
             );
