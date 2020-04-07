@@ -100,10 +100,10 @@ export function* queryMapping(location, routes) {
           map(parsedQuery, (value, key) => {
             return (
               routes.queryMapping[key] && {
-                ...routes.queryMapping[key].get,
+                ...get(routes, `queryMapping[${key}].get`, {}),
                 ...applyPlaceholders(
                   key,
-                  routes.queryMapping[key].get,
+                  get(routes, `queryMapping[${key}].get`, {}),
                   parsedQuery
                 ),
               }
