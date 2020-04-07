@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.widget.table;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
@@ -40,4 +41,6 @@ public class TableWidgetComponent extends WidgetComponent {
     private RowClick rowClick;
     @JsonProperty
     private Rows rows;
+    @JsonProperty
+    private RowSelectionEnum rowSelection;
 }
