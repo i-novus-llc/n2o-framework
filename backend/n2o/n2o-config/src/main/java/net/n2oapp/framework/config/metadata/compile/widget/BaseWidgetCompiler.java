@@ -382,6 +382,14 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);
         }
+
+        SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
+        if (searchBarScope != null) {
+            ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(), searchBarScope.getWidgetId());
+            modelLink.setFieldValue(searchBarScope.getModelKey());
+            dataProvider.getQueryMapping().put(searchBarScope.getModelKey(), modelLink);
+        }
+
         p.addRoute(getQueryContext(widget, source, context, widgetRoute, query, validationList, subModelsScope,
                 copiedFieldScope, p, object));
         return dataProvider;
@@ -633,7 +641,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     filter.setRoutable(p.cast(preFilter.getRoutable(), false));
                     filter.setFilterId(queryFilter.getFilterField());
                     Object prefilterValue = getPrefilterValue(preFilter);
-                    if (StringUtils.isJs(prefilterValue)) {
+                    ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+                    if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())){
+                        filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
+                    } else if (StringUtils.isJs(prefilterValue)) {
                         String widgetId = masterWidgetId;
                         if (preFilter.getRefWidgetId() != null) {
                             widgetId = preFilter.getRefPageId() == null ?

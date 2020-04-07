@@ -28,7 +28,7 @@ public class PanelRegionJsonTest extends JsonMetadataTestBase {
         check("net/n2oapp/framework/config/mapping/testPanelRegionJson.page.xml",
                 "components/regions/Panel/PanelRegion.meta.json")
                 .cutXml("regions.single[0]")
-                .exclude("panels[0].opened", "panels[0].isVisible", "panels[0].dependency", "panels[0].widgetId", "panels[1]")
+                .exclude("id", "panels[0].opened", "panels[0].isVisible", "panels[0].dependency", "panels[0].widgetId", "panels[1]")
                 .assertEquals();
     }
 }

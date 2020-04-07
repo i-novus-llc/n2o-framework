@@ -42,12 +42,14 @@ public class SubmitGenerator implements ButtonGenerator {
             submitModel = ((PageContext) context).getSubmitModel();
             submitLabel = ((PageContext) context).getSubmitLabel();
         }
-        if (submitLabel == null) {
-            CompiledObject compiledObject = p.getScope(CompiledObject.class);
-            if (compiledObject != null && compiledObject.getOperations().containsKey(submitOperationId))
-                submitLabel = compiledObject.getOperations().get(submitOperationId).getFormSubmitLabel();
-        }
         N2oButton saveButton = new N2oButton();
+        CompiledObject compiledObject = p.getScope(CompiledObject.class);
+        if (compiledObject != null && compiledObject.getOperations().containsKey(submitOperationId)) {
+            saveButton.setConfirm(compiledObject.getOperations().get(submitOperationId).getConfirm());
+            if (submitLabel == null) {
+                submitLabel = compiledObject.getOperations().get(submitOperationId).getFormSubmitLabel();
+            }
+        }
         saveButton.setId(GenerateType.submit.name());
         saveButton.setLabel(p.cast(submitLabel, p.getMessage("n2o.api.action.toolbar.button.submit.label")));
         saveButton.setPrimary(true);
@@ -66,7 +68,6 @@ public class SubmitGenerator implements ButtonGenerator {
         saveButton.setAction(saveAction);
         saveButton.setModel(p.cast(submitModel, ReduxModel.RESOLVE));
         saveButton.setValidate(true);
-        saveButton.setConfirm(false);
         return Collections.singletonList(saveButton);
     }
 }

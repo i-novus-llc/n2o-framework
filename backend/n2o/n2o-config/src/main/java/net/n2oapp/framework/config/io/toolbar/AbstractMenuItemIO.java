@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.toolbar;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.AbstractMenuItem;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -44,6 +45,17 @@ public abstract class AbstractMenuItemIO<T extends AbstractMenuItem> implements 
         p.attribute(e, "confirm-title", mi::getConfirmTitle, mi::setConfirmTitle);
         p.attribute(e, "confirm-ok-label", mi::getConfirmOkLabel, mi::setConfirmOkLabel);
         p.attribute(e, "confirm-cancel-label", mi::getConfirmCancelLabel, mi::setConfirmCancelLabel);
+        p.anyChildren(e, "dependencies", mi::getDependencies, mi::setDependencies, p.oneOf(AbstractMenuItem.Dependency.class)
+                .add("enabling", AbstractMenuItem.EnablingDependency.class, this::dependency)
+                .add("visibility", AbstractMenuItem.VisibilityDependency.class, this::dependency));
+        p.anyChild(e, null, mi::getAction, mi::setAction, p.anyOf(N2oAction.class).ignore("dependencies"), actionDefaultNamespace);
+    }
+
+    private void dependency(Element e, AbstractMenuItem.Dependency t, IOProcessor p) {
+        p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
+        p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
+        p.attributeArray(e, "on", ",", t::getOn, t::setOn);
+        p.text(e, t::getValue, t::setValue);
     }
 
     @Override

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <tabs>
+            <form/>
+        </tabs>
+        <tabs place="left" active-param="param1">
+            <form/>
+        </tabs>
+        <tabs id="tabId" place="single" active-param="param2">
+            <form/>
+        </tabs>
+    </regions>
+</page>
