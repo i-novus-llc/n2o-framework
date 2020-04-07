@@ -10,7 +10,7 @@
                                   format="`id+' '+id`" sort-field-id="sortName">
                         <default-value id="1" name="test" isTest="true"/>
                             <pre-filters>
-                                <notEq field-id="ref" value="{someField}" reset-on-change="true"/>
+                                <notEq field-id="ref" value="{someField}" param="test" reset-on-change="true"/>
                                 <contains field-id="country">
                                     <value>1</value>
                                     <value>2</value>

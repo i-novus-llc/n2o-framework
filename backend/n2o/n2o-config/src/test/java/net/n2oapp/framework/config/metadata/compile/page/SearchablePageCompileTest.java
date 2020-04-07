@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SearchablePage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -47,10 +48,10 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
 
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");
         assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(query.getOnGet().getPayload().get("prefix"), is("filter"));
-        assertThat(query.getOnGet().getPayload().get("key"), is("table"));
-        assertThat(query.getOnGet().getPayload().get("field"), is("name"));
-        assertThat(query.getOnGet().getPayload().get("value"), is(":table_name"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getPrefix(), is("filter"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getKey(), is("table"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getField(), is("name"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getValue(), is(":table_name"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
         assertThat(query.getOnSet().getBindLink(), is("models.filter['table']"));
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
@@ -70,10 +71,10 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getSrc(), is("SearchablePage"));
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("name");
         assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(query.getOnGet().getPayload().get("prefix"), is("filter"));
-        assertThat(query.getOnGet().getPayload().get("key"), is("table"));
-        assertThat(query.getOnGet().getPayload().get("field"), is("name"));
-        assertThat(query.getOnGet().getPayload().get("value"), is(":name"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getPrefix(), is("filter"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getKey(), is("table"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getField(), is("name"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getValue(), is(":name"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
         assertThat(query.getOnSet().getBindLink(), is("models.filter['table']"));
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
