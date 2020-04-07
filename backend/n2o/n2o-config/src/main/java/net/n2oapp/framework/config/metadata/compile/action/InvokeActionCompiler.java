@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -177,6 +178,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         }
         dataProvider.setPathMapping(pathMapping);
         dataProvider.setMethod(RequestMethod.POST);
+        dataProvider.setSubmitForm(p.cast(source.getSubmitForm(), true));
         payload.setDataProvider(dataProvider);
         CompiledObject compiledObject = p.getScope(CompiledObject.class);
         if (compiledObject == null)
@@ -202,10 +204,10 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         return null;
     }
 
-    private Map<String, BindLink> compileParams(N2oInvokeAction.Param[] params,CompileProcessor p,
-                                      ReduxModel model, String clientWidgetId) {
+    private Map<String, BindLink> compileParams(N2oParam[] params, CompileProcessor p,
+                                                ReduxModel model, String clientWidgetId) {
         Map<String, BindLink> result = new StrictMap<>();
-        for (N2oInvokeAction.Param param : params) {
+        for (N2oParam param : params) {
             ModelLink link = new ModelLink(p.cast(model, ReduxModel.RESOLVE), clientWidgetId);
             link.setValue(p.resolveJS(param.getValue()));
             result.put(param.getName(), link);

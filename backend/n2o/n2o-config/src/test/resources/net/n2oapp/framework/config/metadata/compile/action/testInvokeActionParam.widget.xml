@@ -11,7 +11,7 @@
     </actions>
     <toolbar>
         <button>
-            <invoke operation-id="create" optimistic="true">
+            <invoke operation-id="create" optimistic="true" submit-form="false">
                 <header-param name="hpName2" value="hpValue2"/>
                 <path-param name="ppName2" value="ppValue2"/>
                 <form-param name="fpName2" value="fpValue2"/>

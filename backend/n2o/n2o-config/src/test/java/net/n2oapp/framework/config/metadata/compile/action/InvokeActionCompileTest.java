@@ -146,6 +146,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         //filter model
         InvokeAction testAction = (InvokeAction) table.getActions().get("test");
         WidgetDataProvider provider1 = testAction.getPayload().getDataProvider();
+        assertThat(provider1.getSubmitForm(), is(true));
         assertThat(provider1.getFormMapping().size(), is(1));
         assertThat(provider1.getPathMapping().size(), is(1));
         assertThat(provider1.getHeadersMapping().size(), is(1));
@@ -157,6 +158,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         //resolve model
         InvokeAction menuItem0action = (InvokeAction) table.getActions().get("menuItem0");
         WidgetDataProvider provider2 = menuItem0action.getPayload().getDataProvider();
+        assertThat(provider2.getSubmitForm(), is(false));
         assertThat(provider2.getFormMapping().size(), is(1));
         assertThat(provider2.getPathMapping().size(), is(2));
         assertThat(provider2.getHeadersMapping().size(), is(1));

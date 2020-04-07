@@ -30,4 +30,6 @@ public class WidgetDataProvider implements Compiled {
     private String quickSearchParam;
     @JsonProperty
     private Boolean optimistic;
+    @JsonProperty
+    private Boolean submitForm;
 }

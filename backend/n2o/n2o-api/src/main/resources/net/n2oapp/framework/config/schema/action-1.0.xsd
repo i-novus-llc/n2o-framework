@@ -335,6 +335,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="submit-form" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Утвердить форму
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
