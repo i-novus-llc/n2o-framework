@@ -18,11 +18,6 @@ public class ProtoContacts extends BaseSimplePage {
         super(modal);
     }
 
-    public void selectClient(String text) {
-        getFields().field("Клиент").control(Select.class).find(text);
-        getFields().field("Клиент").control(Select.class).select(Condition.text(text));
-    }
-
     public void selectContactType(String text) {
         getFields().field("Тип контакта").control(Select.class).openOptions();
         getFields().field("Тип контакта").control(Select.class).select(Condition.text(text));
