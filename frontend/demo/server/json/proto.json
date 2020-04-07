@@ -943,6 +943,8 @@
         "size": 10,
         "hasFocus": true,
         "hasSelect": true,
+        "autoCheckOnSelect": true,
+        "rowSelection": "checkbox",
         "cells": [
           {
             "id": "surname",
