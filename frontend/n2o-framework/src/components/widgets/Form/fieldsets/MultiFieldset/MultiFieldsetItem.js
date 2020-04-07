@@ -24,7 +24,7 @@ export function MultiFieldsetItem({
   onCopyField,
 }) {
   return (
-    <>
+    <React.Fragment>
       {map(fields, (field, index) => (
         <div className="n2o-multi-fieldset__container">
           <div className="n2o-multi-fieldset__item">
@@ -79,7 +79,7 @@ export function MultiFieldsetItem({
           </Button>
         )}
       </div>
-    </>
+    </React.Fragment>
   );
 }
 
