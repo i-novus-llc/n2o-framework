@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.meta.control.Progress;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -37,8 +36,8 @@ public class ProgressCompileTest extends SourceCompileTestBase {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/field/testProgress.widget.xml")
                 .get(new WidgetContext("testProgress"));
 
-        Progress progress = (Progress) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
-                .get(0).getCols().get(0).getFields().get(0)).getControl();
+        Progress progress = (Progress) form.getComponent().getFieldsets().get(0).getRows()
+                .get(0).getCols().get(0).getFields().get(0);
         assertThat(progress.getSrc(), is("ProgressControl"));
         assertThat(progress.getMax(), is(100));
         assertThat(progress.getAnimated(), is(true));
@@ -47,8 +46,8 @@ public class ProgressCompileTest extends SourceCompileTestBase {
         assertThat(progress.getBarText(), is("text"));
         assertThat(progress.getColor(), is("info"));
 
-        progress = (Progress) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
-                .get(1).getCols().get(0).getFields().get(0)).getControl();
+        progress = (Progress) form.getComponent().getFieldsets().get(0).getRows()
+                .get(1).getCols().get(0).getFields().get(0);
         assertThat(progress.getAnimated(), is(false));
         assertThat(progress.getStriped(), is(false));
     }

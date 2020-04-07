@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.plain.N2oProgress;
 import net.n2oapp.framework.api.metadata.meta.control.Progress;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -14,9 +13,9 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция компонента отображения прогресса
  */
 @Component
-public class ProgressCompiler extends StandardFieldCompiler<Progress, N2oProgress> {
+public class ProgressCompiler extends FieldCompiler<Progress, N2oProgress> {
     @Override
-    protected String getControlSrcProperty() {
+    protected String getSrcProperty() {
         return "n2o.api.control.progress.src";
     }
 
@@ -26,7 +25,7 @@ public class ProgressCompiler extends StandardFieldCompiler<Progress, N2oProgres
     }
 
     @Override
-    public StandardField<Progress> compile(N2oProgress source, CompileContext<?, ?> context, CompileProcessor p) {
+    public Progress compile(N2oProgress source, CompileContext<?, ?> context, CompileProcessor p) {
         Progress progress = new Progress();
         progress.setMax(source.getMax());
         progress.setBarText(source.getBarText());
@@ -34,6 +33,7 @@ public class ProgressCompiler extends StandardFieldCompiler<Progress, N2oProgres
         progress.setStriped(p.cast(source.getStriped(), p.resolve(property("n2o.api.control.progress.striped"), Boolean.class)));
         progress.setColor(source.getColor());
         progress.setBarClass(source.getBarClass());
-        return compileStandardField(progress, source, context, p);
+        compileField(progress, source, context, p);
+        return progress;
     }
 }
