@@ -340,15 +340,20 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 
 |===
 
+Тело::
+<form-param> - свойство в json в request body
+<path-param> - параметр в route
+<header-param> - параметр заголовка запроса (request headers)
 
 Пример::
 [source,xml]
 ----
-<invoke
-  operation-id="update"
-  model="edit"
-  confirm="false"
-  close-on-success="true"/>
+<invoke operation-id="update" model="edit"
+  confirm="false" close-on-success="true">
+    <form-param name="..." value="..."/>
+    <path-param name="..." value="..."/>
+    <header-param name="..." value="..."/>
+</invoke>
 ----
 
 === <perform-validation>

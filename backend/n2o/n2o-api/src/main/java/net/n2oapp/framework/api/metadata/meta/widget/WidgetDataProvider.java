@@ -21,6 +21,10 @@ public class WidgetDataProvider implements Compiled {
     @JsonProperty
     private Map<String, BindLink> queryMapping;
     @JsonProperty
+    private Map<String, BindLink> headersMapping;
+    @JsonProperty
+    private Map<String, BindLink> formMapping;
+    @JsonProperty
     private RequestMethod method;
     @JsonProperty
     private String quickSearchParam;

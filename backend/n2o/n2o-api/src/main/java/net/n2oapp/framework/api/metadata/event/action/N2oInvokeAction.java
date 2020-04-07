@@ -5,6 +5,8 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 
+import java.io.Serializable;
+
 /**
  * Действие вызова операции
  */
@@ -26,10 +28,21 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private Boolean messageOnFail;
     private Boolean optimistic;
 
+    private Param[] formParams;
+    private Param[] pathParams;
+    private Param[] headerParams;
+
     public N2oInvokeAction() {
     }
 
     public N2oInvokeAction(String actionId) {
         this.operationId = actionId;
+    }
+
+    @Getter
+    @Setter
+    public static class Param implements Serializable {
+        private String name;
+        private String value;
     }
 }

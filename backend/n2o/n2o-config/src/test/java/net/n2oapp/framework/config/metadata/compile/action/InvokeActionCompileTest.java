@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
@@ -137,5 +136,33 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getModelLink(), is("models.filter['p_w']"));
         assertThat(testAction.getPayload().getWidgetId(), is("p_w"));
         assertThat(testAction.getPayload().getPageId(), is("p"));
+    }
+
+    @Test
+    public void dataProviderParams() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionParam.widget.xml")
+                .get(new WidgetContext("testInvokeActionParam", "/w"));
+
+        //filter model
+        InvokeAction testAction = (InvokeAction) table.getActions().get("test");
+        WidgetDataProvider provider1 = testAction.getPayload().getDataProvider();
+        assertThat(provider1.getFormMapping().size(), is(1));
+        assertThat(provider1.getPathMapping().size(), is(1));
+        assertThat(provider1.getHeadersMapping().size(), is(1));
+
+        assertThat(provider1.getFormMapping().get("fpName1").getValue(), is("fpValue1"));
+        assertThat(provider1.getPathMapping().get("ppName1").getValue(), is("ppValue1"));
+        assertThat(provider1.getHeadersMapping().get("hpName1").getValue(), is("hpValue1"));
+
+        //resolve model
+        InvokeAction menuItem0action = (InvokeAction) table.getActions().get("menuItem0");
+        WidgetDataProvider provider2 = menuItem0action.getPayload().getDataProvider();
+        assertThat(provider2.getFormMapping().size(), is(1));
+        assertThat(provider2.getPathMapping().size(), is(2));
+        assertThat(provider2.getHeadersMapping().size(), is(1));
+
+        assertThat(provider2.getFormMapping().get("fpName2").getValue(), is("fpValue2"));
+        assertThat(provider2.getPathMapping().get("ppName2").getValue(), is("ppValue2"));
+        assertThat(provider2.getHeadersMapping().get("hpName2").getValue(), is("hpValue2"));
     }
 }
