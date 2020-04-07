@@ -77,7 +77,7 @@ stories.add('Форма с toolbar', () => {
                         buttons: [
                           {
                             src: 'DropdownButton',
-                            id: 'update',
+                            id: 'update3',
                             label: 'button 1',
                             actionId: 'update',
                             validate: true,
@@ -101,8 +101,7 @@ stories.add('Форма с toolbar', () => {
                           },
                           {
                             src: 'DropdownButton',
-                            id: 'update',
-                            label: 'button 2',
+                            id: 'update4',
                             actionId: 'update',
                             validate: true,
                             validatedWidgetId: 'create2_main',

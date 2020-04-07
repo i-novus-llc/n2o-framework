@@ -100,12 +100,13 @@ class StandardField extends React.Component {
         ? undefined
         : labelWidth;
 
-    const styleHelper =
-      labelWidthPixels && colLength > 1
-        ? {
-            maxWidth: `calc(100% - ${labelWidthPixels})`,
-          }
-        : { width: '100%' };
+    const styleHelper = toolbar
+      ? { width: 'auto' }
+      : labelWidthPixels && colLength > 1
+      ? {
+          maxWidth: `calc(100% - ${labelWidthPixels})`,
+        }
+      : { width: '100%' };
     const extendedLabelStyle = {
       width: labelWidthPixels,
       flex: labelWidthPixels ? 'none' : undefined,
