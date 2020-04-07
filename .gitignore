@@ -50,6 +50,9 @@ es/
 esdoc/
 storybook/
 
+#Test results
+demo/server/allure-results
+
 # Compiled output
 public/dist
 public/index.html
@@ -65,3 +68,5 @@ firebase-debug.log
 
 # Jest
 .jest-test-results.json
+
+
