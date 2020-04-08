@@ -5,6 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import Text from '../../../../snippets/Typography/Text/Text';
+import withTooltip from '../../withTooltip';
+import { compose } from 'recompose';
 
 /** Описание */
 function TextCell({ model, fieldKey, id, visible, preLine, ...rest }) {
@@ -46,4 +48,6 @@ TextCell.defaultProps = {
   visible: true,
 };
 
-export default TextCell;
+export { TextCell };
+
+export default withTooltip(TextCell);
