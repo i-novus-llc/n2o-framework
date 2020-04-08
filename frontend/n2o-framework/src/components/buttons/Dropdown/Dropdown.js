@@ -13,6 +13,7 @@ import { BUTTONS } from '../../../core/factory/factoryLevels';
 import SimpleButton from '../Simple/Simple';
 import mappingProps from '../Simple/mappingProps';
 import withActionButton from '../withActionButton';
+import flip from '@popperjs/core/lib/modifiers/flip';
 
 class DropdownButton extends React.Component {
   state = { open: false };
@@ -51,12 +52,19 @@ class DropdownButton extends React.Component {
           </Reference>
           <Popper
             placement="bottom-start"
-            modifiers={{
-              preventOverflow: {
-                boundariesElement: 'window',
+            modifiers={[
+              { name: 'preventOverflow', enabled: true },
+              {
+                name: 'flip',
+                options: {
+                  fallbackPlacements: ['left'],
+                  rootBoundary: 'document',
+                  boundary: 'document',
+                  flipVariations: false,
+                },
               },
-            }}
-            positionFixed={true}
+            ]}
+            strategy="fixed"
           >
             {({ ref, style, placement }) => (
               <div

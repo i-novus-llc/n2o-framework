@@ -18,51 +18,7 @@ stories.add('Форма с toolbar', () => {
           {
             cols: [
               {
-                size: 6,
-                fields: [
-                  {
-                    id: 'name',
-                    src: 'StandardField',
-                    label: 'Поле 1',
-                    control: {
-                      src: 'InputText',
-                      readOnly: false,
-                    },
-                    toolbar: [
-                      {
-                        buttons: [
-                          {
-                            src: 'StandardButton',
-                            id: 'update',
-                            label: 'button 1',
-                            icon: 'fa fa-trash',
-                            actionId: 'update',
-                            validate: true,
-                            validatedWidgetId: 'create2_main',
-                            color: 'primary',
-                            hint: 'some hint',
-                            size: 'sm',
-                          },
-                          {
-                            src: 'StandardButton',
-                            id: 'update1',
-                            label: 'button 2',
-                            icon: 'fa fa-trash',
-                            actionId: 'update',
-                            validate: true,
-                            validatedWidgetId: 'create2_main',
-                            color: 'primary',
-                            hint: 'some hint',
-                            size: 'sm',
-                          },
-                        ],
-                      },
-                    ],
-                  },
-                ],
-              },
-              {
-                size: 6,
+                size: 12,
                 fields: [
                   {
                     id: 'name',
@@ -75,6 +31,18 @@ stories.add('Форма с toolbar', () => {
                     toolbar: [
                       {
                         buttons: [
+                          {
+                            src: 'StandardButton',
+                            id: 'update1',
+                            label: 'button 2',
+                            icon: 'fa fa-trash',
+                            actionId: 'update',
+                            validate: true,
+                            validatedWidgetId: 'create2_main',
+                            color: 'primary',
+                            hint: 'some hint',
+                            size: 'sm',
+                          },
                           {
                             src: 'DropdownButton',
                             id: 'update3',
@@ -112,6 +80,89 @@ stories.add('Форма с toolbar', () => {
                                 actionId: 'dummy',
                                 src: 'StandardButton',
                                 label: 'label',
+                                icon: 'fa fa-paper-plane',
+                                hint: 'Подписать запись',
+                                count: '4',
+                                size: 'sm',
+                                color: 'secondary',
+                                visible: true,
+                                disabled: false,
+                              },
+                            ],
+                          },
+                          {
+                            src: 'DropdownButton',
+                            id: 'update4',
+                            actionId: 'update',
+                            validate: true,
+                            validatedWidgetId: 'create2_main',
+                            color: 'secondary',
+                            subMenu: [
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label: 'label',
+                                icon: 'fa fa-paper-plane',
+                                hint: 'Подписать запись',
+                                count: '4',
+                                size: 'sm',
+                                color: 'secondary',
+                                visible: true,
+                                disabled: false,
+                              },
+                            ],
+                          },
+                          {
+                            src: 'DropdownButton',
+                            id: 'update4',
+                            actionId: 'update',
+                            validate: true,
+                            validatedWidgetId: 'create2_main',
+                            color: 'secondary',
+                            subMenu: [
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label: 'label',
+                                icon: 'fa fa-paper-plane',
+                                hint: 'Подписать запись',
+                                count: '4',
+                                size: 'sm',
+                                color: 'secondary',
+                                visible: true,
+                                disabled: false,
+                              },
+                            ],
+                          },
+                          {
+                            src: 'DropdownButton',
+                            id: 'update4',
+                            actionId: 'update',
+                            validate: true,
+                            validatedWidgetId: 'create2_main',
+                            color: 'secondary',
+                            subMenu: [
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label: 'Длинный лэйбл для теста flip popUp',
+                                icon: 'fa fa-paper-plane',
+                                hint: 'Подписать запись',
+                                count: '4',
+                                size: 'sm',
+                                color: 'secondary',
+                                visible: true,
+                                disabled: false,
+                              },
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label:
+                                  'Второй Длинный лэйбл для теста flip popUp',
                                 icon: 'fa fa-paper-plane',
                                 hint: 'Подписать запись',
                                 count: '4',

@@ -101,7 +101,7 @@ class StandardField extends React.Component {
         : labelWidth;
 
     const styleHelper = toolbar
-      ? { width: 'auto' }
+      ? { width: '100%' }
       : labelWidthPixels && colLength > 1
       ? {
           maxWidth: `calc(100% - ${labelWidthPixels})`,
