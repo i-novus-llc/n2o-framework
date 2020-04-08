@@ -35,7 +35,7 @@ public class DataServlet extends N2oServlet {
     protected void safeDoGet(HttpServletRequest req, HttpServletResponse res)
             throws IOException {
         GetDataResponse result = controller.getData(req.getPathInfo(),
-                req.getParameterMap(),
+                req,
                 (UserContext) req.getAttribute(USER));
         res.setStatus(result.getStatus());
         res.setContentType("application/json");
@@ -46,7 +46,7 @@ public class DataServlet extends N2oServlet {
     @Override
     protected void safeDoPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         SetDataResponse result = controller.setData(req.getPathInfo(),
-                req.getParameterMap(),
+                req,
                 getRequestBody(req),
                 (UserContext) req.getAttribute(USER));
         res.setStatus(result.getStatus());

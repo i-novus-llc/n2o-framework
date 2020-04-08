@@ -1,6 +1,5 @@
 package net.n2oapp.framework.ui.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.api.Direction;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
@@ -8,17 +7,14 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
-import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
@@ -56,9 +52,10 @@ public abstract class AbstractController {
     }
 
     @SuppressWarnings("unchecked")
-    protected ActionRequestInfo createActionRequestInfo(String path, Map<String, String[]> params, Object body, UserContext user) {
-        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, params);
-        DataSet queryData = actionCtx.getParams(path, params);
+    protected ActionRequestInfo createActionRequestInfo(String path, HttpServletRequest request, Object body, UserContext user) {
+        //TODO
+        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, request.getParameterMap());
+        DataSet queryData = actionCtx.getParams(path, request.getParameterMap());
         CompiledObject object = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(actionCtx, queryData);
@@ -166,11 +163,11 @@ public abstract class AbstractController {
         return requestInfo;
     }
 
-    protected QueryRequestInfo createQueryRequestInfo(String path, Map<String, String[]> params, UserContext user) {
-        CompiledQuery query;
-        QueryContext queryCtx = (QueryContext) router.get(path, CompiledQuery.class, params);
-        DataSet data = queryCtx.getParams(path, params);
-        query = environment.getReadCompileBindTerminalPipelineFunction()
+    protected QueryRequestInfo createQueryRequestInfo(String path, HttpServletRequest request, UserContext user) {
+        //TODO
+        QueryContext queryCtx = (QueryContext) router.get(path, CompiledQuery.class, request.getParameterMap());
+        DataSet data = queryCtx.getParams(path, request.getParameterMap());
+        CompiledQuery query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(queryCtx, data);
         QueryRequestInfo requestInfo = new QueryRequestInfo();

@@ -87,7 +87,7 @@ public class N2oController {
         String path = getPath(request, "/n2o/data");
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
-        GetDataResponse response = dataController.getData(path, request.getParameterMap(), null);
+        GetDataResponse response = dataController.getData(path, request, null);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
@@ -96,7 +96,7 @@ public class N2oController {
         String path = getPath(request, "/n2o/data");
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
-        SetDataResponse dataResponse = dataController.setData(path, request.getParameterMap(), new DataSet(body), null);
+        SetDataResponse dataResponse = dataController.setData(path, request, new DataSet(body), null);
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 

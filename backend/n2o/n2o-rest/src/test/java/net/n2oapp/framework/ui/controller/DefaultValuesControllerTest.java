@@ -1,6 +1,5 @@
 package net.n2oapp.framework.ui.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.DomainProcessor;
@@ -34,6 +33,7 @@ import org.mockito.Mockito;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -128,6 +128,8 @@ public class DefaultValuesControllerTest {
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
-        return controller.getData(path, params, userContext);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameters(params);
+        return controller.getData(path, request, userContext);
     }
 }
