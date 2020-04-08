@@ -1,6 +1,4 @@
-package net.n2oapp.framework.autotest.api.component.control;
-
-import net.n2oapp.framework.autotest.api.component.snippet.Snippet;
+package net.n2oapp.framework.autotest.api.component.snippet;
 
 /**
  * Компонент текста для автотестирования
