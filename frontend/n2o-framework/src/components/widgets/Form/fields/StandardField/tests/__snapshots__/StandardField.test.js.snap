@@ -10,7 +10,7 @@ exports[`StandardField рендерится корректно 1`] = `
   }
 >
   <label
-    className="n2o-field-label myLabelClass n2o-label "
+    className="n2o-field-label myLabelClass n2o-label"
     style={
       Object {
         "display": "block",
