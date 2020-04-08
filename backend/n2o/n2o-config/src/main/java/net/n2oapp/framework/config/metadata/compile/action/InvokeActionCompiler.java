@@ -7,10 +7,12 @@ import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
@@ -63,19 +65,21 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                 targetWidgetModel = modelAware.getModel();
             }
         }
+        ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String currentWidgetId = widgetScope == null ? targetWidgetId : widgetScope.getClientWidgetId();
         String modalLink = Redux.createBindLink(targetWidgetId, targetWidgetModel).getBindLink();
         invokeAction.getPayload().setModelLink(modalLink);
         invokeAction.getMeta()
-                .setSuccess(initSuccessMeta(invokeAction, source, context, p, targetWidgetId, currentWidgetId));
+                .setSuccess(initSuccessMeta(invokeAction, source, context, p, targetWidgetId, currentWidgetId, routeScope));
         invokeAction.getMeta().setFail(initFailMeta(currentWidgetId));
         invokeAction.getPayload().setWidgetId(targetWidgetId);
         if (widgetScope == null) {
             PageScope pageScope = p.getScope(PageScope.class);
             invokeAction.getPayload().setPageId(pageScope.getPageId());
         }
-        initDataProvider(invokeAction, source, context, p, targetWidgetModel);
+
+        initDataProvider(invokeAction, source, context, p, targetWidgetModel, routeScope);
         return invokeAction;
     }
 
@@ -88,7 +92,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
 
     private MetaSaga initSuccessMeta(InvokeAction invokeAction, N2oInvokeAction source,
                                      CompileContext<?, ?> context, CompileProcessor p, String targetWidgetId,
-                                     String currentWidgetId) {
+                                     String currentWidgetId, ParentRouteScope routeScope) {
         MetaSaga meta = new MetaSaga();
         boolean closeOnSuccess = p.cast(source.getCloseOnSuccess(), false);
         boolean refresh = p.cast(source.getRefreshOnSuccess(), true);
@@ -131,7 +135,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             if (context instanceof ModalPageContext)
                 meta.setCloseLastModal(true);
             meta.setRedirect(new RedirectSaga());
-            ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+
             meta.getRedirect().setPath(absolute(source.getRedirectUrl(), routeScope != null ? routeScope.getUrl() : null));
             meta.getRedirect().setTarget(source.getRedirectTarget());
             meta.getRedirect().setServer(true);
@@ -142,30 +146,39 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
 
     private void initDataProvider(InvokeAction invokeAction, N2oInvokeAction source,
                                   CompileContext<?, ?> context, CompileProcessor p,
-                                  ReduxModel model) {
+                                  ReduxModel model, ParentRouteScope routeScope) {
         InvokeActionPayload payload = invokeAction.getPayload();
         AsyncMetaSaga metaSaga = invokeAction.getMeta();
         WidgetDataProvider dataProvider = new WidgetDataProvider();
         dataProvider.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
         Map<String, BindLink> pathMapping = new StrictMap<>();
-        ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         String path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null && model.equals(ReduxModel.RESOLVE)) {
-            String widgetSelectedId = widgetScope.getClientWidgetId() + "_id";
-            path = path + normalize(colon(widgetSelectedId));
-            pathMapping.put(widgetSelectedId, Redux.createBindLink(widgetScope.getClientWidgetId(), ReduxModel.RESOLVE, "id"));
+        if (widgetScope != null) {
+            String clientWidgetId = widgetScope.getClientWidgetId();
+            if (model.equals(ReduxModel.RESOLVE)) {
+                String widgetSelectedId = clientWidgetId + "_id";
+                path = path + normalize(colon(widgetSelectedId));
+                pathMapping.put(widgetSelectedId, Redux.createBindLink(clientWidgetId, model, "id"));
+            }
+            if (source.getPathParams() != null) {
+                pathMapping.putAll(compileParams(source.getPathParams(), p, model, clientWidgetId));
+            }
+            if (source.getFormParams() != null) {
+                dataProvider.setFormMapping(compileParams(source.getFormParams(), p, model, clientWidgetId));
+            }
+            if (source.getHeaderParams() != null) {
+                dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), p, model, clientWidgetId));
+            }
         }
         path = path + normalize(p.cast(source.getRoute(), source.getId()));
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + path);
         if (routeScope != null && routeScope.getPathMapping() != null) {
-            for (String pathParam : routeScope.getPathMapping().keySet()) {
-                BindLink bindLink = routeScope.getPathMapping().get(pathParam);
-                pathMapping.put(pathParam, bindLink);
-            }
+            pathMapping.putAll(routeScope.getPathMapping());
         }
         dataProvider.setPathMapping(pathMapping);
         dataProvider.setMethod(RequestMethod.POST);
+        dataProvider.setSubmitForm(p.cast(source.getSubmitForm(), true));
         payload.setDataProvider(dataProvider);
         CompiledObject compiledObject = p.getScope(CompiledObject.class);
         if (compiledObject == null)
@@ -189,5 +202,16 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                 && meta.getSuccess().getRedirect().isServer())
             return meta.getSuccess().getRedirect();
         return null;
+    }
+
+    private Map<String, BindLink> compileParams(N2oParam[] params, CompileProcessor p,
+                                                ReduxModel model, String clientWidgetId) {
+        Map<String, BindLink> result = new StrictMap<>();
+        for (N2oParam param : params) {
+            ModelLink link = new ModelLink(p.cast(model, ReduxModel.RESOLVE), clientWidgetId);
+            link.setValue(p.resolveJS(param.getValue()));
+            result.put(param.getName(), link);
+        }
+        return result;
     }
 }
