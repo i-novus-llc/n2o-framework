@@ -13,4 +13,8 @@ public interface InputText extends Control {
     void clickPlusStepButton();
 
     void clickMinusStepButton();
+
+    void shouldHaveMeasure();
+
+    void measureShouldHaveText(String text);
 }
