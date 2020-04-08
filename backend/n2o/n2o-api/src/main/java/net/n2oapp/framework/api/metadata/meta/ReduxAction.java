@@ -6,8 +6,6 @@ import net.n2oapp.framework.api.metadata.meta.action.PerformActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.ReduxActionOptions;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 
-import java.util.Map;
-
 @Getter
 @Setter
 public class ReduxAction extends ReduxActionOptions<PerformActionPayload, MetaSaga> {
@@ -15,11 +13,7 @@ public class ReduxAction extends ReduxActionOptions<PerformActionPayload, MetaSa
     public ReduxAction() {
     }
 
-    public ReduxAction(String type) {
-        super(type, new PerformActionPayload());
-    }
-
-    public ReduxAction(String type, Map<String, Object> params) {
-        super(type, new PerformActionPayload(params));
+    public ReduxAction(String type, PerformActionPayload actionPayload) {
+        super(type, actionPayload);
     }
 }

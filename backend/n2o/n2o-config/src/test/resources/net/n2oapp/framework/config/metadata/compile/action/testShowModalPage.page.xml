@@ -3,6 +3,9 @@
       modal-size="sm"
       name="Модальное окно">
     <form query-id="testShowModal">
-
+        <pre-filters>
+            <eq field-id="secondId" value="1"/>
+            <eq field-id="name" param="name"/>
+        </pre-filters>
     </form>
 </simple-page>
