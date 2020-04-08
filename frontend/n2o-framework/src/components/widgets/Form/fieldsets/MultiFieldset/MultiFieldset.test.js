@@ -2,13 +2,16 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import set from 'lodash/set';
 
-import configureStore from "../../../../../store";
-import history from "../../../../../history";
-import FactoryProvider from "../../../../../core/factory/FactoryProvider";
-import createFactoryConfig from "../../../../../core/factory/createFactoryConfig";
-import FormWidget from "../../FormWidget";
+import configureStore from '../../../../../store';
+import history from '../../../../../history';
+import FactoryProvider from '../../../../../core/factory/FactoryProvider';
+import createFactoryConfig from '../../../../../core/factory/createFactoryConfig';
+import FormWidget from '../../FormWidget';
 
-const delay = (timeout) => new Promise(resolve => { setTimeout(() => resolve(), timeout) });
+const delay = timeout =>
+  new Promise(resolve => {
+    setTimeout(() => resolve(), timeout);
+  });
 
 const initialState = {
   models: {
@@ -17,16 +20,16 @@ const initialState = {
         members: [
           {
             surname: 'first surname',
-            name: 'first name'
+            name: 'first name',
           },
           {
             surname: 'second surname',
-            name: 'second name'
-          }
-        ]
-      }
-    }
-  }
+            name: 'second name',
+          },
+        ],
+      },
+    },
+  },
 };
 
 const store = configureStore(initialState, history, {});
@@ -37,8 +40,8 @@ const fieldsets = [
     needRemoveButton: true,
     needRemoveAllButton: true,
     needCopyButton: true,
-    name: "members",
-    label: "Элемент #index",
+    name: 'members',
+    label: 'Элемент #index',
     rows: [
       {
         cols: [
@@ -53,15 +56,15 @@ const fieldsets = [
                     type: 'enabled',
                     on: ['members[#index].name'],
                     expression: "members[#index].name !== 'test'",
-                    applyOnInit: true
-                  }
+                    applyOnInit: true,
+                  },
                 ],
                 control: {
                   src: 'InputText',
-                  id: 'surname'
-                }
-              }
-            ]
+                  id: 'surname',
+                },
+              },
+            ],
           },
           {
             fields: [
@@ -72,15 +75,15 @@ const fieldsets = [
                 dependency: [],
                 control: {
                   src: 'InputText',
-                  id: 'name'
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+                  id: 'name',
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const setup = (propsOverride = {}) => {
@@ -90,7 +93,7 @@ const setup = (propsOverride = {}) => {
     dataProvider: {
       url: '/multi-fieldset/data',
       pathMapping: {},
-      queryMapping: {}
+      queryMapping: {},
     },
     form: {
       fieldsets,
@@ -101,11 +104,11 @@ const setup = (propsOverride = {}) => {
             validationKey: 'members',
             text: 'Валидация на members',
             type: 'required',
-            multi: true
-          }
-        ]
-      }
-    }
+            multi: true,
+          },
+        ],
+      },
+    },
   };
 
   return mount(
@@ -114,7 +117,7 @@ const setup = (propsOverride = {}) => {
         <FormWidget {...props} {...propsOverride} />
       </FactoryProvider>
     </Provider>
-  )
+  );
 };
 
 describe('<MultiFieldset />', () => {
@@ -128,14 +131,27 @@ describe('<MultiFieldset />', () => {
     const wrapper = setup();
 
     expect(wrapper.find('.n2o-multi-fieldset__label').length).toBe(2);
-    expect(wrapper.find('.n2o-multi-fieldset__label').first().text()).toBe('Элемент 1');
-    expect(wrapper.find('.n2o-multi-fieldset__label').last().text()).toBe('Элемент 2');
+    expect(
+      wrapper
+        .find('.n2o-multi-fieldset__label')
+        .first()
+        .text()
+    ).toBe('Элемент 1');
+    expect(
+      wrapper
+        .find('.n2o-multi-fieldset__label')
+        .last()
+        .text()
+    ).toBe('Элемент 2');
   });
 
   it('должен добавить группу fields', () => {
     const wrapper = setup();
 
-    wrapper.find('.n2o-multi-fieldset__add').last().simulate('click');
+    wrapper
+      .find('.n2o-multi-fieldset__add')
+      .last()
+      .simulate('click');
 
     expect(wrapper.find('StandardField').length).toBe(6);
   });
@@ -143,17 +159,33 @@ describe('<MultiFieldset />', () => {
   it('должен скопировать группу fields', () => {
     const wrapper = setup();
 
-    wrapper.find('.n2o-multi-fieldset__copy').first().simulate('click');
+    wrapper
+      .find('.n2o-multi-fieldset__copy')
+      .first()
+      .simulate('click');
 
     expect(wrapper.find('StandardField').length).toBe(6);
-    expect(wrapper.find('input').at(4).props().value).toEqual('first surname');
-    expect(wrapper.find('input').last().props().value).toEqual('first name');
+    expect(
+      wrapper
+        .find('input')
+        .at(4)
+        .props().value
+    ).toEqual('first surname');
+    expect(
+      wrapper
+        .find('input')
+        .last()
+        .props().value
+    ).toEqual('first name');
   });
 
   it('должен удалить группу fields', () => {
     const wrapper = setup();
 
-    wrapper.find('.n2o-multi-fieldset__remove').last().simulate('click');
+    wrapper
+      .find('.n2o-multi-fieldset__remove')
+      .last()
+      .simulate('click');
 
     expect(wrapper.find('StandardField').length).toBe(2);
   });
@@ -162,7 +194,10 @@ describe('<MultiFieldset />', () => {
     const wrapper = setup();
 
     expect(wrapper.find('StandardField').length).toBe(4);
-    wrapper.find('.n2o-multi-fieldset__remove-all').first().simulate('click');
+    wrapper
+      .find('.n2o-multi-fieldset__remove-all')
+      .first()
+      .simulate('click');
     expect(wrapper.find('StandardField').length).toBe(2);
   });
 
@@ -171,21 +206,33 @@ describe('<MultiFieldset />', () => {
     set(newFieldsets, '[0].canRemoveFirstItem', true);
     const wrapper = setup({
       form: {
-        fieldsets: newFieldsets
-      }
+        fieldsets: newFieldsets,
+      },
     });
 
     expect(wrapper.find('StandardField').length).toBe(4);
-    wrapper.find('.n2o-multi-fieldset__remove-all').first().simulate('click');
+    wrapper
+      .find('.n2o-multi-fieldset__remove-all')
+      .first()
+      .simulate('click');
     expect(wrapper.find('StandardField').exists()).toBeFalsy();
   });
 
   it('срабатывает валидация', async () => {
     const wrapper = setup();
 
-    wrapper.find('.n2o-multi-fieldset__add').last().simulate('click');
-    wrapper.find('input').last().simulate('focus', {});
-    wrapper.find('input').first().simulate('blur', {});
+    wrapper
+      .find('.n2o-multi-fieldset__add')
+      .last()
+      .simulate('click');
+    wrapper
+      .find('input')
+      .last()
+      .simulate('focus', {});
+    wrapper
+      .find('input')
+      .first()
+      .simulate('blur', {});
 
     await delay(100);
     wrapper.update();

@@ -78,7 +78,7 @@ function getMultiFields(registeredFields, fieldId) {
  * @param formName
  * @param state
  * @param isTouched
- * @returns {function(*=, *=, *, *=): Promise<void[]>}
+ * @returns
  */
 export const validateField = (
   validationConfig,
