@@ -8,8 +8,13 @@ import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHea
  */
 public class N2oStandardTableHeader extends N2oTableHeader implements StandardTableHeader {
     @Override
-    public void titleShouldHave(Condition condition) {
-        element().shouldHave(condition);
+    public void shouldHaveTitle(String title) {
+        element().shouldHave(Condition.text(title));
+    }
+
+    @Override
+    public void shouldNotHaveTitle() {
+        element().shouldBe(Condition.empty);
     }
 
     @Override
