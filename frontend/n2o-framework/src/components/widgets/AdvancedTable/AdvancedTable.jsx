@@ -24,10 +24,7 @@ import eq from 'lodash/eq';
 import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import includes from 'lodash/includes';
-import has from 'lodash/has';
 import isNumber from 'lodash/isNumber';
-import toArray from 'lodash/toArray';
-import filter from 'lodash/filter';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableRowWithAction from './AdvancedTableRowWithAction';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
@@ -133,7 +130,7 @@ class AdvancedTable extends Component {
     }
   }
   componentDidMount() {
-    const { rowClick, columns, rowSelection } = this.props;
+    const { rowClick, columns } = this.props;
     const {
       isAnyTableFocused,
       isActive,
@@ -168,12 +165,13 @@ class AdvancedTable extends Component {
       multi,
       rowSelection,
     } = this.props;
+    const { checked } = this.state;
 
     if (
       hasSelect &&
       !isEmpty(data) &&
       !isEqual(data, prevProps.data) &&
-      rowSelection !== rowSelectionType.CHECKBOX
+      !rowSelection
     ) {
       const id = selectedId || data[0].id;
       if (isAnyTableFocused && !isActive) {
@@ -186,7 +184,7 @@ class AdvancedTable extends Component {
       let state = {};
       if (isEqual(prevProps.filters, this.props.filters)) this.closeAllRows();
       if (data && !isEqual(prevProps.data, data)) {
-        const checked = this.mapChecked(data, prevProps.data, multi);
+        const checked = this.mapChecked(data, multi);
         state = {
           data: isArray(data) ? data : [data],
           checked,
@@ -199,13 +197,30 @@ class AdvancedTable extends Component {
           columns: this.mapColumns(columns),
         };
       }
-      if (
-        !isEqual(prevProps.selectedId, selectedId) &&
-        rowSelection !== rowSelectionType.CHECKBOX
-      ) {
+      if (!isEqual(prevProps.selectedId, selectedId) && !rowSelection) {
         this.setNewSelectIndex(selectedId);
       }
       this.setState({ ...state });
+    }
+    if (
+      !isEqual(prevState.checked, checked) &&
+      rowSelection === rowSelectionType.CHECKBOX
+    ) {
+      const selectAllCheckbox = ReactDom.findDOMNode(
+        this.selectAllCheckbox
+      ).querySelector('input');
+
+      let all = false;
+
+      const isSomeOneChecked = some(checked, i => i);
+      const isAllChecked = every(checked, i => i);
+      if (isAllChecked) {
+        all = true;
+      }
+      selectAllCheckbox.indeterminate = isSomeOneChecked && !isAllChecked;
+      selectAllCheckbox.checked = isAllChecked;
+
+      this.setState({ checkedAll: all });
     }
   }
 
@@ -234,23 +249,9 @@ class AdvancedTable extends Component {
     };
   }
 
-  rebuildData(data) {
-    // подставляем id вместо key
-    let newData = {};
-    map(data, item => {
-      newData[item.id] = item;
-    });
-    return newData;
-  }
-
-  mapChecked(data, prevData, multi) {
-    const { rowSelection } = this.props;
+  mapChecked(data, multi) {
     const checked = {};
-    const dataMerged =
-      rowSelection === rowSelectionType.CHECKBOX
-        ? { ...this.rebuildData(data), ...this.rebuildData(prevData) }
-        : this.rebuildData(data);
-    map(dataMerged, item => {
+    map(data, item => {
       checked[item.id] = (multi && multi[item.id]) || false;
     });
     return checked;
@@ -328,7 +329,6 @@ class AdvancedTable extends Component {
   }
 
   handleRowClick(id, index, needReturn, noResolve, event) {
-    console.log('point')
     const {
       hasFocus,
       hasSelect,
@@ -446,13 +446,17 @@ class AdvancedTable extends Component {
 
   checkAll(status) {
     const { onSetSelection, multi, data } = this.props;
-    const { checkedAll, checked } = this.state;
+    const { checked } = this.state;
     const newChecked = {};
     let newMulti = multi || [];
-    forOwn(data, v => {
-      newMulti = { ...newMulti, ...{ [v.id]: v } };
-    });
-    onSetSelection(status ? multi : []);
+    if (!status) {
+      forOwn(data, v => delete newMulti[v.id]);
+    } else {
+      forOwn(data, v => {
+        newMulti = { ...newMulti, ...{ [v.id]: v } };
+      });
+    }
+    onSetSelection(newMulti);
     forOwn(Object.keys(checked), value => {
       newChecked[value] = status;
     });
@@ -463,40 +467,24 @@ class AdvancedTable extends Component {
   }
 
   handleChangeChecked(event, index) {
-    const selectAllCheckbox = ReactDom.findDOMNode(
-      this.selectAllCheckbox
-    ).querySelector('input');
     const { onSetSelection, data, multi } = this.props;
     const { checked } = this.state;
-    let checkedAll = this.state.checkedAll;
     let newMulti = multi || [];
-    const checkedState = {
+    let checkedState = {
       ...checked,
       [index]: !checked[index],
     };
-    console.log('checkedState >>>>', checkedState);
-
-    const isSomeOneChecked = some(checkedState, checked => checked);
-    const isAllChecked = every(checkedState, checked => checked);
-    if (isAllChecked) {
-      checkedAll = true;
-    }
-    selectAllCheckbox.indeterminate = isSomeOneChecked && !isAllChecked;
-    selectAllCheckbox.checked = isAllChecked;
     let item = null;
     if (newMulti[index]) {
       delete newMulti[index];
+      checkedState[index] = false;
     } else {
       forOwn(checkedState, (v, k) => {
         if (v) {
           item =
-            find(
-              this.rebuildData(data),
-              (i, key) => key.toString() === k.toString()
-            ) || {};
+            find(data, i => get(i, 'id').toString() === k.toString()) || {};
           const itemId = get(item, 'id');
           if (itemId) newMulti = { ...newMulti, ...{ [itemId]: item } };
-          console.log('newMulti >', newMulti);
         }
       });
     }
@@ -504,17 +492,20 @@ class AdvancedTable extends Component {
     onSetSelection(newMulti);
     this.setState(() => ({
       checked: checkedState,
-      checkedAll,
     }));
   }
 
   handleChangeRadioChecked(index) {
-    const { rowSelection, onSetSelection } = this.props;
+    const { rowSelection, onSetSelection, data } = this.props;
     if (rowSelection !== rowSelectionType.RADIO) return;
     const checkedState = {
       [index]: true,
     };
-    onSetSelection(checkedState);
+    const id = findIndex(data, i => get(i, 'id') === index);
+    const newMulti = {
+      [index]: data[id],
+    };
+    onSetSelection(newMulti);
     this.setState(() => ({
       checked: checkedState,
     }));
