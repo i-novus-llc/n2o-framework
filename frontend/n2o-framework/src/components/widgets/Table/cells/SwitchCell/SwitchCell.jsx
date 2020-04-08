@@ -12,7 +12,7 @@ function SwitchCell(props) {
   const defaultCell = get(props, 'switchDefault');
   const cellProps = get(cellsCollection, currentCellType, defaultCell);
 
-  return <Factory level={CELLS} {...cellProps} />;
+  return <Factory level={CELLS} {...props} {...cellProps} />;
 }
 
 SwitchCell.propTypes = {
