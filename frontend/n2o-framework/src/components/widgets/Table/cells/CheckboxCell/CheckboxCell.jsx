@@ -12,6 +12,7 @@ import {
   setDisplayName,
 } from 'recompose';
 import withCell from '../../withCell';
+import withTooltip from '../../withTooltip';
 import CheckboxN2O from '../../../../controls/Checkbox/CheckboxN2O';
 
 function CheckboxCell({
@@ -72,6 +73,7 @@ export { CheckboxCell };
 export default compose(
   setDisplayName('CheckboxCell'),
   withCell,
+  withTooltip,
   withState(
     'checked',
     'setChecked',

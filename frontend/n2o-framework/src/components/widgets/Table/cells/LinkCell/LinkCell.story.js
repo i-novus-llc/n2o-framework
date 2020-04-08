@@ -72,7 +72,7 @@ stories
       </React.Fragment>
     );
   })
-  .add('LinkCell с иконкой', () => {
+  .add('LinkCell с иконкой и тултипом', () => {
     fetchMock.restore().get('begin:n2o/page', page);
 
     const tableProps = {
@@ -107,6 +107,7 @@ stories
         {
           id: 'id',
           name: 'Изменить',
+          tooltipFieldId: ['tooltip', 'body'],
         },
       ],
     };

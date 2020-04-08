@@ -7,6 +7,7 @@ import cx from 'classnames';
 import { setModel } from '../../../../../actions/models';
 import { PREFIXES } from '../../../../../constants/models';
 import Toolbar from '../../../../buttons/Toolbar';
+import withTooltip from '../../withTooltip';
 
 /**
  *
@@ -72,6 +73,7 @@ ButtonsCell.defaultProps = {
 };
 
 const enhance = compose(
+  withTooltip,
   withHandlers({
     onResolve: ({ dispatch, widgetId, model }) => () =>
       dispatch(setModel(PREFIXES.resolve, widgetId, model)),

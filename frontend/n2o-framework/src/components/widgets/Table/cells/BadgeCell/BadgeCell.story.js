@@ -51,6 +51,41 @@ stories
       />
     );
   })
+  .add('С тултипом', () => {
+    const props = {
+      headers: [
+        {
+          id: 'BadgeCell',
+          component: TextTableHeader,
+          label: 'BadgeCell',
+        },
+      ],
+      cells: [
+        {
+          id: 'secondary',
+          component: BadgeCell,
+          placement: 'left',
+          color: 'secondary',
+          fieldKey: 'test',
+          text: 'Мужской',
+        },
+      ],
+      datasource: [
+        {
+          test: 'Иванов',
+          tooltipFieldId: ['tooltip', 'body'],
+        },
+      ],
+    };
+
+    return (
+      <Table
+        headers={props.headers}
+        cells={props.cells}
+        datasource={props.datasource}
+      />
+    );
+  })
 
   .add('Метаданные', () => {
     const badgeProps = {

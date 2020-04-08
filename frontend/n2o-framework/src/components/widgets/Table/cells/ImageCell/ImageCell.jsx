@@ -4,6 +4,7 @@ import { compose, setDisplayName, withHandlers } from 'recompose';
 import withCell from '../../withCell';
 import imageShapes from './imageShapes';
 import get from 'lodash/get';
+import withTooltip from '../../withTooltip';
 
 /**
  * Ячейка таблицы с картинкой
@@ -106,6 +107,7 @@ export { ImageCell };
 export default compose(
   setDisplayName('ImageCell'),
   withCell,
+  withTooltip,
   withHandlers({
     onClick: ({ callAction, model }) => () => {
       callAction(model);

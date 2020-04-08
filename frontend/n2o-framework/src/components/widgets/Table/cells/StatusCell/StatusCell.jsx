@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import cx from 'classnames';
+import withTooltip from '../../withTooltip';
 
 /**
  * Ячейка таблицы типа статус
@@ -67,4 +68,4 @@ StatusCell.defaultProps = {
   color: '',
 };
 
-export default StatusCell;
+export default withTooltip(StatusCell);

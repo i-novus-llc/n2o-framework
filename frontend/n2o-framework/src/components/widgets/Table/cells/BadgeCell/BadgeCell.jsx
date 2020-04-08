@@ -5,6 +5,7 @@ import isNil from 'lodash/isNil';
 import Badge from 'reactstrap/lib/Badge';
 
 import Text from '../../../../snippets/Text/Text';
+import withTooltip from '../../withTooltip';
 
 /**
  * Ячейка таблицы типа бейдж
@@ -110,4 +111,4 @@ BadgeCell.defaultProps = {
   visible: true,
 };
 
-export default BadgeCell;
+export default withTooltip(BadgeCell);
