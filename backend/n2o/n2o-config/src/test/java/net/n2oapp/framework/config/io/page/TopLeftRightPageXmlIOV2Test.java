@@ -11,11 +11,11 @@ import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
 import org.junit.Test;
 
 /**
- * Тестирование чтения и записи страницы с правыми и левыми регионами
+ * Тестирование чтения и записи страницы с тремя регионами
  */
-public class LeftRightPageXmlIOV2Test {
+public class TopLeftRightPageXmlIOV2Test {
     @Test
-    public void testLeftRightPageXmlIOv2Test() {
+    public void testTopLeftRightPageXmlIOv2Test() {
         ION2oMetadataTester tester = new ION2oMetadataTester()
                 .addReader(new SelectiveStandardReader()
                         .addReader(new TableElementIOV4())
@@ -24,11 +24,11 @@ public class LeftRightPageXmlIOV2Test {
                 .addPersister(new SelectiveStandardPersister()
                         .addFieldsetPersister()
                         .addPersister(new TableElementIOV4())
-                        .addPersister(new LeftRightPageElementIOv2())
+                        .addPersister(new TopLeftRightPageElementIOv2())
                         .addPersister(new CloseActionElementIOV1()))
                 .addPack(new N2oRegionsV1IOPack())
                 .ios(new ButtonIO(), new SubmenuIO());
 
-        assert tester.check("net/n2oapp/framework/config/io/page/testLeftRightPageIOv2.page.xml");
+        assert tester.check("net/n2oapp/framework/config/io/page/testTopLeftRightPageIOv2.page.xml");
     }
 }

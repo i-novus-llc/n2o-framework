@@ -757,6 +757,28 @@ public final class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
+    public void childAttributeInteger(Element element, String childName, String name, Supplier<Integer> getter, Consumer<Integer> setter) {
+        if (r) {
+            Element child = element.getChild(childName, element.getNamespace());
+            if (child == null) return;
+            Attribute attribute = child.getAttribute(name);
+            if (attribute != null) {
+                setter.accept(Integer.parseInt(process(attribute.getValue())));
+            }
+        } else {
+            if (getter.get() == null) return;
+            Element childElement = element.getChild(childName, element.getNamespace());
+            if (childElement == null) {
+                childElement = new Element(childName, element.getNamespace());
+                childElement.setAttribute(new Attribute(name, getter.get().toString()));
+                element.addContent(childElement);
+            } else {
+                childElement.setAttribute(new Attribute(name, getter.get().toString()));
+            }
+        }
+    }
+
+    @Override
     public <T extends Enum<T>> void childAttributeEnum(Element element, String childName, String name, Supplier<T> getter, Consumer<T> setter, Class<T> enumClass) {
         if (r) {
             Element child = element.getChild(childName, element.getNamespace());
