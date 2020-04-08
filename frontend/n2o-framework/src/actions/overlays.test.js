@@ -1,5 +1,5 @@
 import {
-  insertOverlay,
+  insertModal,
   showOverlay,
   hideOverlay,
   destroyOverlay,
@@ -20,9 +20,9 @@ import {
 const name = 'MODAL_NAME';
 
 describe('Тесты экшенов overlays', () => {
-  describe('Проверка экшена insertOverlay', () => {
+  describe('Проверка экшена insertModal', () => {
     it('Генирирует правильное событие', () => {
-      const action = insertOverlay(
+      const action = insertModal(
         name,
         true,
         'TITLE',
@@ -34,7 +34,7 @@ describe('Тесты экшенов overlays', () => {
       expect(action.type).toEqual(INSERT);
     });
     it('Возвращает правильный payload', () => {
-      const action = insertOverlay(
+      const action = insertModal(
         name,
         true,
         'drawer',

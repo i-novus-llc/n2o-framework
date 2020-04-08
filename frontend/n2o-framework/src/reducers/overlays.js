@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 import {
-  INSERT,
+  INSERT_MODAL,
+  INSERT_DRAWER,
   DESTROY,
   HIDE,
   SHOW,
@@ -18,7 +19,8 @@ const defaultState = {
 
 function resolve(state = defaultState, action) {
   switch (action.type) {
-    case INSERT:
+    case INSERT_MODAL:
+    case INSERT_DRAWER:
       const { visible, name, mode, ...props } = action.payload;
       return Object.assign({}, state, {
         visible,
@@ -47,7 +49,8 @@ export default function overlays(state = [], action) {
     overlay => overlay.name === get(action, 'payload.name')
   );
   switch (action.type) {
-    case INSERT:
+    case INSERT_MODAL:
+    case INSERT_DRAWER:
       return [...state, resolve({}, action)];
     case SHOW:
       if (index >= 0) {
