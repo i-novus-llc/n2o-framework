@@ -245,4 +245,46 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset2.clickRemoveAllButton();
         fieldset2.shouldHaveItems(1);
     }
+
+    @Test
+    public void testFieldsWithPreSetValues() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/preset_values/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+
+        page = open(SimplePage.class);
+        page.shouldExists();
+
+        MultiFieldSet fieldset = page.single().widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+        // проверяем наличие и значения полей с заранее установленными значениями
+        fieldset.shouldHaveItems(2);
+        MultiFieldSetItem item1 = fieldset.item(0);
+        MultiFieldSetItem item2 = fieldset.item(1);
+        item1.shouldHaveLabel("Участник 1");
+        item2.shouldHaveLabel("Участник 2");
+        InputText name1 = item1.fields().field("name").control(InputText.class);
+        name1.shouldExists();
+        name1.shouldHaveValue("Joe");
+        InputText age1 = item1.fields().field("age").control(InputText.class);
+        age1.shouldExists();
+        age1.shouldHaveValue("15");
+        InputText name2 = item2.fields().field("name").control(InputText.class);
+        name2.shouldExists();
+        name2.shouldHaveValue("Ann");
+        InputText age2 = item2.fields().field("age").control(InputText.class);
+        age2.shouldExists();
+        age2.shouldBeEmpty();
+        // проверяем, что при копировании ничего не теряется
+        item1.clickCopyButton();
+        fieldset.shouldHaveItems(3);
+        MultiFieldSetItem item3 = fieldset.item(2);
+        InputText name3 = item3.fields().field("name").control(InputText.class);
+        name3.shouldHaveValue("Joe");
+        InputText age3 = item3.fields().field("age").control(InputText.class);
+        age3.shouldHaveValue("15");
+        age3.val("30");
+        // удаляем первый элемент и проверяем, что у третьего (теперь второго) не поменялись значения
+        item1.clickRemoveButton();
+        name2.shouldHaveValue("Joe");
+        age2.shouldHaveValue("30");
+    }
 }

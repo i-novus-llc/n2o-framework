@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <form>
+        <fields>
+            <hidden id="members[0].name" default-value="Joe"/>
+            <hidden id="members[0].age" default-value="15"/>
+            <hidden id="members[1].name" default-value="Ann"/>
+            <multi-set id="members" label="Участник #index"
+                       add-label="Добавить участника"
+                       remove-all-label="Удалить всех участников"
+                       can-remove-first="true"
+                       can-copy="true">
+                <input-text id="name"/>
+                <input-text id="age" domain="integer"/>
+            </multi-set>
+        </fields>
+    </form>
+</simple-page>
