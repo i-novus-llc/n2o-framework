@@ -20,13 +20,18 @@ const defaultState = {
 function resolve(state = defaultState, action) {
   switch (action.type) {
     case INSERT_MODAL:
-    case INSERT_DRAWER:
-      const { visible, name, mode, ...props } = action.payload;
       return Object.assign({}, state, {
-        visible,
-        name,
-        mode,
-        props: Object.assign({}, props),
+        visible: action.payload.visible,
+        name: action.payload.name,
+        mode: 'modal',
+        props: Object.assign({}, action.payload),
+      });
+    case INSERT_DRAWER:
+      return Object.assign({}, state, {
+        visible: action.payload.visible,
+        name: action.payload.name,
+        mode: 'drawer',
+        props: Object.assign({}, action.payload),
       });
     case SHOW:
       return Object.assign({}, state, {

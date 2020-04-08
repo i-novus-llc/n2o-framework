@@ -8,7 +8,7 @@ import {
   showPrompt,
 } from './overlays';
 import {
-  INSERT,
+  INSERT_MODAL,
   DESTROY,
   HIDE,
   SHOW,
@@ -31,7 +31,7 @@ describe('Тесты экшенов overlays', () => {
         'page_id',
         'TableWidget'
       );
-      expect(action.type).toEqual(INSERT);
+      expect(action.type).toEqual(INSERT_MODAL);
     });
     it('Возвращает правильный payload', () => {
       const action = insertModal(
@@ -50,7 +50,7 @@ describe('Тесты экшенов overlays', () => {
         2: true,
         3: 'page_id',
         4: 'TableWidget',
-        mode: 'drawer',
+        mode: 'modal',
         name: 'MODAL_NAME',
         visible: true,
       });
