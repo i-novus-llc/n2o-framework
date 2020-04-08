@@ -199,62 +199,6 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testDependencies() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/dependencies/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        page = open(SimplePage.class);
-        page.shouldExists();
-
-        MultiFieldSet fieldset1 = page.single().widget(FormWidget.class).fieldsets().fieldset(0, MultiFieldSet.class);
-        fieldset1.clickAddButton();
-        fieldset1.clickAddButton();
-        MultiFieldSetItem item1 = fieldset1.item(0);
-        MultiFieldSetItem item2 = fieldset1.item(1);
-        InputText name1 = item1.fields().field("name").control(InputText.class);
-        InputText age1 = item1.fields().field("age").control(InputText.class);
-        InputText name2 = item2.fields().field("name").control(InputText.class);
-        InputText age2 = item2.fields().field("age").control(InputText.class);
-        name1.shouldBeDisabled();
-        name2.shouldBeDisabled();
-        age1.val("2");
-        name1.shouldBeDisabled();
-        name2.shouldBeDisabled();
-        age2.val("20");
-        name1.shouldBeDisabled();
-        name2.shouldBeEnabled();
-        age1.val("50");
-        name1.shouldBeEnabled();
-        name2.shouldBeEnabled();
-        age2.val("15");
-        name1.shouldBeEnabled();
-        name2.shouldBeDisabled();
-    }
-
-    @Test
-    public void testValidations() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validations/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validations/test.object.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        page = open(SimplePage.class);
-        page.shouldExists();
-
-        MultiFieldSet fieldset1 = page.single().widget(FormWidget.class).fieldsets().fieldset(0, MultiFieldSet.class);
-        fieldset1.clickAddButton();
-        fieldset1.clickAddButton();
-        MultiFieldSetItem item1 = fieldset1.item(0);
-        MultiFieldSetItem item2 = fieldset1.item(1);
-        InputText age1 = item1.fields().field("age").control(InputText.class);
-        InputText age2 = item2.fields().field("age").control(InputText.class);
-        /// TODO message check
-        age1.val("2");
-        age1.val("20");
-        age2.val("5");
-        age2.val("50");
-    }
-
-    @Test
     public void testNestedMultiFieldSet() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/nested/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
