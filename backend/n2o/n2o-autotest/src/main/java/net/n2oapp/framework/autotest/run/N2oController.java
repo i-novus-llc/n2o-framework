@@ -87,7 +87,7 @@ public class N2oController {
         String path = getPath(request, "/n2o/data");
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
-        GetDataResponse response = dataController.getData(path, request, null);
+        GetDataResponse response = dataController.getData(path, request.getParameterMap(), null);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 

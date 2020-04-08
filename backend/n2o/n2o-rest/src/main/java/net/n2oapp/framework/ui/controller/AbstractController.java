@@ -24,6 +24,7 @@ import net.n2oapp.framework.config.register.route.N2oRouter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,9 +54,12 @@ public abstract class AbstractController {
 
     @SuppressWarnings("unchecked")
     protected ActionRequestInfo createActionRequestInfo(String path, HttpServletRequest request, Object body, UserContext user) {
-        //TODO
         ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, request.getParameterMap());
-        DataSet queryData = actionCtx.getParams(path, request.getParameterMap());
+        Map<String, String[]> params = new HashMap<>(request.getParameterMap());
+        if (actionCtx.getHeaderParamNames() != null) {
+            actionCtx.getHeaderParamNames().forEach(n -> params.put(n, new String[]{request.getHeader(n)}));
+        }
+        DataSet queryData = actionCtx.getParams(path, params);
         CompiledObject object = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(actionCtx, queryData);
@@ -163,11 +167,11 @@ public abstract class AbstractController {
         return requestInfo;
     }
 
-    protected QueryRequestInfo createQueryRequestInfo(String path, HttpServletRequest request, UserContext user) {
-        //TODO
-        QueryContext queryCtx = (QueryContext) router.get(path, CompiledQuery.class, request.getParameterMap());
-        DataSet data = queryCtx.getParams(path, request.getParameterMap());
-        CompiledQuery query = environment.getReadCompileBindTerminalPipelineFunction()
+    protected QueryRequestInfo createQueryRequestInfo(String path, Map<String, String[]> params, UserContext user) {
+        CompiledQuery query;
+        QueryContext queryCtx = (QueryContext) router.get(path, CompiledQuery.class, params);
+        DataSet data = queryCtx.getParams(path, params);
+        query = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(queryCtx, data);
         QueryRequestInfo requestInfo = new QueryRequestInfo();

@@ -33,7 +33,6 @@ import org.mockito.Mockito;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -130,9 +129,6 @@ public class CopyValuesControllerTest {
         factory.setEnvironment(builder.getEnvironment());
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
 
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameters(params);
-
-        return controller.getData(path, request, userContext);
+        return controller.getData(path, params, userContext);
     }
 }

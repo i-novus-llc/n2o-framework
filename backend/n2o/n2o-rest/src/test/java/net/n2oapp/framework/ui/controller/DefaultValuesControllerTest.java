@@ -128,8 +128,6 @@ public class DefaultValuesControllerTest {
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameters(params);
-        return controller.getData(path, request, userContext);
+        return controller.getData(path, params, userContext);
     }
 }

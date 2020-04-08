@@ -35,7 +35,7 @@ public class DataServlet extends N2oServlet {
     protected void safeDoGet(HttpServletRequest req, HttpServletResponse res)
             throws IOException {
         GetDataResponse result = controller.getData(req.getPathInfo(),
-                req,
+                req.getParameterMap(),
                 (UserContext) req.getAttribute(USER));
         res.setStatus(result.getStatus());
         res.setContentType("application/json");

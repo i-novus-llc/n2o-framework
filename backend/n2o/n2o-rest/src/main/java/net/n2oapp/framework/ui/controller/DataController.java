@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -37,8 +38,8 @@ public class DataController extends AbstractController {
         this.controllerFactory = controllerFactory;
     }
 
-    public GetDataResponse getData(String path, HttpServletRequest request, UserContext user) {
-        QueryRequestInfo requestInfo = createQueryRequestInfo(path, request, user);
+    public GetDataResponse getData(String path, Map<String, String[]> parameters, UserContext user) {
+        QueryRequestInfo requestInfo = createQueryRequestInfo(path, parameters, user);
         QueryResponseInfo responseInfo = new QueryResponseInfo();
         return controllerFactory.execute(requestInfo, responseInfo);
     }
