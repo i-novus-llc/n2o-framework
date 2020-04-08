@@ -128,7 +128,6 @@ public class CopyValuesControllerTest {
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
-
         return controller.getData(path, params, userContext);
     }
 }

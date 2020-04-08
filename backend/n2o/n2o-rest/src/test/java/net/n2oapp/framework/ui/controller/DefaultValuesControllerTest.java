@@ -33,7 +33,6 @@ import org.mockito.Mockito;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import java.util.HashMap;
 import java.util.Map;

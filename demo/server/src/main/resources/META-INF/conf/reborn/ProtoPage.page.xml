@@ -46,7 +46,7 @@
                     </column>
                     <column text-field-id="vip">
                         <checkbox enabled="{name!='Мария'}">
-                            <invoke operation-id="update" src="100500"/>
+                            <invoke operation-id="update"/>
                         </checkbox>
                     </column>
                     <column text-field-id="">
