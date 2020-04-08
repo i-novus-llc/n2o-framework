@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.register.route.RouteInfo;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +36,7 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/master/:master_id/detail", getMasterDetailQueryContext()),
                 new RouteInfo("/test/select", new QueryContext("testSqlQuery4", "/test/select")),
                 new RouteInfo("/test/sql/validation", getQueryContext()),
+                new RouteInfo("/testDialog", getTestDialogActionContext()),
                 new RouteInfo("/test/subModels", getQueryContextWithSubModel()));
     }
 
@@ -64,6 +66,14 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         actionContext.setValidations(createValidations());
         actionContext.setMessagesForm("testForm");
         actionContext.setFailAlertWidgetId("testForm");
+        return actionContext;
+    }
+
+    private ActionContext getTestDialogActionContext() {
+        ActionContext actionContext = new ActionContext("testDialog", "create", "/testDialog");
+        actionContext.setMessagesForm("testForm");
+        actionContext.setFailAlertWidgetId("testForm");
+        actionContext.setClientWidgetId("testDialog_main");
         return actionContext;
     }
 

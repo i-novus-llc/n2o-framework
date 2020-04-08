@@ -109,7 +109,7 @@ public class N2oController {
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
                 environment.getSubModelsProcessor(), environment.getMetadataRegister(), errorMessageBuilder));
         beans.put("operationController", new OperationController(dataProcessingStack, environment.getDomainProcessor(),
-                operationProcessor, errorMessageBuilder));
+                operationProcessor, errorMessageBuilder, environment));
         beans.put("copyValuesController", new CopyValuesController(dataProcessingStack, queryProcessor, environment.getSubModelsProcessor(),
                 environment.getMetadataRegister(), errorMessageBuilder));
         beans.put("bulkActionController", new BulkActionController(dataProcessingStack, environment.getDomainProcessor(),

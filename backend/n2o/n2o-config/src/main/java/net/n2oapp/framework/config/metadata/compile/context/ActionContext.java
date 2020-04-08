@@ -15,6 +15,7 @@ import java.util.List;
 public class ActionContext extends ObjectContext {
     private String operationId;
     private List<Validation> validations;
+    private String clientWidgetId;
     private String failAlertWidgetId;
     private String successAlertWidgetId;
     private String messagesForm;

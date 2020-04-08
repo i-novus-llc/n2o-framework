@@ -180,6 +180,9 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         actionContext.setSuccessAlertWidgetId(metaSaga.getSuccess().getMessageWidgetId());
         actionContext.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
         actionContext.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
+        if (widgetScope != null) {
+            actionContext.setClientWidgetId(widgetScope.getClientWidgetId());
+        }
         p.addRoute(actionContext);
     }
 

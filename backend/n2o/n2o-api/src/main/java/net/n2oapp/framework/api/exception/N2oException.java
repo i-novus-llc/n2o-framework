@@ -53,6 +53,11 @@ public class N2oException extends RuntimeException {
      */
     private Object data;
 
+    /**
+     * Диалог подтверждения действия
+     */
+    private N2oDialog dialog;
+
     public N2oException() {
         super();
     }
