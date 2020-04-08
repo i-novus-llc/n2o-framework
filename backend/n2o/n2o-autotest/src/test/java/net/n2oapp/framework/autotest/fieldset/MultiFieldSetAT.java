@@ -9,9 +9,9 @@ import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Автотест для филдсета с динамическим числом полей
@@ -20,12 +20,12 @@ public class MultiFieldSetAT extends AutoTestBase {
 
     private SimplePage page;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -118,16 +118,16 @@ public class MultiFieldSetAT extends AutoTestBase {
         item2.removeButtonShouldExists();
         item3.removeButtonShouldExists();
         // задаем значения чтобы различать элементы
-        name1.val("A");
-        name2.val("B");
-        name3.val("C");
+        name1.val("AAA");
+        name2.val("BBB");
+        name3.val("CCC");
         // проверяем, что при удалении второго у третьего изменится подпись
         item2.clickRemoveButton();
         fieldset2.shouldHaveItems(2);
         item1.shouldHaveLabel("Участник 1");
         item2.shouldHaveLabel("Участник 2");
-        name1.shouldHaveValue("A");
-        name2.shouldHaveValue("C");
+        name1.shouldHaveValue("AAA");
+        name2.shouldHaveValue("CCC");
 
         // 3.проверка при can-remove-all="true" (удаление всех элементов кроме первого)
         MultiFieldSet fieldset3 = page.single().widget(FormWidget.class).fieldsets().fieldset(2, MultiFieldSet.class);
@@ -137,13 +137,13 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset3.shouldHaveItems(3);
         // задаем значение только у первого элемента
         name1 = fieldset3.item(0).fields().field("name").control(InputText.class);
-        name1.val("A");
+        name1.val("AAA");
         // проверяем кнопку удалить всех
         fieldset3.removeAllButtonShouldBeExist();
         fieldset3.removeAllButtonShouldHaveLabel("Удалить всех участников");
         fieldset3.clickRemoveAllButton();
         fieldset3.shouldHaveItems(1);
-        name1.shouldHaveValue("A");
+        name1.shouldHaveValue("AAA");
 
         // 4.проверка при can-remove-all="true" can-remove-first="true" (удаление всех элементов)
         MultiFieldSet fieldset4 = page.single().widget(FormWidget.class).fieldsets().fieldset(3, MultiFieldSet.class);
@@ -184,18 +184,18 @@ public class MultiFieldSetAT extends AutoTestBase {
         // копируем второй элемент
         InputText name1 = item1.fields().field("name").control(InputText.class);
         InputText name2 = item2.fields().field("name").control(InputText.class);
-        name2.val("A");
+        name2.val("AAA");
         item2.clickCopyButton();
         fieldset2.shouldHaveItems(3);
         MultiFieldSetItem item3 = fieldset2.item(1);
         InputText name3 = item3.fields().field("name").control(InputText.class);
-        name3.shouldHaveValue("A");
+        name3.shouldHaveValue("AAA");
         // изменяем значение второго элемента и удаляем
-        name2.val("B");
+        name2.val("BBB");
         item2.clickRemoveButton();
         fieldset2.shouldHaveItems(2);
         // проверяем значение третьего элемента, который стал вторым
-        name2.shouldHaveValue("A");
+        name2.shouldHaveValue("AAA");
     }
 
     @Test
@@ -284,13 +284,13 @@ public class MultiFieldSetAT extends AutoTestBase {
         item2.copyButtonShouldExists();
         InputText name2 = item2.fields().field("name2").control(InputText.class);
         // copy
-        name2.val("A");
+        name2.val("AAA");
         item2.copyButtonShouldExists();
         item2.clickCopyButton();
         fieldset2.shouldHaveItems(3);
         MultiFieldSetItem item3 = fieldset2.item(2);
         InputText name3 = item3.fields().field("name2").control(InputText.class);
-        name3.shouldHaveValue("A");
+        name3.shouldHaveValue("AAA");
         // remove
         fieldset2.clickAddButton();
         fieldset2.shouldHaveItems(4);

@@ -7,9 +7,9 @@ import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Автотест компонента ввода текста
@@ -18,12 +18,12 @@ public class InputTextAT extends AutoTestBase {
 
     private SimplePage page;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         configureSelenide();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -54,6 +54,9 @@ public class InputTextAT extends AutoTestBase {
         // превышение указанной длины
         input.val("test1test2test3");
         input.shouldHaveValue("test1test2");
+        // проверка меры измерения
+        input.shouldHaveMeasure();
+        input.measureShouldHaveText("шт.");
     }
 
     @Test
@@ -77,6 +80,9 @@ public class InputTextAT extends AutoTestBase {
         input.val("-99");
         input.clickMinusStepButton();
         input.shouldHaveValue("-99");
+        // проверка меры измерения
+        input.shouldHaveMeasure();
+        input.measureShouldHaveText("cm");
     }
 
     @Test

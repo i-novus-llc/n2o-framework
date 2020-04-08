@@ -22,6 +22,11 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     }
 
     @Override
+    public void shouldBeEmpty() {
+        shouldHaveItems(0);
+    }
+
+    @Override
     public MultiFieldSetItem item(int index) {
         return component(element().$$(".n2o-multi-fieldset__item").get(index), MultiFieldSetItem.class);
     }

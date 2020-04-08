@@ -202,6 +202,8 @@ class Fieldset extends React.Component {
       style,
       component: ElementType,
       children,
+      parentName,
+      parentIndex,
       ...rest
     } = this.props;
     this.fields = [];
@@ -217,7 +219,7 @@ class Fieldset extends React.Component {
       <div className={classes} style={style}>
         <ElementType
           {...rest}
-          render={(rows, props = {}) => {
+          render={(rows, props = { parentName, parentIndex }) => {
             this.fields = this.calculateAllFields(rows);
             return rows.map((row, id) => this.renderRow(id, row, props));
           }}

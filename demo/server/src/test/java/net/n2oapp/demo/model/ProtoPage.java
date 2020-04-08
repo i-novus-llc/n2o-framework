@@ -9,7 +9,7 @@ import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.api.component.widget.ListWidget;
+import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 
@@ -35,7 +35,7 @@ public class ProtoPage {
     }
 
     public void selectClient(int rowNum) {
-        getTableCell(rowNum, 4, TextCell.class).element().click();
+        getTableCell(rowNum, 5, TextCell.class).element().click();
     }
 
     public void tableCellShouldHaveText(int row, int col, String text) {
@@ -95,11 +95,11 @@ public class ProtoPage {
     }
 
     public void getGenderColumnShouldHaveTexts(List<String> values) {
-        getTable().columns().rows().columnShouldHaveTexts(4, values);
+        getTable().columns().rows().columnShouldHaveTexts(5, values);
     }
 
     public List<String> getSurnameColumn() {
-        return getTable().columns().rows().columnTexts(0);
+        return getTable().columns().rows().columnTexts(1);
     }
 
     public void currentPageShouldBe(String label) {
@@ -123,42 +123,42 @@ public class ProtoPage {
     }
 
     public ProtoClient clickSurnameCell(int row) {
-        getTableCell(row, 0, LinkCell.class).click();
+        getTableCell(row, 1, LinkCell.class).click();
         return getProtoClient();
     }
 
     public ProtoClient clickNameCell(int row) {
-        getTableCell(row, 1, LinkCell.class).click();
+        getTableCell(row, 2, LinkCell.class).click();
         return getModalProtoClient();
     }
 
     public ProtoClient clickPatronymicCell(int row) {
-        getTableCell(row, 2, LinkCell.class).click();
+        getTableCell(row, 3, LinkCell.class).click();
         return getProtoClient();
     }
 
     public void clickBirthdayCell(int row) {
-        getTableCell(row, 3, EditCell.class).click();
+        getTableCell(row, 4, EditCell.class).click();
     }
 
     public void setVipCellChecked(int row) {
-        getTableCell(row, 5, CheckboxCell.class).setChecked(true);
+        getTableCell(row, 6, CheckboxCell.class).setChecked(true);
     }
 
     public void setVipCellNotChecked(int row) {
-        getTableCell(row, 5, CheckboxCell.class).setChecked(false);
+        getTableCell(row, 6, CheckboxCell.class).setChecked(false);
     }
 
     public void vipCellShouldBeChecked(int row) {
-        getTableCell(row, 5, CheckboxCell.class).shouldBeChecked();
+        getTableCell(row, 6, CheckboxCell.class).shouldBeChecked();
     }
 
     public void vipCellShouldNotBeChecked(int row) {
-        getTableCell(row, 5, CheckboxCell.class).shouldBeUnchecked();
+        getTableCell(row, 6, CheckboxCell.class).shouldBeUnchecked();
     }
 
     public DateInput getBirthdayCell(int row) {
-        return getTableCell(row, 3, EditCell.class).control(DateInput.class);
+        return getTableCell(row, 4, EditCell.class).control(DateInput.class);
     }
 
     public ProtoClient addClient() {
@@ -172,12 +172,12 @@ public class ProtoPage {
     }
 
     public ProtoClient editClientFromTableCell(int row) {
-        getTableCell(row, 6, ToolbarCell.class).clickMenu("Изменить");
+        getTableCell(row, 7, ToolbarCell.class).clickMenu("Изменить");
         return getModalProtoClient();
     }
 
     public void deleteClientFromTableCell(int row) {
-        getTableCell(row, 6, ToolbarCell.class).clickMenu("Удалить");
+        getTableCell(row, 7, ToolbarCell.class).clickMenu("Удалить");
     }
 
     public void deleteClientFromTableToolBar() {
@@ -211,7 +211,7 @@ public class ProtoPage {
     }
 
     public void contactsListShouldHaveText(int index, String text) {
-        leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).content(index).bodyShouldHaveText(text);
+        leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).content(index).body(TextCell.class).textShouldHave(text);
     }
 
     public ProtoContacts createContact() {

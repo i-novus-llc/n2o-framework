@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+import { compose } from 'recompose';
+import withRightPlaceholder from '../withRightPlaceholder';
 import Input from '../Input/Input';
 
 /**
@@ -135,4 +137,4 @@ InputText.defaultProps = {
   autoFocus: false,
 };
 
-export default InputText;
+export default compose(withRightPlaceholder)(InputText);
