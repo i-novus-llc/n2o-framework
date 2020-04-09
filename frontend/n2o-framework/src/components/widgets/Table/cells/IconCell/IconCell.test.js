@@ -9,6 +9,7 @@ const props = {
   model: {
     name: 'text',
     age: '12',
+    tooltipFieldId: ['tooltip', 'body'],
   },
   type: iconCellTypes.ICONANDTEXT,
   textPlace: textPlaceTypes.RIGHT,
@@ -50,5 +51,9 @@ describe('<IconCell />', () => {
     props.type = iconCellTypes.ICON;
     wrapper = shallow(<IconCell {...props} />);
     expect(wrapper.find('.n2o-cell-text').exists()).toBeFalsy();
+  });
+  it('Cell обернут тултипом', () => {
+    let wrapper = mount(<IconCell {...props} />);
+    expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true);
   });
 });

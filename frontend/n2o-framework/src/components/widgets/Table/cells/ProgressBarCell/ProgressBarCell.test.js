@@ -8,6 +8,7 @@ const props = {
   id: 'now',
   model: {
     now: 55,
+    tooltipFieldId: ['tooltip', 'body'],
   },
   animated: false,
   striped: false,
@@ -53,5 +54,10 @@ describe('<ProgressBarCell />', () => {
     const wrapper = mount(<ProgressBarCell {...props} />);
 
     expect(wrapper.find(`div.${props.size}`).exists()).toBeTruthy();
+  });
+  it('Cell обернут тултипом', () => {
+    const wrapper = mount(<ProgressBarCell {...props} />);
+
+    expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true);
   });
 });
