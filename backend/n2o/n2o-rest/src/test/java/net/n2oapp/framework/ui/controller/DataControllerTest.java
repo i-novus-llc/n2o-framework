@@ -301,7 +301,7 @@ public class DataControllerTest extends DataControllerTestBase {
 
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
 //        controller.setErrorMessageBuilder(new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
-        return controller.setData(path, null , null, body, new UserContext(contextEngine));
+        return controller.setData(path, params , null, body, new UserContext(contextEngine));
     }
 
 }
