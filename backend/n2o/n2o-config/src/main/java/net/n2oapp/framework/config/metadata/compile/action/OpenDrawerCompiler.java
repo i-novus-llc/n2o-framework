@@ -63,9 +63,9 @@ public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2o
     private void compilePayload(OpenDrawer showModal, N2oOpenDrawer source, CompileContext<?, ?> context, CompileProcessor p) {
         OpenDrawerPayload payload = showModal.getPayload();
         payload.setBackdrop(source.getBackdrop());
-        payload.setWidth(source.getWidth());
+        payload.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.action.open_drawer.width"), String.class)));
         payload.setHeight(source.getHeight());
-        payload.setPlacement(p.cast(source.getPlacement(), property("n2o.api.action.open_drawer.placement")));
+        payload.setPlacement(p.cast(source.getPlacement(), p.resolve(property("n2o.api.action.open_drawer.placement"), String.class)));
         payload.setLevel(source.getLevel());
         payload.setBackdropClosable(p.cast(source.getBackdropClosable(), true));
         payload.setClosable(p.cast(source.getClosable(), true));
