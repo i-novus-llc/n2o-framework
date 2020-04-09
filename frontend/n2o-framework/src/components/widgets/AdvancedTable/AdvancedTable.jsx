@@ -472,13 +472,16 @@ class AdvancedTable extends Component {
     let newMulti = multi || [];
     let checkedState = {
       ...checked,
-      [index]: !checked[index],
     };
-    let item = null;
     if (newMulti[index]) {
       delete newMulti[index];
       checkedState[index] = false;
     } else {
+      checkedState = {
+        ...checked,
+        [index]: !checked[index],
+      };
+      let item = null;
       forOwn(checkedState, (v, k) => {
         if (v) {
           item =
@@ -488,7 +491,6 @@ class AdvancedTable extends Component {
         }
       });
     }
-
     onSetSelection(newMulti);
     this.setState(() => ({
       checked: checkedState,
