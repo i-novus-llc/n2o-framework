@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.api.component.snippet.Progress;
+import net.n2oapp.framework.autotest.api.component.snippet.Status;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -13,9 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест для компонента отображения прогресса
+ * Автотест для компонента отображения статуса
  */
-public class ProgressAT extends AutoTestBase {
+public class StatusAT extends AutoTestBase {
 
     private SimplePage page;
 
@@ -29,8 +29,7 @@ public class ProgressAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/progress/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/progress/test.query.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/status/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
         page = open(SimplePage.class);
@@ -40,20 +39,21 @@ public class ProgressAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oControlsPack(), new N2oAllDataPack());
+        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
     }
 
     @Test
-    public void testProgress() {
-        Progress progress = page.single().widget(FormWidget.class).snippet(0, Progress.class);
-        progress.shouldExists();
+    public void testStatus() {
+        Status status1 = page.single().widget(FormWidget.class).snippet(0, Status.class);
+        status1.shouldExists();
+        status1.shouldHaveText("Заявка принята");
+        status1.textShouldHaveRightPosition();
+        status1.shouldHaveColor(Colors.SUCCESS);
 
-        progress.shouldHaveText("Text");
-        progress.shouldHaveValue(17);
-        progress.shouldHaveMax(25);
-        progress.shouldBeAnimated();
-        progress.shouldBeStriped();
-        progress.shouldHaveColor(Colors.SUCCESS);
+        Status status2 = page.single().widget(FormWidget.class).snippet(1, Status.class);
+        status2.shouldExists();
+        status2.shouldHaveText("Заявка отклонена");
+        status2.textShouldHaveLeftPosition();
+        status2.shouldHaveColor(Colors.DANGER);
     }
 }
