@@ -1,5 +1,6 @@
 import {
-  INSERT,
+  INSERT_MODAL,
+  INSERT_DRAWER,
   DESTROY,
   HIDE,
   SHOW,
@@ -10,17 +11,33 @@ import {
 import createActionHelper from './createActionHelper';
 
 /**
- * Регистрация оверлея в редаксе
+ * Регистрация модалки в редаксе
  * @param name
  * @param visible
  * @param mode
  * @param rest
  */
-export function insertOverlay(name, visible, mode, ...rest) {
-  return createActionHelper(INSERT)({
+export function insertModal(name, visible, mode, ...rest) {
+  return createActionHelper(INSERT_MODAL)({
     name,
     visible,
-    mode,
+    mode: 'modal',
+    ...rest,
+  });
+}
+
+/**
+ * Регистрация дравера в редаксе
+ * @param name
+ * @param visible
+ * @param mode
+ * @param rest
+ */
+export function insertDrawer(name, visible, mode, ...rest) {
+  return createActionHelper(INSERT_DRAWER)({
+    name,
+    visible,
+    mode: 'drawer',
     ...rest,
   });
 }
