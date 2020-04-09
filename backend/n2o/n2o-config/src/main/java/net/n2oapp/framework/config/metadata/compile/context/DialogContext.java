@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.metadata.compile.context;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.exception.N2oDialog;
-import net.n2oapp.framework.api.metadata.meta.Dialog;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
+import net.n2oapp.framework.api.metadata.meta.page.Dialog;
 
 /**
  * Контекст компиляции диалога подтверждения действия
@@ -12,7 +12,14 @@ import net.n2oapp.framework.api.metadata.meta.Dialog;
 @Setter
 public class DialogContext extends BaseCompileContext<Dialog, N2oDialog> {
 
+    /**
+     * Клиентский идентификатор виджета откуда вызывается действие
+     */
     private String clientWidgetId;
+
+    /**
+     * Идентификатор объекта, в котором находится операция
+     */
     private String objectId;
 
     public DialogContext(String sourceId, String clientWidgetId, String objectId) {

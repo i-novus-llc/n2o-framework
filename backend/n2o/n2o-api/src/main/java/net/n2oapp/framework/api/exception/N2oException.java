@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.exception;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 
 import java.util.Map;
 

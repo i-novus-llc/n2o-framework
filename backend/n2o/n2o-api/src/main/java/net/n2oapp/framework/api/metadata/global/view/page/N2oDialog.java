@@ -1,4 +1,4 @@
-package net.n2oapp.framework.api.exception;
+package net.n2oapp.framework.api.metadata.global.view.page;
 
 import lombok.Getter;
 import lombok.Setter;

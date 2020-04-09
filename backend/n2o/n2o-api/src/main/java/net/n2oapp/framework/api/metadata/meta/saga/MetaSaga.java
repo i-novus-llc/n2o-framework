@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.meta.Dialog;
+import net.n2oapp.framework.api.metadata.meta.page.Dialog;
 
 /**
  * Постпроцессинг действия

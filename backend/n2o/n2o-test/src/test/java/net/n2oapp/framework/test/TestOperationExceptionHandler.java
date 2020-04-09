@@ -2,7 +2,7 @@ package net.n2oapp.framework.test;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.OperationExceptionHandler;
-import net.n2oapp.framework.api.exception.N2oDialog;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oCloseAction;
