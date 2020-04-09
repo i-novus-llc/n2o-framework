@@ -53,11 +53,11 @@ public abstract class AbstractController {
     }
 
     @SuppressWarnings("unchecked")
-    protected ActionRequestInfo createActionRequestInfo(String path, HttpServletRequest request, Object body, UserContext user) {
-        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, request.getParameterMap());
-        Map<String, String[]> params = new HashMap<>(request.getParameterMap());
-        if (actionCtx.getHeaderParamNames() != null) {
-            actionCtx.getHeaderParamNames().forEach(n -> params.put(n, new String[]{request.getHeader(n)}));
+    protected ActionRequestInfo createActionRequestInfo(String path, Map<String, String[]> parameters, Map<String, String[]> headers, Object body, UserContext user) {
+        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, parameters);
+        Map<String, String[]> params = parameters == null ? new HashMap<>() : new HashMap<>(parameters);
+        if (actionCtx.getHeaderParamNames() != null && headers != null) {
+            actionCtx.getHeaderParamNames().forEach(n -> params.put(n, headers.get(n)));
         }
         DataSet queryData = actionCtx.getParams(path, params);
         CompiledObject object = environment.getReadCompileBindTerminalPipelineFunction()

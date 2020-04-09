@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,7 +97,7 @@ public class N2oController {
         String path = getPath(request, "/n2o/data");
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
-        SetDataResponse dataResponse = dataController.setData(path, request, new DataSet(body), null);
+        SetDataResponse dataResponse = dataController.setData(path, request.getParameterMap(), getHeaders(request), new DataSet(body), null);
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
@@ -125,5 +126,15 @@ public class N2oController {
     private String getPath(HttpServletRequest request, String prefix) {
         String path = request.getRequestURI().substring(request.getRequestURI().indexOf(prefix) + prefix.length());
         return RouteUtil.normalize(!path.isEmpty() ? path : "/");
+    }
+
+    private Map<String, String[]> getHeaders(HttpServletRequest req) {
+        Map<String, String[]> headers = new HashMap<>();
+        Enumeration<String> iter = req.getHeaderNames();
+        while (iter.hasMoreElements()) {
+            String name = iter.nextElement();
+            headers.put(name, new String[]{req.getHeader(name)});
+        }
+        return headers;
     }
 }

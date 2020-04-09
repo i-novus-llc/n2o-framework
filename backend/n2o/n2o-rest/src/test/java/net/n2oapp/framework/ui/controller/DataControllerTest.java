@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -302,9 +301,7 @@ public class DataControllerTest extends DataControllerTestBase {
 
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
 //        controller.setErrorMessageBuilder(new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameters(params);
-        return controller.setData(path, request, body, new UserContext(contextEngine));
+        return controller.setData(path, null , null, body, new UserContext(contextEngine));
     }
 
 }

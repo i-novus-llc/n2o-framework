@@ -14,7 +14,6 @@ import net.n2oapp.framework.api.ui.QueryResponseInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Set;
 
@@ -44,8 +43,8 @@ public class DataController extends AbstractController {
         return controllerFactory.execute(requestInfo, responseInfo);
     }
 
-    public SetDataResponse setData(String path, HttpServletRequest request, Object body, UserContext user) {
-        ActionRequestInfo requestInfo = createActionRequestInfo(path, request, body, user);
+    public SetDataResponse setData(String path, Map<String, String[]> parameters, Map<String, String[]> headers, Object body, UserContext user) {
+        ActionRequestInfo requestInfo = createActionRequestInfo(path, parameters, headers, body, user);
         ActionResponseInfo responseInfo = new ActionResponseInfo();
         SetDataResponse result = controllerFactory.execute(requestInfo, responseInfo);
         resolveRedirect(requestInfo, result);
