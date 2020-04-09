@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.region;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.collection.Widgets;
 
 /**
@@ -13,6 +14,8 @@ public interface TabsRegion extends Region {
 
     interface TabItem {
         void click();
+
+        SelenideElement element();
         void shouldBeActive();
     }
 }
