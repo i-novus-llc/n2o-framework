@@ -13,7 +13,7 @@ import org.junit.Test;
 /**
  * Тестирование чтения и записи страницы с тремя регионами
  */
-public class TopLeftRightPageXmlIOV2Test {
+public class TopLeftRightPageXmlIOv2Test {
     @Test
     public void testTopLeftRightPageXmlIOv2Test() {
         ION2oMetadataTester tester = new ION2oMetadataTester()
