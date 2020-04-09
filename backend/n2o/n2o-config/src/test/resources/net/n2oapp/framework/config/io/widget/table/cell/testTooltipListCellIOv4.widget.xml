@@ -2,7 +2,7 @@
     <columns>
         <column text-field-id="test1">
             <tooltip-list trigger="click" label="Объектов {size} шт" label-one="{size} объект"
-                          label-few="{size} объекта" label-many="{size} объектов"/>
+                          label-few="{size} объекта" label-many="{size} объектов" dashed-label="false"/>
         </column>
         <column text-field-id="test2">
             <tooltip-list/>

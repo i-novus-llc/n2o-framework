@@ -46,10 +46,12 @@ public class TooltipListCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getOneLabel(), is("{size} объект"));
         assertThat(cell.getFewLabel(), is("{size} объекта"));
         assertThat(cell.getManyLabel(), is("{size} объектов"));
+        assertThat(cell.getDashedLabel(), is(false));
         assertThat(cell.getTrigger(), is(TriggerEnum.click));
 
         cell = (N2oTooltipListCell) table.getComponent().getCells().get(1);
         assertThat(cell.getFieldKey(), is("test2"));
         assertThat(cell.getTrigger(), is(TriggerEnum.hover));
+        assertThat(cell.getDashedLabel(), is(true));
     }
 }

@@ -19,6 +19,7 @@ public class TooltipListCellElementIOv2 extends AbstractCellElementIOv2<N2oToolt
         p.attribute(e, "label-one", c::getOneLabel, c::setOneLabel);
         p.attribute(e, "label-few", c::getFewLabel, c::setFewLabel);
         p.attribute(e, "label-many", c::getManyLabel, c::setManyLabel);
+        p.attributeBoolean(e, "dashed-label", c::getDashedLabel, c::setDashedLabel);
         p.attributeEnum(e, "trigger", c::getTrigger, c::setTrigger, TriggerEnum.class);
     }
 

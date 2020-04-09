@@ -573,6 +573,11 @@
                         <xs:documentation>Заголовок поля при большом числе элементов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="dashed-label" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Подчеркивание заголовка пунктиром.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="trigger" type="triggerType" default="hover">
                     <xs:annotation>
                         <xs:documentation>Действие, при котором раскрывается список.</xs:documentation>

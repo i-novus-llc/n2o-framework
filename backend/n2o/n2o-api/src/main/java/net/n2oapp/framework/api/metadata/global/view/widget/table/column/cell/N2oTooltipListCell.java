@@ -19,6 +19,8 @@ public class N2oTooltipListCell extends N2oAbstractCell {
     private String fewLabel;
     @JsonProperty
     private String manyLabel;
+    @JsonProperty("labelDashed")
+    private Boolean dashedLabel;
     @JsonProperty
     private TriggerEnum trigger;
 }

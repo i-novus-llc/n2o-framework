@@ -15,6 +15,6 @@ public class TooltipListCellXmlIOTest {
         tester.ios(new TableElementIOV4())
                 .addPack(new N2oCellsIOPack());
 
-        assert tester.check("net/n2oapp/framework/config/io/widget/table/cell/testToolbarListCellIOv4.widget.xml");
+        assert tester.check("net/n2oapp/framework/config/io/widget/table/cell/testTooltipListCellIOv4.widget.xml");
     }
 }
