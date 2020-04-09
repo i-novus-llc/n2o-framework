@@ -2,6 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import SimpleButton from '../Simple/Simple';
+import StandardButton from '../StandardButton/StandardButton';
 
 const stories = storiesOf('Кнопки/SimpleButton', module);
 
@@ -23,7 +24,7 @@ const meta1 = {
   visible: true,
   rounded: true,
   disabled: false,
-  icon: 'fa fa-plus',
+  icon: 'fa fa-bolt',
   size: 'md',
   color: 'primary',
   action: {
@@ -44,13 +45,38 @@ const meta2 = {
   },
 };
 
-stories.add('SimpleButton', () => (
-  <div>
-    <SimpleButton {...meta} />
-    <SimpleButton {...meta} icon={'fa fa-minus'} />
-    <SimpleButton {...meta1} />
-    <SimpleButton {...meta1} icon={'fa fa-minus'} />
-    <SimpleButton {...meta2} />
-    <SimpleButton {...meta2} icon={'fa fa-minus'} />
-  </div>
-));
+const performMeta = {
+  hint: 'Всплывающая подсказка',
+  confirm: {
+    cancelLabel: 'Нет',
+    okLabel: 'Да',
+    text: "`'Выполнить действие над '+name+'?'`",
+    title: 'Предупреждение',
+  },
+  visible: true,
+  rounded: true,
+  disabled: false,
+  icon: 'fa fa-bolt',
+  size: 'md',
+  color: 'primary',
+  action: {
+    type: 'n2o/button/Dummy',
+  },
+};
+
+stories
+  .add('SimpleButton', () => (
+    <div>
+      <SimpleButton {...meta} />
+      <SimpleButton {...meta} icon={'fa fa-minus'} />
+      <SimpleButton {...meta1} />
+      <SimpleButton {...meta1} icon={'fa fa-minus'} />
+      <SimpleButton {...meta2} />
+      <SimpleButton {...meta2} icon={'fa fa-minus'} />
+    </div>
+  ))
+  .add('SimpleButton in StandardButton', () => (
+    <div>
+      <StandardButton {...performMeta} />
+    </div>
+  ));

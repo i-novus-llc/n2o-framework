@@ -4,13 +4,22 @@
 }
 
 .btn–rounded.btn-sm {
-  padding: .29em .397em .29em .397em;
+  width: 35px;
+  height: 35px;
+  display: inline-flex;
+  justify-content: center;
 }
 
 .btn–rounded.btn-md {
-  padding: .592em .7em .592em .7em;
+  width: 50px;
+  height: 50px;
+  display: inline-flex;
+  justify-content: center;
 }
 
 .btn–rounded.btn-lg {
-  padding: 1.2em 1.3077em 1.2em 1.3077em;
+  width: 65px;
+  height: 65px;
+  display: inline-flex;
+  justify-content: center;
 }
