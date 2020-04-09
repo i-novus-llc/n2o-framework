@@ -51,7 +51,7 @@ class ImageCell extends React.Component {
 
     return (
       visible && (
-        <div
+        <span
           title={title}
           style={{ ...style, ...this.setCursor(action) }}
           className={className}
@@ -62,7 +62,7 @@ class ImageCell extends React.Component {
             className={getImageClass(shape)}
             onClick={onClick}
           />
-        </div>
+        </span>
       )
     );
   }

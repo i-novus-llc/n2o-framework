@@ -38,7 +38,6 @@ stories.add('Компонент', () => {
         id: 'id',
         component: IconCell,
         icon: 'fa fa-plus',
-        hint: 'first hint',
         tooltipPlacement: 'right',
       },
       {
@@ -46,7 +45,6 @@ stories.add('Компонент', () => {
         component: IconCell,
         icon: 'fa fa-plus',
         textPlace: textPlaceTypes.LEFT,
-        hint: 'second hint',
         tooltipPlacement: 'top',
       },
       {
@@ -61,6 +59,7 @@ stories.add('Компонент', () => {
         id: 'Алексей',
         vip: 'Алексей',
         onlyIcon: 'Алексей',
+        tooltipFieldId: ['tooltip', 'body'],
       },
     ],
   };

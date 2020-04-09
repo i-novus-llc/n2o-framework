@@ -18,10 +18,10 @@ function StatusCell(props) {
   const { id, className, visible, color, model, fieldKey } = props;
   const statusText = get(model, fieldKey || id);
   return visible ? (
-    <div className={className}>
+    <span className={className}>
       {!!color && <span className={cx('n2o-status-cell', `bg-${color}`)} />}
       {statusText}
-    </div>
+    </span>
   ) : null;
 }
 

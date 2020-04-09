@@ -15,7 +15,11 @@ export default function withTooltip(WrappedComponent) {
       const hint = get(this.props.model, 'tooltipFieldId');
       console.warn(this.props);
       return (
-        <Tooltip label={<WrappedComponent {...this.props} />} hint={hint} />
+        <Tooltip
+          label={<WrappedComponent {...this.props} />}
+          hint={hint}
+          placement={this.props.placement || 'bottom'}
+        />
       );
     }
   }

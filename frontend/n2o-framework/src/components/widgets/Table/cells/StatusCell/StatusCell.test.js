@@ -21,7 +21,7 @@ const setup = propOverrides => {
         fieldKey: 'test',
       },
     ],
-    datasource: [{ test: 'test-text' }],
+    datasource: [{ test: 'test-text', tooltipFieldId: ['tooltip', 'body'] }],
   };
 
   return mount(
@@ -38,8 +38,19 @@ const setup = propOverrides => {
 describe('Тесты <StatusCell />', () => {
   it('отрисовка при color equal true с текстом', () => {
     const wrapper = setup();
-
     expect(wrapper.find('.bg-info').exists()).toEqual(true);
     expect(wrapper.find('StatusCell').contains('test-text')).toEqual(true);
   });
+  // it('s', () => {
+  //   const wrapper = setup();
+  //   expect(
+  //     wrapper
+  //       .find('.list-text-cell__trigger')
+  //       .html()
+  //       .exists()
+  //       .toEqual(
+  //         `<span class="list-text-cell__trigger"><span><span class="n2o-status-cell bg-info"></span>test-text</span></span>`
+  //       )
+  //   );
+  // });
 });
