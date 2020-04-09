@@ -35,7 +35,6 @@ const performMeta = {
     title: 'Предупреждение',
   },
   visible: true,
-  rounded: true,
   disabled: false,
   count: '9',
   label: 'Выполнить',
@@ -74,4 +73,10 @@ stories
       </div>
     </div>
   ))
-  .add('Выполнение redux action', () => <StandardButton {...performMeta} />);
+  .add('Выполнение redux action', () => (
+    <>
+      <StandardButton {...performMeta} size={'sm'} />
+      <StandardButton {...performMeta} size={'md'} />
+      <StandardButton {...performMeta} size={'lg'} />
+    </>
+  ));
