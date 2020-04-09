@@ -547,7 +547,7 @@ class AdvancedTable extends Component {
       model,
       setRef: this.setRowRef,
       handleRowClick: event =>
-        this.handleRowClick(model.id, model.id, false, event),
+        this.handleRowClick(model.id, model.id, false, false, event),
       handleRowClickFocus: event =>
         this.handleRowClick(model.id, model.id, true, true, event),
       clickWithAction: () =>
