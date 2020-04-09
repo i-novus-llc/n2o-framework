@@ -341,6 +341,7 @@ stories
             label: 'Объектов {size} шт',
             src: 'ListTextCell',
             placement: 'bottom',
+            labelDashed: true,
           },
         ],
         datasource: [
