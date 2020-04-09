@@ -13,7 +13,7 @@ import org.junit.Test;
 /**
  * Тестирование чтения и записи страницы с правыми и левыми регионами
  */
-public class LeftRightPageXmlIOV2Test {
+public class LeftRightPageXmlIOv2Test {
     @Test
     public void testLeftRightPageXmlIOv2Test() {
         ION2oMetadataTester tester = new ION2oMetadataTester()
@@ -24,7 +24,7 @@ public class LeftRightPageXmlIOV2Test {
                 .addPersister(new SelectiveStandardPersister()
                         .addFieldsetPersister()
                         .addPersister(new TableElementIOV4())
-                        .addPersister(new StandardPageElementIOv2())
+                        .addPersister(new LeftRightPageElementIOv2())
                         .addPersister(new CloseActionElementIOV1()))
                 .addPack(new N2oRegionsV1IOPack())
                 .ios(new ButtonIO(), new SubmenuIO());

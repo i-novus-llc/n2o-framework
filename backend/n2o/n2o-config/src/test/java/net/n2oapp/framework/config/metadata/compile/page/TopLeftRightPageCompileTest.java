@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
-import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.page.TopLeftRightPage;
 import net.n2oapp.framework.api.metadata.meta.region.*;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -14,14 +14,12 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNull.nullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
- * Тестирование компиляции страницы с левыми и правыми регионами
+ * Тестирование компиляции страницы с тремя регионами
  */
-public class LeftRightPageCompileTest extends SourceCompileTestBase {
+public class TopLeftRightPageCompileTest extends SourceCompileTestBase {
 
     @Override
     @Before
@@ -37,17 +35,29 @@ public class LeftRightPageCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void leftRightPage() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testLeftRightPage.page.xml")
-                .get(new PageContext("testLeftRightPage"));
+    public void topLeftRightPage() {
+        TopLeftRightPage page = (TopLeftRightPage) compile("net/n2oapp/framework/config/metadata/compile/page/testTopLeftRightPage.page.xml")
+                .get(new PageContext("testTopLeftRightPage"));
 
-        assertThat(page.getWidth().getLeft(), is("70%"));
-        assertThat(page.getWidth().getRight(), nullValue());
+        assertThat(page.getNeedScrollButton(), is(true));
+        assertThat(page.getPlaces().getTop().getWidth(), is("100%"));
+        assertThat(page.getPlaces().getTop().getFixed(), is(true));
+        assertThat(page.getPlaces().getTop().getOffset(), is(100));
+        assertThat(page.getPlaces().getLeft().getWidth(), is("70%"));
+        assertThat(page.getPlaces().getLeft().getFixed(), is(false));
+        assertThat(page.getPlaces().getLeft().getOffset(), nullValue());
+        assertThat(page.getPlaces().getRight().getWidth(), is("30%"));
+        assertThat(page.getPlaces().getRight().getFixed(), is(true));
+        assertThat(page.getPlaces().getRight().getOffset(), is(50));
 
-        assertThat(page.getRegions().size(), is(2));
+        assertThat(page.getRegions().size(), is(3));
+        List<Region> top = page.getRegions().get("top");
         List<Region> left = page.getRegions().get("left");
         List<Region> right = page.getRegions().get("right");
 
+        assertThat(top.size(), is(2));
+        assertThat(top.get(0), instanceOf(PanelRegion.class));
+        assertThat(top.get(1), instanceOf(TabsRegion.class));
         assertThat(left.size(), is(1));
         assertThat(left.get(0), instanceOf(LineRegion.class));
         assertThat(right.size(), is(3));

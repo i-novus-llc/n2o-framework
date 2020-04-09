@@ -52,6 +52,11 @@ link:#_Виджеты[Виджет]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
+|src
+|Строка
+|Реализация страницы
+|
+
 |name
 |Строка
 |Наименование страницы
@@ -82,12 +87,117 @@ link:#_Виджеты[Виджет]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-    name="Моя страница"
-    object-id="myObject">
+    name="Моя страница">
     <regions>...</regions>
     <actions>...</actions>
     <toolbar>...</toolbar>
 </page>
+----
+
+=== <left-right-page>
+Страница с двумя регионами.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|src
+|Строка
+|Реализация страницы
+|
+
+|name
+|Строка
+|Наименование страницы
+|
+
+|route
+|Строка
+|URL страницы
+|Формируется из идентификатора страницы
+
+|modal-size
+|sm lg
+|Размер модального окна, если страница открыта в модальном окне
+|
+
+|object-id
+|Ссылка на link:#_Объект_object[объект]
+|Главный объект страницы
+|
+
+|===
+Тело::
+link:#_Регионы_<left-right-page>[Регионы <left> <right>]
+
+Пример::
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+    name="Моя страница">
+    <actions>...</actions>
+    <toolbar>...</toolbar>
+    <left>...</left>
+    <right>...</right>
+</left-right-page>
+----
+
+=== <top-left-right-page>
+Страница с тремя регионами.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|src
+|Строка
+|Реализация страницы
+|
+
+|name
+|Строка
+|Наименование страницы
+|
+
+|route
+|Строка
+|URL страницы
+|Формируется из идентификатора страницы
+
+|modal-size
+|sm lg
+|Размер модального окна, если страница открыта в модальном окне
+|
+
+|object-id
+|Ссылка на link:#_Объект_object[объект]
+|Главный объект страницы
+|
+
+|scroll-top-button
+|true false
+|Показывается ли кнопка скролла в начало страницы
+|false
+
+|===
+Тело::
+link:#_Регионы_<top-left-right-page>[Регионы <top> <left> <right>]
+
+Пример::
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+    name="Моя страница">
+    <actions>...</actions>
+    <toolbar>...</toolbar>
+    <top>...</top>
+    <left>...</left>
+    <right>...</right>
+</top-left-right-page>
 ----
 
 === <searchable-page>
@@ -97,6 +207,11 @@ link:#_Виджеты[Виджет]
 [cols="2,1,4,4"]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
+
+|src
+|Строка
+|Реализация страницы
+|
 
 |name
 |Строка
@@ -128,8 +243,7 @@ link:#_Поисковая_строка[Поисковая строка]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-    name="Моя страница"
-    object-id="myObject">
+    name="Моя страница">
     <search-bar/>
     <regions>...</regions>
     <actions>...</actions>
@@ -263,6 +377,62 @@ link:#_Действия[Обработчик действия]
   <button>...</button>
   <sub-menu>...</sub-menu>
 </toolbar>
+----
+
+==== <left> <right>
+Регионы <left-right-page>.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|width
+|Строка
+|Ширина региона
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<left width="40%">...</left>
+<right width="60%">...</right>
+----
+
+==== <top> <left> <right>
+Регионы <top-left-right-page>.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|width
+|Строка
+|Ширина региона
+|
+
+|fixed
+|true false
+|Зафиксирован ли регион.
+Фиксироваться может максимум 2 региона из 3
+|false
+
+|offset
+|Число
+|Отступ от верхней границы при фиксировании
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<top fixed="true" offset="100">...</top>
+<left width="40%">...</left>
+<right fixed="true" width="60%" offset="100">...</right>
 ----
 
 ==== <search-bar>
