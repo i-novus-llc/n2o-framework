@@ -45,6 +45,9 @@ export const model = {
   switchDefault: {
     ...imageCellProps,
   },
+  model: {
+    TextCell: 'TextCell',
+  },
 };
 
 export const model2 = {
@@ -62,6 +65,9 @@ export const model2 = {
   switchDefault: {
     ...imageCellProps,
   },
+  model: {
+    LinkCell: 'LinkCell',
+  },
 };
 
 export const modelFromDefaultView = {
@@ -78,5 +84,8 @@ export const modelFromDefaultView = {
   },
   switchDefault: {
     ...imageCellProps,
+  },
+  model: {
+    TextCell: 'ImageCell',
   },
 };
