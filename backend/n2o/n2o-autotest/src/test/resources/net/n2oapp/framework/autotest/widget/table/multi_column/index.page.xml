@@ -1,20 +1,35 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
-    <table query-id="test">
-        <columns>
-            <column text-field-id="id" label="ID"/>
-            <multi-column label="Info">
-                <multi-column label="Name">
-                    <column text-field-id="firstName" label="FirstName"/>
-                    <column text-field-id="lastName" label="LastName"/>
-                </multi-column>
-                <filter-column text-field-id="phone" label="Phone">
-                    <filter>
-                        <input-text id="phone"/>
-                    </filter>
-                </filter-column>
-            </multi-column>
-            <column text-field-id="birthday" label="Birthday"/>
-        </columns>
-    </table>
-</simple-page>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <region>
+            <table id="table1" query-id="test">
+                <columns>
+                    <column text-field-id="id" label="ID"/>
+                    <multi-column label="Info">
+                        <column text-field-id="firstName" label="FirstName"/>
+                        <column text-field-id="lastName" label="LastName"/>
+                    </multi-column>
+                    <column text-field-id="birthday" label="Birthday"/>
+                </columns>
+            </table>
+
+            <table id="table2" query-id="test">
+                <columns>
+                    <column text-field-id="id" label="ID"/>
+                    <multi-column label="Info">
+                        <multi-column label="Name">
+                            <column text-field-id="firstName" label="FirstName"/>
+                            <column text-field-id="lastName" label="LastName"/>
+                        </multi-column>
+                        <filter-column text-field-id="phone" label="Phone">
+                            <filter>
+                                <input-text id="phone"/>
+                            </filter>
+                        </filter-column>
+                    </multi-column>
+                    <column text-field-id="birthday" label="Birthday"/>
+                </columns>
+            </table>
+        </region>
+    </regions>
+</page>
