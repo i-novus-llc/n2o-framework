@@ -14,6 +14,16 @@ public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
     }
 
     @Override
+    public void labelShouldBeDashed() {
+        element().$(".list-text-cell__trigger_dashed").shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void labelShouldNotBeDashed() {
+        element().$(".list-text-cell__trigger_dashed").shouldNotBe(Condition.exist);
+    }
+
+    @Override
     public void hover() {
         cellTrigger().hover();
     }
@@ -24,6 +34,6 @@ public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
     }
 
     private SelenideElement cellTrigger() {
-        return element().$(".list-text-cell__trigger");
+        return element().$(".list-text-cell__trigger, .list-text-cell__trigger_dashed");
     }
 }

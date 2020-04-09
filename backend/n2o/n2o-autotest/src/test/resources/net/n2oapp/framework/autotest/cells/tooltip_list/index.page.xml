@@ -5,7 +5,7 @@
             <table id="table1" query-id="testTable">
                 <columns>
                     <column text-field-id="list">
-                        <tooltip-list label="Объектов {size} шт."/>
+                        <tooltip-list label="Объектов {size} шт." dashed-label="false"/>
                     </column>
                 </columns>
             </table>

@@ -6,6 +6,10 @@ package net.n2oapp.framework.autotest.api.component.cell;
 public interface TooltipListCell extends Cell {
     void shouldHaveText(String text);
 
+    void labelShouldBeDashed();
+
+    void labelShouldNotBeDashed();
+
     void hover();
 
     void click();
