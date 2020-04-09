@@ -19,6 +19,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ * Тестирование компиляции компонента ввода текста
+ */
 public class InputTextCompileTest extends SourceCompileTestBase {
     @Override
     @Before
@@ -29,8 +32,7 @@ public class InputTextCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oActionsPack(), new N2oAllDataPack(), new N2oControlsV2IOPack());
+        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsV2IOPack());
         builder.compilers(new InputTextCompiler());
     }
 
@@ -76,11 +78,13 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(field.getDependencies().get(9).getType(), is(ValidationType.reRender));
         InputText inputText = (InputText) ((StandardField) field).getControl();
         assertThat(inputText.getSrc(), is("InputText"));
+        assertThat(inputText.getMeasure(), is("cm"));
         InputText inputText1 = (InputText) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(inputText1.getSrc(), is("InputNumber"));
         assertThat(inputText1.getMax(), is(Integer.MAX_VALUE));
         assertThat(inputText1.getMin(), is(Integer.MIN_VALUE));
         assertThat(inputText1.getStep(), is("1"));
+        assertThat(inputText1.getMeasure(), is("cm"));
         assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
         assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
         assertThat(((StandardField) rows.get(4).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
