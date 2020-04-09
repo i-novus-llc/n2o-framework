@@ -66,15 +66,13 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     }
 
     private String getTargetWidgetId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
+        if (context instanceof ModalPageContext)
+            return ((PageContext) context).getParentWidgetId();
+
         PageScope pageScope = p.getScope(PageScope.class);
         if (source.getTargetWidgetId() != null) {
-            if (pageScope != null) {
-                if (context instanceof ModalPageContext)
-                    return ((PageContext) context).getParentWidgetId();
-                else
-                    return pageScope.getGlobalWidgetId(source.getTargetWidgetId());
-            } else
-                return source.getTargetWidgetId();
+            return (pageScope != null) ? pageScope.getGlobalWidgetId(source.getTargetWidgetId()) :
+                    source.getTargetWidgetId();
         } else
             return initTargetWidget(source, context, p);
     }
