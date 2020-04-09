@@ -348,6 +348,7 @@ class AdvancedTable extends Component {
 
     if (autoCheckOnSelect) {
       if (rowSelection === rowSelectionType.CHECKBOX) {
+        event.stopPropagation();
         this.handleChangeChecked(event, index);
       } else if (rowSelection === rowSelectionType.RADIO) {
         this.handleChangeRadioChecked(id);
