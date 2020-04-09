@@ -5,6 +5,7 @@ import withLinkAction from './withLinkAction';
 import withPerformAction from './withPerformAction';
 
 function StandardButton(props) {
+  console.warn(props);
   return <SimpleButton {...props} />;
 }
 
