@@ -22,5 +22,7 @@ public class InputText extends Control {
     @JsonProperty
     private String step;
     @JsonProperty
+    private String measure;
+    @JsonProperty
     private Boolean showButtons;
 }

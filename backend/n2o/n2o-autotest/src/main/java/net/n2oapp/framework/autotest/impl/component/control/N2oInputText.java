@@ -57,11 +57,28 @@ public class N2oInputText extends N2oControl implements InputText {
         element().parent().$$(".n2o-input-number-buttons button").get(1).click();
     }
 
+    @Override
+    public void shouldHaveMeasure() {
+        inputMeasure().should(Condition.exist);
+    }
+
+    @Override
+    public void measureShouldHaveText(String text) {
+        inputMeasure().shouldHave(Condition.text(text));
+    }
+
     private SelenideElement inputElement() {
         return element().parent().$(".n2o-input");
     }
 
     private SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
+    }
+
+    private SelenideElement inputMeasure() {
+        SelenideElement elm = element().parent();
+        if (elm.is(Condition.cssClass("n2o-input-number")))
+            elm = elm.parent();
+        return elm.$(".n2o-control-container-placeholder");
     }
 }
