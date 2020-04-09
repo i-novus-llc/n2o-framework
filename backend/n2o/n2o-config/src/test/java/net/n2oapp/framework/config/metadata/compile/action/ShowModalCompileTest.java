@@ -75,7 +75,6 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(payload.getPageUrl(), is("/p/create"));
         assertThat(payload.getSize(), is("sm"));
         assertThat(payload.getPageId(), is("p_create"));
-        assertThat(payload.getMode(), is("modal"));
 
 //        assertThat(payload.getActions().size(), is(2));
 //        assertThat(payload.getActions().containsKey("submit"), is(true));

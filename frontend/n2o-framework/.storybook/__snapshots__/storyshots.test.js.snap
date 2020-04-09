@@ -31800,6 +31800,120 @@ exports[`Storyshots Контролы/Интервал ввода чисел ба
 </div>"
 `;
 
+exports[`Storyshots Контролы/Интервал дат Max: /home/egor/IdeaProjects/n2o-framework/frontend/n2o-framework/src/components/controls/DatePicker/__snapshots__/DateInterval.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Интервал дат
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Max
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/Интервал дат Max: D:\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\DatePicker\\__snapshots__\\DateInterval.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Интервал дат
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Max
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/Интервал дат Min/Max: /home/egor/IdeaProjects/n2o-framework/frontend/n2o-framework/src/components/controls/DatePicker/__snapshots__/DateInterval.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Интервал дат
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Min/Max
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Контролы/Интервал дат Min/Max: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\DatePicker\\__snapshots__\\DateInterval.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -31901,6 +32015,120 @@ exports[`Storyshots Контролы/Интервал дат Min/Max: D:\\Projec
                 <div>
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/Интервал дат Min: /home/egor/IdeaProjects/n2o-framework/frontend/n2o-framework/src/components/controls/DatePicker/__snapshots__/DateInterval.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Интервал дат
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Min
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/Интервал дат Min: D:\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\DatePicker\\__snapshots__\\DateInterval.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Интервал дат
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Min
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/Интервал дат Компонент: /home/egor/IdeaProjects/n2o-framework/frontend/n2o-framework/src/components/controls/DatePicker/__snapshots__/DateInterval.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Интервал дат
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      Компонент \\\\'Интервал дат\\\\'\\\\n      ~~~js\\\\n      import DateInterval from \\\\'n2o-framework/lib/components/controls/DatePicker/DateInterval\\\\';\\\\n      \\\\n      <DateInterval\\\\n          dateFormat=\\"DD/MM/YYYY\\"\\\\n          timeFormat=\\"HH:mm:ss\\"\\\\n          defaultTime=\\"13:00:00\\"\\\\n          min=\\"5/12/2012\\"\\\\n          max=\\"15/12/2021\\"\\\\n          locale=\\"ru\\"\\\\n          outputFormat=\\"DD/MM/YYYY\\"\\\\n          onChange={onChange}\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <DateInterval onChange={[Function: onChange]} dateFormat=\\"DD/MM/YYYY\\" timeFormat=\\"HH:mm:ss\\" defaultTime=\\"13:00:00\\" min=\\"5/12/2012\\" max=\\"15/12/2021\\" disabled={false} locale=\\"ru\\" outputFormat=\\"DD/MM/YYYY\\" defaultValue={{...}} onFocus={[Function: onFocus]} onBlur={[Function: onBlur]} placeholder=\\"\\" dateDivider=\\" \\" className=\\"\\" openOnFocus={false} />
                   </Story>
                   <withContext(Connect(OverlayPages)) />
                 </div>

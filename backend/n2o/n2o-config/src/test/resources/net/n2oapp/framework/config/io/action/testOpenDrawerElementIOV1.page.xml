@@ -6,12 +6,6 @@
                          refresh-widget-id="testWidget" upload="query" submit-model="resolve"
                         closable="false" backdrop="false" width="10pt" height="20pt" placement="left"
                         level="all" backdrop-closable="true">
-                <pre-filters>
-                    <contains field-id="test" value="test" values="test1 , test2"/>
-                </pre-filters>
-                <pre-fields>
-                    <contains field-id="test" value="test" values="test1 , test2"/>
-                </pre-fields>
             </open-drawer>
         </action>
     </actions>

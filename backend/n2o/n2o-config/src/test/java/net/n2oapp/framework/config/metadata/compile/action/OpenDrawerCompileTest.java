@@ -239,22 +239,13 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
 
         PageContext drawerContext = (PageContext) route("/p/123/updateWithPrefilters", Page.class);
         assertThat(drawerContext.getSourceId(null), is("testShowModalPage"));
-        assertThat(drawerContext.getPreFilters().size(), is(3));
+        assertThat(drawerContext.getPreFilters().size(), is(1));
         assertThat(drawerContext.getPreFilters().get(0).getRefWidgetId(), is("main"));
         assertThat(drawerContext.getPreFilters().get(0).getRefPageId(), is("p"));
         assertThat(drawerContext.getPreFilters().get(0).getFieldId(), is(N2oQuery.Field.PK));
         assertThat(drawerContext.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(drawerContext.getPreFilters().get(0).getRefModel(), is(ReduxModel.RESOLVE));
         assertThat(drawerContext.getPreFilters().get(0).getValue(), is("{id}"));
-        assertThat(drawerContext.getPreFilters().get(1).getFieldId(), is("secondId"));
-        assertThat(drawerContext.getPreFilters().get(1).getType(), is(FilterType.eq));
-        assertThat(drawerContext.getPreFilters().get(1).getValue(), is("1"));
-        assertThat(drawerContext.getPreFilters().get(2).getRefWidgetId(), is("second"));
-        assertThat(drawerContext.getPreFilters().get(2).getRefPageId(), is("p"));
-        assertThat(drawerContext.getPreFilters().get(2).getFieldId(), is("name"));
-        assertThat(drawerContext.getPreFilters().get(2).getType(), is(FilterType.eq));
-        assertThat(drawerContext.getPreFilters().get(2).getRefModel(), is(ReduxModel.FILTER));
-        assertThat(drawerContext.getPreFilters().get(2).getValue(), is("{name}"));
         assertThat(drawerContext.getUpload(), is(UploadType.query));
 
         SimplePage drawerPage = (SimplePage) read().compile().get(drawerContext);
@@ -262,27 +253,25 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerPage.getBreadcrumb(), notNullValue());
         Widget drawerWidget = drawerPage.getWidget();
         List<Filter> filters = drawerWidget.getFilters();
-        assertThat(filters.get(0).getParam(), is("p_main_id"));
-        assertThat(filters.get(0).getFilterId(), is("id"));
-        assertThat(filters.get(0).getRoutable(), is(false));
-        assertThat(filters.get(0).getLink().getBindLink(), is("models.resolve['p_main']"));
-        assertThat(filters.get(0).getLink().getValue(), is("`id`"));
-        assertThat(filters.get(1).getParam(), is("secondId"));
-        assertThat(filters.get(1).getFilterId(), is("secondId"));
-        assertThat(filters.get(1).getRoutable(), is(false));
-        assertThat(filters.get(1).getLink().getBindLink(), nullValue());
-        assertThat(filters.get(1).getLink().getValue(), is(1));
-        assertThat(filters.get(2).getParam(), is("p_main_name"));
-        assertThat(filters.get(2).getFilterId(), is("name_eq"));
+        assertThat(filters.get(2).getParam(), is("p_main_id"));
+        assertThat(filters.get(2).getFilterId(), is("id"));
         assertThat(filters.get(2).getRoutable(), is(false));
-        assertThat(filters.get(2).getLink().getBindLink(), is("models.filter['p_second']"));
-        assertThat(filters.get(2).getLink().getValue(), is("`name`"));
+        assertThat(filters.get(2).getLink().getBindLink(), is("models.resolve['p_main']"));
+        assertThat(filters.get(2).getLink().getValue(), is("`id`"));
+        assertThat(filters.get(0).getParam(), is("p_updateWithPrefilters_main_secondId"));
+        assertThat(filters.get(0).getFilterId(), is("secondId"));
+        assertThat(filters.get(0).getRoutable(), is(false));
+        assertThat(filters.get(0).getLink().getBindLink(), nullValue());
+        assertThat(filters.get(0).getLink().getValue(), is(1));
+        assertThat(filters.get(1).getParam(), is("name"));
+        assertThat(filters.get(1).getFilterId(), is("name"));
+        assertThat(filters.get(1).getRoutable(), is(false));
+        assertThat(filters.get(1).getLink().getBindLink(), is("models.filter['p_second']"));
+        assertThat(filters.get(1).getLink().getValue(), is("`name`"));
 
         assertThat(drawerWidget.getDataProvider().getPathMapping().get("p_main_id").getBindLink(), is("models.resolve['p_main'].id"));
-        assertThat(drawerWidget.getDataProvider().getQueryMapping().get("secondId").getBindLink(), nullValue());
-        assertThat(drawerWidget.getDataProvider().getQueryMapping().get("secondId").getValue(), is(1));
-        assertThat(drawerWidget.getDataProvider().getQueryMapping().get("p_main_name").getBindLink(), is("models.filter['p_second']"));
-        assertThat(drawerWidget.getDataProvider().getQueryMapping().get("p_main_name").getValue(), is("`name`"));
+        assertThat(drawerWidget.getDataProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
+        assertThat(drawerWidget.getDataProvider().getQueryMapping().get("name").getValue(), is("`name`"));
 
         assertThat(drawerWidget.getUpload(), is(UploadType.query));
         List<AbstractButton> buttons = drawerPage.getToolbar().get("bottomRight").get(0).getButtons();
@@ -316,7 +305,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
                 .get(pageContext);
         OpenDrawer openDrawer = (OpenDrawer) rootPage.getWidgets().get("p_main").getActions().get("updateEditWithPrefilters");
-        assertThat(openDrawer.getPayload().getQueryMapping().get("p_main_id").getBindLink(), is("models.edit['p_main']"));
+        assertThat(openDrawer.getPayload().getQueryMapping().get("id").getBindLink(), is("models.edit['p_main']"));
 
         Page openDrawerPage = routeAndGet("/p/updateEditWithPrefilters", Page.class);
         assertThat(openDrawerPage.getId(), is("p_updateEditWithPrefilters"));

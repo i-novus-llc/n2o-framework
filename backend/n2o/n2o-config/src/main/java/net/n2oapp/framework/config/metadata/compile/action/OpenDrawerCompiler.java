@@ -36,9 +36,9 @@ public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2o
         showModal.setBackdrop(source.getBackdrop());
         showModal.setWidth(source.getWidth());
         showModal.setHeight(source.getHeight());
-        showModal.setPlacement(source.getPlacement());
+        showModal.setPlacement(p.cast(source.getPlacement(), property("n2o.api.action.open_drawer.placement")));
         showModal.setLevel(source.getLevel());
-        showModal.setBackdropClosable(source.getBackdropClosable());
+        showModal.setBackdropClosable(p.cast(source.getBackdropClosable(), true));
 
         compileAction(showModal, source, p);
         initPageContext(showModal, source, context, p);
