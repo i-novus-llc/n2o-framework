@@ -5,14 +5,17 @@ import get from 'lodash/get';
 import Factory from '../../../../../core/factory/Factory';
 import { CELLS } from '../../../../../core/factory/factoryLevels';
 
-function SwitchCell(props) {
-  const currentCellType = get(props, 'switchFieldId');
-  const cellsCollection = get(props, 'switchList');
+function SwitchCell({
+  model,
+  switchFieldId,
+  switchList,
+  switchDefault,
+  ...props
+}) {
+  const currentCellType = model[switchFieldId];
+  const cellProps = get(switchList, currentCellType, switchDefault);
 
-  const defaultCell = get(props, 'switchDefault');
-  const cellProps = get(cellsCollection, currentCellType, defaultCell);
-
-  return <Factory level={CELLS} {...props} {...cellProps} />;
+  return <Factory level={CELLS} model={model} {...props} {...cellProps} />;
 }
 
 SwitchCell.propTypes = {
