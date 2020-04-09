@@ -38,4 +38,16 @@ public class OpenDrawerPayload implements ActionPayload {
     private String mode = "drawer";
     @JsonProperty
     private Boolean closable = true;
+    @JsonProperty
+    private Boolean backdrop;
+    @JsonProperty
+    private String width;
+    @JsonProperty
+    private String height;
+    @JsonProperty
+    private String placement;
+    @JsonProperty
+    private String level;
+    @JsonProperty
+    private Boolean backdropClosable;
 }

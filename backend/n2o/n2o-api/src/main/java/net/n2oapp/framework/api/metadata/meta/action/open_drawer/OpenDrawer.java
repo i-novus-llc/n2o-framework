@@ -15,12 +15,6 @@ public class OpenDrawer extends AbstractAction<OpenDrawerPayload, MetaSaga> {
     private String objectId;
     private String operationId;
     private String pageId;
-    private Boolean backdrop;
-    private String width;
-    private String height;
-    private String placement;
-    private String level;
-    private Boolean backdropClosable;
 
     public OpenDrawer() {
         super(new OpenDrawerPayload(), null);

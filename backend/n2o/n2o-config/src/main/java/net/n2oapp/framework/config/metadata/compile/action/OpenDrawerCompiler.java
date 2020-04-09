@@ -33,12 +33,6 @@ public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2o
         showModal.setObjectId(source.getObjectId());
         showModal.setOperationId(source.getOperationId());
         showModal.setPageId(source.getPageId());
-        showModal.setBackdrop(source.getBackdrop());
-        showModal.setWidth(source.getWidth());
-        showModal.setHeight(source.getHeight());
-        showModal.setPlacement(p.cast(source.getPlacement(), property("n2o.api.action.open_drawer.placement")));
-        showModal.setLevel(source.getLevel());
-        showModal.setBackdropClosable(p.cast(source.getBackdropClosable(), true));
 
         compileAction(showModal, source, p);
         initPageContext(showModal, source, context, p);
@@ -68,6 +62,12 @@ public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2o
 
     private void compilePayload(OpenDrawer showModal, N2oOpenDrawer source, CompileContext<?, ?> context, CompileProcessor p) {
         OpenDrawerPayload payload = showModal.getPayload();
+        payload.setBackdrop(source.getBackdrop());
+        payload.setWidth(source.getWidth());
+        payload.setHeight(source.getHeight());
+        payload.setPlacement(p.cast(source.getPlacement(), property("n2o.api.action.open_drawer.placement")));
+        payload.setLevel(source.getLevel());
+        payload.setBackdropClosable(p.cast(source.getBackdropClosable(), true));
         payload.setClosable(p.cast(source.getClosable(), true));
     }
 }
