@@ -15,7 +15,7 @@ public class N2oFormWidget extends N2oStandardWidget implements FormWidget {
     }
 
     @Override
-    public <T extends Snippet> T snippet(Class<T> componentClass) {
-        return N2oSelenide.component(element().$(".n2o-text-field, .progress"), componentClass);
+    public <T extends Snippet> T snippet(int index, Class<T> componentClass) {
+        return N2oSelenide.component(element().$$(".n2o-text-field, .n2o-status-text, .progress").get(index), componentClass);
     }
 }
