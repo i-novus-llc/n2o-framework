@@ -12,7 +12,7 @@
     </toolbar>
     <left width="60%">
         <panel place="left" header="true" collapsible="false" title="Данные клиента">
-            <table id="clients" name="Клиенты" query-id="ProtoClient" size="10" route="/">
+            <table id="clients" name="Клиенты" query-id="ProtoClient" size="10" selection="checkbox" route="/">
                 <actions>
                     <action id="update_birthday">
                         <invoke operation-id="update"/>
@@ -131,7 +131,14 @@
                         <toolbar generate="update,delete"/>
                     </extra>
                 </content>
-                <toolbar generate="create"/>
+                <toolbar>
+                    <button id="createContact" label="Создать" model="filter">
+                        <show-modal page-id="ProtoContacts" upload="defaults" route="/createContact" master-param=""
+                            submit-operation-id="create">
+                                <query-param name="client_id" value="{id}" ref-model="resolve" ref-widget-id="clients"/>
+                        </show-modal>
+                    </button>
+                </toolbar>
             </list>
         </panel>
         <panel place="right" title="Карточка">
