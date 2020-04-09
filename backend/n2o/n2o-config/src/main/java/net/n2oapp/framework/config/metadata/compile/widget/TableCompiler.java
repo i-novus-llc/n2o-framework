@@ -78,7 +78,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             pageRoutesScope.put(table.getId(), widgetRouteScope);
         }
         compileDataProviderAndRoutes(table, source, context, p, validationList, widgetRouteScope, null, null, object);
-        component.setSize(p.cast(source.getSize(), p.resolve("${n2o.api.widget.table.size}", Integer.class)));
+        component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         component.setClassName(source.getCssClass());
         component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
         if (source.getScrollX() != null || source.getScrollY() != null) {
