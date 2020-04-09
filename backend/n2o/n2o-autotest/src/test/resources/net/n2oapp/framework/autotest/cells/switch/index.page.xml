@@ -3,14 +3,14 @@
     <table query-id="testTable">
         <columns>
             <column text-field-id="name">
-                <switch value-field-id="name">
-                    <case value="test1">
+                <switch value-field-id="id">
+                    <case value="1">
                         <badge color="info"/>
                     </case>
-                    <case value="test2">
+                    <case value="2">
                         <icon icon="fa fa-plus" type="iconAndText"/>
                     </case>
-                    <case value="test3">
+                    <case value="3">
                         <checkbox/>
                     </case>
                     <default>
