@@ -20,18 +20,23 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.control.Control;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
+import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
 
 import java.util.*;
+
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 
 /**
  * Абстрактная реализация компиляции поля ввода
@@ -93,6 +98,26 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
     }
 
     /**
+     * Сборка значений по умолчанию у поля из параметров заданных
+     *
+     * @param source Исходная модель поля
+     * @param p      Процессор сборки
+     * @return Значение по умолчанию поля
+     */
+    protected void compileParams(D control, S source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
+        if (source.getParam() != null) {
+            ModelsScope modelsScope = p.getScope(ModelsScope.class);
+            if (modelsScope != null) {
+                ModelLink onSet = new ModelLink(modelsScope.getModel(), modelsScope.getWidgetId(), control.getId());
+                onSet.setParam(source.getParam());
+                ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), control.getId(),
+                        colon(source.getParam()));
+                paramScope.addQueryMapping(source.getParam(), onGet, onSet);
+            }
+        }
+    }
+
+    /**
      * Возвращает информацию о вложенных моделях выборки по идентификатору поля
      *
      * @param fieldId - идентификатор поля
@@ -112,6 +137,11 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
 
     private void compileDefaultValues(D control, S source, CompileProcessor p) {
         UploadScope uploadScope = p.getScope(UploadScope.class);
+        WidgetParamScope paramScope = p.getScope(WidgetParamScope.class);
+        if (paramScope != null) {
+            compileParams(control, source, paramScope, uploadScope, p);
+        }
+
         if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()))
             return;
         ModelsScope defaultValues = p.getScope(ModelsScope.class);
