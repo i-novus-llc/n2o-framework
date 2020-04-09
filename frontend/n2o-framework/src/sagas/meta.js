@@ -16,8 +16,8 @@ import { metadataRequest } from '../actions/pages';
 import { dataRequestWidget } from '../actions/widgets';
 import { updateWidgetDependency } from '../actions/dependency';
 import { insertOverlay } from '../actions/overlays';
-import compileUrl from '../utils/compileUrl';
 import { id } from '../utils/id';
+import { dataProviderResolver } from '../core/dataProviderResolver';
 
 export function* alertEffect(action) {
   try {
@@ -36,7 +36,11 @@ export function* redirectEffect(action) {
   try {
     const { path, pathMapping, queryMapping, target } = action.meta.redirect;
     const state = yield select();
-    const newUrl = compileUrl(path, { pathMapping, queryMapping }, state);
+    const { url: newUrl } = dataProviderResolver(state, {
+      url: path,
+      pathMapping,
+      queryMapping,
+    });
     if (target === 'application') {
       yield put(push(newUrl));
     } else if (target === 'self') {

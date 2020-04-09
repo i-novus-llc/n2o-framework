@@ -1,6 +1,5 @@
 import {
   handleInvoke,
-  resolveMapping,
   fetchInvoke,
   validate,
   handleFailInvoke,
@@ -147,35 +146,6 @@ describe('Проверка саги actionsImpl', () => {
     const result = await Promise.resolve(promise);
     expect(result).toEqual({
       response: 'response from server',
-    });
-  });
-
-  it('Проверка генератора resolveMapping', async () => {
-    const fakeState = {
-      getState: () => ({
-        models: {
-          resolve: {
-            __patients: {
-              id: 111,
-            },
-          },
-        },
-      }),
-    };
-    const promise = await runSaga(
-      fakeState,
-      resolveMapping,
-      dataProvider,
-      state
-    );
-
-    const result = await promise.toPromise();
-    expect(result).toEqual({
-      headers: {},
-      path: 'n2o/data/patients/111/vip',
-      pathParams: {
-        __patients_id: 111,
-      },
     });
   });
 });

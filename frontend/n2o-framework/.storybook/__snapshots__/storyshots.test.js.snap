@@ -31800,6 +31800,44 @@ exports[`Storyshots Контролы/Интервал ввода чисел ба
 </div>"
 `;
 
+exports[`Storyshots Контролы/Интервал дат Max: D:\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\DatePicker\\__snapshots__\\DateInterval.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Интервал дат
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Max
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Контролы/Интервал дат Min/Max: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\DatePicker\\__snapshots__\\DateInterval.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -31888,6 +31926,44 @@ exports[`Storyshots Контролы/Интервал дат Min/Max: D:\\Projec
       </li>
       <li className=\\"breadcrumb-item active\\">
         Min/Max
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/Интервал дат Min: D:\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\DatePicker\\__snapshots__\\DateInterval.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Интервал дат
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Min
       </li>
     </ol>
   </nav>
