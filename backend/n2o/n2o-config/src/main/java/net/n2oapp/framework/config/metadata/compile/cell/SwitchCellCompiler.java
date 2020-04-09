@@ -25,6 +25,7 @@ public class SwitchCellCompiler implements BaseSourceCompiler<SwitchCell, N2oSwi
     public SwitchCell compile(N2oSwitchCell source, CompileContext<?, ?> context, CompileProcessor p) {
         SwitchCell cell = new SwitchCell();
         cell.setSrc(p.resolve(property("n2o.api.cell.switch.src"), String.class));
+        cell.setId(source.getValueFieldId());
         cell.setSwitchFieldId(source.getValueFieldId());
         for (N2oSwitchCell.Case c : source.getCases()) {
             N2oAbstractCell compile = p.compile(c.getItem(), context, p);

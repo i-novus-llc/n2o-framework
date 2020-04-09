@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <table query-id="testTable">
+        <columns>
+            <column text-field-id="name">
+                <switch value-field-id="name">
+                    <case value="test1">
+                        <badge color="info"/>
+                    </case>
+                    <case value="test2">
+                        <icon icon="fa fa-plus" type="iconAndText"/>
+                    </case>
+                    <case value="test3">
+                        <checkbox/>
+                    </case>
+                    <default>
+                        <text/>
+                    </default>
+                </switch>
+            </column>
+        </columns>
+    </table>
+</simple-page>
