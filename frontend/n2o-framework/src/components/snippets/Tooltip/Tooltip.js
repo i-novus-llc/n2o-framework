@@ -11,6 +11,7 @@ import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
  * @param hideArrow
  * @param children
  * @returns {function()}
+ * @returns trigger
  */
 export default function Tooltip({
   target,
@@ -19,12 +20,14 @@ export default function Tooltip({
   placement,
   hideArrow,
   children,
+  trigger,
 }) {
   return (
     <React.Fragment>
       {children}
       {hint && (
         <UncontrolledTooltip
+          trigger={trigger}
           delay={delay}
           placement={placement}
           target={target}
