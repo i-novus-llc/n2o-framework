@@ -5,6 +5,8 @@ import isUndefined from 'lodash/isUndefined';
 import isArray from 'lodash/isArray';
 import map from 'lodash/map';
 
+const style = { flexGrow: 1 };
+
 function ProgressControl(props) {
   const { multi, barClassName, bars, value, barText, max } = props;
 
@@ -18,6 +20,7 @@ function ProgressControl(props) {
         const { id, barText } = bar;
         return (
           <Progress
+            style={style}
             bar
             key={id}
             className={barClassName}
@@ -33,12 +36,20 @@ function ProgressControl(props) {
 
     //мультирежим ProgressControl
     const renderMultiProgressControl = () => {
-      return <Progress multi>{mapProgressControls()}</Progress>;
+      return (
+        <Progress style={style} multi>
+          {mapProgressControls()}
+        </Progress>
+      );
     };
 
     //одиночный режим ProgressControl
     const renderSimpleProgressControl = () => {
-      return <Progress {...props}>{barText}</Progress>;
+      return (
+        <Progress style={style} {...props}>
+          {barText}
+        </Progress>
+      );
     };
 
     //multi или одиночный

@@ -85,7 +85,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         return metaSaga;
     }
 
-
     private MetaSaga initSuccessMeta(InvokeAction invokeAction, N2oInvokeAction source,
                                      CompileContext<?, ?> context, CompileProcessor p, String targetWidgetId,
                                      String currentWidgetId) {
