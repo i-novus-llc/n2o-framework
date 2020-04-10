@@ -4,7 +4,6 @@ import { mount } from 'enzyme';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { shallowToJson } from 'enzyme-to-json';
 import MetaJSON from './simpleHeaderData';
-import { StaticRouter } from 'react-router';
 
 const props = MetaJSON;
 
@@ -12,9 +11,9 @@ const setup = (propOverrides, defaultProps = props) => {
   const props = Object.assign({}, defaultProps, propOverrides);
 
   const wrapper = mount(
-    <StaticRouter>
+    <Router>
       <SimpleHeader {...props} />
-    </StaticRouter>
+    </Router>
   );
 
   return {

@@ -15,8 +15,6 @@ import onClickOutsideHOC from 'react-onclickoutside';
 
 import InputText from '../../controls/InputText/InputText';
 import SearchBarPopUp from './SearchBarPopUp';
-import dependency from '../../../core/dependency';
-import { BrowserRouter } from 'react-router-dom';
 
 let timeoutId = null;
 const ENTER_KEY_CODE = 13;
@@ -65,21 +63,17 @@ function SearchBar({
         </div>
         {!isUndefined(menu) &&
           (menu.length > 0 ? (
-            <BrowserRouter>
-              <SearchBarPopUp
-                menu={menu}
-                dropdownOpen={dropdownOpen === 'true'}
-                directionIconsInPopUp={directionIconsInPopUp}
-              />
-            </BrowserRouter>
+            <SearchBarPopUp
+              menu={menu}
+              dropdownOpen={dropdownOpen === 'true'}
+              directionIconsInPopUp={directionIconsInPopUp}
+            />
           ) : (
-            <BrowserRouter>
-              <SearchBarPopUp
-                menu={nothingFindMenuItem}
-                dropdownOpen={dropdownOpen === 'true'}
-                directionIconsInPopUp={directionIconsInPopUp}
-              />
-            </BrowserRouter>
+            <SearchBarPopUp
+              menu={nothingFindMenuItem}
+              dropdownOpen={dropdownOpen === 'true'}
+              directionIconsInPopUp={directionIconsInPopUp}
+            />
           ))}
       </div>
       {!!button && (
