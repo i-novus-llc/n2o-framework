@@ -40,12 +40,14 @@ function ButtonsCell({
   const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`;
 
   return visible ? (
-    <Toolbar
-      className={cx('n2o-buttons-cell', className)}
-      entityKey={key}
-      toolbar={toolbar}
-      onClick={onResolve}
-    />
+    <div style={{ display: 'inline-flex' }}>
+      <Toolbar
+        className={cx('n2o-buttons-cell', className)}
+        entityKey={key}
+        toolbar={toolbar}
+        onClick={onResolve}
+      />
+    </div>
   ) : null;
 }
 

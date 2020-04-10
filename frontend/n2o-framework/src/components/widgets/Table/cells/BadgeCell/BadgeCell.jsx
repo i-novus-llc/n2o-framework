@@ -35,7 +35,7 @@ class BadgeCell extends React.Component {
       visible,
     } = this.props;
     const style = {
-      display: 'flex',
+      display: 'inline-flex',
     };
     const badgeStyle = {
       order: placement === 'right' ? 1 : -1,
@@ -45,14 +45,14 @@ class BadgeCell extends React.Component {
     const badgeText = get(model, fieldKey || id);
     return (
       visible && (
-        <div style={style}>
+        <span style={style}>
           <Text text={text} format={format} />
           {!isNil(badgeText) && (
             <Badge style={badgeStyle} color={color}>
               <Text text={get(model, fieldKey || id)} format={badgeFormat} />
             </Badge>
           )}
-        </div>
+        </span>
       )
     );
   }

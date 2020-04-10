@@ -50,6 +50,9 @@ const metadata = {
         },
         {
           ...CheckboxCellJson,
+          model: {
+            tooltipFieldId: ['tooltip', 'body'],
+          },
         },
         {
           ...CheckboxCellJson,

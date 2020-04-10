@@ -32,7 +32,7 @@ describe('<IconCell />', () => {
     const wrapper = mount(<IconCell {...props} />);
     expect(
       wrapper
-        .find('span')
+        .find('div')
         .first()
         .prop('title')
     ).toEqual(props.model[props.id]);
@@ -43,15 +43,14 @@ describe('<IconCell />', () => {
     expect(wrapper.children().getElements()[0].props.icon).toEqual(props.icon);
   });
 
-  it('проверяет расположение текста', () => {
+  it('проверяет расположение текста, верно применился класс', () => {
     props.textPlace = textPlaceTypes.LEFT;
     const wrapper = mount(<IconCell {...props} />);
     expect(
-      wrapper
-        .find('.n2o-cell-text')
-        .getElements()
-        .pop().props.style.float
-    ).toEqual('left');
+      wrapper.find('.icon-cell-container.icon-cell-container__text-left').html()
+    ).toEqual(
+      `<div title="text" class="icon-cell-container icon-cell-container__text-left"><i class="n2o-icon fa fa-minus"></i><div class="n2o-cell-text"><span class="">text</span></div></div>`
+    );
   });
 
   it('проверяет типы ячейки', () => {

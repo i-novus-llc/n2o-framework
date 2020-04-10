@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import cn from 'classnames';
+import isUndefined from 'lodash/isUndefined';
 import Text from '../../../../snippets/Text/Text';
 import Icon from '../../../../snippets/Icon/Icon';
 import { iconCellTypes, textPlaceTypes } from './cellTypes';
@@ -18,20 +20,22 @@ function IconCell({ id, model, visible, icon, type, textPlace }) {
   const text = model[id];
   return (
     visible && (
-      <span title={text}>
+      <div
+        title={text}
+        className={cn('icon-cell-container', {
+          'icon-cell-container__with-tooltip': !isUndefined(
+            model['tooltipFieldId']
+          ),
+          'icon-cell-container__text-left': textPlace === textPlaceTypes.LEFT,
+        })}
+      >
         {icon && <Icon name={icon} />}
         {type === iconCellTypes.ICONANDTEXT && (
-          <div
-            className="n2o-cell-text"
-            style={{
-              float: textPlace === textPlaceTypes.LEFT ? 'left' : null,
-              display: 'inline-block',
-            }}
-          >
+          <div className="n2o-cell-text">
             <Text text={text} />
           </div>
         )}
-      </span>
+      </div>
     )
   );
 }

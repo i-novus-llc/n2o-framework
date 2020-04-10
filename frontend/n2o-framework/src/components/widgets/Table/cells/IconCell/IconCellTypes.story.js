@@ -14,7 +14,7 @@ stories.addParameters({
   },
 });
 
-stories.add('Компонент', () => {
+stories.add('Компонент c тултипом', () => {
   const tableProps = {
     headers: [
       {
