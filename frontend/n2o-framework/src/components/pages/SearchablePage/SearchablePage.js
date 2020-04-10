@@ -14,7 +14,7 @@ import Alert from '../../snippets/Alerts/Alert';
 import DocumentTitle from '../../core/DocumentTitle';
 import DefaultBreadcrumb from '../../core/Breadcrumb/DefaultBreadcrumb';
 import BreadcrumbContainer from '../../core/Breadcrumb/BreadcrumbContainer';
-import Toolbar from "../../buttons/Toolbar";
+import Toolbar from '../../buttons/Toolbar';
 import PageRegions from '../PageRegions';
 import SearchBar from '../../snippets/SearchBar/SearchBar';
 
@@ -47,7 +47,11 @@ function SearchablePage({
             items={metadata.breadcrumb}
           />
         )}
-        <Toolbar className='ml-2' entityKey={pageId} toolbar={toolbar.breadcrumbLeft} />
+        <Toolbar
+          className="ml-2"
+          entityKey={pageId}
+          toolbar={toolbar.breadcrumbLeft}
+        />
         <SearchBar
           {...searchBar}
           initialValue={filterValue}
@@ -56,13 +60,29 @@ function SearchablePage({
         />
       </div>
       <div className="n2o-page-actions">
-        <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.topLeft} />
-        <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.topRight} />
+        <Toolbar
+          className="ml-3"
+          entityKey={pageId}
+          toolbar={toolbar.topLeft}
+        />
+        <Toolbar
+          className="ml-3"
+          entityKey={pageId}
+          toolbar={toolbar.topRight}
+        />
       </div>
       <PageRegions id={id} regions={regions} />
       <div className="n2o-page-actions">
-        <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.bottomLeft} />
-        <Toolbar className="ml-3" entityKey={pageId} toolbar={toolbar.bottomRight} />
+        <Toolbar
+          className="ml-3"
+          entityKey={pageId}
+          toolbar={toolbar.bottomLeft}
+        />
+        <Toolbar
+          className="ml-3"
+          entityKey={pageId}
+          toolbar={toolbar.bottomRight}
+        />
       </div>
     </div>
   );
@@ -79,7 +99,7 @@ const enhance = compose(
     searchModelPrefix: get(props, 'metadata.searchModelPrefix'),
     searchModelKey: get(props, 'metadata.searchModelKey'),
     searchBar: get(props, 'metadata.searchBar', {}),
-    toolbar: get(props, 'metadata.toolbar', {})
+    toolbar: get(props, 'metadata.toolbar', {}),
   })),
   withHandlers({
     onSearch: ({

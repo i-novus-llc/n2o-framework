@@ -13,4 +13,6 @@ public class MaskedInput extends Control {
     private String mask;
     @JsonProperty
     private String placeholder;
+    @JsonProperty
+    private String measure;
 }

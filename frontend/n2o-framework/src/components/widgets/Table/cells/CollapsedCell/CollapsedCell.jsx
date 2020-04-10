@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 import isString from 'lodash/isString';
+import map from 'lodash/map';
 
 /**
  * CollapsedCell
@@ -49,7 +50,7 @@ class CollapsedCell extends React.Component {
     return (
       visible && (
         <React.Fragment>
-          {items.map(item => (
+          {map(items, item => (
             <React.Fragment key={uniqueId('collapsed-cell')}>
               <span className={labelClasses}>
                 {isString(item) ? item : item[labelFieldId]}
