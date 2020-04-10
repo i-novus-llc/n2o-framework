@@ -74,8 +74,8 @@ function resolveCopyAction(state, { payload }) {
   const sourceModel = get(state, sourcePath);
   const targetModel = get(state, targetPath);
 
-  if (mode === 'merge') {
-    set(newState, targetPath, Object.assign({}, targetModel, sourceModel));
+  if (mode === 'merge' && isObject(sourceModel) && isObject(targetModel)) {
+    set(newState, targetPath, merge(targetModel, sourceModel));
   } else if (mode === 'add') {
     if (!Array.isArray(sourceModel) || !Array.isArray(targetModel)) {
       throw new Error('Source or target is not an array!');

@@ -77,7 +77,7 @@ export function copyModel(source, target, mode) {
   return createActionHelper(COPY)({
     source,
     target,
-    mode
+    mode,
   });
 }
 
