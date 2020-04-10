@@ -270,7 +270,7 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="mode" type="copyModeType" default="merge">
+        <xs:attribute name="mode" type="acn:copyModeType" default="merge">
             <xs:annotation>
                 <xs:documentation>Тип слияния данных.</xs:documentation>
             </xs:annotation>
@@ -294,36 +294,6 @@
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
-
-    <xs:simpleType name="copyModeType">
-        <xs:annotation>
-            <xs:documentation>Типы слияния данных.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="merge">
-                <xs:annotation>
-                    <xs:documentation>
-                        За основу берется модель target, значения из source копируются с заменой.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="replace">
-                <xs:annotation>
-                    <xs:documentation>
-                        За основу берется модель source.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-            <xs:enumeration value="add">
-                <xs:annotation>
-                    <xs:documentation>
-                        Используется для массивов. За основу берется массив target,
-                        к нему добавляются все записи из source массива.
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:enumeration>
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:simpleType name="reduxModel">
         <xs:annotation>

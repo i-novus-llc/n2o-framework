@@ -5,7 +5,7 @@
             <table id="table1">
                 <actions>
                     <action id="test">
-                        <copy source-model="edit"  target-model="filter"/>
+                        <copy source-model="edit" target-model="filter"/>
                     </action>
                 </actions>
                 <toolbar>

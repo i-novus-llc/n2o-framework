@@ -4,7 +4,10 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.ButtonGenerator;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.event.action.*;
+import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.event.action.N2oCopyAction;
+import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
+import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -40,11 +43,12 @@ public class SubmitGenerator implements ButtonGenerator {
 
         N2oButton saveButton = new N2oButton();
         saveButton.setId(GenerateType.submit.name());
-        saveButton.setLabel(p.cast(pageContext.getSubmitLabel(), p.getMessage("n2o.api.action.toolbar.button.submit.label")));
         saveButton.setPrimary(true);
         saveButton.setColor("primary");
         N2oAction action = null;
         SubmitActionType submitActionType = pageContext.getSubmitActionType() == null ? SubmitActionType.invoke : pageContext.getSubmitActionType();
+        String submitLabel = null;
+
         switch (submitActionType) {
             case copy: {
                 N2oCopyAction copyAction = new N2oCopyAction();
@@ -71,15 +75,15 @@ public class SubmitGenerator implements ButtonGenerator {
                 CompiledObject compiledObject = p.getScope(CompiledObject.class);
                 if (compiledObject != null && compiledObject.getOperations().containsKey(pageContext.getSubmitOperationId())) {
                     saveButton.setConfirm(compiledObject.getOperations().get(pageContext.getSubmitOperationId()).getConfirm());
-                    if (pageContext.getSubmitLabel() == null) {
-                        saveButton.setLabel(compiledObject.getOperations().get(pageContext.getSubmitOperationId()).getFormSubmitLabel());
+                    if (submitLabel == null) {
+                        submitLabel = compiledObject.getOperations().get(pageContext.getSubmitOperationId()).getFormSubmitLabel();
                     }
                 }
                 action = invokeAction;
             }
             break;
         }
-
+        saveButton.setLabel(p.cast(submitLabel, p.getMessage("n2o.api.action.toolbar.button.submit.label")));
         saveButton.setWidgetId(widgetId);
         saveButton.setAction(action);
         saveButton.setModel(p.cast(pageContext.getSubmitModel(), ReduxModel.RESOLVE));

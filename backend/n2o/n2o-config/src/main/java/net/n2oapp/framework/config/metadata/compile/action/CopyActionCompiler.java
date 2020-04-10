@@ -9,8 +9,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.copy.CopyActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
-import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.CompileUtil;
