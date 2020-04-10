@@ -23,7 +23,7 @@ public class ActionContext extends ObjectContext {
     private RedirectSaga redirect;
     private boolean messageOnSuccess = true;
     private boolean messageOnFail = true;
-    private Collection<String> headerParamNames;
+    private Collection<String> invokeParamNames;
 
     /**
      * Создать контекст
