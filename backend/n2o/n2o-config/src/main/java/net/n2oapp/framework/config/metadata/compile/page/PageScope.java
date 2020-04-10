@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ public class PageScope implements Serializable {
     private String pageId;
     private String objectId;
     private String resultWidgetId;
+    private N2oPage page;
 
     public String getGlobalWidgetId(String localWidgetId) {
         return CompileUtil.generateWidgetId(pageId, localWidgetId);
