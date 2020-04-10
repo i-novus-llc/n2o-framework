@@ -20,6 +20,7 @@ public class RequestInfo {
     private String failAlertWidgetId;
     private String successAlertWidgetId;
     private String messagesForm;
+    private String clientWidgetId;
 
     public void addAttribute(String name, Object value) {
         if (attributes == null) {

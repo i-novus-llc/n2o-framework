@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Set;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция ToolbarItem
@@ -45,7 +44,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
 
     protected void initItem(MenuItem button, AbstractMenuItem source, IndexScope idx,
                             CompileContext<?, ?> context, CompileProcessor p) {
-        button.setId(castDefault(source.getId(), source.getActionId(), "menuItem" + idx.get()));
+        button.setId(p.cast(source.getId(), source.getActionId(), "menuItem" + idx.get()));
         source.setId(button.getId());
         button.setProperties(p.mapAttributes(source));
         if (source.getType() != null && source.getType().equals(LabelType.icon)) {

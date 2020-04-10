@@ -24,7 +24,6 @@ import net.n2oapp.framework.config.register.route.N2oRouter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,27 +54,40 @@ public abstract class AbstractController {
     @SuppressWarnings("unchecked")
     protected ActionRequestInfo createActionRequestInfo(String path, Map<String, String[]> parameters, Map<String, String[]> headers, Object body, UserContext user) {
         ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, parameters);
-        Map<String, String[]> params = parameters == null ? new HashMap<>() : new HashMap<>(parameters);
-        if (actionCtx.getHeaderParamNames() != null && headers != null) {
-            actionCtx.getHeaderParamNames().forEach(n -> params.put(n, headers.get(n)));
-        }
-        DataSet queryData = actionCtx.getParams(path, params);
+        DataSet queryData = actionCtx.getParams(path, parameters);
         CompiledObject object = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(actionCtx, queryData);
         CompiledObject.Operation operation = object.getOperations().get(actionCtx.getOperationId());
+
+        DataSet bodyData = convertToDataSet(body);
+        if (actionCtx.getInvokeParamNames() != null) {
+            for (String name : actionCtx.getInvokeParamNames()) {
+                String[] val = headers.get(name);
+                if (val != null) {
+                    bodyData.put(name, val);
+                } else {
+                    Object obj = queryData.get(name);
+                    if (obj != null) {
+                        bodyData.put(name, obj);
+                    }
+                }
+            }
+        }
+
         ActionRequestInfo<DataSet> requestInfo = new ActionRequestInfo();
         requestInfo.setQueryData(queryData);
         requestInfo.setUser(user);
         requestInfo.setObject(object);
         requestInfo.setOperation(operation);
-        requestInfo.setData(convertToDataSet(body));
+        requestInfo.setData(bodyData);
         requestInfo.setRedirect(actionCtx.getRedirect());
         requestInfo.setMessageOnSuccess(actionCtx.isMessageOnSuccess());
         requestInfo.setMessageOnFail(actionCtx.isMessageOnFail());
         requestInfo.setSuccessAlertWidgetId(actionCtx.getSuccessAlertWidgetId());
         requestInfo.setFailAlertWidgetId(actionCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(actionCtx.getMessagesForm());
+        requestInfo.setClientWidgetId(actionCtx.getClientWidgetId());
         //requestInfo.setChoice(); todo
         return requestInfo;
     }

@@ -293,7 +293,7 @@ public class DataControllerTest extends DataControllerTestBase {
 
         Map<String, Object> map = new HashMap<>();
         OperationController operationController = new OperationController(dataProcessingStack, domainProcessor, operationProcessor,
-                new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
+                new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()), builder.getEnvironment());
         map.put("operationController", operationController);
 
         N2oControllerFactory factory = new N2oControllerFactory(map);
@@ -301,7 +301,7 @@ public class DataControllerTest extends DataControllerTestBase {
 
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
 //        controller.setErrorMessageBuilder(new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
-        return controller.setData(path, null , null, body, new UserContext(contextEngine));
+        return controller.setData(path, params , null, body, new UserContext(contextEngine));
     }
 
 }

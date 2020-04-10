@@ -33,6 +33,8 @@ import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
@@ -193,7 +195,12 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         actionContext.setSuccessAlertWidgetId(metaSaga.getSuccess().getMessageWidgetId());
         actionContext.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
         actionContext.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
-        actionContext.setHeaderParamNames(dataProvider.getHeadersMapping() == null ? null : dataProvider.getHeadersMapping().keySet());
+
+        actionContext.setInvokeParamNames(new HashSet<>());
+        addParamNames(actionContext.getInvokeParamNames(), source.getHeaderParams());
+        addParamNames(actionContext.getInvokeParamNames(), source.getPathParams());
+        addParamNames(actionContext.getInvokeParamNames(), source.getFormParams());
+
         p.addRoute(actionContext);
     }
 
@@ -214,5 +221,12 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             result.put(param.getName(), link);
         }
         return result;
+    }
+
+    private void addParamNames(Collection<String> paramList, N2oParam[] params) {
+        if (params != null)
+            for (N2oParam param : params) {
+                paramList.add(param.getName());
+            }
     }
 }
