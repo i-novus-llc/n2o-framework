@@ -30,7 +30,6 @@ stories
         {
           id: 'secondary',
           component: BadgeCell,
-          placement: 'left',
           color: 'secondary',
           fieldKey: 'test',
           text: 'Мужской',
@@ -64,7 +63,6 @@ stories
         {
           id: 'secondary',
           component: BadgeCell,
-          placement: 'left',
           color: 'secondary',
           fieldKey: 'test',
           text: 'Мужской',
