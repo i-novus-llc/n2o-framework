@@ -117,6 +117,24 @@ class AdvancedTableContainer extends React.Component {
     //TODO something
   }
 
+  mapHeaders = (headers, isChild = false) =>
+    map(headers, header => {
+      let mappedChildren = null;
+
+      if (header.children || isChild) {
+        mappedChildren = this.mapHeaders(header.children || [], true);
+
+        return {
+          ...header,
+          dataIndex: header.id,
+          title: header.label,
+          children: mappedChildren || undefined,
+        };
+      }
+
+      return header;
+    });
+
   mapColumns() {
     const {
       cells,
@@ -135,7 +153,7 @@ class AdvancedTableContainer extends React.Component {
       }
     });
 
-    return headers.map(header => {
+    return this.mapHeaders(headers).map(header => {
       const cell = find(cells, c => c.id === header.id) || {};
       return {
         ...header,
