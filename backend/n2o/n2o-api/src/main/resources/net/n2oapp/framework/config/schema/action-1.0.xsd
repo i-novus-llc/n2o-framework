@@ -208,33 +208,33 @@
                 </xs:attribute>
                 <xs:attribute name="copy-model" type="reduxModel" default="resolve">
                     <xs:annotation>
-                        <xs:documentation>Модель, которая будет скопирована.</xs:documentation>
+                        <xs:documentation>Модель виджета открываемой страницы, которая будет скопирована.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="copy-widget-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор виджета источника (по умолчанию главный виджет).</xs:documentation>
+                        <xs:documentation>Идентификатор виджета открываемой страницы, данные которого будут копироваться (по умолчанию главный виджет).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="copy-field-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор копируемого поля источника (по умолчанию вся модель).</xs:documentation>
+                        <xs:documentation>Идентификатор поля виджета открываемой страницы, данные которого будут копироваться (по умолчанию вся модель).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="target-model" type="reduxModel" default="resolve">
                     <xs:annotation>
-                        <xs:documentation>Модель, в которую будут скопированы данные.</xs:documentation>
+                        <xs:documentation>Модель виджета текущей страницы, в которую будут скопированы данные.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="target-widget-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор целевого виджета (по умолчанию текущий).</xs:documentation>
+                        <xs:documentation>Идентификатор целевого виджета текущей страницы (по умолчанию текущий).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="target-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор поля целевого виджета, в которое будут скопированы данные (по умолчанию вся модель).
+                            Идентификатор поля целевого виджета текущей страницы, в которое будут скопированы данные (по умолчанию вся модель).
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

@@ -31,7 +31,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
@@ -47,8 +46,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                                 CompileProcessor p) {
         List<N2oPreFilter> preFilters = new ArrayList<>();
         ReduxModel model = ReduxModel.RESOLVE;
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String widgetId = widgetScope == null ? null : widgetScope.getWidgetId();
+        String widgetId = initWidgetId(p);
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             ModelAware modelAware = componentScope.unwrap(ModelAware.class);
@@ -173,7 +171,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setCopyMode(source.getCopyMode());
         pageContext.setResultWidgetId(source.getResultContainerId());
         pageContext.setUpload(source.getUpload());
-        pageContext.setParentWidgetId(currentClientWidgetId);
+        pageContext.setParentWidgetId(initWidgetId(p));
+        pageContext.setParentClientWidgetId(currentClientWidgetId);
+        pageContext.setParentClientPageId(pageScope.getPageId());
         pageContext.setParentModelLink(actionModelLink);
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
@@ -312,5 +312,22 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             return param;
         }
         return widgetScope.getClientWidgetId() + "_" + param;
+    }
+
+    /**
+     * Получение виджета действия (исходный)
+     */
+    private String initWidgetId(CompileProcessor p) {
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null)
+            return widgetScope.getWidgetId();
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
+                return widgetIdAware.getWidgetId();
+            }
+        }
+        return null;
     }
 }

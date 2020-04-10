@@ -65,7 +65,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private CopyMode copyMode;
     /**
-     * Главный виджет страницы
+     * Главный виджет открываемой страницы
      */
     private String resultWidgetId;
     /**
@@ -73,9 +73,17 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String parentRoute;
     /**
-     * Родительский виджет, в котором находилось действие
+     * Родительский виджет (исходный), в котором находилось действие
      */
     private String parentWidgetId;
+    /**
+     * Родительский виджет (клиентский), в котором находилось действие
+     */
+    private String parentClientWidgetId;
+    /**
+     * Родительская страница (клиентский), в которой находилось действие
+     */
+    private String parentClientPageId;
     /**
      * Наименование страницы
      */
@@ -138,7 +146,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         this.submitLabel = context.submitLabel;
         this.resultWidgetId = context.resultWidgetId;
         this.parentRoute = context.parentRoute;
-        this.parentWidgetId = context.parentWidgetId;
+        this.parentClientWidgetId = context.parentClientWidgetId;
         this.pageName = context.pageName;
         this.closeOnSuccessSubmit = context.closeOnSuccessSubmit;
         this.refreshOnSuccessSubmit = context.refreshOnSuccessSubmit;

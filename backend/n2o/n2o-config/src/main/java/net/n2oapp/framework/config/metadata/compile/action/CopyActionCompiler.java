@@ -13,6 +13,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -66,13 +67,14 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
     }
 
     private String getTargetWidgetId(N2oCopyAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (context instanceof ModalPageContext)
-            return ((PageContext) context).getParentWidgetId();
-
         PageScope pageScope = p.getScope(PageScope.class);
         if (source.getTargetWidgetId() != null) {
-            return (pageScope != null) ? pageScope.getGlobalWidgetId(source.getTargetWidgetId()) :
-                    source.getTargetWidgetId();
+            if (source.getTargetClientPageId() != null) {
+                return CompileUtil.generateWidgetId(source.getTargetClientPageId(), source.getTargetWidgetId());
+            } else {
+                return (pageScope != null) ? pageScope.getGlobalWidgetId(source.getTargetWidgetId()) :
+                        source.getTargetWidgetId();
+            }
         } else
             return initTargetWidget(source, context, p);
     }
