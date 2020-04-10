@@ -10,7 +10,7 @@ import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
 import map from 'lodash/map';
 import set from 'lodash/set';
-import has from 'lodash/has';
+import get from 'lodash/get';
 import isUndefined from 'lodash/isUndefined';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
@@ -21,7 +21,10 @@ import TableCell from '../Table/TableCell';
 import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
 import PropTypes from 'prop-types';
-import { makeGetFilterModelSelector } from '../../../selectors/models';
+import {
+  makeGetFilterModelSelector,
+  makeGetModelByPrefixSelector,
+} from '../../../selectors/models';
 import { getContainerColumns } from '../../../selectors/columns';
 import evalExpression from '../../../utils/evalExpression';
 import { replace } from 'connected-react-router';
@@ -152,19 +155,6 @@ class AdvancedTableContainer extends React.Component {
 
     return this.mapHeaders(headers).map(header => {
       const cell = find(cells, c => c.id === header.id) || {};
-
-      if (has(header, 'children')) {
-        set(
-          header,
-          'children',
-          map(header.children, child => ({
-            ...child,
-            dataIndex: child.id,
-            title: child.label,
-          }))
-        );
-      }
-
       return {
         ...header,
         title: this.renderCell({
@@ -176,11 +166,11 @@ class AdvancedTableContainer extends React.Component {
           sorting: sorting && sorting[header.id],
           onSort,
         }),
-        label: header.label,
+        label: header.title,
         dataIndex: header.id,
         columnId: header.id,
         key: header.id,
-        hasSpan: cell.hasSpan,
+        hasSpan: get(cell, 'hasSpan', false),
         render: (value, record, index) => ({
           needRender: header.needRender,
           children: this.renderCell({
@@ -251,6 +241,10 @@ const mapStateToProps = (state, props) => {
   return {
     filters: makeGetFilterModelSelector(props.widgetId)(state, props),
     registredColumns: getContainerColumns(props.widgetId)(state, props),
+    multi: makeGetModelByPrefixSelector(PREFIXES.multi, props.widgetId)(
+      state,
+      props
+    ),
   };
 };
 
@@ -324,6 +318,7 @@ const enhance = compose(
           actions: props.actions,
           redux: true,
           rowSelection: props.rowSelection,
+          autoCheckOnSelect: props.autoCheckOnSelect,
           tableSize: props.tableSize,
           placeholder: props.placeholder,
           useFixedHeader: props.useFixedHeader,
