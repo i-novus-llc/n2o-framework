@@ -69,4 +69,6 @@ IconCell.defaultProps = {
   visible: true,
 };
 
+export { IconCell };
+
 export default withTooltip(IconCell);

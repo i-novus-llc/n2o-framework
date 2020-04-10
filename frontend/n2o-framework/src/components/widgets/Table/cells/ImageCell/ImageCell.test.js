@@ -9,7 +9,6 @@ const defaultProps = {
   model: {
     url:
       'https://beebom-redkapmedia.netdna-ssl.com/wp-content/uploads/2016/01/Reverse-Image-Search-Engines-Apps-And-Its-Uses-2016.jpg',
-    tooltipFieldId: ['tooltip', 'body'],
   },
   className: 'testtest',
   style: {
@@ -31,13 +30,39 @@ const setupImageCell = propsOverride => {
   return { wrapper, props };
 };
 
+const defaultPropsWithTooltip = {
+  id: 'url',
+  model: {
+    url:
+      'https://beebom-redkapmedia.netdna-ssl.com/wp-content/uploads/2016/01/Reverse-Image-Search-Engines-Apps-And-Its-Uses-2016.jpg',
+    tooltipFieldId: ['tooltip', 'body'],
+  },
+  className: 'testtest',
+  style: {
+    color: 'red',
+  },
+  title: 'top title',
+  shape: imageShapes.THUMBNAIL,
+};
+
+const setupImageCellWithTooltip = propsOverride => {
+  const props = { ...defaultPropsWithTooltip, ...propsOverride };
+
+  const wrapper = mount(
+    <Provider store={configureMockStore()({})}>
+      <ImageCell {...props} />
+    </Provider>
+  );
+
+  return { wrapper, props };
+};
+
 describe('<ImageCell />', () => {
   it('проверяет создание тайтла', () => {
     const { wrapper, props } = setupImageCell();
-
     expect(
       wrapper
-        .find('div')
+        .find('span')
         .first()
         .prop('title')
     ).toEqual(props.title);
@@ -71,7 +96,7 @@ describe('<ImageCell />', () => {
     ).toEqual(props.style);
   });
   it('Cell обернут тултипом', () => {
-    const { wrapper, props } = setupImageCell();
+    const { wrapper, props } = setupImageCellWithTooltip();
     expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true);
   });
 });

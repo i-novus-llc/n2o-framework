@@ -1,5 +1,6 @@
 import React from 'react';
 import get from 'lodash/get';
+import isUndefined from 'lodash/isUndefined';
 import Tooltip from '../../snippets/Tooltip/Tooltip';
 
 /**
@@ -12,14 +13,17 @@ import Tooltip from '../../snippets/Tooltip/Tooltip';
 export default function withTooltip(WrappedComponent) {
   class TooltipHOC extends React.Component {
     render() {
-      const hint = get(this.props.model, 'tooltipFieldId');
+      const { model, placement } = this.props;
+      const hint = get(model, 'tooltipFieldId');
       console.warn(this.props);
-      return (
+      return !isUndefined(hint) ? (
         <Tooltip
           label={<WrappedComponent {...this.props} />}
           hint={hint}
-          placement={this.props.placement || 'bottom'}
+          placement={placement || 'bottom'}
         />
+      ) : (
+        <WrappedComponent {...this.props} />
       );
     }
   }

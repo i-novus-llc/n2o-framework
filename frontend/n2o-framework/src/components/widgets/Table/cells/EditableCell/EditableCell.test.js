@@ -1,6 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 import { EditableCell } from './EditableCell';
+import EditableCellWithTooltip from './withActionsEditableCell';
 import InputText from '../../../../controls/InputText/InputText';
 
 const action = {
@@ -33,9 +34,6 @@ const setup = propsOverride => {
     visible: true,
     editable: true,
     value: 'test',
-    model: {
-      tooltipFieldId: ['tooltip', 'body'],
-    },
   };
 
   return mount(<EditableCell {...props} {...propsOverride} />);
@@ -46,11 +44,6 @@ describe('Тесты EditableCell', function() {
     const wrapper = setup();
     expect(wrapper.find('.n2o-editable-cell').exists()).toEqual(true);
   });
-  // it('Cell обернут тултипом', () => {
-  //   const wrapper = setup();
-  //   console.warn(wrapper.html())
-  //   expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true);
-  // });
   it('компонент не отрисовывается по visible = false', () => {
     const wrapper = setup({ visible: false });
     expect(wrapper.find('.n2o-editable-cell').exists()).toEqual(false);
@@ -78,7 +71,6 @@ describe('Тесты EditableCell', function() {
       callAction,
     });
     expect(wrapper.state().model).toEqual({
-      tooltipFieldId: ['tooltip', 'body'],
     });
     wrapper
       .find('.n2o-editable-cell-text')
@@ -90,7 +82,6 @@ describe('Тесты EditableCell', function() {
       .simulate('change', { target: { value: 'Ivan' } });
     expect(wrapper.state().model).toEqual({
       name: 'Ivan',
-      tooltipFieldId: ['tooltip', 'body'],
     });
     wrapper
       .find('input')
@@ -106,11 +97,9 @@ describe('Тесты EditableCell', function() {
       .simulate('change', { target: { value: 'Sergey' } });
     expect(wrapper.state().prevModel).toEqual({
       name: 'Ivan',
-      tooltipFieldId: ['tooltip', 'body'],
     });
     expect(wrapper.state().model).toEqual({
       name: 'Sergey',
-      tooltipFieldId: ['tooltip', 'body'],
     });
     expect(callAction.called).toBeTruthy();
   });
