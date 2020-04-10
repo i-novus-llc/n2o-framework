@@ -15,7 +15,7 @@ export default function withTooltip(WrappedComponent) {
     render() {
       const { model, placement } = this.props;
       const hint = get(model, 'tooltipFieldId');
-      console.warn(this.props);
+
       return !isUndefined(hint) ? (
         <Tooltip
           label={<WrappedComponent {...this.props} />}
