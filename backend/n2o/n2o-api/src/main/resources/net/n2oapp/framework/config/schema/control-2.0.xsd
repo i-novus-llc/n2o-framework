@@ -13,6 +13,7 @@
     <xs:element name="code-editor" type="controlCodeEditor"/>
     <xs:element name="code" type="controlCodeViewer"/>
     <xs:element name="input-text" type="controlInputTextDefinition"/>
+    <xs:element name="input-money" type="controlInputMoneyDefinition"/>
     <xs:element name="output-text" type="controlOutputTextDefinition"/>
     <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
     <xs:element name="checkbox" type="controlCheckboxDefinition"/>
@@ -35,6 +36,7 @@
     <xs:element name="rating" type="controlRating"/>
     <xs:element name="alert" type="controlAlertDefinition"/>
     <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
+    <xs:element name="progress" type="controlProgressDefinition"/>
     <xs:element name="button" type="btn:buttonDefinition"/>
 
     <xs:complexType name="controls">
@@ -68,6 +70,7 @@
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
             <xs:element name="alert" type="controlAlertDefinition" minOccurs="0"/>
             <xs:element name="auto-complete" type="controlAutoCompleteDefinition" minOccurs="0"/>
+            <xs:element name="progress" type="controlProgressDefinition" minOccurs="0"/>
             <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
@@ -342,9 +345,25 @@
 
     <xs:complexType name="controlToolbarDefinition" abstract="true">
         <xs:sequence>
-            <xs:element name="button" type="controlToolbarButtonDefinition"/>
+            <xs:element name="button" type="controlToolbarButtonDefinition" minOccurs="0"/>
+            <xs:element name="sub-menu" type="controlSubmenuDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
+
+
+    <xs:complexType name="controlSubmenuDefinition">
+        <xs:annotation>
+            <xs:documentation>Кнопка с выпадающим меню.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="btn:subMenuDefinitionAbstract">
+                <xs:sequence>
+                    <xs:element name="menu-item" type="btn:menuItemDefinition" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 
     <xs:complexType name="controlOptionsListInlineDefinition">
         <xs:complexContent>
@@ -458,6 +477,11 @@
                 <xs:attribute name="mask" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Маска текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="measure" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Единица измерения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -653,6 +677,43 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="controlProgressDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="max" type="xs:integer" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Максимальное значение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="bar-text" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Описание шкалы прогресса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="animated" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Включает анимацию. При включении отображает полоски.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="striped" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Отображение полосок на шкале прогресса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет шкалы прогресса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="bar-class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Класс шкалы прогресса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="fieldCustom">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
@@ -716,6 +777,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="measure" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Единица измерения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -747,12 +813,36 @@
     <xs:complexType name="controlInputMoneyDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="suffix" type="xs:string"/>
-                <xs:attribute name="prefix" type="xs:string"/>
-                <xs:attribute name="thousands-separator" type="xs:string"/>
-                <xs:attribute name="decimal-separator" type="xs:string"/>
-                <xs:attribute name="integer-limit" type="xs:integer"/>
-                <xs:attribute name="fraction-formatting" type="fractionFormattingType" default="off"/>
+                <xs:attribute name="suffix" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Суффикс.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="prefix" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Префикс.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="thousands-separator" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Знак, отделяющий группу из трех разрядов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="decimal-separator" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Знак, отделяющий дробную часть.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="integer-limit" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ограничение по количеству знаков целой части.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fraction-formatting" type="fractionFormattingType" default="off">
+                    <xs:annotation>
+                        <xs:documentation>Форматирование дробной части.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1304,11 +1394,6 @@
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>CSS стиль</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="action-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Действие виджета, которое будет вызвано при нажатии</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="model" type="clientModel">
