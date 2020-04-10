@@ -1,9 +1,12 @@
 import React from 'react';
-import { pure } from 'recompose';
+import PropTypes from 'prop-types';
+import { compose, withHandlers, pure, getContext, mapProps } from 'recompose';
+import { getFormValues } from 'redux-form';
 import Col from 'reactstrap/lib/Col';
-import defaultTo from 'lodash/defaultTo';
+import get from 'lodash/get';
 import ReduxField from './ReduxField';
 import FieldsetContainer from './Fieldset';
+import evalExpression, { parseExpression } from '../../../utils/evalExpression';
 
 function FieldsetCol({
   col,
@@ -15,9 +18,10 @@ function FieldsetCol({
   labelAlignment,
   modelPrefix,
   form,
+  colVisible = true,
 }) {
   return (
-    defaultTo(col.visible, true) && (
+    colVisible && (
       <Col xs={col.size || defaultCol} key={colId} className={col.className}>
         {col.fields &&
           col.fields.map((field, i) => {
@@ -54,4 +58,30 @@ function FieldsetCol({
   );
 }
 
-export default pure(FieldsetCol);
+const enhance = compose(
+  pure,
+  getContext({
+    store: PropTypes.object,
+  }),
+  withHandlers({
+    resolveVisible: props => () => {
+      const state = props.store.getState();
+      let visible = get(props, 'col.visible');
+      const expression = parseExpression(visible);
+      const model = getFormValues(props.form)(state);
+
+      if (expression) {
+        visible = evalExpression(expression, model);
+      }
+
+      return visible;
+    },
+  }),
+  mapProps(({ resolveVisible, ...props }) => ({
+    ...props,
+    colVisible: resolveVisible(),
+  }))
+);
+
+export { FieldsetCol };
+export default enhance(FieldsetCol);
