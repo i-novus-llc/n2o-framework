@@ -72,7 +72,7 @@ describe('fetchData HOC test', () => {
 
   it('Вызов fetchData с параметрами', async () => {
     let { wrapper } = setup({ dataProvider: { url: dataUrl } }, params => ({
-      ...params,
+      ...params.query,
       count: 20,
     }));
     wrapper

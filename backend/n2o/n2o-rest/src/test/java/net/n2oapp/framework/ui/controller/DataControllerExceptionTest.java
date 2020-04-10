@@ -51,7 +51,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
 
         doThrow(e).when(dataProcessingStack).processAction(any(ActionRequestInfo.class), any(ActionResponseInfo.class), any(DataSet.class));
         DataController controller = buildController(dataProcessingStack);
-        SetDataResponse response = controller.setData("/page/widget/1/create", null, new DataSet(), null);
+        SetDataResponse response = controller.setData("/page/widget/1/create", null, null, new DataSet(), null);
 
         assertThat(response.getMeta().getAlert().getAlertKey(), is("page_main"));
         assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), is("danger"));
@@ -62,7 +62,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         messages.add(new ValidationMessage("message2", "field2", "validation2"));
         e = new N2oValidationException("Validation exception", "widget", messages, "messageForm");
         doThrow(e).when(dataProcessingStack).processAction(any(ActionRequestInfo.class), any(ActionResponseInfo.class), any(DataSet.class));
-        response = controller.setData("/page/widget/1/create", null, new DataSet(), null);
+        response = controller.setData("/page/widget/1/create", null, null, new DataSet(), null);
 
         assertThat(response.getMeta().getMessages().getForm(), is("page_main"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(2));

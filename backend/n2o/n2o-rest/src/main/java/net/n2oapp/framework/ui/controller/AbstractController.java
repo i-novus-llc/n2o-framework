@@ -24,6 +24,7 @@ import net.n2oapp.framework.config.register.route.N2oRouter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,8 +53,12 @@ public abstract class AbstractController {
     }
 
     @SuppressWarnings("unchecked")
-    protected ActionRequestInfo createActionRequestInfo(String path, Map<String, String[]> params, Object body, UserContext user) {
-        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, params);
+    protected ActionRequestInfo createActionRequestInfo(String path, Map<String, String[]> parameters, Map<String, String[]> headers, Object body, UserContext user) {
+        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, parameters);
+        Map<String, String[]> params = parameters == null ? new HashMap<>() : new HashMap<>(parameters);
+        if (actionCtx.getHeaderParamNames() != null && headers != null) {
+            actionCtx.getHeaderParamNames().forEach(n -> params.put(n, headers.get(n)));
+        }
         DataSet queryData = actionCtx.getParams(path, params);
         CompiledObject object = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))

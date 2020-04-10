@@ -2,8 +2,10 @@ package net.n2oapp.framework.api.metadata.event.action;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+
 
 /**
  * Действие вызова операции
@@ -25,6 +27,11 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private Boolean messageOnSuccess;
     private Boolean messageOnFail;
     private Boolean optimistic;
+    private Boolean submitForm;
+
+    private N2oParam[] formParams;
+    private N2oParam[] pathParams;
+    private N2oParam[] headerParams;
 
     public N2oInvokeAction() {
     }
@@ -32,4 +39,5 @@ public class N2oInvokeAction extends N2oAbstractAction {
     public N2oInvokeAction(String actionId) {
         this.operationId = actionId;
     }
+
 }

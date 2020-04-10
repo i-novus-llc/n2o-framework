@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -22,6 +23,7 @@ public class ActionContext extends ObjectContext {
     private RedirectSaga redirect;
     private boolean messageOnSuccess = true;
     private boolean messageOnFail = true;
+    private Collection<String> headerParamNames;
 
     /**
      * Создать контекст

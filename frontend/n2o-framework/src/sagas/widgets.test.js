@@ -1,6 +1,5 @@
 import {
   prepareFetch,
-  resolveUrl,
   runResolve,
   clearOnDisable,
   setWidgetDataSuccess,
@@ -233,54 +232,6 @@ describe('Проверка саги widgets', () => {
         )
       ).payload
     );
-  });
-
-  it('resolveUrl должен вернуть базовый путь и параметры', async () => {
-    const widgetState = {
-      id: 12345,
-    };
-    const state = {
-      models: {
-        resolve: {
-          proto_patients: {
-            ...widgetState,
-          },
-        },
-      },
-    };
-    const dataProvider = {
-      url: '/n2o/:test',
-      pathMapping: {
-        test: {
-          link: 'models.resolve["proto_patients"].id',
-        },
-      },
-      queryMapping: {},
-    };
-    const options = {};
-    const fakeStore = {
-      getState: () => ({
-        ...state,
-      }),
-    };
-    const promise = await runSaga(
-      fakeStore,
-      resolveUrl,
-      state,
-      dataProvider,
-      widgetState,
-      options
-    ).toPromise();
-    const result = await Promise.resolve(promise);
-    expect(result).toEqual({
-      basePath: '/n2o/12345',
-      baseQuery: {
-        size: undefined,
-        page: undefined,
-        sorting: undefined,
-      },
-      headers: {},
-    });
   });
 
   it('prepareFetch должен вернуть подготовленные даные', async () => {
