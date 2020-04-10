@@ -48,7 +48,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 // cells
                 N2oTextCell.class, N2oLinkCell.class, N2oEditCell.class, N2oCheckboxCell.class, N2oToolbarCell.class,
                 N2oBadgeCell.class, N2oIconCell.class, N2oImageCell.class, N2oProgressBarCell.class, N2oRatingCell.class,
-                N2oListCell.class
+                N2oListCell.class, N2oTooltipListCell.class
         );
     }
 
