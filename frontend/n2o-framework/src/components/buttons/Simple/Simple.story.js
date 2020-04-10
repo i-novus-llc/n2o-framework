@@ -3,8 +3,93 @@ import { storiesOf } from '@storybook/react';
 
 import SimpleButton from '../Simple/Simple';
 import StandardButton from '../StandardButton/StandardButton';
+import Toolbar from '../Toolbar';
 
 const stories = storiesOf('Кнопки/SimpleButton', module);
+
+const toolbar = [
+  {
+    buttons: [
+      {
+        id: 'testBtn22',
+        src: 'StandardButton',
+        rounded: true,
+        icon: 'fa fa-fax',
+      },
+      {
+        id: 'testBtn23',
+        label: 'Еще кнопка',
+        src: 'StandardButton',
+      },
+    ],
+  },
+];
+
+const toolbar2 = [
+  {
+    buttons: [
+      {
+        id: 'testBtn22',
+        src: 'StandardButton',
+        rounded: true,
+        icon: 'fa fa-adjust',
+        color: 'primary',
+      },
+      {
+        id: 'testBtn22',
+        src: 'StandardButton',
+        rounded: true,
+        icon: 'fa fa-address-book',
+        color: 'primary',
+      },
+      {
+        id: 'testBtn23',
+        label: 'Еще кнопка',
+        src: 'StandardButton',
+      },
+      {
+        id: 'testBtn23',
+        label: 'Еще кнопка',
+        src: 'StandardButton',
+      },
+    ],
+  },
+];
+
+const toolbar3 = [
+  {
+    buttons: [
+      {
+        id: 'testBtn22',
+        src: 'StandardButton',
+        rounded: true,
+        icon: 'fa fa-adjust',
+        color: 'success',
+      },
+      {
+        id: 'testBtn22',
+        src: 'StandardButton',
+        rounded: true,
+        icon: 'fa fa-address-book',
+        color: 'success',
+      },
+      {
+        id: 'testBtn22',
+        src: 'StandardButton',
+        rounded: true,
+        icon: 'fa fa-phone',
+        color: 'success',
+      },
+      {
+        id: 'testBtn22',
+        src: 'StandardButton',
+        rounded: true,
+        icon: 'fa fa-fax',
+        color: 'success',
+      },
+    ],
+  },
+];
 
 const meta = {
   hint: 'Всплывающая подсказка',
@@ -78,5 +163,12 @@ stories
   .add('SimpleButton in StandardButton', () => (
     <div>
       <StandardButton {...performMeta} />
+    </div>
+  ))
+  .add('В Toolbar', () => (
+    <div style={{ display: 'flex' }}>
+      <Toolbar toolbar={toolbar} entityKey="metaBtns" />
+      <Toolbar toolbar={toolbar2} entityKey="metaBtns" />
+      <Toolbar toolbar={toolbar3} entityKey="metaBtns" />
     </div>
   ));
