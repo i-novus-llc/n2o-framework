@@ -50,7 +50,6 @@ public class MultiColumnAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
-    @Disabled //TODO NNO-4307
     @Test
     public void testMultiColumn() {
         TableWidget table = widgets.widget(0, TableWidget.class);
