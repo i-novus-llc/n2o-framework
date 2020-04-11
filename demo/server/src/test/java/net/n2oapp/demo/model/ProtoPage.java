@@ -119,7 +119,9 @@ public class ProtoPage {
     }
 
     public void clientsCountShouldBe(int count) {
+        leftRightPage.scrollDown();
         getTable().paging().totalElementsShouldBe(count);
+        leftRightPage.scrollUp();
     }
 
     public ProtoClient clickSurnameCell(int row) {

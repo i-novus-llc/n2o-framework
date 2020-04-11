@@ -1,9 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.page;
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
@@ -40,6 +37,15 @@ public class N2oPage extends N2oComponent implements Page {
         return new N2oTooltip(element().$(".list-text-cell__tooltip-container"));
     }
 
+    @Override
+    public void scrollUp() {
+        Selenide.executeJavaScript("window.scrollTo(0, 0)");
+    }
+
+    @Override
+    public void scrollDown() {
+        Selenide.executeJavaScript("window.scrollTo(0, document.body.scrollHeight)");
+    }
     public class N2oPageToolbar implements PageToolbar {
 
         @Override
