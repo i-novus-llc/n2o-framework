@@ -193,14 +193,7 @@ export default Field => {
       mapStateToProps,
       mapDispatchToProps
     ),
-    shouldUpdate((props, nextProps) => {
-      const prevResolvedProps = omit(props.mapProps(props), excludedKeys);
-      const resolvedProps = omit(props.mapProps(nextProps), excludedKeys);
-      const isEqualResolvedProps = some(resolvedProps, (value, key) => {
-        return !isEqual(value, prevResolvedProps[key]);
-      });
-      return isEqualResolvedProps;
-    }),
+    shouldUpdate((props, nextProps) => !isEqual(props.model, nextProps.model)),
     withProps(props => ({
       ref: props.setReRenderRef,
     })),
