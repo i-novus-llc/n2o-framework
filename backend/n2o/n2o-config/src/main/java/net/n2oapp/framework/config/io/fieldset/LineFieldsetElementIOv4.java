@@ -13,7 +13,7 @@ public class LineFieldsetElementIOv4 extends FieldsetElementIOv4<N2oLineFieldSet
 
     @Override
     public void io(Element e, N2oLineFieldSet fs, IOProcessor p) {
-        super.io(e,fs,p);
+        super.io(e, fs, p);
         p.attributeBoolean(e, "collapsible", fs::getCollapsible, fs::setCollapsible);
         p.attributeBoolean(e, "expand", fs::getExpand, fs::setExpand);
     }

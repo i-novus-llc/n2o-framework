@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Progress extends Field {
+public class Progress extends Control {
     @JsonProperty
     private Integer max;
     @JsonProperty

@@ -1,14 +1,14 @@
-package net.n2oapp.framework.autotest.api.component.snippet;
+package net.n2oapp.framework.autotest.api.component.control;
 
 import net.n2oapp.framework.autotest.Colors;
 
 /**
  * Компонент отображения прогресса для автотестирования
  */
-public interface Progress extends Snippet {
-    void shouldHaveValue(Integer value);
+public interface Progress extends Control {
+    void shouldHaveText(String text);
 
-    void shouldHaveMax(Integer max);
+    void shouldHaveMax(String max);
 
     void shouldBeAnimated();
 
