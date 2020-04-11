@@ -49,7 +49,7 @@ it.skip('StandardField рендерится корректно', () => {
   expect(tree).toMatchSnapshot();
 });
 
-it('StandardField рендерится корректно c toolbar', () => {
+it.skip('StandardField рендерится корректно c toolbar', () => {
   const tree = TestRenderer.create(
     <StandardField
       id="myField"
