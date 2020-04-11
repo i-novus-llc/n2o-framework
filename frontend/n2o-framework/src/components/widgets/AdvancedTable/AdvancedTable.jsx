@@ -328,7 +328,7 @@ class AdvancedTable extends Component {
     onFilter && onFilter(filter);
   }
 
-  handleRowClick(id, index, needReturn, noResolve, event) {
+  handleRowClick(id, index, needReturn, noResolve) {
     const {
       hasFocus,
       hasSelect,
@@ -340,7 +340,7 @@ class AdvancedTable extends Component {
 
     const needToReturn = isActive === needReturn;
 
-    if (!needToReturn && hasSelect && !noResolve) {
+    if (!needToReturn && hasSelect && !noResolve && !autoCheckOnSelect) {
       onResolve(find(this._dataStorage, { id }));
     }
 
@@ -348,8 +348,7 @@ class AdvancedTable extends Component {
 
     if (autoCheckOnSelect) {
       if (rowSelection === rowSelectionType.CHECKBOX) {
-        event.stopPropagation();
-        this.handleChangeChecked(event, index);
+        this.handleChangeChecked(index);
       } else if (rowSelection === rowSelectionType.RADIO) {
         this.handleChangeRadioChecked(id);
       }
@@ -467,7 +466,7 @@ class AdvancedTable extends Component {
     }));
   }
 
-  handleChangeChecked(event, index) {
+  handleChangeChecked(index) {
     const { onSetSelection, data, multi } = this.props;
     const { checked } = this.state;
     let newMulti = multi || [];
@@ -546,10 +545,9 @@ class AdvancedTable extends Component {
       rowClass: rowClass && propsResolver(rowClass, model),
       model,
       setRef: this.setRowRef,
-      handleRowClick: event =>
-        this.handleRowClick(model.id, model.id, false, false, event),
-      handleRowClickFocus: event =>
-        this.handleRowClick(model.id, model.id, true, true, event),
+      handleRowClick: () => this.handleRowClick(model.id, model.id, false),
+      handleRowClickFocus: () =>
+        this.handleRowClick(model.id, model.id, true, true),
       clickWithAction: () =>
         this.handleRowClickWithAction(model.id, model.id, false, false, model),
       clickFocusWithAction: () =>
@@ -578,7 +576,7 @@ class AdvancedTable extends Component {
             className="n2o-advanced-table-row-checkbox"
             inline={true}
             checked={this.state.checked[model.id]}
-            onChange={event => this.handleChangeChecked(event, model.id)}
+            onChange={() => this.handleChangeChecked(model.id)}
           />
         ) : rowSelection === rowSelectionType.RADIO ? (
           <RadioN2O
