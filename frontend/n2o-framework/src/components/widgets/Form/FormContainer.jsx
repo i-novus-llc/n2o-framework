@@ -158,11 +158,5 @@ export default compose(
   withLiveCycleMethods,
   withPropsOnChangeWidget,
   withWidgetHandlers,
-  onlyUpdateForKeys(['initialValues', 'fields']),
-  withProps(({ fieldsets, resolveModel, initialValues }) => ({
-    fieldsets: propsResolver(
-      fieldsets,
-      !isEmpty(resolveModel) ? resolveModel : initialValues
-    ),
-  }))
+  onlyUpdateForKeys(['initialValues', 'fields'])
 )(ReduxForm);
