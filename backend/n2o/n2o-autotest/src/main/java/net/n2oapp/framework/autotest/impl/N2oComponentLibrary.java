@@ -18,7 +18,7 @@ import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oStandardPage;
 import net.n2oapp.framework.autotest.impl.component.region.N2oPanelRegion;
 import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
-import net.n2oapp.framework.autotest.impl.component.snippet.N2oProgress;
+import net.n2oapp.framework.autotest.impl.component.control.N2oProgress;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oListWidget;
