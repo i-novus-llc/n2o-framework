@@ -439,7 +439,6 @@ stories
         buttons: [
           {
             id: 'testBtn22',
-            label: 'Кнопка',
             src: 'DropdownButton',
             subMenu: [
               {
