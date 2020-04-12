@@ -109,11 +109,11 @@ image::images/page_searchable.png[]
 
 |<left-right-page>
 |LeftRightPage
-|link:https://n2oapp.net/sandbox/new/manual/page/left-right[Страница с разметкой регионов "слева и справа"]
+|link:https://n2oapp.net/sandbox/new/manual/page/left_right[Страница с разметкой регионов "слева и справа"]
 
 |<top-left-right-page>
 |TopLeftRightPage
-|link:https://n2oapp.net/sandbox/new/manual/page/top-left-right[Страница с разметкой регионов "сверху, слева и справа"]
+|link:https://n2oapp.net/sandbox/new/manual/page/top_left_right[Страница с разметкой регионов "сверху, слева и справа"]
 
 |<searchable-page>
 |SearchablePage
