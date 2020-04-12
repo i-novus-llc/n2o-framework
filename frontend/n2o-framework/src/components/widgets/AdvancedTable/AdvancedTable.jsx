@@ -164,7 +164,7 @@ class AdvancedTable extends Component {
       columns,
       multi,
       rowSelection,
-      autoCheckOnSelect,
+      autoCheckboxOnSelect,
     } = this.props;
     const { checked } = this.state;
 
@@ -172,7 +172,7 @@ class AdvancedTable extends Component {
       hasSelect &&
       !isEmpty(data) &&
       !isEqual(data, prevProps.data) &&
-      !autoCheckOnSelect
+      !autoCheckboxOnSelect
     ) {
       const id = selectedId || data[0].id;
       if (isAnyTableFocused && !isActive) {
@@ -200,7 +200,7 @@ class AdvancedTable extends Component {
       }
       if (
         !isEqual(prevProps.selectedId, selectedId) &&
-        !autoCheckOnSelect &&
+        !autoCheckboxOnSelect &&
         rowSelection !== rowSelectionType.RADIO
       ) {
         this.setNewSelectIndex(selectedId);
@@ -339,25 +339,24 @@ class AdvancedTable extends Component {
       hasSelect,
       onResolve,
       isActive,
-      autoCheckOnSelect,
+      autoCheckboxOnSelect,
       rowSelection,
     } = this.props;
 
     const needToReturn = isActive === needReturn;
 
-    if (!needToReturn && hasSelect && !noResolve && !autoCheckOnSelect) {
+    if (!needToReturn && hasSelect && !noResolve && !autoCheckboxOnSelect) {
       onResolve(find(this._dataStorage, { id }));
     }
 
     if (needToReturn) return;
 
-    if (autoCheckOnSelect) {
-      if (rowSelection === rowSelectionType.CHECKBOX) {
-        this.handleChangeChecked(index);
-      } else if (rowSelection === rowSelectionType.RADIO) {
-        this.handleChangeRadioChecked(id);
-      }
+    if (autoCheckboxOnSelect && rowSelection === rowSelectionType.CHECKBOX) {
+      this.handleChangeChecked(index);
     }
+
+    if (rowSelection === rowSelectionType.RADIO)
+      this.handleChangeRadioChecked(index);
 
     if (!noResolve && hasSelect && hasFocus) {
       this.setSelectAndFocus(id, id);
@@ -376,7 +375,8 @@ class AdvancedTable extends Component {
       onRowClickAction,
       onResolve,
       isActive,
-      autoCheckOnSelect,
+      autoCheckboxOnSelect,
+      rowSelection,
     } = this.props;
     const needToReturn = isActive === needReturn;
 
@@ -384,10 +384,13 @@ class AdvancedTable extends Component {
       onResolve(find(this._dataStorage, { id }));
     }
 
-    if (!noResolve && rowClick && !autoCheckOnSelect) {
+    if (!noResolve && rowClick && !autoCheckboxOnSelect) {
       !hasSelect && onResolve(find(this._dataStorage, { id }));
       onRowClickAction(model);
     }
+
+    if (rowSelection === rowSelectionType.RADIO)
+      this.handleChangeRadioChecked(index);
 
     if (needToReturn) return;
 
@@ -411,7 +414,6 @@ class AdvancedTable extends Component {
   setSelectAndFocus(selectIndex, focusIndex) {
     this.setState({ selectIndex, focusIndex }, () => {
       this.focusActiveRow();
-      this.handleChangeRadioChecked(selectIndex);
     });
   }
 

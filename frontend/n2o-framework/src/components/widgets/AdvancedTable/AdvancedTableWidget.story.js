@@ -233,7 +233,7 @@ stories
         columns={columns}
         data={data}
         rowSelection="checkbox"
-        autoCheckOnSelect={true}
+        autoCheckboxOnSelect={true}
       />
     );
   })
@@ -241,14 +241,7 @@ stories
     return <AdvancedTable columns={columns} data={data} rowSelection="radio" />;
   })
   .add('Выбор строк радио по клику на строку', () => {
-    return (
-      <AdvancedTable
-        columns={columns}
-        data={data}
-        rowSelection="radio"
-        autoCheckOnSelect={true}
-      />
-    );
+    return <AdvancedTable columns={columns} data={data} rowSelection="radio" />;
   })
   .add('Фильтр в заголовках', () => {
     return (

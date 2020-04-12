@@ -318,7 +318,7 @@ const enhance = compose(
           actions: props.actions,
           redux: true,
           rowSelection: props.rowSelection,
-          autoCheckOnSelect: props.autoCheckOnSelect,
+          autoCheckboxOnSelect: props.autoCheckboxOnSelect,
           tableSize: props.tableSize,
           placeholder: props.placeholder,
           useFixedHeader: props.useFixedHeader,
