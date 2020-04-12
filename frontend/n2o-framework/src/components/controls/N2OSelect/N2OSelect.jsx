@@ -319,7 +319,7 @@ class N2OSelect extends React.Component {
       !isEmpty(selectFormatOne) &&
       !isEmpty(selectFormatFew) &&
       !isEmpty(selectFormatMany) &&
-      selectedCount >= 0
+      selectedCount >= 1
     ) {
       text = declensionNoun(
         selectedCount,
@@ -327,7 +327,7 @@ class N2OSelect extends React.Component {
         selectFormatFew,
         selectFormatMany
       ).replace('{size}', selectedCount);
-    } else if (!isEmpty(selectFormat) && selectedCount >= 0) {
+    } else if (!isEmpty(selectFormat) && selectedCount >= 1) {
       text = selectFormat.replace('{size}', selectedCount);
     } else {
       text = null;
