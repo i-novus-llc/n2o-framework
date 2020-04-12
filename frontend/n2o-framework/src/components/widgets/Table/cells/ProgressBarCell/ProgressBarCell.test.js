@@ -14,6 +14,17 @@ const props = {
   color: progressBarStyles.DANGER,
   size: 'default',
 };
+const propsWithTooltip = {
+  id: 'now',
+  model: {
+    now: 55,
+    tooltipFieldId: ['tooltip', 'body'],
+  },
+  animated: false,
+  striped: false,
+  color: progressBarStyles.DANGER,
+  size: 'default',
+};
 
 describe('<ProgressBarCell />', () => {
   it('проверяет создание элемента', () => {
@@ -24,8 +35,7 @@ describe('<ProgressBarCell />', () => {
 
   it('проверяет заполнение прогресс бара', () => {
     const wrapper = shallow(<ProgressBarCell {...props} />);
-
-    expect(wrapper.getElements().pop().props.value).toEqual(
+    expect(wrapper.props().model.now).toEqual(
       props.model[props.id]
     );
   });
@@ -53,5 +63,10 @@ describe('<ProgressBarCell />', () => {
     const wrapper = mount(<ProgressBarCell {...props} />);
 
     expect(wrapper.find(`div.${props.size}`).exists()).toBeTruthy();
+  });
+  it('Cell обернут тултипом', () => {
+    const wrapper = mount(<ProgressBarCell {...propsWithTooltip} />);
+
+    expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true);
   });
 });

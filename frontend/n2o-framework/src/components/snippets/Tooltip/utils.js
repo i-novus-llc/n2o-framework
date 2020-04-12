@@ -37,7 +37,11 @@ export function RenderTooltipTrigger(props) {
       className: triggerClassName(labelDashed),
     }),
   };
-  return label.type.name === 'MapProps' ? (
+
+  return label.type.name === 'MapProps' ||
+    label.type.name === 'ProgressBarCell' ||
+    label.type.name === 'WithState' ||
+    label.type.name === 'EditableCell' ? (
     <div {...bodyProps}>{label}</div>
   ) : (
     <span {...bodyProps}>{label}</span>

@@ -14,6 +14,7 @@ const setupLinkCell = propsOverride => {
     ...meta,
     model: {
       name: 'test name',
+      tooltipFieldId: ['tooltip', 'body'],
     },
   };
   return mount(
@@ -64,5 +65,12 @@ describe('Тесты LinkCell', () => {
       target: 'newWindow',
     });
     expect(wrapper.find('a[target="_blank"]').exists()).toEqual(true);
+  });
+  it('Cell обернут тултипом', () => {
+    const wrapper = setupLinkCell({
+      url: 'https://google.com',
+      target: 'newWindow',
+    });
+    expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true);
   });
 });

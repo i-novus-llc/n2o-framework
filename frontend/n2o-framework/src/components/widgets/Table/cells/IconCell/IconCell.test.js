@@ -15,10 +15,21 @@ const props = {
   icon: 'fa fa-minus',
 };
 
+const propsWithTooltip = {
+  id: 'name',
+  model: {
+    name: 'text',
+    age: '12',
+    tooltipFieldId: ['tooltip', 'body'],
+  },
+  type: iconCellTypes.ICONANDTEXT,
+  textPlace: textPlaceTypes.RIGHT,
+  icon: 'fa fa-minus',
+};
+
 describe('<IconCell />', () => {
   it('проверяет создание элемента IconText', () => {
-    const wrapper = shallow(<IconCell {...props} />);
-
+    const wrapper = mount(<IconCell {...props} />);
     expect(
       wrapper
         .find('div')
@@ -28,27 +39,30 @@ describe('<IconCell />', () => {
   });
 
   it('проверяет класс иконки', () => {
-    const wrapper = shallow(<IconCell {...props} />);
+    const wrapper = mount(<IconCell {...props} />);
     expect(wrapper.children().getElements()[0].props.icon).toEqual(props.icon);
   });
 
-  it('проверяет расположение текста', () => {
+  it('проверяет расположение текста, верно применился класс', () => {
     props.textPlace = textPlaceTypes.LEFT;
-    const wrapper = shallow(<IconCell {...props} />);
+    const wrapper = mount(<IconCell {...props} />);
     expect(
-      wrapper
-        .find('.n2o-cell-text')
-        .getElements()
-        .pop().props.style.float
-    ).toEqual('left');
+      wrapper.find('.icon-cell-container.icon-cell-container__text-left').html()
+    ).toEqual(
+      `<div title="text" class="icon-cell-container icon-cell-container__text-left"><i class="n2o-icon fa fa-minus"></i><div class="n2o-cell-text"><span class="">text</span></div></div>`
+    );
   });
 
   it('проверяет типы ячейки', () => {
-    let wrapper = shallow(<IconCell {...props} />);
+    let wrapper = mount(<IconCell {...props} />);
     expect(wrapper.find('.n2o-cell-text').exists()).toBeTruthy();
 
     props.type = iconCellTypes.ICON;
-    wrapper = shallow(<IconCell {...props} />);
+    wrapper = mount(<IconCell {...props} />);
     expect(wrapper.find('.n2o-cell-text').exists()).toBeFalsy();
+  });
+  it('Cell обернут тултипом', () => {
+    let wrapper = mount(<IconCell {...propsWithTooltip} />);
+    expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true);
   });
 });

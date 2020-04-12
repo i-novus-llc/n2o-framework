@@ -27,6 +27,7 @@ stories.add('Метаданные', () => {
     model: {
       name: 'Иван',
       age: '12',
+      tooltipFieldId: ['tooltip', 'body'],
     },
   };
 

@@ -4,6 +4,7 @@ import { compose, setDisplayName, withHandlers } from 'recompose';
 import withCell from '../../withCell';
 import imageShapes from './imageShapes';
 import get from 'lodash/get';
+import withTooltip from '../../withTooltip';
 
 /**
  * Ячейка таблицы с картинкой
@@ -50,7 +51,7 @@ class ImageCell extends React.Component {
 
     return (
       visible && (
-        <div
+        <span
           title={title}
           style={{ ...style, ...this.setCursor(action) }}
           className={className}
@@ -61,7 +62,7 @@ class ImageCell extends React.Component {
             className={getImageClass(shape)}
             onClick={onClick}
           />
-        </div>
+        </span>
       )
     );
   }
@@ -106,6 +107,7 @@ export { ImageCell };
 export default compose(
   setDisplayName('ImageCell'),
   withCell,
+  withTooltip,
   withHandlers({
     onClick: ({ callAction, model }) => () => {
       callAction(model);

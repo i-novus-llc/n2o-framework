@@ -30,7 +30,6 @@ stories
         {
           id: 'secondary',
           component: BadgeCell,
-          placement: 'left',
           color: 'secondary',
           fieldKey: 'test',
           text: 'Мужской',
@@ -39,6 +38,40 @@ stories
       datasource: [
         {
           test: 'Иванов',
+        },
+      ],
+    };
+
+    return (
+      <Table
+        headers={props.headers}
+        cells={props.cells}
+        datasource={props.datasource}
+      />
+    );
+  })
+  .add('С тултипом', () => {
+    const props = {
+      headers: [
+        {
+          id: 'BadgeCell',
+          component: TextTableHeader,
+          label: 'BadgeCell',
+        },
+      ],
+      cells: [
+        {
+          id: 'secondary',
+          component: BadgeCell,
+          color: 'secondary',
+          fieldKey: 'test',
+          text: 'Мужской',
+        },
+      ],
+      datasource: [
+        {
+          test: 'Иванов',
+          tooltipFieldId: ['tooltip', 'body'],
         },
       ],
     };

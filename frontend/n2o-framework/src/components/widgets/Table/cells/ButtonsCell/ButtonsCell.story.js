@@ -8,6 +8,7 @@ import ButtonsCell, { ButtonsCell as ButtonCellComponent } from './ButtonsCell';
 import metadata from './ButtonsCell.meta';
 import AuthButtonContainer from '../../../../../core/auth/AuthLogin';
 import Factory from '../../../../../core/factory/Factory';
+import Toolbar from '../../../../buttons/Toolbar';
 
 const stories = storiesOf('Ячейки/ButtonsCell', module);
 
@@ -17,6 +18,36 @@ stories.addParameters({
     propTablesExclude: [Table, ButtonsCell, Factory, AuthButtonContainer],
   },
 });
+const toolbar1 = [
+  {
+    buttons: [
+      {
+        id: 'testBtn21',
+        label: 'Кнопка',
+        src: 'StandardButton',
+        color: 'success',
+      },
+      {
+        id: 'testBtn24',
+        label: 'Кнопка',
+        src: 'StandardButton',
+        color: 'primary',
+      },
+      {
+        id: 'testBtn27',
+        label: 'Кнопка',
+        src: 'StandardButton',
+        color: 'primary',
+      },
+      {
+        id: 'testBtn29',
+        label: 'Кнопка',
+        src: 'StandardButton',
+        color: 'primary',
+      },
+    ],
+  },
+];
 
 const examplesDataSource = [
   {
@@ -454,5 +485,15 @@ stories
   .add('Примеры', () => {
     return (
       <div style={{ paddingBottom: 50 }}>{createTable(examplesDataSource)}</div>
+    );
+  })
+  .add('с тултипом', () => {
+    return (
+      <ButtonsCell
+        toolbar={toolbar1}
+        model={{
+          tooltipFieldId: ['tooltip', 'body'],
+        }}
+      />
     );
   });
