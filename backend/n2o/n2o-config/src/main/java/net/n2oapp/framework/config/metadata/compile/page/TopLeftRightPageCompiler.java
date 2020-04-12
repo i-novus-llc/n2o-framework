@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.page.TopLeftRightPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -17,6 +18,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 /**
  * Компиляция страницы с тремя регионами
  */
+@Component
 public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPage, TopLeftRightPage> {
 
     @Override
