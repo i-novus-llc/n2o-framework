@@ -40,7 +40,7 @@ function ButtonsCell({
   const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`;
 
   return visible ? (
-    <div style={{ display: 'inline-flex' }}>
+    <div className="d-inline-flex">
       <Toolbar
         className={cx('n2o-buttons-cell', className)}
         entityKey={key}
