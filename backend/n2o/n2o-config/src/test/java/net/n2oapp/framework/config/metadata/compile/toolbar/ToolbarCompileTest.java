@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.Perform;
+import net.n2oapp.framework.api.metadata.meta.action.PerformActionPayload;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -116,8 +117,8 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         Perform performAction = (Perform)b7.getAction();
         assertThat(performAction.getType(), is("n2o/custom/ACTION"));
         assertThat(performAction.getPayload(), notNullValue());
-        assertThat(((Map)performAction.getPayload()).size(), is(1));
-        assertThat(((Map)performAction.getPayload()).get("prop2"), is("value2"));
+        assertThat(((PerformActionPayload)performAction.getPayload()).getParams().size(), is(1));
+        assertThat(((PerformActionPayload)performAction.getPayload()).getParams().get("prop2"), is("value2"));
     }
 
     @Test
