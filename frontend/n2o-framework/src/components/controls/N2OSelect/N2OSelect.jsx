@@ -9,6 +9,7 @@ import Popup from '../InputSelect/Popup';
 import PopupList from '../InputSelect/PopupList';
 import InputSelectGroup from '../InputSelect/InputSelectGroup';
 import N2OSelectInput from './N2OSelectInput';
+import declensionNoun from '../../../utils/declensionNoun';
 
 /**
  * N2OSelect
@@ -37,6 +38,11 @@ import N2OSelectInput from './N2OSelectInput';
  * @reactProps {string} format - формат
  * @reactProps {boolean} searchByTap - поиск по нажатию кнопки
  */
+
+const selectType = {
+  SINGLE: 'single',
+  CHECKBOXES: 'checkboxes',
+};
 
 class N2OSelect extends React.Component {
   constructor(props) {
@@ -297,6 +303,39 @@ class N2OSelect extends React.Component {
     this._control = el;
   }
 
+  renderPlaceholder() {
+    const {
+      selectFormat = '',
+      selectFormatOne = '',
+      selectFormatFew = '',
+      selectFormatMany = '',
+    } = this.props;
+
+    const { selected } = this.state;
+    const selectedCount = selected.length;
+    let text;
+
+    if (
+      !isEmpty(selectFormatOne) &&
+      !isEmpty(selectFormatFew) &&
+      !isEmpty(selectFormatMany) &&
+      selectedCount >= 0
+    ) {
+      text = declensionNoun(
+        selectedCount,
+        selectFormatOne,
+        selectFormatFew,
+        selectFormatMany
+      ).replace('{size}', selectedCount);
+    } else if (!isEmpty(selectFormat) && selectedCount >= 0) {
+      text = selectFormat.replace('{size}', selectedCount);
+    } else {
+      text = null;
+    }
+
+    return text;
+  }
+
   /**
    * Рендер
    */
@@ -320,6 +359,7 @@ class N2OSelect extends React.Component {
       hasSearch,
       cleanable,
       style,
+      type,
     } = this.props;
     const inputSelectStyle = { width: '100%', ...style };
 
@@ -343,7 +383,8 @@ class N2OSelect extends React.Component {
             selected={this.state.selected}
             onClearClick={this._clearSelected}
           >
-            {!isEmpty(selected) && selected[0][labelFieldId]}
+            {this.renderPlaceholder() ||
+              (!isEmpty(selected) && selected[0][labelFieldId])}
           </InputSelectGroup>
         </Button>
         <Popup isExpanded={this.state.isExpanded}>
@@ -369,7 +410,7 @@ class N2OSelect extends React.Component {
               selected={this.state.selected}
               disabledValues={disabledValues}
               groupFieldId={groupFieldId}
-              hasCheckboxes={false}
+              hasCheckboxes={type === selectType.CHECKBOXES}
               onRemoveItem={this._removeSelectedItem}
               format={format}
             />

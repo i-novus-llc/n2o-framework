@@ -298,4 +298,30 @@ stories
     fetchMock.restore().get(dataUrl, handleData(data));
 
     return <N2OSelectContainer {...props} />;
+  })
+
+  .add('Отображение выбранных элементов в виде счетчика', () => {
+    const newProps = {
+      format: '',
+      type: 'checkboxes',
+      selectFormatOne: '{size} машина',
+      selectFormatFew: '{size} машины',
+      selectFormatMany: '{size} машин',
+    };
+    const props = Object.assign({}, jsonWithoutOptions, newProps);
+    const data = [
+      {
+        id: 'Lada',
+      },
+      {
+        id: 'Volvo',
+      },
+      {
+        id: 'Chevrolet',
+      },
+    ];
+
+    fetchMock.restore().get(dataUrl, handleData(data));
+
+    return <N2OSelectContainer {...props} />;
   });
