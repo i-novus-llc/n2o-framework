@@ -20,7 +20,7 @@ function TextCell({
 }) {
   return (
     visible && (
-      <div className="d-flex flex-column">
+      <div className="d-inline-flex flex-column">
         <Text
           text={model && get(model, fieldKey || id)}
           subText={model && subTextFieldKey && get(model, subTextFieldKey)}
