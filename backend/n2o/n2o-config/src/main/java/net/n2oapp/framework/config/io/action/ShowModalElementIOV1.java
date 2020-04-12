@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.io.action;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
-import net.n2oapp.framework.api.metadata.event.action.ShowModalMode;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -18,9 +17,7 @@ public class ShowModalElementIOV1 extends AbstractOpenPageElementIOV1<N2oShowMod
     public void io(Element e, N2oShowModal sm, IOProcessor p) {
         super.io(e, sm, p);
         p.attribute(e, "modal-size", sm::getModalSize, sm::setModalSize);
-        p.attribute(e, "object-id", sm::getObjectId, sm::setObjectId);
         p.attribute(e, "refresh-widget-id", sm::getRefreshWidgetId, sm::setRefreshWidgetId);
-        p.attributeEnum(e, "type", sm::getType, sm::setType, ShowModalMode.class);
         p.attributeEnum(e, "submit-action-type", sm::getSubmitActionType, sm::setSubmitActionType, SubmitActionType.class);
         p.attributeEnum(e, "copy-model", sm::getCopyModel, sm::setCopyModel, ReduxModel.class);
         p.attribute(e, "copy-widget-id", sm::getCopyWidgetId, sm::setCopyWidgetId);
