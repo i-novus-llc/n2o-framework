@@ -6,6 +6,7 @@ import NavItem from 'reactstrap/lib/NavItem';
 import InputGroup from 'reactstrap/lib/InputGroup';
 import InputGroupAddon from 'reactstrap/lib/InputGroupAddon';
 import Input from 'reactstrap/lib/Input';
+import map from 'lodash/map';
 import NavbarBrand from 'reactstrap/lib/NavbarBrand';
 import NavbarToggler from 'reactstrap/lib/NavbarToggler';
 import Collapse from 'reactstrap/lib/Collapse';
@@ -13,7 +14,6 @@ import Collapse from 'reactstrap/lib/Collapse';
 import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer';
-import { BrowserRouter } from 'react-router-dom';
 
 /**
  * Хедер-плагин
@@ -114,7 +114,7 @@ class SimpleHeader extends React.Component {
     const isInversed = color === 'inverse';
     const navColor = isInversed ? 'primary' : 'light';
     const mapItems = (items, options) =>
-      items.map((item, i) => (
+      map(items, (item, i) => (
         <NavItemContainer
           key={i}
           item={item}
@@ -127,35 +127,33 @@ class SimpleHeader extends React.Component {
     const extraNavItems = mapItems(extraItems, { right: true });
 
     return (
-      <BrowserRouter>
-        <div
-          style={style}
-          className={`navbar-container-${
-            fixed ? 'fixed' : 'relative'
-          } ${className} n2o-header n2o-header-${color} `}
+      <div
+        style={style}
+        className={`navbar-container-${
+          fixed ? 'fixed' : 'relative'
+        } ${className} n2o-header n2o-header-${color} `}
+      >
+        <Navbar
+          color={navColor}
+          light={!isInversed}
+          dark={isInversed}
+          expand="md"
         >
-          <Navbar
-            color={navColor}
-            light={!isInversed}
-            dark={isInversed}
-            expand="md"
-          >
-            <NavbarBrand href={homePageUrl}>
-              <NavbarBrandContent brand={brand} brandImage={brandImage} />
-            </NavbarBrand>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="main-nav" navbar>
-                {navItems}
-              </Nav>
-              <Nav className="ml-auto main-nav-extra" navbar>
-                {extraNavItems}
-                {search && <SearchBarContainer />}
-              </Nav>
-            </Collapse>
-          </Navbar>
-        </div>
-      </BrowserRouter>
+          <NavbarBrand href={homePageUrl}>
+            <NavbarBrandContent brand={brand} brandImage={brandImage} />
+          </NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="main-nav" navbar>
+              {navItems}
+            </Nav>
+            <Nav className="ml-auto main-nav-extra" navbar>
+              {extraNavItems}
+              {search && <SearchBarContainer />}
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
     );
   }
 }
