@@ -86,6 +86,8 @@ public class TooltipListCellAT extends AutoTestBase {
 
     @Test
     public void testOtherLabelFormats() {
+        TableWidget.Rows rows0 = page.place("single").region(0, SimpleRegion.class).content()
+                .widget(0, TableWidget.class).columns().rows();
         TableWidget.Rows rows = page.place("single").region(0, SimpleRegion.class).content()
                 .widget(1, TableWidget.class).columns().rows();
 
@@ -100,7 +102,7 @@ public class TooltipListCellAT extends AutoTestBase {
         tooltip.shouldBeExist();
         tooltip.shouldHaveText("val1", "val2", "val3", "val4", "val5");
         // проверяем, что при наведении тултип не появляется
-        cell4.click();
+        rows0.row(0).cell(0, TooltipListCell.class).click();
         cell4.hover();
         tooltip.shouldNotBeExist();
 
