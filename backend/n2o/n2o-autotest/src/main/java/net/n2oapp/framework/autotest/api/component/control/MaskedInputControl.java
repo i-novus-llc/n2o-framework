@@ -9,4 +9,8 @@ public interface MaskedInputControl extends Control {
     void val(String value);
 
     void shouldHavePlaceholder(String value);
+
+    void shouldHaveMeasure();
+
+    void measureShouldHaveText(String text);
 }
