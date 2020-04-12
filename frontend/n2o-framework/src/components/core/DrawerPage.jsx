@@ -70,7 +70,7 @@ function DrawerPage(props) {
         transparent
       >
         <Drawer
-          visible={!loading && visible}
+          visible={!loading && visible !== false}
           onHandleClick={() => rest.closeOverlay(true)}
           onClose={() => rest.closeOverlay(true)}
           title={title}
