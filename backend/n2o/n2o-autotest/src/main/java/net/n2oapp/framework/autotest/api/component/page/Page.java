@@ -3,7 +3,6 @@ package net.n2oapp.framework.autotest.api.component.page;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
-import net.n2oapp.framework.autotest.api.component.modal.Modal;
 
 /**
  * Страница для автотестирования
@@ -18,7 +17,7 @@ public interface Page extends Component {
 
     Dialog dialog(String title);
 
-    Modal modal(String title);
+    Tooltip tooltip();
 
     interface PageToolbar {
         Toolbar topLeft();
@@ -42,5 +41,15 @@ public interface Page extends Component {
         void click(String label);
 
         void shouldBeClosed(long timeOut);
+    }
+
+    interface Tooltip {
+        void shouldBeExist();
+
+        void shouldNotBeExist();
+
+        void shouldBeEmpty();
+
+        void shouldHaveText(String... text);
     }
 }

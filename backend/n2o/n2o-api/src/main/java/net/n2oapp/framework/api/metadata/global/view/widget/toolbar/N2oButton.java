@@ -17,6 +17,7 @@ import java.util.List;
 public class N2oButton extends AbstractMenuItem implements SrcAware, GroupItem, Source {
 
     private String src;
+    private Boolean rounded;
 
     @Override
     public List<N2oAction> getActions() {

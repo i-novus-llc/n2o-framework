@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.widget;
 
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.cell.RadioCell;
@@ -64,7 +65,8 @@ public class TableSelectionAT extends AutoTestBase {
         button.shouldBeEnabled();
         button.click();
 
-        Modal modal = page.modal("Карточка клиента: 2");
+        Modal modal = N2oSelenide.modal();
+        modal.shouldHaveTitle("Карточка клиента: 2");
         modal.close();
     }
 
@@ -114,7 +116,8 @@ public class TableSelectionAT extends AutoTestBase {
         button.shouldBeEnabled();
         button.click();
 
-        Modal modal = page.modal("Карточка клиента: 2");
+        Modal modal = N2oSelenide.modal();
+        modal.shouldHaveTitle("Карточка клиента: 2");
         modal.close();
     }
 
@@ -158,7 +161,8 @@ public class TableSelectionAT extends AutoTestBase {
         button.shouldBeEnabled();
         button.click();
 
-        Modal modal = page.modal("Карточка клиента: 2");
+        Modal modal = N2oSelenide.modal();
+        modal.shouldHaveTitle("Карточка клиента: 2");
         modal.close();
     }
 }

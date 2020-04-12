@@ -1,15 +1,15 @@
 package net.n2oapp.framework.autotest.impl.component.page;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
-import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
-import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
 
 /**
  * Страница для автотестирования
@@ -36,8 +36,8 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     @Override
-    public Modal modal(String title) {
-        return new N2oModal(element().$$(".modal-dialog").findBy(Condition.text(title)).parent());
+    public Tooltip tooltip() {
+        return new N2oTooltip(element().$(".list-text-cell__tooltip-container"));
     }
 
     public class N2oPageToolbar implements PageToolbar {
@@ -97,6 +97,37 @@ public class N2oPage extends N2oComponent implements Page {
         @Override
         public void shouldBeClosed(long timeOut) {
             element.$(".modal-header .modal-title").waitWhile(Condition.exist, timeOut);
+        }
+    }
+
+    public static class N2oTooltip implements Tooltip {
+        private final SelenideElement element;
+
+        public N2oTooltip(SelenideElement element) {
+            this.element = element;
+        }
+
+        @Override
+        public void shouldBeExist() {
+            element.shouldBe(Condition.exist);
+        }
+
+        @Override
+        public void shouldNotBeExist() {
+            element.shouldNotBe(Condition.exist);
+        }
+
+        @Override
+        public void shouldBeEmpty() {
+            element.shouldBe(Condition.empty);
+        }
+
+        @Override
+        public void shouldHaveText(String... text) {
+            ElementsCollection items = element.$$(".list-text-cell__tooltip-container__body");
+            items.shouldHaveSize(text.length);
+            if (text.length != 0)
+                items.shouldHave(CollectionCondition.texts(text));
         }
     }
 }
