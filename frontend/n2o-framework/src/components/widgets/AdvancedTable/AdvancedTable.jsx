@@ -164,6 +164,7 @@ class AdvancedTable extends Component {
       columns,
       multi,
       rowSelection,
+      autoCheckOnSelect,
     } = this.props;
     const { checked } = this.state;
 
@@ -171,7 +172,7 @@ class AdvancedTable extends Component {
       hasSelect &&
       !isEmpty(data) &&
       !isEqual(data, prevProps.data) &&
-      !rowSelection
+      !autoCheckOnSelect
     ) {
       const id = selectedId || data[0].id;
       if (isAnyTableFocused && !isActive) {
@@ -197,7 +198,11 @@ class AdvancedTable extends Component {
           columns: this.mapColumns(columns),
         };
       }
-      if (!isEqual(prevProps.selectedId, selectedId) && !rowSelection) {
+      if (
+        !isEqual(prevProps.selectedId, selectedId) &&
+        !autoCheckOnSelect &&
+        rowSelection !== rowSelectionType.RADIO
+      ) {
         this.setNewSelectIndex(selectedId);
       }
       this.setState({ ...state });
