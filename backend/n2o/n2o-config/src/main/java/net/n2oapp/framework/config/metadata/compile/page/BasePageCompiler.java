@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
@@ -48,7 +49,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         PageScope pageScope = new PageScope();
         pageScope.setPageId(page.getId());
         String resultWidgetId = null;
-        if (context.getSubmitOperationId() != null) {
+        if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType())) {
             pageScope.setObjectId(source.getObjectId());
             resultWidgetId = initResultWidgetId(context, sourceWidgets);
             pageScope.setResultWidgetId(resultWidgetId);
@@ -80,7 +81,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setObject(object);
         page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
         page.setProperties(p.mapAttributes(source));
-        if (context.getSubmitOperationId() != null)
+        if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))
             initToolbarGenerate(source, resultWidgetId);
         MetaActions metaActions = new MetaActions();
         compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumb,
