@@ -11,6 +11,7 @@ const blackList = [
   'actions',
   'queryMapping',
   'pathMapping',
+  'toolbar',
 ];
 
 export function resolve(code) {

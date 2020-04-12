@@ -38,4 +38,9 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     public Dialog dialog(String title) {
         return null;
     }
+
+    @Override
+    public Tooltip tooltip() {
+        return null;
+    }
 }
