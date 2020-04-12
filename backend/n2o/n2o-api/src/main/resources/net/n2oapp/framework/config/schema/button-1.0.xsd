@@ -62,6 +62,12 @@
                         <xs:documentation>Валидировать ли форму при нажатии на кнопку.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="rounded" type="xs:boolean" use="optional" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Сделать кнопку круглой.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true"/>
                 <xs:attribute name="action-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.</xs:documentation>
