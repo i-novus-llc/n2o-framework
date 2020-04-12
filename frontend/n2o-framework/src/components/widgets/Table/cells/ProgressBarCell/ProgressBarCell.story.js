@@ -17,45 +17,89 @@ stories.addParameters({
   },
 });
 
-stories.add('Метаданные', () => {
-  const props = {
-    id: ProgressBarJson.id,
-    animated: ProgressBarJson.animated,
-    striped: ProgressBarJson.striped,
-    color: ProgressBarJson.color,
-    size: ProgressBarJson.size,
-    model: {
-      now: '12',
-    },
-  };
+stories
+  .add('Метаданные', () => {
+    const props = {
+      id: ProgressBarJson.id,
+      animated: ProgressBarJson.animated,
+      striped: ProgressBarJson.striped,
+      color: ProgressBarJson.color,
+      size: ProgressBarJson.size,
+      model: {
+        now: '12',
+      },
+    };
 
-  const tableProps = {
-    headers: [
-      {
-        id: 'header',
-        component: TextTableHeader,
-        label: 'Прогресс бар',
-      },
-    ],
-    cells: [
-      {
-        component: ProgressBarCell,
-        ...props,
-      },
-    ],
-    datasource: [
-      {
-        id: 'now',
-        now: 55,
-      },
-    ],
-  };
+    const tableProps = {
+      headers: [
+        {
+          id: 'header',
+          component: TextTableHeader,
+          label: 'Прогресс бар',
+        },
+      ],
+      cells: [
+        {
+          component: ProgressBarCell,
+          ...props,
+        },
+      ],
+      datasource: [
+        {
+          id: 'now',
+          now: 55,
+        },
+      ],
+    };
 
-  return (
-    <Table
-      headers={tableProps.headers}
-      cells={tableProps.cells}
-      datasource={tableProps.datasource}
-    />
-  );
-});
+    return (
+      <Table
+        headers={tableProps.headers}
+        cells={tableProps.cells}
+        datasource={tableProps.datasource}
+      />
+    );
+  })
+  .add('С тултипом', () => {
+    const props = {
+      id: ProgressBarJson.id,
+      animated: ProgressBarJson.animated,
+      striped: ProgressBarJson.striped,
+      color: ProgressBarJson.color,
+      size: ProgressBarJson.size,
+      model: {
+        now: '12',
+        tooltipFieldId: ['tooltip', 'body'],
+      },
+    };
+
+    const tableProps = {
+      headers: [
+        {
+          id: 'header',
+          component: TextTableHeader,
+          label: 'Прогресс бар',
+        },
+      ],
+      cells: [
+        {
+          component: ProgressBarCell,
+          ...props,
+        },
+      ],
+      datasource: [
+        {
+          id: 'now',
+          now: 55,
+        },
+      ],
+    };
+
+    return (
+      <Table
+        headers={tableProps.headers}
+        cells={tableProps.cells}
+        datasource={tableProps.datasource}
+      />
+    );
+  });

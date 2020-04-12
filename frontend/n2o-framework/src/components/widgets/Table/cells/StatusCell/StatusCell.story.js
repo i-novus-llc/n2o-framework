@@ -15,31 +15,62 @@ stories.addParameters({
   },
 });
 
-stories.add('Компонент', () => {
-  const props = {
-    headers: [
-      {
-        id: 'StatusCell',
-        component: TextTableHeader,
-        label: 'StatusCell',
-      },
-    ],
-    cells: [
-      {
-        id: 'secondary',
-        component: StatusCell,
-        color: 'info',
-        fieldKey: 'test',
-      },
-    ],
-    datasource: [{ test: 'текст статуса' }],
-  };
+stories
+  .add('Компонент', () => {
+    const props = {
+      headers: [
+        {
+          id: 'StatusCell',
+          component: TextTableHeader,
+          label: 'StatusCell',
+        },
+      ],
+      cells: [
+        {
+          id: 'secondary',
+          component: StatusCell,
+          color: 'info',
+          fieldKey: 'test',
+        },
+      ],
+      datasource: [{ test: 'текст статуса' }],
+    };
 
-  return (
-    <Table
-      headers={props.headers}
-      cells={props.cells}
-      datasource={props.datasource}
-    />
-  );
-});
+    return (
+      <Table
+        headers={props.headers}
+        cells={props.cells}
+        datasource={props.datasource}
+      />
+    );
+  })
+  .add('С тултипом', () => {
+    const props = {
+      headers: [
+        {
+          id: 'StatusCell',
+          component: TextTableHeader,
+          label: 'StatusCell',
+        },
+      ],
+      cells: [
+        {
+          id: 'secondary',
+          component: StatusCell,
+          color: 'info',
+          fieldKey: 'test',
+        },
+      ],
+      datasource: [
+        { test: 'текст статуса', tooltipFieldId: ['tooltip', 'body'] },
+      ],
+    };
+
+    return (
+      <Table
+        headers={props.headers}
+        cells={props.cells}
+        datasource={props.datasource}
+      />
+    );
+  });

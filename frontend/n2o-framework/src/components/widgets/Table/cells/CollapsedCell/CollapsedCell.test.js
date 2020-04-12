@@ -8,6 +8,7 @@ const setup = (propOverrides = {}) => {
     {
       model: {
         data: ['Казань', 'Москва', 'Токио', 'Берлин', 'Париж', 'Лондон'],
+        tooltipFieldId: ['tooltip', 'body'],
       },
       fieldKey: 'data',
       amountToGroup: 3,
@@ -28,6 +29,12 @@ describe('<InputSelectContainer />', () => {
     const { wrapper } = setup();
 
     expect(wrapper.find('span.badge').exists()).toBeTruthy();
+  });
+
+  it('Cell обернут тултипом', () => {
+    const { wrapper } = setup();
+
+    expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true);
   });
 
   it('проверяет количество элементов', () => {

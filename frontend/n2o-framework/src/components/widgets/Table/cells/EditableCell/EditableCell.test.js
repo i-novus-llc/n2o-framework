@@ -1,6 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 import { EditableCell } from './EditableCell';
+import EditableCellWithTooltip from './withActionsEditableCell';
 import InputText from '../../../../controls/InputText/InputText';
 
 const action = {
@@ -69,7 +70,8 @@ describe('Тесты EditableCell', function() {
       dispatch,
       callAction,
     });
-    expect(wrapper.state().model).toEqual({});
+    expect(wrapper.state().model).toEqual({
+    });
     wrapper
       .find('.n2o-editable-cell-text')
       .at(0)
@@ -78,7 +80,9 @@ describe('Тесты EditableCell', function() {
       .find('input')
       .at(0)
       .simulate('change', { target: { value: 'Ivan' } });
-    expect(wrapper.state().model).toEqual({ name: 'Ivan' });
+    expect(wrapper.state().model).toEqual({
+      name: 'Ivan',
+    });
     wrapper
       .find('input')
       .at(0)
@@ -91,8 +95,12 @@ describe('Тесты EditableCell', function() {
       .find('input')
       .at(0)
       .simulate('change', { target: { value: 'Sergey' } });
-    expect(wrapper.state().prevModel).toEqual({ name: 'Ivan' });
-    expect(wrapper.state().model).toEqual({ name: 'Sergey' });
+    expect(wrapper.state().prevModel).toEqual({
+      name: 'Ivan',
+    });
+    expect(wrapper.state().model).toEqual({
+      name: 'Sergey',
+    });
     expect(callAction.called).toBeTruthy();
   });
   it('срабатывает onBlur', () => {

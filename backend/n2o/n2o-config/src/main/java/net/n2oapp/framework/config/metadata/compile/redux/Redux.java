@@ -2,11 +2,13 @@ package net.n2oapp.framework.config.metadata.compile.redux;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
+import net.n2oapp.framework.api.metadata.meta.action.*;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.util.CompileUtil;
 
@@ -74,18 +76,15 @@ public abstract class Redux {
      * @return Redux действие
      */
     public static BindLink createBindLink(ReduxAction reduxAction) {
-        ReduxModel reduxModel = null;
         if (reduxAction.getType().equals("n2o/widgets/CHANGE_SELECTED_ID")) {
-            reduxModel = ReduxModel.RESOLVE;
+            ReduxModel reduxModel = ReduxModel.RESOLVE;
             //todo нужна типизация по widgetId и field
-            String widgetId = reduxAction.getPayload().get("widgetId").toString();
+            String widgetId = ((SelectedWidgetPayload) reduxAction.getPayload()).getWidgetId();
             return createBindLink(widgetId, reduxModel, "id");
         } else {
             if (reduxAction.getType().equals("n2o/models/UPDATE")) {
-                reduxModel = ReduxModel.valueOf(reduxAction.getPayload().get("prefix").toString().toUpperCase());
-                String widgetId = reduxAction.getPayload().get("key").toString();
-                String field = reduxAction.getPayload().get("field") == null ? null : reduxAction.getPayload().get("field").toString();
-                return createBindLink(widgetId, reduxModel, field);
+                UpdateModelPayload payload = (UpdateModelPayload) reduxAction.getPayload();
+                return createBindLink(payload.getKey(), ReduxModel.valueOf(payload.getPrefix().toUpperCase()), payload.getField());
             } else {
                 throw new UnsupportedOperationException("Redux action type " + reduxAction.getType() + " unsupported");
             }
@@ -100,10 +99,8 @@ public abstract class Redux {
      * @return Redux действие
      */
     public static ReduxAction dispatchSelectedWidget(String widgetId, Object value) {
-        Map<String, Object> params = new LinkedHashMap<>();
-        params.put("widgetId", widgetId);
-        params.put("value", value);
-        return new ReduxAction("n2o/widgets/CHANGE_SELECTED_ID", params);
+        SelectedWidgetPayload payload = new SelectedWidgetPayload(widgetId, value);
+        return new ReduxAction("n2o/widgets/CHANGE_SELECTED_ID", payload);
     }
 
     /**
@@ -116,12 +113,8 @@ public abstract class Redux {
      * @return Redux действие
      */
     public static ReduxAction dispatchUpdateModel(String widgetId, ReduxModel model, String field, Object value) {
-        Map<String, Object> params = new LinkedHashMap<>();
-        params.put("prefix", model.getId());
-        params.put("key", widgetId);
-        params.put("field", field);
-        params.put("value", value);
-        return new ReduxAction("n2o/models/UPDATE", params);
+        UpdateModelPayload payload = new UpdateModelPayload(model.getId(), widgetId, field, value);
+        return new ReduxAction("n2o/models/UPDATE", payload);
     }
 
     /**
@@ -135,13 +128,8 @@ public abstract class Redux {
      * @return Redux действие
      */
     public static ReduxAction dispatchUpdateMapModel(String widgetId, ReduxModel model, String field, String map, Object value) {
-        Map<String, Object> params = new LinkedHashMap<>();
-        params.put("prefix", model.getId());
-        params.put("key", widgetId);
-        params.put("field", field);
-        params.put("value", value);
-        params.put("map", map);
-        return new ReduxAction("n2o/models/UPDATE_MAP", params);
+        UpdateMapModelPayload payload = new UpdateMapModelPayload(model.getId(), widgetId, field, value, map);
+        return new ReduxAction("n2o/models/UPDATE_MAP", payload);
     }
 
     /**
@@ -153,11 +141,8 @@ public abstract class Redux {
      * @return Redux действие
      */
     public static ReduxAction dispatchSortWidget(String widgetId, String field, Object direction) {
-        Map<String, Object> params = new LinkedHashMap<>();
-        params.put("widgetId", widgetId);
-        params.put("fieldKey", field);
-        params.put("sortDirection", direction);
-        return new ReduxAction("n2o/widgets/SORT_BY", params);
+        SortWidgetPayload payload = new SortWidgetPayload(widgetId, field, direction);
+        return new ReduxAction("n2o/widgets/SORT_BY", payload);
     }
 
     /**
@@ -168,12 +153,15 @@ public abstract class Redux {
      * @return Redux действие
      */
     public static ReduxAction dispatchSetActiveRegionEntity(String regionId, String regionActiveParam) {
-        Map<String, Object> params = new LinkedHashMap<>();
-        params.put("regionId", regionId);
-        params.put("activeEntity", ":" + regionActiveParam);
-        return new ReduxAction("n2o/regions/SET_ACTIVE_REGION_ENTITY", params);
+        SetActiveRegionEntityPayload setActiveRegionEntityPayload = new SetActiveRegionEntityPayload(regionId, ":" + regionActiveParam);
+        return new ReduxAction("n2o/regions/SET_ACTIVE_REGION_ENTITY", setActiveRegionEntityPayload);
     }
 
+    /**
+     * Создание modelLink для префильтра
+     * @param preFilter
+     * @return
+     */
     public static ModelLink linkFilter(N2oPreFilter preFilter) {
         Object value;
         if (preFilter.getValues() == null) {
@@ -184,6 +172,18 @@ public abstract class Redux {
         if (StringUtils.isJs(value)) {
             ModelLink link = new ModelLink(preFilter.getRefModel(),
                     CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId()));
+            link.setValue(value);
+            return link;
+        } else {
+            return new ModelLink(value);
+        }
+    }
+
+    public static ModelLink linkFilter(N2oParam param) {
+        Object value = ScriptProcessor.resolveExpression(param.getValue());
+        if (StringUtils.isJs(value)) {
+            ModelLink link = new ModelLink(param.getRefModel(),
+                    CompileUtil.generateWidgetId(param.getRefPageId(), param.getRefWidgetId()));
             link.setValue(value);
             return link;
         } else {

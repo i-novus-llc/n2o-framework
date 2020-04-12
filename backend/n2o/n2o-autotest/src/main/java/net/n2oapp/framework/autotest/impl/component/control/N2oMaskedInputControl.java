@@ -47,11 +47,25 @@ public class N2oMaskedInputControl extends N2oControl implements MaskedInputCont
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(condition);
     }
 
+    @Override
+    public void shouldHaveMeasure() {
+        inputMeasure().should(Condition.exist);
+    }
+
+    @Override
+    public void measureShouldHaveText(String text) {
+        inputMeasure().shouldHave(Condition.text(text));
+    }
+
     private SelenideElement inputElement() {
         return element().parent().$(".n2o-input-mask");
     }
 
     private SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
+    }
+
+    private SelenideElement inputMeasure() {
+        return element().parent().$(".n2o-control-container-placeholder");
     }
 }
