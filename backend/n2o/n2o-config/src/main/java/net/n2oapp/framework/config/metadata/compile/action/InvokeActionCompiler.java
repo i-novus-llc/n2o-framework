@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
@@ -164,7 +163,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             String clientWidgetId = widgetScope.getClientWidgetId();
             if (model.equals(ReduxModel.RESOLVE)) {
                 String widgetSelectedId = clientWidgetId + "_id";
-                path = path + normalize(colon(widgetSelectedId));
+                path = normalize(path + normalize(colon(widgetSelectedId)));
                 pathMapping.put(widgetSelectedId, new ModelLink(model, clientWidgetId, "id"));
             }
         }

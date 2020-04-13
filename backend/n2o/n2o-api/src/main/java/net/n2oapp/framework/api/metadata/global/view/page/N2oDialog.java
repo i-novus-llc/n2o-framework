@@ -37,6 +37,11 @@ public class N2oDialog implements SourceComponent {
     private String description;
 
     /**
+     * Размер окна диалога (sm, lg)
+     */
+    private String size;
+
+    /**
      * Кнопки слева
      */
     private N2oButton[] leftButtons;
