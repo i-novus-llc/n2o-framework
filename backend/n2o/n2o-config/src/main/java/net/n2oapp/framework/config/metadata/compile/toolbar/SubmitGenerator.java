@@ -47,7 +47,7 @@ public class SubmitGenerator implements ButtonGenerator {
         saveButton.setColor("primary");
         N2oAction action = null;
         SubmitActionType submitActionType = pageContext.getSubmitActionType() == null ? SubmitActionType.invoke : pageContext.getSubmitActionType();
-        String submitLabel = null;
+        String submitLabel = pageContext.getSubmitLabel();
 
         switch (submitActionType) {
             case copy: {
