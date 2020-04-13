@@ -39,6 +39,7 @@ stories.add('Компонент c тултипом', () => {
         component: IconCell,
         icon: 'fa fa-plus',
         tooltipPlacement: 'right',
+        tooltipFieldId: 'tooltip',
       },
       {
         id: 'vip',
@@ -59,7 +60,7 @@ stories.add('Компонент c тултипом', () => {
         id: 'Алексей',
         vip: 'Алексей',
         onlyIcon: 'Алексей',
-        tooltipFieldId: ['tooltip', 'body'],
+        tooltip: ['tooltip', 'body'],
       },
     ],
   };

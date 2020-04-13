@@ -66,12 +66,13 @@ stories
           color: 'secondary',
           fieldKey: 'test',
           text: 'Мужской',
+          tooltipFieldId: 'tooltip',
         },
       ],
       datasource: [
         {
           test: 'Иванов',
-          tooltipFieldId: ['tooltip', 'body'],
+          tooltip: ['tooltip', 'body'],
         },
       ],
     };

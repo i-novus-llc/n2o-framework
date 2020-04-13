@@ -1,4 +1,33 @@
 {
+  "datasource": [
+    {
+      "id": 1,
+      "name": "Афанасий",
+      "surname": "Ревин",
+      "birthday": "01.01.1950 00:00"
+    },
+    {
+      "id": 2,
+      "name": "Иннокентий",
+      "surname": "Тестировский",
+      "birthday": "01.01.1950 00:00",
+      "tooltip": "tooltip",
+      "expandedContent": {
+        "type": "text",
+        "value": "Expanded text"
+      }
+    },
+    {
+      "id": 3,
+      "name": "Афанасий",
+      "surname": "Ревин",
+      "birthday": "01.01.1950 00:00",
+      "expandedContent": {
+        "type": "html",
+        "value": "<h1>Header</h1>"
+      }
+    }
+  ],
   "Page_Table": {
     "src": "AdvancedTableWidget",
     "dataProvider": {
@@ -75,8 +104,9 @@
           "type": "iconAndText",
           "textPlace": "right",
           "editable": true,
-          "model": {
-            "tooltipFieldId": ["tooltip", "body"]
+          "tooltipFieldId": "tooltip",
+          "model" : {
+            "tooltip": "tooltip"
           },
           "control": {
             "src": "InputNumber",

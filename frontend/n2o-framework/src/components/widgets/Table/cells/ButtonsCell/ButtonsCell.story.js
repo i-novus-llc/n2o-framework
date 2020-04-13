@@ -26,6 +26,7 @@ const toolbar1 = [
         label: 'Кнопка',
         src: 'StandardButton',
         color: 'success',
+        tooltipFieldId: 'tooltip',
       },
       {
         id: 'testBtn24',
@@ -391,6 +392,7 @@ const createTable = data =>
           component: ButtonsCell,
           id: 'buttonCells',
           fieldKey: 'buttonCells',
+          tooltipFieldId: 'tooltip',
           buttons,
         },
       ],
@@ -406,7 +408,7 @@ const createTable = data =>
           label: 'Отображение',
         },
       ],
-      datasource: [{ description }],
+      datasource: [{ description, tooltip: ['tooltip', 'body'] }],
     };
 
     return <Table {...tableProps} />;
@@ -485,15 +487,5 @@ stories
   .add('Примеры', () => {
     return (
       <div style={{ paddingBottom: 50 }}>{createTable(examplesDataSource)}</div>
-    );
-  })
-  .add('с тултипом', () => {
-    return (
-      <ButtonsCell
-        toolbar={toolbar1}
-        model={{
-          tooltipFieldId: ['tooltip', 'body'],
-        }}
-      />
     );
   });

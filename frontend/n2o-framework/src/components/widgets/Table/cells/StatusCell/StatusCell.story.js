@@ -59,11 +59,10 @@ stories
           component: StatusCell,
           color: 'info',
           fieldKey: 'test',
+          tooltipFieldId: 'tooltip',
         },
       ],
-      datasource: [
-        { test: 'текст статуса', tooltipFieldId: ['tooltip', 'body'] },
-      ],
+      datasource: [{ test: 'текст статуса', tooltip: ['tooltip', 'body'] }],
     };
 
     return (
