@@ -45,7 +45,6 @@ class InputText extends React.Component {
       length,
       disabled,
       inputRef,
-      onChange,
       onPaste,
       onFocus,
       onBlur,
@@ -54,11 +53,11 @@ class InputText extends React.Component {
       className,
       style,
     } = this.props;
-    const inputClass = `form-control ${className}`;
+
     return (
       <Input
         type="text"
-        className={cn('n2o-input-text', inputClass)}
+        className={cn('form-control n2o-input-text', className)}
         inputRef={inputRef}
         style={style}
         autoFocus={autoFocus}

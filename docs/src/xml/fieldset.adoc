@@ -14,6 +14,11 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
+|id
+|Строка
+|Идентификатор филдсета
+|
+
 |ref-id
 |Ссылка
 |Ссылка на файл филдсета
@@ -265,44 +270,60 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 </checkbox-line>
 ----
 
-=== <panel>
-Панель с набором полей.
+=== <multi-set>
+Филдсет с динамическим числом полей.
 
 Атрибуты::
 [cols="2,1,4,4"]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|icon
-|http://fontawesome.io/icons/[CSS класс]
-|Иконка панели
+|add-label
+|Строка
+|Заголовок кнопки добавления
 |
 
-|class
-|https://getbootstrap.com/docs/4.0/components/card/#background-and-color[CSS класс]
-|Стиль филдсета
+|remove-all-label
+|Строка
+|Заголовок кнопки удаления всех добавленных филдсетов
 |
 
-|style
-|CSS свойства
-|Список CSS свойств
-|
-
-|header
+|can-remove-first
 |true false
-|Наличие шапки панели
+|Возможность удаления первого элемента
+|false
+
+|can-add
+|true false
+|Возможность добавления новых филдсетов
 |true
+
+|can-remove
+|true false
+|Возможность удаления новых филдсетов
+|true
+
+|can-remove-all
+|true false
+|Возможность удаления всех добавленных филдсетов
+|false
+
+|can-copy
+|true false
+|Возможность копирования филдсета в новый (вместе с данными)
+|false
+
 
 |===
 
 Пример::
+
 [source,xml]
 ----
-<panel title="Карточка"
-  header="true"
-  class="bg-primary"
-  style="color: red; background-color: black">
-  ...
-</panel>
+<multi-set label="Участник #index"
+    add-label="Добавить участника"
+    remove-all-label="Удалить всех участников"
+    can-remove-all="true">
+    ...
+</multi-set>
 ----
-

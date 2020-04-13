@@ -1,14 +1,24 @@
-package net.n2oapp.framework.autotest.impl.component.snippet;
+package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.Colors;
-import net.n2oapp.framework.autotest.api.component.snippet.Progress;
+import net.n2oapp.framework.autotest.api.component.control.Progress;
 
 /**
  * Компонент отображения прогресса для автотестирования
  */
-public class N2oProgress extends N2oSnippet implements Progress {
+public class N2oProgress extends N2oControl implements Progress {
+
+    @Override
+    public void shouldBeEmpty() {
+        progressBar().shouldNot(Condition.exist);
+    }
+
+    @Override
+    public void shouldHaveValue(String value) {
+        progressBar().shouldHave(Condition.attribute("aria-valuenow", value));
+    }
 
     @Override
     public void shouldHaveText(String text) {
@@ -16,13 +26,8 @@ public class N2oProgress extends N2oSnippet implements Progress {
     }
 
     @Override
-    public void shouldHaveValue(Integer value) {
-        progressBar().shouldHave(Condition.attribute("aria-valuenow", "" + value));
-    }
-
-    @Override
-    public void shouldHaveMax(Integer max) {
-        progressBar().shouldHave(Condition.attribute("aria-valuemax", "" + max));
+    public void shouldHaveMax(String max) {
+        progressBar().shouldHave(Condition.attribute("aria-valuemax", max));
     }
 
     @Override

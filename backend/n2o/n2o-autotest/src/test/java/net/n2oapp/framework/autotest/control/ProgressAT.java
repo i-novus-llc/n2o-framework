@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.api.component.snippet.Progress;
+import net.n2oapp.framework.autotest.api.component.control.Progress;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -46,12 +46,13 @@ public class ProgressAT extends AutoTestBase {
 
     @Test
     public void testProgress() {
-        Progress progress = page.single().widget(FormWidget.class).snippet(Progress.class);
+        Progress progress = page.single().widget(FormWidget.class).fields().field("Progress")
+                .control(Progress.class);
         progress.shouldExists();
 
         progress.shouldHaveText("Text");
-        progress.shouldHaveValue(17);
-        progress.shouldHaveMax(25);
+        progress.shouldHaveValue("17");
+        progress.shouldHaveMax("25");
         progress.shouldBeAnimated();
         progress.shouldBeStriped();
         progress.shouldHaveColor(Colors.SUCCESS);

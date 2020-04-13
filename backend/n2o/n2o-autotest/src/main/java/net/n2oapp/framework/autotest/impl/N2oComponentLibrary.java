@@ -18,7 +18,8 @@ import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oStandardPage;
 import net.n2oapp.framework.autotest.impl.component.region.N2oPanelRegion;
 import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
-import net.n2oapp.framework.autotest.impl.component.snippet.N2oProgress;
+import net.n2oapp.framework.autotest.impl.component.control.N2oProgress;
+import net.n2oapp.framework.autotest.impl.component.snippet.N2oStatus;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oListWidget;
@@ -43,7 +44,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oInputText.class, N2oInputSelect.class, N2oCheckbox.class, N2oSelect.class, N2oDateInterval.class,
                 N2oDateInput.class, N2oCheckboxGroup.class, N2oRadioGroup.class, N2oMaskedInputControl.class,
                 N2oOutputText.class, N2oTextEditor.class, N2oCodeEditor.class, N2oHtml.class, N2oRating.class,
-                N2oSlider.class, N2oPills.class, N2oText.class, N2oAutoComplete.class, N2oProgress.class,
+                N2oSlider.class, N2oPills.class, N2oText.class, N2oAutoComplete.class, N2oProgress.class, N2oStatus.class,
                 N2oInputMoney.class, N2oPasswordControl.class, N2oTextArea.class, N2oInputSelectTree.class, N2oFileUploadControl.class,
                 // cells
                 N2oTextCell.class, N2oLinkCell.class, N2oEditCell.class, N2oCheckboxCell.class, N2oToolbarCell.class,

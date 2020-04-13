@@ -33,10 +33,14 @@ class StandardWidget extends React.Component {
         return <Toolbar toolbar={toolbar.topLeft} entityKey={widgetId} />;
       case 'topRight':
         return <Toolbar toolbar={toolbar.topRight} entityKey={widgetId} />;
+      case 'topCenter':
+        return <Toolbar toolbar={toolbar.topCenter} entityKey={widgetId} />;
       case 'bottomLeft':
         return <Toolbar toolbar={toolbar.bottomLeft} entityKey={widgetId} />;
       case 'bottomRight':
         return <Toolbar toolbar={toolbar.bottomRight} entityKey={widgetId} />;
+      case 'bottomCenter':
+        return <Toolbar toolbar={toolbar.bottomCenter} entityKey={widgetId} />;
       case 'right':
         return <WidgetFilters widgetId={widgetId} {...filterProps} />;
       default:
@@ -67,6 +71,9 @@ class StandardWidget extends React.Component {
             <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--left">
               {this.renderSection('topLeft')}
             </div>
+            <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--center">
+              {this.renderSection('topCenter')}
+            </div>
             <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--right">
               {this.renderSection('topRight')}
             </div>
@@ -79,6 +86,9 @@ class StandardWidget extends React.Component {
           <div className={'d-flex justify-content-between'}>
             <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--left">
               {this.renderSection('bottomLeft')}
+            </div>
+            <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--center">
+              {this.renderSection('bottomCenter')}
             </div>
             <div className="n2o-standard-widget-layout-toolbar n2o-standard-widget-layout-toolbar--right">
               {this.renderSection('bottomRight')}
@@ -112,8 +122,14 @@ StandardWidget.propTypes = {
   left: PropTypes.element,
   top: PropTypes.element,
   topLeft: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
+  topCenter: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   topRight: PropTypes.oneOfType([PropTypes.bool, PropTypes.array]),
   bottomLeft: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.array,
+    PropTypes.node,
+  ]),
+  bottomCenter: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.array,
     PropTypes.node,

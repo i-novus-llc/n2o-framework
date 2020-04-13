@@ -128,7 +128,7 @@ class AdvancedTableContainer extends React.Component {
           ...header,
           dataIndex: header.id,
           title: header.label,
-          children: mappedChildren || undefined,
+          children: header.children ? mappedChildren : undefined,
         };
       }
 
@@ -155,6 +155,7 @@ class AdvancedTableContainer extends React.Component {
 
     return this.mapHeaders(headers).map(header => {
       const cell = find(cells, c => c.id === header.id) || {};
+
       return {
         ...header,
         title: this.renderCell({
