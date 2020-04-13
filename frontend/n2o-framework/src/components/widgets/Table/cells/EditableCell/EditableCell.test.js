@@ -1,7 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
 import { EditableCell } from './EditableCell';
-import EditableCellWithTooltip from './withActionsEditableCell';
 import InputText from '../../../../controls/InputText/InputText';
 
 const action = {

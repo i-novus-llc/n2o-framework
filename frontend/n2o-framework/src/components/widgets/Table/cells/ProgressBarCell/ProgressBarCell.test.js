@@ -16,9 +16,9 @@ const props = {
 };
 const propsWithTooltip = {
   id: 'now',
+  tooltipFieldId: 'tooltip',
   model: {
-    now: 55,
-    tooltipFieldId: ['tooltip', 'body'],
+    tooltip: ['tooltip', 'body'],
   },
   animated: false,
   striped: false,

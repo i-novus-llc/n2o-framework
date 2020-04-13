@@ -19,9 +19,10 @@ const setup = propOverrides => {
         component: StatusCell,
         color: 'info',
         fieldKey: 'test',
+        tooltipFieldId: 'tooltip',
       },
     ],
-    datasource: [{ test: 'test-text', tooltipFieldId: ['tooltip', 'body'] }],
+    datasource: [{ test: 'test-text', tooltip: ['tooltip', 'body'] }],
   };
 
   return mount(

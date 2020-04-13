@@ -67,10 +67,7 @@ stories
       striped: ProgressBarJson.striped,
       color: ProgressBarJson.color,
       size: ProgressBarJson.size,
-      model: {
-        now: '12',
-        tooltipFieldId: ['tooltip', 'body'],
-      },
+      tooltipFieldId: 'tooltip',
     };
 
     const tableProps = {
@@ -91,6 +88,7 @@ stories
         {
           id: 'now',
           now: 55,
+          tooltip: 'tooltip',
         },
       ],
     };

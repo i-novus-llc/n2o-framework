@@ -6,9 +6,10 @@ import CollapsedCell from './CollapsedCell';
 const setup = (propOverrides = {}) => {
   const props = Object.assign(
     {
+      tooltipFieldId: 'tooltip',
       model: {
         data: ['Казань', 'Москва', 'Токио', 'Берлин', 'Париж', 'Лондон'],
-        tooltipFieldId: ['tooltip', 'body'],
+        tooltip: ['tooltip', 'body'],
       },
       fieldKey: 'data',
       amountToGroup: 3,
