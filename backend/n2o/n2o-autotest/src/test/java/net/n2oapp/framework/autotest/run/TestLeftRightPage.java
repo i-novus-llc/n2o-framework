@@ -43,4 +43,14 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     public Tooltip tooltip() {
         return null;
     }
+
+    @Override
+    public void scrollUp() {
+
+    }
+
+    @Override
+    public void scrollDown() {
+
+    }
 }

@@ -28,7 +28,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     public PerformButton compile(N2oButton but, CompileContext<?, ?> context, CompileProcessor p) {
         PerformButton button = new PerformButton();
         button.setSrc(p.cast(but.getSrc(), p.resolve(property("n2o.api.action.button.src"), String.class)));
-
+        button.setRounded(p.cast(but.getRounded(), false));
         button.setProperties(p.mapAttributes(but));
         if (but.getColor() == null) {
             ComponentScope componentScope = p.getScope(ComponentScope.class);

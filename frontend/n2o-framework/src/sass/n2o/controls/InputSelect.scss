@@ -2,9 +2,10 @@
   top: auto;
   left: auto;
   width: 100%;
+  padding: 0 5px 0 5px;
+  height: 100%;
   max-height: $popup-height;
   overflow: auto;
-  padding: 0;
   & > ul {
     display: block;
   }

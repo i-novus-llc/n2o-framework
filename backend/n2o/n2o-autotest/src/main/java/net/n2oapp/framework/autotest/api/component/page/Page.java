@@ -19,6 +19,10 @@ public interface Page extends Component {
 
     Tooltip tooltip();
 
+    void scrollUp();
+
+    void scrollDown();
+
     interface PageToolbar {
         Toolbar topLeft();
 
