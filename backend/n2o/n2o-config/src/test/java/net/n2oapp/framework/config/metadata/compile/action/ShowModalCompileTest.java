@@ -425,6 +425,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.get(0).getId(), is("submit"));
         assertThat(buttons.get(0).getAction(), is(submit));
+        assertThat(buttons.get(0).getLabel(), is("Сохранить"));
     }
 
     @Test
@@ -449,5 +450,6 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.get(0).getId(), is("submit"));
         assertThat(buttons.get(0).getAction(), is(submit));
+        assertThat(buttons.get(0).getLabel(), is("Выбрать"));
     }
 }
