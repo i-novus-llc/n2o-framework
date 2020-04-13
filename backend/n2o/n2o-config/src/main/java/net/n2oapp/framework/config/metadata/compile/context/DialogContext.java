@@ -15,16 +15,14 @@ public class DialogContext extends BaseCompileContext<Dialog, N2oDialog> {
     /**
      * Клиентский идентификатор виджета откуда вызывается действие
      */
-    private String clientWidgetId;
+    private String parentWidgetId;
 
     /**
      * Идентификатор объекта, в котором находится операция
      */
     private String objectId;
 
-    public DialogContext(String sourceId, String clientWidgetId, String objectId) {
-        super(sourceId, N2oDialog.class, Dialog.class);
-        this.clientWidgetId = clientWidgetId;
-        this.objectId = objectId;
+    public DialogContext(String route, String sourceId) {
+        super(route, sourceId, N2oDialog.class, Dialog.class);
     }
 }

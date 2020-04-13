@@ -75,7 +75,8 @@ public abstract class AbstractController {
             }
         }
 
-        ActionRequestInfo<DataSet> requestInfo = new ActionRequestInfo();
+        ActionRequestInfo<DataSet> requestInfo = new ActionRequestInfo<>();
+        requestInfo.setContext(actionCtx);
         requestInfo.setQueryData(queryData);
         requestInfo.setUser(user);
         requestInfo.setObject(object);
@@ -87,7 +88,6 @@ public abstract class AbstractController {
         requestInfo.setSuccessAlertWidgetId(actionCtx.getSuccessAlertWidgetId());
         requestInfo.setFailAlertWidgetId(actionCtx.getFailAlertWidgetId());
         requestInfo.setMessagesForm(actionCtx.getMessagesForm());
-        requestInfo.setClientWidgetId(actionCtx.getClientWidgetId());
         //requestInfo.setChoice(); todo
         return requestInfo;
     }

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
@@ -21,21 +22,22 @@ import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
+import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -105,7 +107,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         }
         meta.setMessageWidgetId(messageWidgetId);
         if (closeOnSuccess) {
-            if (context instanceof ModalPageContext)
+            if (context instanceof ModalPageContext || context instanceof DialogContext)
                 meta.setCloseLastModal(true);
             else if (!redirect) {
                 String backRoute;
@@ -134,7 +136,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             meta.getRefresh().getOptions().setWidgetId(refreshWidgetId);
         }
         if (redirect) {
-            if (context instanceof ModalPageContext)
+            if (context instanceof ModalPageContext || context instanceof DialogContext)
                 meta.setCloseLastModal(true);
             meta.setRedirect(new RedirectSaga());
 
@@ -153,7 +155,10 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         AsyncMetaSaga metaSaga = invokeAction.getMeta();
         WidgetDataProvider dataProvider = new WidgetDataProvider();
         dataProvider.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
-        Map<String, BindLink> pathMapping = new StrictMap<>();
+        Map<String, ModelLink> pathMapping = new StrictMap<>();
+        pathMapping.putAll(compileParams(source.getPathParams(), p, model, invokeAction.getPayload().getWidgetId()));
+        dataProvider.setFormMapping(compileParams(source.getFormParams(), p, model, invokeAction.getPayload().getWidgetId()));
+        dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), p, model, invokeAction.getPayload().getWidgetId()));
         String path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         if (widgetScope != null) {
@@ -161,23 +166,11 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             if (model.equals(ReduxModel.RESOLVE)) {
                 String widgetSelectedId = clientWidgetId + "_id";
                 path = path + normalize(colon(widgetSelectedId));
-                pathMapping.put(widgetSelectedId, Redux.createBindLink(clientWidgetId, model, "id"));
-            }
-            if (source.getPathParams() != null) {
-                pathMapping.putAll(compileParams(source.getPathParams(), p, model, clientWidgetId));
-            }
-            if (source.getFormParams() != null) {
-                dataProvider.setFormMapping(compileParams(source.getFormParams(), p, model, clientWidgetId));
-            }
-            if (source.getHeaderParams() != null) {
-                dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), p, model, clientWidgetId));
+                pathMapping.put(widgetSelectedId, new ModelLink(model, clientWidgetId, "id"));
             }
         }
         path = path + normalize(p.cast(source.getRoute(), source.getId()));
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + path);
-        if (routeScope != null && routeScope.getPathMapping() != null) {
-            pathMapping.putAll(routeScope.getPathMapping());
-        }
         dataProvider.setPathMapping(pathMapping);
         dataProvider.setMethod(RequestMethod.POST);
         dataProvider.setSubmitForm(p.cast(source.getSubmitForm(), true));
@@ -188,8 +181,19 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         invokeAction.setObjectId(compiledObject.getId());
         ValidationList validationList = p.getScope(ValidationList.class);
         ActionContext actionContext = new ActionContext(compiledObject.getId(), source.getOperationId(), path);
+
+        Map<String, ModelLink> routePathMapping = new StrictMap<>();
+        Map<String, ModelLink> routeQueryMapping = new StrictMap<>();
+        if (routeScope != null) {
+            routePathMapping.putAll(routeScope.getPathMapping());
+            routePathMapping.putAll(pathMapping);
+            routeQueryMapping.putAll(routeScope.getQueryMapping());
+        }
+        actionContext.setPathRouteMapping(routePathMapping);
+        actionContext.setQueryRouteMapping(routeQueryMapping);
         actionContext.setValidations(validationList == null ? null : validationList.get(metaSaga.getFail().getMessageWidgetId(), model));
         actionContext.setRedirect(initServerRedirect(metaSaga));
+        actionContext.setParentWidgetId(invokeAction.getPayload().getWidgetId());
         actionContext.setFailAlertWidgetId(metaSaga.getFail().getMessageWidgetId());
         actionContext.setMessagesForm(metaSaga.getFail().getMessageWidgetId());
         actionContext.setSuccessAlertWidgetId(metaSaga.getSuccess().getMessageWidgetId());
@@ -212,12 +216,29 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         return null;
     }
 
-    private Map<String, BindLink> compileParams(N2oParam[] params, CompileProcessor p,
-                                                ReduxModel model, String clientWidgetId) {
-        Map<String, BindLink> result = new StrictMap<>();
+    private Map<String, ModelLink> compileParams(N2oParam[] params, CompileProcessor p,
+                                                ReduxModel model, String targetWidgetId) {
+        if (params == null)
+            return Collections.emptyMap();
+        Map<String, ModelLink> result = new StrictMap<>();
         for (N2oParam param : params) {
-            ModelLink link = new ModelLink(p.cast(model, ReduxModel.RESOLVE), clientWidgetId);
-            link.setValue(p.resolveJS(param.getValue()));
+            ModelLink link;
+            Object value = ScriptProcessor.resolveExpression(param.getValue());
+            if (param.getValue() == null || StringUtils.isJs(param.getValue())) {
+                String widgetId = null;
+                if (param.getRefWidgetId() != null) {
+                    String pageId = param.getRefPageId();
+                    if (param.getRefPageId() == null) {
+                        PageScope pageScope = p.getScope(PageScope.class);
+                        pageId = pageScope.getPageId();
+                    }
+                    widgetId = CompileUtil.generateWidgetId(pageId, param.getRefWidgetId());
+                }
+                link = new ModelLink(p.cast(param.getRefModel(), model), p.cast(widgetId, targetWidgetId));
+                link.setValue(value);
+            } else {
+                link = new ModelLink(value);
+            }
             result.put(param.getName(), link);
         }
         return result;

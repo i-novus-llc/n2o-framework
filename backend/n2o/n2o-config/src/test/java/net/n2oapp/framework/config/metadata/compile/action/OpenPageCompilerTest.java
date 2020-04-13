@@ -295,7 +295,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         StandardPage detailPage = (StandardPage) read().compile().bind().get(detailContext, data);
         assertThat(detailPage.getRoutes().findRouteByUrl("/page/widget/:page_test_id/masterDetail"), notNullValue());
         assertThat(detailPage.getRoutes().findRouteByUrl("/page/widget/:page_test_id/masterDetail"), notNullValue());
-        Map<String, BindLink> queryMapping = detailPage.getWidgets().get("page_widget_masterDetail_main").getDataProvider().getQueryMapping();
+        Map<String, ModelLink> queryMapping = detailPage.getWidgets().get("page_widget_masterDetail_main").getDataProvider().getQueryMapping();
         assertThat(queryMapping.get("detailId").getValue(), is(222));
         assertThat(queryMapping.get("name").getValue(), is("testName"));
         assertThat(queryMapping.get("surname").getValue(), is("Ivanov"));
@@ -436,7 +436,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
 
         context = (PageContext) route("/page/widget/testPreFilter", Page.class);
         openPage = (SimplePage) read().compile().get(context);
-        Map<String, BindLink> queryMapping1 = ((InputSelect) ((StandardField) ((Form) openPage.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0)
+        Map<String, ModelLink> queryMapping1 = ((InputSelect) ((StandardField) ((Form) openPage.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0)
                 .getCols().get(0).getFields().get(0)).getControl()).getDataProvider().getQueryMapping();
         assertThat(queryMapping1.size(), is(1));
         assertThat(queryMapping1.get("id").getValue(), is(1));
