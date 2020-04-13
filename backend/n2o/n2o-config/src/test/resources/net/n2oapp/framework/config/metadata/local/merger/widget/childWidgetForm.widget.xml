@@ -1,28 +1,26 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
       xmlns:ext="http://example.com/n2o/ext-1.0"
-      xmlns:extChild="http://example.com/n2o/ext-child"
-      ref-id="parentWidgetForm" depends-on="child"
-      ext:extAttr1="child1"
-      ext:extAttr2="child2"
-      extChild:extAttr="child"
-      name="Child" visible="true">
+      xmlns:extParent="http://example.com/n2o/ext-parent"
+      name="Parent"
+      query-id="parent"
+      object-id="parent"
+      ext:extAttr1="parent1"
+      ext:extAttr2="parent2"
+      extParent:extAttr="parent">
     <fields>
         <set>
-            <input-text id="name2"/>
+            <input-text id="name"/>
         </set>
     </fields>
     <toolbar>
-        <button action-id="create"/>
+        <button action-id="update"/>
     </toolbar>
     <actions>
-        <action id="create">
-            <invoke operation-id="create"/>
+        <action id="update">
+            <invoke operation-id="update"/>
         </action>
     </actions>
     <pre-filters>
-        <eq field-id="name" value="1"/>
+        <eq field-id="id" value="1"/>
     </pre-filters>
-    <pre-fields>
-        <eq field-id="name" value="1"/>
-    </pre-fields>
 </form>
