@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
-import net.n2oapp.framework.autotest.api.component.control.Text;
+import net.n2oapp.framework.autotest.api.component.snippet.Text;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -41,7 +41,7 @@ public class TextAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Text text = page.single().widget(FormWidget.class).snippet(Text.class);
+        Text text = page.single().widget(FormWidget.class).snippet(0, Text.class);
         text.shouldExists();
 
         text.shouldHaveText("Hello, World!");

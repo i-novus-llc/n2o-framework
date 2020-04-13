@@ -4,6 +4,7 @@ import { omit } from 'lodash';
 import { Route, Switch } from 'react-router-dom';
 
 import StandardButton from './StandardButton';
+import SimpleButton from '../Simple/Simple';
 
 const stories = storiesOf('Кнопки', module);
 
@@ -73,7 +74,9 @@ stories
     </div>
   ))
   .add('Выполнение redux action', () => (
-    <div style={{ maxWidth: 'max-content' }}>
-      <StandardButton {...performMeta} />
-    </div>
+    <>
+      <StandardButton {...performMeta} size={'sm'} />
+      <StandardButton {...performMeta} size={'md'} />
+      <StandardButton {...performMeta} size={'lg'} />
+    </>
   ));

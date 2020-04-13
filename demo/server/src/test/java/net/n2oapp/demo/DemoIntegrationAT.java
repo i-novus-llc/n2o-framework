@@ -570,7 +570,7 @@ public class DemoIntegrationAT {
         modalProtoContacts.getDescription().val("рабочий телефон");
         modalProtoContacts.save();
 
-        protoPage.shouldDialogClosed("Контакты", 6000);
+        protoPage.shouldDialogClosed("Контакты", 8000);
         protoPage.shouldBeClientsPage();
         protoPage.tableShouldHaveSize(1);
 

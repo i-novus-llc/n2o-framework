@@ -6,7 +6,7 @@
       src="StandardPage"
       modal-size="lg">
    <toolbar place="bottomRight" generate="submit, close">
-       <button action-id="testId" validate="true" model="filter"/>
+       <button action-id="testId" validate="true" model="filter" rounded="true"/>
        <sub-menu>
            <menu-item action-id="miTestId" validate="true" />
        </sub-menu>
