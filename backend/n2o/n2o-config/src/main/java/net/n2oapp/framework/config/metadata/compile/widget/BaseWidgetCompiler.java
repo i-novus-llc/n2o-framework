@@ -39,6 +39,7 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
+import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
@@ -286,8 +287,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
         Toolbar compiledToolbar = new Toolbar();
         IndexScope index = new IndexScope();
+        ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.widget.toolbar.place"), String.class));
         for (N2oToolbar toolbar : source.getToolbars()) {
-            compiledToolbar.putAll(p.compile(toolbar, context, widgetScope, widgetRouteScope, compiledActions, object, index, validations));
+            compiledToolbar.putAll(p.compile(toolbar, context, widgetScope, widgetRouteScope, compiledActions, object,
+                    index, validations, toolbarPlaceScope));
         }
         compiled.setToolbar(compiledToolbar);
     }

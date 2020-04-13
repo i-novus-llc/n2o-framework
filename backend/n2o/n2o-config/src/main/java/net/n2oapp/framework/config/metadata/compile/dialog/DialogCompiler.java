@@ -12,8 +12,12 @@ import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
+import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
+import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
+
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция диалога подтверждения действий
@@ -31,27 +35,18 @@ public class DialogCompiler implements BaseSourceCompiler<Dialog, N2oDialog, Dia
         Dialog dialog = new Dialog();
         dialog.setTitle(source.getTitle());
         dialog.setDescription(source.getDescription());
-        Toolbar toolbar = new Toolbar();
         IndexScope indexScope = new IndexScope();
         WidgetScope widgetScope = new WidgetScope();
         widgetScope.setClientWidgetId(context.getParentWidgetId());
-        CompiledObject object = new CompiledObject();
-        object.setId(context.getObjectId());
+        CompiledObject object = p.getCompiled(new ObjectContext(context.getObjectId()));
         ParentRouteScope pageRouteScope = new ParentRouteScope(context.getRoute((N2oCompileProcessor) p),
                 context.getPathRouteMapping(), context.getQueryRouteMapping());
-        if (source.getLeftButtons() != null) {
-            N2oToolbar sourceToolbar = new N2oToolbar();
-            sourceToolbar.setPlace("bottomLeft");
-            sourceToolbar.setItems(source.getLeftButtons());
-            toolbar.putAll(p.compile(sourceToolbar, context, indexScope, widgetScope, object, pageRouteScope));
+        if (source.getToolbar() != null) {
+            ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.dialog.toolbar.place"), String.class));
+            Toolbar toolbar = (p.compile(source.getToolbar(), context, indexScope, widgetScope, object,
+                    pageRouteScope, toolbarPlaceScope));
+            dialog.setToolbar(toolbar);
         }
-        if (source.getRightButtons() != null) {
-            N2oToolbar sourceToolbar = new N2oToolbar();
-            sourceToolbar.setPlace("bottomRight");
-            sourceToolbar.setItems(source.getRightButtons());
-            toolbar.putAll(p.compile(sourceToolbar, context, indexScope, widgetScope, object, pageRouteScope));
-        }
-        dialog.setToolbar(toolbar);
         return dialog;
     }
 }

@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
+import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -33,6 +34,7 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
 
@@ -198,11 +200,13 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         actionContext.setMessageOnSuccess(p.cast(source.getMessageOnSuccess(), true));
         actionContext.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
 
-        actionContext.setInvokeParamNames(new HashSet<>());
-        addParamNames(actionContext.getInvokeParamNames(), source.getHeaderParams());
-        addParamNames(actionContext.getInvokeParamNames(), source.getPathParams());
-        addParamNames(actionContext.getInvokeParamNames(), source.getFormParams());
-
+        Map<String, String> operationMapping = new StrictMap<>();
+        CompiledObject.Operation operation = compiledObject.getOperations().get(source.getOperationId());
+        for (N2oObject.Parameter inParameter : operation.getInParametersMap().values()) {
+            String param = p.cast(inParameter.getParam(), RouteUtil.normalizeParam(inParameter.getId()));
+            operationMapping.put(param, inParameter.getId());
+        }
+        actionContext.setOperationMapping(operationMapping);
         p.addRoute(actionContext);
     }
 
@@ -242,10 +246,4 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         return result;
     }
 
-    private void addParamNames(Collection<String> paramList, N2oParam[] params) {
-        if (params != null)
-            for (N2oParam param : params) {
-                paramList.add(param.getName());
-            }
-    }
 }

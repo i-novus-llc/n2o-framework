@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 
 /**
  * Диалог подтверждения действия
@@ -42,14 +43,9 @@ public class N2oDialog implements SourceComponent {
     private String size;
 
     /**
-     * Кнопки слева
+     * Кнопки диалога
      */
-    private N2oButton[] leftButtons;
-
-    /**
-     * Кнопки справа
-     */
-    private N2oButton[] rightButtons;
+    private N2oToolbar toolbar;
 
     private String namespaceUri;
 }

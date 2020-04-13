@@ -24,6 +24,7 @@ import net.n2oapp.framework.config.register.route.N2oRouter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -52,36 +53,29 @@ public abstract class AbstractController {
     }
 
     @SuppressWarnings("unchecked")
-    protected ActionRequestInfo createActionRequestInfo(String path, Map<String, String[]> parameters, Map<String, String[]> headers, Object body, UserContext user) {
-        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, parameters);
-        DataSet queryData = actionCtx.getParams(path, parameters);
+    protected ActionRequestInfo createActionRequestInfo(String path,
+                                                        Map<String, String[]> queryParams,
+                                                        Map<String, String[]> headerParams,
+                                                        Object body,
+                                                        UserContext user) {
+        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, queryParams);
+        DataSet queryData = actionCtx.getParams(path, queryParams);
         CompiledObject object = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(actionCtx, queryData);
         CompiledObject.Operation operation = object.getOperations().get(actionCtx.getOperationId());
 
         DataSet bodyData = convertToDataSet(body);
-        if (actionCtx.getInvokeParamNames() != null) {
-            for (String name : actionCtx.getInvokeParamNames()) {
-                String[] val = headers.get(name);
-                if (val != null) {
-                    bodyData.put(name, val);
-                } else {
-                    Object obj = queryData.get(name);
-                    if (obj != null) {
-                        bodyData.put(name, obj);
-                    }
-                }
-            }
-        }
+        putParams(headerParams, bodyData, actionCtx.getOperationMapping());
+        putParams(queryParams, bodyData, actionCtx.getOperationMapping());
 
         ActionRequestInfo<DataSet> requestInfo = new ActionRequestInfo<>();
         requestInfo.setContext(actionCtx);
         requestInfo.setQueryData(queryData);
+        requestInfo.setData(bodyData);
         requestInfo.setUser(user);
         requestInfo.setObject(object);
         requestInfo.setOperation(operation);
-        requestInfo.setData(bodyData);
         requestInfo.setRedirect(actionCtx.getRedirect());
         requestInfo.setMessageOnSuccess(actionCtx.isMessageOnSuccess());
         requestInfo.setMessageOnFail(actionCtx.isMessageOnFail());
@@ -90,6 +84,21 @@ public abstract class AbstractController {
         requestInfo.setMessagesForm(actionCtx.getMessagesForm());
         //requestInfo.setChoice(); todo
         return requestInfo;
+    }
+
+    private void putParams(Map<String, String[]> params, DataSet data, Map<String, String> mapping) {
+        if (params != null && mapping != null) {
+            for (Map.Entry<String, String> entry : mapping.entrySet()) {
+                String[] value = params.get(entry.getKey());
+                if (value != null) {
+                    if (value.length == 1) {
+                        data.put(entry.getValue(), value[0]);
+                    } else {
+                        data.put(entry.getValue(), Arrays.asList(value));
+                    }
+                }
+            }
+        }
     }
 
     private DataSet convertToDataSet(Object body) {

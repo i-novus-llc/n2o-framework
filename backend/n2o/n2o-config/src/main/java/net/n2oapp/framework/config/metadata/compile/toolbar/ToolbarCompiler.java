@@ -38,8 +38,9 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
 
         List<Group> groups = new ArrayList<>();
 
-        String defaultPlace = p.getScope(WidgetScope.class) != null ?
-                property("n2o.api.widget.toolbar.place") : property("n2o.api.page.toolbar.place");
+        ToolbarPlaceScope toolbarPlaceScope = p.getScope(ToolbarPlaceScope.class);
+        String defaultPlace = toolbarPlaceScope != null ? toolbarPlaceScope.getPlace() :
+                p.resolve(property("n2o.api.widget.toolbar.place"), String.class);
         String place = p.cast(source.getPlace(), p.resolve(defaultPlace, String.class));
 
         int gi = 0;

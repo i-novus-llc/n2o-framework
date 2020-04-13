@@ -22,6 +22,7 @@ import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
@@ -206,9 +207,11 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                    CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList, WidgetObjectScope widgetObjectScope) {
         if (source.getToolbars() == null)
             return null;
+        ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.page.toolbar.place"), String.class));
         Toolbar toolbar = new Toolbar();
         for (N2oToolbar n2oToolbar : source.getToolbars()) {
-            toolbar.putAll(p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList, new IndexScope(), widgetObjectScope));
+            toolbar.putAll(p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, pageRoutes, object,
+                    breadcrumbs, validationList, new IndexScope(), widgetObjectScope, toolbarPlaceScope));
         }
         return toolbar;
     }

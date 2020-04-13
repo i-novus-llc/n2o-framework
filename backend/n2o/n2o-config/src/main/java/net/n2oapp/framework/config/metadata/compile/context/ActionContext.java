@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Контекст сборки объекта под конкретную операцию
@@ -23,7 +24,10 @@ public class ActionContext extends ObjectContext {
     private RedirectSaga redirect;
     private boolean messageOnSuccess = true;
     private boolean messageOnFail = true;
-    private Collection<String> invokeParamNames;
+    /**
+     * Маппинг path, query, header, form параметров url к in параметрам операции
+     */
+    private Map<String, String> operationMapping;
 
     /**
      * Создать контекст
