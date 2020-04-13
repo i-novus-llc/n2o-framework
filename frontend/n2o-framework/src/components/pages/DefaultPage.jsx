@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import isUndefined from 'lodash/isUndefined';
 import cn from 'classnames';
 import Alert from '../snippets/Alerts/Alert';
 import DocumentTitle from '../core/DocumentTitle';
