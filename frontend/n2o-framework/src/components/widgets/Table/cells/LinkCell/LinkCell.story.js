@@ -94,6 +94,7 @@ stories
           ...LinkCellWithPerformJSON,
           icon: 'fa fa-pencil',
           type: 'iconAndText',
+          tooltipFieldId: 'tooltip',
         },
         {
           component: LinkCell,
@@ -107,7 +108,7 @@ stories
         {
           id: 'id',
           name: 'Изменить',
-          tooltipFieldId: ['tooltip', 'body'],
+          tooltip: ['tooltip', 'body'],
         },
       ],
     };

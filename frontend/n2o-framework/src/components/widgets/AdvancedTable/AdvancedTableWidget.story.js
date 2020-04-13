@@ -329,6 +329,7 @@ stories
       <Factory
         level={WIDGETS}
         {...EditableCellWithTooltip['Page_Table']}
+        datasource={EditableCellWithTooltip.datasource}
         id="Page_Table"
       />
     );

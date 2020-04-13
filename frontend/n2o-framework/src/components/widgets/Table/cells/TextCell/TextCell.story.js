@@ -136,10 +136,7 @@ stories
           id: 'format_1',
           component: TextCell,
           format: 'date DD.MM.YYYY HH:mm',
-          model: {
-            tooltipFieldId: ['tooltip', 'body'],
-            format_1: '23.11.2017 17:32:23',
-          },
+          tooltipFieldId: 'tooltip',
         },
         {
           id: 'format_2',
@@ -149,6 +146,7 @@ stories
       ],
       datasource: [
         {
+          tooltip: 'tooltip',
           format_1: '23.11.2017 17:32:23',
           format_2: '23.11.2017 17:32:23',
           format_3: 'fdb5g5g54g',

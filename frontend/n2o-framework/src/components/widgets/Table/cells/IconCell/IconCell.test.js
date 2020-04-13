@@ -17,10 +17,11 @@ const props = {
 
 const propsWithTooltip = {
   id: 'name',
+  tooltipFieldId: 'tooltip',
   model: {
     name: 'text',
     age: '12',
-    tooltipFieldId: ['tooltip', 'body'],
+    tooltip: ['tooltip', 'body'],
   },
   type: iconCellTypes.ICONANDTEXT,
   textPlace: textPlaceTypes.RIGHT,

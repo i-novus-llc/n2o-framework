@@ -137,9 +137,10 @@ stories
       cells: [
         {
           component: CollapsedCell,
+          tooltipFieldId: 'tooltip',
           model: {
             data: ['Казань', 'Москва', 'Токио', 'Берлин', 'Париж', 'Лондон'],
-            tooltipFieldId: ['tooltip', 'body'],
+            tooltip: 'tooltip',
           },
           fieldKey: 'data',
         },
@@ -164,6 +165,7 @@ stories
         {
           id: 'id',
           name: 'alesha',
+          tooltip: 'tooltip',
         },
       ],
     };
