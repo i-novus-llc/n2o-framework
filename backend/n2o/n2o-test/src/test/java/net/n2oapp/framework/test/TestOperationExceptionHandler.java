@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oCloseAction;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
 public class TestOperationExceptionHandler implements OperationExceptionHandler {
@@ -32,7 +33,7 @@ public class TestOperationExceptionHandler implements OperationExceptionHandler 
         N2oCloseAction action1 = new N2oCloseAction();
         buttons[1].setAction(action1);
         buttons[1].setModel(ReduxModel.FILTER);
-        dialog.setLeftButtons(buttons);
+        dialog.setToolbar(new N2oToolbar(buttons));
         exception.setDialog(dialog);
         return exception;
     }

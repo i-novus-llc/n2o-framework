@@ -57,7 +57,7 @@ public class DataTest {
             Map<String, Object> dialog = (Map<String, Object>) ((Map<String, Object>) result.get("meta")).get("dialog");
             assert dialog.get("title").equals("Registration accept");
             assert dialog.get("description").equals("Are you sure?");
-            assert ((HashMap<String, Object>)((ArrayList)((Map<String, Object>) dialog.get("toolbar")).get("bottomLeft")).get(0)).size() == 2;
+            assert ((HashMap<String, Object>)((ArrayList)((Map<String, Object>) dialog.get("toolbar")).get("bottomRight")).get(0)).size() == 2;
         }
     }
 

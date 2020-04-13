@@ -27,6 +27,10 @@ public class N2oToolbar implements Source {
     public N2oToolbar() {
     }
 
+    public N2oToolbar(ToolbarItem[] items) {
+        this.items = items;
+    }
+
     public List<N2oAction> getAllActions() {
         List<N2oAction> actions = new ArrayList<>();
         if (items != null) {
