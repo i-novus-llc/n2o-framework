@@ -13,7 +13,6 @@ import Tooltip from '../../snippets/Tooltip/Tooltip';
 export default function withTooltip(WrappedComponent) {
   class TooltipHOC extends React.Component {
     render() {
-      console.warn(this.props);
       const { model, placement, tooltipFieldId } = this.props;
       const hint = get(model, tooltipFieldId);
 
