@@ -130,7 +130,7 @@ const enhance = compose(
       fixedElementRef,
       setShowScrollButton,
       needScrollButton,
-    }) => () => {
+    }) => e => {
       if (timeoutId) clearTimeout(timeoutId);
 
       timeoutId = setTimeout(() => {
@@ -143,8 +143,22 @@ const enhance = compose(
 
         map(fixedElementRef, (ref, key) => {
           const offset = get(places, [key, 'offset'], 0);
+          const body = e.target.body;
+          const html = e.target.documentElement;
           const position = ref.getBoundingClientRect();
-          const translateY = Math.abs(position.top) + offset;
+          let translateY = Math.abs(position.top) + offset;
+          const bodyHeight = Math.max(
+            body.scrollHeight,
+            body.offsetHeight,
+            html.clientHeight,
+            html.scrollHeight,
+            html.offsetHeight
+          );
+          const xEndPosition =
+            ref.clientHeight + translateY + Math.abs(ref.offsetTop);
+
+          if (bodyHeight < xEndPosition) return;
+
           let style = {
             transform: `translate(0, ${translateY}px)`,
           };
