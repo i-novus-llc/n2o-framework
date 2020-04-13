@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/action-1.0"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:btn="http://n2oapp.net/framework/config/schema/button-1.0">
 
     <xs:element name="open-page" type="openPageDefinition"/>
     <xs:element name="show-modal" type="showModalDefinition"/>
@@ -158,7 +159,7 @@
         <xs:complexContent>
             <xs:extension base="pageDefinition">
                 <xs:annotation>
-                    <xs:documentation>Открыть страницу в модальном окне..</xs:documentation>
+                    <xs:documentation>Открыть страницу в модальном окне.</xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="page-id" type="xs:string" use="required">
                     <xs:annotation>
@@ -172,18 +173,19 @@
                 </xs:attribute>
                 <xs:attribute name="object-id" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор объекта</xs:documentation>
+                        <xs:documentation>Идентификатор объекта.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="master-param" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Параметр фильтра</xs:documentation>
+                        <xs:documentation>Параметр фильтра.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="refresh-widget-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор виджета, который необходимо обновить после успешного выполнения операции (по умолчанию widget-id у button, а если нет, текущий виджет).
+                            Идентификатор виджета, который необходимо обновить после успешного выполнения операции
+                            (по умолчанию widget-id у button, а если нет, текущий виджет).
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -196,13 +198,75 @@
                 </xs:attribute>
                 <xs:attribute name="type" type="showModalMode" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Вид отображения модального окна. По умолчанию modal</xs:documentation>
+                        <xs:documentation>Вид отображения модального окна. По умолчанию modal.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="submit-action-type" type="submitActionType" default="invoke">
+                    <xs:annotation>
+                        <xs:documentation>Действие при нажатии кнопки "Сохранить".</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-model" type="reduxModel" default="resolve">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель виджета открываемой страницы, которая будет скопирована.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор виджета открываемой страницы, данные которого будут копироваться (по умолчанию главный виджет).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля виджета открываемой страницы, данные которого будут копироваться (по умолчанию вся модель).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-model" type="reduxModel" default="resolve">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель виджета текущей страницы, в которую будут скопированы данные.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор виджета текущей страницы, в которую будут скопированы данные (по умолчанию текущий).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля виджета текущей страницы, в которое будут скопированы данные (по умолчанию вся модель).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-mode" type="btn:copyModeType" default="merge">
+                    <xs:annotation>
+                        <xs:documentation>Тип слияния.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:simpleType name="submitActionType">
+        <xs:annotation>
+            <xs:documentation>Действие при нажатии кнопки "Сохранить".</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="invoke"/>
+            <xs:enumeration value="copy"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
     <xs:simpleType name="uploadType">
         <xs:annotation>
             <xs:documentation>Источник данных виджета при открытии страницы.</xs:documentation>
@@ -386,17 +450,43 @@
         <xs:complexContent>
             <xs:extension base="actionDefinition">
                 <xs:annotation>
-                    <xs:documentation>Скопировать модель.</xs:documentation>
+                    <xs:documentation>Копирование данных.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="source-model" type="reduxModel" use="optional">
+                <xs:attribute name="source-model" type="reduxModel" default="resolve">
                     <xs:annotation>
-                        <xs:documentation>Модель, которая будет скопирована. По умолчанию edit.</xs:documentation>
+                        <xs:documentation>Модель, которая будет скопирована.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target-model" type="reduxModel" use="optional">
+                <xs:attribute name="source-widget-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Модель, в которую будут скопированны данные. По умолчанию resolve.
+                        <xs:documentation>Идентификатор виджета источника (по умолчанию текущий).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="source-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор копируемого поля источника (по умолчанию вся модель).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-model" type="reduxModel" default="resolve">
+                    <xs:annotation>
+                        <xs:documentation>Модель, в которую будут скопированы данные.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор целевого виджета (по умолчанию текущий).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля целевого виджета, в которое будут скопированы данные (по умолчанию вся модель).
                         </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="mode" type="copyModeType" default="merge">
+                    <xs:annotation>
+                        <xs:documentation>Тип слияния данных.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -483,6 +573,36 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="copyModeType">
+        <xs:annotation>
+            <xs:documentation>Типы слияния данных.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="merge">
+                <xs:annotation>
+                    <xs:documentation>
+                        За основу берется модель target, значения из source копируются с заменой.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="replace">
+                <xs:annotation>
+                    <xs:documentation>
+                        За основу берется модель source.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="add">
+                <xs:annotation>
+                    <xs:documentation>
+                        Используется для массивов. За основу берется массив target,
+                        к нему добавляются все записи из source массива.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="aType">
         <xs:annotation>

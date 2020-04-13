@@ -135,6 +135,7 @@ export function* setWidgetDataSuccess(
     baseQuery,
     headers: headersParams,
   });
+
   if (isEqual(data.list, currentDatasource)) {
     yield put(setModel(PREFIXES.datasource, widgetId, null));
     yield put(setModel(PREFIXES.datasource, widgetId, data.list));
