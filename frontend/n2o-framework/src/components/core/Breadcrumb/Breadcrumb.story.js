@@ -1,6 +1,6 @@
 import React from 'react';
 import { withContext } from 'recompose';
-import { Route, Link, Switch } from 'react-router-dom';
+import { Route, Link, Switch, BrowserRouter } from 'react-router-dom';
 import fetchMock from 'fetch-mock';
 import { storiesOf } from '@storybook/react';
 
@@ -27,14 +27,9 @@ stories
   .add('Метаданные', () => {
     const withForward = JSON.parse(JSON.stringify(metadata));
     withForward.id = 'OtherPage';
-    withForward.widgets['Page_Wireframe'].toolbar.topLeft[0].buttons[0].title =
-      'Назад';
-    withForward.widgets['Page_Wireframe'].toolbar.topLeft[0].buttons[0].id =
-      'back';
-    withForward.widgets['Page_Wireframe'].actions.redirect.options.path = '/';
-    withForward.widgets['Page_Wireframe'].wireframe.title =
-      'Виджет второй страницы';
-    withForward.widgets['Page_Wireframe'].wireframe.className = 'd-10';
+    withForward.widget.toolbar.topLeft[0].buttons[0].title = 'Назад';
+    withForward.widget.toolbar.topLeft[0].buttons[0].id = 'back';
+    withForward.widget.actions.redirect.options.path = '/';
 
     fetchMock.restore().get('begin:n2o/page', url => {
       if (url === 'n2o/page/Page') {
@@ -46,29 +41,31 @@ stories
     fetchMock.get('*', getStubData);
 
     return (
-      <Switch>
-        <Route
-          path="/test"
-          exact
-          component={() => (
-            <PageContext
-              pageId="OtherPage"
-              pageUrl="OtherPage"
-              metadata={metadata}
-            />
-          )}
-        />
-        <Route
-          path="/"
-          component={() => (
-            <PageContext
-              pageId="testSimplePageJson"
-              pageUrl="Page"
-              metadata={metadata}
-            />
-          )}
-        />
-      </Switch>
+      <BrowserRouter>
+        <Switch>
+          <Route
+            path="/test"
+            exact
+            component={() => (
+              <PageContext
+                pageId="OtherPage"
+                pageUrl="OtherPage"
+                metadata={metadata}
+              />
+            )}
+          />
+          <Route
+            path="/"
+            component={() => (
+              <PageContext
+                pageId="testSimplePageJson"
+                pageUrl="Page"
+                metadata={metadata}
+              />
+            )}
+          />
+        </Switch>
+      </BrowserRouter>
     );
   })
   .add('Плейсхолдер', () => {
