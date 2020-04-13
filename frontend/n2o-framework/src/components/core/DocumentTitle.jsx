@@ -16,7 +16,7 @@ function DocumentTitle({ htmlTitle, model }) {
 }
 
 DocumentTitle.propTypes = {
-  title: PropTypes.string,
+  htmlTitle: PropTypes.string,
   modelLink: PropTypes.string,
 };
 
