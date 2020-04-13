@@ -32,10 +32,11 @@ const setupImageCell = propsOverride => {
 
 const defaultPropsWithTooltip = {
   id: 'url',
+  tooltipFieldId: 'tooltip',
   model: {
     url:
       'https://beebom-redkapmedia.netdna-ssl.com/wp-content/uploads/2016/01/Reverse-Image-Search-Engines-Apps-And-Its-Uses-2016.jpg',
-    tooltipFieldId: ['tooltip', 'body'],
+    tooltip: ['tooltip', 'body'],
   },
   className: 'testtest',
   style: {

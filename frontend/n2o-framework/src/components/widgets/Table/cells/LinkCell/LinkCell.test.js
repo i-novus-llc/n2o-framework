@@ -12,9 +12,10 @@ import createFactoryConfig from '../../../../../core/factory/createFactoryConfig
 const setupLinkCell = propsOverride => {
   const props = {
     ...meta,
+    tooltipFieldId: 'tooltip',
     model: {
       name: 'test name',
-      tooltipFieldId: ['tooltip', 'body'],
+      tooltip: ['tooltip', 'body'],
     },
   };
   return mount(
