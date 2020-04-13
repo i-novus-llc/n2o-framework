@@ -492,10 +492,10 @@ describe('<AdvancedTable/>', () => {
         '3': true,
       });
     });
-    it('корректно отрабатывает выбор строк autoCheckOnSelect', () => {
+    it('корректно отрабатывает выбор строк autoCheckboxOnSelect', () => {
       const wrapper = setup({
         rowSelection: 'checkbox',
-        autoCheckOnSelect: true,
+        autoCheckboxOnSelect: true,
       });
 
       const table = wrapper.find('AdvancedTable').last();
@@ -567,10 +567,9 @@ describe('<AdvancedTable/>', () => {
         '3': true,
       });
     });
-    it('корректно отрабатывает выбор строк radio autoCheckOnSelect', () => {
+    it('корректно отрабатывает выбор radio через строку', () => {
       const wrapper = setup({
         rowSelection: 'radio',
-        autoCheckOnSelect: true,
       });
 
       const table = wrapper.find('AdvancedTable').last();
