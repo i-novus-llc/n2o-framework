@@ -339,21 +339,16 @@ class AdvancedTable extends Component {
       hasSelect,
       onResolve,
       isActive,
-      autoCheckboxOnSelect,
       rowSelection,
     } = this.props;
 
     const needToReturn = isActive === needReturn;
 
-    if (!needToReturn && hasSelect && !noResolve && !autoCheckboxOnSelect) {
+    if (!needToReturn && hasSelect && !noResolve) {
       onResolve(find(this._dataStorage, { id }));
     }
 
     if (needToReturn) return;
-
-    if (autoCheckboxOnSelect && rowSelection === rowSelectionType.CHECKBOX) {
-      this.handleChangeChecked(index);
-    }
 
     if (rowSelection === rowSelectionType.RADIO)
       this.handleChangeRadioChecked(index);
@@ -544,7 +539,12 @@ class AdvancedTable extends Component {
   }
 
   getRowProps(model, index) {
-    const { rowClick, rowClass } = this.props;
+    const {
+      rowClick,
+      rowClass,
+      rowSelection,
+      autoCheckboxOnSelect,
+    } = this.props;
     return {
       index,
       rowClick,
@@ -552,7 +552,11 @@ class AdvancedTable extends Component {
       rowClass: rowClass && propsResolver(rowClass, model),
       model,
       setRef: this.setRowRef,
-      handleRowClick: () => this.handleRowClick(model.id, model.id, false),
+      handleRowClick: () => {
+        this.handleRowClick(model.id, model.id, false);
+        if (autoCheckboxOnSelect && rowSelection === rowSelectionType.CHECKBOX)
+          this.handleChangeChecked(model.id);
+      },
       handleRowClickFocus: () =>
         this.handleRowClick(model.id, model.id, true, true),
       clickWithAction: () =>
