@@ -44,5 +44,10 @@ public class SubmitGeneratorTest extends SourceCompileTestBase {
         submit = page.getToolbar().getButton("submit");
         assertThat(submit, notNullValue());
         assertThat(submit.getLabel(), is("operation"));
+
+        page = (SimplePage) routeAndGet("/p/1/test3", Page.class);
+        submit = page.getToolbar().getButton("submit");
+        assertThat(submit, notNullValue());
+        assertThat(submit.getLabel(), is("Сохранить"));
     }
 }

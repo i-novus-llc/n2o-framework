@@ -8,11 +8,11 @@ import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
 import org.junit.Test;
 
 /**
- * Проверка чтения и персиста события <copy>
+ * Проверка чтения/записи события <copy>
  */
 public class CopyActionElementIOV1Test {
     @Test
-    public void testCloseActionElementIOV1Test(){
+    public void testCopyActionElementIOV1Test(){
         ION2oMetadataTester tester = new ION2oMetadataTester()
                 .addReader(new SelectiveStandardReader().addReader(new TableElementIOV4()).addPage2()
                                 .addReader(new CopyActionElementIOV1())

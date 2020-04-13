@@ -11,7 +11,7 @@ import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
 import net.n2oapp.framework.config.io.dataprovider.RestDataProviderIOv1;
 import net.n2oapp.framework.config.io.dataprovider.SqlDataProviderIOv1;
 import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
-import net.n2oapp.framework.config.io.fieldset.PanelFieldsetElementIOv4;
+import net.n2oapp.framework.config.io.fieldset.MultiFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
@@ -89,8 +89,10 @@ public class SelectiveStandardPersister extends SelectivePersister {
     }
 
     public SelectiveStandardPersister addFieldsetPersister() {
-        return addControlPersister().addPersister(new SetFieldsetElementIOv4()).addPersister(new LineFieldsetElementIOv4())
-                .addPersister(new PanelFieldsetElementIOv4());
+        return addControlPersister()
+                .addPersister(new SetFieldsetElementIOv4())
+                .addPersister(new LineFieldsetElementIOv4())
+                .addPersister(new MultiFieldsetElementIOv4());
     }
 
     public SelectiveStandardPersister addObjectPersister() {

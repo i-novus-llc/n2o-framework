@@ -168,6 +168,7 @@ export function* setWidgetDataSuccess(
     basePath,
     baseQuery,
   });
+
   if (isEqual(data.list, currentDatasource)) {
     yield put(setModel(PREFIXES.datasource, widgetId, null));
     yield put(setModel(PREFIXES.datasource, widgetId, data.list));
@@ -235,6 +236,7 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
       if (routes && routes.queryMapping) {
         yield* routesQueryMapping(state, routes, location);
       }
+
       yield call(
         setWidgetDataSuccess,
         widgetId,
