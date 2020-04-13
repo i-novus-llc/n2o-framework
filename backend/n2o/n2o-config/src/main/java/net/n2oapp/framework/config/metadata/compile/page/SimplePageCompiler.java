@@ -20,6 +20,7 @@ import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -100,7 +101,9 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         N2oToolbar n2oToolbar = new N2oToolbar();
         n2oToolbar.setGenerate(new String[]{GenerateType.submit.name(), GenerateType.close.name()});
         n2oToolbar.setTargetWidgetId(p.cast(widget.getId(), MAIN_WIDGET_ID));
-        return p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, object, new IndexScope(), breadcrumbs, validationList);
+        ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.page.toolbar.place"), String.class));
+        return p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, object,
+                new IndexScope(), breadcrumbs, validationList, toolbarPlaceScope);
     }
 
     @Override
