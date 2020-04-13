@@ -22,5 +22,9 @@ public interface Select extends Control {
 
     void shouldNotBeCleanable();
 
+    void selectMulti(int... indexes);
+
     void shouldSelected(String value);
+
+    void shouldBeChecked(int... indexes);
 }
