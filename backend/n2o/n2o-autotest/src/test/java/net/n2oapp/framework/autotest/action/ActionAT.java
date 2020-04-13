@@ -60,6 +60,7 @@ public class ActionAT extends AutoTestBase {
         drawerPage.heightShouldBe("500");
         SimplePage pg = drawerPage.content(SimplePage.class);
         pg.shouldExists();
+        pg.single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldExists();
         pg.single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("22");
         pg.single().widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test200");
         drawerPage.close();
@@ -73,6 +74,7 @@ public class ActionAT extends AutoTestBase {
         drawerPage.widthShouldBe("300");
         drawerPage.heightShouldBe("300");
         pg.shouldExists();
+        pg.single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldExists();
         pg.single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("33");
         pg.single().widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test300");
         drawerPage.close();
@@ -84,6 +86,7 @@ public class ActionAT extends AutoTestBase {
         drawerPage.shouldHaveTitle("drawer-page");
         drawerPage.placementShouldBe(Drawer.Placement.right);
         pg.shouldExists();
+        pg.single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldExists();
         pg.single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("44");
         pg.single().widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test400");
         drawerPage.close();
@@ -95,6 +98,7 @@ public class ActionAT extends AutoTestBase {
         drawerPage.shouldHaveTitle("drawer-page");
         drawerPage.placementShouldBe(Drawer.Placement.bottom);
         pg.shouldExists();
+        pg.single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldExists();
         pg.single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("11");
         pg.single().widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test100");
 
