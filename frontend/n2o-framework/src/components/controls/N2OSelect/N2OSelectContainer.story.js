@@ -303,7 +303,7 @@ stories
   .add('Отображение выбранных элементов в виде счетчика', () => {
     const newProps = {
       format: '',
-      type: 'checkboxes',
+      hasCheckboxes: true,
       selectFormatOne: '{size} машина',
       selectFormatFew: '{size} машины',
       selectFormatMany: '{size} машин',

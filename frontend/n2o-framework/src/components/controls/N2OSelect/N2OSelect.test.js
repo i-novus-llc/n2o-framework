@@ -100,23 +100,33 @@ describe('<N2OSelect />', () => {
   });
   it('проверяет счетчик в placeholder', () => {
     const { wrapper } = setup({
-      type: 'checkboxes',
+      hasCheckboxes: true,
       selectFormatOne: '{size} объект',
       selectFormatFew: '{size} объекта',
       selectFormatMany: '{size} объектов',
     });
 
-    expect(wrapper.find('.n2o-input-items').contains('0 объектов')).toEqual(
+    wrapper
+      .find('CheckboxN2O')
+      .first()
+      .simulate('click');
+
+    expect(wrapper.find('.n2o-input-items').contains('1 объект')).toEqual(
       true
     );
   });
   it('проверяет счетчик в placeholder c универсальным заголовком', () => {
     const { wrapper } = setup({
-      type: 'checkboxes',
+      hasCheckboxes: true,
       selectFormat: 'Объектов {size} шт',
     });
 
-    expect(wrapper.find('.n2o-input-items').contains('Объектов 0 шт')).toEqual(
+    wrapper
+      .find('CheckboxN2O')
+      .first()
+      .simulate('click');
+
+    expect(wrapper.find('.n2o-input-items').contains('Объектов 1 шт')).toEqual(
       true
     );
   });

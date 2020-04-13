@@ -39,11 +39,6 @@ import declensionNoun from '../../../utils/declensionNoun';
  * @reactProps {boolean} searchByTap - поиск по нажатию кнопки
  */
 
-const selectType = {
-  SINGLE: 'single',
-  CHECKBOXES: 'checkboxes',
-};
-
 class N2OSelect extends React.Component {
   constructor(props) {
     super(props);
@@ -71,7 +66,10 @@ class N2OSelect extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     let selected = [];
-    if (!isEqual(nextProps.value, this.props.value)) {
+    if (
+      !isEqual(nextProps.value, this.props.value) &&
+      !this.props.hasCheckboxes
+    ) {
       if (nextProps.value) {
         selected = [nextProps.value];
       } else {
@@ -203,9 +201,19 @@ class N2OSelect extends React.Component {
    */
 
   _insertSelected(item) {
-    this.setState({
-      selected: [item],
-    });
+    const { hasCheckboxes, options, onChange, onBlur } = this.props;
+    this.setState(
+      prevState => ({
+        selected: hasCheckboxes ? [...prevState.selected, item] : [item],
+        options,
+      }),
+      () => {
+        if (onChange) {
+          onChange(item);
+          onBlur(item);
+        }
+      }
+    );
   }
 
   /**
@@ -259,11 +267,6 @@ class N2OSelect extends React.Component {
     }
 
     this._clearSearchField();
-
-    if (this.props.onChange) {
-      this.props.onChange(item);
-      this.props.onBlur(item);
-    }
 
     if (this._control) {
       this._control.focus();
@@ -359,7 +362,7 @@ class N2OSelect extends React.Component {
       hasSearch,
       cleanable,
       style,
-      type,
+      hasCheckboxes,
     } = this.props;
     const inputSelectStyle = { width: '100%', ...style };
 
@@ -410,7 +413,7 @@ class N2OSelect extends React.Component {
               selected={this.state.selected}
               disabledValues={disabledValues}
               groupFieldId={groupFieldId}
-              hasCheckboxes={type === selectType.CHECKBOXES}
+              hasCheckboxes={hasCheckboxes}
               onRemoveItem={this._removeSelectedItem}
               format={format}
             />
