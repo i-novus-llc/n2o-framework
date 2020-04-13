@@ -46,10 +46,6 @@ public class N2oException extends RuntimeException {
      */
     private String view;
     /**
-     * Диалог с вариантами выбора
-     */
-    private Map<String, String> choice;
-    /**
      * Данные сообщения
      */
     private Object data;

@@ -22,6 +22,11 @@ public class N2oDialog implements SourceComponent {
     private String id;
 
     /**
+     * Маршрут диалога
+     */
+    private String route;
+
+    /**
      * Заголовок диалога
      */
     private String title;

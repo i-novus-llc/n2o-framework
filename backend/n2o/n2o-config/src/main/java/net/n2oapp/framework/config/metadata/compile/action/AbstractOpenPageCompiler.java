@@ -296,14 +296,14 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                                        Map<String, ModelLink> pathParams) {
         return preFilters == null ? null :
                 preFilters.stream().filter(f -> f.getParam() != null && !pathParams.keySet().contains(f.getParam()))
-                        .collect(Collectors.toMap(N2oPreFilter::getParam, Redux::linkFilter));
+                        .collect(Collectors.toMap(N2oPreFilter::getParam, Redux::linkParam));
     }
 
     private Map<String, ModelLink> initParams(List<N2oParam> params,
                                                        Map<String, ModelLink> pathParams) {
         return params == null ? null :
                 params.stream().filter(f -> f.getName() != null && !pathParams.keySet().contains(f.getName()))
-                        .collect(Collectors.toMap(N2oParam::getName, Redux::linkFilter));
+                        .collect(Collectors.toMap(N2oParam::getName, Redux::linkParam));
     }
 
     private String createGlobalParam(String param, CompileProcessor p) {

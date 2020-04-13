@@ -15,12 +15,16 @@ import net.n2oapp.framework.api.ui.ActionResponseInfo;
 import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
+import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
+import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+
+import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
 /**
  * Вылняет действие(action) пришедшие с клиента
@@ -35,7 +39,8 @@ public class OperationController extends SetController {
     public OperationController(DataProcessingStack dataProcessingStack,
                                DomainProcessor domainsProcessor,
                                N2oOperationProcessor operationProcessor,
-                               ErrorMessageBuilder errorMessageBuilder, MetadataEnvironment environment) {
+                               ErrorMessageBuilder errorMessageBuilder,
+                               MetadataEnvironment environment) {
         super(dataProcessingStack, domainsProcessor, operationProcessor);
         this.errorMessageBuilder = errorMessageBuilder;
         this.environment = environment;
@@ -62,18 +67,27 @@ public class OperationController extends SetController {
 
     private SetDataResponse constructFailSetDataResponse(N2oException e, ActionRequestInfo<DataSet> requestInfo) {
         SetDataResponse response = new SetDataResponse();
-        if (requestInfo.isMessageOnFail()) {
-            String widgetId = requestInfo.getFailAlertWidgetId() == null
-                    ? requestInfo.getMessagesForm()
-                    : requestInfo.getFailAlertWidgetId();
-            response.addResponseMessages(errorMessageBuilder.buildMessages(e), widgetId);
-        }
         if (e.getDialog() != null) {
-            DialogContext context = new DialogContext(e.getDialog().getId(), requestInfo.getClientWidgetId(), requestInfo.getObject().getId());
+            String route = requestInfo.getContext().getRoute(null) + normalize(
+                    e.getDialog().getRoute() != null ? e.getDialog().getRoute() : e.getDialog().getId());
+            DialogContext context = new DialogContext(route, e.getDialog().getId());
+            context.setPathRouteMapping(requestInfo.getContext().getPathRouteMapping());
+            context.setQueryRouteMapping(requestInfo.getContext().getQueryRouteMapping());
+            context.setParentWidgetId(((ActionContext)requestInfo.getContext()).getParentWidgetId());
+            context.setObjectId(requestInfo.getObject() != null ? requestInfo.getObject().getId() : null);
             Dialog dialog = environment.getCompilePipelineFunction()
                     .apply(new N2oPipelineSupport(environment))
                     .get(e.getDialog(), context);
-            response.getMeta().setDialog(dialog);
+            dialog = environment.getBindPipelineFunction().apply(new N2oPipelineSupport(environment))
+                    .get(dialog, context, requestInfo.getQueryData());
+            response.setDialog(dialog);
+        } else {
+            if (requestInfo.isMessageOnFail()) {
+                String widgetId = requestInfo.getFailAlertWidgetId() == null
+                        ? requestInfo.getMessagesForm()
+                        : requestInfo.getFailAlertWidgetId();
+                response.addResponseMessages(errorMessageBuilder.buildMessages(e), widgetId);
+            }
         }
         response.setStatus(e.getHttpStatus());
         return response;

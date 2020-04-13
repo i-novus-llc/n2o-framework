@@ -371,13 +371,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         //Адресом URL для провайдера данных виджета будет маршрут виджета на странице
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + normalize(widgetRoute));
         //Копируем соответствие параметров URL из маршрута страницы в провайдер данных виджета
-        Map<String, BindLink> pathMap = new StrictMap<>();
+        Map<String, ModelLink> pathMap = new StrictMap<>();
         if (parentRouteScope != null && parentRouteScope.getPathMapping() != null) {
             pathMap.putAll(parentRouteScope.getPathMapping());
         }
         dataProvider.setPathMapping(pathMap);
         if (widget.getFilters() != null) {
-            Map<String, BindLink> queryMap = new StrictMap<>();
+            Map<String, ModelLink> queryMap = new StrictMap<>();
             ((List<Filter>) widget.getFilters()).stream().filter(f -> !pathMap.containsKey(f.getParam()))
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);

@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
+import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
@@ -30,14 +31,18 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
 
     @Override
     public AbstractAction compile(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (context instanceof ModalPageContext) {
+        if (context instanceof ModalPageContext || context instanceof DialogContext) {
             CloseAction closeAction = new CloseAction();
             compileAction(closeAction, source, p);
             closeAction.setType(p.resolve(property("n2o.api.action.close.type"), String.class));
             closeAction.setMeta(initMeta(closeAction, source, context, p));
             CloseActionPayload payload = new CloseActionPayload();
-            payload.setPageId(((ModalPageContext) context).getClientPageId());
-            payload.setPrompt(p.cast(((ModalPageContext) context).getUnsavedDataPromptOnClose(), source.getPrompt(), true));
+            if (context instanceof ModalPageContext) {
+                payload.setPageId(((ModalPageContext) context).getClientPageId());
+                payload.setPrompt(p.cast(((ModalPageContext) context).getUnsavedDataPromptOnClose(), source.getPrompt(), true));
+            } else {
+                payload.setPageId(((DialogContext) context).getParentWidgetId());
+            }
             closeAction.setPayload(payload);
             return closeAction;
         } else {
