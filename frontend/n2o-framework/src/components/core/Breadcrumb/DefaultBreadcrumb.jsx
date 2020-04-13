@@ -1,17 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import isUndefined from 'lodash/isUndefined';
-import last from 'lodash/last';
 import filter from 'lodash/filter';
 import cn from 'classnames';
 import Breadcrumb from 'reactstrap/lib/Breadcrumb';
 import BreadcrumbItem from 'reactstrap/lib/BreadcrumbItem';
 
-function DefaultBreadcrumb({ items, title }, props) {
+function DefaultBreadcrumb({ items }, props) {
   const itemsWithLabels = filter(items, item => !isUndefined(item.label));
-  const renderTitle = !isUndefined(title) && (
-    <h1 className="n2o-breadcrumb-title">{title}</h1>
-  );
 
   const crumbs = itemsWithLabels.map(({ label, path }, index) => {
     const lastCrumb = index === itemsWithLabels.length - 1;
@@ -38,7 +34,6 @@ function DefaultBreadcrumb({ items, title }, props) {
   return (
     <>
       <Breadcrumb>{crumbs}</Breadcrumb>
-      {renderTitle}
     </>
   );
 }

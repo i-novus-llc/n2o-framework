@@ -5,6 +5,7 @@ import isUndefined from 'lodash/isUndefined';
 import cn from 'classnames';
 import Alert from '../snippets/Alerts/Alert';
 import DocumentTitle from '../core/DocumentTitle';
+import PageTitle from '../core/PageTitle';
 import DefaultBreadcrumb from '../core/Breadcrumb/DefaultBreadcrumb';
 import BreadcrumbContainer from '../core/Breadcrumb/BreadcrumbContainer';
 import Toolbar from '../buttons/Toolbar';
@@ -48,9 +49,9 @@ function DefaultPage(
         <BreadcrumbContainer
           defaultBreadcrumb={DefaultBreadcrumb}
           items={metadata.breadcrumb}
-          title={!isUndefined(metadata.page.title) && metadata.page.title}
         />
       )}
+      {!isEmpty(metadata) && metadata.page && <PageTitle {...metadata.page} />}
       {toolbar && (toolbar.topLeft || toolbar.topRight) && (
         <div className="n2o-page-actions">
           <Toolbar entityKey={containerKey} toolbar={toolbar.topLeft} />

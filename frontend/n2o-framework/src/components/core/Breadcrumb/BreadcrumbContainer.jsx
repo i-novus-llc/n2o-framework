@@ -27,7 +27,7 @@ function BreadcrumbContainer(props) {
   const DefaultBreadcrumb = props.defaultBreadcrumb;
   return (
     <React.Fragment>
-      <DefaultBreadcrumb items={props.items} title={props.title} />
+      <DefaultBreadcrumb items={props.items} />
     </React.Fragment>
   );
 }
@@ -59,10 +59,6 @@ export default compose(
           ...item,
           label: propsResolver(
             item.label,
-            getModelSelector(item.modelLink)(props.store.getState())
-          ),
-          title: propsResolver(
-            props.title,
             getModelSelector(item.modelLink)(props.store.getState())
           ),
         };
