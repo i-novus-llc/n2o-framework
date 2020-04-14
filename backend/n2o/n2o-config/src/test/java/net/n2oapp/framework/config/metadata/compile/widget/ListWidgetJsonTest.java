@@ -41,6 +41,7 @@ public class ListWidgetJsonTest extends JsonMetadataTestBase {
                         "list.subHeader.fieldKey",
                         "list.body.fieldKey",
                         "list.rightTop.fieldKey",
+                        "list.rightTop.type",
                         "list.rightBottom.fieldKey",
                         "list.extra.className",
                         "list.extra.style",

@@ -135,7 +135,7 @@ link:#_Действия[Обработчик действия]
 |Текст иконки
 |Берётся из значения в `text-field-id`
 
-|class
+|icon
 |http://fontawesome.io/icons/[CSS класс]
 |Класс иконки
 |
