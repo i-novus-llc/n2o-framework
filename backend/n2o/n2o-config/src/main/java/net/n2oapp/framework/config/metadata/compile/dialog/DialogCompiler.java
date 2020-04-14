@@ -35,6 +35,7 @@ public class DialogCompiler implements BaseSourceCompiler<Dialog, N2oDialog, Dia
         Dialog dialog = new Dialog();
         dialog.setTitle(source.getTitle());
         dialog.setDescription(source.getDescription());
+        dialog.setSize(source.getSize());
         CompiledObject object = p.getCompiled(new ObjectContext(context.getObjectId()));
         if (source.getToolbar() != null) {
             ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.dialog.toolbar.place"), String.class));

@@ -13,6 +13,11 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 @Setter
 public class Dialog implements Compiled {
     /**
+     * Размер диалога (sm,lg)
+     */
+    @JsonProperty
+    private String size;
+    /**
      * Заголовок диалога
      */
     @JsonProperty
