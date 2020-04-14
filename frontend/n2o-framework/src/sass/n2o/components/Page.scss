@@ -1,3 +1,21 @@
+@keyframes fix-block-animation-down {
+  0% {
+    transform: translate(0, -100px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes fix-block-animation-up {
+  0% {
+    transform: translate(0, 100px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
 .n2o-page {
   &-actions {
     display: flex;
@@ -16,6 +34,35 @@
     & .n2o-page__left,
     & .n2o-page__right {
       width: 49%;
+    }
+  }
+
+  &__fixed-container {
+    position: relative;
+    transition: 0.5s;
+
+    &--fixed {
+      z-index: 2;
+    }
+  }
+
+  &__scroll-to-top {
+    position: fixed !important;
+
+    right: 100px;
+    bottom: 100px;
+
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+    z-index: 5;
+    transition: 0.5s;
+    opacity: 0;
+    pointer-events: none;
+
+    &--show {
+      opacity: 1;
+      pointer-events: auto;
     }
   }
 }
