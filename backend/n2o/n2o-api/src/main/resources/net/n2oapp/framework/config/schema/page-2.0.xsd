@@ -30,6 +30,11 @@
                 <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="show-title" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation>Отображать заголовок страницы?</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="leftRightPageDefinition">
@@ -60,6 +65,11 @@
         <xs:attribute name="modal-size" type="ac:modalSize" use="optional">
             <xs:annotation>
                 <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="show-title" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation>Отображать заголовок страницы?</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="object-id" type="xs:string" use="optional">
@@ -118,6 +128,11 @@
                 <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="show-title" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation>Отображать заголовок страницы?</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="object-id" type="xs:string" use="optional">
             <xs:annotation>
                 <xs:documentation>Объект выборки.</xs:documentation>
@@ -154,6 +169,11 @@
                 <xs:attribute name="modal-size" type="ac:modalSize" use="optional">
                     <xs:annotation>
                         <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="show-title" type="xs:boolean" use="optional" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Отображать заголовок страницы?</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:anyAttribute>

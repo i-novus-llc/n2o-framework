@@ -74,9 +74,11 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> implements
         return breadcrumbs;
     }
 
-    protected PageProperty initPageName(String pageName, PageContext context, CompileProcessor p) {
+    protected PageProperty initPageName(String pageName, boolean showTitle, PageContext context, CompileProcessor p) {
         PageProperty pageProperty = new PageProperty();
-        pageProperty.setTitle(p.cast(context.getPageName(), pageName));
+        pageProperty.setHtmlTitle(pageName);
+        if (showTitle)
+            pageProperty.setTitle(pageName);
         if (context.getParentModelLink() != null)
             pageProperty.setModelLink(context.getParentModelLink());
         return pageProperty;
