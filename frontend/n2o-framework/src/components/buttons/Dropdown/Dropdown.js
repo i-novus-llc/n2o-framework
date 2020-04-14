@@ -52,25 +52,17 @@ class DropdownButton extends React.Component {
           </Reference>
           <Popper
             placement="bottom-start"
-            modifiers={[
-              { name: 'preventOverflow', enabled: true },
-              {
-                name: 'flip',
-                options: {
-                  fallbackPlacements: ['left'],
-                  rootBoundary: 'document',
-                  boundary: 'document',
-                  flipVariations: false,
-                },
+            modifiers={{
+              preventOverflow: {
+                escapeWithReference: false,
               },
-            ]}
+            }}
             strategy="fixed"
           >
-            {({ ref, style, placement }) => (
+            {({ ref, style, outOfBoundaries }) => (
               <div
                 ref={ref}
-                style={style}
-                data-placement={placement}
+                style={{ opacity: outOfBoundaries ? 0 : 1, ...style }}
                 className={cn('dropdown-menu n2o-dropdown-menu', {
                   'd-block': open,
                 })}
