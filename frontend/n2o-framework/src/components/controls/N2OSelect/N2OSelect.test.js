@@ -100,7 +100,7 @@ describe('<N2OSelect />', () => {
   });
   it('проверяет счетчик в placeholder', () => {
     const { wrapper } = setup({
-      hasCheckboxes: true,
+      type: 'checkboxes',
       selectFormatOne: '{size} объект',
       selectFormatFew: '{size} объекта',
       selectFormatMany: '{size} объектов',
@@ -117,7 +117,7 @@ describe('<N2OSelect />', () => {
   });
   it('проверяет счетчик в placeholder c универсальным заголовком', () => {
     const { wrapper } = setup({
-      hasCheckboxes: true,
+      type: 'checkboxes',
       selectFormat: 'Объектов {size} шт',
     });
 
