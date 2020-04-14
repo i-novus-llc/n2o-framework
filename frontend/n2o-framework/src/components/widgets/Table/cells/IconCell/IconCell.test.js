@@ -31,12 +31,8 @@ const propsWithTooltip = {
 describe('<IconCell />', () => {
   it('проверяет создание элемента IconText', () => {
     const wrapper = mount(<IconCell {...props} />);
-    expect(
-      wrapper
-        .find('div')
-        .first()
-        .prop('title')
-    ).toEqual(props.model[props.id]);
+
+    expect(wrapper.find('Text span').text()).toEqual(props.model[props.id]);
   });
 
   it('проверяет класс иконки', () => {
@@ -50,7 +46,7 @@ describe('<IconCell />', () => {
     expect(
       wrapper.find('.icon-cell-container.icon-cell-container__text-left').html()
     ).toEqual(
-      `<div title="text" class="icon-cell-container icon-cell-container__text-left"><i class="n2o-icon fa fa-minus"></i><div class="n2o-cell-text"><span class="">text</span></div></div>`
+      `<div class="icon-cell-container icon-cell-container__text-left"><i class="n2o-icon fa fa-minus"></i><div class="n2o-cell-text"><span class="">text</span></div></div>`
     );
   });
 
