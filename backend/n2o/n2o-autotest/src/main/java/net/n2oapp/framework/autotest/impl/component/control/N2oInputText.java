@@ -68,6 +68,7 @@ public class N2oInputText extends N2oControl implements InputText {
     }
 
     private SelenideElement inputElement() {
+        element().shouldBe(Condition.exist);
         return element().parent().$(".n2o-input");
     }
 

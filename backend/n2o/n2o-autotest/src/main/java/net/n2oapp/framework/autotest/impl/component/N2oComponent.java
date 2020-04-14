@@ -22,7 +22,7 @@ public abstract class N2oComponent implements Component {
 
     @Override
     public void shouldNotExists() {
-        element.should(Condition.exist);
+        element.shouldNot(Condition.exist);
     }
 
     @Override
