@@ -17,6 +17,10 @@
 }
 
 .n2o-page {
+  &__title {
+    font-size: 2rem;
+  }
+
   &-actions {
     display: flex;
     justify-content: space-between;

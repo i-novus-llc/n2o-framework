@@ -4,7 +4,7 @@
       object-id="object"
       route="test"
       src="StandardPage"
-      modal-size="lg">
+      modal-size="lg" show-title="true">
    <toolbar place="bottomRight" generate="submit, close">
        <button action-id="testId" validate="true" model="filter" rounded="true"/>
        <sub-menu>

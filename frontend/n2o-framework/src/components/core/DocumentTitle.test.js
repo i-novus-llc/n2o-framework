@@ -35,7 +35,7 @@ const setupContainer = propOverrides => {
 describe('<DocumentTitle />', () => {
   it('тестирует резолв в DocumentTitle', () => {
     const { wrapper } = setupContainer({
-      title: "`test ? test : 'dummy'`",
+      htmlTitle: "`test ? test : 'dummy'`",
       modelLink: 'models.test',
     });
     expect(wrapper.find(Helmet).props().title).toBe('test');

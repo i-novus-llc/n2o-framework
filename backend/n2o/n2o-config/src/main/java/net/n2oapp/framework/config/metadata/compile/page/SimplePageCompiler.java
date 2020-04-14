@@ -43,8 +43,8 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         //todo когда появится object-id у simple-page необходимо его и id главного виджета добавить в PageScope
         pageScope.setPageId(page.getId());
         String pageName = p.cast(context.getPageName(), source.getName(), source.getWidget().getName());
-        page.setPageProperty(initPageName(pageName, context, p));
-        page.getPageProperty().setTitle(pageName);
+        boolean showTitle = p.cast(source.getShowTitle(), false);
+        page.setPageProperty(initPageName(pageName, showTitle, context, p));
         page.setProperties(p.mapAttributes(source));
         page.setBreadcrumb(initBreadcrumb(pageName, context, p));
         N2oWidget widget = source.getWidget();

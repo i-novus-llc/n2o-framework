@@ -45,6 +45,11 @@
                 <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="show-title" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation>Отображать заголовок страницы?</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:anyAttribute>
             <xs:annotation>
                 <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -89,6 +94,11 @@
                 <xs:attribute name="modal-size" type="ac:modalSize">
                     <xs:annotation>
                         <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="show-title" type="xs:boolean" use="optional" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Отображать заголовок страницы?</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:anyAttribute>
@@ -369,7 +379,7 @@
             <xs:enumeration value="bottomRight"/>
             <xs:enumeration value="topCenter"/>
             <xs:enumeration value="bottomCenter"/>
-            <xs:enumeration value="breadcrumbLeft"/>
+            <xs:enumeration value="title"/>
         </xs:restriction>
     </xs:simpleType>
 
