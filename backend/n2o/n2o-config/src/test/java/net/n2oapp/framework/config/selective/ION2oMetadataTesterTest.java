@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldsetRow;
 import net.n2oapp.framework.api.util.N2oTestUtil;
 import net.n2oapp.framework.config.io.control.plain.InputTextIOv2;
 import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
-import net.n2oapp.framework.config.io.fieldset.PanelFieldsetElementIOv4;
+import net.n2oapp.framework.config.io.fieldset.MultiFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.RowElementIO4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.persister.control.N2oInputTextPersister;
@@ -55,7 +55,7 @@ public class ION2oMetadataTesterTest {
                 .addPersister(new SelectivePersister()
                         .addPersister(new SetFieldsetElementIOv4())
                         .addPersister(new LineFieldsetElementIOv4())
-                        .addPersister(new PanelFieldsetElementIOv4())
+                        .addPersister(new MultiFieldsetElementIOv4())
                         .addPersister(new N2oInputTextPersister())
                         .addPersister(new RowElementIO4()));
         tester.ios(new InputTextIOv2());
@@ -74,7 +74,7 @@ public class ION2oMetadataTesterTest {
                         .addReader(new RowElementIO4()).addReader(new N2oInputTextXmlReaderV1()))
                 .addPersister(new SelectivePersister().addPersister(new SetFieldsetElementIOv4())
                         .addPersister(new LineFieldsetElementIOv4())
-                        .addPersister(new PanelFieldsetElementIOv4())
+                        .addPersister(new MultiFieldsetElementIOv4())
                         .addPersister(new N2oInputTextPersister()).addPersister(new RowElementIO4()))
                 .ios(new InputTextIOv2());
         assert tester.check("net/n2oapp/framework/config/selective/duplex/test2.fieldset.xml", (N2oFieldSet fieldSet) -> {

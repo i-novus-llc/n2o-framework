@@ -235,44 +235,137 @@ describe('Тесты models reducer', () => {
     });
   });
 
-  it('Проверка COPY', () => {
-    expect(
-      models(
-        {
-          resolve: {
-            testKey: {
-              name: 'new name',
+  describe('Проверка COPY', () => {
+    it('Проверка COPY без mode', () => {
+      expect(
+        models(
+          {
+            resolve: {
+              testKey: {
+                name: 'new name',
+              },
+            },
+            edit: {
+              testKey: {},
             },
           },
-          edit: {
-            testKey: {},
+          {
+            type: COPY,
+            payload: {
+              source: {
+                prefix: 'resolve',
+                key: 'testKey',
+              },
+              target: {
+                prefix: 'edit',
+                key: 'testKey',
+              },
+            },
+          }
+        )
+      ).toEqual({
+        edit: {
+          testKey: {
+            name: 'new name',
           },
         },
-        {
-          type: COPY,
-          payload: {
-            source: {
-              prefix: 'resolve',
-              key: 'testKey',
+        resolve: {
+          testKey: {
+            name: 'new name',
+          },
+        },
+      });
+    });
+
+    it('Проверка COPY mode = merge', () => {
+      expect(
+        models(
+          {
+            resolve: {
+              testWidget: {
+                one: 1,
+              },
             },
-            target: {
-              prefix: 'edit',
-              key: 'testKey',
+            filter: {
+              anotherWidget: {
+                two: 2,
+              },
             },
           },
-        }
-      )
-    ).toEqual({
-      edit: {
-        testKey: {
-          name: 'new name',
+          {
+            type: COPY,
+            payload: {
+              target: {
+                prefix: 'filter',
+                key: 'anotherWidget',
+              },
+              source: {
+                prefix: 'resolve',
+                key: 'testWidget',
+              },
+              mode: 'merge',
+            },
+          }
+        )
+      ).toEqual({
+        resolve: {
+          testWidget: {
+            one: 1,
+          },
         },
-      },
-      resolve: {
-        testKey: {
-          name: 'new name',
+        filter: {
+          anotherWidget: {
+            two: 2,
+            one: 1,
+          },
         },
-      },
+      });
+    });
+
+    it('Проверка COPY mode = add', () => {
+      expect(
+        models(
+          {
+            resolve: {
+              sourceWidget: {
+                one: [1, 2, 3],
+              },
+            },
+            filter: {
+              targetWidget: {
+                two: {
+                  arr: [4, 5, 6],
+                },
+              },
+            },
+          },
+          {
+            type: COPY,
+            payload: {
+              source: { prefix: 'resolve', key: 'sourceWidget', field: 'one' },
+              target: {
+                prefix: 'filter',
+                key: 'targetWidget',
+                field: 'two.arr',
+              },
+              mode: 'add',
+            },
+          }
+        )
+      ).toEqual({
+        resolve: {
+          sourceWidget: {
+            one: [1, 2, 3],
+          },
+        },
+        filter: {
+          targetWidget: {
+            two: {
+              arr: [4, 5, 6, 1, 2, 3],
+            },
+          },
+        },
+      });
     });
   });
 

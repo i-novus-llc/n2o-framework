@@ -51,19 +51,22 @@ function DefaultPage(
         />
       )}
       {!isEmpty(metadata) && metadata.page && <PageTitle {...metadata.page} />}
-      {toolbar && (toolbar.topLeft || toolbar.topRight) && (
+      {toolbar && (toolbar.topLeft || toolbar.topRight || toolbar.topCenter) && (
         <div className="n2o-page-actions">
           <Toolbar entityKey={containerKey} toolbar={toolbar.topLeft} />
+          <Toolbar entityKey={containerKey} toolbar={toolbar.topCenter} />
           <Toolbar entityKey={containerKey} toolbar={toolbar.topRight} />
         </div>
       )}
       {children}
-      {toolbar && (toolbar.bottomLeft || toolbar.bottomRight) && (
-        <div className="n2o-page-actions">
-          <Toolbar entityKey={containerKey} toolbar={toolbar.bottomLeft} />
-          <Toolbar entityKey={containerKey} toolbar={toolbar.bottomRight} />
-        </div>
-      )}
+      {toolbar &&
+        (toolbar.bottomLeft || toolbar.bottomRight || toolbar.bottomCenter) && (
+          <div className="n2o-page-actions">
+            <Toolbar entityKey={containerKey} toolbar={toolbar.bottomLeft} />
+            <Toolbar entityKey={containerKey} toolbar={toolbar.bottomCenter} />
+            <Toolbar entityKey={containerKey} toolbar={toolbar.bottomRight} />
+          </div>
+        )}
     </div>
   );
 }

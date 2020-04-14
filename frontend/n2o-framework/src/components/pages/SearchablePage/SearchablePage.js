@@ -68,6 +68,11 @@ function SearchablePage({
         <Toolbar
           className="ml-3"
           entityKey={pageId}
+          toolbar={toolbar.topCenter}
+        />
+        <Toolbar
+          className="ml-3"
+          entityKey={pageId}
           toolbar={toolbar.topRight}
         />
       </div>
@@ -77,6 +82,11 @@ function SearchablePage({
           className="ml-3"
           entityKey={pageId}
           toolbar={toolbar.bottomLeft}
+        />
+        <Toolbar
+          className="ml-3"
+          entityKey={pageId}
+          toolbar={toolbar.bottomCenter}
         />
         <Toolbar
           className="ml-3"
