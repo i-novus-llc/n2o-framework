@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.toolbar;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.meta.action.Perform;
+import net.n2oapp.framework.api.metadata.meta.action.PerformActionPayload;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
@@ -77,6 +78,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         AbstractButton b1 = f.getToolbar().get("topLeft").get(0).getButtons().get(0);
         assertThat(b1.getId(), is("testId1"));
+        assertThat(((PerformButton)b1).getRounded(), is(true));
         assertThat(b1.getAction(), notNullValue());
         assertThat(b1.getConditions().get(ValidationType.enabled).size(), is(1));
         assertThat(b1.getConditions().get(ValidationType.enabled).get(0).getExpression(), is("!_.isEmpty(this)"));
@@ -84,6 +86,7 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
 
         AbstractButton b2 = f.getToolbar().get("bottomLeft").get(0).getButtons().get(0);
         assertThat(b2.getId(), is("testId2"));
+        assertThat(((PerformButton)b2).getRounded(), is(false));
         assertThat(b2.getAction(), notNullValue());
         assertThat(b2.getLabel(), is("Label1"));
         assertThat(b2.getConditions().get(ValidationType.enabled), nullValue());
@@ -114,8 +117,8 @@ public class ToolbarCompileTest extends SourceCompileTestBase {
         Perform performAction = (Perform)b7.getAction();
         assertThat(performAction.getType(), is("n2o/custom/ACTION"));
         assertThat(performAction.getPayload(), notNullValue());
-        assertThat(((Map)performAction.getPayload()).size(), is(1));
-        assertThat(((Map)performAction.getPayload()).get("prop2"), is("value2"));
+        assertThat(((PerformActionPayload)performAction.getPayload()).getParams().size(), is(1));
+        assertThat(((PerformActionPayload)performAction.getPayload()).getParams().get("prop2"), is("value2"));
     }
 
     @Test

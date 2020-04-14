@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-textarea-autosize';
 import cx from 'classnames';
+import { compose } from 'recompose';
+import withRightPlaceholder from '../withRightPlaceholder';
 
 /**
  * Компонент TextArea
@@ -88,4 +90,4 @@ TextArea.defaultProps = {
   maxRows: 3,
 };
 
-export default TextArea;
+export default compose(withRightPlaceholder)(TextArea);

@@ -131,7 +131,14 @@
                         <toolbar generate="update,delete"/>
                     </extra>
                 </content>
-                <toolbar generate="create"/>
+                <toolbar>
+                    <button id="createContact" label="Создать" model="filter">
+                        <show-modal page-id="ProtoContacts" upload="defaults" route="/createContact" master-param=""
+                            submit-operation-id="create">
+                                <query-param name="client_id" value="{id}" ref-model="resolve" ref-widget-id="clients"/>
+                        </show-modal>
+                    </button>
+                </toolbar>
             </list>
         </panel>
         <panel place="right" title="Карточка">

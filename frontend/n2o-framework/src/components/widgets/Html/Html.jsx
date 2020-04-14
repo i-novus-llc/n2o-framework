@@ -30,7 +30,7 @@ const Html = props => {
   const { html, loading, data } = props;
 
   return (
-    <>
+    <React.Fragment>
       {loading ? (
         <Spinner />
       ) : (
@@ -40,7 +40,7 @@ const Html = props => {
           }}
         />
       )}
-    </>
+    </React.Fragment>
   );
 };
 

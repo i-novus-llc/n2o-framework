@@ -94,7 +94,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         boolean redirect = source.getRedirectUrl() != null;
         String messageWidgetId = currentWidgetId;
         if ((closeOnSuccess) && (context instanceof PageContext)) {
-            messageWidgetId = ((PageContext) context).getParentWidgetId();
+            messageWidgetId = ((PageContext) context).getParentClientWidgetId();
         }
         meta.setMessageWidgetId(messageWidgetId);
         if (closeOnSuccess) {
