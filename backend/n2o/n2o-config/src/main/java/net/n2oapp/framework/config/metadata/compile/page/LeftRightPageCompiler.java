@@ -46,19 +46,19 @@ public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage, St
     }
 
     private void mapRegion(N2oRegion[] regions, String position, Map<String, List<Region>> regionMap,
-                           CompileProcessor p, PageContext context, PageScope pageScope, IndexScope index, PageRoutes pageRoutes) {
+                           CompileProcessor p, PageContext context, Object... scopes) {
         if (regions != null) {
-            List<Region> rightRegion = new ArrayList<>();
+            List<Region> regionList = new ArrayList<>();
             for (N2oRegion n2oRegion : regions) {
-                Region region = p.compile(n2oRegion, context, index, pageScope, pageRoutes);
-                rightRegion.add(region);
+                Region region = p.compile(n2oRegion, context, scopes);
+                regionList.add(region);
             }
-            regionMap.put(position, rightRegion);
+            regionMap.put(position, regionList);
         }
     }
 
     @Override
     protected String getPropertyPageSrc() {
-        return "n2o.api.page.left-right.src";
+        return "n2o.api.page.left_right.src";
     }
 }

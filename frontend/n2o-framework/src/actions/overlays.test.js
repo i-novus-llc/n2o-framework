@@ -1,5 +1,5 @@
 import {
-  insertOverlay,
+  insertModal,
   showOverlay,
   hideOverlay,
   destroyOverlay,
@@ -8,7 +8,7 @@ import {
   showPrompt,
 } from './overlays';
 import {
-  INSERT,
+  INSERT_MODAL,
   DESTROY,
   HIDE,
   SHOW,
@@ -20,27 +20,26 @@ import {
 const name = 'MODAL_NAME';
 
 describe('Тесты экшенов overlays', () => {
-  describe('Проверка экшена insertOverlay', () => {
+  describe('Проверка экшена insertModal', () => {
     it('Генирирует правильное событие', () => {
-      const action = insertOverlay(name, true, 'TITLE', {
+      const action = insertModal(name, true, 'TITLE', {
         size: 'lg',
         visible: true,
         pageId: 'page_id',
         widgetId: 'TableWidget',
       });
-      expect(action.type).toEqual(INSERT);
+      expect(action.type).toEqual(INSERT_MODAL);
     });
     it('Возвращает правильный payload', () => {
-      const action = insertOverlay(name, true, 'drawer', {
+      const action = insertModal(name, true, 'modal', {
         title: 'TITLE',
         size: 'lg',
         visible: true,
         pageId: 'page_id',
         widgetId: 'TableWidget',
       });
-
-      expect(action.payload).toEqual({
-        mode: 'drawer',
+      expect(action.payload).toMatchObject({
+        mode: 'modal',
         name: 'MODAL_NAME',
         visible: true,
         pageId: 'page_id',

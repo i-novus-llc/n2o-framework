@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/action-1.0"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:btn="http://n2oapp.net/framework/config/schema/button-1.0">
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
     <xs:element name="open-page" type="openPageDefinition"/>
     <xs:element name="show-modal" type="showModalDefinition"/>
@@ -19,6 +18,7 @@
     <xs:complexType name="actions">
         <xs:sequence>
             <xs:element name="open-page" type="openPageDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="open-drawer" type="openDrawerDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="show-modal" type="showModalDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="a" type="aDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="invoke" type="invokeActionDefinition" maxOccurs="1" minOccurs="0"/>
@@ -196,11 +196,6 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="type" type="showModalMode" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Вид отображения модального окна. По умолчанию modal.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="submit-action-type" type="submitActionType" default="invoke">
                     <xs:annotation>
                         <xs:documentation>Действие при нажатии кнопки "Сохранить".</xs:documentation>
@@ -248,9 +243,84 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="copy-mode" type="btn:copyModeType" default="merge">
+                <xs:attribute name="copy-mode" type="copyModeType" default="merge">
                     <xs:annotation>
                         <xs:documentation>Тип слияния.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="openDrawerDefinition">
+        <xs:complexContent>
+            <xs:extension base="pageDefinition">
+                <xs:annotation>
+                    <xs:documentation>Открыть страницу в модальном окне.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="page-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="object-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор объекта.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="master-param" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Параметр фильтра.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="refresh-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор виджета, который необходимо обновить после успешного выполнения операции
+                            (по умолчанию widget-id у button, а если нет, текущий виджет).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="true" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Предупредить о несохраненных данных на форме при закрытии модального окна?
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="closable" type="xs:boolean" default="true" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Есть ли крестик для закрытия</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="backdrop" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Включение маски(backdrop)</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="width" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ширина компонента</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Высота компонента</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="placement" type="placementEnum" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Позиция компонента</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="level" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Сдвиг элемента или группы элементов при открытии</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="backdrop-closable" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Включение закрытия по клику на маску(backdrop)</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -266,7 +336,7 @@
             <xs:enumeration value="copy"/>
         </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:simpleType name="uploadType">
         <xs:annotation>
             <xs:documentation>Источник данных виджета при открытии страницы.</xs:documentation>
@@ -814,13 +884,12 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="showModalMode">
-        <xs:annotation>
-            <xs:documentation>Вид отображения модального окна</xs:documentation>
-        </xs:annotation>
+    <xs:simpleType name="placementEnum">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="modal"/>
-            <xs:enumeration value="drawer"/>
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="bottom"/>
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
         </xs:restriction>
     </xs:simpleType>
 

@@ -8,6 +8,7 @@ import net.n2oapp.framework.autotest.impl.collection.*;
 import net.n2oapp.framework.autotest.impl.component.button.N2oStandardButton;
 import net.n2oapp.framework.autotest.impl.component.cell.*;
 import net.n2oapp.framework.autotest.impl.component.control.*;
+import net.n2oapp.framework.autotest.impl.component.drawer.N2oDrawer;
 import net.n2oapp.framework.autotest.impl.component.field.N2oStandardField;
 import net.n2oapp.framework.autotest.impl.component.header.N2oAnchorMenuItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oDropdownMenuItem;
@@ -40,6 +41,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oSimplePage.class, N2oLeftRightPage.class, N2oStandardPage.class, N2oSimpleHeader.class, N2oSimpleRegion.class, N2oPanelRegion.class,
                 N2oTableWidget.class,  N2oListWidget.class, N2oFormWidget.class, N2oStandardTableHeader.class, N2oFilterHeader.class,
                 N2oModal.class, N2oStandardField.class,  N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
+                N2oDrawer.class,
                 // controls
                 N2oInputText.class, N2oInputSelect.class, N2oCheckbox.class, N2oSelect.class, N2oDateInterval.class,
                 N2oDateInput.class, N2oCheckboxGroup.class, N2oRadioGroup.class, N2oMaskedInputControl.class,

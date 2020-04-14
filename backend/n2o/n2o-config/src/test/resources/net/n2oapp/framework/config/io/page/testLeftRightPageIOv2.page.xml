@@ -16,7 +16,7 @@
             </sub-menu>
         </group>
     </toolbar>
-    <left>
+    <left width="70%">
         <region place="single" src="NoneRegion">
             <table>
                 <columns>
@@ -42,7 +42,7 @@
             </table>
         </line>
     </left>
-    <right>
+    <right width="30%">
         <panel place="single" src="PanelRegion" collapsible="true" class="card-header"
                style="margin-left:10px;width:300px" header="true">
             <table>

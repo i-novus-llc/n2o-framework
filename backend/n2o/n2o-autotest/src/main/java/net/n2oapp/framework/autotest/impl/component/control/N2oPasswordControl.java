@@ -12,7 +12,7 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
 
     @Override
     public String val() {
-        SelenideElement elm = element().parent().$(".n2o-input");
+        SelenideElement elm = inputElement();
         return elm.exists() ? elm.val() : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();
     }
 
@@ -24,14 +24,14 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
 
     @Override
     public void shouldBeEmpty() {
-        SelenideElement elm = element().parent().$(".n2o-input");
+        SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(Condition.empty);
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.empty);
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        SelenideElement elm = element().parent().$(".n2o-input");
+        SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ?
                 Condition.empty : Condition.value(value));
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(value == null || value.isEmpty() ?
@@ -41,8 +41,7 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
     @Override
     public void shouldHavePlaceholder(String value) {
         Condition condition = Condition.attribute("placeholder", value);
-
-        SelenideElement elm = element().parent().$(".n2o-input");
+        SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(condition);
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(condition);
     }
@@ -54,15 +53,20 @@ public class N2oPasswordControl extends N2oControl implements PasswordControl {
 
     @Override
     public void passwordShouldBeVisible() {
-        SelenideElement elm = element().parent().$(".n2o-input");
+        SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(Condition.attribute("type", "text"));
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.attribute("type", "text"));
     }
 
     @Override
     public void passwordShouldNotBeVisible() {
-        SelenideElement elm = element().parent().$(".n2o-input");
+        SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(Condition.attribute("type", "password"));
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.attribute("type", "password"));
+    }
+
+    private SelenideElement inputElement() {
+        element().shouldBe(Condition.exist);
+        return element().parent().$(".n2o-input");
     }
 }
