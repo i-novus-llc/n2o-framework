@@ -90,10 +90,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getFailAlertWidgetId(), is("$testTable4Compile"));
         assertThat(queryContext.getSuccessAlertWidgetId(), is("$testTable4Compile"));
         assertThat(queryContext.getMessagesForm(), is("$testTable4Compile_filter"));
-        assertThat(table.getComponent().getRowSelection(), nullValue());
-        assertThat(table.getComponent().getHasFocus(), is(false));
-        assertThat(table.getComponent().getHasSelect(), is(false));
+        assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.checkbox));
         assertThat(table.getComponent().getFetchOnInit(), is(false));
+        assertThat(table.getComponent().getAutoCheckboxOnSelect(), is(true));
     }
 
     @Test
