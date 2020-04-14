@@ -69,8 +69,12 @@ public class SelectAT extends AutoTestBase {
         input.shouldExists();
 
         input.shouldBeEmpty();
-        input.selectMulti(1);
-        // TODO доделать
+        input.selectMulti(0);
+        input.shouldBeChecked(0);
+        input.shouldSelected("Объектов 1 шт");
+        input.selectMulti(1, 2);
+        input.shouldBeChecked(0, 1, 2);
+        input.shouldSelected("Объектов 3 шт");
         input.clear();
         input.shouldBeEmpty();
     }
