@@ -30,6 +30,7 @@ public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
 
     @Override
     public void click() {
+        element().scrollTo();
         cellTrigger().click();
     }
 
