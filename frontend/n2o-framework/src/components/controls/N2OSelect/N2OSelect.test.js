@@ -98,4 +98,36 @@ describe('<N2OSelect />', () => {
 
     expect(wrapper.find('.n2o-input-clear')).toHaveLength(0);
   });
+  it('проверяет счетчик в placeholder', () => {
+    const { wrapper } = setup({
+      type: 'checkboxes',
+      selectFormatOne: '{size} объект',
+      selectFormatFew: '{size} объекта',
+      selectFormatMany: '{size} объектов',
+    });
+
+    wrapper
+      .find('CheckboxN2O')
+      .first()
+      .simulate('click');
+
+    expect(wrapper.find('.n2o-input-items').contains('1 объект')).toEqual(
+      true
+    );
+  });
+  it('проверяет счетчик в placeholder c универсальным заголовком', () => {
+    const { wrapper } = setup({
+      type: 'checkboxes',
+      selectFormat: 'Объектов {size} шт',
+    });
+
+    wrapper
+      .find('CheckboxN2O')
+      .first()
+      .simulate('click');
+
+    expect(wrapper.find('.n2o-input-items').contains('Объектов 1 шт')).toEqual(
+      true
+    );
+  });
 });

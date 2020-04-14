@@ -1,9 +1,9 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <select id="select1" type="checkboxes" cleanable="false"
-                select-format="Объектов {size} шт" select-format-one="{size} объект"
+        <select id="select1" type="checkboxes" cleanable="false" select-format-one="{size} объект"
                 select-format-few="{size} объекта" select-format-many="{size} объектов"/>
-        <select id="select2">
+        <select id="select2" type="checkboxes" select-format="Логичных примеров {size} шт"/>
+        <select id="select3">
             <options>
                 <option id="type1" name="A"/>
                 <option id="type2" name="B"/>
