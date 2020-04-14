@@ -5,12 +5,17 @@
             <!--submit-label из кнопки-->
             <button id="test1">
                 <open-page page-id="testSubmitGeneratorPage"
-                           submit-operation-id="test" submit-label="button"  upload="defaults"/>
+                           submit-operation-id="test" submit-label="button" upload="defaults"/>
             </button>
             <!--submit-label из операции-->
             <button id="test2">
                 <open-page page-id="testSubmitGeneratorPage"
                            submit-operation-id="test" upload="defaults"/>
+            </button>
+            <!--submit-label по умолчанию-->
+            <button id="test3">
+                <open-page page-id="testSubmitGeneratorPage"
+                           submit-operation-id="test2" upload="defaults"/>
             </button>
         </toolbar>
     </form>
