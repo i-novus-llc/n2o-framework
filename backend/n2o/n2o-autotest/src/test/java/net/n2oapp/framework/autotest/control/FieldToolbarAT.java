@@ -2,15 +2,16 @@ package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.impl.collection.N2oToolbar;
 import net.n2oapp.framework.autotest.impl.component.button.N2oDropdownButton;
 import net.n2oapp.framework.autotest.impl.component.control.N2oInputText;
-import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -78,7 +79,7 @@ public class FieldToolbarAT extends AutoTestBase {
         "test".equals(page.element().$("div.n2o-alerts div.n2o-alert-body-text").val());
 
         toolbar.button("Открыть модальное окно").click();
-        N2oModal modal = new N2oModal();
+        Modal modal = N2oSelenide.modal();
         modal.setElement(page.element().$("div.modal-content"));
         modal.shouldHaveTitle("Другая страница");
         modal.content(SimplePage.class).single().widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
@@ -120,7 +121,7 @@ public class FieldToolbarAT extends AutoTestBase {
         "test".equals(page.element().$("div.n2o-alerts div.n2o-alert-body-text").val());
 
         dropdownButton.menuItem("Открыть модальное окно").click();
-        N2oModal modal = new N2oModal();
+        Modal modal = N2oSelenide.modal();
         modal.setElement(page.element().$("div.modal-content"));
         modal.shouldHaveTitle("Другая страница");
         modal.content(SimplePage.class).single().widget(FormWidget.class).fields().field("С другой страницы").shouldExists();

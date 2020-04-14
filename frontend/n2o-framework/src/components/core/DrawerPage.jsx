@@ -37,10 +37,18 @@ function DrawerPage(props) {
     visible,
     loading,
     title,
+    footer,
     disabled,
     toolbar,
     actions,
     containerKey,
+    width,
+    height,
+    placement,
+    backdrop,
+    level,
+    backdropClosable,
+    animation,
     ...rest
   } = props;
 
@@ -62,12 +70,19 @@ function DrawerPage(props) {
         transparent
       >
         <Drawer
-          visible={!loading && visible}
+          visible={!loading && visible !== false}
           onHandleClick={() => rest.closeOverlay(true)}
+          onClose={() => rest.closeOverlay(true)}
           title={title}
-          backdrop={false}
+          backdrop={backdrop}
+          width={width}
+          height={height}
+          placement={placement}
+          level={level}
+          backdropClosable={backdropClosable}
+          animation={animation}
           footer={
-            toolbar && (
+            !!toolbar ? (
               <div
                 className={cn('n2o-modal-actions', {
                   'n2o-disabled': disabled,
@@ -86,6 +101,8 @@ function DrawerPage(props) {
                   containerKey={containerKey}
                 />
               </div>
+            ) : (
+              footer
             )
           }
         >

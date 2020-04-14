@@ -11,5 +11,4 @@ import lombok.Setter;
 @Setter
 public class N2oShowModal extends N2oAbstractPageAction {
     private String modalSize;
-    private ShowModalMode type;
 }

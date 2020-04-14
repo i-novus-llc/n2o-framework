@@ -196,8 +196,13 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     }
 
     private List<DataSet> filter(List<String> filters, Map<String, Object> inParams, List<DataSet> data) {
-        if (filters == null || filters.size() == 0)
+        if (filters == null || filters.isEmpty()) {
+            if (inParams != null && inParams.containsKey("id")) {
+                String id = "" + inParams.get("id");
+                data = data.stream().filter(m -> m.getId().equals(id)).collect(Collectors.toList());
+            }
             return data;
+        }
         for (String filter : filters) {
             if (filter.contains(":eq")) {
                 String[] splittedFilter = filter.replaceAll(" ", "").split(":eq");
