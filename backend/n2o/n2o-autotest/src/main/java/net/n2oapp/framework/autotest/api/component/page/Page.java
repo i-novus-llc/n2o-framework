@@ -34,6 +34,8 @@ public interface Page extends Component {
     }
 
     interface Breadcrumb {
+        void parentTitleShouldHaveText(String text);
+
         void titleShouldHaveText(String text);
     }
 

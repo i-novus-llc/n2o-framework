@@ -70,6 +70,10 @@ public class N2oPage extends N2oComponent implements Page {
     }
 
     public class N2oBreadcrumb implements Breadcrumb {
+        @Override
+        public void parentTitleShouldHaveText(String text) {
+            element().$(".breadcrumb .breadcrumb-item").shouldHave(Condition.text(text));
+        }
 
         @Override
         public void titleShouldHaveText(String text) {
