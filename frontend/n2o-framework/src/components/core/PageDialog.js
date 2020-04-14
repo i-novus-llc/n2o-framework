@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import get from 'lodash/get';
 
@@ -11,13 +12,13 @@ import withOverlayMethods from './withOverlayMethods';
 import Toolbar from '../buttons/Toolbar';
 
 function PageDialog({ visible, props }) {
+  const { title, description, size = 'sm' } = props;
+
   return (
     <div className="modal-page-overlay">
-      <Modal isOpen={visible} size="sm">
-        <ModalHeader>{props.title}</ModalHeader>
-        <ModalBody className="white-space-pre-line">
-          {props.description}
-        </ModalBody>
+      <Modal isOpen={visible} size={size}>
+        <ModalHeader>{title}</ModalHeader>
+        <ModalBody className="white-space-pre-line">{description}</ModalBody>
         <ModalFooter>
           <Toolbar
             className="mr-auto"
@@ -34,5 +35,14 @@ function PageDialog({ visible, props }) {
     </div>
   );
 }
+
+PageDialog.propTypes = {
+  visible: PropTypes.bool,
+  props: PropTypes.object,
+};
+
+PageDialog.defaultProps = {
+  props: {},
+};
 
 export default withOverlayMethods(PageDialog);

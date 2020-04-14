@@ -214,7 +214,7 @@
                     "queryMapping": {},
                     "target": "application"
                   },
-                  "closeLastModal": true
+                  "modalsToClose": 1
                 },
                 "fail": {}
               }
@@ -242,7 +242,7 @@
                 "name": "proto_create"
               },
               "meta": {
-                "closeLastModal": true
+                "modalsToClose": 1
               }
             },
             "conditions": {}
@@ -278,7 +278,7 @@
             "queryMapping": {},
             "target": "application"
           },
-          "closeLastModal": true
+          "modalsToClose": 1
         },
         "fail": {}
       }
@@ -290,7 +290,7 @@
         "name": "proto_create"
       },
       "meta": {
-        "closeLastModal": true
+        "modalsToClose": 1
       }
     }
   },

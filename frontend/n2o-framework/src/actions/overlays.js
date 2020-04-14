@@ -1,6 +1,8 @@
 import {
   INSERT,
+  INSERT_DIALOG,
   DESTROY,
+  DESTROY_OVERLAYS,
   HIDE,
   SHOW,
   SHOW_PROMPT,
@@ -22,6 +24,15 @@ export function insertOverlay(name, visible, mode, addition) {
     visible,
     mode,
     ...addition,
+  });
+}
+
+export function insertDialog(name, visible, props) {
+  return createActionHelper(INSERT_DIALOG)({
+    name,
+    visible,
+    mode: 'dialog',
+    ...props,
   });
 }
 
@@ -47,6 +58,10 @@ export function hideOverlay(name) {
  */
 export function destroyOverlay() {
   return createActionHelper(DESTROY)();
+}
+
+export function destroyOverlays(count) {
+  return createActionHelper(DESTROY_OVERLAYS)({ count });
 }
 
 /**

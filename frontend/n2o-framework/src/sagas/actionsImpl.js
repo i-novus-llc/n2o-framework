@@ -146,7 +146,7 @@ export function* handleInvoke(apiProvider, action) {
 
     const meta = merge(action.meta.success || {}, response.meta || {});
 
-    if (optimistic || (!meta.redirect && !meta.closeLastModal)) {
+    if (optimistic || (!meta.redirect && !meta.modalsToClose)) {
       yield put(
         setModel(PREFIXES.resolve, widgetId, optimistic ? model : response.data)
       );
