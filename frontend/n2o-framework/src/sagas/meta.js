@@ -120,13 +120,14 @@ export function* updateWidgetDependencyEffect({ meta }) {
 }
 
 export function* userDialogEffect({ meta }) {
-  const { title, description, toolbar } = meta.dialog;
+  const { title, description, toolbar, ...rest } = meta.dialog;
 
   yield put(
     insertOverlay('dialog', true, 'dialog', {
       title,
       description,
       toolbar,
+      ...rest,
     })
   );
 }
