@@ -558,6 +558,7 @@ public class DemoIntegrationAT {
      * Проверка создания контакта
      */
     @Test
+    @Order(5)
     public void testCreateContact() {
         protoPage.getSurnameFilter().val("Маркин");
         protoPage.searchClients();
@@ -575,6 +576,32 @@ public class DemoIntegrationAT {
         protoPage.tableShouldHaveSize(1);
 
         protoPage.contactsListShouldHaveText(0, "+7 (999) 999-99-99");
+    }
+
+    /**
+     * Проверка редактирования контакта после testCreateContact!
+     */
+    @Test
+    @Order(6)
+    public void testEditContact() {
+        protoPage.getSurnameFilter().val("Маркин");
+        protoPage.searchClients();
+        protoPage.tableCellShouldHaveText(0, 1, "Маркин");
+        protoPage.contactsListShouldHaveText(0, "+7 (999) 999-99-99");
+
+        ProtoContacts modalProtoContacts = protoPage.editContact(0);
+        modalProtoContacts.shouldHaveTitle("Контакты");
+        modalProtoContacts.shouldHaveContactType("Мобильный телефон");
+        modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (999) 999-99-99");
+        modalProtoContacts.getPhoneNumber().val("8888888888");
+        modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (888) 888-88-88");
+        modalProtoContacts.save();
+
+        protoPage.shouldDialogClosed("Контакты", 8000);
+        protoPage.shouldBeClientsPage();
+        protoPage.tableShouldHaveSize(1);
+
+        protoPage.contactsListShouldHaveText(0, "+7 (888) 888-88-88");
     }
 
     private boolean isSorted(List<String> list, Boolean dir) {
