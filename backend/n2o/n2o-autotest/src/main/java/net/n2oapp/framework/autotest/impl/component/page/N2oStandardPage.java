@@ -1,6 +1,8 @@
 package net.n2oapp.framework.autotest.impl.component.page;
 
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Regions;
+import net.n2oapp.framework.autotest.api.collection.Widgets;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.impl.collection.N2oRegions;
 
@@ -18,5 +20,10 @@ public class N2oStandardPage extends N2oPage implements StandardPage {
                 return collection(element().$$("div.n2o-page__single > div"), N2oRegions.class);
         }
         return null;
+    }
+
+    @Override
+    public Widgets widgets() {
+        return N2oSelenide.collection(element().$$(".n2o-standard-widget-layout"), Widgets.class);
     }
 }
