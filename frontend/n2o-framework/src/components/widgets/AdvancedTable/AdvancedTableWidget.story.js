@@ -227,7 +227,20 @@ stories
       <AdvancedTable columns={columns} data={data} rowSelection="checkbox" />
     );
   })
+  .add('Выбор строк чекбоксом по клику на строку', () => {
+    return (
+      <AdvancedTable
+        columns={columns}
+        data={data}
+        rowSelection="checkbox"
+        autoCheckboxOnSelect={true}
+      />
+    );
+  })
   .add('Выбор строк радио', () => {
+    return <AdvancedTable columns={columns} data={data} rowSelection="radio" />;
+  })
+  .add('Выбор строк радио по клику на строку', () => {
     return <AdvancedTable columns={columns} data={data} rowSelection="radio" />;
   })
   .add('Фильтр в заголовках', () => {

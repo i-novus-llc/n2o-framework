@@ -492,6 +492,41 @@ describe('<AdvancedTable/>', () => {
         '3': true,
       });
     });
+    it('корректно отрабатывает выбор строк autoCheckboxOnSelect', () => {
+      const wrapper = setup({
+        rowSelection: 'checkbox',
+        autoCheckboxOnSelect: true,
+      });
+
+      const table = wrapper.find('AdvancedTable').last();
+      const rows = wrapper.find('.n2o-table-row');
+
+      rows.at(0).simulate('click');
+      expect(table.state().checkedAll).toBe(false);
+      expect(table.state().checked).toEqual({
+        '1': true,
+        '2': false,
+        '3': false,
+      });
+
+      rows.at(1).simulate('click');
+
+      expect(table.state().checkedAll).toBe(false);
+      expect(table.state().checked).toEqual({
+        '1': true,
+        '2': true,
+        '3': false,
+      });
+
+      rows.at(2).simulate('click');
+
+      expect(table.state().checkedAll).toBe(true);
+      expect(table.state().checked).toEqual({
+        '1': true,
+        '2': true,
+        '3': true,
+      });
+    });
   });
   describe('тесты rowSelection = radio', () => {
     it('radio в колонке отрисовался', () => {
@@ -513,20 +548,45 @@ describe('<AdvancedTable/>', () => {
       });
 
       const table = wrapper.find('AdvancedTable').last();
-      const checkboxes = wrapper.find('RadioN2O input');
+      const radios = wrapper.find('RadioN2O input');
 
-      checkboxes.at(0).simulate('change', { target: { checked: false } });
+      radios.at(0).simulate('change', { target: { checked: false } });
       expect(table.state().checked).toEqual({
         '1': true,
       });
 
-      checkboxes.at(1).simulate('change', { target: { checked: false } });
+      radios.at(1).simulate('change', { target: { checked: false } });
 
       expect(table.state().checked).toEqual({
         '2': true,
       });
 
-      checkboxes.at(2).simulate('change', { target: { checked: false } });
+      radios.at(2).simulate('change', { target: { checked: false } });
+
+      expect(table.state().checked).toEqual({
+        '3': true,
+      });
+    });
+    it('корректно отрабатывает выбор radio через строку', () => {
+      const wrapper = setup({
+        rowSelection: 'radio',
+      });
+
+      const table = wrapper.find('AdvancedTable').last();
+      const rows = wrapper.find('.n2o-table-row');
+
+      rows.at(0).simulate('click');
+      expect(table.state().checked).toEqual({
+        '1': true,
+      });
+
+      rows.at(1).simulate('click');
+
+      expect(table.state().checked).toEqual({
+        '2': true,
+      });
+
+      rows.at(2).simulate('click');
 
       expect(table.state().checked).toEqual({
         '3': true,
