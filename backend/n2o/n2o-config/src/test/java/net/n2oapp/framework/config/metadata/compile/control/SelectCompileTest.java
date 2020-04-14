@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.metadata.control.list.ListType;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.Select;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
@@ -41,7 +42,8 @@ public class SelectCompileTest extends SourceCompileTestBase {
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         Select select = (Select) ((StandardField) field).getControl();
         assertThat(select.getSrc(), is("N2OSelect"));
-        assertThat(select.getHasCheckboxes(), is(true));
+        assertThat(select.getType(), is(ListType.checkboxes));
+        assertThat(select.getClosePopupOnSelect(), is(false));
         assertThat(select.getCleanable(), is(false));
         assertThat(select.getSelectFormatOne(), is("{size} объект"));
         assertThat(select.getSelectFormatFew(), is("{size} объекта"));
@@ -49,12 +51,13 @@ public class SelectCompileTest extends SourceCompileTestBase {
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         select = (Select) ((StandardField) field).getControl();
-        assertThat(select.getHasCheckboxes(), is(true));
+        assertThat(select.getType(), is(ListType.checkboxes));
         assertThat(select.getSelectFormat(), is("Логичных примеров {size} шт"));
 
         field = form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
         select = (Select) ((StandardField) field).getControl();
-        assertThat(select.getHasCheckboxes(), is(false));
+        assertThat(select.getType(), is(ListType.single));
+        assertThat(select.getClosePopupOnSelect(), is(true));
         assertThat(select.getCleanable(), is(true));
         assertThat(select.getData().size(), is(2));
         assertThat(select.getData().get(0).get("id"), is("type1"));
