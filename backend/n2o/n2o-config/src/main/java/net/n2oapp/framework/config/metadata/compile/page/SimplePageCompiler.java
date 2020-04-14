@@ -45,7 +45,6 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         String pageName = p.cast(context.getPageName(), source.getName(), source.getWidget().getName());
         boolean showTitle = p.cast(source.getShowTitle(), false);
         page.setPageProperty(initPageName(pageName, showTitle, context, p));
-        page.getPageProperty().setTitle(pageName);
         page.setProperties(p.mapAttributes(source));
         page.setBreadcrumb(initBreadcrumb(pageName, context, p));
         N2oWidget widget = source.getWidget();
