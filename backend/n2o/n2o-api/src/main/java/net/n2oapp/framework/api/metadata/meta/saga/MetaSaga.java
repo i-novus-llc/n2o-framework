@@ -19,7 +19,7 @@ public class MetaSaga implements Compiled {
     @JsonProperty
     private RedirectSaga redirect;
     @JsonProperty
-    private Boolean closeLastModal;
+    private Integer modalsToClose;
     @JsonProperty
     private MessageSaga messages;
     @JsonProperty

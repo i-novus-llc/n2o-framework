@@ -63,7 +63,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping(), is(nullValue()));
         assertThat(testAction.getMeta().getSuccess().getRefresh(), notNullValue());
         assertThat(testAction.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("testW"));
-        assertThat(testAction.getMeta().getSuccess().getCloseLastModal(), nullValue());
+        assertThat(testAction.getMeta().getSuccess().getModalsToClose(), nullValue());
 
         //resolve model
         InvokeAction menuItem0action = (InvokeAction) table.getActions().get("menuItem0");
@@ -71,7 +71,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(menuItem0action.getPayload().getModelLink(), is("models.resolve['w']"));
         assertThat(menuItem0action.getPayload().getWidgetId(), is("w"));
         assertThat(menuItem0action.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("w"));
-//        assertThat(menuItem0action.getOptions().getMeta().getSuccess().getCloseLastModal(), is(true));
+//        assertThat(menuItem0action.getOptions().getMeta().getSuccess().getModalsToClose(), is(1));
         WidgetDataProvider dataProvider = menuItem0action.getPayload().getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
         assertThat(dataProvider.getUrl(), is("n2o/data/w/:w_id/menuItem0"));

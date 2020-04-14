@@ -42,6 +42,7 @@ import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
@@ -77,7 +78,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         invokeAction.getPayload().setModelLink(modalLink);
         invokeAction.getMeta()
                 .setSuccess(initSuccessMeta(invokeAction, source, context, p, targetWidgetId, currentWidgetId, routeScope));
-        invokeAction.getMeta().setFail(initFailMeta(currentWidgetId));
+        invokeAction.getMeta().setFail(initFailMeta(invokeAction, source, context, p, currentWidgetId));
         invokeAction.getPayload().setWidgetId(targetWidgetId);
         if (widgetScope == null) {
             PageScope pageScope = p.getScope(PageScope.class);
@@ -88,9 +89,16 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         return invokeAction;
     }
 
-    private MetaSaga initFailMeta(String currentWidgetId) {
+    private MetaSaga initFailMeta(InvokeAction invokeAction, N2oInvokeAction source,
+                                  CompileContext<?, ?> context, CompileProcessor p,
+                                  String currentWidgetId) {
         MetaSaga metaSaga = new MetaSaga();
         metaSaga.setMessageWidgetId(currentWidgetId);
+        boolean closeOnFail = p.cast(source.getCloseOnFail(), false);
+        if (closeOnFail) {
+            if (context instanceof ModalPageContext || context instanceof DialogContext)
+                metaSaga.setModalsToClose(1);
+        }
         return metaSaga;
     }
 
@@ -98,9 +106,10 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                                      CompileContext<?, ?> context, CompileProcessor p, String targetWidgetId,
                                      String currentWidgetId, ParentRouteScope routeScope) {
         MetaSaga meta = new MetaSaga();
-        boolean closeOnSuccess = p.cast(source.getCloseOnSuccess(), false);
         boolean refresh = p.cast(source.getRefreshOnSuccess(), true);
         boolean redirect = source.getRedirectUrl() != null;
+        boolean doubleCloseOnSuccess = p.cast(source.getDoubleCloseOnSuccess(), false);
+        boolean closeOnSuccess = doubleCloseOnSuccess || p.cast(source.getCloseOnSuccess(), false);
         String messageWidgetId = currentWidgetId;
         if ((closeOnSuccess) && (context instanceof PageContext)) {
             messageWidgetId = ((PageContext) context).getParentClientWidgetId();
@@ -108,7 +117,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         meta.setMessageWidgetId(messageWidgetId);
         if (closeOnSuccess) {
             if (context instanceof ModalPageContext || context instanceof DialogContext)
-                meta.setCloseLastModal(true);
+                meta.setModalsToClose(doubleCloseOnSuccess ? 2 : 1);
             else if (!redirect) {
                 String backRoute;
                 if (context instanceof PageContext) {
@@ -137,7 +146,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         }
         if (redirect) {
             if (context instanceof ModalPageContext || context instanceof DialogContext)
-                meta.setCloseLastModal(true);
+                meta.setModalsToClose(doubleCloseOnSuccess ? 2 : 1);
             meta.setRedirect(new RedirectSaga());
 
             meta.getRedirect().setPath(absolute(source.getRedirectUrl(), routeScope != null ? routeScope.getUrl() : null));
@@ -165,11 +174,12 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             String clientWidgetId = widgetScope.getClientWidgetId();
             if (model.equals(ReduxModel.RESOLVE)) {
                 String widgetSelectedId = clientWidgetId + "_id";
+                //todo не нужно добавлять принудительно параметр в url, нужно только если его задали в route="/:id/action"
                 path = normalize(path + normalize(colon(widgetSelectedId)));
                 pathMapping.put(widgetSelectedId, new ModelLink(model, clientWidgetId, "id"));
             }
         }
-        path = path + normalize(p.cast(source.getRoute(), source.getId()));
+        path = normalize(path + normalize(p.cast(source.getRoute(), source.getId())));
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + path);
         dataProvider.setPathMapping(pathMapping);
         dataProvider.setMethod(RequestMethod.POST);

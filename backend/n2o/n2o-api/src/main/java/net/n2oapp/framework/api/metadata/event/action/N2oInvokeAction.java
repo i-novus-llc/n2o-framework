@@ -16,6 +16,8 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private String operationId;
     private String objectId;
     private Boolean closeOnSuccess;
+    private Boolean doubleCloseOnSuccess;
+    private Boolean closeOnFail;
     private Boolean refreshOnSuccess;
     private String confirmationText;
     private String bulkConfirmationText;

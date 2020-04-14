@@ -67,7 +67,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
         boolean refresh = p.cast(source.getRefreshOnClose(), false);
         boolean redirect = source.getRedirectUrl() != null;
         if (!redirect && (context instanceof ModalPageContext))
-            meta.setCloseLastModal(true);
+            meta.setModalsToClose(1);
         if (refresh) {
             meta.setRefresh(new RefreshSaga());
             meta.getRefresh().setType(RefreshSaga.Type.widget);

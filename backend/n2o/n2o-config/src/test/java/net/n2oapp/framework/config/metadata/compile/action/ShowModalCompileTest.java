@@ -127,7 +127,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submitPayload.getWidgetId(), is("p_create_main"));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("p_second"));
-        assertThat(meta.getSuccess().getCloseLastModal(), is(true));
+        assertThat(meta.getSuccess().getModalsToClose(), is(1));
         assertThat(meta.getFail().getMessageWidgetId(), is("p_create_main"));
         assertThat(meta.getSuccess().getMessageWidgetId(), is("p_main"));
 //        assertThat(meta.getRedirect().getPath(), is("/p/main/:id"));
@@ -188,7 +188,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 //        assertThat(buttons.get(1).getLabel(), is("Закрыть"));
 //        InvokeAction submit = (InvokeAction) modalPage.getWidget().getActions().get("submit");
 //        assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
-//        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+//        assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
 //        assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:id/update/submit"));
 //        ActionContext submitContext = (ActionContext) route("/p/:id/update/submit", CompiledObject.class);
 //        assertThat(submitContext.getSourceId(null), is("testShowModal"));
@@ -215,7 +215,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         SimplePage showModal = (SimplePage) routeAndGet("/p/createFocus", Page.class);
         InvokeAction submit = (InvokeAction) showModal.getWidget().getActions().get("submit");
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
 
@@ -231,7 +231,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         StandardPage showModal = (StandardPage) routeAndGet("/p/123/updateFocus", Page.class);
         InvokeAction submit = (InvokeAction) showModal.getActions().get("submit");
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
 
@@ -250,7 +250,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         StandardPage showModal = (StandardPage) routeAndGet("/p/123/updateByPathParams", Page.class);
         InvokeAction submit = (InvokeAction) showModal.getActions().get("submit");
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
 
@@ -269,7 +269,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         SimplePage showModal = (SimplePage) routeAndGet("/p/createUpdate", Page.class);
         InvokeAction submit = (InvokeAction) showModal.getWidget().getActions().get("submit");
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id/update"));
         //Есть обновление, потому что по умолчанию true. Обновится родительский виджет, потому что close-after-submit=true
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
@@ -352,7 +352,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 //        assertThat(buttons.get(1).getLabel(), is("Закрыть"));
         InvokeAction submit = (InvokeAction) modalPage.getWidget().getActions().get("submit");
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:p_main_id/updateWithPrefilters/submit"));
         ActionContext submitContext = (ActionContext) route("/p/:p_main_id/updateWithPrefilters/submit", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
@@ -396,7 +396,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyAction_table1"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
-        assertThat(submit.getMeta().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getModalsToClose(), is(1));
 
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.get(0).getId(), is("submit"));
@@ -420,7 +420,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidget_table1"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
-        assertThat(submit.getMeta().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getModalsToClose(), is(1));
 
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.get(0).getId(), is("submit"));
@@ -445,7 +445,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_ignore_table"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
-        assertThat(submit.getMeta().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getModalsToClose(), is(1));
 
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.get(0).getId(), is("submit"));

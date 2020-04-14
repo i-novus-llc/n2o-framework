@@ -35,16 +35,15 @@ public class DialogCompiler implements BaseSourceCompiler<Dialog, N2oDialog, Dia
         Dialog dialog = new Dialog();
         dialog.setTitle(source.getTitle());
         dialog.setDescription(source.getDescription());
-        IndexScope indexScope = new IndexScope();
-        WidgetScope widgetScope = new WidgetScope();
-        widgetScope.setClientWidgetId(context.getParentWidgetId());
         CompiledObject object = p.getCompiled(new ObjectContext(context.getObjectId()));
-        ParentRouteScope pageRouteScope = new ParentRouteScope(context.getRoute((N2oCompileProcessor) p),
-                context.getPathRouteMapping(), context.getQueryRouteMapping());
         if (source.getToolbar() != null) {
             ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.dialog.toolbar.place"), String.class));
-            Toolbar toolbar = (p.compile(source.getToolbar(), context, indexScope, widgetScope, object,
-                    pageRouteScope, toolbarPlaceScope));
+            WidgetScope widgetScope = new WidgetScope();
+            widgetScope.setClientWidgetId(context.getParentWidgetId());
+            ParentRouteScope pageRouteScope = new ParentRouteScope(context.getRoute((N2oCompileProcessor) p),
+                    context.getPathRouteMapping(), context.getQueryRouteMapping());
+            Toolbar toolbar = p.compile(source.getToolbar(), context, new IndexScope(), widgetScope, object,
+                    pageRouteScope, toolbarPlaceScope);
             dialog.setToolbar(toolbar);
         }
         return dialog;

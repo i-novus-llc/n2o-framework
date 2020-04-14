@@ -99,7 +99,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("page_test"));
         assertThat(meta.getSuccess().getMessageWidgetId(), is("page_test"));
-        assertThat(meta.getSuccess().getCloseLastModal(), nullValue());
+        assertThat(meta.getSuccess().getModalsToClose(), nullValue());
         assertThat(meta.getSuccess().getRedirect().getPath(), is("/page/widget"));
         ActionContext submitContext = (ActionContext) route("/page/widget/action1/submit", CompiledObject.class);
         assertThat(submitContext.getRedirect(), nullValue());
@@ -158,7 +158,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(submitPayload.getWidgetId(), is("page_widget_action2_main"));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("page_test"));
-        assertThat(meta.getSuccess().getCloseLastModal(), nullValue());
+        assertThat(meta.getSuccess().getModalsToClose(), nullValue());
         assertThat(meta.getSuccess().getRedirect().getPath(), is("/page/widget/:page_test_id"));
         ActionContext submitContext = (ActionContext) route("/page/widget/123/action2/submit", CompiledObject.class);
         assertThat(submitContext.getRedirect(), nullValue());

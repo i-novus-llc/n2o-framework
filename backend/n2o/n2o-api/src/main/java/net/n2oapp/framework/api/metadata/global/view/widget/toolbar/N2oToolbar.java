@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class N2oToolbar implements Source {
+public class N2oToolbar implements Source, GroupItems<ToolbarItem> {
     private String place;
     private String[] generate;
     private ToolbarItem[] items;
