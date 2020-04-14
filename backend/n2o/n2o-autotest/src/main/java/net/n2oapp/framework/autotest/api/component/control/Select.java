@@ -27,4 +27,6 @@ public interface Select extends Control {
     void shouldSelected(String value);
 
     void shouldBeChecked(int... indexes);
+
+    void shouldNotBeChecked(int... indexes);
 }

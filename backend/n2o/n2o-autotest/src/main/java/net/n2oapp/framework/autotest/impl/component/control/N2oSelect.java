@@ -68,6 +68,13 @@ public class N2oSelect extends N2oControl implements Select {
     }
 
     @Override
+    public void shouldNotBeChecked(int... indexes) {
+        for (int index : indexes)
+            selectPopUp().$$(".n2o-input").shouldBe(CollectionCondition.sizeGreaterThan(index))
+                    .get(index).shouldNotBe(Condition.checked);
+    }
+
+    @Override
     public void clear() {
         element().$(".n2o-input-clear").hover().shouldBe(Condition.visible).click();
     }

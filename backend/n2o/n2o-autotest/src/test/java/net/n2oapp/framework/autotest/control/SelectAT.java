@@ -76,6 +76,7 @@ public class SelectAT extends AutoTestBase {
         input.shouldBeChecked(0, 1, 2);
         input.shouldSelected("Объектов 3 шт");
         input.clear();
+        input.shouldNotBeChecked(0, 1, 2);
         input.shouldBeEmpty();
     }
 
@@ -96,6 +97,7 @@ public class SelectAT extends AutoTestBase {
         input.shouldBeChecked(0, 1, 2, 3, 4);
         input.shouldSelected("5 объектов");
         input.clear();
+        input.shouldNotBeChecked(0, 1, 2, 3, 4);
         input.shouldBeEmpty();
 
 
