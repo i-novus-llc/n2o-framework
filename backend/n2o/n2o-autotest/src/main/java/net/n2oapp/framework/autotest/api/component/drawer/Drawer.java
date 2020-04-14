@@ -3,6 +3,9 @@ package net.n2oapp.framework.autotest.api.component.drawer;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 
+/**
+ * Drawer панель для автотестирования
+ */
 public interface Drawer extends Component {
 
     <T extends Page> T content(Class<T> pageClass);
