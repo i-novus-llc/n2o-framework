@@ -1,4 +1,4 @@
-package net.n2oapp.framework.api.metadata.meta.action.show_modal;
+package net.n2oapp.framework.api.metadata.meta.action.open_drawer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class ShowModalPayload implements ActionPayload {
+public class OpenDrawerPayload implements ActionPayload {
     @JsonProperty
     @Deprecated
     private String name;
@@ -31,13 +31,23 @@ public class ShowModalPayload implements ActionPayload {
     @JsonProperty
     private String title;
     @JsonProperty
-    private String size;
-    @JsonProperty
-    private Boolean closeButton = true;
-    @JsonProperty
-    private Boolean visible = true;
-    @JsonProperty
     private Map<String, Action> actions;
     @JsonProperty
     private List<Group> toolbar;
+    @JsonProperty
+    private String mode = "drawer";
+    @JsonProperty
+    private Boolean closable = true;
+    @JsonProperty
+    private Boolean backdrop;
+    @JsonProperty
+    private String width;
+    @JsonProperty
+    private String height;
+    @JsonProperty
+    private String placement;
+    @JsonProperty
+    private String level;
+    @JsonProperty
+    private Boolean backdropClosable;
 }
