@@ -53,6 +53,7 @@ class N2OSelect extends React.Component {
       isExpanded: false,
       options: this.props.options,
       selected: this.props.value ? [this.props.value] : [],
+      hasCheckboxes: this.props.type === selectType.CHECKBOXES,
     };
 
     this._control = null;
@@ -70,8 +71,9 @@ class N2OSelect extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { value, type } = this.props;
     let selected = [];
-    if (!isEqual(nextProps.value, this.props.value)) {
+    if (!isEqual(nextProps.value, value) && type !== selectType.CHECKBOXES) {
       if (nextProps.value) {
         selected = [nextProps.value];
       } else {
@@ -84,6 +86,7 @@ class N2OSelect extends React.Component {
     this.setState({
       options: nextProps.options,
       selected,
+      hasCheckboxes: type === selectType.CHECKBOXES,
     });
   }
 
@@ -203,9 +206,21 @@ class N2OSelect extends React.Component {
    */
 
   _insertSelected(item) {
-    this.setState({
-      selected: [item],
-    });
+    const { options, onChange, onBlur } = this.props;
+    this.setState(
+      prevState => ({
+        selected: this.state.hasCheckboxes
+          ? [...prevState.selected, item]
+          : [item],
+        options,
+      }),
+      () => {
+        if (onChange) {
+          onChange(item);
+          onBlur(item);
+        }
+      }
+    );
   }
 
   /**
@@ -260,11 +275,6 @@ class N2OSelect extends React.Component {
 
     this._clearSearchField();
 
-    if (this.props.onChange) {
-      this.props.onChange(item);
-      this.props.onBlur(item);
-    }
-
     if (this._control) {
       this._control.focus();
     }
@@ -305,13 +315,13 @@ class N2OSelect extends React.Component {
 
   renderPlaceholder() {
     const {
-      selectFormat = '',
+      selectFormat = 'Объектов {size} шт',
       selectFormatOne = '',
       selectFormatFew = '',
       selectFormatMany = '',
     } = this.props;
 
-    const { selected } = this.state;
+    const { selected, hasCheckboxes } = this.state;
     const selectedCount = selected.length;
     let text;
 
@@ -319,7 +329,8 @@ class N2OSelect extends React.Component {
       !isEmpty(selectFormatOne) &&
       !isEmpty(selectFormatFew) &&
       !isEmpty(selectFormatMany) &&
-      selectedCount >= 0
+      selectedCount >= 1 &&
+      hasCheckboxes
     ) {
       text = declensionNoun(
         selectedCount,
@@ -327,7 +338,7 @@ class N2OSelect extends React.Component {
         selectFormatFew,
         selectFormatMany
       ).replace('{size}', selectedCount);
-    } else if (!isEmpty(selectFormat) && selectedCount >= 0) {
+    } else if (selectedCount >= 1 && hasCheckboxes) {
       text = selectFormat.replace('{size}', selectedCount);
     } else {
       text = null;
@@ -359,7 +370,6 @@ class N2OSelect extends React.Component {
       hasSearch,
       cleanable,
       style,
-      type,
     } = this.props;
     const inputSelectStyle = { width: '100%', ...style };
 
@@ -383,8 +393,9 @@ class N2OSelect extends React.Component {
             selected={this.state.selected}
             onClearClick={this._clearSelected}
           >
-            {this.renderPlaceholder() ||
-              (!isEmpty(selected) && selected[0][labelFieldId])}
+            {this.state.hasCheckboxes
+              ? this.renderPlaceholder()
+              : !isEmpty(selected) && selected[0][labelFieldId]}
           </InputSelectGroup>
         </Button>
         <Popup isExpanded={this.state.isExpanded}>
@@ -410,7 +421,7 @@ class N2OSelect extends React.Component {
               selected={this.state.selected}
               disabledValues={disabledValues}
               groupFieldId={groupFieldId}
-              hasCheckboxes={type === selectType.CHECKBOXES}
+              hasCheckboxes={this.state.hasCheckboxes}
               onRemoveItem={this._removeSelectedItem}
               format={format}
             />

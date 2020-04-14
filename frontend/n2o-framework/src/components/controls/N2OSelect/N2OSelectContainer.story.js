@@ -304,6 +304,7 @@ stories
     const newProps = {
       format: '',
       type: 'checkboxes',
+      closePopupOnSelect: false,
       selectFormatOne: '{size} машина',
       selectFormatFew: '{size} машины',
       selectFormatMany: '{size} машин',

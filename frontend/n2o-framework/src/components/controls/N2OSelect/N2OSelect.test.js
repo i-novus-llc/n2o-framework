@@ -106,7 +106,12 @@ describe('<N2OSelect />', () => {
       selectFormatMany: '{size} объектов',
     });
 
-    expect(wrapper.find('.n2o-input-items').contains('0 объектов')).toEqual(
+    wrapper
+      .find('CheckboxN2O')
+      .first()
+      .simulate('click');
+
+    expect(wrapper.find('.n2o-input-items').contains('1 объект')).toEqual(
       true
     );
   });
@@ -116,7 +121,12 @@ describe('<N2OSelect />', () => {
       selectFormat: 'Объектов {size} шт',
     });
 
-    expect(wrapper.find('.n2o-input-items').contains('Объектов 0 шт')).toEqual(
+    wrapper
+      .find('CheckboxN2O')
+      .first()
+      .simulate('click');
+
+    expect(wrapper.find('.n2o-input-items').contains('Объектов 1 шт')).toEqual(
       true
     );
   });
