@@ -356,7 +356,7 @@
             <xs:enumeration value="bottomRight"/>
             <xs:enumeration value="topCenter"/>
             <xs:enumeration value="bottomCenter"/>
-            <xs:enumeration value="breadcrumbLeft"/>
+            <xs:enumeration value="title"/>
         </xs:restriction>
     </xs:simpleType>
 
