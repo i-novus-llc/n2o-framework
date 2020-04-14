@@ -405,6 +405,11 @@
             "value": "`vip`",
             "link": "models.filter['proto_clients']"
           }
+        },
+        "headersMapping": {
+          "Button-Id": {
+            "value": "test"
+          }
         }
       },
       "toolbar": {
@@ -1054,8 +1059,14 @@
                       "link": "models.resolve['proto_clients'].id"
                     }
                   },
-                  "method": "POST",
-                  "optimistic": false
+                  "headersMapping": {
+                    "Content-Type": {
+                      "link": "models.resolve['proto_patients'].id"
+                    },
+                    "BUTTON_ID": {
+                      "value": "vip-button"
+                    }
+                  },
                 },
                 "modelLink": "models.resolve['proto_clients']"
               },

@@ -14,7 +14,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Универсальный сервлет обработки данных в json
@@ -47,6 +50,7 @@ public class DataServlet extends N2oServlet {
     protected void safeDoPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
         SetDataResponse result = controller.setData(req.getPathInfo(),
                 req.getParameterMap(),
+                getHeaders(req),
                 getRequestBody(req),
                 (UserContext) req.getAttribute(USER));
         res.setStatus(result.getStatus());
@@ -68,6 +72,16 @@ public class DataServlet extends N2oServlet {
         } catch (IOException e) {
             throw new N2oException(e);
         }
+    }
+
+    private Map<String, String[]> getHeaders(HttpServletRequest req) {
+        Map<String, String[]> result = new HashMap<>();
+        Enumeration<String> iter = req.getHeaderNames();
+        while (iter.hasMoreElements()) {
+            String name = iter.nextElement();
+            result.put(name, new String[]{req.getHeader(name)});
+        }
+        return result;
     }
 
 }

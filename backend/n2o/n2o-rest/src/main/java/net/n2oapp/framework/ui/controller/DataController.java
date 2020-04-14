@@ -43,9 +43,8 @@ public class DataController extends AbstractController {
         return controllerFactory.execute(requestInfo, responseInfo);
     }
 
-    @SuppressWarnings("unchecked")
-    public SetDataResponse setData(String path, Map<String, String[]> parameters, Object body, UserContext user) {
-        ActionRequestInfo requestInfo = createActionRequestInfo(path, parameters, body, user);
+    public SetDataResponse setData(String path, Map<String, String[]> parameters, Map<String, String[]> headers, Object body, UserContext user) {
+        ActionRequestInfo requestInfo = createActionRequestInfo(path, parameters, headers, body, user);
         ActionResponseInfo responseInfo = new ActionResponseInfo();
         SetDataResponse result = controllerFactory.execute(requestInfo, responseInfo);
         resolveRedirect(requestInfo, result);

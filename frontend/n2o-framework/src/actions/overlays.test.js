@@ -22,37 +22,30 @@ const name = 'MODAL_NAME';
 describe('Тесты экшенов overlays', () => {
   describe('Проверка экшена insertModal', () => {
     it('Генирирует правильное событие', () => {
-      const action = insertModal(
-        name,
-        true,
-        'TITLE',
-        'lg',
-        true,
-        'page_id',
-        'TableWidget'
-      );
+      const action = insertModal(name, true, 'TITLE', {
+        size: 'lg',
+        visible: true,
+        pageId: 'page_id',
+        widgetId: 'TableWidget',
+      });
       expect(action.type).toEqual(INSERT_MODAL);
     });
     it('Возвращает правильный payload', () => {
-      const action = insertModal(
-        name,
-        true,
-        'drawer',
-        'TITLE',
-        'lg',
-        true,
-        'page_id',
-        'TableWidget'
-      );
+      const action = insertModal(name, true, 'modal', {
+        title: 'TITLE',
+        size: 'lg',
+        visible: true,
+        pageId: 'page_id',
+        widgetId: 'TableWidget',
+      });
       expect(action.payload).toMatchObject({
-        0: 'TITLE',
-        1: 'lg',
-        2: true,
-        3: 'page_id',
-        4: 'TableWidget',
         mode: 'modal',
         name: 'MODAL_NAME',
         visible: true,
+        pageId: 'page_id',
+        size: 'lg',
+        title: 'TITLE',
+        widgetId: 'TableWidget',
       });
     });
   });

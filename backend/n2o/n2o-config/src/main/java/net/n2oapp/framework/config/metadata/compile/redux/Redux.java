@@ -162,7 +162,7 @@ public abstract class Redux {
      * @param preFilter
      * @return
      */
-    public static ModelLink linkFilter(N2oPreFilter preFilter) {
+    public static ModelLink linkParam(N2oPreFilter preFilter) {
         Object value;
         if (preFilter.getValues() == null) {
             value = ScriptProcessor.resolveExpression(preFilter.getValue());
@@ -179,9 +179,9 @@ public abstract class Redux {
         }
     }
 
-    public static ModelLink linkFilter(N2oParam param) {
+    public static ModelLink linkParam(N2oParam param) {
         Object value = ScriptProcessor.resolveExpression(param.getValue());
-        if (StringUtils.isJs(value)) {
+        if (value == null || StringUtils.isJs(value)) {
             ModelLink link = new ModelLink(param.getRefModel(),
                     CompileUtil.generateWidgetId(param.getRefPageId(), param.getRefWidgetId()));
             link.setValue(value);

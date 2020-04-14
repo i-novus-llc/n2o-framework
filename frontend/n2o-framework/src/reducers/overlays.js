@@ -3,6 +3,7 @@ import {
   INSERT_MODAL,
   INSERT_DRAWER,
   DESTROY,
+  DESTROY_OVERLAYS,
   HIDE,
   SHOW,
   SHOW_PROMPT,
@@ -71,6 +72,8 @@ export default function overlays(state = [], action) {
       return state;
     case DESTROY:
       return state.slice(0, -1);
+    case DESTROY_OVERLAYS:
+      return state.slice(0, -action.payload.count);
     case SHOW_PROMPT:
       state[index].showPrompt = true;
       return state.slice();

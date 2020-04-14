@@ -7,7 +7,7 @@
                     <input-text id="inputText">
                         <toolbar>
                             <button>
-                                <invoke operation-id="invokeInButton"/>
+                                <invoke operation-id="create"/>
                             </button>
                             <sub-menu>
                                 <menu-item>

@@ -66,7 +66,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getTarget().getKey(), is("modal_table1"));
         assertThat(action.getPayload().getTarget().getField(), nullValue());
         assertThat(action.getPayload().getMode(), is(CopyMode.merge));
-        assertThat(action.getMeta().getCloseLastModal(), is(true));
+        assertThat(action.getMeta().getModalsToClose(), is(1));
 
         action = (CopyAction) table.getActions().get("btn");
         assertThat(action.getType(), is("n2o/models/COPY"));
@@ -77,7 +77,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getTarget().getKey(), is("modal_table2"));
         assertThat(action.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(action.getPayload().getMode(), is(CopyMode.replace));
-        assertThat(action.getMeta().getCloseLastModal(), is(true));
+        assertThat(action.getMeta().getModalsToClose(), is(1));
     }
 
     @Test

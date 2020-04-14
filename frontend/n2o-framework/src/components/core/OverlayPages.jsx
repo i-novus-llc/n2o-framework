@@ -10,6 +10,7 @@ import { overlaysSelector } from '../../selectors/overlays';
 
 import ModalPage from './ModalPage';
 import DrawerPage from './DrawerPage';
+import PageDialog from './PageDialog';
 
 const ModalMode = {
   MODAL: 'modal',
@@ -20,6 +21,7 @@ const ModalMode = {
 const PageComponent = {
   [ModalMode.MODAL]: ModalPage,
   [ModalMode.DRAWER]: DrawerPage,
+  [ModalMode.DIALOG]: PageDialog,
 };
 
 const prepareProps = (props, overlay = {}) =>

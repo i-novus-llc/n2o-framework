@@ -399,6 +399,11 @@
                 <xs:annotation>
                     <xs:documentation>Выполнить действие объекта.</xs:documentation>
                 </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="form-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="header-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
                 <xs:attribute name="operation-id" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Действие объекта, которое нужно выполнить над моделью виджета.
@@ -461,6 +466,13 @@
                     <xs:annotation>
                         <xs:documentation>
                             Включение режима optimistic запросов на сервер
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="submit-form" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Утвердить форму
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

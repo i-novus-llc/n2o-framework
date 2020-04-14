@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.ui;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
@@ -22,6 +23,7 @@ public class ActionRequestInfo<D> extends RequestInfo {
     //immutable
     private CompiledObject object;
     private CompiledObject.Operation operation;
+    @Deprecated //use dialog
     private String choice;
     private boolean isBulk;
     private RedirectSaga redirect;

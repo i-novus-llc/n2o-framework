@@ -60,7 +60,7 @@ public class FileUploadAT extends AutoTestBase {
         fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/test1.json");
         fileUpload.uploadFilesShouldBe(1);
         fileUpload.uploadFileNameShouldBe(0, "test1.json");
-        fileUpload.uploadFileSizeShouldBe(0, "91");
+        fileUpload.uploadFileSizeShouldBe(0, "91 Б");
         fileUpload.deleteFile(0);
         fileUpload.uploadFilesShouldBe(0);
     }
@@ -76,7 +76,7 @@ public class FileUploadAT extends AutoTestBase {
 
         fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
         fileUpload.uploadFileNameShouldBe(0, "test1.json");
-        fileUpload.uploadFileSizeShouldBe(0, "91");
+        fileUpload.uploadFileSizeShouldBe(0, "91 Б");
 
         assertThat(fileStoreController.getFileStore().size(), is(1));
         fileUpload.deleteFile(0);
@@ -96,10 +96,10 @@ public class FileUploadAT extends AutoTestBase {
 
         fileUpload.uploadFileShouldHaveLink(0, "http://localhost:" + port + "/files/test1.json");
         fileUpload.uploadFileNameShouldBe(0, "test1.json");
-        fileUpload.uploadFileSizeShouldBe(0, "91");
+        fileUpload.uploadFileSizeShouldBe(0, "105");
         fileUpload.uploadFileShouldHaveLink(1, "http://localhost:" + port + "/files/test2.json");
         fileUpload.uploadFileNameShouldBe(1, "test2.json");
-        fileUpload.uploadFileSizeShouldBe(1, "91");
+        fileUpload.uploadFileSizeShouldBe(1, "91 Б");
 
         assertThat(fileStoreController.getFileStore().size(), is(2));
         fileUpload.deleteFile(1);

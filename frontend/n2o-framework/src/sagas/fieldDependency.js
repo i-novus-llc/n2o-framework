@@ -30,7 +30,7 @@ import {
 } from '../actions/formPlugin';
 import { FETCH_VALUE } from '../core/api';
 import fetchSaga from './fetch';
-import compileUrl from '../utils/compileUrl';
+import { dataProviderResolver } from '../core/dataProviderResolver';
 import { evalResultCheck } from '../utils/evalResultCheck';
 
 export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
@@ -38,8 +38,15 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
     yield delay(300);
     yield put(setLoading(form, field, true));
     const state = yield select();
-    const url = compileUrl(dataProvider.url, dataProvider, state);
-    const response = yield call(fetchSaga, FETCH_VALUE, { url });
+    const { url, headersParams } = yield call(
+      dataProviderResolver,
+      state,
+      dataProvider
+    );
+    const response = yield call(fetchSaga, FETCH_VALUE, {
+      url,
+      headers: headersParams,
+    });
     const model = get(response, 'list[0]', null);
 
     if (model) {

@@ -30,22 +30,15 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
         button.setSrc(p.cast(but.getSrc(), p.resolve(property("n2o.api.action.button.src"), String.class)));
         button.setRounded(p.cast(but.getRounded(), false));
         button.setProperties(p.mapAttributes(but));
-        if (but.getColor() == null) {
-            ComponentScope componentScope = p.getScope(ComponentScope.class);
-            if (componentScope != null) {
-                N2oCell component = componentScope.unwrap(N2oCell.class);
-                if (component != null) {
-                    button.setColor(p.resolve(property("n2o.api.cell.toolbar.button-color"), String.class));
-                }
-            }
-        } else {
-            button.setColor(but.getColor());
-        }
+        initColor(but, p, button);
         IndexScope idx = p.getScope(IndexScope.class);
         initItem(button, but, idx, context, p);
-        if (but.getValidate() != null && but.getValidate()) {
-            button.setValidatedWidgetId(initWidgetId(but, context, p));
-        }
+        initValidate(but, context, p, button);
+        initLinkAction(button);
+        return button;
+    }
+
+    private void initLinkAction(PerformButton button) {
         if (button.getAction() != null && button.getAction() instanceof LinkAction) {
             LinkAction linkAction = ((LinkAction) button.getAction());
             button.setUrl(linkAction.getUrl());
@@ -55,7 +48,26 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
             if (linkAction.getQueryMapping() != null)
                 button.setQueryMapping(new StrictMap<>(linkAction.getQueryMapping()));
         }
-        return button;
+    }
+
+    private void initValidate(N2oButton but, CompileContext<?, ?> context, CompileProcessor p, PerformButton button) {
+        if (but.getValidate() != null && but.getValidate()) {
+            button.setValidatedWidgetId(initWidgetId(but, context, p));
+        }
+    }
+
+    private void initColor(N2oButton but, CompileProcessor p, PerformButton button) {
+        if (but.getColor() == null) {
+            ComponentScope componentScope = p.getScope(ComponentScope.class);
+            if (componentScope != null) {
+                N2oCell cell = componentScope.unwrap(N2oCell.class);
+                if (cell != null) {
+                    button.setColor(p.resolve(property("n2o.api.cell.toolbar.button-color"), String.class));
+                }
+            }
+        } else {
+            button.setColor(but.getColor());
+        }
     }
 
 }

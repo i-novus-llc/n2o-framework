@@ -104,7 +104,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(submitPayload.getWidgetId(), is("p_create_main"));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("p_second"));
-        assertThat(meta.getSuccess().getCloseLastModal(), nullValue());
+        assertThat(meta.getSuccess().getModalsToClose(), nullValue());
         assertThat(meta.getFail().getMessageWidgetId(), is("p_create_main"));
         assertThat(meta.getSuccess().getMessageWidgetId(), is("p_main"));
         assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/create/submit"));
@@ -169,7 +169,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         SimplePage openDrawer = (SimplePage) routeAndGet("/p/createFocus", Page.class);
         InvokeAction submit = (InvokeAction) openDrawer.getWidget().getActions().get("submit");
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), nullValue());
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), nullValue());
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
 
@@ -184,7 +184,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         StandardPage openDrawer = (StandardPage) routeAndGet("/p/123/updateFocus", Page.class);
         InvokeAction submit = (InvokeAction) openDrawer.getActions().get("submit");
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), nullValue());
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), nullValue());
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
 
@@ -202,7 +202,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         SimplePage openDrawer = (SimplePage) routeAndGet("/p/createUpdate", Page.class);
         InvokeAction submit = (InvokeAction) openDrawer.getWidget().getActions().get("submit");
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), nullValue());
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), nullValue());
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id/update"));
         //Есть обновление, потому что по умолчанию true. Обновится родительский виджет, потому что close-after-submit=true
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
@@ -284,7 +284,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
 //        assertThat(buttons.get(1).getLabel(), is("Закрыть"));
         InvokeAction submit = (InvokeAction) drawerPage.getWidget().getActions().get("submit");
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(),nullValue());
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(),nullValue());
         assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:p_main_id/updateWithPrefilters/submit"));
         ActionContext submitContext = (ActionContext) route("/p/:p_main_id/updateWithPrefilters/submit", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));

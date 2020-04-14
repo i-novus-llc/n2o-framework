@@ -49,7 +49,7 @@ public class N2oFieldCompileTest extends SourceCompileTestBase {
         assertThat(toolbar.get(0), instanceOf(PerformButton.class));
         assertThat(toolbar.get(1), instanceOf(Submenu.class));
         assertThat(((InvokeAction) toolbar.get(0).getAction()).getObjectId(), is("utBlank"));
-        assertThat(((InvokeAction) toolbar.get(0).getAction()).getOperationId(), is("invokeInButton"));
+        assertThat(((InvokeAction) toolbar.get(0).getAction()).getOperationId(), is("create"));
         assertThat(((InvokeAction) toolbar.get(0).getAction()).getType(), is("n2o/actionImpl/START_INVOKE"));
 
         Submenu submenu = (Submenu) toolbar.get(1);

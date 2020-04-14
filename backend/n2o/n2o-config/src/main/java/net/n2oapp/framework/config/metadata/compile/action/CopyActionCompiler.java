@@ -49,7 +49,8 @@ public class CopyActionCompiler extends AbstractActionCompiler<CopyAction, N2oCo
         copyAction.getPayload().setMode(p.cast(source.getMode(), CopyMode.merge));
 
         MetaSaga meta = new MetaSaga();
-        meta.setCloseLastModal(p.resolve(property("n2o.api.action.copy.close_on_success"), Boolean.class));
+        Boolean closeLastModal = p.resolve(property("n2o.api.action.copy.close_on_success"), Boolean.class);
+        meta.setModalsToClose(closeLastModal ? 1 : 0);
         copyAction.setMeta(meta);
 
         return copyAction;

@@ -5,7 +5,9 @@ import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Контекст сборки объекта под конкретную операцию
@@ -15,12 +17,17 @@ import java.util.List;
 public class ActionContext extends ObjectContext {
     private String operationId;
     private List<Validation> validations;
+    private String parentWidgetId;
     private String failAlertWidgetId;
     private String successAlertWidgetId;
     private String messagesForm;
     private RedirectSaga redirect;
     private boolean messageOnSuccess = true;
     private boolean messageOnFail = true;
+    /**
+     * Маппинг path, query, header, form параметров url к in параметрам операции
+     */
+    private Map<String, String> operationMapping;
 
     /**
      * Создать контекст

@@ -1,7 +1,9 @@
 import {
   INSERT_MODAL,
   INSERT_DRAWER,
+  INSERT_DIALOG,
   DESTROY,
+  DESTROY_OVERLAYS,
   HIDE,
   SHOW,
   SHOW_PROMPT,
@@ -15,14 +17,14 @@ import createActionHelper from './createActionHelper';
  * @param name
  * @param visible
  * @param mode
- * @param rest
+ * @param addition
  */
-export function insertModal(name, visible, mode, ...rest) {
+export function insertModal(name, visible, mode, addition) {
   return createActionHelper(INSERT_MODAL)({
     name,
     visible,
     mode: 'modal',
-    ...rest,
+    ...addition,
   });
 }
 
@@ -31,14 +33,23 @@ export function insertModal(name, visible, mode, ...rest) {
  * @param name
  * @param visible
  * @param mode
- * @param rest
+ * @param {Object} addition - объект с дополнительные параметрами
  */
-export function insertDrawer(name, visible, mode, ...rest) {
+export function insertDrawer(name, visible, mode, addition) {
   return createActionHelper(INSERT_DRAWER)({
     name,
     visible,
     mode: 'drawer',
-    ...rest,
+    ...addition,
+  });
+}
+
+export function insertDialog(name, visible, props) {
+  return createActionHelper(INSERT_DIALOG)({
+    name,
+    visible,
+    mode: 'dialog',
+    ...props,
   });
 }
 
@@ -64,6 +75,10 @@ export function hideOverlay(name) {
  */
 export function destroyOverlay() {
   return createActionHelper(DESTROY)();
+}
+
+export function destroyOverlays(count) {
+  return createActionHelper(DESTROY_OVERLAYS)({ count });
 }
 
 /**
