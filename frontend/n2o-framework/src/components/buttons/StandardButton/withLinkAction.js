@@ -1,7 +1,7 @@
 import { compose, mapProps } from 'recompose';
 import { replace } from 'connected-react-router';
 import withActionButton from '../withActionButton';
-import compileUrl from '../../../utils/compileUrl';
+import { dataProviderResolver } from '../../../core/dataProviderResolver';
 import mappingProps from '../Simple/mappingProps';
 
 function isModifiedEvent(event) {
@@ -13,7 +13,11 @@ export default compose(
     onClick: (e, props, state) => {
       e.preventDefault();
       const { url, pathMapping, queryMapping, target } = props;
-      const compiledUrl = compileUrl(url, { pathMapping, queryMapping }, state);
+      const { url: compiledUrl } = dataProviderResolver(state, {
+        url,
+        pathMapping,
+        queryMapping,
+      });
 
       if (isModifiedEvent(e)) {
         return;

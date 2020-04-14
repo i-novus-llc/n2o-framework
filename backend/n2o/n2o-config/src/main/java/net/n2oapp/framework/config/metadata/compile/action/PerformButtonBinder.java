@@ -24,6 +24,7 @@ public class PerformButtonBinder implements BaseMetadataBinder<PerformButton> {
             button.setQueryMapping(result);
         }
         button.setUrl(url);
+        p.bind(button.getAction());
         return button;
     }
 

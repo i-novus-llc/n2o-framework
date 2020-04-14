@@ -54,6 +54,9 @@ public class InputTextAT extends AutoTestBase {
         // превышение указанной длины
         input.val("test1test2test3");
         input.shouldHaveValue("test1test2");
+        // проверка меры измерения
+        input.shouldHaveMeasure();
+        input.measureShouldHaveText("шт.");
     }
 
     @Test
@@ -77,6 +80,9 @@ public class InputTextAT extends AutoTestBase {
         input.val("-99");
         input.clickMinusStepButton();
         input.shouldHaveValue("-99");
+        // проверка меры измерения
+        input.shouldHaveMeasure();
+        input.measureShouldHaveText("cm");
     }
 
     @Test

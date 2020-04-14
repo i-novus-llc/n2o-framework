@@ -18,6 +18,7 @@
     <xs:element name="badge" type="badgeDefinition"/>
     <xs:element name="rating" type="ratingDefinition"/>
     <xs:element name="switch" type="switchCellDefinition"/>
+    <xs:element name="tooltip-list" type="tooltipListDefinition"/>
     <xs:element name="cell" type="customDefinition"/>
 
     <xs:complexType name="cells">
@@ -34,6 +35,7 @@
             <xs:element name="badge" type="badgeDefinition" minOccurs="0"/>
             <xs:element name="rating" type="ratingDefinition" minOccurs="0"/>
             <xs:element name="switch" type="switchCellDefinition" minOccurs="0"/>
+            <xs:element name="tooltip-list" type="tooltipListDefinition" minOccurs="0"/>
             <xs:element name="cell" type="customDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
@@ -493,6 +495,51 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="tooltipListDefinition">
+        <xs:complexContent>
+            <xs:extension base="cellDefinition">
+                <xs:annotation>
+                    <xs:documentation>Ячейка с тултипом и раскрывающимся текстовым списком.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Универсальный заголовок поля.
+                            Нужно использовать либо универсальный заголовок, либо 3 вида
+                            заголовков при разном числе элементов.
+                            Если не задать ни один, то ячейка будет пустой.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label-one" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при одном элементе.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label-few" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при нескольких элементах.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="label-many" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при большом числе элементов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="dashed-label" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Подчеркивание заголовка пунктиром.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="trigger" type="triggerType" default="hover">
+                    <xs:annotation>
+                        <xs:documentation>Действие, при котором раскрывается список.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="switchCellDefinition">
         <xs:annotation>
             <xs:documentation>Переключатель ячеек.</xs:documentation>
@@ -648,6 +695,16 @@
         </xs:complexContent>
     </xs:complexType>
 
+
+    <xs:simpleType name="triggerType">
+        <xs:annotation>
+            <xs:documentation>Действие, после которого происходит событие.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="click"/>
+            <xs:enumeration value="hover"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="iconType">
         <xs:annotation>

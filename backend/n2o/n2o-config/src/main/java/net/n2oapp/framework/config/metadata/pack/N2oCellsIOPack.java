@@ -35,6 +35,8 @@ public class N2oCellsIOPack implements MetadataPack<ReadersBuilder> {
                 new ListCellElementIOv2(),
                 new IconCellElementIOv2(),
                 new RatingCellElementIOv2(),
-                new SwitchCellElementIOv2());
+                new SwitchCellElementIOv2(),
+                new RatingCellElementIOv2(),
+                new TooltipListCellElementIOv2());
     }
 }

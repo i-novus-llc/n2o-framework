@@ -156,22 +156,25 @@ export default function withActionButton(options = {}) {
         const { confirm, hint } = this.props;
         const { confirmVisible } = this.state;
         return (
-          <React.Fragment>
-            <Tooltip target={this.generatedButtonId} hint={hint}>
-              <WrappedComponent
-                {...omit(this.props, [
-                  'isInit',
-                  'targetTooltip',
-                  'initialProps',
-                  'registerButton',
-                  'uid',
-                  'validationConfig',
-                  'formValues',
-                ])}
-                onClick={this.handleClick}
-                id={this.generatedButtonId}
-              />
-            </Tooltip>
+          <>
+            <Tooltip
+              hint={hint}
+              label={
+                <WrappedComponent
+                  {...omit(this.props, [
+                    'isInit',
+                    'targetTooltip',
+                    'initialProps',
+                    'registerButton',
+                    'uid',
+                    'validationConfig',
+                    'formValues',
+                  ])}
+                  onClick={this.handleClick}
+                  id={this.generatedButtonId}
+                />
+              }
+            />
             {confirm && (
               <ModalDialog
                 {...this.mapConfirmProps(confirm)}
@@ -181,7 +184,7 @@ export default function withActionButton(options = {}) {
                 close={this.handleCloseConfirmModal}
               />
             )}
-          </React.Fragment>
+          </>
         );
       }
     }

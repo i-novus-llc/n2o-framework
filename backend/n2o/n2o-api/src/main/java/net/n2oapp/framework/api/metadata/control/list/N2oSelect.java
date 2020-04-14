@@ -16,4 +16,8 @@ public class N2oSelect extends N2oSingleListFieldAbstract {
     private N2oClassifier.Mode mode;
     private ListType type;
     private Boolean cleanable;
+    private String selectFormat;
+    private String selectFormatOne;
+    private String selectFormatFew;
+    private String selectFormatMany;
 }

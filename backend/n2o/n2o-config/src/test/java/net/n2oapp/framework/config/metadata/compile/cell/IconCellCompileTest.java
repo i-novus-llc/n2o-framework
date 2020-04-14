@@ -51,5 +51,7 @@ public class IconCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getIconType(), is(IconType.iconAndText));
         assertThat(cell.getText(), is("text"));
         assertThat(cell.getPosition(), is(Position.right));
+        assertThat(cell.getTooltipFieldId(), is("tooltipId"));
     }
 }
+

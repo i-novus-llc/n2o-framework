@@ -3,7 +3,7 @@
                  name="Моя страница"
                  object-id="object"
                  route="test"
-                 modal-size="lg">
+                 modal-size="lg" show-title="true">
     <toolbar place="bottomRight" generate="submit, close">
         <button action-id="testId" validate="true" model="filter"/>
         <sub-menu>
@@ -16,7 +16,7 @@
             </sub-menu>
         </group>
     </toolbar>
-    <left>
+    <left width="70%">
         <region place="single" src="NoneRegion">
             <table>
                 <columns>
@@ -42,7 +42,7 @@
             </table>
         </line>
     </left>
-    <right>
+    <right width="30%">
         <panel place="single" src="PanelRegion" collapsible="true" class="card-header"
                style="margin-left:10px;width:300px" header="true">
             <table>

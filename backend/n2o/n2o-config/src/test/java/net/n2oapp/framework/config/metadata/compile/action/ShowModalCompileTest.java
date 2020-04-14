@@ -3,13 +3,14 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.event.action.ShowModalMode;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.action.close.CloseAction;
+import net.n2oapp.framework.api.metadata.meta.action.copy.CopyAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
@@ -61,7 +62,9 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModal.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction1.page.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalPageByParams.page.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePageAction2.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyActionWithTwoWidgetPage.page.xml")
+        );
     }
 
     @Test
@@ -76,7 +79,6 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(payload.getPageUrl(), is("/p/create"));
         assertThat(payload.getSize(), is("sm"));
         assertThat(payload.getPageId(), is("p_create"));
-        assertThat(payload.getMode(), is(ShowModalMode.drawer));
 
 //        assertThat(payload.getActions().size(), is(2));
 //        assertThat(payload.getActions().containsKey("submit"), is(true));
@@ -123,7 +125,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(submitPayload.getWidgetId(), is("p_create_main"));
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("p_second"));
-        assertThat(meta.getSuccess().getCloseLastModal(), is(true));
+        assertThat(meta.getSuccess().getModalsToClose(), is(1));
         assertThat(meta.getFail().getMessageWidgetId(), is("p_create_main"));
         assertThat(meta.getSuccess().getMessageWidgetId(), is("p_main"));
 //        assertThat(meta.getRedirect().getPath(), is("/p/main/:id"));
@@ -184,7 +186,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 //        assertThat(buttons.get(1).getLabel(), is("Закрыть"));
 //        InvokeAction submit = (InvokeAction) modalPage.getWidget().getActions().get("submit");
 //        assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
-//        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+//        assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
 //        assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:id/update/submit"));
 //        ActionContext submitContext = (ActionContext) route("/p/:id/update/submit", CompiledObject.class);
 //        assertThat(submitContext.getSourceId(null), is("testShowModal"));
@@ -211,7 +213,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         SimplePage showModal = (SimplePage) routeAndGet("/p/createFocus", Page.class);
         InvokeAction submit = (InvokeAction) showModal.getWidget().getActions().get("submit");
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
 
@@ -227,7 +229,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         StandardPage showModal = (StandardPage) routeAndGet("/p/123/updateFocus", Page.class);
         InvokeAction submit = (InvokeAction) showModal.getActions().get("submit");
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
 
@@ -246,7 +248,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         StandardPage showModal = (StandardPage) routeAndGet("/p/123/updateByPathParams", Page.class);
         InvokeAction submit = (InvokeAction) showModal.getActions().get("submit");
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id"));
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
 
@@ -265,7 +267,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
         SimplePage showModal = (SimplePage) routeAndGet("/p/createUpdate", Page.class);
         InvokeAction submit = (InvokeAction) showModal.getWidget().getActions().get("submit");
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getMeta().getSuccess().getRedirect().getPath(), is("/p/:id/update"));
         //Есть обновление, потому что по умолчанию true. Обновится родительский виджет, потому что close-after-submit=true
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
@@ -348,7 +350,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 //        assertThat(buttons.get(1).getLabel(), is("Закрыть"));
         InvokeAction submit = (InvokeAction) modalPage.getWidget().getActions().get("submit");
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
-        assertThat(submit.getMeta().getSuccess().getCloseLastModal(), is(true));
+        assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
         assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:p_main_id/updateWithPrefilters/submit"));
         ActionContext submitContext = (ActionContext) route("/p/:p_main_id/updateWithPrefilters/submit", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
@@ -373,5 +375,79 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         Page showModalPage = routeAndGet("/p/updateEditWithPrefilters", Page.class);
         assertThat(showModalPage.getId(), is("p_updateEditWithPrefilters"));
+    }
+
+    @Test
+    public void copyAction() {
+        Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyAction.page.xml")
+                .get(new PageContext("testShowModalCopyAction"));
+
+        PageContext modalContext = (PageContext) route("/testShowModalCopyAction/123/update", Page.class);
+        SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
+
+        CopyAction submit = (CopyAction) modalPage.getWidget().getActions().get("submit");
+        assertThat(submit.getType(), is("n2o/models/COPY"));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.RESOLVE.getId()));
+        assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyAction_update_main"));
+        assertThat(submit.getPayload().getSource().getField(), nullValue());
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyAction_table1"));
+        assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
+        assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
+        assertThat(submit.getMeta().getModalsToClose(), is(1));
+
+        List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
+        assertThat(buttons.get(0).getId(), is("submit"));
+        assertThat(buttons.get(0).getAction(), is(submit));
+    }
+
+    @Test
+    public void copyActionWithTwoWidget() {
+        Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyActionWithTwoWidget.page.xml")
+                .get(new PageContext("testShowModalCopyActionWithTwoWidget"));
+
+        PageContext modalContext = (PageContext) route("/testShowModalCopyActionWithTwoWidget/123/update", Page.class);
+        StandardPage modalPage = (StandardPage) read().compile().get(modalContext);
+
+        CopyAction submit = (CopyAction) modalPage.getActions().get("submit");
+        assertThat(submit.getType(), is("n2o/models/COPY"));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidget_update_table2"));
+        assertThat(submit.getPayload().getSource().getField(), is("id"));
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidget_table1"));
+        assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
+        assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
+        assertThat(submit.getMeta().getModalsToClose(), is(1));
+
+        List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
+        assertThat(buttons.get(0).getId(), is("submit"));
+        assertThat(buttons.get(0).getAction(), is(submit));
+        assertThat(buttons.get(0).getLabel(), is("Сохранить"));
+    }
+
+    @Test
+    public void copyActionWithTwoWidgetWithoutCopyAttributes() {
+        Page rootPage = compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalCopyActionWithTwoWidgetDefault.page.xml")
+                .get(new PageContext("testShowModalCopyActionWithTwoWidgetDefault"));
+
+        PageContext modalContext = (PageContext) route("/testShowModalCopyActionWithTwoWidgetDefault/123/update", Page.class);
+        StandardPage modalPage = (StandardPage) read().compile().get(modalContext);
+
+        CopyAction submit = (CopyAction) modalPage.getActions().get("submit");
+        assertThat(submit.getType(), is("n2o/models/COPY"));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.RESOLVE.getId()));
+        assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_update_master"));
+        assertThat(submit.getPayload().getSource().getField(), nullValue());
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidgetDefault_ignore_table"));
+        assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
+        assertThat(submit.getPayload().getMode(), is(CopyMode.replace));
+        assertThat(submit.getMeta().getModalsToClose(), is(1));
+
+        List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
+        assertThat(buttons.get(0).getId(), is("submit"));
+        assertThat(buttons.get(0).getAction(), is(submit));
+        assertThat(buttons.get(0).getLabel(), is("Выбрать"));
     }
 }

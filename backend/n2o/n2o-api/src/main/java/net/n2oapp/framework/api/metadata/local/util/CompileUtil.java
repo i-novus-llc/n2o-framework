@@ -1,12 +1,9 @@
 package net.n2oapp.framework.api.metadata.local.util;
 
-import net.n2oapp.framework.api.metadata.aware.IdAware;
 import org.springframework.util.SerializationUtils;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Map;
 import java.util.Set;
 
 public class CompileUtil {

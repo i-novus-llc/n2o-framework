@@ -31,6 +31,7 @@ import AdvancedTable, {
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import percentWidth from './json/PercentWidth.meta';
 import pixelWidth from './json/PixelWidth.meta';
+import EditableCellWithTooltip from './json/EditableCellWithTooltip.meta';
 
 const stories = storiesOf('Виджеты/Advanced Table', module);
 stories.addParameters({
@@ -227,7 +228,20 @@ stories
       <AdvancedTable columns={columns} data={data} rowSelection="checkbox" />
     );
   })
+  .add('Выбор строк чекбоксом по клику на строку', () => {
+    return (
+      <AdvancedTable
+        columns={columns}
+        data={data}
+        rowSelection="checkbox"
+        autoCheckboxOnSelect={true}
+      />
+    );
+  })
   .add('Выбор строк радио', () => {
+    return <AdvancedTable columns={columns} data={data} rowSelection="radio" />;
+  })
+  .add('Выбор строк радио по клику на строку', () => {
     return <AdvancedTable columns={columns} data={data} rowSelection="radio" />;
   })
   .add('Фильтр в заголовках', () => {
@@ -318,6 +332,17 @@ stories
       <Factory
         level={WIDGETS}
         {...editableCell['Page_Table']}
+        id="Page_Table"
+      />
+    );
+  })
+  .add('Редактируемая ячейка с тултипом', () => {
+    fetchMock.restore().get(urlPattern, url => getStubData(url));
+    return (
+      <Factory
+        level={WIDGETS}
+        {...EditableCellWithTooltip['Page_Table']}
+        datasource={EditableCellWithTooltip.datasource}
         id="Page_Table"
       />
     );

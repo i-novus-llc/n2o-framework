@@ -45,7 +45,7 @@ public class BulkOperationUtils {
         N2oException n2oException = new N2oUserException(summary);
         n2oException.setSeverity(SeverityType.warning);
         n2oException.setHttpStatus(httpStatus);
-        n2oException.setChoice(createChoice(ignoreIds));
+        //n2oException.setChoice(createChoice(ignoreIds)); todo use dialog
         n2oException.setData(Arrays.asList(operation.getName(), id));
         throw n2oException;
     }
@@ -89,6 +89,7 @@ public class BulkOperationUtils {
 
     //utils
 
+    @Deprecated //use dialog
     private static Map<String, String> createChoice(Map<String, Boolean> ignoreIds) {
         Map<String, String> res = new HashMap<>();
         String serializedIgnoreIds = serializeIgnoreIds(ignoreIds);

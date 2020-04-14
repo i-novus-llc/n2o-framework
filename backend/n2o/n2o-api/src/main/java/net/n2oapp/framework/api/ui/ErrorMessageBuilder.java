@@ -35,7 +35,6 @@ public class ErrorMessageBuilder {
         if (showStacktrace && !(e instanceof N2oUserException))
             resp.setStacktrace(getStackFrames(getStackTrace(e)));
         if (e instanceof N2oException) {
-            resp.setChoice(((N2oException) e).getChoice());
             resp.setSeverityType(((N2oException) e).getSeverity());
             resp.setField(((N2oException) e).getField());
         } else {
@@ -49,7 +48,7 @@ public class ErrorMessageBuilder {
         if (e.getMessages() != null) {
             for (ValidationMessage message : e.getMessages()) {
                 ResponseMessage resp = new ResponseMessage();
-                resp.setChoice(e.getChoice());
+                //resp.setChoice(e.getChoice()); todo use dialog
                 resp.setSeverityType(e.getSeverity());
                 resp.setField(message.getFieldId());
                 resp.setText(message.getMessage());

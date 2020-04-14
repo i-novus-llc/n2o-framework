@@ -39,6 +39,7 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
+import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
@@ -286,8 +287,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
         Toolbar compiledToolbar = new Toolbar();
         IndexScope index = new IndexScope();
+        ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.widget.toolbar.place"), String.class));
         for (N2oToolbar toolbar : source.getToolbars()) {
-            compiledToolbar.putAll(p.compile(toolbar, context, widgetScope, widgetRouteScope, compiledActions, object, index, validations));
+            compiledToolbar.putAll(p.compile(toolbar, context, widgetScope, widgetRouteScope, compiledActions, object,
+                    index, validations, toolbarPlaceScope));
         }
         compiled.setToolbar(compiledToolbar);
     }
@@ -371,13 +374,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         //Адресом URL для провайдера данных виджета будет маршрут виджета на странице
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + normalize(widgetRoute));
         //Копируем соответствие параметров URL из маршрута страницы в провайдер данных виджета
-        Map<String, BindLink> pathMap = new StrictMap<>();
+        Map<String, ModelLink> pathMap = new StrictMap<>();
         if (parentRouteScope != null && parentRouteScope.getPathMapping() != null) {
             pathMap.putAll(parentRouteScope.getPathMapping());
         }
         dataProvider.setPathMapping(pathMap);
         if (widget.getFilters() != null) {
-            Map<String, BindLink> queryMap = new StrictMap<>();
+            Map<String, ModelLink> queryMap = new StrictMap<>();
             ((List<Filter>) widget.getFilters()).stream().filter(f -> !pathMap.containsKey(f.getParam()))
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);

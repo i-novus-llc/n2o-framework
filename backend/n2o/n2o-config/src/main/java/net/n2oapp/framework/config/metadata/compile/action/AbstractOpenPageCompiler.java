@@ -31,7 +31,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
@@ -47,8 +46,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                                 CompileProcessor p) {
         List<N2oPreFilter> preFilters = new ArrayList<>();
         ReduxModel model = ReduxModel.RESOLVE;
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String widgetId = widgetScope == null ? null : widgetScope.getWidgetId();
+        String widgetId = initWidgetId(p);
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             ModelAware modelAware = componentScope.unwrap(ModelAware.class);
@@ -163,14 +161,24 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setSubmitOperationId(source.getSubmitOperationId());
         pageContext.setSubmitLabel(source.getSubmitLabel());
         pageContext.setSubmitModel(source.getSubmitModel());
+        pageContext.setSubmitActionType(source.getSubmitActionType());
+        pageContext.setCopyModel(source.getCopyModel());
+        pageContext.setCopyWidgetId(source.getCopyWidgetId());
+        pageContext.setCopyFieldId(source.getCopyFieldId());
+        pageContext.setTargetModel(source.getTargetModel());
+        pageContext.setTargetWidgetId(source.getTargetWidgetId());
+        pageContext.setTargetFieldId(source.getTargetFieldId());
+        pageContext.setCopyMode(source.getCopyMode());
         pageContext.setResultWidgetId(source.getResultContainerId());
         pageContext.setUpload(source.getUpload());
-        pageContext.setParentWidgetId(currentClientWidgetId);
+        pageContext.setParentWidgetId(initWidgetId(p));
+        pageContext.setParentClientWidgetId(currentClientWidgetId);
+        pageContext.setParentClientPageId(pageScope != null ? pageScope.getPageId(): null);
         pageContext.setParentModelLink(actionModelLink);
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
-        if (source.getRefreshWidgetId() != null) {
+        if (source.getRefreshWidgetId() != null && pageScope != null) {
             pageContext.setRefreshClientWidgetId(pageScope.getGlobalWidgetId(source.getRefreshWidgetId()));
         }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
@@ -288,14 +296,14 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                                        Map<String, ModelLink> pathParams) {
         return preFilters == null ? null :
                 preFilters.stream().filter(f -> f.getParam() != null && !pathParams.keySet().contains(f.getParam()))
-                        .collect(Collectors.toMap(N2oPreFilter::getParam, Redux::linkFilter));
+                        .collect(Collectors.toMap(N2oPreFilter::getParam, Redux::linkParam));
     }
 
     private Map<String, ModelLink> initParams(List<N2oParam> params,
                                                        Map<String, ModelLink> pathParams) {
         return params == null ? null :
                 params.stream().filter(f -> f.getName() != null && !pathParams.keySet().contains(f.getName()))
-                        .collect(Collectors.toMap(N2oParam::getName, Redux::linkFilter));
+                        .collect(Collectors.toMap(N2oParam::getName, Redux::linkParam));
     }
 
     private String createGlobalParam(String param, CompileProcessor p) {
@@ -304,5 +312,22 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             return param;
         }
         return widgetScope.getClientWidgetId() + "_" + param;
+    }
+
+    /**
+     * Получение виджета действия (исходный)
+     */
+    private String initWidgetId(CompileProcessor p) {
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null)
+            return widgetScope.getWidgetId();
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
+                return widgetIdAware.getWidgetId();
+            }
+        }
+        return null;
     }
 }

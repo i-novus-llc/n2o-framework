@@ -2,7 +2,7 @@
     <fields>
         <row>
             <input-text id="test1"  length="15" class="n2o" style="padding-top: 0; page-break-before: avoid;"
-                        label="InputNumber" default-value="15"
+                        label="InputNumber" default-value="15" measure="cm"
                         placeholder="Введите текст" help="testHelp"
                         label-class="testLabelClass" depends-on="name,type">
                 <dependencies>
@@ -24,7 +24,7 @@
                 </dependencies>
             </input-text>
         </row>
-        <input-text id="test2" domain="long"/>
+        <input-text id="test2" domain="long" measure="cm"/>
         <input-text id="test3" domain="numeric"/>
         <input-text id="test4" domain="short"/>
         <input-text id="test5" domain="integer"/>

@@ -4,7 +4,10 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oIconCell;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -27,6 +30,12 @@ public class IconCellCompiler extends AbstractCellCompiler<N2oIconCell, N2oIconC
         cell.setText(source.getText());
         cell.setIconType(p.cast(source.getIconType(), IconType.icon));
         cell.setIcon(p.cast(source.getIcon(), compileSwitch(source.getIconSwitch(), p)));
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            AbstractColumn column = componentScope.unwrap(AbstractColumn.class);
+            if (column != null)
+                cell.setTooltipFieldId(column.getTooltipFieldId());
+        }
         if (source.getPosition() != null) {
             cell.setPosition(source.getPosition());
         }
