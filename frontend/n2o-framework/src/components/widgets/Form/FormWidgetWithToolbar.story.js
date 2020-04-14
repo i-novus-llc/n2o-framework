@@ -23,7 +23,7 @@ stories.add('Форма с toolbar', () => {
                   {
                     id: 'name',
                     src: 'StandardField',
-                    label: 'Поле 2',
+                    label: 'Поле 1',
                     control: {
                       src: 'InputText',
                       readOnly: false,
@@ -31,6 +31,130 @@ stories.add('Форма с toolbar', () => {
                     toolbar: [
                       {
                         buttons: [
+                          {
+                            src: 'StandardButton',
+                            id: 'update1',
+                            label: 'Кнопка',
+                            icon: 'fa fa-trash',
+                            actionId: 'update',
+                            validate: true,
+                            validatedWidgetId: 'create2_main',
+                            color: 'primary',
+                            hint: 'some hint',
+                            size: 'sm',
+                          },
+                          {
+                            src: 'DropdownButton',
+                            id: 'update3',
+                            label: 'Кнопка',
+                            actionId: 'update',
+                            validate: true,
+                            validatedWidgetId: 'create2_main',
+                            color: 'primary',
+                            size: 'sm',
+                            subMenu: [
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label: 'Проверка длинного лейбла',
+                                icon: 'fa fa-paper-plane',
+                                hint: 'Подписать запись',
+                                count: '4',
+                                size: 'sm',
+                                color: 'primary',
+                                visible: true,
+                                disabled: false,
+                              },
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label: 'Проверка длинного лейбла №2',
+                                icon: 'fa fa-fax',
+                                hint: 'Подписать запись',
+                                count: '15',
+                                size: 'sm',
+                                color: 'primary',
+                                visible: true,
+                                disabled: false,
+                              },
+                            ],
+                          },
+                          {
+                            src: 'DropdownButton',
+                            id: 'update4',
+                            label: 'Проверка цвета на кнопках',
+                            actionId: 'update',
+                            validate: true,
+                            validatedWidgetId: 'create2_main',
+                            color: 'secondary',
+                            subMenu: [
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label: 'Проверка success',
+                                icon: 'fa fa-paper-plane',
+                                hint: 'Подписать запись',
+                                count: '4',
+                                size: 'sm',
+                                color: 'success',
+                                visible: true,
+                                disabled: false,
+                              },
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label: 'Проверка primary',
+                                icon: 'fa fa-paper-plane',
+                                hint: 'Подписать запись',
+                                count: '4',
+                                size: 'sm',
+                                color: 'primary',
+                                visible: true,
+                                disabled: false,
+                              },
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label: 'Проверка danger',
+                                icon: 'fa fa-paper-plane',
+                                hint: 'Подписать запись',
+                                count: '4',
+                                size: 'sm',
+                                color: 'danger',
+                                visible: true,
+                                disabled: false,
+                              },
+                            ],
+                          },
+                          {
+                            src: 'DropdownButton',
+                            id: 'update4',
+                            label: 'для теста очень длинного label на кнопке',
+                            actionId: 'update',
+                            validate: true,
+                            validatedWidgetId: 'create2_main',
+                            color: 'secondary',
+                            subMenu: [
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label: 'label',
+                                icon: 'fa fa-paper-plane',
+                                hint: 'Подписать запись',
+                                count: '4',
+                                size: 'sm',
+                                color: 'secondary',
+                                visible: true,
+                                disabled: false,
+                              },
+                            ],
+                          },
                           {
                             src: 'DropdownButton',
                             id: 'update4',
@@ -43,7 +167,31 @@ stories.add('Форма с toolbar', () => {
                                 id: 'testBtn221',
                                 actionId: 'dummy',
                                 src: 'StandardButton',
-                                label: 'Длинный лэйбл для теста flip popUp',
+                                label: 'label',
+                                icon: 'fa fa-paper-plane',
+                                hint: 'Подписать запись',
+                                count: '4',
+                                size: 'sm',
+                                color: 'secondary',
+                                visible: true,
+                                disabled: false,
+                              },
+                            ],
+                          },
+                          {
+                            src: 'DropdownButton',
+                            id: 'update4',
+                            actionId: 'update',
+                            validate: true,
+                            validatedWidgetId: 'create2_main',
+                            color: 'secondary',
+                            subMenu: [
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label:
+                                  'Длинный лэйбл для теста popper должен перевернуться',
                                 icon: 'fa fa-paper-plane',
                                 hint: 'Подписать запись',
                                 count: '4',
@@ -57,11 +205,95 @@ stories.add('Форма с toolbar', () => {
                                 actionId: 'dummy',
                                 src: 'StandardButton',
                                 label:
-                                  'Второй Длинный лэйбл для теста flip popUp',
+                                  'Второй длинный лэйбл для теста popper должен перевернуться',
                                 icon: 'fa fa-paper-plane',
                                 hint: 'Подписать запись',
                                 count: '4',
                                 size: 'sm',
+                                color: 'secondary',
+                                visible: true,
+                                disabled: false,
+                              },
+                            ],
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+
+  const form2 = {
+    fieldsets: [
+      {
+        src: 'StandardFieldset',
+        rows: [
+          {
+            cols: [
+              {
+                size: 12,
+                fields: [
+                  {
+                    id: 'uniqId',
+                    src: 'StandardField',
+                    label: 'Поле 2',
+                    control: {
+                      src: 'InputText',
+                      readOnly: false,
+                    },
+                    toolbar: [
+                      {
+                        buttons: [
+                          {
+                            src: 'StandardButton',
+                            id: 'update123',
+                            label: 'Кнопка md',
+                            icon: 'fa fa-trash',
+                            actionId: 'update',
+                            validate: true,
+                            validatedWidgetId: 'create2_main',
+                            color: 'secondary',
+                            hint: 'some hint',
+                            size: 'md',
+                          },
+                          {
+                            src: 'DropdownButton',
+                            id: 'update3334',
+                            label: 'Кнопка md',
+                            actionId: 'update',
+                            validate: true,
+                            validatedWidgetId: 'create2_main',
+                            color: 'secondary',
+                            size: 'md',
+                            subMenu: [
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label: 'Проверка длинного лейбла',
+                                icon: 'fa fa-paper-plane',
+                                hint: 'Подписать запись',
+                                count: '4',
+                                size: 'md',
+                                color: 'secondary',
+                                visible: true,
+                                disabled: false,
+                              },
+                              {
+                                id: 'testBtn221',
+                                actionId: 'dummy',
+                                src: 'StandardButton',
+                                label: 'Проверка длинного лейбла №2',
+                                icon: 'fa fa-fax',
+                                hint: 'Подписать запись',
+                                count: '15',
+                                size: 'md',
                                 color: 'secondary',
                                 visible: true,
                                 disabled: false,
@@ -90,6 +322,22 @@ stories.add('Форма с toolbar', () => {
         form={form}
         toolbar={{}}
       />
+      <div className="d-flex flex-nowrap w-100">
+        <Factory
+          level={WIDGETS}
+          {...FormWidget['Page_Form']}
+          id="Page_Form"
+          form={form2}
+          toolbar={{}}
+        />
+        <Factory
+          level={WIDGETS}
+          {...FormWidget['Page_Form']}
+          id="Page_Form"
+          form={form2}
+          toolbar={{}}
+        />
+      </div>
     </div>
   );
 });

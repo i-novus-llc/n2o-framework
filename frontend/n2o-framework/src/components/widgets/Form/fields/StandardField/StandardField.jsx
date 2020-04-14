@@ -151,6 +151,7 @@ class StandardField extends React.Component {
                 {...props}
                 className={cx(control.className, {
                   [validationClass]: touched,
+                  'form-control__with-toolbar': toolbar,
                 })}
               />
               {toolbar && (
