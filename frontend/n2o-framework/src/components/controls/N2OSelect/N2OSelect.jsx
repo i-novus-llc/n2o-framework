@@ -72,22 +72,23 @@ class N2OSelect extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { value, type } = this.props;
-    let selected = [];
-    if (!isEqual(nextProps.value, value) && type !== selectType.CHECKBOXES) {
-      if (nextProps.value) {
-        selected = [nextProps.value];
+    if (type !== selectType.CHECKBOXES) {
+      let selected = [];
+      if (!isEqual(nextProps.value, value)) {
+        if (nextProps.value) {
+          selected = [nextProps.value];
+        } else {
+          selected = [];
+        }
       } else {
-        selected = [];
+        selected = this.state.selected;
       }
-    } else {
-      selected = this.state.selected;
-    }
 
-    this.setState({
-      options: nextProps.options,
-      selected,
-      hasCheckboxes: type === selectType.CHECKBOXES,
-    });
+      this.setState({
+        options: nextProps.options,
+        selected,
+      });
+    }
   }
 
   /**
