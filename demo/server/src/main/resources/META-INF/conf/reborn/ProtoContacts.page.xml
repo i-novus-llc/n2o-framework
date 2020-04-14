@@ -16,12 +16,12 @@
                             <masked-input mask="+7 (999) 999-99-99" id="phone" label="Номер телефона"
                                           placeholder="+7 (___) ___-__-__">
                                 <dependencies>
-                                    <visibility on="type" reset="false">type.id == 2</visibility>
+                                    <visibility on="type">type.id == 2</visibility>
                                 </dependencies>
                             </masked-input>
                             <input-text id="email" label="Электронная почта">
                                 <dependencies>
-                                    <visibility on="type" reset="false">type.id == 4</visibility>
+                                    <visibility on="type">type.id == 4</visibility>
                                 </dependencies>
                             </input-text>
                         </col>
