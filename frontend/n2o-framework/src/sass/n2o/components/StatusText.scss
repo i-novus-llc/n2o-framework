@@ -1,0 +1,42 @@
+.n2o-status-text_text {
+  padding: 0;
+  margin: 0;
+}
+
+.n2o-status-text_icon__right {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 8px;
+  margin-bottom: -1px;
+  padding: 2px;
+}
+
+.n2o-status-text_icon__left {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+  margin-bottom: -1px;
+  padding: 2px;
+}
+
+.n2o-status-text__left {
+  max-width: max-content;
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: left;
+}
+
+.n2o-status-text__right {
+  max-width: max-content;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: left;
+}

@@ -51,6 +51,9 @@ public class MaskedInputAT extends AutoTestBase {
         maskedInput.shouldHaveValue("");
         maskedInput.val("A7$h-F835-#$7sd fr8!93+2~sr0");
         maskedInput.shouldHaveValue("+7 (783) 578-93-20");
+        // проверка меры измерения
+        maskedInput.shouldHaveMeasure();
+        maskedInput.measureShouldHaveText("тел.");
     }
 
     private Fields getFields() {

@@ -12,6 +12,7 @@ public class MaskedInputIOv2 extends PlainFieldIOv2<N2oMaskedInput> {
     public void io(Element e, N2oMaskedInput m, IOProcessor p) {
         super.io(e, m, p);
         p.attribute(e, "mask", m::getMask, m::setMask);
+        p.attribute(e, "measure", m::getMeasure, m::setMeasure);
     }
 
     @Override

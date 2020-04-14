@@ -4,10 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 
 /**
- * Клиентская модель коомпонента copy
+ * Клиентская модель компонента copy
  */
 @Getter
 @Setter
@@ -16,6 +17,8 @@ public class CopyActionPayload implements ActionPayload {
     private ClientModel source;
     @JsonProperty
     private ClientModel target;
+    @JsonProperty
+    private CopyMode mode;
 
     @Getter
     @Setter
@@ -24,6 +27,8 @@ public class CopyActionPayload implements ActionPayload {
         String prefix;
         @JsonProperty
         String key;
+        @JsonProperty
+        String field;
 
         public ClientModel(String key, String prefix) {
             this.prefix = prefix;

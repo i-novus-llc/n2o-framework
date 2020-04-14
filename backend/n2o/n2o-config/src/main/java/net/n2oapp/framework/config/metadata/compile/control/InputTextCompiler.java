@@ -32,6 +32,7 @@ public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInput
     public StandardField<InputText> compile(N2oInputText source, CompileContext<?,?> context, CompileProcessor p) {
         InputText inputText = new InputText();
         inputText.setPlaceholder(p.resolveJS(source.getPlaceholder()));
+        inputText.setMeasure(source.getMeasure());
         compileDomain(inputText, source, p);
         if (source.getStep() != null && source.getStep().replace(",", "").replace(".", "").replace("0", "").isEmpty()) {
             inputText.setShowButtons(false);

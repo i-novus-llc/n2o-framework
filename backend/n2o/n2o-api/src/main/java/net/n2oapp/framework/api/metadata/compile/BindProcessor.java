@@ -137,4 +137,12 @@ public interface BindProcessor {
      */
     String getMessage(String messageCode, Object... arguments);
 
+
+    /**
+     * Есть ли данные для разрешения параметра
+     * @param param
+     * @return
+     */
+    boolean canResolveParam(String param);
+
 }
