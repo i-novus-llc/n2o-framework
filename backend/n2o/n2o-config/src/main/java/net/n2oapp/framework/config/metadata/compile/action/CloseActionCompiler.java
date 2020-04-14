@@ -68,7 +68,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
             meta.getRefresh().setType(RefreshSaga.Type.widget);
             String refreshWidgetId = null;
             if (context instanceof PageContext) {
-                refreshWidgetId = ((PageContext) context).getParentWidgetId();
+                refreshWidgetId = ((PageContext) context).getParentClientWidgetId();
             }
             meta.getRefresh().getOptions().setWidgetId(refreshWidgetId);
         }

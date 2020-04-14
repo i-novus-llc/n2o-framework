@@ -85,7 +85,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         return metaSaga;
     }
 
-
     private MetaSaga initSuccessMeta(InvokeAction invokeAction, N2oInvokeAction source,
                                      CompileContext<?, ?> context, CompileProcessor p, String targetWidgetId,
                                      String currentWidgetId) {
@@ -95,7 +94,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         boolean redirect = source.getRedirectUrl() != null;
         String messageWidgetId = currentWidgetId;
         if ((closeOnSuccess) && (context instanceof PageContext)) {
-            messageWidgetId = ((PageContext) context).getParentWidgetId();
+            messageWidgetId = ((PageContext) context).getParentClientWidgetId();
         }
         meta.setMessageWidgetId(messageWidgetId);
         if (closeOnSuccess) {
