@@ -21,7 +21,6 @@ function IconCell({ id, model, visible, icon, type, textPlace }) {
   return (
     visible && (
       <div
-        title={text}
         className={cn('icon-cell-container', {
           'icon-cell-container__with-tooltip': !isUndefined(
             model['tooltipFieldId']
