@@ -73,20 +73,6 @@
 }
 
 
-.list-text-cell__trigger {
-  padding: 0 0 10px 0;
-}
-
 .list-text-cell__trigger_dashed {
-  padding: 0 0 7px 0;
-  position: relative;
-}
-
-.list-text-cell__trigger_dashed::after {
-  content: '';
-  display: block;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
   border-bottom: 1px dotted black;
 }
