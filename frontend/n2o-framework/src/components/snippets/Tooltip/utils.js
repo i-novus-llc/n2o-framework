@@ -5,10 +5,11 @@ import isArray from 'lodash/isArray';
 import map from 'lodash/map';
 
 //dashed стиль лейбла tooltip или нет
-export const triggerClassName = labelDashed =>
+export const triggerClassName = (labelDashed, type) =>
   cn({
     'list-text-cell__trigger_dashed': labelDashed,
     'list-text-cell__trigger': !labelDashed || isUndefined(labelDashed),
+    'd-inline-flex': type === 'mapProps(StandardButton)',
   });
 
 //тема tooltip body
@@ -31,10 +32,11 @@ export function RenderTooltipTrigger(props) {
   if (isUndefined(hint)) {
     return label;
   }
+  console.warn(label.type.displayName);
   const bodyProps = {
     ...getTriggerProps({
       ref: triggerRef,
-      className: triggerClassName(labelDashed),
+      className: triggerClassName(labelDashed, label.type.displayName),
     }),
   };
 

@@ -27,14 +27,14 @@ function StatusCell(props) {
   } = props;
   const statusText = get(model, fieldKey || id);
   return visible ? (
-    <span>
+    <div className="d-inline-flex">
       <StatusText
         text={statusText}
         textPosition={textPosition}
         color={color}
         className={className}
       />
-    </span>
+    </div>
   ) : null;
 }
 
