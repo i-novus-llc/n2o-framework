@@ -38,8 +38,8 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
             closeAction.setMeta(initMeta(closeAction, source, context, p));
             CloseActionPayload payload = new CloseActionPayload();
             if (context instanceof ModalPageContext) {
-                payload.setPageId(((ModalPageContext) context).getClientPageId());
-                payload.setPrompt(p.cast(((ModalPageContext) context).getUnsavedDataPromptOnClose(), source.getPrompt(), true));
+                payload.setPageId(((PageContext) context).getClientPageId());
+                payload.setPrompt(p.cast(((PageContext) context).getUnsavedDataPromptOnClose(), source.getPrompt(), true));
             } else {
                 payload.setPageId(((DialogContext) context).getParentWidgetId());
             }
