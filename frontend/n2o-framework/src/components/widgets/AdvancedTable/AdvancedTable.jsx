@@ -372,7 +372,11 @@ class AdvancedTable extends Component {
       onResolve(find(this._dataStorage, { id }));
     }
 
-    if (!noResolve && rowClick && !autoCheckboxOnSelect) {
+    if (
+      !noResolve &&
+      rowClick &&
+      !(autoCheckboxOnSelect && rowSelection === rowSelectionType.CHECKBOX)
+    ) {
       !hasSelect && onResolve(find(this._dataStorage, { id }));
       onRowClickAction(model);
     }
