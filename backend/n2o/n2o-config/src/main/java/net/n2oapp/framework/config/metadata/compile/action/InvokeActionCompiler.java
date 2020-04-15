@@ -27,10 +27,7 @@ import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
-import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
-import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
-import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
-import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.context.*;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -42,7 +39,6 @@ import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
