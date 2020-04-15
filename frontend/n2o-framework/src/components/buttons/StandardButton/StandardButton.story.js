@@ -74,9 +74,9 @@ stories
     </div>
   ))
   .add('Выполнение redux action', () => (
-    <>
+    <div className="col-2">
       <StandardButton {...performMeta} size={'sm'} />
       <StandardButton {...performMeta} size={'md'} />
       <StandardButton {...performMeta} size={'lg'} />
-    </>
+    </div>
   ));
