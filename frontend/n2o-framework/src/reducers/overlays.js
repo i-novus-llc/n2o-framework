@@ -2,6 +2,7 @@ import get from 'lodash/get';
 import {
   INSERT_MODAL,
   INSERT_DRAWER,
+  INSERT_DIALOG,
   DESTROY,
   DESTROY_OVERLAYS,
   HIDE,
@@ -34,6 +35,13 @@ function resolve(state = defaultState, action) {
         mode: 'drawer',
         props: Object.assign({}, action.payload),
       });
+    case INSERT_DIALOG:
+      return Object.assign({}, state, {
+        visible: action.payload.visible,
+        name: action.payload.name,
+        mode: 'dialog',
+        props: Object.assign({}, action.payload),
+      });
     case SHOW:
       return Object.assign({}, state, {
         visible: true,
@@ -57,6 +65,7 @@ export default function overlays(state = [], action) {
   switch (action.type) {
     case INSERT_MODAL:
     case INSERT_DRAWER:
+    case INSERT_DIALOG:
       return [...state, resolve({}, action)];
     case SHOW:
       if (index >= 0) {

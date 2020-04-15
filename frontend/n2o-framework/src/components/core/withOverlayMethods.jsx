@@ -3,11 +3,13 @@ import { createStructuredSelector } from 'reselect';
 import {
   makePageDisabledByIdSelector,
   makePageLoadingByIdSelector,
+  makePageMetadataByIdSelector,
   makePageTitleByIdSelector,
 } from '../../selectors/pages';
 import { makeShowPromptByName } from '../../selectors/overlays';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
+import get from 'lodash/get';
 import withActions from './withActions';
 
 function withOverlayMethods(WrappedComponent) {
@@ -56,6 +58,7 @@ function withOverlayMethods(WrappedComponent) {
         // {this.props.showPrompt && this.showPrompt()}
         <WrappedComponent
           {...this.props}
+          headerTitle={get(this.props, 'metadata.page.headerTitle', '')}
           closeOverlay={this.closeOverlay}
           renderFromSrc={this.renderFromSrc}
         />
@@ -69,6 +72,8 @@ function withOverlayMethods(WrappedComponent) {
     disabled: (state, { pageId }) =>
       makePageDisabledByIdSelector(pageId)(state),
     showPrompt: (state, { name }) => makeShowPromptByName(name)(state),
+    metadata: (state, props) =>
+      makePageMetadataByIdSelector(props.pageId)(state),
   });
 
   return compose(

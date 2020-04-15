@@ -15,7 +15,7 @@ import { addFieldMessage } from '../actions/formPlugin';
 import { metadataRequest } from '../actions/pages';
 import { dataRequestWidget } from '../actions/widgets';
 import { updateWidgetDependency } from '../actions/dependency';
-import { insertOverlay } from '../actions/overlays';
+import { insertDialog } from '../actions/overlays';
 import { id } from '../utils/id';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 
@@ -123,7 +123,7 @@ export function* userDialogEffect({ meta }) {
   const { title, description, toolbar, ...rest } = meta.dialog;
 
   yield put(
-    insertOverlay('dialog', true, 'dialog', {
+    insertDialog('dialog', true, {
       title,
       description,
       toolbar,
