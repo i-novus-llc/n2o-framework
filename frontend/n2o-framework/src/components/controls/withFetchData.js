@@ -124,7 +124,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
             basePath,
           }
         );
-        console.log(response);
+
         cachingStore.add({ basePath, queryParams, extraParams }, response);
       }
 
@@ -174,8 +174,7 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
         );
 
         if (has(response, 'message')) this._addAlertMessage(response.message);
-        console.log('point');
-        console.log(response);
+
         this._setResponseToData(response, merge);
         hasError && removeAlerts();
       } catch (err) {
