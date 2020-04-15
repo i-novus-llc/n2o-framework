@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DrawerPageContext extends PageContext {
+public class DrawerPageContext extends ModalPageContext {
 
     public DrawerPageContext(String pageId, String route) {
         super(pageId, route);
