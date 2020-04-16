@@ -58,6 +58,7 @@ public class N2oMaskedInputControl extends N2oControl implements MaskedInputCont
     }
 
     private SelenideElement inputElement() {
+        element().shouldBe(Condition.exist);
         return element().parent().$(".n2o-input-mask");
     }
 

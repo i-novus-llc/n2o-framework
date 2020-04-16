@@ -25,7 +25,6 @@ import propsResolver from '../../../utils/propsResolver';
  * */
 function BreadcrumbContainer(props) {
   const DefaultBreadcrumb = props.defaultBreadcrumb;
-
   return (
     <React.Fragment>
       <DefaultBreadcrumb items={props.items} />

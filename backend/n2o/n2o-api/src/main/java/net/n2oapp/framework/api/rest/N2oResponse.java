@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.rest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.meta.page.Dialog;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MessageSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
@@ -66,7 +67,9 @@ public class N2oResponse {
     }
 
     public void setResponseMessages(List<ResponseMessage> messageList, String widgetId, Boolean stacked) {
-        setMeta(new MetaSaga());
+        if (getMeta() == null)
+            setMeta(new MetaSaga());
+        getMeta().setMessages(null);
 
         if (messageList == null || messageList.isEmpty())
             return;
@@ -76,5 +79,11 @@ public class N2oResponse {
             getMeta().getAlert().setStacked(stacked);
         }
         messageList.forEach(m -> addResponseMessage(m, widgetId));
+    }
+
+    public void setDialog(Dialog dialog) {
+        if (getMeta() == null)
+            setMeta(new MetaSaga());
+        getMeta().setDialog(dialog);
     }
 }

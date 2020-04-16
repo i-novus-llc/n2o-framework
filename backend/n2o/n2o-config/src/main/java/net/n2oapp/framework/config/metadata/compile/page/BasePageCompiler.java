@@ -19,9 +19,9 @@ import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.*;
-import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
@@ -55,7 +55,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             pageScope.setResultWidgetId(resultWidgetId);
         }
         String pageName = p.cast(context.getPageName(), source.getName());
-        page.setPageProperty(initPageName(pageName, context, p));
+        boolean showTitle = p.cast(source.getShowTitle(), false);
+        page.setPageProperty(initPageName(pageName, showTitle, context, p));
         page.setProperties(p.mapAttributes(source));
         BreadcrumbList breadcrumb = initBreadcrumb(pageName, context, p);
         page.setBreadcrumb(breadcrumb);
@@ -206,9 +207,11 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                                    CompiledObject object, BreadcrumbList breadcrumbs, ValidationList validationList, WidgetObjectScope widgetObjectScope) {
         if (source.getToolbars() == null)
             return null;
+        ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.page.toolbar.place"), String.class));
         Toolbar toolbar = new Toolbar();
         for (N2oToolbar n2oToolbar : source.getToolbars()) {
-            toolbar.putAll(p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumbs, validationList, new IndexScope(), widgetObjectScope));
+            toolbar.putAll(p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, pageRoutes, object,
+                    breadcrumbs, validationList, new IndexScope(), widgetObjectScope, toolbarPlaceScope));
         }
         return toolbar;
     }

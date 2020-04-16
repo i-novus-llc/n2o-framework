@@ -66,6 +66,8 @@ public class DomainProcessor {
     public Object deserialize(Object value, String domain) {
         if (value == null)
             return null;
+        if (value instanceof String && ((String) value).isEmpty())
+            return null;
         if (StringUtils.isDynamicValue(value))
             return value;
         if (domain == null) {
@@ -305,7 +307,7 @@ public class DomainProcessor {
         if (value instanceof String) {
             String val = ((String) value).toLowerCase();
             if (val.equals("true") || value.equals("false")) return Domain.BOOLEAN.getName();
-            if (val.matches("([\\d]{1,6})")) {
+            if (val.length() <= 6 && val.chars().allMatch(Character::isDigit)) {
                 try {
                     Integer.parseInt(val);
                 } catch (NumberFormatException e) {

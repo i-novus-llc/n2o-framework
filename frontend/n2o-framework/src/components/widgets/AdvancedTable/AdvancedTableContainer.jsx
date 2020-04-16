@@ -28,7 +28,7 @@ import {
 import { getContainerColumns } from '../../../selectors/columns';
 import evalExpression from '../../../utils/evalExpression';
 import { replace } from 'connected-react-router';
-import compileUrl from '../../../utils/compileUrl';
+import { dataProviderResolver } from '../../../core/dataProviderResolver';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
@@ -265,7 +265,11 @@ export const withWidgetHandlers = compose(
         target,
       } = rowClick;
       const allowRowClick = evalExpression(enablingCondition, model);
-      const compiledUrl = compileUrl(url, { pathMapping, queryMapping }, state);
+      const { url: compiledUrl } = dataProviderResolver(state, {
+        url,
+        pathMapping,
+        queryMapping,
+      });
 
       if (action && (allowRowClick || isUndefined(allowRowClick))) {
         dispatch(action);

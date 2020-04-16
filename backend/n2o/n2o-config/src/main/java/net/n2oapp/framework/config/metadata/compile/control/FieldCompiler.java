@@ -150,7 +150,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         p.addRoute(new QueryContext(field.getQueryId(), route));
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + route);
         N2oPreFilter[] preFilters = field.getPreFilters();
-        Map<String, BindLink> queryMap = new StrictMap<>();
+        Map<String, ModelLink> queryMap = new StrictMap<>();
         if (preFilters != null) {
             for (N2oPreFilter preFilter : preFilters) {
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);

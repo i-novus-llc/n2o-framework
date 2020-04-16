@@ -6,4 +6,5 @@ package net.n2oapp.framework.autotest.api.component.cell;
 public interface IconCell extends Cell {
     void iconShouldBe(String icon);
     void textShouldHave(String text);
+    void hover();
 }

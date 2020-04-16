@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import org.openqa.selenium.Keys;
 
@@ -38,8 +39,7 @@ public class N2oSelect extends N2oControl implements Select {
     @Override
     public void select(int index) {
         element().click();
-        element().parent().parent().$$(".n2o-select-pop-up button")
-                .shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
+        selectPopUp().$$("button").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
     }
 
     @Override
@@ -48,8 +48,30 @@ public class N2oSelect extends N2oControl implements Select {
     }
 
     @Override
+    public void selectMulti(int... indexes) {
+        if (element().$(".n2o-popup-control.isExpanded").is(Condition.not(Condition.exist)))
+            element().click();
+        for (int index : indexes)
+            selectPopUp().$$(".n2o-input").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
+    }
+
+    @Override
     public void shouldSelected(String value) {
         element().$(".n2o-input-items").shouldHave(Condition.text(value));
+    }
+
+    @Override
+    public void shouldBeChecked(int... indexes) {
+        for (int index : indexes)
+            selectPopUp().$$(".n2o-input").shouldBe(CollectionCondition.sizeGreaterThan(index))
+                    .get(index).shouldBe(Condition.checked);
+    }
+
+    @Override
+    public void shouldNotBeChecked(int... indexes) {
+        for (int index : indexes)
+            selectPopUp().$$(".n2o-input").shouldBe(CollectionCondition.sizeGreaterThan(index))
+                    .get(index).shouldNotBe(Condition.checked);
     }
 
     @Override
@@ -70,5 +92,9 @@ public class N2oSelect extends N2oControl implements Select {
     @Override
     public void shouldBeDisabled() {
         element().shouldHave(Condition.cssClass("disabled"));
+    }
+
+    private SelenideElement selectPopUp() {
+        return element().parent().parent().$(".n2o-select-pop-up");
     }
 }

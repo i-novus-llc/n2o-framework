@@ -8,6 +8,7 @@ import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
 import net.n2oapp.framework.config.io.region.CustomRegionIOv1;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.io.widget.HtmlWidgetElementIOv4;
+import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.region.CustomRegionCompiler;
 import net.n2oapp.framework.config.metadata.compile.toolbar.PerformButtonCompiler;
@@ -22,8 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 
@@ -55,6 +55,7 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testSimplePage"));
         assertThat(page.getId(), is("test_route"));
         assertThat(page.getSrc(), is("SimplePage"));
+        assertThat(page.getPageProperty().getTitle(), is("testPage"));
         assertThat(page.getWidget(), notNullValue());
         assertThat(page.getWidget().getClass(), is(equalTo(HtmlWidget.class)));
         assertThat(page.getRoutes().getList().size(), is(2));
@@ -71,5 +72,17 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
         } catch (IllegalArgumentException e) {
             assertThat(e.getMessage(), is("Value by id = 'nonExistentOperation' not found"));
         }
+    }
+
+    /**
+     * Тест настроек простой страницы при открытии в модальном окне
+     */
+    @Test
+    public void simplePageInModal() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/page/testSimpleModalPage.page.xml")
+                .get(new ModalPageContext("testSimpleModalPage", "/modal"));
+        assertThat(page.getId(), is("modal"));
+        assertThat(page.getPageProperty().getTitle(), nullValue());
+        assertThat(page.getPageProperty().getHeaderTitle(), is("testPage"));
     }
 }
