@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.header;
 
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
+import net.n2oapp.framework.config.metadata.compile.header.N2oSearchBarIOv2;
 import net.n2oapp.framework.config.metadata.compile.header.SimpleHeaderIOv2;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv2;
 import net.n2oapp.framework.config.test.XmlIOTestBase;
@@ -16,7 +17,7 @@ public class SimpleHeaderIOv2Test extends XmlIOTestBase {
 
     @Override
     protected void configure(XmlIOBuilder<?> b) {
-        b.ios(new SimpleHeaderIOv2(), new SimpleMenuIOv2());
+        b.ios(new SimpleHeaderIOv2(), new SimpleMenuIOv2(), new N2oSearchBarIOv2());
     }
 
     @Test

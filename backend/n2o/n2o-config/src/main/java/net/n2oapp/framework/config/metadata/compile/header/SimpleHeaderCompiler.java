@@ -36,6 +36,7 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
         header.setHomePageUrl(source.getHomePageUrl());
         header.setItems(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());
         header.setExtraItems(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
+        header.setSearchBar(source.getSearchBar() != null ? p.compile(source.getSearchBar(), context) : null);
         return header;
     }
 

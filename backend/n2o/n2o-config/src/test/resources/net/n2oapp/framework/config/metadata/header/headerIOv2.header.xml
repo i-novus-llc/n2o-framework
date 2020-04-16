@@ -18,4 +18,14 @@
             <a label="test5" href="/test5" target="self" icon="fa fa-sign-out"/>
         </sub-menu>
     </extra-menu>
+
+    <search query-id="testQuery"
+            filter-field-id="filterId"
+            url-field-id="urlId"
+            label-field-id="labelId"
+            icon-field-id="iconId"
+            description-field-id="descriptionId"
+            advanced-target="application"
+            advanced-url="advancedUrl"
+            advanced-param="param"/>
 </header>

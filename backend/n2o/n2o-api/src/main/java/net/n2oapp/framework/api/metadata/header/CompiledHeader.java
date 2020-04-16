@@ -38,5 +38,7 @@ public class CompiledHeader extends Header {
     @JsonProperty
     private SimpleMenu extraItems;
     @JsonProperty
+    private SearchBar searchBar;
+    @JsonProperty
     private String src;
 }
