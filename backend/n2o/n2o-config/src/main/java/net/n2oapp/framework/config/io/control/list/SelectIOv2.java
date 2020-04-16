@@ -6,6 +6,9 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
+/**
+ * Чтение/запись компонента выбора из выпадающего списка
+ */
 @Component
 public class SelectIOv2 extends ListFieldIOv2<N2oSelect> {
 
@@ -14,6 +17,10 @@ public class SelectIOv2 extends ListFieldIOv2<N2oSelect> {
         super.io(e, m, p);
         p.attributeEnum(e, "type", m::getType, m::setType, ListType.class);
         p.attributeBoolean(e, "cleanable", m::getCleanable, m::setCleanable);
+        p.attribute(e, "select-format", m::getSelectFormat, m::setSelectFormat);
+        p.attribute(e, "select-format-one", m::getSelectFormatOne, m::setSelectFormatOne);
+        p.attribute(e, "select-format-few", m::getSelectFormatFew, m::setSelectFormatFew);
+        p.attribute(e, "select-format-many", m::getSelectFormatMany, m::setSelectFormatMany);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.snippet;
 
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.autotest.api.component.control.Text;
+import net.n2oapp.framework.autotest.api.component.snippet.Text;
 
 /**
  * Компонент текста для автотестирования

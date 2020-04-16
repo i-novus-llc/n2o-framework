@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import StatusText from '../../../../snippets/StatusText/StatusText';
 import cx from 'classnames';
+import withTooltip from '../../withTooltip';
 
 /**
  * Ячейка таблицы типа статус
@@ -14,12 +16,24 @@ import cx from 'classnames';
  */
 
 function StatusCell(props) {
-  const { id, className, visible, color, model, fieldKey } = props;
+  const {
+    id,
+    className,
+    visible,
+    color,
+    model,
+    fieldKey,
+    textPosition,
+  } = props;
   const statusText = get(model, fieldKey || id);
   return visible ? (
-    <div className={className}>
-      {!!color && <span className={cx('n2o-status-cell', `bg-${color}`)} />}
-      {statusText}
+    <div className="d-inline-flex">
+      <StatusText
+        text={statusText}
+        textPosition={textPosition}
+        color={color}
+        className={className}
+      />
     </div>
   ) : null;
 }
@@ -67,4 +81,4 @@ StatusCell.defaultProps = {
   color: '',
 };
 
-export default StatusCell;
+export default withTooltip(StatusCell);

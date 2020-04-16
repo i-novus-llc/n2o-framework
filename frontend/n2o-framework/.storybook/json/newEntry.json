@@ -49,7 +49,7 @@
                   "meta": {
                     "success": {
                       "refresh": true,
-                      "closeLastModal": true,
+                      "modalsToClose": 1,
                       "clearForm": "storyForm"
                     }
                   }

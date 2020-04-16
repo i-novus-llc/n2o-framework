@@ -6,8 +6,7 @@ import net.n2oapp.framework.api.StringUtils;
 import java.util.Collection;
 
 /**
- * @author operehod
- * @since 15.06.2015
+ * Информация об ответе на запрос за выборкой данных
  */
 public class QueryResponseInfo extends ResponseInfo {
 

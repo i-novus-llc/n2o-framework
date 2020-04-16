@@ -3,14 +3,16 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oIconCell;
-import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция ячейки иконка
+ * Компиляция ячейки с иконкой
  */
 @Component
 public class IconCellCompiler extends AbstractCellCompiler<N2oIconCell, N2oIconCell> {
@@ -23,9 +25,16 @@ public class IconCellCompiler extends AbstractCellCompiler<N2oIconCell, N2oIconC
     @Override
     public N2oIconCell compile(N2oIconCell source, CompileContext<?, ?> context, CompileProcessor p) {
         N2oIconCell cell = new N2oIconCell();
-        build(cell, source, context, p, property("n2o.default.cell.icon.src"));
-        cell.setIconType(source.getIconType());
+        build(cell, source, context, p, property("n2o.api.cell.icon.src"));
+        cell.setText(source.getText());
+        cell.setIconType(p.cast(source.getIconType(), IconType.icon));
         cell.setIcon(p.cast(source.getIcon(), compileSwitch(source.getIconSwitch(), p)));
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            AbstractColumn column = componentScope.unwrap(AbstractColumn.class);
+            if (column != null)
+                cell.setTooltipFieldId(column.getTooltipFieldId());
+        }
         if (source.getPosition() != null) {
             cell.setPosition(source.getPosition());
         }

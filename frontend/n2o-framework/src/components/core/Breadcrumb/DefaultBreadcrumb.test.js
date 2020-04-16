@@ -24,6 +24,31 @@ const setup = propsOverride => {
   );
 };
 
+const setup2 = propsOverride => {
+  const props = {
+    items: [
+      {
+        label: 'First',
+        path: '/first',
+        title: 'FirstTitle',
+      },
+      {
+        label: 'Second',
+      },
+      {
+        label: 'Third',
+        path: '/third',
+      },
+    ],
+  };
+
+  return mount(
+    <Router>
+      <DefaultBreadcrumb {...props} {...propsOverride} />
+    </Router>
+  );
+};
+
 describe('<DefaultBreadcrumb />', () => {
   it('Компонент должен отрисоваться', () => {
     const wrapper = setup();
@@ -53,5 +78,32 @@ describe('<DefaultBreadcrumb />', () => {
         .at(1)
         .text()
     ).toBe('Second');
+  });
+  it('Компонент должен отрисоваться, тест на setup2', () => {
+    const wrapper = setup2();
+
+    expect(wrapper.find('Breadcrumb').exists()).toBeTruthy();
+  });
+  it('если отсутствует path, элемент не ссылка', () => {
+    const wrapper = setup2();
+
+    expect(
+      wrapper
+        .find('BreadcrumbItem')
+        .at(1)
+        .find('Link')
+        .exists()
+    ).toBeFalsy();
+  });
+  it('если отсутствует path элемент не ссылка', () => {
+    const wrapper = setup2();
+
+    expect(
+      wrapper
+        .find('BreadcrumbItem')
+        .at(1)
+        .find('Link')
+        .exists()
+    ).toBeFalsy();
   });
 });

@@ -22,6 +22,9 @@
         <field id="icon" domain="string">
             <select/>
         </field>
+        <field id="tooltip" domain="string">
+            <select/>
+        </field>
         <field id="image" domain="string">
             <select/>
         </field>

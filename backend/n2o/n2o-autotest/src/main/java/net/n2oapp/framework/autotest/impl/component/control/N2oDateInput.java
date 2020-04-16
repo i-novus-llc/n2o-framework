@@ -112,6 +112,7 @@ public class N2oDateInput extends N2oControl implements DateInput {
     }
 
     private SelenideElement inputElement() {
+        element().shouldBe(Condition.exist);
         return element().$(".n2o-date-input input");
     }
 
