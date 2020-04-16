@@ -82,6 +82,7 @@
             <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
             <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
             <xs:element name="toolbar" type="controlToolbarDefinition" minOccurs="0"/>
+            <xs:element name="submit" type="controlSubmitDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
@@ -358,7 +359,7 @@
             <xs:documentation>Кнопка с выпадающим меню.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="btn:subMenuDefinitionAbstract">
+            <xs:extension base="btn:baseSubMenuDefinition">
                 <xs:sequence>
                     <xs:element name="menu-item" type="btn:menuItemDefinition" maxOccurs="unbounded"/>
                 </xs:sequence>
@@ -366,6 +367,53 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="controlSubmitDefinition" abstract="true">
+        <xs:annotation>
+            <xs:documentation>Отправка значения поля на сервер при его изменении.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="path-param" type="act:actionParamDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Параметры URL.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="query-param" type="act:actionParamDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Параметры запроса.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="header-param" type="act:actionParamDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Параметры заголовка запроса.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="form-param" type="act:actionParamDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Параметры тела запроса.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="operation-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор операции, которая должна вызваться.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="message-on-success" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Сообщение в случае, если операция успешна.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="message-on-fail" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Сообщение в случае ошибки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="route" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>URL запроса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 
     <xs:complexType name="controlOptionsListInlineDefinition">
         <xs:complexContent>
@@ -1382,7 +1430,7 @@
     <xs:complexType name="visibilityDependencyDefinition" abstract="true">
         <xs:complexContent>
             <xs:extension base="baseDependencyDefinition">
-                <xs:attribute name="reset" type="xs:boolean" default="true">
+                <xs:attribute name="reset" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Сбросить значение при срабатывании зависимости.</xs:documentation>
                     </xs:annotation>

@@ -16,6 +16,7 @@ public abstract class N2oStandardField extends N2oField {
     private Boolean copied;
     private String controlSrc;
     private Validations validations;
+    private Submit submit;
     private String defaultValue;
 
     @Override
