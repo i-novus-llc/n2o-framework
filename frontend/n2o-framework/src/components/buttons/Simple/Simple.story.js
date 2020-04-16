@@ -32,7 +32,6 @@ const toolbar2 = [
         id: 'testBtn22',
         src: 'StandardButton',
         rounded: true,
-        icon: 'fa fa-adjust',
         color: 'primary',
       },
       {
@@ -60,6 +59,8 @@ const toolbar3 = [
   {
     buttons: [
       {
+        label: 'Полукруглая кнопка с label',
+        hint: 'some hint',
         id: 'testBtn22',
         src: 'StandardButton',
         rounded: true,
