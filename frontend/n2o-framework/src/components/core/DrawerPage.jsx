@@ -13,7 +13,7 @@ import withOverlayMethods from './withOverlayMethods';
  * @reactProps {string} pageId - id пейджа
  * @reactProps {string} name - имя модалки
  * @reactProps {boolean} visible - отображается модалка или нет
- * @reactProps {string} title - заголовок в хэдере
+ * @reactProps {string} headerTitle - заголовок в хэдере
  * @reactProps {object} actions - объект экшнов
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
  * @reactProps {object} props - аргументы для экшенов-функций
@@ -36,7 +36,7 @@ function DrawerPage(props) {
     queryMapping,
     visible,
     loading,
-    title,
+    headerTitle,
     footer,
     disabled,
     toolbar,
@@ -73,7 +73,7 @@ function DrawerPage(props) {
           visible={!loading && visible !== false}
           onHandleClick={() => rest.closeOverlay(true)}
           onClose={() => rest.closeOverlay(true)}
-          title={title}
+          title={headerTitle}
           backdrop={backdrop}
           width={width}
           height={height}
@@ -130,7 +130,7 @@ export const DrawerWindow = DrawerPage;
 DrawerPage.propTypes = {
   pageId: PropTypes.string,
   visible: PropTypes.bool,
-  title: PropTypes.string,
+  headerTitle: PropTypes.string,
   name: PropTypes.string,
   props: PropTypes.object,
   close: PropTypes.func.isRequired,

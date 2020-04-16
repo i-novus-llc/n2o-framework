@@ -1,16 +1,8 @@
-import {
-  call,
-  put,
-  select,
-  takeLatest,
-  takeEvery,
-  take,
-  all,
-  delay,
-} from 'redux-saga/effects';
+import { call, put, select, takeEvery, all } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
 
 import { ADD, ADD_MULTI } from '../constants/alerts';
-import { removeAlert, removeAlerts } from '../actions/alerts';
+import { removeAlert } from '../actions/alerts';
 import { makeAlertsByKeySelector } from '../selectors/alerts';
 
 export function* removeAlertSideEffect(action, alert, timeout) {

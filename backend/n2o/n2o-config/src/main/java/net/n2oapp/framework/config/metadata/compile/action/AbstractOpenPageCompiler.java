@@ -280,7 +280,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                           Map<String, ModelLink> queryMapping);
 
     private void initOtherPageRoute(CompileProcessor p, CompileContext<?, ?> context, String route) {
-        if ((context instanceof ModalPageContext))
+        if (context instanceof ModalPageContext)
             return;
         //only for link
         PageRoutes pageRoutes = p.getScope(PageRoutes.class);

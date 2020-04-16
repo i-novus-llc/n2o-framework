@@ -15,8 +15,9 @@ import { addFieldMessage } from '../actions/formPlugin';
 import { metadataRequest } from '../actions/pages';
 import { dataRequestWidget } from '../actions/widgets';
 import { updateWidgetDependency } from '../actions/dependency';
-import { insertOverlay } from '../actions/overlays';
+import { insertDialog } from '../actions/overlays';
 import { id } from '../utils/id';
+import { CALL_ALERT_META } from '../constants/meta';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 
 export function* alertEffect(action) {
@@ -123,7 +124,7 @@ export function* userDialogEffect({ meta }) {
   const { title, description, toolbar, ...rest } = meta.dialog;
 
   yield put(
-    insertOverlay('dialog', true, 'dialog', {
+    insertDialog('dialog', true, {
       title,
       description,
       toolbar,
@@ -133,7 +134,10 @@ export function* userDialogEffect({ meta }) {
 }
 
 export const metaSagas = [
-  takeEvery(action => action.meta && action.meta.alert, alertEffect),
+  takeEvery(
+    [action => action.meta && action.meta.alert, CALL_ALERT_META],
+    alertEffect
+  ),
   takeEvery(action => action.meta && action.meta.redirect, redirectEffect),
   takeEvery(action => action.meta && action.meta.refresh, refreshEffect),
   takeEvery(action => action.meta && action.meta.clearForm, clearFormEffect),
