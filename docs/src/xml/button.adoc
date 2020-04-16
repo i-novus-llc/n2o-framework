@@ -268,7 +268,7 @@ Java Script выражение
 |Наименование|Тип|Описание|Значение по умолчанию
 
 |source-model
-|resolve edit filter
+|resolve edit filter multi
 |Модель, которая будет скопирована
 |resolve
 
@@ -283,7 +283,7 @@ Java Script выражение
 |Вся модель
 
 |target-model
-|resolve edit filter
+|resolve edit filter multi
 |Модель, в которую будут скопированы данные
 |resolve
 
