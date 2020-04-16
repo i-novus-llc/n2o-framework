@@ -15,8 +15,6 @@ import java.util.Map;
 @Setter
 public class SwitchCell extends N2oAbstractCell {
     @JsonProperty
-    private String id;
-    @JsonProperty
     private String switchFieldId;
     @JsonProperty
     private Map<String, N2oAbstractCell> switchList = new HashMap<>();
