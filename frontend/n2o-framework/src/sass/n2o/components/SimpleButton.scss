@@ -1,12 +1,12 @@
 .btn–rounded {
   border-radius: 50%;
-  width: 38px;
-  max-width: 38px;
-  height: 38px;
-  min-height: 38px;
+  width: 41.19px;
+  max-width: 41.19px;
+  height: 41.19px;
+  min-height: 41.19px;
   display: inline-flex;
   justify-content: center;
-  margin: 0 10px 0 10px;
+  margin: 0 5px 0 5px;
 }
 
 .btn–rounded > i {
@@ -25,10 +25,10 @@
 }
 
 .btn–rounded.btn-md {
-  width: 38px;
-  max-width: 38px;
-  height: 38px;
-  min-height: 38px;
+  width: 41.19px;
+  max-width: 41.19px;
+  height: 41.19px;
+  min-height: 41.19px;
   display: inline-flex;
   justify-content: center;
 }
@@ -40,4 +40,10 @@
   min-height: 48px;
   display: inline-flex;
   justify-content: center;
+}
+
+.btn-rounded__with-content {
+  border-radius: 100px;
+  padding: 0 25px 0 25px;
+  margin: 0 5px 0 5px!important;
 }
