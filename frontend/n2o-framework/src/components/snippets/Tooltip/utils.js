@@ -9,7 +9,7 @@ export const triggerClassName = (labelDashed, type) =>
   cn({
     'list-text-cell__trigger_dashed': labelDashed,
     'list-text-cell__trigger': !labelDashed || isUndefined(labelDashed),
-    'd-inline-flex': type === 'mapProps(StandardButton)',
+    'd-flex': type === 'mapProps(StandardButton)',
   });
 
 //тема tooltip body
@@ -32,7 +32,7 @@ export function RenderTooltipTrigger(props) {
   if (isUndefined(hint)) {
     return label;
   }
-
+  console.warn(label);
   const bodyProps = {
     ...getTriggerProps({
       ref: triggerRef,
