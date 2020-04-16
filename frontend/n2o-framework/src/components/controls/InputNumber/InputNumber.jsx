@@ -10,6 +10,8 @@ import isEqual from 'lodash/isEqual';
 import split from 'lodash/split';
 import includes from 'lodash/includes';
 
+import { compose } from 'recompose';
+import withRightPlaceholder from '../withRightPlaceholder';
 import Input from '../Input/Input';
 
 import {
@@ -37,7 +39,7 @@ import {
  *             step='0.1'
  *             name='InputNumberExample' />
  */
-class InputNumber extends React.Component {
+export class InputNumber extends React.Component {
   constructor(props) {
     super(props);
     const value = props.value;
@@ -128,10 +130,11 @@ class InputNumber extends React.Component {
     } else if (type === 'down') {
       newValue = currentValue - delta;
     }
+
     if (isValid(newValue, min, max)) {
-      this.setState({ value: newValue.toFixed(this.stepPrecition) }, () =>
-        this.props.onChange(newValue)
-      );
+      newValue = newValue.toFixed(this.stepPrecition);
+
+      this.setState({ value: newValue }, () => this.props.onChange(newValue));
     }
   }
 
@@ -298,4 +301,4 @@ InputNumber.propTypes = {
   precision: PropTypes.number,
 };
 
-export default InputNumber;
+export default compose(withRightPlaceholder)(InputNumber);

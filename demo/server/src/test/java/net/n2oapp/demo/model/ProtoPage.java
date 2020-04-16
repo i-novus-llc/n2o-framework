@@ -5,13 +5,13 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.control.*;
-import net.n2oapp.framework.autotest.api.component.header.StandardTableHeader;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
-import net.n2oapp.framework.autotest.api.component.widget.ListWidget;
-import net.n2oapp.framework.autotest.api.component.widget.TableWidget;
+import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class ProtoPage {
     }
 
     public void shouldBeClientsPage() {
-        leftRightPage.breadcrumb().activeShouldHaveText("Список контактов");
+        leftRightPage.breadcrumb().titleShouldHaveText("Список контактов");
     }
 
     public void tableShouldHaveSize(int size) {
@@ -35,7 +35,7 @@ public class ProtoPage {
     }
 
     public void selectClient(int rowNum) {
-        getTableCell(rowNum, 4, TextCell.class).element().click();
+        getTableCell(rowNum, 5, TextCell.class).element().click();
     }
 
     public void tableCellShouldHaveText(int row, int col, String text) {
@@ -78,28 +78,28 @@ public class ProtoPage {
         return getFilterFields().field("VIP").control(Checkbox.class);
     }
 
-    public InputControl getSurnameFilter() {
-        return getFilterFields().field("Фамилия").control(InputControl.class);
+    public InputText getSurnameFilter() {
+        return getFilterFields().field("Фамилия").control(InputText.class);
     }
 
-    public InputControl getFirstNameFilter() {
-        return getFilterFields().field("Имя").control(InputControl.class);
+    public InputText getFirstNameFilter() {
+        return getFilterFields().field("Имя").control(InputText.class);
     }
 
     public void setBirthdayStartFilter(String value) {
-        getFilterFields().field("Дата рождения").control(DateInterval.class).setBeginValue(value);
+        getFilterFields().field("Дата рождения").control(DateInterval.class).beginVal(value);
     }
 
     public void setBirthdayEndFilter(String value) {
-        getFilterFields().field("Дата рождения").control(DateInterval.class).setEndValue(value);
+        getFilterFields().field("Дата рождения").control(DateInterval.class).endVal(value);
     }
 
     public void getGenderColumnShouldHaveTexts(List<String> values) {
-        getTable().columns().rows().columnShouldHaveTexts(4, values);
+        getTable().columns().rows().columnShouldHaveTexts(5, values);
     }
 
     public List<String> getSurnameColumn() {
-        return getTable().columns().rows().columnTexts(0);
+        return getTable().columns().rows().columnTexts(1);
     }
 
     public void currentPageShouldBe(String label) {
@@ -123,42 +123,42 @@ public class ProtoPage {
     }
 
     public ProtoClient clickSurnameCell(int row) {
-        getTableCell(row, 0, LinkCell.class).click();
+        getTableCell(row, 1, LinkCell.class).click();
         return getProtoClient();
     }
 
     public ProtoClient clickNameCell(int row) {
-        getTableCell(row, 1, LinkCell.class).click();
+        getTableCell(row, 2, LinkCell.class).click();
         return getModalProtoClient();
     }
 
     public ProtoClient clickPatronymicCell(int row) {
-        getTableCell(row, 2, LinkCell.class).click();
+        getTableCell(row, 3, LinkCell.class).click();
         return getProtoClient();
     }
 
     public void clickBirthdayCell(int row) {
-        getTableCell(row, 3, EditCell.class).click();
+        getTableCell(row, 4, EditCell.class).click();
     }
 
     public void setVipCellChecked(int row) {
-        getTableCell(row, 5, CheckboxCell.class).setChecked(true);
+        getTableCell(row, 6, CheckboxCell.class).setChecked(true);
     }
 
     public void setVipCellNotChecked(int row) {
-        getTableCell(row, 5, CheckboxCell.class).setChecked(false);
+        getTableCell(row, 6, CheckboxCell.class).setChecked(false);
     }
 
     public void vipCellShouldBeChecked(int row) {
-        getTableCell(row, 5, CheckboxCell.class).shouldBeChecked();
+        getTableCell(row, 6, CheckboxCell.class).shouldBeChecked();
     }
 
     public void vipCellShouldNotBeChecked(int row) {
-        getTableCell(row, 5, CheckboxCell.class).shouldBeUnchecked();
+        getTableCell(row, 6, CheckboxCell.class).shouldBeUnchecked();
     }
 
     public DateInput getBirthdayCell(int row) {
-        return getTableCell(row, 3, EditCell.class).control(DateInput.class);
+        return getTableCell(row, 4, EditCell.class).control(DateInput.class);
     }
 
     public ProtoClient addClient() {
@@ -172,12 +172,12 @@ public class ProtoPage {
     }
 
     public ProtoClient editClientFromTableCell(int row) {
-        getTableCell(row, 6, ToolbarCell.class).clickMenu("Изменить");
+        getTableCell(row, 7, ToolbarCell.class).clickMenu("Изменить");
         return getModalProtoClient();
     }
 
     public void deleteClientFromTableCell(int row) {
-        getTableCell(row, 6, ToolbarCell.class).clickMenu("Удалить");
+        getTableCell(row, 7, ToolbarCell.class).clickMenu("Удалить");
     }
 
     public void deleteClientFromTableToolBar() {
@@ -211,7 +211,7 @@ public class ProtoPage {
     }
 
     public void contactsListShouldHaveText(int index, String text) {
-        leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).content(index).bodyShouldHaveText(text);
+        leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).content(index).body(TextCell.class).textShouldHave(text);
     }
 
     public ProtoContacts createContact() {
@@ -219,16 +219,22 @@ public class ProtoPage {
         return getModalProtoContacts();
     }
 
-    public InputControl getSurnameCard() {
-        return getCardFields().field("Фамилия").control(InputControl.class);
+    public ProtoContacts editContact(int index) {
+        ListCell cell = leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).content(index).extra(ListCell.class);
+        cell.element().$$(".btn").findBy(Condition.text("Изменить")).click();
+        return getModalProtoContacts();
     }
 
-    public InputControl getFirstnameCard() {
-        return getCardFields().field("Имя").control(InputControl.class);
+    public InputText getSurnameCard() {
+        return getCardFields().field("Фамилия").control(InputText.class);
+    }
+
+    public InputText getFirstnameCard() {
+        return getCardFields().field("Имя").control(InputText.class);
     }
 
     public RadioGroup getGenderCard() {
-       return getCardFields().field("Пол").control(RadioGroup.class);
+        return getCardFields().field("Пол").control(RadioGroup.class);
     }
 
     public Checkbox getVIPCard() {

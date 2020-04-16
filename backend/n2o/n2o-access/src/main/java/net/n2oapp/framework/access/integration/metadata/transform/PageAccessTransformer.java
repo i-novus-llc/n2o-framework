@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;

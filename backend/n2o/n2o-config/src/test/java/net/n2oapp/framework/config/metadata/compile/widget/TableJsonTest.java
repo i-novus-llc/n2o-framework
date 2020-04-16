@@ -33,6 +33,7 @@ public class TableJsonTest extends JsonMetadataTestBase {
                         .cutJson("Page_Table")
                 .exclude("actions", "width", "className",
                         "table.style", "table.autoFocus", "table.tableSize",
+                        "table.autoCheckboxOnSelect",
                         "dataProvider.queryMapping",
                         "table.cells[0].fieldKey",
                         "table.cells[1].fieldKey",

@@ -133,7 +133,7 @@
   }
 
   & table.n2o-advanced-table-fixed {
-    width: 100%;
+    width: 100%!important;
   }
 
   &-nested table tr:hover {
@@ -196,10 +196,6 @@
       display: flex;
       align-items: flex-end;
     }
-  }
-
-  &-filter-dropdown.show {
-    display: flex;
   }
 
   &-filter-dropdown {

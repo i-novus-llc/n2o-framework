@@ -1,0 +1,13 @@
+.n2o-search-bar {
+  display: flex;
+
+  &__control {
+    position: relative;
+
+    & i {
+      position: absolute;
+      right: 10px;
+      top: calc(50% - 8px);
+    }
+  }
+}

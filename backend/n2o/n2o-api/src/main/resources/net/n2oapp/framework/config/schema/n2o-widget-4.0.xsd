@@ -51,7 +51,6 @@
             </xs:element>
             <xs:element name="toolbar" type="tool:widgetToolbarDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="pre-filters" type="preFiltersDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="pre-fields" type="preFieldsDefinition" maxOccurs="1" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="optional">
             <xs:annotation>
@@ -284,8 +283,9 @@
                         </xs:annotation>
                         <xs:complexType>
                             <xs:sequence>
-                                <xs:element name="column" type="columnDefinition" maxOccurs="unbounded"
-                                            minOccurs="1"/>
+                                <xs:element name="column" type="columnDefinition" maxOccurs="unbounded" minOccurs="1"/>
+                                <xs:element name="filter-column" type="filterColumnDefinition" maxOccurs="unbounded" minOccurs="0"/>
+                                <xs:element name="multi-column" type="multiColumnDefinition" maxOccurs="unbounded" minOccurs="0"/>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
@@ -305,9 +305,9 @@
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
-                <xs:attribute name="selected" type="xs:boolean" default="true">
+                <xs:attribute name="selection" type="rowSelectionEnum" default="active">
                     <xs:annotation>
-                        <xs:documentation>Таблица без выделенных записей.</xs:documentation>
+                        <xs:documentation>Вариант выбора строки таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="table-size" type="sizeEnum">
@@ -326,13 +326,21 @@
                         <xs:documentation>Высота таблицы, после которой появится вертикальный скрол.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="children" use="optional" default="collapse">
+                <xs:attribute name="checkboxes" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде</xs:documentation>
+                        <xs:documentation>Наличие чекбоксов в первом столбце таблицы.</xs:documentation>
                     </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="check-on-select" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="children" use="optional" default="collapse">
                     <xs:simpleType>
                         <xs:annotation>
-                            <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде
+                            <xs:documentation>
+                                Отображение дочерних записей в закрытом или раскрытом виде.
                             </xs:documentation>
                         </xs:annotation>
                         <xs:restriction base="xs:string">
@@ -345,78 +353,128 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="baseColumnDefinition">
+        <xs:annotation>
+            <xs:documentation>Базовое определение столбца таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="text-field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отображаемое в столбце.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="tooltip-field-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="visible" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation>Видимость столбца по умолчанию.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="width" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Ширина столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="resizable" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation>Можно ли изменить ширину столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="fixed" type="columnFixedPosition" use="optional">
+            <xs:annotation>
+                <xs:documentation>Прилипание столбца к краю.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="label" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Наименование заголовка столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="icon" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Иконка заголовка столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="type" type="textType" use="optional">
+            <xs:annotation>
+                <xs:documentation>Заголовок с иконкой или без.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-field-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Поле, по которому сортируется столбец.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="sorting-direction" type="sortingDirectionType" use="optional">
+            <xs:annotation>
+                <xs:documentation>Направление сортировки по умолчанию.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:element name="dependencies" type="columnDependenciesDefinition">
+            <xs:annotation>
+                <xs:documentation>Зависимости столбца.</xs:documentation>
+            </xs:annotation>
+        </xs:element>
+    </xs:complexType>
+
     <xs:complexType name="columnDefinition">
         <xs:annotation>
             <xs:documentation>Столбец таблицы.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="cell:cells">
-                <xs:attribute name="id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="text-field-id" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Поле выборки, отображаемое в столбце.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="tooltip-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Видимость столбца по умолчанию.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="width" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Ширина столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="resizable" type="xs:boolean" use="optional" default="false">
-                    <xs:annotation>
-                        <xs:documentation>Можно ли изменить ширину столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="fixed" type="columnFixedPosition" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Прилипание столбца к краю.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="label" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Наименование заголовка столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="icon" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Иконка заголовка столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="type" type="textType" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Заголовок с иконкой или без.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="sorting-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Поле, по которому сортируется столбец.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="sorting-direction" type="sortingDirectionType" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Направление сортировки по умолчанию.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:element name="dependencies" type="columnDependenciesDefinition">
-                    <xs:annotation>
-                        <xs:documentation>Зависимости столбца.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
+            <xs:extension base="baseColumnDefinition">
+                <xs:extension base="cell:cells"/>
             </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="filterColumnDefinition">
+        <xs:annotation>
+            <xs:documentation>Фильтруемый столбец таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="baseColumnDefinition">
+                <xs:sequence>
+                    <xs:element name="filter" type="fs:fields" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>Фильтр столбца.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="cell" type="cell:cells" minOccurs="1" maxOccurs="1">
+                        <xs:annotation>
+                            <xs:documentation>Ячейка столбца.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="multiColumnDefinition">
+        <xs:annotation>
+            <xs:documentation>Многоуровневый столбец таблицы.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:attribute name="label">
+                <xs:annotation>
+                    <xs:documentation>Наименование заголовка столбца.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:sequence>
+                <xs:annotation>
+                    <xs:documentation>Внутренние столбцы.</xs:documentation>
+                </xs:annotation>
+                <xs:element name="column" type="columnDefinition" minOccurs="0"/>
+                <xs:element name="filter-column" type="filterColumnDefinition" minOccurs="0"/>
+                <xs:element name="multi-column" type="multiColumnDefinition" minOccurs="0"/>
+            </xs:sequence>
         </xs:complexContent>
     </xs:complexType>
 
@@ -719,6 +777,19 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="rowSelectionEnum">
+        <xs:restriction base="xs:string">
+            <!--нельзя выбрать-->
+            <xs:enumeration value="none"/>
+            <!--выбор кликом по строке-->
+            <xs:enumeration value="active"/>
+            <!--выбор с помощью radio кнопок в первом столбце-->
+            <xs:enumeration value="radio"/>
+            <!--выбор с помощью чекбоксов в первом столбце-->
+            <xs:enumeration value="checkbox"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:simpleType name="sizeEnum">
         <xs:restriction base="xs:string">
             <!--не задано-->
@@ -772,6 +843,8 @@
             <xs:enumeration value="topRight"/>
             <xs:enumeration value="bottomLeft"/>
             <xs:enumeration value="bottomRight"/>
+            <xs:enumeration value="topCenter"/>
+            <xs:enumeration value="bottomCenter"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -877,21 +950,6 @@
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="preFieldsDefinition">
-        <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="eq" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="in" type="preFieldDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="contains" type="preFieldDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="more" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="less" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNotNull" type="preFieldDefBase" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNull" type="preFieldDefBase" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="preFieldDefBase">

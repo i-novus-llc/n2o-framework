@@ -7,9 +7,11 @@ import net.n2oapp.framework.api.metadata.control.list.MultiType;
 import net.n2oapp.framework.api.metadata.control.list.N2oPills;
 import net.n2oapp.framework.api.metadata.meta.control.Pills;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
+@Component
 public class PillsCompiler extends ListControlCompiler<Pills, N2oPills> {
     @Override
     protected String getControlSrcProperty() {

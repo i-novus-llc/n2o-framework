@@ -14,5 +14,5 @@ public interface StandardField extends Field {
     void labelShouldHave(Condition condition);
     void messageShouldHave(Condition condition);
     void shouldHaveDescription(Condition condition);
-
+    void shouldHaveValidationMessage(Condition condition);
 }

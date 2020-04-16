@@ -13,4 +13,6 @@ public interface Cells extends ComponentsCollection {
     <T extends Cell> T cell(int index, Class<T> componentClass);
 
     <T extends Cell> T cell(Condition findBy, Class<T> componentClass);
+
+    void click();
 }

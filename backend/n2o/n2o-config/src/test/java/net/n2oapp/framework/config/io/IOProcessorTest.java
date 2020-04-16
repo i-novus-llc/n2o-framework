@@ -148,6 +148,7 @@ public class IOProcessorTest {
         private String text;
         private MyEnum en;
         private Boolean bool;
+        private Integer intAttr;
         private String attr;
         private ChildEntity child;
 
@@ -173,6 +174,14 @@ public class IOProcessorTest {
 
         public void setBool(Boolean bool) {
             this.bool = bool;
+        }
+
+        public Integer getInt() {
+            return intAttr;
+        }
+
+        public void setInt(Integer intAttr) {
+            this.intAttr = intAttr;
         }
 
         public String getAtt() {
@@ -550,9 +559,11 @@ public class IOProcessorTest {
         ChildEntity childrenEntity = new ChildEntity();
         p.childAttribute(in, "el1", "attr", childrenEntity::getAtt, childrenEntity::setAtt);
         p.childAttributeBoolean(in, "el1", "attr1", childrenEntity::getBool, childrenEntity::setBool);
+        p.childAttributeInteger(in, "el1", "attr2", childrenEntity::getInt, childrenEntity::setInt);
         p.childAttributeEnum(in, "el1", "enum1", childrenEntity::getEn, childrenEntity::setEn, MyEnum.class);
         assertThat(childrenEntity.getAtt(), equalTo("test"));
         assertThat(childrenEntity.getBool(), equalTo(true));
+        assertThat(childrenEntity.getInt(), equalTo(5));
         assertThat(childrenEntity.getEn(), equalTo(MyEnum.en1));
         PersisterFactoryByMap persisterFactory = new PersisterFactoryByMap();
         persisterFactory.register(new EnumNamespaceEntityIO());
@@ -561,6 +572,7 @@ public class IOProcessorTest {
         Element out = new Element("test", Namespace.getNamespace("http://example.com/n2o/ext-1.0"));
         p.childAttribute(out, "el1", "attr", childrenEntity::getAtt, childrenEntity::setAtt);
         p.childAttributeBoolean(out, "el1", "attr1", childrenEntity::getBool, childrenEntity::setBool);
+        p.childAttributeInteger(out, "el1", "attr2", childrenEntity::getInt, childrenEntity::setInt);
         p.childAttributeEnum(out, "el1", "enum1", childrenEntity::getEn, childrenEntity::setEn, MyEnum.class);
         assertThat(in, isSimilarTo(out));
     }

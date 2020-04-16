@@ -1,6 +1,8 @@
 import get from 'lodash/get';
 import isNumber from 'lodash/isNumber';
 import isUndefined from 'lodash/isUndefined';
+import isNil from 'lodash/isNil';
+import isBoolean from 'lodash/isBoolean';
 import evalExpression, { parseExpression } from './evalExpression';
 
 /**
@@ -11,8 +13,9 @@ import evalExpression, { parseExpression } from './evalExpression';
  * @returns {*}
  */
 export default function linkResolver(state, { link, value }) {
-  if (!link && !value) return;
+  if (!link && isNil(value)) return;
 
+  if (isBoolean(value)) return value;
   if (isNumber(value)) return value;
   const context = get(state, link);
   if (isUndefined(value) && link) return context;

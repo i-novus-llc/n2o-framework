@@ -116,7 +116,7 @@
                     "widgetId": "Page_Table"
                   },
                   "meta": {
-                    "closeLastModal": true
+                    "modalsToClose": 1
                   },
                   "widgetId": "Page_Table"
                 }

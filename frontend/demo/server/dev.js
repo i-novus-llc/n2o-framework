@@ -17,6 +17,12 @@ const exampleProxy = proxy(options);
 
 app.use(bodyParser.json());
 
+app.get("/n2o/config", (req, res) => {
+  const config = require("./json/config");
+  res.setHeader("Content-Type", "application/json");
+  res.send(config);
+});
+
 app.get("/n2o/page/proto", (req, res) => {
   const json = require("./json/proto.json");
   res.setHeader("Content-Type", "application/json");
@@ -50,14 +56,7 @@ app.get("/n2o/page/proto/patients/:patientId/update2", (req, res) => {
 app.all("/sign/get", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   res.setHeader("Access-Control-Allow-Origin", "*");
-  // res.send({
-  //   docPackId: 6303,
-  //   docTypeId: 3,
-  //   hash: "9eff17fa13a36e67cb64464020141425fb331e964642057409ab4759e2c4a9e5",
-  //   id: 15642,
-  //   roleId: 4,
-  //   userId: 65
-  // });
+
   res.send(
     JSON.stringify([
       {

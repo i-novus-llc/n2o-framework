@@ -63,7 +63,7 @@ public class PageBinderTest extends SourceCompileTestBase {
     public void pageNameResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
         context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "page_master"));
-        context.setParentWidgetId("page_master");
+        context.setParentClientWidgetId("page_master");
         context.setParentRoute("/page");
         ModelLink modelLink = new ModelLink(ReduxModel.RESOLVE, "page_master");
         modelLink.setValue("`name`");
@@ -93,7 +93,7 @@ public class PageBinderTest extends SourceCompileTestBase {
 
         PageContext context = new PageContext("testPageBinders", "/page/:id_param/view");
         context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "page_master"));
-        context.setParentWidgetId("page_master");
+        context.setParentClientWidgetId("page_master");
         context.setParentRoute("/page");
         ModelLink modelLink = new ModelLink(ReduxModel.RESOLVE, "page_master", "id");
         modelLink.setSubModelQuery(new SubModelQuery("query1"));
@@ -108,7 +108,7 @@ public class PageBinderTest extends SourceCompileTestBase {
     public void pageBreadcrumbResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
         context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "page_master"));
-        context.setParentWidgetId("page_master");
+        context.setParentClientWidgetId("page_master");
         context.setParentRoute("/page");
         ModelLink modelLink = new ModelLink(ReduxModel.RESOLVE, "page_master");
         modelLink.setValue("`name`");
@@ -160,14 +160,14 @@ public class PageBinderTest extends SourceCompileTestBase {
         assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w2'].testMulti").getValue()).get(0)).getValues().get("name"), is("test1"));
 
         data.put("w0_testSingleDefault_id", "2");
-        data.put("w0_testMultiDefault_id", Arrays.asList("1", "2"));
+        data.put("w0_testMultiDefault_id", Arrays.asList("2"));
         page = bind("net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModels.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testModel.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml")
                 .get(new PageContext("testSubModels"), data);
         //Фильтры из URL перекрывают дефолтные значения
         assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test2"));
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(0)).getValues().get("name"), is("test1"));
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(1)).getValues().get("name"), is("test2"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(0)).getValues().get("name"), is("test2"));
+        assertThat(((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).size(), is(1));
     }
 }

@@ -114,4 +114,67 @@ stories
         datasource={tableProps.datasource}
       />
     );
+  })
+  .add('С тултипом', () => {
+    const tableProps = {
+      headers: [
+        {
+          id: 'id',
+          component: TextTableHeader,
+          label: 'Стандартная',
+        },
+        {
+          id: 'id',
+          component: TextTableHeader,
+          label: 'Цветная',
+        },
+        {
+          id: 'id',
+          component: TextTableHeader,
+          label: 'Мало элементов',
+        },
+      ],
+      cells: [
+        {
+          component: CollapsedCell,
+          tooltipFieldId: 'tooltip',
+          model: {
+            data: ['Казань', 'Москва', 'Токио', 'Берлин', 'Париж', 'Лондон'],
+            tooltip: 'tooltip',
+          },
+          fieldKey: 'data',
+        },
+        {
+          component: CollapsedCell,
+          model: {
+            data: ['Казань', 'Москва', 'Токио', 'Берлин'],
+          },
+          fieldKey: 'data',
+          color: 'info',
+        },
+        {
+          component: CollapsedCell,
+          model: {
+            data: ['Казань', 'Москва', 'Токио'],
+            tooltipFieldId: ['tooltip', 'body'],
+          },
+          fieldKey: 'data',
+        },
+      ],
+      datasource: [
+        {
+          id: 'id',
+          name: 'alesha',
+          tooltip: 'tooltip',
+        },
+      ],
+    };
+
+    return (
+      <Table
+        headers={tableProps.headers}
+        cells={tableProps.cells}
+        datasource={tableProps.datasource}
+      />
+    );
   });
