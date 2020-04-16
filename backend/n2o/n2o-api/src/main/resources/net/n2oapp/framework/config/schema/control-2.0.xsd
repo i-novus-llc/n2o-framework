@@ -332,7 +332,7 @@
     <xs:complexType name="controlDependenciesDefinition" abstract="true">
         <xs:sequence>
             <xs:element name="enabling" type="baseDependencyDefinition" minOccurs="0"/>
-            <xs:element name="visibility" type="visibilityDependencyDefinition" minOccurs="0"/>
+            <xs:element name="visibility" type="controlVisibilityDependencyDefinition" minOccurs="0"/>
             <xs:element name="set-value" type="baseDependencyDefinition" minOccurs="0"/>
             <xs:element name="requiring" type="baseDependencyDefinition" minOccurs="0"/>
             <xs:element name="fetch" type="baseDependencyDefinition" minOccurs="0"/>
@@ -1379,10 +1379,10 @@
         <xs:attribute name="apply-on-init" type="xs:boolean" default="true"/>
     </xs:complexType>
 
-    <xs:complexType name="visibilityDependencyDefinition" abstract="true">
+    <xs:complexType name="controlVisibilityDependencyDefinition" abstract="true">
         <xs:complexContent>
             <xs:extension base="baseDependencyDefinition">
-                <xs:attribute name="reset" type="xs:boolean" default="true">
+                <xs:attribute name="reset" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Сбросить значение при срабатывании зависимости.</xs:documentation>
                     </xs:annotation>

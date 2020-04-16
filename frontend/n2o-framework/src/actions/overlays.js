@@ -19,7 +19,7 @@ import createActionHelper from './createActionHelper';
  * @param mode
  * @param addition
  */
-export function insertModal(name, visible, mode, addition) {
+export function insertOverlay(name, visible, mode, addition) {
   return createActionHelper(INSERT_MODAL)({
     name,
     visible,
