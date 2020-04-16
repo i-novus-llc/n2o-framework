@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import cn from 'classnames';
 import Alert from '../snippets/Alerts/Alert';
 import DocumentTitle from '../core/DocumentTitle';
+import PageTitle from '../core/PageTitle';
 import DefaultBreadcrumb from '../core/Breadcrumb/DefaultBreadcrumb';
 import BreadcrumbContainer from '../core/Breadcrumb/BreadcrumbContainer';
 import Toolbar from '../buttons/Toolbar';
@@ -49,19 +50,23 @@ function DefaultPage(
           items={metadata.breadcrumb}
         />
       )}
-      {toolbar && (toolbar.topLeft || toolbar.topRight) && (
+      {!isEmpty(metadata) && metadata.page && <PageTitle {...metadata.page} />}
+      {toolbar && (toolbar.topLeft || toolbar.topRight || toolbar.topCenter) && (
         <div className="n2o-page-actions">
           <Toolbar entityKey={containerKey} toolbar={toolbar.topLeft} />
+          <Toolbar entityKey={containerKey} toolbar={toolbar.topCenter} />
           <Toolbar entityKey={containerKey} toolbar={toolbar.topRight} />
         </div>
       )}
       {children}
-      {toolbar && (toolbar.bottomLeft || toolbar.bottomRight) && (
-        <div className="n2o-page-actions">
-          <Toolbar entityKey={containerKey} toolbar={toolbar.bottomLeft} />
-          <Toolbar entityKey={containerKey} toolbar={toolbar.bottomRight} />
-        </div>
-      )}
+      {toolbar &&
+        (toolbar.bottomLeft || toolbar.bottomRight || toolbar.bottomCenter) && (
+          <div className="n2o-page-actions">
+            <Toolbar entityKey={containerKey} toolbar={toolbar.bottomLeft} />
+            <Toolbar entityKey={containerKey} toolbar={toolbar.bottomCenter} />
+            <Toolbar entityKey={containerKey} toolbar={toolbar.bottomRight} />
+          </div>
+        )}
     </div>
   );
 }

@@ -37,6 +37,7 @@ class AdvancedTableWidget extends Component {
       hasSelect,
       autoFocus,
       rowSelection,
+      autoCheckboxOnSelect,
       tableSize,
       useFixedHeader,
       expandable,
@@ -63,6 +64,7 @@ class AdvancedTableWidget extends Component {
       dataProvider,
       placeholder,
       rowSelection,
+      autoCheckboxOnSelect,
       tableSize,
       useFixedHeader,
       expandable,
@@ -158,6 +160,7 @@ AdvancedTableWidget.propTypes = {
   useFixedHeader: PropTypes.bool,
   tableSize: PropTypes.string,
   rowSelection: PropTypes.bool,
+  autoCheckboxOnSelect: PropTypes.bool,
   rowClass: PropTypes.string,
   expandFieldId: PropTypes.string,
 };

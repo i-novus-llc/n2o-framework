@@ -1,11 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import isBoolean from 'lodash/isBoolean';
 import memoize from 'lodash/memoize';
 import some from 'lodash/some';
 import omit from 'lodash/omit';
 import isEqual from 'lodash/isEqual';
+import map from 'lodash/map';
+import replace from 'lodash/replace';
+import includes from 'lodash/includes';
+import isNil from 'lodash/isNil';
 import {
   isInitSelector,
   isVisibleSelector,
@@ -24,6 +27,8 @@ import {
 } from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
 import { getFormValues } from 'redux-form';
+
+const INDEX_PLACEHOLDER = '#index';
 
 const excludedKeys = [
   'dependencySelector',
@@ -71,15 +76,49 @@ export default Field => {
         dependency,
         requiredToRegister,
         registerFieldExtra,
+        parentIndex,
       } = props;
+
       !isInit &&
         registerFieldExtra(form, name, {
           visible: visibleToRegister,
           disabled: disabledToRegister,
-          dependency,
+          dependency: this.modifyDependency(dependency, parentIndex),
           required: requiredToRegister,
         });
     }
+
+    modifyDependency = (dependency, parentIndex) => {
+      if (!isNil(parentIndex)) {
+        return map(dependency, dep => {
+          const { expression, on } = dep;
+          let newDep = Object.assign({}, dep);
+
+          if (expression) {
+            newDep = Object.assign({}, newDep, {
+              expression: replace(expression, INDEX_PLACEHOLDER, parentIndex),
+            });
+          }
+
+          if (on) {
+            newDep = Object.assign({}, newDep, {
+              on: this.modifyOn(on, parentIndex),
+            });
+          }
+
+          return newDep;
+        });
+      }
+
+      return dependency;
+    };
+
+    modifyOn = (on, parentIndex) =>
+      map(on, key =>
+        includes(key, INDEX_PLACEHOLDER)
+          ? replace(key, INDEX_PLACEHOLDER, parentIndex)
+          : key
+      );
 
     /**
      * мэппинг onChange

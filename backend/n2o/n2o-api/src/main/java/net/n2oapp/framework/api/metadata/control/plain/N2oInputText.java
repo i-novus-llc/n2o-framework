@@ -9,17 +9,16 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oInputText extends N2oPlainField {
-
-    public N2oInputText(String id) {
-        setId(id);
-    }
-
-    public N2oInputText() {
-    }
-
     private Integer length;
     private String max;
     private String min;
     private String step;
+    private String measure;
 
+    public N2oInputText() {
+    }
+
+    public N2oInputText(String id) {
+        setId(id);
+    }
 }

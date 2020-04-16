@@ -133,7 +133,7 @@
   }
 
   & table.n2o-advanced-table-fixed {
-    width: 100%;
+    width: 100%!important;
   }
 
   &-nested table tr:hover {
@@ -194,7 +194,7 @@
   &-header-cell {
     &-content {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
     }
   }
 
@@ -248,4 +248,8 @@
 
 .n2o-editable-cell-text {
   word-break: break-word;
+}
+
+.n2o-advanced-table-header-cel {
+  vertical-align: initial!important;
 }

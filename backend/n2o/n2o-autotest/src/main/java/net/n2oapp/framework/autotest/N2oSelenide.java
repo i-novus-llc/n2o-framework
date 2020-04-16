@@ -5,6 +5,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.collection.ComponentsCollection;
 import net.n2oapp.framework.autotest.api.component.Component;
+import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.N2oComponentLibrary;
@@ -30,6 +31,10 @@ public class N2oSelenide {
         return factory.produce($(".modal .modal-content"), modalClass);
     }
 
+    public static <T extends Drawer> T drawer(Class<T> drawerClass) {
+        return factory.produce($(".drawer.drawer-open"), drawerClass);
+    }
+
     public static <T extends Component> T component(SelenideElement element, Class<T> componentClass) {
         return factory.produce(element, componentClass);
     }
@@ -44,5 +49,9 @@ public class N2oSelenide {
 
     public static Modal modal() {
         return modal(Modal.class);
+    }
+
+    public static Drawer drawer() {
+        return drawer(Drawer.class);
     }
 }

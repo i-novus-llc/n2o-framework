@@ -333,6 +333,17 @@ public interface IOProcessor {
     void childAttributeBoolean(Element element, String childName, String name, Supplier<Boolean> getter, Consumer<Boolean> setter);
 
     /**
+     * Считывание\запись атрибута у дочернего элемента типа Integer
+     *
+     * @param element   элемент
+     * @param childName имя дочернего элемента
+     * @param name      имя атрибута
+     * @param getter    получение атрибута
+     * @param setter    запись атрибута
+     */
+    void childAttributeInteger(Element element, String childName, String name, Supplier<Integer> getter, Consumer<Integer> setter);
+
+    /**
      * Считывание\запись атрибута у дочернего элемента
      *
      * @param element   элемент

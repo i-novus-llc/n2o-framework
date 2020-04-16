@@ -11,7 +11,7 @@
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>framework</artifactId>
     <packaging>pom</packaging>
-    <version>7.6.0-SNAPSHOT</version>
+    <version>7.6.2-SNAPSHOT</version>
 
     <name>N2O Framework</name>
     <description>Framework for creating web applications with rich user interface without deep knowledge of WEB technologies and Frontend frameworks. Based on Java и ReactJS</description>
@@ -48,6 +48,8 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven-compiler-plugin.version>3.5</maven-compiler-plugin.version>
+        <junit-jupiter.version>5.6.0</junit-jupiter.version>
+        <allure-junit5.version>2.13.2</allure-junit5.version>
     </properties>
 
     <build>
@@ -184,6 +186,10 @@
                     <includes>
                         <include>**/*AT.java</include>
                     </includes>
+                    <excludes>
+                        <exclude>**/*Test.java</exclude>
+                        <exclude>**/*Tests.java</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
@@ -202,6 +208,15 @@
                     <tagNameFormat>@{project.version}</tagNameFormat>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <releaseProfiles>releases</releaseProfiles>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.10.0</version>
+                <configuration>
+                    <reportDirectory>allure-report</reportDirectory>
+                    <resultsDirectory>../allure-results</resultsDirectory>
                 </configuration>
             </plugin>
         </plugins>

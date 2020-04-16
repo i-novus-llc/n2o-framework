@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oStandardWidget;
 
@@ -31,6 +32,11 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
     }
 
     public class N2oFilters implements Filters {
+
+        @Override
+        public Toolbar toolbar() {
+            return N2oSelenide.collection(element().$$(".n2o-filter .btn"), Toolbar.class);
+        }
 
         @Override
         public Fields fields() {
@@ -95,6 +101,11 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         }
 
         @Override
+        public void shouldNotHaveSelectedRows() {
+            element().$$(".n2o-table-row.table-active").shouldHaveSize(0);
+        }
+
+        @Override
         public void columnShouldHaveTexts(int index, List<String> texts) {
             if (texts == null || texts.isEmpty())
                 element().$$(".n2o-table-row td:nth-child(" + (++index) + ")").shouldHave(CollectionCondition.empty);
@@ -134,7 +145,7 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
 
         @Override
         public void totalElementsShouldBe(int count) {
-            element().$(".n2o-pagination .n2o-pagination-info").should(Condition.matchesText("" + count));
+            element().$(".n2o-pagination .n2o-pagination-info").scrollTo().should(Condition.matchesText("" + count));
         }
 
     }
