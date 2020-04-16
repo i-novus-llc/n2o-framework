@@ -32,7 +32,7 @@ export function RenderTooltipTrigger(props) {
   if (isUndefined(hint)) {
     return label;
   }
-  console.warn(label);
+
   const bodyProps = {
     ...getTriggerProps({
       ref: triggerRef,
