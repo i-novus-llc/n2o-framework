@@ -146,7 +146,6 @@ stories.add('Форма с toolbar', () => {
                                 src: 'StandardButton',
                                 label: 'label',
                                 icon: 'fa fa-paper-plane',
-                                hint: 'Подписать запись',
                                 count: '4',
                                 size: 'sm',
                                 color: 'secondary',
@@ -193,7 +192,6 @@ stories.add('Форма с toolbar', () => {
                                 label:
                                   'Длинный лэйбл для теста popper должен перевернуться',
                                 icon: 'fa fa-paper-plane',
-                                hint: 'Подписать запись',
                                 count: '4',
                                 size: 'sm',
                                 color: 'secondary',
@@ -291,7 +289,6 @@ stories.add('Форма с toolbar', () => {
                                 src: 'StandardButton',
                                 label: 'Проверка длинного лейбла №2',
                                 icon: 'fa fa-fax',
-                                hint: 'Подписать запись',
                                 count: '15',
                                 size: 'md',
                                 color: 'secondary',

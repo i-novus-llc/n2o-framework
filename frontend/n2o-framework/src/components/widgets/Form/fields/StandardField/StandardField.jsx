@@ -135,8 +135,8 @@ class StandardField extends React.Component {
           />
           <div style={styleHelper}>
             <div
-              className={cx('control-container', {
-                'control-container_with-toolbar': toolbar,
+              className={cx('form-container', {
+                'form-container_with-toolbar': toolbar,
               })}
             >
               <Control
