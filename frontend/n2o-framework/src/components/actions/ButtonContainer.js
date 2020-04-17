@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { DropdownMenu, Button } from 'reactstrap';
+import { DropdownMenu } from 'reactstrap';
 import { createStructuredSelector } from 'reselect';
+import get from 'lodash/get';
+import isNil from 'lodash/isNil';
 import cx from 'classnames';
 
-import { registerButton, removeButton } from '../../actions/toolbar';
+import {
+  registerButton,
+  removeButton,
+  changeButtonVisiblity,
+} from '../../actions/toolbar';
 import {
   isDisabledSelector,
   isInitSelector,
@@ -38,6 +44,22 @@ class ButtonContainer extends React.Component {
   componentWillUnmount() {
     const { dispatch, containerKey } = this.props;
     dispatch(removeButton(containerKey));
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { dispatch, containerKey, initialProps = {} } = this.props;
+    const prevVisible = get(prevProps, 'initialProps.visible');
+    const nextVisible = initialProps.visible;
+
+    if (
+      prevVisible !== nextVisible &&
+      !isNil(prevVisible) &&
+      !isNil(nextVisible)
+    ) {
+      dispatch(
+        changeButtonVisiblity(containerKey, initialProps.id, nextVisible)
+      );
+    }
   }
 
   /**
@@ -191,7 +213,8 @@ class ButtonContainer extends React.Component {
       component,
     } = this.props;
     const isDropdown = component === DropdownMenu;
-
+    console.log('point');
+    console.log(this.props);
     return isDropdown ? (
       <div
         className={cx(visible ? 'd-block' : 'd-none')}
