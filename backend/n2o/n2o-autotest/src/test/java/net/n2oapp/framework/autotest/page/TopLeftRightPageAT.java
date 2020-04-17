@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.page;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Regions;
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.TopLeftRightPage;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
@@ -66,7 +67,9 @@ public class TopLeftRightPageAT extends AutoTestBase {
 
         // открытие страницы с хлебными крошками
         FormWidget widget = topRegions.region(0, PanelRegion.class).content().widget(FormWidget.class);
-        widget.toolbar().topLeft().button("Открыть").click();
+        StandardButton btn = widget.toolbar().topLeft().button("Открыть");
+        btn.shouldBeEnabled();
+        btn.click();
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();

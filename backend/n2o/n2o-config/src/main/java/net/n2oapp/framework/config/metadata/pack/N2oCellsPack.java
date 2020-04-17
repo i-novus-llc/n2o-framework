@@ -21,7 +21,6 @@ public class N2oCellsPack implements MetadataPack<N2oApplicationBuilder> {
                 new EditCellCompiler(),
                 new RatingCellCompiler(),
                 new SwitchCellCompiler(),
-                new RatingCellCompiler(),
                 new TooltipListCellCompiler());
     }
 }
