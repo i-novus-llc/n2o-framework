@@ -79,11 +79,10 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
 
     private void submit(Element e, N2oField.Submit t, IOProcessor p) {
         p.attribute(e, "operation-id", t::getOperationId, t::setOperationId);
-        p.attribute(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
-        p.attribute(e, "message-on-fail", t::getMessageOnFail, t::setMessageOnFail);
+        p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
+        p.attributeBoolean(e, "message-on-fail", t::getMessageOnFail, t::setMessageOnFail);
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.children(e, null, "path-param", t::getPathParams, t::setPathParams, N2oParam.class, this::submitParam);
-        p.children(e, null, "query-param", t::getQueryParams, t::setQueryParams, N2oParam.class, this::submitParam);
         p.children(e, null, "header-param", t::getHeaderParams, t::setHeaderParams, N2oParam.class, this::submitParam);
         p.children(e, null, "form-param", t::getFormParams, t::setFormParams, N2oParam.class, this::submitParam);
     }

@@ -559,14 +559,14 @@ link:#_Действия[Обработчик действия]
 |
 
 |message-on-success
-|Строка
-|Сообщение в случае, если операция успешна
-|
+|true false
+|Показать сообщение об успешном выполнении действия
+|true
 
 |message-on-fail
-|Строка
-|Сообщение в случае ошибки
-|
+|true false
+|Показать сообщение о неудачном выполнении действия
+|true
 
 |route
 |Строка
@@ -622,42 +622,6 @@ link:#_Действия[Обработчик действия]
 <path-param name="a" value="{id}" ref-widget-id="master" ref-model="filter"/>
 ----
 
-=== <query-param>
-Параметры запроса
-
-Атрибуты::
-[cols="2,4,4,1"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|name
-|Строка
-|Название параметра
-|
-
-|value
-|Строка
-|Значение параметра
-|
-
-|ref-widget-id
-|Строка
-|Идентификатор виджета, по полю которого будет фильтрация
-|
-
-|ref-model
-|resolve edit filter
-|Модель виджета, по полю которого будет фильтрация
-|
-
-|===
-
-Пример::
-[source,xml]
-----
-<query-param name="b" value="{id}" ref-widget-id="master" ref-model="filter"/>
-----
-
 === <header-param>
 Параметры заголовка запроса
 
@@ -691,7 +655,7 @@ link:#_Действия[Обработчик действия]
 Пример::
 [source,xml]
 ----
-<header-param name="c" value="{id}" ref-widget-id="master" ref-model="filter"/>
+<header-param name="b" value="{id}" ref-widget-id="master" ref-model="filter"/>
 ----
 
 === <form-param>
@@ -727,7 +691,7 @@ link:#_Действия[Обработчик действия]
 Пример::
 [source,xml]
 ----
-<form-param name="d" value="{id}" ref-widget-id="master" ref-model="filter"/>
+<form-param name="c" value="{id}" ref-widget-id="master" ref-model="filter"/>
 ----
 
 

@@ -76,8 +76,8 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     @Setter
     public static class Submit implements Source {
         private String operationId;
-        private String messageOnSuccess;
-        private String messageOnFail;
+        private Boolean messageOnSuccess;
+        private Boolean messageOnFail;
         private String route;
         private N2oParam[] pathParams;
         private N2oParam[] queryParams;

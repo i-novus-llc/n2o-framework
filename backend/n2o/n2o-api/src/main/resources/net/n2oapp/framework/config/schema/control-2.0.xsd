@@ -377,11 +377,6 @@
                     <xs:documentation>Параметры URL.</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="query-param" type="act:actionParamDefinition" minOccurs="0">
-                <xs:annotation>
-                    <xs:documentation>Параметры запроса.</xs:documentation>
-                </xs:annotation>
-            </xs:element>
             <xs:element name="header-param" type="act:actionParamDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Параметры заголовка запроса.</xs:documentation>
@@ -398,14 +393,14 @@
                 <xs:documentation>Идентификатор операции, которая должна вызваться.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="message-on-success" type="xs:string">
+        <xs:attribute name="message-on-success" type="xs:boolean" default="true">
             <xs:annotation>
-                <xs:documentation>Сообщение в случае, если операция успешна.</xs:documentation>
+                <xs:documentation>Показать сообщение об успешном выполнении действия.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="message-on-fail" type="xs:string">
+        <xs:attribute name="message-on-fail" type="xs:boolean" default="true">
             <xs:annotation>
-                <xs:documentation>Сообщение в случае ошибки.</xs:documentation>
+                <xs:documentation>Показать сообщение о неудачном выполнении действия.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="route" type="xs:string">
