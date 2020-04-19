@@ -1,7 +1,10 @@
 package net.n2oapp.framework.config.io.widget.form;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -25,6 +28,24 @@ public class FormElementIOV4 extends WidgetElementIOv4<N2oForm> {
         p.attributeEnum(e, "mode", f::getMode, f::setMode, FormMode.class);
         p.attribute(e, "default-values-query-id", f::getDefaultValuesQueryId, f::setDefaultValuesQueryId);
         p.anyChildren(e, "fields", f::getItems, f::setItems, p.anyOf(SourceComponent.class), FieldsetIOv4.NAMESPACE, ControlIOv2.NAMESPACE);
+        p.child(e, null, "submit", f::getSubmit, f::setSubmit, Submit.class, this::submit);
+    }
+
+    private void submit(Element e, Submit t, IOProcessor p) {
+        p.attribute(e, "operation-id", t::getOperationId, t::setOperationId);
+        p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
+        p.attributeBoolean(e, "message-on-fail", t::getMessageOnFail, t::setMessageOnFail);
+        p.attribute(e, "route", t::getRoute, t::setRoute);
+        p.children(e, null, "path-param", t::getPathParams, t::setPathParams, N2oParam.class, this::submitParam);
+        p.children(e, null, "header-param", t::getHeaderParams, t::setHeaderParams, N2oParam.class, this::submitParam);
+        p.children(e, null, "form-param", t::getFormParams, t::setFormParams, N2oParam.class, this::submitParam);
+    }
+
+    private void submitParam(Element e, N2oParam t, IOProcessor p) {
+        p.attribute(e, "name", t::getName, t::setName);
+        p.attribute(e, "value", t::getValue, t::setValue);
+        p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
+        p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
     }
 
     @Override
