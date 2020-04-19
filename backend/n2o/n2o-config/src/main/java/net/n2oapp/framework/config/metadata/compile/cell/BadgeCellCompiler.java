@@ -3,8 +3,9 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
-import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -24,6 +25,12 @@ public class BadgeCellCompiler extends AbstractCellCompiler<N2oBadgeCell, N2oBad
     public N2oBadgeCell compile(N2oBadgeCell source, CompileContext<?, ?> context, CompileProcessor p) {
         N2oBadgeCell cell = new N2oBadgeCell();
         build(cell, source, context, p, property("n2o.default.cell.badge.src"));
+        ComponentScope scope = p.getScope(ComponentScope.class);
+        if (scope != null) {
+            AbstractColumn column = scope.unwrap(AbstractColumn.class);
+            if (column != null)
+                cell.setId(column.getId());
+        }
         if (source.getPosition() != null) {
             cell.setPosition(source.getPosition());
         }
