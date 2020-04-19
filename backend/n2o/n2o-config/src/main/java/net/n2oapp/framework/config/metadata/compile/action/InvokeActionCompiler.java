@@ -1,14 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
-import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -21,26 +20,23 @@ import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
-import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
-import net.n2oapp.framework.config.metadata.compile.context.*;
+import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
+import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
+import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.util.CompileUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Map;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
-import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
 /**
  * Сборка действия вызова операции
@@ -158,41 +154,31 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                                   ReduxModel model, ParentRouteScope routeScope) {
         InvokeActionPayload payload = invokeAction.getPayload();
         AsyncMetaSaga metaSaga = invokeAction.getMeta();
-        WidgetDataProvider dataProvider = new WidgetDataProvider();
+        N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
-        Map<String, ModelLink> pathMapping = new StrictMap<>();
-        pathMapping.putAll(compileParams(source.getPathParams(), p, model, invokeAction.getPayload().getWidgetId()));
-        dataProvider.setFormMapping(compileParams(source.getFormParams(), p, model, invokeAction.getPayload().getWidgetId()));
-        dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), p, model, invokeAction.getPayload().getWidgetId()));
-        String path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        if (widgetScope != null) {
-            String clientWidgetId = widgetScope.getClientWidgetId();
-            if (model.equals(ReduxModel.RESOLVE)) {
-                String widgetSelectedId = clientWidgetId + "_id";
-                //todo не нужно добавлять принудительно параметр в url, нужно только если его задали в route="/:id/action"
-                path = normalize(path + normalize(colon(widgetSelectedId)));
-                pathMapping.put(widgetSelectedId, new ModelLink(model, clientWidgetId, "id"));
-            }
-        }
-        path = normalize(path + normalize(p.cast(source.getRoute(), source.getId())));
-        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + path);
-        dataProvider.setPathMapping(pathMapping);
+        dataProvider.setModel(model);
+        dataProvider.setTargetWidgetId(invokeAction.getPayload().getWidgetId());
+        dataProvider.setId(source.getId());
+        dataProvider.setPathParams(source.getPathParams());
+        dataProvider.setFormParams(source.getFormParams());
+        dataProvider.setHeaderParams(source.getHeaderParams());
         dataProvider.setMethod(RequestMethod.POST);
+        dataProvider.setUrl(source.getRoute());
         dataProvider.setSubmitForm(p.cast(source.getSubmitForm(), true));
-        payload.setDataProvider(dataProvider);
+        payload.setDataProvider(p.compile(dataProvider, context, p, routeScope));
         CompiledObject compiledObject = p.getScope(CompiledObject.class);
         if (compiledObject == null)
             throw new N2oException("For compilation action [{0}] is necessary object!").addData(source.getId());
         invokeAction.setObjectId(compiledObject.getId());
         ValidationList validationList = p.getScope(ValidationList.class);
-        ActionContext actionContext = new ActionContext(compiledObject.getId(), source.getOperationId(), path);
+        ActionContext actionContext = new ActionContext(compiledObject.getId(), source.getOperationId(),
+                payload.getDataProvider().getUrl().replaceFirst(p.resolve(property("n2o.config.data.route"), String.class), ""));
 
         Map<String, ModelLink> routePathMapping = new StrictMap<>();
         Map<String, ModelLink> routeQueryMapping = new StrictMap<>();
         if (routeScope != null) {
             routePathMapping.putAll(routeScope.getPathMapping());
-            routePathMapping.putAll(pathMapping);
+            routePathMapping.putAll(payload.getDataProvider().getPathMapping());
             routeQueryMapping.putAll(routeScope.getQueryMapping());
         }
         actionContext.setPathRouteMapping(routePathMapping);
@@ -223,33 +209,4 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             return meta.getSuccess().getRedirect();
         return null;
     }
-
-    private Map<String, ModelLink> compileParams(N2oParam[] params, CompileProcessor p,
-                                                ReduxModel model, String targetWidgetId) {
-        if (params == null)
-            return Collections.emptyMap();
-        Map<String, ModelLink> result = new StrictMap<>();
-        for (N2oParam param : params) {
-            ModelLink link;
-            Object value = ScriptProcessor.resolveExpression(param.getValue());
-            if (param.getValue() == null || StringUtils.isJs(param.getValue())) {
-                String widgetId = null;
-                if (param.getRefWidgetId() != null) {
-                    String pageId = param.getRefPageId();
-                    if (param.getRefPageId() == null) {
-                        PageScope pageScope = p.getScope(PageScope.class);
-                        pageId = pageScope.getPageId();
-                    }
-                    widgetId = CompileUtil.generateWidgetId(pageId, param.getRefWidgetId());
-                }
-                link = new ModelLink(p.cast(param.getRefModel(), model), p.cast(widgetId, targetWidgetId));
-                link.setValue(value);
-            } else {
-                link = new ModelLink(value);
-            }
-            result.put(param.getName(), link);
-        }
-        return result;
-    }
-
 }

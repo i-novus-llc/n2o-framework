@@ -4,12 +4,12 @@ import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessT
 import net.n2oapp.framework.access.integration.metadata.transform.action.InvokeActionAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oDataProvidersPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
@@ -34,7 +34,7 @@ public class InvokeActionAccessTransformerTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllPagesPack(), new N2oObjectsPack(), new AccessSchemaPack())
+        builder.packs(new N2oAllPagesPack(), new N2oObjectsPack(), new AccessSchemaPack(), new N2oDataProvidersPack())
                 .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testToolbarAccessTransformer.object.xml"),
                         new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"))
                 .transformers(new ToolbarAccessTransformer(), new InvokeActionAccessTransformer());
