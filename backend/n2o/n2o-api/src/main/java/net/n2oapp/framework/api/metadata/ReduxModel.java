@@ -27,6 +27,11 @@ public enum ReduxModel implements IdAware {
         public String getId() {
             return "edit";
         }
+    }, MULTI() {
+        @Override
+        public String getId() {
+            return "multi";
+        }
     };
 
 
