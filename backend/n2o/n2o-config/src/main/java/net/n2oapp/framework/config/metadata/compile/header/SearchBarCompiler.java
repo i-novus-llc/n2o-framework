@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.header;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.header.N2oSearchBar;
 import net.n2oapp.framework.api.metadata.header.SearchBar;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -34,17 +35,17 @@ public class SearchBarCompiler implements BaseSourceCompiler<SearchBar, N2oSearc
         searchBar.setIconFieldId(source.getIconFieldId());
         searchBar.setDescrFieldId(source.getDescriptionFieldId());
 
-        searchBar.setSearchPageLocation(initPageLocation(source, searchBar, context, p));
+        searchBar.setSearchPageLocation(initPageLocation(source));
         searchBar.setDataProvider(initDataProvider(source, p));
 
         return searchBar;
     }
 
-    private SearchBar.SearchPageLocation initPageLocation(N2oSearchBar source, SearchBar compiled, HeaderContext context, CompileProcessor p) {
+    private SearchBar.SearchPageLocation initPageLocation(N2oSearchBar source) {
         SearchBar.SearchPageLocation pageLocation = new SearchBar.SearchPageLocation();
-        pageLocation.setUrl(null);   //TODO
-        pageLocation.setSearchQueryName(null);   //TODO
-        pageLocation.setLinkType(null); //TODO
+        pageLocation.setUrl(source.getAdvancedUrl());
+        pageLocation.setSearchQueryName(source.getAdvancedParam());
+        pageLocation.setLinkType(source.getAdvancedTarget() == Target.newWindow ? SearchBar.LinkType.outer : SearchBar.LinkType.inner);
         return pageLocation;
     }
 

@@ -93,6 +93,9 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
         Assert.assertEquals("descriptionId", searchBar.getDescrFieldId());
 
         Assert.assertNotNull(searchBar.getSearchPageLocation());
+        Assert.assertEquals("advancedUrl", searchBar.getSearchPageLocation().getUrl());
+        Assert.assertEquals("param", searchBar.getSearchPageLocation().getSearchQueryName());
+        Assert.assertEquals(SearchBar.LinkType.inner, searchBar.getSearchPageLocation().getLinkType());
 
         Assert.assertNotNull(searchBar.getDataProvider());
         Assert.assertEquals("n2o/data/search", searchBar.getDataProvider().getUrl());
