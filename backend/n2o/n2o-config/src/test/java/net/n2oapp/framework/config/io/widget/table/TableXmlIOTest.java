@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.io.widget;
+package net.n2oapp.framework.config.io.widget.table;
 
 import net.n2oapp.framework.config.io.action.CloseActionElementIOV1;
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
@@ -6,8 +6,7 @@ import net.n2oapp.framework.config.io.control.plain.InputTextIOv2;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.io.toolbar.SubmenuIO;
-import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
-import net.n2oapp.framework.config.io.widget.table.cell.*;
+import net.n2oapp.framework.config.metadata.pack.N2oCellsIOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
@@ -22,24 +21,12 @@ public class TableXmlIOTest {
 
         tester.ios(
                 new TableElementIOV4(),
-                new LinkCellElementIOv2(),
-                new CustomCellElementIOv2(),
-                new EditCellElementIOv2(),
-                new IconCellElementIOv2(),
-                new CheckboxCellElementIOv2(),
-                new ImageCellElementIOv2(),
-                new ProgressCellElementIOv2(),
-                new TextCellElementIOv2(),
-                new ToolbarCellElementIOv2(),
-                new CloseActionElementIOV1(),
-                new BadgeCellElementIOv2(),
-                new ListCellIOElementIOv2(),
-                new RatingCellElementIOv2(),
                 new SetFieldsetElementIOv4(),
                 new InputTextIOv2(),
+                new CloseActionElementIOV1(),
                 new InvokeActionElementIOV1(),
-                new ButtonIO(), new SubmenuIO()
-        );
+                new ButtonIO(), new SubmenuIO())
+                .addPack(new N2oCellsIOPack());
 
         assert tester.check("net/n2oapp/framework/config/io/widget/table/testTableWidgetIOv4.widget.xml");
     }
