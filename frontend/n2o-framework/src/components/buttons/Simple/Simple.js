@@ -24,7 +24,7 @@ const SimpleButton = ({
   ...rest
 }) =>
   visible && rounded ? (
-    <span className="btn-rounded-container">
+    <span className="btn-rounded-container d-flex align-items-end">
       <Button
         id={id}
         tag={tag}

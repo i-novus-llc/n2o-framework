@@ -48,8 +48,17 @@
   margin: 0 5px 0 5px!important;
 }
 
+.btn-rounded-container {
+  max-height: min-content;
+}
+
 .list-text-cell__trigger > .btn-rounded-container,
-.list-text-cell__trigger > .btn-rounded-container > .btn,
+.list-text-cell__trigger > .btn-rounded-container > .btn-rounded__with-content,
 .list-text-cell__trigger > .btn {
   height: 100%;
 }
+
+.list-text-cell__trigger > .btn-rounded-container > .btn {
+  min-width: max-content;
+}
+

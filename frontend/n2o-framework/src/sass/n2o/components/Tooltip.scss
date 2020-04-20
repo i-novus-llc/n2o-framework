@@ -98,3 +98,7 @@
 .list-text-cell__trigger.d-flex {
   max-width: max-content;
 }
+
+.list-text-cell__trigger.d-flex > .btn {
+  min-width: max-content;
+}
