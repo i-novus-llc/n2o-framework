@@ -19,10 +19,6 @@ public class N2oProgressBarCellXmlPersister extends N2oCellXmlPersister<N2oProgr
     public Element persist(N2oProgressBarCell progressBar, Namespace namespaceElement) {
         Namespace namespace = Namespace.getNamespace(namespacePrefix, namespaceUri);
         Element root = new Element(getElementName(), namespace);
-        Element styleSwitch = SwitchPersister.persist(progressBar.getStyleSwitch(), namespace);
-        if (styleSwitch != null) {
-            root.addContent(styleSwitch);
-        }
         setAttribute(root, "size", progressBar.getSize());
         setAttribute(root, "striped", progressBar.getStriped());
         setAttribute(root, "active", progressBar.getActive());

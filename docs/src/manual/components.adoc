@@ -718,6 +718,24 @@ image::images/cell_in_list.png[]
 </list>
 ----
 
+.Переключаемые ячейки
+Предоставляют возможность использовать различные виды ячеек в колонке
+в зависимости от условия.
+[source,xml]
+----
+<switch value-field-id="type">
+    <case value="type1">
+        <badge.../>
+    </case>
+    <case value="type2">
+        <icon.../>
+    </case>
+    ...
+    <default>
+        <text/>
+    </default>
+</switch>
+----
 
 
 .Основные виды ячеек
