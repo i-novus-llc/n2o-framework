@@ -27,6 +27,7 @@ import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -165,7 +166,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setMethod(RequestMethod.POST);
         dataProvider.setUrl(source.getRoute());
         dataProvider.setSubmitForm(p.cast(source.getSubmitForm(), true));
-        payload.setDataProvider(p.compile(dataProvider, context, p, routeScope));
+        payload.setDataProvider(ClientDataProviderUtil.compile(dataProvider, context, p));
         CompiledObject compiledObject = p.getScope(CompiledObject.class);
         if (compiledObject == null)
             throw new N2oException("For compilation action [{0}] is necessary object!").addData(source.getId());

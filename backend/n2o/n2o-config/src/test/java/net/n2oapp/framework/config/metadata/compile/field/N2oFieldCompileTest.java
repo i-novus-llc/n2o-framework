@@ -33,7 +33,7 @@ public class N2oFieldCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oActionsPack(),
-                new N2oObjectsPack(), new N2oFieldSetsPack(), new N2oDataProvidersPack());
+                new N2oObjectsPack(), new N2oFieldSetsPack());
         builder.ios(new InputTextIOv2());
         builder.compilers(new InputTextCompiler());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml"));

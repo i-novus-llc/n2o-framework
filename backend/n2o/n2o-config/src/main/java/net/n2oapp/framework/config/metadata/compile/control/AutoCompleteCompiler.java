@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.control.AutoComplete;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
+import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import org.springframework.stereotype.Component;
 
@@ -62,7 +63,7 @@ public class AutoCompleteCompiler extends StandardFieldCompiler<AutoComplete, N2
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setUrl(route);
         dataProvider.setQuickSearchParam(p.cast(source.getSearchFilterId(), "name"));
-        return p.compile(dataProvider, context, p);
+        return ClientDataProviderUtil.compile(dataProvider, context, p);
     }
 }
 

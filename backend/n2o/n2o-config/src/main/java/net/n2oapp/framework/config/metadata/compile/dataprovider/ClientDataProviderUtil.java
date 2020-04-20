@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.dataprovider;
 
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
@@ -12,13 +11,11 @@ import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.CompileUtil;
-import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.Map;
@@ -30,10 +27,9 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 /**
  * Утилита для компиляции провайдера данных клиента
  */
-@Component
-public class ClientDataProviderCompiler implements BaseSourceCompiler<ClientDataProvider, N2oClientDataProvider, CompileContext<?, ?>> {
+public class ClientDataProviderUtil {
 
-    public ClientDataProvider compile(N2oClientDataProvider source, CompileContext<?, ?> context, CompileProcessor p) {
+    public static ClientDataProvider compile(N2oClientDataProvider source, CompileContext<?, ?> context, CompileProcessor p) {
         ClientDataProvider dataProvider = new ClientDataProvider();
         String path = null;
 
@@ -69,7 +65,7 @@ public class ClientDataProviderCompiler implements BaseSourceCompiler<ClientData
         return dataProvider;
     }
 
-    private Map<String, ModelLink> compileParams(N2oParam[] params, CompileProcessor p,
+    private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileProcessor p,
                                                  ReduxModel model, String targetWidgetId) {
         if (params == null)
             return Collections.emptyMap();
@@ -95,10 +91,5 @@ public class ClientDataProviderCompiler implements BaseSourceCompiler<ClientData
             result.put(param.getName(), link);
         }
         return result;
-    }
-
-    @Override
-    public Class<? extends Source> getSourceClass() {
-        return N2oClientDataProvider.class;
     }
 }

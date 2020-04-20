@@ -29,7 +29,6 @@ import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
@@ -645,7 +644,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     filter.setFilterId(queryFilter.getFilterField());
                     Object prefilterValue = getPrefilterValue(preFilter);
                     ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-                    if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())){
+                    if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
                         filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
                     } else if (StringUtils.isJs(prefilterValue)) {
                         String widgetId = masterWidgetId;

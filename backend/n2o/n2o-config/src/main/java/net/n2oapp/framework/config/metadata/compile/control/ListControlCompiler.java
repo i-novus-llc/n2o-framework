@@ -20,6 +20,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
+import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
@@ -179,7 +180,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
             }
         }
         dataProvider.setQueryMapping(queryMap);
-        listControl.setDataProvider(p.compile(dataProvider, context, p));
+        listControl.setDataProvider(ClientDataProviderUtil.compile(dataProvider, context, p));
     }
 
     private Object getPrefilterValue(N2oPreFilter n2oPreFilter) {

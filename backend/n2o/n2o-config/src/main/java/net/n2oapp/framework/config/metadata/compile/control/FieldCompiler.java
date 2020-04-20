@@ -20,6 +20,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
+import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.util.CompileUtil;
@@ -173,7 +174,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setUrl(route);
         dataProvider.setQueryMapping(queryMap);
-        return p.compile(dataProvider, context, p);
+        return ClientDataProviderUtil.compile(dataProvider, context, p);
     }
 
     private Object getPrefilterValue(N2oPreFilter n2oPreFilter) {
