@@ -89,10 +89,10 @@ public class TableCheckboxesAT extends AutoTestBase {
         paging.selectPage("2");
         cell11.shouldBeChecked();
         cell12.shouldBeChecked();
+        // отмена выбора всех строк
         table.columns().headers().header(0).click();
         cell11.shouldBeUnchecked();
         cell12.shouldBeUnchecked();
-        // отмена выбора всех строк
         paging.selectPage("1");
         paging.selectPage("2");
         cell11.shouldBeUnchecked();
