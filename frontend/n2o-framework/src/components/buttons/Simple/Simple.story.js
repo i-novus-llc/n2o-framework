@@ -44,6 +44,7 @@ const toolbar2 = [
       {
         id: 'testBtn23',
         label: 'Еще кнопка',
+        hint: 'hint from square button',
         src: 'StandardButton',
       },
       {
@@ -70,6 +71,7 @@ const toolbar3 = [
       {
         id: 'testBtn22',
         src: 'StandardButton',
+        hint: 'test hint',
         rounded: true,
         icon: 'fa fa-address-book',
         color: 'success',
@@ -84,6 +86,7 @@ const toolbar3 = [
       {
         id: 'testBtn22',
         src: 'StandardButton',
+        hint: 'some hint',
         rounded: true,
         icon: 'fa fa-fax',
         color: 'success',
