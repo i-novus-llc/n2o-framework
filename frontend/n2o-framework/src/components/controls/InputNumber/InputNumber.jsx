@@ -136,18 +136,20 @@ class InputNumber extends React.Component {
   }
 
   onBlur() {
-    const { max, min } = this.props;
+    const { max, min, onBlur } = this.props;
+
     if (this.state.value === '-') {
       return;
     }
+
     const value = this.resolveValue(formatToFloat(this.state.value));
     this.pasted = false;
+
     if (!isNil(value) && isValid(value, min, max)) {
-      this.setState({ value });
+      this.setState({ value }, () => onBlur(value));
     } else {
-      this.setState({ value: null });
+      this.setState({ value: null }, () => onBlur(null));
     }
-    this.props.onBlur(value);
   }
 
   /**
