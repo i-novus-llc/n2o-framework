@@ -2,11 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import SecurityCheck from '../auth/SecurityCheck';
-import { pure } from 'recompose';
 
 function Factory(props, context) {
   const { src, level, security, children, ...rest } = props;
-  const component = context.getComponent(src, level);
+  let { component = null } = props;
+
+  if (!component) {
+    component = context.getComponent(src, level);
+  }
+
   if (component) {
     return isEmpty(security) ? (
       React.createElement(component, rest, children)

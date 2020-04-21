@@ -18,4 +18,3 @@ public class IconCellXmlIOTest {
         assert tester.check("net/n2oapp/framework/config/io/widget/table/cell/testIconCellIOv4.widget.xml");
     }
 }
-
