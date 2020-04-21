@@ -4,6 +4,7 @@ import { omit } from 'lodash';
 import { Route, Switch } from 'react-router-dom';
 
 import StandardButton from './StandardButton';
+import SimpleButton from '../Simple/Simple';
 
 const stories = storiesOf('Кнопки', module);
 
@@ -72,4 +73,10 @@ stories
       </div>
     </div>
   ))
-  .add('Выполнение redux action', () => <StandardButton {...performMeta} />);
+  .add('Выполнение redux action', () => (
+    <div className="col-2">
+      <StandardButton {...performMeta} size={'sm'} />
+      <StandardButton {...performMeta} size={'md'} />
+      <StandardButton {...performMeta} size={'lg'} />
+    </div>
+  ));

@@ -14,7 +14,7 @@ stories.addParameters({
   },
 });
 
-stories.add('Компонент', () => {
+stories.add('Компонент c тултипом', () => {
   const tableProps = {
     headers: [
       {
@@ -38,12 +38,15 @@ stories.add('Компонент', () => {
         id: 'id',
         component: IconCell,
         icon: 'fa fa-plus',
+        tooltipPlacement: 'right',
+        tooltipFieldId: 'tooltip',
       },
       {
         id: 'vip',
         component: IconCell,
         icon: 'fa fa-plus',
         textPlace: textPlaceTypes.LEFT,
+        tooltipPlacement: 'top',
       },
       {
         id: 'onlyIcon',
@@ -57,6 +60,7 @@ stories.add('Компонент', () => {
         id: 'Алексей',
         vip: 'Алексей',
         onlyIcon: 'Алексей',
+        tooltip: ['tooltip', 'body'],
       },
     ],
   };

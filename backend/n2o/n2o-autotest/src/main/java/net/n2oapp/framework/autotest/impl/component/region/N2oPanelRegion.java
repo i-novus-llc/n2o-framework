@@ -16,6 +16,10 @@ public class N2oPanelRegion extends N2oRegion implements PanelRegion {
         element().$("button.collapse-toggle").click();
     }
 
+    @Override
+    public void shouldHaveTitle(String title) {
+        element().shouldHave(Condition.text(title));
+    }
 
     @Override
     public void shouldBeExpanded() {

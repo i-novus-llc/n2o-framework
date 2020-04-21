@@ -405,6 +405,11 @@
             "value": "`vip`",
             "link": "models.filter['proto_clients']"
           }
+        },
+        "headersMapping": {
+          "Button-Id": {
+            "value": "test"
+          }
         }
       },
       "toolbar": {
@@ -1054,8 +1059,14 @@
                       "link": "models.resolve['proto_clients'].id"
                     }
                   },
-                  "method": "POST",
-                  "optimistic": false
+                  "headersMapping": {
+                    "Content-Type": {
+                      "link": "models.resolve['proto_patients'].id"
+                    },
+                    "BUTTON_ID": {
+                      "value": "vip-button"
+                    }
+                  },
                 },
                 "modelLink": "models.resolve['proto_clients']"
               },
@@ -1608,7 +1619,9 @@
             "widgetId": "proto_contacts"
           }
         ]
-      },
+      }
+    ],
+    "top": [
       {
         "src": "PanelRegion",
         "hasTabs": false,
@@ -1629,10 +1642,26 @@
   "actions": {
     "create2": {}
   },
-  "width": {
-    "left": "60%"
+
+
+  "needScrollButton": true,
+  "src": "TopLeftRightPage",
+  "places": {
+    "top": {
+      "width": "100%",
+      "fixed": true
+    },
+    "left": {
+      "width": "30%"
+    },
+    "right": {
+      "width": "30%",
+      "fixed": true,
+      "offset": 100
+    }
   },
-  "src": "LeftRightPage",
+
+
   "page": {
     "title": "Список контактов"
   }

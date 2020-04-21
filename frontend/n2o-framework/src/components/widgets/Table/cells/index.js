@@ -10,6 +10,8 @@ import ButtonsCell from './ButtonsCell/ButtonsCell';
 import EditableCell from './EditableCell/EditableCell';
 import RatingCell from './RatingCell/RatingCell';
 import StatusCell from './StatusCell/StatusCell';
+import SwitchCell from './SwitchCell/SwitchCell';
+import ListTextCell from './ListTextCell/ListTextCell';
 
 export default {
   TextCell: TextCell,
@@ -24,4 +26,6 @@ export default {
   EditableCell: EditableCell,
   RatingCell: RatingCell,
   StatusCell: StatusCell,
+  ListTextCell: ListTextCell,
+  SwitchCell: SwitchCell,
 };

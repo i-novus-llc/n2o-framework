@@ -138,6 +138,5 @@ public class WidgetsAT extends AutoTestBase {
 
         page.shouldExists();
         page.shouldExists();
-
     }
 }

@@ -1,0 +1,8 @@
+.icon-cell-container {
+  display: inline-flex;
+  flex-flow: row nowrap;
+}
+
+.icon-cell-container__text-left {
+  flex-flow: row-reverse nowrap;
+}

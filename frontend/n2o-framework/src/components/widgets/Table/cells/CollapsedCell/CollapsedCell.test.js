@@ -6,8 +6,10 @@ import CollapsedCell from './CollapsedCell';
 const setup = (propOverrides = {}) => {
   const props = Object.assign(
     {
+      tooltipFieldId: 'tooltip',
       model: {
         data: ['Казань', 'Москва', 'Токио', 'Берлин', 'Париж', 'Лондон'],
+        tooltip: ['tooltip', 'body'],
       },
       fieldKey: 'data',
       amountToGroup: 3,
@@ -28,6 +30,12 @@ describe('<InputSelectContainer />', () => {
     const { wrapper } = setup();
 
     expect(wrapper.find('span.badge').exists()).toBeTruthy();
+  });
+
+  it('Cell обернут тултипом', () => {
+    const { wrapper } = setup();
+
+    expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true);
   });
 
   it('проверяет количество элементов', () => {

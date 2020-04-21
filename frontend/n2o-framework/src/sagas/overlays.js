@@ -1,9 +1,13 @@
-import { takeEvery, select, put, call, race } from 'redux-saga/effects';
+import { takeEvery, select, put, call } from 'redux-saga/effects';
 import { isDirty } from 'redux-form';
 import { CLOSE } from '../constants/overlays';
 import keys from 'lodash/keys';
 import { makePageWidgetsByIdSelector } from '../selectors/pages';
-import { showPrompt, destroyOverlay } from '../actions/overlays';
+import {
+  showPrompt,
+  destroyOverlay,
+  destroyOverlays,
+} from '../actions/overlays';
 
 /**
  * Проверка на изменение данных в формах
@@ -41,6 +45,10 @@ export function* checkPrompt(action) {
   }
 }
 
+export function* closeOverlays({ meta }) {
+  yield put(destroyOverlays(meta.modalsToClose));
+}
+
 export const overlaysSagas = [
   takeEvery(CLOSE, checkPrompt),
   takeEvery(
@@ -48,7 +56,7 @@ export const overlaysSagas = [
       action.meta &&
       action.payload &&
       !action.payload.prompt &&
-      action.meta.closeLastModal,
-    checkPrompt
+      action.meta.modalsToClose,
+    closeOverlays
   ),
 ];

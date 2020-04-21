@@ -1,0 +1,49 @@
+.btn–rounded {
+  border-radius: 50%;
+  width: 41.19px;
+  max-width: 41.19px;
+  height: 41.19px;
+  min-height: 41.19px;
+  display: inline-flex;
+  justify-content: center;
+  margin: 0 5px 0 5px;
+}
+
+.btn–rounded > i {
+  padding: 0;
+}
+
+.btn–rounded.btn-sm {
+  width: 32px;
+  max-width: 32px;
+  height: 32px;
+  min-height: 32px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.btn–rounded.btn-md {
+  width: 41.19px;
+  max-width: 41.19px;
+  height: 41.19px;
+  min-height: 41.19px;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.btn–rounded.btn-lg {
+  width: 48px;
+  max-width: 48px;
+  height: 48px;
+  min-height: 48px;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.btn-rounded__with-content {
+  border-radius: 100px;
+  padding: 0 25px 0 25px;
+  margin: 0 5px 0 5px!important;
+}

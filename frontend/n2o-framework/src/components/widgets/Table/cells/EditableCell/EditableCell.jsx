@@ -10,6 +10,7 @@ import unset from 'lodash/unset';
 import Text from '../../../../snippets/Text/Text';
 import withActionsEditableCell from './withActionsEditableCell';
 import withCell from '../../withCell';
+import withTooltip from '../../withTooltip';
 
 /**
  * Компонент редактируемой ячейки таблицы
@@ -172,5 +173,6 @@ EditableCell.defaultProps = {
 
 export default compose(
   withActionsEditableCell,
-  withCell
+  withCell,
+  withTooltip
 )(EditableCell);

@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import Text from '../../../../snippets/Typography/Text/Text';
+import withTooltip from '../../withTooltip';
 
 /** Описание */
 function TextCell({
@@ -19,10 +20,9 @@ function TextCell({
 }) {
   return (
     visible && (
-      <div className="d-flex flex-column">
+      <div className="d-inline-flex flex-column">
         <Text
           text={model && get(model, fieldKey || id)}
-          subText={model && subTextFieldKey && get(model, subTextFieldKey)}
           preLine={preLine}
           {...rest}
         />
@@ -73,4 +73,6 @@ TextCell.defaultProps = {
   visible: true,
 };
 
-export default TextCell;
+export { TextCell };
+
+export default withTooltip(TextCell);

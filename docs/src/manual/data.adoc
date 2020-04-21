@@ -41,15 +41,15 @@ link:../xml/#_Объект_object[Подробнее об объектах]
   id="create"
   name="Создание">
   <invocation>...</invocation><!--Провайдер данных-->
-  <in-parameters>
+  <in>
       <!--Входные данные-->
-      <param id="name"/>
-      <param id="birthday"/>
-  </in-parameters>
-  <out-parameters>
+      <field id="name"/>
+      <field id="birthday"/>
+  </in>
+  <out>
       <!--Выходные данные-->
-      <param id="id"/>
-  </out-parameters>
+      <field id="id"/>
+  </out>
   <validations>...</validations><!--Валидации операций-->
 </operation>
 ----
@@ -91,11 +91,11 @@ link:https://n2oapp.net/sandbox/new/data/object/validation_condition[Приме�
     message="Имя {name} уже существует"
     result="cnt == 0">
     <invocation>...</invocation><!--Провайдер данных-->
-    <in-parameters>
+    <in>
         <!--Входные данные-->
-        <param id="name"/>
-        <param id="id"/>
-    </in-parameters>
+        <field id="name"/>
+        <field id="id"/>
+    </in>
   </constraint>
 </validations>
 ----
@@ -343,10 +343,10 @@ SQL провайдер позволяет выполнять SQL запросы 
   <invocation>
     <sql>INSERT INTO mytable (first_name, last_name) VALUES (:firstName, :lastName)</sql>
   </invocation>
-  <in-parameters>
-    <param id="firstName"/>
-    <param id="lastName"/>
-  </in-parameters>
+  <in>
+    <field id="firstName"/>
+    <field id="lastName"/>
+  </in>
 </operation>
 ----
 
@@ -384,10 +384,10 @@ REST провайдер выполняет http запросы к backend сер
   <invocation>
     <rest method="post">/api/myentity</rest>
   </invocation>
-  <in-parameters>
-    <param id="firstName"/>
-    <param id="lastName"/>
-  </in-parameters>
+  <in>
+    <field id="firstName"/>
+    <field id="lastName"/>
+  </in>
 </operation>
 ----
 link:https://n2oapp.net/sandbox/new/data/providers/rest[Пример]
@@ -441,10 +441,10 @@ link:https://n2oapp.net/sandbox/new/data/providers/rest[Пример]
       <spring/>
     </java>
   </invocation>
-  <in-parameters>
-    <param id="firstName"/>
-    <param id="lastName"/>
-  </in-parameters>
+  <in>
+    <field id="firstName"/>
+    <field id="lastName"/>
+  </in>
 </operation>
 ----
 
@@ -518,9 +518,9 @@ integer[]
 ----
 <operation>
   ...
-  <in-parameters>
-    <param id="gender.id" domain="integer"/>
-  </in-parameters>
+  <in>
+    <field id="gender.id" domain="integer"/>
+  </in>
 </operation>
 ----
 
@@ -541,7 +541,7 @@ integer[]
 .Параметр операции
 [source,xml]
 ----
-<param id="firstName"/>
+<field id="firstName"/>
 ----
 Подобная связь называется биндингом.
 
@@ -571,7 +571,7 @@ link:https://n2oapp.net/sandbox/new/data/binding/simple[Пример]
 
 [source,xml]
 ----
-<param id="gender.id"/> <!-- 1 -->
+<field id="gender.id"/> <!-- 1 -->
 ----
 
 link:https://n2oapp.net/sandbox/new/data/binding/select[Пример]
@@ -600,8 +600,8 @@ link:https://n2oapp.net/sandbox/new/data/binding/select[Пример]
 
 [source,xml]
 ----
-<param id="period.begin"/> <!-- 01.01.2018 00:00 -->
-<param id="period.end"/> <!-- 31.12.2018 00:00 -->
+<field id="period.begin"/> <!-- 01.01.2018 00:00 -->
+<field id="period.end"/> <!-- 31.12.2018 00:00 -->
 ----
 
 
@@ -636,7 +636,7 @@ link:https://n2oapp.net/sandbox/new/data/binding/interval[Пример]
 необходимо использовать "звёздочку":
 [source,xml]
 ----
-<param id="regions*.id"/> <!-- [1,16] -->
+<field id="regions*.id"/> <!-- [1,16] -->
 ----
 
 === Маппинг данных в провайдерах
@@ -732,10 +732,10 @@ link:https://n2oapp.net/sandbox/new/data/providers/rest_mapping[Пример]
   <invocation>
     <sql>INSERT INTO mytable (first_name, gender_id) VALUES (:first_name, :gender_id)</sql>
   </invocation>
-  <in-parameters>
-    <param id="name" mapping="['first_name']"/>
-    <param id="gender.id" mapping="['gender_id']"/>
-  </in-parameters>
+  <in>
+    <field id="name" mapping="['first_name']"/>
+    <field id="gender.id" mapping="['gender_id']"/>
+  </in>
 </operation>
 ----
 
@@ -762,10 +762,10 @@ POST /api/myentity
   <invocation>
     <rest method="post">/api/myentity</rest>
   </invocation>
-  <in-parameters>
-    <param id="name" mapping="['firstName']"/>
-    <param id="gender.id" mapping="['genderId']"/>
-  </in-parameters>
+  <in>
+    <field id="name" mapping="['firstName']"/>
+    <field id="gender.id" mapping="['genderId']"/>
+  </in>
 </operation>
 ----
 
@@ -822,10 +822,10 @@ class Calculator {
       </arguments>
     </java>
   </invocation>
-  <in-parameters>
-    <param id="a" mapping="[0]"/>
-    <param id="b" mapping="[1]"/>
-  </in-parameters>
+  <in>
+    <field id="a" mapping="[0]"/>
+    <field id="b" mapping="[1]"/>
+  </in>
 </operation>
 ----
 
@@ -864,11 +864,11 @@ class MyEntity {
       <spring/>
     </java>
   </invocation>
-  <in-parameters>
+  <in>
     <!-- Для type="entity" в mapping нет [0]. -->
-    <param id="firstName" mapping="['name']"/>
-    <param id="lastName" mapping="['surname']"/>
-  </in-parameters>
+    <field id="firstName" mapping="['name']"/>
+    <field id="lastName" mapping="['surname']"/>
+  </in>
 </operation>
 ----
 
@@ -1070,7 +1070,7 @@ class MyEntity {
 ----
 
 ==== Маппинг результатов операции
-Чтобы вернуть данные от провайдера, после выполнения операции, используется элемент `<out-parameters>`:
+Чтобы вернуть данные от провайдера, после выполнения операции, используется элемент `<out>`:
 
 ===== Маппинг результатов sql
 
@@ -1081,9 +1081,9 @@ class MyEntity {
   <invocation>
     <sql>INSERT INTO mytable (first_name, gender_id) VALUES (:first_name, :gender_id)</sql>
   </invocation>
-  <out-parameters>
-    <param id="id" mapping="[0]"/>
-  </out-parameters>
+  <out>
+    <field id="id" mapping="[0]"/>
+  </out>
 </operation>
 ----
 В примере результатом выполнения SQL запроса будет вставленная в таблицу запись.
@@ -1111,9 +1111,9 @@ POST /api/myentity
   <invocation>
     <rest method="post">/api/myentity</rest>
   </invocation>
-  <out-parameters>
-    <param id="id" mapping="['result']"/>
-  </out-parameters>
+  <out>
+    <field id="id" mapping="['result']"/>
+  </out>
 </operation>
 ----
 
@@ -1290,15 +1290,15 @@ class MyService {
           <spring/>
         </java>
       </invocation>
-      <in-parameters>
+      <in>
         <!--Перечисление только нужных полей-->
-        <param id="birtday"/>
-        <param id="sex"/><!--Будет заполнен только sex.id-->
-        <param id="addresses"/><!--Будут заполнены все внутренние поля-->
-      </in-parameters>
-      <out-parameters>
-        <param id="id"/>
-      </out-parameters>
+        <field id="birtday"/>
+        <field id="sex"/><!--Будет заполнен только sex.id-->
+        <field id="addresses"/><!--Будут заполнены все внутренние поля-->
+      </in>
+      <out>
+        <field id="id"/>
+      </out>
     </operation>
   </operations>
 </object>

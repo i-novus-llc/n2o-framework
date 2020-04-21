@@ -1,70 +1,66 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
+import TooltipTrigger from 'react-popper-tooltip';
+import 'react-popper-tooltip/dist/styles.css';
+import { RenderTooltipTrigger, RenderTooltipBody } from './utils';
 
-/**
- * HOC для добавления подсказки при наведение
- * @param target
- * @param hint
- * @param delay
- * @param placement
- * @param hideArrow
- * @param children
- * @returns {function()}
- */
-export default function Tooltip({
-  target,
-  hint,
-  delay,
-  placement,
-  hideArrow,
-  children,
-}) {
-  return (
-    <React.Fragment>
-      {children}
-      {hint && (
-        <UncontrolledTooltip
-          delay={delay}
-          placement={placement}
-          target={target}
-          hideArrow={hideArrow}
-        >
-          {hint}
-        </UncontrolledTooltip>
-      )}
-    </React.Fragment>
-  );
+function Tooltip(props) {
+  const { hint, label, labelDashed, placement, trigger, theme } = props;
+
+  //trigger для появления tooltip, отображает label
+  const Trigger = ({ getTriggerProps, triggerRef }) => {
+    return (
+      <RenderTooltipTrigger
+        getTriggerProps={getTriggerProps}
+        triggerRef={triggerRef}
+        label={label}
+        labelDashed={labelDashed}
+        hint={hint}
+      />
+    );
+  };
+
+  //hint отображает лист
+  const TooltipBody = ({
+    getTooltipProps,
+    getArrowProps,
+    tooltipRef,
+    arrowRef,
+  }) => {
+    return (
+      <RenderTooltipBody
+        getTooltipProps={getTooltipProps}
+        getArrowProps={getArrowProps}
+        tooltipRef={tooltipRef}
+        arrowRef={arrowRef}
+        hint={hint}
+        placement={placement}
+        theme={theme}
+      />
+    );
+  };
+
+  const RenderTooltip = () => {
+    return (
+      <TooltipTrigger
+        label={label}
+        labelDashed={labelDashed}
+        placement={placement}
+        trigger={trigger}
+        tooltip={TooltipBody}
+        delayShow={200}
+      >
+        {Trigger}
+      </TooltipTrigger>
+    );
+  };
+  return <RenderTooltip />;
 }
 
-Tooltip.propTypes = {
-  target: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
-  hint: PropTypes.string,
-  delay: PropTypes.oneOfType([
-    PropTypes.shape({ show: PropTypes.number, hide: PropTypes.number }),
-    PropTypes.number,
-  ]),
-  placement: PropTypes.oneOf([
-    'auto',
-    'auto-start',
-    'auto-end',
-    'top',
-    'top-start',
-    'top-end',
-    'right',
-    'right-start',
-    'right-end',
-    'bottom',
-    'bottom-start',
-    'bottom-end',
-    'left',
-    'left-start',
-    'left-end',
-  ]),
-  hideArrow: PropTypes.bool,
+Tooltip.defaultProps = {
+  labelDashed: false,
+  placement: 'bottom',
+  trigger: 'hover',
+  theme: 'dark',
 };
 
-Tooltip.defaultProps = {
-  delay: 0,
-  placement: 'top',
-};
+export default Tooltip;

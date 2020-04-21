@@ -131,7 +131,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public <D extends Compiled> void bind(D compiled) {
-        bindPipeline.get(compiled, context, params);
+        if (compiled != null)
+            bindPipeline.get(compiled, context, params);
     }
 
 

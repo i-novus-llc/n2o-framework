@@ -74,6 +74,10 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         if (page.getPageProperty() != null) {
             page.getPageProperty().setTitle(p.resolveText(page.getPageProperty().getTitle(),
                     page.getPageProperty().getModelLink()));
+            page.getPageProperty().setHtmlTitle(p.resolveText(page.getPageProperty().getHtmlTitle(),
+                    page.getPageProperty().getModelLink()));
+            page.getPageProperty().setHeaderTitle(p.resolveText(page.getPageProperty().getHeaderTitle(),
+                    page.getPageProperty().getModelLink()));
         }
         if (page.getBreadcrumb() != null) {
             for (Breadcrumb crumb : page.getBreadcrumb()) {

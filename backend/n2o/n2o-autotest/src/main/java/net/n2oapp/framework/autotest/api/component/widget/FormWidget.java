@@ -12,5 +12,5 @@ public interface FormWidget extends StandardWidget {
 
     FieldSets fieldsets();
 
-    <T extends Snippet> T snippet(Class<T> componentClass);
+    <T extends Snippet> T snippet(int index, Class<T> componentClass);
 }
