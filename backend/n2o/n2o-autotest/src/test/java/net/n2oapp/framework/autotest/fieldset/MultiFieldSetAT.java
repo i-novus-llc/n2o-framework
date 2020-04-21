@@ -35,7 +35,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oControlsPack(), new N2oObjectsPack());
+                new N2oControlsPack(), new N2oAllDataPack());
     }
 
     @Test
@@ -247,20 +247,19 @@ public class MultiFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testFieldsWithPreSetValues() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/preset_values/index.page.xml"),
+    public void testQueryData() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
         page = open(SimplePage.class);
         page.shouldExists();
 
-        MultiFieldSet fieldset = page.single().widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
-        // проверяем наличие и значения полей с заранее установленными значениями
+        MultiFieldSet fieldset = page.single().widget(FormWidget.class).fieldsets().fieldset(0, MultiFieldSet.class);
+        // проверяем наличие и значения полей
         fieldset.shouldHaveItems(2);
         MultiFieldSetItem item1 = fieldset.item(0);
         MultiFieldSetItem item2 = fieldset.item(1);
-        item1.shouldHaveLabel("Участник 1");
-        item2.shouldHaveLabel("Участник 2");
         InputText name1 = item1.fields().field("name").control(InputText.class);
         name1.shouldExists();
         name1.shouldHaveValue("Joe");
