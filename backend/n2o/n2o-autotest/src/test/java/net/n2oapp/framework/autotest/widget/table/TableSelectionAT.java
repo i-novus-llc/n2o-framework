@@ -1,11 +1,11 @@
-package net.n2oapp.framework.autotest.widget;
+package net.n2oapp.framework.autotest.widget.table;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.cell.RadioCell;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
-import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -15,16 +15,12 @@ import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
  * Автотест способов выбора записей таблицы
  */
-@Disabled //todo NNO-4023
 public class TableSelectionAT extends AutoTestBase {
-
-    private StandardPage page;
 
     @BeforeAll
     public static void beforeClass() {
@@ -35,13 +31,8 @@ public class TableSelectionAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/table.widget.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/modal.page.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/modal.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/test.query.xml"));
-        page = open(StandardPage.class);
-        page.shouldExists();
     }
 
     @Override
@@ -53,7 +44,11 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testActiveSelection() {
-        TableWidget table = page.widgets().widget(0, TableWidget.class);
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/active/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.single().widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(2);
 
@@ -74,7 +69,11 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testNoneSelection() {
-        TableWidget table = page.widgets().widget(1, TableWidget.class);
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/none/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.single().widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(2);
 
@@ -89,7 +88,11 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testRadioSelection() {
-        TableWidget table = page.widgets().widget(2, TableWidget.class);
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/radio/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.single().widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(3);
 
@@ -125,7 +128,11 @@ public class TableSelectionAT extends AutoTestBase {
 
     @Test
     public void testCheckboxSelection() {
-        TableWidget table = page.widgets().widget(3, TableWidget.class);
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/selection/checkbox/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.single().widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(3);
 
@@ -139,11 +146,9 @@ public class TableSelectionAT extends AutoTestBase {
         CheckboxCell cell2 = rows.row(1).cell(0, CheckboxCell.class);
         CheckboxCell cell3 = rows.row(2).cell(0, CheckboxCell.class);
         cell1.shouldBeUnchecked();
-        cell2.shouldBeUnchecked();
+        cell2.shouldBeChecked();
         cell3.shouldBeUnchecked();
         // выбор нескольких строк
-        cell2.setChecked(true);
-        cell2.shouldBeChecked();
         cell1.setChecked(true);
         cell1.shouldBeChecked();
         cell2.setChecked(false);
