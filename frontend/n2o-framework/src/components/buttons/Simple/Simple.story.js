@@ -170,7 +170,7 @@ stories
     </div>
   ))
   .add('В Toolbar', () => (
-    <div style={{ display: 'flex' }}>
+    <div className="d-flex flex-wrap">
       <Toolbar toolbar={toolbar} entityKey="metaBtns" />
       <Toolbar toolbar={toolbar2} entityKey="metaBtns" />
       <Toolbar toolbar={toolbar3} entityKey="metaBtns" />

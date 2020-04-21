@@ -23,28 +23,7 @@ const SimpleButton = ({
   className,
   ...rest
 }) =>
-  visible && rounded ? (
-    <span className="btn-rounded-container d-flex align-items-end">
-      <Button
-        id={id}
-        tag={tag}
-        size={size}
-        color={color}
-        outline={outline}
-        disabled={disabled}
-        onClick={onClick}
-        className={cn(className, {
-          'btn-rounded': rounded && !label,
-          'btn-rounded__with-content': rounded && label && label !== '',
-        })}
-        {...rest}
-      >
-        {icon && <Icon name={icon} />}
-        {children || label}
-        {count && <Badge color="secondary">{count}</Badge>}
-      </Button>
-    </span>
-  ) : visible ? (
+  visible ? (
     <Button
       id={id}
       tag={tag}
@@ -53,7 +32,10 @@ const SimpleButton = ({
       outline={outline}
       disabled={disabled}
       onClick={onClick}
-      className={className}
+      className={cn(className, {
+        'btn-rounded': rounded && !label,
+        'btn-rounded__with-content': rounded && label,
+      })}
       {...rest}
     >
       {icon && <Icon name={icon} />}
