@@ -213,8 +213,7 @@ class ButtonContainer extends React.Component {
       component,
     } = this.props;
     const isDropdown = component === DropdownMenu;
-    console.log('point');
-    console.log(this.props);
+
     return isDropdown ? (
       <div
         className={cx(visible ? 'd-block' : 'd-none')}
