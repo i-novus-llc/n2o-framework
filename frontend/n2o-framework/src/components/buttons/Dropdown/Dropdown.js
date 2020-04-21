@@ -63,22 +63,7 @@ class DropdownButton extends React.Component {
               />
             )}
           </Reference>
-          <Popper
-            placement="bottom-start"
-            modifiers={[
-              {
-                name: 'flip',
-                options: {
-                  allowedAutoPlacements: ['left', 'right'],
-                },
-              },
-              {
-                name: 'preventOverflow',
-                escapeWithReference: false,
-              },
-            ]}
-            strategy="fixed"
-          >
+          <Popper placement="bottom-start" strategy="fixed">
             {({ ref, style, placement }) => (
               <div
                 ref={ref}

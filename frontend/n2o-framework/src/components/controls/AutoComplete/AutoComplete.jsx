@@ -330,7 +330,7 @@ class AutoComplete extends React.Component {
             <Popper
               placement="bottom-start"
               modifiers={MODIFIERS}
-              positionFixed={true}
+              strategy="fixed"
             >
               {({ ref, style, placement, scheduleUpdate }) => (
                 <div
