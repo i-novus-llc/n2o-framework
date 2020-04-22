@@ -17,7 +17,7 @@ import withOverlayMethods from './withOverlayMethods';
  * @reactProps {string} name - имя модалки
  * @reactProps {boolean} visible - отображается модалка или нет
  * @reactProps {string} size - размер('sm' или 'lg')
- * @reactProps {string} title - заголовок в хэдере
+ * @reactProps {string} headerTitle - заголовок в хэдере
  * @reactProps {boolean} closeButton - Есть кнопка закрытия или нет
  * @reactProps {object} actions - объект экшнов
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
@@ -36,7 +36,7 @@ function ModalPage(props) {
     entityKey,
     toolbar,
     visible,
-    title,
+    headerTitle,
     loading,
     pageUrl,
     pageId,
@@ -75,7 +75,7 @@ function ModalPage(props) {
             className={classes}
             toggle={() => rest.closeOverlay(true)}
           >
-            {title}
+            {headerTitle}
           </ModalHeader>
           <ModalBody className={classes}>
             {pageUrl ? (
@@ -99,6 +99,10 @@ function ModalPage(props) {
               >
                 <Toolbar
                   toolbar={toolbar.bottomLeft}
+                  containerKey={containerKey}
+                />
+                <Toolbar
+                  toolbar={toolbar.bottomCenter}
                   containerKey={containerKey}
                 />
                 <Toolbar
@@ -132,7 +136,7 @@ ModalPage.propTypes = {
   /**
    * Заголовок
    */
-  title: PropTypes.string,
+  headerTitle: PropTypes.string,
   /**
    * Включение кнопки закрытия
    */

@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 @Setter
 public abstract class N2oStandardField extends N2oField {
-
     private String placeholder;
     private Boolean copied;
     private String controlSrc;

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page  xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/page" name="first">
+    <table id="test" query-id="testOpenPageDynamicPage" route="/widget" name="first">
+        <columns>
+            <column text-field-id="id"/>
+        </columns>
+        <toolbar>
+            <button id="id1">
+                <open-drawer page-id="{id}" submit-operation-id="create"/>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

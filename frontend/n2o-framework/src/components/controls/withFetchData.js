@@ -9,7 +9,7 @@ import isArray from 'lodash/isArray';
 import has from 'lodash/has';
 import unionBy from 'lodash/unionBy';
 import { addAlert, removeAlerts } from '../../actions/alerts';
-import { getParams } from '../../utils/compileUrl';
+import { dataProviderResolver } from '../../core/dataProviderResolver';
 
 /**
  * HOC для работы с данными
@@ -32,7 +32,6 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
       };
 
       this._fetchData = this._fetchData.bind(this);
-      this._mapping = this._mapping.bind(this);
       this._findResponseInCache = this._findResponseInCache.bind(this);
       this._fetchDataProvider = this._fetchDataProvider.bind(this);
       this._addAlertMessage = this._addAlertMessage.bind(this);
@@ -48,16 +47,6 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
       }
 
       return null;
-    }
-
-    /**
-     * Взятие данных для запроса по link или по контексту.
-     * @param mappingConfig
-     * @returns {{}}
-     * @private
-     */
-    _mapping(mappingConfig) {
-      return getParams(mappingConfig, this.context.store.getState());
     }
 
     /**
@@ -109,20 +98,18 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
 
     /**
      * Взять данные с сервера с помощью dataProvider
-     * @param pathMapping
-     * @param queryMapping
-     * @param url
+     * @param dataProvider
      * @param extraParams
      * @returns {Promise<void>}
      * @private
      */
-    async _fetchDataProvider(
-      { pathMapping, queryMapping, url },
-      extraParams = {}
-    ) {
-      const pathParams = this._mapping(pathMapping);
-      const queryParams = this._mapping(queryMapping);
-      const basePath = pathToRegexp.compile(url)(pathParams);
+    async _fetchDataProvider(dataProvider, extraParams = {}) {
+      const {
+        basePath,
+        baseQuery: queryParams,
+        headersParams,
+      } = dataProviderResolver(this.context.store.getState(), dataProvider);
+
       let response = this._findResponseInCache({
         basePath,
         queryParams,
@@ -130,9 +117,14 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
       });
 
       if (!response) {
-        response = await apiCaller({ ...queryParams, ...extraParams }, null, {
-          basePath,
-        });
+        response = await apiCaller(
+          { headers: headersParams, query: { ...queryParams, ...extraParams } },
+          null,
+          {
+            basePath,
+          }
+        );
+
         cachingStore.add({ basePath, queryParams, extraParams }, response);
       }
 
@@ -173,7 +165,6 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
       const { dataProvider, removeAlerts } = this.props;
       const { hasError, data } = this.state;
       if (!dataProvider) return;
-
       this.setState({ loading: true });
       try {
         if (!merge && !data) this.setState({ data: [] });
@@ -181,7 +172,9 @@ function withFetchData(WrappedComponent, apiCaller = fetchInputSelectData) {
           dataProvider,
           extraParams
         );
+
         if (has(response, 'message')) this._addAlertMessage(response.message);
+
         this._setResponseToData(response, merge);
         hasError && removeAlerts();
       } catch (err) {

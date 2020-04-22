@@ -219,6 +219,12 @@ public class ProtoPage {
         return getModalProtoContacts();
     }
 
+    public ProtoContacts editContact(int index) {
+        ListCell cell = leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).content(index).extra(ListCell.class);
+        cell.element().$$(".btn").findBy(Condition.text("Изменить")).click();
+        return getModalProtoContacts();
+    }
+
     public InputText getSurnameCard() {
         return getCardFields().field("Фамилия").control(InputText.class);
     }

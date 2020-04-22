@@ -269,11 +269,10 @@
                         "style": {
                           "color": "grey",
                           "borderRadius": "10px",
-                          "fontSize": "10pt",
+                          "fontSize": "12pt",
                           "fontWeight": "bold"
-                        },
-                        "style": {"color": "grey", "fontSize": "12pt"}
-                      }]}
+                        }
+                      }}]}
                 ]
               }
             ]
@@ -303,8 +302,7 @@
               "text": "Поле обязательно для заполнения",
               "type": "required"
             }
-          ]
-        },
+          ],
         "modelPrefix": "resolve",
         "fetchOnInit": false,
         "autoFocus": true
@@ -376,15 +374,6 @@
       }
     ]
   },
-  "breadcrumb": [
-    {
-      "label": "Список контактов",
-      "path": "/proto"
-    },
-    {
-      "label": "Карточка пациента"
-    }
-  ],
   "actions": {
     "submit": {
       "type": "n2o/actionImpl/START_INVOKE",

@@ -11,11 +11,10 @@ import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
 import net.n2oapp.framework.config.io.dataprovider.RestDataProviderIOv1;
 import net.n2oapp.framework.config.io.dataprovider.SqlDataProviderIOv1;
 import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
-import net.n2oapp.framework.config.io.fieldset.PanelFieldsetElementIOv4;
+import net.n2oapp.framework.config.io.fieldset.MultiFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
-import net.n2oapp.framework.config.io.page.LeftRightPageElementIOV2;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.persister.control.*;
 import net.n2oapp.framework.config.persister.event.*;
@@ -84,13 +83,14 @@ public class SelectiveStandardPersister extends SelectivePersister {
                 .addPersister(new SliderIOv2())
                 .addPersister(new TextAreaIOv2())
                 .addPersister(new TextEditorIOv2())
-                .addPersister(new CodeEditorIOv2())
-                .addPersister(new LeftRightPageElementIOV2());
+                .addPersister(new CodeEditorIOv2());
     }
 
     public SelectiveStandardPersister addFieldsetPersister() {
-        return addControlPersister().addPersister(new SetFieldsetElementIOv4()).addPersister(new LineFieldsetElementIOv4())
-                .addPersister(new PanelFieldsetElementIOv4());
+        return addControlPersister()
+                .addPersister(new SetFieldsetElementIOv4())
+                .addPersister(new LineFieldsetElementIOv4())
+                .addPersister(new MultiFieldsetElementIOv4());
     }
 
     public SelectiveStandardPersister addObjectPersister() {

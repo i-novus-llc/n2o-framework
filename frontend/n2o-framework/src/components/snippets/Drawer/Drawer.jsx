@@ -33,6 +33,7 @@ function Drawer(props) {
     onClose,
     onHandleClick,
     backdrop,
+    level,
     animation,
     width,
     height,
@@ -50,11 +51,10 @@ function Drawer(props) {
         placement={placement}
         onClose={onClose}
         showMask={backdrop}
-        level={null}
+        level={level}
         maskClosable={backdropClosable}
         onHandleClick={onHandleClick}
         handler={closable}
-        duration=".0s"
       >
         <div className="drawer-title">{title}</div>
         <div className="drawer-children">{children}</div>
@@ -66,24 +66,62 @@ function Drawer(props) {
 
 Drawer.propTypes = {
   className: PropTypes.string,
+  /**
+   * Включение кнопки закрытия
+   */
   closable: PropTypes.bool,
+  /**
+   * Включение закрытия по клику на маску(backdrop)
+   */
   backdropClosable: PropTypes.bool,
+  /**
+   * Видимость модального окна
+   */
   visible: PropTypes.bool,
+  /**
+   * Позиция компонента
+   */
   placement: PropTypes.string,
   onClose: PropTypes.func,
   onHandleClick: PropTypes.func,
+  /**
+   * Включение маски(backdrop)
+   */
   backdrop: PropTypes.bool,
+  /**
+   * Включение анимации
+   */
   animation: PropTypes.bool,
+  /**
+   * Сдвиг элемента или группы элементов при открытии (level={'all'} для сдвига всех эл-в)
+   */
+  level: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  /**
+   * Ширина компонента
+   */
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Высота компонента
+   */
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Заголовок компонента
+   */
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  /**
+   * Нижняя часть компонента
+   */
   footer: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  /**
+   * Основная часть компонента
+   */
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 };
 
 Drawer.defaultProps = {
   animation: true,
   backdropClosable: true,
+  level: false,
 };
 
 export default Drawer;

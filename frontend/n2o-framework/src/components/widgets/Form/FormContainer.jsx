@@ -66,9 +66,14 @@ export const withLiveCycleMethods = lifecycle({
       resolveModel,
     } = this.props;
     if (
-      !isEqual(prevProps.activeModel, activeModel) &&
-      !isEqual(activeModel, defaultValues) &&
-      !isEqual(activeModel, reduxFormValues)
+      (!isEqual(prevProps.activeModel, activeModel) &&
+        !isEqual(activeModel, defaultValues) &&
+        !isEqual(activeModel, reduxFormValues)) ||
+      (isEqual(prevProps.resolveModel, prevProps.activeModel) &&
+        isEqual(prevProps.reduxFormValues, prevProps.defaultValues) &&
+        isEqual(this.props.resolveModel, this.props.activeModel) &&
+        isEqual(this.props.reduxFormValues, this.props.defaultValues) &&
+        !isEqual(this.props.resolveModel, this.props.defaultValues))
     ) {
       setDefaultValues(activeModel);
     } else if (
@@ -76,13 +81,14 @@ export const withLiveCycleMethods = lifecycle({
       (prevProps.datasource && !datasource)
     ) {
       setDefaultValues({});
-    } else if (
-      isEqual(prevProps.resolveModel, resolveModel) &&
-      !isEqual(prevProps.reduxFormValues, reduxFormValues) &&
-      isEqual(datasource, resolveModel)
-    ) {
-      setDefaultValues(reduxFormValues);
     }
+    // else if (
+    //   isEqual(prevProps.resolveModel, resolveModel) &&
+    //   !isEqual(prevProps.reduxFormValues, reduxFormValues) &&
+    //   isEqual(datasource, resolveModel)
+    // ) {
+    //   setDefaultValues(reduxFormValues);
+    // }
   },
 });
 
@@ -157,11 +163,5 @@ export default compose(
   withLiveCycleMethods,
   withPropsOnChangeWidget,
   withWidgetHandlers,
-  onlyUpdateForKeys(['initialValues']),
-  withProps(({ fieldsets, resolveModel, initialValues }) => ({
-    fieldsets: propsResolver(
-      fieldsets,
-      !isEmpty(resolveModel) ? resolveModel : initialValues
-    ),
-  }))
+  onlyUpdateForKeys(['initialValues', 'fields'])
 )(ReduxForm);

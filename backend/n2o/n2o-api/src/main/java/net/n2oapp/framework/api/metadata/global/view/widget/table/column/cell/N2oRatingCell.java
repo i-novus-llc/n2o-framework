@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class N2oRatingCell extends N2oActionCell {
+public class N2oRatingCell extends N2oAbstractCell {
     @JsonProperty
     private Boolean showTooltip;
     @JsonProperty

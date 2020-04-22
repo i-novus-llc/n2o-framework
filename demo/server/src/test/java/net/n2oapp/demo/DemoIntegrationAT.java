@@ -558,24 +558,50 @@ public class DemoIntegrationAT {
      * Проверка создания контакта
      */
     @Test
+    @Order(5)
     public void testCreateContact() {
         protoPage.getSurnameFilter().val("Маркин");
         protoPage.searchClients();
         protoPage.tableCellShouldHaveText(0, 1, "Маркин");
 
         ProtoContacts modalProtoContacts = protoPage.createContact();
-        modalProtoContacts.shouldHaveTitle("Контакты - Создание");
-        modalProtoContacts.selectClient("Маркин");
+        modalProtoContacts.shouldHaveTitle("Контакты");
         modalProtoContacts.selectContactType("Моб. телефон");
         modalProtoContacts.getPhoneNumber().val("9999999999");
         modalProtoContacts.getDescription().val("рабочий телефон");
         modalProtoContacts.save();
 
-        protoPage.shouldDialogClosed("Контакты - Создание", 6000);
+        protoPage.shouldDialogClosed("Контакты", 8000);
         protoPage.shouldBeClientsPage();
         protoPage.tableShouldHaveSize(1);
 
         protoPage.contactsListShouldHaveText(0, "+7 (999) 999-99-99");
+    }
+
+    /**
+     * Проверка редактирования контакта после testCreateContact!
+     */
+    @Test
+    @Order(6)
+    public void testEditContact() {
+        protoPage.getSurnameFilter().val("Маркин");
+        protoPage.searchClients();
+        protoPage.tableCellShouldHaveText(0, 1, "Маркин");
+        protoPage.contactsListShouldHaveText(0, "+7 (999) 999-99-99");
+
+        ProtoContacts modalProtoContacts = protoPage.editContact(0);
+        modalProtoContacts.shouldHaveTitle("Контакты");
+        modalProtoContacts.shouldHaveContactType("Мобильный телефон");
+        modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (999) 999-99-99");
+        modalProtoContacts.getPhoneNumber().val("8888888888");
+        modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (888) 888-88-88");
+        modalProtoContacts.save();
+
+        protoPage.shouldDialogClosed("Контакты", 8000);
+        protoPage.shouldBeClientsPage();
+        protoPage.tableShouldHaveSize(1);
+
+        protoPage.contactsListShouldHaveText(0, "+7 (888) 888-88-88");
     }
 
     private boolean isSorted(List<String> list, Boolean dir) {

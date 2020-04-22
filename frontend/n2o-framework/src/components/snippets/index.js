@@ -10,6 +10,7 @@ import Spinner from './Spinner/Spinner';
 import PopoverConfirm from './PopoverConfirm/PopoverConfirm';
 import SearchBar from './SearchBar/SearchBar';
 import Drawer from './Drawer/Drawer';
+import StatusText from './StatusText/StatusText';
 
 export default {
   Alert,
@@ -24,4 +25,5 @@ export default {
   PopoverConfirm,
   SearchBar,
   Drawer,
+  StatusText,
 };

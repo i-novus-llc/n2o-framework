@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-textarea-autosize';
+import omit from 'lodash/omit';
 import cx from 'classnames';
+import { compose } from 'recompose';
+import withRightPlaceholder from '../withRightPlaceholder';
 
 /**
  * Компонент TextArea
@@ -40,7 +43,7 @@ function TextArea({
       maxRows={maxRows}
       value={value || ''}
       onChange={onChange}
-      {...rest}
+      {...omit(rest, ['id'])}
     />
   );
 }
@@ -88,4 +91,4 @@ TextArea.defaultProps = {
   maxRows: 3,
 };
 
-export default TextArea;
+export default compose(withRightPlaceholder)(TextArea);

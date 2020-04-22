@@ -6,17 +6,12 @@ import {
   throttle,
   fork,
 } from 'redux-saga/effects';
-import { getFormValues, initialize } from 'redux-form';
-import pathToRegexp from 'path-to-regexp';
+import { getFormValues } from 'redux-form';
 import isFunction from 'lodash/isFunction';
 import get from 'lodash/get';
 import merge from 'deepmerge';
 
-import {
-  START_INVOKE,
-  SUCCESS_INVOKE,
-  FAIL_INVOKE,
-} from '../constants/actionImpls';
+import { START_INVOKE } from '../constants/actionImpls';
 import { CALL_ACTION_IMPL } from '../constants/toolbar';
 
 import { makeWidgetValidationSelector } from '../selectors/widgets';
@@ -25,14 +20,13 @@ import { getModelSelector } from '../selectors/models';
 import { validateField } from '../core/validation/createValidator';
 import actionResolver from '../core/factory/actionResolver';
 import fetchSaga from './fetch.js';
+import { dataProviderResolver } from '../core/dataProviderResolver';
 import { FETCH_INVOKE_DATA } from '../core/api.js';
-import { getParams } from '../utils/compileUrl';
 import { setModel } from '../actions/models';
 import { PREFIXES } from '../constants/models';
 import { disablePage, enablePage } from '../actions/pages';
 import { successInvoke, failInvoke } from '../actions/actionImpl';
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
-import { MAP_URL, METADATA_REQUEST } from '../constants/pages';
 
 /**
  * @deprecated
@@ -88,11 +82,6 @@ export function* handleAction(factories, action) {
   }
 }
 
-export function* resolveMapping(dataProvider, state) {
-  const pathParams = yield call(getParams, dataProvider.pathMapping, state);
-  return pathToRegexp.compile(dataProvider.url)(pathParams);
-}
-
 /**
  * Отправка запроса
  * @param dataProvider
@@ -102,7 +91,13 @@ export function* resolveMapping(dataProvider, state) {
  */
 export function* fetchInvoke(dataProvider, model, apiProvider) {
   const state = yield select();
-  const path = yield resolveMapping(dataProvider, state);
+  const submitForm = get(dataProvider, 'submitForm', true);
+  const {
+    basePath: path,
+    formParams,
+    headersParams,
+  } = yield dataProviderResolver(state, dataProvider);
+
   const response = yield call(
     fetchSaga,
     FETCH_INVOKE_DATA,
@@ -110,7 +105,8 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
       basePath: path,
       baseQuery: {},
       baseMethod: dataProvider.method,
-      model,
+      headers: headersParams,
+      model: submitForm ? Object.assign({}, model, formParams) : formParams,
     },
     apiProvider
   );
@@ -150,7 +146,7 @@ export function* handleInvoke(apiProvider, action) {
 
     const meta = merge(action.meta.success || {}, response.meta || {});
 
-    if (optimistic || (!meta.redirect && !meta.closeLastModal)) {
+    if (optimistic || (!meta.redirect && !meta.modalsToClose)) {
       yield put(
         setModel(PREFIXES.resolve, widgetId, optimistic ? model : response.data)
       );

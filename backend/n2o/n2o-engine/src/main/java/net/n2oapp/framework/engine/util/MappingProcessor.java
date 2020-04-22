@@ -102,9 +102,13 @@ public class MappingProcessor {
         }
         int idx = 0;
         for (Map.Entry<String, String> map : mapping.entrySet()) {
-            Expression expression = writeParser.parseExpression(map.getValue() != null ? map.getValue()
-                    : "[" + idx + "]");
-            expression.setValue(result, dataSet.get(map.getKey()));
+            Object value = dataSet.get(map.getKey());
+            if ((map.getValue() != null && !map.getValue().startsWith("[") && !map.getValue().endsWith("]"))
+                    || value != null) {
+                Expression expression = writeParser.parseExpression(map.getValue() != null ? map.getValue()
+                        : "[" + idx + "]");
+                expression.setValue(result, value);
+            }
             idx++;
         }
         for (int i=0; i < result.length; i++) {
