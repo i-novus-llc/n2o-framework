@@ -41,7 +41,7 @@ const fieldsets = [
     needRemoveAllButton: true,
     needCopyButton: true,
     name: 'members',
-    label: 'Элемент #index',
+    label: "`'Элемент ' + index`",
     rows: [
       {
         cols: [
