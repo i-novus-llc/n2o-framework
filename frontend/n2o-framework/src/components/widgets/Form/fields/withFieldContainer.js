@@ -9,6 +9,7 @@ import map from 'lodash/map';
 import replace from 'lodash/replace';
 import includes from 'lodash/includes';
 import isNil from 'lodash/isNil';
+import get from 'lodash/get';
 import {
   isInitSelector,
   isVisibleSelector,
@@ -24,6 +25,7 @@ import {
   defaultProps,
   withHandlers,
   shouldUpdate,
+  mapProps,
 } from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
 import { getFormValues } from 'redux-form';
@@ -232,6 +234,18 @@ export default Field => {
       mapStateToProps,
       mapDispatchToProps
     ),
+    mapProps(({ model, parentIndex, parentName, ...props }) => {
+      return {
+        ...props,
+        parentIndex,
+        model: !isNil(parentName)
+          ? {
+              ...get(model, parentName),
+              index: parentIndex,
+            }
+          : model,
+      };
+    }),
     shouldUpdate((props, nextProps) => {
       const prevResolvedProps = omit(props.mapProps(props), excludedKeys);
       const resolvedProps = omit(props.mapProps(nextProps), excludedKeys);
