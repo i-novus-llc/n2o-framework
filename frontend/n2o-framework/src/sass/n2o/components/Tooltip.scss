@@ -83,14 +83,5 @@
 
 .list-text-cell__trigger_dashed {
   max-width: content-box;
-  position: relative;
-}
-
-.list-text-cell__trigger_dashed::after {
-  content: '';
-  display: block;
-  position: absolute;
-  bottom: 1px;
-  width: 100%;
-  border-bottom: 1px dashed black;
+  border-bottom: 1px dotted black;
 }
