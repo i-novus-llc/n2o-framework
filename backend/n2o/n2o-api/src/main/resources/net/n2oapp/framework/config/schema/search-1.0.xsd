@@ -12,27 +12,27 @@
         </xs:attribute>
         <xs:attribute name="filter-field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Id поля фильтра</xs:documentation>
+                <xs:documentation>Идентификатор поля фильтра</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="url-field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Маппинг url</xs:documentation>
+                <xs:documentation>Поле выборки, отвечающее за ссылку перехода на результат поиска</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="label-field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Маппинг label</xs:documentation>
+                <xs:documentation>Поле выборки, отвечающее за заголовок</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="icon-field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Маппинг иконки</xs:documentation>
+                <xs:documentation>Поле выборки, отвечающее за иконку</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="description-field-id" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Маппинг описания</xs:documentation>
+                <xs:documentation>Поле выборки, отвечающее за описание</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="advanced-target" type="aType">
@@ -42,7 +42,7 @@
         </xs:attribute>
         <xs:attribute name="advanced-url" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Запрос за данными</xs:documentation>
+                <xs:documentation>Базовый url</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="advanced-param" type="xs:string">
