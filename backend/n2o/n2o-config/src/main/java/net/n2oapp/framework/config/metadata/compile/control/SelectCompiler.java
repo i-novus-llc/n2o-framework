@@ -9,7 +9,12 @@ import net.n2oapp.framework.api.metadata.meta.control.Select;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
+
+/**
+ * Компиляция компонента выбора из выпадающего списка
+ */
 @Component
 public class SelectCompiler extends ListControlCompiler<Select, N2oSelect> {
 
@@ -26,9 +31,13 @@ public class SelectCompiler extends ListControlCompiler<Select, N2oSelect> {
     @Override
     public StandardField<Select> compile(N2oSelect source, CompileContext<?, ?> context, CompileProcessor p) {
         Select control = new Select();
-        control.setHasCheckboxes(ListType.checkboxes == source.getType());
-        control.setClosePopupOnSelect(!control.getHasCheckboxes());
-        control.setCleanable(source.getCleanable());
+        control.setType(p.cast(source.getType(), ListType.single));
+        control.setClosePopupOnSelect(!ListType.checkboxes.equals(control.getType()));
+        control.setCleanable(p.cast(source.getCleanable(), p.resolve(property("n2o.api.control.select.cleanable"), Boolean.class)));
+        control.setSelectFormat(source.getSelectFormat());
+        control.setSelectFormatOne(source.getSelectFormatOne());
+        control.setSelectFormatFew(source.getSelectFormatFew());
+        control.setSelectFormatMany(source.getSelectFormatMany());
         return compileListControl(control, source, context, p);
     }
 }

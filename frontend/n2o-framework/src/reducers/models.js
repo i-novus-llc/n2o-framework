@@ -9,6 +9,7 @@ import isString from 'lodash/isString';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import values from 'lodash/values';
+import defaultTo from 'lodash/defaultTo';
 
 import {
   SET,

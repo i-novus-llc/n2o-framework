@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -36,12 +35,19 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             return toolbar;
         }
 
+
+        ToolbarPlaceScope toolbarPlaceScope = p.getScope(ToolbarPlaceScope.class);
+        String defaultPlace = toolbarPlaceScope != null ? toolbarPlaceScope.getPlace() :
+                p.resolve(property("n2o.api.widget.toolbar.place"), String.class);
+        String place = p.cast(source.getPlace(), defaultPlace);
+
         List<Group> groups = new ArrayList<>();
+        initGroups(source, context, p, groups, place);
+        toolbar.put(place, groups);
+        return toolbar;
+    }
 
-        String defaultPlace = p.getScope(WidgetScope.class) != null ?
-                property("n2o.api.widget.toolbar.place") : property("n2o.api.page.toolbar.place");
-        String place = p.cast(source.getPlace(), p.resolve(defaultPlace, String.class));
-
+    private void initGroups(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p, List<Group> groups, String place) {
         int gi = 0;
         int i = 0;
         Boolean buttonGrouping = isGrouping(p);
@@ -72,8 +78,6 @@ public class ToolbarCompiler implements BaseSourceCompiler<Toolbar, N2oToolbar, 
             gr.setButtons(buttons);
             groups.add(gr);
         }
-        toolbar.put(place, groups);
-        return toolbar;
     }
 
     protected void initGenerate(N2oToolbar source, CompileContext<?, ?> context, CompileProcessor p) {

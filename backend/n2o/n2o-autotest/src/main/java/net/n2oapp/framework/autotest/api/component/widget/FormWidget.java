@@ -9,5 +9,5 @@ import net.n2oapp.framework.autotest.api.component.snippet.Snippet;
 public interface FormWidget extends StandardWidget {
     Fields fields();
 
-    <T extends Snippet> T snippet(Class<T> componentClass);
+    <T extends Snippet> T snippet(int index, Class<T> componentClass);
 }

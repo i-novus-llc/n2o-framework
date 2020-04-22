@@ -1,7 +1,6 @@
-import React from 'react';
 import { push } from 'connected-react-router';
 
-import compileUrl from '../../../utils/compileUrl';
+import { dataProviderResolver } from '../../../core/dataProviderResolver';
 
 export default function linkImpl({
   dispatch,
@@ -11,7 +10,11 @@ export default function linkImpl({
   pathMapping,
   queryMapping,
 }) {
-  const newUrl = compileUrl(path, { pathMapping, queryMapping }, state);
+  const { url: newUrl } = dataProviderResolver(state, {
+    url: path,
+    pathMapping,
+    queryMapping,
+  });
   if (target === 'application') {
     dispatch(push(newUrl));
   } else if (target === 'self') {

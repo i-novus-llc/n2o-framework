@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.event.action.N2oPerform;
 import net.n2oapp.framework.api.metadata.event.action.N2oRefresh;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
-import net.n2oapp.framework.api.metadata.meta.action.PerformActionPayload;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import org.jdom.Namespace;
 

@@ -124,9 +124,9 @@ http://n2oapp.net/framework/config/schema/action-1.0
 Тело::
 link:#_Предустановленная_фильтрация_pre_filters[Предустановленные фильтры]
 
-==== <pre-fields>
+==== <params>
 Тело::
-link:#_Предустановленные_поля_pre_fields[Предустановленные поля]
+link:#_Параметры_запроса[Параметры действия]
 
 === <show-modal>
 Открыть страницу в модальном окне.
@@ -160,11 +160,6 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 |Строка
 |Наименование страницы
 |
-
-|mode
-|model, drawer
-|Вид отображения модального окна
-|modal
 
 |master-field-id
 |Ссылка на поле
@@ -227,6 +222,46 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 |Идентификатор виджета, который необходимо обновить после успешного закрытия окна
 |Текущий виджет
 
+|submit-action-type
+|invoke copy
+|Действие при нажатии кнопки "Сохранить"
+|invoke
+
+|copy-model
+|resolve edit filter multi
+|Модель виджета открываемой страницы, которая будет скопирована
+|resolve
+
+|copy-widget-id
+|Строка
+|Идентификатор виджета открываемой страницы, данные которого будут копироваться
+|Главный виджет страницы
+
+|copy-field-id
+|Строка
+|Идентификатор поля виджета открываемой страницы, данные которого будут копироваться
+|Вся модель
+
+|target-model
+|resolve edit filter multi
+|Модель виджета текущей страницы, в которую будут скопированы данные
+|resolve
+
+|target-widget-id
+|Строка
+|Идентификатор виджета текущей страницы, в которую будут скопированы данные
+|Текущий виджет
+
+|target-field-id
+|Строка
+|Идентификатор поля виджета текущей страницы, в которое будут скопированы данные
+|Вся модель
+
+|copy-mode
+|merge replace add
+|Тип слияния
+|merge
+
 |===
 
 Пример::
@@ -235,10 +270,149 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 <show-modal
   page-id="employee"
   submit-operation-id="create"
-  model="filters"
   upload="defaults">
   ...
 </show-modal>
+----
+
+==== <pre-filters>
+Тело::
+link:#_Предустановленная_фильтрация_pre_filters[Предустановленные фильтры]
+
+==== <params>
+Тело::
+link:#_Параметры_запроса[Параметры действия]
+
+=== <open-drawer>
+Открыть страницу drawer.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|page-id
+|Ссылка на страницу
+|Страница, которая будет открыта поверх текущей
+|
+
+|object-id
+|string
+|Идентификатор объекта
+|
+
+|route
+|Строка
+|URL действия
+|Формируется из идентификаторов страницы, виджета и действия
+
+|upload
+|query, defaults, copy, resolve
+|Источник данных мастер виджета при открытии страницы
+|query
+
+|page-name
+|Строка
+|Наименование страницы
+|
+
+|master-field-id
+|Ссылка на поле
+|Поле в модели текущего виджета
+|
+
+|detail-field-id
+|Ссылка на поле
+|Поле в фильтрах мастер виджета на открываемой странице
+|
+
+|submit-operation-id
+|Ссылка на операцию в объекте
+|На открываемой странице будут добавлены кнопки "Сохранить" и "Отмена".
+Кнопка "Сохранить" будет выполнять заданную операцию объекта.
+|
+
+|submit-label
+|Строка
+|Название кнопки отправки формы на открываемой странице
+|Сохранить
+
+|submit-model
+|resolve, filters, multi, edit
+|Модель, с которой будет выполняться операция по кнопке "Сохранить".
+|
+
+|focus-after-submit
+|true false
+|Поставить фокус в текущем виджете на запись, которую вернёт операция объекта
+|
+
+|close-after-submit
+|true false
+|Закрыть окно после успешного выполнения операции объекта
+|true
+
+|redirect-url-on-submit-success
+|Строка
+|Переадресовать на URL после успешного выполнения операции объекта.
+|
+
+|unsaved-data-prompt-on-close
+|true false
+|Предупредить о несохраненных данных на форме при закрытии модального окна?
+|true
+
+|master-param
+|Строка
+|Параметр фильтра
+|
+
+|refresh-widget-id
+|Строка
+|Идентификатор виджета, который необходимо обновить после успешного закрытия окна
+|Текущий виджет
+
+|closable
+|true false
+|Есть ли крестик для закрытия
+|true
+
+|backdrop
+|true false
+|Включение маски(backdrop)
+|true
+
+|width
+|Строка
+|Ширина компонента
+|
+
+|height
+|Строка
+|Высота компонента
+|
+
+|placement
+|left top right bottom
+|Позиция компонента
+|
+
+|level
+|Строка
+|Сдвиг элемента или группы элементов при открытии
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<open-drawer
+  page-id="employee"
+  submit-operation-id="create"
+  upload="defaults">
+  ...
+</open-drawer>
 ----
 
 ==== <pre-filters>
@@ -340,15 +514,20 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 
 |===
 
+Тело::
+<form-param> - свойство в json в request body
+<path-param> - параметр в route
+<header-param> - параметр заголовка запроса (request headers)
 
 Пример::
 [source,xml]
 ----
-<invoke
-  operation-id="update"
-  model="edit"
-  confirm="false"
-  close-on-success="true"/>
+<invoke operation-id="update" model="edit"
+  confirm="false" close-on-success="true">
+    <form-param name="..." value="..."/>
+    <path-param name="..." value="..."/>
+    <header-param name="..." value="..."/>
+</invoke>
 ----
 
 === <perform-validation>
@@ -381,8 +560,8 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 <close unsaved-data-prompt="false"/>
 ----
 
-=== <copy>
-Скопировать в модель.
+===== <copy>
+Копирование данных.
 
 Атрибуты::
 [cols="2,1,4,4"]
@@ -390,21 +569,47 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 |Наименование|Тип|Описание|Значение по умолчанию
 
 |source-model
-|resolve, filters, multi, edit
-|Модель, которая будет скопирована.
-|edit
+|resolve edit filter multi
+|Модель, которая будет скопирована
+|resolve
+
+|source-widget-id
+|Строка
+|Идентификатор виджета источника
+|Текущий виджет
+
+|source-field-id
+|Строка
+|Идентификатор копируемого поля источника
+|Вся модель
 
 |target-model
-|resolve, filters, multi, edit
-|Модель, в которую будут скопированы данные.
+|resolve edit filter multi
+|Модель, в которую будут скопированы данные
 |resolve
+
+|target-widget-id
+|Строка
+|Идентификатор целевого виджета
+|Текущий виджет
+
+|target-field-id
+|Строка
+|Идентификатор поля целевого виджета, в которое будут скопированы данные
+|Вся модель
+
+|mode
+|merge replace add
+|Тип слияния данных
+|merge
 
 |===
 
 Пример::
 [source,xml]
 ----
-<copy source-model="edit" target-model="resolve"/>
+<copy source-field-id="id" target-widget-id="table"
+      target-field-id="dictionary.id"/>
 ----
 
 === <clear>

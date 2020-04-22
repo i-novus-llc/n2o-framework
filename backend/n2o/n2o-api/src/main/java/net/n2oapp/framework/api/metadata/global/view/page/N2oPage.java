@@ -23,6 +23,7 @@ public abstract class N2oPage extends N2oMetadata implements NameAware, Extensio
     private String objectId;
     private String route;
     private String modalSize;
+    private Boolean showTitle;
     protected Map<N2oNamespace, Map<String, String>> extAttributes;
     @Deprecated
     private String resultContainer;

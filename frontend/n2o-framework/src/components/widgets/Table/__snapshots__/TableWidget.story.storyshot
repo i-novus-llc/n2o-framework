@@ -1351,7 +1351,7 @@ exports[`Storyshots Виджеты/Таблица Создание записи 
                                       "meta": Object {
                                         "success": Object {
                                           "clearForm": "storyForm",
-                                          "closeLastModal": true,
+                                          "modalsToClose": 1,
                                           "refresh": true,
                                         },
                                       },

@@ -4,6 +4,7 @@ import cx from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 import isString from 'lodash/isString';
 import map from 'lodash/map';
+import withTooltip from '../../withTooltip';
 
 /**
  * CollapsedCell
@@ -105,4 +106,4 @@ CollapsedCell.defaultProps = {
   visible: true,
 };
 
-export default CollapsedCell;
+export default withTooltip(CollapsedCell);

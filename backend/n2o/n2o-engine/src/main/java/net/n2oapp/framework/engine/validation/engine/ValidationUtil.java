@@ -57,6 +57,7 @@ public class ValidationUtil {
             failWithWarnings(warningMessages, operation, dataSet);
     }
 
+    @Deprecated //use dialog
     private static void failWithWarnings(List<String> warningsMessages, CompiledObject.Operation operation, DataSet dataSet) {
         String resultWarningMessage = "";
         for (String message : warningsMessages) {
@@ -67,9 +68,9 @@ public class ValidationUtil {
 
         N2oUserException exception = new N2oUserException(userSummaryMessage);
         Map<String, String> choiceMap = new HashMap<>();
-        choiceMap.put("net.n2oapp.framework.ui.dialogs.button.yes", YES_CHOICE);
-        choiceMap.put("net.n2oapp.framework.ui.dialogs.button.no", null);
-        exception.setChoice(choiceMap);
+        //choiceMap.put("net.n2oapp.framework.ui.dialogs.button.yes", YES_CHOICE);
+        //choiceMap.put("net.n2oapp.framework.ui.dialogs.button.no", null);
+        //exception.setChoice(choiceMap);  todo use dialog
         throw exception;
     }
 

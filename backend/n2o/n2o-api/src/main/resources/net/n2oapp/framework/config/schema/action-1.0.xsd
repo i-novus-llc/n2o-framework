@@ -18,6 +18,7 @@
     <xs:complexType name="actions">
         <xs:sequence>
             <xs:element name="open-page" type="openPageDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="open-drawer" type="openDrawerDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="show-modal" type="showModalDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="a" type="aDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="invoke" type="invokeActionDefinition" maxOccurs="1" minOccurs="0"/>
@@ -59,8 +60,8 @@
                     <xs:documentation>Действие открытия страниц.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="pre-filters" type="preFiltersDefinition" minOccurs="0" maxOccurs="unbounded"/>
-                    <xs:element name="pre-fields" type="preFieldsDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="path-param" type="actionParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="query-param" type="actionParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="page-name" type="xs:string" use="optional">
                     <xs:annotation>
@@ -113,16 +114,6 @@
                         <xs:documentation>Закрыть окно после успешного выполнения операции объекта</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="master-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Поле в модели текущего виджета</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="detail-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Поле в фильтрах мастер виджета на открываемой странице</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="redirect-url-after-submit" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Переадресовать на URL после успешного выполнения операции объекта.
@@ -168,7 +159,7 @@
         <xs:complexContent>
             <xs:extension base="pageDefinition">
                 <xs:annotation>
-                    <xs:documentation>Открыть страницу в модальном окне..</xs:documentation>
+                    <xs:documentation>Открыть страницу в модальном окне.</xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="page-id" type="xs:string" use="required">
                     <xs:annotation>
@@ -182,18 +173,19 @@
                 </xs:attribute>
                 <xs:attribute name="object-id" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Идентификатор объекта</xs:documentation>
+                        <xs:documentation>Идентификатор объекта.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="master-param" type="xs:string" use="optional">
                     <xs:annotation>
-                        <xs:documentation>Параметр фильтра</xs:documentation>
+                        <xs:documentation>Параметр фильтра.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="refresh-widget-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Идентификатор виджета, который необходимо обновить после успешного выполнения операции (по умолчанию widget-id у button, а если нет, текущий виджет).
+                            Идентификатор виджета, который необходимо обновить после успешного выполнения операции
+                            (по умолчанию widget-id у button, а если нет, текущий виджет).
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -204,14 +196,146 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="type" type="showModalMode" use="optional">
+                <xs:attribute name="submit-action-type" type="submitActionType" default="invoke">
                     <xs:annotation>
-                        <xs:documentation>Вид отображения модального окна. По умолчанию modal</xs:documentation>
+                        <xs:documentation>Действие при нажатии кнопки "Сохранить".</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-model" type="reduxModel" default="resolve">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель виджета открываемой страницы, которая будет скопирована.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор виджета открываемой страницы, данные которого будут копироваться (по умолчанию главный виджет).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля виджета открываемой страницы, данные которого будут копироваться (по умолчанию вся модель).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-model" type="reduxModel" default="resolve">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель виджета текущей страницы, в которую будут скопированы данные.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор виджета текущей страницы, в которую будут скопированы данные (по умолчанию текущий).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля виджета текущей страницы, в которое будут скопированы данные (по умолчанию вся модель).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-mode" type="copyModeType" default="merge">
+                    <xs:annotation>
+                        <xs:documentation>Тип слияния.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:complexType name="openDrawerDefinition">
+        <xs:complexContent>
+            <xs:extension base="pageDefinition">
+                <xs:annotation>
+                    <xs:documentation>Открыть страницу в модальном окне.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="page-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="object-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор объекта.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="master-param" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Параметр фильтра.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="refresh-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор виджета, который необходимо обновить после успешного выполнения операции
+                            (по умолчанию widget-id у button, а если нет, текущий виджет).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="true" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Предупредить о несохраненных данных на форме при закрытии модального окна?
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="closable" type="xs:boolean" default="true" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Есть ли крестик для закрытия</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="backdrop" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Включение маски(backdrop)</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="width" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ширина компонента</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Высота компонента</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="placement" type="placementEnum" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Позиция компонента</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="level" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Сдвиг элемента или группы элементов при открытии</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="backdrop-closable" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Включение закрытия по клику на маску(backdrop)</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="submitActionType">
+        <xs:annotation>
+            <xs:documentation>Действие при нажатии кнопки "Сохранить".</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="invoke"/>
+            <xs:enumeration value="copy"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="uploadType">
         <xs:annotation>
@@ -275,6 +399,11 @@
                 <xs:annotation>
                     <xs:documentation>Выполнить действие объекта.</xs:documentation>
                 </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="form-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="header-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
                 <xs:attribute name="operation-id" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Действие объекта, которое нужно выполнить над моделью виджета.
@@ -340,6 +469,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="submit-form" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Утвердить форму
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -384,17 +520,43 @@
         <xs:complexContent>
             <xs:extension base="actionDefinition">
                 <xs:annotation>
-                    <xs:documentation>Скопировать модель.</xs:documentation>
+                    <xs:documentation>Копирование данных.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="source-model" type="reduxModel" use="optional">
+                <xs:attribute name="source-model" type="reduxModel" default="resolve">
                     <xs:annotation>
-                        <xs:documentation>Модель, которая будет скопирована. По умолчанию edit.</xs:documentation>
+                        <xs:documentation>Модель, которая будет скопирована.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target-model" type="reduxModel" use="optional">
+                <xs:attribute name="source-widget-id" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Модель, в которую будут скопированны данные. По умолчанию resolve.
+                        <xs:documentation>Идентификатор виджета источника (по умолчанию текущий).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="source-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор копируемого поля источника (по умолчанию вся модель).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-model" type="reduxModel" default="resolve">
+                    <xs:annotation>
+                        <xs:documentation>Модель, в которую будут скопированы данные.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор целевого виджета (по умолчанию текущий).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля целевого виджета, в которое будут скопированы данные (по умолчанию вся модель).
                         </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="mode" type="copyModeType" default="merge">
+                    <xs:annotation>
+                        <xs:documentation>Тип слияния данных.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -499,6 +661,36 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="copyModeType">
+        <xs:annotation>
+            <xs:documentation>Типы слияния данных.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="merge">
+                <xs:annotation>
+                    <xs:documentation>
+                        За основу берется модель target, значения из source копируются с заменой.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="replace">
+                <xs:annotation>
+                    <xs:documentation>
+                        За основу берется модель source.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="add">
+                <xs:annotation>
+                    <xs:documentation>
+                        Используется для массивов. За основу берется массив target,
+                        к нему добавляются все записи из source массива.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="aType">
         <xs:annotation>
@@ -612,21 +804,6 @@
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="preFieldsDefinition">
-        <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="eq" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="in" type="preFieldDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="contains" type="preFieldDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="more" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="less" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNotNull" type="preFieldDefBase" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNull" type="preFieldDefBase" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-
     <xs:complexType name="preFieldDefBase">
         <xs:annotation>
             <xs:documentation>Предустановленная фильтрация поля выборки.</xs:documentation>
@@ -656,9 +833,30 @@
                 <xs:documentation>Сбрасывать значение при изменении в модели.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="routable" type="xs:boolean" use="optional">
+    </xs:complexType>
+
+    <xs:complexType name="actionParamDefinition">
+        <xs:annotation>
+            <xs:documentation>Предустановленные параметры</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Попадает ли фильтр в url. По умолчанию false.</xs:documentation>
+                <xs:documentation>Название параметра, которое и попадет в url.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-widget-id" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Идентификатор виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-model" type="reduxModel" use="optional">
+            <xs:annotation>
+                <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="value" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>Значение параметра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -701,16 +899,16 @@
             <xs:enumeration value="resolve"/>
             <xs:enumeration value="edit"/>
             <xs:enumeration value="filter"/>
+            <xs:enumeration value="multi"/>
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="showModalMode">
-        <xs:annotation>
-            <xs:documentation>Вид отображения модального окна</xs:documentation>
-        </xs:annotation>
+    <xs:simpleType name="placementEnum">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="modal"/>
-            <xs:enumeration value="drawer"/>
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="bottom"/>
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="right"/>
         </xs:restriction>
     </xs:simpleType>
 

@@ -12,7 +12,7 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
 
     @Override
     public String val() {
-        SelenideElement elm = element().parent().$(".n2o-input-money");
+        SelenideElement elm = inputElement();
         return elm.exists() ? elm.val() : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();
     }
 
@@ -24,14 +24,14 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
 
     @Override
     public void shouldBeEmpty() {
-        SelenideElement elm = element().parent().$(".n2o-input-money");
+        SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(Condition.empty);
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.empty);
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        SelenideElement elm = element().parent().$(".n2o-input-money");
+        SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ?
                 Condition.empty : Condition.value(value));
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(value == null || value.isEmpty() ?
@@ -41,9 +41,13 @@ public class N2oInputMoney extends N2oControl implements InputMoneyControl {
     @Override
     public void shouldHavePlaceholder(String value) {
         Condition condition = Condition.attribute("placeholder", value);
-
-        SelenideElement elm = element().parent().$(".n2o-input-money");
+        SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(condition);
         else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(condition);
+    }
+
+    private SelenideElement inputElement() {
+        element().shouldBe(Condition.exist);
+        return element().parent().$(".n2o-input-money");
     }
 }

@@ -125,6 +125,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
 
         private Type type;
         private Parameter[] childParams;
+        private String param;
 
         public Parameter(Type type, String name, String mapping) {
             this(type);
@@ -149,6 +150,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
             setNullIgnore(srcParam.getNullIgnore());
             setPluralityType(srcParam.getPluralityType());
             setDefaultValue(srcParam.getDefaultValue());
+            setParam(srcParam.getParam());
         }
 
         public enum Type {

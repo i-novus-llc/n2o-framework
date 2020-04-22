@@ -13,6 +13,7 @@ public class N2oEditCell extends N2oCell implements EditCell {
 
     @Override
     public void click() {
+        element().scrollTo();
         element().$(".n2o-editable-cell .n2o-editable-cell-text").click();
         element().$(".n2o-editable-cell").click();
     }

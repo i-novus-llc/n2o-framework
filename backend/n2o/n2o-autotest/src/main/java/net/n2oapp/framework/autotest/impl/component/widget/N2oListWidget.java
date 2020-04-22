@@ -47,7 +47,7 @@ public class N2oListWidget extends N2oStandardWidget implements ListWidget {
 
         @Override
         public <T extends Cell> T header(Class<T> clazz) {
-            return N2oSelenide.component(element.$(".n2o-widget-list-item-left-bottom"), clazz);
+            return N2oSelenide.component(element.$(".n2o-widget-list-item-header"), clazz);
         }
 
         @Override
@@ -62,17 +62,17 @@ public class N2oListWidget extends N2oStandardWidget implements ListWidget {
 
         @Override
         public <T extends Cell> T rightTop(Class<T> clazz) {
-            return N2oSelenide.component(element.$(".n2o-widget-list-item-left-bottom"), clazz);
+            return N2oSelenide.component(element.$(".n2o-widget-list-item-right-top"), clazz);
         }
 
         @Override
         public <T extends Cell> T rightBottom(Class<T> clazz) {
-            return N2oSelenide.component(element.$(".n2o-widget-list-item-left-bottom"), clazz);
+            return N2oSelenide.component(element.$(".n2o-widget-list-item-right-bottom"), clazz);
         }
 
         @Override
         public <T extends Cell> T extra(Class<T> clazz) {
-            return N2oSelenide.component(element.$(".n2o-widget-list-item-left-bottom"), clazz);
+            return N2oSelenide.component(element.$(".n2o-widget-list-item-extra"), clazz);
         }
     }
 
