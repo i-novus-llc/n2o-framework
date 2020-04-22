@@ -29,7 +29,7 @@ import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
@@ -364,13 +364,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return null;
     }
 
-    private WidgetDataProvider initDataProvider(D widget, S source, CompileContext<?, ?> context, String widgetRoute, CompiledQuery query,
+    private ClientDataProvider initDataProvider(D widget, S source, CompileContext<?, ?> context, String widgetRoute, CompiledQuery query,
                                                 CompileProcessor p, ValidationList validationList,
                                                 ParentRouteScope parentRouteScope, SubModelsScope subModelsScope,
                                                 CopiedFieldScope copiedFieldScope, CompiledObject object) {
         if (query == null)
             return null;
-        WidgetDataProvider dataProvider = new WidgetDataProvider();
+        ClientDataProvider dataProvider = new ClientDataProvider();
         //Адресом URL для провайдера данных виджета будет маршрут виджета на странице
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + normalize(widgetRoute));
         //Копируем соответствие параметров URL из маршрута страницы в провайдер данных виджета
@@ -645,7 +645,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     filter.setFilterId(queryFilter.getFilterField());
                     Object prefilterValue = getPrefilterValue(preFilter);
                     ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-                    if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())){
+                    if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
                         filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
                     } else if (StringUtils.isJs(prefilterValue)) {
                         String widgetId = masterWidgetId;

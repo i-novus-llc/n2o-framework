@@ -2,10 +2,9 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Models;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -63,7 +62,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect.getBadgeFieldId(), is("badgeFieldId"));
         assertThat(inputSelect.getBadgeColorFieldId(), is("badgeColorFieldId"));
         assertThat(inputSelect.getClosePopupOnSelect(), is(false));
-        WidgetDataProvider wdp = inputSelect.getDataProvider();
+        ClientDataProvider wdp = inputSelect.getDataProvider();
 
         inputSelect = (InputSelect) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0)).getControl();

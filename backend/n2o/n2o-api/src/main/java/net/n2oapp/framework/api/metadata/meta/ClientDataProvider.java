@@ -1,11 +1,10 @@
-package net.n2oapp.framework.api.metadata.meta.widget;
+package net.n2oapp.framework.api.metadata.meta;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 
 import java.util.Map;
 
@@ -14,7 +13,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class WidgetDataProvider implements Compiled {
+public class ClientDataProvider implements Compiled {
     @JsonProperty
     private String url;
     @JsonProperty

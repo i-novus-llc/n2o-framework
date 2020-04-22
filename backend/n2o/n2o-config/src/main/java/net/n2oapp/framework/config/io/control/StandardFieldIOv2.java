@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
+import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
@@ -20,7 +21,7 @@ import org.jdom.Namespace;
 /**
  * Чтение/запись базовых свойств контрола
  */
-public abstract class StandardFieldIOv2<T extends N2oStandardField> extends FieldIOv2<T>{
+public abstract class StandardFieldIOv2<T extends N2oStandardField> extends FieldIOv2<T> {
 
     private static Namespace dataProviderNamespace = DataProviderIOv1.NAMESPACE;
 
@@ -31,8 +32,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attributeBoolean(e, "copied", m::getCopied, m::setCopied);
         p.child(e, null, "validations", m::getValidations, m::setValidations,
                 N2oField.Validations.class, this::inlineValidations);
-        p.child(e, null, "submit", m::getSubmit, m::setSubmit,
-                N2oField.Submit.class, this::submit);
+        p.child(e, null, "submit", m::getSubmit, m::setSubmit, Submit.class, this::submit);
     }
 
     private void inlineValidations(Element e, N2oField.Validations t, IOProcessor p) {
@@ -77,7 +77,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attribute(e, "side", t::getSide, t::setSide);
     }
 
-    private void submit(Element e, N2oField.Submit t, IOProcessor p) {
+    private void submit(Element e, Submit t, IOProcessor p) {
         p.attribute(e, "operation-id", t::getOperationId, t::setOperationId);
         p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
         p.attributeBoolean(e, "message-on-fail", t::getMessageOnFail, t::setMessageOnFail);

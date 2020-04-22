@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -46,7 +47,7 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     private Set<String> notCopiedFields;
     private List<Validation> validations = new ArrayList<>();
     @JsonProperty
-    private WidgetDataProvider dataProvider;
+    private ClientDataProvider dataProvider;
     @JsonProperty
     private Toolbar toolbar;
     @JsonProperty

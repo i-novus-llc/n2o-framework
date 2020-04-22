@@ -1,32 +1,28 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oField;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.FetchValueDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
-import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -54,7 +50,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setHelp(p.resolveJS(source.getHelp()));
         field.setDescription(p.resolveJS(source.getDescription()));
         field.setClassName(p.resolveJS(source.getCssClass()));
-        compileDependencies(field, source, p);
+        compileDependencies(field, source, context, p);
     }
 
     protected String initLabel(S source, CompileProcessor p) {
@@ -70,7 +66,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      * @param field  клиентская модель элемента ввода
      * @param source исходная модель поля
      */
-    protected void compileDependencies(Field field, S source, CompileProcessor p) {
+    protected void compileDependencies(Field field, S source, CompileContext<?, ?> context, CompileProcessor p) {
 
         if (source.getDependencies() != null) {
             for (N2oField.Dependency d : source.getDependencies()) {
@@ -80,7 +76,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     dependency.setType(ValidationType.fetchValue);
                     ((FetchValueDependency) dependency)
                             .setValueFieldId(p.cast(((N2oField.FetchValueDependency) d).getValueFieldId(), "name"));
-                    ((FetchValueDependency) dependency).setDataProvider(compileDataProvider((N2oField.FetchValueDependency) d, p));
+                    ((FetchValueDependency) dependency).setDataProvider(compileDataProvider((N2oField.FetchValueDependency) d, context, p));
                 } else {
                     dependency = new ControlDependency();
                     if (d instanceof N2oField.EnablingDependency)
@@ -140,40 +136,35 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    private WidgetDataProvider compileDataProvider(N2oField.FetchValueDependency field, CompileProcessor p) {
-        WidgetDataProvider dataProvider = new WidgetDataProvider();
+    private ClientDataProvider compileDataProvider(N2oField.FetchValueDependency field, CompileContext<?, ?> context, CompileProcessor p) {
         QueryContext queryContext = new QueryContext(field.getQueryId());
         ModelsScope modelsScope = p.getScope(ModelsScope.class);
         queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
         CompiledQuery query = p.getCompiled(queryContext);
         String route = query.getRoute();
         p.addRoute(new QueryContext(field.getQueryId(), route));
-        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + route);
+
+        N2oClientDataProvider dataProvider = new N2oClientDataProvider();
+        dataProvider.setModel(modelsScope.getModel());
+        dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
+        dataProvider.setUrl(route);
+
         N2oPreFilter[] preFilters = field.getPreFilters();
-        Map<String, ModelLink> queryMap = new StrictMap<>();
         if (preFilters != null) {
-            for (N2oPreFilter preFilter : preFilters) {
+            N2oParam[] queryParams = new N2oParam[preFilters.length];
+            for (int i = 0; i < preFilters.length; i++) {
+                N2oPreFilter preFilter = preFilters[i];
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
-                String filterParam = query.getFilterIdToParamMap().get(filter.getFilterField());
-                Object prefilterValue = getPrefilterValue(preFilter);
-                if (StringUtils.isJs(prefilterValue)) {
-                    String widgetId = modelsScope.getWidgetId();
-                    if (preFilter.getRefWidgetId() != null) {
-                        PageScope pageScope = p.getScope(PageScope.class);
-                        widgetId = preFilter.getRefPageId() == null ?
-                                pageScope.getGlobalWidgetId(preFilter.getRefWidgetId())
-                                : CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
-                    }
-                    ModelLink link = new ModelLink(p.cast(preFilter.getRefModel(), modelsScope.getModel()), widgetId);
-                    link.setValue(prefilterValue);
-                    queryMap.put(filterParam, link);
-                } else {
-                    queryMap.put(filterParam, new ModelLink(prefilterValue));
-                }
+                N2oParam queryParam = new N2oParam();
+                queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterField()));
+                queryParam.setValueList(getPrefilterValue(preFilter));
+                queryParam.setRefModel(preFilter.getRefModel());
+                queryParam.setRefWidgetId(preFilter.getRefWidgetId());
+                queryParams[i] = queryParam;
             }
+            dataProvider.setQueryParams(queryParams);
         }
-        dataProvider.setQueryMapping(queryMap);
-        return dataProvider;
+        return ClientDataProviderUtil.compile(dataProvider, context, p);
     }
 
     private Object getPrefilterValue(N2oPreFilter n2oPreFilter) {
