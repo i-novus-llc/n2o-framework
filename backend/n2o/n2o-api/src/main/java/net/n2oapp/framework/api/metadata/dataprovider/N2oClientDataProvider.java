@@ -5,10 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
-
-import java.util.Map;
 
 /**
  *  Провайдер данных клиента
@@ -21,7 +18,7 @@ public class N2oClientDataProvider implements Source {
     private N2oParam[] formParams;
     private N2oParam[] pathParams;
     private N2oParam[] headerParams;
-    private Map<String, ModelLink> queryMapping;
+    private N2oParam[] queryParams;
     private ReduxModel model;
     private String targetWidgetId;
     private RequestMethod method;

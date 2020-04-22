@@ -59,20 +59,21 @@ public class ClientDataProviderUtil {
         }
 
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + p.cast(path, source.getUrl()));
-        dataProvider.setQueryMapping(source.getQueryMapping());
+        dataProvider.setQueryMapping(compileParams(source.getQueryParams(), p, source.getModel(), source.getTargetWidgetId()));
         dataProvider.setQuickSearchParam(source.getQuickSearchParam());
 
         return dataProvider;
     }
 
     private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileProcessor p,
-                                                 ReduxModel model, String targetWidgetId) {
+                                                        ReduxModel model, String targetWidgetId) {
         if (params == null)
             return Collections.emptyMap();
         Map<String, ModelLink> result = new StrictMap<>();
         for (N2oParam param : params) {
             ModelLink link;
-            Object value = ScriptProcessor.resolveExpression(param.getValue());
+            Object value = param.getValueList() != null ? param.getValueList() :
+                    ScriptProcessor.resolveExpression(param.getValue());
             if (param.getValue() == null || StringUtils.isJs(param.getValue())) {
                 String widgetId = null;
                 if (param.getRefWidgetId() != null) {

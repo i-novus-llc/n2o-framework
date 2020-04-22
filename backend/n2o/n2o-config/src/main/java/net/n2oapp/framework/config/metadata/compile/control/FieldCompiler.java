@@ -1,16 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.FetchValueDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
@@ -21,13 +19,10 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
-import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -148,32 +143,27 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         CompiledQuery query = p.getCompiled(queryContext);
         String route = query.getRoute();
         p.addRoute(new QueryContext(field.getQueryId(), route));
-        N2oPreFilter[] preFilters = field.getPreFilters();
-        Map<String, ModelLink> queryMap = new StrictMap<>();
-        if (preFilters != null) {
-            for (N2oPreFilter preFilter : preFilters) {
-                N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
-                String filterParam = query.getFilterIdToParamMap().get(filter.getFilterField());
-                Object prefilterValue = getPrefilterValue(preFilter);
-                if (StringUtils.isJs(prefilterValue)) {
-                    String widgetId = modelsScope.getWidgetId();
-                    if (preFilter.getRefWidgetId() != null) {
-                        PageScope pageScope = p.getScope(PageScope.class);
-                        widgetId = preFilter.getRefPageId() == null ?
-                                pageScope.getGlobalWidgetId(preFilter.getRefWidgetId())
-                                : CompileUtil.generateWidgetId(preFilter.getRefPageId(), preFilter.getRefWidgetId());
-                    }
-                    ModelLink link = new ModelLink(p.cast(preFilter.getRefModel(), modelsScope.getModel()), widgetId);
-                    link.setValue(prefilterValue);
-                    queryMap.put(filterParam, link);
-                } else {
-                    queryMap.put(filterParam, new ModelLink(prefilterValue));
-                }
-            }
-        }
+
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
+        dataProvider.setModel(modelsScope.getModel());
+        dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
         dataProvider.setUrl(route);
-        dataProvider.setQueryMapping(queryMap);
+
+        N2oPreFilter[] preFilters = field.getPreFilters();
+        if (preFilters != null) {
+            N2oParam[] queryParams = new N2oParam[preFilters.length];
+            for (int i = 0; i < preFilters.length; i++) {
+                N2oPreFilter preFilter = preFilters[i];
+                N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
+                N2oParam queryParam = new N2oParam();
+                queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterField()));
+                queryParam.setValueList(getPrefilterValue(preFilter));
+                queryParam.setRefModel(preFilter.getRefModel());
+                queryParam.setRefWidgetId(preFilter.getRefWidgetId());
+                queryParams[i] = queryParam;
+            }
+            dataProvider.setQueryParams(queryParams);
+        }
         return ClientDataProviderUtil.compile(dataProvider, context, p);
     }
 

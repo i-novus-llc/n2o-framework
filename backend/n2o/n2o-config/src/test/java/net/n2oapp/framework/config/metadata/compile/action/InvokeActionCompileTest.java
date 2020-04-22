@@ -60,7 +60,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getWidgetId(), is("w"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.POST));
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/test"));
-        assertThat(testAction.getPayload().getDataProvider().getQueryMapping(), is(nullValue()));
+        assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         assertThat(testAction.getMeta().getSuccess().getRefresh(), notNullValue());
         assertThat(testAction.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("testW"));
         assertThat(testAction.getMeta().getSuccess().getModalsToClose(), nullValue());
@@ -75,8 +75,8 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         ClientDataProvider dataProvider = menuItem0action.getPayload().getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
         assertThat(dataProvider.getUrl(), is("n2o/data/w/:w_id/menuItem0"));
-        assertThat(dataProvider.getQueryMapping(), nullValue());
-        assertThat(dataProvider.getPathMapping(), notNullValue());
+        assertThat(dataProvider.getQueryMapping().size(), is(0));
+        assertThat(dataProvider.getPathMapping().size(), not(0));
         assertThat(dataProvider.getPathMapping().get("w_id"), notNullValue());
         assertThat(dataProvider.getOptimistic(), is(true));
         assertThat(route("/w/:w_id/menuItem0", CompiledObject.class), notNullValue());
