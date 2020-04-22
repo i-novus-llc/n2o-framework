@@ -205,18 +205,9 @@ class DateTimeControl extends React.Component {
    * @todo объеденить методы select и onInputChange в 1 метод
    */
   onInputChange(date, inputName, callback = null) {
-    const { timeFormat } = this.props;
-    const newDate =
-      !timeFormat && inputName === DateTimeControl.endInputName && date
-        ? date
-            .add(23, 'h')
-            .add(59, 'm')
-            .add(59, 's')
-        : date;
-
     this.setState(
       {
-        inputs: { ...this.state.inputs, [inputName]: newDate },
+        inputs: { ...this.state.inputs, [inputName]: date },
       },
       () => (isFunction(callback) ? callback() : this.onChange(inputName))
     );
