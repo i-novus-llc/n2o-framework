@@ -1,6 +1,8 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
+import { BrowserRouter } from 'react-router-dom';
+
 import simpleHeaderMetadata from './simpleHeaderData.json';
 import SimpleHeader from './SimpleHeader';
 import Wireframe from '../../../components/snippets/Wireframe/Wireframe';
@@ -12,23 +14,42 @@ stories.addParameters({
     propTablesExclude: [Wireframe],
   },
 });
-
+const menu = [
+  {
+    id: 'menuItem0',
+    label: 'Контакты',
+    href: '/proto',
+    linkType: 'inner', // inner (внутри приложения) или outer (вне приложения)
+    icon: 'fa fa-plus',
+    description: 'some description',
+  },
+  {
+    id: 'menuItem1',
+    label: 'Модули',
+    href: '/test',
+    linkType: 'inner',
+    icon: 'fa fa-check',
+    description: 'some description 2',
+  },
+];
 stories.add(
   'Компонент',
   () => {
     return (
       <div>
-        <SimpleHeader
-          brandImage={
-            'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'
-          }
-          activeId={'link'}
-          fixed={false}
-          items={simpleHeaderMetadata.items}
-          extraItems={simpleHeaderMetadata.extraItems}
-          color="inverse"
-          search={true}
-        />
+        <BrowserRouter>
+          <SimpleHeader
+            brandImage={
+              'https://avatars0.githubusercontent.com/u/25926683?s=200&v=4'
+            }
+            activeId={'link'}
+            fixed={false}
+            items={simpleHeaderMetadata.items}
+            extraItems={simpleHeaderMetadata.extraItems}
+            color="inverse"
+            search={true}
+          />
+        </BrowserRouter>
         <div
           style={{
             padding: '200px',

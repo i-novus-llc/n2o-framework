@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import isString from 'lodash/isString';
-import isUndefined from 'lodash/isUndefined';
+import isEmpty from 'lodash/isEmpty';
 import Button from 'reactstrap/lib/Button';
 import {
   compose,
@@ -15,6 +15,7 @@ import onClickOutsideHOC from 'react-onclickoutside';
 
 import InputText from '../../controls/InputText/InputText';
 import SearchBarPopUp from './SearchBarPopUp';
+import SearchBarEmptyMenu from './SearchBarEmptyMenu';
 
 let timeoutId = null;
 const ENTER_KEY_CODE = 13;
@@ -39,14 +40,6 @@ function SearchBar({
   toggleDropdown,
   directionIconsInPopUp,
 }) {
-  const nothingFindMenuItem = [
-    {
-      id: 'Ничего не найдено',
-      label: 'Ничего не найдено',
-      href: '/',
-      disabled: true,
-    },
-  ];
   SearchBar.handleClickOutside = () => toggleDropdown('false');
   return (
     <div className={cn('n2o-search-bar', className)}>
@@ -61,20 +54,15 @@ function SearchBar({
           />
           {isString(icon) ? <i className={icon} /> : icon}
         </div>
-        {!isUndefined(menu) &&
-          (menu.length > 0 ? (
-            <SearchBarPopUp
-              menu={menu}
-              dropdownOpen={dropdownOpen === 'true'}
-              directionIconsInPopUp={directionIconsInPopUp}
-            />
-          ) : (
-            <SearchBarPopUp
-              menu={nothingFindMenuItem}
-              dropdownOpen={dropdownOpen === 'true'}
-              directionIconsInPopUp={directionIconsInPopUp}
-            />
-          ))}
+        {isEmpty(menu) ? (
+          <SearchBarEmptyMenu dropdownOpen={dropdownOpen === 'true'} />
+        ) : (
+          <SearchBarPopUp
+            menu={menu}
+            dropdownOpen={dropdownOpen === 'true'}
+            directionIconsInPopUp={directionIconsInPopUp}
+          />
+        )}
       </div>
       {!!button && (
         <Button {...button} onClick={onClick}>

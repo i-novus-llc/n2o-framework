@@ -110,6 +110,7 @@ class SimpleHeader extends React.Component {
       className,
       search,
       homePageUrl,
+      onSearch,
     } = this.props;
     const isInversed = color === 'inverse';
     const navColor = isInversed ? 'primary' : 'light';
@@ -149,7 +150,7 @@ class SimpleHeader extends React.Component {
             </Nav>
             <Nav className="ml-auto main-nav-extra" navbar>
               {extraNavItems}
-              {search && <SearchBarContainer />}
+              {search && <SearchBarContainer onSearch={onSearch} />}
             </Nav>
           </Collapse>
         </Navbar>
