@@ -7,7 +7,7 @@ import listContainer from '../../controls/listContainer';
 import SearchBar from './SearchBar';
 
 function SearchBarContainer(props) {
-  const { data, onSearch } = props;
+  const { data, onSearch, button, icon, directionIconsInPopUp } = props;
 
   const searchConfig = get(data[0], 'menu.search');
   //если menu undefined SearchBar без PopUp
@@ -21,7 +21,23 @@ function SearchBarContainer(props) {
     ? 'ENTER'
     : 'CHANGE';
 
-  return <SearchBar menu={menu} trigger={currentTrigger} onSearch={onSearch} />;
+  return (
+    <SearchBar
+      menu={menu}
+      trigger={currentTrigger}
+      onSearch={onSearch}
+      button={button}
+      icon={icon}
+      directionIconsInPopUp={directionIconsInPopUp}
+    />
+  );
 }
+
+SearchBarContainer.defaultProps = {
+  button: false,
+  icon: 'fa fa-search',
+  directionIconsInPopUp: 'left',
+  onSearch: () => {},
+};
 
 export default listContainer(SearchBarContainer);
