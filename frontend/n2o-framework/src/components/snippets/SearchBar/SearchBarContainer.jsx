@@ -3,12 +3,12 @@ import React from 'react';
 import get from 'lodash/get';
 import isUndefined from 'lodash/isUndefined';
 
-import withFetchData from '../../controls/withFetchData';
+import listContainer from '../../controls/listContainer';
 import SearchBar from './SearchBar';
 
 function SearchBarContainer(props) {
   const { data, onSearch } = props;
-  console.warn(props);
+
   const searchConfig = get(data[0], 'menu.search');
   //если menu undefined SearchBar без PopUp
   const menu = get(searchConfig, 'dataProvider.list');
@@ -21,13 +21,7 @@ function SearchBarContainer(props) {
     ? 'ENTER'
     : 'CHANGE';
 
-  return (
-    <SearchBar
-      menu={menu}
-      trigger={currentTrigger}
-      onSearch={e => console.warn(e)}
-    />
-  );
+  return <SearchBar menu={menu} trigger={currentTrigger} onSearch={onSearch} />;
 }
 
-export default withFetchData(SearchBarContainer);
+export default listContainer(SearchBarContainer);
