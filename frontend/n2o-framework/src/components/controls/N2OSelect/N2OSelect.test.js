@@ -111,9 +111,7 @@ describe('<N2OSelect />', () => {
       .first()
       .simulate('click');
 
-    expect(wrapper.find('.n2o-input-items').contains('1 объект')).toEqual(
-      true
-    );
+    expect(wrapper.find('.n2o-input-items').contains('1 объект')).toEqual(true);
   });
   it('проверяет счетчик в placeholder c универсальным заголовком', () => {
     const { wrapper } = setup({
