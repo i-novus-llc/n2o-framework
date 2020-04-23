@@ -19,6 +19,6 @@ public class SetActiveRegionEntityPayload extends PerformActionPayload {
     private String regionId;
 
     @JsonProperty
-    private String activeRegionParam;
+    private String activeEntity;
 
 }

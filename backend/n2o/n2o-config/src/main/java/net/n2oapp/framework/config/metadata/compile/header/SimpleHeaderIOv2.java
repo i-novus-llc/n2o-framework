@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.header;
 
+import net.n2oapp.framework.api.metadata.header.N2oSearchBar;
 import net.n2oapp.framework.api.metadata.header.N2oSimpleHeader;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
@@ -41,5 +42,6 @@ public class SimpleHeaderIOv2 implements NamespaceIO<N2oSimpleHeader> {
         p.attribute(e, "color", m::getColor, m::setColor);
         p.child(e, null, "nav", m::getMenu, m::setMenu, N2oSimpleMenu.class, new SimpleMenuIOv2());
         p.child(e, null, "extra-menu", m::getExtraMenu, m::setExtraMenu, N2oSimpleMenu.class, new SimpleMenuIOv2());
+        p.child(e, null, "search", m::getSearchBar, m::setSearchBar, N2oSearchBar.class, new N2oSearchBarIOv2());
     }
 }

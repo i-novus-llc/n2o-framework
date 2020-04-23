@@ -122,3 +122,75 @@ http://n2oapp.net/framework/config/schema/header-2.0
     <a href="http://google.com/"/>
 </extra-menu>
 ----
+
+=== <search>
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|query-id
+|Строка
+|Запрос за данными
+|
+
+|filter-field-id
+|Строка
+|ID поля фильтра
+|
+
+|url-field-id
+|Строка
+|Маппинг url
+|
+
+|label-field-id
+|Строка
+|Маппинг label
+|
+
+|icon-field-id
+|Строка
+|Маппинг icon
+|
+
+|description-field-id
+|Строка
+|Маппинг описания
+|
+
+|advanced-target
+|self, newWindow, application
+|Сценарий переадресации после успешного выполнения операции объекта
+|
+
+|advanced-url
+|Строка
+|Запрос за данными, для отображения их в открывшейся странице результатов поиска
+|
+
+|advanced-param
+|Строка
+|Параметр фильтра
+|
+
+|===
+
+Пример::
+
+[source,xml]
+----
+<search
+             query-id="popupSearch"
+             filter-field-id="filterValue"
+             url-field-id="href"
+             label-field-id="label"
+             icon-field-id="icon"
+             description-field-id="description"
+
+             advanced-target="application"
+             advanced-url="/search"
+             advanced-param="q"
+    />
+----
