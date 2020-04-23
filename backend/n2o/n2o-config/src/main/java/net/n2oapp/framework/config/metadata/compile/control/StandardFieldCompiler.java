@@ -7,17 +7,21 @@ import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
+import net.n2oapp.framework.api.metadata.control.Submit;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
@@ -25,10 +29,15 @@ import net.n2oapp.framework.api.metadata.meta.control.Control;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
@@ -52,6 +61,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         compileCopied(source, p);
         compileControl(control, source, p, field);
         field.setControl(control);
+        field.setDataProvider(initDataProvider(source, context, p));
         return field;
     }
 
@@ -376,5 +386,48 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         } else if (validation.getSide().equals("server")) {
             serverValidations.add(validation);
         }
+    }
+
+    private ClientDataProvider initDataProvider(S source, CompileContext<?, ?> context, CompileProcessor p) {
+        if (source.getSubmit() == null)
+            return null;
+        N2oClientDataProvider dataProvider = new N2oClientDataProvider();
+        Submit submit = source.getSubmit();
+        dataProvider.setMethod(RequestMethod.POST);
+        dataProvider.setUrl(submit.getRoute());
+        dataProvider.setSubmitForm(false);
+        dataProvider.setModel(ReduxModel.RESOLVE);
+        dataProvider.setTargetWidgetId(initTargetWidget(context, p));
+        dataProvider.setPathParams(submit.getPathParams());
+        dataProvider.setHeaderParams(submit.getHeaderParams());
+        dataProvider.setFormParams(submit.getFormParams());
+        return ClientDataProviderUtil.compile(dataProvider, context, p);
+    }
+
+    /**
+     * Инициализация целевого виджета действия
+     */
+    protected String initTargetWidget(CompileContext<?, ?> context, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        String targetWidgetId = null;
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
+                targetWidgetId = pageScope == null ?
+                        widgetIdAware.getWidgetId() : pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());//todo обсудить
+            }
+        }
+        if (targetWidgetId == null) {
+            if (widgetScope != null) {
+                targetWidgetId = widgetScope.getClientWidgetId();
+            } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null) {
+                targetWidgetId = pageScope.getGlobalWidgetId(((PageContext) context).getResultWidgetId());
+            } else {
+                throw new N2oException("Unknown widgetId for invoke action!");
+            }
+        }
+        return targetWidgetId;
     }
 }

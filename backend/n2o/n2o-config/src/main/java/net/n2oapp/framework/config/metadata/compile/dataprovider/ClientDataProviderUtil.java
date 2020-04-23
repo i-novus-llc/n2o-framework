@@ -74,13 +74,14 @@ public class ClientDataProviderUtil {
             ModelLink link;
             Object value = param.getValueList() != null ? param.getValueList() :
                     ScriptProcessor.resolveExpression(param.getValue());
-            if (param.getValue() == null || StringUtils.isJs(param.getValue())) {
+            if (value == null || StringUtils.isJs(value)) {
                 String widgetId = null;
                 if (param.getRefWidgetId() != null) {
                     String pageId = param.getRefPageId();
                     if (param.getRefPageId() == null) {
                         PageScope pageScope = p.getScope(PageScope.class);
-                        pageId = pageScope.getPageId();
+                        if (pageScope != null)
+                            pageId = pageScope.getPageId();
                     }
                     widgetId = CompileUtil.generateWidgetId(pageId, param.getRefWidgetId());
                 }

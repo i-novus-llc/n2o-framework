@@ -5,26 +5,33 @@ import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -39,17 +46,17 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardField.widget.xml",
-                "net/n2oapp/framework/config/mapping/testCell.object.xml")
+        form = (Form) compile("net/n2oapp/framework/config/mapping/testStandardField.widget.xml")
                 .get(new WidgetContext("testStandardField"));
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsV2IOPack(),
+        builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsV2IOPack(),
                 new N2oAllDataPack(), new N2oActionsPack());
         builder.compilers(new InputTextCompiler());
+        builder.sources(new CompileInfo("net/n2oapp/framework/config/mapping/testCell.object.xml"));
     }
 
     @Test
@@ -162,6 +169,44 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testSubmit() {
-        /// TODO
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmit.page.xml")
+                .get(new PageContext("testStandardFieldSubmit"));
+        Field field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+
+        ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
+        assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
+        assertThat(dataProvider.getSubmitForm(), is(false));
+        assertThat(dataProvider.getUrl(), is("n2o/data/testStandardFieldSubmit/:testStandardFieldSubmit_form_id/a/b/c"));
+
+        assertThat(dataProvider.getPathMapping().size(), is(3));
+        ModelLink link = dataProvider.getPathMapping().get("name1");
+        assertThat(link.getValue(), is("value1"));
+        assertThat(link.getModel(), nullValue());
+        assertThat(link.getWidgetId(), nullValue());
+        assertThat(link.getBindLink(), nullValue());
+        link = dataProvider.getPathMapping().get("name2");
+        assertThat(link.getValue(), nullValue());
+        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getWidgetId(), is("testStandardFieldSubmit_id2"));
+        assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmit_id2']"));
+        link = dataProvider.getPathMapping().get("testStandardFieldSubmit_form_id");
+        assertThat(link.getValue(), nullValue());
+        assertThat(link.getModel(), is(ReduxModel.RESOLVE));
+        assertThat(link.getWidgetId(), is("testStandardFieldSubmit_form"));
+        assertThat(link.getBindLink(), is("models.resolve['testStandardFieldSubmit_form'].id"));
+
+        assertThat(dataProvider.getHeadersMapping().size(), is(1));
+        link = dataProvider.getHeadersMapping().get("name3");
+        assertThat(link.getValue(), is("`a`"));
+        assertThat(link.getModel(), is(ReduxModel.RESOLVE));
+        assertThat(link.getWidgetId(), is("testStandardFieldSubmit_id3"));
+        assertThat(link.getBindLink(), is("models.resolve['testStandardFieldSubmit_id3']"));
+
+        assertThat(dataProvider.getFormMapping().size(), is(1));
+        link = dataProvider.getFormMapping().get("name4");
+        assertThat(link.getValue(), is("`b`"));
+        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getWidgetId(), is("testStandardFieldSubmit_form"));
+        assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmit_form']"));
     }
 }

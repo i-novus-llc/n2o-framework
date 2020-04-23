@@ -2,7 +2,7 @@
       id="form" object-id="testCell">
     <fields>
         <row>
-            <input-text id="test1" >
+            <input-text id="test1">
                 <dependencies>
                     <enabling on="test1">test1 == null</enabling>
                     <requiring on="test2">test2 == null</requiring>
