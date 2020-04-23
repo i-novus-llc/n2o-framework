@@ -93,6 +93,7 @@
   max-width: content-box;
   border-bottom: 1px dotted black;
 }
+
 .list-text-cell__trigger.d-flex {
   max-width: max-content;
   min-height: max-content;
@@ -100,6 +101,27 @@
     min-width: max-content;
   }
 }
+
 .n2o-dropdown-menu > .list-text-cell__trigger.d-flex {
   max-width: 100%;
+}
+
+.list-text-cell__trigger {
+  & > .n2o-dropdown {
+    & > .dropdown-menu {
+      &.n2o-dropdown-menu {
+        text-align: left;
+        & > .btn {
+          border: none;
+        }
+        & > div {
+          & > .btn {
+            width: 100%;
+            text-align: left;
+            border: none;
+          }
+        }
+      }
+    }
+  }
 }

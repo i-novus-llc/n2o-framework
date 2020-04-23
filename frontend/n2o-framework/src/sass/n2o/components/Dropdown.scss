@@ -22,6 +22,10 @@
   border: 0;
 }
 
+.dropdown-toggle::after {
+  margin-left: 0.355em;
+}
+
 //клас для регулировки Popper в Dropdown
 .dropdown-menu__init-load {
   opacity: 0!important;

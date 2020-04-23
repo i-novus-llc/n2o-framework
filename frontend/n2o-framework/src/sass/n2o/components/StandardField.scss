@@ -87,51 +87,26 @@
     line-height: 1rem;
   }
 }
+
 .form-container {
   display: flex;
 }
-.form-container_with-toolbar {
-  & > .buttons-toolbar {
-    &.n2o-page-actions__form-toolbar {
-      &.btn-toolbar {
-        min-width: max-content;
-        min-height: 100%;
-        & > .btn-group {
-          & > .n2o-dropdown {
-            & > .n2o-dropdown-control {
-              &.dropdown-toggle {
-                &.btn {
-                  min-height: 100%;
-                  padding-left: 13.2px;
-                  padding-right: 13.2px;
-                }
-              }
+
+.n2o-page-actions__form-toolbar {
+  &.btn-toolbar {
+    & > .btn-group {
+      & > .n2o-dropdown {
+        & > .dropdown-menu {
+          &.n2o-dropdown-menu {
+            text-align: left;
+            & > .btn {
+              border: none;
             }
-            & > .dropdown-menu {
-              &.n2o-dropdown-menu {
-                &.d-block {
-                  max-width: min-content!important;
-                  text-align: left;
-                  & > .btn {
-                    min-width: max-content!important;
-                    border: none!important;
-                    padding: 6px;
-                  }
-                  & > div {
-                    & > .btn {
-                      width: 100%;
-                      min-width: max-content!important;
-                      text-align: left;
-                      border: none!important;
-                      padding: 6px;
-                    }
-                  }
-                  & > .list-text-cell__trigger {
-                    &.d-flex {
-                      min-width: max-content!important;
-                    }
-                  }
-                }
+            & > div {
+              & > .btn {
+                width: 100%;
+                text-align: left;
+                border: none;
               }
             }
           }
@@ -140,6 +115,7 @@
     }
   }
 }
+
 .n2o-page-actions__toolbar {
   width: 100%;
   display: flex;

@@ -41,7 +41,6 @@ stories.add('Форма с toolbar', () => {
                             validatedWidgetId: 'create2_main',
                             color: 'primary',
                             hint: 'some hint',
-                            size: 'sm',
                           },
                           {
                             src: 'DropdownButton',
@@ -51,7 +50,6 @@ stories.add('Форма с toolbar', () => {
                             validate: true,
                             validatedWidgetId: 'create2_main',
                             color: 'primary',
-                            size: 'sm',
                             subMenu: [
                               {
                                 id: 'testBtn221',
@@ -61,7 +59,6 @@ stories.add('Форма с toolbar', () => {
                                 icon: 'fa fa-paper-plane',
                                 hint: 'Подписать запись',
                                 count: '4',
-                                size: 'sm',
                                 color: 'primary',
                                 visible: true,
                                 disabled: false,
@@ -74,7 +71,6 @@ stories.add('Форма с toolbar', () => {
                                 icon: 'fa fa-fax',
                                 hint: 'Подписать запись',
                                 count: '15',
-                                size: 'sm',
                                 color: 'primary',
                                 visible: true,
                                 disabled: false,
@@ -98,7 +94,6 @@ stories.add('Форма с toolbar', () => {
                                 icon: 'fa fa-paper-plane',
                                 hint: 'Подписать запись',
                                 count: '4',
-                                size: 'sm',
                                 color: 'success',
                                 visible: true,
                                 disabled: false,
@@ -111,7 +106,6 @@ stories.add('Форма с toolbar', () => {
                                 icon: 'fa fa-paper-plane',
                                 hint: 'Подписать запись',
                                 count: '4',
-                                size: 'sm',
                                 color: 'primary',
                                 visible: true,
                                 disabled: false,
@@ -124,7 +118,6 @@ stories.add('Форма с toolbar', () => {
                                 icon: 'fa fa-paper-plane',
                                 hint: 'Подписать запись',
                                 count: '4',
-                                size: 'sm',
                                 color: 'danger',
                                 visible: true,
                                 disabled: false,
@@ -147,7 +140,6 @@ stories.add('Форма с toolbar', () => {
                                 label: 'label',
                                 icon: 'fa fa-paper-plane',
                                 count: '4',
-                                size: 'sm',
                                 color: 'secondary',
                                 visible: true,
                                 disabled: false,
@@ -161,6 +153,7 @@ stories.add('Форма с toolbar', () => {
                             validate: true,
                             validatedWidgetId: 'create2_main',
                             color: 'secondary',
+                            hint: 'some hint',
                             subMenu: [
                               {
                                 id: 'testBtn221',
@@ -170,7 +163,6 @@ stories.add('Форма с toolbar', () => {
                                 icon: 'fa fa-paper-plane',
                                 hint: 'Подписать запись',
                                 count: '4',
-                                size: 'sm',
                                 color: 'secondary',
                                 visible: true,
                                 disabled: false,
@@ -193,7 +185,6 @@ stories.add('Форма с toolbar', () => {
                                   'Длинный лэйбл для теста popper должен перевернуться',
                                 icon: 'fa fa-paper-plane',
                                 count: '4',
-                                size: 'sm',
                                 color: 'secondary',
                                 visible: true,
                                 disabled: false,
@@ -207,7 +198,6 @@ stories.add('Форма с toolbar', () => {
                                 icon: 'fa fa-paper-plane',
                                 hint: 'Подписать запись',
                                 count: '4',
-                                size: 'sm',
                                 color: 'secondary',
                                 visible: true,
                                 disabled: false,
@@ -269,6 +259,7 @@ stories.add('Форма с toolbar', () => {
                             validatedWidgetId: 'create2_main',
                             color: 'secondary',
                             size: 'md',
+                            hint: 'длинный hint кнопка md',
                             subMenu: [
                               {
                                 id: 'testBtn221',
@@ -284,7 +275,7 @@ stories.add('Форма с toolbar', () => {
                                 disabled: false,
                               },
                               {
-                                id: 'testBtn221',
+                                id: 'testBtn226',
                                 actionId: 'dummy',
                                 src: 'StandardButton',
                                 label: 'Проверка длинного лейбла №2',
