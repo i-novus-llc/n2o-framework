@@ -1,4 +1,4 @@
-.list-text-cell__tooltip-container.light {
+.list-text-cell__tooltip-container.light{
   padding: 0 5px 0 5px;
   border: .9px solid #3f515e;
   border-radius: 3px;
@@ -17,6 +17,7 @@
   font-size: 14px;
   z-index: 110;
 }
+
 .list-text-cell__tooltip-container__body {
   padding: 5px;
   align-items: center;
@@ -84,17 +85,10 @@
     min-width: max-content;
   }
 }
+
 .list-text-cell__trigger_dashed {
   max-width: content-box;
-  position: relative;
-  &::after {
-    content: '';
-    display: block;
-    position: absolute;
-    bottom: 1px;
-    width: 100%;
-    border-bottom: 1px dashed black;
-  }
+  border-bottom: 1px dotted black;
 }
 .list-text-cell__trigger.d-flex {
   max-width: max-content;
