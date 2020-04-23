@@ -105,6 +105,7 @@ public class FieldToolbarAT extends AutoTestBase {
         dropdownButton.menuItem("Открыть модальное окно").shouldBeDisabled();
         dropdownButton.menuItem("Открыть страницу").shouldBeDisabled();
         fields.field("id").control(N2oInputText.class).val("test");
+        dropdownButton.click();
         dropdownButton.menuItem("Ссылка").shouldBeEnabled();
         dropdownButton.menuItem("Показать текст").shouldBeEnabled();
         dropdownButton.menuItem("Открыть модальное окно").shouldBeEnabled();
