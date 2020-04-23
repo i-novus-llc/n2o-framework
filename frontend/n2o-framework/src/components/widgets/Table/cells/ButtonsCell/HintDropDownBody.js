@@ -20,7 +20,11 @@ class HintDropDownBody extends Component {
     } = this.props;
 
     return (
-      <Popper modifiers={modifiers} positionFixed={positionFixed}>
+      <Popper
+        modifiers={modifiers}
+        strategy="fixed"
+        positionFixed={positionFixed}
+      >
         {({ ref, style, placement }) =>
           open && (
             <div

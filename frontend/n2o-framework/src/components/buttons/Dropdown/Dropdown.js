@@ -15,7 +15,7 @@ import mappingProps from '../Simple/mappingProps';
 import withActionButton from '../withActionButton';
 
 class DropdownButton extends React.Component {
-  state = { open: false };
+  state = { open: false, initOpen: true };
 
   toggle = () => {
     this.setState(state => ({
@@ -31,9 +31,23 @@ class DropdownButton extends React.Component {
     }
   };
 
+  componentDidMount() {
+    //initOpen необходимо для корректной работы адаптивности Popper.
+    //Если Popper выходит за пределы viewport или document, но Popper не в DOM -
+    // react-popper не перевернет его и он вылетит за пределы окна
+    setTimeout(
+      () =>
+        this.setState({
+          //при монтировании скрываем Popper из DOM с минимальной задержкой
+          initOpen: false,
+        }),
+      0
+    );
+  }
+
   render() {
     const { subMenu, ...rest } = this.props;
-    const { open } = this.state;
+    const { open, initOpen } = this.state;
 
     return (
       <div className="n2o-dropdown">
@@ -49,15 +63,7 @@ class DropdownButton extends React.Component {
               />
             )}
           </Reference>
-          <Popper
-            placement="bottom-start"
-            modifiers={{
-              preventOverflow: {
-                boundariesElement: 'window',
-              },
-            }}
-            positionFixed={true}
-          >
+          <Popper placement="bottom-start" strategy="fixed">
             {({ ref, style, placement }) => (
               <div
                 ref={ref}
@@ -65,6 +71,7 @@ class DropdownButton extends React.Component {
                 data-placement={placement}
                 className={cn('dropdown-menu n2o-dropdown-menu', {
                   'd-block': open,
+                  'dropdown-menu__init-load d-block': initOpen,
                 })}
               >
                 {map(subMenu, ({ src, component, ...rest }) => {

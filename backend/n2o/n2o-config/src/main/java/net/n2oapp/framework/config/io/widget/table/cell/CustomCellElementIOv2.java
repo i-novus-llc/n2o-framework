@@ -8,7 +8,9 @@ import org.jdom.Element;
 import org.jdom.Namespace;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * Чтение\запись настраиваемой ячейки
+ */
 @Component
 public class CustomCellElementIOv2 extends AbstractCellElementIOv2<N2oCustomCell> {
     private Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
@@ -16,12 +18,12 @@ public class CustomCellElementIOv2 extends AbstractCellElementIOv2<N2oCustomCell
     @Override
     public void io(Element e, N2oCustomCell c, IOProcessor p) {
         super.io(e, c, p);
-        p.anyChild(e,null,c::getAction,c::setAction,p.anyOf(N2oAction.class),actionDefaultNamespace);
+        p.anyChild(e, null, c::getAction, c::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
     }
 
     @Override
     public String getElementName() {
-        return "cell" ;
+        return "cell";
     }
 
     @Override

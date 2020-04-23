@@ -9,6 +9,7 @@ import isString from 'lodash/isString';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import values from 'lodash/values';
+import defaultTo from 'lodash/defaultTo';
 
 import {
   SET,
@@ -77,10 +78,10 @@ function resolveCopyAction(state, { payload }) {
   if (mode === 'merge' && isObject(sourceModel) && isObject(targetModel)) {
     set(newState, targetPath, merge(targetModel, sourceModel));
   } else if (mode === 'add') {
-    if (!Array.isArray(sourceModel) || !Array.isArray(targetModel)) {
-      throw new Error('Source or target is not an array!');
-    }
-    set(newState, targetPath, [...targetModel, ...sourceModel]);
+    set(newState, targetPath, [
+      ...defaultTo(targetModel, []),
+      ...Object.values(sourceModel),
+    ]);
   } else {
     set(newState, targetPath, sourceModel);
   }
