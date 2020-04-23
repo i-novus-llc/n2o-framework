@@ -133,29 +133,94 @@ describe('utils', () => {
   });
   it('тестирует formatToMask', () => {
     /*eslint-disable */
-    expect(formatToMask('DD.MM.YY HH:mm'))
-      .toEqual([/[0-3]/, /\d/, ".", /[0-1]/, /\d/, ".", /\d/, /\d/, " ", /[0-2]/, /\d/, ":", /[0-5]/, /\d/]);
-    expect(formatToMask('DD/MM/YYYY HH:mm'))
-      .toEqual([/[0-3]/, /\d/, "/", /[0-1]/, /\d/, "/", /[0-2]/, /\d/, /\d/, /\d/, " ", /[0-2]/, /\d/, ":", /[0-5]/, /\d/]);
-    expect(formatToMask('DD.MM.YY HH:mm:ss'))
-      .toEqual([/[0-3]/, /\d/, ".", /[0-1]/, /\d/, ".", /\d/, /\d/, " ", /[0-2]/, /\d/, ":", /[0-5]/, /\d/, ":", /[0-5]/, /\d/]);
-    expect(formatToMask('DD.MM.YY'))
-      .toEqual([/[0-3]/, /\d/, ".", /[0-1]/, /\d/, ".", /\d/, /\d/]);
-    expect(formatToMask('HH/mm'))
-      .toEqual([/[0-2]/, /\d/, "/", /[0-5]/, /\d/]);
+    expect(formatToMask('DD.MM.YY HH:mm')).toEqual([
+      /[0-3]/,
+      /\d/,
+      '.',
+      /[0-1]/,
+      /\d/,
+      '.',
+      /\d/,
+      /\d/,
+      ' ',
+      /[0-2]/,
+      /\d/,
+      ':',
+      /[0-5]/,
+      /\d/,
+    ]);
+    expect(formatToMask('DD/MM/YYYY HH:mm')).toEqual([
+      /[0-3]/,
+      /\d/,
+      '/',
+      /[0-1]/,
+      /\d/,
+      '/',
+      /[0-2]/,
+      /\d/,
+      /\d/,
+      /\d/,
+      ' ',
+      /[0-2]/,
+      /\d/,
+      ':',
+      /[0-5]/,
+      /\d/,
+    ]);
+    expect(formatToMask('DD.MM.YY HH:mm:ss')).toEqual([
+      /[0-3]/,
+      /\d/,
+      '.',
+      /[0-1]/,
+      /\d/,
+      '.',
+      /\d/,
+      /\d/,
+      ' ',
+      /[0-2]/,
+      /\d/,
+      ':',
+      /[0-5]/,
+      /\d/,
+      ':',
+      /[0-5]/,
+      /\d/,
+    ]);
+    expect(formatToMask('DD.MM.YY')).toEqual([
+      /[0-3]/,
+      /\d/,
+      '.',
+      /[0-1]/,
+      /\d/,
+      '.',
+      /\d/,
+      /\d/,
+    ]);
+    expect(formatToMask('HH/mm')).toEqual([/[0-2]/, /\d/, '/', /[0-5]/, /\d/]);
     /*eslint-enable */
   });
 
   it('тестируем hasInsideMixMax', () => {
     /*eslint-disable */
-    expect(hasInsideMixMax('1989-09-15T00:00:00',{ max: '1990-09-15T00:00:00', min: '1988-09-15T00:00:00'}))
-      .toBe(true);
-    expect(hasInsideMixMax('1991-09-15T00:00:00',{ max: '1990-09-15T00:00:00', min: '1988-09-15T00:00:00'}))
-      .toBe(false);
-    expect(hasInsideMixMax('1987-09-15T00:00:00',{ max: '1990-09-15T00:00:00', min: '1988-09-15T00:00:00'}))
-      .toBe(false);
-    expect(hasInsideMixMax('1991-09-15T00:00:00',{}))
-      .toBe(true);
+    expect(
+      hasInsideMixMax('1989-09-15T00:00:00', {
+        max: '1990-09-15T00:00:00',
+        min: '1988-09-15T00:00:00',
+      })
+    ).toBe(true);
+    expect(
+      hasInsideMixMax('1991-09-15T00:00:00', {
+        max: '1990-09-15T00:00:00',
+        min: '1988-09-15T00:00:00',
+      })
+    ).toBe(false);
+    expect(
+      hasInsideMixMax('1987-09-15T00:00:00', {
+        max: '1990-09-15T00:00:00',
+        min: '1988-09-15T00:00:00',
+      })
+    ).toBe(false);
+    expect(hasInsideMixMax('1991-09-15T00:00:00', {})).toBe(true);
     /*eslint-enable */
   });
 });
