@@ -41,7 +41,6 @@ stories.add('Форма с toolbar', () => {
                             validatedWidgetId: 'create2_main',
                             color: 'primary',
                             hint: 'some hint',
-                            size: 'sm',
                           },
                           {
                             src: 'StandardButton',
@@ -53,7 +52,6 @@ stories.add('Форма с toolbar', () => {
                             validatedWidgetId: 'create2_main',
                             color: 'primary',
                             hint: 'some hint',
-                            size: 'sm',
                           },
                         ],
                       },
