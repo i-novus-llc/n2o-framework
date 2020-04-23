@@ -15,7 +15,7 @@ public class N2oHeaderPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
         b.readers(new SimpleHeaderReader(), new CustomHeaderReader(), new SimpleMenuReader());
-        b.ios(new SimpleHeaderIOv2(), new SimpleMenuIOv2(), new N2oSearchBarIOv2());
+        b.ios(new SimpleHeaderIOv2(), new SimpleMenuIOv2());
         b.compilers(new SimpleHeaderCompiler(), new SimpleMenuCompiler(), new SearchBarCompiler());
         b.binders(new HeaderBinder());
     }

@@ -3,18 +3,14 @@ package net.n2oapp.framework.api.metadata.header;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import org.jdom.Namespace;
 
 /**
  * Панель поиска
  */
 @Getter
 @Setter
-public class N2oSearchBar implements Source, NamespaceUriAware {
-
-    static Namespace NAMESPACE = Namespace.getNamespace("http://n2oapp.net/framework/config/schema/search-1.0");
+public class N2oSearchBar implements Source {
 
     private String queryId;
     private String filterFieldId;
@@ -26,13 +22,4 @@ public class N2oSearchBar implements Source, NamespaceUriAware {
     private String advancedUrl;
     private String advancedParam;
 
-    @Override
-    public Namespace getNamespace() {
-        return NAMESPACE;
-    }
-
-    @Override
-    public String getNamespaceUri() {
-        return NAMESPACE.getURI();
-    }
 }

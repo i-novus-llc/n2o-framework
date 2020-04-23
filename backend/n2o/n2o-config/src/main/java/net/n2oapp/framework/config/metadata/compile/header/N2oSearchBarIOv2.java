@@ -3,12 +3,10 @@ package net.n2oapp.framework.config.metadata.compile.header;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.header.N2oSearchBar;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.io.NamespaceIO;
+import net.n2oapp.framework.api.metadata.io.TypedElementIO;
 import org.jdom.Element;
-import org.springframework.stereotype.Component;
 
-@Component
-public class N2oSearchBarIOv2 implements NamespaceIO<N2oSearchBar> {
+public class N2oSearchBarIOv2 implements TypedElementIO<N2oSearchBar> {
     @Override
     public Class<N2oSearchBar> getElementClass() {
         return N2oSearchBar.class;
@@ -17,11 +15,6 @@ public class N2oSearchBarIOv2 implements NamespaceIO<N2oSearchBar> {
     @Override
     public String getElementName() {
         return "search";
-    }
-
-    @Override
-    public String getNamespaceUri() {
-        return "http://n2oapp.net/framework/config/schema/search-1.0";
     }
 
     @Override
