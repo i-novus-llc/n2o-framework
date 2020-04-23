@@ -232,7 +232,15 @@ export default Field => {
       mapStateToProps,
       mapDispatchToProps
     ),
-    shouldUpdate((props, nextProps) => !isEqual(props.model, nextProps.model)),
+    shouldUpdate(
+      (props, nextProps) =>
+        !isEqual(props.model, nextProps.model) ||
+        props.isInit !== nextProps.isInit ||
+        props.visible !== nextProps.visible ||
+        props.disabled !== nextProps.disabled ||
+        props.message !== nextProps.message ||
+        props.required !== nextProps.required
+    ),
     withProps(props => ({
       ref: props.setReRenderRef,
     })),
