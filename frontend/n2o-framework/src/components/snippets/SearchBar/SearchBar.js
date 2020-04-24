@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import isString from 'lodash/isString';
-import isUndefined from 'lodash/isUndefined';
+import isEmpty from 'lodash/isEmpty';
 import Button from 'reactstrap/lib/Button';
 import {
   compose,
@@ -15,6 +15,7 @@ import onClickOutsideHOC from 'react-onclickoutside';
 
 import InputText from '../../controls/InputText/InputText';
 import SearchBarPopUp from './SearchBarPopUp';
+import SearchBarEmptyMenu from './SearchBarEmptyMenu';
 
 let timeoutId = null;
 const ENTER_KEY_CODE = 13;
@@ -53,7 +54,9 @@ function SearchBar({
           />
           {isString(icon) ? <i className={icon} /> : icon}
         </div>
-        {!isUndefined(menu) && (
+        {isEmpty(menu) ? (
+          <SearchBarEmptyMenu dropdownOpen={dropdownOpen === 'true'} />
+        ) : (
           <SearchBarPopUp
             menu={menu}
             dropdownOpen={dropdownOpen === 'true'}

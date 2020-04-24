@@ -6,12 +6,14 @@ import NavItem from 'reactstrap/lib/NavItem';
 import InputGroup from 'reactstrap/lib/InputGroup';
 import InputGroupAddon from 'reactstrap/lib/InputGroupAddon';
 import Input from 'reactstrap/lib/Input';
+import map from 'lodash/map';
 import NavbarBrand from 'reactstrap/lib/NavbarBrand';
 import NavbarToggler from 'reactstrap/lib/NavbarToggler';
 import Collapse from 'reactstrap/lib/Collapse';
 
 import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
+import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer';
 
 /**
  * Хедер-плагин
@@ -109,10 +111,11 @@ class SimpleHeader extends React.Component {
       search,
       homePageUrl,
     } = this.props;
+
     const isInversed = color === 'inverse';
     const navColor = isInversed ? 'primary' : 'light';
     const mapItems = (items, options) =>
-      items.map((item, i) => (
+      map(items, (item, i) => (
         <NavItemContainer
           key={i}
           item={item}
@@ -147,18 +150,7 @@ class SimpleHeader extends React.Component {
             </Nav>
             <Nav className="ml-auto main-nav-extra" navbar>
               {extraNavItems}
-              {search && (
-                <NavItem>
-                  <InputGroup>
-                    <Input placeholder="Поиск" />
-                    <InputGroupAddon addonType="append">
-                      <span className="input-group-text">
-                        <i className="fa fa-search" aria-hidden="true" />
-                      </span>
-                    </InputGroupAddon>
-                  </InputGroup>
-                </NavItem>
-              )}
+              {search && <SearchBarContainer />}
             </Nav>
           </Collapse>
         </Navbar>
@@ -252,6 +244,7 @@ SimpleHeader.defaultProps = {
   extraItems: [],
   search: false,
   style: {},
+  list: [],
 };
 
 export default SimpleHeader;

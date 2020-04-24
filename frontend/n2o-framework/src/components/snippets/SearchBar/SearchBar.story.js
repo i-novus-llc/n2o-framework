@@ -3,6 +3,7 @@ import { forceReRender, storiesOf } from '@storybook/react';
 
 import SearchBar, { SearchBar as SearchBarComponent } from './SearchBar';
 import { StateDecorator, Store } from '@sambego/storybook-state';
+import { BrowserRouter } from 'react-router-dom';
 
 const store = new Store({
   value: '',
@@ -70,7 +71,6 @@ const store2 = new Store({
 });
 
 store.subscribe(forceReRender);
-console.warn(store2.get('menu'));
 const stories = storiesOf('UI Компоненты/SearchBar', module);
 
 stories.addParameters({
@@ -202,10 +202,12 @@ stories
         <div>
           <div>Значение: {store.get('value4')}</div>
           <div style={{ width: '200px' }}>
-            <SearchBar
-              onSearch={value4 => store.set({ value4 })}
-              menu={store2.get('menu')}
-            />
+            <BrowserRouter>
+              <SearchBar
+                onSearch={value4 => store.set({ value4 })}
+                menu={store2.get('menu')}
+              />
+            </BrowserRouter>
           </div>
         </div>
       );
