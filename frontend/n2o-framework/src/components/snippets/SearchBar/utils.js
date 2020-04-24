@@ -2,8 +2,10 @@ import React from 'react';
 import cn from 'classnames';
 import isString from 'lodash/isString';
 import NavLink from 'reactstrap/lib/NavLink';
-import { NavLink as RouterLink } from 'react-router-dom';
+import NavItem from 'reactstrap/lib/NavItem';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
+
+import { BrowserRouter } from 'react-router-dom';
 
 const iconInPopUpClassName = (icon, directionIconsInPopUp) => {
   return cn(icon, {
@@ -42,16 +44,20 @@ export const RenderLink = props => {
       {label}
     </NavLink>
   ) : (
-    <RouterLink
-      exact
-      className="nav-link"
-      to={href}
-      title={description}
-      activeClassName="active"
-    >
-      {renderIcon(icon, directionIconsInPopUp)}
-      {label}
-    </RouterLink>
+    <BrowserRouter>
+      <NavItem>
+        <NavLink
+          exact
+          className="nav-link"
+          to={href}
+          title={description}
+          activeClassName="active"
+        >
+          {renderIcon(icon, directionIconsInPopUp)}
+          {label}
+        </NavLink>
+      </NavItem>
+    </BrowserRouter>
   );
 };
 
