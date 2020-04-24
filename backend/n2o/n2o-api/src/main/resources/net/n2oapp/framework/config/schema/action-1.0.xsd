@@ -608,7 +608,7 @@
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="target-model" type="reduxModel" default="resolve"/>
-                <xs:attribute name="merge-mode" type="mergeType"/>
+                <xs:attribute name="merge-mode" type="mergeType" default="merge"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

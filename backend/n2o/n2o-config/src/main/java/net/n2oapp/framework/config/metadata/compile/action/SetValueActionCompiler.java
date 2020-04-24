@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.event.action.MergeMode;
 import net.n2oapp.framework.api.metadata.event.action.N2oSetValueAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueAction;
 import net.n2oapp.framework.api.metadata.meta.action.set_value.SetValueActionPayload;
@@ -41,7 +42,7 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         setValueAction.getPayload().setTarget(targetModel);
 
         setValueAction.getPayload().setSourceMapper(toJS(source.getExpression()));
-        setValueAction.getPayload().setMode(source.getMergeMode());
+        setValueAction.getPayload().setMode(p.cast(source.getMergeMode(), MergeMode.merge));
 
         return setValueAction;
     }
