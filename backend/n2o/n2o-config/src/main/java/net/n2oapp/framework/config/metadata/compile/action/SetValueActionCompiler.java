@@ -28,13 +28,14 @@ public class SetValueActionCompiler extends AbstractActionCompiler<SetValueActio
         setValueAction.setType(p.resolve(property("n2o.api.action.copy.type"), String.class));
 
         String targetWidgetId = initTargetWidget(source, context, p);
+        ReduxModel model = getTargetWidgetModel(p, ReduxModel.RESOLVE);
 
         SetValueActionPayload.ClientModel sourceModel = new SetValueActionPayload.ClientModel(
                 p.cast(source.getSourceWidget(), targetWidgetId),
-                p.cast(source.getSourceModel(), ReduxModel.RESOLVE.getId()));
+                p.cast(source.getSourceModel(), model.getId()));
         SetValueActionPayload.ClientModel targetModel = new SetValueActionPayload.ClientModel(
                 p.cast(source.getTargetWidget(), targetWidgetId),
-                p.cast(source.getTargetModel(), ReduxModel.RESOLVE.getId()));
+                p.cast(source.getTargetModel(), model.getId()));
         targetModel.setField(source.getTo());
         setValueAction.getPayload().setSource(sourceModel);
         setValueAction.getPayload().setTarget(targetModel);
