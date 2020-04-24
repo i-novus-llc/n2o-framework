@@ -8,7 +8,7 @@
                     to="filedId"
                     target-widget="form2"
                     target-model="filter"
-                    merge-mode="merge">
+                    merge-mode="add">
                 return false;
             </set-value>
         </action>

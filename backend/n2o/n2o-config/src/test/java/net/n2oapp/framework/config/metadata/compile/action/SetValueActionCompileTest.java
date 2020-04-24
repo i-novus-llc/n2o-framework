@@ -50,7 +50,7 @@ public class SetValueActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getTarget().getKey(), is("form2"));
         assertThat(testAction.getPayload().getTarget().getPrefix(), is("filter"));
         assertThat(testAction.getPayload().getTarget().getField(), is("filedId"));
-        assertThat(testAction.getPayload().getMode(), is(MergeMode.merge));
+        assertThat(testAction.getPayload().getMode(), is(MergeMode.add));
         assertThat(testAction.getPayload().getSourceMapper(), is("`return false;`"));
 
         SetValueAction menuItem0action = (SetValueAction) table.getActions().get("menuItem0");
@@ -59,5 +59,6 @@ public class SetValueActionCompileTest extends SourceCompileTestBase {
         assertThat(menuItem0action.getPayload().getSource().getPrefix(), is("resolve"));
         assertThat(menuItem0action.getPayload().getTarget().getKey(), is("w"));
         assertThat(menuItem0action.getPayload().getTarget().getPrefix(), is("resolve"));
+        assertThat(menuItem0action.getPayload().getMode(), is(MergeMode.merge));
     }
 }
