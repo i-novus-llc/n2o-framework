@@ -1,5 +1,4 @@
-import { call, put, select, takeEvery, all } from 'redux-saga/effects';
-import { delay } from 'redux-saga';
+import { call, put, select, takeEvery, all, delay } from 'redux-saga/effects';
 
 import { ADD, ADD_MULTI } from '../constants/alerts';
 import { removeAlert } from '../actions/alerts';

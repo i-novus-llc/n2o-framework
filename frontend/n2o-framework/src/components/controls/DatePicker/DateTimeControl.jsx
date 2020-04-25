@@ -392,7 +392,7 @@ class DateTimeControl extends React.Component {
               <Popper
                 placement={popupPlacement}
                 modifiers={MODIFIERS}
-                positionFixed={true}
+                strategy="fixed"
               >
                 {({ ref, style, placement }) => (
                   <div

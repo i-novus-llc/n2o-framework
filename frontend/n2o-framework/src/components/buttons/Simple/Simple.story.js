@@ -32,7 +32,6 @@ const toolbar2 = [
         id: 'testBtn22',
         src: 'StandardButton',
         rounded: true,
-        icon: 'fa fa-adjust',
         color: 'primary',
       },
       {
@@ -45,6 +44,7 @@ const toolbar2 = [
       {
         id: 'testBtn23',
         label: 'Еще кнопка',
+        hint: 'hint from square button',
         src: 'StandardButton',
       },
       {
@@ -60,6 +60,8 @@ const toolbar3 = [
   {
     buttons: [
       {
+        label: 'Полукруглая кнопка с label',
+        hint: 'some hint',
         id: 'testBtn22',
         src: 'StandardButton',
         rounded: true,
@@ -69,6 +71,7 @@ const toolbar3 = [
       {
         id: 'testBtn22',
         src: 'StandardButton',
+        hint: 'test hint',
         rounded: true,
         icon: 'fa fa-address-book',
         color: 'success',
@@ -83,6 +86,7 @@ const toolbar3 = [
       {
         id: 'testBtn22',
         src: 'StandardButton',
+        hint: 'some hint',
         rounded: true,
         icon: 'fa fa-fax',
         color: 'success',
@@ -166,7 +170,7 @@ stories
     </div>
   ))
   .add('В Toolbar', () => (
-    <div style={{ display: 'flex' }}>
+    <div className="d-flex flex-wrap">
       <Toolbar toolbar={toolbar} entityKey="metaBtns" />
       <Toolbar toolbar={toolbar2} entityKey="metaBtns" />
       <Toolbar toolbar={toolbar3} entityKey="metaBtns" />

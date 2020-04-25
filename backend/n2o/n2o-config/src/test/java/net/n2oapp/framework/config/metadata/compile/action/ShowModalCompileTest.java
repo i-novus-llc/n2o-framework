@@ -411,10 +411,10 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
 
         CopyAction submit = (CopyAction) modalPage.getActions().get("submit");
         assertThat(submit.getType(), is("n2o/models/COPY"));
-        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(submit.getPayload().getSource().getPrefix(), is(ReduxModel.MULTI.getId()));
         assertThat(submit.getPayload().getSource().getKey(), is("testShowModalCopyActionWithTwoWidget_update_table2"));
         assertThat(submit.getPayload().getSource().getField(), is("id"));
-        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.EDIT.getId()));
+        assertThat(submit.getPayload().getTarget().getPrefix(), is(ReduxModel.MULTI.getId()));
         assertThat(submit.getPayload().getTarget().getKey(), is("testShowModalCopyActionWithTwoWidget_table1"));
         assertThat(submit.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(submit.getPayload().getMode(), is(CopyMode.replace));

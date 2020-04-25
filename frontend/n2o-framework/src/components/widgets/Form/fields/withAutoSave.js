@@ -6,7 +6,7 @@ import has from 'lodash/has';
 
 import { callAlert } from '../../../../actions/meta';
 import { saveFieldData } from '../../../../core/api';
-import { getParams } from '../../../../utils/compileUrl';
+import { getParams } from '../../../../core/dataProviderResolver';
 
 export default function withAutoSave(WrappedComponent) {
   let timeoutId = null;

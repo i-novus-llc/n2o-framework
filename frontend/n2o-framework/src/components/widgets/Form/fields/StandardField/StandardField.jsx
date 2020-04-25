@@ -101,7 +101,7 @@ class StandardField extends React.Component {
         : labelWidth;
 
     const styleHelper = toolbar
-      ? { width: 'auto' }
+      ? { width: '100%' }
       : labelWidthPixels && colLength > 1
       ? {
           maxWidth: `calc(100% - ${labelWidthPixels})`,
@@ -135,8 +135,8 @@ class StandardField extends React.Component {
           />
           <div style={styleHelper}>
             <div
-              className={cx('control-container', {
-                'control-container_with-toolbar': toolbar,
+              className={cx('form-container', {
+                'form-container_with-toolbar': toolbar,
               })}
             >
               <Control
@@ -151,6 +151,7 @@ class StandardField extends React.Component {
                 {...props}
                 className={cx(control.className, {
                   [validationClass]: touched,
+                  'form-control__with-toolbar': toolbar,
                 })}
               />
               {toolbar && (
