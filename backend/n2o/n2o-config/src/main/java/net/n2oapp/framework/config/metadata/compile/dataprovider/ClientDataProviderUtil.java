@@ -1,20 +1,29 @@
 package net.n2oapp.framework.config.metadata.compile.dataprovider;
 
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.aware.ModelAware;
+import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
+import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
+import net.n2oapp.framework.config.metadata.compile.ValidationList;
+import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.Collections;
@@ -32,41 +41,44 @@ public class ClientDataProviderUtil {
     public static ClientDataProvider compile(N2oClientDataProvider source, CompileContext<?, ?> context, CompileProcessor p) {
         ClientDataProvider dataProvider = new ClientDataProvider();
         String path = null;
+        String targetWidget = source.getTargetWidgetId() == null ? initTargetWidget(context, p) : source.getTargetWidgetId();
+        ReduxModel targetModel = initTargetWidgetModel(p, source.getTargetModel());
 
         if (RequestMethod.POST == source.getMethod()) {
             Map<String, ModelLink> pathMapping = new StrictMap<>();
-            pathMapping.putAll(compileParams(source.getPathParams(), p, source.getModel(), source.getTargetWidgetId()));
-            dataProvider.setFormMapping(compileParams(source.getFormParams(), p, source.getModel(), source.getTargetWidgetId()));
-            dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), p, source.getModel(), source.getTargetWidgetId()));
+            pathMapping.putAll(compileParams(source.getPathParams(), p, targetModel, targetWidget));
+            dataProvider.setFormMapping(compileParams(source.getFormParams(), p, targetModel, targetWidget));
+            dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), p, targetModel, targetWidget));
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
             path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
             if (widgetScope != null) {
                 String clientWidgetId = widgetScope.getClientWidgetId();
-                if (ReduxModel.RESOLVE.equals(source.getModel())) {
+                if (ReduxModel.RESOLVE.equals(targetModel)) {
                     String widgetSelectedId = clientWidgetId + "_id";
                     //todo не нужно добавлять принудительно параметр в url, нужно только если его задали в route="/:id/action"
                     path = normalize(path + normalize(colon(widgetSelectedId)));
-                    pathMapping.put(widgetSelectedId, new ModelLink(source.getModel(), clientWidgetId, "id"));
+                    pathMapping.put(widgetSelectedId, new ModelLink(targetModel, clientWidgetId, "id"));
                 }
             }
             path = normalize(path + normalize(p.cast(source.getUrl(), source.getId())));
             dataProvider.setPathMapping(pathMapping);
-
             dataProvider.setMethod(RequestMethod.POST);
             dataProvider.setOptimistic(source.getOptimistic());
             dataProvider.setSubmitForm(source.getSubmitForm());
+
+            initActionContext(source, pathMapping, p.cast(path, source.getUrl()), p);
         }
 
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + p.cast(path, source.getUrl()));
-        dataProvider.setQueryMapping(compileParams(source.getQueryParams(), p, source.getModel(), source.getTargetWidgetId()));
+        dataProvider.setQueryMapping(compileParams(source.getQueryParams(), p, targetModel, targetWidget));
         dataProvider.setQuickSearchParam(source.getQuickSearchParam());
 
         return dataProvider;
     }
 
-    private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileProcessor p,
-                                                        ReduxModel model, String targetWidgetId) {
+    private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileProcessor p, ReduxModel model,
+                                                        String targetWidgetId) {
         if (params == null)
             return Collections.emptyMap();
         Map<String, ModelLink> result = new StrictMap<>();
@@ -93,5 +105,84 @@ public class ClientDataProviderUtil {
             result.put(param.getName(), link);
         }
         return result;
+    }
+
+    private static void initActionContext(N2oClientDataProvider source, Map<String, ModelLink> pathMapping,
+                                          String url, CompileProcessor p) {
+        if (source.getActionContextData() != null) {
+            N2oClientDataProvider.ActionContextData actionContextData = source.getActionContextData();
+            ActionContext actionContext = new ActionContext(actionContextData.getObjectId(), actionContextData.getOperationId(), url);
+
+            Map<String, ModelLink> routePathMapping = new StrictMap<>();
+            Map<String, ModelLink> routeQueryMapping = new StrictMap<>();
+
+            ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+            if (routeScope != null) {
+                routePathMapping.putAll(routeScope.getPathMapping());
+                routePathMapping.putAll(pathMapping);
+                routeQueryMapping.putAll(routeScope.getQueryMapping());
+            }
+            actionContext.setPathRouteMapping(routePathMapping);
+            actionContext.setQueryRouteMapping(routeQueryMapping);
+            ValidationList validationList = p.getScope(ValidationList.class);
+            actionContext.setValidations(validationList == null ? null : validationList.get(actionContextData.getFailAlertWidgetId(),
+                    initTargetWidgetModel(p, source.getTargetModel())));
+            actionContext.setRedirect(actionContextData.getRedirect());
+            actionContext.setParentWidgetId(actionContextData.getParentWidgetId());
+            actionContext.setFailAlertWidgetId(actionContextData.getFailAlertWidgetId());
+            actionContext.setMessagesForm(actionContextData.getMessagesForm());
+            actionContext.setSuccessAlertWidgetId(actionContextData.getSuccessAlertWidgetId());
+            actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
+            actionContext.setMessageOnFail(actionContextData.isMessageOnFail());
+
+            Map<String, String> operationMapping = new StrictMap<>();
+            for (N2oObject.Parameter inParameter : actionContextData.getOperation().getInParametersMap().values()) {
+                String param = p.cast(inParameter.getParam(), RouteUtil.normalizeParam(inParameter.getId()));
+                operationMapping.put(param, inParameter.getId());
+            }
+            actionContext.setOperationMapping(operationMapping);
+            p.addRoute(actionContext);
+        }
+    }
+
+    /**
+     * Инициализация целевого виджета
+     */
+    private static String initTargetWidget(CompileContext<?, ?> context, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        String targetWidgetId = null;
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
+                targetWidgetId = pageScope == null ?
+                        widgetIdAware.getWidgetId() : pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());//todo обсудить
+            }
+        }
+        if (targetWidgetId == null) {
+            if (widgetScope != null) {
+                targetWidgetId = widgetScope.getClientWidgetId();
+            } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null) {
+                targetWidgetId = pageScope.getGlobalWidgetId(((PageContext) context).getResultWidgetId());
+            } else {
+                throw new N2oException("Unknown widgetId for invoke action!");
+            }
+        }
+        return targetWidgetId;
+    }
+
+    /**
+     * Инициализация модели целевого виджета
+     */
+    private static ReduxModel initTargetWidgetModel(CompileProcessor p, ReduxModel defaultModel) {
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            ModelAware modelAware = componentScope.unwrap(ModelAware.class);
+            if (modelAware != null && modelAware.getModel() != null) {
+                return modelAware.getModel();
+            }
+        }
+        return defaultModel;
     }
 }

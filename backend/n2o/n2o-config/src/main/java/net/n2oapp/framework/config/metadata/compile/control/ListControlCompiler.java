@@ -134,7 +134,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         p.addRoute(new QueryContext(source.getQueryId(), route));
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        dataProvider.setModel(modelsScope.getModel());
+        dataProvider.setTargetModel(modelsScope.getModel());
         dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
         dataProvider.setUrl(route);
 

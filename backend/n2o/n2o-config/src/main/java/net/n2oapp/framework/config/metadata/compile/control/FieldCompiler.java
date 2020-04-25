@@ -145,7 +145,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         p.addRoute(new QueryContext(field.getQueryId(), route));
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        dataProvider.setModel(modelsScope.getModel());
+        dataProvider.setTargetModel(modelsScope.getModel());
         dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
         dataProvider.setUrl(route);
 
