@@ -74,6 +74,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                 return findOne(inParams, data);
             case update:
                 return update(invocation, inParams, data);
+            case updateField:
+                return updateField(invocation, inParams, data);
             case delete:
                 return delete(invocation, inParams, data);
             case count:
@@ -136,6 +138,32 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                 .orElseThrow(() -> new N2oException("No such element"));
 
         updateElement(element, inParams.entrySet());
+        updateRepository(invocation.getFile(), modifiableData);
+        updateFile(invocation.getFile());
+
+        return null;
+    }
+
+    private Object updateField(N2oTestDataProvider invocation,
+                               Map<String, Object> inParams,
+                               List<DataSet> data) {
+        List<DataSet> modifiableData = new ArrayList<>(data);
+        if (inParams.get(invocation.getPrimaryKey()) == null)
+            throw new N2oException("Id is required for operation \"updateField\"");
+        if (!inParams.containsKey("key") || !inParams.containsKey("value"))
+            throw new N2oException("Should contains parameters \"key\", \"value\" for operation \"updateField\"");
+
+        DataSet element = modifiableData
+                .stream()
+                .filter(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(), inParams))
+                .findFirst()
+                .orElseThrow(() -> new N2oException("No such element"));
+
+        Map<String, Object> fieldData = new HashMap<>();
+        fieldData.put(invocation.getPrimaryKey(), inParams.get(invocation.getPrimaryKey()));
+        fieldData.put((String) inParams.get("key"), inParams.get("value"));
+
+        updateElement(element, fieldData.entrySet());
         updateRepository(invocation.getFile(), modifiableData);
         updateFile(invocation.getFile());
 
