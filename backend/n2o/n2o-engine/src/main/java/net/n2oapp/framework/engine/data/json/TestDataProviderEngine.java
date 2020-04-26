@@ -162,7 +162,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         Map<String, Object> fieldData = new HashMap<>();
         fieldData.put(invocation.getPrimaryKey(), inParams.get(invocation.getPrimaryKey()));
         fieldData.put((String) inParams.get("key"), inParams.get("value"));
-        fieldData.put((String) inParams.get("key2"), inParams.get("value2"));
+        if (inParams.containsKey("key2"))
+            fieldData.put((String) inParams.get("key2"), inParams.get("value2"));
 
         updateElement(element, fieldData.entrySet());
         updateRepository(invocation.getFile(), modifiableData);
@@ -413,6 +414,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     /**
      * Возвращает полный путь к файлу на диске
+     *
      * @param filename Имя файла
      */
     public String getFullPathOnDisk(String filename) {
@@ -421,6 +423,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     /**
      * Возвращает полный путь к ресурсу в classpath
+     *
      * @param filename Имя файла
      */
     public String getFullResourcePath(String filename) {
@@ -435,6 +438,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     /**
      * Проверяет корректность имени файла и
      * исправляет в случае необходимости
+     *
      * @param filename Имя файла
      */
     protected String validateFilename(String filename) {
@@ -475,6 +479,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     /**
      * Проверяет существование файла на диске
+     *
      * @param filename Имя файла
      * @return True если файл с заданным именем и путем,
      * указанным в переменной pathOnDisk, существует, false иначе
@@ -486,6 +491,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     /**
      * Обновляет содержимое файла на диске
+     *
      * @param filename Имя файла
      */
     private void updateFile(String filename) {
