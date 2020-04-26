@@ -396,6 +396,24 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         dataProvider.setPathParams(submit.getPathParams());
         dataProvider.setHeaderParams(submit.getHeaderParams());
         dataProvider.setFormParams(submit.getFormParams());
+
+        CompiledObject compiledObject = p.getScope(CompiledObject.class);
+        if (compiledObject == null)
+            throw new N2oException("For compilation submit for field [{0}] is necessary object!").addData(source.getId());
+
+        N2oClientDataProvider.ActionContextData actionContextData = new N2oClientDataProvider.ActionContextData();
+        actionContextData.setObjectId(compiledObject.getId());
+        actionContextData.setOperationId(submit.getOperationId());
+        actionContextData.setRoute(submit.getRoute());
+        actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), false));
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null) {
+            actionContextData.setSuccessAlertWidgetId(widgetScope.getWidgetId());
+            actionContextData.setFailAlertWidgetId(widgetScope.getWidgetId());
+        }
+        actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
+        actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
+        dataProvider.setActionContextData(actionContextData);
         return ClientDataProviderUtil.compile(dataProvider, context, p);
     }
 }

@@ -70,7 +70,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             invokeAction.getPayload().setPageId(pageScope.getPageId());
         }
 
-        initDataProvider(invokeAction, source, context, p, targetWidgetModel, routeScope);
+        initDataProvider(invokeAction, source, context, p, targetWidgetModel);
         return invokeAction;
     }
 
@@ -142,9 +142,8 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     }
 
 
-    private void initDataProvider(InvokeAction invokeAction, N2oInvokeAction source,
-                                  CompileContext<?, ?> context, CompileProcessor p,
-                                  ReduxModel model, ParentRouteScope routeScope) {
+    private void initDataProvider(InvokeAction invokeAction, N2oInvokeAction source, CompileContext<?, ?> context,
+                                  CompileProcessor p, ReduxModel model) {
         InvokeActionPayload payload = invokeAction.getPayload();
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));

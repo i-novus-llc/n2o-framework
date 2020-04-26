@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -21,6 +22,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -33,6 +35,8 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Тестирование компиляции стандартного поля
@@ -172,6 +176,14 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmit.page.xml")
                 .get(new PageContext("testStandardFieldSubmit"));
         Field field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+
+        ActionContext context = (ActionContext) route("/testStandardFieldSubmit/:testStandardFieldSubmit_form_id/a/b/c", CompiledObject.class);
+        assertThat(context, notNullValue());
+        assertThat(context.getOperationId(), is("update"));
+        assertThat(context.isMessageOnFail(), is(true));
+        assertThat(context.isMessageOnSuccess(), is(false));
+        assertThat(context.getSuccessAlertWidgetId(), is("form"));
+        assertThat(context.getFailAlertWidgetId(), is("form"));
 
         ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
