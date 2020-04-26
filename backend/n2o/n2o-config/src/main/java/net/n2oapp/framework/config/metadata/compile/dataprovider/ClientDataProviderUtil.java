@@ -61,7 +61,7 @@ public class ClientDataProviderUtil {
                     pathMapping.put(widgetSelectedId, new ModelLink(targetModel, clientWidgetId, "id"));
                 }
             }
-            path = normalize(path + normalize(p.cast(source.getUrl(), source.getId())));
+            path = normalize(path + normalize(p.cast(source.getUrl(), source.getId(), "")));
             dataProvider.setPathMapping(pathMapping);
             dataProvider.setMethod(RequestMethod.POST);
             dataProvider.setOptimistic(source.getOptimistic());
