@@ -13,6 +13,7 @@ import isEmpty from 'lodash/isEmpty';
 import Alert from '../../snippets/Alerts/Alert';
 import { Manager, Reference, Popper } from 'react-popper';
 import { MODIFIERS } from '../DatePicker/utils';
+import { selectItem } from './utils';
 
 /**
  * InputSelect
@@ -120,7 +121,8 @@ class InputSelect extends React.Component {
     }
     if (!isEqual(nextProps.value, this.props.value)) {
       const valueArray = Array.isArray(value) ? value : value ? [value] : [];
-      const input = value && !multiSelect ? value[labelFieldId] : '';
+      const nextValue = selectItem(options, valueFieldId, nextProps.value);
+      const input = value && !multiSelect ? nextValue[labelFieldId] : '';
 
       this.setState({ value: valueArray, input });
     }

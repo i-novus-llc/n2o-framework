@@ -4,12 +4,15 @@ import { compose, setDisplayName } from 'recompose';
 import onClickOutside from 'react-onclickoutside';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
+import filter from 'lodash/filter';
+import head from 'lodash/head';
 import Button from 'reactstrap/lib/Button';
 import Popup from '../InputSelect/Popup';
 import PopupList from '../InputSelect/PopupList';
 import InputSelectGroup from '../InputSelect/InputSelectGroup';
 import N2OSelectInput from './N2OSelectInput';
 import declensionNoun from '../../../utils/declensionNoun';
+import { selectItem } from '../InputSelect/utils';
 
 /**
  * N2OSelect
@@ -71,12 +74,17 @@ class N2OSelect extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { value, type } = this.props;
+    const { value, type, valueFieldId, options } = this.props;
     if (type !== selectType.CHECKBOXES) {
       let selected = [];
       if (!isEqual(nextProps.value, value)) {
         if (nextProps.value) {
-          selected = [nextProps.value];
+          const nextSelected = selectItem(
+            options,
+            valueFieldId,
+            nextProps.value
+          );
+          selected = [nextSelected];
         } else {
           selected = [];
         }
@@ -372,6 +380,7 @@ class N2OSelect extends React.Component {
       cleanable,
       style,
     } = this.props;
+
     const inputSelectStyle = { width: '100%', ...style };
 
     const { selected } = this.state;
