@@ -19,7 +19,7 @@ public class N2oOutputText extends N2oControl implements OutputText {
 
     @Override
     public void shouldHaveValue(String value) {
-        element().shouldHave(Condition.text(value));
+        element().shouldBe(Condition.visible).shouldHave(Condition.text(value));
     }
 
     @Override
