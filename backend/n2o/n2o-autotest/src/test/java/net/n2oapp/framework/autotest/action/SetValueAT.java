@@ -48,18 +48,22 @@ public class SetValueAT extends AutoTestBase {
         Fields fields = page.single().widget(FormWidget.class).fields();
         fields.field("calcResult").control(OutputText.class).shouldBeEmpty();
         fields.field("calc 55+66+77").control(StandardButton.class).click();
+        Selenide.sleep(1000);
         fields.field("calcResult").control(OutputText.class).shouldHaveValue("198");
 
         fields.field("clockResult").control(OutputText.class).shouldBeEmpty();
         fields.field("getTime").control(StandardButton.class).click();
+        Selenide.sleep(1000);
         fields.field("clockResult").control(OutputText.class).element().shouldBe(Condition.matchText("^([0-1]\\d|2[0-3])(:[0-5]\\d){2}$"));
 
         fields.field("url").control(OutputText.class).shouldBeEmpty();
         fields.field("social").control(Select.class).select(0);
         fields.field("copyUrl").control(StandardButton.class).click();
+        Selenide.sleep(1000);
         fields.field("siteUrl").control(OutputText.class).shouldHaveValue("https://fb.com");
         fields.field("social").control(Select.class).select(2);
         fields.field("copyUrl").control(StandardButton.class).click();
+        Selenide.sleep(1000);
         fields.field("siteUrl").control(OutputText.class).shouldHaveValue("https://youtube.com");
 
     }
