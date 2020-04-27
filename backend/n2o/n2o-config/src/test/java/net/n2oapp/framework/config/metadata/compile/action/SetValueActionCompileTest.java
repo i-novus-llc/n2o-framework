@@ -59,6 +59,6 @@ public class SetValueActionCompileTest extends SourceCompileTestBase {
         assertThat(menuItem0action.getPayload().getSource().getPrefix(), is("resolve"));
         assertThat(menuItem0action.getPayload().getTarget().getKey(), is("w"));
         assertThat(menuItem0action.getPayload().getTarget().getPrefix(), is("resolve"));
-        assertThat(menuItem0action.getPayload().getMode(), is(MergeMode.merge));
+        assertThat(menuItem0action.getPayload().getMode(), is(MergeMode.replace));
     }
 }
