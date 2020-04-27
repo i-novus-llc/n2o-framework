@@ -4,12 +4,12 @@
     <form>
         <fields>
             <button label="calc 55+66+77">
-                <set-value to="calcResult" merge-mode="replace">55+66+77</set-value>
+                <set-value to="calcResult">55+66+77</set-value>
             </button>
             <output-text id="calcResult" label="calcResult"/>
 
             <button label="getTime">
-                <set-value to="clockResult" merge-mode="replace">moment().format('hh:mm:ss')</set-value>
+                <set-value to="clockResult">moment().format('hh:mm:ss')</set-value>
             </button>
             <output-text id="clockResult" label="clockResult"/>
 
@@ -21,7 +21,7 @@
                 </options>
             </select>
             <button label="copyUrl">
-                <set-value to="site" merge-mode="replace">social.site</set-value>
+                <set-value to="site">social.site</set-value>
             </button>
             <output-text id="site" label="siteUrl"/>
 

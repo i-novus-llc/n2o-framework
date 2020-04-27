@@ -51,7 +51,6 @@ public class SetValueAT extends AutoTestBase {
 
         fields.field("clockResult").control(OutputText.class).shouldBeEmpty();
         fields.field("getTime").control(StandardButton.class).click();
-        fields.field("clockResult").control(OutputText.class).element().shouldBe(Condition.matchText("^([0-1]\\d|2[0-3])(:[0-5]\\d){2}$"));
 
         fields.field("url").control(OutputText.class).shouldBeEmpty();
         fields.field("social").control(Select.class).select(0);
@@ -60,5 +59,7 @@ public class SetValueAT extends AutoTestBase {
         fields.field("social").control(Select.class).select(2);
         fields.field("copyUrl").control(StandardButton.class).click();
         fields.field("siteUrl").control(OutputText.class).shouldHaveValue("https://youtube.com");
+
+        fields.field("clockResult").control(OutputText.class).element().shouldBe(Condition.matchText("^([0-1]\\d|2[0-3])(:[0-5]\\d){2}$"));
     }
 }
