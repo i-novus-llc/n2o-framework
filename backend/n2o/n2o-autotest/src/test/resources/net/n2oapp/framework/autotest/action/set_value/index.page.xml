@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+             name="set-value-tests">
+    <form>
+        <fields>
+            <button label="calc 55+66+77">
+                <set-value to="calcResult" merge-mode="replace">55+66+77</set-value>
+            </button>
+            <output-text id="calcResult" label="calcResult"/>
+
+            <button label="getTime">
+                <set-value to="clockResult" merge-mode="replace">moment().format('hh:mm:ss')</set-value>
+            </button>
+            <output-text id="clockResult" label="clockResult"/>
+
+            <select id="social" label="social">
+                <options>
+                    <option id="facebook" name="Facebook" site="https://fb.com"/>
+                    <option id="twitter" name="Twitter" site="https://twitter.com"/>
+                    <option id="youtube" name="YouTube" site="https://youtube.com"/>
+                </options>
+            </select>
+            <button label="copyUrl">
+                <set-value to="site" merge-mode="replace">social.site</set-value>
+            </button>
+            <output-text id="site" label="siteUrl"/>
+
+        </fields>
+    </form>
+</simple-page>
