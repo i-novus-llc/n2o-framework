@@ -439,6 +439,10 @@ const FileUploaderControl = WrappedComponent => {
      */
     multi: PropTypes.bool,
     /**
+     * Массив разрешенных расширеней файлов
+     */
+    accept: PropTypes.arrayOf(PropTypes.string),
+    /**
      * Массив файлов
      */
     files: PropTypes.arrayOf(PropTypes.object),
