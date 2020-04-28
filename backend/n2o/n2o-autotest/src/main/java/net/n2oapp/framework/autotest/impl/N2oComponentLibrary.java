@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.api.collection.ComponentsCollection;
 import net.n2oapp.framework.autotest.api.collection.Menu;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.impl.collection.*;
+import net.n2oapp.framework.autotest.impl.component.button.N2oDropdownButton;
 import net.n2oapp.framework.autotest.impl.component.button.N2oStandardButton;
 import net.n2oapp.framework.autotest.impl.component.cell.*;
 import net.n2oapp.framework.autotest.impl.component.control.*;
@@ -21,8 +22,10 @@ import net.n2oapp.framework.autotest.impl.component.page.N2oLeftRightPage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oStandardPage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oTopLeftRightPage;
+import net.n2oapp.framework.autotest.impl.component.region.N2oLineRegion;
 import net.n2oapp.framework.autotest.impl.component.region.N2oPanelRegion;
 import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
+import net.n2oapp.framework.autotest.impl.component.region.N2oTabsRegion;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oStatus;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
@@ -47,7 +50,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oTableWidget.class, N2oListWidget.class, N2oFormWidget.class, N2oStandardTableHeader.class, N2oFilterHeader.class,
                 N2oModal.class, N2oStandardField.class, N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
                 N2oSimpleFieldSet.class, N2oMultiFieldSet.class, N2oMultiFieldSetItem.class,
-                N2oDrawer.class,
+                N2oDrawer.class, N2oDropdownButton.class, N2oLineRegion.class, N2oTabsRegion.class,
                 // controls
                 N2oInputText.class, N2oInputSelect.class, N2oCheckbox.class, N2oSelect.class, N2oDateInterval.class,
                 N2oDateInput.class, N2oCheckboxGroup.class, N2oRadioGroup.class, N2oMaskedInputControl.class,

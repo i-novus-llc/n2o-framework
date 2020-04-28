@@ -45,6 +45,11 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     }
 
     @Override
+    public void urlShouldMatches(String regexp) {
+
+    }
+
+    @Override
     public void scrollUp() {
 
     }

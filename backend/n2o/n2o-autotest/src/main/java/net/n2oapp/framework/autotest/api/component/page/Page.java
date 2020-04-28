@@ -19,6 +19,8 @@ public interface Page extends Component {
 
     Tooltip tooltip();
 
+    void urlShouldMatches(String regexp);
+
     void scrollUp();
 
     void scrollDown();
