@@ -6,5 +6,15 @@
                 return firstName + lastName;
             </set-value>
         </action>
+        <action model="filter">
+            <set-value to="fieldId"
+                    source-widget="list"
+                    source-model="resolve"
+                    target-widget="form2"
+                    target-model="resolve"
+                    merge-mode="add">
+                return false;
+            </set-value>
+        </action>
     </actions>
 </page>

@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -45,14 +44,10 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     protected List<N2oPreFilter> initPreFilters(N2oAbstractPageAction source, String masterIdParam,
                                                 CompileProcessor p) {
         List<N2oPreFilter> preFilters = new ArrayList<>();
-        ReduxModel model = ReduxModel.RESOLVE;
+        ReduxModel model = getTargetWidgetModel(p, ReduxModel.RESOLVE);
         String widgetId = initWidgetId(p);
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
-            ModelAware modelAware = componentScope.unwrap(ModelAware.class);
-            if (modelAware != null && modelAware.getModel() != null) {
-                model = modelAware.getModel();
-            }
             WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
             if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
                 widgetId = widgetIdAware.getWidgetId();
@@ -100,7 +95,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
     protected PageContext initPageContext(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
         String pageId = source.getPageId();
-        ReduxModel actionDataModel = ReduxModel.RESOLVE;
+        ReduxModel actionDataModel = getTargetWidgetModel(p, ReduxModel.RESOLVE);
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         PageScope pageScope = p.getScope(PageScope.class);
         String route = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor)p), "");
@@ -122,10 +117,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         ModelLink actionModelLink = null;
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
-            ModelAware modelAware = componentScope.unwrap(ModelAware.class);
-            if (modelAware != null && modelAware.getModel() != null) {
-                actionDataModel = modelAware.getModel();
-            }
             WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
             String actionDataModelClientWidgetId = null;
             if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
