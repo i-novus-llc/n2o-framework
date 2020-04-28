@@ -163,7 +163,7 @@ public class ClientDataProviderUtil {
         if (targetWidgetId == null) {
             if (widgetScope != null) {
                 targetWidgetId = widgetScope.getClientWidgetId();
-            } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null) {
+            } else if (context instanceof PageContext && ((PageContext) context).getResultWidgetId() != null && pageScope != null) {
                 targetWidgetId = pageScope.getGlobalWidgetId(((PageContext) context).getResultWidgetId());
             } else {
                 throw new N2oException("Unknown widgetId for invoke action!");

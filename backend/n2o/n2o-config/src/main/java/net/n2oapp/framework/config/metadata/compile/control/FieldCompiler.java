@@ -67,44 +67,11 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      * @param source исходная модель поля
      */
     protected void compileDependencies(Field field, S source, CompileContext<?, ?> context, CompileProcessor p) {
-
         if (source.getDependencies() != null) {
             for (N2oField.Dependency d : source.getDependencies()) {
-                ControlDependency dependency = null;
-                if (d instanceof N2oField.FetchValueDependency) {
-                    dependency = new FetchValueDependency();
-                    dependency.setType(ValidationType.fetchValue);
-                    ((FetchValueDependency) dependency)
-                            .setValueFieldId(p.cast(((N2oField.FetchValueDependency) d).getValueFieldId(), "name"));
-                    ((FetchValueDependency) dependency).setDataProvider(compileDataProvider((N2oField.FetchValueDependency) d, context, p));
-                } else {
-                    dependency = new ControlDependency();
-                    if (d instanceof N2oField.EnablingDependency)
-                        dependency.setType(ValidationType.enabled);
-                    else if (d instanceof N2oField.RequiringDependency)
-                        dependency.setType(ValidationType.required);
-                    else if (d instanceof N2oField.VisibilityDependency) {
-                        dependency.setType(ValidationType.visible);
-                        Boolean isResettable = p.cast(((N2oField.VisibilityDependency) d).getReset(),
-                                p.resolve(property("n2o.api.control.visibility.auto_reset"), Boolean.class));
-                        if (isResettable) {
-                            ControlDependency reset = new ControlDependency();
-                            reset.setType(ValidationType.reset);
-                            reset.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
-                            addToField(reset, field, d, p);
-                        }
-                    } else if (d instanceof N2oField.SetValueDependency)
-                        dependency.setType(ValidationType.setValue);
-                    else if (d instanceof N2oField.FetchDependency)
-                        dependency.setType(ValidationType.fetch);
-                    else if (d instanceof N2oField.ResetDependency) {
-                        dependency.setType(ValidationType.reset);
-                        if (d.getValue() == null) {
-                            d.setValue(String.valueOf(Boolean.TRUE));
-                        }
-                    }
-                    dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
-                }
+                ControlDependency dependency = d instanceof N2oField.FetchValueDependency ?
+                        compileFetchDependency(d, context, p) :
+                        compileControlDependency(field, d, p);
                 addToField(dependency, field, d, p);
             }
         }
@@ -136,7 +103,45 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
     }
 
-    private ClientDataProvider compileDataProvider(N2oField.FetchValueDependency field, CompileContext<?, ?> context, CompileProcessor p) {
+    private ControlDependency compileControlDependency(Field field, N2oField.Dependency d, CompileProcessor p) {
+        ControlDependency dependency = new ControlDependency();
+        if (d instanceof N2oField.EnablingDependency)
+            dependency.setType(ValidationType.enabled);
+        else if (d instanceof N2oField.RequiringDependency)
+            dependency.setType(ValidationType.required);
+        else if (d instanceof N2oField.VisibilityDependency) {
+            dependency.setType(ValidationType.visible);
+            Boolean isResettable = p.cast(((N2oField.VisibilityDependency) d).getReset(),
+                    p.resolve(property("n2o.api.control.visibility.auto_reset"), Boolean.class));
+            if (Boolean.TRUE.equals(isResettable)) {
+                ControlDependency reset = new ControlDependency();
+                reset.setType(ValidationType.reset);
+                reset.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
+                addToField(reset, field, d, p);
+            }
+        } else if (d instanceof N2oField.SetValueDependency)
+            dependency.setType(ValidationType.setValue);
+        else if (d instanceof N2oField.FetchDependency)
+            dependency.setType(ValidationType.fetch);
+        else if (d instanceof N2oField.ResetDependency) {
+            dependency.setType(ValidationType.reset);
+            if (d.getValue() == null) {
+                d.setValue(String.valueOf(Boolean.TRUE));
+            }
+        }
+        dependency.setExpression(ScriptProcessor.resolveFunction(d.getValue()));
+        return dependency;
+    }
+
+    private FetchValueDependency compileFetchDependency(N2oField.Dependency d, CompileContext<?, ?> context, CompileProcessor p) {
+        FetchValueDependency dependency = new FetchValueDependency();
+        dependency.setType(ValidationType.fetchValue);
+        dependency.setValueFieldId(p.cast(((N2oField.FetchValueDependency) d).getValueFieldId(), "name"));
+        dependency.setDataProvider(compileFetchDependencyDataProvider((N2oField.FetchValueDependency) d, context, p));
+        return dependency;
+    }
+
+    private ClientDataProvider compileFetchDependencyDataProvider(N2oField.FetchValueDependency field, CompileContext<?, ?> context, CompileProcessor p) {
         QueryContext queryContext = new QueryContext(field.getQueryId());
         ModelsScope modelsScope = p.getScope(ModelsScope.class);
         queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
@@ -145,8 +150,10 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         p.addRoute(new QueryContext(field.getQueryId(), route));
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
-        dataProvider.setTargetModel(modelsScope.getModel());
-        dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
+        if (modelsScope != null) {
+            dataProvider.setTargetModel(modelsScope.getModel());
+            dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
+        }
         dataProvider.setUrl(route);
 
         N2oPreFilter[] preFilters = field.getPreFilters();
