@@ -80,12 +80,6 @@ class N2OSelect extends React.Component {
       if (!isEqual(nextProps.value, value)) {
         if (nextProps.value) {
           selected = [nextProps.value];
-          // const nextSelected = selectItem(
-          //   options,
-          //   valueFieldId,
-          //   nextProps.value
-          // );
-          // selected = [nextSelected];
         } else {
           selected = [];
         }

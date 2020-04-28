@@ -4,8 +4,8 @@ import isString from 'lodash/isString';
 import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import has from 'lodash/has';
-import head from "lodash/head";
-import filter from "lodash/filter";
+import head from 'lodash/head';
+import filter from 'lodash/filter';
 
 export const UNKNOWN_GROUP_FIELD_ID = '';
 
@@ -97,6 +97,3 @@ export const getNextId = (data, currentId, valueFieldId, selected, disabled) =>
 
 export const getPrevId = (data, currentId, valueFieldId, selected, disabled) =>
   getIdByDistance(data, currentId, -1, valueFieldId, selected, disabled);
-
-export const selectItem = (options, valueFieldId, value) =>
-  head(filter(options, obj => obj[valueFieldId] === value[valueFieldId]));
