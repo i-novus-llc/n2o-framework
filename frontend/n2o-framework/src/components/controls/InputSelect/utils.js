@@ -4,8 +4,6 @@ import isString from 'lodash/isString';
 import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import has from 'lodash/has';
-import head from 'lodash/head';
-import filter from 'lodash/filter';
 
 export const UNKNOWN_GROUP_FIELD_ID = '';
 

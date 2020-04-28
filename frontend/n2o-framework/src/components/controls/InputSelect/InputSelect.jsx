@@ -13,7 +13,6 @@ import isEmpty from 'lodash/isEmpty';
 import Alert from '../../snippets/Alerts/Alert';
 import { Manager, Reference, Popper } from 'react-popper';
 import { MODIFIERS } from '../DatePicker/utils';
-import { selectItem } from './utils';
 
 /**
  * InputSelect
