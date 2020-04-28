@@ -23,10 +23,7 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static net.n2oapp.framework.mvc.n2o.N2oServlet.USER;
 
@@ -65,7 +62,7 @@ public abstract class AbstractController {
                 .get(actionCtx, queryData);
         CompiledObject.Operation operation = object.getOperations().get(actionCtx.getOperationId());
 
-        DataSet bodyData = convertToDataSet(body);
+        DataSet bodyData = convertToDataSet(body, actionCtx.getOperationMapping());
         putParams(headerParams, bodyData, actionCtx.getOperationMapping());
         putParams(queryParams, bodyData, actionCtx.getOperationMapping());
 
@@ -101,10 +98,17 @@ public abstract class AbstractController {
         }
     }
 
-    private DataSet convertToDataSet(Object body) {
-        if (body instanceof DataSet)
-            return (DataSet) body;
-        return new DataSet((Map<? extends String, ?>) body);
+    private DataSet convertToDataSet(Object body, Map<String, String> mapping) {
+        DataSet result = (body instanceof DataSet) ? result = (DataSet) body :
+                new DataSet((Map<? extends String, ?>) body);
+        if (mapping != null) {
+            for (Map.Entry<String, String> entry : mapping.entrySet()) {
+                if (!result.containsKey(entry.getValue()) || result.containsKey(entry.getKey())) {
+                    result.put(entry.getValue(), result.get(entry.getKey()));
+                }
+            }
+        }
+        return result;
     }
 
     private void prepareSelectedId(QueryRequestInfo requestInfo) {
