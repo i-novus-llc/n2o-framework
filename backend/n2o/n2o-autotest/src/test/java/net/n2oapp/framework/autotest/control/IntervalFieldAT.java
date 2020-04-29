@@ -1,9 +1,9 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.component.control.DateInput;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.IntervalField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.impl.component.control.N2oDateInput;
-import net.n2oapp.framework.autotest.impl.component.control.N2oInputText;
-import net.n2oapp.framework.autotest.impl.component.field.N2oIntervalField;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -42,22 +42,32 @@ public class IntervalFieldAT extends AutoTestBase {
     public void testInput() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        N2oIntervalField interval = page.single().widget(N2oFormWidget.class).fields().field("Интервал", N2oIntervalField.class);
-        N2oInputText inputBegin = interval.begin(N2oInputText.class);
-        N2oInputText inputEnd = interval.end(N2oInputText.class);
+        IntervalField interval = page.single().widget(N2oFormWidget.class).fields().field("Интервал", IntervalField.class);
+        InputText inputBegin = interval.begin(InputText.class);
+        InputText inputEnd = interval.end(InputText.class);
+
         inputBegin.shouldHaveValue("5");
+        inputBegin.clickPlusStepButton();
+        inputBegin.shouldHaveValue("6");
+
         inputEnd.shouldHaveValue("10");
         inputEnd.clickPlusStepButton();
+        inputEnd.shouldHaveValue("10");
+        inputEnd.clickMinusStepButton();
+        inputEnd.shouldHaveValue("9");
     }
 
     @Test
     public void testIntervalWithDate() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        N2oIntervalField interval = page.single().widget(N2oFormWidget.class).fields().field("Дата", N2oIntervalField.class);
-        N2oDateInput inputBegin = interval.begin(N2oDateInput.class);
-        N2oDateInput inputEnd = interval.end(N2oDateInput.class);
+        IntervalField interval = page.single().widget(N2oFormWidget.class).fields().field("Дата", IntervalField.class);
+        DateInput inputBegin = interval.begin(DateInput.class);
+        DateInput inputEnd = interval.end(DateInput.class);
+
         inputBegin.shouldHaveValue("21.11.1999");
         inputEnd.shouldHaveValue("");
+        inputEnd.val("29042020");
+        inputEnd.shouldHaveValue("29.04.2020");
     }
 }

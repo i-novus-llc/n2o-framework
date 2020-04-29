@@ -12,10 +12,10 @@
             </interval-field>
             <interval-field id="dataTime" label="Дата">
                 <begin>
-                    <date-time id="dataBegin" default-value="21.11.1999" date-format="DD.MM.YYYY"/>
+                    <date-time id="dataBegin" default-value="1999-11-21T00:00:00" date-format="DD.MM.YYYY"/>
                 </begin>
                 <end>
-                    <date-time id="dataEnd"/>
+                    <date-time id="dataEnd" date-format="DD.MM.YYYY"/>
                 </end>
             </interval-field>
         </fields>
