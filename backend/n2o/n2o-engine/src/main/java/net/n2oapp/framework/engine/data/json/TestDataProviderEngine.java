@@ -204,7 +204,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             return data;
         }
         for (String filter : filters) {
-            if (filter.contains(":eq"))
+            if (filter.contains(":eqOrIsNull"))
+                data = eqOrIsNullFilterData(filter, inParams, data);
+            else if (filter.contains(":eq"))
                 data = eqFilterData(filter, inParams, data);
             else if (filter.contains(":like"))
                 data = likeFilterData(filter, inParams, data);
@@ -334,6 +336,24 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         return data.stream()
                 .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) != null)
                 .collect(Collectors.toList());
+    }
+
+    private List<DataSet> eqOrIsNullFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
+        String[] splittedFilter = filter.replace(" ", "").split(":eqOrIsNull");
+        Object pattern = inParams.get(splittedFilter[1].replace(":", ""));
+        if (pattern != null) {
+            data = data
+                    .stream()
+                    .filter(m -> {
+                        if (m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) == null)
+                            return true;
+                        if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number)
+                            return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).equals(((Number) pattern).longValue());
+                        return m.get(splittedFilter[0]).toString().equals(pattern.toString());
+                    })
+                    .collect(Collectors.toList());
+        }
+        return data;
     }
 
     private void sort(List<String> sortings, Map<String, Object> inParams, List<DataSet> data) {
