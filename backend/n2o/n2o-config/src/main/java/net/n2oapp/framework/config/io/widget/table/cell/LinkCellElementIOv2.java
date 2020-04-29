@@ -7,30 +7,28 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
 import org.jdom.Element;
-import org.jdom.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
- *Чтение\запись ячейки со ссылкой
+ * Чтение\запись ячейки с ссылкой
  */
 @Component
 public class LinkCellElementIOv2 extends AbstractCellElementIOv2<N2oLinkCell> {
-    private Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
 
     @Override
     public void io(Element e, N2oLinkCell c, IOProcessor p) {
-        super.io(e,c,p);
+        super.io(e, c, p);
         p.attribute(e, "action-id", c::getActionId, c::setActionId);
         p.attribute(e, "icon", c::getIcon, c::setIcon);
         p.attributeEnum(e, "type", c::getType, c::setType, IconType.class);
         p.attribute(e, "url", c::getUrl, c::setUrl);
         p.attributeEnum(e, "target", c::getTarget, c::setTarget, Target.class);
-        p.anyChild(e, null, c::getAction, c::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
+        p.anyChild(e, null, c::getAction, c::setAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
     }
 
     @Override
     public String getElementName() {
-        return "link" ;
+        return "link";
     }
 
     @Override

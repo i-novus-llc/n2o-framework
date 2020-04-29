@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import unset from 'lodash/unset';
+import isUndefined from 'lodash/isUndefined';
 import isEqual from 'lodash/isEqual';
 import {
   compose,
@@ -12,7 +13,9 @@ import {
   setDisplayName,
 } from 'recompose';
 import withCell from '../../withCell';
+import withTooltip from '../../withTooltip';
 import CheckboxN2O from '../../../../controls/Checkbox/CheckboxN2O';
+import cn from 'classnames';
 
 function CheckboxCell({
   model,
@@ -72,6 +75,7 @@ export { CheckboxCell };
 export default compose(
   setDisplayName('CheckboxCell'),
   withCell,
+  withTooltip,
   withState(
     'checked',
     'setChecked',

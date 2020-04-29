@@ -25,20 +25,26 @@ public class N2oInputText extends N2oControl implements InputText {
 
     @Override
     public void val(String value) {
+        inputElement().click();
         inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
-        inputElement().pressEnter();
     }
 
     @Override
     public void shouldHaveValue(String value) {
         SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldHave(Condition.value(value));
-        else cellInputElement().shouldHave(Condition.text(value));
+        if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.value(value));
+        else cellInputElement().shouldHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.text(value));
     }
 
     @Override
     public void shouldHavePlaceholder(String placeholder) {
-        element().shouldHave(Condition.attribute("placeholder", placeholder));
+        Condition condition = Condition.attribute("placeholder", placeholder);
+
+        SelenideElement elm = inputElement();
+        if (elm.exists()) elm.shouldHave(condition);
+        else cellInputElement().shouldHave(condition);
     }
 
     @Override
@@ -51,11 +57,29 @@ public class N2oInputText extends N2oControl implements InputText {
         element().parent().$$(".n2o-input-number-buttons button").get(1).click();
     }
 
+    @Override
+    public void shouldHaveMeasure() {
+        inputMeasure().should(Condition.exist);
+    }
+
+    @Override
+    public void measureShouldHaveText(String text) {
+        inputMeasure().shouldHave(Condition.text(text));
+    }
+
     private SelenideElement inputElement() {
+        element().shouldBe(Condition.exist);
         return element().parent().$(".n2o-input");
     }
 
     private SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
+    }
+
+    private SelenideElement inputMeasure() {
+        SelenideElement elm = element().parent();
+        if (elm.is(Condition.cssClass("n2o-input-number")))
+            elm = elm.parent();
+        return elm.$(".n2o-control-container-placeholder");
     }
 }

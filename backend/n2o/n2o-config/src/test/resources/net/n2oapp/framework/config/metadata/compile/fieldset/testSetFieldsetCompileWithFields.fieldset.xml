@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-4.0">
+<set xmlns="http://n2oapp.net/framework/config/schema/fieldset-4.0" label="set">
     <input-text id="testInput1"/>
     <input-text id="testInput2"/>
     <input-text id="testInput3"/>

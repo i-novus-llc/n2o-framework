@@ -20,8 +20,9 @@ public class N2oDateInput extends N2oControl implements DateInput {
     @Override
     public void shouldHaveValue(String value) {
         SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldHave(Condition.value(value));
-        else cellInputElement().shouldHave(Condition.text(value));
+        if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ? Condition.empty : Condition.value(value));
+        else cellInputElement().shouldHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.text(value));
     }
 
     @Override
@@ -101,7 +102,17 @@ public class N2oDateInput extends N2oControl implements DateInput {
         element().$(".n2o-calendar-header .fa-angle-right").click();
     }
 
+    @Override
+    public void shouldHavePlaceholder(String value) {
+        Condition condition = Condition.attribute("placeholder", value);
+
+        SelenideElement elm = inputElement();
+        if (elm.exists()) elm.shouldHave(condition);
+        else cellInputElement().shouldHave(condition);
+    }
+
     private SelenideElement inputElement() {
+        element().shouldBe(Condition.exist);
         return element().$(".n2o-date-input input");
     }
 

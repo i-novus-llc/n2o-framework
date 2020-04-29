@@ -3,6 +3,9 @@ package net.n2oapp.framework.autotest.impl.component.cell;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 
+/**
+ * Ячейка таблицы с Checkbox для автотестирования
+ */
 public class N2oCheckboxCell extends N2oCell implements CheckboxCell {
     @Override
     public boolean isChecked() {
@@ -13,7 +16,7 @@ public class N2oCheckboxCell extends N2oCell implements CheckboxCell {
     public void setChecked(boolean val) {
         //FIXME element().shouldBe(Condition.exist).setSelected(value);
         if (val != isChecked())
-            element().shouldBe(Condition.exist).$(".n2o-checkbox").click(-5,0);
+            element().shouldBe(Condition.exist).$(".n2o-checkbox .n2o-input").click();
     }
 
     @Override

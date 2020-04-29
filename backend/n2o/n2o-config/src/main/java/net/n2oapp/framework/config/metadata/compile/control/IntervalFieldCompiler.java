@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IntervalFieldCompiler<C extends Control, S extends N2oIntervalField> extends FieldCompiler<IntervalField<C>, S> {
+public class IntervalFieldCompiler<C extends Control, S extends N2oField> extends FieldCompiler<IntervalField<C>, S> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oIntervalField.class;
@@ -31,21 +31,24 @@ public class IntervalFieldCompiler<C extends Control, S extends N2oIntervalField
         initValidations(source, field, context, p);
         compileFilters(source, p);
         compileCopied(source, p);
-        field.setBeginControl(compileControl(field, source, p, context, source.getBegin(), "begin").getControl());
-        field.setEndControl(compileControl(field, source, p, context, source.getEnd(), "end").getControl());
+        String id = field.getId();
+        field.setId(id + ".begin");
+        field.setBeginControl(compileControl(field, p, context, ((N2oIntervalField) source).getBegin()).getControl());
+        field.setId(id + ".end");
+        field.setEndControl(compileControl(field, p, context, ((N2oIntervalField) source).getEnd()).getControl());
+        field.setId(id);
         return field;
     }
 
-    private StandardField<C> compileControl(IntervalField<C> field, S source, CompileProcessor p,
-                                            CompileContext<?, ?> context, N2oField subField, String beginOrEnd) {
+    private StandardField<C> compileControl(IntervalField<C> field, CompileProcessor p,
+                                            CompileContext<?, ?> context, N2oField subField) {
 
-        compileDefaultValues(subField.getDefaultValue(), subField.getDomain(), source.getId() + "." + beginOrEnd,
-                source, p);
+        compileDefaultValues(field, (S) subField, p);
         subField.setDefaultValue(null);
         StandardField<C> standardField = p.compile(subField, context);
 
         if (standardField.getDependencies() != null)
-            standardField.getDependencies().forEach(f -> field.addDependency(f));
+            standardField.getDependencies().forEach(field::addDependency);
         return standardField;
     }
 }

@@ -131,7 +131,8 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public <D extends Compiled> void bind(D compiled) {
-        bindPipeline.get(compiled, context, params);
+        if (compiled != null)
+            bindPipeline.get(compiled, context, params);
     }
 
 
@@ -211,6 +212,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
+    public boolean canResolveParam(String param) {
+        return params != null && params.containsKey(param);
+    }
+
+    @Override
     public Object resolveJS(String text, Class<?> clazz) {
         String value = ScriptProcessor.resolveLinks(text);
         return env.getDomainProcessor().deserialize(value, clazz);
@@ -263,15 +269,26 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         }
         if (res.isPresent()) {
             Object value = params.get(res.get());
-            if (value instanceof String)
-                value = resolveText((String) value);
-            if (value != null) {
-                BindLink resultLink = link instanceof ModelLink ? new ModelLink((ModelLink) link) : new BindLink(link.getBindLink());
-                resultLink.setValue(value);
-                return resultLink;
-            }
+            BindLink resultLink = createLink(link, value);
+            if (resultLink != null) return resultLink;
+        }
+        if (link instanceof ModelLink && ((ModelLink) link).getParam() != null) {
+            Object value = params.get(((ModelLink) link).getParam());
+            BindLink resultLink = createLink(link, value);
+            if (resultLink != null) return resultLink;
         }
         return link;
+    }
+
+    private BindLink createLink(BindLink link, Object value) {
+        if (value instanceof String)
+            value = resolveText((String) value);
+        if (value != null) {
+            BindLink resultLink = link instanceof ModelLink ? new ModelLink((ModelLink) link) : new BindLink(link.getBindLink());
+            resultLink.setValue(value);
+            return resultLink;
+        }
+        return null;
     }
 
     @Override

@@ -6,7 +6,7 @@ import net.n2oapp.framework.autotest.api.component.control.MaskedInputControl;
 import org.openqa.selenium.Keys;
 
 /**
- * Ввод текста для автотестирования
+ * Ввод текста с маской для автотестирования
  */
 public class N2oMaskedInputControl extends N2oControl implements MaskedInputControl {
 
@@ -31,16 +31,42 @@ public class N2oMaskedInputControl extends N2oControl implements MaskedInputCont
 
     @Override
     public void shouldHaveValue(String value) {
-        SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldHave(Condition.value(value));
-        else cellInputElement().shouldHave(Condition.text(value));
+        SelenideElement elm = element().parent().$(".n2o-input-mask");
+        if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.value(value));
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.text(value));
+    }
+
+    @Override
+    public void shouldHavePlaceholder(String value) {
+        Condition condition = Condition.attribute("placeholder", value);
+
+        SelenideElement elm = element().parent().$(".n2o-input-mask");
+        if (elm.exists()) elm.shouldHave(condition);
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(condition);
+    }
+
+    @Override
+    public void shouldHaveMeasure() {
+        inputMeasure().should(Condition.exist);
+    }
+
+    @Override
+    public void measureShouldHaveText(String text) {
+        inputMeasure().shouldHave(Condition.text(text));
     }
 
     private SelenideElement inputElement() {
+        element().shouldBe(Condition.exist);
         return element().parent().$(".n2o-input-mask");
     }
 
     private SelenideElement cellInputElement() {
         return element().$(".n2o-editable-cell .n2o-editable-cell-text");
+    }
+
+    private SelenideElement inputMeasure() {
+        return element().parent().$(".n2o-control-container-placeholder");
     }
 }

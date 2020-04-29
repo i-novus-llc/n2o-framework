@@ -174,7 +174,12 @@ describe('Тестирование саги', () => {
     expect(gen.next().done).toBe(false);
   });
   it('Проверка модификатора зависимостей', () => {
-    let gen = setupModify(mockData);
+    let gen = setupModify({
+      ...mockData,
+      values: {
+        field2: 'sadsa',
+      },
+    });
     expect(gen.next().value).toEqual(
       put(hideField(mockData.formName, mockData.fields.field1.name))
     );
@@ -190,7 +195,7 @@ describe('Тестирование саги', () => {
     let gen;
     /* Enabled */
     set(mockData, 'fields.field1.dependency[0].type', 'enabled');
-    gen = setupModify(mockData);
+    gen = setupModify({ ...mockData, values: { field2: 'test' } });
     expect(gen.next().value).toEqual(
       put(enableField(mockData.formName, mockData.fields.field1.name))
     );

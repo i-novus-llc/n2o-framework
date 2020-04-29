@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.widget;
 
+import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.snippet.Snippet;
 
@@ -9,5 +10,7 @@ import net.n2oapp.framework.autotest.api.component.snippet.Snippet;
 public interface FormWidget extends StandardWidget {
     Fields fields();
 
-    <T extends Snippet> T snippet(Class<T> componentClass);
+    FieldSets fieldsets();
+
+    <T extends Snippet> T snippet(int index, Class<T> componentClass);
 }

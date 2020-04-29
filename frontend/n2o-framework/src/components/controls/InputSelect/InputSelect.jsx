@@ -583,9 +583,9 @@ class InputSelect extends React.Component {
             <Popper
               placement="bottom-start"
               modifiers={MODIFIERS}
-              positionFixed={true}
+              strategy="fixed"
             >
-              {({ ref, style, placement, scheduleUpdate }) => (
+              {({ ref, style, placement, update }) => (
                 <div
                   ref={ref}
                   style={{
@@ -597,7 +597,7 @@ class InputSelect extends React.Component {
                   className="n2o-pop-up"
                 >
                   <PopupList
-                    scheduleUpdate={scheduleUpdate}
+                    scheduleUpdate={update}
                     loading={loading}
                     isExpanded={this.state.isExpanded}
                     activeValueId={this.state.activeValueId}
@@ -614,7 +614,10 @@ class InputSelect extends React.Component {
                     imageFieldId={imageFieldId}
                     badgeFieldId={badgeFieldId}
                     badgeColorFieldId={badgeColorFieldId}
-                    onSelect={this._handleItemSelect}
+                    onSelect={item => {
+                      this._handleItemSelect(item);
+                      update();
+                    }}
                     selected={this.state.value}
                     disabledValues={disabledValues}
                     groupFieldId={groupFieldId}

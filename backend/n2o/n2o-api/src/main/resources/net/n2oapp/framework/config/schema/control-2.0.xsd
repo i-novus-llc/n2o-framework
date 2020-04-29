@@ -13,6 +13,7 @@
     <xs:element name="code-editor" type="controlCodeEditor"/>
     <xs:element name="code" type="controlCodeViewer"/>
     <xs:element name="input-text" type="controlInputTextDefinition"/>
+    <xs:element name="input-money" type="controlInputMoneyDefinition"/>
     <xs:element name="output-text" type="controlOutputTextDefinition"/>
     <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
     <xs:element name="checkbox" type="controlCheckboxDefinition"/>
@@ -35,6 +36,8 @@
     <xs:element name="rating" type="controlRating"/>
     <xs:element name="alert" type="controlAlertDefinition"/>
     <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
+    <xs:element name="progress" type="controlProgressDefinition"/>
+    <xs:element name="status" type="controlStatusDefinition"/>
     <xs:element name="button" type="btn:buttonDefinition"/>
     <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
 
@@ -69,6 +72,8 @@
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
             <xs:element name="alert" type="controlAlertDefinition" minOccurs="0"/>
             <xs:element name="auto-complete" type="controlAutoCompleteDefinition" minOccurs="0"/>
+            <xs:element name="progress" type="controlProgressDefinition" minOccurs="0"/>
+            <xs:element name="status" type="controlStatusDefinition" minOccurs="0"/>
             <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
             <xs:element name="interval-field" type="controlRangeFieldDefinition" minOccurs="0"/>
         </xs:sequence>
@@ -163,6 +168,11 @@
                 <xs:attribute name="default-value" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Зависимость от полей</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -271,6 +281,11 @@
                         <xs:documentation>Возможность поиска по значению</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -294,6 +309,16 @@
                         </xs:complexType>
                     </xs:element>
                 </xs:sequence>
+                <xs:attribute name="begin-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию начала интервала</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="end-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию конца интервала</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -309,7 +334,7 @@
     <xs:complexType name="controlDependenciesDefinition" abstract="true">
         <xs:sequence>
             <xs:element name="enabling" type="baseDependencyDefinition" minOccurs="0"/>
-            <xs:element name="visibility" type="visibilityDependencyDefinition" minOccurs="0"/>
+            <xs:element name="visibility" type="controlVisibilityDependencyDefinition" minOccurs="0"/>
             <xs:element name="set-value" type="baseDependencyDefinition" minOccurs="0"/>
             <xs:element name="requiring" type="baseDependencyDefinition" minOccurs="0"/>
             <xs:element name="fetch" type="baseDependencyDefinition" minOccurs="0"/>
@@ -324,9 +349,25 @@
 
     <xs:complexType name="controlToolbarDefinition" abstract="true">
         <xs:sequence>
-            <xs:element name="button" type="controlToolbarButtonDefinition"/>
+            <xs:element name="button" type="controlToolbarButtonDefinition" minOccurs="0"/>
+            <xs:element name="sub-menu" type="controlSubmenuDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
+
+
+    <xs:complexType name="controlSubmenuDefinition">
+        <xs:annotation>
+            <xs:documentation>Кнопка с выпадающим меню.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="btn:subMenuDefinitionAbstract">
+                <xs:sequence>
+                    <xs:element name="menu-item" type="btn:menuItemDefinition" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 
     <xs:complexType name="controlOptionsListInlineDefinition">
         <xs:complexContent>
@@ -440,6 +481,11 @@
                 <xs:attribute name="mask" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Маска текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="measure" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Единица измерения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -646,6 +692,43 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="controlProgressDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="max" type="xs:integer" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Максимальное значение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="bar-text" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Описание шкалы прогресса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="animated" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Включает анимацию. При включении отображает полоски.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="striped" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Отображение полосок на шкале прогресса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет шкалы прогресса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="bar-class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Класс шкалы прогресса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="fieldCustom">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
@@ -709,6 +792,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="measure" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Единица измерения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -740,12 +828,36 @@
     <xs:complexType name="controlInputMoneyDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="suffix" type="xs:string"/>
-                <xs:attribute name="prefix" type="xs:string"/>
-                <xs:attribute name="thousands-separator" type="xs:string"/>
-                <xs:attribute name="decimal-separator" type="xs:string"/>
-                <xs:attribute name="integer-limit" type="xs:integer"/>
-                <xs:attribute name="fraction-formatting" type="fractionFormattingType" default="off"/>
+                <xs:attribute name="suffix" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Суффикс.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="prefix" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Префикс.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="thousands-separator" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Знак, отделяющий группу из трех разрядов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="decimal-separator" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Знак, отделяющий дробную часть.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="integer-limit" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ограничение по количеству знаков целой части.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fraction-formatting" type="fractionFormattingType" default="off">
+                    <xs:annotation>
+                        <xs:documentation>Форматирование дробной части.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -779,6 +891,31 @@
                 <xs:attribute name="format" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Формат выводимого текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlStatusDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:annotation>
+                    <xs:documentation>Компонент отображения статуса.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет индикатора.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Текст статуса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text-position" type="positionType" default="right">
+                    <xs:annotation>
+                        <xs:documentation>Расположение текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -916,6 +1053,9 @@
     <xs:complexType name="controlSelectDefinition">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
+                <xs:annotation>
+                    <xs:documentation>Компонент выбора из выпадающего списка.</xs:documentation>
+                </xs:annotation>
                 <xs:attribute name="type" type="inputSelectType">
                     <xs:annotation>
                         <xs:documentation>Тип выбора в выпадающем списке.</xs:documentation>
@@ -924,6 +1064,31 @@
                 <xs:attribute name="cleanable" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Опция очистки компонента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-format" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Все варианты select-format будут работать только когда тип checkboxes.
+                            Нужно использовать либо универсальный заголовок, либо 3 вида
+                            заголовков при разном числе элементов.
+                            Если не задать ни один, то число выбранных элементов не будет отображаться
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-format-one" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при одном элементе.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-format-few" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при нескольких элементах.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-format-many" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при большом числе элементов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1227,10 +1392,10 @@
         <xs:attribute name="apply-on-init" type="xs:boolean" default="true"/>
     </xs:complexType>
 
-    <xs:complexType name="visibilityDependencyDefinition" abstract="true">
+    <xs:complexType name="controlVisibilityDependencyDefinition" abstract="true">
         <xs:complexContent>
             <xs:extension base="baseDependencyDefinition">
-                <xs:attribute name="reset" type="xs:boolean" default="true">
+                <xs:attribute name="reset" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Сбросить значение при срабатывании зависимости.</xs:documentation>
                     </xs:annotation>
@@ -1297,11 +1462,6 @@
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>CSS стиль</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="action-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Действие виджета, которое будет вызвано при нажатии</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="model" type="clientModel">

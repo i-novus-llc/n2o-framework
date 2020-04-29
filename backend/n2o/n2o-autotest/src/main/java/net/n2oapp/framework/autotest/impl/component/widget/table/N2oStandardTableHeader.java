@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.widget.table;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
 
 /**
@@ -8,13 +9,22 @@ import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHea
  */
 public class N2oStandardTableHeader extends N2oTableHeader implements StandardTableHeader {
     @Override
-    public void titleShouldHave(Condition condition) {
-        element().shouldHave(condition);
+    public void shouldHaveTitle(String title) {
+        element().shouldHave(Condition.text(title));
+    }
+
+    @Override
+    public void shouldNotHaveTitle() {
+        element().shouldBe(Condition.empty);
     }
 
     @Override
     public void click() {
-        element().$("a").should(Condition.exist).click();
+        SelenideElement elm = element().$(".n2o-checkbox");
+        if (elm.exists())
+            elm.click();
+        else
+            element().$("a").should(Condition.exist).click();
     }
 
     @Override

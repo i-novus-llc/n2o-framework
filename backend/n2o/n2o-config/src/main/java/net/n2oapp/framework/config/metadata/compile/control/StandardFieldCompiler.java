@@ -10,6 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 
+
 /**
  * Абстрактная реализация компиляции поля ввода
  */
@@ -34,7 +35,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         control.setId(source.getId());
         control.setClassName(p.resolveJS(source.getCssClass()));
         control.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        compileDefaultValues(source.getDefaultValue(), source.getDomain(), control.getId(), source, p);
+        compileDefaultValues(field, source, p);
     }
 
     @Override
@@ -57,4 +58,5 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
      * Настройка React компонента ввода по умолчанию
      */
     protected abstract String getControlSrcProperty();
+
 }

@@ -14,10 +14,13 @@ public abstract class N2oAbstractTable extends N2oAbstractListWidget {
     private Boolean alwaysShowCount;
     private Boolean hasCheckboxes;
     private Boolean autoSelect;
-    private Boolean selected;
+    private RowSelectionEnum selection;
     private Size tableSize;
     private String scrollX;
     private String scrollY;
+    private Boolean checkboxes;
+    private Boolean checkOnSelect;
+    private String cssClass;
 
     public enum PagingMode {
         on, off, lazy
