@@ -246,7 +246,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         String[] splittedFilter = filter.replace(" ", "").split(":like");
         String pattern = inParams.get(splittedFilter[1].replace(":", "")).toString();
         if (pattern != null) {
-            return data
+            data = data
                     .stream()
                     .filter(m -> {
                         if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
@@ -264,7 +264,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         Object paramsValue = inParams.get(splittedFilter[1].replace(":", ""));
         List patterns = paramsValue instanceof List ? (List) paramsValue : Arrays.asList(paramsValue);
         if (patterns != null) {
-            return data
+            data = data
                     .stream()
                     .filter(m -> {
                         if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
@@ -289,7 +289,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         String[] splittedFilter = filter.replace(" ", "").split(":less");
         Comparable pattern = (Comparable) inParams.get(splittedFilter[1].replace(":", ""));
         if (pattern != null) {
-            return data
+            data = data
                     .stream()
                     .filter(m -> {
                         if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
@@ -308,7 +308,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         String[] splittedFilter = filter.replace(" ", "").split(":more");
         Comparable pattern = (Comparable) inParams.get(splittedFilter[1].replace(":", ""));
         if (pattern != null) {
-            return data
+            data = data
                     .stream()
                     .filter(m -> {
                         if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
