@@ -10,7 +10,7 @@ import net.n2oapp.framework.autotest.api.component.cell.BadgeCell;
 public class N2oBadgeCell extends N2oCell implements BadgeCell {
     @Override
     public void colorShouldBe(Colors color) {
-        element().$(".badge").shouldBe(Condition.cssClass("badge-" + color.name().toLowerCase()));
+        element().$(".badge").shouldBe(Condition.cssClass(color.name("badge-")));
     }
 
     @Override

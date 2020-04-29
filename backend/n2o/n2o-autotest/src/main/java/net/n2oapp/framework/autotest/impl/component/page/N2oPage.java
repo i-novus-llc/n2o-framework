@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.page;
 import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
@@ -36,6 +37,11 @@ public class N2oPage extends N2oComponent implements Page {
     @Override
     public Tooltip tooltip() {
         return new N2oTooltip(element().$(".list-text-cell__tooltip-container"));
+    }
+
+    @Override
+    public Alerts alerts() {
+        return N2oSelenide.collection(element().$$(".n2o-alerts .n2o-alert"), Alerts.class);
     }
 
     @Override

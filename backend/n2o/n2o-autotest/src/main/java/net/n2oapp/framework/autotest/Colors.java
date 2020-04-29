@@ -12,5 +12,9 @@ public enum Colors {
     INFO,
     LIGHT,
     MUTED,
-    WHITE
+    WHITE;
+
+    public String name(String prefix) {
+        return prefix + name().toLowerCase();
+    }
 }

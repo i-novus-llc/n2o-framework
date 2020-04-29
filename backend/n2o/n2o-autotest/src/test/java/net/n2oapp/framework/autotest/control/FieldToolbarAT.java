@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
@@ -69,7 +69,8 @@ public class FieldToolbarAT extends AutoTestBase {
 
         fields.field("id").control(InputText.class).val("test");
         toolbar.button("Показать текст").click();
-        page.element().$("div.n2o-alerts div.n2o-alert-body-text").shouldBe(Condition.text("test"));
+        page.alerts().alert(0).shouldHaveColor(Colors.SUCCESS);
+        page.alerts().alert(0).shouldHaveText("test");
 
         toolbar.button("Открыть модальное окно").click();
         Modal modal = N2oSelenide.modal();
@@ -110,7 +111,8 @@ public class FieldToolbarAT extends AutoTestBase {
         fields.field("sub").control(InputText.class).val("notForShow");
         dropdownButton.click();
         dropdownButton.menuItem("Показать текст").click();
-        page.element().$("div.n2o-alerts div.n2o-alert-body-text").shouldBe(Condition.text("test"));
+        page.alerts().alert(0).shouldHaveColor(Colors.SUCCESS);
+        page.alerts().alert(0).shouldHaveText("test");
 
         dropdownButton.menuItem("Открыть модальное окно").click();
         Modal modal = N2oSelenide.modal();

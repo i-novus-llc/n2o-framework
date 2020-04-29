@@ -10,6 +10,7 @@ import net.n2oapp.framework.autotest.impl.component.button.N2oStandardButton;
 import net.n2oapp.framework.autotest.impl.component.cell.*;
 import net.n2oapp.framework.autotest.impl.component.control.*;
 import net.n2oapp.framework.autotest.impl.component.drawer.N2oDrawer;
+import net.n2oapp.framework.autotest.impl.collection.N2oAlerts;
 import net.n2oapp.framework.autotest.impl.component.field.N2oStandardField;
 import net.n2oapp.framework.autotest.impl.component.fieldset.N2oMultiFieldSet;
 import net.n2oapp.framework.autotest.impl.component.fieldset.N2oMultiFieldSetItem;
@@ -67,6 +68,6 @@ public class N2oComponentLibrary implements ComponentLibrary {
     @Override
     public List<Class<? extends ComponentsCollection>> collections() {
         return Arrays.asList(N2oCells.class, N2oControls.class, N2oFields.class, N2oRegions.class, N2oTableHeaders.class,
-                N2oToolbar.class, N2oWidgets.class, Menu.class, N2oFieldSets.class);
+                N2oToolbar.class, N2oWidgets.class, Menu.class, N2oFieldSets.class, N2oAlerts.class);
     }
 }
