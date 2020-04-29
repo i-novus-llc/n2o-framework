@@ -8,6 +8,7 @@ import FileUploaderList from './FileUploaderList';
 class FileUploader extends React.Component {
   render() {
     const {
+      accept,
       uploading,
       statusBarColor,
       onRemove,
@@ -42,6 +43,7 @@ class FileUploader extends React.Component {
                   [className]: className,
                   [uploaderClass]: uploaderClass,
                 })}
+                accept={accept}
                 multiple={multiple}
                 disabled={disabled}
                 onDrop={onDrop}
