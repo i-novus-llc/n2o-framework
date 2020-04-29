@@ -21,12 +21,12 @@ public class N2oAlerts extends N2oComponentsCollection implements Alerts {
 
         @Override
         public void shouldHaveText(String text) {
-            element().shouldHave(Condition.text(text));
+            element().should(Condition.exist).waitUntil(Condition.text(text), 2000);
         }
 
         @Override
         public void shouldHaveColor(Colors colors) {
-            element().shouldHave(Condition.cssClass(colors.name("alert-")));
+            element().should(Condition.exist).waitUntil(Condition.cssClass(colors.name("alert-")), 2000);
         }
     }
 }
