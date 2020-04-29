@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Компонент ввода интервала
+ */
 @Getter
 @Setter
 public class IntervalField<C extends Control> extends Field {
@@ -12,9 +15,4 @@ public class IntervalField<C extends Control> extends Field {
 
     @JsonProperty
     protected C endControl;
-
 }
-
-
-
-
