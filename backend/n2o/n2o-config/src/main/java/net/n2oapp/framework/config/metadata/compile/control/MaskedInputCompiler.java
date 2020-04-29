@@ -32,6 +32,7 @@ public class MaskedInputCompiler extends StandardFieldCompiler<MaskedInput, N2oM
         MaskedInput maskedInput = new MaskedInput();
         maskedInput.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         maskedInput.setMask(p.resolveJS(source.getMask()));
+        maskedInput.setMeasure(source.getMeasure());
         maskedInput.setClassName(source.getCssClass());
         return compileStandardField(maskedInput, source, context, p);
     }

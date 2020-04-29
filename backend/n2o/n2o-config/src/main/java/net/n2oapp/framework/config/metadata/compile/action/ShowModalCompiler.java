@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
-import net.n2oapp.framework.api.metadata.event.action.ShowModalMode;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModalPayload;
@@ -64,6 +63,5 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
         ShowModalPayload payload = showModal.getPayload();
         payload.setSize(source.getModalSize());
         payload.setCloseButton(true);
-        payload.setMode(p.cast(source.getType(), ShowModalMode.modal));
     }
 }

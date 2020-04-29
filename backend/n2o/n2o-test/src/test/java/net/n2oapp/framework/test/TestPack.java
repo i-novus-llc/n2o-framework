@@ -35,6 +35,7 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/master/:master_id/detail", getMasterDetailQueryContext()),
                 new RouteInfo("/test/select", new QueryContext("testSqlQuery4", "/test/select")),
                 new RouteInfo("/test/sql/validation", getQueryContext()),
+                new RouteInfo("/testDialog", getTestDialogActionContext()),
                 new RouteInfo("/test/subModels", getQueryContextWithSubModel()));
     }
 
@@ -64,6 +65,14 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
         actionContext.setValidations(createValidations());
         actionContext.setMessagesForm("testForm");
         actionContext.setFailAlertWidgetId("testForm");
+        return actionContext;
+    }
+
+    private ActionContext getTestDialogActionContext() {
+        ActionContext actionContext = new ActionContext("testDialog", "create", "/testDialog");
+        actionContext.setMessagesForm("testForm");
+        actionContext.setFailAlertWidgetId("testForm");
+        actionContext.setParentWidgetId("testDialog_main");
         return actionContext;
     }
 

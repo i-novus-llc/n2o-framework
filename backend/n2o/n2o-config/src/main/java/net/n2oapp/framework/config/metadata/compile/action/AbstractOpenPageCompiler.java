@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
@@ -45,8 +46,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                                 CompileProcessor p) {
         List<N2oPreFilter> preFilters = new ArrayList<>();
         ReduxModel model = ReduxModel.RESOLVE;
-        WidgetScope widgetScope = p.getScope(WidgetScope.class);
-        String widgetId = widgetScope == null ? null : widgetScope.getWidgetId();
+        String widgetId = initWidgetId(p);
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             ModelAware modelAware = componentScope.unwrap(ModelAware.class);
@@ -100,6 +100,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
     protected PageContext initPageContext(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
         String pageId = source.getPageId();
+        ReduxModel actionDataModel = ReduxModel.RESOLVE;
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         PageScope pageScope = p.getScope(PageScope.class);
         String route = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor)p), "");
@@ -122,7 +123,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (componentScope != null) {
             ModelAware modelAware = componentScope.unwrap(ModelAware.class);
-            ReduxModel actionDataModel = ReduxModel.RESOLVE;
             if (modelAware != null && modelAware.getModel() != null) {
                 actionDataModel = modelAware.getModel();
             }
@@ -151,6 +151,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         String actionRoute = initActionRoute(source, actionModelLink, p);
         String masterIdParam = initMasterLink(actionRoute, pathMapping, actionModelLink);
+        addPathMappings(source, pathMapping, widgetScope, pageScope, actionDataModel, p);
         route = normalize(route + actionRoute);
         String parentRoute = RouteUtil.absolute("../", route);// example "/:id/action" -> "/:id"
 
@@ -160,14 +161,24 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setSubmitOperationId(source.getSubmitOperationId());
         pageContext.setSubmitLabel(source.getSubmitLabel());
         pageContext.setSubmitModel(source.getSubmitModel());
+        pageContext.setSubmitActionType(source.getSubmitActionType());
+        pageContext.setCopyModel(source.getCopyModel());
+        pageContext.setCopyWidgetId(source.getCopyWidgetId());
+        pageContext.setCopyFieldId(source.getCopyFieldId());
+        pageContext.setTargetModel(source.getTargetModel());
+        pageContext.setTargetWidgetId(source.getTargetWidgetId());
+        pageContext.setTargetFieldId(source.getTargetFieldId());
+        pageContext.setCopyMode(source.getCopyMode());
         pageContext.setResultWidgetId(source.getResultContainerId());
         pageContext.setUpload(source.getUpload());
-        pageContext.setParentWidgetId(currentClientWidgetId);
+        pageContext.setParentWidgetId(initWidgetId(p));
+        pageContext.setParentClientWidgetId(currentClientWidgetId);
+        pageContext.setParentClientPageId(pageScope != null ? pageScope.getPageId(): null);
         pageContext.setParentModelLink(actionModelLink);
         pageContext.setParentRoute(RouteUtil.addQueryParams(parentRoute, queryMapping));
         pageContext.setCloseOnSuccessSubmit(p.cast(source.getCloseAfterSubmit(), true));
         pageContext.setRefreshOnSuccessSubmit(p.cast(source.getRefreshAfterSubmit(), true));
-        if (source.getRefreshWidgetId() != null) {
+        if (source.getRefreshWidgetId() != null && pageScope != null) {
             pageContext.setRefreshClientWidgetId(pageScope.getGlobalWidgetId(source.getRefreshWidgetId()));
         }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
@@ -188,6 +199,17 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setPreFilters(preFilters);
         pageContext.setPathRouteMapping(pathMapping);
         queryMapping.putAll(initPreFilterParams(preFilters, pathMapping));
+
+        if (source.getQueryParams() != null) {
+            List<N2oParam> params = new ArrayList<>();
+            for(N2oParam param : source.getQueryParams()) {
+                params.add(new N2oParam(param.getName(), param.getValue(),
+                        p.cast(param.getRefWidgetId(), widgetScope == null ? null : widgetScope.getWidgetId()) ,
+                        p.cast(param.getRefModel(), actionDataModel),
+                        pageScope == null ? null : pageScope.getPageId()));
+            }
+            queryMapping.putAll(initParams(params, pathMapping));
+        }
         pageContext.setQueryRouteMapping(queryMapping);
 
         initPageRoute(compiled, route, pathMapping, queryMapping);
@@ -208,15 +230,29 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
         String masterIdParam = null;
         if (!actionRouteParams.isEmpty()) {
-            if (actionModelLink == null)
-                throw new N2oException("Action route contains params " + actionRoute + ", but parent widget not found");
-            if (actionRouteParams.size() > 1)
-                throw new N2oException("Action route can not contain more then one param: " + actionRoute);
             masterIdParam = actionRouteParams.get(0);
             pathMapping.put(masterIdParam, actionModelLink);
         }
         return masterIdParam;
     }
+
+    /**
+     * Добавление path-param в pathMapping
+     */
+    private void addPathMappings(S source, Map<String, ModelLink> pathMapping, WidgetScope widgetScope,
+                                 PageScope pageScope, ReduxModel actionDataModel, CompileProcessor p) {
+        if (source.getPathParams() != null) {
+            List<N2oParam> params = new ArrayList<>();
+            for(N2oParam param : source.getPathParams()) {
+                params.add(new N2oParam(param.getName(), param.getValue(),
+                        p.cast(param.getRefWidgetId(), widgetScope == null ? null : widgetScope.getWidgetId()) ,
+                        p.cast(param.getRefModel(), actionDataModel),
+                        pageScope == null ? null : pageScope.getPageId()));
+            }
+            pathMapping.putAll(initParams(params, pathMapping));
+        }
+    }
+
 
     /**
      * Добавление идентификатора текущего виджета в параметры маршрута.
@@ -244,7 +280,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                           Map<String, ModelLink> queryMapping);
 
     private void initOtherPageRoute(CompileProcessor p, CompileContext<?, ?> context, String route) {
-        if ((context instanceof ModalPageContext))
+        if (context instanceof ModalPageContext)
             return;
         //only for link
         PageRoutes pageRoutes = p.getScope(PageRoutes.class);
@@ -260,7 +296,14 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                                        Map<String, ModelLink> pathParams) {
         return preFilters == null ? null :
                 preFilters.stream().filter(f -> f.getParam() != null && !pathParams.keySet().contains(f.getParam()))
-                        .collect(Collectors.toMap(N2oPreFilter::getParam, Redux::linkFilter));
+                        .collect(Collectors.toMap(N2oPreFilter::getParam, Redux::linkParam));
+    }
+
+    private Map<String, ModelLink> initParams(List<N2oParam> params,
+                                                       Map<String, ModelLink> pathParams) {
+        return params == null ? null :
+                params.stream().filter(f -> f.getName() != null && !pathParams.keySet().contains(f.getName()))
+                        .collect(Collectors.toMap(N2oParam::getName, Redux::linkParam));
     }
 
     private String createGlobalParam(String param, CompileProcessor p) {
@@ -269,5 +312,22 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             return param;
         }
         return widgetScope.getClientWidgetId() + "_" + param;
+    }
+
+    /**
+     * Получение виджета действия (исходный)
+     */
+    private String initWidgetId(CompileProcessor p) {
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null)
+            return widgetScope.getWidgetId();
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+            if (widgetIdAware != null && widgetIdAware.getWidgetId() != null) {
+                return widgetIdAware.getWidgetId();
+            }
+        }
+        return null;
     }
 }

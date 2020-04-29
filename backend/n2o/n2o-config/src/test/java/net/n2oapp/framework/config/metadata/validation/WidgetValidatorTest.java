@@ -64,4 +64,12 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     public void testRequiredReferenceForPrefiltersQueryFieldFilterType() {
         validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters6.widget.xml");
     }
+
+    /**
+     * Проверяются префильтры на корректность использования routable
+     */
+    @Test(expected = N2oMetadataValidationException.class)
+    public void testPreFilterRoutable() {
+        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters7.widget.xml");
+    }
 }

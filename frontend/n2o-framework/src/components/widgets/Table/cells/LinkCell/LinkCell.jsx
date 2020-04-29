@@ -4,6 +4,7 @@ import { compose, withHandlers, mapProps } from 'recompose';
 import get from 'lodash/get';
 
 import withCell from '../../withCell';
+import withTooltip from '../../withTooltip';
 import StandardButton from '../../../../buttons/StandardButton/StandardButton';
 
 function LinkCell({ url, ...props }) {
@@ -16,6 +17,7 @@ LinkCell.contextTypes = {
 
 const enhance = compose(
   withCell,
+  withTooltip,
   withHandlers({
     createButton: ({
       widgetId,

@@ -22,7 +22,7 @@ public class ToolbarCellCompiler extends AbstractCellCompiler<ToolbarCell, N2oTo
     @Override
     public ToolbarCell compile(N2oToolbarCell source, CompileContext<?, ?> context, CompileProcessor p) {
         ToolbarCell cell = new ToolbarCell();
-        build(cell, source, context, p, property("n2o.default.cell.toolbar.src"));
+        build(cell, source, context, p, property("n2o.api.cell.toolbar.src"));
         compileButtons(cell, source, context, p);
         return cell;
     }

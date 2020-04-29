@@ -42,22 +42,23 @@ N2O разделяет шаблон и данные.
 === Переключатели вложенных метаданных
 Некоторые вложенные метаданные можно переключать в зависимости от данных с помощью элемента `switch`:
 
-.Переключаемая ячейка таблицы
+link:https://n2oapp.net/sandbox/new/cases/switch_cell[Переключаемая ячейка таблицы]
 [source,xml]
 ----
 <column>
-  <switch value-field-id="type.id">
-    <case value="1">
-      <label>...</label>
-      <!-- Ярлык, если type.id == 1 -->
+  <switch value-field-id="type">
+    <case value="type1">
+        <badge.../>
+        <!-- Значок, если type == type1 -->
     </case>
-    <case value="2">
-      <icon>...</icon>
-      <!-- Иконка, если type.id == 2 -->
+    <case value="type2">
+        <icon.../>
+        <!-- Иконка, если type == type2 -->
     </case>
+    ...
     <default>
-      <text>...</text>
-      <!-- Текст, в остальных случаях -->
+        <text/>
+        <!-- Текст, в остальных случаях -->
     </default>
   </switch>
 </column>

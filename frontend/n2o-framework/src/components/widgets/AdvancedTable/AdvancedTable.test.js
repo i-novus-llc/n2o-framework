@@ -393,9 +393,9 @@ describe('<AdvancedTable/>', () => {
     });
   });
 
-  describe('тесты rowSelection', () => {
+  describe('тесты rowSelection = checkbox', () => {
     it('чекбокс в колонке отрисовался', () => {
-      const wrapper = setup({ rowSelection: true });
+      const wrapper = setup({ rowSelection: 'checkbox' });
 
       expect(wrapper.find('.n2o-advanced-table-selection-item').exists()).toBe(
         true
@@ -404,14 +404,14 @@ describe('<AdvancedTable/>', () => {
 
     it('отрисовалось правильное количество чекбоксов в строках', () => {
       const wrapper = setup({
-        rowSelection: true,
+        rowSelection: 'checkbox',
       });
       expect(wrapper.find('CheckboxN2O input').length).toBe(4);
     });
 
     it('корректно отрабатывает выбор всех строк', () => {
       const wrapper = setup({
-        rowSelection: true,
+        rowSelection: 'checkbox',
       });
       wrapper
         .find('CheckboxN2O input')
@@ -460,7 +460,7 @@ describe('<AdvancedTable/>', () => {
 
     it('корректно отрабатывает выбор строк', () => {
       const wrapper = setup({
-        rowSelection: true,
+        rowSelection: 'checkbox',
       });
 
       const table = wrapper.find('AdvancedTable').last();
@@ -489,6 +489,106 @@ describe('<AdvancedTable/>', () => {
       expect(table.state().checked).toEqual({
         '1': true,
         '2': true,
+        '3': true,
+      });
+    });
+    it('корректно отрабатывает выбор строк autoCheckboxOnSelect', () => {
+      const wrapper = setup({
+        rowSelection: 'checkbox',
+        autoCheckboxOnSelect: true,
+      });
+
+      const table = wrapper.find('AdvancedTable').last();
+      const rows = wrapper.find('.n2o-table-row');
+
+      rows.at(0).simulate('click');
+      expect(table.state().checkedAll).toBe(false);
+      expect(table.state().checked).toEqual({
+        '1': true,
+        '2': false,
+        '3': false,
+      });
+
+      rows.at(1).simulate('click');
+
+      expect(table.state().checkedAll).toBe(false);
+      expect(table.state().checked).toEqual({
+        '1': true,
+        '2': true,
+        '3': false,
+      });
+
+      rows.at(2).simulate('click');
+
+      expect(table.state().checkedAll).toBe(true);
+      expect(table.state().checked).toEqual({
+        '1': true,
+        '2': true,
+        '3': true,
+      });
+    });
+  });
+  describe('тесты rowSelection = radio', () => {
+    it('radio в колонке отрисовался', () => {
+      const wrapper = setup({ rowSelection: 'radio' });
+
+      expect(wrapper.find('.n2o-advanced-table-row-radio').exists()).toBe(true);
+    });
+
+    it('отрисовалось правильное количество radio в строках', () => {
+      const wrapper = setup({
+        rowSelection: 'radio',
+      });
+      expect(wrapper.find('RadioN2O input').length).toBe(3);
+    });
+
+    it('корректно отрабатывает выбор строк radio', () => {
+      const wrapper = setup({
+        rowSelection: 'radio',
+      });
+
+      const table = wrapper.find('AdvancedTable').last();
+      const radios = wrapper.find('RadioN2O input');
+
+      radios.at(0).simulate('change', { target: { checked: false } });
+      expect(table.state().checked).toEqual({
+        '1': true,
+      });
+
+      radios.at(1).simulate('change', { target: { checked: false } });
+
+      expect(table.state().checked).toEqual({
+        '2': true,
+      });
+
+      radios.at(2).simulate('change', { target: { checked: false } });
+
+      expect(table.state().checked).toEqual({
+        '3': true,
+      });
+    });
+    it('корректно отрабатывает выбор radio через строку', () => {
+      const wrapper = setup({
+        rowSelection: 'radio',
+      });
+
+      const table = wrapper.find('AdvancedTable').last();
+      const rows = wrapper.find('.n2o-table-row');
+
+      rows.at(0).simulate('click');
+      expect(table.state().checked).toEqual({
+        '1': true,
+      });
+
+      rows.at(1).simulate('click');
+
+      expect(table.state().checked).toEqual({
+        '2': true,
+      });
+
+      rows.at(2).simulate('click');
+
+      expect(table.state().checked).toEqual({
         '3': true,
       });
     });

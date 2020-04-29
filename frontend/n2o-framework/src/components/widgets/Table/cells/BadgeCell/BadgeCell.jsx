@@ -5,6 +5,7 @@ import isNil from 'lodash/isNil';
 import Badge from 'reactstrap/lib/Badge';
 
 import Text from '../../../../snippets/Text/Text';
+import withTooltip from '../../withTooltip';
 
 /**
  * Ячейка таблицы типа бейдж
@@ -33,9 +34,7 @@ class BadgeCell extends React.Component {
       color,
       visible,
     } = this.props;
-    const style = {
-      display: 'flex',
-    };
+
     const badgeStyle = {
       order: placement === 'right' ? 1 : -1,
       marginLeft: placement === 'right' && 5,
@@ -44,14 +43,14 @@ class BadgeCell extends React.Component {
     const badgeText = get(model, fieldKey || id);
     return (
       visible && (
-        <div style={style}>
+        <span className="d-inline-flex">
           <Text text={text} format={format} />
           {!isNil(badgeText) && (
             <Badge style={badgeStyle} color={color}>
               <Text text={get(model, fieldKey || id)} format={badgeFormat} />
             </Badge>
           )}
-        </div>
+        </span>
       )
     );
   }
@@ -110,4 +109,4 @@ BadgeCell.defaultProps = {
   visible: true,
 };
 
-export default BadgeCell;
+export default withTooltip(BadgeCell);

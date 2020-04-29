@@ -5,16 +5,35 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import Text from '../../../../snippets/Typography/Text/Text';
+import withTooltip from '../../withTooltip';
 
 /** Описание */
-function TextCell({ model, fieldKey, id, visible, preLine, ...rest }) {
+function TextCell({
+  model,
+  fieldKey,
+  id,
+  visible,
+  preLine,
+  subTextFieldKey,
+  subTextFormat,
+  ...rest
+}) {
   return (
     visible && (
-      <Text
-        text={model && get(model, fieldKey || id)}
-        preLine={preLine}
-        {...rest}
-      />
+      <div className="d-inline-flex flex-column">
+        <Text
+          text={model && get(model, fieldKey || id)}
+          preLine={preLine}
+          {...rest}
+        />
+        {subTextFieldKey ? (
+          <Text
+            className="text-muted"
+            text={model && subTextFieldKey && get(model, subTextFieldKey)}
+            format={subTextFormat}
+          />
+        ) : null}
+      </div>
     )
   );
 }
@@ -37,6 +56,14 @@ TextCell.propTypes = {
    */
   format: PropTypes.string,
   /**
+   * Ключ значения сабтекста из модели
+   */
+  subTextFieldKey: PropTypes.string,
+  /**
+   * Формат сабтекста
+   */
+  subTextFormat: PropTypes.string,
+  /**
    * Флаг видимости
    */
   visible: PropTypes.bool,
@@ -46,4 +73,6 @@ TextCell.defaultProps = {
   visible: true,
 };
 
-export default TextCell;
+export { TextCell };
+
+export default withTooltip(TextCell);

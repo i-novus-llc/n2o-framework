@@ -25,22 +25,21 @@ stories.add(
   () => (
     <React.Fragment>
       <Drawer
-        title={<h3>Title</h3>}
-        footer="footer"
+        title={<h3>Заголовок</h3>}
+        footer="Футер"
         visible={store.get('visible')}
         onClose={() => store.set({ visible: !store.get('visible') })}
         onHandleClick={() => store.set({ visible: !store.get('visible') })}
-        backdropClosable={false}
         width={'10%'}
         height={'100%'}
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <p>Контент...</p>
+        <p>Контент...</p>
+        <p>Контент...</p>
       </Drawer>
       <div className="d-flex justify-content-center">
         <Button onClick={() => store.set({ visible: !store.get('visible') })}>
-          {store.get('visible') ? 'Close' : 'Open'}
+          {store.get('visible') ? 'Закрыть' : 'Открыть'}
         </Button>
       </div>
     </React.Fragment>

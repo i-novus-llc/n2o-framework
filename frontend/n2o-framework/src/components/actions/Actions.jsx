@@ -176,7 +176,7 @@ class Actions extends React.Component {
     const confirmMode = get(button, 'confirm.mode', ConfirmMode.MODAL);
 
     const btn = (
-      <>
+      <React.Fragment>
         {confirmMode === ConfirmMode.POPOVER ? (
           <PopoverConfirm
             {...this.mapButtonConfirmProps(button)}
@@ -200,7 +200,7 @@ class Actions extends React.Component {
         ) : (
           Container
         )}
-      </>
+      </React.Fragment>
     );
 
     return <SecurityNotRender config={button.security} component={btn} />;

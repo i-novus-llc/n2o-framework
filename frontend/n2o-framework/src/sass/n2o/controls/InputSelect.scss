@@ -2,9 +2,11 @@
   top: auto;
   left: auto;
   width: 100%;
+  min-width: 38px;
+  //padding: 0 10px 0 10px;
+  height: 38px;
   max-height: $popup-height;
   overflow: auto;
-  padding: 0;
   & > ul {
     display: block;
   }
@@ -32,6 +34,21 @@
   & .dropdown-header {
     padding: $input-select-control-dropdown-header-padding;
   }
+}
+
+.n2o-dropdown-control.btn-sm {
+  height: 31px;
+  min-width: 31px;
+}
+
+.n2o-dropdown-control.btn-md {
+  height: 38px;
+  min-width: 38px;
+}
+
+.n2o-dropdown-control.btn-lg {
+  height: 48px;
+  min-width: 48px;
 }
 
 .n2o-select-pop-up{

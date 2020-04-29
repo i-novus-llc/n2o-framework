@@ -36,6 +36,7 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private Validations validations;
     private Boolean copied;
     private String defaultValue;
+    private String param;
 
     private N2oToolbar toolbar;
     private Dependency[] dependencies;

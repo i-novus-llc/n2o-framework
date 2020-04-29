@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Set;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция ToolbarItem
@@ -45,7 +44,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
 
     protected void initItem(MenuItem button, AbstractMenuItem source, IndexScope idx,
                             CompileContext<?, ?> context, CompileProcessor p) {
-        button.setId(castDefault(source.getId(), source.getActionId(), "menuItem" + idx.get()));
+        button.setId(p.cast(source.getId(), source.getActionId(), "menuItem" + idx.get()));
         source.setId(button.getId());
         button.setProperties(p.mapAttributes(source));
         if (source.getType() != null && source.getType().equals(LabelType.icon)) {
@@ -57,23 +56,13 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             button.setLabel(source.getLabel());
         }
         CompiledObject.Operation operation = null;
-        Action action = null;
         CompiledObject compiledObject;
         WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
         if (widgetObjectScope != null && widgetObjectScope.containsKey(source.getWidgetId())) {
             compiledObject = widgetObjectScope.getObject(source.getWidgetId());
         } else
             compiledObject = p.getScope(CompiledObject.class);
-        if (source.getActionId() != null) {
-            MetaActions metaActions = p.getScope(MetaActions.class);
-            action = metaActions.get(source.getActionId());
-        } else {
-            N2oAction butAction = source.getAction();
-            if (butAction != null) {
-                butAction.setId(p.cast(butAction.getId(), button.getId()));
-                action = p.compile(butAction, context, compiledObject, new ComponentScope(source));
-            }
-        }
+        Action action = compileAction(button, source, context, p, compiledObject);
 
         if (action != null) {
             button.setAction(action);
@@ -112,6 +101,22 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             source.setModel(ReduxModel.RESOLVE);
         compileDependencies(button, source, context, p);
         button.setValidate(source.getValidate());
+    }
+
+    private Action compileAction(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p,
+                                 CompiledObject compiledObject) {
+        Action action = null;
+        if (source.getActionId() != null) {
+            MetaActions metaActions = p.getScope(MetaActions.class);
+            action = metaActions.get(source.getActionId());
+        } else {
+            N2oAction butAction = source.getAction();
+            if (butAction != null) {
+                butAction.setId(p.cast(butAction.getId(), button.getId()));
+                action = p.compile(butAction, context, compiledObject, new ComponentScope(source));
+            }
+        }
+        return action;
     }
 
     private void initConfirm(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Progress from 'reactstrap/lib/Progress';
 
 import progressBarStyles from './progressBarStyles';
+import withTooltip from '../../withTooltip';
 
 /**
  * Ячейка таблицы с прогресс баром
@@ -73,4 +74,4 @@ ProgressBarCell.defaultProps = {
   visible: true,
 };
 
-export default ProgressBarCell;
+export default withTooltip(ProgressBarCell);

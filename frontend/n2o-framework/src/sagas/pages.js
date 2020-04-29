@@ -10,7 +10,6 @@ import {
   fork,
   actionChannel,
   cancelled,
-  delay,
 } from 'redux-saga/effects';
 import { matchPath } from 'react-router';
 import { batchActions } from 'redux-batched-actions';
@@ -26,12 +25,7 @@ import get from 'lodash/get';
 import set from 'lodash/set';
 import reduce from 'lodash/reduce';
 import pickBy from 'lodash/pickBy';
-import {
-  getAction,
-  getLocation,
-  LOCATION_CHANGE,
-  replace,
-} from 'connected-react-router';
+import { getAction, getLocation } from 'connected-react-router';
 import queryString from 'query-string';
 import {
   SET,
@@ -43,18 +37,17 @@ import {
 } from '../constants/models';
 import { MAP_URL, METADATA_REQUEST, RESET } from '../constants/pages';
 import { metadataFail, metadataSuccess, setStatus } from '../actions/pages';
-import { combineModels, updateModel } from '../actions/models';
+import { combineModels } from '../actions/models';
 import { changeRootPage } from '../actions/global';
 import { rootPageSelector } from '../selectors/global';
 import { makePageRoutesByIdSelector } from '../selectors/pages';
-import { modelsSelector } from '../selectors/models';
 import fetchSaga from './fetch.js';
 import { FETCH_PAGE_METADATA } from '../core/api.js';
-import compileUrl from '../utils/compileUrl';
+import { dataProviderResolver } from '../core/dataProviderResolver';
 import linkResolver from '../utils/linkResolver';
-import { ADD, ADD_MULTI } from '../constants/alerts';
-import { addAlertSideEffect } from './alerts';
 
+/**
+ *
 function autoDetectBasePath(pathPattern, pathname) {
   const match = matchPath(pathname, {
     path: pathPattern,
@@ -63,6 +56,7 @@ function autoDetectBasePath(pathPattern, pathname) {
   });
   return match && match.url;
 }
+ */
 
 export function applyPlaceholders(key, obj, placeholders) {
   const newObj = {};
@@ -106,10 +100,10 @@ export function* queryMapping(location, routes) {
           map(parsedQuery, (value, key) => {
             return (
               routes.queryMapping[key] && {
-                ...routes.queryMapping[key].get,
+                ...get(routes, `queryMapping[${key}].get`, {}),
                 ...applyPlaceholders(
                   key,
-                  routes.queryMapping[key].get,
+                  get(routes, `queryMapping[${key}].get`, {}),
                   parsedQuery
                 ),
               }
@@ -171,17 +165,24 @@ export function* getMetadata(apiProvider, action) {
   let { pageId, rootPage, pageUrl, mapping } = action.payload;
   try {
     const { search } = yield select(getLocation);
+    let resolveProvider = {};
     if (!isEmpty(mapping)) {
       const state = yield select();
       const extraQueryParams = rootPage && queryString.parse(search);
-      pageUrl = compileUrl(pageUrl, mapping, state, { extraQueryParams });
+      resolveProvider = dataProviderResolver(
+        state,
+        { url: pageUrl, ...mapping },
+        extraQueryParams
+      );
+
+      pageUrl = resolveProvider.url;
     } else if (rootPage) {
       pageUrl = pageUrl + search;
     }
     const metadata = yield call(
       fetchSaga,
       FETCH_PAGE_METADATA,
-      { pageUrl },
+      { pageUrl, headers: resolveProvider.headersParams },
       apiProvider
     );
 

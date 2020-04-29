@@ -26,7 +26,7 @@ public class LinkCellCompiler extends AbstractCellCompiler<N2oLinkCell, N2oLinkC
     @Override
     public N2oLinkCell compile(N2oLinkCell source, CompileContext<?,?> context, CompileProcessor p) {
         N2oLinkCell cell = new N2oLinkCell();
-        build(cell, source, context, p, property("n2o.default.cell.link.src"));
+        build(cell, source, context, p, property("n2o.api.cell.link.src"));
         if (source.getUrl() == null) {
             compileAction(cell, source, context, p);
             if (cell.getCompiledAction() != null && cell.getCompiledAction() instanceof LinkAction) {

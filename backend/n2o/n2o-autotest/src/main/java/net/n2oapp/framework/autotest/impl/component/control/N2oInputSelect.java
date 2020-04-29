@@ -47,6 +47,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void select(Condition by) {
+        element().click();
         element().parent().$$(".n2o-pop-up button").findBy(by).click();
     }
 

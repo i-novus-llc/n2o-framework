@@ -26,6 +26,7 @@ import Rating from './Rating/Rating';
 import Pills from './Pills';
 import AutoComplete from './AutoComplete/AutoComplete';
 import CodeViewer from './CodeViewer/CodeViewer';
+import ProgressControl from './ProgressControl/ProgressControl';
 
 export default {
   InputText: InputText,
@@ -56,4 +57,5 @@ export default {
   Rating: Rating,
   Pills: Pills,
   AutoComplete: AutoComplete,
+  ProgressControl: ProgressControl,
 };

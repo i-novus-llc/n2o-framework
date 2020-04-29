@@ -11,6 +11,7 @@ public class N2oOutputText extends N2oControl implements OutputText {
 
     @Override
     public void shouldBeEmpty() {
+        element().shouldBe(Condition.exist);
         SelenideElement elm = element().$(".text");
         if (elm.exists())
             elm.shouldBe(Condition.empty);
