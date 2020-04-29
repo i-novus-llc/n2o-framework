@@ -345,7 +345,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             data = data
                     .stream()
                     .filter(m -> {
-                        if (m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) == null)
+                        if (!m.containsKey(splittedFilter[0]) || m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) == null)
                             return true;
                         if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number)
                             return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).equals(((Number) pattern).longValue());
