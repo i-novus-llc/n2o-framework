@@ -38,15 +38,15 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         Map<String, PageRoutes.Query> queryMapping = page.getRoutes().getQueryMapping();
         assertThat(queryMapping.containsKey("tab_0"), is(true));
         assertThat(((SetActiveRegionEntityPayload)queryMapping.get("tab_0").getOnGet().getPayload()).getRegionId(), is("tab_0"));
-        assertThat(((SetActiveRegionEntityPayload)queryMapping.get("tab_0").getOnGet().getPayload()).getActiveRegionParam(), is(":tab_0"));
+        assertThat(((SetActiveRegionEntityPayload)queryMapping.get("tab_0").getOnGet().getPayload()).getActiveEntity(), is(":tab_0"));
         assertThat(queryMapping.get("tab_0").getOnSet().getBindLink(), is("regions.tab_0.activeEntity"));
         assertThat(queryMapping.containsKey("param1"), is(true));
         assertThat(((SetActiveRegionEntityPayload)queryMapping.get("param1").getOnGet().getPayload()).getRegionId(), is("left_tab_1"));
-        assertThat(((SetActiveRegionEntityPayload)queryMapping.get("param1").getOnGet().getPayload()).getActiveRegionParam(), is(":param1"));
+        assertThat(((SetActiveRegionEntityPayload)queryMapping.get("param1").getOnGet().getPayload()).getActiveEntity(), is(":param1"));
         assertThat(queryMapping.get("param1").getOnSet().getBindLink(), is("regions.left_tab_1.activeEntity"));
         assertThat(queryMapping.containsKey("param2"), is(true));
         assertThat(((SetActiveRegionEntityPayload)queryMapping.get("param2").getOnGet().getPayload()).getRegionId(), is("tabId"));
-        assertThat(((SetActiveRegionEntityPayload)queryMapping.get("param2").getOnGet().getPayload()).getActiveRegionParam(), is(":param2"));
+        assertThat(((SetActiveRegionEntityPayload)queryMapping.get("param2").getOnGet().getPayload()).getActiveEntity(), is(":param2"));
         assertThat(queryMapping.get("param2").getOnSet().getBindLink(), is("regions.tabId.activeEntity"));
     }
 }

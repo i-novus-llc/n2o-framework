@@ -405,6 +405,11 @@
             "value": "`vip`",
             "link": "models.filter['proto_clients']"
           }
+        },
+        "headersMapping": {
+          "Button-Id": {
+            "value": "test"
+          }
         }
       },
       "toolbar": {
@@ -1054,8 +1059,14 @@
                       "link": "models.resolve['proto_clients'].id"
                     }
                   },
-                  "method": "POST",
-                  "optimistic": false
+                  "headersMapping": {
+                    "Content-Type": {
+                      "link": "models.resolve['proto_patients'].id"
+                    },
+                    "BUTTON_ID": {
+                      "value": "vip-button"
+                    }
+                  },
                 },
                 "modelLink": "models.resolve['proto_clients']"
               },
@@ -1470,7 +1481,11 @@
       "form": {
         "fieldsets": [
           {
-            "src": "StandardFieldset",
+            "src": "MultiFieldset",
+            "needRemoveAllButton": true,
+            "needCopyButton": true,
+            "name": "members",
+            "label": "#index. Такой вот плейсхолдер",
             "rows": [
               {
                 "cols": [
@@ -1480,7 +1495,14 @@
                         "src": "StandardField",
                         "id": "surname",
                         "label": "Фамилия",
-                        "dependency": [],
+                        "dependency": [
+                          {
+                            "type": "enabled",
+                            "on": ["members[#index].name"],
+                            "expression": "members[#index].name !== 'test'",
+                            "applyOnInit": true
+                          }
+                        ],
                         "control": {
                           "src": "InputText",
                           "id": "surname"
@@ -1597,7 +1619,9 @@
             "widgetId": "proto_contacts"
           }
         ]
-      },
+      }
+    ],
+    "top": [
       {
         "src": "PanelRegion",
         "hasTabs": false,
@@ -1618,10 +1642,26 @@
   "actions": {
     "create2": {}
   },
-  "width": {
-    "left": "60%"
+
+
+  "needScrollButton": true,
+  "src": "TopLeftRightPage",
+  "places": {
+    "top": {
+      "width": "100%",
+      "fixed": true
+    },
+    "left": {
+      "width": "30%"
+    },
+    "right": {
+      "width": "30%",
+      "fixed": true,
+      "offset": 100
+    }
   },
-  "src": "LeftRightPage",
+
+
   "page": {
     "title": "Список контактов"
   }

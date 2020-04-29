@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test;
  */
 public class SelectAT extends AutoTestBase {
 
+    private SimplePage page;
+
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -25,6 +27,12 @@ public class SelectAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+
+        page = open(SimplePage.class);
+        page.shouldExists();
     }
 
     @Override
@@ -35,12 +43,6 @@ public class SelectAT extends AutoTestBase {
 
     @Test
     public void testSelect() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-
         Select input = page.single().widget(FormWidget.class).fields().field("Select1")
                 .control(Select.class);
         input.shouldExists();
@@ -58,5 +60,59 @@ public class SelectAT extends AutoTestBase {
 
         input.select(1);
         input.shouldNotBeCleanable();
+    }
+
+    @Test
+    public void testCheckboxesType() {
+        Select input = page.single().widget(FormWidget.class).fields().field("Select3")
+                .control(Select.class);
+        input.shouldExists();
+
+        input.shouldBeEmpty();
+        input.selectMulti(0);
+        input.shouldBeChecked(0);
+        input.shouldSelected("Объектов 1 шт");
+        input.selectMulti(1, 2);
+        input.shouldBeChecked(0, 1, 2);
+        input.shouldSelected("Объектов 3 шт");
+        input.clear();
+        input.shouldNotBeChecked(0, 1, 2);
+        input.shouldBeEmpty();
+    }
+
+    @Test
+    public void testSelectFormat() {
+        Select input = page.single().widget(FormWidget.class).fields().field("Select4")
+                .control(Select.class);
+        input.shouldExists();
+
+        input.shouldBeEmpty();
+        input.selectMulti(0);
+        input.shouldBeChecked(0);
+        input.shouldSelected("1 объект");
+        input.selectMulti(1);
+        input.shouldBeChecked(0, 1);
+        input.shouldSelected("2 объекта");
+        input.selectMulti(2, 3, 4);
+        input.shouldBeChecked(0, 1, 2, 3, 4);
+        input.shouldSelected("5 объектов");
+        input.clear();
+        input.shouldNotBeChecked(0, 1, 2, 3, 4);
+        input.shouldBeEmpty();
+
+
+        input = page.single().widget(FormWidget.class).fields().field("Select5")
+                .control(Select.class);
+        input.shouldExists();
+
+        input.shouldBeEmpty();
+        input.selectMulti(0);
+        input.shouldSelected("Объектов 1 шт");
+        input.selectMulti(1);
+        input.shouldSelected("Объектов 2 шт");
+        input.selectMulti(2, 3, 4);
+        input.shouldSelected("Объектов 5 шт");
+        input.clear();
+        input.shouldBeEmpty();
     }
 }

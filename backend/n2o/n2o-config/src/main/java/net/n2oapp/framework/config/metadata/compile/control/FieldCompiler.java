@@ -14,7 +14,9 @@ import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.FetchValueDependency;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -46,6 +48,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.setVisible(source.getVisible());
         field.setEnabled(source.getEnabled());
 
+        compileFieldToolbar(field, source, context, p);
         field.setLabel(initLabel(source, p));
         field.setLabelClass(p.resolveJS(source.getLabelClass()));
         field.setHelp(p.resolveJS(source.getHelp()));
@@ -60,7 +63,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         }
         return null;
     }
-
 
     /**
      * Компиляция зависимостей между полями
@@ -131,6 +133,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         field.addDependency(compiled);
     }
 
+    private void compileFieldToolbar(D field, S source, CompileContext<?, ?> context, CompileProcessor p) {
+        if (source.getToolbar() != null) {
+            Toolbar toolbar = p.compile(source.getToolbar(), context);
+            field.setToolbar(new Group[]{toolbar.getGroup(0)});
+        }
+    }
+
     private WidgetDataProvider compileDataProvider(N2oField.FetchValueDependency field, CompileProcessor p) {
         WidgetDataProvider dataProvider = new WidgetDataProvider();
         QueryContext queryContext = new QueryContext(field.getQueryId());
@@ -141,7 +150,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         p.addRoute(new QueryContext(field.getQueryId(), route));
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + route);
         N2oPreFilter[] preFilters = field.getPreFilters();
-        Map<String, BindLink> queryMap = new StrictMap<>();
+        Map<String, ModelLink> queryMap = new StrictMap<>();
         if (preFilters != null) {
             for (N2oPreFilter preFilter : preFilters) {
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);

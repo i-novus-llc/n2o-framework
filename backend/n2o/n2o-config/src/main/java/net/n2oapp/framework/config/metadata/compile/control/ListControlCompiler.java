@@ -149,7 +149,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         }
 
         N2oPreFilter[] preFilters = source.getPreFilters();
-        Map<String, BindLink> queryMap = new StrictMap<>();
+        Map<String, ModelLink> queryMap = new StrictMap<>();
         if (preFilters != null) {
             for (N2oPreFilter preFilter : preFilters) {
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);

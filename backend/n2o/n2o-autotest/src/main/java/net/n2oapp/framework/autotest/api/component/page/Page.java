@@ -17,6 +17,12 @@ public interface Page extends Component {
 
     Dialog dialog(String title);
 
+    Tooltip tooltip();
+
+    void scrollUp();
+
+    void scrollDown();
+
     interface PageToolbar {
         Toolbar topLeft();
 
@@ -28,6 +34,8 @@ public interface Page extends Component {
     }
 
     interface Breadcrumb {
+        void parentTitleShouldHaveText(String text);
+
         void titleShouldHaveText(String text);
     }
 
@@ -39,5 +47,15 @@ public interface Page extends Component {
         void click(String label);
 
         void shouldBeClosed(long timeOut);
+    }
+
+    interface Tooltip {
+        void shouldBeExist();
+
+        void shouldNotBeExist();
+
+        void shouldBeEmpty();
+
+        void shouldHaveText(String... text);
     }
 }

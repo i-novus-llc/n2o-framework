@@ -25,8 +25,8 @@ public class N2oInputText extends N2oControl implements InputText {
 
     @Override
     public void val(String value) {
+        inputElement().click();
         inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
-        inputElement().pressEnter();
     }
 
     @Override
@@ -68,6 +68,7 @@ public class N2oInputText extends N2oControl implements InputText {
     }
 
     private SelenideElement inputElement() {
+        element().shouldBe(Condition.exist);
         return element().parent().$(".n2o-input");
     }
 

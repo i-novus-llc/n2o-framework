@@ -283,10 +283,10 @@ http://n2oapp.net/framework/config/schema/object-3.0
     <invocation>
       <sql>UPDATE mytable SET name = :name WHERE id = :id</sql>
     </invocation>
-    <in-parameters>
-      <param id="id" mapping="id" required="true"/>
-      <param id="name" mapping="name"/>
-    </in-parameters>
+    <in>
+      <field id="id" mapping="id" required="true"/>
+      <field id="name" mapping="name"/>
+    </in>
     <validations white-list="checkUniqueName"/>
   </operation>
 </operations>
@@ -298,17 +298,17 @@ http://n2oapp.net/framework/config/schema/object-3.0
 Тело::
 link:#_Провайдеры_данных[Провайдер данных]
 
-===== <in-parameters>
+===== <in>
 Входящие параметры операции.
 
 Тело::
-Список link:#_Параметр_провайдера_данных_param[параметров]
+Список link:#_Параметр_провайдера_данных_field[параметров]
 
-===== <out-parameters>
+===== <out>
 Исходящие параметры операции.
 
 Тело::
-Список link:#_Параметр_провайдера_данных_param[параметров]
+Список link:#_Параметр_провайдера_данных_field[параметров]
 
 ===== <validations>
 Валидации операции.
@@ -454,10 +454,10 @@ java Script выражение
             AND (:id is null OR id != :id)
       </sql>
     </invocation>
-    <in-parameters>
-      <param id="name" mapping="name"/>
-      <param id="id" mapping="id"/>
-    </in-parameters>
+    <in>
+      <field id="name" mapping="name"/>
+      <field id="id" mapping="id"/>
+    </in>
   </constraint>
 </validations>
 ----
@@ -468,20 +468,20 @@ java Script выражение
 Тело::
 link:#_Провайдеры_данных[Провайдер данных]
 
-===== <in-parameters>
+===== <in>
 Входящие параметры валидации.
 
 Тело::
-Список link:#_Параметр_провайдера_данных_param[параметров]
+Список link:#_Параметр_провайдера_данных_field[параметров]
 
-===== <out-parameters>
+===== <out>
 Исходящие параметры валидации.
 
 [TIP]
 Нужны для параметризации сообщения валидации `message`.
 
 Тело::
-Список link:#_Параметр_провайдера_данных_param[параметров]
+Список link:#_Параметр_провайдера_данных_field[параметров]
 
 ==== <mandatory>
 Валидация обязательности заполнения поля.

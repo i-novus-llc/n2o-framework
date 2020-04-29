@@ -12,6 +12,7 @@ import { dataRequestWidget } from '../../../actions/widgets';
 import { makeGetModelByPrefixSelector } from '../../../selectors/models';
 import Alert from '../../snippets/Alerts/Alert';
 import DocumentTitle from '../../core/DocumentTitle';
+import PageTitle from '../../core/PageTitle';
 import DefaultBreadcrumb from '../../core/Breadcrumb/DefaultBreadcrumb';
 import BreadcrumbContainer from '../../core/Breadcrumb/BreadcrumbContainer';
 import Toolbar from '../../buttons/Toolbar';
@@ -32,7 +33,7 @@ function SearchablePage({
 }) {
   return (
     <div
-      classname={cn('n2o-page n2o-page__searchable-page n2o-searchable-page', {
+      className={cn('n2o-page n2o-page__searchable-page n2o-searchable-page', {
         'n2o-disabled-page': disabled,
       })}
     >
@@ -40,18 +41,17 @@ function SearchablePage({
       {!isEmpty(metadata) && metadata.page && (
         <DocumentTitle {...metadata.page} />
       )}
-      <div className="n2o-searchable-page__title d-flex align-items-baseline">
+      <div className="n2o-searchable-page__breadcrumbs">
         {!isEmpty(metadata) && metadata.breadcrumb && (
           <BreadcrumbContainer
             defaultBreadcrumb={DefaultBreadcrumb}
             items={metadata.breadcrumb}
           />
         )}
-        <Toolbar
-          className="ml-2"
-          entityKey={pageId}
-          toolbar={toolbar.breadcrumbLeft}
-        />
+      </div>
+      <div className="n2o-searchable-page__title d-flex align-items-center my-3">
+        <PageTitle className="mr-0" {...get(metadata, 'page', {})} />
+        <Toolbar className="ml-2" entityKey={pageId} toolbar={toolbar.title} />
         <SearchBar
           {...searchBar}
           initialValue={filterValue}
@@ -68,6 +68,11 @@ function SearchablePage({
         <Toolbar
           className="ml-3"
           entityKey={pageId}
+          toolbar={toolbar.topCenter}
+        />
+        <Toolbar
+          className="ml-3"
+          entityKey={pageId}
           toolbar={toolbar.topRight}
         />
       </div>
@@ -77,6 +82,11 @@ function SearchablePage({
           className="ml-3"
           entityKey={pageId}
           toolbar={toolbar.bottomLeft}
+        />
+        <Toolbar
+          className="ml-3"
+          entityKey={pageId}
+          toolbar={toolbar.bottomCenter}
         />
         <Toolbar
           className="ml-3"

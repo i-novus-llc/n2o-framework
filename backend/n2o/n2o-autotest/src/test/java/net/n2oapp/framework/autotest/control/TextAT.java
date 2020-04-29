@@ -41,7 +41,7 @@ public class TextAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Text text = page.single().widget(FormWidget.class).snippet(Text.class);
+        Text text = page.single().widget(FormWidget.class).snippet(0, Text.class);
         text.shouldExists();
 
         text.shouldHaveText("Hello, World!");

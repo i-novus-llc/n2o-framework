@@ -14,6 +14,8 @@ import isUndefined from 'lodash/isUndefined';
 import some from 'lodash/some';
 import includes from 'lodash/includes';
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
+import set from 'lodash/set';
 import { actionTypes, change } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 
@@ -30,16 +32,26 @@ import {
 } from '../actions/formPlugin';
 import { FETCH_VALUE } from '../core/api';
 import fetchSaga from './fetch';
-import compileUrl from '../utils/compileUrl';
+import { dataProviderResolver } from '../core/dataProviderResolver';
 import { evalResultCheck } from '../utils/evalResultCheck';
+
+let prevState = {};
+let prevResults = {};
 
 export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   try {
     yield delay(300);
     yield put(setLoading(form, field, true));
     const state = yield select();
-    const url = compileUrl(dataProvider.url, dataProvider, state);
-    const response = yield call(fetchSaga, FETCH_VALUE, { url });
+    const { url, headersParams } = yield call(
+      dataProviderResolver,
+      state,
+      dataProvider
+    );
+    const response = yield call(fetchSaga, FETCH_VALUE, {
+      url,
+      headers: headersParams,
+    });
     const model = get(response, 'list[0]', null);
 
     if (model) {
@@ -59,9 +71,20 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
 
 export function* modify(values, formName, fieldName, type, options = {}) {
   let _evalResult;
+
+  const prevValues = get(prevState, [formName, fieldName, type]);
+  const prevResult = get(prevResults, [formName, fieldName, type]);
+
+  if (prevValues && isEqual(prevValues, values)) return;
+
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
   }
+
+  if (!isUndefined(prevResult) && isEqual(_evalResult, prevResult)) return;
+
+  set(prevResults, [formName, fieldName, type], _evalResult);
+  set(prevState, [formName, fieldName, type], values);
 
   switch (type) {
     case 'enabled':

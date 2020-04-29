@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class N2oGroup implements ToolbarItem {
+public class N2oGroup implements ToolbarItem, GroupItems<GroupItem> {
     private GroupItem[] items;
     private String[] generate;
     private String namespaceUri;
