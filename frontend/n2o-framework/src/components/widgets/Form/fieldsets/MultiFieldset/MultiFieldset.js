@@ -103,4 +103,5 @@ export const enhance = compose(
       label.replace(INDEX_PLACEHOLDER, value + 1),
   })
 );
+
 export default enhance(MultiFieldset);
