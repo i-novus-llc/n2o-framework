@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 @Component
-public class IntervalFieldCompiler<C extends Control, S extends N2oField> extends FieldCompiler<IntervalField<C>, S> {
+public class IntervalFieldCompiler<C extends Control, S extends N2oIntervalField> extends FieldCompiler<IntervalField<C>, S> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oIntervalField.class;
@@ -31,24 +31,20 @@ public class IntervalFieldCompiler<C extends Control, S extends N2oField> extend
         initValidations(source, field, context, p);
         compileFilters(source, p);
         compileCopied(source, p);
-        String id = field.getId();
-        field.setId(id + ".begin");
-        field.setBeginControl(compileControl(field, p, context, ((N2oIntervalField) source).getBegin()).getControl());
-        field.setId(id + ".end");
-        field.setEndControl(compileControl(field, p, context, ((N2oIntervalField) source).getEnd()).getControl());
-        field.setId(id);
+        field.setBeginControl(compileControl(field, p, context, source.getBegin(), ".begin"));
+        field.setEndControl(compileControl(field, p, context, source.getEnd(), ".end"));
         return field;
     }
 
-    private StandardField<C> compileControl(IntervalField<C> field, CompileProcessor p,
-                                            CompileContext<?, ?> context, N2oField subField) {
-
-        compileDefaultValues(field, (S) subField, p);
-        subField.setDefaultValue(null);
+    private C compileControl(IntervalField<C> owner, CompileProcessor p,
+                                            CompileContext<?, ?> context, N2oField subField, String postId) {
+        String fieldId = subField.getId();
+        subField.setId(owner.getId() + postId);
         StandardField<C> standardField = p.compile(subField, context);
+        standardField.getControl().setId(fieldId);
 
         if (standardField.getDependencies() != null)
-            standardField.getDependencies().forEach(field::addDependency);
-        return standardField;
+            standardField.getDependencies().forEach(owner::addDependency);
+        return standardField.getControl();
     }
 }
