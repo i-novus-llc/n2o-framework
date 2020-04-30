@@ -85,7 +85,7 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/header/headerWithSearch.header.xml",
                 "net/n2oapp/framework/config/metadata/header/search.query.xml")
                 .bind().get(new HeaderContext("headerWithSearch"), null);
-        SearchBar searchBar = header.getSearchBar();
+        SearchBar searchBar = header.getSearch();
         Assert.assertNotNull(searchBar);
         Assert.assertEquals("urlId", searchBar.getUrlFieldId());
         Assert.assertEquals("labelId", searchBar.getLabelFieldId());
