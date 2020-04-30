@@ -138,6 +138,38 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
+    public void testUpdateFieldOnFile() throws IOException {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        engine.setPathOnDisk(testFolder.getRoot() + "/");
+
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile(testFile.getName());
+
+        //Обновление данных поля
+        provider.setOperation(updateField);
+
+        Map<String, Object> inParamsForUpdate = new LinkedHashMap<>();
+        inParamsForUpdate.put("id", 1L);
+        inParamsForUpdate.put("key", "name");
+        inParamsForUpdate.put("value", "newName");
+
+        engine.invoke(provider, inParamsForUpdate);
+
+        //Проверка, что после updateField, json файл содержит ожидаемые данные
+        ObjectMapper objectMapper = new ObjectMapper();
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        CollectionType collectionType = typeFactory.constructCollectionType(
+                List.class, HashMap.class);
+        List<Map> result = objectMapper.readValue(testFile, collectionType);
+
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).get("id"), is(1));
+        assertThat(result.get(0).get("name"), is("newName"));
+        assertThat(result.get(0).get("type"), is("1"));
+    }
+
+    @Test
     public void testDeleteOnFile() throws IOException {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
@@ -656,6 +688,37 @@ public class TestDataProviderEngineTest {
     }
 
     @Test
+    public void testUpdateFieldWithNumericPK() {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile("testNumericPrimaryKey.json");
+
+        Map<String, Object> inParamsForRead = new LinkedHashMap<>();
+        inParamsForRead.put("id", 5607629);
+        inParamsForRead.put("sorting", new ArrayList<>());
+        inParamsForRead.put("limit", 1);
+        inParamsForRead.put("offset", 0);
+        inParamsForRead.put("page", 1);
+        inParamsForRead.put("filters", Arrays.asList("id :eq :id"));
+
+        List<Map> result = (List<Map>) engine.invoke(provider, inParamsForRead);
+        assertThat(result.get(0).get("name"), is("Людмила"));
+
+        // изменяем поле name
+        provider.setOperation(updateField);
+        Map<String, Object> inParamsForUpdateField = new LinkedHashMap<>();
+        inParamsForUpdateField.put("id", 5607629L);
+        inParamsForUpdateField.put("key", "name");
+        inParamsForUpdateField.put("value", "Ольга");
+        engine.invoke(provider, inParamsForUpdateField);
+
+        provider.setOperation(findAll);
+        result = (List<Map>) engine.invoke(provider, inParamsForRead);
+        assertThat(result.get(0).get("name"), is("Ольга"));
+    }
+
+    @Test
     public void testDeleteWithNumericPK() {
         TestDataProviderEngine engine = new TestDataProviderEngine();
         engine.setResourceLoader(new DefaultResourceLoader());
@@ -745,7 +808,7 @@ public class TestDataProviderEngineTest {
         inParamsForRead.put("limit", 1);
         inParamsForRead.put("offset", 0);
         inParamsForRead.put("page", 1);
-        inParamsForRead.put("filters", Arrays.asList("id :eq :id"));
+        inParamsForRead.put("filters", Arrays.asList("testId :eq :testId"));
 
         List<Map> result = (List<Map>) engine.invoke(provider, inParamsForRead);
         assertThat(result.get(0).get("name"), is("Мария"));
@@ -776,6 +839,39 @@ public class TestDataProviderEngineTest {
         assertFalse((Boolean) result.get(0).get("vip"));
         assertThat(((Map) result.get(0).get("gender")).get("id"), is(1));
         assertThat(((Map) result.get(0).get("gender")).get("name"), is("Мужской"));
+    }
+
+    @Test
+    public void testUpdateFieldWithStringPK() {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setPrimaryKeyType(string);
+        provider.setPrimaryKey("testId");
+        provider.setFile("testStringPrimaryKey.json");
+
+        Map<String, Object> inParamsForRead = new LinkedHashMap<>();
+        inParamsForRead.put("testId", "37128f45-e004-450e-b1c5-6afd2adf593c");
+        inParamsForRead.put("sorting", new ArrayList<>());
+        inParamsForRead.put("limit", 1);
+        inParamsForRead.put("offset", 0);
+        inParamsForRead.put("page", 1);
+        inParamsForRead.put("filters", Arrays.asList("testId :eq :testId"));
+
+        List<Map> result = (List<Map>) engine.invoke(provider, inParamsForRead);
+        assertThat(result.get(0).get("name"), is("Наталья"));
+
+        // изменяем поле name
+        provider.setOperation(updateField);
+        Map<String, Object> inParamsForUpdateField = new LinkedHashMap<>();
+        inParamsForUpdateField.put("testId", "37128f45-e004-450e-b1c5-6afd2adf593c");
+        inParamsForUpdateField.put("key", "name");
+        inParamsForUpdateField.put("value", "Ольга");
+        engine.invoke(provider, inParamsForUpdateField);
+
+        provider.setOperation(findAll);
+        result = (List<Map>) engine.invoke(provider, inParamsForRead);
+        assertThat(result.get(0).get("name"), is("Ольга"));
     }
 
     @Test

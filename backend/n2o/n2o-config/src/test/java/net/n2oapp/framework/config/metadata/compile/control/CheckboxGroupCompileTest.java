@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.meta.control.ListControl;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -39,7 +39,7 @@ public class CheckboxGroupCompileTest extends SourceCompileTestBase {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/field/testCheckboxGroup.widget.xml")
                 .get(new WidgetContext("testCheckboxGroup", "/test"));
 
-        WidgetDataProvider wdp = ((ListControl) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+        ClientDataProvider wdp = ((ListControl) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();
 
         assertThat(wdp.getUrl(), is("n2o/data/test"));
