@@ -1209,6 +1209,11 @@
                         <xs:documentation>Максимальное количество элементов в поле.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="status-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор status поля.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
