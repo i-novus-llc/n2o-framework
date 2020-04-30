@@ -477,16 +477,24 @@ public class TestDataProviderEngineTest {
         assertThat(result.get(0).get("name"), is("Денис"));
 
         //Фильтр по "isNull"
-        inParams.put("filters", Arrays.asList("age:isNull:age_isNull"));
+        inParams.put("filters", Arrays.asList("age :isNull :age"));
         result = (List<Map>) engine.invoke(provider, inParams);
         assertThat(result.size(), is(1));
         assertThat(result.get(0).get("id"), is(5607771L));
 
         //Фильтр по "isNotNull"
-        inParams.put("filters", Arrays.asList("newAge:isNotNull:age_isNotNull"));
+        inParams.put("filters", Arrays.asList("newAge :isNotNull :age"));
         result = (List<Map>) engine.invoke(provider, inParams);
         assertThat(result.size(), is(1));
         assertThat(result.get(0).get("id"), is(5607771L));
+
+        //Фильтр по "eqOrIsNull"
+        inParams.put("filters", Arrays.asList("age :eqOrIsNull :age"));
+        inParams.put("age", 16);
+        result = (List<Map>) engine.invoke(provider, inParams);
+        assertThat(result.size(), is(2));
+        assertThat(result.get(0).get("id"), is(5607655L));
+        assertThat(result.get(1).get("id"), is(5607771L));
     }
 
     @Test
