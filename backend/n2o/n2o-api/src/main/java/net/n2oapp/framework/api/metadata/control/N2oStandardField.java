@@ -15,7 +15,6 @@ public abstract class N2oStandardField extends N2oField {
     private String placeholder;
     private String controlSrc;
 
-
     @Override
     public void setSrc(String src) {
         this.controlSrc = src;
