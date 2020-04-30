@@ -42,7 +42,7 @@ public class N2oProgress extends N2oControl implements Progress {
 
     @Override
     public void shouldHaveColor(Colors color) {
-        progressBar().shouldHave(Condition.cssClass("bg-" + color.name().toLowerCase()));
+        progressBar().shouldHave(Condition.cssClass(color.name("bg-")));
     }
 
     private SelenideElement progressBar() {
