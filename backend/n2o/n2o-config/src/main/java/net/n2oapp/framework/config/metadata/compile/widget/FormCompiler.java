@@ -2,20 +2,26 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 
 
 import net.n2oapp.framework.api.data.validation.Validation;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.control.Submit;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.FormMode;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.metadata.compile.*;
+import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -44,7 +50,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         CompiledQuery query = getQuery(source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(form, source, context, p, object);
-        WidgetScope widgetScope = new WidgetScope();
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(form.getId());
@@ -75,7 +81,42 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         } else {
             form.getComponent().setModelPrefix("resolve");
         }
+        form.setDataProvider(initDataProvider(source, object, context, p));
         return form;
+    }
+
+    private ClientDataProvider initDataProvider(N2oForm source, CompiledObject compiledObject,
+                                                CompileContext<?, ?> context, CompileProcessor p) {
+        if (source.getSubmit() == null)
+            return null;
+        N2oClientDataProvider dataProvider = new N2oClientDataProvider();
+        Submit submit = source.getSubmit();
+        dataProvider.setMethod(RequestMethod.POST);
+        dataProvider.setUrl(submit.getRoute());
+        dataProvider.setSubmitForm(true);
+        dataProvider.setTargetModel(ReduxModel.RESOLVE);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null)
+            dataProvider.setTargetWidgetId(widgetScope.getClientWidgetId());
+        dataProvider.setPathParams(submit.getPathParams());
+        dataProvider.setHeaderParams(submit.getHeaderParams());
+        dataProvider.setFormParams(submit.getFormParams());
+
+        if (compiledObject == null)
+            throw new N2oException("For compilation submit for form widget [{0}] is necessary object!").addData(source.getId());
+
+        N2oClientDataProvider.ActionContextData actionContextData = new N2oClientDataProvider.ActionContextData();
+        actionContextData.setObjectId(compiledObject.getId());
+        actionContextData.setOperationId(submit.getOperationId());
+        actionContextData.setRoute(submit.getRoute());
+        actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), false));
+        actionContextData.setSuccessAlertWidgetId(source.getId());
+        actionContextData.setFailAlertWidgetId(source.getId());
+        actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
+        actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
+        dataProvider.setActionContextData(actionContextData);
+
+        return ClientDataProviderUtil.compile(dataProvider, context, p);
     }
 
     private void compileValidation(Form form, N2oForm source, ValidationScope validationScope) {
