@@ -40,7 +40,7 @@ public class AutoCompleteCompiler extends StandardFieldCompiler<AutoComplete, N2
         AutoComplete autoComplete = new AutoComplete();
         autoComplete.setValueFieldId(p.cast(source.getValueFieldId(), "name"));
         if (source.getQueryId() != null)
-            autoComplete.setDataProvider(initDataProvider(source, context, p));
+            autoComplete.setDataProvider(compileDataProvider(source, context, p));
         else if (source.getOptions() != null) {
             List<Map<String, Object>> list = new ArrayList<>();
             for (Map<String, String> option : source.getOptions()) {
@@ -53,7 +53,7 @@ public class AutoCompleteCompiler extends StandardFieldCompiler<AutoComplete, N2
         return compileStandardField(autoComplete, source, context, p);
     }
 
-    private ClientDataProvider initDataProvider(N2oAutoComplete source, CompileContext<?, ?> context, CompileProcessor p) {
+    private ClientDataProvider compileDataProvider(N2oAutoComplete source, CompileContext<?, ?> context, CompileProcessor p) {
         QueryContext queryContext = new QueryContext(source.getQueryId());
         ModelsScope modelsScope = p.getScope(ModelsScope.class);
         queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
