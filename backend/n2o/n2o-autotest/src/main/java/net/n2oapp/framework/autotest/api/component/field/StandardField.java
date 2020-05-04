@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.field;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.control.Control;
 
 /**
@@ -8,6 +9,8 @@ import net.n2oapp.framework.autotest.api.component.control.Control;
  */
 public interface StandardField extends Field {
     <T extends Control> T control(Class<T> componentClass);
+
+    Toolbar toolBar();
 
     void shouldBeRequired();
     void shouldNotBeRequired();
