@@ -51,6 +51,8 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         CompiledObject object = getObject(source, p);
         compileWidget(form, source, context, p, object);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope == null)
+            widgetScope = new WidgetScope();
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(form.getId());
@@ -81,7 +83,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         } else {
             form.getComponent().setModelPrefix("resolve");
         }
-        form.setDataProvider(initDataProvider(source, object, context, p));
+        form.setFormDataProvider(initDataProvider(source, object, context, p));
         return form;
     }
 

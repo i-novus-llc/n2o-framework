@@ -148,7 +148,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(context.getSuccessAlertWidgetId(), is("form"));
         assertThat(context.getFailAlertWidgetId(), is("form"));
 
-        ClientDataProvider dataProvider = form.getDataProvider();
+        ClientDataProvider dataProvider = form.getFormDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
         assertThat(dataProvider.getSubmitForm(), is(true));
         assertThat(dataProvider.getUrl(), is("n2o/data/testFormSubmit/:testFormSubmit_form_id/a/b/c"));
