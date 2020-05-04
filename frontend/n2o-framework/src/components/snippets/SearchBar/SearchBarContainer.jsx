@@ -9,7 +9,7 @@ import SearchBar from './SearchBar';
 function SearchBarContainer(props) {
   const { data, onSearch, button, icon, directionIconsInPopUp } = props;
 
-  const searchConfig = get(data[0], 'menu.search');
+  const searchConfig = get(data[0], 'menu.searchBar');
   //если menu undefined SearchBar без PopUp
   const menu = get(searchConfig, 'dataProvider.list');
 
