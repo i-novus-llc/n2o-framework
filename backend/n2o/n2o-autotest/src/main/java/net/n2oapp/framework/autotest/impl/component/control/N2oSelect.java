@@ -91,7 +91,7 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void shouldBeDisabled() {
-        element().shouldHave(Condition.cssClass("disabled"));
+        element().$(".form-control").shouldHave(Condition.cssClass("disabled"));
     }
 
     private SelenideElement selectPopUp() {
