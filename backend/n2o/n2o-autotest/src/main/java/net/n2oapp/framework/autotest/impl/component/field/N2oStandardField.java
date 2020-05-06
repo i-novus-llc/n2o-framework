@@ -2,8 +2,10 @@ package net.n2oapp.framework.autotest.impl.component.field;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.control.Control;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
+import net.n2oapp.framework.autotest.impl.collection.N2oToolbar;
 
 /**
  * Стандартное поле формы для автотестирования
@@ -17,6 +19,11 @@ public class N2oStandardField extends N2oField implements StandardField {
     @Override
     public <T extends Control> T control(Class<T> componentClass) {
         return N2oSelenide.component(element().$(CSS_SELECTOR), componentClass);
+    }
+
+    @Override
+    public Toolbar toolBar() {
+        return N2oSelenide.collection(element().$$(".btn-toolbar .btn"), N2oToolbar.class);
     }
 
     @Override
