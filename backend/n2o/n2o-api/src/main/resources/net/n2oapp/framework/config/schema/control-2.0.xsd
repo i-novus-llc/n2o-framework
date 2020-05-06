@@ -264,6 +264,11 @@
                         <xs:documentation>Поле выборки, отвечающее за иконку вариантов выбора</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="status-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор status поля.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="cache" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Кэшировать результаты выборки</xs:documentation>
@@ -1207,11 +1212,6 @@
                 <xs:attribute name="max-tag-count" type="xs:integer" use="optional">
                     <xs:annotation>
                         <xs:documentation>Максимальное количество элементов в поле.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="status-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Идентификатор status поля.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
