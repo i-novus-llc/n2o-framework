@@ -2,8 +2,8 @@ package net.n2oapp.framework.autotest.page;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
-import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class CustomRegion extends AutoTestBase {
+public class CustomRegionAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -37,6 +37,6 @@ public class CustomRegion extends AutoTestBase {
     public void testCustomRegion() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        page.place("single").region(0, N2oSimpleRegion.class).content().widget(N2oFormWidget.class).element().should(Condition.exist);
+        page.place("single").region(0, SimpleRegion.class).content().widget(FormWidget.class).element().should(Condition.exist);
     }
 }
