@@ -10,7 +10,7 @@ import net.n2oapp.framework.autotest.api.component.cell.ProgressBarCell;
 public class N2oProgressBarCell extends N2oCell implements ProgressBarCell {
     @Override
     public void colorShouldBe(Colors color) {
-        element().$(".progress-bar").shouldBe(Condition.cssClass("bg-" + color.name().toLowerCase()));
+        element().$(".progress-bar").shouldBe(Condition.cssClass(color.name("bg-")));
     }
 
     @Override
