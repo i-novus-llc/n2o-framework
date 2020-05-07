@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.LineRegion;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -139,7 +139,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(preFilters.get(0).getParam(), is("testStandardPageDependency_master_id"));
         assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testStandardPageDependency_master'].id"));
         assertThat(preFilters.get(0).getLink().getValue(), nullValue());
-        WidgetDataProvider dataProvider = page.getWidgets().get("testStandardPageDependency_detail").getDataProvider();
+        ClientDataProvider dataProvider = page.getWidgets().get("testStandardPageDependency_detail").getDataProvider();
         assertThat(dataProvider.getPathMapping().get("testStandardPageDependency_master_id").getBindLink(), is("models.resolve['testStandardPageDependency_master'].id"));
         assertThat(((QueryContext) route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail", CompiledQuery.class)).getFilters().size(), is(1));
         assertThat(((QueryContext) route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail", CompiledQuery.class)).getFilters().get(0).getParam(), is("testStandardPageDependency_master_id"));
@@ -168,7 +168,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testWidgetPrefilters"));
         assertThat(page.getRoutes().getQueryMapping().size(), is(13));
 
-        WidgetDataProvider dataProvider = page.getWidgets().get("testWidgetPrefilters_detail1").getDataProvider();
+        ClientDataProvider dataProvider = page.getWidgets().get("testWidgetPrefilters_detail1").getDataProvider();
         List<Filter> preFilters = page.getWidgets().get("testWidgetPrefilters_detail1").getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
         assertThat(preFilters.get(0).getParam(), is("testWidgetPrefilters_master1_id"));

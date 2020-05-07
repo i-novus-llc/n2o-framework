@@ -1,10 +1,8 @@
 package net.n2oapp.framework.api.metadata.global.dao;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 
 import java.io.Serializable;
@@ -15,7 +13,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class N2oParam implements Serializable {
     /**
      * Имя параметра
@@ -25,7 +22,10 @@ public class N2oParam implements Serializable {
      * Значение параметра
      */
     private String value;
-
+    /**
+     * Список значений параметра
+     */
+    private Object valueList;
     /**
      * Идентификатор виджета на странице, на который ссылается параметр
      */
@@ -40,4 +40,12 @@ public class N2oParam implements Serializable {
      * Идентификатор страницы, на которую ссылается параметр
      */
     private String refPageId;
+
+    public N2oParam(String name, String value, String refWidgetId, ReduxModel refModel, String refPageId) {
+        this.name = name;
+        this.value = value;
+        this.refWidgetId = refWidgetId;
+        this.refModel = refModel;
+        this.refPageId = refPageId;
+    }
 }

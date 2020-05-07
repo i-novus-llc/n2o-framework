@@ -5,7 +5,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +30,8 @@ public class ActionContext extends ObjectContext {
 
     /**
      * Создать контекст
-     * @param objectId Идентификатор объекта
+     *
+     * @param objectId    Идентификатор объекта
      * @param operationId Идентификатор операции
      */
     public ActionContext(String objectId, String operationId, String route) {

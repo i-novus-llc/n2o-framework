@@ -2,21 +2,26 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
       name="Моя таблица" query-id="stub" src="testSrc"
       object-id="stub" icon="testIcon" class="testClass" default-values-query-id="test"
-      mode="two-models" master-param="uid" fetch-on-init="false" unsaved-data-prompt="true" style="margin-left:10px;width:300px">
+      mode="two-models" master-param="uid" fetch-on-init="false" unsaved-data-prompt="true"
+      style="margin-left:10px;width:300px">
     <toolbar>
-        <button style="margin-left:10px;width:300px">
-
-        </button>
+        <button style="margin-left:10px;width:300px"/>
     </toolbar>
     <fields>
-        <!--<input-text id="inputTest1"/>-->
-        <set src="test" style="margin-left:10px;width:300px">
-            <!--<input-text id="inputTest2"/>-->
-        </set>
+        <input-text id="field3"/>
+        <col size="3">
+            <row>
+                <input-text id="field5"/>
+            </row>
+        </col>
+        <row>
+            <input-text id="field6"/>
+        </row>
     </fields>
+    <submit message-on-fail="false" message-on-success="false" operation-id="update" route="a/b/c">
+        <path-param name="name1" value="value1" ref-model="resolve" ref-widget-id="id1"/>
+        <path-param name="name2" value="value2" ref-model="filter" ref-widget-id="id2"/>
+        <header-param name="name4" value="value4" ref-model="filter" ref-widget-id="id4"/>
+        <form-param name="name5" value="value5" ref-model="filter" ref-widget-id="id5"/>
+    </submit>
 </form>
-
-
-
-
-
