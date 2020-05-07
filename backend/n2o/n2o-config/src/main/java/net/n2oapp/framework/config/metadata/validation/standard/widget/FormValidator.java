@@ -19,6 +19,7 @@ public class FormValidator implements SourceValidator<N2oForm>, SourceClassAware
         IdValidationUtils.checkIds(source.getItems(), p);
         FieldsScope scope = new FieldsScope();
         p.safeStreamOf(source.getItems()).forEach(item -> p.validate(item, scope));
+        p.safeStreamOf(source.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction()));
     }
 
     @Override
