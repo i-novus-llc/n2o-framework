@@ -17,10 +17,10 @@ public class InvokeActionValidator implements SourceValidator<N2oInvokeAction>, 
     @Override
     public void validate(N2oInvokeAction source, ValidateProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        if (source.getRefreshWidgetId() != null && pageScope != null) {
-            if (pageScope.getWidgetsId() == null || !pageScope.getWidgetsId().contains(source.getRefreshWidgetId()))
-                throw new N2oMetadataValidationException(p.getMessage(
-                        "Атрибут refresh-widget-id ссылается на несуществующий виджет: " + source.getRefreshWidgetId()));
+        if (source.getRefreshWidgetId() != null && pageScope != null
+                && !pageScope.getWidgetIds().contains(source.getRefreshWidgetId())) {
+            throw new N2oMetadataValidationException(p.getMessage(
+                    "Атрибут refresh-widget-id ссылается на несуществующий виджет: " + source.getRefreshWidgetId()));
         }
     }
 

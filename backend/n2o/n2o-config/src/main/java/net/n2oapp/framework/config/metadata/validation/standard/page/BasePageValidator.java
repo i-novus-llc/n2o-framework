@@ -24,12 +24,10 @@ public class BasePageValidator implements SourceValidator<N2oBasePage>, SourceCl
     @Override
     public void validate(N2oBasePage page, ValidateProcessor p) {
         PageScope scope = new PageScope();
-        if (page.getContainers() != null) {
-            scope.setWidgetsId(page.getContainers().stream().map(N2oMetadata::getId).collect(Collectors.toList()));
-        }
+        scope.setWidgetIds(p.safeStreamOf(page.getContainers()).map(N2oMetadata::getId).collect(Collectors.toSet()));
 
         p.safeStreamOf(page.getToolbars())
-                .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions()).forEach(p::validate));
+                .forEach(n2oToolbar -> p.safeStreamOf(n2oToolbar.getAllActions()).forEach(action -> p.validate(action, scope)));
         p.safeStreamOf(page.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction(), scope));
     }
 }

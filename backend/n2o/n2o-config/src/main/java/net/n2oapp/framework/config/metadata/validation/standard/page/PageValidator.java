@@ -8,9 +8,9 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -29,12 +29,14 @@ public class PageValidator implements SourceValidator<N2oPage>, SourceClassAware
             p.checkForExists(page.getObjectId(), N2oObject.class,
                     "Страница '" + page.getId() + "' ссылается на несуществующий объект {0}");
         }
-        Set<String> widgetIds = p.safeStreamOf(page.getContainers()).map(N2oMetadata::getId).collect(Collectors.toSet());
-        p.safeStreamOf(page.getContainers()).forEach(p::validate);
+        PageScope scope = new PageScope();
+        scope.setWidgetIds(p.safeStreamOf(page.getContainers()).map(N2oMetadata::getId).collect(Collectors.toSet()));
+
+        p.safeStreamOf(page.getContainers()).forEach(widget -> p.validate(widget, scope));
         p.safeStreamOf(page.getContainers())
                 .filter(w -> w.getDependsOn() != null)
                 .forEach(w -> {
-                    if (!widgetIds.contains(w.getDependsOn()))
+                    if (!scope.getWidgetIds().contains(w.getDependsOn()))
                         throw new N2oMetadataValidationException("depends-on link to a non-existent widget " + w.getDependsOn());
                 });
     }
