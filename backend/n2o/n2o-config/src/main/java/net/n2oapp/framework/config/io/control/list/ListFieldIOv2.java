@@ -32,6 +32,7 @@ public abstract class ListFieldIOv2<T extends N2oListField> extends StandardFiel
         p.children(e, "options", "option", m::getOptions, m::setOptions, HashMap::new, this::option);
         p.childrenByEnum(e, "pre-filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
+        p.attribute(e, "status-field-id", m::getStatusFieldId, m::setStatusFieldId);
     }
 
     private void option(Element e, Map<String, String> map, IOProcessor p) {
