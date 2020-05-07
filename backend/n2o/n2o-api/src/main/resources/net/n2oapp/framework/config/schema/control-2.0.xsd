@@ -1171,13 +1171,6 @@
                         <xs:documentation>Наличие дочерних элементов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-<!--                <xs:attribute name="enabled-field-id" type="xs:string" use="optional">-->
-<!--                    <xs:annotation>-->
-<!--                        <xs:documentation>-->
-<!--                            Идентификатор поля, которое определяет (true/false) выбираем мы узел или нет.-->
-<!--                        </xs:documentation>-->
-<!--                    </xs:annotation>-->
-<!--                </xs:attribute>-->
                 <xs:attribute name="master-field-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Идентификатор master поля.</xs:documentation>
