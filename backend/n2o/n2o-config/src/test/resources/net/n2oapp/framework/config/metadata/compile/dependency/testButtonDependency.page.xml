@@ -27,7 +27,7 @@
                         <close/>
                         <dependencies>
                             <visibility on="field1" ref-widget-id="test" ref-model="filter">a==b</visibility>
-                            <enabling>c==d</enabling>
+                            <enabling message="Не указана дата">c==d</enabling>
                         </dependencies>
                     </button>
                     <sub-menu>
@@ -37,7 +37,7 @@
                             <close/>
                             <dependencies>
                                 <visibility on="field1,field2" ref-widget-id="test" ref-model="filter">a==b</visibility>
-                                <enabling>c==d</enabling>
+                                <enabling message="Не указана дата">c==d</enabling>
                             </dependencies>
                         </menu-item>
                     </sub-menu>
