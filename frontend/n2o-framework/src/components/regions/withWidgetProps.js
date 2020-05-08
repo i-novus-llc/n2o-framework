@@ -41,10 +41,10 @@ function withGetWidget(WrappedComponent) {
     getWidget(pageId, widgetId) {
       const state = this.context.store.getState();
 
-      return get(
-        makePageMetadataByIdSelector(pageId)(state),
-        `widgets[${widgetId}]`
-      );
+      return get(makePageMetadataByIdSelector(pageId)(state), [
+        'widgets',
+        widgetId,
+      ]);
     }
 
     getVisible(pageId, widgetId) {
