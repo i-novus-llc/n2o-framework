@@ -15,7 +15,7 @@ public class N2oStandardField extends N2oField implements StandardField {
     public <T extends Control> T control(Class<T> componentClass) {
         return N2oSelenide.component(element().$(".form-control, .n2o-input, .n2o-date-picker, .n2o-radio-container, " +
                 ".n2o-checkbox-group, .n2o-file-uploader-control, .n2o-code-editor, .n2o-html, .n2o-output-text, " +
-                ".n2o-pill-filter, .n2o-rating-stars, .n2o-slider, .n2o-text-editor, .progress, .btn"), componentClass);
+                ".n2o-pill-filter, .n2o-rating-stars, .n2o-slider, .n2o-text-editor, .progress"), componentClass);
     }
 
     @Override

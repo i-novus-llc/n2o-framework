@@ -14,16 +14,6 @@ public class N2oStandardButton extends N2oButton implements StandardButton {
     }
 
     @Override
-    public void shouldBeEmpty() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void shouldHaveValue(String value) {
-        shouldHaveLabel(value);
-    }
-
-    @Override
     public void shouldBeEnabled() {
         element().shouldBe(Condition.enabled);
     }
