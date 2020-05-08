@@ -5,3 +5,7 @@
   @include border-radius($popover-border-radius);
   @include box-shadow($popover-box-shadow);
 }
+
+.n2o-pop-up > .n2o-dropdown-control {
+  height: auto;
+}

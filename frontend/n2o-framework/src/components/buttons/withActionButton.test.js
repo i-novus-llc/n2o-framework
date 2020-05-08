@@ -77,15 +77,6 @@ describe('<Link />', () => {
   //     visible: true
   //   });
   // });
-  it('Показ тултипа', () => {
-    const { wrapper } = setup({
-      props: { ...testProps, hint: 'hint test', uid: 'uid' },
-      config: {
-        onClick: () => {},
-      },
-    });
-    expect(wrapper.find('.list-text-cell__trigger').exists()).toBeTruthy();
-  });
   it('Валидация по клику', async () => {
     const { store, wrapper } = setup({
       props: { ...testProps, validate: true },
