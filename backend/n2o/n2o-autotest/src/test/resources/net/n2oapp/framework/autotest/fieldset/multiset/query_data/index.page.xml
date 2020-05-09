@@ -5,8 +5,8 @@
             <multi-set id="members" can-remove-first="true"
                        can-copy="true" can-add="false">
                 <row>
-                    <input-text id="name"/>
-                    <input-text id="age"/>
+                    <input-text id="name" label="1.2.({index}) name"/>
+                    <input-text id="age" label="1.2.({index}) age"/>
                 </row>
             </multi-set>
         </fields>
