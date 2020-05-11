@@ -22,4 +22,9 @@ public class N2oStandardButton extends N2oButton implements StandardButton {
     public void shouldHaveLabel(String label) {
         element().shouldHave(Condition.text(label));
     }
+
+    @Override
+    public void hover() {
+        element().hover();
+    }
 }

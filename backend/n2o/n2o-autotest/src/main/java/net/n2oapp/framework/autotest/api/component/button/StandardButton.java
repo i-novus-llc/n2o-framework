@@ -10,4 +10,6 @@ public interface StandardButton extends Button {
     void shouldBeEnabled();
 
     void shouldHaveLabel(String label);
+
+    void hover();
 }

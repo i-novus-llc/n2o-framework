@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.widget.form;
+package net.n2oapp.framework.autotest.widget.list;
 
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;

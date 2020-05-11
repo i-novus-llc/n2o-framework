@@ -1,8 +1,10 @@
 package net.n2oapp.framework.autotest.widget.form;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
+import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -62,5 +64,41 @@ public class FormAT extends AutoTestBase {
         name.control(InputText.class).val("test");
         surname.control(InputText.class).val("test");
         name.shouldHaveValidationMessage(Condition.empty);
+    }
+
+    @Test
+    public void testToolbar() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/toolbar/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Page.Tooltip tooltip = page.tooltip();
+
+        FormWidget form = page.single().widget(FormWidget.class);
+        form.fields().shouldHaveSize(1);
+        InputText name = form.fields().field("Имя").control(InputText.class);
+
+        // проверка, что при разном состоянии доступности кнопки отображаются разные подсказки
+        StandardButton button1 = form.toolbar().bottomLeft().button("Кнопка1");
+        button1.shouldBeDisabled();
+        button1.hover();
+        tooltip.shouldHaveText("Заполните имя");
+        name.val("test");
+        button1.shouldBeEnabled();
+        button1.hover();
+        tooltip.shouldHaveText("Описание");
+
+        // проверка, что появляется подсказка при недоступности кнопки
+        StandardButton button2 = form.toolbar().bottomLeft().button("Кнопка2");
+        name.val("");
+        // кликаем по кнопке, чтобы убрать фокус с поля
+        button2.click();
+        button2.shouldBeDisabled();
+        button2.hover();
+        tooltip.shouldHaveText("Заполните имя");
+        name.val("test");
+        button2.shouldBeEnabled();
+        button2.hover();
+        tooltip.shouldNotBeExist();
     }
 }

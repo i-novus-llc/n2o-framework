@@ -1,6 +1,9 @@
 package net.n2oapp.framework.autotest.cells;
 
-import net.n2oapp.framework.autotest.api.component.cell.*;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -12,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест ячеек таблицы
+ * Автотест ячейки с кнопками
  */
 public class ToolbarCellAT extends AutoTestBase {
 
@@ -48,10 +51,16 @@ public class ToolbarCellAT extends AutoTestBase {
 
     @Test
     public void toolbarCellTest() {
-        int col = 0;
+        Toolbar toolbar = rows.row(0).cell(0, ToolbarCell.class).toolbar();
 
-        rows.row(0).cell(col, ToolbarCell.class).itemsShouldBe(3);
-        rows.row(1).cell(col, ToolbarCell.class).itemsTextShouldBe(2, "three");
-        rows.row(2).cell(col, ToolbarCell.class).clickMenu("two");
+        StandardButton button = toolbar.button("Кнопка");
+        button.shouldExists();
+
+        DropdownButton dropdownButton = toolbar.dropdown();
+        dropdownButton.shouldHaveItems(3);
+        dropdownButton.click();
+        dropdownButton.menuItem("one").shouldExists();
+        dropdownButton.menuItem("two").shouldExists();
+        dropdownButton.menuItem("three").shouldExists();
     }
 }

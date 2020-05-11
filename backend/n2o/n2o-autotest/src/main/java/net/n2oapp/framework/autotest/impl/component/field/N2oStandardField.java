@@ -19,7 +19,7 @@ public class N2oStandardField extends N2oField implements StandardField {
     }
 
     @Override
-    public Toolbar toolBar() {
+    public Toolbar toolbar() {
         return N2oSelenide.collection(element().$$(".btn-toolbar .btn"), N2oToolbar.class);
     }
 
