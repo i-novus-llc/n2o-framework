@@ -217,7 +217,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
     private void compileLinkCondition(MenuItem button, String widgetId, ValidationType type, String linkCondition) {
         Condition condition = new Condition();
         condition.setExpression(linkCondition.substring(1, linkCondition.length() - 1));
-        condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
+        condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
         if (!button.getConditions().containsKey(type))
             button.getConditions().put(type, new ArrayList<>());
         button.getConditions().get(type).add(condition);
@@ -242,7 +242,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
     private void compileCondition(AbstractMenuItem.Dependency dependency, MenuItem menuItem, ValidationType validationType,
                                   String widgetId, String fieldId, CompileProcessor p) {
         String refWidgetId = p.cast(dependency.getRefWidgetId(), widgetId);
-        ReduxModel refModel = p.cast(dependency.getRefModel(), ReduxModel.FILTER);
+        ReduxModel refModel = p.cast(dependency.getRefModel(), ReduxModel.RESOLVE);
 
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
