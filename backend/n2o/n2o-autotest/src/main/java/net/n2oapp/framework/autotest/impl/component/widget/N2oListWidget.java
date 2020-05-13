@@ -80,12 +80,12 @@ public class N2oListWidget extends N2oStandardWidget implements ListWidget {
 
         @Override
         public void clickPrev() {
-            element().$(".pagination").shouldHave(Condition.text("Назад")).click();
+            element().$$(".pagination .page-link").findBy(Condition.text("Назад")).click();
         }
 
         @Override
         public void clickNext() {
-            element().$(".pagination").shouldHave(Condition.text("Вперед")).click();
+            element().$$(".pagination .page-link").findBy(Condition.text("Вперед")).click();
         }
 
         @Override
