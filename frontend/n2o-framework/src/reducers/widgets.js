@@ -180,12 +180,14 @@ export default function widgets(state = {}, action) {
       }
       return {
         ...state,
-        [action.payload.widgetId]: {
-          ...merge.all([widgetState, currentState, action.payload.initProps]),
-          ...smartState,
-          isInit: true,
-          type: action.payload.initProps.type,
-        },
+        [action.payload.widgetId]: Object.assign(
+          {},
+          widgetState,
+          currentState,
+          action.payload.initProps,
+          smartState,
+          { isInit: true, type: action.payload.initProps.type }
+        ),
       };
       break;
     case DATA_REQUEST:
