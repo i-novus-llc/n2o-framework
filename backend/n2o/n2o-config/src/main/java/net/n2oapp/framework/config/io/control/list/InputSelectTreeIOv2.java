@@ -20,7 +20,6 @@ public class InputSelectTreeIOv2 extends ListFieldIOv2<N2oInputSelectTree> {
         p.attributeBoolean(e, "checkboxes", m::getCheckboxes, m::setCheckboxes);
         p.attributeEnum(e, "checking-strategy", m::getCheckingStrategy, m::setCheckingStrategy, CheckingStrategy.class);
         p.attributeInteger(e, "max-tag-count", m::getMaxTagCount, m::setMaxTagCount);
-        p.attribute(e, "enabled-field-id", m::getEnabledFieldId, m::setEnabledFieldId);
         p.attribute(e, "parent-field-id", m::getParentFieldId, m::setParentFieldId);
         p.attribute(e, "has-children-field-id", m::getHasChildrenFieldId, m::setHasChildrenFieldId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
