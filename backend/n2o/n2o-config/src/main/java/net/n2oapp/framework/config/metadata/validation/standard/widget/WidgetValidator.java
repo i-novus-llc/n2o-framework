@@ -96,6 +96,7 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
                 }
             }
         }
+        p.safeStreamOf(n2oWidget.getActions()).forEach(actionsBar -> p.validate(actionsBar.getAction()));
     }
 
     @Override

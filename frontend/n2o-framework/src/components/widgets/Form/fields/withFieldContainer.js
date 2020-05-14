@@ -12,8 +12,7 @@ import {
 import { getFormValues } from 'redux-form';
 import isBoolean from 'lodash/isBoolean';
 import memoize from 'lodash/memoize';
-import some from 'lodash/some';
-import omit from 'lodash/omit';
+import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 import replace from 'lodash/replace';
@@ -32,24 +31,6 @@ import propsResolver from '../../../../utils/propsResolver';
 import withAutoSave from './withAutoSave';
 
 const INDEX_PLACEHOLDER = '#index';
-
-const excludedKeys = [
-  'dependencySelector',
-  'dispatch',
-  'onBlur',
-  'onChange',
-  'onDragStart',
-  'onDrop',
-  'onFocus',
-  'registerFieldExtra',
-  'setReRenderRef',
-  'setRef',
-  'dirty',
-  'pristine',
-  'visited',
-  'asyncValidating',
-  'active',
-];
 
 /**
  * HOC обертка для полей, в которой содержится мэппинг свойств редакса и регистрация дополнительных свойств полей
@@ -243,7 +224,8 @@ export default Field => {
         props.visible !== nextProps.visible ||
         props.disabled !== nextProps.disabled ||
         props.message !== nextProps.message ||
-        props.required !== nextProps.required
+        props.required !== nextProps.required ||
+        get(props, 'input.value', null) !== get(nextProps, 'input.value', null)
     ),
     withProps(props => ({
       ref: props.setReRenderRef,
