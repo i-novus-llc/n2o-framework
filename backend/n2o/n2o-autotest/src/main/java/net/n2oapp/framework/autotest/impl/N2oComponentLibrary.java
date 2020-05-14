@@ -10,6 +10,9 @@ import net.n2oapp.framework.autotest.impl.component.cell.*;
 import net.n2oapp.framework.autotest.impl.component.control.*;
 import net.n2oapp.framework.autotest.impl.component.drawer.N2oDrawer;
 import net.n2oapp.framework.autotest.impl.component.field.N2oStandardField;
+import net.n2oapp.framework.autotest.impl.component.fieldset.N2oMultiFieldSet;
+import net.n2oapp.framework.autotest.impl.component.fieldset.N2oMultiFieldSetItem;
+import net.n2oapp.framework.autotest.impl.component.fieldset.N2oSimpleFieldSet;
 import net.n2oapp.framework.autotest.impl.component.header.N2oAnchorMenuItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oDropdownMenuItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
@@ -41,8 +44,9 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 // pages
                 N2oSimplePage.class, N2oLeftRightPage.class, N2oStandardPage.class, N2oTopLeftRightPage.class,
                 N2oSimpleHeader.class, N2oSimpleRegion.class, N2oPanelRegion.class,
-                N2oTableWidget.class,  N2oListWidget.class, N2oFormWidget.class, N2oStandardTableHeader.class, N2oFilterHeader.class,
-                N2oModal.class, N2oStandardField.class,  N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
+                N2oTableWidget.class, N2oListWidget.class, N2oFormWidget.class, N2oStandardTableHeader.class, N2oFilterHeader.class,
+                N2oModal.class, N2oStandardField.class, N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
+                N2oSimpleFieldSet.class, N2oMultiFieldSet.class, N2oMultiFieldSetItem.class,
                 N2oDrawer.class,
                 // controls
                 N2oInputText.class, N2oInputSelect.class, N2oCheckbox.class, N2oSelect.class, N2oDateInterval.class,
@@ -60,6 +64,6 @@ public class N2oComponentLibrary implements ComponentLibrary {
     @Override
     public List<Class<? extends ComponentsCollection>> collections() {
         return Arrays.asList(N2oCells.class, N2oControls.class, N2oFields.class, N2oRegions.class, N2oTableHeaders.class,
-                N2oToolbar.class, N2oWidgets.class, Menu.class);
+                N2oToolbar.class, N2oWidgets.class, Menu.class, N2oFieldSets.class);
     }
 }

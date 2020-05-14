@@ -69,8 +69,7 @@ describe('Тесты EditableCell', function() {
       dispatch,
       callAction,
     });
-    expect(wrapper.state().model).toEqual({
-    });
+    expect(wrapper.state().model).toEqual({});
     wrapper
       .find('.n2o-editable-cell-text')
       .at(0)

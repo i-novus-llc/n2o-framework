@@ -1,5 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {
+  compose,
+  pure,
+  withProps,
+  defaultProps,
+  withHandlers,
+  shouldUpdate,
+  branch,
+} from 'recompose';
+import { getFormValues } from 'redux-form';
 import isBoolean from 'lodash/isBoolean';
 import memoize from 'lodash/memoize';
 import some from 'lodash/some';
@@ -9,6 +19,7 @@ import map from 'lodash/map';
 import replace from 'lodash/replace';
 import includes from 'lodash/includes';
 import isNil from 'lodash/isNil';
+
 import {
   isInitSelector,
   isVisibleSelector,
@@ -17,16 +28,8 @@ import {
   requiredSelector,
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
-import {
-  compose,
-  pure,
-  withProps,
-  defaultProps,
-  withHandlers,
-  shouldUpdate,
-} from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
-import { getFormValues } from 'redux-form';
+import withAutoSave from './withAutoSave';
 
 const INDEX_PLACEHOLDER = '#index';
 
@@ -232,14 +235,16 @@ export default Field => {
       mapStateToProps,
       mapDispatchToProps
     ),
-    shouldUpdate((props, nextProps) => {
-      const prevResolvedProps = omit(props.mapProps(props), excludedKeys);
-      const resolvedProps = omit(props.mapProps(nextProps), excludedKeys);
-      const isEqualResolvedProps = some(resolvedProps, (value, key) => {
-        return !isEqual(value, prevResolvedProps[key]);
-      });
-      return isEqualResolvedProps;
-    }),
+    branch(({ dataProvider }) => dataProvider, withAutoSave),
+    shouldUpdate(
+      (props, nextProps) =>
+        !isEqual(props.model, nextProps.model) ||
+        props.isInit !== nextProps.isInit ||
+        props.visible !== nextProps.visible ||
+        props.disabled !== nextProps.disabled ||
+        props.message !== nextProps.message ||
+        props.required !== nextProps.required
+    ),
     withProps(props => ({
       ref: props.setReRenderRef,
     })),
