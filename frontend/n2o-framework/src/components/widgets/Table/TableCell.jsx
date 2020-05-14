@@ -45,13 +45,14 @@ class TableCell extends React.Component {
         </ElementType>
       );
     }
-    const tableCellBody = React.createElement(component, {
-      ...this.getPassProps(),
-      model,
-    });
+
     return (
       <ElementType className={className} colSpan={colSpan} style={style}>
-        {tableCellBody}
+        {component &&
+          React.createElement(component, {
+            ...this.getPassProps(),
+            model,
+          })}
       </ElementType>
     );
   }

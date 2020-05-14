@@ -217,25 +217,4 @@ describe('<MultiFieldset />', () => {
       .simulate('click');
     expect(wrapper.find('StandardField').exists()).toBeFalsy();
   });
-
-  it('срабатывает валидация', async () => {
-    const wrapper = setup();
-
-    wrapper
-      .find('.n2o-multi-fieldset__add')
-      .last()
-      .simulate('click');
-    wrapper
-      .find('input')
-      .last()
-      .simulate('focus', {});
-    wrapper
-      .find('input')
-      .first()
-      .simulate('blur', {});
-
-    await delay(100);
-    wrapper.update();
-    expect(wrapper.find('.text-danger').length).toBe(2);
-  });
 });

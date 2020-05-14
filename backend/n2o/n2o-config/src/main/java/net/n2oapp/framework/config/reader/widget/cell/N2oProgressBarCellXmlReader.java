@@ -25,8 +25,6 @@ public class N2oProgressBarCellXmlReader extends AbstractN2oCellXmlReader<N2oPro
         if (element == null)
             return null;
         N2oProgressBarCell progressBar = new N2oProgressBarCell();
-        N2oSwitch pbSwitch = new SwitchReader(null).read(element);
-        progressBar.setStyleSwitch(pbSwitch);
         progressBar.setSize(getAttributeEnum(element, "size", N2oProgressBarCell.Size.class));
         progressBar.setActive(getAttributeBoolean(element, "active"));
         progressBar.setStriped(getAttributeBoolean(element, "striped"));

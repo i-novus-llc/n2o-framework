@@ -4,11 +4,13 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.header.SimpleHeaderValidator;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.action.InvokeActionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.action.PageActionValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.FieldSetColumnValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.FieldSetRowValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.fieldset.FieldSetValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.object.ObjectValidator;
+import net.n2oapp.framework.config.metadata.validation.standard.page.BasePageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.query.QueryValidator;
@@ -25,7 +27,9 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
     public void build(N2oApplicationBuilder b) {
         b.validators(new ObjectValidator(), new QueryValidator(), new PageValidator(),
                 new SimpleHeaderValidator(), new SimpleMenuValidator(), new WidgetValidator(),
-                new ListFieldQueryValidation(), new FieldSetValidator()
-                , new FieldSetColumnValidator(), new FieldSetRowValidator(), new FormValidator(), new TableValidator(), new PageActionValidator(), new StandardPageValidator());
+                new ListFieldQueryValidation(), new FieldSetValidator(), new FieldSetColumnValidator(),
+                new FieldSetRowValidator(), new FormValidator(), new TableValidator(),
+                new PageActionValidator(), new StandardPageValidator(), new InvokeActionValidator(),
+                new BasePageValidator());
     }
 }
