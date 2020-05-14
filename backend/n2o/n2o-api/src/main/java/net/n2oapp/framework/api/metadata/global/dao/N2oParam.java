@@ -27,10 +27,6 @@ public class N2oParam implements Serializable {
      * Список значений параметра
      */
     private Object valueList;
-    /**
-     * Список значений параметра
-     */
-    private Object valueList;
 
     /**
      * Идентификатор виджета на странице, на который ссылается параметр
