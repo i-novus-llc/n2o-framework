@@ -15,4 +15,6 @@ public class Condition implements Compiled {
     private String expression;
     @JsonProperty
     private String modelLink;
+    @JsonProperty
+    private String message;
 }
