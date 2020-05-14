@@ -66,4 +66,3 @@ public class AutoCompleteCompiler extends StandardFieldCompiler<AutoComplete, N2
         return ClientDataProviderUtil.compile(dataProvider, context, p);
     }
 }
-

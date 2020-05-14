@@ -18,6 +18,7 @@ public class N2oParam implements Serializable {
      * Имя параметра
      */
     private String name;
+
     /**
      * Значение параметра
      */
@@ -26,6 +27,7 @@ public class N2oParam implements Serializable {
      * Список значений параметра
      */
     private Object valueList;
+
     /**
      * Идентификатор виджета на странице, на который ссылается параметр
      */

@@ -15,6 +15,7 @@ public abstract class N2oStandardField extends N2oField {
     private String placeholder;
     private Boolean copied;
     private Validations validations;
+    private Submit submit;
     private String defaultValue;
 
     public void setActionButtons(List<N2oActionButton> buttons) {

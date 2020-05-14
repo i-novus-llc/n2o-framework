@@ -12,12 +12,15 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
+import net.n2oapp.framework.api.metadata.control.Submit;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.ReduxAction;
@@ -25,8 +28,10 @@ import net.n2oapp.framework.api.metadata.meta.control.Control;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
@@ -55,6 +60,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         compileCopied(source, p);
         compileControl(control, source, p, field);
         field.setControl(control);
+        field.setDataProvider(initDataProvider(source, context, p));
         return field;
     }
 
@@ -379,5 +385,38 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         } else if (validation.getSide().equals("server")) {
             serverValidations.add(validation);
         }
+    }
+
+    private ClientDataProvider initDataProvider(S source, CompileContext<?, ?> context, CompileProcessor p) {
+        if (source.getSubmit() == null)
+            return null;
+        N2oClientDataProvider dataProvider = new N2oClientDataProvider();
+        Submit submit = source.getSubmit();
+        dataProvider.setMethod(RequestMethod.POST);
+        dataProvider.setUrl(submit.getRoute());
+        dataProvider.setSubmitForm(false);
+        dataProvider.setTargetModel(ReduxModel.RESOLVE);
+        dataProvider.setPathParams(submit.getPathParams());
+        dataProvider.setHeaderParams(submit.getHeaderParams());
+        dataProvider.setFormParams(submit.getFormParams());
+
+        CompiledObject compiledObject = p.getScope(CompiledObject.class);
+        if (compiledObject == null)
+            throw new N2oException("For compilation submit for field [{0}] is necessary object!").addData(source.getId());
+
+        N2oClientDataProvider.ActionContextData actionContextData = new N2oClientDataProvider.ActionContextData();
+        actionContextData.setObjectId(compiledObject.getId());
+        actionContextData.setOperationId(submit.getOperationId());
+        actionContextData.setRoute(submit.getRoute());
+        actionContextData.setMessageOnSuccess(p.cast(submit.getMessageOnSuccess(), false));
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        if (widgetScope != null) {
+            actionContextData.setSuccessAlertWidgetId(widgetScope.getWidgetId());
+            actionContextData.setFailAlertWidgetId(widgetScope.getWidgetId());
+        }
+        actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
+        actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
+        dataProvider.setActionContextData(actionContextData);
+        return ClientDataProviderUtil.compile(dataProvider, context, p);
     }
 }

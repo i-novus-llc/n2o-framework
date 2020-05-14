@@ -30,7 +30,6 @@ public class ActionContext extends ObjectContext {
 
     /**
      * Создать контекст
-     *
      * @param objectId    Идентификатор объекта
      * @param operationId Идентификатор операции
      */

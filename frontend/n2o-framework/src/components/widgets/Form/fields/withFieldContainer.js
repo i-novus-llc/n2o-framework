@@ -1,5 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {
+  compose,
+  pure,
+  withProps,
+  defaultProps,
+  withHandlers,
+  shouldUpdate,
+  branch,
+} from 'recompose';
+import { getFormValues } from 'redux-form';
 import isBoolean from 'lodash/isBoolean';
 import memoize from 'lodash/memoize';
 import get from 'lodash/get';
@@ -8,6 +18,7 @@ import map from 'lodash/map';
 import replace from 'lodash/replace';
 import includes from 'lodash/includes';
 import isNil from 'lodash/isNil';
+
 import {
   isInitSelector,
   isVisibleSelector,
@@ -16,16 +27,8 @@ import {
   requiredSelector,
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
-import {
-  compose,
-  pure,
-  withProps,
-  defaultProps,
-  withHandlers,
-  shouldUpdate,
-} from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
-import { getFormValues } from 'redux-form';
+import withAutoSave from './withAutoSave';
 
 const INDEX_PLACEHOLDER = '#index';
 
@@ -116,13 +119,8 @@ export default Field => {
      * @param e
      */
     onBlur(e) {
-      const {
-        meta: { form },
-        input: { name },
-        value,
-        input,
-        onBlur,
-      } = this.props;
+      const { input, onBlur } = this.props;
+
       input && input.onBlur(e);
       onBlur && onBlur(e.target.value);
     }
@@ -149,6 +147,7 @@ export default Field => {
      */
     render() {
       const props = this.props.mapProps(this.props);
+
       return <Field {...props} />;
     }
   }
@@ -212,6 +211,10 @@ export default Field => {
     connect(
       mapStateToProps,
       mapDispatchToProps
+    ),
+    branch(
+      ({ dataProvider, autoSubmit }) => !!autoSubmit || !!dataProvider,
+      withAutoSave
     ),
     shouldUpdate(
       (props, nextProps) =>
