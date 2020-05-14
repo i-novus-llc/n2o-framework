@@ -12,8 +12,6 @@ import {
 import { getFormValues } from 'redux-form';
 import isBoolean from 'lodash/isBoolean';
 import memoize from 'lodash/memoize';
-import some from 'lodash/some';
-import omit from 'lodash/omit';
 import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 import replace from 'lodash/replace';
@@ -32,24 +30,6 @@ import propsResolver from '../../../../utils/propsResolver';
 import withAutoSave from './withAutoSave';
 
 const INDEX_PLACEHOLDER = '#index';
-
-const excludedKeys = [
-  'dependencySelector',
-  'dispatch',
-  'onBlur',
-  'onChange',
-  'onDragStart',
-  'onDrop',
-  'onFocus',
-  'registerFieldExtra',
-  'setReRenderRef',
-  'setRef',
-  'dirty',
-  'pristine',
-  'visited',
-  'asyncValidating',
-  'active',
-];
 
 /**
  * HOC обертка для полей, в которой содержится мэппинг свойств редакса и регистрация дополнительных свойств полей
@@ -138,13 +118,8 @@ export default Field => {
      * @param e
      */
     onBlur(e) {
-      const {
-        meta: { form },
-        input: { name },
-        value,
-        input,
-        onBlur,
-      } = this.props;
+      const { input, onBlur } = this.props;
+
       input && input.onBlur(e);
       onBlur && onBlur(e.target.value);
     }
@@ -171,6 +146,7 @@ export default Field => {
      */
     render() {
       const props = this.props.mapProps(this.props);
+
       return <Field {...props} />;
     }
   }
@@ -235,7 +211,10 @@ export default Field => {
       mapStateToProps,
       mapDispatchToProps
     ),
-    branch(({ dataProvider }) => dataProvider, withAutoSave),
+    branch(
+      ({ dataProvider, autoSubmit }) => !!autoSubmit || !!dataProvider,
+      withAutoSave
+    ),
     shouldUpdate(
       (props, nextProps) =>
         !isEqual(props.model, nextProps.model) ||

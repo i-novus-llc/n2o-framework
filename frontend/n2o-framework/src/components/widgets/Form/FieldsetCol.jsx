@@ -21,6 +21,7 @@ function FieldsetCol({
   parentName,
   parentIndex,
   colVisible = true,
+  autoSubmit,
 }) {
   return (
     colVisible && (
@@ -43,6 +44,7 @@ function FieldsetCol({
                 modelPrefix={modelPrefix}
                 name={name}
                 parentIndex={parentIndex}
+                autoSubmit={autoSubmit}
                 {...field}
               />
             );
@@ -57,6 +59,7 @@ function FieldsetCol({
                 form={form}
                 parentName={parentName}
                 parentIndex={parentIndex}
+                autoSubmit={autoSubmit}
                 {...fieldset}
               />
             );

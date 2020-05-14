@@ -178,7 +178,9 @@ class Fieldset extends React.Component {
       autoFocusId,
       form,
       modelPrefix,
+      autoSubmit,
     } = this.props;
+
     return (
       <FieldsetRow
         key={rowId}
@@ -191,6 +193,7 @@ class Fieldset extends React.Component {
         autoFocusId={autoFocusId}
         form={form}
         modelPrefix={modelPrefix}
+        autoSubmit={autoSubmit}
         {...props}
       />
     );

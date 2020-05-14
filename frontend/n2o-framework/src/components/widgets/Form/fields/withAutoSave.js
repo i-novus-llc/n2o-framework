@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getFormValues } from 'redux-form';
 import { compose, withHandlers, mapProps, getContext } from 'recompose';
-import pathToRegexp from 'path-to-regexp';
 import has from 'lodash/has';
 
-import { callAlert } from '../../../../actions/meta';
-import { saveFieldData } from '../../../../core/api';
-import { getParams } from '../../../../core/dataProviderResolver';
+import { startInvoke } from '../../../../actions/actionImpl';
 
 export default function withAutoSave(WrappedComponent) {
   let timeoutId = null;
@@ -22,19 +20,6 @@ export default function withAutoSave(WrappedComponent) {
       store: PropTypes.object,
     }),
     withHandlers({
-      resolveDataProvider: ({ store, dataProvider }) => () => {
-        const { url, pathMapping, queryMapping } = dataProvider;
-        const mapping = mapping => getParams(mapping, store.getState());
-        const pathParams = mapping(pathMapping);
-        const baseQuery = mapping(queryMapping);
-        const basePath = pathToRegexp.compile(url)(pathParams);
-
-        return {
-          basePath,
-          pathParams,
-          baseQuery,
-        };
-      },
       parseValue: () => eventOrValue => {
         if (has(eventOrValue, 'target')) {
           return eventOrValue.target.value;
@@ -42,35 +27,43 @@ export default function withAutoSave(WrappedComponent) {
 
         return eventOrValue;
       },
+      prepareData: ({ autoSubmit, input, store }) => (form, value) => {
+        if (autoSubmit) {
+          const model = getFormValues(form)(store.getState());
+
+          return {
+            ...model,
+            [input.name]: value,
+          };
+        }
+
+        return {
+          data: value,
+        };
+      },
     }),
     withHandlers({
       onChange: ({
-        resolveDataProvider,
         parseValue,
+        prepareData,
         input,
         store,
+        autoSubmit,
+        dataProvider,
+        meta = {},
       }) => eventOrValue => {
-        const { basePath, baseQuery } = resolveDataProvider();
-
+        const value = parseValue(eventOrValue);
         input.onChange(eventOrValue);
 
         clearTimeout(timeoutId);
 
-        timeoutId = setTimeout(async () => {
-          try {
-            const { meta } = await saveFieldData(basePath, {
-              baseQuery,
-              body: { data: parseValue(eventOrValue) },
-            });
+        timeoutId = setTimeout(() => {
+          const form = meta.form;
+          const data = prepareData(form, value);
 
-            store.dispatch(callAlert(meta));
-          } catch (e) {
-            const { meta } = e.body;
-
-            store.dispatch(callAlert(meta));
-
-            console.error(e);
-          }
+          store.dispatch(
+            startInvoke(form, autoSubmit || dataProvider, data, null)
+          );
         }, 400);
       },
       onBlur: ({ input }) => eventOrValue => input.onBlur(eventOrValue),
