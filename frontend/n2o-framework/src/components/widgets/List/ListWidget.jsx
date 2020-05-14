@@ -62,6 +62,8 @@ function ListWidget(
   },
   context
 ) {
+  const { size } = paging;
+
   const prepareFilters = () => {
     return context.resolveProps(filter, Fieldsets.StandardFieldset);
   };
@@ -94,6 +96,7 @@ function ListWidget(
     >
       <ListContainer
         page={1}
+        size={size}
         maxHeight={maxHeight}
         pageId={pageId}
         hasMoreButton={hasMoreButton}
@@ -145,6 +148,7 @@ ListWidget.defaultProps = {
   style: {},
   filter: {},
   list: {},
+  paging: {},
   fetchOnScroll: false,
   prevText: 'Назад',
   nextText: 'Вперед',

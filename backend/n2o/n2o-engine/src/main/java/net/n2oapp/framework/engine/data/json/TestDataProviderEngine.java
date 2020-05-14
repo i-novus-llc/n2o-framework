@@ -234,114 +234,167 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             return data;
         }
         for (String filter : filters) {
-            if (filter.contains(":eq")) {
-                String[] splittedFilter = filter.replaceAll(" ", "").split(":eq");
-                Object pattern = inParams.get(splittedFilter[1].replace(":", ""));
-                if (pattern != null) {
-                    data = data
-                            .stream()
-                            .filter(m -> {
-                                if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
-                                    return false;
-                                if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number)
-                                    return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).equals(((Number) pattern).longValue());
-                                return m.get(splittedFilter[0]).toString().equals(pattern.toString());
-                            })
-                            .collect(Collectors.toList());
-                }
-            } else if (filter.contains(":like")) {
-                String[] splittedFilter = filter.replaceAll(" ", "").split(":like");
-                String pattern = inParams.get(splittedFilter[1].replace(":", "")).toString();
-                if (pattern != null) {
-                    data = data
-                            .stream()
-                            .filter(m -> {
-                                if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
-                                    return false;
-                                return ((m.get(splittedFilter[0]))).toString().toLowerCase()
-                                        .contains(pattern.toLowerCase());
-                            })
-                            .collect(Collectors.toList());
-                }
-            } else if (filter.contains(":in")) {
-                String[] splittedFilter = filter.replaceAll(" ", "").split(":in");
-                Object paramsValue = inParams.get(splittedFilter[1].replace(":", ""));
-                List patterns = paramsValue instanceof List ? (List) paramsValue : Arrays.asList(paramsValue);
-                if (patterns != null) {
-                    data = data
-                            .stream()
-                            .filter(m -> {
-                                if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
-                                    return false;
-                                if (m.get(splittedFilter[0]) instanceof Number) {
-                                    List<Long> longPatterns = new ArrayList<>();
-                                    patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
-                                    return longPatterns.contains(((Number) m.get(splittedFilter[0])).longValue());
-                                }
-                                for (Object p : patterns) {
-                                    if (p.toString().equals(m.get(splittedFilter[0]).toString()))
-                                        return true;
-                                }
-                                return false;
-                            })
-                            .collect(Collectors.toList());
-                }
-            } else if (filter.contains(":more")) {
-                String[] splittedFilter = filter.replaceAll(" ", "").split(":more");
-                Comparable pattern = (Comparable) inParams.get(splittedFilter[1].replace(":", ""));
-                if (pattern != null) {
-                    data = data
-                            .stream()
-                            .filter(m -> {
-                                if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
-                                    return false;
-                                if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number) {
-                                    return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).compareTo(((Number) pattern).longValue()) > 0;
-                                }
-                                return ((m.get(splittedFilter[0]).toString())).compareTo(pattern.toString()) > 0;
-                            })
-                            .collect(Collectors.toList());
-                }
-            } else if (filter.contains(":less")) {
-                String[] splittedFilter = filter.replaceAll(" ", "").split(":less");
-                Comparable pattern = (Comparable) inParams.get(splittedFilter[1].replace(":", ""));
-                if (pattern != null) {
-                    data = data
-                            .stream()
-                            .filter(m -> {
-                                if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
-                                    return false;
-                                if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number) {
-                                    return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).compareTo(((Number) pattern).longValue()) < 0;
-                                }
-                                return ((m.get(splittedFilter[0]).toString())).compareTo(pattern.toString()) < 0;
-                            })
-                            .collect(Collectors.toList());
-                }
-            } else if (filter.contains(":isNull")) {
-                String[] splittedFilter = filter.replaceAll(" ", "").split(":isNull");
-                data = data.stream()
-                        .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) == null)
-                        .collect(Collectors.toList());
-            } else if (filter.contains(":isNotNull")) {
-                String[] splittedFilter = filter.replaceAll(" ", "").split(":isNotNull");
-                data = data.stream()
-                        .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) != null)
-                        .collect(Collectors.toList());
-            }
+            if (filter.contains(":eqOrIsNull"))
+                data = eqOrIsNullFilterData(filter, inParams, data);
+            else if (filter.contains(":eq"))
+                data = eqFilterData(filter, inParams, data);
+            else if (filter.contains(":like"))
+                data = likeFilterData(filter, inParams, data);
+            else if (filter.contains(":in"))
+                data = inFilterData(filter, inParams, data);
+            else if (filter.contains(":more"))
+                data = moreFilterData(filter, inParams, data);
+            else if (filter.contains(":less"))
+                data = lessFilterData(filter, inParams, data);
+            else if (filter.contains(":isNull"))
+                data = isNullFilterData(filter, data);
+            else if (filter.contains(":isNotNull"))
+                data = isNotNullFilterData(filter, data);
+        }
+        return data;
+    }
+
+    private List<DataSet> eqFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
+        String[] splittedFilter = filter.replace(" ", "").split(":eq");
+        Object pattern = inParams.get(splittedFilter[1].replace(":", ""));
+        if (pattern != null) {
+            data = data
+                    .stream()
+                    .filter(m -> {
+                        if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                            return false;
+                        if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number)
+                            return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).equals(((Number) pattern).longValue());
+                        return m.get(splittedFilter[0]).toString().equals(pattern.toString());
+                    })
+                    .collect(Collectors.toList());
+        }
+        return data;
+    }
+
+    private List<DataSet> likeFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
+        String[] splittedFilter = filter.replace(" ", "").split(":like");
+        String pattern = inParams.get(splittedFilter[1].replace(":", "")).toString();
+        if (pattern != null) {
+            data = data
+                    .stream()
+                    .filter(m -> {
+                        if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                            return false;
+                        return m.get(splittedFilter[0]).toString().toLowerCase()
+                                .contains(pattern.toLowerCase());
+                    })
+                    .collect(Collectors.toList());
+        }
+        return data;
+    }
+
+    private List<DataSet> inFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
+        String[] splittedFilter = filter.replace(" ", "").split(":in");
+        Object paramsValue = inParams.get(splittedFilter[1].replace(":", ""));
+        List patterns = paramsValue instanceof List ? (List) paramsValue : Arrays.asList(paramsValue);
+        if (patterns != null) {
+            data = data
+                    .stream()
+                    .filter(m -> {
+                        if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                            return false;
+                        if (m.get(splittedFilter[0]) instanceof Number) {
+                            List<Long> longPatterns = new ArrayList<>();
+                            patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
+                            return longPatterns.contains(((Number) m.get(splittedFilter[0])).longValue());
+                        }
+                        for (Object p : patterns) {
+                            if (p.toString().equals(m.get(splittedFilter[0]).toString()))
+                                return true;
+                        }
+                        return false;
+                    })
+                    .collect(Collectors.toList());
+        }
+        return data;
+    }
+
+    private List<DataSet> lessFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
+        String[] splittedFilter = filter.replace(" ", "").split(":less");
+        Comparable pattern = (Comparable) inParams.get(splittedFilter[1].replace(":", ""));
+        if (pattern != null) {
+            data = data
+                    .stream()
+                    .filter(m -> {
+                        if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                            return false;
+                        if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number) {
+                            return ((Number) m.get(splittedFilter[0])).longValue() < ((Number) pattern).longValue();
+                        }
+                        return m.get(splittedFilter[0]).toString().compareTo(pattern.toString()) < 0;
+                    })
+                    .collect(Collectors.toList());
+        }
+        return data;
+    }
+
+    private List<DataSet> moreFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
+        String[] splittedFilter = filter.replace(" ", "").split(":more");
+        Comparable pattern = (Comparable) inParams.get(splittedFilter[1].replace(":", ""));
+        if (pattern != null) {
+            data = data
+                    .stream()
+                    .filter(m -> {
+                        if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                            return false;
+                        if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number) {
+                            return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).compareTo(((Number) pattern).longValue()) > 0;
+                        }
+                        return m.get(splittedFilter[0]).toString().compareTo(pattern.toString()) > 0;
+                    })
+                    .collect(Collectors.toList());
+        }
+        return data;
+    }
+
+    private List<DataSet> isNullFilterData(String filter, List<DataSet> data) {
+        String[] splittedFilter = filter.replace(" ", "").split(":isNull");
+        return data.stream()
+                .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) == null)
+                .collect(Collectors.toList());
+
+    }
+
+    private List<DataSet> isNotNullFilterData(String filter, List<DataSet> data) {
+        String[] splittedFilter = filter.replace(" ", "").split(":isNotNull");
+        return data.stream()
+                .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) != null)
+                .collect(Collectors.toList());
+    }
+
+    private List<DataSet> eqOrIsNullFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
+        String[] splittedFilter = filter.replace(" ", "").split(":eqOrIsNull");
+        Object pattern = inParams.get(splittedFilter[1].replace(":", ""));
+        if (pattern != null) {
+            data = data
+                    .stream()
+                    .filter(m -> {
+                        if (!m.containsKey(splittedFilter[0]) || m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) == null)
+                            return true;
+                        if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number)
+                            return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).equals(((Number) pattern).longValue());
+                        return m.get(splittedFilter[0]).toString().equals(pattern.toString());
+                    })
+                    .collect(Collectors.toList());
         }
         return data;
     }
 
     private void sort(List<String> sortings, Map<String, Object> inParams, List<DataSet> data) {
-        if (sortings == null || sortings.size() == 0)
+        if (sortings == null || sortings.isEmpty())
             return;
 
         String sorting = sortings.get(0);
-        String[] splittedSorting = sorting.replaceAll(" ", "").split(":");
+        String[] splittedSorting = sorting.replace(" ", "").split(":");
         String direction = (String) inParams.get(splittedSorting[1]);
 
-        if (data.size() < 1)
+        if (data.isEmpty())
             return;
 
         Comparator comparator = Comparator.comparing(m -> (Comparable) (((LinkedHashMap) m).get(splittedSorting[0])),
@@ -404,10 +457,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                 List.class, DataSet.class);
         List<DataSet> dataList = objectMapper.readValue(is, collectionType);
         for (DataSet data : dataList) {
-            if (data.containsKey(primaryKeyFieldId)) {
-                if (integer.equals(primaryKeyType))
-                    data.put(primaryKeyFieldId, ((Number) data.get(primaryKeyFieldId)).longValue());
-            }
+            if (data.containsKey(primaryKeyFieldId) && integer.equals(primaryKeyType))
+                data.put(primaryKeyFieldId, ((Number) data.get(primaryKeyFieldId)).longValue());
         }
         return dataList;
     }

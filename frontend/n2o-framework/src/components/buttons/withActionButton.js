@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, withPropsOnChange } from 'recompose';
+import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 import omit from 'lodash/omit';
 
 import { registerButton } from '../../actions/toolbar';
@@ -17,7 +18,6 @@ import { makeWidgetValidationSelector } from '../../selectors/widgets';
 import { validateField } from '../../core/validation/createValidator';
 
 import ModalDialog from '../actions/ModalDialog/ModalDialog';
-import Tooltip from '../snippets/Tooltip/Tooltip';
 import { id } from '../../utils/id';
 import linkResolver from '../../utils/linkResolver';
 
@@ -157,24 +157,24 @@ export default function withActionButton(options = {}) {
         const { confirmVisible } = this.state;
         return (
           <>
-            <Tooltip
-              hint={hint}
-              label={
-                <WrappedComponent
-                  {...omit(this.props, [
-                    'isInit',
-                    'targetTooltip',
-                    'initialProps',
-                    'registerButton',
-                    'uid',
-                    'validationConfig',
-                    'formValues',
-                  ])}
-                  onClick={this.handleClick}
-                  id={this.generatedButtonId}
-                />
-              }
+            <WrappedComponent
+              {...omit(this.props, [
+                'isInit',
+                'targetTooltip',
+                'initialProps',
+                'registerButton',
+                'uid',
+                'validationConfig',
+                'formValues',
+              ])}
+              onClick={this.handleClick}
+              id={this.generatedButtonId}
             />
+            {hint && (
+              <UncontrolledTooltip target={this.generatedButtonId}>
+                {hint}
+              </UncontrolledTooltip>
+            )}
             {confirm && (
               <ModalDialog
                 {...this.mapConfirmProps(confirm)}

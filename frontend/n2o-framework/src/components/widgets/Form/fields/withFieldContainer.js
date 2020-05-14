@@ -12,6 +12,7 @@ import {
 import { getFormValues } from 'redux-form';
 import isBoolean from 'lodash/isBoolean';
 import memoize from 'lodash/memoize';
+import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 import replace from 'lodash/replace';
@@ -222,7 +223,8 @@ export default Field => {
         props.visible !== nextProps.visible ||
         props.disabled !== nextProps.disabled ||
         props.message !== nextProps.message ||
-        props.required !== nextProps.required
+        props.required !== nextProps.required ||
+        get(props, 'input.value', null) !== get(nextProps, 'input.value', null)
     ),
     withProps(props => ({
       ref: props.setReRenderRef,

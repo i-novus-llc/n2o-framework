@@ -51,7 +51,7 @@ esdoc/
 storybook/
 
 #Test results
-demo/server/allure-results
+allure-results
 
 # Compiled output
 public/dist
