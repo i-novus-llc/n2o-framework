@@ -36,6 +36,7 @@ stories.add(
         icon: 'fa fa-square',
         dob: '03.12.1981',
         country: 'США',
+        desc: 'Описание',
       },
       {
         id: 'Анатолий Петухов',
@@ -128,6 +129,7 @@ stories.add(
       format: '',
       options: options,
       expandPopUp: false,
+      descriptionFieldId: 'desc',
     };
 
     return (

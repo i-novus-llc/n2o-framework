@@ -17,6 +17,7 @@ const props = {
   placeholder: '',
   valueFieldId: 'id',
   labelFieldId: 'id',
+  descriptionFieldId: 'desc',
   filter: 'includes',
   resetOnBlur: false,
   disabledValues: [],
@@ -33,6 +34,22 @@ const props = {
     },
   ],
 };
+
+const props3 = Object.assign({}, props, {
+  options: [
+    {
+      id: 123412,
+      icon: 'fa fa-square',
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
+      desc: 'Описание',
+    },
+    {
+      id: '33',
+      icon: 'fa fa-square',
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
+    },
+  ],
+});
 
 const setup = (propOverrides, defaultProps = props) => {
   const props = Object.assign({}, defaultProps, propOverrides);
@@ -368,5 +385,21 @@ describe('<InputSelect />', () => {
     expect(node.querySelector('.n2o-pop-up').style['min-width']).toEqual(
       '120px'
     );
+  });
+  it('Проверяет наличие описания при descriptionFieldId', () => {
+    const wrapper = mount(<InputSelect {...props3} />);
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
+    expect(
+      wrapper.find('.n2o-eclipse-content__description').exists()
+    ).toBeTruthy();
+    expect(
+      wrapper
+        .find('.n2o-eclipse-content__description')
+        .first()
+        .text()
+    ).toBe('Описание');
   });
 });
