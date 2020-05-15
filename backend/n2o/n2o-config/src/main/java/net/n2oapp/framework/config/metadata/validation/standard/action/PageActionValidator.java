@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,6 +31,12 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                     filter(operation -> source.getSubmitOperationId().equals(operation.getId())).
                     findFirst().orElseThrow(() -> new N2oMetadataValidationException("Действие открытия страницы: " + source.getId() +
                     " ссылается на несуществующую в объекте: " + source.getObjectId() + " операцию: " + source.getSubmitOperationId()));
+        }
+        PageScope pageScope = p.getScope(PageScope.class);
+        if (source.getRefreshWidgetId() != null && pageScope != null
+                && !pageScope.getWidgetIds().contains(source.getRefreshWidgetId())) {
+            throw new N2oMetadataValidationException(p.getMessage(
+                    "Атрибут refresh-widget-id ссылается на несуществующий виджет: " + source.getRefreshWidgetId()));
         }
     }
 

@@ -51,7 +51,7 @@
   min-width: 48px;
 }
 
-.n2o-select-pop-up{
+.n2o-select-pop-up {
   width: 100%;
   max-width: 600px;
   padding: 0;
@@ -60,6 +60,10 @@
 
   & .n2o-eclipse-content {
     outline: none;
+  }
+
+  & .n2o-dropdown-control {
+    height: auto;
   }
 }
 
