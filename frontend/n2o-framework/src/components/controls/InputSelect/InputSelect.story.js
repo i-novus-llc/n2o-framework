@@ -24,14 +24,14 @@ stories.add(
         icon: 'fa fa-square',
         dob: '11.09.1992',
         country: 'Россия',
-        isEnabled: false,
+        isDisabled: true,
       },
       {
         id: 'Игонь Николаев',
         icon: 'fa fa-plus',
         dob: '24.04.1891',
         country: 'Россия',
-        isEnabled: false,
+        isDisabled: true,
       },
       {
         id: 'Владимир Серпухов',
@@ -130,7 +130,7 @@ stories.add(
       format: '',
       options: options,
       expandPopUp: false,
-      enabledFieldId: 'isEnabled',
+      enabledFieldId: 'isDisabled',
     };
 
     return (
