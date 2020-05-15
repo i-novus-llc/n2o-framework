@@ -68,7 +68,7 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
 
         @Override
         public TableHeaders headers() {
-            return N2oSelenide.collection(element().$$(".n2o-advanced-table-thead .n2o-advanced-table-header-cel"), TableHeaders.class);
+            return N2oSelenide.collection(element().$$(".n2o-advanced-table-thead th.n2o-advanced-table-header-cel"), TableHeaders.class);
         }
 
         @Override
