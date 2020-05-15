@@ -23,9 +23,11 @@ import {
   defaultProps,
   withHandlers,
   shouldUpdate,
+  branch,
 } from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
 import { getFormValues } from 'redux-form';
+import withFieldValidate from './withFieldValidate';
 
 const INDEX_PLACEHOLDER = '#index';
 
@@ -58,6 +60,7 @@ export default Field => {
         requiredToRegister,
         registerFieldExtra,
         parentIndex,
+        validation,
       } = props;
 
       !isInit &&
@@ -66,6 +69,7 @@ export default Field => {
           disabled: disabledToRegister,
           dependency: this.modifyDependency(dependency, parentIndex),
           required: requiredToRegister,
+          validation: validation,
         });
     }
 
@@ -166,9 +170,11 @@ export default Field => {
     };
   };
 
-  const mapDispatchToProps = {
-    registerFieldExtra,
-  };
+  const mapDispatchToProps = dispatch => ({
+    dispatch,
+    registerFieldExtra: (form, name, initialState) =>
+      dispatch(registerFieldExtra(form, name, initialState)),
+  });
 
   return compose(
     defaultProps({
@@ -213,6 +219,7 @@ export default Field => {
       mapStateToProps,
       mapDispatchToProps
     ),
+    branch(({ validation }) => !!validation, withFieldValidate),
     shouldUpdate(
       (props, nextProps) =>
         !isEqual(props.model, nextProps.model) ||

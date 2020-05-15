@@ -1,13 +1,23 @@
-import { takeEvery, put } from 'redux-saga/effects';
+import { takeEvery, put, select } from 'redux-saga/effects';
 import { touch } from 'redux-form';
+import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+
 import { removeFieldMessage } from '../actions/formPlugin';
-import { ADD_FIELD_MESSAGE } from '../constants/formPlugin';
+import { makeFieldByName } from '../selectors/formPlugin';
 
 export function* removeMessage(action) {
-  yield action.meta &&
-    action.meta.form &&
-    action.meta.field &&
-    put(removeFieldMessage(action.meta.form, action.meta.field));
+  const formName = get(action, 'meta.form');
+  const fieldName = get(action, 'meta.field');
+
+  if (formName && fieldName) {
+    const field = yield select(makeFieldByName(formName, fieldName));
+    const fieldValidation = get(field, 'validation');
+
+    if (!fieldValidation || isEmpty(fieldValidation)) {
+      yield put(removeFieldMessage(action.meta.form, action.meta.field));
+    }
+  }
 }
 
 export function* addTouched({ payload: { form, name } }) {
