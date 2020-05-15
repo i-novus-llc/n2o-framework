@@ -30,7 +30,7 @@ import {
 import propsResolver from '../../../../utils/propsResolver';
 import { getFormValues } from 'redux-form';
 
-const INDEX_PLACEHOLDER = '#index';
+const INDEX_PLACEHOLDER = 'index';
 
 const excludedKeys = [
   'dependencySelector',
