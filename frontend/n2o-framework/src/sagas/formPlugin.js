@@ -12,8 +12,9 @@ export function* removeMessage(action) {
 
   if (formName && fieldName) {
     const field = yield select(makeFieldByName(formName, fieldName));
+    const fieldValidation = get(field, 'validation');
 
-    if (!field.validation || isEmpty(field.validation)) {
+    if (!fieldValidation || isEmpty(fieldValidation)) {
       yield put(removeFieldMessage(action.meta.form, action.meta.field));
     }
   }
