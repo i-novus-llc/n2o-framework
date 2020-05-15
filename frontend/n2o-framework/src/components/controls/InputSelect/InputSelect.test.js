@@ -17,7 +17,7 @@ const props = {
   placeholder: '',
   valueFieldId: 'id',
   labelFieldId: 'id',
-  enabledFieldId: 'isEnabled',
+  enabledFieldId: 'isDisabled',
   filter: 'includes',
   resetOnBlur: false,
   disabledValues: [],
@@ -41,7 +41,7 @@ const props2 = Object.assign({}, props, {
       id: 123412,
       icon: 'fa fa-square',
       image: 'https://i.stack.imgur.com/2zqqC.jpg',
-      isEnabled: false,
+      isDisabled: true,
     },
     {
       id: '33',
