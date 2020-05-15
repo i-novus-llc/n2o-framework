@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import isUndefined from 'lodash/isUndefined';
+
 import Badge from 'reactstrap/lib/Badge';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
 import scrollIntoView from 'scroll-into-view-if-needed';
@@ -45,6 +48,7 @@ function PopupItems({
   iconFieldId,
   valueFieldId,
   imageFieldId,
+  enabledFieldId,
   disabledValues,
   selected,
   groupFieldId,
@@ -87,12 +91,14 @@ function PopupItems({
           setActiveValueId && setActiveValueId(item[valueFieldId])
         }
         disabled={
-          !hasCheckboxes &&
-          isDisabled(
-            autocomplete ? item[valueFieldId] : item,
-            selected,
-            disabledValues
-          )
+          !isUndefined(enabledFieldId) && item[enabledFieldId] === false
+            ? true
+            : !hasCheckboxes &&
+              isDisabled(
+                autocomplete ? item[valueFieldId] : item,
+                selected,
+                disabledValues
+              )
         }
         ref={handleRef}
         key={item.id}

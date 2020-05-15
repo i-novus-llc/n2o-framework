@@ -56,6 +56,7 @@ class InputSelect extends React.Component {
       value,
       options,
       valueFieldId,
+      enabledFieldId,
       labelFieldId,
       multiSelect,
     } = this.props;
@@ -497,6 +498,7 @@ class InputSelect extends React.Component {
       disabledValues,
       imageFieldId,
       groupFieldId,
+      enabledFieldId,
       hasCheckboxes,
       format,
       badgeFieldId,
@@ -621,6 +623,7 @@ class InputSelect extends React.Component {
                     selected={this.state.value}
                     disabledValues={disabledValues}
                     groupFieldId={groupFieldId}
+                    enabledFieldId={enabledFieldId}
                     hasCheckboxes={hasCheckboxes}
                     onRemoveItem={this._removeSelectedItem}
                     format={format}

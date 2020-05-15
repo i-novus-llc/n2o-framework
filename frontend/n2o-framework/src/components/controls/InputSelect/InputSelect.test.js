@@ -17,6 +17,7 @@ const props = {
   placeholder: '',
   valueFieldId: 'id',
   labelFieldId: 'id',
+  enabledFieldId: 'isEnabled',
   filter: 'includes',
   resetOnBlur: false,
   disabledValues: [],
@@ -33,6 +34,22 @@ const props = {
     },
   ],
 };
+
+const props2 = Object.assign({}, props, {
+  options: [
+    {
+      id: 123412,
+      icon: 'fa fa-square',
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
+      isEnabled: false,
+    },
+    {
+      id: '33',
+      icon: 'fa fa-square',
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
+    },
+  ],
+});
 
 const setup = (propOverrides, defaultProps = props) => {
   const props = Object.assign({}, defaultProps, propOverrides);
@@ -368,5 +385,16 @@ describe('<InputSelect />', () => {
     expect(node.querySelector('.n2o-pop-up').style['min-width']).toEqual(
       '120px'
     );
+  });
+  it('проверяет disabled элемент при enabledFieldId', () => {
+    const wrapper = mount(<InputSelect {...props2} />);
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
+    const html = `<button type="button" disabled="" title="123412" tabindex="-1" class="n2o-eclipse-content disabled dropdown-item"><i class="n2o-icon fa fa-square"></i><img src="https://i.stack.imgur.com/2zqqC.jpg"><span class="text-cropped">123412</span><span class="badge badge-secondary"></span></button>`;
+    expect(
+      wrapper.find('.n2o-eclipse-content.disabled.dropdown-item').html()
+    ).toEqual(html);
   });
 });
