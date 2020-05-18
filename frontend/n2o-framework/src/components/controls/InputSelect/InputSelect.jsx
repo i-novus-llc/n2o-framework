@@ -57,6 +57,7 @@ class InputSelect extends React.Component {
       options,
       valueFieldId,
       labelFieldId,
+      statusFieldId,
       multiSelect,
     } = this.props;
     const valueArray = Array.isArray(value) ? value : value ? [value] : [];
@@ -500,6 +501,7 @@ class InputSelect extends React.Component {
       hasCheckboxes,
       format,
       badgeFieldId,
+      statusFieldId,
       badgeColorFieldId,
       onScrollEnd,
       expandPopUp,
@@ -613,6 +615,7 @@ class InputSelect extends React.Component {
                     iconFieldId={iconFieldId}
                     imageFieldId={imageFieldId}
                     badgeFieldId={badgeFieldId}
+                    statusFieldId={statusFieldId}
                     badgeColorFieldId={badgeColorFieldId}
                     onSelect={item => {
                       this._handleItemSelect(item);

@@ -42,6 +42,7 @@ stories.add(
         icon: 'fa fa-square',
         dob: '11.11.2003',
         country: 'США',
+        status: 'success',
       },
       {
         id: 'Николай Патухов',
@@ -128,6 +129,7 @@ stories.add(
       format: '',
       options: options,
       expandPopUp: false,
+      statusFieldId: 'status',
     };
 
     return (
