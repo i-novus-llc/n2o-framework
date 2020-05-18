@@ -260,30 +260,63 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset.shouldHaveItems(2);
         MultiFieldSetItem item1 = fieldset.item(0);
         MultiFieldSetItem item2 = fieldset.item(1);
-        InputText name1 = item1.fields().field("name").control(InputText.class);
+        InputText name1 = item1.fields().field("1.2.(0) name").control(InputText.class);
         name1.shouldExists();
         name1.shouldHaveValue("Joe");
-        InputText age1 = item1.fields().field("age").control(InputText.class);
+        InputText age1 = item1.fields().field("1.2.(0) age").control(InputText.class);
         age1.shouldExists();
         age1.shouldHaveValue("15");
-        InputText name2 = item2.fields().field("name").control(InputText.class);
+        InputText name2 = item2.fields().field("1.2.(1) name").control(InputText.class);
         name2.shouldExists();
         name2.shouldHaveValue("Ann");
-        InputText age2 = item2.fields().field("age").control(InputText.class);
+        InputText age2 = item2.fields().field("1.2.(1) age").control(InputText.class);
         age2.shouldExists();
         age2.shouldBeEmpty();
         // проверяем, что при копировании ничего не теряется
         item1.clickCopyButton();
         fieldset.shouldHaveItems(3);
         MultiFieldSetItem item3 = fieldset.item(2);
-        InputText name3 = item3.fields().field("name").control(InputText.class);
+        InputText name3 = item3.fields().field("1.2.(2) name").control(InputText.class);
         name3.shouldHaveValue("Joe");
-        InputText age3 = item3.fields().field("age").control(InputText.class);
+        InputText age3 = item3.fields().field("1.2.(2) age").control(InputText.class);
         age3.shouldHaveValue("15");
         age3.val("30");
         // удаляем первый элемент и проверяем, что у третьего (теперь второго) не поменялись значения
         item1.clickRemoveButton();
         name2.shouldHaveValue("Joe");
         age2.shouldHaveValue("30");
+    }
+
+    @Test
+    public void testDependencies() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/dependencies/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+
+        page = open(SimplePage.class);
+        page.shouldExists();
+
+        MultiFieldSet fieldset1 = page.single().widget(FormWidget.class).fieldsets().fieldset(0, MultiFieldSet.class);
+        fieldset1.clickAddButton();
+        fieldset1.clickAddButton();
+        MultiFieldSetItem item1 = fieldset1.item(0);
+        MultiFieldSetItem item2 = fieldset1.item(1);
+        InputText name1 = item1.fields().field("name").control(InputText.class);
+        InputText age1 = item1.fields().field("age").control(InputText.class);
+        InputText name2 = item2.fields().field("name").control(InputText.class);
+        InputText age2 = item2.fields().field("age").control(InputText.class);
+        name1.shouldBeDisabled();
+        name2.shouldBeDisabled();
+        age1.val("2");
+        name1.shouldBeDisabled();
+        name2.shouldBeDisabled();
+        age2.val("20");
+        name1.shouldBeDisabled();
+        name2.shouldBeEnabled();
+        age1.val("50");
+        name1.shouldBeEnabled();
+        name2.shouldBeEnabled();
+        age2.val("15");
+        name1.shouldBeEnabled();
+        name2.shouldBeDisabled();
     }
 }
