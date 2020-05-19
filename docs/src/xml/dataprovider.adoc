@@ -80,7 +80,7 @@ UPDATE mytable SET :params WHERE id = :id;
 |connection-url
 |Строка
 |Адрес соединения к базе данных
-|Соединение с локальной базой данных mongodb://localhost:27017
+|Соединение с локальной базой данных
 
 |database-name
 |Строка
