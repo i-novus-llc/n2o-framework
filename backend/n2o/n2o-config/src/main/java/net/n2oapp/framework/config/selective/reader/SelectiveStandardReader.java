@@ -136,7 +136,8 @@ public class SelectiveStandardReader extends SelectiveReader {
     public SelectiveStandardReader addQueryReader() {
         return addReader(new QueryElementReaderV3())
                 .addReader(new JavaDataProviderIOv1())
-                .addReader(new QueryElementIOv4());
+                .addReader(new QueryElementIOv4())
+                .addReader(new TestDataProviderIOv1());
     }
 
     public SelectiveStandardReader addWidgetReaderV3() {
