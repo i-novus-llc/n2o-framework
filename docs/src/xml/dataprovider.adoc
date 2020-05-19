@@ -69,6 +69,49 @@ UPDATE mytable SET :params WHERE id = :id;
 Плейсхолдеры `:select`, `:filters`, `:sorting`, `:join`, `:limit`, `:offset` собираются по критериям выборки.
 
 
+==== <mongodb>
+Вызов запросов к MongoDb.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|connection-url
+|Строка
+|Адрес соединения к базе данных
+|Соединение с локальной базой данных mongodb://localhost:27017
+
+|database-name
+|Строка
+|Имя базы данных
+|
+
+|collection-name
+|Строка
+|Имя коллекции документов
+|
+
+|operation
+|find insertOne updateOne updateMany deleteOne deleteMany countDocuments
+|Операция, выполняемая провайдером
+|find
+
+|===
+
+.Запрос к MongoDb для <query>
+[source,xml]
+----
+<query>
+  <list>
+    <mongodb connection-url="mongodb:/testurl"
+           database-name="dbName"
+           collection-name="user"
+           operation="find"/>
+  </list>
+</query>
+----
+
 ==== <rest>
 Вызов REST запросов.
 
