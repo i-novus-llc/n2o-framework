@@ -109,18 +109,18 @@ function PopupItems({
           {imageFieldId && renderImage(item, imageFieldId)}
           {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
           {badgeFieldId && renderBadge(item, badgeFieldId, badgeColorFieldId)}
+          {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
+            <DropdownItem
+              className={cx({
+                'n2o-eclipse-content__description': !hasCheckboxes,
+                'n2o-eclipse-content__description-with-checkbox': hasCheckboxes,
+              })}
+              header
+            >
+              {item[descriptionFieldId]}
+            </DropdownItem>
+          )}
         </DropdownItem>
-        {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
-          <DropdownItem
-            className={cx({
-              'n2o-eclipse-content__description': !hasCheckboxes,
-              'n2o-eclipse-content__description-with-checkbox': hasCheckboxes,
-            })}
-            header
-          >
-            {item[descriptionFieldId]}
-          </DropdownItem>
-        )}
       </>
     );
   };
