@@ -25,6 +25,7 @@ import { MODIFIERS } from '../DatePicker/utils';
  * @reactProps {string} imageFieldId - поле для картинки
  * @reactProps {string} badgeFieldId - поле для баджей
  * @reactProps {string} badgeColorFieldId - поле для цвета баджа
+ * @reactProps {string} statusFieldId - поле для статуса
  * @reactProps {boolean} disabled - флаг неактивности
  * @reactProps {array} disabledValues - неактивные данные
  * @reactProps {string} filter - варианты фильтрации
