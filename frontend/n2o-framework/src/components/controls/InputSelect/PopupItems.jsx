@@ -4,6 +4,8 @@ import Badge from 'reactstrap/lib/Badge';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
+import isNil from 'lodash/isNil';
+
 import Icon from '../../snippets/Icon/Icon';
 import CheckboxN2O from '../Checkbox/CheckboxN2O';
 import propsResolver from '../../../utils/propsResolver';
@@ -12,6 +14,7 @@ import cx from 'classnames';
 import { findDOMNode } from 'react-dom';
 
 import { groupData, inArray, isDisabled } from './utils';
+import StatusText from '../../snippets/StatusText/StatusText';
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -45,6 +48,7 @@ function PopupItems({
   iconFieldId,
   valueFieldId,
   imageFieldId,
+  statusFieldId,
   disabledValues,
   selected,
   groupFieldId,
@@ -72,8 +76,19 @@ function PopupItems({
     inArray(selected, item) ? onRemoveItem(item) : onSelect(item);
   };
 
+  const withStatus = item => !isNil(item[statusFieldId]);
+
   const displayTitle = item => {
     if (format) return propsResolver({ format }, item).format;
+    if (withStatus(item)) {
+      return (
+        <StatusText
+          text={item[labelFieldId]}
+          color={item[statusFieldId]}
+          textPosition={'left'}
+        />
+      );
+    }
     return item[labelFieldId];
   };
 
@@ -82,6 +97,7 @@ function PopupItems({
       <DropdownItem
         className={cx('n2o-eclipse-content', {
           active: activeValueId === item[valueFieldId],
+          'n2o-eclipse-content__with-status': withStatus(item),
         })}
         onMouseOver={() =>
           setActiveValueId && setActiveValueId(item[valueFieldId])
