@@ -220,7 +220,7 @@
                 <xs:documentation>Имя базы данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="collection-name" type="xs:string">
+        <xs:attribute name="collection-name" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Имя коллекции документов.</xs:documentation>
             </xs:annotation>
