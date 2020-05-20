@@ -5,6 +5,8 @@ import { createStructuredSelector } from 'reselect';
 import { compose, withPropsOnChange } from 'recompose';
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 import omit from 'lodash/omit';
+import get from 'lodash/get';
+import isUndefined from 'lodash/isUndefined';
 
 import { registerButton } from '../../actions/toolbar';
 import {
@@ -20,6 +22,14 @@ import { validateField } from '../../core/validation/createValidator';
 import ModalDialog from '../actions/ModalDialog/ModalDialog';
 import { id } from '../../utils/id';
 import linkResolver from '../../utils/linkResolver';
+
+const RenderTooltip = ({ hint, disabled, message, id }) => {
+  return hint && !disabled ? (
+    <UncontrolledTooltip target={id}>{hint}</UncontrolledTooltip>
+  ) : disabled && !isUndefined(message) ? (
+    <UncontrolledTooltip target={id}>{message}</UncontrolledTooltip>
+  ) : null;
+};
 
 export default function withActionButton(options = {}) {
   const onClick = options.onClick;
@@ -153,10 +163,18 @@ export default function withActionButton(options = {}) {
       };
 
       render() {
-        const { confirm, hint } = this.props;
+        const { confirm, hint, disabled, conditions } = this.props;
         const { confirmVisible } = this.state;
+        const message = get(conditions, 'enabled[0].message');
+
         return (
-          <>
+          <div id={this.generatedButtonId}>
+            <RenderTooltip
+              hint={hint}
+              disabled={disabled}
+              message={message}
+              id={this.generatedButtonId}
+            />
             <WrappedComponent
               {...omit(this.props, [
                 'isInit',
@@ -168,13 +186,8 @@ export default function withActionButton(options = {}) {
                 'formValues',
               ])}
               onClick={this.handleClick}
-              id={this.generatedButtonId}
+              // id={this.generatedButtonId}
             />
-            {hint && (
-              <UncontrolledTooltip target={this.generatedButtonId}>
-                {hint}
-              </UncontrolledTooltip>
-            )}
             {confirm && (
               <ModalDialog
                 {...this.mapConfirmProps(confirm)}
@@ -184,7 +197,7 @@ export default function withActionButton(options = {}) {
                 close={this.handleCloseConfirmModal}
               />
             )}
-          </>
+          </div>
         );
       }
     }

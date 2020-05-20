@@ -30,10 +30,10 @@ const SimpleButton = ({
       size={size}
       color={color}
       outline={outline}
-      disabled={disabled}
       onClick={onClick}
       className={cn(className, {
         'btn-rounded': rounded && !label,
+        'btn-disabled': disabled,
         'btn-rounded__with-content': rounded && label,
       })}
       {...rest}
