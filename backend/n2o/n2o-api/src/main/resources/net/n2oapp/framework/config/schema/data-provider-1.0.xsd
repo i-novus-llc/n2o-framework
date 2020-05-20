@@ -212,7 +212,7 @@
         </xs:annotation>
         <xs:attribute name="connection-url" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Адрес соединения к базе данных.</xs:documentation>
+                <xs:documentation>Адрес подключения.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="database-name" type="xs:string">
@@ -225,7 +225,7 @@
                 <xs:documentation>Имя коллекции документов.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="operation" default="find">
+        <xs:attribute name="operation">
             <xs:simpleType>
                 <xs:annotation>
                     <xs:documentation>Операция, выполняемая провайдером.</xs:documentation>

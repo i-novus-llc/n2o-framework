@@ -79,8 +79,8 @@ UPDATE mytable SET :params WHERE id = :id;
 
 |connection-url
 |Строка
-|Адрес соединения к базе данных
-|Соединение с локальной базой данных
+|Адрес подключения
+|Адрес локальной базы данных
 
 |database-name
 |Строка
@@ -95,7 +95,7 @@ UPDATE mytable SET :params WHERE id = :id;
 |operation
 |find insertOne updateOne updateMany deleteOne deleteMany countDocuments
 |Операция, выполняемая провайдером
-|find
+|
 
 |===
 
