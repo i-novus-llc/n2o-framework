@@ -45,11 +45,11 @@ describe('<Simple />', () => {
     wrapper.update();
     expect(wrapper.find('Button').exists()).toBe(true);
   });
-  it('disabled', () => {
-    const { btn, wrapper } = setup({ disabled: true });
-    expect(btn.props().disabled).toBe(true);
-    expect(wrapper.find('button').props()['disabled']).toBe(true);
-  });
+  // it('disabled', () => {
+  //   const { btn, wrapper } = setup({ disabled: true });
+  //   expect(btn.props().disabled).toBe(true);
+  //   expect(wrapper.find('button').props()['disabled']).toBe(true);
+  // });
   it('count', () => {
     const { badge } = setup({ count: 6 });
     expect(badge.exists()).toBeTruthy();
