@@ -34,6 +34,10 @@ class TabRegion extends React.Component {
     this.handleChangeActive = this.handleChangeActive.bind(this);
   }
 
+  componentWillUnmount() {
+    this.handleChangeActive(get(this.props.tabs, '[0].id'));
+  }
+
   handleChangeActive(id, prevId) {
     const {
       tabs,
