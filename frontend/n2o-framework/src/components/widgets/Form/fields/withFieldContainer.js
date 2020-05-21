@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import isBoolean from 'lodash/isBoolean';
 import memoize from 'lodash/memoize';
-import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 import replace from 'lodash/replace';

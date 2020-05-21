@@ -100,8 +100,8 @@ export const enhance = compose(
 
       dispatch(change(form, name, newValue));
     },
-    resolvePlaceholder: ({ label }) => value => {
-      const context = { index: value + 1 };
+    resolvePlaceholder: ({ label }) => index => {
+      const context = { index };
       const expression = parseExpression(label);
 
       if (expression) {
