@@ -9,6 +9,9 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
+/**
+ * Чтение/запись компонента ввода с выбором в выпадающем списке в виде дерева
+ */
 @Component
 public class InputSelectTreeIOv2 extends ListFieldIOv2<N2oInputSelectTree> {
 
@@ -26,6 +29,7 @@ public class InputSelectTreeIOv2 extends ListFieldIOv2<N2oInputSelectTree> {
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
         p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
         p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
+        p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
 
         p.child(e, null, "inheritance-nodes", m::getInheritanceNodes, m::setInheritanceNodes, InheritanceNodes.class, this::inheritanceNodes);
     }
