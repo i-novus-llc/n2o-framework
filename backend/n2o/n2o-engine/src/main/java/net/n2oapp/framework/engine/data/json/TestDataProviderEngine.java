@@ -162,7 +162,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         Map<String, Object> fieldData = new HashMap<>();
         fieldData.put(invocation.getPrimaryKey(), inParams.get(invocation.getPrimaryKey()));
         fieldData.put((String) inParams.get("key"), inParams.get("value"));
-        if (inParams.containsKey("key2"))
+        if (inParams.containsKey("key2") && inParams.get("key2") != null)
             fieldData.put((String) inParams.get("key2"), inParams.get("value2"));
 
         updateElement(element, fieldData.entrySet());
