@@ -8,8 +8,10 @@ import { resolveConditions } from './conditions';
 import {
   changeButtonDisabled,
   changeButtonVisiblity,
+  changeButtonMessage,
 } from '../actions/toolbar';
 import { getContainerButtons } from '../selectors/toolbar';
+import { findFirstFalsy } from './conditions';
 
 /**
  * Resolve buttons conditions
@@ -33,6 +35,15 @@ export function* resolveButton(button) {
     if (enabled) {
       const nextEnable = resolveConditions(enabled, state);
       yield put(changeButtonDisabled(button.key, button.buttonId, !nextEnable));
+    }
+    if (!resolveConditions(enabled, state)) {
+      yield put(
+        changeButtonMessage(
+          button.key,
+          button.buttonId,
+          findFirstFalsy(enabled, state)
+        )
+      );
     }
   }
 

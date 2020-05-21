@@ -11,6 +11,7 @@ import isUndefined from 'lodash/isUndefined';
 import { registerButton } from '../../actions/toolbar';
 import {
   isDisabledSelector,
+  messageSelector,
   isInitSelector,
   isVisibleSelector,
   countSelector,
@@ -22,8 +23,6 @@ import { validateField } from '../../core/validation/createValidator';
 import ModalDialog from '../actions/ModalDialog/ModalDialog';
 import { id } from '../../utils/id';
 import linkResolver from '../../utils/linkResolver';
-
-import { findFirstFalsy } from '../../sagas/conditions';
 
 const RenderTooltip = ({ id, message }) => {
   return (
@@ -165,18 +164,17 @@ export default function withActionButton(options = {}) {
       };
 
       render() {
-        const { confirm, hint, disabled, conditions } = this.props;
+        const { confirm, hint, disabled, message } = this.props;
         const { confirmVisible } = this.state;
 
-        const alternativeHint = findFirstFalsy(
-          get(conditions, 'enabled'),
-          this.context.store.getState()
-        );
-        const message = disabled ? alternativeHint : hint;
+        const currentMessage = disabled ? message : hint;
 
         return (
           <div id={this.generatedButtonId}>
-            <RenderTooltip message={message} id={this.generatedButtonId} />
+            <RenderTooltip
+              message={currentMessage}
+              id={this.generatedButtonId}
+            />
             <WrappedComponent
               {...omit(this.props, [
                 'isInit',
@@ -211,6 +209,8 @@ export default function withActionButton(options = {}) {
         isVisibleSelector(ownProps.entityKey, ownProps.id)(state),
       disabled: (state, ownProps) =>
         isDisabledSelector(ownProps.entityKey, ownProps.id)(state),
+      message: (state, ownProps) =>
+        messageSelector(ownProps.entityKey, ownProps.id)(state),
       count: (state, ownProps) =>
         countSelector(ownProps.entityKey, ownProps.id)(state),
       validationConfig: (state, ownProps) =>

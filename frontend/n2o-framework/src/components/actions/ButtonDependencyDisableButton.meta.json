@@ -19,19 +19,19 @@
               "conditions": {
                 "enabled": [
                   {
-                    "expression": "true",
+                    "expression": "name !== 'Афанасий'",
                     "modelLink": "models.resolve['Page_Table']",
-                    "message": "Выгрузка невозможна без заполнения начальной даты 1"
+                    "message": "Выберите не Афанасия"
                   },
                   {
                     "expression": "name !== 'Иннокентий'",
                     "modelLink": "models.resolve['Page_Table']",
-                    "message": "Выберите другое имя"
+                    "message": "Выберите не Иннокентия"
                   }
                 ]
               },
               "label": "Блокировка",
-              "hint": "Заблокируется, если имя в выбранной записи Иннокентий"
+              "hint": "Заблокируется если выбрать Афанасия или Инокентия"
             }
           ]
         }
