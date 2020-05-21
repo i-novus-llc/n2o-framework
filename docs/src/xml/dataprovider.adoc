@@ -80,7 +80,7 @@ UPDATE mytable SET :params WHERE id = :id;
 |connection-url
 |Строка
 |Адрес подключения
-|Адрес локальной базы данных
+|
 
 |database-name
 |Строка
