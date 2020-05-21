@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose, withPropsOnChange } from 'recompose';
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 import omit from 'lodash/omit';
-import get from 'lodash/get';
+
 import isUndefined from 'lodash/isUndefined';
 
 import { registerButton } from '../../actions/toolbar';

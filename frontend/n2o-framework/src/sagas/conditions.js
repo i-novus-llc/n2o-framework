@@ -42,7 +42,7 @@ export const resolveConditions = (conditions = [], model) =>
   );
 
 /**
- * возвращае message первого false expression
+ * возвращае message первого false-expression
  * @param conditions
  * @param model
  * @returns {string}
