@@ -23,12 +23,14 @@ import ModalDialog from '../actions/ModalDialog/ModalDialog';
 import { id } from '../../utils/id';
 import linkResolver from '../../utils/linkResolver';
 
-const RenderTooltip = ({ hint, disabled, message, id }) => {
-  return hint && !disabled ? (
-    <UncontrolledTooltip target={id}>{hint}</UncontrolledTooltip>
-  ) : disabled && !isUndefined(message) ? (
-    <UncontrolledTooltip target={id}>{message}</UncontrolledTooltip>
-  ) : null;
+import { findFirstFalsy } from '../../sagas/conditions';
+
+const RenderTooltip = ({ id, message }) => {
+  return (
+    !isUndefined(message) && (
+      <UncontrolledTooltip target={id}>{message}</UncontrolledTooltip>
+    )
+  );
 };
 
 export default function withActionButton(options = {}) {
@@ -165,16 +167,16 @@ export default function withActionButton(options = {}) {
       render() {
         const { confirm, hint, disabled, conditions } = this.props;
         const { confirmVisible } = this.state;
-        const message = get(conditions, 'enabled[0].message');
+
+        const alternativeHint = findFirstFalsy(
+          get(conditions, 'enabled'),
+          this.context.store.getState()
+        );
+        const message = disabled ? alternativeHint : hint;
 
         return (
           <div id={this.generatedButtonId}>
-            <RenderTooltip
-              hint={hint}
-              disabled={disabled}
-              message={message}
-              id={this.generatedButtonId}
-            />
+            <RenderTooltip message={message} id={this.generatedButtonId} />
             <WrappedComponent
               {...omit(this.props, [
                 'isInit',
@@ -186,7 +188,7 @@ export default function withActionButton(options = {}) {
                 'formValues',
               ])}
               onClick={this.handleClick}
-              // id={this.generatedButtonId}
+              id={this.generatedButtonId}
             />
             {confirm && (
               <ModalDialog

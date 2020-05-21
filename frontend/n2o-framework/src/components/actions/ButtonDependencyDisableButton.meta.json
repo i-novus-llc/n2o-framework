@@ -1,0 +1,99 @@
+{
+  "Page_Table": {
+    "src": "TableWidget",
+    "dataProvider": {
+      "url": "begin:n2o/data",
+      "pathMapping": {
+      },
+      "queryMapping": {
+      }
+    },
+    "toolbar": {
+      "topRight": [
+        {
+          "buttons": [
+            {
+              "id": "enable",
+              "src": "StandardButton",
+              "visible": true,
+              "conditions": {
+                "enabled": [
+                  {
+                    "expression": "true",
+                    "modelLink": "models.resolve['Page_Table']",
+                    "message": "Выгрузка невозможна без заполнения начальной даты 1"
+                  },
+                  {
+                    "expression": "name !== 'Иннокентий'",
+                    "modelLink": "models.resolve['Page_Table']",
+                    "message": "Выберите другое имя"
+                  }
+                ]
+              },
+              "label": "Блокировка",
+              "hint": "Заблокируется, если имя в выбранной записи Иннокентий"
+            }
+          ]
+        }
+      ]
+    },
+    "actions": {
+      "dummy": {
+        "src": "dummy"
+      }
+    },
+    "paging": false,
+    "filter": {
+    },
+    "table": {
+      "size": 10,
+      "fetchOnInit": true,
+      "hasSelect": true,
+      "className": "n2o",
+      "colorFieldId": "",
+      "style": {},
+      "hasFocus": true,
+      "autoFocus": false,
+      "sorting": {
+        "birthday": "ASC"
+      },
+      "cells": [
+        {
+          "src": "TextCell",
+          "id": "name"
+        },
+        {
+          "src": "IconCell",
+          "id": "surname",
+          "icon": "fa fa-plus",
+          "type": "iconAndText",
+          "textPlace": "right"
+        },
+        {
+          "src": "TextCell",
+          "id": "birthday"
+        }
+      ],
+      "headers": [
+        {
+          "src": "TextTableHeader",
+          "id": "name",
+          "sortable": false,
+          "label": "Имя"
+        },
+        {
+          "src": "TextTableHeader",
+          "id": "surname",
+          "sortable": true,
+          "label": "Фамилия"
+        },
+        {
+          "src": "TextTableHeader",
+          "id": "birthday",
+          "sortable": true,
+          "label": "Дата рождения"
+        }
+      ]
+    }
+  }
+}
