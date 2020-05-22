@@ -7,7 +7,7 @@
                test:sendCodeUrl="/send/code"
                test:codeVerified="{emailSender.status=='send'}">
             <controls>
-                <control id="ctrl" src="MyCOntrol"/>
+                <control id="ctrl" src="MyControl"/>
             </controls>
         </field>
 

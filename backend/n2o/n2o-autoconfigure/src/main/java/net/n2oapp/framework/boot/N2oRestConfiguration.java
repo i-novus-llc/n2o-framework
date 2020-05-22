@@ -51,9 +51,6 @@ public class N2oRestConfiguration {
     @Value("${n2o.api.url:/n2o}")
     private String n2oApiUrl;
 
-    @Value("${n2o.project-name:N2O}")
-    private String projectName;
-
     @Value("${n2o.ui.message.stacktrace:true}")
     private Boolean showStacktrace;
 
@@ -139,7 +136,6 @@ public class N2oRestConfiguration {
         AppConfigServlet appConfigServlet = new AppConfigServlet();
         appConfigServlet.setAppConfigJsonWriter(writer);
         appConfigServlet.setMessageSource(clientMessageSource);
-        appConfigServlet.setProjectName(projectName);
         appConfigServlet.setEnvironment(env);
         ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().cache().copy()
