@@ -180,13 +180,13 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     @SuppressWarnings("unchecked")
     @Override
     public <T> T resolve(String placeholder, Class<T> clazz) {
-        Object value = resolvePlaceholder(placeholder);
+        Object value = resolveRequiredPlaceholder(placeholder);
         return (T) env.getDomainProcessor().deserialize(value, clazz);
     }
 
     @Override
     public Object resolve(String placeholder, String domain) {
-        Object value = resolvePlaceholder(placeholder);
+        Object value = resolveRequiredPlaceholder(placeholder);
         return env.getDomainProcessor().deserialize(value, domain);
     }
 
@@ -370,6 +370,13 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             value = env.getSystemProperties().resolvePlaceholders(placeholder);
         }
         return value;
+    }
+
+    private Object resolveRequiredPlaceholder(String placeholder) {
+        if (StringUtils.isProperty(placeholder)) {
+            return env.getSystemProperties().resolveRequiredPlaceholders(placeholder);
+        } else
+            return placeholder;
     }
 
     private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
