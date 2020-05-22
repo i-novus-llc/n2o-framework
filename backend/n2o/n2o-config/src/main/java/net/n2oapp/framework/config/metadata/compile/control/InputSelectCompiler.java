@@ -24,6 +24,7 @@ public class InputSelectCompiler extends ListControlCompiler<InputSelect, N2oInp
         InputSelect inputSelect = new InputSelect();
         inputSelect.setResetOnBlur(p.cast(source.getResetOnBlur(), true));
         inputSelect.setPlaceholder(p.resolveJS(source.getPlaceholder()));
+        inputSelect.setDescriptionFieldId(source.getDescriptionFieldId());
         ListType type = p.cast(source.getType(), ListType.single);
         switch (type) {
             case checkboxes:
