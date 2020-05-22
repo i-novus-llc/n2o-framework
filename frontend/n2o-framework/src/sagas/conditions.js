@@ -7,7 +7,7 @@ import {
   cancelled,
 } from 'redux-saga/effects';
 import map from 'lodash/map';
-import every from 'lodash/every';
+import isEpmty from 'lodash/isEmpty';
 import first from 'lodash/first';
 import forOwn from 'lodash/forOwn';
 import get from 'lodash/get';
@@ -31,23 +31,12 @@ const ConditionHandlers = {
 };
 
 /**
- * резолв кондишена
+ * резолв кондишена, резолв message из expression
  * @param conditions
  * @param model
- * @returns {boolean}
+ * @returns {object}
  */
-export const resolveConditions = (conditions = [], model) =>
-  every(conditions, ({ expression, modelLink }) =>
-    evalExpression(expression, get(model, modelLink, {}))
-  );
-
-/**
- * возвращае message первого false-expression
- * @param conditions
- * @param model
- * @returns {string}
- */
-export const findFirstFalsy = (conditions = [], model) => {
+export const resolveConditions = (conditions = [], model) => {
   const falsyExpressions = conditions.reduce(
     (acc, condition) =>
       evalExpression(
@@ -58,7 +47,12 @@ export const findFirstFalsy = (conditions = [], model) => {
         : acc,
     []
   );
-  return get(first(falsyExpressions), 'message');
+  //message первого ложного expression
+  const message = get(first(falsyExpressions), 'message');
+
+  return isEpmty(falsyExpressions)
+    ? { resolve: true }
+    : { resolve: false, message: message };
 };
 
 /**

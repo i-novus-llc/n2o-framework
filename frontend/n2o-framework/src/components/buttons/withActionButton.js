@@ -167,7 +167,7 @@ export default function withActionButton(options = {}) {
         const { confirm, hint, disabled, message } = this.props;
         const { confirmVisible } = this.state;
 
-        const currentMessage = disabled ? message : hint;
+        const currentMessage = disabled ? message || hint : hint;
 
         return (
           <div id={this.generatedButtonId}>

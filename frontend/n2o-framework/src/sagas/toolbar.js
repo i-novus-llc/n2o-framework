@@ -11,7 +11,6 @@ import {
   changeButtonMessage,
 } from '../actions/toolbar';
 import { getContainerButtons } from '../selectors/toolbar';
-import { findFirstFalsy } from './conditions';
 
 /**
  * Resolve buttons conditions
@@ -25,7 +24,7 @@ export function* resolveButton(button) {
     const { visible, enabled } = button.conditions;
 
     if (visible) {
-      const nextVisible = resolveConditions(visible, state);
+      const nextVisible = resolveConditions(visible, state).resolve;
       yield put(
         changeButtonVisiblity(button.key, button.buttonId, nextVisible)
       );
@@ -33,15 +32,15 @@ export function* resolveButton(button) {
     }
 
     if (enabled) {
-      const nextEnable = resolveConditions(enabled, state);
+      const nextEnable = resolveConditions(enabled, state).resolve;
       yield put(changeButtonDisabled(button.key, button.buttonId, !nextEnable));
     }
-    if (!resolveConditions(enabled, state)) {
+    if (!resolveConditions(enabled, state).resolve) {
       yield put(
         changeButtonMessage(
           button.key,
           button.buttonId,
-          findFirstFalsy(enabled, state)
+          resolveConditions(enabled, state).message
         )
       );
     }
