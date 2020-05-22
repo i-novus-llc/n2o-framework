@@ -29,6 +29,7 @@ import { getContainerColumns } from '../../../selectors/columns';
 import evalExpression from '../../../utils/evalExpression';
 import { replace } from 'connected-react-router';
 import { dataProviderResolver } from '../../../core/dataProviderResolver';
+import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
@@ -144,6 +145,7 @@ class AdvancedTableContainer extends React.Component {
       sorting,
       onSort,
       registredColumns,
+      filters,
     } = this.props;
 
     map(registredColumns, ({ frozen, visible }, key) => {
@@ -156,6 +158,31 @@ class AdvancedTableContainer extends React.Component {
 
     return this.mapHeaders(headers).map(header => {
       const cell = find(cells, c => c.id === header.id) || {};
+      let children = get(header, 'children', null);
+
+      const mapChildren = children =>
+        map(children, child => {
+          if (!isEmpty(child.children)) {
+            child.children = mapChildren(child.children);
+          }
+
+          return {
+            ...child,
+            title: (
+              <AdvancedTableHeaderCell
+                as="div"
+                {...child}
+                onFilter={this.handleSetFilter}
+                filters={filters}
+                filterControl={child.filterControl}
+              />
+            ),
+          };
+        });
+
+      if (children) {
+        header.children = mapChildren(children);
+      }
 
       return {
         ...header,

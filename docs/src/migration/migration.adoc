@@ -2,6 +2,16 @@
 
 В этом разделе рассказывается, как мигрировать проект с предыдущих версий N2O Framework.
 
+==== Миграция с 7.6 на 7.7
+
+*Изменения в настройках*
+
+- Настройка `n2o.ui.homepage.id` заменена на `n2o.header.homepage.id`.
+- Настройка `n2o.project-name` заменена на `n2o.header.title`.
+- Настройка `n2o.api.default.header.fixed` заменена на `n2o.header.fixed`.
+- Настройка `n2o.api.default.header.collapsed` заменена на `n2o.header.collapsed`.
+
+
 ==== Миграция с 7.5 на 7.6
 
 *Изменения в XML API*
