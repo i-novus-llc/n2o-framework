@@ -15,7 +15,11 @@ public abstract class ComponentCompiler<D extends Component, S extends N2oCompon
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
     protected void compileComponent(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
-        compiled.setSrc(p.cast(source.getSrc(), p.resolve(Placeholders.property(getSrcProperty()), String.class)));
+        if (getSrcProperty() == null) {
+            compiled.setSrc(source.getSrc());
+        } else {
+            compiled.setSrc(p.cast(source.getSrc(), p.resolve(Placeholders.property(getSrcProperty()), String.class)));
+        }
         if (compiled.getSrc() == null)
             throw new N2oException("component src is required");
         compiled.setClassName(source.getCssClass());

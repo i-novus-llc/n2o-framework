@@ -121,21 +121,25 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public DomainProcessor domainProcessor(@Qualifier("n2oObjectMapper") ObjectMapper objectMapper) {
         return new DomainProcessor(objectMapper);
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public N2oEventBus n2oEventBus(ApplicationEventPublisher publisher) {
         return new N2oEventBus(publisher);
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public MetadataPersister metadataPersister() {
         return new MetadataPersister(readonly);
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public PropertiesInfoCollector propertiesMetaInfoCollector() {
         return new PropertiesInfoCollector("classpath*:META-INF/n2o.properties");
     }
@@ -147,22 +151,26 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public WatchDir watchDir() {
         return new WatchDir();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public ConfigMetadataLocker configMetadataLocker() {
         return new ConfigMetadataLockerImpl(configPath);
     }
 
 
     @Bean
+    @ConditionalOnMissingBean
     public RouteRegister routeRegister() {
         return new N2oRouteRegister();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public MetadataRouter n2oRouter(N2oRouteRegister routeRegister, MetadataEnvironment env) {
         return new N2oRouter(env, N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().cache().copy().compile().transform());
@@ -176,17 +184,20 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public ScriptProcessor scriptProcessor() {
         return new ScriptProcessor();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public N2oJdomTextProcessing n2oJdomTextProcessing(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor n2oMessageSourceAccessor,
                                                        ConfigurableEnvironment environment) {
         return new N2oJdomTextProcessing(n2oMessageSourceAccessor, environment);
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public SourceTypeRegister sourceTypeRegister() {
         SourceTypeRegister register = new N2oSourceTypeRegister();
         register.addAll(asList(new MetaType("object", N2oObject.class),
@@ -200,6 +211,7 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public MetadataEnvironment n2oEnvironment(Map<String, ButtonGenerator> generators,
                                               @Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor,
                                               ConfigurableEnvironment springEnv,
@@ -230,6 +242,8 @@ public class N2oMetadataConfiguration {
         environment.setSourceTypeRegister(sourceTypeRegister);
         environment.setMetadataRegister(metadataRegister);
         environment.setRouteRegister(routeRegister);
+        environment.setNamespaceReaderFactory(new N2oNamespaceReaderFactory());
+        environment.setNamespacePersisterFactory(new N2oMetadataPersisterFactory());
         environment.setMetadataScannerFactory(metadataScannerFactory);
         environment.setDynamicMetadataProviderFactory(dynamicMetadataProviderFactory);
         environment.setSourceLoaderFactory(sourceReaderFactory);
@@ -251,6 +265,7 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public N2oApplicationBuilder n2oApplicationBuilder(MetadataEnvironment n2oEnvironment,
                                                        Optional<Map<String, MetadataPack<? super N2oApplicationBuilder>>> beans) {
         N2oApplicationBuilder applicationBuilder = new N2oApplicationBuilder(n2oEnvironment);
@@ -260,6 +275,7 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean(destroyMethod = "stop")
+    @ConditionalOnMissingBean
     public ConfigStarter configStarter(N2oEventBus eventBus,
                                        ConfigMetadataLocker locker,
                                        WatchDir watchDir,
@@ -270,6 +286,7 @@ public class N2oMetadataConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public HeaderWarmUpper headerWarmUpper(N2oApplicationBuilder applicationBuilder, Environment environment) {
         HeaderWarmUpper headerWarmUpper = new HeaderWarmUpper();
         headerWarmUpper.setEnvironment(environment);
