@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.PluralityType;
+import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
 import net.n2oapp.framework.engine.data.N2oInvocationProcessor;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
@@ -34,7 +35,7 @@ import static org.mockito.Mockito.when;
  */
 public class InvocationProcessorTest {
 
-    private InvocationProcessor invocationProcessor;
+    private N2oInvocationProcessor invocationProcessor;
 
     @Before
     public void setUp() throws Exception {
@@ -47,7 +48,10 @@ public class InvocationProcessorTest {
         when(processor.resolve(anyString())).thenAnswer((Answer<String>) invocation -> (String) invocation.getArguments()[0]);
         when(processor.resolve(anyInt())).thenAnswer((Answer<Integer>) invocation -> (Integer) invocation.getArguments()[0]);
         when(processor.resolve(anyList())).thenAnswer((Answer<List>) invocation -> (List) invocation.getArguments()[0]);
-        invocationProcessor = new N2oInvocationProcessor(actionInvocationFactory, processor, new DomainProcessor());
+        N2oEnvironment env = new N2oEnvironment();
+        env.setContextProcessor(processor);
+        invocationProcessor = new N2oInvocationProcessor(actionInvocationFactory);
+        invocationProcessor.setEnvironment(env);
     }
 
     @Test

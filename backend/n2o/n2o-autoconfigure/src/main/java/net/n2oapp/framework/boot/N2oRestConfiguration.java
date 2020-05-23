@@ -44,13 +44,6 @@ import java.util.Optional;
 @ComponentScan(basePackages = "net.n2oapp.framework.ui", lazyInit = true)
 public class N2oRestConfiguration {
 
-
-    @Value("${n2o.header.id:}")
-    private String headerId;
-
-    @Value("${n2o.api.url:/n2o}")
-    private String n2oApiUrl;
-
     @Value("${n2o.ui.message.stacktrace:true}")
     private Boolean showStacktrace;
 
@@ -90,60 +83,6 @@ public class N2oRestConfiguration {
             default:
                 throw new UnsupportedOperationException("Unknown page client cache mode " + mode);
         }
-    }
-
-    @Bean
-    public ServletRegistrationBean pageServlet(MetadataEnvironment env, MetadataRouter router,
-                                               @Qualifier("n2oObjectMapper") ObjectMapper n2oObjectMapper,
-                                               ErrorMessageBuilder errorMessageBuilder,
-                                               Optional<ClientCacheTemplate> pageClientCacheTemplate) {
-        PageServlet pageServlet = new PageServlet();
-        ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
-                .read().transform().validate().cache().copy()
-                .compile().transform().cache().copy()
-                .bind();
-        pageServlet.setPipeline(pipeline);
-        pageServlet.setRouter(router);
-        pageServlet.setObjectMapper(n2oObjectMapper);
-        pageServlet.setErrorMessageBuilder(errorMessageBuilder);
-        pageClientCacheTemplate.ifPresent(pageServlet::setClientCacheTemplate);
-        return new ServletRegistrationBean(pageServlet, n2oApiUrl + "/page/*");
-    }
-
-    @Bean
-    public ServletRegistrationBean dataServlet(DataController controller,
-                                               @Qualifier("n2oObjectMapper") ObjectMapper n2oObjectMapper,
-                                               ErrorMessageBuilder errorMessageBuilder) {
-        DataServlet dataServlet = new DataServlet(controller);
-        dataServlet.setObjectMapper(n2oObjectMapper);
-        dataServlet.setErrorMessageBuilder(errorMessageBuilder);
-        return new ServletRegistrationBean(dataServlet, n2oApiUrl + "/data/*");
-    }
-
-    @Bean
-    public ServletRegistrationBean appConfigServlet(ConfigurableEnvironment configurableEnvironment,
-                                                    ContextProcessor contextProcessor,
-                                                    @Qualifier("n2oObjectMapper") ObjectMapper n2oObjectMapper,
-                                                    ExposedResourceBundleMessageSource clientMessageSource,
-                                                    MetadataEnvironment env) {
-        AppConfigJsonWriter writer = new AppConfigJsonWriter();
-        writer.setContextProcessor(contextProcessor);
-        writer.setPropertyResolver(configurableEnvironment);
-        writer.setObjectMapper(n2oObjectMapper);
-        writer.setPath("classpath*:META-INF/config.json");
-        writer.setOverridePath("classpath*:META-INF/config-build.json");
-
-        AppConfigServlet appConfigServlet = new AppConfigServlet();
-        appConfigServlet.setAppConfigJsonWriter(writer);
-        appConfigServlet.setMessageSource(clientMessageSource);
-        appConfigServlet.setEnvironment(env);
-        ReadCompileBindTerminalPipeline pipeline = N2oPipelineSupport.readPipeline(env)
-                .read().transform().validate().cache().copy()
-                .compile().transform().cache().copy()
-                .bind();
-        appConfigServlet.setPipeline(pipeline);
-        appConfigServlet.setHeaderSourceId(headerId);
-        return new ServletRegistrationBean(appConfigServlet, n2oApiUrl + "/config", "/n2o/config.json");
     }
 
 }

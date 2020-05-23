@@ -203,7 +203,6 @@ public class N2oApplicationBuilder implements
         AwareFactorySupport.enrich(environment.getCompileTransformerFactory(), environment);
         AwareFactorySupport.enrich(environment.getMetadataBinderFactory(), environment);
         AwareFactorySupport.enrich(environment.getPipelineOperationFactory(), environment);
-        AwareFactorySupport.enrich(environment.getSubModelsProcessor(), environment);
         return this;
     }
 }

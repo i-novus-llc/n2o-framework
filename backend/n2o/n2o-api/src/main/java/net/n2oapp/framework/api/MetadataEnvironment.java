@@ -30,8 +30,6 @@ public interface MetadataEnvironment {
 
     ContextProcessor getContextProcessor();
 
-    SubModelsProcessor getSubModelsProcessor();
-
     SourceTypeRegister getSourceTypeRegister();
 
     MetadataRegister getMetadataRegister();
