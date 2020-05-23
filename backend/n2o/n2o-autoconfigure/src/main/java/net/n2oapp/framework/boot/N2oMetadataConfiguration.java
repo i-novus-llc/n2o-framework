@@ -1,5 +1,6 @@
 package net.n2oapp.framework.boot;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.engine.factory.integration.spring.OverrideBean;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.event.N2oEventBus;
@@ -53,6 +54,12 @@ public class N2oMetadataConfiguration {
 
     @Value("${n2o.config.ignores}")
     private List<String> ignores;
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ObjectMapper n2oObjectMapper() {
+        return ObjectMapperConstructor.metaObjectMapper();
+    }
 
     @Bean
     @ConditionalOnMissingBean
