@@ -23,7 +23,6 @@ import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.*;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -78,8 +77,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             pageRoutesScope.put(table.getId(), widgetRouteScope);
         }
         MetaActions widgetActions = new MetaActions();
-        compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions,
-                uploadScope, subModelsScope, filtersScope);
+        compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions, filtersScope);
         compileDataProviderAndRoutes(table, source, context, p, validationList, widgetRouteScope, null, null, object);
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         component.setClassName(source.getCssClass());
@@ -154,10 +152,8 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             Map<String, String> sortings = new HashMap<>();
             IndexScope columnIndex = new IndexScope();
             CellsScope cellsScope = new CellsScope(new ArrayList<>());
-            FieldSetScope fieldSetScope = initFieldSetScope(query, object);
             for (AbstractColumn column : source.getColumns()) {
-                headers.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope,
-                        query, fieldSetScope, scopes));
+                headers.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes));
                 if (column.getSortingDirection() != null) {
                     sortings.put(column.getTextFieldId(), column.getSortingDirection().toString().toUpperCase());
                 }
