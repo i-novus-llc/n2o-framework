@@ -77,7 +77,9 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             pageRoutesScope.put(table.getId(), widgetRouteScope);
         }
         MetaActions widgetActions = new MetaActions();
-        compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions, filtersScope);
+        compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
+        compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions,
+                uploadScope, subModelsScope, filtersScope);
         compileDataProviderAndRoutes(table, source, context, p, validationList, widgetRouteScope, null, null, object);
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         component.setClassName(source.getCssClass());
@@ -87,7 +89,6 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             component.getScroll().setX(source.getScrollX());
             component.getScroll().setY(source.getScrollY());
         }
-        compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
         if (source.getRows() != null) {
             component.setRows(new Rows());
             if (source.getRows().getRowClass() != null) {
