@@ -260,6 +260,8 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset.shouldHaveItems(2);
         MultiFieldSetItem item1 = fieldset.item(0);
         MultiFieldSetItem item2 = fieldset.item(1);
+        item1.shouldHaveLabel("Участник 1");
+        item2.shouldHaveLabel("Участник 2");
         InputText name1 = item1.fields().field("1.2.(1) name").control(InputText.class);
         name1.shouldExists();
         name1.shouldHaveValue("Joe");
@@ -276,6 +278,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         item1.clickCopyButton();
         fieldset.shouldHaveItems(3);
         MultiFieldSetItem item3 = fieldset.item(2);
+        item3.shouldHaveLabel("Участник 3");
         InputText name3 = item3.fields().field("1.2.(3) name").control(InputText.class);
         name3.shouldHaveValue("Joe");
         InputText age3 = item3.fields().field("1.2.(3) age").control(InputText.class);
