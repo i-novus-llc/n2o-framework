@@ -75,7 +75,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));
         compiled.setRoute(initWidgetRoute(source, p));
         compileMasterLink(compiled, p);
-        compiled.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyWidgetSrc()), String.class)));
+        String defaultWidgetSrc = null;
+        if (getPropertyWidgetSrc() != null)
+            defaultWidgetSrc = p.resolve(property(getPropertyWidgetSrc()), String.class);
+        compiled.setSrc(p.cast(source.getSrc(), defaultWidgetSrc));
         compiled.setOpened(source.getOpened());
         compiled.setIcon(source.getIcon());
         compiled.setUpload(p.cast(source.getUpload(), source.getQueryId() != null ? UploadType.query : UploadType.defaults));

@@ -31,10 +31,9 @@ public class N2oExportAutoConfiguration {
 
     @Bean
     public ServletRegistrationBean exportDataServlet(ExportController controller,
-                                                     @Qualifier("n2oObjectMapper") ObjectMapper n2oObjectMapper,
                                                      ErrorMessageBuilder errorMessageBuilder) {
         ExportDataServlet exportDataServlet = new ExportDataServlet(controller);
-        exportDataServlet.setObjectMapper(n2oObjectMapper);
+        exportDataServlet.setObjectMapper(ObjectMapperConstructor.metaObjectMapper());
         exportDataServlet.setErrorMessageBuilder(errorMessageBuilder);
         return new ServletRegistrationBean(exportDataServlet, n2oApiUrl + "/export");
     }

@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @Configuration
 @EnableScheduling
+@Deprecated
 public class N2oCommonConfiguration {
 
 }
