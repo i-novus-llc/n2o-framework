@@ -260,25 +260,25 @@ public class MultiFieldSetAT extends AutoTestBase {
         fieldset.shouldHaveItems(2);
         MultiFieldSetItem item1 = fieldset.item(0);
         MultiFieldSetItem item2 = fieldset.item(1);
-        InputText name1 = item1.fields().field("1.2.(0) name").control(InputText.class);
+        InputText name1 = item1.fields().field("1.2.(1) name").control(InputText.class);
         name1.shouldExists();
         name1.shouldHaveValue("Joe");
-        InputText age1 = item1.fields().field("1.2.(0) age").control(InputText.class);
+        InputText age1 = item1.fields().field("1.2.(1) age").control(InputText.class);
         age1.shouldExists();
         age1.shouldHaveValue("15");
-        InputText name2 = item2.fields().field("1.2.(1) name").control(InputText.class);
+        InputText name2 = item2.fields().field("1.2.(2) name").control(InputText.class);
         name2.shouldExists();
         name2.shouldHaveValue("Ann");
-        InputText age2 = item2.fields().field("1.2.(1) age").control(InputText.class);
+        InputText age2 = item2.fields().field("1.2.(2) age").control(InputText.class);
         age2.shouldExists();
         age2.shouldBeEmpty();
         // проверяем, что при копировании ничего не теряется
         item1.clickCopyButton();
         fieldset.shouldHaveItems(3);
         MultiFieldSetItem item3 = fieldset.item(2);
-        InputText name3 = item3.fields().field("1.2.(2) name").control(InputText.class);
+        InputText name3 = item3.fields().field("1.2.(3) name").control(InputText.class);
         name3.shouldHaveValue("Joe");
-        InputText age3 = item3.fields().field("1.2.(2) age").control(InputText.class);
+        InputText age3 = item3.fields().field("1.2.(3) age").control(InputText.class);
         age3.shouldHaveValue("15");
         age3.val("30");
         // удаляем первый элемент и проверяем, что у третьего (теперь второго) не поменялись значения
