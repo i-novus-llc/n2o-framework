@@ -111,17 +111,17 @@ public class N2oController {
         SubModelsProcessor subModelsProcessor = new N2oSubModelsProcessor(queryProcessor);
         Map<String, Object> beans = new HashMap<>();
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, environment.getMetadataRegister(), errorMessageBuilder));
-        beans.put("operationController", new OperationController(dataProcessingStack, environment.getDomainProcessor(),
+                subModelsProcessor, errorMessageBuilder, environment));
+        beans.put("operationController", new OperationController(dataProcessingStack,
                 operationProcessor, errorMessageBuilder, environment));
         beans.put("copyValuesController", new CopyValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
-                environment.getMetadataRegister(), errorMessageBuilder));
-        beans.put("bulkActionController", new BulkActionController(dataProcessingStack, environment.getDomainProcessor(),
-                operationProcessor));
+                errorMessageBuilder, environment));
+        beans.put("bulkActionController", new BulkActionController(dataProcessingStack,
+                operationProcessor, environment));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
-                subModelsProcessor, environment.getMetadataRegister(), errorMessageBuilder));
+                subModelsProcessor, errorMessageBuilder, environment));
         beans.put("bulkActionMergeController", new BulkActionMergeController(dataProcessingStack,
-                environment.getDomainProcessor(), operationProcessor));
+                operationProcessor, environment));
         ControllerFactory factory = new N2oControllerFactory(beans);
         return factory;
     }

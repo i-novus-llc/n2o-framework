@@ -49,7 +49,8 @@ public class N2oRestConfiguration {
 
 
     @Bean
-    ControllerFactory controllerFactory(Map<String, SetController> setControllers, Map<String, GetController> getControllers) {
+    ControllerFactory controllerFactory(Map<String, SetController> setControllers,
+                                        Map<String, GetController> getControllers) {
         Map<String, Object> controllers = new HashMap<>();
         controllers.putAll(setControllers);
         controllers.putAll(getControllers);
@@ -64,8 +65,8 @@ public class N2oRestConfiguration {
     }
 
     @Bean
-    public ErrorMessageBuilder errorMessageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
-        return new ErrorMessageBuilder(messageSourceAccessor, showStacktrace);
+    public ErrorMessageBuilder errorMessageBuilder(MetadataEnvironment environment) {
+        return new ErrorMessageBuilder(environment.getMessageSource(), showStacktrace);
     }
 
     @Bean

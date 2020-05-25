@@ -292,7 +292,7 @@ public class DataControllerTest extends DataControllerTestBase {
         ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
 
         Map<String, Object> map = new HashMap<>();
-        OperationController operationController = new OperationController(dataProcessingStack, domainProcessor, operationProcessor,
+        OperationController operationController = new OperationController(dataProcessingStack, operationProcessor,
                 new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()), builder.getEnvironment());
         map.put("operationController", operationController);
 
@@ -300,7 +300,6 @@ public class DataControllerTest extends DataControllerTestBase {
         factory.setEnvironment(builder.getEnvironment());
 
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
-//        controller.setErrorMessageBuilder(new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
         return controller.setData(path, params , null, body, new UserContext(contextEngine));
     }
 
