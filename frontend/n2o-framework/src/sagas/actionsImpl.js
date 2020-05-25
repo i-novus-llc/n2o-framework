@@ -122,7 +122,14 @@ export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {
  * вызов экшена
  */
 export function* handleInvoke(apiProvider, action) {
-  const { modelLink, widgetId, pageId, dataProvider, data } = action.payload;
+  const {
+    modelLink,
+    widgetId,
+    pageId,
+    dataProvider,
+    data,
+    needResolve = true,
+  } = action.payload;
   try {
     if (!dataProvider) {
       throw new Error('dataProvider is undefined');
@@ -146,7 +153,10 @@ export function* handleInvoke(apiProvider, action) {
 
     const meta = merge(action.meta.success || {}, response.meta || {});
 
-    if (optimistic || (!meta.redirect && !meta.modalsToClose)) {
+    if (
+      needResolve &&
+      (optimistic || (!meta.redirect && !meta.modalsToClose))
+    ) {
       yield put(
         setModel(PREFIXES.resolve, widgetId, optimistic ? model : response.data)
       );
