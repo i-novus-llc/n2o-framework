@@ -7,7 +7,7 @@ import {
   cancelled,
 } from 'redux-saga/effects';
 import map from 'lodash/map';
-import isEpmty from 'lodash/isEmpty';
+import reduce from 'lodash/reduce';
 import first from 'lodash/first';
 import forOwn from 'lodash/forOwn';
 import get from 'lodash/get';
@@ -37,22 +37,20 @@ const ConditionHandlers = {
  * @returns {object}
  */
 export const resolveConditions = (conditions = [], model) => {
-  const falsyExpressions = conditions.reduce(
-    (acc, condition) =>
-      evalExpression(
-        condition.expression,
-        get(model, condition.modelLink, {})
-      ) === false
-        ? acc.concat(condition)
-        : acc,
+  const falsyExpressions = reduce(
+    conditions,
+    (acc, condition) => {
+      const { expression, modelLink } = condition;
+      const context = get(model, modelLink, {});
+
+      return !evalExpression(expression, context) ? acc.concat(condition) : acc;
+    },
     []
   );
   //message первого ложного expression
   const message = get(first(falsyExpressions), 'message');
 
-  return isEpmty(falsyExpressions)
-    ? { resolve: true }
-    : { resolve: false, message: message };
+  return { resolve: isEmpty(falsyExpressions), message: message };
 };
 
 /**
