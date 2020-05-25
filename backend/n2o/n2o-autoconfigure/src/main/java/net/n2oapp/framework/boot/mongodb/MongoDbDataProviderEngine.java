@@ -23,15 +23,20 @@ import java.util.Map;
 public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDbDataProvider> {
     private String connectionUrl;
     private String databaseName;
+    private MongoClient mongoClient;
 
     private MongoCollection<Document> getCollection(N2oMongoDbDataProvider invocation) {
-        String connUrl = invocation.getConnectionUrl() != null ? invocation.getConnectionUrl() : connectionUrl;
+        if (mongoClient == null) {
+            String connUrl = invocation.getConnectionUrl() != null ? invocation.getConnectionUrl() : connectionUrl;
+
+            if (connUrl == null)
+                throw new N2oException("Need to define n2o.engine.mongodb.connection_url property");
+
+            mongoClient = new MongoClient(new MongoClientURI(connUrl));
+        }
+
         String dbName = invocation.getDatabaseName() != null ? invocation.getDatabaseName() : databaseName;
-
-        if (connUrl == null)
-            throw new N2oException("Need to define n2o.engine.mongodb.connection_url property");
-
-        return new MongoClient(new MongoClientURI(connUrl))
+        return mongoClient
                 .getDatabase(dbName)
                 .getCollection(invocation.getCollectionName());
     }

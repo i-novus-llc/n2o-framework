@@ -14,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -64,6 +65,11 @@ public class MongoDbDataProviderEngineTest {
         inParams.put("age", 99);
         inParams.put("birthday", "01.01.1900 00:00:00");
         inParams.put("vip", true);
+        HashMap<String, Object> info = new HashMap<>();
+        HashMap<String, Object> subInfo = new HashMap<>();
+        subInfo.put("d", Arrays.asList("e", true, 1));
+        info.put("a", Arrays.asList("b", "c", subInfo));
+        inParams.put("info", info);
 
         id = (String) engine.invoke(provider, inParams);
 
@@ -77,6 +83,12 @@ public class MongoDbDataProviderEngineTest {
         assertThat(document.get("age"), is(99));
         assertThat(document.get("birthday"), is("01.01.1900 00:00:00"));
         assertThat(document.get("vip"), is(true));
+
+        Document expSubInfo = new Document(subInfo);
+        Map<String, Object> expInfoMap = new HashMap<>();
+        expInfoMap.put("a", Arrays.asList("b", "c", expSubInfo));
+        Document expInfo = new Document(expInfoMap);
+        assertThat(document.get("info"), is(expInfo));
     }
 
     @Test
@@ -88,9 +100,13 @@ public class MongoDbDataProviderEngineTest {
         inParams.put("id", id);
         inParams.put("name", "test2");
         inParams.put("age", 10);
-//        inParams.put("a.b.c", "bbb");
         inParams.put("birthday", "01.01.2000 00:00:00");
         inParams.put("vip", false);
+        HashMap<String, Object> info = new HashMap<>();
+        HashMap<String, Object> subInfo = new HashMap<>();
+        subInfo.put("d", Arrays.asList("e2", false, 2));
+        info.put("a", Arrays.asList("b2", "c2", "d2", subInfo));
+        inParams.put("info", info);
 
         engine.invoke(provider, inParams);
 
@@ -104,6 +120,12 @@ public class MongoDbDataProviderEngineTest {
         assertThat(document.get("age"), is(10));
         assertThat(document.get("birthday"), is("01.01.2000 00:00:00"));
         assertThat(document.get("vip"), is(false));
+
+        Document expSubInfo = new Document(subInfo);
+        Map<String, Object> expInfoMap = new HashMap<>();
+        expInfoMap.put("a", Arrays.asList("b2", "c2", "d2", expSubInfo));
+        Document expInfo = new Document(expInfoMap);
+        assertThat(document.get("info"), is(expInfo));
     }
 
     @Test
