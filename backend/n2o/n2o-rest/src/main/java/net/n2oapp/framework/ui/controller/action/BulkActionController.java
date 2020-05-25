@@ -1,6 +1,7 @@
 package net.n2oapp.framework.ui.controller.action;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.rest.ControllerType;
 import net.n2oapp.framework.api.rest.SetDataResponse;
@@ -24,8 +25,10 @@ import java.util.Map;
 public class BulkActionController extends SetController {
 
 
-    public BulkActionController(DataProcessingStack dataProcessingStack, DomainProcessor domainsProcessor, N2oOperationProcessor actionProcessor) {
-        super(dataProcessingStack, domainsProcessor, actionProcessor);
+    public BulkActionController(DataProcessingStack dataProcessingStack,
+                                N2oOperationProcessor actionProcessor,
+                                MetadataEnvironment environment) {
+        super(dataProcessingStack, actionProcessor, environment);
     }
 
     @Override

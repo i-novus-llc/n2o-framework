@@ -49,7 +49,8 @@ public class N2oRestConfiguration {
 
 
     @Bean
-    ControllerFactory controllerFactory(Map<String, SetController> setControllers, Map<String, GetController> getControllers) {
+    ControllerFactory controllerFactory(Map<String, SetController> setControllers,
+                                        Map<String, GetController> getControllers) {
         Map<String, Object> controllers = new HashMap<>();
         controllers.putAll(setControllers);
         controllers.putAll(getControllers);
@@ -64,25 +65,8 @@ public class N2oRestConfiguration {
     }
 
     @Bean
-    public ErrorMessageBuilder errorMessageBuilder(@Qualifier("n2oMessageSourceAccessor") MessageSourceAccessor messageSourceAccessor) {
-        return new ErrorMessageBuilder(messageSourceAccessor, showStacktrace);
-    }
-
-    @Bean
-    public ClientCacheTemplate pageClientCacheTemplate(CacheManager cacheManager, Environment env) {
-        boolean enabled = env.getProperty("n2o.ui.cache.page.enabled", Boolean.class, false);
-        if (!enabled)
-            return null;
-        long lifetime = env.getProperty("n2o.ui.cache.page.lifetime", Long.class, 1000 * 60 * 10L);
-        String mode = env.getProperty("n2o.ui.cache.page.mode", String.class, "lifetime");
-        switch (mode) {
-            case "lifetime":
-                return new LifetimeClientCacheTemplate(lifetime);
-            case "modified":
-                return new ModifiedClientCacheTemplate(cacheManager);
-            default:
-                throw new UnsupportedOperationException("Unknown page client cache mode " + mode);
-        }
+    public ErrorMessageBuilder errorMessageBuilder(MetadataEnvironment environment) {
+        return new ErrorMessageBuilder(environment.getMessageSource(), showStacktrace);
     }
 
 }
