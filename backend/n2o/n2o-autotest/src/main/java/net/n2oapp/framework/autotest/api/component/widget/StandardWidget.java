@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.widget;
 
+import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 
 /**
@@ -7,6 +8,8 @@ import net.n2oapp.framework.autotest.api.collection.Toolbar;
  */
 public interface StandardWidget extends Widget {
     WidgetToolbar toolbar();
+
+    Alerts alerts();
 
     interface WidgetToolbar {
         Toolbar topLeft();

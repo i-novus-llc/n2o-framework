@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.page;
 
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.impl.component.region.N2oLineRegion;
+import net.n2oapp.framework.autotest.api.component.region.LineRegion;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -34,9 +34,9 @@ public class LineRegionAT extends AutoTestBase {
     @Test
     public void lineRegionTest() {
         StandardPage page = open(StandardPage.class);
-        N2oLineRegion region = page.place("single").region(0, N2oLineRegion.class);
+        LineRegion region = page.place("single").region(0, LineRegion.class);
         region.shouldBeExpanded();
-        N2oLineRegion collapsible = page.place("single").region(1, N2oLineRegion.class);
+        LineRegion collapsible = page.place("single").region(1, LineRegion.class);
         collapsible.shouldBeExpanded();
         collapsible.toggleCollapse();
         collapsible.shouldBeCollapsed();

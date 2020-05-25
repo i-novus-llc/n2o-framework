@@ -3,10 +3,12 @@ package net.n2oapp.framework.autotest.impl.component.page;
 import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
+import org.openqa.selenium.WebElement;
 
 /**
  * Страница для автотестирования
@@ -35,6 +37,16 @@ public class N2oPage extends N2oComponent implements Page {
     @Override
     public Tooltip tooltip() {
         return new N2oTooltip(element().$(".list-text-cell__tooltip-container"));
+    }
+
+    @Override
+    public Alerts alerts() {
+        return N2oSelenide.collection(element().$$(".n2o-alerts .n2o-alert"), Alerts.class);
+    }
+
+    @Override
+    public void urlShouldMatches(String regexp) {
+        element().should(new UrlMatch(regexp));
     }
 
     @Override
@@ -138,6 +150,30 @@ public class N2oPage extends N2oComponent implements Page {
             items.shouldHaveSize(text.length);
             if (text.length != 0)
                 items.shouldHave(CollectionCondition.texts(text));
+        }
+    }
+
+    static class UrlMatch extends Condition {
+        private final String regex;
+
+        public UrlMatch(String regex) {
+            super("urlMatch", true);
+            this.regex =regex;
+        }
+
+        @Override
+        public boolean apply(Driver driver, WebElement element) {
+            return driver.url().matches(regex);
+        }
+
+        @Override
+        public String actualValue(Driver driver, WebElement element) {
+            return driver.url();
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s '%s'", getName(), regex);
         }
     }
 }

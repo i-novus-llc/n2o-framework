@@ -124,7 +124,8 @@ public class DataModel {
             return key -> {
                 Object value = entry.getValue().get(key);
                 if (value == null && entry.getKey().getSubModelQuery() != null) {
-                    processor.executeSubModels(Collections.singletonList(entry.getKey().getSubModelQuery()), entry.getValue());
+                    if (processor != null)
+                        processor.executeSubModels(Collections.singletonList(entry.getKey().getSubModelQuery()), entry.getValue());
                     return entry.getValue().get(key);
                 } else {
                     return value;
