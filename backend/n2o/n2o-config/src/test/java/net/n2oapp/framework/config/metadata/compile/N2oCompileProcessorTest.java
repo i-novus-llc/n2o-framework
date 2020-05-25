@@ -104,7 +104,6 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     @Test
     public void testResolveTextSubModels() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
-        ((N2oEnvironment) builder.getEnvironment()).setSubModelsProcessor(subModelsProcessor);
 
         doAnswer(invocation -> {
             DataSet data = invocation.getArgument(1);
@@ -121,7 +120,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         context.setQueryRouteMapping(queryMapping);
         DataSet data = new DataSet();
         data.put("paramId", 123);
-        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
+        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data, subModelsProcessor);
 
         // совпадают модель и виджет
         String resultText = processor.resolveText("Hello, {name}", linkId);

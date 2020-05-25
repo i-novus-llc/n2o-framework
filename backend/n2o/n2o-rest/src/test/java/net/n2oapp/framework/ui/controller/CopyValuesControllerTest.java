@@ -113,8 +113,10 @@ public class CopyValuesControllerTest {
         ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
         UserContext userContext = new UserContext(contextEngine);
         ContextProcessor contextProcessor = new ContextProcessor(userContext);
-        N2oQueryProcessor queryProcessor = new N2oQueryProcessor(invocationFactory, contextProcessor,
-                new DomainProcessor(), new N2oQueryExceptionHandler());
+        N2oQueryProcessor queryProcessor = new N2oQueryProcessor(invocationFactory, new N2oQueryExceptionHandler());
+        N2oEnvironment env = new N2oEnvironment();
+        env.setContextProcessor(contextProcessor);
+        queryProcessor.setEnvironment(env);
         N2oSubModelsProcessor subModelsProcessor = Mockito.mock(N2oSubModelsProcessor.class);
         Mockito.doNothing().when(subModelsProcessor);
         DataProcessingStack dataProcessingStack = Mockito.mock(SpringDataProcessingStack.class);

@@ -17,10 +17,11 @@ import org.springframework.core.Ordered;
 @Configuration
 @Import({N2oMessagesConfiguration.class,
         N2oContextConfiguration.class,
-        N2oCommonConfiguration.class,
-        N2oEngineConfiguration.class,
+        N2oEnvironmentConfiguration.class,
         N2oMetadataConfiguration.class,
-        N2oRestConfiguration.class})
+        N2oEngineConfiguration.class,
+        N2oRestConfiguration.class,
+        N2oServletConfiguration.class})
 @ServletComponentScan("net.n2oapp.framework")
 @ComponentScan(basePackages = "net.n2oapp.framework.api", lazyInit = true)
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)

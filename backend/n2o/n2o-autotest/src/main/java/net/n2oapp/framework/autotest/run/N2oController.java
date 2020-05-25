@@ -11,9 +11,11 @@ import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import net.n2oapp.framework.ui.controller.DataController;
@@ -106,17 +108,18 @@ public class N2oController {
     }
 
     private ControllerFactory createControllerFactory(MetadataEnvironment environment) {
+        SubModelsProcessor subModelsProcessor = new N2oSubModelsProcessor(queryProcessor);
         Map<String, Object> beans = new HashMap<>();
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
-                environment.getSubModelsProcessor(), environment.getMetadataRegister(), errorMessageBuilder));
+                subModelsProcessor, environment.getMetadataRegister(), errorMessageBuilder));
         beans.put("operationController", new OperationController(dataProcessingStack, environment.getDomainProcessor(),
                 operationProcessor, errorMessageBuilder, environment));
-        beans.put("copyValuesController", new CopyValuesController(dataProcessingStack, queryProcessor, environment.getSubModelsProcessor(),
+        beans.put("copyValuesController", new CopyValuesController(dataProcessingStack, queryProcessor, subModelsProcessor,
                 environment.getMetadataRegister(), errorMessageBuilder));
         beans.put("bulkActionController", new BulkActionController(dataProcessingStack, environment.getDomainProcessor(),
                 operationProcessor));
         beans.put("simpleDefaultValuesController", new SimpleDefaultValuesController(dataProcessingStack, queryProcessor,
-                environment.getSubModelsProcessor(), environment.getMetadataRegister(), errorMessageBuilder));
+                subModelsProcessor, environment.getMetadataRegister(), errorMessageBuilder));
         beans.put("bulkActionMergeController", new BulkActionMergeController(dataProcessingStack,
                 environment.getDomainProcessor(), operationProcessor));
         ControllerFactory factory = new N2oControllerFactory(beans);
