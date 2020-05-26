@@ -14,13 +14,13 @@ public class ObjectMapperConstructor {
     public static ObjectMapper metaObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT));
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        objectMapper.setVisibility(objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
-                .withFieldVisibility(JsonAutoDetect.Visibility.NONE)
-                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
-                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
-                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
-                .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE));
+//        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+//        objectMapper.setVisibility(objectMapper.getSerializationConfig().getDefaultVisibilityChecker()
+//                .withFieldVisibility(JsonAutoDetect.Visibility.NONE)
+//                .withGetterVisibility(JsonAutoDetect.Visibility.NONE)
+//                .withSetterVisibility(JsonAutoDetect.Visibility.NONE)
+//                .withCreatorVisibility(JsonAutoDetect.Visibility.NONE)
+//                .withIsGetterVisibility(JsonAutoDetect.Visibility.NONE));
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.registerModule(new N2oJacksonModule(new SimpleDateFormat(DomainProcessor.JAVA_DATE_FORMAT)));
         return objectMapper;
