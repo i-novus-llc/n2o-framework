@@ -259,6 +259,7 @@ public class N2oPipelineTest {
         sourcePage = new N2oSimplePage();
         sourcePage.setId("test");
         sourcePage.setName("test");
+        sourcePage.setSrc("test");
         return sourcePage;
     }
 
@@ -293,7 +294,7 @@ public class N2oPipelineTest {
 
         @Override
         public <S> void validate(S source, ValidateProcessor p) throws N2oMetadataValidationException {
-            if (((N2oSimplePage)source).getObjectId() == null)
+            if ("test".equals(((N2oSimplePage)source).getSrc()))
                 throw new N2oMetadataValidationException("validated " + ((N2oSimplePage)source).getName());
         }
     }
