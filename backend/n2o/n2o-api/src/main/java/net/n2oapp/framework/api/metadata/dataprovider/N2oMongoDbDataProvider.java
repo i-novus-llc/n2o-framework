@@ -19,7 +19,6 @@ public class N2oMongoDbDataProvider extends AbstractDataProvider implements N2oM
         find,
         insertOne,
         updateOne,
-        updateMany,
         deleteOne,
         deleteMany,
         countDocuments

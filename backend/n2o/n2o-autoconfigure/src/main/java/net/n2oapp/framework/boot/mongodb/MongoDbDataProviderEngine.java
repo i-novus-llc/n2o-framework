@@ -13,6 +13,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,16 +27,14 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     private MongoClient mongoClient;
 
     private MongoCollection<Document> getCollection(N2oMongoDbDataProvider invocation) {
-        if (mongoClient == null) {
-            String connUrl = invocation.getConnectionUrl() != null ? invocation.getConnectionUrl() : connectionUrl;
-
-            if (connUrl == null)
-                throw new N2oException("Need to define n2o.engine.mongodb.connection_url property");
-
-            mongoClient = new MongoClient(new MongoClientURI(connUrl));
-        }
-
+        String connUrl = invocation.getConnectionUrl() != null ? invocation.getConnectionUrl() : connectionUrl;
         String dbName = invocation.getDatabaseName() != null ? invocation.getDatabaseName() : databaseName;
+
+        if (connUrl == null)
+            throw new N2oException("Need to define n2o.engine.mongodb.connection_url property");
+
+        mongoClient = new MongoClient(new MongoClientURI(connUrl));
+
         return mongoClient
                 .getDatabase(dbName)
                 .getCollection(invocation.getCollectionName());
@@ -43,7 +42,12 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
 
     @Override
     public Object invoke(N2oMongoDbDataProvider invocation, Map<String, Object> inParams) {
-        return execute(invocation, inParams, getCollection(invocation));
+        try {
+            return execute(invocation, inParams, getCollection(invocation));
+        } finally {
+            if (mongoClient != null)
+                mongoClient.close();
+        }
     }
 
     @Override
@@ -61,8 +65,6 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
                 return insertOne(inParams, collection);
             case updateOne:
                 return updateOne(inParams, collection);
-            case updateMany:
-                return updateMany(inParams, collection);
             case deleteOne:
                 return deleteOne(inParams, collection);
             case deleteMany:
@@ -82,8 +84,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
         if (((List) inParams.get("filters")).get(0).equals("id :in :id")) {
             Object[] ids = ((List) inParams.get("id")).stream().map(id -> new ObjectId((String) id)).toArray();
             filter = Filters.in("_id", ids);
-        }
-        else
+        } else
             filter = Filters.eq("_id", new ObjectId((String) inParams.get("id")));
 
         for (Document document : collection.find(filter))
@@ -100,18 +101,19 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     private Object updateOne(Map<String, Object> inParams, MongoCollection<Document> collection) {
         if (!inParams.containsKey("id"))
             throw new N2oException("Id is required for operation \"updateOne\"");
-        String id = (String) inParams.remove("id");
-        collection.updateOne(Filters.eq("_id", new ObjectId(id)), new Document("$set", new Document(inParams)));
-        return null;
-    }
 
-    private Object updateMany(Map<String, Object> inParams, MongoCollection<Document> collection) {
+        String id = (String) inParams.get("id");
+        Map<String, Object> data = new HashMap<>(inParams);
+        data.remove("id");
+
+        collection.updateOne(Filters.eq("_id", new ObjectId(id)), new Document("$set", new Document(data)));
         return null;
     }
 
     private Object deleteOne(Map<String, Object> inParams, MongoCollection<Document> collection) {
         if (!inParams.containsKey("id"))
             throw new N2oException("Id is required for operation \"deleteOne\"");
+
         collection.deleteOne(Filters.eq("_id", new ObjectId((String) inParams.get("id"))));
         return null;
     }

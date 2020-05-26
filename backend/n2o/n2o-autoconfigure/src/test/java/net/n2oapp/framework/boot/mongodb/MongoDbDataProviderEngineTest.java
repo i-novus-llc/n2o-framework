@@ -148,18 +148,8 @@ public class MongoDbDataProviderEngineTest {
         id = null;
     }
 
-    @Disabled
     @Test
     @Order(4)
-    public void updateManyOperationTest() {
-        provider.setOperation(N2oMongoDbDataProvider.Operation.updateMany);
-        HashMap<String, Object> inParams = new HashMap<>();
-
-        engine.invoke(provider, inParams);
-    }
-
-    @Test
-    @Order(5)
     public void deleteManyOperationTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.insertOne);
         HashMap<String, Object> inParams = new HashMap<>();

@@ -93,7 +93,7 @@ UPDATE mytable SET :params WHERE id = :id;
 |
 
 |operation
-|find insertOne updateOne updateMany deleteOne deleteMany countDocuments
+|find insertOne updateOne deleteOne deleteMany countDocuments
 |Операция, выполняемая провайдером
 |
 

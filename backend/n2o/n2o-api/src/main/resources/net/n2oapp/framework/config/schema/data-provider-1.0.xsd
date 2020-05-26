@@ -234,7 +234,6 @@
                     <xs:enumeration value="find"/>
                     <xs:enumeration value="insertOne"/>
                     <xs:enumeration value="updateOne"/>
-                    <xs:enumeration value="updateMany"/>
                     <xs:enumeration value="deleteOne"/>
                     <xs:enumeration value="deleteMany"/>
                     <xs:enumeration value="countDocuments"/>
