@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.context.Context;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.*;
+import net.n2oapp.framework.boot.mongodb.MongoDbDataProviderEngine;
 import net.n2oapp.framework.engine.data.*;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.java.ObjectLocator;
@@ -59,6 +60,12 @@ public class N2oEngineConfiguration {
 
     @Value("${n2o.engine.test.classpath}")
     private String resourcePath;
+
+    @Value("${n2o.engine.mongodb.connection_url}")
+    private String connectionUrl;
+
+    @Value("${n2o.engine.mongodb.database_name}")
+    private String databaseName;
 
     @Bean
     @ConditionalOnMissingBean
@@ -156,6 +163,15 @@ public class N2oEngineConfiguration {
         testDataProviderEngine.setPathOnDisk(configPath);
         testDataProviderEngine.setClasspathResourcePath(resourcePath);
         return testDataProviderEngine;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MongoDbDataProviderEngine mongoDbDataProviderEngine() {
+        MongoDbDataProviderEngine mongoDbDataProviderEngine = new MongoDbDataProviderEngine();
+        mongoDbDataProviderEngine.setConnectionUrl(connectionUrl);
+        mongoDbDataProviderEngine.setDatabaseName(databaseName);
+        return mongoDbDataProviderEngine;
     }
 
     private ObjectMapper restObjectMapper() {
