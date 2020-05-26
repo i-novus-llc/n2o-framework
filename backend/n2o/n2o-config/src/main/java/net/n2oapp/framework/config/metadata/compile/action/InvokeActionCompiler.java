@@ -152,6 +152,9 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         WidgetDataProvider dataProvider = new WidgetDataProvider();
         dataProvider.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
         Map<String, ModelLink> pathMapping = new StrictMap<>();
+        if (routeScope != null) {
+            pathMapping.putAll(routeScope.getPathMapping());
+        }
         pathMapping.putAll(compileParams(source.getPathParams(), p, model, invokeAction.getPayload().getWidgetId()));
         dataProvider.setFormMapping(compileParams(source.getFormParams(), p, model, invokeAction.getPayload().getWidgetId()));
         dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), p, model, invokeAction.getPayload().getWidgetId()));
@@ -182,7 +185,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         Map<String, ModelLink> routePathMapping = new StrictMap<>();
         Map<String, ModelLink> routeQueryMapping = new StrictMap<>();
         if (routeScope != null) {
-            routePathMapping.putAll(routeScope.getPathMapping());
             routePathMapping.putAll(pathMapping);
             routeQueryMapping.putAll(routeScope.getQueryMapping());
         }

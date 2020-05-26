@@ -14,7 +14,7 @@ import org.springframework.context.support.MessageSourceAccessor;
  */
 @Import({N2oMessagesConfiguration.class,
         N2oContextConfiguration.class,
-        N2oCommonConfiguration.class,
+        N2oEnvironmentConfiguration.class,
         N2oEngineConfiguration.class,
         N2oMetadataConfiguration.class})
 @SpringBootApplication(exclude = N2oFrameworkAutoConfiguration.class)

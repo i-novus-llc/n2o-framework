@@ -2,11 +2,13 @@ package net.n2oapp.framework.engine.data;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.dataset.DataSetMapper;
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.data.ActionInvocationEngine;
 import net.n2oapp.framework.api.data.ArgumentsInvocationEngine;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.InvocationProcessor;
+import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oArgumentsInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
@@ -27,19 +29,15 @@ import static net.n2oapp.framework.engine.util.InvocationParametersMapping.*;
 /**
  * Процессор вызова процедур
  */
-public class N2oInvocationProcessor implements InvocationProcessor {
+public class N2oInvocationProcessor implements InvocationProcessor, MetadataEnvironmentAware {
     private static final ExpressionParser parser = new SpelExpressionParser();
 
     private N2oInvocationFactory invocationFactory;
     private ContextProcessor contextProcessor;
     private DomainProcessor domainProcessor;
 
-    public N2oInvocationProcessor(N2oInvocationFactory invocationFactory,
-                                  ContextProcessor contextProcessor,
-                                  DomainProcessor domainProcessor) {
+    public N2oInvocationProcessor(N2oInvocationFactory invocationFactory) {
         this.invocationFactory = invocationFactory;
-        this.contextProcessor = contextProcessor;
-        this.domainProcessor = domainProcessor;
     }
 
     @Override
@@ -164,5 +162,11 @@ public class N2oInvocationProcessor implements InvocationProcessor {
         if (unmappable) {
             inMapping.remove(inParam.getId());
         }
+    }
+
+    @Override
+    public void setEnvironment(MetadataEnvironment environment) {
+        this.contextProcessor = environment.getContextProcessor();
+        this.domainProcessor = environment.getDomainProcessor();
     }
 }
