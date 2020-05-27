@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import org.openqa.selenium.Keys;
 
@@ -98,4 +99,13 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     public void shouldBeDisabled() {
         element().shouldHave(Condition.cssClass("disabled"));
     }
+
+    @Override
+    public void shouldHaveStatusColor(String value, Colors color) {
+        element().click();
+        element().parent().$$(".n2o-pop-up button").findBy(Condition.text(value))
+                .$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
+                .shouldHave(Condition.cssClass(color.name("bg-")));
+    }
+
 }

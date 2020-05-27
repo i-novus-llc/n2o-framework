@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -54,6 +55,10 @@ public class InputSelectAT extends AutoTestBase {
 
         input.val("Three");
         input.shouldHaveValue("Three");
+
+        input.shouldHaveStatusColor("One", Colors.SUCCESS);
+        input.shouldHaveStatusColor("Two", Colors.PRIMARY);
+        input.shouldHaveStatusColor("Three", Colors.DANGER);
     }
 
     @Test
