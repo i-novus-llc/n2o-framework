@@ -2,14 +2,25 @@ package net.n2oapp.framework.config.compile.pipeline;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.*;
+import net.n2oapp.framework.api.register.MetaType;
+import net.n2oapp.framework.api.register.SourceTypeRegister;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.BaseCompileContext;
+import net.n2oapp.framework.config.register.storage.PathUtil;
+import net.n2oapp.framework.config.util.FileSystemUtil;
+import org.apache.commons.io.IOUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType.*;
@@ -26,7 +37,33 @@ public class N2oReadPipeline extends N2oPipeline implements ReadPipeline {
         return new ReadTerminalPipeline<ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline>>() {
             @Override
             public <S extends SourceMetadata> S get(String id, Class<S> sourceClass) {
-                return execute(new BaseCompileContext<Compiled, S>(id, sourceClass, null) {}, null, null);
+                return execute(new DummyCompileContext<>(id, sourceClass), null, null);
+            }
+
+            @Override
+            public ReadPersistTerminalPipeline persist() {
+                pullOp(PERSIST);
+                return new ReadPersistTerminalPipeline() {
+                    @Override
+                    public <S extends SourceMetadata> InputStream get(String id, Class<S> sourceClass) {
+                        return execute(new DummyCompileContext<>(id, sourceClass), null, null);
+                    }
+
+                    @Override
+                    public <S extends SourceMetadata> void set(String id, Class<S> sourceClass, OutputStream output) {
+                        try (InputStream is = get(id, sourceClass)) {
+                            IOUtils.copy(is, output);
+                        } catch (IOException e) {
+                            throw new IllegalStateException(e);
+                        }
+                    }
+
+                    @Override
+                    public <S extends SourceMetadata> void set(String id, MetaType metaType, String directory) {
+                        String path = PathUtil.concatFileNameAndBasePath(id + "." + metaType.getSourceType() + ".xml", directory);
+                        FileSystemUtil.saveContentToFile(get(id, metaType.getBaseSourceClass()), new File(path));
+                    }
+                };
             }
 
             @Override
@@ -50,6 +87,11 @@ public class N2oReadPipeline extends N2oPipeline implements ReadPipeline {
                             @Override
                             public <D extends Compiled> D get(CompileContext<D, ?> context, DataSet data) {
                                 return execute(context, data, null);
+                            }
+
+                            @Override
+                            public <D extends Compiled> D get(CompileContext<D, ?> context, DataSet data, SubModelsProcessor subModelsProcessor) {
+                                return execute(context, data, null, subModelsProcessor);
                             }
 
                             @Override

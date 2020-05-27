@@ -10,5 +10,6 @@ public enum PipelineOperationType {
     COMPILE,
     COMPILE_TRANSFORM,
     COMPILE_CACHE,
-    BIND
+    BIND,
+    PERSIST
 }

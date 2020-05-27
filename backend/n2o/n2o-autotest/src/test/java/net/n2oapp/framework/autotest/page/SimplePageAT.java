@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.page;
 
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oStandardWidget;
@@ -39,5 +40,11 @@ public class SimplePageAT extends AutoTestBase {
         page.shouldExists();
         StandardButton button = page.single().widget(N2oStandardWidget.class).toolbar().topLeft().button("Вперед");
         button.shouldBeDisabled();
+
+        button = page.single().widget(N2oStandardWidget.class).toolbar().topLeft().button("Кнопка с иконкой");
+        button.shouldHaveIcon("fa-plus");
+
+        button = page.single().widget(N2oStandardWidget.class).toolbar().topLeft().button("Опасная");
+        button.shouldHaveColor(Colors.DANGER);
     }
 }
