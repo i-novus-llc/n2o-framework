@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.mongodb.client.model.Projections.include;
+import static com.mongodb.client.model.Sorts.*;
+
 /**
  * Сервис для выполнения запросов к MongoDb
  */
@@ -77,19 +80,50 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     }
 
     private Object find(Map<String, Object> inParams, MongoCollection<Document> collection) {
-        // TODO - filters, pagination, sorting
+        List<Document> result = new ArrayList<>();
+        Bson order = getSorting(inParams);
+        Bson projection = inParams.containsKey("select") && inParams.get("select") != null ?
+                include((List<String>) inParams.get("select")) : null;
 
-        List<Document> data = new ArrayList<>();
+        for (Document document : collection.find().projection(projection).sort(order))
+            result.add(document);
+
+        /*
         Bson filter;
         if (((List) inParams.get("filters")).get(0).equals("id :in :id")) {
             Object[] ids = ((List) inParams.get("id")).stream().map(id -> new ObjectId((String) id)).toArray();
             filter = Filters.in("_id", ids);
         } else
             filter = Filters.eq("_id", new ObjectId((String) inParams.get("id")));
+*/
 
-        for (Document document : collection.find(filter))
-            data.add(document);
-        return data;
+        return result;
+    }
+
+    private Bson getSorting(Map<String, Object> inParams) {
+        Bson order = null;
+        if (inParams.containsKey("sorting") && inParams.get("sorting") != null && inParams.get("sorting") != null) {
+            List<String> sortings = (List<String>) inParams.get("sorting");
+            List<String> asc = new ArrayList<>();
+            List<String> desc = new ArrayList<>();
+            for(String sort : sortings) {
+                String[] str = sort.split(" :");
+                String sortDirection = (String) inParams.get(str[1]);
+                if (sortDirection.equals("asc")) {
+                    asc.add(str[0]);
+                } else {
+                    desc.add(str[0]);
+                }
+            }
+            if (!asc.isEmpty() && !desc.isEmpty()) {
+                order = orderBy(ascending(asc), descending(desc));
+            } else if (!asc.isEmpty()) {
+                order = orderBy(ascending(asc));
+            } else {
+                order = orderBy(descending(desc));
+            }
+        }
+        return order;
     }
 
     private Object insertOne(Map<String, Object> inParams, MongoCollection<Document> collection) {

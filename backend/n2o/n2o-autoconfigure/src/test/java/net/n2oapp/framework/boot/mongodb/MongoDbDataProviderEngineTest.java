@@ -23,7 +23,6 @@ import static org.hamcrest.Matchers.is;
  * Тестирование сервиса для выполнения запросов к MongoDb
  */
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = MongoDbDataProviderTestApplication.class)
 @AutoConfigureDataMongo
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
