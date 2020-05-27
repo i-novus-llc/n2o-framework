@@ -23,6 +23,7 @@ import {
   CLEAR,
   PREFIXES,
 } from '../constants/models';
+import evalExpression, { parseExpression } from '../utils/evalExpression';
 import { omitDeep, setIn } from '../tools/helpers';
 
 /**
@@ -67,21 +68,27 @@ function resolveUpdate(state, action) {
   return setIn(state, field, value);
 }
 
-function resolveCopyAction(state, { payload }) {
+export function resolveCopyAction(state, { payload }) {
   const { target, source, mode = 'replace' } = payload;
   const newState = Object.assign({}, state);
   const targetPath = values(target).join('.');
   const sourcePath = values(source).join('.');
-  const sourceModel = get(state, sourcePath);
+  let sourceModel = get(state, sourcePath);
   const targetModel = get(state, targetPath);
+  const sourceMapper = get(payload, 'sourceMapper');
+  const expression = parseExpression(sourceMapper);
 
-  if (mode === 'merge' && isObject(sourceModel) && isObject(targetModel)) {
-    set(newState, targetPath, merge(targetModel, sourceModel));
+  if (expression) {
+    sourceModel = evalExpression(expression, sourceModel);
+  }
+
+  if (mode === 'merge') {
+    set(newState, targetPath, Object.assign({}, targetModel, sourceModel));
   } else if (mode === 'add') {
-    set(newState, targetPath, [
-      ...defaultTo(targetModel, []),
-      ...Object.values(sourceModel),
-    ]);
+    if (!Array.isArray(sourceModel) || !Array.isArray(targetModel)) {
+      throw new Error('Source or target is not an array!');
+    }
+    set(newState, targetPath, [...targetModel, ...sourceModel]);
   } else {
     set(newState, targetPath, sourceModel);
   }

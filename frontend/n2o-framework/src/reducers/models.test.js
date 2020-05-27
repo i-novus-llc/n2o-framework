@@ -8,6 +8,7 @@ import {
   REMOVE_ALL,
 } from '../constants/models';
 import models from './models';
+import { resolveCopyAction } from './models';
 
 describe('Тесты models reducer', () => {
   it('Проверка SET', () => {
@@ -394,6 +395,125 @@ describe('Тесты models reducer', () => {
     ).toEqual({
       resolve: {},
       edit: {},
+    });
+  });
+});
+
+const createState = (resolve = {}, filter = {}) => ({
+  resolve: {
+    proto_clients: {
+      id: 1,
+      name: 'Ivan',
+      surname: 'Ivanov',
+    },
+    ...resolve,
+  },
+  filter: {
+    proto_form: {
+      test: 'test',
+    },
+    ...filter,
+  },
+});
+
+const createAction = (
+  mode = 'replace',
+  sourceMapper = null,
+  source = {},
+  target = {}
+) => ({
+  payload: {
+    source: {
+      prefix: 'resolve',
+      key: 'proto_clients',
+      ...source,
+    },
+    target: {
+      prefix: 'filter',
+      key: 'proto_form',
+      ...target,
+    },
+    mode,
+    sourceMapper,
+  },
+});
+
+describe('Тесты resolveCopyAction', () => {
+  it('должен вернуть новый state после копирования mode = "replace"', () => {
+    const newState = resolveCopyAction(createState(), createAction());
+
+    expect(newState).toEqual({
+      resolve: createState().resolve,
+      filter: {
+        proto_form: {
+          id: 1,
+          name: 'Ivan',
+          surname: 'Ivanov',
+        },
+      },
+    });
+  });
+
+  it('должен вернуть новый state после копирования mode = "merge"', () => {
+    const newState = resolveCopyAction(createState(), createAction('merge'));
+
+    expect(newState).toEqual({
+      resolve: createState().resolve,
+      filter: {
+        proto_form: {
+          id: 1,
+          name: 'Ivan',
+          surname: 'Ivanov',
+          test: 'test',
+        },
+      },
+    });
+  });
+
+  it('должен вернуть новый state после копирования mode = "add"', () => {
+    const newState = resolveCopyAction(
+      createState(
+        {
+          sourceTest: {
+            arr: [1, 2, 3],
+          },
+        },
+        {
+          targetTest: {
+            newArr: [3, 4, 5],
+          },
+        }
+      ),
+      createAction(
+        'add',
+        null,
+        {
+          prefix: 'resolve',
+          key: 'sourceTest',
+          field: 'arr',
+        },
+        {
+          prefix: 'filter',
+          key: 'targetTest',
+          field: 'newArr',
+        }
+      )
+    );
+
+    expect(newState.filter.targetTest).toEqual({
+      newArr: [3, 4, 5, 1, 2, 3],
+    });
+  });
+
+  it('должен отработать sourceMapper', () => {
+    const newState = resolveCopyAction(
+      createState(),
+      createAction('replace', '`{ test: "test", name }`')
+    );
+
+    expect(newState.filter.proto_form).toEqual({
+      test: 'test',
+      name: 'Ivan',
     });
   });
 });
