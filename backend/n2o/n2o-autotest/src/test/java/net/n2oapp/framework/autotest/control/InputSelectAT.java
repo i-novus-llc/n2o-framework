@@ -54,6 +54,8 @@ public class InputSelectAT extends AutoTestBase {
 
         input.val("Three");
         input.shouldHaveValue("Three");
+
+        input.shouldBeDisabled("Four");
     }
 
     @Test
@@ -100,5 +102,8 @@ public class InputSelectAT extends AutoTestBase {
         input.shouldSelectedMulti("Two", "One");
         input.clearItems("Two", "One");
         input.shouldSelectedMulti(empty);
+
+        input.shouldBeDisabled("Four");
     }
+
 }
