@@ -52,7 +52,7 @@ import static org.mockito.Mockito.when;
  * Тестирование процессора запросов
  */
 public class QueryProcessorTest {
-    private QueryProcessor queryProcessor;
+    private N2oQueryProcessor queryProcessor;
     private N2oApplicationBuilder builder;
     private N2oInvocationFactory factory;
 
@@ -62,12 +62,13 @@ public class QueryProcessorTest {
         factory = mock(N2oInvocationFactory.class);
         when(contextProcessor.resolve(anyString())).then((Answer) invocation -> invocation.getArguments()[0]);
         when(contextProcessor.resolve(anyInt())).then((Answer) invocation -> invocation.getArguments()[0]);
-        queryProcessor = new N2oQueryProcessor(factory, contextProcessor, new DomainProcessor(), new N2oQueryExceptionHandler());
+        queryProcessor = new N2oQueryProcessor(factory, new N2oQueryExceptionHandler());
         N2oEnvironment environment = new N2oEnvironment();
         environment.setContextProcessor(contextProcessor);
         environment.setReadPipelineFunction(p -> p.read());
         environment.setReadCompilePipelineFunction(p -> p.read().compile());
         environment.setCompilePipelineFunction(p -> p.compile());
+        queryProcessor.setEnvironment(environment);
         builder = new N2oApplicationBuilder(environment)
                 .types(new MetaType("query", N2oQuery.class))
                 .loaders(new SelectiveStandardReader().addQueryReader())

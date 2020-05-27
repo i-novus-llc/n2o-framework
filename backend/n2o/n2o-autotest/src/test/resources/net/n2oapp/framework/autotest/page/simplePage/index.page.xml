@@ -3,6 +3,8 @@
     <widget src="WireframeWidget">
         <toolbar place="topLeft">
             <button id="redirect" action-id="redirect" label="Вперед"/>
+            <button label="Кнопка с иконкой" icon="fa fa-plus"/>
+            <button label="Опасная" color="danger"/>
         </toolbar>
         <actions>
             <action id="redirect">

@@ -2,11 +2,13 @@ package net.n2oapp.framework.config.compile.pipeline;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.*;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.BaseCompileContext;
 
@@ -50,6 +52,11 @@ public class N2oReadPipeline extends N2oPipeline implements ReadPipeline {
                             @Override
                             public <D extends Compiled> D get(CompileContext<D, ?> context, DataSet data) {
                                 return execute(context, data, null);
+                            }
+
+                            @Override
+                            public <D extends Compiled> D get(CompileContext<D, ?> context, DataSet data, SubModelsProcessor subModelsProcessor) {
+                                return execute(context, data, null, subModelsProcessor);
                             }
 
                             @Override
