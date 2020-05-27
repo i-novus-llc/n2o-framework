@@ -3,18 +3,13 @@ package net.n2oapp.framework.boot.mongodb;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oMongoDbDataProvider;
 import org.bson.Document;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -51,7 +46,7 @@ public class MongoDbDataProviderEngineTest {
         provider.setCollectionName(collectionName);
 
         mongoTemplate.createCollection(collectionName);
-        mongoTemplate.getCollection(collectionName).insertMany(UserBuilder.testData());
+        mongoTemplate.getCollection(collectionName).insertMany(TestUserBuilder.testData());
     }
 
 
@@ -62,7 +57,7 @@ public class MongoDbDataProviderEngineTest {
         HashMap<String, Object> inParams = new HashMap<>();
         inParams.put("name", "test");
         inParams.put("age", 99);
-        inParams.put("birthday", "01.01.1900 00:00:00");
+        inParams.put("birthday", "1900-01-01");
         inParams.put("vip", true);
         HashMap<String, Object> info = new HashMap<>();
         HashMap<String, Object> subInfo = new HashMap<>();
@@ -74,13 +69,13 @@ public class MongoDbDataProviderEngineTest {
 
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("id :eq :id"));
+        inParams.put("filters", new ArrayList<>(Arrays.asList("id :eq :id")));
         inParams.put("id", id);
 
         Document document = ((List<Document>) engine.invoke(provider, inParams)).get(0);
         assertThat(document.get("name"), is("test"));
         assertThat(document.get("age"), is(99));
-        assertThat(document.get("birthday"), is("01.01.1900 00:00:00"));
+        assertThat(document.get("birthday"), is("1900-01-01"));
         assertThat(document.get("vip"), is(true));
 
         Document expSubInfo = new Document(subInfo);
@@ -99,7 +94,7 @@ public class MongoDbDataProviderEngineTest {
         inParams.put("id", id);
         inParams.put("name", "test2");
         inParams.put("age", 10);
-        inParams.put("birthday", "01.01.2000 00:00:00");
+        inParams.put("birthday", "2000-01-01");
         inParams.put("vip", false);
         HashMap<String, Object> info = new HashMap<>();
         HashMap<String, Object> subInfo = new HashMap<>();
@@ -111,13 +106,13 @@ public class MongoDbDataProviderEngineTest {
 
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("id :eq :id"));
+        inParams.put("filters", new ArrayList<>(Arrays.asList("id :eq :id")));
         inParams.put("id", id);
 
         Document document = ((List<Document>) engine.invoke(provider, inParams)).get(0);
         assertThat(document.get("name"), is("test2"));
         assertThat(document.get("age"), is(10));
-        assertThat(document.get("birthday"), is("01.01.2000 00:00:00"));
+        assertThat(document.get("birthday"), is("2000-01-01"));
         assertThat(document.get("vip"), is(false));
 
         Document expSubInfo = new Document(subInfo);
@@ -138,10 +133,10 @@ public class MongoDbDataProviderEngineTest {
 
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("id :eq :id"));
+        inParams.put("filters", new ArrayList<>(Arrays.asList("id :eq :id")));
         inParams.put("id", id);
 
-        List documents = (List<Document>) engine.invoke(provider, inParams);
+        List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
         assertThat(documents.size(), is(0));
 
         id = null;
@@ -162,9 +157,9 @@ public class MongoDbDataProviderEngineTest {
         // проверяем, что произошла вставка
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("id :in :id"));
+        inParams.put("filters", new ArrayList<>(Arrays.asList("id :in :id")));
         inParams.put("id", Arrays.asList(id1, id2));
-        List documents = (List<Document>) engine.invoke(provider, inParams);
+        List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
         assertThat(documents.size(), is(2));
 
         // удаляем
@@ -176,17 +171,20 @@ public class MongoDbDataProviderEngineTest {
         // проверяем, что документы удалены
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("id :in :id"));
+        inParams.put("filters", new ArrayList<>(Arrays.asList("id :in :id")));
         inParams.put("id", Arrays.asList(id1, id2));
         documents = (List<Document>) engine.invoke(provider, inParams);
         assertThat(documents.size(), is(0));
     }
 
-    @Disabled
     @Test
     public void findOperationTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
-        Object documents = engine.invoke(provider, new HashMap<>());
+        List<Document> documents = (List<Document>) engine.invoke(provider, new HashMap<>());
+
+        assertThat(documents.size(), is(5));
+        assertThat(documents.get(0).get("name"), is("Сёмина Мария Васильевна"));
+        assertThat(documents.get(4).get("name"), is("Ативанова Елена Александровна"));
     }
 
     @Test
@@ -196,7 +194,6 @@ public class MongoDbDataProviderEngineTest {
         assertThat(count, is(5L));
     }
 
-    @Disabled
     @Test
     public void paginationTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
@@ -204,107 +201,150 @@ public class MongoDbDataProviderEngineTest {
         inParams.put("limit", 2);
         inParams.put("offset", 2);
 
-        Object documents = engine.invoke(provider, inParams);
+        // 3 и 4 запись
+        List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
+        assertThat(documents.size(), is(2));
+        assertThat(documents.get(0).get("name"), is("Кежватова Анастасия Викторовна"));
+        assertThat(documents.get(1).get("name"), is("Чекашкина Людмила Ивановна"));
     }
 
-    @Disabled
     @Test
     public void sortingTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         HashMap<Object, Object> inParams = new HashMap<>();
-        inParams.put("limit", 3);
-        inParams.put("offset", 0);
-        inParams.put("sorting", Arrays.asList("name :desc"));
+        inParams.put("sorting", new ArrayList<>(Arrays.asList("vip :vipDirection", "gender.id :genderDirection", "name :nameDirection")));
+        inParams.put("vipDirection", "desc");
+        inParams.put("genderDirection", "asc");
+        inParams.put("nameDirection", "desc");
 
-        Object documents = engine.invoke(provider, inParams);
+        List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
+        assertThat(documents.size(), is(5));
+        // vip: true, gender.id: 1
+        assertThat(documents.get(0).get("name"), is("Патронов Алексей Иванович"));
+        // vip: true, gender.id: 2, name: Ч...
+        assertThat(documents.get(1).get("name"), is("Чекашкина Людмила Ивановна"));
+        // vip: true, gender.id: 2, name: С...
+        assertThat(documents.get(2).get("name"), is("Сёмина Мария Васильевна"));
+        // vip: false, gender.id: 3, name: К...
+        assertThat(documents.get(3).get("name"), is("Кежватова Анастасия Викторовна"));
+        // vip: false, gender.id: 3, name: А...
+        assertThat(documents.get(4).get("name"), is("Ативанова Елена Александровна"));
 
     }
 
-    @Disabled
     @Test
     public void eqFilterTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         HashMap<Object, Object> inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("name :eq :name"));
-        inParams.put("", "");
+        inParams.put("filters", new ArrayList<>(Arrays.asList("age :eq :age")));
+        inParams.put("age", 23);
 
-        Object documents = engine.invoke(provider, inParams);
+        List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
+        assertThat(documents.size(), is(1));
+        assertThat(documents.get(0).get("name"), is("Кежватова Анастасия Викторовна"));
+        assertThat(documents.get(0).get("age"), is(23));
+
+        // фильтрация по вложенному полю
+        inParams = new HashMap<>();
+        inParams.put("filters", new ArrayList<>(Arrays.asList("gender.id :eq :gender.id")));
+        inParams.put("gender.id", 2);
+
+        documents = (List<Document>) engine.invoke(provider, inParams);
+        assertThat(documents.size(), is(2));
+        assertThat(documents.get(0).get("name"), is("Сёмина Мария Васильевна"));
+        assertThat(documents.get(1).get("name"), is("Чекашкина Людмила Ивановна"));
     }
 
-    @Disabled
-    @Test
-    public void moreFilterTest() {
-        provider.setOperation(N2oMongoDbDataProvider.Operation.find);
-        HashMap<Object, Object> inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("age :more :age"));
-        inParams.put("", "");
-
-        Object documents = engine.invoke(provider, inParams);
-    }
-
-    @Disabled
-    @Test
-    public void lessFilterTest() {
-        provider.setOperation(N2oMongoDbDataProvider.Operation.find);
-        HashMap<Object, Object> inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("age :less :age"));
-        inParams.put("", "");
-
-        Object documents = engine.invoke(provider, inParams);
-    }
-
-    @Disabled
     @Test
     public void likeFilterTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         HashMap<Object, Object> inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("age :like :age"));
-        inParams.put("", "");
+        inParams.put("filters", new ArrayList<>(Arrays.asList("name :like :name")));
+        inParams.put("name", "ИВАН");
 
-        Object documents = engine.invoke(provider, inParams);
+        List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
+        assertThat(documents.size(), is(3));
+        assertThat(documents.get(0).get("name"), is("Патронов Алексей Иванович"));
+        assertThat(documents.get(1).get("name"), is("Чекашкина Людмила Ивановна"));
+        assertThat(documents.get(2).get("name"), is("Ативанова Елена Александровна"));
     }
 
-    @Disabled
     @Test
     public void inFilterTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         HashMap<Object, Object> inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("age :in :age"));
-        inParams.put("", "");
+        inParams.put("filters", new ArrayList<>(Arrays.asList("gender.id :in :gender.id")));
+        inParams.put("gender.id", Arrays.asList(1, 2));
 
-        Object documents = engine.invoke(provider, inParams);
+        List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
+        assertThat(documents.size(), is(3));
+        assertThat(documents.get(0).get("name"), is("Сёмина Мария Васильевна"));
+        assertThat(documents.get(1).get("name"), is("Патронов Алексей Иванович"));
+        assertThat(documents.get(2).get("name"), is("Чекашкина Людмила Ивановна"));
     }
 
-    @Disabled
+    @Test
+    public void moreFilterTest() {
+        provider.setOperation(N2oMongoDbDataProvider.Operation.find);
+        HashMap<Object, Object> inParams = new HashMap<>();
+        inParams.put("filters", new ArrayList<>(Arrays.asList("birthday :more :birthday")));
+        inParams.put("birthday", "1995-01-01");
+
+        List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
+        assertThat(documents.size(), is(2));
+        assertThat(documents.get(0).get("name"), is("Патронов Алексей Иванович"));
+        assertThat(documents.get(1).get("name"), is("Кежватова Анастасия Викторовна"));
+    }
+
+    @Test
+    public void lessFilterTest() {
+        provider.setOperation(N2oMongoDbDataProvider.Operation.find);
+        HashMap<Object, Object> inParams = new HashMap<>();
+        inParams.put("filters", new ArrayList<>(Arrays.asList("age :less :age")));
+        inParams.put("age", 30);
+
+        List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
+        assertThat(documents.size(), is(2));
+        assertThat(documents.get(0).get("name"), is("Патронов Алексей Иванович"));
+        assertThat(documents.get(1).get("name"), is("Кежватова Анастасия Викторовна"));
+    }
+
     @Test
     public void isNullFilterTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         HashMap<Object, Object> inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("age :isNull :age"));
-        inParams.put("", "");
+        inParams.put("filters", new ArrayList<>(Arrays.asList("info :isNull :info")));
 
-        Object documents = engine.invoke(provider, inParams);
+        List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
+        assertThat(documents.size(), is(2));
+        assertThat(documents.get(0).get("name"), is("Чекашкина Людмила Ивановна"));
+        assertThat(documents.get(1).get("name"), is("Ативанова Елена Александровна"));
     }
 
-    @Disabled
     @Test
     public void isNotNullFilterTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         HashMap<Object, Object> inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("age :isNotNull :age"));
-        inParams.put("", "");
+        inParams.put("filters", new ArrayList<>(Arrays.asList("info :isNotNull :info")));
 
-        Object documents = engine.invoke(provider, inParams);
+        List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
+        assertThat(documents.size(), is(3));
+        assertThat(documents.get(0).get("name"), is("Сёмина Мария Васильевна"));
+        assertThat(documents.get(1).get("name"), is("Патронов Алексей Иванович"));
+        assertThat(documents.get(2).get("name"), is("Кежватова Анастасия Викторовна"));
     }
 
-    @Disabled
     @Test
     public void eqOrIsNullFilterTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         HashMap<Object, Object> inParams = new HashMap<>();
-        inParams.put("filters", Arrays.asList("age :eqOrIsNull :age"));
-        inParams.put("", "");
+        inParams.put("filters", new ArrayList<>(Arrays.asList("info :eqOrIsNull :info")));
+        inParams.put("info", "bbb");
 
-        Object documents = engine.invoke(provider, inParams);
+        List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
+        assertThat(documents.size(), is(3));
+        assertThat(documents.get(0).get("name"), is("Патронов Алексей Иванович"));
+        assertThat(documents.get(1).get("name"), is("Чекашкина Людмила Ивановна"));
+        assertThat(documents.get(2).get("name"), is("Ативанова Елена Александровна"));
     }
 }

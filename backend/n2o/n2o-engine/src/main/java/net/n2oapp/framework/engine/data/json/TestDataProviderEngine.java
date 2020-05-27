@@ -204,21 +204,21 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             return data;
         }
         for (String filter : filters) {
-            if (filter.contains(":eqOrIsNull"))
+            if (filter.contains(":eqOrIsNull "))
                 data = eqOrIsNullFilterData(filter, inParams, data);
-            else if (filter.contains(":eq"))
+            else if (filter.contains(":eq "))
                 data = eqFilterData(filter, inParams, data);
-            else if (filter.contains(":like"))
+            else if (filter.contains(":like "))
                 data = likeFilterData(filter, inParams, data);
-            else if (filter.contains(":in"))
+            else if (filter.contains(":in "))
                 data = inFilterData(filter, inParams, data);
-            else if (filter.contains(":more"))
+            else if (filter.contains(":more "))
                 data = moreFilterData(filter, inParams, data);
-            else if (filter.contains(":less"))
+            else if (filter.contains(":less "))
                 data = lessFilterData(filter, inParams, data);
-            else if (filter.contains(":isNull"))
+            else if (filter.contains(":isNull "))
                 data = isNullFilterData(filter, data);
-            else if (filter.contains(":isNotNull"))
+            else if (filter.contains(":isNotNull "))
                 data = isNotNullFilterData(filter, data);
         }
         return data;

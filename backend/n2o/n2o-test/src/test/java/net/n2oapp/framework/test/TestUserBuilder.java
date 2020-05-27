@@ -7,14 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserBuilder {
+public class TestUserBuilder {
     public static List<Document> testData() {
         List<Document> data = new ArrayList<>();
 
         Map<String, Object> inParams = new HashMap<>();
         inParams.put("name", "Anna");
         inParams.put("age", 77);
-        inParams.put("birthday", "27.03.1941 00:00:00");
+        inParams.put("birthday", "1941-03-27 00:00:00");
         inParams.put("vip", true);
         Map<String, Object> gender = new HashMap<>();
         gender.put("name", "Women");
@@ -25,7 +25,7 @@ public class UserBuilder {
         inParams = new HashMap<>();
         inParams.put("name", "Artur");
         inParams.put("age", 9);
-        inParams.put("birthday", "10.05.2009 00:00:00");
+        inParams.put("birthday", "2009-05-10 00:00:00");
         inParams.put("vip", true);
         gender = new HashMap<>();
         gender.put("name", "Men");
@@ -36,7 +36,7 @@ public class UserBuilder {
         inParams = new HashMap<>();
         inParams.put("name", "Inna");
         inParams.put("age", 23);
-        inParams.put("birthday", "08.04.1995 00:00:00");
+        inParams.put("birthday", "1995-04-08 00:00:00");
         inParams.put("vip", false);
         gender = new HashMap<>();
         gender.put("name", "Not defined");
@@ -47,7 +47,7 @@ public class UserBuilder {
         inParams = new HashMap<>();
         inParams.put("name", "Tanya");
         inParams.put("age", 53);
-        inParams.put("birthday", "28.11.1964 00:00:00");
+        inParams.put("birthday", "1964-11-28 00:00:00");
         inParams.put("vip", true);
         gender = new HashMap<>();
         gender.put("name", "Women");
@@ -58,7 +58,7 @@ public class UserBuilder {
         inParams = new HashMap<>();
         inParams.put("name", "Valentine");
         inParams.put("age", 47);
-        inParams.put("birthday", "27.02.1971 00:00:00");
+        inParams.put("birthday", "1971-02-27 00:00:00");
         inParams.put("vip", false);
         gender = new HashMap<>();
         gender.put("name", "Not defined");
