@@ -16,8 +16,6 @@ import Collapse from 'reactstrap/lib/Collapse';
 import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
 
-import { BrowserRouter } from 'react-router-dom';
-
 /**
  * Хедер-плагин
  * @param {Object} props - пропсы
