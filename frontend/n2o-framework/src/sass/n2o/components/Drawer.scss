@@ -48,11 +48,15 @@
     z-index: 1;
     position: relative;
   }
+  &-childern {
+    padding: 16px;
+  }
   &-title {
     border-bottom: $drawer-border;
     padding: 16px;
   }
   &-footer {
+    padding: 16px;
     border-top: $drawer-border;
   }
   &-right {
