@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Процессор для вычисления вложенных моделей
  */
-public interface SubModelsProcessor extends MetadataEnvironmentAware {
+public interface SubModelsProcessor {
 
     /**
      * Разрешает значения полей для вложенных моделей выборки

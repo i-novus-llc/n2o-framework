@@ -1,4 +1,7 @@
 import React from 'react';
+
+import isEmpty from 'lodash/isEmpty';
+
 import PropTypes from 'prop-types';
 import Navbar from 'reactstrap/lib/Navbar';
 import Nav from 'reactstrap/lib/Nav';
@@ -140,7 +143,7 @@ class SimpleHeader extends React.Component {
           <NavbarBrand href={homePageUrl}>
             <NavbarBrandContent brand={brand} brandImage={brandImage} />
           </NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
+          {!isEmpty(items) && <NavbarToggler onClick={this.toggle} />}
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="main-nav" navbar>
               {navItems}

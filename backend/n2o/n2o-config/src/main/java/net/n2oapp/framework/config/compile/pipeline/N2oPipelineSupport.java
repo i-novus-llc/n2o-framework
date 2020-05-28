@@ -39,6 +39,16 @@ public class N2oPipelineSupport implements PipelineSupport {
         return new N2oBindPipeline(env);
     }
 
+    /**
+     * Получить конвеер на этапе связывания метаданных с данными
+     *
+     * @param env Окружение сборки
+     * @return Конвеер связывания метаданных с данными
+     */
+    public static PersistPipeline persistPipeline(MetadataEnvironment env) {
+        return new N2oPersistPipeline(env);
+    }
+
     private MetadataEnvironment env;
 
     public N2oPipelineSupport(MetadataEnvironment env) {
@@ -63,5 +73,10 @@ public class N2oPipelineSupport implements PipelineSupport {
     @Override
     public BindTerminalPipeline bind() {
         return bindPipeline(env).bind();
+    }
+
+    @Override
+    public PersistTerminalPipeline persist() {
+        return persistPipeline(env).persist();
     }
 }
