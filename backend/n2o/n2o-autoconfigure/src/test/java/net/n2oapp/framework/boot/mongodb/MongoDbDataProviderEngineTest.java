@@ -69,7 +69,7 @@ public class MongoDbDataProviderEngineTest {
 
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         inParams = new HashMap<>();
-        inParams.put("filters", new ArrayList<>(Arrays.asList("id :eq :id")));
+        inParams.put("filters", new ArrayList<>(Arrays.asList("_id :eq :id")));
         inParams.put("id", id);
 
         Document document = ((List<Document>) engine.invoke(provider, inParams)).get(0);
@@ -106,7 +106,7 @@ public class MongoDbDataProviderEngineTest {
 
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         inParams = new HashMap<>();
-        inParams.put("filters", new ArrayList<>(Arrays.asList("id :eq :id")));
+        inParams.put("filters", new ArrayList<>(Arrays.asList("_id :eq :id")));
         inParams.put("id", id);
 
         Document document = ((List<Document>) engine.invoke(provider, inParams)).get(0);
@@ -133,7 +133,7 @@ public class MongoDbDataProviderEngineTest {
 
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         inParams = new HashMap<>();
-        inParams.put("filters", new ArrayList<>(Arrays.asList("id :eq :id")));
+        inParams.put("filters", new ArrayList<>(Arrays.asList("_id :eq :id")));
         inParams.put("id", id);
 
         List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
@@ -157,7 +157,7 @@ public class MongoDbDataProviderEngineTest {
         // проверяем, что произошла вставка
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         inParams = new HashMap<>();
-        inParams.put("filters", new ArrayList<>(Arrays.asList("id :in :id")));
+        inParams.put("filters", new ArrayList<>(Arrays.asList("_id :in :id")));
         inParams.put("id", Arrays.asList(id1, id2));
         List<Document> documents = (List<Document>) engine.invoke(provider, inParams);
         assertThat(documents.size(), is(2));
@@ -171,7 +171,7 @@ public class MongoDbDataProviderEngineTest {
         // проверяем, что документы удалены
         provider.setOperation(N2oMongoDbDataProvider.Operation.find);
         inParams = new HashMap<>();
-        inParams.put("filters", new ArrayList<>(Arrays.asList("id :in :id")));
+        inParams.put("filters", new ArrayList<>(Arrays.asList("_id :in :id")));
         inParams.put("id", Arrays.asList(id1, id2));
         documents = (List<Document>) engine.invoke(provider, inParams);
         assertThat(documents.size(), is(0));

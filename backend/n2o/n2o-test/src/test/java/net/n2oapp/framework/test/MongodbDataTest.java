@@ -62,7 +62,7 @@ public class MongodbDataTest {
         //mapping
         assertThat(document.get("userAge"), is(77));
         //date
-        assertThat(document.get("birthday"), is("1941-03-27 00:00:00"));
+        assertThat(document.get("birthday"), is("1941-03-27"));
         //boolean
         assertThat(document.get("vip"), is(true));
         //normalize
@@ -100,13 +100,22 @@ public class MongodbDataTest {
         //eq generate all
         RestTemplate restTemplate = new RestTemplate();
         String queryPath = "/n2o/data/test/mongodb";
-        String fooResourceUrl = "http://localhost:" + port + queryPath + "?size=10&page=1&name=Inna";
+        String fooResourceUrl = "http://localhost:" + port + queryPath + "?name=Inna&size=10&page=1";
         ResponseEntity<GetDataResponse> response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
         assert response.getStatusCode().equals(HttpStatus.OK);
         GetDataResponse result = response.getBody();
         assertThat(result.getCount(), is(1));
         DataSet document = result.getList().get(0);
         assertThat(document.get("name"), is("Inna"));
+        String id = (String) document.get("id");
+
+        restTemplate = new RestTemplate();
+        fooResourceUrl = "http://localhost:" + port + queryPath + "?id="+id + "&size=10&page=1";
+        response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
+        assert response.getStatusCode().equals(HttpStatus.OK);
+        result = response.getBody();
+        assertThat(result.getCount(), is(1));
+        assertThat(document.get("id"), is(id));
 
         //like + mapping
         restTemplate = new RestTemplate();
@@ -149,8 +158,7 @@ public class MongodbDataTest {
         result = response.getBody();
         assertThat(result.getCount(), is(2));
 
-
-/*        //more, less
+/*        //todo more, less
         restTemplate = new RestTemplate();
         fooResourceUrl = "http://localhost:" + port + queryPath + "?size=10&page=1&birthdayMore=1920-05-05&birthdayLess=1965-05-05";
         response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
