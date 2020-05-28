@@ -117,22 +117,38 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
             List<Bson> filtersByFields = new ArrayList<>();
             for (String filter : filterList) {
                 Bson f = null;
-                if (filter.contains(":eqOrIsNull "))
-                    f = eqOrIsNullFilter(filter, inParams);
-                else if (filter.contains(":eq "))
-                    f = eqFilter(filter, inParams);
-                else if (filter.contains(":like "))
-                    f = likeFilter(filter, inParams);
-                else if (filter.contains(":in "))
-                    f = inFilter(filter, inParams);
-                else if (filter.contains(":more "))
-                    f = moreFilter(filter, inParams);
-                else if (filter.contains(":less "))
-                    f = lessFilter(filter, inParams);
-                else if (filter.contains(":isNull "))
-                    f = isNullFilter(filter);
-                else if (filter.contains(":isNotNull "))
-                    f = isNotNullFilter(filter);
+                String[] splittedFilter = filter.replace(" ", "").split(":");
+                String field = splittedFilter[0];
+                Object pattern = inParams.get(splittedFilter[2]);
+
+                switch (splittedFilter[1]) {
+                    case "eq":
+                        f = eqFilter(field, pattern);
+                        break;
+                    case "like":
+                        f = likeFilter(field, pattern);
+                        break;
+                    case "in":
+                        f = inFilter(field, pattern);
+                        break;
+                    case "more":
+                        f = moreFilter(field, pattern);
+                        break;
+                    case "less":
+                        f = lessFilter(field, pattern);
+                        break;
+                    case "isNull":
+                        f = isNullFilter(field);
+                        break;
+                    case "isNotNull":
+                        f = isNotNullFilter(field);
+                        break;
+                    case "eqOrIsNull":
+                        f = eqOrIsNullFilter(field, pattern);
+                        break;
+                    default:
+                        throw new N2oException("Wrong filter type!");
+                }
 
                 if (f != null)
                     filtersByFields.add(f);
@@ -142,85 +158,70 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
         return filters;
     }
 
-    private Bson eqFilter(String eqFilter, Map<String, Object> inParams) {
+    private Bson eqFilter(String field, Object pattern) {
         Bson filter = null;
-        String[] splittedFilter = eqFilter.replace(" ", "").split(":eq");
-        Object pattern = inParams.get(splittedFilter[1].replace(":", ""));
         if (pattern != null) {
-            if ("id".equals(splittedFilter[0]))
+            if ("id".equals(field))
                 filter = Filters.eq("_id", new ObjectId((String) pattern));
             else
-                filter = Filters.eq(splittedFilter[0], pattern);
+                filter = Filters.eq(field, pattern);
         }
         return filter;
     }
 
-    private Bson likeFilter(String likeFilter, Map<String, Object> inParams) {
+    private Bson likeFilter(String field, Object pattern) {
         Bson filter = null;
-        String[] splittedFilter = likeFilter.replace(" ", "").split(":like");
-        Object pattern = inParams.get(splittedFilter[1].replace(":", ""));
-        if (pattern != null) {
-            filter = Filters.regex(splittedFilter[0], "(?i)"+ Pattern.quote((String) pattern));
-        }
+        if (pattern != null)
+            filter = Filters.regex(field, "(?i)" + Pattern.quote((String) pattern));
         return filter;
     }
 
-    private Bson inFilter(String inFilter, Map<String, Object> inParams) {
+    private Bson inFilter(String field, Object pattern) {
         Bson filter = null;
-        String[] splittedFilter = inFilter.replace(" ", "").split(":in");
-        Object paramsValue = inParams.get(splittedFilter[1].replace(":", ""));
-        List patterns = paramsValue instanceof List ? (List) paramsValue : Arrays.asList(paramsValue);
+        List patterns = pattern instanceof List ? (List) pattern : Arrays.asList(pattern);
         if (!patterns.isEmpty()) {
-            if ("id".equals(splittedFilter[0]))
+            if ("id".equals(field))
                 filter = Filters.in("_id", patterns.stream().map(id -> new ObjectId((String) id)).toArray());
             else
-                filter = Filters.in(splittedFilter[0], patterns);
+                filter = Filters.in(field, patterns);
         }
         return filter;
     }
 
-    private Bson moreFilter(String moreFilter, Map<String, Object> inParams) {
+    private Bson moreFilter(String field, Object pattern) {
         Bson filter = null;
-        String[] splittedFilter = moreFilter.replace(" ", "").split(":more");
-        Object pattern = inParams.get(splittedFilter[1].replace(":", ""));
         if (pattern != null) {
-            if ("id".equals(splittedFilter[0]))
+            if ("id".equals(field))
                 filter = Filters.gt("_id", new ObjectId((String) pattern));
             else
-                filter = Filters.gt(splittedFilter[0], pattern);
+                filter = Filters.gt(field, pattern);
         }
         return filter;
     }
 
-    private Bson lessFilter(String lessFilter, Map<String, Object> inParams) {
+    private Bson lessFilter(String field, Object pattern) {
         Bson filter = null;
-        String[] splittedFilter = lessFilter.replace(" ", "").split(":less");
-        Object pattern = inParams.get(splittedFilter[1].replace(":", ""));
         if (pattern != null) {
-            if ("id".equals(splittedFilter[0]))
+            if ("id".equals(field))
                 filter = Filters.lt("_id", new ObjectId((String) pattern));
             else
-                filter = Filters.lt(splittedFilter[0], pattern);
+                filter = Filters.lt(field, pattern);
         }
         return filter;
     }
 
-    private Bson isNullFilter(String isNullFilter) {
-        String[] splittedFilter = isNullFilter.replace(" ", "").split(":isNull");
-        return Filters.eq(splittedFilter[0], null);
+    private Bson isNullFilter(String field) {
+        return Filters.eq(field, null);
     }
 
-    private Bson isNotNullFilter(String isNotNullFilter) {
-        String[] splittedFilter = isNotNullFilter.replace(" ", "").split(":isNotNull");
-        return Filters.ne(splittedFilter[0], null);
+    private Bson isNotNullFilter(String field) {
+        return Filters.ne(field, null);
     }
 
-    private Bson eqOrIsNullFilter(String eqOrIsNullFilter, Map<String, Object> inParams) {
+    private Bson eqOrIsNullFilter(String field, Object pattern) {
         Bson filter = null;
-        String[] splittedFilter = eqOrIsNullFilter.replace(" ", "").split(":eqOrIsNull");
-        Object pattern = inParams.get(splittedFilter[1].replace(":", ""));
         if (pattern != null)
-            filter = Filters.or(Filters.eq(splittedFilter[0], pattern), Filters.eq(splittedFilter[0], null));
+            filter = Filters.or(Filters.eq(field, pattern), Filters.eq(field, null));
         return filter;
     }
 
