@@ -36,7 +36,7 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public Tooltip tooltip() {
-        return new N2oTooltip(element().$(".list-text-cell__tooltip-container"));
+        return new N2oTooltip(element().$(".list-text-cell__tooltip-container, .show.tooltip"));
     }
 
     @Override

@@ -26,7 +26,6 @@ public class AppConfigServlet extends HttpServlet {
     private ReadCompileBindTerminalPipeline pipeline;
     private MetadataEnvironment environment;
     private String headerSourceId;
-    private String projectName;
 
     @Override
     public void init() {
@@ -94,10 +93,6 @@ public class AppConfigServlet extends HttpServlet {
 
     public void setHeaderSourceId(String headerSourceId) {
         this.headerSourceId = headerSourceId;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
     }
 
     public void setEnvironment(MetadataEnvironment environment) {

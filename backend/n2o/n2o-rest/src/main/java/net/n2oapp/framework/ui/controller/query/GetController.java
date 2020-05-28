@@ -2,6 +2,7 @@ package net.n2oapp.framework.ui.controller.query;
 
 import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityType;
@@ -27,19 +28,17 @@ public abstract class GetController implements ControllerTypeAware {
     private DataProcessingStack dataProcessingStack;
     private QueryProcessor queryProcessor;
     private SubModelsProcessor subModelsProcessor;
-    private MetadataRegister configRegister;
     private ErrorMessageBuilder errorMessageBuilder;
 
 
     protected GetController(DataProcessingStack dataProcessingStack,
                             QueryProcessor queryProcessor,
                             SubModelsProcessor subModelsProcessor,
-                            MetadataRegister configRegister,
-                            ErrorMessageBuilder errorMessageBuilder) {
+                            ErrorMessageBuilder errorMessageBuilder,
+                            MetadataEnvironment environment) {
         this.dataProcessingStack = dataProcessingStack;
         this.queryProcessor = queryProcessor;
         this.subModelsProcessor = subModelsProcessor;
-        this.configRegister = configRegister;
         this.errorMessageBuilder = errorMessageBuilder;
     }
 
@@ -107,10 +106,6 @@ public abstract class GetController implements ControllerTypeAware {
 
     public SubModelsProcessor getSubModelsProcessor() {
         return subModelsProcessor;
-    }
-
-    public MetadataRegister getConfigRegister() {
-        return configRegister;
     }
 
     public ErrorMessageBuilder getErrorMessageBuilder() {

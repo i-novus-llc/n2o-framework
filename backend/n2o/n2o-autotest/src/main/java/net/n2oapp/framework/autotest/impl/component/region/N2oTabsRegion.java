@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.region;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.collection.Widgets;
@@ -12,12 +13,17 @@ import static net.n2oapp.framework.autotest.N2oSelenide.collection;
 public class N2oTabsRegion extends N2oRegion implements TabsRegion {
     @Override
     public TabItem tab(int index) {
-        return new N2oTabItem(element().$("li:nth-child(" + index + ")"));
+        return new N2oTabItem(element().$$(".nav-item").shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index));
+    }
+
+    @Override
+    public void shouldHaveSize(int size) {
+        element().$$(".nav-item").shouldHaveSize(size);
     }
 
     @Override
     public TabItem tab(Condition by) {
-        return null;
+        return new N2oTabItem(element().$$(".nav-item").findBy(by));
     }
 
     @Override
@@ -37,8 +43,18 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         }
 
         @Override
+        public void shouldHaveText(String text) {
+            element().shouldHave(Condition.text(text));
+        }
+
+        @Override
         public void shouldBeActive() {
-            element().$("a").shouldHave(Condition.cssClass("active"));
+            element().$(".nav-link").shouldHave(Condition.cssClass("active"));
+        }
+
+        @Override
+        public void shouldNotBeActive() {
+            element().$(".nav-link").shouldNotHave(Condition.cssClass("active"));
         }
     }
 }
