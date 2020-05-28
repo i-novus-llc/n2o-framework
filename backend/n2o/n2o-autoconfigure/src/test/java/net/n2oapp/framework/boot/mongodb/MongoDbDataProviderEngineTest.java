@@ -190,8 +190,8 @@ public class MongoDbDataProviderEngineTest {
     @Test
     public void countDocumentsOperationTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.countDocuments);
-        Long count = (Long) engine.invoke(provider, new HashMap<>());
-        assertThat(count, is(5L));
+        Integer count = (Integer) engine.invoke(provider, new HashMap<>());
+        assertThat(count, is(5));
     }
 
     @Test

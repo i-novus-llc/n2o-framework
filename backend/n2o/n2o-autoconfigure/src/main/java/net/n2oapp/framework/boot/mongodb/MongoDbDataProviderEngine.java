@@ -15,6 +15,7 @@ import org.bson.types.ObjectId;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static com.mongodb.client.model.Filters.*;
 import static com.mongodb.client.model.Projections.include;
 import static com.mongodb.client.model.Sorts.*;
 
@@ -71,7 +72,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
             case deleteMany:
                 return deleteMany(inParams, collection);
             case countDocuments:
-                return collection.countDocuments();
+                return countDocument(inParams, collection);
             default:
                 throw new N2oException("Unsupported invocation's operation");
         }
@@ -86,11 +87,17 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
         Bson filter = getFilters(inParams);
         if (filter == null)
             filter = new Document();
-
         List<Document> result = new ArrayList<>();
         for (Document document : collection.find(filter).projection(projection).sort(order).limit(limit).skip(offset))
             result.add(document);
         return result;
+    }
+
+    private Integer countDocument(Map<String, Object> inParams, MongoCollection<Document> collection) {
+        Bson filter = getFilters(inParams);
+        if (filter == null)
+            filter = new Document();
+        return (int) collection.countDocuments(filter);
     }
 
     private Bson getSorting(Map<String, Object> inParams) {
@@ -125,11 +132,20 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
                     case "eq":
                         f = eqFilter(field, pattern);
                         break;
+                    case "notEq":
+                        f = notEqFilter(field, pattern);
+                        break;
                     case "like":
                         f = likeFilter(field, pattern);
                         break;
+                    case "likeStart":
+                        f = likeStartFilter(field, pattern);
+                        break;
                     case "in":
                         f = inFilter(field, pattern);
+                        break;
+                    case "notIn":
+                        f = notInFilter(field, pattern);
                         break;
                     case "more":
                         f = moreFilter(field, pattern);
@@ -162,9 +178,20 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
         Bson filter = null;
         if (pattern != null) {
             if ("id".equals(field))
-                filter = Filters.eq("_id", new ObjectId((String) pattern));
+                filter = eq("_id", new ObjectId((String) pattern));
             else
-                filter = Filters.eq(field, pattern);
+                filter = eq(field, pattern);
+        }
+        return filter;
+    }
+
+    private Bson notEqFilter(String field, Object pattern) {
+        Bson filter = null;
+        if (pattern != null) {
+            if ("id".equals(field))
+                filter = not(eq("_id", new ObjectId((String) pattern)));
+            else
+                filter = not(eq(field, pattern));
         }
         return filter;
     }
@@ -176,14 +203,33 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
         return filter;
     }
 
+    private Bson likeStartFilter(String field, Object pattern) {
+        Bson filter = null;
+        if (pattern != null)
+            filter = Filters.regex(field, "(?i)\\b" + Pattern.quote((String) pattern));
+        return filter;
+    }
+
     private Bson inFilter(String field, Object pattern) {
         Bson filter = null;
         List patterns = pattern instanceof List ? (List) pattern : Arrays.asList(pattern);
         if (!patterns.isEmpty()) {
             if ("id".equals(field))
-                filter = Filters.in("_id", patterns.stream().map(id -> new ObjectId((String) id)).toArray());
+                filter = in("_id", patterns.stream().map(id -> new ObjectId((String) id)).toArray());
             else
-                filter = Filters.in(field, patterns);
+                filter = in(field, patterns);
+        }
+        return filter;
+    }
+
+    private Bson notInFilter(String field, Object pattern) {
+        Bson filter = null;
+        List patterns = pattern instanceof List ? (List) pattern : Arrays.asList(pattern);
+        if (!patterns.isEmpty()) {
+            if ("id".equals(field))
+                filter = not(in("_id", patterns.stream().map(id -> new ObjectId((String) id)).toArray()));
+            else
+                filter = not(in(field, patterns));
         }
         return filter;
     }
@@ -211,7 +257,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     }
 
     private Bson isNullFilter(String field) {
-        return Filters.eq(field, null);
+        return eq(field, null);
     }
 
     private Bson isNotNullFilter(String field) {
@@ -221,7 +267,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     private Bson eqOrIsNullFilter(String field, Object pattern) {
         Bson filter = null;
         if (pattern != null)
-            filter = Filters.or(Filters.eq(field, pattern), Filters.eq(field, null));
+            filter = Filters.or(eq(field, pattern), eq(field, null));
         return filter;
     }
 
@@ -239,7 +285,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
         Map<String, Object> data = new HashMap<>(inParams);
         data.remove("id");
 
-        collection.updateOne(Filters.eq("_id", new ObjectId(id)), new Document("$set", new Document(data)));
+        collection.updateOne(eq("_id", new ObjectId(id)), new Document("$set", new Document(data)));
         return null;
     }
 
@@ -247,7 +293,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
         if (!inParams.containsKey("id"))
             throw new N2oException("Id is required for operation \"deleteOne\"");
 
-        collection.deleteOne(Filters.eq("_id", new ObjectId((String) inParams.get("id"))));
+        collection.deleteOne(eq("_id", new ObjectId((String) inParams.get("id"))));
         return null;
     }
 
@@ -256,7 +302,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
             throw new N2oException("Ids is required for operation \"deleteMany\"");
 
         Object[] ids = ((List) inParams.get("ids")).stream().map(id -> new ObjectId((String) id)).toArray();
-        collection.deleteMany(Filters.in("_id", ids));
+        collection.deleteMany(in("_id", ids));
         return null;
     }
 }
