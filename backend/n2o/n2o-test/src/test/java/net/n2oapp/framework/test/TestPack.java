@@ -36,6 +36,7 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/select", new QueryContext("testSqlQuery4", "/test/select")),
                 new RouteInfo("/test/sql/validation", getQueryContext()),
                 new RouteInfo("/testDialog", getTestDialogActionContext()),
+                new RouteInfo("/test/mongodb", new QueryContext("testMongodbQuery4", "/test/mongodb")),
                 new RouteInfo("/test/subModels", getQueryContextWithSubModel()));
     }
 
