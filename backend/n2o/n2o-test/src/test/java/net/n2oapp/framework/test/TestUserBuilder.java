@@ -20,6 +20,7 @@ public class TestUserBuilder {
         gender.put("name", "Women");
         gender.put("id", 2);
         inParams.put("gender", gender);
+        inParams.put("info", "aaa");
         data.add(new Document(inParams));
 
         inParams = new HashMap<>();
@@ -31,6 +32,7 @@ public class TestUserBuilder {
         gender.put("name", "Men");
         gender.put("id", 1);
         inParams.put("gender", gender);
+        inParams.put("info", "bbb");
         data.add(new Document(inParams));
 
         inParams = new HashMap<>();
@@ -42,6 +44,7 @@ public class TestUserBuilder {
         gender.put("name", "Not defined");
         gender.put("id", 3);
         inParams.put("gender", gender);
+        inParams.put("info", "ccc");
         data.add(new Document(inParams));
 
         inParams = new HashMap<>();
@@ -53,6 +56,7 @@ public class TestUserBuilder {
         gender.put("name", "Women");
         gender.put("id", 2);
         inParams.put("gender", gender);
+        inParams.put("info", null);
         data.add(new Document(inParams));
 
         inParams = new HashMap<>();
@@ -64,8 +68,8 @@ public class TestUserBuilder {
         gender.put("name", "Not defined");
         gender.put("id", 3);
         inParams.put("gender", gender);
+        inParams.put("info", null);
         data.add(new Document(inParams));
-
         return data;
     }
 }
