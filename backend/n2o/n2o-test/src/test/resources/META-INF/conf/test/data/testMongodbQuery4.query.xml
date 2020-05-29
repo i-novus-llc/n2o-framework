@@ -11,7 +11,7 @@
         <field id="id" domain="string">
             <select mapping="['_id'].toString()">_id</select>
             <filters>
-                <eq filter-id="id"/>
+                <eq filter-id="id">_id :eq :id</eq>
             </filters>
             <sorting/>
         </field>
