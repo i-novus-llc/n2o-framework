@@ -1,9 +1,10 @@
 package net.n2oapp.framework.boot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.n2oapp.framework.api.context.Context;
-import net.n2oapp.framework.api.context.ContextProcessor;
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.*;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
+import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.boot.mongodb.MongoDbDataProviderEngine;
 import net.n2oapp.framework.engine.data.*;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
@@ -79,16 +80,11 @@ public class N2oEngineConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public ContextProcessor contextProcessor(Context context) {
-        return new ContextProcessor(context);
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
     public InvocationProcessor invocationProcessor(N2oInvocationFactory invocationFactory,
-                                                   ContextProcessor contextProcessor,
-                                                   DomainProcessor domainProcessor) {
-        return new N2oInvocationProcessor(invocationFactory, contextProcessor, domainProcessor);
+                                                   MetadataEnvironment environment) {
+        N2oInvocationProcessor n2oInvocationProcessor = new N2oInvocationProcessor(invocationFactory);
+        n2oInvocationProcessor.setEnvironment(environment);
+        return n2oInvocationProcessor;
     }
 
     @Bean
@@ -104,14 +100,22 @@ public class N2oEngineConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public QueryProcessor queryProcessor(N2oInvocationFactory invocationFactory,
-                                         ContextProcessor contextProcessor,
-                                         DomainProcessor domainProcessor,
-                                         QueryExceptionHandler exceptionHandler) {
-        N2oQueryProcessor n2oQueryProcessor = new N2oQueryProcessor(invocationFactory, contextProcessor,
-                domainProcessor, exceptionHandler);
+                                         QueryExceptionHandler exceptionHandler,
+                                         MetadataEnvironment environment) {
+        N2oQueryProcessor n2oQueryProcessor = new N2oQueryProcessor(invocationFactory, exceptionHandler);
         n2oQueryProcessor.setCriteriaResolver(new N2oCriteriaConstructor(pageStartsWith0));
         n2oQueryProcessor.setPageStartsWith0(pageStartsWith0);
+        n2oQueryProcessor.setEnvironment(environment);
         return n2oQueryProcessor;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public SubModelsProcessor subModelsProcessor(QueryProcessor queryProcessor,
+                                                 MetadataEnvironment environment) {
+        N2oSubModelsProcessor n2oSubModelsProcessor = new N2oSubModelsProcessor(queryProcessor);
+        n2oSubModelsProcessor.setEnvironment(environment);
+        return n2oSubModelsProcessor;
     }
 
     @Bean

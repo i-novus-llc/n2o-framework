@@ -31,4 +31,11 @@ public interface PipelineSupport {
      * @return Конвеер связывания метаданных с данными
      */
     BindTerminalPipeline bind();
+
+    /**
+     * Получить конвеер на этапе сохранения метаданных
+     *
+     * @return Конвеер сохранения метаданных
+     */
+    PersistTerminalPipeline persist();
 }

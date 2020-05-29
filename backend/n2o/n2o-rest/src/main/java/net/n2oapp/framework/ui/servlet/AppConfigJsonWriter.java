@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.JsonUtil;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.config.register.storage.PathUtil;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.core.env.PropertyResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -72,6 +74,17 @@ public class AppConfigJsonWriter {
      */
     public void writeValues(PrintWriter out, Map<String, ?> addedValues) throws IOException {
         objectMapper.writeValue(out, getNode(addedValues));
+    }
+
+    /**
+     * Записать в виде файла на диск
+     * @param directory Директория файла
+     * @param addedValues Дополнительные значения
+     * @throws IOException Ошибка записи
+     */
+    public void writeValues(String directory, Map<String, ?> addedValues) throws IOException {
+        String path = PathUtil.concatFileNameAndBasePath("config.json", directory);
+        objectMapper.writeValue(new File(path), getNode(addedValues));
     }
 
     /**
@@ -145,10 +158,6 @@ public class AppConfigJsonWriter {
                 throw new N2oException(e);
             }
         }
-    }
-
-    public PropertyResolver getPropertyResolver() {
-        return propertyResolver;
     }
 
     public void setPropertyResolver(PropertyResolver propertyResolver) {
