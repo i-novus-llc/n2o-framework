@@ -264,7 +264,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                         if (!m.containsKey(field) || m.get(field) == null)
                             return false;
                         return m.get(field).toString().toLowerCase()
-                                .contains(((String) pattern).toLowerCase());
+                                .contains(pattern.toString().toLowerCase());
                     })
                     .collect(Collectors.toList());
         }
