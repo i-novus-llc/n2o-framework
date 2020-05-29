@@ -542,7 +542,6 @@ N2OSelect.defaultProps = {
   cleanable: true,
   valueFieldId: 'id',
   labelFieldId: 'name',
-  iconFieldId: 'icon',
   imageFieldId: 'image',
   badgeFieldId: 'badge',
   loading: false,
