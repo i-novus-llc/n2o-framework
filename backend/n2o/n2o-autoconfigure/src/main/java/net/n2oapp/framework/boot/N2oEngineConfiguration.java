@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.*;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
+import net.n2oapp.framework.boot.mongodb.MongoDbDataProviderEngine;
 import net.n2oapp.framework.engine.data.*;
 import net.n2oapp.framework.engine.data.java.JavaDataProviderEngine;
 import net.n2oapp.framework.engine.data.java.ObjectLocator;
