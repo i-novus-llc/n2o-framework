@@ -62,6 +62,9 @@ export default function overlays(state = [], action) {
   const index = state.findIndex(
     overlay => overlay.name === get(action, 'payload.name')
   );
+  const indexByMode = state.findIndex(
+    ({ mode }) => mode === get(action, 'payload.mode')
+  );
   switch (action.type) {
     case INSERT_MODAL:
     case INSERT_DRAWER:
@@ -80,7 +83,10 @@ export default function overlays(state = [], action) {
       }
       return state;
     case DESTROY:
-      return state.slice(0, -1);
+      if (indexByMode >= 0 && get(action, 'payload.mode')) {
+        return state.splice(indexByMode, 1);
+      } else if (!get(action, 'payload.mode')) return state.slice(0, -1);
+      else return state;
     case DESTROY_OVERLAYS:
       return state.slice(0, -action.payload.count);
     case SHOW_PROMPT:

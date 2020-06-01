@@ -20,6 +20,8 @@ import {
 } from '../../selectors/pages';
 import { getLocation } from '../../selectors/global';
 
+const MODAL = 'modal';
+
 const withMetadata = Component => {
   class ComponentWithMetadata extends React.Component {
     componentDidMount() {
@@ -148,7 +150,7 @@ const withMetadata = Component => {
       getMetadata: (pageId, pageUrl, pageMapping, rootPage) =>
         dispatch(metadataRequest(pageId, rootPage, pageUrl, pageMapping)),
       reset: pageId =>
-        dispatch(batchActions([resetPage(pageId), destroyOverlay()])),
+        dispatch(batchActions([resetPage(pageId), destroyOverlay(MODAL)])),
       routeMap: pageId => dispatch(mapUrl(pageId)),
     };
   }

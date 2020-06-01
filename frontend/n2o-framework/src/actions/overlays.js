@@ -73,8 +73,8 @@ export function hideOverlay(name) {
  * Удалить окно
  * @returns {*}
  */
-export function destroyOverlay() {
-  return createActionHelper(DESTROY)();
+export function destroyOverlay(mode) {
+  return createActionHelper(DESTROY)({ mode });
 }
 
 export function destroyOverlays(count) {
