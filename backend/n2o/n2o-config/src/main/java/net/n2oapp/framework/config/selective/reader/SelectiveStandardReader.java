@@ -7,10 +7,7 @@ import net.n2oapp.framework.config.io.control.HiddenIOv2;
 import net.n2oapp.framework.config.io.control.interval.DateIntervalIOv2;
 import net.n2oapp.framework.config.io.control.list.*;
 import net.n2oapp.framework.config.io.control.plain.*;
-import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
-import net.n2oapp.framework.config.io.dataprovider.RestDataProviderIOv1;
-import net.n2oapp.framework.config.io.dataprovider.SqlDataProviderIOv1;
-import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
+import net.n2oapp.framework.config.io.dataprovider.*;
 import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.MultiFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
@@ -132,7 +129,8 @@ public class SelectiveStandardReader extends SelectiveReader {
         return addReader(new RestDataProviderIOv1())
                 .addReader(new SqlDataProviderIOv1())
                 .addReader(new JavaDataProviderIOv1())
-                .addReader(new TestDataProviderIOv1());
+                .addReader(new TestDataProviderIOv1())
+                .addReader(new MongoDbDataProviderIOv1());
     }
 
     public SelectiveStandardReader addQueryReader() {
