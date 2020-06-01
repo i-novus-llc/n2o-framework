@@ -1,13 +1,11 @@
 package net.n2oapp.framework.autotest.api.component.cell;
 
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
+
 /**
- * Ячейка таблицы с Toolbar для автотестирования
+ * Ячейка таблицы с кнопками для автотестирования
  */
 public interface ToolbarCell extends Cell {
 
-    void clickMenu(String menuName);
-
-    void itemsShouldBe(int count);
-
-    void itemsTextShouldBe(int index, String text);
+    Toolbar toolbar();
 }
