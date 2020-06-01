@@ -4,6 +4,7 @@ export const CHANGE_BUTTON_COUNT = 'n2o/toolbar/CHANGE_BUTTON_COUNT';
 export const CHANGE_BUTTON_SIZE = 'n2o/toolbar/CHANGE_BUTTON_SIZE';
 export const CHANGE_BUTTON_COLOR = 'n2o/toolbar/CHANGE_BUTTON_COLOR';
 export const CHANGE_BUTTON_HINT = 'n2o/toolbar/CHANGE_BUTTON_HINT';
+export const CHANGE_BUTTON_MESSAGE = 'n2o/toolbar/CHANGE_BUTTON_MESSAGE';
 export const CHANGE_BUTTON_ICON = 'n2o/toolbar/CHANGE_BUTTON_ICON';
 export const CHANGE_BUTTON_CLASS = 'n2o/toolbar/CHANGE_BUTTON_CLASS';
 export const CHANGE_BUTTON_STYLE = 'n2o/toolbar/CHANGE_BUTTON_STYLE';
