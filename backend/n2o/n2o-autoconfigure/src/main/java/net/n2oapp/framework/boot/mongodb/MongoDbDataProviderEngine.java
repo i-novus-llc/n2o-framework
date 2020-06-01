@@ -186,14 +186,8 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     }
 
     private Bson notEqFilter(String field, Object pattern) {
-        Bson filter = null;
-        if (pattern != null) {
-            if ("_id".equals(field))
-                filter = not(eq("_id", new ObjectId((String) pattern)));
-            else
-                filter = not(eq(field, pattern));
-        }
-        return filter;
+        Bson filter = eqFilter(field, pattern);
+        return filter != null ? not(filter) : null;
     }
 
     private Bson likeFilter(String field, Object pattern) {
@@ -223,15 +217,8 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     }
 
     private Bson notInFilter(String field, Object pattern) {
-        Bson filter = null;
-        List patterns = pattern instanceof List ? (List) pattern : Arrays.asList(pattern);
-        if (!patterns.isEmpty()) {
-            if ("_id".equals(field))
-                filter = not(in("_id", patterns.stream().map(id -> new ObjectId((String) id)).toArray()));
-            else
-                filter = not(in(field, patterns));
-        }
-        return filter;
+        Bson filter = inFilter(field, pattern);
+        return filter != null ? not(filter) : null;
     }
 
     private Bson moreFilter(String field, Object pattern) {

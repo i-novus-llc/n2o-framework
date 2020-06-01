@@ -1,7 +1,7 @@
 package net.n2oapp.framework.test;
 
-import com.mongodb.MongoClientURI;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oMongoDbDataProvider;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -69,7 +68,6 @@ public class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Order(0)
     @Disabled
     public void testSelect() {
         RestTemplate restTemplate = new RestTemplate();
@@ -93,7 +91,6 @@ public class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Order(1)
     @Disabled
     public void testSortingLimitOffset() {
         //one field sort
@@ -121,7 +118,6 @@ public class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Order(3)
     @Disabled
     public void testFilters() {
         //eq generate all
@@ -196,7 +192,7 @@ public class MongodbDataProviderEngineTest {
 
 
     @Test
-    @Order(4)
+    @Order(1)
     public void insertOneOperationTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.insertOne);
         HashMap<String, Object> inParams = new HashMap<>();
@@ -231,7 +227,7 @@ public class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Order(5)
+    @Order(2)
     public void updateOneOperationTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.updateOne);
         HashMap<String, Object> inParams = new HashMap<>();
@@ -268,7 +264,7 @@ public class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Order(6)
+    @Order(3)
     public void deleteOneOperationTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.deleteOne);
         HashMap<String, Object> inParams = new HashMap<>();
@@ -288,7 +284,7 @@ public class MongodbDataProviderEngineTest {
     }
 
     @Test
-    @Order(7)
+    @Order(4)
     public void deleteManyOperationTest() {
         provider.setOperation(N2oMongoDbDataProvider.Operation.insertOne);
         HashMap<String, Object> inParams = new HashMap<>();
