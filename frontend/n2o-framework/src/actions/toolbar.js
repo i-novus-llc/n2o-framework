@@ -164,7 +164,7 @@ export function changeButtonHint(key, buttonId, hint) {
  * Экшен изменения message кнопки
  * @param key
  * @param buttonId
- * @param hint
+ * @param message
  */
 export function changeButtonMessage(key, buttonId, message) {
   return createActionHelper(CHANGE_BUTTON_MESSAGE)({ key, buttonId, message });
