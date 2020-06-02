@@ -111,9 +111,13 @@ function PopupItems({
           {badgeFieldId && renderBadge(item, badgeFieldId, badgeColorFieldId)}
           {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
             <DropdownItem
-              className={cx({
-                'n2o-eclipse-content__description': !hasCheckboxes,
-                'n2o-eclipse-content__description-with-checkbox': hasCheckboxes,
+              className={cx('n2o-eclipse-content__description', {
+                'n2o-eclipse-content__description-with-icon':
+                  !hasCheckboxes && item[iconFieldId],
+                'n2o-eclipse-content__description-with-checkbox':
+                  hasCheckboxes && !item[iconFieldId],
+                'n2o-eclipse-content__description-with-icon-checkbox':
+                  hasCheckboxes && item[iconFieldId],
               })}
               header
             >
