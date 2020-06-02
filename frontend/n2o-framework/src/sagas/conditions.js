@@ -14,6 +14,8 @@ import get from 'lodash/get';
 import set from 'lodash/set';
 import isEmpty from 'lodash/isEmpty';
 import keys from 'lodash/keys';
+import isUndefined from 'lodash/isUndefined';
+import find from 'lodash/find';
 
 import evalExpression from '../utils/evalExpression';
 import { SET } from '../constants/models';
@@ -47,9 +49,9 @@ export const resolveConditions = (conditions = [], model) => {
     },
     []
   );
-  //message первого ложного expression
-  const message = get(first(falsyExpressions), 'message');
 
+  //message первого ложного expression
+  const message = get(find(falsyExpressions, 'message'), 'message');
   return { resolve: isEmpty(falsyExpressions), message: message };
 };
 

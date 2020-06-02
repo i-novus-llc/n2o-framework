@@ -32,15 +32,15 @@ export function* resolveButton(button) {
     }
 
     if (enabled) {
-      const nextEnable = resolveConditions(enabled, state).resolve;
+      const nextEnable = get(resolveConditions(enabled, state), 'resolve');
       yield put(changeButtonDisabled(button.key, button.buttonId, !nextEnable));
     }
-    if (!resolveConditions(enabled, state).resolve) {
+    if (!get(resolveConditions(enabled, state), 'resolve')) {
       yield put(
         changeButtonMessage(
           button.key,
           button.buttonId,
-          resolveConditions(enabled, state).message
+          get(resolveConditions(enabled, state), 'message')
         )
       );
     }

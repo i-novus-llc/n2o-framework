@@ -168,7 +168,6 @@ export default function withActionButton(options = {}) {
         const { confirmVisible } = this.state;
 
         const currentMessage = disabled ? message || hint : hint;
-
         return (
           <div id={this.generatedButtonId}>
             <RenderTooltip
