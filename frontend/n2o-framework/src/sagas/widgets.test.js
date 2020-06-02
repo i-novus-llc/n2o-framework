@@ -284,6 +284,7 @@ describe('Проверка саги widgets', () => {
         widgets,
       },
       widgetState: widgets[widgetId],
+      currentDatasource: {},
     });
   });
 });

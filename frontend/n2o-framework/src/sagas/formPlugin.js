@@ -2,7 +2,6 @@ import { takeEvery, put, select } from 'redux-saga/effects';
 import { touch } from 'redux-form';
 import values from 'lodash/values';
 import get from 'lodash/get';
-import set from 'lodash/set';
 
 import { removeFieldMessage } from '../actions/formPlugin';
 import { setModel } from '../actions/models';
@@ -28,7 +27,7 @@ export function* copyAction({ payload }) {
   const { target, source, mode = 'replace', sourceMapper } = payload;
   const state = yield select(modelsSelector);
   let sourceModel = get(state, values(source).join('.'));
-  const targetModel = yield select(
+  let targetModel = yield select(
     makeGetModelByPrefixSelector(target.prefix, target.key)
   );
   const expression = parseExpression(sourceMapper);
@@ -49,16 +48,19 @@ export function* copyAction({ payload }) {
         }
       : { ...targetModel, ...sourceModel };
   } else if (mode === 'add') {
-    if (!Array.isArray(sourceModel) || !Array.isArray(targetModel)) {
+    if (
+      !Array.isArray(sourceModel) ||
+      !Array.isArray(targetModel[target.field])
+    ) {
       throw new Error('Source or target is not an array!');
     }
 
     newModel = target.field
       ? {
           ...targetModel,
-          [target.field]: [...targetModel, ...sourceModel],
+          [target.field]: [...targetModel[target.field], ...sourceModel],
         }
-      : [...targetModel, ...sourceModel];
+      : [...targetModel[target.field], ...sourceModel];
   } else {
     newModel = target.field
       ? {
@@ -67,7 +69,6 @@ export function* copyAction({ payload }) {
         }
       : sourceModel;
   }
-
   yield put(setModel(target.prefix, target.key, newModel));
 }
 
