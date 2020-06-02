@@ -113,11 +113,11 @@ function PopupItems({
             <DropdownItem
               className={cx('n2o-eclipse-content__description', {
                 'n2o-eclipse-content__description-with-icon':
-                  !hasCheckboxes && iconFieldId,
+                  !hasCheckboxes && item[iconFieldId],
                 'n2o-eclipse-content__description-with-checkbox':
-                  hasCheckboxes && !iconFieldId,
+                  hasCheckboxes && !item[iconFieldId],
                 'n2o-eclipse-content__description-with-icon-checkbox':
-                  hasCheckboxes && iconFieldId,
+                  hasCheckboxes && item[iconFieldId],
               })}
               header
             >
