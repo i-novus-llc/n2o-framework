@@ -219,7 +219,8 @@ class AdvancedTableContainer extends React.Component {
 
   mapData(datasource) {
     if (!datasource) return;
-    return datasource.map(item => {
+
+    return map(datasource, item => {
       return {
         ...item,
         key: item.id,
