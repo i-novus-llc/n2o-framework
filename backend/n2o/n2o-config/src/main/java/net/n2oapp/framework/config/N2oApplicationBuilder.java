@@ -38,7 +38,8 @@ import java.util.stream.Stream;
  */
 public class N2oApplicationBuilder implements
         ReadersBuilder<N2oApplicationBuilder>,
-        PersistersBuilder<N2oApplicationBuilder> {
+        PersistersBuilder<N2oApplicationBuilder>,
+        PipelineSupport {
     private static final Logger logger = LoggerFactory.getLogger(N2oApplicationBuilder.class);
 
     private MetadataEnvironment environment;
@@ -173,9 +174,33 @@ public class N2oApplicationBuilder implements
         return this;
     }
 
+    @Override
     public ReadTerminalPipeline<ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline>> read() {
         build();
         return N2oPipelineSupport.readPipeline(environment).read();
+    }
+
+    @Override
+    public CompileTerminalPipeline<CompileBindTerminalPipeline> compile() {
+        build();
+        return N2oPipelineSupport.compilePipeline(environment).compile();
+    }
+
+    @Override
+    public CompilePipeline merge() {
+        build();
+        return N2oPipelineSupport.compilePipeline(environment).merge();
+    }
+
+    public BindTerminalPipeline bind() {
+        build();
+        return N2oPipelineSupport.bindPipeline(environment).bind();
+    }
+
+    @Override
+    public PersistTerminalPipeline persist() {
+        build();
+        return N2oPipelineSupport.persistPipeline(environment).persist();
     }
 
     public <D extends Compiled> CompileContext<D, ?>  route(String url, Class<D> compiledClass, Map<String, String[]> params) {
