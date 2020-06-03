@@ -12,15 +12,12 @@ import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 
 import { metadataRequest, resetPage, mapUrl } from '../../actions/pages';
-import { destroyOverlay } from '../../actions/overlays';
 import {
   makePageMetadataByIdSelector,
   makePageLoadingByIdSelector,
   makePageErrorByIdSelector,
 } from '../../selectors/pages';
 import { getLocation } from '../../selectors/global';
-
-const MODAL = 'modal';
 
 const withMetadata = Component => {
   class ComponentWithMetadata extends React.Component {
@@ -150,7 +147,7 @@ const withMetadata = Component => {
       getMetadata: (pageId, pageUrl, pageMapping, rootPage) =>
         dispatch(metadataRequest(pageId, rootPage, pageUrl, pageMapping)),
       reset: pageId =>
-        dispatch(batchActions([resetPage(pageId), destroyOverlay(MODAL)])),
+        dispatch(batchActions([resetPage(pageId)])),
       routeMap: pageId => dispatch(mapUrl(pageId)),
     };
   }
