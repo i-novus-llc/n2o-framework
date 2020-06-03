@@ -2,12 +2,9 @@ package net.n2oapp.framework.api.config;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
-
-import java.util.LinkedHashMap;
+import net.n2oapp.criteria.dataset.DataSet;
 import java.util.Map;
 
 /**
@@ -17,7 +14,7 @@ import java.util.Map;
 @Setter
 public class AppConfig {
 //    @JsonIgnore
-    private Map<String, Object> properties = new LinkedHashMap<>();
+    private Map<String, Object> properties = new DataSet();
 
     public Object getProperty(String property) {
         return properties.get(property);
