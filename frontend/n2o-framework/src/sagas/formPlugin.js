@@ -29,7 +29,7 @@ export function* copyAction({ payload }) {
   let sourceModel = get(state, values(source).join('.'));
   let targetModel = yield select(
     makeGetModelByPrefixSelector(target.prefix, target.key)
-  );
+  ) || {};
   const expression = parseExpression(sourceMapper);
   let newModel = {};
 

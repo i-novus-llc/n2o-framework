@@ -75,7 +75,7 @@ const makeGetModelByPrefixSelector = (prefix, key) =>
   createSelector(
     makeModelsByPrefixSelector(prefix),
     prefixModelsState => {
-      return prefixModelsState[key] || {};
+      return prefixModelsState[key];
     }
   );
 
