@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -14,7 +16,7 @@ import java.util.Map;
 @Setter
 public class AppConfig {
 //    @JsonIgnore
-    private Map<String, Object> properties = new DataSet();
+    private Map<String, Object> properties = new LinkedHashMap<>();
 
     public Object getProperty(String property) {
         return properties.get(property);
