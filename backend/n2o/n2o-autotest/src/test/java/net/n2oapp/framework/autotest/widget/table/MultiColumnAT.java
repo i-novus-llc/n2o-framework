@@ -16,7 +16,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -81,8 +80,6 @@ public class MultiColumnAT extends AutoTestBase {
         rows.row(0).cell(3).textShouldHave("2018.12.31");
     }
 
-    /// - TODO реализация вложенных MultiColumn и FilterColumn ожидается в будущем
-    @Disabled
     @Test
     public void testAdvancedMultiColumn() {
         TableWidget table = widgets.widget(1, TableWidget.class);

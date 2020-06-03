@@ -1,12 +1,13 @@
 package net.n2oapp.framework.api.metadata;
 
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 
 
 /**
  * Метаданная считанная из исходника (например, из xml)
  */
-public interface SourceMetadata extends Source, IdAware {
+public interface SourceMetadata extends Source, IdAware, NamespaceUriAware {
     /**
      * Идентификатор метаданной
      */

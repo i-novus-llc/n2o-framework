@@ -27,7 +27,10 @@ import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
+import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
+import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.PropertyResolver;
@@ -44,7 +47,6 @@ public class N2oEnvironment implements MetadataEnvironment {
     private DomainProcessor domainProcessor;
     private PropertyResolver systemProperties;
     private ContextProcessor contextProcessor;
-    private SubModelsProcessor subModelsProcessor;
 
     private MetadataScannerFactory metadataScannerFactory;
     private SourceLoaderFactory sourceLoaderFactory;
@@ -79,8 +81,8 @@ public class N2oEnvironment implements MetadataEnvironment {
         this.domainProcessor = new DomainProcessor(new ObjectMapper());
         this.contextProcessor = new ContextProcessor(new TestContextEngine());
 
-        this.namespaceReaderFactory = new N2oNamespaceReaderFactory();
-        this.namespacePersisterFactory = new N2oMetadataPersisterFactory();
+        this.namespaceReaderFactory = new ReaderFactoryByMap();
+        this.namespacePersisterFactory = new PersisterFactoryByMap();
         this.dynamicMetadataProviderFactory = new N2oDynamicMetadataProviderFactory();
         this.metadataScannerFactory = new N2oMetadataScannerFactory();
         this.sourceLoaderFactory = new N2oSourceLoaderFactory();
@@ -104,7 +106,6 @@ public class N2oEnvironment implements MetadataEnvironment {
         this.systemProperties = copy.getSystemProperties();
         this.domainProcessor = copy.getDomainProcessor();
         this.contextProcessor = copy.getContextProcessor();
-        this.subModelsProcessor = copy.getSubModelsProcessor();
 
         this.namespaceReaderFactory = copy.getNamespaceReaderFactory();
         this.namespacePersisterFactory = copy.getNamespacePersisterFactory();
@@ -225,16 +226,6 @@ public class N2oEnvironment implements MetadataEnvironment {
 
     public void setContextProcessor(ContextProcessor contextProcessor) {
         this.contextProcessor = contextProcessor;
-    }
-
-
-    @Override
-    public SubModelsProcessor getSubModelsProcessor() {
-        return subModelsProcessor;
-    }
-
-    public void setSubModelsProcessor(SubModelsProcessor subModelsProcessor) {
-        this.subModelsProcessor = subModelsProcessor;
     }
 
     @Override

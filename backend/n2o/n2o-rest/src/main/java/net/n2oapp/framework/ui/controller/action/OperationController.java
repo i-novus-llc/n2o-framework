@@ -37,11 +37,10 @@ public class OperationController extends SetController {
     private MetadataEnvironment environment;
 
     public OperationController(DataProcessingStack dataProcessingStack,
-                               DomainProcessor domainsProcessor,
                                N2oOperationProcessor operationProcessor,
                                ErrorMessageBuilder errorMessageBuilder,
                                MetadataEnvironment environment) {
-        super(dataProcessingStack, domainsProcessor, operationProcessor);
+        super(dataProcessingStack, operationProcessor, environment);
         this.errorMessageBuilder = errorMessageBuilder;
         this.environment = environment;
     }

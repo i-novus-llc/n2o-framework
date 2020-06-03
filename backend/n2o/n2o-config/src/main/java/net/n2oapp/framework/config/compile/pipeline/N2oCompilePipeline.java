@@ -2,12 +2,14 @@ package net.n2oapp.framework.config.compile.pipeline;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.pipeline.CompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.CompilePipeline;
 import net.n2oapp.framework.api.metadata.pipeline.CompileTerminalPipeline;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 
 import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType.*;
@@ -40,6 +42,12 @@ public class N2oCompilePipeline extends N2oPipeline implements CompilePipeline {
                     @Override
                     public <D extends Compiled, S> D get(S input, CompileContext<?, ?> context, DataSet data) {
                         return execute(context, data, input);
+                    }
+
+                    @Override
+                    public <D extends Compiled, S> D get(S input, CompileContext<?, ?> context, DataSet data,
+                                                         SubModelsProcessor subModelsProcessor) {
+                        return execute(context, data, input, subModelsProcessor);
                     }
 
                     @Override
