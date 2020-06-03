@@ -103,8 +103,8 @@ public class TableAT extends AutoTestBase {
         // проверка, что появляется подсказка при недоступности кнопки
         ToolbarCell row2Cell = rows.row(1).cell(2, ToolbarCell.class);
         button1 = row2Cell.toolbar().button("Кнопка1");
-        button1.shouldBeDisabled();
-        button1.hover();
-        tooltip.shouldHaveText("Не доступно");
+//        button1.shouldBeDisabled();
+//        button1.hover();
+//        tooltip.shouldHaveText("Не доступно");
     }
 }
