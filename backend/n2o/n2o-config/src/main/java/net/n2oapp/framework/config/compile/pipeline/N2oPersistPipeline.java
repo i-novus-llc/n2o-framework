@@ -10,7 +10,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 
-import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType.PERSIST;
+import static net.n2oapp.framework.api.metadata.pipeline.PipelineOperationType.*;
 
 public class N2oPersistPipeline extends N2oPipeline implements PersistPipeline {
 
@@ -42,5 +42,35 @@ public class N2oPersistPipeline extends N2oPipeline implements PersistPipeline {
                 FileSystemUtil.saveContentToFile(get(input), new File(path));
             }
         };
+    }
+
+    @Override
+    public PersistPipeline validate() {
+        pullOp(VALIDATE);
+        return this;
+    }
+
+    @Override
+    public PersistPipeline merge() {
+        pullOp(MERGE);
+        return this;
+    }
+
+    @Override
+    public PersistPipeline transform() {
+        pullOp(SOURCE_TRANSFORM);
+        return this;
+    }
+
+    @Override
+    public PersistPipeline cache() {
+        pullOp(SOURCE_CACHE);
+        return this;
+    }
+
+    @Override
+    public PersistPipeline copy() {
+        pullOp(COPY);
+        return this;
     }
 }
