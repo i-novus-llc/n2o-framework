@@ -79,10 +79,10 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
             }
             if (clientWidgetId != null && componentScope != null &&
                     componentScope.unwrap(ModelAware.class) != null) {
-                ReduxModel model = componentScope.unwrap(ModelAware.class).getModel();
+                ReduxModel model = getTargetWidgetModel(p, ReduxModel.RESOLVE);
                 if (source.getPathParams() != null) {
                     for (N2oAnchor.Param pathParam : source.getPathParams()) {
-                        ModelLink link = new ModelLink(p.cast(model, ReduxModel.RESOLVE), clientWidgetId);
+                        ModelLink link = new ModelLink(model, clientWidgetId);
                         link.setValue(p.resolveJS(pathParam.getValue()));
                         pathMapping.put(pathParam.getName(), link);
                     }
@@ -91,7 +91,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
                 if (source.getQueryParams() != null) {
                     Map<String, ModelLink> queryMapping = new StrictMap<>();
                     for (N2oAnchor.Param pathParam : source.getQueryParams()) {
-                        ModelLink link = new ModelLink(p.cast(model, ReduxModel.RESOLVE), clientWidgetId);
+                        ModelLink link = new ModelLink(model, clientWidgetId);
                         link.setValue(p.resolveJS(pathParam.getValue()));
                         queryMapping.put(pathParam.getName(), link);
                     }

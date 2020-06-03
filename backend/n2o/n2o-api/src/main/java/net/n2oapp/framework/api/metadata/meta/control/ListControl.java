@@ -38,6 +38,8 @@ public abstract class ListControl extends Control {
     private String format;
     @JsonProperty
     private Boolean caching;
+    @JsonProperty
+    private String enabledFieldId;
 
     @JsonProperty
     private List<Map<String, Object>> data;

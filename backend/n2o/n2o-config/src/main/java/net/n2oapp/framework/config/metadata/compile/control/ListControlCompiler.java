@@ -61,6 +61,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setValueFieldId(p.cast(p.resolveJS(listControl.getValueFieldId()), "id"));
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
         listControl.setCaching(source.getCache());
+        listControl.setEnabledFieldId(source.getEnabledFieldId());
         initSubModel(source, p.getScope(SubModelsScope.class));
         return compileStandardField(listControl, source, context, p);
     }
