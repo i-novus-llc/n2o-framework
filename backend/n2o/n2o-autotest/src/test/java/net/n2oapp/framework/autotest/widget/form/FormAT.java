@@ -78,27 +78,26 @@ public class FormAT extends AutoTestBase {
         form.fields().shouldHaveSize(1);
         InputText name = form.fields().field("Имя").control(InputText.class);
 
-        // проверка, что при разном состоянии доступности кнопки отображаются разные подсказки
+        // проверка, что при разном состоянии доступности кнопок отображаются разные подсказки
         StandardButton button1 = form.toolbar().bottomLeft().button("Кнопка1");
+        StandardButton button2 = form.toolbar().bottomLeft().button("Кнопка2");
+
+        // подсказка при недоступности кнопки1 и кнопки2
         button1.shouldBeDisabled();
         button1.hover();
         tooltip.shouldHaveText("Заполните имя");
-        name.val("test");
-        button1.shouldBeEnabled();
-        button1.hover();
-        tooltip.shouldHaveText("Описание");
-
-        // проверка, что появляется подсказка при недоступности кнопки
-        StandardButton button2 = form.toolbar().bottomLeft().button("Кнопка2");
-        name.val("");
-        // кликаем по кнопке, чтобы убрать фокус с поля
-        button2.click();
         button2.shouldBeDisabled();
         button2.hover();
         tooltip.shouldHaveText("Заполните имя");
+
         name.val("test");
+        // подсказка при доступности кнопки1 и кнопки2
+        button1.shouldBeEnabled();
+        button1.hover();
+        tooltip.shouldHaveText("Описание");
         button2.shouldBeEnabled();
         button2.hover();
+        // у кнопки2 не должно быть подсказки, т.к. не указан description
         tooltip.shouldNotBeExist();
     }
 }

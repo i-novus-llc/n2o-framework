@@ -78,7 +78,8 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testToolbar() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
@@ -92,18 +93,18 @@ public class TableAT extends AutoTestBase {
         ToolbarCell row1Cell = rows.row(0).cell(2, ToolbarCell.class);
         StandardButton button1 = row1Cell.toolbar().button("Кнопка1");
         StandardButton button2 = row1Cell.toolbar().button("Кнопка2");
+        button1.shouldBeEnabled();
         button1.hover();
         tooltip.shouldHaveText("Описание");
+        button1.shouldBeEnabled();
         button2.hover();
         tooltip.shouldNotBeExist();
 
         // проверка, что появляется подсказка при недоступности кнопки
         ToolbarCell row2Cell = rows.row(1).cell(2, ToolbarCell.class);
         button1 = row2Cell.toolbar().button("Кнопка1");
-        button2 = row2Cell.toolbar().button("Кнопка2");
+        button1.shouldBeDisabled();
         button1.hover();
-        tooltip.shouldHaveText("Не доступно");
-        button2.hover();
         tooltip.shouldHaveText("Не доступно");
     }
 }
