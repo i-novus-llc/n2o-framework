@@ -16,19 +16,42 @@ import java.util.*;
  */
 public interface ConfigBuilder<T extends AppConfig> {
 
+    /**
+     * Установить информацию о пользователе
+     * @param user Пользователь
+     * @return Конструктор
+     */
     default ConfigBuilder<T> user(Object user) {
         return add("user", user);
     }
 
+    /**
+     * Установить информацию о меню
+     * @param menu Меню
+     * @return Конструктор
+     */
     default ConfigBuilder<T> menu(Object menu) {
         return add("menu", menu);
     }
 
+    /**
+     * Установить сообщения локализации
+     * @param resourceBundle Бандл ресурсов
+     * @param messageSource Источник сообщений
+     * @return Конструктор
+     */
     default ConfigBuilder<T> messages(ResourceBundle resourceBundle,
                                    MessageSourceAccessor messageSource) {
         return messages(resourceBundle, messageSource, LocaleContextHolder.getLocale());
     }
 
+    /**
+     * Установить сообщения локализации
+     * @param resourceBundle Бандл ресурсов
+     * @param messageSource Исчтоник сообщений
+     * @param locale Локаль
+     * @return Конструктор
+     */
     default ConfigBuilder<T> messages(ResourceBundle resourceBundle,
                                    MessageSourceAccessor messageSource,
                                    Locale locale) {
@@ -39,36 +62,79 @@ public interface ConfigBuilder<T extends AppConfig> {
         return add("messages", messages);
     }
 
+    /**
+     * Добавить свойство
+     * @param property Имя свойтсва
+     * @param value Значение свойтсва
+     * @return Конструктор
+     */
     ConfigBuilder<T> add(String property, Object value);
 
+    /**
+     * Добавить свойства
+     * @param values Свойства
+     * @return Конструктор
+     */
     ConfigBuilder<T> addAll(Map<String, Object> values);
 
-    default void read(File file) {
-        read(new FileSystemResource(file));
+    /**
+     * Прочитать конфигурацию из файла поверх существующей
+     * @param file Файл
+     * @return Конструктор
+     */
+    default ConfigBuilder<T> read(File file) {
+        return read(new FileSystemResource(file));
     }
 
-    default void read(Resource resource) {
+    /**
+     * Прочитать конфигурацию из ресурса поверх существующей
+     * @param resource Ресурс
+     * @return Конструктор
+     */
+    default ConfigBuilder<T> read(Resource resource) {
         try {
-            read(resource.getInputStream());
+            return read(resource.getInputStream());
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
     }
 
-    default void read(InputStream content) {
+    /**
+     * Прочитать конфигурацию из входящего потока поверх существующей
+     * @param content Входящий поток содержащий json
+     * @return Конструктор
+     */
+    default ConfigBuilder<T> read(InputStream content) {
         try {
-            read(IOUtils.toString(content, StandardCharsets.UTF_8));
+            return read(IOUtils.toString(content, StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
     }
 
-    void read(String content);
+    /**
+     * Прочитать конфигурацию из строки поверх существующей
+     * @param content Строка содержащая json
+     * @return Конструктор
+     */
+    ConfigBuilder<T> read(String content);
 
+    /**
+     * Записать конфигурацию
+     * @param out Писатель
+     */
     void write(Writer out);
 
+    /**
+     * Записать конфигурацию в файл
+     * @param file Файл
+     */
     void write(File file);
 
+    /**
+     * Получить конфигурацию
+     * @return Конфигурация
+     */
     T get();
 
 }

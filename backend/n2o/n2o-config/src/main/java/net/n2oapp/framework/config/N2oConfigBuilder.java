@@ -92,7 +92,7 @@ public class N2oConfigBuilder<T extends AppConfig> implements ConfigBuilder<T> {
     }
 
     @Override
-    public void read(String content) {
+    public ConfigBuilder<T> read(String content) {
         String json = resolvePlaceholders(content);
         try {
             if (appConfig != null) {
@@ -104,6 +104,7 @@ public class N2oConfigBuilder<T extends AppConfig> implements ConfigBuilder<T> {
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
+        return this;
     }
 
     @Override
