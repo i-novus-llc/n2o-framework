@@ -45,7 +45,6 @@ function ModalPage(props) {
     queryMapping,
     size,
     actions,
-    containerKey,
     close,
     disabled,
     ...rest
@@ -83,7 +82,7 @@ function ModalPage(props) {
                 pageUrl={pageUrl}
                 pageId={pageId}
                 pageMapping={pageMapping}
-                containerKey={containerKey}
+                entityKey={entityKey}
                 needMetadata={true}
               />
             ) : src ? (
@@ -99,15 +98,15 @@ function ModalPage(props) {
               >
                 <Toolbar
                   toolbar={toolbar.bottomLeft}
-                  containerKey={containerKey}
+                  entityKey={entityKey}
                 />
                 <Toolbar
                   toolbar={toolbar.bottomCenter}
-                  containerKey={containerKey}
+                  entityKey={entityKey}
                 />
                 <Toolbar
                   toolbar={toolbar.bottomRight}
-                  containerKey={containerKey}
+                  entityKey={entityKey}
                 />
               </div>
             </ModalFooter>
