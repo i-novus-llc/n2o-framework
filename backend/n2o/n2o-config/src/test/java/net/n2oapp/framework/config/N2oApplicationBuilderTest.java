@@ -31,6 +31,10 @@ public class N2oApplicationBuilderTest {
                 .compile()
                 .bind();
 
+        new N2oApplicationBuilder().compile().copy().cache().bind();
+//        new N2oApplicationBuilder().read().cache().validate().persist().set(null);
+//        new N2oApplicationBuilder().read().merge().get()
+
         Page page = pipeline.get(new PageContext("test"), new DataSet());
     }
 }

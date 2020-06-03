@@ -68,7 +68,7 @@ public abstract class N2oPipeline implements Pipeline {
                                DataSet data,
                                I input,
                                N2oCompileProcessor processor) {
-        return execute(ops(), context, data, input, processor, processor, processor);
+        return execute(iterator, context, data, input, processor, processor, processor);
     }
 
     protected <O, I> O execute(Iterator<PipelineOperation<?, ?>> iterator,

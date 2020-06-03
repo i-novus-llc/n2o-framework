@@ -49,6 +49,8 @@ import { MODIFIERS } from '../DatePicker/utils';
  * @reactProps {boolean} popupAutoSize - флаг включения автоматическиого расчета длины PopUp
  */
 
+const POPUP_MAX_WIDTH = 600;
+
 class InputSelect extends React.Component {
   constructor(props) {
     super(props);
@@ -474,12 +476,33 @@ class InputSelect extends React.Component {
     };
   }
 
+  preparePopUpStyles = popperStyles => {
+    return Object.assign({}, popperStyles, this.calcPopperWidth());
+  };
+
   calcPopperWidth() {
-    if ((this._input || this._textarea) && !this.props.popupAutoSize) {
-      return this._input
-        ? this._input.getBoundingClientRect().width
-        : this._textarea.getBoundingClientRect().width;
+    const component = this._input || this._textarea;
+
+    if (!!component) {
+      if (!this.props.popupAutoSize) {
+        const width = component.getBoundingClientRect().width;
+
+        return {
+          minWidth: width,
+          maxWidth: width,
+        };
+      }
+
+      return {
+        minWidth: 'auto',
+        maxWidth: POPUP_MAX_WIDTH,
+      };
     }
+
+    return {
+      minWidth: 'auto',
+      maxWidth: 'auto',
+    };
   }
   /**
    * Рендер
@@ -588,11 +611,7 @@ class InputSelect extends React.Component {
               {({ ref, style, placement, update }) => (
                 <div
                   ref={ref}
-                  style={{
-                    ...style,
-                    minWidth: this.calcPopperWidth(),
-                    maxWidth: 600,
-                  }}
+                  style={this.preparePopUpStyles(style)}
                   data-placement={placement}
                   className="n2o-pop-up"
                 >
