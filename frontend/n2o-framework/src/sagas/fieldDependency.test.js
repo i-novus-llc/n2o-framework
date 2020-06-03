@@ -18,13 +18,12 @@ const setupModify = (
   options,
   values = {
     testField: 0,
-  },
-  ...rest
+  }
 ) => {
   const formName = 'testForm';
   const fieldName = 'testField';
 
-  return modify(values, formName, fieldName, type, options, ...rest);
+  return modify(values, formName, fieldName, type, options, () => {});
 };
 
 const setupCheckAndModify = () => {
@@ -121,6 +120,7 @@ describe('Проверка саги dependency', () => {
         keepDirty: false,
         value: 12,
       });
+      expect(gen.next().value.type).toBe('SELECT');
       expect(gen.next().done).toEqual(true);
     });
     it('Проверка type reset с ложным expression', () => {
