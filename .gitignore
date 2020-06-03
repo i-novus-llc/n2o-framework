@@ -69,4 +69,7 @@ firebase-debug.log
 # Jest
 .jest-test-results.json
 
+#MacOs
+*.DS_Store*
+
 
