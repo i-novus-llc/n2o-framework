@@ -6,6 +6,7 @@
     <xs:element name="rest" type="restDefinition"/>
     <xs:element name="java" type="javaDefinition"/>
     <xs:element name="test" type="testDefinition"/>
+    <xs:element name="mongodb" type="mongoDbDefinition"/>
 
     <xs:complexType name="sqlDefinition">
         <xs:annotation>
@@ -202,6 +203,42 @@
             <xs:annotation>
                 <xs:documentation>Поле первичного ключа</xs:documentation>
             </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="mongoDbDefinition">
+        <xs:annotation>
+            <xs:documentation>MongoDb провайдер данных.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="connection-url" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Адрес подключения.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="database-name" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Имя базы данных.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="collection-name" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Имя коллекции документов.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="operation">
+            <xs:simpleType>
+                <xs:annotation>
+                    <xs:documentation>Операция, выполняемая провайдером.</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="find"/>
+                    <xs:enumeration value="insertOne"/>
+                    <xs:enumeration value="updateOne"/>
+                    <xs:enumeration value="deleteOne"/>
+                    <xs:enumeration value="deleteMany"/>
+                    <xs:enumeration value="countDocuments"/>
+                </xs:restriction>
+            </xs:simpleType>
         </xs:attribute>
     </xs:complexType>
 
