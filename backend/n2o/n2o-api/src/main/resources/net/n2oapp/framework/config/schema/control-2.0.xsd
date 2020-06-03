@@ -284,6 +284,13 @@
                         <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="enabled-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля, которое определяет (true/false) выбираем мы узел или нет.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1170,13 +1177,6 @@
                 <xs:attribute name="has-children-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Наличие дочерних элементов.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled-field-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор поля, которое определяет (true/false) выбираем мы узел или нет.
-                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="master-field-id" type="xs:string">

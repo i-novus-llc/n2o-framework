@@ -7,9 +7,7 @@ import net.n2oapp.framework.config.io.control.HiddenIOv2;
 import net.n2oapp.framework.config.io.control.interval.DateIntervalIOv2;
 import net.n2oapp.framework.config.io.control.list.*;
 import net.n2oapp.framework.config.io.control.plain.*;
-import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
-import net.n2oapp.framework.config.io.dataprovider.RestDataProviderIOv1;
-import net.n2oapp.framework.config.io.dataprovider.SqlDataProviderIOv1;
+import net.n2oapp.framework.config.io.dataprovider.*;
 import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.MultiFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
@@ -112,7 +110,9 @@ public class SelectiveStandardPersister extends SelectivePersister {
     public SelectiveStandardPersister addDataProviders() {
         return addPersister(new RestDataProviderIOv1())
                 .addPersister(new SqlDataProviderIOv1())
-                .addPersister(new JavaDataProviderIOv1());
+                .addPersister(new JavaDataProviderIOv1())
+                .addPersister(new TestDataProviderIOv1())
+                .addPersister(new MongoDbDataProviderIOv1());
     }
 
     public SelectiveStandardPersister addEventPersister() {

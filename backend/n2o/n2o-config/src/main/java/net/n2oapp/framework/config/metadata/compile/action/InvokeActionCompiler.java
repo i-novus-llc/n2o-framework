@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
@@ -23,7 +22,6 @@ import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
@@ -59,14 +57,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         invokeAction.setOperationId(source.getOperationId());
         invokeAction.setType(p.resolve(property("n2o.api.action.invoke.type"), String.class));
         String targetWidgetId = initTargetWidget(source, context, p);
-        ReduxModel targetWidgetModel = ReduxModel.RESOLVE;
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
-            ModelAware modelAware = componentScope.unwrap(ModelAware.class);
-            if (modelAware != null && modelAware.getModel() != null) {
-                targetWidgetModel = modelAware.getModel();
-            }
-        }
+        ReduxModel targetWidgetModel = getTargetWidgetModel(p, ReduxModel.RESOLVE);
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String currentWidgetId = widgetScope == null ? targetWidgetId : widgetScope.getClientWidgetId();

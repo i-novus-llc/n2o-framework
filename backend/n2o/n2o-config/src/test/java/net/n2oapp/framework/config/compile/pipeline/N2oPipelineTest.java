@@ -4,10 +4,15 @@ import net.n2oapp.cache.template.CacheCallback;
 import net.n2oapp.cache.template.CacheTemplate;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
+import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.compile.*;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
+import net.n2oapp.framework.api.metadata.io.IOProcessorAware;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
+import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
@@ -20,12 +25,19 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
 import net.n2oapp.framework.config.register.XmlInfo;
 import net.n2oapp.framework.config.test.SimplePropertyResolver;
+import org.apache.commons.io.IOUtils;
+import org.jdom.Element;
+import org.jdom.Namespace;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.*;
@@ -65,6 +77,8 @@ public class N2oPipelineTest {
         when(env.getSourceValidatorFactory()).thenReturn(validatorFactory);
         MetadataBinderFactory metadataBinderFactory = new MockBinderFactory();
         when(env.getMetadataBinderFactory()).thenReturn(metadataBinderFactory);
+        NamespacePersisterFactory persisterFactory = new MockPersisterFactory();
+        when(env.getNamespacePersisterFactory()).thenReturn(persisterFactory);
         PipelineOperationFactory pof = new MockPipelineOperationFactory();
         when(env.getPipelineOperationFactory()).thenReturn(pof);
 
@@ -77,7 +91,7 @@ public class N2oPipelineTest {
     }
 
     @Test
-    public void readPipeline() {
+    public void readPipeline() throws IOException {
         XmlInfo pageInfo = new XmlInfo("pageId", N2oPage.class, "", "");
 
         when(metadataRegister.get("pageId", N2oSimplePage.class)).thenReturn(pageInfo);
@@ -101,7 +115,7 @@ public class N2oPipelineTest {
         // read + validate
         try{
             N2oPipelineSupport.readPipeline(env).read().transform().validate().get("pageId", N2oSimplePage.class);
-            Assert.assertTrue(false);
+            Assert.fail();
         } catch (N2oMetadataValidationException e) {
         }
 
@@ -137,6 +151,11 @@ public class N2oPipelineTest {
         DataSet data = new DataSet();
         compiled = N2oPipelineSupport.readPipeline(env).read().compile().bind().get(context, data);
         assertThat(compiled.getPageProperty().getTitle(), is("binding compiled test"));
+
+        //read + persist
+        InputStream inputStream = N2oPipelineSupport.readPipeline(env).read().persist().get("pageId", N2oSimplePage.class);
+        String xml = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
+        assertThat(xml, containsString("<test xmlns=\"test-namespace\" />"));
     }
 
     @Test
@@ -214,10 +233,33 @@ public class N2oPipelineTest {
         assertThat(compiledPage.getPageProperty().getTitle(), is("binding binding test"));
     }
 
+    @Test
+    public void persistPipeline() throws IOException {
+        XmlInfo pageInfo = new XmlInfo("pageId", N2oPage.class, "", "");
+
+        when(metadataRegister.get("pageId", N2oSimplePage.class)).thenReturn(pageInfo);
+        when(metadataRegister.get("pageId", N2oPage.class)).thenReturn(pageInfo);
+
+        PageContext context = mock(PageContext.class);
+        when(context.getSourceId(any())).thenReturn("pageId");
+        when(context.getCompiledId(any())).thenReturn("pageId");
+        when(context.getSourceClass()).thenReturn(N2oPage.class);
+        when(context.getCompiledClass()).thenReturn(Page.class);
+
+        //read
+        when(readerFactory.read(pageInfo, null)).then(m -> createSource());
+
+        InputStream inputStream = N2oPipelineSupport.persistPipeline(env).persist().get(createSource());
+        String xml = IOUtils.toString(inputStream, StandardCharsets.UTF_8.name());
+        assertThat(xml, containsString("<test xmlns=\"test-namespace\" />"));
+    }
+
     private N2oSimplePage createSource() {
         N2oSimplePage sourcePage;
         sourcePage = new N2oSimplePage();
+        sourcePage.setId("test");
         sourcePage.setName("test");
+        sourcePage.setSrc("test");
         return sourcePage;
     }
 
@@ -252,7 +294,7 @@ public class N2oPipelineTest {
 
         @Override
         public <S> void validate(S source, ValidateProcessor p) throws N2oMetadataValidationException {
-            if (((N2oSimplePage)source).getId() == null)
+            if ("test".equals(((N2oSimplePage)source).getSrc()))
                 throw new N2oMetadataValidationException("validated " + ((N2oSimplePage)source).getName());
         }
     }
@@ -334,7 +376,41 @@ public class N2oPipelineTest {
                     new SourceCacheOperation<>(sourceCacheTemplate, env.getMetadataRegister()),
                     new CompileCacheOperation<>(compileCacheTemplate),
                     new CompileOperation<>(env.getSourceCompilerFactory()),
-                    new BindOperation<>(env.getMetadataBinderFactory()));
+                    new BindOperation<>(env.getMetadataBinderFactory()),
+                    new PersistOperation<>(env.getNamespacePersisterFactory()));
+        }
+    }
+
+    private static class MockPersisterFactory implements NamespacePersisterFactory<NamespaceUriAware, NamespacePersister<NamespaceUriAware>> {
+
+        @Override
+        public NamespacePersister<NamespaceUriAware> produce(Class<NamespaceUriAware> clazz, Namespace... namespaces) {
+            return new NamespacePersister<NamespaceUriAware>() {
+                @Override
+                public Element persist(NamespaceUriAware entity, Namespace namespace) {
+                    return new Element("test", "test-namespace");
+                }
+
+                @Override
+                public String getNamespaceUri() {
+                    return "test-namespace";
+                }
+
+                @Override
+                public String getElementName() {
+                    return "test";
+                }
+
+                @Override
+                public Class<NamespaceUriAware> getElementClass() {
+                    return null;
+                }
+            };
+        }
+
+        @Override
+        public void add(NamespacePersister<NamespaceUriAware> persister) {
+
         }
     }
 }
