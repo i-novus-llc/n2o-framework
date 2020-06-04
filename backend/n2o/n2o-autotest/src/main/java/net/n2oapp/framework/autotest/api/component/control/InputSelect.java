@@ -26,6 +26,6 @@ public interface InputSelect extends Control {
 
     void shouldSelectedMulti(String... values);
 
-    void shouldHaveStatusColor(String value, Colors color);
+    void itemShouldHaveStatusColor(String value, Colors color);
 
 }
