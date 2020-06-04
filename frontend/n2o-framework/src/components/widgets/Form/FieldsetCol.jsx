@@ -43,6 +43,7 @@ function FieldsetCol({
                 form={form}
                 modelPrefix={modelPrefix}
                 name={name}
+                parentName={parentName}
                 parentIndex={parentIndex}
                 disabled={disabled}
                 {...field}
