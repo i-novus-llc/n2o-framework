@@ -41,7 +41,7 @@ function DrawerPage(props) {
     disabled,
     toolbar,
     actions,
-    containerKey,
+    entityKey,
     width,
     height,
     placement,
@@ -90,15 +90,15 @@ function DrawerPage(props) {
               >
                 <Toolbar
                   toolbar={toolbar.bottomLeft}
-                  containerKey={containerKey}
+                  entityKey={entityKey}
                 />
                 <Toolbar
                   toolbar={toolbar.bottomCenter}
-                  containerKey={containerKey}
+                  entityKey={entityKey}
                 />
                 <Toolbar
                   toolbar={toolbar.bottomRight}
-                  containerKey={containerKey}
+                  entityKey={entityKey}
                 />
               </div>
             ) : (
@@ -112,7 +112,7 @@ function DrawerPage(props) {
                 pageUrl={pageUrl}
                 pageId={pageId}
                 pageMapping={pageMapping}
-                containerKey={containerKey}
+                entityKey={entityKey}
                 needMetadata={true}
               />
             ) : src ? (
