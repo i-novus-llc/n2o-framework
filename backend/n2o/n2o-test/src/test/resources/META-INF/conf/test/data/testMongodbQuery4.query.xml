@@ -39,7 +39,7 @@
         <field id="birthday" domain="localdate">
             <select/>
             <filters>
-                <more filter-id="birthdayMore"/>
+                <more filter-id="birthdayMore">birthday :more :birthdayMore</more>
                 <less filter-id="birthdayLess"/>
             </filters>
         </field>
@@ -49,11 +49,11 @@
         </field>
 
         <field id="gender.id">
-            <select mapping="['gender'].get('id')"/>
+            <select mapping="['gender']?.get('id')"/>
         </field>
 
         <field id="gender.name">
-            <select mapping="['gender'].get('name')" normalize="#this.toLowerCase()"/>
+            <select mapping="['gender']?.get('name')" normalize="#this?.toLowerCase()"/>
         </field>
     </fields>
 </query>
