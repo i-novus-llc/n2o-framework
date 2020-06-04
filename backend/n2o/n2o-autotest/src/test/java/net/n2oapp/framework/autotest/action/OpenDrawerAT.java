@@ -17,7 +17,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ActionAT extends AutoTestBase {
+public class OpenDrawerAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -34,16 +34,16 @@ public class ActionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/index.page.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/drawer/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/drawer.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/drawer/drawer.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/action/test.query.xml"));
     }
 
     @Test
     public void testDrawerPage() {
         SimplePage page = open(SimplePage.class);
-        page.breadcrumb().titleShouldHaveText("action-tests");
+        page.breadcrumb().titleShouldHaveText("drawer-tests");
         page.shouldExists();
 
         TableWidget.Rows rows = page.single().widget(TableWidget.class).columns().rows();

@@ -591,6 +591,24 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="to" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле для записи значения, по умолчанию вся модель.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="source-widget" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Исходный виджет, по умолчанию текущий.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="source-model" type="reduxModel" default="resolve"/>
+                <xs:attribute name="target-widget" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Целевой виджет, по умолчанию текущий.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-model" type="reduxModel" default="resolve"/>
+                <xs:attribute name="merge-mode" type="mergeType" default="replace"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -891,6 +909,14 @@
             <xs:enumeration value="bottom"/>
             <xs:enumeration value="left"/>
             <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="mergeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="merge"/>
+            <xs:enumeration value="replace"/>
+            <xs:enumeration value="add"/>
         </xs:restriction>
     </xs:simpleType>
 

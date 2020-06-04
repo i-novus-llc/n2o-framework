@@ -14,7 +14,7 @@ import static net.n2oapp.framework.autotest.N2oSelenide.component;
 public class N2oFilterHeader extends N2oStandardTableHeader implements FilterHeader {
     @Override
     public <T extends Control> T filterControl(Class<T> componentClass) {
-        return component(element(), StandardField.class).control(componentClass);
+        return component(element().$(".n2o-advanced-table-filter-dropdown-popup"), StandardField.class).control(componentClass);
     }
 
     @Override

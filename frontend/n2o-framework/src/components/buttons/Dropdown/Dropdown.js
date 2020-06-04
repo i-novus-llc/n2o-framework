@@ -46,7 +46,7 @@ class DropdownButton extends React.Component {
   }
 
   render() {
-    const { subMenu, ...rest } = this.props;
+    const { subMenu, id: entityKey, ...rest } = this.props;
     const { open, initOpen } = this.state;
 
     return (
@@ -76,11 +76,15 @@ class DropdownButton extends React.Component {
               >
                 {map(subMenu, ({ src, component, ...rest }) => {
                   return component ? (
-                    React.createElement(component, rest)
+                    React.createElement(
+                      component,
+                      Object.assign({}, rest, { entityKey })
+                    )
                   ) : (
                     <Factory
                       key={rest.id}
                       {...rest}
+                      entityKey={entityKey}
                       level={BUTTONS}
                       src={src}
                       tag={DropdownItem}
