@@ -221,6 +221,7 @@ export default Field => {
         props.disabled !== nextProps.disabled ||
         props.message !== nextProps.message ||
         props.required !== nextProps.required ||
+        props.loading !== nextProps.loading ||
         get(props, 'input.value', null) !== get(nextProps, 'input.value', null)
     ),
     withProps(props => ({
