@@ -24,7 +24,7 @@
 		"net": "^1.0.2",
 		"react-redux": "5.0.6",
 		"reactstrap": "^8.0.0",
-		"redux": "3.6.0",
+		"redux": "3.7.2",
 		"redux-actions": "2.3.2",
 		"redux-saga": "0.16.0",
 		"reselect": "3.0.1",
