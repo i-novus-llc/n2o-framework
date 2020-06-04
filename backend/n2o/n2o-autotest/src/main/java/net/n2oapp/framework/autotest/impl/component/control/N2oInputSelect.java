@@ -82,7 +82,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
-    public void shouldBeDisabled(String value) {
+    public void itemShouldBeDisabled(String value) {
         element().click();
         element().parent().$$(".n2o-pop-up button").findBy(Condition.text(value))
                 .shouldHave(Condition.cssClass("disabled"));

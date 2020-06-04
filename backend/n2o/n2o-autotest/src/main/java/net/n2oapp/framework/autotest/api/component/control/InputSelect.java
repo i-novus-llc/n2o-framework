@@ -25,6 +25,6 @@ public interface InputSelect extends Control {
 
     void shouldSelectedMulti(String... values);
 
-    void shouldBeDisabled(String value);
+    void itemShouldBeDisabled(String itemValue);
 
 }
