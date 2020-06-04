@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 
 import java.util.List;
 import java.util.Map;
@@ -44,7 +44,7 @@ public abstract class ListControl extends Control {
     @JsonProperty
     private List<Map<String, Object>> data;
     @JsonProperty
-    private WidgetDataProvider dataProvider;
+    private ClientDataProvider dataProvider;
 
     @Override
     public boolean containsHimself(DataSet dataSet) {

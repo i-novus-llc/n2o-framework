@@ -151,7 +151,7 @@ Java Script выражение
 |reset
 |true false
 |Сбросить значение при скрытии
-|true
+|false
 
 |===
 
@@ -162,7 +162,7 @@ Java Script выражение
 [source,xml]
 ----
 <dependencies>
-  <visibility on="type" reset="false">type.id == 1</visibility>
+  <visibility on="type" reset="true">type.id == 1</visibility>
   <!-- Поле видимо, если type.id равен 1 -->
 </dependencies>
 ----
@@ -355,6 +355,9 @@ Java Script выражение
 
 Тело::
 link:#__validations_3[Список валидаций]
+
+==== <submit>
+link:#_Отправка_значения_на_сервер_при_его_изменении[действие обновления компонента]
 
 ==== <toolbar>
 Панель действий компонента

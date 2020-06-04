@@ -2,10 +2,9 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Models;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -64,17 +63,17 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect.getBadgeColorFieldId(), is("badgeColorFieldId"));
         assertThat(inputSelect.getClosePopupOnSelect(), is(false));
         assertThat(inputSelect.getEnabledFieldId(), is("isEnabled"));
-        WidgetDataProvider wdp = inputSelect.getDataProvider();
+        ClientDataProvider cdp = inputSelect.getDataProvider();
 
         inputSelect = (InputSelect) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(inputSelect.getDataProvider().getQuickSearchParam(), is("name"));
 
-        assertThat(wdp.getUrl(), is("n2o/data/test"));
-        assertThat(wdp.getQuickSearchParam(), is("search"));
-        assertThat(wdp.getQueryMapping().get("noRef").getBindLink(), is("models.resolve['testInputSelect_main']"));
-        assertThat(wdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
-        assertThat(wdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
+        assertThat(cdp.getUrl(), is("n2o/data/test"));
+        assertThat(cdp.getQuickSearchParam(), is("search"));
+        assertThat(cdp.getQueryMapping().get("noRef").getBindLink(), is("models.resolve['testInputSelect_main']"));
+        assertThat(cdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
+        assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
 
         field = ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(2).getCols().get(0).getFields().get(0));
@@ -91,13 +90,13 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(compiledQuery.getId(), is("testSelectFetch"));
 
         Table table = (Table) page.getWidgets().get("testInputSelect_second");
-        wdp = ((InputSelect) ((StandardField) table.getFilter().getFilterFieldsets().get(0).getRows()
+        cdp = ((InputSelect) ((StandardField) table.getFilter().getFilterFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();
-        assertThat(wdp.getUrl(), is("n2o/data/test"));
-        assertThat(wdp.getQuickSearchParam(), is("search"));
-        assertThat(wdp.getQueryMapping().get("noRef").getBindLink(), is("models.filter['testInputSelect_main']"));
-        assertThat(wdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
-        assertThat(wdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
+        assertThat(cdp.getUrl(), is("n2o/data/test"));
+        assertThat(cdp.getQuickSearchParam(), is("search"));
+        assertThat(cdp.getQueryMapping().get("noRef").getBindLink(), is("models.filter['testInputSelect_main']"));
+        assertThat(cdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
+        assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
     }
 
 }
