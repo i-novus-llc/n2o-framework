@@ -42,7 +42,7 @@ public class FileSystemUtil {
                 bos.write(b);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Can not save content into file " + file.getAbsolutePath(), e);
+            throw new IllegalStateException("Can not save content into file " + file.getAbsolutePath(), e);
         }
     }
 
@@ -51,7 +51,7 @@ public class FileSystemUtil {
         try (InputStream inputStream = IOUtils.toInputStream(content, "UTF-8")) {
             saveContentToFile(inputStream, file);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -64,7 +64,7 @@ public class FileSystemUtil {
             target = resource.getFile();
             isDeleted = target.delete();
         } catch (IOException e) {
-            throw new RuntimeException("Can not delete file " + uri, e);
+            throw new IllegalStateException("Can not delete file " + uri, e);
         }
         return isDeleted;
     }
@@ -90,7 +90,7 @@ public class FileSystemUtil {
         try {
             return Node.byLocationPattern(resource, "");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -106,7 +106,7 @@ public class FileSystemUtil {
             }
             return nodes;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -122,7 +122,7 @@ public class FileSystemUtil {
         try (InputStream inputStream = getContentAsStream(URI, isExistRequired)) {
             return inputStream == null ? null : IOUtils.toString(inputStream, "UTF-8");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -147,14 +147,20 @@ public class FileSystemUtil {
         try (InputStream inputStream = resource.getInputStream()) {
             return IOUtils.toString(inputStream, "UTF-8");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
-    public static void removeAllFromDirectory(String dir, List<String> excludePaths) throws IOException {
+    public static void removeAllFromDirectory(String dir, List<String> excludePaths) {
         File root = new File(dir);
-        for (File file : root.listFiles()) {
-            deleteRecursively(file, excludePaths);
+        if (root.listFiles() == null)
+            return;
+        try {
+            for (File file : root.listFiles()) {
+                deleteRecursively(file, excludePaths);
+            }
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
         }
     }
 
@@ -164,13 +170,13 @@ public class FileSystemUtil {
         if (uri.startsWith("jar:") || uri.startsWith("classpath:")) {
             Resource resource = DEFAULT_RESOURCE_LOADER.getResource(uri);
             if (!resource.exists()) {
-                throw new N2oException("File Not Found:"+uri);
+                throw new IllegalStateException("File Not Found:" + uri);
             }
             return resource.contentLength();
         } else if (uri.startsWith("file:")) {
             File file = new File(PathUtil.convertUrlToAbsolutePath(uri));
-            if (!file.exists()){
-                throw new N2oException("File Not Found:"+uri);
+            if (!file.exists()) {
+                throw new IllegalStateException("File Not Found:" + uri);
             }
             return file.length();
         }

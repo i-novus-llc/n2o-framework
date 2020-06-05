@@ -139,7 +139,8 @@ const setupModify = mockData => {
     mockData.formName,
     mockData.fields.field1.name,
     mockData.fields.field1.dependency[0].type,
-    mockData.fields.field1.dependency[0]
+    mockData.fields.field1.dependency[0],
+    () => {}
   );
 };
 
@@ -153,7 +154,8 @@ describe('Тестирование саги', () => {
         mockData.formName,
         mockData.fields.field1.name,
         mockData.fields.field1.dependency[0].type,
-        mockData.fields.field1.dependency[0]
+        mockData.fields.field1.dependency[0],
+        undefined
       )
     );
     expect(gen.next().done).toBe(true);
@@ -222,6 +224,7 @@ describe('Тестирование саги', () => {
         })
       )
     );
+    expect(gen.next().value.type).toBe('SELECT');
     expect(gen.next().done).toBe(true);
   });
   it('Проверка модификатора reset зависимости', () => {

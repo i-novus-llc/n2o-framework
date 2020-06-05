@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.metadata.compile;
 
 import net.n2oapp.framework.api.factory.MetadataFactory;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.GroupItems;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 

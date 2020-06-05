@@ -38,7 +38,10 @@ public interface Page extends Component {
         Toolbar bottomRight();
     }
 
-    interface Breadcrumb {
+    interface Breadcrumb extends Component {
+
+        void clickLink(String text);
+
         void parentTitleShouldHaveText(String text);
 
         void titleShouldHaveText(String text);
