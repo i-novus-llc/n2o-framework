@@ -62,7 +62,6 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect.getBadgeFieldId(), is("badgeFieldId"));
         assertThat(inputSelect.getBadgeColorFieldId(), is("badgeColorFieldId"));
         assertThat(inputSelect.getClosePopupOnSelect(), is(false));
-        assertThat(inputSelect.getStatusFieldId(), is("testStatus"));
         assertThat(inputSelect.getEnabledFieldId(), is("isEnabled"));
         WidgetDataProvider wdp = inputSelect.getDataProvider();
 

@@ -38,6 +38,7 @@ public class SelectCompiler extends ListControlCompiler<Select, N2oSelect> {
         control.setSelectFormatOne(source.getSelectFormatOne());
         control.setSelectFormatFew(source.getSelectFormatFew());
         control.setSelectFormatMany(source.getSelectFormatMany());
+        control.setDescriptionFieldId(source.getDescriptionFieldId());
         return compileListControl(control, source, context, p);
     }
 }

@@ -18,6 +18,7 @@ const props = {
   valueFieldId: 'id',
   labelFieldId: 'id',
   statusFieldId: 'status',
+  descriptionFieldId: 'desc',
   enabledFieldId: 'isDisabled',
   filter: 'includes',
   resetOnBlur: false,
@@ -59,6 +60,22 @@ const props2 = Object.assign({}, props, {
       icon: 'fa fa-square',
       image: 'https://i.stack.imgur.com/2zqqC.jpg',
       isDisabled: true,
+    },
+    {
+      id: '33',
+      icon: 'fa fa-square',
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
+    },
+  ],
+});
+
+const props3 = Object.assign({}, props, {
+  options: [
+    {
+      id: 123412,
+      icon: 'fa fa-square',
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
+      desc: 'Описание',
     },
     {
       id: '33',
@@ -413,6 +430,22 @@ describe('<InputSelect />', () => {
       wrapper.find('.n2o-eclipse-content__with-status').exists()
     ).toBeTruthy();
     expect(wrapper.find('.bg-success').exists()).toBeTruthy();
+  });
+  it('Проверяет наличие описания при descriptionFieldId', () => {
+    const wrapper = mount(<InputSelect {...props3} />);
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
+    expect(
+      wrapper.find('.n2o-eclipse-content__description').exists()
+    ).toBeTruthy();
+    expect(
+      wrapper
+        .find('.n2o-eclipse-content__description')
+        .first()
+        .text()
+    ).toBe('Описание');
   });
   it('проверяет disabled элемент при enabledFieldId', () => {
     const wrapper = mount(<InputSelect {...props2} />);

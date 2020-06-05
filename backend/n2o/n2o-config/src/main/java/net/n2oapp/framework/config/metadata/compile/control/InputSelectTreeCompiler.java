@@ -9,6 +9,9 @@ import net.n2oapp.framework.api.metadata.meta.control.InputSelectTree;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+/**
+ * Компиляция компонента ввода с выбором в выпадающем списке в виде дерева
+ */
 @Component
 public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree, N2oInputSelectTree> {
 
@@ -35,6 +38,8 @@ public class InputSelectTreeCompiler extends ListControlCompiler<InputSelectTree
         control.setSize(p.cast(source.getSize(), p.resolve(Placeholders.property("n2o.api.control.input.select.tree.size"), Integer.class)));
         control.setCheckingStrategy(source.getCheckingStrategy());
         control.setMaxTagCount(source.getMaxTagCount());
+        if (control.isHasCheckboxes())
+            control.setMaxTagTextLength(source.getMaxTagTextLength());
         source.setQueryId(p.resolveJS(source.getQueryId()));
         source.setLabelFieldId(p.cast(p.resolveJS(source.getLabelFieldId()), "name"));
         source.setIconFieldId(p.resolveJS(source.getIconFieldId()));

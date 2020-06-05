@@ -8,7 +8,7 @@
                     <option id="id1" name="one"/>
                     <option id="id2" name="two"/>
                     <option id="id3" name="three"/>
-                    <option id="id4" name="four"/>
+                    <option id="id4" name="long message"/>
                 </options>
             </input-select-tree>
         </fields>

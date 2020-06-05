@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import isBoolean from 'lodash/isBoolean';
 import memoize from 'lodash/memoize';
-import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 import replace from 'lodash/replace';
 import includes from 'lodash/includes';
 import isNil from 'lodash/isNil';
+import get from 'lodash/get';
 import {
   isInitSelector,
   isVisibleSelector,
@@ -23,11 +23,12 @@ import {
   defaultProps,
   withHandlers,
   shouldUpdate,
+  mapProps,
 } from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
 import { getFormValues } from 'redux-form';
 
-const INDEX_PLACEHOLDER = '#index';
+const INDEX_PLACEHOLDER = 'index';
 
 /**
  * HOC обертка для полей, в которой содержится мэппинг свойств редакса и регистрация дополнительных свойств полей
@@ -213,6 +214,18 @@ export default Field => {
       mapStateToProps,
       mapDispatchToProps
     ),
+    mapProps(({ model, parentIndex, parentName, ...props }) => {
+      return {
+        ...props,
+        parentIndex,
+        model: !isNil(parentName)
+          ? {
+              ...get(model, parentName),
+              index: parentIndex,
+            }
+          : model,
+      };
+    }),
     shouldUpdate(
       (props, nextProps) =>
         !isEqual(props.model, nextProps.model) ||
