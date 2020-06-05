@@ -95,7 +95,7 @@ describe('Тесты экшенов models', () => {
       expect(action.type).toEqual(COPY);
     });
     it('Возвращает правильный payload', () => {
-      const action = copyModel(source, target, 'replace');
+      const action = copyModel(source, target, { mode: 'replace' });
       expect(action.payload.source).toEqual(source);
       expect(action.payload.target).toEqual(target);
       expect(action.payload.mode).toEqual('replace');

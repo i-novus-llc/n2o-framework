@@ -6,7 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 
 /**
- * Клиентская модель коомпонента Refresh
+ * Клиентская модель компонента Refresh
  */
 @Getter
 @Setter

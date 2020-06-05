@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import isNil from 'lodash/isNil';
 import isUndefined from 'lodash/isUndefined';
-
 import Badge from 'reactstrap/lib/Badge';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
 import scrollIntoView from 'scroll-into-view-if-needed';
@@ -49,6 +48,7 @@ function PopupItems({
   valueFieldId,
   imageFieldId,
   descriptionFieldId,
+  enabledFieldId,
   disabledValues,
   selected,
   groupFieldId,
@@ -82,50 +82,49 @@ function PopupItems({
   };
 
   const renderSingleItem = item => {
+    const disabled = !isNil(item[enabledFieldId])
+      ? item[enabledFieldId]
+      : !hasCheckboxes &&
+        isDisabled(
+          autocomplete ? item[valueFieldId] : item,
+          selected,
+          disabledValues
+        );
     return (
-      <>
-        <DropdownItem
-          className={cx('n2o-eclipse-content', {
-            active: activeValueId === item[valueFieldId],
-          })}
-          onMouseOver={() =>
-            setActiveValueId && setActiveValueId(item[valueFieldId])
-          }
-          disabled={
-            !hasCheckboxes &&
-            isDisabled(
-              autocomplete ? item[valueFieldId] : item,
-              selected,
-              disabledValues
-            )
-          }
-          ref={handleRef}
-          key={item.id}
-          onClick={e => handleItemClick(e, item)}
-          title={displayTitle(item)}
-          toggle={false}
-        >
-          {iconFieldId && renderIcon(item, iconFieldId)}
-          {imageFieldId && renderImage(item, imageFieldId)}
-          {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
-          {badgeFieldId && renderBadge(item, badgeFieldId, badgeColorFieldId)}
-          {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
-            <DropdownItem
-              className={cx('n2o-eclipse-content__description', {
-                'n2o-eclipse-content__description-with-icon':
-                  !hasCheckboxes && item[iconFieldId],
-                'n2o-eclipse-content__description-with-checkbox':
-                  hasCheckboxes && !item[iconFieldId],
-                'n2o-eclipse-content__description-with-icon-checkbox':
-                  hasCheckboxes && item[iconFieldId],
-              })}
-              header
-            >
-              {item[descriptionFieldId]}
-            </DropdownItem>
-          )}
-        </DropdownItem>
-      </>
+      <DropdownItem
+        className={cx('n2o-eclipse-content', {
+          active: activeValueId === item[valueFieldId],
+        })}
+        onMouseOver={() =>
+          setActiveValueId && setActiveValueId(item[valueFieldId])
+        }
+        disabled={disabled}
+        ref={handleRef}
+        key={item.id}
+        onClick={e => handleItemClick(e, item)}
+        title={displayTitle(item)}
+        toggle={false}
+      >
+        {iconFieldId && renderIcon(item, iconFieldId)}
+        {imageFieldId && renderImage(item, imageFieldId)}
+        {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
+        {badgeFieldId && renderBadge(item, badgeFieldId, badgeColorFieldId)}
+         {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
+                    <DropdownItem
+                      className={cx('n2o-eclipse-content__description', {
+                        'n2o-eclipse-content__description-with-icon':
+                          !hasCheckboxes && item[iconFieldId],
+                        'n2o-eclipse-content__description-with-checkbox':
+                          hasCheckboxes && !item[iconFieldId],
+                        'n2o-eclipse-content__description-with-icon-checkbox':
+                          hasCheckboxes && item[iconFieldId],
+                      })}
+                      header
+                    >
+                      {item[descriptionFieldId]}
+                    </DropdownItem>
+                  )}
+      </DropdownItem>
     );
   };
 

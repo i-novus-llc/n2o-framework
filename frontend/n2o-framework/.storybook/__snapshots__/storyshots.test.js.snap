@@ -4972,6 +4972,54 @@ exports[`Storyshots UI Компоненты/SearchBar Автоматически
 </div>"
 `;
 
+exports[`Storyshots UI Компоненты/SearchBar Автоматический поиск: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\snippets\\SearchBar\\__snapshots__\\SearchBar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        UI Компоненты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SearchBar
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Автоматический поиск
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import SearchBar from \\\\'n2o/lib/components/snippets/SearchBar/SearchBar\\\\';\\\\n      \\\\n      <SearchBar\\\\n        onSearch={onSearch}\\\\n        trigger=\\"CHANGE\\"\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <State store={{...}} parseState={[Function]}>
+                      <div>
+                        <h3>
+                          Поиск запуститься через 400ms после ввода
+                        </h3>
+                        <div>
+                          Значение: 
+                        </div>
+                        <defaultProps(withState(withHandlers(lifecycle(SearchBar)))) onSearch={[Function: onSearch]} trigger=\\"CHANGE\\" throttleDelay={400} />
+                      </div>
+                    </State>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots UI Компоненты/SearchBar Автоматический поиск: D:\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\SearchBar\\__snapshots__\\SearchBar.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -5066,6 +5114,51 @@ exports[`Storyshots UI Компоненты/SearchBar Компонент: C:\\Us
 `;
 
 exports[`Storyshots UI Компоненты/SearchBar Компонент: C:\\Users\\sliskov\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\SearchBar\\__snapshots__\\SearchBar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        UI Компоненты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SearchBar
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import SearchBar from \\\\'n2o/lib/components/snippets/SearchBar/SearchBar\\\\';\\\\n      \\\\n      <SearchBar\\\\n        value={value}\\\\n        onSearch={onSearch}\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <State store={{...}} parseState={[Function]}>
+                      <div>
+                        <div>
+                          Значение: 
+                        </div>
+                        <defaultProps(withState(withHandlers(lifecycle(SearchBar)))) value={[undefined]} onSearch={[Function: onSearch]} trigger=\\"CHANGE\\" throttleDelay={400} />
+                      </div>
+                    </State>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots UI Компоненты/SearchBar Компонент: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\snippets\\SearchBar\\__snapshots__\\SearchBar.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
     <ol className=\\"breadcrumb\\">
@@ -5251,6 +5344,54 @@ exports[`Storyshots UI Компоненты/SearchBar Поиск по нажат
 </div>"
 `;
 
+exports[`Storyshots UI Компоненты/SearchBar Поиск по нажатию ENTER: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\snippets\\SearchBar\\__snapshots__\\SearchBar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        UI Компоненты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SearchBar
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Поиск по нажатию ENTER
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import SearchBar from \\\\'n2o/lib/components/snippets/SearchBar/SearchBar\\\\';\\\\n      \\\\n      <SearchBar\\\\n        onSearch={onSearch}\\\\n        trigger=\\"ENTER\\"\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <State store={{...}} parseState={[Function]}>
+                      <div>
+                        <h3>
+                          Поиск запуститься при нажатии ENTER
+                        </h3>
+                        <div>
+                          Значение: 
+                        </div>
+                        <defaultProps(withState(withHandlers(lifecycle(SearchBar)))) trigger=\\"ENTER\\" onSearch={[Function: onSearch]} throttleDelay={400} />
+                      </div>
+                    </State>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots UI Компоненты/SearchBar Поиск по нажатию ENTER: D:\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\SearchBar\\__snapshots__\\SearchBar.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -5389,6 +5530,51 @@ exports[`Storyshots UI Компоненты/SearchBar Поиск с кнопко
 </div>"
 `;
 
+exports[`Storyshots UI Компоненты/SearchBar Поиск с кнопкой: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\snippets\\SearchBar\\__snapshots__\\SearchBar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        UI Компоненты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SearchBar
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Поиск с кнопкой
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import SearchBar from \\\\'n2o/lib/components/snippets/SearchBar/SearchBar\\\\';\\\\n      \\\\n      <SearchBar\\\\n        trigger=\\"BUTTON\\"\\\\n        button={{ label: \\\\'Искать\\\\', color: \\\\'primary\\\\' }}}\\\\n        onSearch={onSearch}\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <State store={{...}} parseState={[Function]}>
+                      <div>
+                        <div>
+                          Значение: 
+                        </div>
+                        <defaultProps(withState(withHandlers(lifecycle(SearchBar)))) trigger=\\"BUTTON\\" button={{...}} onSearch={[Function: onSearch]} throttleDelay={400} />
+                      </div>
+                    </State>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots UI Компоненты/SearchBar Поиск с кнопкой: D:\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\snippets\\SearchBar\\__snapshots__\\SearchBar.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -5421,6 +5607,83 @@ exports[`Storyshots UI Компоненты/SearchBar Поиск с кнопко
                         <defaultProps(withState(withHandlers(lifecycle(SearchBar)))) trigger=\\"BUTTON\\" button={{...}} onSearch={[Function: onSearch]} throttleDelay={400} />
                       </div>
                     </State>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots UI Компоненты/StatusText Компонент: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\snippets\\StatusText\\__snapshots__\\StatusText.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        UI Компоненты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        StatusText
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <StatusText text=\\"Test text\\" className=\\"test-class\\" color=\\"success\\" textPosition=\\"right\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots UI Компоненты/StatusText Позиционирование: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\snippets\\StatusText\\__snapshots__\\StatusText.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        UI Компоненты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        StatusText
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Позиционирование
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <StatusText text=\\"Test text\\" className=\\"test-class\\" color=\\"success\\" textPosition=\\"left\\" />
+                    <StatusText text=\\"Test text\\" className=\\"test-class\\" color=\\"info\\" textPosition=\\"right\\" />
                   </Story>
                   <withContext(Connect(OverlayPages)) />
                 </div>
@@ -15218,6 +15481,44 @@ exports[`Storyshots Виджеты/Advanced Table Вид дерево: D:\\Proje
 </div>"
 `;
 
+exports[`Storyshots Виджеты/Advanced Table Выбор строк радио по клику на строку: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\AdvancedTable\\__snapshots__\\AdvancedTableWidget.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Виджеты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Advanced Table
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Выбор строк радио по клику на строку
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <AdvancedTable columns={{...}} data={{...}} rowSelection=\\"radio\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Виджеты/Advanced Table Выбор строк радио: C:\\Users\\serge\\projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\AdvancedTable\\__snapshots__\\AdvancedTableWidget.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -15243,6 +15544,82 @@ exports[`Storyshots Виджеты/Advanced Table Выбор строк ради
                 <div>
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <AdvancedTable columns={{...}} data={{...}} rowSelection=\\"radio\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Виджеты/Advanced Table Выбор строк радио: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\AdvancedTable\\__snapshots__\\AdvancedTableWidget.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Виджеты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Advanced Table
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Выбор строк радио
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <AdvancedTable columns={{...}} data={{...}} rowSelection=\\"radio\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Виджеты/Advanced Table Выбор строк чекбоксом по клику на строку: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\AdvancedTable\\__snapshots__\\AdvancedTableWidget.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Виджеты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Advanced Table
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Выбор строк чекбоксом по клику на строку
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <AdvancedTable columns={{...}} data={{...}} rowSelection=\\"checkbox\\" autoCheckboxOnSelect={true} />
                   </Story>
                   <withContext(Connect(OverlayPages)) />
                 </div>
@@ -16615,6 +16992,44 @@ exports[`Storyshots Виджеты/Advanced Table Подтаблица: D:\\Proj
                 <div>
                   <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
                     <Factory level=\\"widgets\\" src=\\"AdvancedTableWidget\\" dataProvider={{...}} table={{...}} id=\\"Page_Table\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Виджеты/Advanced Table Редактируемая ячейка с тултипом: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\AdvancedTable\\__snapshots__\\AdvancedTableWidget.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Виджеты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Advanced Table
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Редактируемая ячейка с тултипом
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"AdvancedTableWidget\\" dataProvider={{...}} table={{...}} datasource={{...}} id=\\"Page_Table\\" />
                   </Story>
                   <withContext(Connect(OverlayPages)) />
                 </div>
@@ -25196,6 +25611,50 @@ exports[`Storyshots Виджеты/Форма Форма с Prompt: D:\\Projects
 </div>"
 `;
 
+exports[`Storyshots Виджеты/Форма Форма с toolbar: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Form\\__snapshots__\\FormWidgetWithToolbar.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Виджеты
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Форма
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Форма с toolbar
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <Factory level=\\"widgets\\" dataProvider={{...}} src=\\"FormWidget\\" dependency={{...}} toolbar={{...}} actions={{...}} form={{...}} id=\\"Page_Form\\" />
+                      <div className=\\"d-flex flex-nowrap w-100\\">
+                        <Factory level=\\"widgets\\" dataProvider={{...}} src=\\"FormWidget\\" dependency={{...}} toolbar={{...}} actions={{...}} form={{...}} id=\\"Page_Form\\" />
+                        <Factory level=\\"widgets\\" dataProvider={{...}} src=\\"FormWidget\\" dependency={{...}} toolbar={{...}} actions={{...}} form={{...}} id=\\"Page_Form\\" />
+                      </div>
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Виджеты/Форма Экшены полей: C:\\Users\\serge\\projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\Form\\__snapshots__\\FormWidget.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -27980,6 +28439,133 @@ exports[`Storyshots Кнопки Ссылка: D:\\Projects\\n2o-framework\\fron
                           <Route path=\\"*\\" render={[Function: render]} />
                         </Switch>
                       </div>
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/SimpleButton SimpleButton in StandardButton: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\Simple\\__snapshots__\\Simple.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SimpleButton
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SimpleButton in StandardButton
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <branch(StandardButton) hint=\\"Всплывающая подсказка\\" confirm={{...}} visible={true} rounded={true} disabled={false} icon=\\"fa fa-bolt\\" size=\\"md\\" color=\\"primary\\" action={{...}} />
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/SimpleButton SimpleButton: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\Simple\\__snapshots__\\Simple.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SimpleButton
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SimpleButton
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div>
+                      <SimpleButton hint=\\"Всплывающая подсказка\\" visible={true} rounded={true} disabled={false} icon=\\"fa fa-plus\\" size=\\"sm\\" color=\\"primary\\" action={{...}} tag=\\"button\\" onClick={[Function: onClick]} />
+                      <SimpleButton hint=\\"Всплывающая подсказка\\" visible={true} rounded={true} disabled={false} icon=\\"fa fa-minus\\" size=\\"sm\\" color=\\"primary\\" action={{...}} tag=\\"button\\" onClick={[Function: onClick]} />
+                      <SimpleButton hint=\\"Всплывающая подсказка\\" visible={true} rounded={true} disabled={false} icon=\\"fa fa-bolt\\" size=\\"md\\" color=\\"primary\\" action={{...}} tag=\\"button\\" onClick={[Function: onClick]} />
+                      <SimpleButton hint=\\"Всплывающая подсказка\\" visible={true} rounded={true} disabled={false} icon=\\"fa fa-minus\\" size=\\"md\\" color=\\"primary\\" action={{...}} tag=\\"button\\" onClick={[Function: onClick]} />
+                      <SimpleButton hint=\\"Всплывающая подсказка\\" visible={true} rounded={true} disabled={false} icon=\\"fa fa-plus\\" size=\\"lg\\" color=\\"primary\\" action={{...}} tag=\\"button\\" onClick={[Function: onClick]} />
+                      <SimpleButton hint=\\"Всплывающая подсказка\\" visible={true} rounded={true} disabled={false} icon=\\"fa fa-minus\\" size=\\"lg\\" color=\\"primary\\" action={{...}} tag=\\"button\\" onClick={[Function: onClick]} />
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Кнопки/SimpleButton В Toolbar: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\buttons\\Simple\\__snapshots__\\Simple.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Кнопки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        SimpleButton
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        В Toolbar
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div className=\\"d-flex flex-wrap\\">
+                      <Toolbar toolbar={{...}} entityKey=\\"metaBtns\\" onClick={[Function: onClick]} />
+                      <Toolbar toolbar={{...}} entityKey=\\"metaBtns\\" onClick={[Function: onClick]} />
+                      <Toolbar toolbar={{...}} entityKey=\\"metaBtns\\" onClick={[Function: onClick]} />
                     </div>
                   </Story>
                   <withContext(Connect(OverlayPages)) />
@@ -35046,6 +35632,293 @@ exports[`Storyshots Контролы/OutputText Компонент: D:\\Projects
 </div>"
 `;
 
+exports[`Storyshots Контролы/ProgressControl multi: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\ProgressControl\\__snapshots__\\ProgressControl.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ProgressControl
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        multi
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n     Компонент ProgressControl мультирежим\\\\n      ~~~js\\\\n      import ProgressControl from \\\\'n2o-framework/lib/components/snippets/ProgressControl/ProgressControl\\\\';\\\\n      \\\\n      <ProgressControl\\\\n        src=Progress\\\\n        multi=true,\\\\n        max=100,\\\\n        className=progress-control-container,\\\\n        barClassName=progress-control\\",\\\\n        bars=[\\\\n          {\\\\n            \\"id\\": \\"progress1\\",\\\\n            \\"bar\\": true,\\\\n            \\"animated\\": true,\\\\n            \\"barText\\": \\"success 25%\\",\\\\n            \\"color\\": \\"success\\"\\\\n          },\\\\n          {\\\\n            \\"id\\": \\"progress2\\",\\\\n            \\"bar\\": true,\\\\n            \\"animated\\": false,\\\\n            \\"striped\\": true,\\\\n            \\"barText\\": \\"info 25%\\",\\\\n            \\"color\\": \\"info\\"\\\\n          }\\\\n          ,\\\\n          {\\\\n            \\"id\\": \\"progress3\\",\\\\n            \\"bar\\": true,\\\\n            \\"animated\\": false,\\\\n            \\"barText\\": \\"danger 25%\\",\\\\n            \\"color\\": \\"danger\\"\\\\n          }\\\\n          ,\\\\n          {\\\\n            \\"id\\": \\"progress4\\",\\\\n            \\"bar\\": true,\\\\n            \\"animated\\": false,\\\\n            \\"barText\\": \\"warning 25%\\",\\\\n            \\"color\\": \\"warning\\"\\\\n          }\\\\n        ]\\\\n        value={\\\\n            \\"progress1\\": 25,\\\\n            \\"progress2\\": 25,\\\\n            \\"progress3\\": 25,\\\\n            \\"progress4\\": 25\\\\n        }\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <ProgressControl src=\\"Progress\\" multi={true} max={100} className=\\"progress-control-container\\" barClassName=\\"progress-control\\" bars={{...}} value={{...}} animated={false} striped={false} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/ProgressControl Анимация: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\ProgressControl\\__snapshots__\\ProgressControl.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ProgressControl
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Анимация
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n     Компонент ProgressControl animated\\\\n      ~~~js\\\\n      import ProgressControl from \\\\'n2o-framework/lib/components/snippets/ProgressControl/ProgressControl\\\\';\\\\n      \\\\n      <ProgressControl\\\\n        src=Progress\\\\n        barText=barText\\\\n        multi=false,\\\\n        value=50,\\\\n        max=100,\\\\n        animated=true,\\\\n        striped=false,\\\\n        color=success,\\\\n        className=progress-control-container,\\\\n        barClassName=progress-control\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <ProgressControl src=\\"Progress\\" barText=\\"Label\\" multi={false} value={50} max={100} animated={true} striped={false} color=\\"success\\" className=\\"progress-control-container\\" barClassName=\\"progress-control\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/ProgressControl Компонент: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\ProgressControl\\__snapshots__\\ProgressControl.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ProgressControl
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n     Компонент ProgressControl\\\\n      ~~~js\\\\n      import ProgressControl from \\\\'n2o-framework/lib/components/snippets/ProgressControl/ProgressControl\\\\';\\\\n      \\\\n      <ProgressControl/>\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <ProgressControl multi={false} animated={false} striped={false} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/ProgressControl Максимальный прогресс 150: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\ProgressControl\\__snapshots__\\ProgressControl.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ProgressControl
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Максимальный прогресс 150
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n     Компонент ProgressControl максимальный прогресс 150\\\\n      ~~~js\\\\n      import ProgressControl from \\\\'n2o-framework/lib/components/snippets/ProgressControl/ProgressControl\\\\';\\\\n      \\\\n      <ProgressControl\\\\n        src=Progress\\\\n        multi=true,\\\\n        max=150,\\\\n        className=progress-control-container,\\\\n        barClassName=progress-control\\",\\\\n        bars=[\\\\n          {\\\\n            \\"id\\": \\"progress1\\",\\\\n            \\"bar\\": true,\\\\n            \\"animated\\": true,\\\\n            \\"barText\\": \\"success 25%\\",\\\\n            \\"color\\": \\"success\\"\\\\n          },\\\\n          {\\\\n            \\"id\\": \\"progress2\\",\\\\n            \\"bar\\": true,\\\\n            \\"animated\\": false,\\\\n            \\"striped\\": true,\\\\n            \\"barText\\": \\"info 25%\\",\\\\n            \\"color\\": \\"info\\"\\\\n          }\\\\n          ,\\\\n          {\\\\n            \\"id\\": \\"progress3\\",\\\\n            \\"bar\\": true,\\\\n            \\"animated\\": false,\\\\n            \\"barText\\": \\"danger 25%\\",\\\\n            \\"color\\": \\"danger\\"\\\\n          }\\\\n          ,\\\\n          {\\\\n            \\"id\\": \\"progress4\\",\\\\n            \\"bar\\": true,\\\\n            \\"animated\\": false,\\\\n            \\"barText\\": \\"warning 25%\\",\\\\n            \\"color\\": \\"warning\\"\\\\n          }\\\\n        ]\\\\n        value={\\\\n            \\"progress1\\": 25,\\\\n            \\"progress2\\": 25,\\\\n            \\"progress3\\": 25,\\\\n            \\"progress4\\": 25\\\\n        }\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <ProgressControl src=\\"Progress\\" multi={true} max={150} className=\\"progress-control-container\\" barClassName=\\"progress-control\\" bars={{...}} value={{...}} animated={false} striped={false} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/ProgressControl Метаданные: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\ProgressControl\\__snapshots__\\ProgressControl.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ProgressControl
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Метаданные
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n     Компонент ProgressControl метаданные\\\\n      ~~~js\\\\n      import ProgressControl from \\\\'n2o-framework/lib/components/snippets/ProgressControl/ProgressControl\\\\';\\\\n      \\\\n      <ProgressControl\\\\n        src=Progress\\\\n        barText=barText\\\\n        multi=false,\\\\n        value=50,\\\\n        max=100,\\\\n        animated=false,\\\\n        striped=false,\\\\n        color=success,\\\\n        className=progress-control-container,\\\\n        barClassName=progress-control\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <ProgressControl src=\\"Progress\\" barText=\\"Label\\" multi={false} value={50} max={100} animated={false} striped={false} color=\\"success\\" className=\\"progress-control-container\\" barClassName=\\"progress-control\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/ProgressControl Полоски без анимации: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\ProgressControl\\__snapshots__\\ProgressControl.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ProgressControl
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Полоски без анимации
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n     Компонент ProgressControl полоски\\\\n      ~~~js\\\\n      import ProgressControl from \\\\'n2o-framework/lib/components/snippets/ProgressControl/ProgressControl\\\\';\\\\n      \\\\n      <ProgressControl\\\\n        src=Progress\\\\n        barText=barText\\\\n        multi=false,\\\\n        value=50,\\\\n        max=100,\\\\n        animated=false,\\\\n        striped=true,\\\\n        color=success,\\\\n        className=progress-control-container,\\\\n        barClassName=progress-control\\\\n      />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <ProgressControl src=\\"Progress\\" barText=\\"Label\\" multi={false} value={50} max={100} animated={false} striped={true} color=\\"success\\" className=\\"progress-control-container\\" barClassName=\\"progress-control\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/RightPlaceholder Компонент: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\__snapshots__\\withRightPlaceholder.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        RightPlaceholder
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n    Компонент-обертка \\\\'withRightPlaceholder\\\\'\\\\n    ~~~js\\\\n    \\\\n    <Input\\\\n        {...props}\\\\n        measure:=\\"руб\\"\\\\n     />\\\\n    ~~~\\\\n    \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div className=\\"d-flex flex-column\\">
+                      <div className=\\"m-2\\">
+                        InputMask
+                        <Component mask=\\"9999\\" className=\\"\\" preset=\\"none\\" placeholder=\\"Введите что-нибудь...\\" placeholderChar=\\"_\\" value={1234} guide={false} keepCharPosition={true} resetOnNotValid={true} measure=\\"км\\" />
+                      </div>
+                      <div className=\\"m-2\\">
+                        InputNumber
+                        <Component value={{...}} visible={true} step=\\"0.1\\" min={-0.5} max={1.5} showButtons={true} disabled={false} measure=\\"см\\" />
+                      </div>
+                      <div className=\\"m-2\\">
+                        InputText
+                        <Component value=\\"text\\" measure=\\"текст\\" />
+                      </div>
+                      <div className=\\"m-2\\">
+                        TextArea
+                        <Component placeholder=\\"Введите значение\\" disabled={false} rows={5} maxRows={10} measure=\\"много текста\\" />
+                      </div>
+                      <div className=\\"m-2\\">
+                        InputMoney
+                        <InputMoney className=\\"n2o\\" preset=\\"money\\" dictionary={{...}} guide={true} keepCharPositions={false} resetOnNotValid={true} prefix=\\"\\" suffix=\\" руб.\\" thousandsSeparatorSymbol=\\" \\" decimalSymbol=\\",\\" integerLimit={{...}} measure=\\"руб\\" value=\\"\\" includeThousandsSeparator={true} allowDecimal={true} decimalLimit={2} allowNegative={false} allowLeadingZeroes={false} />
+                      </div>
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Контролы/Ввод денег Включенные копейки: C:\\Users\\serge\\projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\InputMoney\\__snapshots__\\InputMoney.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -39494,6 +40367,44 @@ exports[`Storyshots Контролы/Выпадающий список Мета�
 </div>"
 `;
 
+exports[`Storyshots Контролы/Выпадающий список Отображение выбранных элементов в виде счетчика: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\N2OSelect\\__snapshots__\\N2OSelectContainer.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Выпадающий список
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Отображение выбранных элементов в виде счетчика
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Connect(WithFetchData) loading={false} disabled={false} placeholder=\\"Введите значение\\" valueFieldId=\\"id\\" labelFieldId=\\"id\\" iconFieldId=\\"icon\\" imageFieldId=\\"image\\" groupFieldId=\\"\\" filter=\\"server\\" resetOnBlur={false} size={50} hasCheckboxes={false} closePopupOnSelect={false} format=\\"\\" cleanable={true} searchByTap={true} hasSearch={true} dataProvider={{...}} type=\\"checkboxes\\" selectFormatOne=\\"{size} машина\\" selectFormatFew=\\"{size} машины\\" selectFormatMany=\\"{size} машин\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Контролы/Выпадающий список Расширяемый popUp: C:\\Users\\serge\\projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\N2OSelect\\__snapshots__\\N2OSelectContainer.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -42324,6 +43235,44 @@ exports[`Storyshots Контролы/Интервал дат Max: C:\\Users\\ser
 </div>"
 `;
 
+exports[`Storyshots Контролы/Интервал дат Max: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\DatePicker\\__snapshots__\\DateInterval.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Интервал дат
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Max
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Контролы/Интервал дат Min/Max: C:\\Users\\serge\\projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\DatePicker\\__snapshots__\\DateInterval.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -42477,6 +43426,44 @@ exports[`Storyshots Контролы/Интервал дат Min/Max: D:\\Projec
 `;
 
 exports[`Storyshots Контролы/Интервал дат Min: C:\\Users\\serge\\projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\controls\\DatePicker\\__snapshots__\\DateInterval.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Контролы
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Интервал дат
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Min
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Factory level=\\"widgets\\" src=\\"FormWidget\\" form={{...}} id=\\"Page_Form\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Контролы/Интервал дат Min: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\controls\\DatePicker\\__snapshots__\\DateInterval.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
     <ol className=\\"breadcrumb\\">
@@ -57484,6 +58471,44 @@ exports[`Storyshots Функциональность/Хлебные крошки
 </div>"
 `;
 
+exports[`Storyshots Функциональность/Хлебные крошки без props path: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\core\\Breadcrumb\\__snapshots__\\Breadcrumb.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Функциональность
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Хлебные крошки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        без props path
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <DefaultBreadcrumb items={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Ячейки/ButtonsCell Метаданные: C:\\Users\\serge\\projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ButtonsCell\\__snapshots__\\ButtonsCell.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -58176,6 +59201,401 @@ exports[`Storyshots Ячейки/CollapsedCell Метаданные: D:\\Project
 </div>"
 `;
 
+exports[`Storyshots Ячейки/CollapsedCell С тултипом: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\CollapsedCell\\__snapshots__\\CollapsedCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        CollapsedCell
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        С тултипом
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/ListTextCell LabelDashed: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ListTextCell\\__snapshots__\\ListTextCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ListTextCell
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        LabelDashed
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import ListTextCell from \\\\'n2o-framework/lib/components/widgets/Table/cells/ListTextCell/ListTextCell\\\\';\\\\n      \\\\n      <ListTextCell\\\\n        id=\\"id компонента\\"\\\\n        src=\\"src копонента\\"\\\\n        label=\\"{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом\\"\\\\n        fieldKey=\\"Ключ по которому берутся данные из model\\"\\\\n        trigger=\\"hover или click, default=hover\\"\\\\n        labelDashed=\\"флаг underline dashed для label, default=false\\"\\\\n        placement=\\"позиция tooltip (bottom, right, top, left) default=bottom\\"\\\\n        theme=\\"light или dark(default)\\"\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <ListTextCell id=\\"someId\\" src=\\"ListTextCell\\" fieldKey=\\"test\\" label=\\"Объектов {size} шт\\" placement=\\"bottom\\" labelDashed={true} model={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/ListTextCell hover или click: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ListTextCell\\__snapshots__\\ListTextCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ListTextCell
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        hover или click
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import ListTextCell from \\\\'n2o-framework/lib/components/widgets/Table/cells/ListTextCell/ListTextCell\\\\';\\\\n      \\\\n      <ListTextCell\\\\n        id=\\"id компонента\\"\\\\n        src=\\"src копонента\\"\\\\n        label=\\"{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом\\"\\\\n        fieldKey=\\"Ключ по которому берутся данные из model\\"\\\\n        trigger=\\"hover или click, default=hover\\"\\\\n        labelDashed=\\"флаг underline dashed для label, default=false\\"\\\\n        placement=\\"позиция tooltip (bottom, right, top, left) default=bottom\\"\\\\n        theme=\\"light или dark(default)\\"\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div style={{...}}>
+                      <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                      <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/ListTextCell light theme: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ListTextCell\\__snapshots__\\ListTextCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ListTextCell
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        light theme
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import ListTextCell from \\\\'n2o-framework/lib/components/widgets/Table/cells/ListTextCell/ListTextCell\\\\';\\\\n      \\\\n      <ListTextCell\\\\n        id=\\"id компонента\\"\\\\n        src=\\"src копонента\\"\\\\n        label=\\"{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом\\"\\\\n        fieldKey=\\"Ключ по которому берутся данные из model\\"\\\\n        trigger=\\"hover или click, default=hover\\"\\\\n        labelDashed=\\"флаг underline dashed для label, default=false\\"\\\\n        placement=\\"позиция tooltip (bottom, right, top, left) default=bottom\\"\\\\n        theme=\\"light или dark(default)\\"\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <ListTextCell id=\\"testId\\" label=\\"Объектов {size} шт\\" fieldKey=\\"test\\" model={{...}} theme=\\"light\\" />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/ListTextCell placement light theme: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ListTextCell\\__snapshots__\\ListTextCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ListTextCell
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        placement light theme
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import ListTextCell from \\\\'n2o-framework/lib/components/widgets/Table/cells/ListTextCell/ListTextCell\\\\';\\\\n      \\\\n      <ListTextCell\\\\n        id=\\"id компонента\\"\\\\n        src=\\"src копонента\\"\\\\n        label=\\"{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом\\"\\\\n        fieldKey=\\"Ключ по которому берутся данные из model\\"\\\\n        trigger=\\"hover или click, default=hover\\"\\\\n        labelDashed=\\"флаг underline dashed для label, default=false\\"\\\\n        placement=\\"позиция tooltip (bottom, right, top, left) default=bottom\\"\\\\n        theme=\\"light или dark(default)\\"\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div style={{...}}>
+                      <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                      <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                      <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                      <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/ListTextCell placement: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ListTextCell\\__snapshots__\\ListTextCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ListTextCell
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        placement
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import ListTextCell from \\\\'n2o-framework/lib/components/widgets/Table/cells/ListTextCell/ListTextCell\\\\';\\\\n      \\\\n      <ListTextCell\\\\n        id=\\"id компонента\\"\\\\n        src=\\"src копонента\\"\\\\n        label=\\"{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом\\"\\\\n        fieldKey=\\"Ключ по которому берутся данные из model\\"\\\\n        trigger=\\"hover или click, default=hover\\"\\\\n        labelDashed=\\"флаг underline dashed для label, default=false\\"\\\\n        placement=\\"позиция tooltip (bottom, right, top, left) default=bottom\\"\\\\n        theme=\\"light или dark(default)\\"\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <div style={{...}}>
+                      <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                      <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                      <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                      <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                    </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/ListTextCell replace placeholder: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ListTextCell\\__snapshots__\\ListTextCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ListTextCell
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        replace placeholder
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import ListTextCell from \\\\'n2o-framework/lib/components/widgets/Table/cells/ListTextCell/ListTextCell\\\\';\\\\n      \\\\n      <ListTextCell\\\\n        id=\\"id компонента\\"\\\\n        src=\\"src копонента\\"\\\\n        label=\\"{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом\\"\\\\n        fieldKey=\\"Ключ по которому берутся данные из model\\"\\\\n        trigger=\\"hover или click, default=hover\\"\\\\n        labelDashed=\\"флаг underline dashed для label, default=false\\"\\\\n        placement=\\"позиция tooltip (bottom, right, top, left) default=bottom\\"\\\\n        theme=\\"light или dark(default)\\"\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <ListTextCell id=\\"someId\\" src=\\"ListTextCell\\" fieldKey=\\"test\\" label=\\"в листе {size} объекта\\" placement=\\"bottom\\" model={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/ListTextCell Компонент: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ListTextCell\\__snapshots__\\ListTextCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ListTextCell
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import ListTextCell from \\\\'n2o-framework/lib/components/widgets/Table/cells/ListTextCell/ListTextCell\\\\';\\\\n      \\\\n      <ListTextCell\\\\n        id=\\"id компонента\\"\\\\n        src=\\"src копонента\\"\\\\n        label=\\"{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом\\"\\\\n        fieldKey=\\"Ключ по которому берутся данные из model\\"\\\\n        trigger=\\"hover или click, default=hover\\"\\\\n        labelDashed=\\"флаг underline dashed для label, default=false\\"\\\\n        placement=\\"позиция tooltip (bottom, right, top, left) default=bottom\\"\\\\n        theme=\\"light или dark(default)\\"\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <ListTextCell id=\\"testId\\" label=\\"Объектов {size} шт\\" fieldKey=\\"test\\" model={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/ListTextCell Метаданные: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ListTextCell\\__snapshots__\\ListTextCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ListTextCell
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Метаданные
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import ListTextCell from \\\\'n2o-framework/lib/components/widgets/Table/cells/ListTextCell/ListTextCell\\\\';\\\\n      \\\\n      <ListTextCell\\\\n        id=\\"id компонента\\"\\\\n        src=\\"src копонента\\"\\\\n        label=\\"{size} объектов, текст с плейсхолдером. {size} - длина массива. Если {size} нет, то длина вставиться перед словом\\"\\\\n        fieldKey=\\"Ключ по которому берутся данные из model\\"\\\\n        trigger=\\"hover или click, default=hover\\"\\\\n        labelDashed=\\"флаг underline dashed для label, default=false\\"\\\\n        placement=\\"позиция tooltip (bottom, right, top, left) default=bottom\\"\\\\n        theme=\\"light или dark(default)\\"\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/ListTextCell Склонение: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ListTextCell\\__snapshots__\\ListTextCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        ListTextCell
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Склонение
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <ListTextCell id=\\"nounId\\" label=\\"Объектов {size} шт\\" oneLabel=\\"{size} объект\\" fewLabel=\\"{size} объекта\\" manyLabel=\\"{size} объектов\\" fieldKey=\\"test\\" model={{...}} />
+                    <ListTextCell id=\\"nounId\\" label=\\"Объектов {size} шт\\" oneLabel=\\"{size} объект\\" fewLabel=\\"{size} объекта\\" manyLabel=\\"{size} объектов\\" fieldKey=\\"test\\" model={{...}} />
+                    <ListTextCell id=\\"nounId\\" label=\\"Объектов {size} шт\\" oneLabel=\\"{size} объект\\" fewLabel=\\"{size} объекта\\" manyLabel=\\"{size} объектов\\" fieldKey=\\"test\\" model={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Ячейки/Изображение Вызов действия при клике на картинку: C:\\Users\\serge\\projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ImageCell\\__snapshots__\\ImageCell.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -58606,6 +60026,82 @@ exports[`Storyshots Ячейки/Изображение Метаданные: D:
       </li>
       <li className=\\"breadcrumb-item active\\">
         Метаданные
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/Изображение С тултипом: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ImageCell\\__snapshots__\\ImageCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Изображение
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        С тултипом
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/Иконки Компонент c тултипом: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\IconCell\\__snapshots__\\IconCellTypes.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Иконки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент c тултипом
       </li>
     </ol>
   </nav>
@@ -59392,6 +60888,44 @@ exports[`Storyshots Ячейки/Индикатор Размеры: D:\\Projects
 </div>"
 `;
 
+exports[`Storyshots Ячейки/Индикатор С тултипом: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ProgressBarCell\\__snapshots__\\ProgressBarCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Индикатор
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        С тултипом
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Ячейки/Индикатор Цвета: C:\\Users\\serge\\projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\ProgressBarCell\\__snapshots__\\ProgressBarColors.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -59696,6 +61230,120 @@ exports[`Storyshots Ячейки/Индикатор Штриховка: D:\\Proj
 </div>"
 `;
 
+exports[`Storyshots Ячейки/Переключаемая ячейка switchDefault: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\SwitchCell\\__snapshots__\\SwitchCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Переключаемая ячейка
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        switchDefault
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import SwitchCell from \\\\'n2o-framework/lib/components/widgets/Table/cells/SwitchCell/SwitchCell\\\\';\\\\n      <SwitchCell\\\\n        props=\\"метаданные\\"\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <SwitchCell src=\\"SwitchCell\\" switchFieldId=\\"TextCell\\" switchList={{...}} switchDefault={{...}} model={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/Переключаемая ячейка Компонент: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\SwitchCell\\__snapshots__\\SwitchCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Переключаемая ячейка
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import SwitchCell from \\\\'n2o-framework/lib/components/widgets/Table/cells/SwitchCell/SwitchCell\\\\';\\\\n      <SwitchCell\\\\n        props=\\"метаданные\\"\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <SwitchCell src=\\"SwitchCell\\" switchFieldId=\\"TextCell\\" switchList={{...}} switchDefault={{...}} model={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/Переключаемая ячейка Метаданные: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\SwitchCell\\__snapshots__\\SwitchCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Переключаемая ячейка
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Метаданные
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\\\n      ~~~js\\\\n      import SwitchCell from \\\\'n2o-framework/lib/components/widgets/Table/cells/SwitchCell/SwitchCell\\\\';\\\\n      <SwitchCell\\\\n        props=\\"метаданные\\"\\\\n       />\\\\n      ~~~\\\\n      \\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <SwitchCell src=\\"SwitchCell\\" switchFieldId=\\"LinkCell\\" switchList={{...}} switchDefault={{...}} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Ячейки/Рейтинг Компонент: C:\\Users\\serge\\projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\RatingCell\\__snapshots__\\RatingCell.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -59974,6 +61622,44 @@ exports[`Storyshots Ячейки/Ссылка LinkCell с action: D:\\Projects\\
       </li>
       <li className=\\"breadcrumb-item active\\">
         LinkCell с action
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/Ссылка LinkCell с иконкой и тултипом: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\LinkCell\\__snapshots__\\LinkCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Ссылка
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        LinkCell с иконкой и тултипом
       </li>
     </ol>
   </nav>
@@ -60696,6 +62382,44 @@ exports[`Storyshots Ячейки/Статус Компонент: C:\\Users\\sli
 </div>"
 `;
 
+exports[`Storyshots Ячейки/Статус Компонент: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\StatusCell\\__snapshots__\\StatusCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Статус
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
 exports[`Storyshots Ячейки/Статус Компонент: D:\\Projects\\n2o-framework\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\StatusCell\\__snapshots__\\StatusCell.story.storyshot 1`] = `
 "<div style={{...}}>
   <nav aria-label=\\"breadcrumb\\">
@@ -60708,6 +62432,82 @@ exports[`Storyshots Ячейки/Статус Компонент: D:\\Projects\\
       </li>
       <li className=\\"breadcrumb-item active\\">
         Компонент
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/Статус С тултипом: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\StatusCell\\__snapshots__\\StatusCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Статус
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        С тултипом
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/Форматирование текста withTooltip: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\TextCell\\__snapshots__\\TextCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Форматирование текста
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        withTooltip
       </li>
     </ol>
   </nav>
@@ -61541,6 +63341,44 @@ exports[`Storyshots Ячейки/Ярлыки Примеры: D:\\Projects\\n2o-
                       </h6>
                       <Table cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
                     </div>
+                  </Story>
+                  <withContext(Connect(OverlayPages)) />
+                </div>
+              </Connect(ConnectedRouter)>
+            </FactoryProvider>
+          </withContext(SecurityProvider)>
+        </Provider>
+      </IntlProvider>
+    </CardBody>
+  </Card>
+</div>"
+`;
+
+exports[`Storyshots Ячейки/Ярлыки С тултипом: C:\\Users\\sliskov\\Projects\\n2o-new\\frontend\\n2o-framework\\src\\components\\widgets\\Table\\cells\\BadgeCell\\__snapshots__\\BadgeCell.story.storyshot 1`] = `
+"<div style={{...}}>
+  <nav aria-label=\\"breadcrumb\\">
+    <ol className=\\"breadcrumb\\">
+      <li className=\\"breadcrumb-item active\\">
+        Ячейки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        Ярлыки
+      </li>
+      <li className=\\"breadcrumb-item active\\">
+        С тултипом
+      </li>
+    </ol>
+  </nav>
+  <Card style={{...}} tag=\\"div\\">
+    <CardBody style={{...}} tag=\\"div\\">
+      <IntlProvider locale=\\"ru\\" messages={{...}}>
+        <Provider store={{...}}>
+          <withContext(SecurityProvider) authProvider={[Function: _default]} redirectPath=\\"/login\\">
+            <FactoryProvider config={{...}} securityBlackList={{...}}>
+              <Connect(ConnectedRouter) history={{...}}>
+                <div>
+                  <Story info=\\"\\" context={{...}} showInline={true} showHeader={true} showSource={false} styles={[Function]} propTables={{...}} propTablesExclude={{...}} PropTable={[Function: TableComponent]} components={{...}} maxPropObjectKeys={3} maxPropArrayLength={3} maxPropsIntoLine={3} maxPropStringLength={50} excludedPropTypes={{...}}>
+                    <Table headers={{...}} cells={{...}} datasource={{...}} sorting={{...}} onResolve={[Function: onResolve]} redux={true} onRowClickAction={[Function: onRowClickAction]} />
                   </Story>
                   <withContext(Connect(OverlayPages)) />
                 </div>

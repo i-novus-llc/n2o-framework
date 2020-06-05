@@ -82,7 +82,7 @@ class StandardField extends React.Component {
       colLength,
       help,
       toolbar,
-      containerKey,
+      form,
       ...props
     } = this.props;
 
@@ -162,7 +162,7 @@ class StandardField extends React.Component {
                 <Toolbar
                   className="n2o-page-actions__form-toolbar"
                   toolbar={toolbar}
-                  entityKey={containerKey}
+                  entityKey={form}
                 />
               )}
               <Measure value={measure} />

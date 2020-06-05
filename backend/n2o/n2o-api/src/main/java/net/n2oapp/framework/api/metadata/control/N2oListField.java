@@ -35,6 +35,7 @@ public abstract class N2oListField extends N2oStandardField {
     private String detailFieldId;
     private String format;
     private Map<String, String> defValue;
+    private String enabledFieldId;
 
     public abstract boolean isSingle();
 
