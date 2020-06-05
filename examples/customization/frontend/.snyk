@@ -1,0 +1,28 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - http-proxy-middleware > lodash:
+        patched: '2020-06-05T06:13:50.779Z'
+    - react-cosmos > lodash:
+        patched: '2020-06-05T06:13:50.779Z'
+    - react-cosmos > http-proxy-middleware > lodash:
+        patched: '2020-06-05T06:13:50.779Z'
+    - react-cosmos > react-cosmos-shared2 > lodash:
+        patched: '2020-06-05T06:13:50.779Z'
+    - react-cosmos > react-cosmos-fixture > lodash:
+        patched: '2020-06-05T06:13:50.779Z'
+    - node-sass > gaze > globule > lodash:
+        patched: '2020-06-05T06:13:50.779Z'
+    - react-cosmos > react-cosmos-fixture > react-cosmos-shared2 > lodash:
+        patched: '2020-06-05T06:13:50.779Z'
+    - react-cosmos > react-dev-utils > inquirer > lodash:
+        patched: '2020-06-05T06:13:50.779Z'
+    - node-sass > sass-graph > lodash:
+        patched: '2020-06-05T06:13:50.779Z'
+    - react-cosmos > react-cosmos-voyager2 > babel-types > lodash:
+        patched: '2020-06-05T06:13:50.779Z'
+    - react-cosmos > react-cosmos-loader > react-cosmos-voyager2 > babel-types > lodash:
+        patched: '2020-06-05T06:13:50.779Z'
