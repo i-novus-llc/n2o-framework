@@ -27,10 +27,20 @@ import {
   requiredSelector,
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
+import {
+  compose,
+  pure,
+  withProps,
+  defaultProps,
+  withHandlers,
+  shouldUpdate,
+  mapProps,
+  branch,
+} from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
 import withAutoSave from './withAutoSave';
 
-const INDEX_PLACEHOLDER = '#index';
+const INDEX_PLACEHOLDER = 'index';
 
 /**
  * HOC обертка для полей, в которой содержится мэппинг свойств редакса и регистрация дополнительных свойств полей
@@ -216,6 +226,18 @@ export default Field => {
       mapStateToProps,
       mapDispatchToProps
     ),
+    mapProps(({ model, parentIndex, parentName, ...props }) => {
+      return {
+        ...props,
+        parentIndex,
+        model: !isNil(parentName)
+          ? {
+              ...get(model, parentName),
+              index: parentIndex,
+            }
+          : model,
+      };
+    }),
     branch(({ dataProvider }) => dataProvider, withAutoSave),
     shouldUpdate(
       (props, nextProps) =>
@@ -225,6 +247,7 @@ export default Field => {
         props.disabled !== nextProps.disabled ||
         props.message !== nextProps.message ||
         props.required !== nextProps.required ||
+        props.loading !== nextProps.loading ||
         get(props, 'input.value', null) !== get(nextProps, 'input.value', null)
     ),
     withProps(props => ({

@@ -2,12 +2,12 @@ package net.n2oapp.framework.config.io.control;
 
 import net.n2oapp.framework.api.metadata.control.interval.N2oDateInterval;
 import net.n2oapp.framework.api.pack.XmlIOBuilder;
-import net.n2oapp.framework.config.io.control.interval.IntervalFieldIOv2;
+import net.n2oapp.framework.config.io.control.interval.BaseIntervalFieldIOv2;
 import net.n2oapp.framework.config.test.XmlIOTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-public class N2oIntervalFieldXmlIOTest extends XmlIOTestBase {
+public class N2OBaseIntervalFieldXmlIOTest extends XmlIOTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -16,7 +16,7 @@ public class N2oIntervalFieldXmlIOTest extends XmlIOTestBase {
 
     @Override
     protected void configure(XmlIOBuilder<?> b) {
-        b.ios(new IntervalFieldIOv2() {
+        b.ios(new BaseIntervalFieldIOv2() {
 
             @Override
             public String getElementName() {

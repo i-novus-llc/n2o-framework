@@ -63,7 +63,7 @@ public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2
     }
 
     @Override
-    protected void compileParams(DateInterval control, N2oDateInterval source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
+    protected void compileParams(StandardField<DateInterval>  control, N2oDateInterval source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
         if (source.getBeginParam() != null || source.getEndParam() != null) {
             ModelsScope modelsScope = p.getScope(ModelsScope.class);
             if (modelsScope != null) {
