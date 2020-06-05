@@ -18,8 +18,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class InputSelectCompileTest extends SourceCompileTestBase {
@@ -68,6 +67,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         inputSelect = (InputSelect) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(inputSelect.getDataProvider().getQuickSearchParam(), is("name"));
+        assertThat(inputSelect.getStatusFieldId(), nullValue());
 
         assertThat(cdp.getUrl(), is("n2o/data/test"));
         assertThat(cdp.getQuickSearchParam(), is("search"));

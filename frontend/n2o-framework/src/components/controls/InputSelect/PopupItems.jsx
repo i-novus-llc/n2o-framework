@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import isNil from 'lodash/isNil';
+import isUndefined from 'lodash/isUndefined';
 
 import Badge from 'reactstrap/lib/Badge';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
@@ -15,6 +15,7 @@ import cx from 'classnames';
 import { findDOMNode } from 'react-dom';
 
 import { groupData, inArray, isDisabled } from './utils';
+import StatusText from '../../snippets/StatusText/StatusText';
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -48,6 +49,8 @@ function PopupItems({
   iconFieldId,
   valueFieldId,
   imageFieldId,
+  descriptionFieldId,
+  statusFieldId,
   enabledFieldId,
   disabledValues,
   selected,
@@ -76,8 +79,19 @@ function PopupItems({
     inArray(selected, item) ? onRemoveItem(item) : onSelect(item);
   };
 
+  const withStatus = item => !isNil(item[statusFieldId]);
+
   const displayTitle = item => {
     if (format) return propsResolver({ format }, item).format;
+    if (withStatus(item)) {
+      return (
+        <StatusText
+          text={item[labelFieldId]}
+          color={item[statusFieldId]}
+          textPosition={'left'}
+        />
+      );
+    }
     return item[labelFieldId];
   };
 
@@ -94,6 +108,7 @@ function PopupItems({
       <DropdownItem
         className={cx('n2o-eclipse-content', {
           active: activeValueId === item[valueFieldId],
+          'n2o-eclipse-content__with-status': withStatus(item),
         })}
         onMouseOver={() =>
           setActiveValueId && setActiveValueId(item[valueFieldId])
@@ -109,6 +124,21 @@ function PopupItems({
         {imageFieldId && renderImage(item, imageFieldId)}
         {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
         {badgeFieldId && renderBadge(item, badgeFieldId, badgeColorFieldId)}
+         {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
+                    <DropdownItem
+                      className={cx('n2o-eclipse-content__description', {
+                        'n2o-eclipse-content__description-with-icon':
+                          !hasCheckboxes && item[iconFieldId],
+                        'n2o-eclipse-content__description-with-checkbox':
+                          hasCheckboxes && !item[iconFieldId],
+                        'n2o-eclipse-content__description-with-icon-checkbox':
+                          hasCheckboxes && item[iconFieldId],
+                      })}
+                      header
+                    >
+                      {item[descriptionFieldId]}
+                    </DropdownItem>
+                  )}
       </DropdownItem>
     );
   };

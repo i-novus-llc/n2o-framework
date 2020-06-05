@@ -267,6 +267,11 @@
                         <xs:documentation>Поле выборки, отвечающее за иконку вариантов выбора</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="status-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор status поля.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="cache" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Кэшировать результаты выборки</xs:documentation>
@@ -1071,7 +1076,7 @@
                 <xs:annotation>
                     <xs:documentation>Компонент выбора из выпадающего списка.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="type" type="inputSelectType">
+                <xs:attribute name="type" type="inputSelectType" default="single">
                     <xs:annotation>
                         <xs:documentation>Тип выбора в выпадающем списке.</xs:documentation>
                     </xs:annotation>
@@ -1104,6 +1109,13 @@
                 <xs:attribute name="select-format-many" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Заголовок поля при большом числе элементов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="description-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля для отображения дополнительной информации в опциях выпадающего списка.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1170,6 +1182,13 @@
                 <xs:attribute name="reset-on-blur" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Стирание значения при потере фокуса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="description-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля для отображения дополнительной информации в опциях выпадающего списка.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

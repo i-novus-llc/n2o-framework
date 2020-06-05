@@ -1,30 +1,7 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
     <form>
         <fields>
-            <select id="select1" label="Select1">
-                <options>
-                    <option id="one" name="One"/>
-                    <option id="two" name="Two"/>
-                    <option id="three" name="Three"/>
-                </options>
-            </select>
-            <select id="select2" label="Select2" cleanable="false">
-                <options>
-                    <option id="one" name="One"/>
-                    <option id="two" name="Two"/>
-                    <option id="three" name="Three"/>
-                </options>
-            </select>
-
-            <select id="select3" label="Select3" type="checkboxes">
-                <options>
-                    <option id="one" name="One"/>
-                    <option id="two" name="Two"/>
-                    <option id="three" name="Three"/>
-                </options>
-            </select>
-
-            <select id="select4" label="Select4" type="checkboxes"
+            <select id="select1" label="Select1" type="checkboxes"
                     select-format-one="{size} объект" select-format-few="{size} объекта"
                     select-format-many="{size} объектов">
                 <options>
@@ -35,7 +12,7 @@
                     <option id="five" name="Five"/>
                 </options>
             </select>
-            <select id="select5" label="Select5" type="checkboxes"
+            <select id="select2" label="Select2" type="checkboxes"
                     select-format="Объектов {size} шт">
                 <options>
                     <option id="one" name="One"/>

@@ -23,4 +23,6 @@ public class Select extends ListControl {
     private String selectFormatFew;
     @JsonProperty
     private String selectFormatMany;
+    @JsonProperty
+    private String descriptionFieldId;
 }

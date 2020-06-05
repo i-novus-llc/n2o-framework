@@ -43,6 +43,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         listControl.setGroupFieldId(p.resolveJS(source.getGroupFieldId()));
         listControl.setHasSearch(source.getSearch());
+        listControl.setStatusFieldId(source.getStatusFieldId());
         if (source.getQueryId() != null)
             initDataProvider(listControl, source, context, p);
         else if (source.getOptions() != null) {
