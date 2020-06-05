@@ -1,0 +1,44 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - concurrently > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - http-proxy-middleware > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lint-staged > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - node-sass > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - node-sass > sass-graph > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/run > @lerna/command > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - node-sass > gaze > globule > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/publish > @lerna/version > @lerna/command > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/version > @lerna/conventional-commits > conventional-changelog-core > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/publish > @lerna/prompt > inquirer > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/version > @lerna/conventional-commits > conventional-changelog-core > conventional-changelog-writer > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/version > @lerna/conventional-commits > conventional-changelog-core > conventional-commits-parser > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/version > @lerna/conventional-commits > conventional-recommended-bump > conventional-commits-parser > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/publish > @lerna/version > @lerna/conventional-commits > conventional-changelog-core > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/publish > @lerna/otplease > @lerna/prompt > inquirer > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/publish > @lerna/version > @lerna/conventional-commits > conventional-changelog-core > conventional-changelog-writer > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/publish > @lerna/version > @lerna/conventional-commits > conventional-changelog-core > conventional-commits-parser > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/publish > @lerna/version > @lerna/conventional-commits > conventional-recommended-bump > conventional-commits-parser > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
+    - lerna > @lerna/publish > @lerna/npm-publish > @lerna/otplease > @lerna/prompt > inquirer > lodash:
+        patched: '2020-06-04T22:03:37.195Z'
