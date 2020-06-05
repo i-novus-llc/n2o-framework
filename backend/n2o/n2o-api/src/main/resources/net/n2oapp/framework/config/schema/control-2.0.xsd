@@ -1180,29 +1180,29 @@
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:sequence>
-                    <xs:element name="default-model" type="defaultModelDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="default-model" type="defaultModelDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="parent-field-id" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Идентификатор родительского поля.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="has-children-field-id" type="xs:string" use="optional">
+                <xs:attribute name="has-children-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Наличие дочерних элементов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="master-field-id" type="xs:string" use="optional">
+                <xs:attribute name="master-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор master поля.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="detail-field-id" type="xs:string" use="optional">
+                <xs:attribute name="detail-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор detail поля.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="value-field-id" type="xs:string" use="optional">
+                <xs:attribute name="value-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор узла дерева.</xs:documentation>
                     </xs:annotation>
@@ -1213,21 +1213,26 @@
                         <xs:documentation>Поддержка загрузки через ajax запрос.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false">
+                <xs:attribute name="checkboxes" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
                             Отображение чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="checking-strategy" type="checkingStrategyType" use="optional" default="all">
+                <xs:attribute name="checking-strategy" type="checkingStrategyType" default="all">
                     <xs:annotation>
                         <xs:documentation>Стратегия выбора данных из дерева.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="max-tag-count" type="xs:integer" use="optional">
+                <xs:attribute name="max-tag-count" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Максимальное количество элементов в поле.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная длина текста элемента (в режиме чекбоксов).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
