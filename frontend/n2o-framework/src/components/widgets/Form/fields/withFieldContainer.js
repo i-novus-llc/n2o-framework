@@ -7,6 +7,7 @@ import {
   defaultProps,
   withHandlers,
   shouldUpdate,
+  mapProps,
   branch,
 } from 'recompose';
 import { getFormValues } from 'redux-form';
@@ -27,16 +28,6 @@ import {
   requiredSelector,
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
-import {
-  compose,
-  pure,
-  withProps,
-  defaultProps,
-  withHandlers,
-  shouldUpdate,
-  mapProps,
-  branch,
-} from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
 import withAutoSave from './withAutoSave';
 
