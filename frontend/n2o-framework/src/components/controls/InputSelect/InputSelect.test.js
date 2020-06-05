@@ -17,6 +17,7 @@ const props = {
   placeholder: '',
   valueFieldId: 'id',
   labelFieldId: 'id',
+  statusFieldId: 'status',
   descriptionFieldId: 'desc',
   enabledFieldId: 'isDisabled',
   filter: 'includes',
@@ -35,6 +36,22 @@ const props = {
     },
   ],
 };
+
+const props4 = Object.assign({}, props, {
+  options: [
+    {
+      id: 123412,
+      icon: 'fa fa-square',
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
+      status: 'success',
+    },
+    {
+      id: '33',
+      icon: 'fa fa-square',
+      image: 'https://i.stack.imgur.com/2zqqC.jpg',
+    },
+  ],
+});
 
 const props2 = Object.assign({}, props, {
   options: [
@@ -402,6 +419,17 @@ describe('<InputSelect />', () => {
     expect(node.querySelector('.n2o-pop-up').style['min-width']).toEqual(
       '120px'
     );
+  });
+  it('Отрисовался status color = success, при statusFieldId', () => {
+    const wrapper = mount(<InputSelect {...props4} />);
+    wrapper
+      .find('InputSelect')
+      .last()
+      .setState({ isExpanded: true });
+    expect(
+      wrapper.find('.n2o-eclipse-content__with-status').exists()
+    ).toBeTruthy();
+    expect(wrapper.find('.bg-success').exists()).toBeTruthy();
   });
   it('Проверяет наличие описания при descriptionFieldId', () => {
     const wrapper = mount(<InputSelect {...props3} />);

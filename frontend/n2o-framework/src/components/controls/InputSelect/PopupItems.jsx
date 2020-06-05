@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import isUndefined from 'lodash/isUndefined';
+
 import Badge from 'reactstrap/lib/Badge';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
 import scrollIntoView from 'scroll-into-view-if-needed';
@@ -14,6 +15,7 @@ import cx from 'classnames';
 import { findDOMNode } from 'react-dom';
 
 import { groupData, inArray, isDisabled } from './utils';
+import StatusText from '../../snippets/StatusText/StatusText';
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -48,6 +50,7 @@ function PopupItems({
   valueFieldId,
   imageFieldId,
   descriptionFieldId,
+  statusFieldId,
   enabledFieldId,
   disabledValues,
   selected,
@@ -76,8 +79,19 @@ function PopupItems({
     inArray(selected, item) ? onRemoveItem(item) : onSelect(item);
   };
 
+  const withStatus = item => !isNil(item[statusFieldId]);
+
   const displayTitle = item => {
     if (format) return propsResolver({ format }, item).format;
+    if (withStatus(item)) {
+      return (
+        <StatusText
+          text={item[labelFieldId]}
+          color={item[statusFieldId]}
+          textPosition={'left'}
+        />
+      );
+    }
     return item[labelFieldId];
   };
 
@@ -94,6 +108,7 @@ function PopupItems({
       <DropdownItem
         className={cx('n2o-eclipse-content', {
           active: activeValueId === item[valueFieldId],
+          'n2o-eclipse-content__with-status': withStatus(item),
         })}
         onMouseOver={() =>
           setActiveValueId && setActiveValueId(item[valueFieldId])

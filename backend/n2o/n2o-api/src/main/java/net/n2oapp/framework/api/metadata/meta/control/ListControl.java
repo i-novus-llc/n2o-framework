@@ -45,6 +45,8 @@ public abstract class ListControl extends Control {
     private List<Map<String, Object>> data;
     @JsonProperty
     private WidgetDataProvider dataProvider;
+    @JsonProperty
+    private String statusFieldId;
 
     @Override
     public boolean containsHimself(DataSet dataSet) {

@@ -25,6 +25,7 @@ import { MODIFIERS } from '../DatePicker/utils';
  * @reactProps {string} imageFieldId - поле для картинки
  * @reactProps {string} badgeFieldId - поле для баджей
  * @reactProps {string} badgeColorFieldId - поле для цвета баджа
+ * @reactProps {string} statusFieldId - поле для статуса
  * @reactProps {string} descriptionFieldId - поле для описания
  * @reactProps {boolean} disabled - флаг неактивности
  * @reactProps {array} disabledValues - неактивные данные
@@ -61,6 +62,7 @@ class InputSelect extends React.Component {
       valueFieldId,
       enabledFieldId,
       labelFieldId,
+      statusFieldId,
       descriptionFieldId,
       multiSelect,
     } = this.props;
@@ -528,6 +530,7 @@ class InputSelect extends React.Component {
       hasCheckboxes,
       format,
       badgeFieldId,
+      statusFieldId,
       badgeColorFieldId,
       onScrollEnd,
       expandPopUp,
@@ -637,6 +640,7 @@ class InputSelect extends React.Component {
                     iconFieldId={iconFieldId}
                     imageFieldId={imageFieldId}
                     badgeFieldId={badgeFieldId}
+                    statusFieldId={statusFieldId}
                     descriptionFieldId={descriptionFieldId}
                     badgeColorFieldId={badgeColorFieldId}
                     onSelect={item => {
