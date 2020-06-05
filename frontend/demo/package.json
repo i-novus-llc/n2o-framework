@@ -6,7 +6,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@atlaskit/select": "^1.2.0",
@@ -23,7 +25,8 @@
     "react-widgets": "^4.2.2",
     "react-widgets-moment": "^4.0.9",
     "reactstrap": "^8.0.1",
-    "recharts": "^1.7.1"
+    "recharts": "^1.7.1",
+    "snyk": "^1.336.0"
   },
   "devDependencies": {
     "body-parser": "^1.19.0",
@@ -40,5 +43,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "snyk": true
 }
