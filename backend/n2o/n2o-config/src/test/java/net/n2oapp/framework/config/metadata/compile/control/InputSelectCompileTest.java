@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Models;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
@@ -63,6 +62,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(inputSelect.getBadgeFieldId(), is("badgeFieldId"));
         assertThat(inputSelect.getBadgeColorFieldId(), is("badgeColorFieldId"));
         assertThat(inputSelect.getClosePopupOnSelect(), is(false));
+        assertThat(inputSelect.getDescriptionFieldId(), is("descFieldId"));
         assertThat(inputSelect.getEnabledFieldId(), is("isEnabled"));
         WidgetDataProvider wdp = inputSelect.getDataProvider();
 

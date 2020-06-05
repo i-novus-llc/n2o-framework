@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import isNil from 'lodash/isNil';
-
+import isUndefined from 'lodash/isUndefined';
 import Badge from 'reactstrap/lib/Badge';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
 import scrollIntoView from 'scroll-into-view-if-needed';
@@ -48,6 +47,7 @@ function PopupItems({
   iconFieldId,
   valueFieldId,
   imageFieldId,
+  descriptionFieldId,
   enabledFieldId,
   disabledValues,
   selected,
@@ -109,6 +109,21 @@ function PopupItems({
         {imageFieldId && renderImage(item, imageFieldId)}
         {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
         {badgeFieldId && renderBadge(item, badgeFieldId, badgeColorFieldId)}
+         {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
+                    <DropdownItem
+                      className={cx('n2o-eclipse-content__description', {
+                        'n2o-eclipse-content__description-with-icon':
+                          !hasCheckboxes && item[iconFieldId],
+                        'n2o-eclipse-content__description-with-checkbox':
+                          hasCheckboxes && !item[iconFieldId],
+                        'n2o-eclipse-content__description-with-icon-checkbox':
+                          hasCheckboxes && item[iconFieldId],
+                      })}
+                      header
+                    >
+                      {item[descriptionFieldId]}
+                    </DropdownItem>
+                  )}
       </DropdownItem>
     );
   };
