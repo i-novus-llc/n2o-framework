@@ -1,21 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import isBoolean from 'lodash/isBoolean';
-import memoize from 'lodash/memoize';
-import isEqual from 'lodash/isEqual';
-import map from 'lodash/map';
-import replace from 'lodash/replace';
-import includes from 'lodash/includes';
-import isNil from 'lodash/isNil';
-import get from 'lodash/get';
-import {
-  isInitSelector,
-  isVisibleSelector,
-  isDisabledSelector,
-  messageSelector,
-  requiredSelector,
-} from '../../../../selectors/formPlugin';
-import { registerFieldExtra } from '../../../../actions/formPlugin';
 import {
   compose,
   pure,
@@ -24,9 +8,28 @@ import {
   withHandlers,
   shouldUpdate,
   mapProps,
+  branch,
 } from 'recompose';
-import propsResolver from '../../../../utils/propsResolver';
 import { getFormValues } from 'redux-form';
+import isBoolean from 'lodash/isBoolean';
+import memoize from 'lodash/memoize';
+import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
+import map from 'lodash/map';
+import replace from 'lodash/replace';
+import includes from 'lodash/includes';
+import isNil from 'lodash/isNil';
+
+import {
+  isInitSelector,
+  isVisibleSelector,
+  isDisabledSelector,
+  messageSelector,
+  requiredSelector,
+} from '../../../../selectors/formPlugin';
+import { registerFieldExtra } from '../../../../actions/formPlugin';
+import propsResolver from '../../../../utils/propsResolver';
+import withAutoSave from './withAutoSave';
 
 const INDEX_PLACEHOLDER = 'index';
 
@@ -226,6 +229,7 @@ export default Field => {
           : model,
       };
     }),
+    branch(({ dataProvider }) => dataProvider, withAutoSave),
     shouldUpdate(
       (props, nextProps) =>
         !isEqual(props.model, nextProps.model) ||

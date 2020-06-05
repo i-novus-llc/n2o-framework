@@ -96,18 +96,9 @@ function ModalPage(props) {
                   'n2o-disabled': disabled,
                 })}
               >
-                <Toolbar
-                  toolbar={toolbar.bottomLeft}
-                  entityKey={entityKey}
-                />
-                <Toolbar
-                  toolbar={toolbar.bottomCenter}
-                  entityKey={entityKey}
-                />
-                <Toolbar
-                  toolbar={toolbar.bottomRight}
-                  entityKey={entityKey}
-                />
+                <Toolbar toolbar={toolbar.bottomLeft} entityKey={entityKey} />
+                <Toolbar toolbar={toolbar.bottomCenter} entityKey={entityKey} />
+                <Toolbar toolbar={toolbar.bottomRight} entityKey={entityKey} />
               </div>
             </ModalFooter>
           )}
