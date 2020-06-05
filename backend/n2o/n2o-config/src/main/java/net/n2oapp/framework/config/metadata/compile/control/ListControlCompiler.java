@@ -78,7 +78,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     }
 
     @Override
-    protected void compileParams(T control, S source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
+    protected void compileParams(StandardField<T> control, S source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
         if (source.getParam() != null) {
             String id = control.getId() + ".id";
             ModelsScope modelsScope = p.getScope(ModelsScope.class);
