@@ -146,8 +146,7 @@ const withMetadata = Component => {
     return {
       getMetadata: (pageId, pageUrl, pageMapping, rootPage) =>
         dispatch(metadataRequest(pageId, rootPage, pageUrl, pageMapping)),
-      reset: pageId =>
-        dispatch(batchActions([resetPage(pageId)])),
+      reset: pageId => dispatch(batchActions([resetPage(pageId)])),
       routeMap: pageId => dispatch(mapUrl(pageId)),
     };
   }
