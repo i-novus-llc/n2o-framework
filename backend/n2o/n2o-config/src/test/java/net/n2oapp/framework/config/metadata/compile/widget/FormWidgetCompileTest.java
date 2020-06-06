@@ -104,7 +104,8 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((MandatoryValidation) validations.get(0)).getEnablingExpression(), is("(testField2 == 'test') && (testField3 == 'test')"));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
 
-
+        // валидации полей мультифилдсетов не должны попасть в список валидаций формы
+        assertThat(form.getComponent().getValidation().get("testField4"), nullValue());
     }
 
     @Test

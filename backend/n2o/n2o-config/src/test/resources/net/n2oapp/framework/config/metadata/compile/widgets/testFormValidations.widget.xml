@@ -17,5 +17,12 @@
                 <requiring on="testField3">testField3 == 'test'</requiring>
             </dependencies>
         </input-text>
+        <multi-set id="multi">
+            <input-text id="testField4">
+                <dependencies>
+                    <requiring>true</requiring>
+                </dependencies>
+            </input-text>
+        </multi-set>
     </fields>
 </form>
