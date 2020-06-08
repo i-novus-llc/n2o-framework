@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Models;
+import net.n2oapp.framework.api.metadata.meta.fieldset.MultiFieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -82,7 +83,8 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         if (source.getItems() == null)
             return;
         Map<String, List<Validation>> clientValidations = new HashMap<>();
-        form.getComponent().getFieldsets().forEach(fs -> collectValidation(fs, clientValidations, validationScope));
+        form.getComponent().getFieldsets().stream().filter(fs -> !(fs instanceof MultiFieldSet))
+                .forEach(fs -> collectValidation(fs, clientValidations, validationScope));
         form.getComponent().setValidation(clientValidations);
     }
 
