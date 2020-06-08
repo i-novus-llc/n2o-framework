@@ -22,7 +22,7 @@
   "expandPopUp": false,
   "flip": false,
   "dataProvider": {
-    "url": "n2o/data/test",
+    "url": "begin:n2o/data",
     "method": "GET"
   }
 }

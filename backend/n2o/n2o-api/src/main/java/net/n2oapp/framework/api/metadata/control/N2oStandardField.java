@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 public abstract class N2oStandardField extends N2oField {
     private String placeholder;
+    private Submit submit;
 
     public void setActionButtons(List<N2oActionButton> buttons) {
         //todo добавлять их в тулбар

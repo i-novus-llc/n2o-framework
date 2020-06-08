@@ -82,6 +82,8 @@ class StandardField extends React.Component {
       colLength,
       help,
       toolbar,
+      containerKey,
+      dataProvider,
       form,
       ...props
     } = this.props;
@@ -151,8 +153,8 @@ class StandardField extends React.Component {
                 onBlur={onBlur}
                 onFocus={onFocus}
                 onChange={onChange}
-                {...control}
                 {...props}
+                {...control}
                 className={cx(control.className, {
                   [validationClass]: touched,
                   'form-control__with-toolbar': toolbar,

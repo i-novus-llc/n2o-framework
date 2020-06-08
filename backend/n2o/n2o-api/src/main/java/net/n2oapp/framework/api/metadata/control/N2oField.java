@@ -4,11 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 
@@ -69,7 +69,7 @@ public abstract class N2oField extends N2oComponent implements IdAware {
 
     @Getter
     @Setter
-    public static class Validations implements Serializable {
+    public static class Validations implements Source {
         private N2oValidation[] inlineValidations;
         private String[] whiteList;
 

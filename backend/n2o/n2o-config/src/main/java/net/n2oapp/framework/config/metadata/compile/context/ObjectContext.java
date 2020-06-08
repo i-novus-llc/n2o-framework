@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.context;
 
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
