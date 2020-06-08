@@ -1,11 +1,9 @@
 package net.n2oapp.framework.engine.data;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.data.QueryExceptionHandler;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.engine.processor.N2oActionException;
 
 /**
  * Обработка исключений получения выборки по умолчанию
