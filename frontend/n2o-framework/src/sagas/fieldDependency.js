@@ -21,7 +21,10 @@ import evalExpression from '../utils/evalExpression';
 
 import { makeFormByName } from '../selectors/formPlugin';
 import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
-import { makeWidgetValidationSelector } from '../selectors/widgets';
+import {
+  makeFormModelPrefixSelector,
+  makeWidgetValidationSelector,
+} from '../selectors/widgets';
 import { validateField } from '../core/validation/createValidator';
 import {
   enableField,
@@ -36,6 +39,7 @@ import { FETCH_VALUE } from '../core/api';
 import fetchSaga from './fetch';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 import { evalResultCheck } from '../utils/evalResultCheck';
+import { setModel } from '../actions/models';
 
 let prevState = {};
 let prevResults = {};
@@ -107,18 +111,20 @@ export function* modify(
         : put(hideField(formName, fieldName));
       break;
     case 'setValue':
-      yield !isUndefined(_evalResult) &&
-        put(
-          change(formName, fieldName, {
-            keepDirty: false,
-            value: _evalResult,
-          })
-        );
+      let newFormValues = Object.assign({}, values);
+
+      if (!isUndefined(_evalResult)) {
+        const modelPrefix = yield select(makeFormModelPrefixSelector(formName));
+        newFormValues = Object.assign({}, values);
+        set(newFormValues, fieldName, _evalResult);
+
+        yield put(setModel(modelPrefix || 'resolve', formName, newFormValues));
+      }
+
       const state = yield select();
-      const newValues = getFormValues(formName)(state);
       const validation = makeWidgetValidationSelector(formName)(state);
 
-      validateField(validation, formName, state)(newValues, dispatch);
+      validateField(validation, formName, state)(newFormValues, dispatch);
       break;
     case 'reset':
       yield evalResultCheck(_evalResult) &&
