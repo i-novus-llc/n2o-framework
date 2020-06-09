@@ -26,7 +26,6 @@
             <scope>provided</scope>
         </dependency>
 
-
         <dependency>
             <groupId>net.n2oapp.properties</groupId>
             <artifactId>override-properties</artifactId>
