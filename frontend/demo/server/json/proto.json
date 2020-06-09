@@ -376,464 +376,12 @@
   },
   "widgets": {
     "proto_clients": {
-      "src": "AdvancedTableWidget",
+      "src": "CalendarWidget",
       "dataProvider": {
-        "url": "n2o/data/proto",
+        "url": "n2o/data/calendar",
         "pathMapping": {},
-        "queryMapping": {
-          "clients_surname": {
-            "value": "`surname`",
-            "link": "models.filter['proto_clients']"
-          },
-          "clients_name": {
-            "value": "`name`",
-            "link": "models.filter['proto_clients']"
-          },
-          "clients_bdate_begin": {
-            "value": "`bdate.begin`",
-            "link": "models.filter['proto_clients']"
-          },
-          "clients_bdate_end": {
-            "value": "`bdate.end`",
-            "link": "models.filter['proto_clients']"
-          },
-          "clients_genders_id": {
-            "value": "`genders.map(function(t){return t.id})`",
-            "link": "models.filter['proto_clients']"
-          },
-          "clients_vip": {
-            "value": "`vip`",
-            "link": "models.filter['proto_clients']"
-          }
-        },
-        "headersMapping": {
-          "Button-Id": {
-            "value": "test"
-          }
-        }
-      },
-      "toolbar": {
-        "topLeft": [
-          {
-            "id": "topLeft0",
-            "buttons": [
-              {
-                "src": "StandardButton",
-                "id": "create",
-                "label": "Создать",
-                "icon": "fa fa-plus",
-                "action": {
-                  "type": "n2o/overlays/INSERT",
-                  "payload": {
-                    "name": "proto_create",
-                    "pageId": "proto_create",
-                    "pageUrl": "/proto/create",
-                    "pathMapping": {},
-                    "queryMapping": {},
-                    "closeButton": true,
-                    "visible": true,
-                    "mode": "modal"
-                  }
-                },
-                "hint": "Создать",
-                "hintPosition": "bottom",
-                "conditions": {}
-              },
-              {
-                "src": "StandardButton",
-                "id": "update_client",
-                "label": "Изменить",
-                "icon": "fa fa-pencil",
-                "action": {
-                  "type": "n2o/overlays/INSERT",
-                  "payload": {
-                    "name": "proto_update_client",
-                    "pageId": "proto_update_client",
-                    "pageUrl": "/proto/:proto_clients_id/update_client",
-                    "pathMapping": {
-                      "proto_clients_id": {
-                        "link": "models.resolve['proto_clients'].id"
-                      }
-                    },
-                    "queryMapping": {},
-                    "closeButton": true,
-                    "visible": true,
-                    "mode": "modal"
-                  }
-                },
-                "hint": "Изменить",
-                "hintPosition": "bottom",
-                "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_clients']"
-                    }
-                  ]
-                }
-              },
-              {
-                "src": "StandardButton",
-                "id": "delete",
-                "label": "Удалить",
-                "action": {
-                  "type": "n2o/actionImpl/START_INVOKE",
-                  "payload": {
-                    "widgetId": "proto_clients",
-                    "dataProvider": {
-                      "url": "n2o/data/proto/:proto_clients_id/delete",
-                      "pathMapping": {
-                        "proto_clients_id": {
-                          "link": "models.resolve['proto_clients'].id"
-                        }
-                      },
-                      "method": "POST",
-                      "optimistic": false
-                    },
-                    "modelLink": "models.resolve['proto_clients']"
-                  },
-                  "meta": {
-                    "success": {
-                      "refresh": {
-                        "type": "widget",
-                        "options": {
-                          "widgetId": "proto_clients"
-                        }
-                      }
-                    },
-                    "fail": {}
-                  }
-                },
-                "hint": "Удалить",
-                "hintPosition": "bottom",
-                "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_clients']"
-                    }
-                  ]
-                },
-                "confirm": {
-                  "text": "`'Вы уверены, что хотите удалить клиента ' + this.surname + ' ' + this.name + '?'`",
-                  "title": "Предупреждение",
-                  "okLabel": "Да",
-                  "cancelLabel": "Нет",
-                  "modelLink": "models.resolve['proto_clients']",
-                  "mode": "modal"
-                }
-              }
-            ]
-          }
-        ],
-        "topRight": [
-          {
-            "id": "topRight0",
-            "buttons": [
-              {
-                "src": "StandardButton",
-                "id": "update2",
-                "icon": "fa fa-edit",
-                "action": {},
-                "hint": "Кнопка скрывается, если в строке имя Мария",
-                "hintPosition": "bottom",
-                "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_clients']"
-                    }
-                  ],
-                  "visible": [
-                    {
-                      "expression": "name!='Мария'",
-                      "modelLink": "models.resolve['proto_clients']"
-                    }
-                  ]
-                },
-                "color": "light",
-                "url": "/proto/:proto_clients_id/update2",
-                "target": "application",
-                "pathMapping": {
-                  "proto_clients_id": {
-                    "link": "models.resolve['proto_clients'].id"
-                  }
-                },
-                "queryMapping": {}
-              },
-              {
-                "src": "StandardButton",
-                "id": "view",
-                "label": "Просмотр",
-                "icon": "fa fa-book",
-                "action": {
-                  "type": "n2o/overlays/INSERT",
-                  "payload": {
-                    "name": "proto_view",
-                    "pageId": "proto_view",
-                    "pageUrl": "/proto/:proto_clients_id/view",
-                    "pathMapping": {
-                      "proto_clients_id": {
-                        "link": "models.resolve['proto_clients'].id"
-                      }
-                    },
-                    "queryMapping": {},
-                    "closeButton": true,
-                    "visible": true,
-                    "mode": "modal"
-                  }
-                },
-                "hint": "Кнопка блокируется, если в фильтре имя Анна",
-                "hintPosition": "right",
-                "conditions": {
-                  "enabled": [
-                    {
-                      "expression": "name!='Анна'",
-                      "modelLink": "models.resolve['proto_clients']"
-                    },
-                    {
-                      "expression": "!_.isEmpty(this)",
-                      "modelLink": "models.resolve['proto_clients']"
-                    }
-                  ]
-                },
-                "color": "info"
-              }
-            ]
-          }
-        ],
-        "bottomRight": [
-          {
-            "id": "bottomRight0",
-            "buttons": [
-              {
-                "src": "StandardButton",
-                "id": "menuItem5",
-                "icon": "fa fa-filter",
-                "action": {
-                  "type": "n2o/widgets/TOGGLE_FILTER_VISIBILITY",
-                  "payload": {
-                    "widgetId": "proto_clients"
-                  }
-                },
-                "hint": "Изменить видимость фильтров",
-                "hintPosition": "bottom",
-                "conditions": {}
-              },
-              {
-                "src": "ToggleColumn",
-                "id": "menuItem6",
-                "icon": "fa fa-table",
-                "hint": "Изменить видимость колонок",
-                "hintPosition": "bottom",
-                "conditions": {}
-              },
-              {
-                "src": "StandardButton",
-                "id": "menuItem7",
-                "icon": "fa fa-refresh",
-                "action": {
-                  "type": "n2o/widgets/DATA_REQUEST",
-                  "payload": {
-                    "widgetId": "proto_clients"
-                  }
-                },
-                "hint": "Обновить данные",
-                "hintPosition": "bottom",
-                "conditions": {}
-              },
-              {
-                "src": "ChangeSize",
-                "id": "menuItem8",
-                "icon": "fa fa-bars",
-                "hint": "Изменить размер",
-                "hintPosition": "bottom",
-                "conditions": {}
-              }
-            ]
-          }
-        ]
-      },
-      "actions": {
-        "update": {
-          "type": "n2o/overlays/INSERT",
-          "payload": {
-            "name": "proto_update",
-            "pageId": "proto_update",
-            "pageUrl": "/proto/:proto_clients_id/update",
-            "pathMapping": {
-              "proto_clients_id": {
-                "link": "models.resolve['proto_clients'].id"
-              }
-            },
-            "queryMapping": {},
-            "closeButton": true,
-            "visible": true,
-            "mode": "modal"
-          }
-        },
-        "menuItem5": {
-          "type": "n2o/widgets/TOGGLE_FILTER_VISIBILITY",
-          "payload": {
-            "widgetId": "proto_clients"
-          }
-        },
-        "menuItem7": {
-          "type": "n2o/widgets/DATA_REQUEST",
-          "payload": {
-            "widgetId": "proto_clients"
-          }
-        },
-        "delete": {
-          "type": "n2o/actionImpl/START_INVOKE",
-          "payload": {
-            "widgetId": "proto_clients",
-            "dataProvider": {
-              "url": "n2o/data/proto/:proto_clients_id/delete",
-              "pathMapping": {
-                "proto_clients_id": {
-                  "link": "models.resolve['proto_clients'].id"
-                }
-              },
-              "method": "POST",
-              "optimistic": false
-            },
-            "modelLink": "models.resolve['proto_clients']"
-          },
-          "meta": {
-            "success": {
-              "refresh": {
-                "type": "widget",
-                "options": {
-                  "widgetId": "proto_clients"
-                }
-              }
-            },
-            "fail": {}
-          }
-        },
-        "update2": {},
-        "view": {
-          "type": "n2o/overlays/INSERT",
-          "payload": {
-            "name": "proto_view",
-            "pageId": "proto_view",
-            "pageUrl": "/proto/:proto_clients_id/view",
-            "pathMapping": {
-              "proto_clients_id": {
-                "link": "models.resolve['proto_clients'].id"
-              }
-            },
-            "queryMapping": {},
-            "closeButton": true,
-            "visible": true,
-            "mode": "modal"
-          }
-        },
-        "surname": {},
-        "update_birthday": {
-          "type": "n2o/actionImpl/START_INVOKE",
-          "payload": {
-            "widgetId": "proto_clients",
-            "dataProvider": {
-              "url": "n2o/data/proto/:proto_clients_id/update_birthday",
-              "pathMapping": {
-                "proto_clients_id": {
-                  "link": "models.resolve['proto_clients'].id"
-                }
-              },
-              "method": "POST",
-              "optimistic": false
-            },
-            "modelLink": "models.resolve['proto_clients']"
-          },
-          "meta": {
-            "success": {
-              "refresh": {
-                "type": "widget",
-                "options": {
-                  "widgetId": "proto_clients"
-                }
-              }
-            },
-            "fail": {}
-          }
-        },
-        "name": {
-          "type": "n2o/overlays/INSERT",
-          "payload": {
-            "name": "proto_name",
-            "pageId": "proto_name",
-            "pageUrl": "/proto/:proto_clients_id/name",
-            "pathMapping": {
-              "proto_clients_id": {
-                "link": "models.resolve['proto_clients'].id"
-              }
-            },
-            "queryMapping": {},
-            "closeButton": true,
-            "visible": true,
-            "mode": "modal"
-          }
-        },
-        "create": {
-          "type": "n2o/overlays/INSERT",
-          "payload": {
-            "name": "proto_create",
-            "pageId": "proto_create",
-            "pageUrl": "/proto/create",
-            "pathMapping": {},
-            "queryMapping": {},
-            "closeButton": true,
-            "visible": true,
-            "mode": "modal"
-          }
-        },
-        "vip": {
-          "type": "n2o/actionImpl/START_INVOKE",
-          "payload": {
-            "widgetId": "proto_clients",
-            "dataProvider": {
-              "url": "n2o/data/proto/:proto_clients_id/vip",
-              "pathMapping": {
-                "proto_clients_id": {
-                  "link": "models.resolve['proto_clients'].id"
-                }
-              },
-              "method": "POST",
-              "optimistic": false
-            },
-            "modelLink": "models.resolve['proto_clients']"
-          },
-          "meta": {
-            "success": {
-              "refresh": {
-                "type": "widget",
-                "options": {
-                  "widgetId": "proto_clients"
-                }
-              }
-            },
-            "fail": {}
-          }
-        },
-        "update_client": {
-          "type": "n2o/overlays/INSERT",
-          "payload": {
-            "name": "proto_update_client",
-            "pageId": "proto_update_client",
-            "pageUrl": "/proto/:proto_clients_id/update_client",
-            "pathMapping": {
-              "proto_clients_id": {
-                "link": "models.resolve['proto_clients'].id"
-              }
-            },
-            "queryMapping": {},
-            "closeButton": true,
-            "visible": true,
-            "mode": "modal"
-          }
-        }
+        "queryMapping": {},
+        "headersMapping": {}
       },
       "paging": {
         "size": 10
@@ -943,288 +491,218 @@
         "filterPlace": "top",
         "validation": {}
       },
-      "children": "collapse",
-      "table": {
-        "size": 10,
-        "hasFocus": true,
-        "hasSelect": true,
-        "cells": [
-          {
-            "id": "surname",
-            "fieldKey": "surname",
-            "src": "LinkCell",
-            "url": "/proto/:proto_clients_id/surname",
-            "target": "application",
-            "pathMapping": {
-              "proto_clients_id": {
-                "link": "models.resolve['proto_clients'].id"
-              }
-            },
-            "queryMapping": {},
-            "action": {}
-          },
-          {
-            "id": "name",
-            "fieldKey": "name",
-            "src": "LinkCell",
-            "action": {
-              "type": "n2o/overlays/INSERT",
-              "payload": {
-                "name": "proto_name",
-                "pageId": "proto_name",
-                "pageUrl": "/proto/:proto_clients_id/name",
-                "pathMapping": {
-                  "proto_clients_id": {
-                    "link": "models.resolve['proto_clients'].id"
-                  }
-                },
-                "queryMapping": {},
-                "closeButton": true,
-                "visible": true,
-                "mode": "modal"
-              }
-            }
-          },
-          {
-            "id": "patrName",
-            "fieldKey": "patrName",
-            "src": "LinkCell",
-            "url": "`'/'+id+'/update2'`",
-            "target": "application",
-            "visible": "`name!='Мария'`"
-          },
-          {
-            "id": "birthday",
-            "fieldKey": "birthday",
-            "src": "EditableCell",
-            "control": {
-              "src": "DatePicker",
-              "id": "birthday",
-              "dateFormat": "DD.MM.YYYY",
-              "utc": false,
-              "outputFormat": "YYYY-MM-DDTHH:mm:ss"
-            },
-            "format": "date DD.MM.YYYY",
-            "editFieldId": "birthday",
-            "editType": "inline",
-            "action": {
-              "type": "n2o/actionImpl/START_INVOKE",
-              "payload": {
-                "widgetId": "proto_clients",
-                "dataProvider": {
-                  "url": "n2o/data/proto/:proto_clients_id/update_birthday",
-                  "pathMapping": {
-                    "proto_clients_id": {
-                      "link": "models.resolve['proto_clients'].id"
+      "calendar": {
+        "toolbar": {
+          "calendarTopLeft": [
+            {
+              "id": "topLeft0",
+              "buttons": [
+                {
+                  "src": "StandardButton",
+                  "id": "create",
+                  "label": "Создать",
+                  "icon": "fa fa-plus",
+                  "action": {
+                    "type": "n2o/overlays/INSERT",
+                    "payload": {
+                      "name": "proto_create",
+                      "pageId": "proto_create",
+                      "pageUrl": "/proto/create",
+                      "pathMapping": {},
+                      "queryMapping": {},
+                      "closeButton": true,
+                      "visible": true,
+                      "mode": "modal"
                     }
                   },
-                  "method": "POST",
-                  "optimistic": false
+                  "hint": "Создать",
+                  "hintPosition": "bottom",
+                  "conditions": {}
                 },
-                "modelLink": "models.resolve['proto_clients']"
-              },
-              "meta": {
-                "success": {
-                  "refresh": {
-                    "type": "widget",
-                    "options": {
-                      "widgetId": "proto_clients"
-                    }
-                  }
-                },
-                "fail": {}
-              }
-            },
-            "editable": true
-          },
-          {
-            "id": "genderName",
-            "fieldKey": "genderName",
-            "src": "BadgeCell",
-            "color": "`gender.id==1?'danger':'success'`"
-          },
-          {
-            "id": "vip",
-            "fieldKey": "vip",
-            "src": "CheckboxCell",
-            "disabled": "`!(name!='Мария')`",
-            "action": {
-              "type": "n2o/actionImpl/START_INVOKE",
-              "payload": {
-                "widgetId": "proto_clients",
-                "dataProvider": {
-                  "url": "n2o/data/proto/:proto_clients_id/vip",
-                  "pathMapping": {
-                    "proto_clients_id": {
-                      "link": "models.resolve['proto_clients'].id"
-                    }
-                  },
-                  "headersMapping": {
-                    "Content-Type": {
-                      "link": "models.resolve['proto_patients'].id"
-                    },
-                    "BUTTON_ID": {
-                      "value": "vip-button"
-                    }
-                  },
-                },
-                "modelLink": "models.resolve['proto_clients']"
-              },
-              "meta": {
-                "success": {
-                  "refresh": {
-                    "type": "widget",
-                    "options": {
-                      "widgetId": "proto_clients"
-                    }
-                  }
-                },
-                "fail": {}
-              }
-            }
-          },
-          {
-            "id": "",
-            "fieldKey": "",
-            "src": "ButtonsCell",
-            "toolbar": [
-              {
-                "buttons": [
-                  {
-                    "src": "DropdownButton",
-                    "id": "subMenu0",
-                    "icon": "fa fa-ellipsis-v",
-                    "conditions": {},
-                    "color": "link",
-                    "subMenu": [
-                      {
-                        "src": "StandardButton",
-                        "id": "delete",
-                        "label": "Удалить",
-                        "icon": "fa fa-trash",
-                        "action": {
-                          "type": "n2o/actionImpl/START_INVOKE",
-                          "payload": {
-                            "widgetId": "proto_clients",
-                            "dataProvider": {
-                              "url": "n2o/data/proto/:proto_clients_id/delete",
-                              "pathMapping": {
-                                "proto_clients_id": {
-                                  "link": "models.resolve['proto_clients'].id"
-                                }
-                              },
-                              "method": "POST",
-                              "optimistic": false
-                            },
-                            "modelLink": "models.resolve['proto_clients']"
-                          },
-                          "meta": {
-                            "success": {
-                              "refresh": {
-                                "type": "widget",
-                                "options": {
-                                  "widgetId": "proto_clients"
-                                }
-                              }
-                            },
-                            "fail": {}
-                          }
-                        },
-                        "conditions": {},
-                        "confirm": {
-                          "text": "`'Вы уверены, что хотите удалить клиента ' + this.surname + ' ' + this.name + '?'`",
-                          "title": "Предупреждение",
-                          "okLabel": "Да",
-                          "cancelLabel": "Нет",
-                          "modelLink": "models.resolve['proto_clients']",
-                          "mode": "modal"
+                {
+                  "src": "StandardButton",
+                  "id": "update_client",
+                  "label": "Изменить",
+                  "icon": "fa fa-pencil",
+                  "action": {
+                    "type": "n2o/overlays/INSERT",
+                    "payload": {
+                      "name": "proto_update_client",
+                      "pageId": "proto_update_client",
+                      "pageUrl": "/proto/:proto_clients_id/update_client",
+                      "pathMapping": {
+                        "proto_clients_id": {
+                          "link": "models.resolve['proto_clients'].id"
                         }
                       },
+                      "queryMapping": {},
+                      "closeButton": true,
+                      "visible": true,
+                      "mode": "modal"
+                    }
+                  },
+                  "hint": "Изменить",
+                  "hintPosition": "bottom",
+                  "conditions": {
+                    "enabled": [
                       {
-                        "src": "StandardButton",
-                        "id": "update",
-                        "label": "Изменить",
-                        "icon": "fa fa-pencil",
-                        "action": {
-                          "type": "n2o/overlays/INSERT",
-                          "payload": {
-                            "name": "proto_update",
-                            "pageId": "proto_update",
-                            "pageUrl": "/proto/:proto_clients_id/update",
-                            "pathMapping": {
-                              "proto_clients_id": {
-                                "link": "models.resolve['proto_clients'].id"
-                              }
-                            },
-                            "queryMapping": {},
-                            "closeButton": true,
-                            "visible": true,
-                            "mode": "modal"
-                          }
-                        },
-                        "conditions": {}
+                        "expression": "!_.isEmpty(this)",
+                        "modelLink": "models.resolve['proto_clients']"
                       }
                     ]
                   }
-                ]
-              }
-            ]
-          }
-        ],
-        "headers": [
-          {
-            "id": "surname",
-            "label": "Фамилия",
-            "src": "TextTableHeader",
-            "sortable": true,
-            "conditions": {}
-          },
-          {
-            "id": "name",
-            "label": "Имя",
-            "src": "TextTableHeader",
-            "sortable": true,
-            "conditions": {}
-          },
-          {
-            "id": "patrName",
-            "label": "Отчество",
-            "src": "TextTableHeader",
-            "sortable": true,
-            "conditions": {}
-          },
-          {
-            "id": "birthday",
-            "label": "Дата рождения",
-            "src": "TextTableHeader",
-            "sortable": true,
-            "conditions": {}
-          },
-          {
-            "id": "genderName",
-            "label": "Пол",
-            "src": "TextTableHeader",
-            "sortable": false,
-            "conditions": {}
-          },
-          {
-            "id": "vip",
-            "label": "VIP",
-            "src": "TextTableHeader",
-            "sortable": false,
-            "conditions": {}
-          },
-          {
-            "id": "",
-            "src": "TextTableHeader",
-            "conditions": {}
-          }
-        ],
-        "sorting": {
-          "birthday": "ASC"
+                },
+                {
+                  "src": "StandardButton",
+                  "id": "delete",
+                  "label": "Удалить",
+                  "action": {
+                    "type": "n2o/actionImpl/START_INVOKE",
+                    "payload": {
+                      "widgetId": "proto_clients",
+                      "dataProvider": {
+                        "url": "n2o/data/proto/:proto_clients_id/delete",
+                        "pathMapping": {
+                          "proto_clients_id": {
+                            "link": "models.resolve['proto_clients'].id"
+                          }
+                        },
+                        "method": "POST",
+                        "optimistic": false
+                      },
+                      "modelLink": "models.resolve['proto_clients']"
+                    },
+                    "meta": {
+                      "success": {
+                        "refresh": {
+                          "type": "widget",
+                          "options": {
+                            "widgetId": "proto_clients"
+                          }
+                        }
+                      },
+                      "fail": {}
+                    }
+                  },
+                  "hint": "Удалить",
+                  "hintPosition": "bottom",
+                  "conditions": {
+                    "enabled": [
+                      {
+                        "expression": "!_.isEmpty(this)",
+                        "modelLink": "models.resolve['proto_clients']"
+                      }
+                    ]
+                  },
+                  "confirm": {
+                    "text": "`'Вы уверены, что хотите удалить клиента ' + this.surname + ' ' + this.name + '?'`",
+                    "title": "Предупреждение",
+                    "okLabel": "Да",
+                    "cancelLabel": "Нет",
+                    "modelLink": "models.resolve['proto_clients']",
+                    "mode": "modal"
+                  }
+                }
+              ]
+            }
+          ],
+          "calendarTopRight": [
+            {
+              "id": "topRight0",
+              "buttons": [
+                {
+                  "src": "StandardButton",
+                  "id": "update2",
+                  "icon": "fa fa-edit",
+                  "action": {},
+                  "hint": "Кнопка скрывается, если в строке имя Мария",
+                  "hintPosition": "bottom",
+                  "conditions": {
+                    "enabled": [
+                      {
+                        "expression": "!_.isEmpty(this)",
+                        "modelLink": "models.resolve['proto_clients']"
+                      }
+                    ],
+                    "visible": [
+                      {
+                        "expression": "name!='Мария'",
+                        "modelLink": "models.resolve['proto_clients']"
+                      }
+                    ]
+                  },
+                  "color": "light",
+                  "url": "/proto/:proto_clients_id/update2",
+                  "target": "application",
+                  "pathMapping": {
+                    "proto_clients_id": {
+                      "link": "models.resolve['proto_clients'].id"
+                    }
+                  },
+                  "queryMapping": {}
+                },
+                {
+                  "src": "StandardButton",
+                  "id": "view",
+                  "label": "Просмотр",
+                  "icon": "fa fa-book",
+                  "action": {
+                    "type": "n2o/overlays/INSERT",
+                    "payload": {
+                      "name": "proto_view",
+                      "pageId": "proto_view",
+                      "pageUrl": "/proto/:proto_clients_id/view",
+                      "pathMapping": {
+                        "proto_clients_id": {
+                          "link": "models.resolve['proto_clients'].id"
+                        }
+                      },
+                      "queryMapping": {},
+                      "closeButton": true,
+                      "visible": true,
+                      "mode": "modal"
+                    }
+                  },
+                  "hint": "Кнопка блокируется, если в фильтре имя Анна",
+                  "hintPosition": "right",
+                  "conditions": {
+                    "enabled": [
+                      {
+                        "expression": "name!='Анна'",
+                        "modelLink": "models.resolve['proto_clients']"
+                      },
+                      {
+                        "expression": "!_.isEmpty(this)",
+                        "modelLink": "models.resolve['proto_clients']"
+                      }
+                    ]
+                  },
+                  "color": "info"
+                }
+              ]
+            }
+          ]
         },
-        "fetchOnInit": true,
-        "autoFocus": true
+        "cell": {
+          "format": "date DD.MM.YYYY"
+        },
+        "height": "500px",
+        "date": "2020-06-10",
+        "defaultView": "week",
+        "view": ["week", "day"],
+        "titleFieldId": "name",
+        "tooltipFieldId": "tooltip",
+        "allDayFieldId": "allDay",
+        "startFieldId": "begin",
+        "endFieldId": "end",
+        "cellColorFieldId": "color",
+        "disabledFieldId": "disabled",
+        "markDaysOff": true,
+        "onSelectSlot": {},
+        "onSelectEvent": {},
+        "selectable": false,
+        "step": 60,
+        "timeslots": 2
       }
     },
     "proto_contacts": {
@@ -1652,10 +1130,10 @@
       "fixed": true
     },
     "left": {
-      "width": "30%"
+      "width": "100%"
     },
     "right": {
-      "width": "30%",
+      "width": "0",
       "fixed": true,
       "offset": 100
     }

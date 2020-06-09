@@ -1,0 +1,58 @@
+{
+  "Page_Calendar": {
+    "id": "$testTableJson",
+    "src": "CalendarWidget",
+    "dataProvider": {
+      "url": "n2o/data/test",
+      "pathMapping": {
+      },
+      "queryMapping": {
+        "filter.name": {
+          "link": "models.filter['Page_Table'].name"
+        },
+        "filter.surname": {
+          "link": "models.filter['Page_Table'].surname"
+        }
+      }
+    },
+    "paging": {
+      "size": 10
+    },
+    "filter": {
+      "filterPlace": "top",
+      "filterFieldsets": [
+        {
+          "src": "StandardFieldset",
+          "rows": [
+            {
+              "cols": [
+                {
+                  "fields": [
+                    {
+                      "id": "testId",
+                      "src": "StandardField",
+                      "dependency": [],
+                      "control": {
+                        "id": "testId",
+                        "src": "FilterButtonsField",
+                        "searchLabel": "searchLabel",
+                        "resetLabel": "resetLabel"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "filterButtonId": "filter",
+      "blackResetList": ["surname", "name"],
+      "validation": {},
+      "hideButtons": true
+    },
+    "calendar": {
+
+    }
+  }
+}
