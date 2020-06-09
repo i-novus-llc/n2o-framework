@@ -33,7 +33,7 @@ function Calendar({
       style={style}
       step={60}
       components={components}
-      defaultView={defaultView}
+      defaultView={'week' || defaultView}
     />
   );
 }

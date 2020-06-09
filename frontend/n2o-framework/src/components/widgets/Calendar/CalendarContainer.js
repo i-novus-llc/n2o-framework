@@ -11,6 +11,8 @@ import { withContainerLiveCycle } from '../Table/TableContainer';
 import Calendar from './Calendar';
 import CalendarEvent from './CalendarEvent';
 import CalendarCell from './CalendarCell';
+import CalendarDateCell from './CalendarDateCell';
+import CalendarColumnHeader from './CalendarColumnHeader';
 
 function CalendarContainer(props) {
   return <Calendar {...props} />;
@@ -62,7 +64,12 @@ export default compose(
           cellColorAccessor={cellColorFieldId}
         />
       ),
-      dateCellWrapper: cellProps => <CalendarCell {...cellProps} />,
+      timeSlotWrapper: cellProps => (
+        <CalendarCell {...cellProps} markDaysOff={markDaysOff} />
+      ),
+      dateCellWrapper: dateCellProps => (
+        <CalendarDateCell {...dateCellProps} markDaysOff={markDaysOff} />
+      ),
     }),
   }),
   mapProps(

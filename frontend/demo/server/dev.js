@@ -99,7 +99,8 @@ app.get("/n2o/data/calendar", (req, res) => {
         end: "2020-06-10T15:00:00",
         name: "Some title",
         tooltip: "tooltip text",
-        color: "red"
+        color: "red",
+        disabled: true
       }
     ]
   });
