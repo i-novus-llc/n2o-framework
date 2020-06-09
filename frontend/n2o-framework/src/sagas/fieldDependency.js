@@ -21,8 +21,11 @@ import evalExpression from '../utils/evalExpression';
 
 import { makeFormByName } from '../selectors/formPlugin';
 import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
-import { makeWidgetValidationSelector } from "../selectors/widgets";
-import { validateField } from "../core/validation/createValidator";
+import {
+  makeFormModelPrefixSelector,
+  makeWidgetValidationSelector,
+} from '../selectors/widgets';
+import { validateField } from '../core/validation/createValidator';
 import {
   enableField,
   disableField,
@@ -36,6 +39,7 @@ import { FETCH_VALUE } from '../core/api';
 import fetchSaga from './fetch';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 import { evalResultCheck } from '../utils/evalResultCheck';
+import { setModel } from '../actions/models';
 
 let prevState = {};
 let prevResults = {};
@@ -71,7 +75,14 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   }
 }
 
-export function* modify(values, formName, fieldName, type, options = {}, dispatch) {
+export function* modify(
+  values,
+  formName,
+  fieldName,
+  type,
+  options = {},
+  dispatch
+) {
   let _evalResult;
 
   const prevValues = get(prevState, [formName, fieldName, type]);
@@ -100,18 +111,20 @@ export function* modify(values, formName, fieldName, type, options = {}, dispatc
         : put(hideField(formName, fieldName));
       break;
     case 'setValue':
-      yield !isUndefined(_evalResult) &&
-        put(
-          change(formName, fieldName, {
-            keepDirty: false,
-            value: _evalResult,
-          })
-        );
+      let newFormValues = Object.assign({}, values);
+
+      if (!isUndefined(_evalResult)) {
+        const modelPrefix = yield select(makeFormModelPrefixSelector(formName));
+        newFormValues = Object.assign({}, values);
+        set(newFormValues, fieldName, _evalResult);
+
+        yield put(setModel(modelPrefix || 'resolve', formName, newFormValues));
+      }
+
       const state = yield select();
-      const newValues = getFormValues(formName)(state);
       const validation = makeWidgetValidationSelector(formName)(state);
 
-      validateField(validation, formName, state)(newValues, dispatch)
+      validateField(validation, formName, state)(newFormValues, dispatch);
       break;
     case 'reset':
       yield evalResultCheck(_evalResult) &&
@@ -163,7 +176,15 @@ export function* checkAndModify(
             actionType === REGISTER_FIELD_EXTRA) &&
             dep.applyOnInit)
         ) {
-          yield call(modify, values, formName, fieldId, dep.type, dep, dispatch);
+          yield call(
+            modify,
+            values,
+            formName,
+            fieldId,
+            dep.type,
+            dep,
+            dispatch
+          );
         }
       }
     }
@@ -195,7 +216,8 @@ export function* resolveDependency(action, dispatch) {
 }
 
 export function* catchAction(dispatch) {
-  const resolveDependencyHandler = (action) => resolveDependency(action, dispatch);
+  const resolveDependencyHandler = action =>
+    resolveDependency(action, dispatch);
 
   yield takeEvery(actionTypes.INITIALIZE, resolveDependencyHandler);
   yield throttle(300, REGISTER_FIELD_EXTRA, resolveDependencyHandler);

@@ -3,7 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import java.util.Map;
 @Setter
 public class AutoComplete extends Control {
     @JsonProperty
-    private WidgetDataProvider dataProvider;
+    private ClientDataProvider dataProvider;
     @JsonProperty
     private String valueFieldId;
     @JsonProperty

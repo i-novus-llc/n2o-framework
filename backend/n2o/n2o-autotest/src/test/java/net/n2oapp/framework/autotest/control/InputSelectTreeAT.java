@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.CollectionCondition;
-import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.*;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -17,8 +16,6 @@ import org.junit.jupiter.api.Test;
  */
 public class InputSelectTreeAT extends AutoTestBase {
 
-    private SimplePage simplePage;
-
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -29,49 +26,77 @@ public class InputSelectTreeAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/selecttree/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        simplePage = open(SimplePage.class);
-        simplePage.shouldExists();
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oControlsPack(), new N2oControlsV2IOPack());
+                new N2oControlsPack(), new N2oControlsV2IOPack(), new N2oAllDataPack());
     }
 
     @Test
     public void inputSelectTreeTest() {
-        InputSelectTree inputSelectTree = getFields().field("InputSelectTree").control(InputSelectTree.class);
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/simple/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        InputSelectTree inputSelectTree = page.single().widget(FormWidget.class).fields().field("InputSelectTree")
+                .control(InputSelectTree.class);
         inputSelectTree.shouldHavePlaceholder("SelectOption");
         inputSelectTree.shouldBeUnselected();
-        inputSelectTree.toggleOptions();
+        inputSelectTree.expandOptions();
         inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(4));
         inputSelectTree.setFilter("three");
 
         inputSelectTree.selectOption(0);
-        inputSelectTree.selectOption(2);
+        inputSelectTree.selectOption(3);
         inputSelectTree.selectOption(1);
 
-        inputSelectTree.toggleOptions();
+        inputSelectTree.expandOptions();
 
         inputSelectTree.shouldBeSelected(0, "one");
         inputSelectTree.shouldBeSelected(1, "two");
-        inputSelectTree.shouldBeSelected(2, "three");
+        // проверяем, что длина названий ограничена 10 символами (по умолчанию)
+        inputSelectTree.shouldBeSelected(2, "long messa...");
 
         inputSelectTree.removeOption(1);
 
         inputSelectTree.shouldBeSelected(0, "one");
-        inputSelectTree.shouldBeSelected(1, "three");
+        inputSelectTree.shouldBeSelected(1, "long messa...");
 
         inputSelectTree.removeAllOptions();
         inputSelectTree.shouldBeUnselected();
     }
 
-    private Fields getFields() {
-        return simplePage.single().widget(FormWidget.class).fields();
+    @Test
+    public void readFromQueryTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/select_tree/nodes/test.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        InputSelectTree inputSelectTree = page.single().widget(FormWidget.class).fields().field("InputSelectTree")
+                .control(InputSelectTree.class);
+
+        inputSelectTree.shouldBeUnselected();
+        inputSelectTree.expandOptions();
+        inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(2));
+        inputSelectTree.expandParentOptions(0);
+        inputSelectTree.shouldDisplayedOptions(CollectionCondition.size(4));
+
+        inputSelectTree.selectOption(0);
+        inputSelectTree.selectOption(2);
+        inputSelectTree.selectOption(1);
+
+        inputSelectTree.shouldBeSelected(0, "one");
+        inputSelectTree.shouldBeSelected(1, "message");
+        inputSelectTree.shouldBeSelected(2, "long message");
+        // проверяем, что длина названий ограничена 15 символами
+        inputSelectTree.shouldBeSelected(3, "very long messa...");
+
+        inputSelectTree.removeAllOptions();
+        inputSelectTree.shouldBeUnselected();
     }
 }

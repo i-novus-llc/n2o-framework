@@ -14,6 +14,7 @@ public class InputSelectIOv2 extends ListFieldIOv2<N2oInputSelect> {
         super.io(e, m, p);
         p.attributeEnum(e, "type", m::getType, m::setType, ListType.class);
         p.attributeBoolean(e, "reset-on-blur", m::getResetOnBlur, m::setResetOnBlur);
+        p.attribute(e, "description-field-id", m::getDescriptionFieldId, m::setDescriptionFieldId);
     }
 
     @Override

@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
@@ -60,7 +60,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getWidgetId(), is("w"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.POST));
         assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/test"));
-        assertThat(testAction.getPayload().getDataProvider().getQueryMapping(), is(nullValue()));
+        assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         assertThat(testAction.getMeta().getSuccess().getRefresh(), notNullValue());
         assertThat(testAction.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("testW"));
         assertThat(testAction.getMeta().getSuccess().getModalsToClose(), nullValue());
@@ -72,11 +72,11 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(menuItem0action.getPayload().getWidgetId(), is("w"));
         assertThat(menuItem0action.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("w"));
 //        assertThat(menuItem0action.getOptions().getMeta().getSuccess().getModalsToClose(), is(1));
-        WidgetDataProvider dataProvider = menuItem0action.getPayload().getDataProvider();
+        ClientDataProvider dataProvider = menuItem0action.getPayload().getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
         assertThat(dataProvider.getUrl(), is("n2o/data/w/:w_id/menuItem0"));
-        assertThat(dataProvider.getQueryMapping(), nullValue());
-        assertThat(dataProvider.getPathMapping(), notNullValue());
+        assertThat(dataProvider.getQueryMapping().size(), is(0));
+        assertThat(dataProvider.getPathMapping().size(), not(0));
         assertThat(dataProvider.getPathMapping().get("w_id"), notNullValue());
         assertThat(dataProvider.getOptimistic(), is(true));
         assertThat(route("/w/:w_id/menuItem0", CompiledObject.class), notNullValue());
@@ -145,7 +145,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
 
         //filter model
         InvokeAction testAction = (InvokeAction) table.getActions().get("test");
-        WidgetDataProvider provider1 = testAction.getPayload().getDataProvider();
+        ClientDataProvider provider1 = testAction.getPayload().getDataProvider();
         assertThat(provider1.getSubmitForm(), is(true));
         assertThat(provider1.getFormMapping().size(), is(1));
         assertThat(provider1.getPathMapping().size(), is(1));
@@ -157,7 +157,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
 
         //resolve model
         InvokeAction menuItem0action = (InvokeAction) table.getActions().get("menuItem0");
-        WidgetDataProvider provider2 = menuItem0action.getPayload().getDataProvider();
+        ClientDataProvider provider2 = menuItem0action.getPayload().getDataProvider();
         assertThat(provider2.getSubmitForm(), is(false));
         assertThat(provider2.getFormMapping().size(), is(1));
         assertThat(provider2.getPathMapping().size(), is(2));

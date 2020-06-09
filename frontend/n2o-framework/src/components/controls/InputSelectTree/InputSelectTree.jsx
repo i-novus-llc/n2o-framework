@@ -106,6 +106,7 @@ function InputSelectTree({
   showCheckedStrategy,
   _control,
   setControlRef,
+  maxTagTextLength,
   ...rest
 }) {
   const popupProps = {
@@ -390,7 +391,7 @@ function InputSelectTree({
       filterTreeNode={handlerFilter}
       treeNodeFilterProp={labelFieldId}
       treeNodeLabelProp={labelFieldId}
-      maxTagTextLength="10"
+      maxTagTextLength={maxTagTextLength}
       removeIcon={clearIcon}
       clearIcon={clearIcon}
       onChange={handleChange}
@@ -454,6 +455,7 @@ InputSelectTree.defaultProps = {
   allowClear: true,
   placeholder: '',
   showSearch: true,
+  maxTagTextLength: 10,
   dropdownPopupAlign: {
     points: ['tl', 'bl'],
     overflow: {
@@ -592,6 +594,10 @@ InputSelectTree.propTypes = {
    */
   dropdownPopupAlign: PropTypes.object,
   showCheckedStrategy: PropTypes.string,
+  /**
+   * Количество символов выбранных элементов в chechbox режиме
+   */
+  maxTagTextLength: PropTypes.number,
 };
 
 export { TreeNode, InputSelectTree };

@@ -26,8 +26,13 @@ public class N2oInputSelectTree extends N2oControl implements InputSelectTree {
     }
 
     @Override
-    public void toggleOptions() {
+    public void expandOptions() {
         element().hover().shouldBe(Condition.visible).click();
+    }
+
+    @Override
+    public void expandParentOptions(int parentId) {
+        element().$$(".n2o-select-tree-dropdown .n2o-select-tree-tree-treenode-switcher-close i").get(parentId).click();
     }
 
     @Override
