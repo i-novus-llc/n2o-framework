@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.reader.tools;
 
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Redirect;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;

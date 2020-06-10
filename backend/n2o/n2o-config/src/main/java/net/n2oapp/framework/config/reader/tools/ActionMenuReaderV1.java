@@ -7,8 +7,8 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolit
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import java.util.ArrayList;
 import java.util.List;

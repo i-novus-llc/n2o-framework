@@ -3,8 +3,8 @@ package net.n2oapp.framework.config.reader.control;
 import net.n2oapp.framework.api.metadata.control.N2oCodeMerge;
 import net.n2oapp.framework.api.metadata.control.plain.CodeLanguageEnum;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeInteger;

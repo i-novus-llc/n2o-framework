@@ -7,9 +7,9 @@ import net.n2oapp.framework.api.metadata.reader.ElementReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.config.reader.MetadataReaderException;
-import org.jdom.Attribute;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Attribute;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

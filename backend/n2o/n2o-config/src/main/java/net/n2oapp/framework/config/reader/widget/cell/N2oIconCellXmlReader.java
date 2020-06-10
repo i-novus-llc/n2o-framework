@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.Position;
 import net.n2oapp.framework.config.reader.widget.SwitchReader;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeEnum;

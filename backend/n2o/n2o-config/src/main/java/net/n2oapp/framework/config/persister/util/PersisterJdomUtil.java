@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.global.aware.IdAware;
 import net.n2oapp.framework.api.metadata.persister.ElementPersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 
 import java.util.Arrays;
