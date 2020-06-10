@@ -210,6 +210,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           defaultSorting,
           validation,
           dataProvider,
+          modelPrefix
         } = this.props;
 
         if (!isInit || !this.isEqualRegisteredWidgetWithProps()) {
@@ -222,6 +223,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
               sorting: defaultSorting,
               dataProvider,
               validation,
+              modelPrefix
             })
           );
         }

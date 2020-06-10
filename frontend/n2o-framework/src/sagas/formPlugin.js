@@ -1,9 +1,11 @@
 import { takeEvery, put, select } from 'redux-saga/effects';
 import { touch } from 'redux-form';
-import values from 'lodash/values';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+import values from 'lodash/values';
 
 import { removeFieldMessage } from '../actions/formPlugin';
+import { makeFieldByName } from '../selectors/formPlugin';
 import { setModel } from '../actions/models';
 import { COPY } from '../constants/models';
 import {
@@ -13,10 +15,17 @@ import {
 import evalExpression, { parseExpression } from '../utils/evalExpression';
 
 export function* removeMessage(action) {
-  yield action.meta &&
-    action.meta.form &&
-    action.meta.field &&
-    put(removeFieldMessage(action.meta.form, action.meta.field));
+  const formName = get(action, 'meta.form');
+  const fieldName = get(action, 'meta.field');
+
+  if (formName && fieldName) {
+    const field = yield select(makeFieldByName(formName, fieldName));
+    const fieldValidation = get(field, 'validation');
+
+    if (!fieldValidation || isEmpty(fieldValidation)) {
+      yield put(removeFieldMessage(action.meta.form, action.meta.field));
+    }
+  }
 }
 
 export function* addTouched({ payload: { form, name } }) {
