@@ -79,7 +79,7 @@
   "devDependencies": {
     "@babel/runtime": "^7.9.2",
     "body-parser": "^1.19.0",
-    "core-js": "^3.6.5"
+    "core-js": "^3.6.5",
     "react-scripts": "^3.1.1"
   },
   "browserslist": {
@@ -89,6 +89,8 @@
       "not op_mini all"
     ],
     "development": [
+      ">0.2%",
+      "not dead",
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
