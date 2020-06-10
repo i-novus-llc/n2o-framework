@@ -95,9 +95,6 @@ public class FilterColumnAT extends AutoTestBase {
         DateInterval header4Input = header4.filterControl(DateInterval.class);
         header4Input.beginVal("01.01.2019");
         header4Input.endVal("01.01.2021");
-        // закрытие / открытие фильтра, т.к. календарь закрывает кнопки
-        header4.openFilterDropdown();
-        header4.openFilterDropdown();
         header4.clickSearchButton();
         rows.shouldHaveSize(2);
         rows.row(0).cell(0).textShouldHave("2");
