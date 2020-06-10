@@ -45,7 +45,6 @@
 }
 
 .n2o-label {
-  display: flex;
   & .n2o-popover {
     cursor: pointer;
     margin: 0 5px;
@@ -88,6 +87,11 @@
     font-size: 0.8rem;
     line-height: 1rem;
   }
+
+  .n2o-label {
+    display: flex;
+  }
+
 }
 
 .form-container {
