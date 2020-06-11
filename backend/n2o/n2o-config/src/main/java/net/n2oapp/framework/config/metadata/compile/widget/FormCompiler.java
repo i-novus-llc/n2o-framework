@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 
-import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -12,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oForm;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Models;
-import net.n2oapp.framework.api.metadata.meta.fieldset.MultiFieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -20,8 +18,6 @@ import net.n2oapp.framework.config.metadata.compile.*;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Компиляция виджета форма
@@ -66,8 +62,6 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
                 new MomentScope(N2oValidation.ServerMoment.beforeOperation), copiedFieldScope,
                 paramScope, new ComponentScope(source)));
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new HashMap<>()) : p.getScope(ValidationList.class);
-        ValidationScope validationScope = new ValidationScope(form.getId(), ReduxModel.RESOLVE, validationList);
-        compileValidation(form, source, validationScope);
         compileDataProviderAndRoutes(form, source, context, p, validationList, widgetRoute, subModelsScope, copiedFieldScope, object);
         addParamRoutes(paramScope, p);
         compileToolbarAndAction(form, source, context, p, widgetScope, widgetRoute, widgetActions, object, validationList);
@@ -77,15 +71,6 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
             form.getComponent().setModelPrefix("resolve");
         }
         return form;
-    }
-
-    private void compileValidation(Form form, N2oForm source, ValidationScope validationScope) {
-        if (source.getItems() == null)
-            return;
-        Map<String, List<Validation>> clientValidations = new HashMap<>();
-        form.getComponent().getFieldsets().stream().filter(fs -> !(fs instanceof MultiFieldSet))
-                .forEach(fs -> collectValidation(fs, clientValidations, validationScope));
-        form.getComponent().setValidation(clientValidations);
     }
 
     private void addParamRoutes(WidgetParamScope paramScope, CompileProcessor p) {
