@@ -252,9 +252,8 @@
     }
 
     & > i {
-      padding-right: 5px;
       display: flex;
-
+      padding-right: 5px;
     }
 
     & > img {
@@ -272,12 +271,18 @@
   }
 
   .n2o-input-control {
-    margin-left: auto;
-    align-items: center;
+    position: absolute;
+    right: 0;
+    top: 7px;
+
     display: flex;
-    cursor: $input-cursor;
-    //width: 40px;
+    align-items: center;
+    margin-left: auto;
     justify-content: center;
+
+    padding: 0 4px;
+
+    cursor: $input-cursor;
     z-index: 2;
     & > div {
       margin: $input-control-padding;
@@ -318,7 +323,6 @@
       display: flex;
       justify-content: start;
       text-align: center;
-      width: 30px;
       margin: 0;
       & > .adjust-huener.adjust-huener-inline {
         margin-left: 0;
