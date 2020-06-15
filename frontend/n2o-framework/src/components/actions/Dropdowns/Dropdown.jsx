@@ -32,12 +32,13 @@ class Dropdown extends React.Component {
    * Базовый рендер
    */
   render() {
-    const { color, title, size, children, disabled } = this.props;
+    const { color, title, size, children, disabled, className } = this.props;
 
     return (
       <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle
           caret
+          className={className}
           color={color}
           size={size}
           id={this.props.id}

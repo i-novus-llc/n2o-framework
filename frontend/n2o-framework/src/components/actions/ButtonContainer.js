@@ -178,10 +178,11 @@ class ButtonContainer extends React.Component {
    * @returns {*}
    */
   renderDropdown() {
-    const { children, icon, color, size, title, disabled } = this.props;
+    const { children, icon, color, size, title, disabled, className } = this.props;
     return (
       <Dropdown
         id={this.buttonId}
+        className={className}
         disabled={disabled}
         color={color}
         size={size}
