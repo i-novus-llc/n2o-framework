@@ -62,6 +62,8 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
                 new MomentScope(N2oValidation.ServerMoment.beforeOperation), copiedFieldScope,
                 paramScope, new ComponentScope(source)));
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new HashMap<>()) : p.getScope(ValidationList.class);
+        ValidationScope validationScope = new ValidationScope(form.getId(), ReduxModel.RESOLVE, validationList);
+        compileValidation(form, source, validationScope);
         compileDataProviderAndRoutes(form, source, context, p, validationList, widgetRoute, subModelsScope, copiedFieldScope, object);
         addParamRoutes(paramScope, p);
         compileToolbarAndAction(form, source, context, p, widgetScope, widgetRoute, widgetActions, object, validationList);
@@ -71,6 +73,12 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
             form.getComponent().setModelPrefix("resolve");
         }
         return form;
+    }
+
+    private void compileValidation(Form form, N2oForm source, ValidationScope validationScope) {
+        if (source.getItems() == null)
+            return;
+        form.getComponent().getFieldsets().forEach(fs -> collectValidation(fs, new HashMap<>(), validationScope));
     }
 
     private void addParamRoutes(WidgetParamScope paramScope, CompileProcessor p) {
