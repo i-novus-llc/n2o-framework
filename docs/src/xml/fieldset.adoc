@@ -320,7 +320,7 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 
 [source,xml]
 ----
-<multi-set label="Участник #index"
+<multi-set label="Участник {index}"
     add-label="Добавить участника"
     remove-all-label="Удалить всех участников"
     can-remove-all="true">

@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import org.openqa.selenium.Keys;
@@ -16,50 +17,51 @@ import java.util.stream.IntStream;
 public class N2oInputSelect extends N2oControl implements InputSelect {
 
     private boolean isMulti() {
-        return element().$(".n2o-inp").has(Condition.cssClass("n2o-inp--multi"));
+        return input().has(Condition.cssClass("n2o-inp--multi"));
     }
 
     @Override
     public void val(String value) {
-        element().$(".n2o-inp").sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        input().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
         element().click();
     }
 
     public void valMulti(String... values) {
-        if (isMulti()) {
-            Arrays.stream(values).forEach(s -> {
-                element().$(".n2o-inp--multi").sendKeys(Keys.chord(Keys.CONTROL, "a"), s);
-                element().$(".n2o-inp--multi").pressEnter();
-            });
-        }
+        Arrays.stream(values).forEach(s -> {
+            element().$(".n2o-inp--multi").sendKeys(Keys.chord(Keys.CONTROL, "a"), s);
+            element().$(".n2o-inp--multi").pressEnter();
+        });
     }
 
     @Override
     public void shouldHaveValue(String value) {
-        element().$(".n2o-inp").shouldHave(Condition.value(value));
+        input().shouldHave(Condition.value(value));
+    }
+
+
+    @Override
+    public void shouldHaveOptions(String... options) {
+        expandPopUpOptions();
+        selectPopUp().$$("button .text-cropped,.custom-control-label").shouldHave(CollectionCondition.exactTexts(options));
     }
 
     @Override
     public void select(int index) {
-        element().click();
-        element().parent().$$(".n2o-pop-up button")
-                .shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
+        expandPopUpOptions();
+        popUpButtons().shouldBe(CollectionCondition.sizeGreaterThan(index)).get(index).click();
     }
 
     @Override
     public void select(Condition by) {
-        element().click();
-        element().parent().$$(".n2o-pop-up button").findBy(by).click();
+        expandPopUpOptions();
+        popUpButtons().findBy(by).click();
     }
 
 
     @Override
     public void selectMulti(int... indexes) {
-        if (isMulti()) {
-            element().click();
-            ElementsCollection elements = element().parent().$$(".n2o-pop-up button");
-            IntStream.of(indexes).forEach(i -> elements.shouldBe(CollectionCondition.sizeGreaterThan(i)).get(i).click());
-        }
+        expandPopUpOptions();
+        IntStream.of(indexes).forEach(i -> popUpButtons().shouldBe(CollectionCondition.sizeGreaterThan(i)).get(i).click());
     }
 
     @Override
@@ -70,16 +72,16 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     @Override
     public void shouldBeEmpty() {
         element().$(".n2o-input-items .n2o-inp").shouldBe(Condition.empty);
+        if (isMulti())
+            shouldSelectedMulti();
     }
 
     @Override
     public void shouldSelectedMulti(String... values) {
-        if (isMulti()) {
-            ElementsCollection selectedItems = element().$$(".n2o-input-select-selected-list .selected-item");
-            selectedItems.shouldHaveSize(values.length);
-            if (values.length != 0)
-                selectedItems.shouldHave(CollectionCondition.textsInAnyOrder(values));
-        }
+        ElementsCollection selectedItems = element().$$(".n2o-input-select-selected-list .selected-item");
+        selectedItems.shouldHaveSize(values.length);
+        if (values.length != 0)
+            selectedItems.shouldHave(CollectionCondition.textsInAnyOrder(values));
     }
 
     @Override
@@ -89,10 +91,8 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
 
     @Override
     public void clearItems(String... items) {
-        if (isMulti()) {
-            ElementsCollection selectedItems = element().$$(".n2o-input-select-selected-list .selected-item");
-            Arrays.stream(items).forEach(s -> selectedItems.find(Condition.text(s)).$("button").click());
-        }
+        ElementsCollection selectedItems = element().$$(".n2o-input-select-selected-list .selected-item");
+        Arrays.stream(items).forEach(s -> selectedItems.find(Condition.text(s)).$("button").click());
     }
 
     @Override
@@ -101,11 +101,47 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
+    public void expandPopUpOptions() {
+        SelenideElement elm = element().$(".n2o-popup-control");
+        if (!elm.is(Condition.cssClass("isExpanded")))
+            elm.click();
+    }
+
+    @Override
+    public void collapsePopUpOptions() {
+        SelenideElement elm = element().$(".n2o-popup-control");
+        if (elm.is(Condition.cssClass("isExpanded")))
+            elm.click();
+    }
+
+    @Override
+    public void optionShouldHaveDescription(String option, String description) {
+        expandPopUpOptions();
+        SelenideElement elm = selectPopUp().$$("button .text-cropped,.custom-control-label")
+                .findBy(Condition.text(option)).parent();
+        if (elm.is(Condition.cssClass("custom-checkbox")))
+            elm = elm.parent();
+        elm.$(".dropdown-header").shouldHave(Condition.text(description));
+    }
+
+    @Override
     public void itemShouldHaveStatusColor(String value, Colors color) {
         element().click();
         element().parent().$$(".n2o-pop-up button").findBy(Condition.text(value))
                 .$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
                 .shouldHave(Condition.cssClass(color.name("bg-")));
+    }
+
+    private SelenideElement input() {
+        return element().$(".n2o-inp");
+    }
+
+    private SelenideElement selectPopUp() {
+        return element().parent().$(".n2o-pop-up");
+    }
+
+    private ElementsCollection popUpButtons() {
+        return selectPopUp().$$("button");
     }
 
 }

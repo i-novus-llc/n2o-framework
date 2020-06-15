@@ -22,8 +22,6 @@ public class N2oSelectTree extends N2oListField implements N2oSingleListField, N
     private CheckingStrategy checkingStrategy;
     private Integer maxTagCount;
 
-    private String enabledFieldId;
-
     private boolean hasCheckboxes() {
         return checkboxes != null && checkboxes;
     }

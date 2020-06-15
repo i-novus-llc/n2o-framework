@@ -9,9 +9,13 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>n2o</artifactId>
-        <version>7.6.3-SNAPSHOT</version>
+        <version>7.7.1-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
+
+    <properties>
+        <mongo.java.driver>3.4.3</mongo.java.driver>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -77,6 +81,22 @@
             <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>${mongo.java.driver}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!--test-->
         <dependency>
@@ -94,8 +114,6 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
 
 </project>

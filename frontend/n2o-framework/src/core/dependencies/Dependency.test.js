@@ -21,6 +21,7 @@ import { enableField, disableField } from '../../actions/formPlugin';
 import formPluginReducer from '../../reducers/formPlugin';
 import { checkAndModify, modify } from '../../sagas/fieldDependency';
 import withDependency from './withDependency';
+import { setModel } from '../../actions/models';
 
 const mockStore = configureMockStore();
 
@@ -139,7 +140,8 @@ const setupModify = mockData => {
     mockData.formName,
     mockData.fields.field1.name,
     mockData.fields.field1.dependency[0].type,
-    mockData.fields.field1.dependency[0]
+    mockData.fields.field1.dependency[0],
+    () => {}
   );
 };
 
@@ -153,7 +155,8 @@ describe('Тестирование саги', () => {
         mockData.formName,
         mockData.fields.field1.name,
         mockData.fields.field1.dependency[0].type,
-        mockData.fields.field1.dependency[0]
+        mockData.fields.field1.dependency[0],
+        undefined
       )
     );
     expect(gen.next().done).toBe(true);
@@ -214,14 +217,14 @@ describe('Тестирование саги', () => {
     set(mockData, 'fields.field1.dependency[0].expression', 'field2');
     set(mockData, 'values.field2', 'test');
     gen = setupModify(mockData);
-    expect(gen.next().value).toEqual(
-      put(
-        change(mockData.formName, mockData.fields.field1.name, {
-          keepDirty: false,
-          value: 'test',
-        })
-      )
+    gen.next();
+    expect(gen.next().value.payload.action).toEqual(
+      setModel('resolve', mockData.formName, {
+        field1: 'test',
+        field2: 'test',
+      })
     );
+    expect(gen.next().value.type).toBe('SELECT');
     expect(gen.next().done).toBe(true);
   });
   it('Проверка модификатора reset зависимости', () => {

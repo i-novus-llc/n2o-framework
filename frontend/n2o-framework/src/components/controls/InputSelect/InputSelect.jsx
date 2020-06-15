@@ -26,6 +26,7 @@ import { MODIFIERS } from '../DatePicker/utils';
  * @reactProps {string} badgeFieldId - поле для баджей
  * @reactProps {string} badgeColorFieldId - поле для цвета баджа
  * @reactProps {string} statusFieldId - поле для статуса
+ * @reactProps {string} descriptionFieldId - поле для описания
  * @reactProps {boolean} disabled - флаг неактивности
  * @reactProps {array} disabledValues - неактивные данные
  * @reactProps {string} filter - варианты фильтрации
@@ -50,6 +51,8 @@ import { MODIFIERS } from '../DatePicker/utils';
  * @reactProps {boolean} popupAutoSize - флаг включения автоматическиого расчета длины PopUp
  */
 
+const POPUP_MAX_WIDTH = 600;
+
 class InputSelect extends React.Component {
   constructor(props) {
     super(props);
@@ -57,8 +60,10 @@ class InputSelect extends React.Component {
       value,
       options,
       valueFieldId,
+      enabledFieldId,
       labelFieldId,
       statusFieldId,
+      descriptionFieldId,
       multiSelect,
     } = this.props;
     const valueArray = Array.isArray(value) ? value : value ? [value] : [];
@@ -476,12 +481,33 @@ class InputSelect extends React.Component {
     };
   }
 
+  preparePopUpStyles = popperStyles => {
+    return Object.assign({}, popperStyles, this.calcPopperWidth());
+  };
+
   calcPopperWidth() {
-    if ((this._input || this._textarea) && !this.props.popupAutoSize) {
-      return this._input
-        ? this._input.getBoundingClientRect().width
-        : this._textarea.getBoundingClientRect().width;
+    const component = this._input || this._textarea;
+
+    if (!!component) {
+      if (!this.props.popupAutoSize) {
+        const width = component.getBoundingClientRect().width;
+
+        return {
+          minWidth: width,
+          maxWidth: width,
+        };
+      }
+
+      return {
+        minWidth: 'auto',
+        maxWidth: POPUP_MAX_WIDTH,
+      };
     }
+
+    return {
+      minWidth: 'auto',
+      maxWidth: 'auto',
+    };
   }
   /**
    * Рендер
@@ -493,12 +519,14 @@ class InputSelect extends React.Component {
       valueFieldId,
       labelFieldId,
       iconFieldId,
+      descriptionFieldId,
       disabled,
       placeholder,
       multiSelect,
       disabledValues,
       imageFieldId,
       groupFieldId,
+      enabledFieldId,
       hasCheckboxes,
       format,
       badgeFieldId,
@@ -591,11 +619,7 @@ class InputSelect extends React.Component {
               {({ ref, style, placement, update }) => (
                 <div
                   ref={ref}
-                  style={{
-                    ...style,
-                    minWidth: this.calcPopperWidth(),
-                    maxWidth: 600,
-                  }}
+                  style={this.preparePopUpStyles(style)}
                   data-placement={placement}
                   className="n2o-pop-up"
                 >
@@ -617,6 +641,7 @@ class InputSelect extends React.Component {
                     imageFieldId={imageFieldId}
                     badgeFieldId={badgeFieldId}
                     statusFieldId={statusFieldId}
+                    descriptionFieldId={descriptionFieldId}
                     badgeColorFieldId={badgeColorFieldId}
                     onSelect={item => {
                       this._handleItemSelect(item);
@@ -625,6 +650,7 @@ class InputSelect extends React.Component {
                     selected={this.state.value}
                     disabledValues={disabledValues}
                     groupFieldId={groupFieldId}
+                    enabledFieldId={enabledFieldId}
                     hasCheckboxes={hasCheckboxes}
                     onRemoveItem={this._removeSelectedItem}
                     format={format}

@@ -2,7 +2,10 @@ package net.n2oapp.framework.boot;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.api.data.*;
+import net.n2oapp.framework.api.data.InvocationProcessor;
+import net.n2oapp.framework.api.data.OperationExceptionHandler;
+import net.n2oapp.framework.api.data.QueryExceptionHandler;
+import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import net.n2oapp.framework.engine.data.*;
