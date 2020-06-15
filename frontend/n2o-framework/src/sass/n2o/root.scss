@@ -104,3 +104,9 @@
 .n2o-standard-widget-layout-toolbar {
   margin: $toolbar-margin;
 }
+
+*::-ms-clear {
+  display: none;
+  width : 0;
+  height: 0;
+}
