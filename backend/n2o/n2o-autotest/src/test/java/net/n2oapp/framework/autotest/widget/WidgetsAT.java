@@ -23,6 +23,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -48,6 +49,7 @@ public class WidgetsAT extends AutoTestBase {
     }
 
     @Test
+    @Disabled
     public void testForm() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/form/testForm.object.xml"));
