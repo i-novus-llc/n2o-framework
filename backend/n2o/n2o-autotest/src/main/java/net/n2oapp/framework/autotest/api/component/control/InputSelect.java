@@ -11,6 +11,8 @@ public interface InputSelect extends Control {
 
     void valMulti(String... values);
 
+    void shouldHaveOptions(String... options);
+
     void select(int index);
 
     void select(Condition by);
@@ -24,6 +26,12 @@ public interface InputSelect extends Control {
     void shouldSelected(String value);
 
     void shouldSelectedMulti(String... values);
+
+    void expandPopUpOptions();
+
+    void collapsePopUpOptions();
+
+    void optionShouldHaveDescription(String option, String description);
 
     void itemShouldBeDisabled(String itemValue);
 

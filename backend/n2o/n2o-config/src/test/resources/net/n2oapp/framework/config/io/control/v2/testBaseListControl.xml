@@ -17,7 +17,8 @@
               format="testFormat"
               cache="true"
               sort-field-id="sortFieldId"
-              size="10">
+              size="10"
+              status-field-id="testStatus">
     <default-value id="1" name="testName" isTest="true"/>
     <options>
         <option id="1" name="testName1" isTest="true" />

@@ -9,7 +9,9 @@ public interface InputSelectTree extends Control {
 
     void shouldHavePlaceholder(String value);
 
-    void toggleOptions();
+    void expandOptions();
+
+    void expandParentOptions(int parentId);
 
     void setFilter(String value);
 

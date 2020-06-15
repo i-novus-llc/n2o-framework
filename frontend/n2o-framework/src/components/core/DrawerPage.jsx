@@ -41,7 +41,7 @@ function DrawerPage(props) {
     disabled,
     toolbar,
     actions,
-    containerKey,
+    entityKey,
     width,
     height,
     placement,
@@ -88,18 +88,9 @@ function DrawerPage(props) {
                   'n2o-disabled': disabled,
                 })}
               >
-                <Toolbar
-                  toolbar={toolbar.bottomLeft}
-                  containerKey={containerKey}
-                />
-                <Toolbar
-                  toolbar={toolbar.bottomCenter}
-                  containerKey={containerKey}
-                />
-                <Toolbar
-                  toolbar={toolbar.bottomRight}
-                  containerKey={containerKey}
-                />
+                <Toolbar toolbar={toolbar.bottomLeft} entityKey={entityKey} />
+                <Toolbar toolbar={toolbar.bottomCenter} entityKey={entityKey} />
+                <Toolbar toolbar={toolbar.bottomRight} entityKey={entityKey} />
               </div>
             ) : (
               footer
@@ -112,7 +103,7 @@ function DrawerPage(props) {
                 pageUrl={pageUrl}
                 pageId={pageId}
                 pageMapping={pageMapping}
-                containerKey={containerKey}
+                entityKey={entityKey}
                 needMetadata={true}
               />
             ) : src ? (

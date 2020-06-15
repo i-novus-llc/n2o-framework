@@ -20,4 +20,5 @@ public class N2oSelect extends N2oSingleListFieldAbstract {
     private String selectFormatOne;
     private String selectFormatFew;
     private String selectFormatMany;
+    private String descriptionFieldId;
 }

@@ -74,6 +74,8 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                 return findOne(inParams, data);
             case update:
                 return update(invocation, inParams, data);
+            case updateField:
+                return updateField(invocation, inParams, data);
             case delete:
                 return delete(invocation, inParams, data);
             case count:
@@ -142,6 +144,34 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         return null;
     }
 
+    private Object updateField(N2oTestDataProvider invocation,
+                               Map<String, Object> inParams,
+                               List<DataSet> data) {
+        List<DataSet> modifiableData = new ArrayList<>(data);
+        if (inParams.get(invocation.getPrimaryKey()) == null)
+            throw new N2oException("Id is required for operation \"updateField\"");
+        if (!inParams.containsKey("key") || !inParams.containsKey("value"))
+            throw new N2oException("Should contains parameters \"key\", \"value\" for operation \"updateField\"");
+
+        DataSet element = modifiableData
+                .stream()
+                .filter(buildPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(), inParams))
+                .findFirst()
+                .orElseThrow(() -> new N2oException("No such element"));
+
+        Map<String, Object> fieldData = new HashMap<>();
+        fieldData.put(invocation.getPrimaryKey(), inParams.get(invocation.getPrimaryKey()));
+        fieldData.put((String) inParams.get("key"), inParams.get("value"));
+        if (inParams.containsKey("key2") && inParams.get("key2") != null)
+            fieldData.put((String) inParams.get("key2"), inParams.get("value2"));
+
+        updateElement(element, fieldData.entrySet());
+        updateRepository(invocation.getFile(), modifiableData);
+        updateFile(invocation.getFile());
+
+        return null;
+    }
+
     private Object delete(N2oTestDataProvider invocation,
                           Map<String, Object> inParams,
                           List<DataSet> data) {
@@ -204,78 +234,88 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
             return data;
         }
         for (String filter : filters) {
-            if (filter.contains(":eqOrIsNull"))
-                data = eqOrIsNullFilterData(filter, inParams, data);
-            else if (filter.contains(":eq"))
-                data = eqFilterData(filter, inParams, data);
-            else if (filter.contains(":like"))
-                data = likeFilterData(filter, inParams, data);
-            else if (filter.contains(":in"))
-                data = inFilterData(filter, inParams, data);
-            else if (filter.contains(":more"))
-                data = moreFilterData(filter, inParams, data);
-            else if (filter.contains(":less"))
-                data = lessFilterData(filter, inParams, data);
-            else if (filter.contains(":isNull"))
-                data = isNullFilterData(filter, data);
-            else if (filter.contains(":isNotNull"))
-                data = isNotNullFilterData(filter, data);
+            String[] splittedFilter = filter.replace(" ", "").split(":");
+            String field = splittedFilter[0];
+            Object pattern = inParams.get(splittedFilter[2]);
+
+            switch (splittedFilter[1]) {
+                case "eq":
+                    data = eqFilterData(field, pattern, data);
+                    break;
+                case "like":
+                    data =  likeFilterData(field, pattern, data);
+                    break;
+                case "in":
+                    data = inFilterData(field, pattern, data);
+                    break;
+                case "more":
+                    data = moreFilterData(field, pattern, data);
+                    break;
+                case "less":
+                    data = lessFilterData(field, pattern, data);
+                    break;
+                case "isNull":
+                    data = isNullFilterData(field, data);
+                    break;
+                case "isNotNull":
+                    data = isNotNullFilterData(field, data);
+                    break;
+                case "eqOrIsNull":
+                    data = eqOrIsNullFilterData(field, pattern, data);
+                    break;
+                default:
+                    throw new N2oException("Wrong filter type!");
+            }
         }
         return data;
     }
 
-    private List<DataSet> eqFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
-        String[] splittedFilter = filter.replace(" ", "").split(":eq");
-        Object pattern = inParams.get(splittedFilter[1].replace(":", ""));
+    private List<DataSet> eqFilterData(String field, Object pattern, List<DataSet> data) {
         if (pattern != null) {
             data = data
                     .stream()
                     .filter(m -> {
-                        if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                        if (!m.containsKey(field) || m.get(field) == null)
                             return false;
-                        if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number)
-                            return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).equals(((Number) pattern).longValue());
-                        return m.get(splittedFilter[0]).toString().equals(pattern.toString());
+                        if (m.get(field) instanceof Number && pattern instanceof Number)
+                            return ((Long) ((Number) m.get(field)).longValue()).equals(((Number) pattern).longValue());
+                        return m.get(field).toString().equals(pattern.toString());
                     })
                     .collect(Collectors.toList());
         }
         return data;
     }
 
-    private List<DataSet> likeFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
-        String[] splittedFilter = filter.replace(" ", "").split(":like");
-        String pattern = inParams.get(splittedFilter[1].replace(":", "")).toString();
+    private List<DataSet> likeFilterData(String field, Object pattern, List<DataSet> data) {
         if (pattern != null) {
             data = data
                     .stream()
                     .filter(m -> {
-                        if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                        if (!m.containsKey(field) || m.get(field) == null)
                             return false;
-                        return m.get(splittedFilter[0]).toString().toLowerCase()
-                                .contains(pattern.toLowerCase());
+                        return m.get(field).toString().toLowerCase()
+                                .contains(pattern.toString().toLowerCase());
                     })
                     .collect(Collectors.toList());
         }
         return data;
     }
 
-    private List<DataSet> inFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
-        String[] splittedFilter = filter.replace(" ", "").split(":in");
-        Object paramsValue = inParams.get(splittedFilter[1].replace(":", ""));
-        List patterns = paramsValue instanceof List ? (List) paramsValue : Arrays.asList(paramsValue);
+    private List<DataSet> inFilterData(String field, Object pattern, List<DataSet> data) {
+        List patterns = pattern instanceof List ? (List) pattern : Arrays.asList(pattern);
         if (patterns != null) {
             data = data
                     .stream()
                     .filter(m -> {
-                        if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                        if (!m.containsKey(field) || m.get(field) == null)
                             return false;
-                        if (m.get(splittedFilter[0]) instanceof Number) {
+                        if (m.get(field) instanceof Number) {
                             List<Long> longPatterns = new ArrayList<>();
                             patterns.forEach(p -> longPatterns.add(((Number) p).longValue()));
-                            return longPatterns.contains(((Number) m.get(splittedFilter[0])).longValue());
+                            return longPatterns.contains(((Number) m.get(field)).longValue());
                         }
                         for (Object p : patterns) {
-                            if (p.toString().equals(m.get(splittedFilter[0]).toString()))
+                            if (p.toString().equals(m.get(field).toString()))
                                 return true;
                         }
                         return false;
@@ -285,71 +325,63 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         return data;
     }
 
-    private List<DataSet> lessFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
-        String[] splittedFilter = filter.replace(" ", "").split(":less");
-        Comparable pattern = (Comparable) inParams.get(splittedFilter[1].replace(":", ""));
+    private List<DataSet> lessFilterData(String field, Object pattern, List<DataSet> data) {
         if (pattern != null) {
             data = data
                     .stream()
                     .filter(m -> {
-                        if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                        if (!m.containsKey(field) || m.get(field) == null)
                             return false;
-                        if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number) {
-                            return ((Number) m.get(splittedFilter[0])).longValue() < ((Number) pattern).longValue();
+                        if (m.get(field) instanceof Number && pattern instanceof Number) {
+                            return ((Number) m.get(field)).longValue() < ((Number) pattern).longValue();
                         }
-                        return m.get(splittedFilter[0]).toString().compareTo(pattern.toString()) < 0;
+                        return m.get(field).toString().compareTo(pattern.toString()) < 0;
                     })
                     .collect(Collectors.toList());
         }
         return data;
     }
 
-    private List<DataSet> moreFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
-        String[] splittedFilter = filter.replace(" ", "").split(":more");
-        Comparable pattern = (Comparable) inParams.get(splittedFilter[1].replace(":", ""));
+    private List<DataSet> moreFilterData(String field, Object pattern, List<DataSet> data) {
         if (pattern != null) {
             data = data
                     .stream()
                     .filter(m -> {
-                        if (!m.containsKey(splittedFilter[0]) || m.get(splittedFilter[0]) == null)
+                        if (!m.containsKey(field) || m.get(field) == null)
                             return false;
-                        if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number) {
-                            return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).compareTo(((Number) pattern).longValue()) > 0;
+                        if (m.get(field) instanceof Number && pattern instanceof Number) {
+                            return ((Long) ((Number) m.get(field)).longValue()).compareTo(((Number) pattern).longValue()) > 0;
                         }
-                        return m.get(splittedFilter[0]).toString().compareTo(pattern.toString()) > 0;
+                        return m.get(field).toString().compareTo(pattern.toString()) > 0;
                     })
                     .collect(Collectors.toList());
         }
         return data;
     }
 
-    private List<DataSet> isNullFilterData(String filter, List<DataSet> data) {
-        String[] splittedFilter = filter.replace(" ", "").split(":isNull");
+    private List<DataSet> isNullFilterData(String field, List<DataSet> data) {
         return data.stream()
-                .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) == null)
+                .filter(m -> m.containsKey(field) && m.get(field) == null)
                 .collect(Collectors.toList());
 
     }
 
-    private List<DataSet> isNotNullFilterData(String filter, List<DataSet> data) {
-        String[] splittedFilter = filter.replace(" ", "").split(":isNotNull");
+    private List<DataSet> isNotNullFilterData(String field, List<DataSet> data) {
         return data.stream()
-                .filter(m -> m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) != null)
+                .filter(m -> m.containsKey(field) && m.get(field) != null)
                 .collect(Collectors.toList());
     }
 
-    private List<DataSet> eqOrIsNullFilterData(String filter, Map<String, Object> inParams, List<DataSet> data) {
-        String[] splittedFilter = filter.replace(" ", "").split(":eqOrIsNull");
-        Object pattern = inParams.get(splittedFilter[1].replace(":", ""));
+    private List<DataSet> eqOrIsNullFilterData(String field, Object pattern, List<DataSet> data) {
         if (pattern != null) {
             data = data
                     .stream()
                     .filter(m -> {
-                        if (!m.containsKey(splittedFilter[0]) || m.containsKey(splittedFilter[0]) && m.get(splittedFilter[0]) == null)
+                        if (!m.containsKey(field) || m.containsKey(field) && m.get(field) == null)
                             return true;
-                        if (m.get(splittedFilter[0]) instanceof Number && pattern instanceof Number)
-                            return ((Long) ((Number) m.get(splittedFilter[0])).longValue()).equals(((Number) pattern).longValue());
-                        return m.get(splittedFilter[0]).toString().equals(pattern.toString());
+                        if (m.get(field) instanceof Number && pattern instanceof Number)
+                            return ((Long) ((Number) m.get(field)).longValue()).equals(((Number) pattern).longValue());
+                        return m.get(field).toString().equals(pattern.toString());
                     })
                     .collect(Collectors.toList());
         }
@@ -435,6 +467,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     /**
      * Возвращает полный путь к файлу на диске
+     *
      * @param filename Имя файла
      */
     public String getFullPathOnDisk(String filename) {
@@ -443,6 +476,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     /**
      * Возвращает полный путь к ресурсу в classpath
+     *
      * @param filename Имя файла
      */
     public String getFullResourcePath(String filename) {
@@ -457,6 +491,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
     /**
      * Проверяет корректность имени файла и
      * исправляет в случае необходимости
+     *
      * @param filename Имя файла
      */
     protected String validateFilename(String filename) {
@@ -497,6 +532,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     /**
      * Проверяет существование файла на диске
+     *
      * @param filename Имя файла
      * @return True если файл с заданным именем и путем,
      * указанным в переменной pathOnDisk, существует, false иначе
@@ -508,6 +544,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     /**
      * Обновляет содержимое файла на диске
+     *
      * @param filename Имя файла
      */
     private void updateFile(String filename) {

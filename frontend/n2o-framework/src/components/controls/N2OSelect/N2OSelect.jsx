@@ -368,6 +368,7 @@ class N2OSelect extends React.Component {
       disabledValues,
       imageFieldId,
       groupFieldId,
+      descriptionFieldId,
       format,
       placeholder,
       badgeFieldId,
@@ -420,6 +421,7 @@ class N2OSelect extends React.Component {
               labelFieldId={labelFieldId}
               iconFieldId={iconFieldId}
               badgeFieldId={badgeFieldId}
+              descriptionFieldId={descriptionFieldId}
               badgeColorFieldId={badgeColorFieldId}
               onSelect={this._handleItemSelect}
               onScrollEnd={onScrollEnd}

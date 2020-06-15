@@ -235,140 +235,6 @@ describe('Тесты models reducer', () => {
     });
   });
 
-  describe('Проверка COPY', () => {
-    it('Проверка COPY без mode', () => {
-      expect(
-        models(
-          {
-            resolve: {
-              testKey: {
-                name: 'new name',
-              },
-            },
-            edit: {
-              testKey: {},
-            },
-          },
-          {
-            type: COPY,
-            payload: {
-              source: {
-                prefix: 'resolve',
-                key: 'testKey',
-              },
-              target: {
-                prefix: 'edit',
-                key: 'testKey',
-              },
-            },
-          }
-        )
-      ).toEqual({
-        edit: {
-          testKey: {
-            name: 'new name',
-          },
-        },
-        resolve: {
-          testKey: {
-            name: 'new name',
-          },
-        },
-      });
-    });
-
-    it('Проверка COPY mode = merge', () => {
-      expect(
-        models(
-          {
-            resolve: {
-              testWidget: {
-                one: 1,
-              },
-            },
-            filter: {
-              anotherWidget: {
-                two: 2,
-              },
-            },
-          },
-          {
-            type: COPY,
-            payload: {
-              target: {
-                prefix: 'filter',
-                key: 'anotherWidget',
-              },
-              source: {
-                prefix: 'resolve',
-                key: 'testWidget',
-              },
-              mode: 'merge',
-            },
-          }
-        )
-      ).toEqual({
-        resolve: {
-          testWidget: {
-            one: 1,
-          },
-        },
-        filter: {
-          anotherWidget: {
-            two: 2,
-            one: 1,
-          },
-        },
-      });
-    });
-
-    it('Проверка COPY mode = add', () => {
-      expect(
-        models(
-          {
-            resolve: {
-              sourceWidget: {
-                one: [1, 2, 3],
-              },
-            },
-            filter: {
-              targetWidget: {
-                two: {
-                  arr: [4, 5, 6],
-                },
-              },
-            },
-          },
-          {
-            type: COPY,
-            payload: {
-              source: { prefix: 'resolve', key: 'sourceWidget', field: 'one' },
-              target: {
-                prefix: 'filter',
-                key: 'targetWidget',
-                field: 'two.arr',
-              },
-              mode: 'add',
-            },
-          }
-        )
-      ).toEqual({
-        resolve: {
-          sourceWidget: {
-            one: [1, 2, 3],
-          },
-        },
-        filter: {
-          targetWidget: {
-            two: {
-              arr: [4, 5, 6, 1, 2, 3],
-            },
-          },
-        },
-      });
-    });
-  });
-
   it('Проверка REMOVE_ALL', () => {
     expect(
       models(
@@ -396,4 +262,21 @@ describe('Тесты models reducer', () => {
       edit: {},
     });
   });
+});
+
+const createState = (resolve = {}, filter = {}) => ({
+  resolve: {
+    proto_clients: {
+      id: 1,
+      name: 'Ivan',
+      surname: 'Ivanov',
+    },
+    ...resolve,
+  },
+  filter: {
+    proto_form: {
+      test: 'test',
+    },
+    ...filter,
+  },
 });
