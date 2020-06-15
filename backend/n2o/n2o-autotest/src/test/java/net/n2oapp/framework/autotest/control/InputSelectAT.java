@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
  */
 public class InputSelectAT extends AutoTestBase {
 
-    private SimplePage page;
 
     @BeforeAll
     public static void beforeClass() {
@@ -44,7 +43,7 @@ public class InputSelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect1")
+        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect")
                 .control(InputSelect.class);
         input.shouldExists();
 
