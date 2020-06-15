@@ -32,7 +32,7 @@ class DropdownButton extends React.Component {
   };
 
   render() {
-    const { subMenu, ...rest } = this.props;
+    const { subMenu, className, ...rest } = this.props;
     const { open } = this.state;
 
     return (
@@ -44,7 +44,7 @@ class DropdownButton extends React.Component {
                 {...rest}
                 onClick={this.toggle}
                 innerRef={ref}
-                className="n2o-dropdown-control dropdown-toggle"
+                className={cn("n2o-dropdown-control dropdown-toggle", className)}
                 caret
               />
             )}
