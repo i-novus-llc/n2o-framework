@@ -84,6 +84,17 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     @Override
+    public void itemShouldBeEnabled(Boolean enabled, String value) {
+        element().click();
+        if (enabled)
+            popUpButtons().findBy(Condition.text(value))
+                    .shouldNotHave(Condition.cssClass("disabled"));
+        else
+            popUpButtons().findBy(Condition.text(value))
+                    .shouldHave(Condition.cssClass("disabled"));
+    }
+
+    @Override
     public void clear() {
         element().$(".n2o-input-clear").hover().shouldBe(Condition.visible).click();
     }

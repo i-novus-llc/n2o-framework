@@ -32,4 +32,7 @@ public interface InputSelect extends Control {
     void collapsePopUpOptions();
 
     void optionShouldHaveDescription(String option, String description);
+
+    void itemShouldBeEnabled(Boolean enabled, String itemValue);
+
 }
