@@ -63,7 +63,7 @@ export function required(fieldId, values, options = {}) {
  * @param options
  * @returns {boolean}
  */
-export function condition(fieldId, values, options) {
+export function condition(fieldId, values, options = {}) {
   return evalExpression(options.expression, values);
 }
 
