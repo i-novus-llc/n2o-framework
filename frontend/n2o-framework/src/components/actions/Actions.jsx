@@ -274,6 +274,7 @@ class Actions extends React.Component {
     icon,
     size,
     disabled,
+    className,
   }) {
     const dropdownProps = {
       size,
@@ -284,10 +285,13 @@ class Actions extends React.Component {
       visible,
       disabled,
       hintPosition,
+      className,
     };
+
     return (
       <ButtonContainer
         id={id}
+        className={className}
         component={DropdownMenu}
         initialProps={dropdownProps}
         containerKey={this.props.containerKey}
