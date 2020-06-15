@@ -45,11 +45,11 @@
 }
 
 .n2o-label {
-  display: block;
-
   & .n2o-popover {
     cursor: pointer;
     margin: 0 5px;
+    display: flex;
+    align-items: center;
 
     & button {
       padding: 0;
@@ -87,4 +87,9 @@
     font-size: 0.8rem;
     line-height: 1rem;
   }
+
+  .n2o-label {
+    display: flex;
+  }
+
 }
