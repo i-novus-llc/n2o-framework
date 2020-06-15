@@ -33,6 +33,6 @@ public interface InputSelect extends Control {
 
     void optionShouldHaveDescription(String option, String description);
 
-    void itemShouldBeDisabled(String itemValue);
+    void itemShouldBeEnabled(Boolean enabled, String itemValue);
 
 }

@@ -15,8 +15,6 @@ import org.junit.jupiter.api.Test;
  */
 public class InputSelectAT extends AutoTestBase {
 
-    private SimplePage page;
-
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -56,8 +54,14 @@ public class InputSelectAT extends AutoTestBase {
 
         input.val("Three");
         input.shouldHaveValue("Three");
+        input.collapsePopUpOptions();
 
-        input.itemShouldBeDisabled("Four");
+        input = page.single().widget(FormWidget.class).fields().field("InputSelect1")
+                .control(InputSelect.class);
+        input.itemShouldBeEnabled(true, "One");
+        input.itemShouldBeEnabled(true, "Two");
+        input.itemShouldBeEnabled(true, "Three");
+        input.itemShouldBeEnabled(false, "Four");
     }
 
     @Test
@@ -113,7 +117,13 @@ public class InputSelectAT extends AutoTestBase {
         input.clearItems("Two", "One");
         input.shouldBeEmpty();
 
-        input.itemShouldBeDisabled("Four");
+        input.collapsePopUpOptions();
+        input = page.single().widget(FormWidget.class).fields().field("InputSelect3")
+                .control(InputSelect.class);
+        input.itemShouldBeEnabled(true, "One");
+        input.itemShouldBeEnabled(true, "Two");
+        input.itemShouldBeEnabled(true, "Three");
+        input.itemShouldBeEnabled(false, "Four");
     }
 
     @Test
