@@ -127,7 +127,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     @Override
     public void itemShouldHaveStatusColor(String value, Colors color) {
         element().click();
-        element().parent().$$(".n2o-pop-up button").findBy(Condition.text(value))
+        popUpButtons().findBy(Condition.text(value))
                 .$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
                 .shouldHave(Condition.cssClass(color.name("bg-")));
     }

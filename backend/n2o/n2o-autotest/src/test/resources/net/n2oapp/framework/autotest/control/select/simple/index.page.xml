@@ -15,13 +15,6 @@
                     <option id="three" name="Three"/>
                 </options>
             </select>
-            <input-select id="select3" label="InputSelect1" reset-on-blur="false" status-field-id="status">
-                <options>
-                    <option id="one" name="One" status="success"/>
-                    <option id="two" name="Two" status="primary"/>
-                    <option id="three" name="Three" status="danger"/>
-                </options>
-            </input-select>
         </fields>
     </form>
 </simple-page>
