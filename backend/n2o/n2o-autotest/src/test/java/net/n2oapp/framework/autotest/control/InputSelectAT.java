@@ -44,7 +44,7 @@ public class InputSelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect")
+        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect1")
                 .control(InputSelect.class);
         input.shouldExists();
 
@@ -57,6 +57,17 @@ public class InputSelectAT extends AutoTestBase {
 
         input.val("Three");
         input.shouldHaveValue("Three");
+    }
+
+    @Test
+    public void testColorStatus() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/simple/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect2")
+                .control(InputSelect.class);
+        input.shouldExists();
 
         input.itemShouldHaveStatusColor("One", Colors.SUCCESS);
         input.itemShouldHaveStatusColor("Two", Colors.PRIMARY);
