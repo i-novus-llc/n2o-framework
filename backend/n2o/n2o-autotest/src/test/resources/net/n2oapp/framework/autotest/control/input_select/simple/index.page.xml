@@ -8,6 +8,14 @@
                     <option id="three" name="Three"/>
                 </options>
             </input-select>
+
+            <input-select id="select2" label="InputSelect2" status-field-id="status">
+                <options>
+                    <option id="one" name="One" status="success"/>
+                    <option id="two" name="Two" status="primary"/>
+                    <option id="three" name="Three" status="danger"/>
+                </options>
+            </input-select>
         </fields>
     </form>
 </simple-page>
