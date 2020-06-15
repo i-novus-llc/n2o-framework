@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose, withHandlers, mapProps } from 'recompose';
-import some from 'lodash/some';
+import every from 'lodash/every';
 
 import * as presets from '../../../../core/validation/presets';
 import {
@@ -17,14 +17,14 @@ export default Field => {
     withHandlers({
       validateField: ({ dispatch, validation, meta, input }) => value => {
         let message = {};
-        const validateResult = some(validation, ({ severity, text, type }) => {
+        const validateResult = every(validation, ({ severity, text, type, ...options }) => {
           const validationFunc = presets[type];
           message = {
             severity,
             text,
           };
 
-          return validationFunc(input.name, { [input.name]: value });
+          return validationFunc(input.name, { [input.name]: value }, options);
         });
 
         if (validateResult) {
