@@ -9,16 +9,15 @@
 
     <fields>
         <field id="id" domain="string">
-            <select mapping="['_id'].toString()">_id</select>
+            <select/>
             <filters>
-                <eq filter-id="id">{ _id: new ObjectId('#id') }</eq>
-                <in filter-id="idIn" normalize="T(net.n2oapp.framework.test.MongodbDataProviderEngineTest).mapIdIn(#this)" domain="string">{ _id: {$in: #idIn }}</in>
+                <eq filter-id="id"/>
             </filters>
             <sorting/>
         </field>
 
         <field id="name" domain="string">
-            <select>name</select>
+            <select/>
             <filters>
                 <eq filter-id="name"/>
                 <notEq filter-id="notName"/>
@@ -26,16 +25,16 @@
                 <like filter-id="nameLike" mapping="['nameLikeMap']">{ name: { $regex: '.*#nameLikeMap.*'}}</like>
                 <likeStart filter-id="nameStart">{ name: {$regex: '#nameStart.*'}}</likeStart>
             </filters>
-            <sorting mapping="['sortName']">name :sortName</sorting>
+            <sorting/>
         </field>
 
         <field id="userAge" domain="integer">
             <select mapping="['age']">age</select>
             <filters>
-                <in filter-id="userAgeIn">{age: {$in: #userAgeIn}}</in>
+                <in mapping="userAgeIn">{age: {$in: #userAgeIn}}</in>
                 <notIn filter-id="userAgeNotIn">{age: {$nin: #userAgeNotIn}}</notIn>
             </filters>
-            <sorting/>
+            <sorting mapping="['sortUserAge']">age :sortUserAge</sorting>
         </field>
 
         <field id="birthday" domain="localdate">

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
  * Автотест компонента ввода текста с выбором из выпадающего списка
  */
 public class InputSelectAT extends AutoTestBase {
+
 
     @BeforeAll
     public static void beforeClass() {
@@ -62,6 +64,21 @@ public class InputSelectAT extends AutoTestBase {
         input.itemShouldBeEnabled(true, "Two");
         input.itemShouldBeEnabled(true, "Three");
         input.itemShouldBeEnabled(false, "Four");
+    }
+
+    @Test
+    public void testColorStatus() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/simple/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect2")
+                .control(InputSelect.class);
+        input.shouldExists();
+
+        input.itemShouldHaveStatusColor("One", Colors.SUCCESS);
+        input.itemShouldHaveStatusColor("Two", Colors.PRIMARY);
+        input.itemShouldHaveStatusColor("Three", Colors.DANGER);
     }
 
     @Test

@@ -82,14 +82,8 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>${mongo.java.driver}</version>
+            <artifactId>mongodb-driver</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>

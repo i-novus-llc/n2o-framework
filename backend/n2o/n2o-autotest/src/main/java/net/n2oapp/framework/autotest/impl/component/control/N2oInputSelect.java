@@ -4,6 +4,7 @@ import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import org.openqa.selenium.Keys;
 
@@ -134,6 +135,14 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
         elm.$(".dropdown-header").shouldHave(Condition.text(description));
     }
 
+    @Override
+    public void itemShouldHaveStatusColor(String value, Colors color) {
+        element().click();
+        popUpButtons().findBy(Condition.text(value))
+                .$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
+                .shouldHave(Condition.cssClass(color.name("bg-")));
+    }
+
     private SelenideElement input() {
         return element().$(".n2o-inp");
     }
@@ -145,4 +154,5 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     private ElementsCollection popUpButtons() {
         return selectPopUp().$$("button");
     }
+
 }
