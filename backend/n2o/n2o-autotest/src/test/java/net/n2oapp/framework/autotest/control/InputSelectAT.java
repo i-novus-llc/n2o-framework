@@ -56,6 +56,14 @@ public class InputSelectAT extends AutoTestBase {
 
         input.val("Three");
         input.shouldHaveValue("Three");
+        input.collapsePopUpOptions();
+
+        input = page.single().widget(FormWidget.class).fields().field("InputSelect1")
+                .control(InputSelect.class);
+        input.itemShouldBeEnabled(true, "One");
+        input.itemShouldBeEnabled(true, "Two");
+        input.itemShouldBeEnabled(true, "Three");
+        input.itemShouldBeEnabled(false, "Four");
     }
 
     @Test
@@ -125,6 +133,14 @@ public class InputSelectAT extends AutoTestBase {
         input.shouldSelectedMulti("Two", "One");
         input.clearItems("Two", "One");
         input.shouldBeEmpty();
+
+        input.collapsePopUpOptions();
+        input = page.single().widget(FormWidget.class).fields().field("InputSelect3")
+                .control(InputSelect.class);
+        input.itemShouldBeEnabled(true, "One");
+        input.itemShouldBeEnabled(true, "Two");
+        input.itemShouldBeEnabled(true, "Three");
+        input.itemShouldBeEnabled(false, "Four");
     }
 
     @Test

@@ -36,4 +36,7 @@ public interface InputSelect extends Control {
 
     void itemShouldHaveStatusColor(String value, Colors color);
 
+
+    void itemShouldBeEnabled(Boolean enabled, String itemValue);
+
 }
