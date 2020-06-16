@@ -5,16 +5,7 @@
             <column text-field-id="name"/>
             <column text-field-id="options">
                 <toolbar>
-                    <button label="Кнопка1" description="Описание">
-                        <dependencies>
-                            <enabling message="Не доступно">name != 'test2'</enabling>
-                        </dependencies>
-                    </button>
-                    <button label="Кнопка2">
-                        <dependencies>
-                            <enabling message="Не доступно">name != 'test2'</enabling>
-                        </dependencies>
-                    </button>
+                    <button label="Кнопка" visible="{name != 'test3'}" enabled="{name != 'test2'}"/>
                 </toolbar>
             </column>
         </columns>

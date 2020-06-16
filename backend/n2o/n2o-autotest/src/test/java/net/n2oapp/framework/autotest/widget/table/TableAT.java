@@ -6,7 +6,6 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
-import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -83,28 +82,17 @@ public class TableAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Page.Tooltip tooltip = page.tooltip();
-
         TableWidget table = page.single().widget(TableWidget.class);
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(3);
 
-        // проверка, что у кнопки появляется подсказка
-        ToolbarCell row1Cell = rows.row(0).cell(2, ToolbarCell.class);
-        StandardButton button1 = row1Cell.toolbar().button("Кнопка1");
-        StandardButton button2 = row1Cell.toolbar().button("Кнопка2");
-        button1.shouldBeEnabled();
-        button1.hover();
-        tooltip.shouldHaveText("Описание");
-        button1.shouldBeEnabled();
-        button2.hover();
-        tooltip.shouldNotBeExist();
-
-        // проверка, что появляется подсказка при недоступности кнопки
-        ToolbarCell row2Cell = rows.row(1).cell(2, ToolbarCell.class);
-        button1 = row2Cell.toolbar().button("Кнопка1");
-//        button1.shouldBeDisabled();
-//        button1.hover();
-//        tooltip.shouldHaveText("Не доступно");
+        StandardButton button = rows.row(0).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
+        button.shouldExists();
+        button.shouldBeEnabled();
+        button = rows.row(1).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
+        button.shouldExists();
+        button.shouldBeDisabled();
+        button = rows.row(2).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
+        button.shouldNotExists();
     }
 }
