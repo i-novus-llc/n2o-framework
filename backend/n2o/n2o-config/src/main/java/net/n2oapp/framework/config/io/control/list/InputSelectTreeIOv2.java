@@ -9,6 +9,9 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom.Element;
 import org.springframework.stereotype.Component;
 
+/**
+ * Чтение/запись компонента ввода с выбором в выпадающем списке в виде дерева
+ */
 @Component
 public class InputSelectTreeIOv2 extends ListFieldIOv2<N2oInputSelectTree> {
 
@@ -20,12 +23,12 @@ public class InputSelectTreeIOv2 extends ListFieldIOv2<N2oInputSelectTree> {
         p.attributeBoolean(e, "checkboxes", m::getCheckboxes, m::setCheckboxes);
         p.attributeEnum(e, "checking-strategy", m::getCheckingStrategy, m::setCheckingStrategy, CheckingStrategy.class);
         p.attributeInteger(e, "max-tag-count", m::getMaxTagCount, m::setMaxTagCount);
-        p.attribute(e, "enabled-field-id", m::getEnabledFieldId, m::setEnabledFieldId);
         p.attribute(e, "parent-field-id", m::getParentFieldId, m::setParentFieldId);
         p.attribute(e, "has-children-field-id", m::getHasChildrenFieldId, m::setHasChildrenFieldId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
         p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
         p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
+        p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
 
         p.child(e, null, "inheritance-nodes", m::getInheritanceNodes, m::setInheritanceNodes, InheritanceNodes.class, this::inheritanceNodes);
     }

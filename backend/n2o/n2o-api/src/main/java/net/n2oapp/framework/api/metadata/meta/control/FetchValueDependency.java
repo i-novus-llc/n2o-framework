@@ -3,11 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 
 /**
  * Клиентская молель зависимости обновления модели для поля ввода
@@ -16,7 +12,7 @@ import java.util.List;
 @Setter
 public class FetchValueDependency extends ControlDependency {
     @JsonProperty
-    private WidgetDataProvider dataProvider;
+    private ClientDataProvider dataProvider;
     @JsonProperty
     private String valueFieldId;
 }

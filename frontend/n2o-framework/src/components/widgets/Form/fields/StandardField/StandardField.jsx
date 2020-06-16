@@ -83,6 +83,8 @@ class StandardField extends React.Component {
       help,
       toolbar,
       containerKey,
+      dataProvider,
+      form,
       ...props
     } = this.props;
 
@@ -151,8 +153,8 @@ class StandardField extends React.Component {
                 onBlur={onBlur}
                 onFocus={onFocus}
                 onChange={onChange}
-                {...control}
                 {...props}
+                {...control}
                 className={cx(control.className, {
                   [validationClass]: touched,
                   'form-control__with-toolbar': toolbar,
@@ -162,7 +164,7 @@ class StandardField extends React.Component {
                 <Toolbar
                   className="n2o-page-actions__form-toolbar"
                   toolbar={toolbar}
-                  entityKey={containerKey}
+                  entityKey={form}
                 />
               )}
               <Measure value={measure} />

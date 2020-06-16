@@ -1,0 +1,22 @@
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <form>
+        <fields>
+            <input-select id="select" label="InputSelect" type="checkboxes">
+                <options>
+                    <option id="one" name="One"/>
+                    <option id="two" name="Two"/>
+                    <option id="three" name="Three"/>
+                </options>
+            </input-select>
+
+            <input-select id="select3" label="InputSelect3" type="checkboxes" enabled-field-id="isDisabled">
+                <options>
+                    <option id="one" name="One"/>
+                    <option id="two" name="Two"/>
+                    <option id="three" name="Three" isDisabled="false"/>
+                    <option id="four" name="Four" isDisabled="true"/>
+                </options>
+            </input-select>
+        </fields>
+    </form>
+</simple-page>

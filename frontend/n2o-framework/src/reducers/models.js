@@ -6,10 +6,6 @@ import merge from 'lodash/merge';
 import pick from 'lodash/pick';
 import each from 'lodash/each';
 import isString from 'lodash/isString';
-import get from 'lodash/get';
-import set from 'lodash/set';
-import values from 'lodash/values';
-import defaultTo from 'lodash/defaultTo';
 
 import {
   SET,
@@ -19,7 +15,6 @@ import {
   UPDATE,
   UPDATE_MAP,
   MERGE,
-  COPY,
   CLEAR,
   PREFIXES,
 } from '../constants/models';
@@ -65,28 +60,6 @@ function resolveUpdate(state, action) {
   }
 
   return setIn(state, field, value);
-}
-
-function resolveCopyAction(state, { payload }) {
-  const { target, source, mode = 'replace' } = payload;
-  const newState = Object.assign({}, state);
-  const targetPath = values(target).join('.');
-  const sourcePath = values(source).join('.');
-  const sourceModel = get(state, sourcePath);
-  const targetModel = get(state, targetPath);
-
-  if (mode === 'merge' && isObject(sourceModel) && isObject(targetModel)) {
-    set(newState, targetPath, merge(targetModel, sourceModel));
-  } else if (mode === 'add') {
-    set(newState, targetPath, [
-      ...defaultTo(targetModel, []),
-      ...Object.values(sourceModel),
-    ]);
-  } else {
-    set(newState, targetPath, sourceModel);
-  }
-
-  return newState;
 }
 
 function resolve(state, action) {
@@ -139,8 +112,6 @@ export default function models(state = modelState, action) {
       return Object.assign({}, state, {
         [action.payload.prefix]: resolve(state[action.payload.prefix], action),
       });
-    case COPY:
-      return resolveCopyAction(state, action);
     case MERGE:
       return { ...merge(state, action.payload.combine) };
     case REMOVE_ALL:

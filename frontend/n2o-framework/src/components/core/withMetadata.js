@@ -12,7 +12,6 @@ import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 
 import { metadataRequest, resetPage, mapUrl } from '../../actions/pages';
-import { destroyOverlay } from '../../actions/overlays';
 import {
   makePageMetadataByIdSelector,
   makePageLoadingByIdSelector,
@@ -147,8 +146,7 @@ const withMetadata = Component => {
     return {
       getMetadata: (pageId, pageUrl, pageMapping, rootPage) =>
         dispatch(metadataRequest(pageId, rootPage, pageUrl, pageMapping)),
-      reset: pageId =>
-        dispatch(batchActions([resetPage(pageId), destroyOverlay()])),
+      reset: pageId => dispatch(batchActions([resetPage(pageId)])),
       routeMap: pageId => dispatch(mapUrl(pageId)),
     };
   }

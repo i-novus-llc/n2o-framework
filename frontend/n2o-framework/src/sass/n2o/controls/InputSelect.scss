@@ -96,6 +96,27 @@
   }
 }
 
+.n2o-eclipse-content.n2o-eclipse-content__with-status {
+  display: flex;
+}
+
+.n2o-dropdown-control .n2o-eclipse-content__description {
+  padding: 0;
+}
+
+.n2o-dropdown-control .n2o-eclipse-content__description-with-icon {
+  padding: 0 0 0 2.2rem;
+
+}
+
+.n2o-dropdown-control .n2o-eclipse-content__description-with-checkbox {
+  padding: 0 0 0 1.5rem;
+}
+
+.n2o-dropdown-control .n2o-eclipse-content__description-with-icon-checkbox {
+  padding: 0 0 0 3.7rem;
+}
+
 .n2o-input-button > .adjust-huener {
   &.adjust-huener-inline {
     margin-left: 0;
@@ -231,9 +252,8 @@
     }
 
     & > i {
-      padding-right: 5px;
       display: flex;
-
+      padding-right: 5px;
     }
 
     & > img {
@@ -251,12 +271,18 @@
   }
 
   .n2o-input-control {
-    margin-left: auto;
-    align-items: center;
+    position: absolute;
+    right: 0;
+    top: 7px;
+
     display: flex;
-    cursor: $input-cursor;
-    //width: 40px;
+    align-items: center;
+    margin-left: auto;
     justify-content: center;
+
+    padding: 0 4px;
+
+    cursor: $input-cursor;
     z-index: 2;
     & > div {
       margin: $input-control-padding;
@@ -297,7 +323,6 @@
       display: flex;
       justify-content: start;
       text-align: center;
-      width: 30px;
       margin: 0;
       & > .adjust-huener.adjust-huener-inline {
         margin-left: 0;

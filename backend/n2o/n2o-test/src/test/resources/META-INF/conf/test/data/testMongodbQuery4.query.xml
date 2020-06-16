@@ -11,7 +11,8 @@
         <field id="id" domain="string">
             <select mapping="['_id'].toString()">_id</select>
             <filters>
-                <eq filter-id="id">_id :eq :id</eq>
+                <eq filter-id="id">{ _id: new ObjectId('#id') }</eq>
+                <in filter-id="idIn" normalize="T(net.n2oapp.framework.test.MongodbDataProviderEngineTest).mapIdIn(#this)" domain="string">{ _id: {$in: #idIn }}</in>
             </filters>
             <sorting/>
         </field>
@@ -21,8 +22,9 @@
             <filters>
                 <eq filter-id="name"/>
                 <notEq filter-id="notName"/>
-                <like filter-id="nameLike" mapping="['nameLikeMap']">name :like :nameLikeMap</like>
-                <likeStart filter-id="nameStart">name :likeStart :nameStart</likeStart>
+                <in filter-id="userNameIn" domain="string[]"/>
+                <like filter-id="nameLike" mapping="['nameLikeMap']">{ name: { $regex: '.*#nameLikeMap.*'}}</like>
+                <likeStart filter-id="nameStart">{ name: {$regex: '#nameStart.*'}}</likeStart>
             </filters>
             <sorting mapping="['sortName']">name :sortName</sorting>
         </field>
@@ -30,8 +32,8 @@
         <field id="userAge" domain="integer">
             <select mapping="['age']">age</select>
             <filters>
-                <in filter-id="userAgeIn">age :in :userAgeIn</in>
-                <notIn filter-id="userAgeNotIn">age :notIn :userAgeNotIn</notIn>
+                <in filter-id="userAgeIn">{age: {$in: #userAgeIn}}</in>
+                <notIn filter-id="userAgeNotIn">{age: {$nin: #userAgeNotIn}}</notIn>
             </filters>
             <sorting/>
         </field>
@@ -39,8 +41,8 @@
         <field id="birthday" domain="localdate">
             <select/>
             <filters>
-                <more filter-id="birthdayMore"/>
-                <less filter-id="birthdayLess"/>
+                <more filter-id="birthdayMore">{birthday: {$gte: new ISODate(#birthdayMore)}}</more>
+                <less filter-id="birthdayLess">{birthday: {$lte: new ISODate(#birthdayLess)}}</less>
             </filters>
         </field>
 
@@ -49,11 +51,11 @@
         </field>
 
         <field id="gender.id">
-            <select mapping="['gender'].get('id')"/>
+            <select mapping="['gender']?.get('id')"/>
         </field>
 
         <field id="gender.name">
-            <select mapping="['gender'].get('name')" normalize="#this.toLowerCase()"/>
+            <select mapping="['gender']?.get('name')" normalize="#this?.toLowerCase()"/>
         </field>
     </fields>
 </query>
