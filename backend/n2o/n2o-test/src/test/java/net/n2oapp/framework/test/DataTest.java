@@ -29,7 +29,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование получения данных sql запросом
  */
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = "spring.main.allow-bean-definition-overriding=true")
 public class DataTest {
@@ -305,7 +305,7 @@ public class DataTest {
     }
 
     @Getter
-    public class Request {
+    public static class Request {
         String id;
         String name;
         String surname;

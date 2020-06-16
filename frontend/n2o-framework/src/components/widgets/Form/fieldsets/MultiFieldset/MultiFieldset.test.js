@@ -41,7 +41,7 @@ const fieldsets = [
     needRemoveAllButton: true,
     needCopyButton: true,
     name: 'members',
-    label: 'Элемент #index',
+    label: "`'Элемент ' + index`",
     rows: [
       {
         cols: [
@@ -136,13 +136,13 @@ describe('<MultiFieldset />', () => {
         .find('.n2o-multi-fieldset__label')
         .first()
         .text()
-    ).toBe('Элемент 1');
+    ).toBe('Элемент 0');
     expect(
       wrapper
         .find('.n2o-multi-fieldset__label')
         .last()
         .text()
-    ).toBe('Элемент 2');
+    ).toBe('Элемент 1');
   });
 
   it('должен добавить группу fields', () => {

@@ -116,9 +116,13 @@ describe('Проверка саги dependency', () => {
         expression: `10 + 2`,
       });
       let next = gen.next();
+      next = gen.next();
       expect(next.value.payload.action.payload).toEqual({
-        keepDirty: false,
-        value: 12,
+        key: 'testForm',
+        prefix: 'resolve',
+        model: {
+          testField: 12,
+        },
       });
       expect(gen.next().value.type).toBe('SELECT');
       expect(gen.next().done).toEqual(true);

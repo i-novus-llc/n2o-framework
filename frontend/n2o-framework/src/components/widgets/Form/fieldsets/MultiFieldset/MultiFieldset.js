@@ -9,9 +9,10 @@ import {
   isInitSelector,
   formValueSelector,
 } from '../../../../../selectors/formPlugin';
+import evalExpression, {
+  parseExpression,
+} from '../../../../../utils/evalExpression';
 import MultiFieldsetItem from './MultiFieldsetItem';
-
-const INDEX_PLACEHOLDER = '#index';
 
 function MultiFieldset({
   name,
@@ -99,8 +100,16 @@ export const enhance = compose(
 
       dispatch(change(form, name, newValue));
     },
-    resolvePlaceholder: ({ label }) => value =>
-      label.replace(INDEX_PLACEHOLDER, value + 1),
+    resolvePlaceholder: ({ label }) => index => {
+      const context = { index };
+      const expression = parseExpression(label);
+
+      if (expression) {
+        return evalExpression(expression, context);
+      }
+
+      return label;
+    },
   })
 );
 
