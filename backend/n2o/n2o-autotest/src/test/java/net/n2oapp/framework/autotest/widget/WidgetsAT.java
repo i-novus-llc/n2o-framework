@@ -83,7 +83,7 @@ public class WidgetsAT extends AutoTestBase {
         widget.filters().toolbar().button("searchLabel").shouldBeEnabled();
         widget.filters().toolbar().button("resetLabel").shouldBeEnabled();
         widget.filters().fields().field("Имя").control(InputText.class).val("test");
-        widget.filters().fields().field("Пол").control(Select.class).openOptions();
+        widget.filters().fields().field("Пол").control(Select.class).expandPopUpOptions();
         widget.filters().fields().field("Пол").control(Select.class).select(Condition.text("Мужской"));
         widget.filters().toolbar().button("resetLabel").click();
         widget.filters().fields().field("Имя").control(InputText.class).shouldHaveValue("test");

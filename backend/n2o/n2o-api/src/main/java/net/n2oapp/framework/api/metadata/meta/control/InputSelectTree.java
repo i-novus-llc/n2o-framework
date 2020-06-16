@@ -29,4 +29,6 @@ public class InputSelectTree extends ListControl {
     private CheckingStrategy checkingStrategy;
     @JsonProperty
     private Integer maxTagCount;
+    @JsonProperty
+    private Integer maxTagTextLength;
 }

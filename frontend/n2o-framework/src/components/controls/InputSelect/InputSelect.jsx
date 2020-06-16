@@ -25,6 +25,8 @@ import { MODIFIERS } from '../DatePicker/utils';
  * @reactProps {string} imageFieldId - поле для картинки
  * @reactProps {string} badgeFieldId - поле для баджей
  * @reactProps {string} badgeColorFieldId - поле для цвета баджа
+ * @reactProps {string} statusFieldId - поле для статуса
+ * @reactProps {string} descriptionFieldId - поле для описания
  * @reactProps {boolean} disabled - флаг неактивности
  * @reactProps {array} disabledValues - неактивные данные
  * @reactProps {string} filter - варианты фильтрации
@@ -58,7 +60,10 @@ class InputSelect extends React.Component {
       value,
       options,
       valueFieldId,
+      enabledFieldId,
       labelFieldId,
+      statusFieldId,
+      descriptionFieldId,
       multiSelect,
     } = this.props;
     const valueArray = Array.isArray(value) ? value : value ? [value] : [];
@@ -514,15 +519,18 @@ class InputSelect extends React.Component {
       valueFieldId,
       labelFieldId,
       iconFieldId,
+      descriptionFieldId,
       disabled,
       placeholder,
       multiSelect,
       disabledValues,
       imageFieldId,
       groupFieldId,
+      enabledFieldId,
       hasCheckboxes,
       format,
       badgeFieldId,
+      statusFieldId,
       badgeColorFieldId,
       onScrollEnd,
       expandPopUp,
@@ -632,6 +640,8 @@ class InputSelect extends React.Component {
                     iconFieldId={iconFieldId}
                     imageFieldId={imageFieldId}
                     badgeFieldId={badgeFieldId}
+                    statusFieldId={statusFieldId}
+                    descriptionFieldId={descriptionFieldId}
                     badgeColorFieldId={badgeColorFieldId}
                     onSelect={item => {
                       this._handleItemSelect(item);
@@ -640,6 +650,7 @@ class InputSelect extends React.Component {
                     selected={this.state.value}
                     disabledValues={disabledValues}
                     groupFieldId={groupFieldId}
+                    enabledFieldId={enabledFieldId}
                     hasCheckboxes={hasCheckboxes}
                     onRemoveItem={this._removeSelectedItem}
                     format={format}

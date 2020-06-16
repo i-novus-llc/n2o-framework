@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Клиентская модель коомпонента show-modal
+ * Клиентская модель компонента show-modal
  */
 @Getter
 @Setter

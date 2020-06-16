@@ -157,3 +157,22 @@ export function fetchInputSelectData(
     }
   );
 }
+
+export function saveFieldData(url, options) {
+  return request(
+    [
+      url,
+      '?',
+      queryString.stringify(
+        flatten(clearEmptyParams(options.baseQuery), { safe: true })
+      ),
+    ].join(''),
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(options.body),
+    }
+  );
+}

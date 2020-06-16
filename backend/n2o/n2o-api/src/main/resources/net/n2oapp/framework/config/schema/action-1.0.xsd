@@ -591,6 +591,24 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="to" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Поле для записи значения, по умолчанию вся модель.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="source-widget" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Исходный виджет, по умолчанию текущий.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="source-model" type="reduxModel" default="resolve"/>
+                <xs:attribute name="target-widget" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Целевой виджет, по умолчанию текущий.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-model" type="reduxModel" default="resolve"/>
+                <xs:attribute name="merge-mode" type="mergeType" default="replace"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -684,6 +702,49 @@
             <xs:enumeration value="application"/>
         </xs:restriction>
     </xs:simpleType>
+
+    <xs:complexType name="submitDefinition" abstract="true">
+        <xs:annotation>
+            <xs:documentation>Отправка полей формы на сервер при их изменении.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="path-param" type="actionParamDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Параметры URL.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="header-param" type="actionParamDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Параметры заголовка запроса.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="form-param" type="actionParamDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Параметры тела запроса.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="operation-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор операции, которая должна вызваться.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="message-on-success" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Показать сообщение об успешном выполнении действия.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="message-on-fail" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Показать сообщение о неудачном выполнении действия.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="route" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>URL запроса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
 
     <xs:complexType name="preFiltersDefinition">
         <xs:annotation>
@@ -891,6 +952,14 @@
             <xs:enumeration value="bottom"/>
             <xs:enumeration value="left"/>
             <xs:enumeration value="right"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="mergeType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="merge"/>
+            <xs:enumeration value="replace"/>
+            <xs:enumeration value="add"/>
         </xs:restriction>
     </xs:simpleType>
 

@@ -6,11 +6,13 @@ import com.codeborne.selenide.Condition;
  * Компонент выбора из выпадающего списка для автотестирования
  */
 public interface Select extends Control {
-    void openOptions();
+    void expandPopUpOptions();
 
-    void closeOptions();
+    void collapsePopUpOptions();
 
     void find(String query);
+
+    void shouldHaveOptions(String... options);
 
     void select(int index);
 
@@ -29,4 +31,6 @@ public interface Select extends Control {
     void shouldBeChecked(int... indexes);
 
     void shouldNotBeChecked(int... indexes);
+
+    void optionShouldHaveDescription(String option, String description);
 }

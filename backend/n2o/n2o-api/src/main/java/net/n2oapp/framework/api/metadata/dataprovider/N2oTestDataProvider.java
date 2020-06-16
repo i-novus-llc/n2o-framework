@@ -22,6 +22,7 @@ public class N2oTestDataProvider extends AbstractDataProvider implements N2oMapI
         findOne,
         create,
         update,
+        updateField,
         delete,
         count,
         echo
