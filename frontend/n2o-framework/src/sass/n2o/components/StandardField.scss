@@ -13,7 +13,7 @@
   }
   &top-left {
     @extend %top-label-container;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   &right {
