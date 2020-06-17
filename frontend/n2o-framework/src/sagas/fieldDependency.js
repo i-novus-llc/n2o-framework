@@ -116,7 +116,10 @@ export function* modify(
       if (!isUndefined(_evalResult)) {
         const modelPrefix = yield select(makeFormModelPrefixSelector(formName));
         newFormValues = Object.assign({}, values);
+
         set(newFormValues, fieldName, _evalResult);
+        set(prevState, [formName, fieldName, type], newFormValues);
+        set(prevResults, [formName, fieldName, type], _evalResult);
 
         yield put(setModel(modelPrefix || 'resolve', formName, newFormValues));
       }
