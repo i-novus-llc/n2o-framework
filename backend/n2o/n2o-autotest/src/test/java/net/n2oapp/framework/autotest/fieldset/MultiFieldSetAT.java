@@ -1,6 +1,8 @@
 package net.n2oapp.framework.autotest.fieldset;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -321,5 +323,44 @@ public class MultiFieldSetAT extends AutoTestBase {
         age2.val("15");
         name1.shouldBeEnabled();
         name2.shouldBeDisabled();
+    }
+
+    @Test
+    public void testRequiring() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validations/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+
+        page = open(SimplePage.class);
+        page.shouldExists();
+
+        // поле вне мульти филдсета
+        StandardField name = page.single().widget(FormWidget.class).fields().field("name");
+        InputText nameInput = name.control(InputText.class);
+
+        MultiFieldSet fieldset1 = page.single().widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+        fieldset1.shouldExists();
+        fieldset1.clickAddButton();
+        MultiFieldSetItem item1 = fieldset1.item(0);
+        StandardField name1 = item1.fields().field("name");
+        InputText name1Input = name1.control(InputText.class);
+        StandardField age1 = item1.fields().field("age");
+        InputText age1Input = age1.control(InputText.class);
+
+        // у поля вне филдсета не должно быть условия обязательности
+        nameInput.val("test");
+        nameInput.clear();
+        name.shouldHaveValidationMessage(Condition.empty);
+
+        name1Input.val("name");
+        name1Input.clear();
+
+        age1Input.val("123");
+        name1.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        age1Input.clear();
+
+        // проверяем, что оба сообщения отображаются
+        fieldset1.clickAddButton();
+        name1.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        age1.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
     }
 }
