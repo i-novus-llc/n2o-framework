@@ -58,24 +58,26 @@ class TablePagination extends Component {
     } = this.props;
 
     return (
-      <Pagination
-        onSelect={page => onChangePage(page, { ...filters })}
-        activePage={activePage}
-        count={count}
-        size={size}
-        maxButtons={maxButtons}
-        stepIncrement={10}
-        prev={prev}
-        prevText={prevText}
-        next={next}
-        nextText={nextText}
-        first={first}
-        last={last}
-        lazy={lazy}
-        showCountRecords={showCountRecords}
-        hideSinglePage={hideSinglePage}
-        withoutBody={withoutBody}
-      />
+      count > 0 && (
+        <Pagination
+          onSelect={page => onChangePage(page, { ...filters })}
+          activePage={activePage}
+          count={count}
+          size={size}
+          maxButtons={maxButtons}
+          stepIncrement={10}
+          prev={prev}
+          prevText={prevText}
+          next={next}
+          nextText={nextText}
+          first={first}
+          last={last}
+          lazy={lazy}
+          showCountRecords={showCountRecords}
+          hideSinglePage={hideSinglePage}
+          withoutBody={withoutBody}
+        />
+      )
     );
   }
 }
