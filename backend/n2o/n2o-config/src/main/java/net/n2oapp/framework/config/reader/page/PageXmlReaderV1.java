@@ -11,8 +11,8 @@ import net.n2oapp.framework.config.reader.tools.CounterReaderV1;
 import net.n2oapp.framework.config.reader.tools.PreFilterReaderV1Util;
 import net.n2oapp.framework.config.reader.tools.PropertiesReaderV1;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

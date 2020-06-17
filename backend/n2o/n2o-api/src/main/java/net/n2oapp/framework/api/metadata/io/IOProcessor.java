@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import java.util.Map;
 import java.util.function.BiConsumer;

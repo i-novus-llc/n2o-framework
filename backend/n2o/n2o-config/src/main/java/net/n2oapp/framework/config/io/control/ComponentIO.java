@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.control;
 import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Чтение запись базовых свойств компонентов

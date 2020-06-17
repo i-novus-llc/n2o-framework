@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io.control.list;
 
 import net.n2oapp.framework.api.metadata.control.multi.N2oCheckboxGroup;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 @Component

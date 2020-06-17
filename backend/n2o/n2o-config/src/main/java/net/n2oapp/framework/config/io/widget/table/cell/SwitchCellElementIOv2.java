@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oSwitchCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**

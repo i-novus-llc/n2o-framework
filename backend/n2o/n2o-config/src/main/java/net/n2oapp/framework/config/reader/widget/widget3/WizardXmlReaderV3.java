@@ -3,8 +3,8 @@ package net.n2oapp.framework.config.reader.widget.widget3;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWizard;
 import net.n2oapp.framework.config.reader.fieldset.FieldSetReaderUtil;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**

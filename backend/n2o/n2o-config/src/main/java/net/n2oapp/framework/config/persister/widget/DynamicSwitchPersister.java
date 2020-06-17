@@ -7,8 +7,8 @@ import net.n2oapp.framework.api.metadata.persister.ElementPersisterFactory;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.config.persister.util.PersisterJdomUtil;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import java.util.List;
 import java.util.stream.Collectors;
