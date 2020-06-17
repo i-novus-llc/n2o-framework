@@ -1,6 +1,7 @@
 package net.n2oapp.framework.ui.controller.action;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -20,9 +21,11 @@ public abstract class SetController implements ControllerTypeAware {
     private DomainProcessor domainsProcessor;
     private N2oOperationProcessor actionProcessor;
 
-    public SetController(DataProcessingStack dataProcessingStack, DomainProcessor domainsProcessor, N2oOperationProcessor actionProcessor) {
+    public SetController(DataProcessingStack dataProcessingStack,
+                         N2oOperationProcessor actionProcessor,
+                         MetadataEnvironment environment) {
         this.dataProcessingStack = dataProcessingStack;
-        this.domainsProcessor = domainsProcessor;
+        this.domainsProcessor = environment.getDomainProcessor();
         this.actionProcessor = actionProcessor;
     }
 

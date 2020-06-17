@@ -38,11 +38,15 @@ public abstract class ListControl extends Control {
     private String format;
     @JsonProperty
     private Boolean caching;
+    @JsonProperty
+    private String enabledFieldId;
 
     @JsonProperty
     private List<Map<String, Object>> data;
     @JsonProperty
     private ClientDataProvider dataProvider;
+    @JsonProperty
+    private String statusFieldId;
 
     @Override
     public boolean containsHimself(DataSet dataSet) {

@@ -39,12 +39,12 @@ public class CheckboxGroupCompileTest extends SourceCompileTestBase {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/field/testCheckboxGroup.widget.xml")
                 .get(new WidgetContext("testCheckboxGroup", "/test"));
 
-        ClientDataProvider wdp = ((ListControl) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+        ClientDataProvider cdp = ((ListControl) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();
 
-        assertThat(wdp.getUrl(), is("n2o/data/test"));
-        assertThat(wdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
-        assertThat(wdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
+        assertThat(cdp.getUrl(), is("n2o/data/test"));
+        assertThat(cdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
+        assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
 
         String format =((ListControl) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getFormat();

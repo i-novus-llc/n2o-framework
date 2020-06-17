@@ -3,13 +3,13 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
@@ -17,7 +17,6 @@ import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
-import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
@@ -48,14 +47,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         invokeAction.setOperationId(source.getOperationId());
         invokeAction.setType(p.resolve(property("n2o.api.action.invoke.type"), String.class));
         String targetWidgetId = initTargetWidget(source, context, p);
-        ReduxModel targetWidgetModel = ReduxModel.RESOLVE;
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
-            ModelAware modelAware = componentScope.unwrap(ModelAware.class);
-            if (modelAware != null && modelAware.getModel() != null) {
-                targetWidgetModel = modelAware.getModel();
-            }
-        }
+        ReduxModel targetWidgetModel = getTargetWidgetModel(p, ReduxModel.RESOLVE);
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         WidgetScope widgetScope = p.getScope(WidgetScope.class);
         String currentWidgetId = widgetScope == null ? targetWidgetId : widgetScope.getClientWidgetId();
@@ -70,7 +62,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             invokeAction.getPayload().setPageId(pageScope.getPageId());
         }
 
-        initDataProvider(invokeAction, source, context, p, targetWidgetModel);
+        initDataProvider(invokeAction, source, context, p, targetWidgetModel, routeScope);
         return invokeAction;
     }
 
@@ -142,8 +134,9 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     }
 
 
-    private void initDataProvider(InvokeAction invokeAction, N2oInvokeAction source, CompileContext<?, ?> context,
-                                  CompileProcessor p, ReduxModel model) {
+    private void initDataProvider(InvokeAction invokeAction, N2oInvokeAction source,
+                                  CompileContext<?, ?> context, CompileProcessor p,
+                                  ReduxModel model, ParentRouteScope routeScope) {
         InvokeActionPayload payload = invokeAction.getPayload();
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setOptimistic(p.cast(source.getOptimistic(), p.resolve(property("n2o.api.action.invoke.optimistic"), Boolean.class)));
@@ -175,7 +168,11 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         actionContextData.setMessageOnFail(p.cast(source.getMessageOnFail(), true));
         actionContextData.setOperation(compiledObject.getOperations().get(source.getOperationId()));
         dataProvider.setActionContextData(actionContextData);
-        payload.setDataProvider(ClientDataProviderUtil.compile(dataProvider, context, p));
+        ClientDataProvider compiledDataProvider = ClientDataProviderUtil.compile(dataProvider, context, p);
+        if (routeScope != null) {
+            compiledDataProvider.getPathMapping().putAll(routeScope.getPathMapping());
+        }
+        payload.setDataProvider(compiledDataProvider);
     }
 
     private RedirectSaga initServerRedirect(AsyncMetaSaga meta) {

@@ -4,6 +4,7 @@
         <tabs>
             <form/>
             <form name="customName"/>
+            <form name="tab3"/>
         </tabs>
     </left>
     <right>

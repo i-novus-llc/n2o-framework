@@ -83,6 +83,8 @@ class StandardField extends React.Component {
       help,
       toolbar,
       containerKey,
+      dataProvider,
+      form,
       ...props
     } = this.props;
 
@@ -112,9 +114,13 @@ class StandardField extends React.Component {
       flex: labelWidthPixels ? 'none' : undefined,
       ...labelStyle,
     };
+
+    const fieldId = `field-${props.form}-id`;
+
     return (
       visible && (
         <div
+          id={fieldId}
           className={cx('n2o-form-group', 'form-group', className, {
             ['label-' + labelPosition]: labelPosition,
             'n2o-form-group--disabled': loading,
@@ -147,8 +153,8 @@ class StandardField extends React.Component {
                 onBlur={onBlur}
                 onFocus={onFocus}
                 onChange={onChange}
-                {...control}
                 {...props}
+                {...control}
                 className={cx(control.className, {
                   [validationClass]: touched,
                   'form-control__with-toolbar': toolbar,
@@ -158,7 +164,7 @@ class StandardField extends React.Component {
                 <Toolbar
                   className="n2o-page-actions__form-toolbar"
                   toolbar={toolbar}
-                  entityKey={containerKey}
+                  entityKey={form}
                 />
               )}
               <Measure value={measure} />

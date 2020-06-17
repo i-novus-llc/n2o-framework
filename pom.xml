@@ -11,7 +11,7 @@
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>framework</artifactId>
     <packaging>pom</packaging>
-    <version>7.6.2-SNAPSHOT</version>
+    <version>7.7.1-SNAPSHOT</version>
 
     <name>N2O Framework</name>
     <description>Framework for creating web applications with rich user interface without deep knowledge of WEB technologies and Frontend frameworks. Based on Java и ReactJS</description>
@@ -35,7 +35,7 @@
     <properties>
         <java.version>1.8</java.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <jococo-maven-plugin.version>0.7.8</jococo-maven-plugin.version>
+        <jococo-maven-plugin.version>0.8.5</jococo-maven-plugin.version>
         <maven.source.version>3.0.1</maven.source.version>
         <maven.failsafe.version>2.22.2</maven.failsafe.version>
         <maven.javadoc.version>3.1.0</maven.javadoc.version>
@@ -74,27 +74,18 @@
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jococo-maven-plugin.version}</version>
                     <configuration>
-                        <append>true</append>
+                        <destFile>${project.build.directory}/jacoco.exec</destFile>
                     </configuration>
                     <executions>
-                        <execution>
-                            <id>agent-for-ut</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>agent-for-it</id>
-                            <goals>
-                                <goal>prepare-agent-integration</goal>
-                            </goals>
-                        </execution>
                         <execution>
                             <id>jacoco-site</id>
                             <phase>verify</phase>
                             <goals>
-                                <goal>report</goal>
+                                <goal>report-aggregate</goal>
                             </goals>
+                            <configuration>
+                                <outputDirectory>${project.basedir}/target/site/jacoco-aggregate</outputDirectory>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>

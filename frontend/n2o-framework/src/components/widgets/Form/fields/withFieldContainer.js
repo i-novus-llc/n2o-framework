@@ -7,6 +7,7 @@ import {
   defaultProps,
   withHandlers,
   shouldUpdate,
+  mapProps,
   branch,
 } from 'recompose';
 import { getFormValues } from 'redux-form';
@@ -30,7 +31,7 @@ import { registerFieldExtra } from '../../../../actions/formPlugin';
 import propsResolver from '../../../../utils/propsResolver';
 import withAutoSave from './withAutoSave';
 
-const INDEX_PLACEHOLDER = '#index';
+const INDEX_PLACEHOLDER = 'index';
 
 /**
  * HOC обертка для полей, в которой содержится мэппинг свойств редакса и регистрация дополнительных свойств полей
@@ -147,7 +148,6 @@ export default Field => {
      */
     render() {
       const props = this.props.mapProps(this.props);
-
       return <Field {...props} />;
     }
   }
@@ -212,6 +212,18 @@ export default Field => {
       mapStateToProps,
       mapDispatchToProps
     ),
+    mapProps(({ model, parentIndex, parentName, ...props }) => {
+      return {
+        ...props,
+        parentIndex,
+        model: !isNil(parentName)
+          ? {
+              ...get(model, parentName),
+              index: parentIndex,
+            }
+          : model,
+      };
+    }),
     branch(
       ({ dataProvider, autoSubmit }) => !!autoSubmit || !!dataProvider,
       withAutoSave
@@ -224,6 +236,7 @@ export default Field => {
         props.disabled !== nextProps.disabled ||
         props.message !== nextProps.message ||
         props.required !== nextProps.required ||
+        props.loading !== nextProps.loading ||
         get(props, 'input.value', null) !== get(nextProps, 'input.value', null)
     ),
     withProps(props => ({

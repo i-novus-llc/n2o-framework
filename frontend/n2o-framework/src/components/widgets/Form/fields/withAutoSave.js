@@ -62,7 +62,7 @@ export default function withAutoSave(WrappedComponent) {
           const data = prepareData(form, value);
 
           store.dispatch(
-            startInvoke(form, autoSubmit || dataProvider, data, null)
+            startInvoke(form, autoSubmit || dataProvider, data, null, {}, false)
           );
         }, 400);
       },

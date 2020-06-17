@@ -71,7 +71,13 @@ class N2OSelect extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { value, type } = this.props;
+    const { value, type, options } = this.props;
+    let state = {};
+
+    if (!isEqual(options, nextProps.options)) {
+      state.options = nextProps.options;
+    }
+
     if (type !== selectType.CHECKBOXES) {
       let selected = [];
       if (!isEqual(nextProps.value, value)) {
@@ -84,11 +90,10 @@ class N2OSelect extends React.Component {
         selected = this.state.selected;
       }
 
-      this.setState({
-        options: nextProps.options,
-        selected,
-      });
+      state.selected = selected;
     }
+
+    this.setState(state);
   }
 
   /**
@@ -363,6 +368,7 @@ class N2OSelect extends React.Component {
       disabledValues,
       imageFieldId,
       groupFieldId,
+      descriptionFieldId,
       format,
       placeholder,
       badgeFieldId,
@@ -415,6 +421,7 @@ class N2OSelect extends React.Component {
               labelFieldId={labelFieldId}
               iconFieldId={iconFieldId}
               badgeFieldId={badgeFieldId}
+              descriptionFieldId={descriptionFieldId}
               badgeColorFieldId={badgeColorFieldId}
               onSelect={this._handleItemSelect}
               onScrollEnd={onScrollEnd}

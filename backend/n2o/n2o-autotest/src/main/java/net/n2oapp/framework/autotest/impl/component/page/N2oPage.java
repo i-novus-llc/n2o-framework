@@ -26,7 +26,7 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public Breadcrumb breadcrumb() {
-        return new N2oBreadcrumb();
+        return new N2oBreadcrumb(element().$(".breadcrumb"));
     }
 
     @Override
@@ -36,7 +36,7 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public Tooltip tooltip() {
-        return new N2oTooltip(element().$(".list-text-cell__tooltip-container"));
+        return new N2oTooltip(element().$(".list-text-cell__tooltip-container, .show.tooltip"));
     }
 
     @Override
@@ -81,15 +81,25 @@ public class N2oPage extends N2oComponent implements Page {
         }
     }
 
-    public class N2oBreadcrumb implements Breadcrumb {
+    public class N2oBreadcrumb extends N2oComponent implements Breadcrumb {
+
+        public N2oBreadcrumb(SelenideElement element) {
+            setElement(element);
+        }
+
+        @Override
+        public void clickLink(String text) {
+            element().$$(".n2o-breadcrumb-link").findBy(Condition.text(text)).shouldBe(Condition.exist).click();
+        }
+
         @Override
         public void parentTitleShouldHaveText(String text) {
-            element().$(".breadcrumb .breadcrumb-item").shouldHave(Condition.text(text));
+            element().$(".breadcrumb-item").shouldHave(Condition.text(text));
         }
 
         @Override
         public void titleShouldHaveText(String text) {
-            element().$(".breadcrumb .active.breadcrumb-item")
+            element().$(".active.breadcrumb-item")
                     .shouldHave(Condition.text(text));
         }
     }

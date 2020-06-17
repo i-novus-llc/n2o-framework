@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
@@ -24,7 +25,7 @@ import java.util.Map;
  * Процессор для вычисления вложенных справочных значений свойств модели.
  * Использовать только для вычислений под конкретного пользователя!
  */
-public class N2oSubModelsProcessor implements SubModelsProcessor {
+public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnvironmentAware {
 
     private QueryProcessor queryProcessor;
     private MetadataEnvironment environment;

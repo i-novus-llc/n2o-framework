@@ -3,6 +3,7 @@ import { pure } from 'recompose';
 import PropTypes from 'prop-types';
 import InputText from '../../controls/InputText/InputText';
 import Button from 'reactstrap/lib/Button';
+import assign from 'lodash/assign';
 
 /**
  * Компонент overlay для фильтра
@@ -35,7 +36,9 @@ function AdvancedTableFilterPopup({
         {component ? (
           React.createElement(
             component,
-            Object.assign({}, childProps, { popupPlacement: 'top-start' })
+            assign({}, childProps, {
+              popupPlacement: 'right',
+            })
           )
         ) : (
           <InputText value={value} onChange={onChange} />

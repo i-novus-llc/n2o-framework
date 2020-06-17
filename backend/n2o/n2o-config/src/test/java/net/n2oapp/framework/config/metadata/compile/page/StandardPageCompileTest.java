@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.action.SelectedWidgetPayload;
+import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.LineRegion;
@@ -124,6 +125,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     @Test
     public void masterDetails() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.object.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.page.xml")
                 .get(new PageContext("testStandardPageDependency"));
         assertThat(page.getWidgets().size(), is(3));
@@ -158,6 +160,11 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidgets().get("testStandardPageDependency_panel1").getVisible(), is(true));
         assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getVisible().get(0).getOn(), is("models.resolve['testStandardPageDependency_master']"));
         assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getVisible().get(0).getCondition(), is("parent.id == 1"));
+
+        //проверим что у кнопки delete родительский pathmapping скопировался
+        assertThat(((InvokeAction)page.getWidgets().get("testStandardPageDependency_panel1").getActions().get("delete"))
+                .getPayload().getDataProvider().getPathMapping().get("testStandardPageDependency_master_id").getBindLink(),
+                is("models.resolve['testStandardPageDependency_master'].id"));
 
     }
 

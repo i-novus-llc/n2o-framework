@@ -43,6 +43,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setImageFieldId(p.resolveJS(source.getImageFieldId()));
         listControl.setGroupFieldId(p.resolveJS(source.getGroupFieldId()));
         listControl.setHasSearch(source.getSearch());
+        listControl.setStatusFieldId(source.getStatusFieldId());
         if (source.getQueryId() != null)
             initDataProvider(listControl, source, context, p);
         else if (source.getOptions() != null) {
@@ -57,6 +58,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setValueFieldId(p.cast(p.resolveJS(listControl.getValueFieldId()), "id"));
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
         listControl.setCaching(source.getCache());
+        listControl.setEnabledFieldId(source.getEnabledFieldId());
         initSubModel(source, p.getScope(SubModelsScope.class));
         return compileStandardField(listControl, source, context, p);
     }
@@ -73,7 +75,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     }
 
     @Override
-    protected void compileParams(T control, S source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
+    protected void compileParams(StandardField<T> control, S source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
         if (source.getParam() != null) {
             String id = control.getId() + ".id";
             ModelsScope modelsScope = p.getScope(ModelsScope.class);

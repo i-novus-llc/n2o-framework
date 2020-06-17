@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 
 /**
- * Клиентская модель коомпонента invoke-action
+ * Клиентская модель компонента invoke-action
  */
 @Getter
 @Setter

@@ -9,14 +9,12 @@ import net.n2oapp.framework.api.ui.ResponseMessage;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -31,8 +29,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование получения данных sql запросом
  */
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
-@RunWith(SpringRunner.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = "spring.main.allow-bean-definition-overriding=true")
 public class DataTest {
@@ -308,7 +305,7 @@ public class DataTest {
     }
 
     @Getter
-    public class Request {
+    public static class Request {
         String id;
         String name;
         String surname;
