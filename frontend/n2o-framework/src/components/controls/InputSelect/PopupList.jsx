@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import PopupItems from './PopupItems';
 import { lifecycle } from 'recompose';
 import cx from 'classnames';
-import isEqual from 'lodash/isEqual';
-import invoke from 'lodash/invoke';
+import { isEqual, invoke, isNil } from 'lodash';
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -63,7 +62,7 @@ function PopupList({
   let ref = null;
 
   return (
-    <div className={cx('n2o-dropdown-control')} onScroll={trackScrolling}>
+    <div className={cx('n2o-dropdown-control')} id={'n2o-dropdown-control-id'}>
       {children}
       <PopupItems {...rest} />
     </div>
@@ -97,6 +96,21 @@ const enhance = lifecycle({
   componentDidUpdate(prevProps) {
     if (!isEqual(prevProps.options, this.props.options)) {
       invoke(this.props, 'scheduleUpdate');
+    }
+    if (!isNil(this.props.needAddFilter) && !isNil(this.props.filterValue)) {
+      const target = document.getElementById('n2o-dropdown-control-id');
+
+      const isBottom = ({ scrollHeight, scrollTop, clientHeight }) =>
+        Math.floor(scrollHeight - scrollTop) === clientHeight;
+
+      if (isBottom(target)) {
+        target.addEventListener(
+          'scroll',
+          this.props.onScrollEnd(
+            this.props.needAddFilter ? this.props.filterValue : {}
+          )
+        );
+      }
     }
   },
 });
