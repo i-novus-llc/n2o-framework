@@ -71,7 +71,7 @@ export default function propsResolver(
     }
     each(props, (p, k) => {
       if (isObject(p)) {
-        if (blackList.includes(k)) {
+        if (merge(blackList, additionalBlackList).includes(k)) {
           obj[k] = p;
         } else {
           obj[k] = propsResolver(p, data);
