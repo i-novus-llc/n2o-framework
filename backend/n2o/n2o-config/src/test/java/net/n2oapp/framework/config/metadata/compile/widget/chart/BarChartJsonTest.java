@@ -1,14 +1,13 @@
-package net.n2oapp.framework.config.metadata.compile.chart;
+package net.n2oapp.framework.config.metadata.compile.widget.chart;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.widget.chart.LineChartCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oChartsIOPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-public class LineChartJsonTest extends JsonMetadataTestBase {
+public class BarChartJsonTest extends JsonMetadataTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -19,16 +18,17 @@ public class LineChartJsonTest extends JsonMetadataTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oChartsIOPack(), new N2oWidgetsPack());
-        builder.compilers(new LineChartCompiler());
+        builder.compilers(new BarChartCompiler());
     }
 
     @Test
-    public void lineChart() {
-        check("net/n2oapp/framework/config/metadata/compile/chart/testLineChart.widget.xml",
-                "components/widgets/Chart/json/LineChart.meta.json")
+    public void barChart() {
+        check("net/n2oapp/framework/config/metadata/compile/chart/testBarChart.widget.xml",
+                "components/widgets/Chart/json/BarChart.meta.json")
                 .cutJson("Page_Chart.chart")
                 .cutXml("chart")
                 .exclude("src", "margin", "autoFocus", "fetchOnInit", "layout", "stackOffset", "baseValue",
+                        "barCategoryGap", "barGap", "barSize", "maxBarSize", "reverseStackOrder",
                         "XAxis.hide", "XAxis.width", "XAxis.height", "XAxis.tickCount", "XAxis.type", "XAxis.allowDecimals",
                         "XAxis.allowDataOverflow", "XAxis.allowDuplicatedCategory", "XAxis.interval", "XAxis.padding",
                         "XAxis.minTickGap", "XAxis.axisLine", "XAxis.tickLine", "XAxis.tickSize",
@@ -41,8 +41,9 @@ public class LineChartJsonTest extends JsonMetadataTestBase {
                         "tooltip.contentStyle", "tooltip.labelStyle", "tooltip.viewBox", "tooltip.label",
                         "legend.width", "legend.height", "legend.layout", "legend.align", "legend.verticalAlign",
                         "legend.iconSize", "legend.margin", "legend.wrapperStyle",
-                        "lines[0].legendType", "lines[0].dot", "lines[0].activeDot", "lines[0].layout",
-                        "lines[1].legendType", "lines[1].dot", "lines[1].activeDot", "lines[1].layout"
+                        "bars[0].layout", "bars[0].legendType", "bars[0].barSize", "bars[0].maxBarSize",
+                        "bars[0].background", "bars[0].stackId", "bars[1].layout", "bars[1].legendType",
+                        "bars[1].barSize", "bars[1].maxBarSize", "bars[1].background", "bars[1].stackId"
                 ).assertEquals();
     }
 }

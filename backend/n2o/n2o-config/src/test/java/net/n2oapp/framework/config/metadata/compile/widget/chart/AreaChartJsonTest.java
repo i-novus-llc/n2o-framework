@@ -1,7 +1,6 @@
-package net.n2oapp.framework.config.metadata.compile.chart;
+package net.n2oapp.framework.config.metadata.compile.widget.chart;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.widget.chart.AreaChartCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oChartsIOPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;

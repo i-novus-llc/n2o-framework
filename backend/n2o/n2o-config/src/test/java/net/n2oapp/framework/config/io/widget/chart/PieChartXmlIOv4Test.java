@@ -4,6 +4,9 @@ import net.n2oapp.framework.config.io.widget.chart.charts.PieChartIOv4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
+/**
+ * Тестирования чтения и записи круговой диаграммы
+ */
 public class PieChartXmlIOv4Test {
     @Test
     public void testPieChartXmlIOv4Test() {

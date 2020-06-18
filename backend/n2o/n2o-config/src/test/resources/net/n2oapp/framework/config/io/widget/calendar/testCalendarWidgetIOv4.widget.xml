@@ -1,0 +1,22 @@
+<calendar xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+          id="workCalendar" query-id="workCalendarQuery" height="500px"
+          default-date="2020-04-29" default-view="week" views="month,day,agenda"
+          toolbar="false" min-date="2020-04-01 00:00:00" max-date="2020-05-15 04:00:00" mark-days-off="false"
+          selectable="false" step="60" timeslot-count="1"  title-field-id="title"
+          tooltip-field-id="tooltip" all-day-field-id="allDay" start-field-id="start"
+          end-field-id="end" cell-color-field-id="color" disabled-field-id="disabled">
+    <resources value-field-id="resourceId">
+        <resource id="1" title="Training room"/>
+        <resource id="2" title="Meeting room"/>
+    </resources>
+    <action-on-select-slot>
+        <open-page page-id="createEvent" submit-operation-id="create" object-id="event" route="/create"/>
+    </action-on-select-slot>
+    <action-on-select-event>
+        <show-modal page-id="eventForm" submit-operation-id="update" object-id="event" route="/update"/>
+    </action-on-select-event>
+    <formats>
+        <format id="dayFormat" value="dd"/>
+        <format id="weekdayFormat" value="eee"/>
+    </formats>
+</calendar>
