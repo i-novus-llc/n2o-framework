@@ -23,7 +23,7 @@ public class BarChartJsonTest extends JsonMetadataTestBase {
 
     @Test
     public void barChart() {
-        check("net/n2oapp/framework/config/metadata/compile/chart/testBarChart.widget.xml",
+        check("net/n2oapp/framework/config/metadata/compile/widgets/chart/testBarChart.widget.xml",
                 "components/widgets/Chart/json/BarChart.meta.json")
                 .cutJson("Page_Chart.chart")
                 .cutXml("chart")

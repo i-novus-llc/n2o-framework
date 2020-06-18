@@ -23,7 +23,7 @@ public class AreaChartJsonTest extends JsonMetadataTestBase {
 
     @Test
     public void areaChart() {
-        check("net/n2oapp/framework/config/metadata/compile/chart/testAreaChart.widget.xml",
+        check("net/n2oapp/framework/config/metadata/compile/widgets/chart/testAreaChart.widget.xml",
                 "components/widgets/Chart/json/AreaChart.meta.json")
                 .cutJson("Page_Chart.chart")
                 .cutXml("chart")
