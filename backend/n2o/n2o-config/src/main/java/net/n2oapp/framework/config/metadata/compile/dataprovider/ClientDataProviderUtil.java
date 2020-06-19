@@ -59,6 +59,8 @@ public class ClientDataProviderUtil {
                     //todo не нужно добавлять принудительно параметр в url, нужно только если его задали в route="/:id/action"
                     path = normalize(path + normalize(colon(widgetSelectedId)));
                     pathMapping.put(widgetSelectedId, new ModelLink(targetModel, clientWidgetId, "id"));
+                    if (context.getPathRouteMapping() != null)
+                        pathMapping.putAll(context.getPathRouteMapping());
                 }
             }
             path = normalize(path + normalize(p.cast(source.getUrl(), source.getId(), "")));
