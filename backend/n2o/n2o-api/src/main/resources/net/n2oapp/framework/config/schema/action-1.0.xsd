@@ -189,6 +189,13 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="refresh-on-close" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Обновление виджета после закрытия модального окна.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="true" use="optional">
                     <xs:annotation>
                         <xs:documentation>
