@@ -38,7 +38,7 @@ public class CalendarWidgetIOv4 extends WidgetElementIOv4<N2oCalendar> {
         p.attribute(e, "cell-color-field-id", m::getCellColorFieldId, m::setCellColorFieldId);
         p.attribute(e, "disabled-field-id", m::getDisabledFieldId, m::setDisabledFieldId);
         p.children(e, "resources", "resource", m::getResources, m::setResources, CalendarResource.class, this::resource);
-        p.childAttribute(e, "resources", "value-field-id", m::getResourcesValueFieldId, m::setResourcesValueFieldId);
+        p.childAttribute(e, "resources", "value-field-id", m::getResourcesFieldId, m::setResourcesFieldId);
         p.anyChild(e, "action-on-select-slot", m::getActionOnSelectSlot, m::setActionOnSelectSlot,
                 p.anyOf(N2oAbstractAction.class), ActionIOv1.NAMESPACE);
         p.anyChild(e, "action-on-select-event", m::getActionOnSelectEvent, m::setActionOnSelectEvent,

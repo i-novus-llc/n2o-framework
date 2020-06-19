@@ -31,7 +31,7 @@ public class N2oCalendar extends N2oWidget {
     private String endFieldId;
     private String cellColorFieldId;
     private String disabledFieldId;
-    private String resourcesValueFieldId;
+    private String resourcesFieldId;
     private CalendarResource[] resources;
     private N2oAbstractAction actionOnSelectSlot;
     private N2oAbstractAction actionOnSelectEvent;

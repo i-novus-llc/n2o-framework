@@ -68,6 +68,7 @@ public class CalendarWidgetCompileTest extends SourceCompileTestBase {
         assertThat(calendar2.getComponent().getSelectable(), is(false));
         assertThat(calendar2.getComponent().getStep(), is(60));
         assertThat(calendar2.getComponent().getTimeSlots(), is(1));
+        assertThat(calendar2.getComponent().getResourceFieldId(), is("resourceId"));
         assertThat(calendar2.getComponent().getResources().length, is(2));
         assertThat(calendar2.getComponent().getResources()[0].getResourceId(), is("1"));
         assertThat(calendar2.getComponent().getResources()[0].getResourceTitle(), is("Training room"));

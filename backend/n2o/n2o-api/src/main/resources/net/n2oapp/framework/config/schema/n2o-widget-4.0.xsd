@@ -701,17 +701,17 @@
                 </xs:attribute>
                 <xs:attribute name="title-field-id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за заголовок ячейки.</xs:documentation>
+                        <xs:documentation>Поле выборки, отвечающее за заголовок события.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="tooltip-field-id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за данные тултипа ячейки.</xs:documentation>
+                        <xs:documentation>Поле выборки, отвечающее за данные тултипа события.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="all-day-field-id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за .</xs:documentation>
+                        <xs:documentation>Поле выборки, отвечающее за данные события, занимающего весь день.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="start-field-id" type="xs:string" use="required">
@@ -726,7 +726,7 @@
                 </xs:attribute>
                 <xs:attribute name="cell-color-field-id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за цвет ячейки.</xs:documentation>
+                        <xs:documentation>Поле выборки, отвечающее за цвет ячейки события.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="disabled-field-id" type="xs:string" use="required">

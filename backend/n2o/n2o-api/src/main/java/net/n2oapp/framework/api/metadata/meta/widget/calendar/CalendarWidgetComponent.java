@@ -49,6 +49,8 @@ public class CalendarWidgetComponent extends WidgetComponent {
     @JsonProperty
     private String disabledFieldId;
     @JsonProperty
+    private String resourceFieldId;
+    @JsonProperty
     private CalendarResource[] resources;
     @JsonProperty
     private Action onSelectSlot;
