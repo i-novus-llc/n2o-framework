@@ -5,8 +5,8 @@ import net.n2oapp.framework.api.metadata.persister.ElementPersister;
 import net.n2oapp.framework.api.metadata.aware.PersisterFactoryAware;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.config.persister.util.PersisterJdomUtil;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Класс для преобразования entity N2oUserAccess в элемент доступа user

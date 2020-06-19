@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.fieldset;
 import net.n2oapp.framework.api.metadata.aware.BaseElementClassAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 /**
  * Интерфейс  филдсета версии 4

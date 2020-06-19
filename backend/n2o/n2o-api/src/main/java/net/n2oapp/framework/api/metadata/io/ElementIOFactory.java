@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.persister.ElementPersisterFactory;
 import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.ElementReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Фабрика чтения / записи элементов

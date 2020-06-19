@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.reader.widget.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 /**
  * Абстрактная реализация считывания ячейки таблицы

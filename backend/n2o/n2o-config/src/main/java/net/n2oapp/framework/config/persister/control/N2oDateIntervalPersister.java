@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.persister.control;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 import net.n2oapp.framework.api.metadata.control.interval.N2oDateInterval;
 import org.springframework.stereotype.Component;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setAttribute;
 

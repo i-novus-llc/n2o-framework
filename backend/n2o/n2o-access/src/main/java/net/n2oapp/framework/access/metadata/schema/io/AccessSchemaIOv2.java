@@ -3,7 +3,7 @@ package net.n2oapp.framework.access.metadata.schema.io;
 import net.n2oapp.framework.access.metadata.schema.N2oAccessSchema;
 import net.n2oapp.framework.api.metadata.aware.BaseElementClassAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 /**
  * Интерфейс IO для схемы доступа AccessSchema v2.0

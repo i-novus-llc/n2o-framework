@@ -3,8 +3,8 @@ package net.n2oapp.framework.config.selective;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.reader.AbstractFactoredReader;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 
 import java.util.function.Supplier;
