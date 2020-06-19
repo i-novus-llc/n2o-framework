@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.control.ControlIOv2;
 import net.n2oapp.framework.config.io.fieldset.FieldsetIOv4;
 import net.n2oapp.framework.config.io.widget.WidgetElementIOv4;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**

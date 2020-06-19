@@ -1,8 +1,8 @@
 package net.n2oapp.framework.api.metadata.reader;
 
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Фабрика ридеров порожденных по неймспейсу
