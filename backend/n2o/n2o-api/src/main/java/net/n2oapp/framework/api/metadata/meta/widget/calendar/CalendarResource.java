@@ -11,6 +11,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class CalendarResource implements Serializable {
-    private String resourceId;
-    private String resourceTitle;
+    private String id;
+    private String title;
 }

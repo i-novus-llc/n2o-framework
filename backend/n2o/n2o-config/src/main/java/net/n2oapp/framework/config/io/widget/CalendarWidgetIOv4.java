@@ -47,8 +47,8 @@ public class CalendarWidgetIOv4 extends WidgetElementIOv4<N2oCalendar> {
     }
 
     private void resource(Element e, CalendarResource r, IOProcessor p) {
-        p.attribute(e, "id", r::getResourceId, r::setResourceId);
-        p.attribute(e, "title", r::getResourceTitle, r::setResourceTitle);
+        p.attribute(e, "id", r::getId, r::setId);
+        p.attribute(e, "title", r::getTitle, r::setTitle);
     }
 
     private void format(Element e, CalendarFormat f, IOProcessor p) {
