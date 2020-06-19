@@ -188,15 +188,15 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
                 conditions.add(condition);
             }
         }
-        if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE)) {
-            ComponentScope componentScope = p.getScope(ComponentScope.class);
-            if (componentScope == null || componentScope.unwrap(N2oCell.class) == null) {
-                String widgetId = initWidgetId(source, context, p);
-                Condition condition = new Condition();
-                condition.setExpression("!_.isEmpty(this)");
-                condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
-                conditions.add(condition);
-            }
+
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE) &&
+                (componentScope == null || componentScope.unwrap(N2oCell.class) == null)) {
+            String widgetId = initWidgetId(source, context, p);
+            Condition condition = new Condition();
+            condition.setExpression("!_.isEmpty(this)");
+            condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
+            conditions.add(condition);
         }
         if (!conditions.isEmpty()) {
             button.getConditions().put(ValidationType.enabled, conditions);
@@ -220,26 +220,31 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             }
         }
 
-        if (StringUtils.isLink(source.getVisible())) {
-            Condition condition = new Condition();
-            condition.setExpression(source.getVisible().substring(1, source.getVisible().length() - 1));
-            condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
-            if (!button.getConditions().containsKey(ValidationType.visible))
-                button.getConditions().put(ValidationType.visible, new ArrayList<>());
-            button.getConditions().get(ValidationType.visible).add(condition);
+        if (componentScope != null && componentScope.unwrap(N2oCell.class) != null) {
+            button.setVisible(p.resolveJS(source.getVisible()));
+            button.setEnabled(p.resolveJS(source.getEnabled()));
         } else {
-            button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
-        }
+            if (StringUtils.isLink(source.getVisible())) {
+                Condition condition = new Condition();
+                condition.setExpression(source.getVisible().substring(1, source.getVisible().length() - 1));
+                condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
+                if (!button.getConditions().containsKey(ValidationType.visible))
+                    button.getConditions().put(ValidationType.visible, new ArrayList<>());
+                button.getConditions().get(ValidationType.visible).add(condition);
+            } else {
+                button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+            }
 
-        if (StringUtils.isLink(source.getEnabled())) {
-            Condition condition = new Condition();
-            condition.setExpression(source.getEnabled().substring(1, source.getEnabled().length() - 1));
-            condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
-            if (!button.getConditions().containsKey(ValidationType.enabled))
-                button.getConditions().put(ValidationType.enabled, new ArrayList<>());
-            button.getConditions().get(ValidationType.enabled).add(condition);
-        } else {
-            button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+            if (StringUtils.isLink(source.getEnabled())) {
+                Condition condition = new Condition();
+                condition.setExpression(source.getEnabled().substring(1, source.getEnabled().length() - 1));
+                condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
+                if (!button.getConditions().containsKey(ValidationType.enabled))
+                    button.getConditions().put(ValidationType.enabled, new ArrayList<>());
+                button.getConditions().get(ValidationType.enabled).add(condition);
+            } else {
+                button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+            }
         }
     }
 
