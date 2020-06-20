@@ -17,15 +17,18 @@ export default Field => {
     withHandlers({
       validateField: ({ dispatch, validation, meta, input }) => value => {
         let message = {};
-        const validateResult = every(validation, ({ severity, text, type, ...options }) => {
-          const validationFunc = presets[type];
-          message = {
-            severity,
-            text,
-          };
+        const validateResult = every(
+          validation,
+          ({ severity, text, type, ...options }) => {
+            const validationFunc = presets[type];
+            message = {
+              severity,
+              text,
+            };
 
-          return validationFunc(input.name, { [input.name]: value }, options);
-        });
+            return validationFunc(input.name, { [input.name]: value }, options);
+          }
+        );
 
         if (validateResult) {
           dispatch(removeFieldMessage(meta.form, input.name));
@@ -37,12 +40,8 @@ export default Field => {
       },
     }),
     withHandlers({
-      onBlur: ({ input, meta, validateField }) => e => {
-        const value = e.target.value;
-
-        if (meta.touched) {
-          validateField(value);
-        }
+      onBlur: ({ input, validateField }) => e => {
+        validateField(e.target.value);
         input.onBlur(e);
       },
     }),
