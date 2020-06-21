@@ -43,7 +43,7 @@ function PopupList({
   ...rest
 }) {
   return (
-    <div className={cx('n2o-dropdown-control')} ref={setMenuElement}>
+    <div className={cx('n2o-dropdown-control n2o-pop-up')} ref={setMenuElement}>
       {children}
       <PopupItems {...rest} />
     </div>
