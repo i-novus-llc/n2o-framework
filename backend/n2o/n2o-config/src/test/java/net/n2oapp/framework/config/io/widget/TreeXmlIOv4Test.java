@@ -4,7 +4,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирования чтения и записи виджета дерево
+ * Тестирование чтения и записи виджета дерево
  */
 public class TreeXmlIOv4Test {
     @Test

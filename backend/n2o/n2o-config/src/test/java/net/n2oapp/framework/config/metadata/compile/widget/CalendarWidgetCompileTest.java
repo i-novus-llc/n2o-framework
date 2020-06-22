@@ -14,6 +14,10 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -36,7 +40,7 @@ public class CalendarWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testCalendar() {
+    public void testCalendar() throws ParseException {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testCalendarCompile.page.xml")
                 .get(new PageContext("testCalendarCompile"));
 
@@ -56,14 +60,17 @@ public class CalendarWidgetCompileTest extends SourceCompileTestBase {
         assertThat(calendar.getComponent().getCellColorFieldId(), is("color"));
         assertThat(calendar.getComponent().getDisabledFieldId(), is("disabled"));
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        simpleDateFormat.setTimeZone(TimeZone.getDefault());
+
         Calendar calendar2 = (Calendar) page.getWidgets().get("testCalendarCompile_calendar2");
         assertThat(calendar2.getName(), is("calendar2"));
         assertThat(calendar2.getComponent().getHeight(), is("500px"));
-        assertThat(calendar2.getComponent().getDate(), is("2020-04-29"));
+        assertThat(calendar2.getComponent().getDate(), is(simpleDateFormat.parse("2020-04-29T00:00:00")));
         assertThat(calendar2.getComponent().getDefaultView(), is("work_week"));
         assertThat(calendar2.getComponent().getViews(), is(new String[] {"month", "day", "agenda", "work_week"}));
-        assertThat(calendar2.getComponent().getMinDate(), is("2020-04-01 00:00:00"));
-        assertThat(calendar2.getComponent().getMaxDate(), is("2020-05-15 04:00:00"));
+        assertThat(calendar2.getComponent().getMinDate(), is(simpleDateFormat.parse("2020-04-01T00:00:00")));
+        assertThat(calendar2.getComponent().getMaxDate(), is(simpleDateFormat.parse("2020-05-15T04:00:00")));
         assertThat(calendar2.getComponent().getMarkDaysOff(), is(false));
         assertThat(calendar2.getComponent().getSelectable(), is(false));
         assertThat(calendar2.getComponent().getStep(), is(60));

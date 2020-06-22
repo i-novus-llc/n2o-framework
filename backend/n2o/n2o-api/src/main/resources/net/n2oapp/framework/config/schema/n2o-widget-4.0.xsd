@@ -607,15 +607,13 @@
                         <xs:complexType>
                             <xs:annotation>
                                 <xs:documentation>
-                                    Ресурсы календаря. Ресурсы используются для разбиения календаря не на дни,
-                                    а на определенные сущности.
+                                    Ресурсы календаря. Ресурсы используются для возможности разбиения календаря
+                                    на определенные сущности (бронирование переговорных комнат и т.д.).
                                 </xs:documentation>
                             </xs:annotation>
                             <xs:attribute name="value-field-id" type="xs:string">
                                 <xs:annotation>
-                                   <xs:documentation>
-                                        Значение, с которым сравнивается value-field-id.
-                                   </xs:documentation>
+                                   <xs:documentation>Поле выборки, отвечающее за маппинг ресурсов.</xs:documentation>
                                 </xs:annotation>
                             </xs:attribute>
                             <xs:sequence>
@@ -636,10 +634,48 @@
                     <xs:element name="formats" minOccurs="0">
                         <xs:complexType>
                             <xs:annotation>
-                                <xs:documentation>Форматы дат и времени.</xs:documentation>
+                                <xs:documentation>
+                                    Форматы дат и времени. Список всех возможных форматов
+                                    (http://jquense.github.io/react-big-calendar/examples/index.html#prop-formats)
+                                </xs:documentation>
                             </xs:annotation>
                             <xs:sequence>
-                                <xs:element name="format" type="calendarFormatDefinition"/>
+                                <xs:element name="format">
+                                    <xs:complexType>
+                                        <xs:annotation>
+                                            <xs:documentation>Формат даты и времени.</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:attribute name="id" use="required">
+                                            <xs:simpleType>
+                                                <xs:annotation>
+                                                    <xs:documentation>Тип формата.</xs:documentation>
+                                                </xs:annotation>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:enumeration value="dateFormat"/>
+                                                    <xs:enumeration value="dayFormat"/>
+                                                    <xs:enumeration value="weekdayFormat"/>
+                                                    <xs:enumeration value="timeGutterFormat"/>
+                                                    <xs:enumeration value="monthHeaderFormat"/>
+                                                    <xs:enumeration value="dayRangeHeaderFormat"/>
+                                                    <xs:enumeration value="dayHeaderFormat"/>
+                                                    <xs:enumeration value="agendaHeaderFormat"/>
+                                                    <xs:enumeration value="selectRangeFormat"/>
+                                                    <xs:enumeration value="agendaDateFormat"/>
+                                                    <xs:enumeration value="agendaTimeFormat"/>
+                                                    <xs:enumeration value="agendaTimeRangeFormat"/>
+                                                    <xs:enumeration value="eventTimeRangeFormat"/>
+                                                    <xs:enumeration value="eventTimeRangeStartFormat"/>
+                                                    <xs:enumeration value="eventTimeRangeEndFormat"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:attribute>
+                                        <xs:attribute name="value" use="required">
+                                            <xs:annotation>
+                                                <xs:documentation>Значение формата.</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:attribute>
+                                    </xs:complexType>
+                                </xs:element>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>

@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetComponent;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -17,15 +18,15 @@ public class CalendarWidgetComponent extends WidgetComponent {
     @JsonProperty
     private String height;
     @JsonProperty
-    private String date;
+    private Date date;
     @JsonProperty
     private String defaultView;
     @JsonProperty
     private String[] views;
     @JsonProperty
-    private String minDate;
+    private Date minDate;
     @JsonProperty
-    private String maxDate;
+    private Date maxDate;
     @JsonProperty
     private Boolean markDaysOff;
     @JsonProperty

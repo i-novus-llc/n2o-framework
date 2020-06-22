@@ -14,6 +14,7 @@ import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -48,18 +49,17 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
         widgetScope.setWidgetId(source.getId());
         widgetScope.setQueryId(source.getQueryId());
         widgetScope.setClientWidgetId(calendar.getId());
-        MetaActions widgetActions = new MetaActions();
-        compileToolbarAndAction(calendar, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
 
         CalendarWidgetComponent component = calendar.getComponent();
         component.setHeight(source.getHeight());
-        component.setDate(source.getDefaultDate());
+        String dateDomain = p.resolve(property("n2o.api.control.datetime.domain"), String.class);
+        component.setDate((Date) p.resolve(source.getDefaultDate(), dateDomain));
         component.setDefaultView(source.getDefaultView() != null ?
                 source.getDefaultView().getTitle() :
                 p.resolve(property("n2o.api.widget.calendar.view"), String.class));
         component.setViews(Arrays.stream(source.getViews()).map(v -> CalendarViewType.valueOf(v).getTitle()).toArray(String[]::new));
-        component.setMinDate(source.getMinDate());
-        component.setMaxDate(source.getMaxDate());
+        component.setMinDate((Date) p.resolve(source.getMinDate(), dateDomain));
+        component.setMaxDate((Date) p.resolve(source.getMaxDate(), dateDomain));
         component.setMarkDaysOff(p.cast(source.getMarkDaysOff(),
                 p.resolve(property("n2o.api.widget.calendar.mark_days_off"), Boolean.class)));
         component.setSelectable(p.cast(source.getSelectable(),

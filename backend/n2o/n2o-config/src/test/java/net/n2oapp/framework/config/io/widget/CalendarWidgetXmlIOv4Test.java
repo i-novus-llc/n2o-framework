@@ -7,7 +7,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирования чтения и записи виджета календарь
+ * Тестирование чтения и записи виджета календарь
  */
 public class CalendarWidgetXmlIOv4Test {
     @Test

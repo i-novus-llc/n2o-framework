@@ -1425,24 +1425,25 @@ link:#__node[Дочерний узел]
 ----
 
 ==== <resources>
-Список ресурсов календаря.
-Ресурсы используются для разбиения календаря не на дни,
-а на определенные сущности.
+Ресурсы календаря.
+Ресурсы календаря. Ресурсы используются для возможности разбиения календаря
+на определенные сущности (бронирование переговорных комнат и т.д.).
 
 |value-field-id
 |Строка
-|Значение, с которым сравнивается value-field-id
+|Поле выборки, отвечающее за маппинг ресурсов
 |
 
 Пример::
 [source,xml]
 ----
 <resources value-field-id="resourceId">
-  <resource/>
-  <resource/>
  ...
 </resources>
 ----
+
+Тело::
+Список ресурсов календаря
 
 ==== <resource>
 Ресурс календаря.
@@ -1489,11 +1490,12 @@ link:#_Действия[Обработчик действия]
 [source,xml]
 ----
 <formats>
-  <format/>
-  <format/>
  ...
 </formats>
 ----
+
+Тело::
+Список форматов дат и времени.
 
 ==== <format>
 Формат даты и времени.
@@ -1509,7 +1511,8 @@ monthHeaderFormat dayRangeHeaderFormat dayHeaderFormat
 agendaHeaderFormat selectRangeFormat agendaDateFormat
 agendaTimeFormat agendaTimeRangeFormat eventTimeRangeFormat
 eventTimeRangeStartFormat eventTimeRangeEndFormat
-|Тип формата
+|Тип формата. Список всех возможных форматов
+(http://jquense.github.io/react-big-calendar/examples/index.html#prop-formats)
 |
 
 |value
