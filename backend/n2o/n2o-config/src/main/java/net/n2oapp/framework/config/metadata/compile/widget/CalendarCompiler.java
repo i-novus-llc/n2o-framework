@@ -80,8 +80,7 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
             component.setOnSelectSlot(p.compile(source.getActionOnSelectSlot(), context, object, new ComponentScope(source), widgetScope));
         if (source.getActionOnSelectEvent() != null)
             component.setOnSelectEvent(p.compile(source.getActionOnSelectEvent(), context, object, new ComponentScope(source), widgetScope));
-        if (source.getFormats() != null)
-            component.setFormats(source.getFormats());
+        component.setFormats(source.getFormats());
 
         return calendar;
     }
