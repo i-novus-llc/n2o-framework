@@ -2,10 +2,12 @@
   top: auto;
   left: auto;
   width: 100%;
-  min-width: 38px;
-  //padding: 0 10px 0 10px;
-  height: 38px;
   max-height: $popup-height;
+  min-width: 38px;
+
+  margin-top: -1px;
+
+  border: 1px solid #cfd8dc;
   overflow: auto;
   & > ul {
     display: block;
@@ -124,9 +126,25 @@
 }
 
 .n2o-input-select {
-
   display: inline-block;
   position: relative;
+
+  &__toggle {
+    width: 100%;
+    padding: 0;
+    border: none;
+  }
+
+  &__menu {
+    max-width: 100%;
+
+    padding: 0;
+    margin: 0;
+
+    &--autosize {
+      max-width: none;
+    }
+  }
 
   & .n2o-inp {
     position: absolute;
