@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import map from 'lodash/map';
+import get from 'lodash/get';
+import isUndefined from 'lodash/isUndefined';
+import omit from 'lodash/omit';
 import ButtonToolbar from 'reactstrap/lib/ButtonToolbar';
 import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 
@@ -16,9 +19,17 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
 
   const renderButtons = props =>
     props.component ? (
-      React.createElement(
-        props.component,
-        Object.assign({}, props, { entityKey })
+      !isUndefined(get(props, 'enabled')) ? (
+        React.createElement(props.component, {
+          ...props,
+          entityKey,
+          disabled: !get(props, 'enabled'),
+        })
+      ) : (
+        React.createElement(props.component, {
+          ...omit(props, ['enabled']),
+          entityKey,
+        })
       )
     ) : (
       <Factory level={BUTTONS} {...props} entityKey={entityKey} />
