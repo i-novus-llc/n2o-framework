@@ -27,7 +27,7 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
         })
       ) : (
         React.createElement(props.component, {
-          props,
+          ...props,
           entityKey,
         })
       )
