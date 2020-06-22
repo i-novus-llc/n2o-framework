@@ -1,6 +1,7 @@
 import React from 'react';
 import { compose, withHandlers, mapProps } from 'recompose';
 import every from 'lodash/every';
+import has from 'lodash/has';
 
 import * as presets from '../../../../core/validation/presets';
 import {
@@ -15,7 +16,7 @@ export default Field => {
 
   const enhance = compose(
     withHandlers({
-      validateField: ({ dispatch, validation, meta, input }) => value => {
+      validateField: ({ dispatch, validation, meta, input, id }) => value => {
         let message = {};
         const validateResult = every(
           validation,
@@ -26,7 +27,7 @@ export default Field => {
               text,
             };
 
-            return validationFunc(input.name, { [input.name]: value }, options);
+            return validationFunc(input.name, { [id]: value }, options);
           }
         );
 
@@ -40,9 +41,11 @@ export default Field => {
       },
     }),
     withHandlers({
-      onBlur: ({ input, validateField }) => e => {
-        validateField(e.target.value);
-        input.onBlur(e);
+      onBlur: ({ input, validateField }) => eventOrValue => {
+        validateField(
+          has(eventOrValue, 'target') ? eventOrValue.target.value : eventOrValue
+        );
+        input.onBlur(eventOrValue);
       },
     }),
     mapProps(({ input, onBlur, ...rest }) =>
