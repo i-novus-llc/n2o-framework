@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.control.plain;
 import net.n2oapp.framework.api.metadata.control.plain.N2oPlainField;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.control.StandardFieldIOv2;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Чтение/запись базовых свойств простого поля

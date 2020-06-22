@@ -13,9 +13,9 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.config.reader.widget.SwitchReader;
-import org.jdom.Attribute;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Attribute;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package net.n2oapp.framework.access.metadata.schema;
 
 import net.n2oapp.framework.api.metadata.persister.AbstractN2oMetadataPersister;
 import net.n2oapp.framework.config.persister.util.PersisterJdomUtil;
-import org.jdom.Element;
+import org.jdom2.Element;
 /**
  * @author V. Alexeev.
  */

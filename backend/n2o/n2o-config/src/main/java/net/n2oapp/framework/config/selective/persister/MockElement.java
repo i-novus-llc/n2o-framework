@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.selective.persister;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * @author operehod

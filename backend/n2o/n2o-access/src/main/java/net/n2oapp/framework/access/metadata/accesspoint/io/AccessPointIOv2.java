@@ -3,7 +3,7 @@ package net.n2oapp.framework.access.metadata.accesspoint.io;
 import net.n2oapp.framework.access.metadata.accesspoint.AccessPoint;
 import net.n2oapp.framework.api.metadata.aware.BaseElementClassAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 /**
  * Интерфейс IO для Точек доступа v2.0

@@ -10,10 +10,10 @@ import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.framework.config.util.FileSystemUtil;
 import org.apache.commons.io.IOUtils;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 
 import java.io.*;

@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.reader.tools;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButtonCondition;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeString;
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getElementString;

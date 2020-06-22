@@ -1,6 +1,6 @@
 package net.n2oapp.framework.api;
 
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 import java.io.Serializable;
 

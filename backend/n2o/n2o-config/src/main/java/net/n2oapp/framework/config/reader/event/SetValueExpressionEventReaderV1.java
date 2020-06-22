@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.reader.event;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oSetValueAction;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getText;

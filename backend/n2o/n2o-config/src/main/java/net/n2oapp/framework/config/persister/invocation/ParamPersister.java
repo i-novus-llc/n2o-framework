@@ -1,9 +1,9 @@
 package net.n2oapp.framework.config.persister.invocation;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 import net.n2oapp.framework.api.metadata.persister.ElementPersister;
 import net.n2oapp.framework.config.persister.util.PersisterJdomUtil;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 /**
 * User: operehod
