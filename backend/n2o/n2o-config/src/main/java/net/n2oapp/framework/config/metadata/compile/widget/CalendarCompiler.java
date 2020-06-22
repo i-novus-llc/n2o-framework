@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCalendar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.Calendar;
-import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarFormat;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarViewType;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarWidgetComponent;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
@@ -15,7 +14,6 @@ import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -83,8 +81,7 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
         if (source.getActionOnSelectEvent() != null)
             component.setOnSelectEvent(p.compile(source.getActionOnSelectEvent(), context, object, new ComponentScope(source), widgetScope));
         if (source.getFormats() != null)
-            component.setFormats(Arrays.stream(source.getFormats())
-                    .collect(Collectors.toMap(CalendarFormat::getId, CalendarFormat::getValue)));
+            component.setFormats(source.getFormats());
 
         return calendar;
     }

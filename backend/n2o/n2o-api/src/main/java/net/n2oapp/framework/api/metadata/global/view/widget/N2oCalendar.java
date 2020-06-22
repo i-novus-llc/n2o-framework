@@ -3,9 +3,10 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractAction;
-import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarFormat;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarResource;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarViewType;
+
+import java.util.Map;
 
 /**
  * Исходная модель виджета календарь
@@ -35,5 +36,5 @@ public class N2oCalendar extends N2oWidget {
     private CalendarResource[] resources;
     private N2oAbstractAction actionOnSelectSlot;
     private N2oAbstractAction actionOnSelectEvent;
-    private CalendarFormat[] formats;
+    private Map<String, String> formats;
 }

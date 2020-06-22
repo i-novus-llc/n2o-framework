@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.io.widget;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCalendar;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarFormat;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarResource;
 import net.n2oapp.framework.api.metadata.meta.widget.calendar.CalendarViewType;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
@@ -43,17 +42,12 @@ public class CalendarWidgetIOv4 extends WidgetElementIOv4<N2oCalendar> {
                 p.anyOf(N2oAbstractAction.class), ActionIOv1.NAMESPACE);
         p.anyChild(e, "action-on-select-event", m::getActionOnSelectEvent, m::setActionOnSelectEvent,
                 p.anyOf(N2oAbstractAction.class), ActionIOv1.NAMESPACE);
-        p.children(e, "formats", "format", m::getFormats, m::setFormats, CalendarFormat.class, this::format);
+        p.childrenToStringMap(e, "formats", "format", "id", "value", m::getFormats, m::setFormats);
     }
 
     private void resource(Element e, CalendarResource r, IOProcessor p) {
         p.attribute(e, "id", r::getId, r::setId);
         p.attribute(e, "title", r::getTitle, r::setTitle);
-    }
-
-    private void format(Element e, CalendarFormat f, IOProcessor p) {
-        p.attribute(e, "id", f::getId, f::setId);
-        p.attribute(e, "value", f::getValue, f::setValue);
     }
 
     @Override

@@ -16,7 +16,7 @@
         <show-modal page-id="eventForm" submit-operation-id="update" object-id="event" route="/update"/>
     </action-on-select-event>
     <formats>
-        <format id="dayFormat" value="dd"/>
         <format id="weekdayFormat" value="eee"/>
+        <format id="dayFormat" value="dd"/>
     </formats>
 </calendar>
