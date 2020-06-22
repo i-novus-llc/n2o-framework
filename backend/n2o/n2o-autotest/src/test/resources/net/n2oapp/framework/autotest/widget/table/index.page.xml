@@ -19,12 +19,12 @@
         <pagination next="true" prev="true"/>
         <filters>
             <input-text id="name" label="Имя"/>
-            <input-select id="gender" label="Пол">
+            <select id="gender" label="Пол">
                 <options>
                     <option id="1" name="Мужской"/>
                     <option id="2" name="Женский"/>
                 </options>
-            </input-select>
+            </select>
             <search-buttons id="testId" search-label="searchLabel" reset-label="resetLabel"
                             clear-ignore="name, surname"/>
         </filters>
