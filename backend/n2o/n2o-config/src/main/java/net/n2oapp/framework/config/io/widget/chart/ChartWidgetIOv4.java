@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oAbstractCha
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.widget.WidgetElementIOv4;
 import net.n2oapp.framework.config.io.widget.WidgetIOv4;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**

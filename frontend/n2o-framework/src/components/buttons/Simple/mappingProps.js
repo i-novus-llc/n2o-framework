@@ -12,5 +12,6 @@ export default function mappingProps(props) {
     count: props.count,
     onClick: props.onClick,
     rounded: props.rounded,
+    className: props.className,
   };
 }

@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.control.list.N2oSelectTree;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNodes;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 @Component
