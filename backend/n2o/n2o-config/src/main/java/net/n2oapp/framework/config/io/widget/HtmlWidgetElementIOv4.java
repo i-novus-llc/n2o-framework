@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io.widget;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oHtmlWidget;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**

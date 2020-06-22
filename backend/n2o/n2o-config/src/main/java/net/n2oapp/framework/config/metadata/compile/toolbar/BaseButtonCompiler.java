@@ -176,14 +176,13 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         if (source.getEnablingConditions() != null)
             enabledConditions.addAll(compileConditions(source.getEnablingConditions(), source.getModel(), widgetId));
 
-        if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE)) {
-            ComponentScope componentScope = p.getScope(ComponentScope.class);
-            if (componentScope == null || componentScope.unwrap(N2oCell.class) == null) {
-                Condition condition = new Condition();
-                condition.setExpression("!_.isEmpty(this)");
-                condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
-                enabledConditions.add(condition);
-            }
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE) &&
+                (componentScope == null || componentScope.unwrap(N2oCell.class) == null)) {
+            Condition condition = new Condition();
+            condition.setExpression("!_.isEmpty(this)");
+            condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
+            enabledConditions.add(condition);
         }
         if (!enabledConditions.isEmpty()) {
             button.getConditions().put(ValidationType.enabled, enabledConditions);
@@ -192,15 +191,20 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         if (source.getDependencies() != null)
             compileDependencies(source.getDependencies(), button, widgetId, p);
 
-        if (StringUtils.isLink(source.getVisible()))
-            compileLinkCondition(button, widgetId, ValidationType.visible, source.getVisible());
-        else
-            button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+        if (componentScope != null && componentScope.unwrap(N2oCell.class) != null) {
+            button.setVisible(p.resolveJS(source.getVisible()));
+            button.setEnabled(p.resolveJS(source.getEnabled()));
+        } else {
+            if (StringUtils.isLink(source.getVisible()))
+                compileLinkCondition(button, widgetId, ValidationType.visible, source.getVisible());
+            else
+                button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
 
-        if (StringUtils.isLink(source.getEnabled()))
-            compileLinkCondition(button, widgetId, ValidationType.enabled, source.getEnabled());
-        else
-            button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+            if (StringUtils.isLink(source.getEnabled()))
+                compileLinkCondition(button, widgetId, ValidationType.enabled, source.getEnabled());
+            else
+                button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+        }
     }
 
     private List<Condition> compileConditions(N2oButtonCondition[] conditions, ReduxModel model, String widgetId) {

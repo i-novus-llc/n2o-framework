@@ -666,8 +666,13 @@ class AdvancedTable extends Component {
   }
 
   getScroll() {
+    if (isEmpty(this.props.data) || isEmpty(this.props.columns)) {
+      return this.props.scroll;
+    }
+
     if (some(this.state.columns, col => col.fixed)) return this.props.scroll;
     const { scroll, columns } = this.props;
+
     const calcXScroll = () => {
       const getWidth = (
         separator,

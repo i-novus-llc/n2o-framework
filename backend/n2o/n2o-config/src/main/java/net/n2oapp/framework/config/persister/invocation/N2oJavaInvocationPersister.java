@@ -2,9 +2,9 @@ package net.n2oapp.framework.config.persister.invocation;
 
 import net.n2oapp.framework.api.metadata.global.dao.invocation.java.JavaInvocation;
 import net.n2oapp.framework.config.persister.util.PersisterJdomUtil;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.*;
 

@@ -1,6 +1,6 @@
 package net.n2oapp.framework.api.metadata.persister;
 
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 /**
  * User: iryabov

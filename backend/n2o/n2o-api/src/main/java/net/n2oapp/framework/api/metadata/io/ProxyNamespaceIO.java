@@ -3,8 +3,8 @@ package net.n2oapp.framework.api.metadata.io;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Проксирующий считыватель элементов по неймспейсу

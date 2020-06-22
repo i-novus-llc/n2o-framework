@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-alpine
+FROM adoptopenjdk/openjdk14:alpine-slim
 
 LABEL maintainer="iryabov@i-novus.ru"
 

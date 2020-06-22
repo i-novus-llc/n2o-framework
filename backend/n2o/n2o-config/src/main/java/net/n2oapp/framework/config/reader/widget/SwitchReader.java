@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.reader.widget;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oSwitch;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
 
