@@ -12,8 +12,8 @@ import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.config.reader.tools.CssClassAwareReader;
 import net.n2oapp.framework.config.reader.tools.MenuItemConditionReader;
 import net.n2oapp.framework.config.reader.tools.PropertiesReaderV1;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import java.util.ArrayList;
 import java.util.List;

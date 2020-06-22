@@ -8,8 +8,8 @@ import net.n2oapp.framework.api.metadata.global.view.tools.AfterSubmit;
 import net.n2oapp.framework.api.ui.FormModel;
 import net.n2oapp.framework.config.reader.MetadataReaderException;
 import net.n2oapp.framework.config.reader.tools.PreFilterReaderV1Util;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
 

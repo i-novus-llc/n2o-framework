@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.toolbar.FieldToolbarIO;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Чтение/запись базовых свойств поля
