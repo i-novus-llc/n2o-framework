@@ -21,13 +21,13 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
     props.component ? (
       !isUndefined(get(props, 'enabled')) ? (
         React.createElement(props.component, {
-          ...props,
+          ...omit(props, ['enabled']),
           entityKey,
           disabled: !get(props, 'enabled'),
         })
       ) : (
         React.createElement(props.component, {
-          ...omit(props, ['enabled']),
+          props,
           entityKey,
         })
       )
