@@ -191,7 +191,7 @@ export default Field => {
         memoize(props => {
           if (!props) return;
           const { input, message, meta, model, ...rest } = props;
-          const pr = propsResolver(rest, model);
+          const pr = propsResolver(rest, model, ['toolbar']);
           return {
             ...pr,
             ...meta,
