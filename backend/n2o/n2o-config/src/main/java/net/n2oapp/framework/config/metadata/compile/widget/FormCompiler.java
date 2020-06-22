@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
 
-import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -19,8 +18,6 @@ import net.n2oapp.framework.config.metadata.compile.*;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Компиляция виджета форма
@@ -81,9 +78,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
     private void compileValidation(Form form, N2oForm source, ValidationScope validationScope) {
         if (source.getItems() == null)
             return;
-        Map<String, List<Validation>> clientValidations = new HashMap<>();
-        form.getComponent().getFieldsets().forEach(fs -> collectValidation(fs, clientValidations, validationScope));
-        form.getComponent().setValidation(clientValidations);
+        form.getComponent().getFieldsets().forEach(fs -> collectValidation(fs, new HashMap<>(), validationScope));
     }
 
     private void addParamRoutes(WidgetParamScope paramScope, CompileProcessor p) {
