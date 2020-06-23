@@ -27,7 +27,7 @@ export default Field => {
               text,
             };
 
-            return validationFunc(input.name, { [id]: value }, options);
+            return validationFunc(id, { [id]: value }, options);
           }
         );
 
