@@ -54,7 +54,7 @@
                                     <environmentVariables>
                                         <max_old_space_size>4096</max_old_space_size>
                                     </environmentVariables>
-                                    <arguments>install</arguments>
+                                    <arguments>install --ignore-engines</arguments>
                                 </configuration>
                             </execution>
 
