@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.reader.control;
 
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import net.n2oapp.framework.api.metadata.control.plain.N2oInputText;
 import org.springframework.stereotype.Component;
 

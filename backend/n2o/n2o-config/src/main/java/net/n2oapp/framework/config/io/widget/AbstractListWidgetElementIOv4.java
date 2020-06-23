@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
 import net.n2oapp.framework.config.io.widget.table.cell.SwitchIO;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Чтение\запись базовых свойств списковых виджетов

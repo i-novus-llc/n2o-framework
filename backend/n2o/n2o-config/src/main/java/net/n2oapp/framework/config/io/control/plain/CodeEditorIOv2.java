@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.control.plain;
 import net.n2oapp.framework.api.metadata.control.plain.CodeLanguageEnum;
 import net.n2oapp.framework.api.metadata.control.plain.N2oCodeEditor;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 @Component

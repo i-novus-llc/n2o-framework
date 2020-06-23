@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.dataprovider;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oMongoDbDataProvider;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**

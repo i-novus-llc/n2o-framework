@@ -1,7 +1,7 @@
 package net.n2oapp.framework.api.metadata.persister;
 
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 /**
  * Фабрика персистеров элементов поражденных по неймспейсу

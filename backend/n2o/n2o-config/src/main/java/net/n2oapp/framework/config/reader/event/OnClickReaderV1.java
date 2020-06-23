@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.reader.event;
 
 import net.n2oapp.framework.config.reader.tools.PropertiesReaderV1;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import net.n2oapp.framework.api.metadata.event.action.OnClick;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
 import org.springframework.stereotype.Component;

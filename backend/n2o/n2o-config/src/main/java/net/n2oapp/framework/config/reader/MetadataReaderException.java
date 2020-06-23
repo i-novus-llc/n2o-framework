@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.reader;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * User: iryabov

@@ -11,7 +11,7 @@ import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 import java.util.HashMap;
 import java.util.Map;

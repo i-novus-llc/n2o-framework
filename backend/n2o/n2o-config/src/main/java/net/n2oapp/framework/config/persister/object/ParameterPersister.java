@@ -8,8 +8,8 @@ package net.n2oapp.framework.config.persister.object;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.persister.AbstractElementPersister;
 import net.n2oapp.framework.config.persister.util.PersisterJdomUtil;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 public class ParameterPersister extends AbstractElementPersister<N2oObject.Parameter> {
     public ParameterPersister(Namespace namespace) {
