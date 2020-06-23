@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import PopupItems from './PopupItems';
-import { lifecycle } from 'recompose';
+import { compose, lifecycle, withHandlers, withState } from 'recompose';
 import cx from 'classnames';
-import isEqual from 'lodash/isEqual';
-import invoke from 'lodash/invoke';
+import { isEqual, invoke } from 'lodash';
+
+import PopupItems from './PopupItems';
+import { isBottom } from './utils';
 
 /**
  * Компонент попапа для {@link InputSelect}
@@ -38,32 +39,11 @@ function PopupList({
   expandPopUp,
   filterValue,
   needAddFilter,
+  setMenuElement,
   ...rest
 }) {
-  /**
-   * Проверяет достигла ли прокрутка конца
-   * @param element - элемент
-   * @returns {boolean}
-   */
-
-  const isBottom = ({ scrollHeight, scrollTop, clientHeight }) =>
-    Math.floor(scrollHeight - scrollTop) === clientHeight;
-
-  /**
-   * Обработчик прокрутки попапа
-   * @param evt - событие прокрутки
-   */
-
-  const trackScrolling = evt => {
-    if (isBottom(evt.target)) {
-      onScrollEnd(needAddFilter ? filterValue : {});
-    }
-  };
-
-  let ref = null;
-
   return (
-    <div className={cx('n2o-dropdown-control')} onScroll={trackScrolling}>
+    <div className={cx('n2o-dropdown-control n2o-pop-up')} ref={setMenuElement}>
       {children}
       <PopupItems {...rest} />
     </div>
@@ -93,11 +73,32 @@ PopupList.propTypes = {
   needAddFilter: PropTypes.bool,
 };
 
-const enhance = lifecycle({
-  componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.options, this.props.options)) {
-      invoke(this.props, 'scheduleUpdate');
-    }
-  },
-});
+const enhance = compose(
+  withState('menuElement', 'setMenuElement', null),
+  withHandlers({
+    onScroll: ({ needAddFilter, filterValue, onScrollEnd }) => e => {
+      if (isBottom(e.target)) onScrollEnd(needAddFilter ? filterValue : {});
+    },
+  }),
+  lifecycle({
+    componentDidUpdate(prevProps) {
+      if (!isEqual(prevProps.options, this.props.options)) {
+        invoke(this.props, 'scheduleUpdate');
+      }
+
+      if (!prevProps.menuElement && this.props.menuElement) {
+        this.props.menuElement.addEventListener('scroll', this.props.onScroll);
+      }
+    },
+
+    componentWillUnmount() {
+      if (this.props.menuElement) {
+        this.props.menuElement.removeEventListener(
+          'scroll',
+          this.props.onScroll
+        );
+      }
+    },
+  })
+);
 export default enhance(PopupList);
