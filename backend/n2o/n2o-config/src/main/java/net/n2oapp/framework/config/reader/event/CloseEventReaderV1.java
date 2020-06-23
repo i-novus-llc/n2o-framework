@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.reader.event;
 
 import net.n2oapp.framework.api.metadata.event.action.N2oCloseAction;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**

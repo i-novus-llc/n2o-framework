@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.reader.AbstractFactoredReader;
 import net.n2oapp.framework.api.metadata.reader.ElementReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * @author V. Alexeev.

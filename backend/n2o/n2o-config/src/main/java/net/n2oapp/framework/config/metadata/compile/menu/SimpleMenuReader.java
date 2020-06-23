@@ -5,8 +5,8 @@ import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.api.metadata.reader.AbstractFactoredReader;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import java.util.ArrayList;
 import java.util.List;

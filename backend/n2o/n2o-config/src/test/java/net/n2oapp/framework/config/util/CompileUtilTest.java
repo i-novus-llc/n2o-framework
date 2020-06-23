@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.test.N2oTestBase;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io;
 
 import net.n2oapp.framework.api.metadata.io.ElementIO;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 import java.util.Map;
 

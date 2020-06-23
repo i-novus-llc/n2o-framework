@@ -17,7 +17,7 @@ import net.n2oapp.framework.config.metadata.pack.N2oCellsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.test.SourceMergerTestBase;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 import org.junit.Before;
 import org.junit.Test;
 

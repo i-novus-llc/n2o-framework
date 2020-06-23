@@ -1,7 +1,7 @@
 package net.n2oapp.framework.access.metadata.accesspoint.reader;
 
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oColumnAccessPoint;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeString;

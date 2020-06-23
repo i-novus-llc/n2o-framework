@@ -5,8 +5,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oMenuItem;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oSubmenu;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**

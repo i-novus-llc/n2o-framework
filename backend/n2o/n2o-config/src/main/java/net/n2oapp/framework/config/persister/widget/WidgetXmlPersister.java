@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.persister.AbstractN2oMetadataPersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setAttribute;
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setElementInteger;

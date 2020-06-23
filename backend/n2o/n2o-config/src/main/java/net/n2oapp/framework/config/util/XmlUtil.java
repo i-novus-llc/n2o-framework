@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.util;
 
-import org.jdom.output.Format;
+import org.jdom2.output.Format;
 
 /**
  * @author operehod
