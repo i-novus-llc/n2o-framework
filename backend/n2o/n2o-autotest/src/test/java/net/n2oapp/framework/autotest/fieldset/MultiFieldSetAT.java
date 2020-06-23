@@ -346,20 +346,25 @@ public class MultiFieldSetAT extends AutoTestBase {
         StandardField age1 = item1.fields().field("age");
         InputText age1Input = age1.control(InputText.class);
 
-        // у поля вне филдсета не должно быть условия обязательности
+        // у поля вне мульти филдсета не должно быть условия обязательности
         nameInput.val("test");
         nameInput.clear();
         name.shouldHaveValidationMessage(Condition.empty);
 
+        age1Input.val("1");
         name1Input.val("name");
-        name1Input.clear();
-
-        age1Input.val("123");
-        name1.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+        // после фокуса на name у age не должно быть сообщения валидации
+        age1.shouldHaveValidationMessage(Condition.empty);
         age1Input.clear();
+        // после фокуса на age у name не должно быть сообщения валидации
+        name1.shouldHaveValidationMessage(Condition.empty);
+        // после фокуса на name у age должно быть сообщение валидации
+        name1Input.clear();
+        age1.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
 
         // проверяем, что оба сообщения отображаются
-        fieldset1.clickAddButton();
+        nameInput.val("test2");
+
         name1.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         age1.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
     }
