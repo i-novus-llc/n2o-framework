@@ -8,6 +8,8 @@ public interface InputText extends Control {
 
     void val(String value);
 
+    void clear();
+
     void shouldHavePlaceholder(String placeholder);
 
     void clickPlusStepButton();
