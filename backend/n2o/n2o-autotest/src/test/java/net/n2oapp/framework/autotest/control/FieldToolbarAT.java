@@ -49,7 +49,7 @@ public class FieldToolbarAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         Fields fields = page.single().widget(FormWidget.class).fields();
-        Toolbar toolbar = fields.field("id").toolBar();
+        Toolbar toolbar = fields.field("id").toolbar();
 
         toolbar.button("Ссылка").shouldBeDisabled();
         toolbar.button("Показать текст").shouldBeDisabled();
@@ -90,7 +90,8 @@ public class FieldToolbarAT extends AutoTestBase {
         page.shouldExists();
         Fields fields = page.single().widget(FormWidget.class).fields();
 
-        DropdownButton dropdownButton = fields.field("sub").toolBar().dropdown();
+        DropdownButton dropdownButton = fields.field("sub").toolbar().dropdown();
+        dropdownButton.shouldHaveItems(4);
         dropdownButton.click();
         dropdownButton.menuItem("Ссылка").shouldBeDisabled();
         dropdownButton.menuItem("Показать текст").shouldBeDisabled();
