@@ -43,7 +43,7 @@ export default function withAutoSave(WrappedComponent) {
       },
     }),
     withHandlers({
-      onChange: ({
+      onBlur: ({
         parseValue,
         prepareData,
         input,
@@ -53,26 +53,20 @@ export default function withAutoSave(WrappedComponent) {
         meta = {},
       }) => eventOrValue => {
         const value = parseValue(eventOrValue);
-        input.onChange(eventOrValue);
+        const form = meta.form;
+        const data = prepareData(form, value);
 
-        clearTimeout(timeoutId);
-
-        timeoutId = setTimeout(() => {
-          const form = meta.form;
-          const data = prepareData(form, value);
-
-          store.dispatch(
-            startInvoke(form, autoSubmit || dataProvider, data, null, {}, false)
-          );
-        }, 400);
+        input.onBlur(eventOrValue);
+        store.dispatch(
+          startInvoke(form, autoSubmit || dataProvider, data, null, {}, false)
+        );
       },
-      onBlur: ({ input }) => eventOrValue => input.onBlur(eventOrValue),
     }),
-    mapProps(({ input, onChange, onBlur, ...rest }) =>
+    mapProps(({ input, onBlur, ...rest }) =>
       Object.assign(
         {},
         {
-          input: Object.assign({}, input, { onChange, onBlur }),
+          input: Object.assign({}, input, { onBlur }),
         },
         rest
       )
