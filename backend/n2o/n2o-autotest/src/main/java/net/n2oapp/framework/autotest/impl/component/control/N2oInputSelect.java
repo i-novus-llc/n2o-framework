@@ -148,7 +148,7 @@ public class N2oInputSelect extends N2oControl implements InputSelect {
     }
 
     private SelenideElement selectPopUp() {
-        return element().parent().$(".n2o-pop-up");
+        return element().parent().parent().$(".n2o-pop-up");
     }
 
     private ElementsCollection popUpButtons() {

@@ -66,7 +66,7 @@ describe('Проверка саги toolbar', () => {
           },
         ],
         { model: { test: 'test' } }
-      )
+      ).resolve
     ).toBe(true);
     expect(
       resolveConditions(
@@ -77,7 +77,7 @@ describe('Проверка саги toolbar', () => {
           },
         ],
         { model: { test: 'test' } }
-      )
+      ).resolve
     ).toBe(false);
   });
   it('Тестирование resolveConditions на null condition', () => {
@@ -90,7 +90,7 @@ describe('Проверка саги toolbar', () => {
           },
         ],
         null
-      )
+      ).resolve
     ).toBe(false);
   });
 });

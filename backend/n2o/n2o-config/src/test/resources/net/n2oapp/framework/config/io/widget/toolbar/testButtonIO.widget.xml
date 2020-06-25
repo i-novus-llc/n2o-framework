@@ -7,7 +7,7 @@
                 confirm="true" confirm-text="test" confirm-type="modal" confirm-title="title" confirm-ok-label="ok"
                 confirm-cancel-label="cancel" type="icon" src="testSrc">
             <dependencies>
-                <enabling ref-model="resolve" ref-widget-id="ref" on="field1"/>
+                <enabling ref-model="resolve" ref-widget-id="ref" on="field1" message="Не указана дата"/>
                 <visibility ref-model="resolve" ref-widget-id="ref" on="field2"/>
             </dependencies>
             <copy source-model="resolve" source-widget-id="table" source-field-id="id"
