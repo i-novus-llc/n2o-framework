@@ -288,11 +288,11 @@ const FieldsetContainer = compose(
     null,
     mapDispatchToProps
   ),
-  withObserveDependency(config),
   mapProps(({ enabled, ...props }) => ({
     ...props,
     disabled: !isNil(enabled) ? !enabled : false,
-  }))
+  })),
+  withObserveDependency(config)
 )(Fieldset);
 
 export default FieldsetContainer;

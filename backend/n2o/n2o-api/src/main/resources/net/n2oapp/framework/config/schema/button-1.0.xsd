@@ -299,7 +299,7 @@
 
     <xs:complexType name="buttonDependenciesDefinition">
         <xs:sequence>
-            <xs:element name="enabling" type="baseDependencyDefinition" minOccurs="0">
+            <xs:element name="enabling" type="enablingDependencyDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Условие доступности.</xs:documentation>
                 </xs:annotation>
@@ -328,6 +328,18 @@
                 <xs:documentation>Поля, от которых зависит условие.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="enablingDependencyDefinition">
+        <xs:complexContent>
+            <xs:restriction base="baseDependencyDefinition">
+                <xs:attribute name="message" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Сообщение о причине недоступности.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:restriction>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:simpleType name="reduxModel">

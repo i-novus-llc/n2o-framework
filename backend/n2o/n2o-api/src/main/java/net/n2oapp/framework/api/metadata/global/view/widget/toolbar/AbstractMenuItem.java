@@ -58,7 +58,10 @@ public abstract class AbstractMenuItem extends ActionComponent implements Extens
         private ReduxModel refModel;
     }
 
+    @Getter
+    @Setter
     public static class EnablingDependency extends Dependency {
+        private String message;
     }
 
     public static class VisibilityDependency extends Dependency {

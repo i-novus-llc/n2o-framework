@@ -95,3 +95,6 @@ export const getNextId = (data, currentId, valueFieldId, selected, disabled) =>
 
 export const getPrevId = (data, currentId, valueFieldId, selected, disabled) =>
   getIdByDistance(data, currentId, -1, valueFieldId, selected, disabled);
+
+export const isBottom = ({ scrollHeight, scrollTop, clientHeight }) =>
+  Math.floor(scrollHeight - scrollTop) === clientHeight;
