@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, withPropsOnChange } from 'recompose';
+import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 import omit from 'lodash/omit';
+
+import isUndefined from 'lodash/isUndefined';
 
 import { registerButton } from '../../actions/toolbar';
 import {
   isDisabledSelector,
+  messageSelector,
   isInitSelector,
   isVisibleSelector,
   countSelector,
@@ -17,9 +21,16 @@ import { makeWidgetValidationSelector } from '../../selectors/widgets';
 import { validateField } from '../../core/validation/createValidator';
 
 import ModalDialog from '../actions/ModalDialog/ModalDialog';
-import Tooltip from '../snippets/Tooltip/Tooltip';
 import { id } from '../../utils/id';
 import linkResolver from '../../utils/linkResolver';
+
+const RenderTooltip = ({ id, message }) => {
+  return (
+    !isUndefined(message) && (
+      <UncontrolledTooltip target={id}>{message}</UncontrolledTooltip>
+    )
+  );
+};
 
 export default function withActionButton(options = {}) {
   const onClick = options.onClick;
@@ -153,27 +164,28 @@ export default function withActionButton(options = {}) {
       };
 
       render() {
-        const { confirm, hint } = this.props;
+        const { confirm, hint, disabled, message } = this.props;
         const { confirmVisible } = this.state;
+
+        const currentMessage = disabled ? message || hint : hint;
         return (
-          <>
-            <Tooltip
-              hint={hint}
-              label={
-                <WrappedComponent
-                  {...omit(this.props, [
-                    'isInit',
-                    'targetTooltip',
-                    'initialProps',
-                    'registerButton',
-                    'uid',
-                    'validationConfig',
-                    'formValues',
-                  ])}
-                  onClick={this.handleClick}
-                  id={this.generatedButtonId}
-                />
-              }
+          <div id={this.generatedButtonId}>
+            <RenderTooltip
+              message={currentMessage}
+              id={this.generatedButtonId}
+            />
+            <WrappedComponent
+              {...omit(this.props, [
+                'isInit',
+                'targetTooltip',
+                'initialProps',
+                'registerButton',
+                'uid',
+                'validationConfig',
+                'formValues',
+              ])}
+              onClick={this.handleClick}
+              id={this.generatedButtonId}
             />
             {confirm && (
               <ModalDialog
@@ -184,7 +196,7 @@ export default function withActionButton(options = {}) {
                 close={this.handleCloseConfirmModal}
               />
             )}
-          </>
+          </div>
         );
       }
     }
@@ -196,6 +208,8 @@ export default function withActionButton(options = {}) {
         isVisibleSelector(ownProps.entityKey, ownProps.id)(state),
       disabled: (state, ownProps) =>
         isDisabledSelector(ownProps.entityKey, ownProps.id)(state),
+      message: (state, ownProps) =>
+        messageSelector(ownProps.entityKey, ownProps.id)(state),
       count: (state, ownProps) =>
         countSelector(ownProps.entityKey, ownProps.id)(state),
       validationConfig: (state, ownProps) =>

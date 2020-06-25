@@ -1,7 +1,7 @@
 package net.n2oapp.framework.api.metadata.aware;
 
 import net.n2oapp.framework.api.exception.N2oException;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Знание о типе сущности

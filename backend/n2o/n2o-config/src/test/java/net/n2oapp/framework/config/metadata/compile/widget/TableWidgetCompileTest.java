@@ -357,9 +357,24 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(1).getId(), is("test4"));
         assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
         assertThat(headers.get(1).getChildren(), nullValue());
-        assertThat(headers.get(2).getId(), is("test5"));
+        assertThat(headers.get(2).getId(), is("name"));
         assertThat(headers.get(2).getFilterable(), is(true));
         assertThat(headers.get(2).getFilterControl(), instanceOf(InputText.class));
+        assertThat(headers.get(2).getFilterControl().getId(), is("name"));
+
+        // проверка компиляции фильтруемого столбца внутри мульти-столбца
+        PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");
+        assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getPrefix(), is("filter"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getKey(), is("testMultiColumn_table"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getField(), is("name"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getValue(), is(":table_name"));
+        assertThat(query.getOnSet().getBindLink(), is("models.filter['testMultiColumn_table']"));
+        assertThat(query.getOnSet().getValue(), is("`name`"));
+
+        BindLink link = page.getWidget().getDataProvider().getQueryMapping().get("table_name");
+        assertThat(link.getValue(), is("`name`"));
+        assertThat(link.getBindLink(), is("models.filter['testMultiColumn_table']"));
 
         headers = headers.get(0).getChildren();
         assertThat(headers.size(), is(2));
@@ -369,6 +384,5 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(headers.get(1).getId(), is("test3"));
         assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
         assertThat(headers.get(1).getChildren(), nullValue());
-
     }
 }

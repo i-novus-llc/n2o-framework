@@ -16,8 +16,6 @@ import org.junit.jupiter.api.Test;
  */
 public class SelectAT extends AutoTestBase {
 
-    private SimplePage page;
-
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -28,25 +26,27 @@ public class SelectAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        page = open(SimplePage.class);
-        page.shouldExists();
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
+        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(),
+                new N2oFieldSetsPack(), new N2oControlsPack(), new N2oAllDataPack());
     }
 
     @Test
     public void testSelect() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/simple/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
         Select input = page.single().widget(FormWidget.class).fields().field("Select1")
                 .control(Select.class);
         input.shouldExists();
 
+        input.shouldHaveOptions("One", "Two", "Three");
         input.shouldBeEmpty();
         input.select(1);
         input.shouldSelected("Two");
@@ -64,11 +64,16 @@ public class SelectAT extends AutoTestBase {
 
     @Test
     public void testCheckboxesType() {
-        Select input = page.single().widget(FormWidget.class).fields().field("Select3")
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/checkboxes/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Select input = page.single().widget(FormWidget.class).fields().field("Select1")
                 .control(Select.class);
         input.shouldExists();
 
         input.shouldBeEmpty();
+        input.shouldHaveOptions("One", "Two", "Three");
         input.selectMulti(0);
         input.shouldBeChecked(0);
         input.shouldSelected("Объектов 1 шт");
@@ -82,11 +87,16 @@ public class SelectAT extends AutoTestBase {
 
     @Test
     public void testSelectFormat() {
-        Select input = page.single().widget(FormWidget.class).fields().field("Select4")
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/format/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Select input = page.single().widget(FormWidget.class).fields().field("Select1")
                 .control(Select.class);
         input.shouldExists();
 
         input.shouldBeEmpty();
+        input.shouldHaveOptions("One", "Two", "Three", "Four", "Five");
         input.selectMulti(0);
         input.shouldBeChecked(0);
         input.shouldSelected("1 объект");
@@ -101,7 +111,7 @@ public class SelectAT extends AutoTestBase {
         input.shouldBeEmpty();
 
 
-        input = page.single().widget(FormWidget.class).fields().field("Select5")
+        input = page.single().widget(FormWidget.class).fields().field("Select2")
                 .control(Select.class);
         input.shouldExists();
 
@@ -114,5 +124,43 @@ public class SelectAT extends AutoTestBase {
         input.shouldSelected("Объектов 5 шт");
         input.clear();
         input.shouldBeEmpty();
+    }
+
+    @Test
+    public void testReadFromQuery() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/select/query/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/select/query/test.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        Select input = page.single().widget(FormWidget.class).fields().field("Select1")
+                .control(Select.class);
+        input.shouldExists();
+
+        input.shouldBeEmpty();
+        input.shouldHaveOptions("name1", "name2", "name3");
+        input.optionShouldHaveDescription("name1", "desc1");
+        input.optionShouldHaveDescription("name3", "desc3");
+        input.select(1);
+        input.shouldSelected("name2");
+        input.clear();
+        input.shouldBeEmpty();
+        // сворачиваем popup, чтобы не накладывался на нижний контрол
+        input.collapsePopUpOptions();
+
+
+        Select input2 = page.single().widget(FormWidget.class).fields().field("Select2")
+                .control(Select.class);
+        input2.shouldExists();
+
+        input2.shouldBeEmpty();
+        input2.shouldHaveOptions("name1", "name2", "name3");
+        input2.optionShouldHaveDescription("name1", "desc1");
+        input2.optionShouldHaveDescription("name3", "desc3");
+        input2.selectMulti(1, 2);
+        input2.shouldBeChecked(1, 2);
+        input2.shouldSelected("Объектов 2 шт");
+        input2.clear();
+        input2.shouldBeEmpty();
     }
 }

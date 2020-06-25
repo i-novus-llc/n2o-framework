@@ -19,7 +19,7 @@ public class MultiFieldSetCompiler extends AbstractFieldSetCompiler<MultiFieldSe
     public MultiFieldSet compile(N2oMultiFieldSet source, CompileContext<?, ?> context, CompileProcessor p) {
         MultiFieldSet fieldSet = new MultiFieldSet();
         compileFieldSet(fieldSet, source, context, p);
-
+        fieldSet.setLabel(p.resolveJS(source.getLabel()));
         fieldSet.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.fieldset.multi_set.src"), String.class)));
         fieldSet.setName(source.getId());
         fieldSet.setAddButtonLabel(source.getAddButtonLabel());

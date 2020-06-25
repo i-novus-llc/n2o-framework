@@ -26,6 +26,6 @@ public class N2oStatus extends N2oSnippet implements Status {
     @Override
     public void shouldHaveColor(Colors color) {
         element().$(".n2o-status-text_icon__right, .n2o-status-text_icon__left")
-                .shouldHave(Condition.cssClass("bg-" + color.name().toLowerCase()));
+                .shouldHave(Condition.cssClass(color.name("bg-")));
     }
 }

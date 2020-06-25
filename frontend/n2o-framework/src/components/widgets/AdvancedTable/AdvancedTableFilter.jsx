@@ -32,6 +32,12 @@ class AdvancedTableFilter extends Component {
     this.toggleFilter = this.toggleFilter.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value) {
+      this.setState({ value: this.props.value });
+    }
+  }
+
   toggleFilter() {
     this.setState({ filterOpen: !this.state.filterOpen });
   }

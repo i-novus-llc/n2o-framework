@@ -123,6 +123,19 @@ const hintSelector = (key, id) =>
   );
 
 /**
+ * селектор посказаки кнопки
+ * @param key
+ * @param id
+ */
+const messageSelector = (key, id) =>
+  createSelector(
+    makeButtonByKeyAndIdSelector(key, id),
+    button => {
+      return button.message;
+    }
+  );
+
+/**
  * селектор расположения посказаки кнопки
  * @param key
  * @param id
@@ -204,6 +217,7 @@ export {
   titleSelector,
   countSelector,
   hintSelector,
+  messageSelector,
   iconSelector,
   classSelector,
   styleSelector,

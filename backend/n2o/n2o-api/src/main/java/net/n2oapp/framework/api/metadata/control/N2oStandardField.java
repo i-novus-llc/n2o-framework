@@ -13,20 +13,7 @@ import java.util.List;
 @Setter
 public abstract class N2oStandardField extends N2oField {
     private String placeholder;
-    private Boolean copied;
-    private String controlSrc;
-    private Validations validations;
-    private String defaultValue;
-
-    @Override
-    public void setSrc(String src) {
-        this.controlSrc = src;
-    }
-
-    @Override
-    public String getSrc() {
-        return controlSrc;
-    }
+    private Submit submit;
 
     public void setActionButtons(List<N2oActionButton> buttons) {
         //todo добавлять их в тулбар

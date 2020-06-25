@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.page;
 
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.impl.component.region.N2oPanelRegion;
+import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -35,7 +35,7 @@ public class PanelRegionAT extends AutoTestBase {
     public void testPanelRegion() {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        N2oPanelRegion panelRegion = page.place("single").region(0, N2oPanelRegion.class);
+        PanelRegion panelRegion = page.place("single").region(0, PanelRegion.class);
         panelRegion.shouldBeExpanded();
         panelRegion.toggleCollapse();
         panelRegion.shouldBeCollapsed();

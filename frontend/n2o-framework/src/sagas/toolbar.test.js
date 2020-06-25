@@ -2,6 +2,7 @@ import { put } from '@redux-saga/core/effects';
 import {
   CHANGE_BUTTON_DISABLED,
   CHANGE_BUTTON_VISIBILITY,
+  CHANGE_BUTTON_MESSAGE,
 } from '../constants/toolbar';
 import {
   resolveButton,
@@ -22,6 +23,7 @@ const setupResolveButton = () => {
         {
           expression: "test !== 'test'",
           modelLink: 'model',
+          message: 'test message',
         },
       ],
     },
@@ -39,6 +41,10 @@ describe('Проверка саги toolbar', () => {
     value = gen.next().value;
     expect(value.payload.action.type).toEqual(CHANGE_BUTTON_DISABLED);
     expect(value.payload.action.payload.disabled).toBe(true);
+    value = gen.next().value;
+    expect(value.payload.action.type).toEqual(CHANGE_BUTTON_MESSAGE);
+    expect(value.payload.action.payload.message).toBe('test message');
+    gen.next();
     expect(gen.next().done).toBe(true);
   });
 });

@@ -3,10 +3,12 @@ package net.n2oapp.framework.autotest.impl.component.page;
 import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
+import org.openqa.selenium.WebElement;
 
 /**
  * Страница для автотестирования
@@ -24,7 +26,7 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public Breadcrumb breadcrumb() {
-        return new N2oBreadcrumb();
+        return new N2oBreadcrumb(element().$(".breadcrumb"));
     }
 
     @Override
@@ -34,7 +36,17 @@ public class N2oPage extends N2oComponent implements Page {
 
     @Override
     public Tooltip tooltip() {
-        return new N2oTooltip(element().$(".list-text-cell__tooltip-container"));
+        return new N2oTooltip(element().$(".list-text-cell__tooltip-container, .show.tooltip"));
+    }
+
+    @Override
+    public Alerts alerts() {
+        return N2oSelenide.collection(element().$$(".n2o-alerts .n2o-alert"), Alerts.class);
+    }
+
+    @Override
+    public void urlShouldMatches(String regexp) {
+        element().should(new UrlMatch(regexp));
     }
 
     @Override
@@ -69,15 +81,25 @@ public class N2oPage extends N2oComponent implements Page {
         }
     }
 
-    public class N2oBreadcrumb implements Breadcrumb {
+    public class N2oBreadcrumb extends N2oComponent implements Breadcrumb {
+
+        public N2oBreadcrumb(SelenideElement element) {
+            setElement(element);
+        }
+
+        @Override
+        public void clickLink(String text) {
+            element().$$(".n2o-breadcrumb-link").findBy(Condition.text(text)).shouldBe(Condition.exist).click();
+        }
+
         @Override
         public void parentTitleShouldHaveText(String text) {
-            element().$(".breadcrumb .breadcrumb-item").shouldHave(Condition.text(text));
+            element().$(".breadcrumb-item").shouldHave(Condition.text(text));
         }
 
         @Override
         public void titleShouldHaveText(String text) {
-            element().$(".breadcrumb .active.breadcrumb-item")
+            element().$(".active.breadcrumb-item")
                     .shouldHave(Condition.text(text));
         }
     }
@@ -134,10 +156,34 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void shouldHaveText(String... text) {
-            ElementsCollection items = element.$$(".list-text-cell__tooltip-container__body");
+            ElementsCollection items = element.$$(".list-text-cell__tooltip-container__body, .tooltip-inner");
             items.shouldHaveSize(text.length);
             if (text.length != 0)
                 items.shouldHave(CollectionCondition.texts(text));
+        }
+    }
+
+    static class UrlMatch extends Condition {
+        private final String regex;
+
+        public UrlMatch(String regex) {
+            super("urlMatch", true);
+            this.regex =regex;
+        }
+
+        @Override
+        public boolean apply(Driver driver, WebElement element) {
+            return driver.url().matches(regex);
+        }
+
+        @Override
+        public String actualValue(Driver driver, WebElement element) {
+            return driver.url();
+        }
+
+        @Override
+        public String toString() {
+            return String.format("%s '%s'", getName(), regex);
         }
     }
 }

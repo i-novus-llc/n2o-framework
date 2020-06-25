@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**

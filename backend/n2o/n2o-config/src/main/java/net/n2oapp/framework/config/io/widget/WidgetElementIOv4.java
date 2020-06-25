@@ -13,8 +13,8 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
 import net.n2oapp.framework.config.io.toolbar.ToolbarIO;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Чтение\запись виджета  версии 4.0

@@ -3,8 +3,9 @@ import isBoolean from 'lodash/isBoolean';
 import isString from 'lodash/isString';
 import each from 'lodash/each';
 import concat from 'lodash/concat';
+import isNil from 'lodash/isNil';
 import { bindActionCreators } from 'redux';
-import { compose } from 'recompose';
+import { compose, mapProps } from 'recompose';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -178,7 +179,9 @@ class Fieldset extends React.Component {
       autoFocusId,
       form,
       modelPrefix,
+      disabled,
     } = this.props;
+
     return (
       <FieldsetRow
         key={rowId}
@@ -191,6 +194,7 @@ class Fieldset extends React.Component {
         autoFocusId={autoFocusId}
         form={form}
         modelPrefix={modelPrefix}
+        disabled={disabled}
         {...props}
       />
     );
@@ -204,6 +208,7 @@ class Fieldset extends React.Component {
       children,
       parentName,
       parentIndex,
+      disabled,
       ...rest
     } = this.props;
     this.fields = [];
@@ -252,11 +257,13 @@ Fieldset.propTypes = {
   enableFields: PropTypes.func,
   disableFields: PropTypes.func,
   modelPrefix: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 Fieldset.defaultProps = {
   labelPosition: 'top-left',
   component: 'div',
+  disabled: false,
 };
 
 Fieldset.contextTypes = {
@@ -279,6 +286,10 @@ const FieldsetContainer = compose(
     null,
     mapDispatchToProps
   ),
+  mapProps(({ enabled, ...props }) => ({
+    ...props,
+    disabled: !isNil(enabled) ? !enabled : false,
+  })),
   withObserveDependency(config)
 )(Fieldset);
 

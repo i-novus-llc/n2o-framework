@@ -3,6 +3,21 @@
   margin-bottom: 1rem;
   overflow: auto;
 
+  &-cell {
+    .btn-group {
+      display: block;
+      @media (max-width: 1650px) {
+        .btn-link::before {
+          content: "|";
+          display: inline-block;
+          position: absolute;
+          left: 0;
+          color: #546e7a;
+        }
+      }
+    }
+  }
+
   &--empty-view {
     display: flex;
     align-items: center;
@@ -11,6 +26,10 @@
 
   & .ReactVirtualized__Grid {
     outline: none;
+  }
+
+  & .ReactVirtualized__Grid.ReactVirtualized__List {
+   will-change: auto!important;
   }
 
   &-more-button {
@@ -96,9 +115,9 @@
       flex-wrap: wrap;
       align-items: baseline;
 
-      min-width: 40%;
+      min-width: 30%;
 
-      padding: 0 0.5rem;
+      padding: 0;
 
       & .n2o-widget-list-item-header + .n2o-widget-list-item-subheader {
         margin-left: 0.5rem;

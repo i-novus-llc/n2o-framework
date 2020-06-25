@@ -3,12 +3,13 @@ package net.n2oapp.framework.config.metadata.compile.control;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oControlsV2IOPack;
+import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,26 +43,10 @@ public class InputTextCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testInputText"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         List<FieldSet.Row> rows = form.getComponent().getFieldsets().get(0).getRows();
+
         assertThat(field.getStyle().size(), is(2));
         assertThat(field.getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(field.getStyle().get("paddingTop"), is("0"));
-        assertThat(field.getDependencies().size(), is(9));
-
-        assertThat(field.getDependencies()
-                .stream().filter(d -> d.getType().equals(ValidationType.enabled)).count(),
-                is(1L));
-        assertThat(field.getDependencies()
-                        .stream().filter(d -> d.getType().equals(ValidationType.visible)).count(),
-                is(3L));
-        assertThat(field.getDependencies()
-                        .stream().filter(d -> d.getType().equals(ValidationType.required)).count(),
-                is(1L));
-        assertThat(field.getDependencies()
-                        .stream().filter(d -> d.getType().equals(ValidationType.reset)).count(),
-                is(3L));
-        assertThat(field.getDependencies()
-                        .stream().filter(d -> d.getType().equals(ValidationType.reRender)).count(),
-                is(1L));
         InputText inputText = (InputText) ((StandardField) field).getControl();
         assertThat(inputText.getSrc(), is("InputText"));
         assertThat(inputText.getMeasure(), is("cm"));
@@ -90,5 +75,4 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(field.getLabel(), nullValue());
         assertThat(field.getLabelClass(), is("testLabelClass"));
     }
-
 }

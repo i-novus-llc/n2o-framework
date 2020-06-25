@@ -1,8 +1,10 @@
 package net.n2oapp.demo.model;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.control.*;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
@@ -172,12 +174,16 @@ public class ProtoPage {
     }
 
     public ProtoClient editClientFromTableCell(int row) {
-        getTableCell(row, 7, ToolbarCell.class).clickMenu("Изменить");
+        DropdownButton dropdown = getTableCell(row, 7, ToolbarCell.class).toolbar().dropdown();
+        dropdown.click();
+        dropdown.menuItem("Изменить").click();
         return getModalProtoClient();
     }
 
     public void deleteClientFromTableCell(int row) {
-        getTableCell(row, 7, ToolbarCell.class).clickMenu("Удалить");
+        DropdownButton dropdown = getTableCell(row, 7, ToolbarCell.class).toolbar().dropdown();
+        dropdown.click();
+        dropdown.menuItem("Удалить").click();
     }
 
     public void deleteClientFromTableToolBar() {
@@ -211,18 +217,34 @@ public class ProtoPage {
     }
 
     public void contactsListShouldHaveText(int index, String text) {
-        leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).content(index).body(TextCell.class).textShouldHave(text);
+        getContacts().content(index).body(TextCell.class).textShouldHave(text);
     }
 
     public ProtoContacts createContact() {
-        leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).toolbar().topLeft().button("Создать").click();
+        getContacts().toolbar().topLeft().button("Создать").click();
         return getModalProtoContacts();
     }
 
     public ProtoContacts editContact(int index) {
-        ListCell cell = leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class).content(index).extra(ListCell.class);
+        ListCell cell = getContacts().content(index).extra(ListCell.class);
         cell.element().$$(".btn").findBy(Condition.text("Изменить")).click();
         return getModalProtoContacts();
+    }
+
+    public void tableAlertTextShouldBe(String text) {
+        getTable().alerts().alert(0).shouldHaveText(text);
+    }
+
+    public void tableAlertColorShouldBe(Colors colors) {
+        getTable().alerts().alert(0).shouldHaveColor(colors);
+    }
+
+    public void contactsAlertTextShouldBe(String text) {
+        getContacts().alerts().alert(0).shouldHaveText(text);
+    }
+
+    public void contactsAlertColorShouldBe(Colors colors) {
+        getContacts().alerts().alert(0).shouldHaveColor(colors);
     }
 
     public InputText getSurnameCard() {
@@ -267,5 +289,9 @@ public class ProtoPage {
 
     private Fields getCardFields() {
         return leftRightPage.right().region(1, PanelRegion.class).content().widget(FormWidget.class).fields();
+    }
+
+    private ListWidget getContacts() {
+        return leftRightPage.right().region(0, PanelRegion.class).content().widget(ListWidget.class);
     }
 }

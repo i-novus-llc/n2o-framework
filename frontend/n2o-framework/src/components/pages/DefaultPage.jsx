@@ -14,7 +14,7 @@ import Toolbar from '../buttons/Toolbar';
  * @param metadata
  * @param toolbar
  * @param actions
- * @param containerKey
+ * @param entityKey
  * @param error
  * @param pageId
  * @param regions
@@ -29,7 +29,7 @@ function DefaultPage(
     metadata,
     toolbar,
     actions,
-    containerKey,
+    entityKey,
     error,
     pageId,
     regions,
@@ -53,18 +53,18 @@ function DefaultPage(
       {!isEmpty(metadata) && metadata.page && <PageTitle {...metadata.page} />}
       {toolbar && (toolbar.topLeft || toolbar.topRight || toolbar.topCenter) && (
         <div className="n2o-page-actions">
-          <Toolbar entityKey={containerKey} toolbar={toolbar.topLeft} />
-          <Toolbar entityKey={containerKey} toolbar={toolbar.topCenter} />
-          <Toolbar entityKey={containerKey} toolbar={toolbar.topRight} />
+          <Toolbar entityKey={entityKey} toolbar={toolbar.topLeft} />
+          <Toolbar entityKey={entityKey} toolbar={toolbar.topCenter} />
+          <Toolbar entityKey={entityKey} toolbar={toolbar.topRight} />
         </div>
       )}
       {children}
       {toolbar &&
         (toolbar.bottomLeft || toolbar.bottomRight || toolbar.bottomCenter) && (
           <div className="n2o-page-actions">
-            <Toolbar entityKey={containerKey} toolbar={toolbar.bottomLeft} />
-            <Toolbar entityKey={containerKey} toolbar={toolbar.bottomCenter} />
-            <Toolbar entityKey={containerKey} toolbar={toolbar.bottomRight} />
+            <Toolbar entityKey={entityKey} toolbar={toolbar.bottomLeft} />
+            <Toolbar entityKey={entityKey} toolbar={toolbar.bottomCenter} />
+            <Toolbar entityKey={entityKey} toolbar={toolbar.bottomRight} />
           </div>
         )}
     </div>
@@ -75,7 +75,7 @@ DefaultPage.propTypes = {
   metadata: PropTypes.object,
   toolbar: PropTypes.object,
   actions: PropTypes.object,
-  containerKey: PropTypes.string,
+  entityKey: PropTypes.string,
   error: PropTypes.object,
   pageId: PropTypes.string,
   regions: PropTypes.object,

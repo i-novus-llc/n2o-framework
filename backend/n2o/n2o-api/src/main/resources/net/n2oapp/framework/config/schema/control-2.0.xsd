@@ -39,6 +39,7 @@
     <xs:element name="progress" type="controlProgressDefinition"/>
     <xs:element name="status" type="controlStatusDefinition"/>
     <xs:element name="button" type="btn:buttonDefinition"/>
+    <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -74,6 +75,7 @@
             <xs:element name="progress" type="controlProgressDefinition" minOccurs="0"/>
             <xs:element name="status" type="controlStatusDefinition" minOccurs="0"/>
             <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
+            <xs:element name="interval-field" type="controlRangeFieldDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -82,6 +84,7 @@
             <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
             <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
             <xs:element name="toolbar" type="controlToolbarDefinition" minOccurs="0"/>
+            <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
@@ -264,6 +267,11 @@
                         <xs:documentation>Поле выборки, отвечающее за иконку вариантов выбора</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="status-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор status поля.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="cache" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Кэшировать результаты выборки</xs:documentation>
@@ -282,6 +290,13 @@
                 <xs:attribute name="param" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля, которое определяет (true/false) выбираем мы узел или нет.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -335,11 +350,19 @@
             <xs:element name="visibility" type="controlVisibilityDependencyDefinition" minOccurs="0"/>
             <xs:element name="set-value" type="baseDependencyDefinition" minOccurs="0"/>
             <xs:element name="requiring" type="baseDependencyDefinition" minOccurs="0"/>
-            <xs:element name="fetch" type="baseDependencyDefinition" minOccurs="0"/>
+            <xs:element name="fetch" type="baseDependencyDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Обновление модели компонента при изменении зависимых полей.
+                        Нужен для списковых компонентов с открытым списком (radio-group, checkbox-group),
+                        у которых есть фильтры от других полей.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="reset" type="baseDependencyDefinition" minOccurs="0"/>
             <xs:element name="fetch-value" type="fetchValueDependencyDefinition" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Обновление модели поля ввода</xs:documentation>
+                    <xs:documentation>Обновление модели поля ввода.</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -358,14 +381,13 @@
             <xs:documentation>Кнопка с выпадающим меню.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="btn:subMenuDefinitionAbstract">
+            <xs:extension base="btn:baseSubMenuDefinition">
                 <xs:sequence>
                     <xs:element name="menu-item" type="btn:menuItemDefinition" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-
 
     <xs:complexType name="controlOptionsListInlineDefinition">
         <xs:complexContent>
@@ -675,6 +697,17 @@
                         <xs:documentation>Тэг.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlRangeFieldDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:sequence>
+                    <xs:element name="begin" type="controls" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="end" type="controls" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1043,7 +1076,7 @@
                 <xs:annotation>
                     <xs:documentation>Компонент выбора из выпадающего списка.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="type" type="inputSelectType">
+                <xs:attribute name="type" type="inputSelectType" default="single">
                     <xs:annotation>
                         <xs:documentation>Тип выбора в выпадающем списке.</xs:documentation>
                     </xs:annotation>
@@ -1076,6 +1109,13 @@
                 <xs:attribute name="select-format-many" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Заголовок поля при большом числе элементов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="description-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля для отображения дополнительной информации в опциях выпадающего списка.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1144,6 +1184,13 @@
                         <xs:documentation>Стирание значения при потере фокуса.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="description-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля для отображения дополнительной информации в опциях выпадающего списка.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1152,36 +1199,29 @@
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:sequence>
-                    <xs:element name="default-model" type="defaultModelDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="default-model" type="defaultModelDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="parent-field-id" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Идентификатор родительского поля.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="has-children-field-id" type="xs:string" use="optional">
+                <xs:attribute name="has-children-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Наличие дочерних элементов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="enabled-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор поля, которое определяет (true/false) выбираем мы узел или нет.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="master-field-id" type="xs:string" use="optional">
+                <xs:attribute name="master-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор master поля.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="detail-field-id" type="xs:string" use="optional">
+                <xs:attribute name="detail-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор detail поля.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="value-field-id" type="xs:string" use="optional">
+                <xs:attribute name="value-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор узла дерева.</xs:documentation>
                     </xs:annotation>
@@ -1192,21 +1232,26 @@
                         <xs:documentation>Поддержка загрузки через ajax запрос.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false">
+                <xs:attribute name="checkboxes" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
                             Отображение чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="checking-strategy" type="checkingStrategyType" use="optional" default="all">
+                <xs:attribute name="checking-strategy" type="checkingStrategyType" default="all">
                     <xs:annotation>
                         <xs:documentation>Стратегия выбора данных из дерева.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="max-tag-count" type="xs:integer" use="optional">
+                <xs:attribute name="max-tag-count" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Максимальное количество элементов в поле.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная длина текста элемента (в режиме чекбоксов).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

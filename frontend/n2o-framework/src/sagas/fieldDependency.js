@@ -16,11 +16,16 @@ import includes from 'lodash/includes';
 import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import set from 'lodash/set';
-import { actionTypes, change } from 'redux-form';
+import { actionTypes, change, getFormValues } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 
 import { makeFormByName } from '../selectors/formPlugin';
 import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
+import {
+  makeFormModelPrefixSelector,
+  makeWidgetValidationSelector,
+} from '../selectors/widgets';
+import { validateField } from '../core/validation/createValidator';
 import {
   enableField,
   disableField,
@@ -34,6 +39,7 @@ import { FETCH_VALUE } from '../core/api';
 import fetchSaga from './fetch';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 import { evalResultCheck } from '../utils/evalResultCheck';
+import { setModel } from '../actions/models';
 
 let prevState = {};
 let prevResults = {};
@@ -69,7 +75,14 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   }
 }
 
-export function* modify(values, formName, fieldName, type, options = {}) {
+export function* modify(
+  values,
+  formName,
+  fieldName,
+  type,
+  options = {},
+  dispatch
+) {
   let _evalResult;
 
   const prevValues = get(prevState, [formName, fieldName, type]);
@@ -98,13 +111,23 @@ export function* modify(values, formName, fieldName, type, options = {}) {
         : put(hideField(formName, fieldName));
       break;
     case 'setValue':
-      yield !isUndefined(_evalResult) &&
-        put(
-          change(formName, fieldName, {
-            keepDirty: false,
-            value: _evalResult,
-          })
-        );
+      let newFormValues = Object.assign({}, values);
+
+      if (!isUndefined(_evalResult)) {
+        const modelPrefix = yield select(makeFormModelPrefixSelector(formName));
+        newFormValues = Object.assign({}, values);
+
+        set(newFormValues, fieldName, _evalResult);
+        set(prevState, [formName, fieldName, type], newFormValues);
+        set(prevResults, [formName, fieldName, type], _evalResult);
+
+        yield put(setModel(modelPrefix || 'resolve', formName, newFormValues));
+      }
+
+      const state = yield select();
+      const validation = makeWidgetValidationSelector(formName)(state);
+
+      validateField(validation, formName, state)(newFormValues, dispatch);
       break;
     case 'reset':
       yield evalResultCheck(_evalResult) &&
@@ -138,7 +161,8 @@ export function* checkAndModify(
   fields,
   formName,
   fieldName,
-  actionType
+  actionType,
+  dispatch
 ) {
   for (const entry of Object.entries(fields)) {
     const [fieldId, field] = entry;
@@ -155,14 +179,22 @@ export function* checkAndModify(
             actionType === REGISTER_FIELD_EXTRA) &&
             dep.applyOnInit)
         ) {
-          yield call(modify, values, formName, fieldId, dep.type, dep);
+          yield call(
+            modify,
+            values,
+            formName,
+            fieldId,
+            dep.type,
+            dep,
+            dispatch
+          );
         }
       }
     }
   }
 }
 
-export function* resolveDependency(action) {
+export function* resolveDependency(action, dispatch) {
   try {
     const { form: formName, field: fieldName } = action.meta;
     const form = yield select(makeFormByName(formName));
@@ -175,7 +207,8 @@ export function* resolveDependency(action) {
           fields,
           formName,
           fieldName || action.name,
-          action.type
+          action.type,
+          dispatch
         );
       }
     }
@@ -186,9 +219,12 @@ export function* resolveDependency(action) {
 }
 
 export function* catchAction(dispatch) {
-  yield takeEvery(actionTypes.INITIALIZE, resolveDependency);
-  yield throttle(300, REGISTER_FIELD_EXTRA, resolveDependency);
-  yield takeEvery(actionTypes.CHANGE, resolveDependency);
+  const resolveDependencyHandler = action =>
+    resolveDependency(action, dispatch);
+
+  yield takeEvery(actionTypes.INITIALIZE, resolveDependencyHandler);
+  yield throttle(300, REGISTER_FIELD_EXTRA, resolveDependencyHandler);
+  yield takeEvery(actionTypes.CHANGE, resolveDependencyHandler);
 }
 
 export const fieldDependencySagas = [catchAction];

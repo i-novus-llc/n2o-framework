@@ -397,6 +397,96 @@ stories
   .add('Метаданные для виджета', () => (
     <Toolbar toolbar={MetaJson.toolbar.topLeft} entityKey="metaBtns" />
   ))
+  .add('disabled кнопка с тултипом', () => {
+    const toolbar = [
+      {
+        buttons: [
+          {
+            id: 'filter',
+            src: 'StandardButton',
+            visible: true,
+            conditions: {
+              visible: [
+                {
+                  expression: "name !== 'Афанасий'",
+                  modelLink: "models.resolve['Page_Table']",
+                },
+              ],
+            },
+            label: 'Видимость',
+            hint: 'Скроется, если имя в выбранной записи Афанасий',
+          },
+          {
+            id: 'enable',
+            src: 'StandardButton',
+            visible: true,
+            disabled: true,
+            conditions: {
+              enabled: [
+                {
+                  expression: 'false',
+                  modelLink: "models.resolve['Page_Table']",
+                  message: 'Выгрузка невозможна без заполнения начальной даты',
+                },
+              ],
+            },
+            label: 'Блокировка',
+            hint: 'Заблокируется, если имя в выбранной записи Иннокентий',
+          },
+          {
+            id: 'subMenu3',
+            label: 'Видимость списка',
+            src: 'DropdownButton',
+            hint:
+              'Исчезнет, если фамилия Ревин. Условие видимости на элементах списка',
+            subMenu: [
+              {
+                id: 'menuItem4',
+                src: 'StandardButton',
+                conditions: {
+                  visible: [
+                    {
+                      expression: "surname !== 'Ревин'",
+                      modelLink: "models.resolve['Page_Table']",
+                    },
+                  ],
+                  enabled: [
+                    {
+                      expression: '!_.isEmpty(this)',
+                      modelLink: "models.resolve['Page_Table']",
+                    },
+                  ],
+                },
+                label: 'Элементы списка',
+                hint: 'Исчезнет, если фамилия Ревин',
+              },
+              {
+                id: 'menuItem5',
+                src: 'StandardButton',
+                conditions: {
+                  visible: [
+                    {
+                      expression: "surname !== 'Ревин'",
+                      modelLink: "models.resolve['Page_Table']",
+                    },
+                  ],
+                  enabled: [
+                    {
+                      expression: '!_.isEmpty(this)',
+                      modelLink: "models.resolve['Page_Table']",
+                    },
+                  ],
+                },
+                label: 'Элементы списка',
+                hint: 'Исчезнет, если фамилия Ревин',
+              },
+            ],
+          },
+        ],
+      },
+    ];
+    return <Toolbar toolbar={toolbar} entityKey="metaBtns" />;
+  })
   .add('Ограничение доступа на кнопки', () => {
     const toolbar = [
       {

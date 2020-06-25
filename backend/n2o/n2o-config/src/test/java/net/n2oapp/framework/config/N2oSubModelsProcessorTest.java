@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 
 public class N2oSubModelsProcessorTest {
 
-    private SubModelsProcessor processor;
+    private N2oSubModelsProcessor processor;
 
     @Before
     public void setUp() {

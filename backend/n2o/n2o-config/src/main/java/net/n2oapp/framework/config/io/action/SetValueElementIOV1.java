@@ -1,23 +1,28 @@
 package net.n2oapp.framework.config.io.action;
 
-import net.n2oapp.framework.api.metadata.event.action.SetValueExpressionAction;
+import net.n2oapp.framework.api.metadata.event.action.MergeMode;
+import net.n2oapp.framework.api.metadata.event.action.N2oSetValueAction;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
  * Чтение/запись установление значений в модели
  */
 @Component
-public class SetValueElementIOV1 extends AbstractActionElementIOV1<SetValueExpressionAction> {
-
-
+public class SetValueElementIOV1 extends AbstractActionElementIOV1<N2oSetValueAction> {
 
     @Override
-    public void io(Element e, SetValueExpressionAction sv, IOProcessor p) {
+    public void io(Element e, N2oSetValueAction sv, IOProcessor p) {
         super.io(e, sv, p);
-        p.attribute(e,"target-field-id", sv::getTargetFieldId, sv::setTargetFieldId);
-        p.text(e,sv::getExpression,sv::setExpression);
+        p.attribute(e, "target-field-id", sv::getTargetFieldId, sv::setTargetFieldId);
+        p.attribute(e, "to", sv::getTo, sv::setTo);
+        p.attribute(e, "source-widget", sv::getSourceWidget, sv::setSourceWidget);
+        p.attribute(e, "source-model", sv::getSourceModel, sv::setSourceModel);
+        p.attribute(e, "target-widget", sv::getTargetWidget, sv::setTargetWidget);
+        p.attribute(e, "target-model", sv::getTargetModel, sv::setTargetModel);
+        p.attributeEnum(e, "merge-mode", sv::getMergeMode, sv::setMergeMode, MergeMode.class);
+        p.text(e, sv::getExpression, sv::setExpression);
     }
 
     @Override
@@ -26,7 +31,7 @@ public class SetValueElementIOV1 extends AbstractActionElementIOV1<SetValueExpre
     }
 
     @Override
-    public Class<SetValueExpressionAction> getElementClass() {
-        return SetValueExpressionAction.class;
+    public Class<N2oSetValueAction> getElementClass() {
+        return N2oSetValueAction.class;
     }
 }

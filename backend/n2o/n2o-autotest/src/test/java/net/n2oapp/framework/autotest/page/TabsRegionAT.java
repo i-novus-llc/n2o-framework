@@ -1,8 +1,7 @@
 package net.n2oapp.framework.autotest.page;
 
-import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.autotest.impl.component.page.N2oLeftRightPage;
-import net.n2oapp.framework.autotest.impl.component.region.N2oTabsRegion;
+import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
+import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -29,23 +28,37 @@ public class TabsRegionAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/simple/test.header.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Test
     public void testTabsRegion() {
-        N2oLeftRightPage page = open(N2oLeftRightPage.class);
+        LeftRightPage page = open(LeftRightPage.class);
         page.shouldExists();
-        N2oTabsRegion tabs = page.left().region(0, N2oTabsRegion.class);
+        TabsRegion tabs = page.left().region(0, TabsRegion.class);
+        tabs.shouldHaveSize(3);
+        tabs.tab(0).shouldBeActive();
+        tabs.tab(1).shouldNotBeActive();
+        tabs.tab(2).shouldNotBeActive();
+        tabs.tab(0).shouldHaveText("tab1");
+        tabs.tab(1).shouldHaveText("customName");
+        tabs.tab(2).shouldHaveText("tab3");
+
+        tabs.tab(1).click();
+        tabs.tab(0).shouldNotBeActive();
         tabs.tab(1).shouldBeActive();
-        tabs.tab(1).element().shouldHave(Condition.text("tab1"));
-        tabs.tab(2).element().shouldHave(Condition.text("customName"));
+        tabs.tab(2).shouldNotBeActive();
+
         tabs.tab(2).click();
+
+        tabs.tab(0).shouldNotBeActive();
+        tabs.tab(1).shouldNotBeActive();
         tabs.tab(2).shouldBeActive();
 
-        N2oTabsRegion singleTab = page.right().region(0, N2oTabsRegion.class);
-        singleTab.tab(1).shouldBeActive();
-        singleTab.tab(1).element().shouldHave(Condition.text("tab3"));
+        TabsRegion singleTab = page.right().region(0, TabsRegion.class);
+        singleTab.shouldHaveSize(1);
+        singleTab.tab(0).shouldBeActive();
+        singleTab.tab(0).shouldHaveText("tab4");
     }
 
 }

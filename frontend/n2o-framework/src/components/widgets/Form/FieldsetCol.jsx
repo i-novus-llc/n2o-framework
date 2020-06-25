@@ -21,6 +21,7 @@ function FieldsetCol({
   parentName,
   parentIndex,
   colVisible = true,
+  disabled,
 }) {
   return (
     colVisible && (
@@ -42,7 +43,9 @@ function FieldsetCol({
                 form={form}
                 modelPrefix={modelPrefix}
                 name={name}
+                parentName={parentName}
                 parentIndex={parentIndex}
+                disabled={disabled}
                 {...field}
               />
             );
@@ -57,6 +60,7 @@ function FieldsetCol({
                 form={form}
                 parentName={parentName}
                 parentIndex={parentIndex}
+                disabled={disabled}
                 {...fieldset}
               />
             );

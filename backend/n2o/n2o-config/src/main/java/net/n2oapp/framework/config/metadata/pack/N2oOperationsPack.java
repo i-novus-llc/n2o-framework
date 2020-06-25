@@ -19,6 +19,7 @@ public class N2oOperationsPack implements MetadataPack<N2oApplicationBuilder> {
                 new CompileOperation<>(),
                 new CompileTransformOperation<>(),
                 new CompileCacheOperation<>(),
-                new BindOperation<>());
+                new BindOperation<>(),
+                new PersistOperation<>());
     }
 }

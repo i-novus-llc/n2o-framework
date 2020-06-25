@@ -1,6 +1,6 @@
 package net.n2oapp.framework.api.metadata.io;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Считывание и запись DOM элементов

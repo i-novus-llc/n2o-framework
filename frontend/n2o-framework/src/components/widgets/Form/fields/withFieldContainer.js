@@ -1,14 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {
+  compose,
+  pure,
+  withProps,
+  defaultProps,
+  withHandlers,
+  shouldUpdate,
+  mapProps,
+  branch,
+} from 'recompose';
+import { getFormValues } from 'redux-form';
 import isBoolean from 'lodash/isBoolean';
 import memoize from 'lodash/memoize';
-import some from 'lodash/some';
-import omit from 'lodash/omit';
+import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 import replace from 'lodash/replace';
 import includes from 'lodash/includes';
 import isNil from 'lodash/isNil';
+
 import {
   isInitSelector,
   isVisibleSelector,
@@ -17,36 +28,10 @@ import {
   requiredSelector,
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
-import {
-  compose,
-  pure,
-  withProps,
-  defaultProps,
-  withHandlers,
-  shouldUpdate,
-} from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
-import { getFormValues } from 'redux-form';
+import withAutoSave from './withAutoSave';
 
-const INDEX_PLACEHOLDER = '#index';
-
-const excludedKeys = [
-  'dependencySelector',
-  'dispatch',
-  'onBlur',
-  'onChange',
-  'onDragStart',
-  'onDrop',
-  'onFocus',
-  'registerFieldExtra',
-  'setReRenderRef',
-  'setRef',
-  'dirty',
-  'pristine',
-  'visited',
-  'asyncValidating',
-  'active',
-];
+const INDEX_PLACEHOLDER = 'index';
 
 /**
  * HOC обертка для полей, в которой содержится мэппинг свойств редакса и регистрация дополнительных свойств полей
@@ -210,7 +195,7 @@ export default Field => {
         memoize(props => {
           if (!props) return;
           const { input, message, meta, model, ...rest } = props;
-          const pr = propsResolver(rest, model);
+          const pr = propsResolver(rest, model, ['toolbar']);
           return {
             ...pr,
             ...meta,
@@ -232,6 +217,19 @@ export default Field => {
       mapStateToProps,
       mapDispatchToProps
     ),
+    mapProps(({ model, parentIndex, parentName, ...props }) => {
+      return {
+        ...props,
+        parentIndex,
+        model: !isNil(parentName)
+          ? {
+              ...get(model, parentName),
+              index: parentIndex,
+            }
+          : model,
+      };
+    }),
+    branch(({ dataProvider }) => dataProvider, withAutoSave),
     shouldUpdate(
       (props, nextProps) =>
         !isEqual(props.model, nextProps.model) ||
@@ -239,7 +237,9 @@ export default Field => {
         props.visible !== nextProps.visible ||
         props.disabled !== nextProps.disabled ||
         props.message !== nextProps.message ||
-        props.required !== nextProps.required
+        props.required !== nextProps.required ||
+        props.loading !== nextProps.loading ||
+        get(props, 'input.value', null) !== get(nextProps, 'input.value', null)
     ),
     withProps(props => ({
       ref: props.setReRenderRef,

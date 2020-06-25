@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.api.component.page;
 
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
+import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 
 /**
@@ -19,6 +20,10 @@ public interface Page extends Component {
 
     Tooltip tooltip();
 
+    Alerts alerts();
+
+    void urlShouldMatches(String regexp);
+
     void scrollUp();
 
     void scrollDown();
@@ -33,7 +38,10 @@ public interface Page extends Component {
         Toolbar bottomRight();
     }
 
-    interface Breadcrumb {
+    interface Breadcrumb extends Component {
+
+        void clickLink(String text);
+
         void parentTitleShouldHaveText(String text);
 
         void titleShouldHaveText(String text);
