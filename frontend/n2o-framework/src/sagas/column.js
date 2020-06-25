@@ -14,7 +14,7 @@ export function* resolveColumn(column) {
     const { visible } = column.conditions;
 
     if (visible) {
-      const nextVisible = resolveConditions(visible, state);
+      const nextVisible = resolveConditions(visible, state).resolve;
 
       yield put(
         changeColumnVisiblity(column.key, column.columnId, nextVisible)

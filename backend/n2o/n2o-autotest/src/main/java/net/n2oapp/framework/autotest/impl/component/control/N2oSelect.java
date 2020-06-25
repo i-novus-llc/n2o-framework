@@ -40,7 +40,8 @@ public class N2oSelect extends N2oControl implements Select {
 
     @Override
     public void select(Condition by) {
-        element().parent().$$(".n2o-pop-up button").findBy(by).click();
+        expandPopUpOptions();
+        selectPopUp().$$("button").findBy(by).click();
     }
 
     @Override
