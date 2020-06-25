@@ -11,7 +11,7 @@
     "n2o-ecp-plugin"
   ],
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap -- --ignore-engines",
     "build": "lerna run build",
     "build:n2o": "lerna run --scope n2o-framework build",
     "build:libs": "lerna run --scope n2o-framework --scope n2o-auth --scope n2o-notifications --scope n2o-ecp-plugin --parallel build",
