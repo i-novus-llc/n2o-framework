@@ -271,9 +271,6 @@ class DateTimeControl extends React.Component {
       ) {
         if (this.state.focused) {
           if (this.props.type === 'date-interval') {
-            const start = this.state.inputs[DateTimeControl.beginInputName];
-            const end = this.state.inputs[DateTimeControl.endInputName];
-            this.onChange([start, end]);
             const valueToBlur = this.getValue();
 
             if (every(valueToBlur, value => value)) {
