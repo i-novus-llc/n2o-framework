@@ -77,7 +77,7 @@ function PopupItems({
     return item[labelFieldId];
   };
 
-  const renderSingleItem = item => {
+  const renderSingleItem = (item, index) => {
     return (
       <DropdownItem
         className={cx('n2o-eclipse-content', {
@@ -95,7 +95,7 @@ function PopupItems({
           )
         }
         ref={handleRef}
-        key={item.id}
+        key={index}
         onClick={e => handleItemClick(e, item)}
         title={displayTitle(item)}
         toggle={false}
