@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.config.AppConfig;
