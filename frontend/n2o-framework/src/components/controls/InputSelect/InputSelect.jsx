@@ -104,15 +104,21 @@ class InputSelect extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const state = {};
     const { multiSelect, value, labelFieldId, options } = nextProps;
     if (!isEqual(nextProps.options, this.state.options)) {
-      this.setState({ options });
+      state.options = options;
     }
     if (!isEqual(nextProps.value, this.props.value)) {
       const valueArray = Array.isArray(value) ? value : value ? [value] : [];
       const input = value && !multiSelect ? value[labelFieldId] : '';
 
-      this.setState({ value: valueArray, input });
+      state.value = valueArray;
+      state.input = input;
+    }
+
+    if (!isEmpty(state)) {
+      this.setState(state);
     }
   }
 
