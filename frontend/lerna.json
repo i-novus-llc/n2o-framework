@@ -4,7 +4,8 @@
   "npmClient": "npm",
   "npmClientArgs": [
     "--no-package-lock",
-    "--ignore @babel*"
+    "--ignore @babel*",
+    "--no-lockfile"
   ],
   "packages": [
     "demo",
