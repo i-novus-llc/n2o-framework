@@ -8,11 +8,9 @@ import net.n2oapp.framework.api.config.AppConfig;
 import net.n2oapp.framework.api.config.ConfigBuilder;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.test.TestContextEngine;
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.env.PropertyResolver;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**

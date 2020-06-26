@@ -29,7 +29,7 @@ public class AppConfigServlet extends HttpServlet {
 
     @Override
     public void init() {
-        appConfigJsonWriter.loadValues();
+
     }
 
     @Override

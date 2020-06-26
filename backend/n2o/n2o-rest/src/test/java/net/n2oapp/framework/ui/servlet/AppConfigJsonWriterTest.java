@@ -43,7 +43,6 @@ public class AppConfigJsonWriterTest {
         appConfigJsonWriter.setPath("META-INF/config.json");
         appConfigJsonWriter.setOverridePath("META-INF/config-build.json");
 
-        appConfigJsonWriter.loadValues();
         StringWriter sw = new StringWriter();
         appConfigJsonWriter.writeValues(new PrintWriter(sw), new HashMap<>());
         ObjectNode result = (ObjectNode) objectMapper.readTree(sw.toString());
