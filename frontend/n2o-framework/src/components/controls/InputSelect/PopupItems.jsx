@@ -81,7 +81,7 @@ function PopupItems({
     return item[labelFieldId];
   };
 
-  const renderSingleItem = item => {
+  const renderSingleItem = (item, index) => {
     const disabled = !isNil(item[enabledFieldId])
       ? item[enabledFieldId]
       : !hasCheckboxes &&
@@ -100,7 +100,7 @@ function PopupItems({
         }
         disabled={disabled}
         ref={handleRef}
-        key={item.id}
+        key={index}
         onClick={e => handleItemClick(e, item)}
         title={displayTitle(item)}
         toggle={false}
