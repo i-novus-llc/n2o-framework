@@ -100,9 +100,7 @@ public class AppConfigJsonWriter {
      * @param addedValues Дополнительные значения
      */
     public void writeValues(PrintWriter out, Map<String, Object> addedValues) {
-        N2oConfigBuilder<AppConfig> configBuilder = build();
-        configBuilder.addAll(addedValues);
-        configBuilder.write(out);
+        build().addAll(addedValues).write(out);
     }
 
     /**
