@@ -120,13 +120,8 @@ export default Field => {
      * @param e
      */
     onBlur(e) {
-      const {
-        meta: { form },
-        input: { name },
-        value,
-        input,
-        onBlur,
-      } = this.props;
+      const { input, onBlur } = this.props;
+
       input && input.onBlur(e);
       onBlur && onBlur(e.target.value);
     }
@@ -229,7 +224,10 @@ export default Field => {
           : model,
       };
     }),
-    branch(({ dataProvider }) => dataProvider, withAutoSave),
+    branch(
+      ({ dataProvider, autoSubmit }) => !!autoSubmit || !!dataProvider,
+      withAutoSave
+    ),
     shouldUpdate(
       (props, nextProps) =>
         !isEqual(props.model, nextProps.model) ||

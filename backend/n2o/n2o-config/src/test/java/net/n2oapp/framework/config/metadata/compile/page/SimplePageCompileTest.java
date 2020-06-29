@@ -43,7 +43,8 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.ios(new SimplePageElementIOv2(), new CustomRegionIOv1(), new HtmlWidgetElementIOv4(), new ButtonIO())
-                .compilers(new SimplePageCompiler(), new CustomRegionCompiler(), new HtmlWidgetCompiler(), new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler())
+                .compilers(new SimplePageCompiler(), new CustomRegionCompiler(), new HtmlWidgetCompiler(),
+                        new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler())
                 .packs(new N2oObjectsPack(), new N2oActionsPack())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"));
     }

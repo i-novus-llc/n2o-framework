@@ -45,6 +45,7 @@ export const withWidgetContainer = widgetContainer(
         prompt: props.prompt,
         setActive: props.onFocus,
         placeholder: props.placeholder,
+        autoSubmit: props.autoSubmit,
       };
     },
   },
