@@ -206,6 +206,7 @@ describe('Сага для перехвата меты, сайд-эффектов
     it('Проверка диспатча саги messagesFormEffect', () => {
       const { messageForm } = setupMessageFormEffect();
       let gen = messageForm.next();
+      gen = messageForm.next();
       expect(gen.value.payload.action.payload[0].type).toEqual(
         ADD_FIELD_MESSAGE
       );
@@ -214,6 +215,7 @@ describe('Сага для перехвата меты, сайд-эффектов
     it('Проверка payload саги messageFormEffect', () => {
       const { messageForm, meta } = setupMessageFormEffect();
       let gen = messageForm.next();
+      gen = messageForm.next();
       expect(gen.value.payload.action.payload[0].payload.form).toEqual(
         meta['messages.form']
       );
