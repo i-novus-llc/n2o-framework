@@ -10,9 +10,14 @@ const mapStyle = ({ height, top, width } = {}, color) => ({
 
 const DEFAULT_BG_COLOR = '#3174ad';
 
-function CalendarEvent({ style, label, event, accessors, cellColorAccessor }) {
-  console.log('point');
-  console.log(arguments[0]);
+function CalendarEvent({
+  style,
+  label,
+  event,
+  accessors,
+  cellColorAccessor,
+  onClick,
+}) {
   const tooltip = accessors.tooltip(event);
   const title = accessors.title(event);
   const color = event[cellColorAccessor] || DEFAULT_BG_COLOR;
@@ -22,6 +27,7 @@ function CalendarEvent({ style, label, event, accessors, cellColorAccessor }) {
       className="calendar__event"
       style={style && mapStyle(style, color)}
       title={tooltip}
+      onClick={onClick}
     >
       <div className="calendar__event-label">{label}</div>
       <div className="calendar__event-name">{title}</div>

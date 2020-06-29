@@ -14,6 +14,10 @@ import CalendarCell from './CalendarCell';
 import CalendarDateCell from './CalendarDateCell';
 import CalendarColumnHeader from './CalendarColumnHeader';
 
+const eventType = {
+  CLICK: 'click',
+};
+
 function CalendarContainer(props) {
   return <Calendar {...props} />;
 }
@@ -87,6 +91,16 @@ export default compose(
       createComponents,
       defaultView,
       height,
+      actionOnSelectEvent,
+      formats,
+      views,
+      timeslots,
+      selectable,
+      maxDate,
+      minDate,
+      step,
+      resources,
+      dispatch,
     }) => ({
       events: mapEvents(datasource),
       startAccessor: startFieldId,
@@ -100,6 +114,21 @@ export default compose(
       components: createComponents(),
       defaultView,
       style: { height },
+      actionOnClickEvent: e => {
+        if (!e.disabled) dispatch(actionOnSelectEvent);
+      },
+      actionOnClickSlot: e => {
+        if (e.action === eventType.CLICK) dispatch(actionOnSelectEvent);
+      },
+      date,
+      formats,
+      views,
+      timeslots,
+      selectable,
+      maxDate,
+      minDate,
+      step,
+      resources,
     })
   )
 )(CalendarContainer);

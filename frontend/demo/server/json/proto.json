@@ -613,7 +613,7 @@
                 {
                   "src": "StandardButton",
                   "id": "update2",
-                  "icon": "fa fa-edit",
+                  "label": "Кнопка",
                   "action": {},
                   "hint": "Кнопка скрывается, если в строке имя Мария",
                   "hintPosition": "bottom",
@@ -645,9 +645,8 @@
                   "src": "StandardButton",
                   "id": "view",
                   "label": "Просмотр",
-                  "icon": "fa fa-book",
                   "action": {
-                    "type": "n2o/overlays/INSERT",
+                    "type": "n2o/calendar/CHANGE_VIEW",
                     "payload": {
                       "name": "proto_view",
                       "pageId": "proto_view",
@@ -656,11 +655,7 @@
                         "proto_clients_id": {
                           "link": "models.resolve['proto_clients'].id"
                         }
-                      },
-                      "queryMapping": {},
-                      "closeButton": true,
-                      "visible": true,
-                      "mode": "modal"
+                      }
                     }
                   },
                   "hint": "Кнопка блокируется, если в фильтре имя Анна",
@@ -688,8 +683,8 @@
         },
         "height": "500px",
         "date": "2020-06-10",
-        "defaultView": "week",
-        "view": ["week", "day"],
+        "defaultView": "agenda",
+        "views": { "week": true, "month": true, "agenda": true },
         "titleFieldId": "name",
         "tooltipFieldId": "tooltip",
         "allDayFieldId": "allDay",
@@ -700,9 +695,16 @@
         "markDaysOff": true,
         "onSelectSlot": {},
         "onSelectEvent": {},
-        "selectable": false,
+        "selectable": true,
         "step": 60,
-        "timeslots": 2
+        "timeslots": 4,
+        "formats": {},
+        "actionOnSelectEvent": {
+          "type": "n2o/calendar/CLICK",
+          "payload": {
+            "name": "proto_view"
+          }
+        }
       }
     },
     "proto_contacts": {

@@ -34,7 +34,6 @@
 
   &__cell {
     flex: 1 0;
-
     &--day-off {
       background-color: rgba(255,192,203, 0.3);
     }
@@ -44,7 +43,7 @@
     }
 
     &--day-cell + &--day-cell {
-      border-left: 1px solid #DDD;
+      outline: 1px solid #DDD;
     }
   }
 }

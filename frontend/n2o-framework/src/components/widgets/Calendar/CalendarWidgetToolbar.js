@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Toolbar from '../../buttons/Toolbar';
 
-function CalendarWidgetToolbar({ widgetId, toolbar, label, views }) {
+function CalendarWidgetToolbar({ widgetId, toolbar, label }) {
   return (
     <div className="calendar__toolbar">
       <div className="calendar__toolbar--left">
