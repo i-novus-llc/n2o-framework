@@ -65,7 +65,6 @@ export default compose(
   }),
   mapProps(
     ({
-      unfunc,
       datasource,
       date = new Date(),
       startFieldId,
