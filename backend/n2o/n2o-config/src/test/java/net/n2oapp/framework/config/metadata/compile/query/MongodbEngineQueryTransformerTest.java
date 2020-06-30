@@ -44,9 +44,9 @@ public class MongodbEngineQueryTransformerTest extends SourceCompileTestBase {
         assertThat(query.getFields()[1].getSelectBody(), is(":expression"));
         assertThat(query.getFields()[1].getSelectMapping(), nullValue());
         assertThat(query.getFields()[1].getSortingBody(), is(":expression :nameDirection"));
-        assertThat(query.getFields()[1].getFilterList()[0].getText(), is("{ :expression: '#name' }"));
-        assertThat(query.getFields()[1].getFilterList()[1].getText(), is("{ :expression: {$ne: '#notName' }}"));
-        assertThat(query.getFields()[1].getFilterList()[2].getText(), is("{ :expression: {$in: #userNameIn}}"));
+        assertThat(query.getFields()[1].getFilterList()[0].getText(), is("{ ':expression': '#name' }"));
+        assertThat(query.getFields()[1].getFilterList()[1].getText(), is("{ ':expression': {$ne: '#notName' }}"));
+        assertThat(query.getFields()[1].getFilterList()[2].getText(), is("{ ':expression': {$in: #userNameIn}}"));
 
         assertThat(query.getFields()[2].getSortingBody(), is("age :sortUserAge"));
         assertThat(query.getFields()[2].getSortingMapping(), is("['sortUserAge']"));
