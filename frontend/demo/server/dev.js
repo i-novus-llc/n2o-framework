@@ -86,26 +86,6 @@ app.all("/sign/set", (req, res) => {
   console.log(req.body);
   res.send(200);
 });
-
-app.get("/n2o/data/calendar", (req, res) => {
-  res.send({
-    meta: {},
-    page: 0,
-    size: 10,
-    list: [
-      {
-        id: 1,
-        begin: "2020-06-10T10:00:00",
-        end: "2020-06-10T15:00:00",
-        name: "Some title",
-        tooltip: "tooltip text",
-        color: "red",
-        disabled: true
-      }
-    ]
-  });
-});
-
 app.use("/n2o", exampleProxy);
 app.use("/n2o/data", exampleProxy);
 app.use("/n2o/config", exampleProxy);

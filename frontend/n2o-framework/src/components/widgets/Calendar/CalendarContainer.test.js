@@ -32,7 +32,6 @@ describe('<CalendarContaianer />', () => {
   //   const dispatch = sinon.spy();
   //
   //   const wrapper = setup({ defaultView: 'week', dispatch: dispatch });
-  //   console.log(wrapper.debug())
   //   wrapper.find(timeSlotWrapper).first().simulate('select', event);
   //   expect(dispatch.calledOnce).toBeTruthy();
   // });

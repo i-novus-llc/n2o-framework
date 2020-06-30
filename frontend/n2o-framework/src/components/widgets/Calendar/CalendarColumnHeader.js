@@ -1,8 +1,7 @@
 import React from 'react';
 
+// пока не используется
 function CalendarColumnHeader(props) {
-  console.log('point');
-  console.log(props);
   return <div />;
 }
 
