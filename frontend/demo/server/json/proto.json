@@ -492,199 +492,13 @@
         "validation": {}
       },
       "calendar": {
-        "toolbar": {
-          "calendarTopLeft": [
-            {
-              "id": "topLeft0",
-              "buttons": [
-                {
-                  "src": "StandardButton",
-                  "id": "create",
-                  "label": "Создать",
-                  "icon": "fa fa-plus",
-                  "action": {
-                    "type": "n2o/overlays/INSERT",
-                    "payload": {
-                      "name": "proto_create",
-                      "pageId": "proto_create",
-                      "pageUrl": "/proto/create",
-                      "pathMapping": {},
-                      "queryMapping": {},
-                      "closeButton": true,
-                      "visible": true,
-                      "mode": "modal"
-                    }
-                  },
-                  "hint": "Создать",
-                  "hintPosition": "bottom",
-                  "conditions": {}
-                },
-                {
-                  "src": "StandardButton",
-                  "id": "update_client",
-                  "label": "Изменить",
-                  "icon": "fa fa-pencil",
-                  "action": {
-                    "type": "n2o/overlays/INSERT",
-                    "payload": {
-                      "name": "proto_update_client",
-                      "pageId": "proto_update_client",
-                      "pageUrl": "/proto/:proto_clients_id/update_client",
-                      "pathMapping": {
-                        "proto_clients_id": {
-                          "link": "models.resolve['proto_clients'].id"
-                        }
-                      },
-                      "queryMapping": {},
-                      "closeButton": true,
-                      "visible": true,
-                      "mode": "modal"
-                    }
-                  },
-                  "hint": "Изменить",
-                  "hintPosition": "bottom",
-                  "conditions": {
-                    "enabled": [
-                      {
-                        "expression": "!_.isEmpty(this)",
-                        "modelLink": "models.resolve['proto_clients']"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "src": "StandardButton",
-                  "id": "delete",
-                  "label": "Удалить",
-                  "action": {
-                    "type": "n2o/actionImpl/START_INVOKE",
-                    "payload": {
-                      "widgetId": "proto_clients",
-                      "dataProvider": {
-                        "url": "n2o/data/proto/:proto_clients_id/delete",
-                        "pathMapping": {
-                          "proto_clients_id": {
-                            "link": "models.resolve['proto_clients'].id"
-                          }
-                        },
-                        "method": "POST",
-                        "optimistic": false
-                      },
-                      "modelLink": "models.resolve['proto_clients']"
-                    },
-                    "meta": {
-                      "success": {
-                        "refresh": {
-                          "type": "widget",
-                          "options": {
-                            "widgetId": "proto_clients"
-                          }
-                        }
-                      },
-                      "fail": {}
-                    }
-                  },
-                  "hint": "Удалить",
-                  "hintPosition": "bottom",
-                  "conditions": {
-                    "enabled": [
-                      {
-                        "expression": "!_.isEmpty(this)",
-                        "modelLink": "models.resolve['proto_clients']"
-                      }
-                    ]
-                  },
-                  "confirm": {
-                    "text": "`'Вы уверены, что хотите удалить клиента ' + this.surname + ' ' + this.name + '?'`",
-                    "title": "Предупреждение",
-                    "okLabel": "Да",
-                    "cancelLabel": "Нет",
-                    "modelLink": "models.resolve['proto_clients']",
-                    "mode": "modal"
-                  }
-                }
-              ]
-            }
-          ],
-          "calendarTopRight": [
-            {
-              "id": "topRight0",
-              "buttons": [
-                {
-                  "src": "StandardButton",
-                  "id": "update2",
-                  "label": "Кнопка",
-                  "action": {},
-                  "hint": "Кнопка скрывается, если в строке имя Мария",
-                  "hintPosition": "bottom",
-                  "conditions": {
-                    "enabled": [
-                      {
-                        "expression": "!_.isEmpty(this)",
-                        "modelLink": "models.resolve['proto_clients']"
-                      }
-                    ],
-                    "visible": [
-                      {
-                        "expression": "name!='Мария'",
-                        "modelLink": "models.resolve['proto_clients']"
-                      }
-                    ]
-                  },
-                  "color": "light",
-                  "url": "/proto/:proto_clients_id/update2",
-                  "target": "application",
-                  "pathMapping": {
-                    "proto_clients_id": {
-                      "link": "models.resolve['proto_clients'].id"
-                    }
-                  },
-                  "queryMapping": {}
-                },
-                {
-                  "src": "StandardButton",
-                  "id": "view",
-                  "label": "Просмотр",
-                  "action": {
-                    "type": "n2o/calendar/CHANGE_VIEW",
-                    "payload": {
-                      "name": "proto_view",
-                      "pageId": "proto_view",
-                      "pageUrl": "/proto/:proto_clients_id/view",
-                      "pathMapping": {
-                        "proto_clients_id": {
-                          "link": "models.resolve['proto_clients'].id"
-                        }
-                      }
-                    }
-                  },
-                  "hint": "Кнопка блокируется, если в фильтре имя Анна",
-                  "hintPosition": "right",
-                  "conditions": {
-                    "enabled": [
-                      {
-                        "expression": "name!='Анна'",
-                        "modelLink": "models.resolve['proto_clients']"
-                      },
-                      {
-                        "expression": "!_.isEmpty(this)",
-                        "modelLink": "models.resolve['proto_clients']"
-                      }
-                    ]
-                  },
-                  "color": "info"
-                }
-              ]
-            }
-          ]
-        },
         "cell": {
           "format": "date DD.MM.YYYY"
         },
         "height": "500px",
         "date": "2020-06-10",
-        "defaultView": "agenda",
-        "views": { "week": true, "month": true, "agenda": true },
+        "defaultView": "week",
+        "views": [ "day", "week", "month", "agenda" ],
         "titleFieldId": "name",
         "tooltipFieldId": "tooltip",
         "allDayFieldId": "allDay",
@@ -697,7 +511,7 @@
         "onSelectEvent": {},
         "selectable": true,
         "step": 60,
-        "timeslots": 4,
+        "timeslots": 3,
         "formats": {},
         "actionOnSelectEvent": {
           "type": "n2o/calendar/CLICK",

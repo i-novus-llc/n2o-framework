@@ -1,18 +1,14 @@
 import React from 'react';
 import { compose, withHandlers, mapProps, defaultProps } from 'recompose';
 import map from 'lodash/map';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import widgetContainer from '../WidgetContainer';
-import CalendarWidgetToolbar from './CalendarWidgetToolbar';
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer';
 import { withContainerLiveCycle } from '../Table/TableContainer';
 import Calendar from './Calendar';
 import CalendarEvent from './CalendarEvent';
 import CalendarCell from './CalendarCell';
 import CalendarDateCell from './CalendarDateCell';
-import CalendarColumnHeader from './CalendarColumnHeader';
 
 const eventType = {
   CLICK: 'click',
@@ -21,6 +17,12 @@ const eventType = {
 function CalendarContainer(props) {
   return <Calendar {...props} />;
 }
+
+CalendarContainer.defaultProps = {
+  actionOnSelectEvent: {},
+};
+
+export { CalendarContainer };
 
 export default compose(
   defaultProps({
@@ -45,22 +47,7 @@ export default compose(
         [startFieldId]: new Date(event[startFieldId]),
         [endFieldId]: new Date(event[endFieldId]),
       })),
-    createComponents: ({
-      widgetId,
-      toolbar,
-      views,
-      cell,
-      cellColorFieldId,
-      markDaysOff,
-    }) => () => ({
-      toolbar: toolbarProps => (
-        <CalendarWidgetToolbar
-          {...toolbarProps}
-          toolbar={toolbar}
-          widgetId={widgetId}
-          views={views}
-        />
-      ),
+    createComponents: ({ cell, cellColorFieldId, markDaysOff }) => () => ({
       eventWrapper: eventProps => (
         <CalendarEvent
           {...eventProps}
@@ -78,6 +65,7 @@ export default compose(
   }),
   mapProps(
     ({
+      unfunc,
       datasource,
       date = new Date(),
       startFieldId,
@@ -100,6 +88,7 @@ export default compose(
       minDate,
       step,
       resources,
+      messages,
       dispatch,
     }) => ({
       events: mapEvents(datasource),
@@ -120,7 +109,6 @@ export default compose(
       actionOnClickSlot: e => {
         if (e.action === eventType.CLICK) dispatch(actionOnSelectEvent);
       },
-      date,
       formats,
       views,
       timeslots,
@@ -129,6 +117,7 @@ export default compose(
       minDate,
       step,
       resources,
+      messages,
     })
   )
 )(CalendarContainer);

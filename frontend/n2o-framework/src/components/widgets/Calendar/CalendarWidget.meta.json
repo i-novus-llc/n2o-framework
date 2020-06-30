@@ -2,155 +2,11 @@
   "Page_Calendar": {
     "id": "$testTableJson",
     "src": "CalendarWidget",
-    "dataProvider": {
-      "url": "n2o/data/test",
-      "pathMapping": {
-      },
-      "queryMapping": {
-        "filter.name": {
-          "link": "models.filter['Page_Table'].name"
-        },
-        "filter.surname": {
-          "link": "models.filter['Page_Table'].surname"
-        }
-      }
-    },
-    "paging": {
-      "size": 10
-    },
     "calendar": {
-      "toolbar": {
-        "calendarTopLeft": [
-          {
-            "id": "topLeft0",
-            "buttons": [
-              {
-                "src": "StandardButton",
-                "id": "today",
-                "label": "Сегодня",
-                "action": {
-                  "type": "n2o/calendar/TODAY",
-                  "payload": {}
-                },
-                "hint": "Сегодня",
-                "hintPosition": "bottom",
-                "conditions": {}
-              },
-              {
-                "src": "StandardButton",
-                "id": "back",
-                "label": "Назад",
-                "action": {
-                  "type": "n2o/calendar/BACK",
-                  "payload": {
-                    "name": "proto_update_client",
-                    "pageId": "proto_update_client",
-                    "pageUrl": "/proto/:proto_clients_id/update_client",
-                    "pathMapping": {
-                      "proto_clients_id": {
-                        "link": "models.resolve['proto_clients'].id"
-                      }
-                    },
-                    "queryMapping": {},
-                    "closeButton": true,
-                    "visible": true,
-                    "mode": "modal"
-                  }
-                },
-                "hint": "Назад",
-                "hintPosition": "bottom",
-                "conditions": {}
-              },
-              {
-                "src": "StandardButton",
-                "id": "forward",
-                "label": "Вперед",
-                "action": {
-                  "type": "n2o/calendar/FORWARD",
-                  "payload": {
-                    "widgetId": "proto_clients",
-                    "dataProvider": {
-                      "url": "n2o/data/proto/:proto_clients_id/delete",
-                      "pathMapping": {
-                        "proto_clients_id": {
-                          "link": "models.resolve['proto_clients'].id"
-                        }
-                      },
-                      "method": "POST",
-                      "optimistic": false
-                    },
-                    "modelLink": "models.resolve['proto_clients']"
-                  },
-                  "meta": {
-                    "success": {
-                      "refresh": {
-                        "type": "widget",
-                        "options": {
-                          "widgetId": "proto_clients"
-                        }
-                      }
-                    },
-                    "fail": {}
-                  }
-                },
-                "hint": "Вперед",
-                "hintPosition": "bottom"
-              }
-            ]
-          }
-        ],
-        "calendarTopRight": [
-          {
-            "id": "topRight0",
-            "buttons": [
-              {
-                "src": "StandardButton",
-                "id": "month",
-                "label": "Месяц",
-                "hintPosition": "bottom",
-                "action": {
-                  "type": "n2o/calendar/CHANGE_VIEW",
-                  "payload": {}
-                }
-              },
-              {
-                "src": "StandardButton",
-                "id": "week",
-                "label": "Неделя",
-                "action": {
-                  "type": "n2o/calendar/CHANGE_VIEW",
-                  "payload": {}
-                },
-                "hintPosition": "right"
-              },
-              {
-                "src": "StandardButton",
-                "id": "day",
-                "label": "День",
-                "action": {
-                  "type": "n2o/calendar/CHANGE_VIEW",
-                  "payload": {}
-                },
-                "hintPosition": "right"
-              },
-              {
-                "src": "StandardButton",
-                "id": "agenda",
-                "label": "Повестка дня",
-                "action": {
-                  "type": "n2o/calendar/CHANGE_VIEW",
-                  "payload": {}
-                },
-                "hintPosition": "right"
-              }
-            ]
-          }
-        ]
-      },
       "height": "500px",
       "date": "2020-06-10",
-      "defaultView": "agenda",
-      "views": { "week": true, "month": true, "agenda": true },
+      "defaultView": "day",
+      "views": [ "day", "week", "month", "agenda" ],
       "titleFieldId": "name",
       "tooltipFieldId": "tooltip",
       "allDayFieldId": "allDay",
@@ -163,13 +19,10 @@
       "onSelectEvent": {},
       "selectable": true,
       "step": 60,
-      "timeslots": 4,
+      "timeslots": 3,
       "formats": {},
       "actionOnSelectEvent": {
-        "type": "n2o/calendar/CLICK",
-        "payload": {
-          "name": "proto_view"
-        }
+        "type": "n2o/button/Dummy"
       }
     }
   }

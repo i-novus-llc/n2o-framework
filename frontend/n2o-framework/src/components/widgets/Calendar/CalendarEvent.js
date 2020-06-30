@@ -8,6 +8,10 @@ const mapStyle = ({ height, top, width } = {}, color) => ({
   backgroundColor: color,
 });
 
+const monthEventStyle = color => ({
+  backgroundColor: color,
+});
+
 const DEFAULT_BG_COLOR = '#3174ad';
 
 function CalendarEvent({
@@ -25,7 +29,7 @@ function CalendarEvent({
   return (
     <div
       className="calendar__event"
-      style={style && mapStyle(style, color)}
+      style={style ? mapStyle(style, color) : monthEventStyle(color)}
       title={tooltip}
       onClick={onClick}
     >

@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose, withHandlers } from 'recompose';
+import { compose } from 'recompose';
 import PropTypes from 'prop-types';
 
 import dependency from '../../../core/dependency';
