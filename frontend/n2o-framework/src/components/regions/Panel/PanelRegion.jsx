@@ -51,6 +51,10 @@ class PanelRegion extends React.Component {
     this.getPanelsWithAccess();
   }
 
+  componentWillUnmount() {
+    this.props.changeActiveEntity(null);
+  }
+
   getContent(panel) {
     const { getWidget, pageId } = this.props;
     return (
@@ -95,7 +99,7 @@ class PanelRegion extends React.Component {
   }
 
   getPanelsWithAccess() {
-    const { authProvider, user, panels } = this.props;
+    const { panels } = this.props;
     this.setState({ tabs: [] }, async () => {
       for (const panel of panels) {
         await this.checkPanel(panel);

@@ -11,7 +11,9 @@ function* mapUrl() {
   const rootPageId = yield select(rootPageSelector);
   const routes = yield select(makePageRoutesByIdSelector(rootPageId));
 
-  yield call(routesQueryMapping, state, routes, location);
+  if (routes) {
+    yield call(routesQueryMapping, state, routes, location);
+  }
 }
 
 export default [takeEvery(MAP_URL, mapUrl)];
