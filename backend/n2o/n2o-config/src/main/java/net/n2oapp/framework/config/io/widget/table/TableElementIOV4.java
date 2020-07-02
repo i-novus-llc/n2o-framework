@@ -17,7 +17,7 @@ import net.n2oapp.framework.config.io.control.ControlIOv2;
 import net.n2oapp.framework.config.io.fieldset.FieldsetIOv4;
 import net.n2oapp.framework.config.io.widget.AbstractListWidgetElementIOv4;
 import net.n2oapp.framework.config.io.widget.table.cell.CellIOv2;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**

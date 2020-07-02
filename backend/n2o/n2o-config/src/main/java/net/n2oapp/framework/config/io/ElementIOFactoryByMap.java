@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.io.ProxyTypedElementIO;
 import net.n2oapp.framework.api.metadata.io.TypedElementIO;
 import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.reader.fieldset;
 
 import net.n2oapp.framework.api.metadata.reader.ElementReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
-import org.jdom.Element;
+import org.jdom2.Element;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 

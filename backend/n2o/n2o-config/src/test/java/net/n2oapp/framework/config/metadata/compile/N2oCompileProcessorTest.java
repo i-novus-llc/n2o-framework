@@ -13,7 +13,7 @@ import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 import org.junit.Before;
 import org.junit.Test;
 

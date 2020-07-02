@@ -11,15 +11,7 @@ const NavbarBrandContent = ({ brand, brandImage }) => {
     brandImage && typeof brandImage === 'string' ? (
       <img
         src={brandImage}
-        style={{
-          marginRight: '5px',
-          display: 'inline-block',
-          alignSelf: 'center',
-          margin: 'auto',
-          maxWidth: 40,
-          maxHeight: 40,
-        }}
-        className="d-inline-block align-top"
+        className="n2o-brand__image d-inline-block align-top"
       />
     ) : (
       brandImage

@@ -4,7 +4,7 @@ package net.n2oapp.framework.config.io.widget.table.cell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 
 /**

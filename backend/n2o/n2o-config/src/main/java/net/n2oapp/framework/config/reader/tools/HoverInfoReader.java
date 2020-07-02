@@ -2,8 +2,8 @@ package net.n2oapp.framework.config.reader.tools;
 
 import net.n2oapp.framework.api.metadata.global.view.action.control.HoverInfo;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
 

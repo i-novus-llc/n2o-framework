@@ -3,9 +3,9 @@ package net.n2oapp.framework.config.persister.control;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.metadata.control.plain.N2oDatePicker;
 import net.n2oapp.framework.config.persister.util.PersisterJdomUtil;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 /**
  * @author iryabov

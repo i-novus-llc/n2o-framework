@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.dataprovider;
 import net.n2oapp.framework.api.metadata.aware.BaseElementClassAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.dataprovider.DataProvider;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 /**
  * Стандартный провайдер данных версии 1

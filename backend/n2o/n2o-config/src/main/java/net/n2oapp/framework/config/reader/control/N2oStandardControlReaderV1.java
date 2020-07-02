@@ -18,9 +18,9 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.reader.MetadataReaderException;
 import net.n2oapp.framework.config.reader.tools.ActionButtonsReaderV1;
 import net.n2oapp.framework.config.reader.tools.PreFilterReaderV1Util;
-import org.jdom.Element;
-import org.jdom.Namespace;
-import org.jdom.Text;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
+import org.jdom2.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
