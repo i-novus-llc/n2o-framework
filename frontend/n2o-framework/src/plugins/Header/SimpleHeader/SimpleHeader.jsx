@@ -140,9 +140,16 @@ class SimpleHeader extends React.Component {
           dark={isInversed}
           expand="md"
         >
-          <NavbarBrand className="n2o-brand" href={homePageUrl}>
-            <NavbarBrandContent brand={brand} brandImage={brandImage} />
-          </NavbarBrand>
+          {brandImage && (
+            <NavbarBrand className="n2o-brand" href={homePageUrl}>
+              <NavbarBrandContent brandImage={brandImage} />
+            </NavbarBrand>
+          )}
+          {brand && (
+            <a href={homePageUrl} className="navbar-brand">
+              {brand}
+            </a>
+          )}
           {!isEmpty(items) && <NavbarToggler onClick={this.toggle} />}
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="main-nav" navbar>
