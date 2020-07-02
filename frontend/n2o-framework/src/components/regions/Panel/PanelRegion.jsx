@@ -51,10 +51,6 @@ class PanelRegion extends React.Component {
     this.getPanelsWithAccess();
   }
 
-  componentWillUnmount() {
-    this.props.changeActiveEntity(null);
-  }
-
   getContent(panel) {
     const { getWidget, pageId } = this.props;
     return (
