@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.control.*;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
@@ -173,12 +174,16 @@ public class ProtoPage {
     }
 
     public ProtoClient editClientFromTableCell(int row) {
-        getTableCell(row, 7, ToolbarCell.class).clickMenu("Изменить");
+        DropdownButton dropdown = getTableCell(row, 7, ToolbarCell.class).toolbar().dropdown();
+        dropdown.click();
+        dropdown.menuItem("Изменить").click();
         return getModalProtoClient();
     }
 
     public void deleteClientFromTableCell(int row) {
-        getTableCell(row, 7, ToolbarCell.class).clickMenu("Удалить");
+        DropdownButton dropdown = getTableCell(row, 7, ToolbarCell.class).toolbar().dropdown();
+        dropdown.click();
+        dropdown.menuItem("Удалить").click();
     }
 
     public void deleteClientFromTableToolBar() {

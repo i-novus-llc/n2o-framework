@@ -4,7 +4,6 @@ import net.n2oapp.framework.access.integration.metadata.transform.ToolbarAccessT
 import net.n2oapp.framework.access.integration.metadata.transform.action.InvokeActionAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;

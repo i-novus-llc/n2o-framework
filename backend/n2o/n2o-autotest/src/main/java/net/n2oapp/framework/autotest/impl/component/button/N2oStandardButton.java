@@ -33,4 +33,9 @@ public class N2oStandardButton extends N2oButton implements StandardButton {
     public void shouldHaveColor(Colors color) {
         element().shouldHave(Condition.cssClass(color.name("btn-")));
     }
+
+    @Override
+    public void hover() {
+        element().hover();
+    }
 }

@@ -16,4 +16,6 @@ public interface StandardButton extends Button {
     void shouldHaveIcon(String name);
 
     void shouldHaveColor(Colors color);
+
+    void hover();
 }
