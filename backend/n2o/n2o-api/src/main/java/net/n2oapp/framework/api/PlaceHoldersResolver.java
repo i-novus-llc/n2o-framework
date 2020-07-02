@@ -69,7 +69,7 @@ public class PlaceHoldersResolver {
     public String resolve(String text, Object data) {
         if (data == null)
             return text;
-        return safeResolve(text, notReplaceNull(function(data)));
+        return safeResolve(text, notReplaceNull(function(data)), false);
     }
 
     /**
@@ -80,7 +80,22 @@ public class PlaceHoldersResolver {
      * @return Текст с заменёнными плейсхолдерами, если замена нашлась
      */
     public String resolve(String text, Function<String, Object> func) {
-        return safeResolve(text, notReplaceNull(func));
+        return safeResolve(text, notReplaceNull(func), false);
+    }
+
+    /**
+     * Заменить плейсхолдеры в тексте
+     *
+     * @param text Текст
+     * @param data Данные для замены
+     * @param withNesting с учетом вложенности, то есть можно заменить gender.id
+     * @return Текст с заменёнными плейсхолдерами, если замена нашлась
+     */
+    @SuppressWarnings("unchecked")
+    public String resolve(String text, Object data, Boolean withNesting) {
+        if (data == null)
+            return text;
+        return safeResolve(text, notReplaceNull(function(data)), withNesting);
     }
 
     /**
@@ -201,7 +216,7 @@ public class PlaceHoldersResolver {
         }
     }
 
-    private String safeResolve(String text, Function<String, Object> callback) {
+    private String safeResolve(String text, Function<String, Object> callback, Boolean withNesting) {
         if (text == null) return null;
         StringBuilder sb = new StringBuilder();
         String[] split = text.split(Pattern.quote(prefix));
@@ -219,12 +234,19 @@ public class PlaceHoldersResolver {
                     sb.append(split[i].substring(idxNext));
                 }
             } else {
-                String[] ends = split[i].split("\\W");
-                idxSuffix = ends.length > 0 ? ends[0].length() : 0;
-                idxNext = idxSuffix;
-                if (idxSuffix == 0) {
-                    sb.append(prefix);
-                    sb.append(split[i].substring(idxNext));
+                if (withNesting) {
+                    String[] ends = split[i].split("[^A-Za-z0-9_\\.]");
+                    String value = ends[0].replaceAll("\\.+$", "");
+                    idxSuffix = value.length();
+                    idxNext = idxSuffix;
+                } else {
+                    String[] ends = split[i].split("\\W");
+                    idxSuffix = ends.length > 0 ? ends[0].length() : 0;
+                    idxNext = idxSuffix;
+                    if (idxSuffix == 0) {
+                        sb.append(prefix);
+                        sb.append(split[i].substring(idxNext));
+                    }
                 }
             }
             if (idxSuffix > 0) {
@@ -256,7 +278,7 @@ public class PlaceHoldersResolver {
                         field.setValue(new POJONode(result));
                     }
                     else if (hasPlaceHolders(value)) {
-                        String result = safeResolve(value, callback);
+                        String result = safeResolve(value, callback, false);
                         field.setValue(new TextNode(result));
                     }
                 } else if (field.getValue().isObject()) {

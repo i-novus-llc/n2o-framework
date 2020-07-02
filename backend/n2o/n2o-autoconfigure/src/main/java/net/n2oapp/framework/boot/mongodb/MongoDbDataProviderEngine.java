@@ -141,7 +141,7 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
             List<String> filterList = (List<String>) inParams.get(FILTERS);
             List<Bson> filtersByFields = new ArrayList<>();
             for (String filter : filterList) {
-                Bson f = BasicDBObject.parse(resolver.resolve(filter, PlaceHoldersResolver.replaceByJson(replaceOptional(inParams::get), mapper)));
+                Bson f = BasicDBObject.parse(resolver.resolve(filter, PlaceHoldersResolver.replaceByJson(replaceOptional(inParams::get), mapper), true));
                 filtersByFields.add(f);
             }
             filters = filtersByFields.isEmpty() ? null : Filters.and(filtersByFields);

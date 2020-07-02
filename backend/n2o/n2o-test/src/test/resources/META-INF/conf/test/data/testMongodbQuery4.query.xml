@@ -53,7 +53,7 @@
         <field id="gender.id" domain="integer">
             <select mapping="['gender']?.get('id')"/>
             <filters>
-                <eq filter-id="gender_id" domain="integer"/>
+                <eq filter-id="gender.id" domain="integer"/>
             </filters>
         </field>
 
