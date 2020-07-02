@@ -3,6 +3,9 @@ package net.n2oapp.framework.config.io.widget.chart;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
+/**
+ * Тестирования чтения и записи виджета диаграммы
+ */
 public class ChartXmlIOv4Test {
     @Test
     public void testChartXmlIOv4Test() {

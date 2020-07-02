@@ -1315,6 +1315,225 @@ link:#__node[Дочерний узел]
 
 |===
 
+=== <calendar>
+Виджет календарь.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|height
+|Строка
+|Высота календаря
+|
+
+|default-date
+|Строка
+|Стартовая дата календаря (по умолчанию текущая)
+|
+
+|default-view
+|day week workWeek month agenda
+|Вид отображения календаря по умолчанию
+|month
+
+|views
+|Строка
+|Список используемых видов отображения в календаре (через запятую)
+|
+
+|toolbar
+|true false
+|Отображение\скрытие тулбара
+|true
+
+|min-date
+|Строка
+|Минимальная дата
+|
+
+|max-date
+|Строка
+|Максимальная дата
+|
+
+|mark-days-off
+|true false
+|Подсветка выходных дней
+|true
+
+|selectable
+|true false
+|Включает возможность добавлять события в календарь
+|true
+
+|step
+|Число
+|Шаг при создании события (в минутах)
+|30
+
+|timeslot-count
+|Число
+|Количество слотов на раздел
+|2
+
+|title-field-id
+|Строка
+|Поле выборки, отвечающее за заголовок события
+|
+
+|tooltip-field-id
+|Строка
+|Поле выборки, отвечающее за данные тултипа события
+|
+
+|all-day-field-id
+|Строка
+|Поле выборки, отвечающее за данные события, занимающего весь день
+|
+
+|start-field-id
+|Строка
+|Поле выборки, отвечающее за дату начала события
+|
+
+|end-field-id
+|Строка
+|Поле выборки, отвечающее за дату завершения события
+|
+
+|cell-color-field-id
+|Строка
+|Поле выборки, отвечающее за цвет ячейки события
+|
+
+|disabled-field-id
+|Строка
+|Поле выборки, отвечающее за блокирование события для выбора
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<calendar
+  height="500px" default-view="month" views="month,day,agenda"
+  title-field-id = "title" tooltip-field-id = "tooltip" all-day-field-id = "allDay"
+  start-field-id = "start" end-field-id = "end" cell-color-field-id = "color"
+  disabled-field-id = "disabled">
+  <resources>...</resources>
+  <action-on-select-slot>...</action-on-select-slot>
+  <action-on-select-event>...</action-on-select-event>
+  <formats>...</formats>
+</calendar>
+----
+
+==== <resources>
+Ресурсы календаря.
+Ресурсы календаря. Ресурсы используются для возможности разбиения календаря
+на определенные сущности (бронирование переговорных комнат и т.д.).
+
+|value-field-id
+|Строка
+|Поле выборки, отвечающее за маппинг ресурсов
+|
+
+Пример::
+[source,xml]
+----
+<resources value-field-id="resourceId">
+ ...
+</resources>
+----
+
+Тело::
+Список ресурсов календаря
+
+==== <resource>
+Ресурс календаря.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|id
+|Строка
+|Идентификатор ресурса
+|
+
+|title
+|Строка
+|Имя ресурса
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<resource id="1" title="Meeting room"/>
+----
+
+==== <action-on-select-slot>
+Действие на добавление события в календаре.
+
+Тело::
+link:#_Действия[Обработчик действия]
+
+==== <action-on-select-event>
+Действие на клик по событию.
+
+Тело::
+link:#_Действия[Обработчик действия]
+
+==== <formats>
+Форматы дат и времени.
+
+Пример::
+[source,xml]
+----
+<formats>
+ ...
+</formats>
+----
+
+Тело::
+Список форматов дат и времени.
+
+==== <format>
+Формат даты и времени.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|id
+|dateFormat dayFormat weekdayFormat timeGutterFormat
+monthHeaderFormat dayRangeHeaderFormat dayHeaderFormat
+agendaHeaderFormat selectRangeFormat agendaDateFormat
+agendaTimeFormat agendaTimeRangeFormat eventTimeRangeFormat
+eventTimeRangeStartFormat eventTimeRangeEndFormat
+|Тип формата. Список всех возможных форматов
+(http://jquense.github.io/react-big-calendar/examples/index.html#prop-formats)
+|
+
+|value
+|Строка
+|Значение формата
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<format id="dayFormat" value="dd"/>
+----
+
 === <widget>
 Настраиваемый виджет.
 

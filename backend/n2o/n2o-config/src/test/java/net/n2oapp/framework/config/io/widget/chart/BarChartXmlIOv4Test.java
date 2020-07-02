@@ -4,6 +4,9 @@ import net.n2oapp.framework.config.io.widget.chart.charts.BarChartIOv4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
+/**
+ * Тестирования чтения и записи гистограммы
+ */
 public class BarChartXmlIOv4Test {
     @Test
     public void testBarChartXmlIOv4Test() {

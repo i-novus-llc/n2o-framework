@@ -29,7 +29,7 @@ public class AreaChartCompiler extends StandardChartCompiler<AreaChart, N2oAreaC
             component.setLineType(item.getLineType());
             component.setColor(item.getColor());
             component.setStrokeColor(item.getStrokeColor());
-            component.setHasLabel(p.cast(item.getHasLabel(), p.resolve(property("n2o.api.default.widget.chart.has-label"), Boolean.class)));
+            component.setHasLabel(p.cast(item.getHasLabel(), p.resolve(property("n2o.api.widget.chart.has-label"), Boolean.class)));
             chart.addItem(component);
         }
         return compileStandardChart(chart, source, context, p);
