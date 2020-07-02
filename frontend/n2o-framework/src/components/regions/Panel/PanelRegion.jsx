@@ -95,7 +95,7 @@ class PanelRegion extends React.Component {
   }
 
   getPanelsWithAccess() {
-    const { authProvider, user, panels } = this.props;
+    const { panels } = this.props;
     this.setState({ tabs: [] }, async () => {
       for (const panel of panels) {
         await this.checkPanel(panel);
