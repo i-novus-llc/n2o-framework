@@ -180,6 +180,7 @@ class Fieldset extends React.Component {
       form,
       modelPrefix,
       disabled,
+      autoSubmit,
     } = this.props;
 
     return (
@@ -195,6 +196,7 @@ class Fieldset extends React.Component {
         form={form}
         modelPrefix={modelPrefix}
         disabled={disabled}
+        autoSubmit={autoSubmit}
         {...props}
       />
     );
@@ -286,11 +288,11 @@ const FieldsetContainer = compose(
     null,
     mapDispatchToProps
   ),
-  withObserveDependency(config),
   mapProps(({ enabled, ...props }) => ({
     ...props,
     disabled: !isNil(enabled) ? !enabled : false,
-  }))
+  })),
+  withObserveDependency(config)
 )(Fieldset);
 
 export default FieldsetContainer;

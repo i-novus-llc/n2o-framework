@@ -509,7 +509,8 @@
                     <xs:documentation>Виджет форма.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="fields" type="fieldsDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="fields" type="fieldsDefinition" minOccurs="0"/>
+                    <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="default-values-query-id" type="xs:string">
                     <xs:annotation>

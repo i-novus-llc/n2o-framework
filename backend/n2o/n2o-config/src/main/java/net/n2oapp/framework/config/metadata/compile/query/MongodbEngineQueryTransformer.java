@@ -72,28 +72,28 @@ public class MongodbEngineQueryTransformer implements SourceTransformer<N2oQuery
                 } else {
                     switch (filter.getType()) {
                         case eq:
-                            filter.setText("{ " + colon(EXPRESSION) + ": " + getFilterField(filter, domain) + " }");
+                            filter.setText("{ '" + colon(EXPRESSION) + "': " + getFilterField(filter, domain) + " }");
                             break;
                         case notEq:
-                            filter.setText("{ " + colon(EXPRESSION) + ": {$ne: " + getFilterField(filter, domain) + " }}");
+                            filter.setText("{ '" + colon(EXPRESSION) + "': {$ne: " + getFilterField(filter, domain) + " }}");
                             break;
                         case like:
-                            filter.setText("{ " + colon(EXPRESSION) + ": {$regex: '.*" + hash(filter.getFilterField()) + ".*'}}");
+                            filter.setText("{ '" + colon(EXPRESSION) + "': {$regex: '.*" + hash(filter.getFilterField()) + ".*'}}");
                             break;
                         case likeStart:
-                            filter.setText("{ " + colon(EXPRESSION) + ": {$regex: '" + hash(filter.getFilterField()) + ".*'}}");
+                            filter.setText("{ '" + colon(EXPRESSION) + "': {$regex: '" + hash(filter.getFilterField()) + ".*'}}");
                             break;
                         case more:
-                            filter.setText("{ " + colon(EXPRESSION) + ": {$gte: " + getFilterField(filter, domain) + "}}");
+                            filter.setText("{ '" + colon(EXPRESSION) + "': {$gte: " + getFilterField(filter, domain) + "}}");
                             break;
                         case less:
-                            filter.setText("{ " + colon(EXPRESSION) + ": {$lte: " + getFilterField(filter, domain) + "}}");
+                            filter.setText("{ '" + colon(EXPRESSION) + "': {$lte: " + getFilterField(filter, domain) + "}}");
                             break;
                         case in:
-                            filter.setText("{ " + colon(EXPRESSION) + ": {$in: " + getFilterField(filter, domain) + "}}");
+                            filter.setText("{ '" + colon(EXPRESSION) + "': {$in: " + getFilterField(filter, domain) + "}}");
                             break;
                         case notIn:
-                            filter.setText("{ " + colon(EXPRESSION) + ": {$nin: " + getFilterField(filter, domain) + "}}");
+                            filter.setText("{ '" + colon(EXPRESSION) + "': {$nin: " + getFilterField(filter, domain) + "}}");
                             break;
                         default:
                             break;

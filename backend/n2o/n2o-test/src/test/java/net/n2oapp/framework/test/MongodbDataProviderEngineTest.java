@@ -143,6 +143,13 @@ public class MongodbDataProviderEngineTest {
         assertThat(result.getCount(), is(1));
         document = result.getList().get(0);
         assertThat(document.get("id"), is(id));
+        fooResourceUrl = "http://localhost:" + appPort + queryPath + "?gender_id=1&size=10&page=1";
+        response = restTemplate.getForEntity(fooResourceUrl, GetDataResponse.class);
+        assert response.getStatusCode().equals(HttpStatus.OK);
+        result = response.getBody();
+        assertThat(result.getCount(), is(1));
+        document = result.getList().get(0);
+        assertThat(document.get("name"), is("Artur"));
 
         //like + mapping
         restTemplate = new RestTemplate();

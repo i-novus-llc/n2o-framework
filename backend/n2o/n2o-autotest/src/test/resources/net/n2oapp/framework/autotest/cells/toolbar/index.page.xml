@@ -4,6 +4,7 @@
         <columns>
             <column text-field-id="id">
                 <toolbar>
+                    <button label="Кнопка"/>
                     <sub-menu icon="fa fa-ellipsis-v">
                         <menu-item label="one"/>
                         <menu-item label="two"/>

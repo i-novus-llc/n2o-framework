@@ -22,6 +22,7 @@ function FieldsetCol({
   parentIndex,
   colVisible = true,
   disabled,
+  autoSubmit,
 }) {
   return (
     colVisible && (
@@ -46,6 +47,7 @@ function FieldsetCol({
                 parentName={parentName}
                 parentIndex={parentIndex}
                 disabled={disabled}
+                autoSubmit={autoSubmit}
                 {...field}
               />
             );
@@ -61,6 +63,7 @@ function FieldsetCol({
                 parentName={parentName}
                 parentIndex={parentIndex}
                 disabled={disabled}
+                autoSubmit={autoSubmit}
                 {...fieldset}
               />
             );
