@@ -67,12 +67,11 @@ public class PlaceHoldersResolverTest {
         assertThat(resolver.resolve(":b", data), is("1"));
         assertThat(resolver.resolve(":a", data), is(":a"));
         assertThat(resolver.resolve("/:abc", data), is("/2"));
-        assertThat(resolver.resolve(":/a/:b../c", data), is(":/a/1../c"));
-        assertThat(resolver.resolve(":../a/:b../c", data), is(":../a/1../c"));
+        assertThat(resolver.resolve("http:/a/:b/c", data), is("http:/a/1/c"));
     }
 
     @Test
-    public void resolveWithNesting() {
+    public void customSuffixIndexFunc() {
         String prefix = "#";
         String suffix = "";
         PlaceHoldersResolver resolver = new PlaceHoldersResolver(prefix, suffix, false, str -> {
@@ -88,8 +87,7 @@ public class PlaceHoldersResolverTest {
         assertThat(resolver.resolve("#b.id", data), is("1"));
         assertThat(resolver.resolve("#a", data), is("#a"));
         assertThat(resolver.resolve("#abc", data), is("2"));
-        assertThat(resolver.resolve("a#b.id../c", data), is("a1../c"));
-        assertThat(resolver.resolve("#..a#b.id../c", data), is("#..a1../c"));
+        assertThat(resolver.resolve(".*#b.id.*", data), is(".*1.*"));
     }
 
     @Test
