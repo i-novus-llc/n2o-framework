@@ -78,7 +78,8 @@ export default compose(
       createComponents,
       defaultView,
       height,
-      actionOnSelectEvent,
+      onSelectEvent,
+      onSelectSlot,
       formats,
       views,
       timeslots,
@@ -103,10 +104,10 @@ export default compose(
       defaultView,
       style: { height },
       actionOnClickEvent: e => {
-        if (!e.disabled) dispatch(actionOnSelectEvent);
+        if (!e.disabled) dispatch(onSelectEvent);
       },
       actionOnClickSlot: e => {
-        if (e.action === eventType.CLICK) dispatch(actionOnSelectEvent);
+        if (e.action === eventType.CLICK) dispatch(onSelectSlot);
       },
       formats,
       views,
