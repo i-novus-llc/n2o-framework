@@ -20,6 +20,10 @@ $font-family-serif:      Georgia, Cambria, "Times New Roman", Times, serif !defa
   }
 }
 
+.navbar-nav .nav-link {
+  padding-top: .6rem;
+}
+
 .bg-dark {
   background-color: $success !important;
 }
