@@ -61,28 +61,35 @@ public class PlaceHoldersResolverTest {
         String suffix = "";
         PlaceHoldersResolver resolver = new PlaceHoldersResolver(prefix, suffix);
         DataSet data = new DataSet();
-        data.put("b.id", 1);
+        data.put("b", 1);
         data.put("abc", 2);
 
-        assertThat(resolver.resolve(":b.id", data, true), is("1"));
+        assertThat(resolver.resolve(":b", data), is("1"));
         assertThat(resolver.resolve(":a", data), is(":a"));
         assertThat(resolver.resolve("/:abc", data), is("/2"));
-        assertThat(resolver.resolve("/a/:b.id../c", data, true), is("/a/1../c"));
+        assertThat(resolver.resolve(":/a/:b../c", data), is(":/a/1../c"));
+        assertThat(resolver.resolve(":../a/:b../c", data), is(":../a/1../c"));
     }
 
     @Test
     public void resolveWithNesting() {
         String prefix = "#";
         String suffix = "";
-        PlaceHoldersResolver resolver = new PlaceHoldersResolver(prefix, suffix);
+        PlaceHoldersResolver resolver = new PlaceHoldersResolver(prefix, suffix, false, str -> {
+            if (str.startsWith("."))
+                return 0;
+            String[] ends = str.split("[^A-Za-z0-9_\\.]");
+            return ends[0].replaceAll("\\.+$", "").length();
+        });
         DataSet data = new DataSet();
         data.put("b.id", 1);
         data.put("abc", 2);
 
-        assertThat(resolver.resolve("#b.id", data, true), is("1"));
+        assertThat(resolver.resolve("#b.id", data), is("1"));
         assertThat(resolver.resolve("#a", data), is("#a"));
         assertThat(resolver.resolve("#abc", data), is("2"));
-        assertThat(resolver.resolve("a#b.id../c", data, true), is("a1../c"));
+        assertThat(resolver.resolve("a#b.id../c", data), is("a1../c"));
+        assertThat(resolver.resolve("#..a#b.id../c", data), is("#..a1../c"));
     }
 
     @Test

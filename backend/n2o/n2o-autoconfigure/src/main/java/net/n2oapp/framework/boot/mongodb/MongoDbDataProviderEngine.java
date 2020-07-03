@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.in;
@@ -38,6 +39,12 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     private String databaseName;
     private MongoClient mongoClient;
     private ObjectMapper mapper;
+    private Function<String, Integer> defaultSiffixIdx = str -> {
+        if (str.startsWith("."))
+            return 0;
+        String[] ends = str.split("[^A-Za-z0-9_\\.]");
+        return ends[0].replaceAll("\\.+$", "").length();
+    };
 
     public MongoDbDataProviderEngine(String connectionUrl, String databaseName, ObjectMapper objectMapper) {
         this.connectionUrl = connectionUrl;
@@ -137,11 +144,11 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     private Bson getFilters(Map<String, Object> inParams) {
         Bson filters = null;
         if (inParams.containsKey(FILTERS) && inParams.get(FILTERS) != null) {
-            PlaceHoldersResolver resolver = new PlaceHoldersResolver("#", "");
+            PlaceHoldersResolver resolver = new PlaceHoldersResolver("#", "", false, defaultSiffixIdx);
             List<String> filterList = (List<String>) inParams.get(FILTERS);
             List<Bson> filtersByFields = new ArrayList<>();
             for (String filter : filterList) {
-                Bson f = BasicDBObject.parse(resolver.resolve(filter, PlaceHoldersResolver.replaceByJson(replaceOptional(inParams::get), mapper), true));
+                Bson f = BasicDBObject.parse(resolver.resolve(filter, PlaceHoldersResolver.replaceByJson(replaceOptional(inParams::get), mapper)));
                 filtersByFields.add(f);
             }
             filters = filtersByFields.isEmpty() ? null : Filters.and(filtersByFields);
