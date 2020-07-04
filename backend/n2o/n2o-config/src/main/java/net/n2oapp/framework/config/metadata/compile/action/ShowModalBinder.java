@@ -14,8 +14,8 @@ public class ShowModalBinder implements BaseMetadataBinder<ShowModal> {
 
     @Override
     public ShowModal bind(ShowModal action, BindProcessor p) {
-        String url = p.resolveUrl(action.getOptions().getPayload().getPageUrl(), action.getOptions().getPayload().getPathMapping(), action.getOptions().getPayload().getQueryMapping());
-        action.getOptions().getPayload().setPageUrl(url);
+        String url = p.resolveUrl(action.getPayload().getPageUrl(), action.getPayload().getPathMapping(), action.getPayload().getQueryMapping());
+        action.getPayload().setPageUrl(url);
         return action;
     }
 

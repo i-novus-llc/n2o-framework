@@ -4,6 +4,8 @@ import ReactDom from 'react-dom';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
+import { authProvider } from 'n2o-auth';
+
 import ListItem from './ListItem';
 import ListMoreButton from './ListMoreButton';
 import {
@@ -14,6 +16,7 @@ import {
   List as Virtualizer,
 } from 'react-virtualized';
 import { getIndex } from '../Table/Table';
+import { SECURITY_CHECK } from '../../../core/auth/authTypes';
 
 const SCROLL_OFFSET = 100;
 
@@ -34,6 +37,7 @@ class List extends Component {
         ? getIndex(props.data, props.selectedId)
         : null,
       data: props.data,
+      permissions: null,
     };
     this.cache = new CellMeasurerCache({
       fixedWidth: true,
@@ -52,9 +56,17 @@ class List extends Component {
   }
 
   componentDidMount() {
-    const { fetchOnScroll } = this.props;
+    const { fetchOnScroll, authProvider, rows } = this.props;
     if (fetchOnScroll) {
       this._listContainer.addEventListener('scroll', this.onScroll, true);
+    }
+
+    if (!isEmpty(rows)) {
+      authProvider(SECURITY_CHECK, {
+        config: rows.security,
+      }).then(permissions => {
+        this.setState({ permissions });
+      });
     }
   }
 
@@ -65,6 +77,8 @@ class List extends Component {
       fetchOnScroll,
       maxHeight,
       selectedId,
+      rows,
+      authProvider,
     } = this.props;
     if (!isEqual(prevProps, this.props)) {
       let state = {};
@@ -98,6 +112,14 @@ class List extends Component {
         () => this._virtualizer && this._virtualizer.forceUpdateGrid()
       );
     }
+
+    if (!isEqual(rows, prevProps.rows)) {
+      authProvider(SECURITY_CHECK, {
+        config: rows.security,
+      }).then(permissions => {
+        this.setState({ permissions });
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -119,7 +141,7 @@ class List extends Component {
     this._virtualizer = el;
   }
 
-  onItemClick(index) {
+  onItemClick(index, runCallback = true) {
     const { onItemClick, rowClick, hasSelect } = this.props;
     if (!rowClick && hasSelect) {
       this.setState({ selectedIndex: index }, () => {
@@ -128,7 +150,8 @@ class List extends Component {
         }
       });
     }
-    onItemClick(index);
+
+    if (runCallback) onItemClick(index);
   }
 
   fetchMore() {
@@ -152,8 +175,14 @@ class List extends Component {
   }
 
   renderRow({ index, key, style, parent }) {
-    const { divider, hasMoreButton, fetchOnScroll, hasSelect } = this.props;
-    const { data } = this.state;
+    const {
+      divider,
+      hasMoreButton,
+      fetchOnScroll,
+      hasSelect,
+      rows,
+    } = this.props;
+    const { data, permissions } = this.state;
     let moreBtn = null;
     if (index === data.length - 1 && hasMoreButton && !fetchOnScroll) {
       return (
@@ -185,7 +214,9 @@ class List extends Component {
             style={style}
             divider={divider}
             selected={this.state.selectedIndex === index}
-            onClick={() => this.onItemClick(index)}
+            onClick={() =>
+              this.onItemClick(index, isEmpty(rows) || permissions)
+            }
           />
         </CellMeasurer>
         {moreBtn}
@@ -196,6 +227,7 @@ class List extends Component {
   render() {
     const { className, maxHeight } = this.props;
     const { data } = this.state;
+
     return (
       <div
         ref={this.setListContainerRef}
@@ -303,7 +335,15 @@ List.propTypes = {
    * Линия разделитель
    */
   divider: PropTypes.bool,
+  /**
+   * Настройка security
+   */
+  rows: PropTypes.object,
   selectedId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  /**
+   * Функция проверки security
+   */
+  authProvider: PropTypes.func,
 };
 List.defaultProps = {
   onItemClick: () => {},
@@ -314,6 +354,8 @@ List.defaultProps = {
   hasMoreButton: false,
   fetchOnScroll: false,
   divider: true,
+  rows: {},
+  authProvider: authProvider,
 };
 
 export default List;

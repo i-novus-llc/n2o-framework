@@ -10,9 +10,11 @@ import {
   TOGGLE_BUTTON_VISIBILITY,
   REGISTER_BUTTON,
   CHANGE_BUTTON_HINT,
+  CHANGE_BUTTON_MESSAGE,
   CHANGE_BUTTON_ICON,
   CHANGE_BUTTON_CLASS,
   CHANGE_BUTTON_STYLE,
+  REMOVE_BUTTON,
 } from '../constants/toolbar';
 import { RESET_STATE } from '../constants/widgets';
 import { generateKey } from '../utils/id';
@@ -25,6 +27,7 @@ export const buttonState = {
   color: null,
   title: null,
   hint: null,
+  message: null,
   icon: null,
   disabled: false,
   loading: false,
@@ -66,6 +69,10 @@ function resolve(state = buttonState, action) {
       return Object.assign({}, state, {
         count: action.payload.count,
       });
+    case CHANGE_BUTTON_MESSAGE:
+      return Object.assign({}, state, {
+        message: action.payload.message,
+      });
     case CHANGE_BUTTON_HINT:
       return Object.assign({}, state, {
         hint: action.payload.hint,
@@ -94,7 +101,7 @@ function resolve(state = buttonState, action) {
  * @ignore
  */
 export default function toolbar(state = {}, action) {
-  const { key, id: buttonId } = action.payload || {};
+  const { key, buttonId } = action.payload || {};
   switch (action.type) {
     case REGISTER_BUTTON:
       return Object.assign({}, state, {
@@ -111,6 +118,7 @@ export default function toolbar(state = {}, action) {
     case CHANGE_BUTTON_DISABLED:
     case TOGGLE_BUTTON_DISABLED:
     case TOGGLE_BUTTON_VISIBILITY:
+    case CHANGE_BUTTON_MESSAGE:
     case CHANGE_BUTTON_HINT:
     case CHANGE_BUTTON_ICON:
     case CHANGE_BUTTON_STYLE:
@@ -121,6 +129,11 @@ export default function toolbar(state = {}, action) {
           [buttonId]: resolve(state[key][buttonId], action),
         },
       });
+    case REMOVE_BUTTON:
+      return {
+        ...state,
+        [key]: undefined,
+      };
     case RESET_STATE:
       const { widgetId } = action.payload;
       return {

@@ -1301,6 +1301,18 @@ stories
       return props;
     })
   )
+  .add('Ограничение по количеству символов в выбранном элементе', () => {
+    return (
+      <div>
+        <p>Ограничение по 4 символам</p>
+        <InputSelectTreeContainer
+          {...InputSelectTreeContainerJson}
+          maxTagTextLength={4}
+          options={data}
+        />
+      </div>
+    );
+  })
   .add('Предустановленные данные', () => {
     const delay = ms => new Promise(r => setTimeout(() => r(), ms));
 

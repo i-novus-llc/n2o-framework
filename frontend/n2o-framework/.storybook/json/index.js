@@ -26,6 +26,7 @@ import alertStackedErrors from './alertStackedErrors';
 import placeholderToConfirm from './placeholderToConfirm';
 import FormFieldsetSecurity from './FormFieldsetSecurity';
 import FormPlaceholder from './FormPlaceholder';
+import ButtonDependency from './ButtonDependency';
 
 export {
   filterMetadata,
@@ -55,5 +56,6 @@ export {
   InputSelectTreeDefaultValue,
   alertStackedErrors,
   placeholderToConfirm,
-  FormPlaceholder
+  FormPlaceholder,
+  ButtonDependency
 };

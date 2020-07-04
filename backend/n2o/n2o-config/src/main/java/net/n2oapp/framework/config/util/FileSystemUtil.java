@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.util;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.config.register.storage.Node;
 import net.n2oapp.framework.config.register.storage.PathUtil;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -10,8 +11,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
-import javax.xml.transform.URIResolver;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -34,25 +36,21 @@ public class FileSystemUtil {
             if (!file.exists())
                 file.createNewFile();
         } catch (IOException e) {
-            throw new RuntimeException("Can not touch file " + file.getAbsolutePath(), e);
+            throw new IllegalStateException("Can not touch file " + file.getAbsolutePath(), e);
         }
-        try (FileOutputStream fos = new FileOutputStream(file);
-             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
-            int b;
-            while ((b = content.read()) != -1) {
-                bos.write(b);
-            }
+        try (InputStream io = content) {
+            FileUtils.copyInputStreamToFile(io, file);
         } catch (IOException e) {
-            throw new RuntimeException("Can not save content into file " + file.getAbsolutePath(), e);
+            throw new IllegalStateException("Can not save content into file " + file.getAbsolutePath(), e);
         }
     }
 
     @SuppressWarnings("unchecked")
     public static void saveContentToFile(String content, File file) {
-        try (InputStream inputStream = IOUtils.toInputStream(content, "UTF-8")) {
+        try (InputStream inputStream = IOUtils.toInputStream(content, StandardCharsets.UTF_8)) {
             saveContentToFile(inputStream, file);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -60,12 +58,12 @@ public class FileSystemUtil {
     public static Boolean removeContentByUri(String uri) {
         Resource resource = DEFAULT_RESOURCE_LOADER.getResource(uri);
         File target;
-        Boolean isDeleted = false;
+        boolean isDeleted;
         try {
             target = resource.getFile();
             isDeleted = target.delete();
         } catch (IOException e) {
-            throw new RuntimeException("Can not delete file " + uri, e);
+            throw new IllegalStateException("Can not delete file " + uri, e);
         }
         return isDeleted;
     }
@@ -75,6 +73,11 @@ public class FileSystemUtil {
         return getNodesByLocationPattern(locationPattern, name -> true);
     }
 
+    public static List<Node> getNodesByLocationPattern(List<String> locationPattern) {
+        List<Node> nodes = new ArrayList<>();
+        locationPattern.forEach(ptn -> nodes.addAll(getNodesByLocationPattern(ptn, name -> true)));
+        return nodes;
+    }
 
     public static final Predicate<String> FILE_NAME_WITHOUT_DOTS = s -> {
         int idx = s.lastIndexOf('.');
@@ -86,7 +89,7 @@ public class FileSystemUtil {
         try {
             return Node.byLocationPattern(resource, "");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -102,7 +105,7 @@ public class FileSystemUtil {
             }
             return nodes;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -110,15 +113,15 @@ public class FileSystemUtil {
         return getContentByUri(node.getURI());
     }
 
-    public static String getContentByUri(String URI) {
-        return getContentByUri(URI, true);
+    public static String getContentByUri(String uri) {
+        return getContentByUri(uri, true);
     }
 
-    public static String getContentByUri(String URI, boolean isExistRequired) {
-        try (InputStream inputStream = getContentAsStream(URI, isExistRequired)) {
-            return inputStream == null ? null : IOUtils.toString(inputStream, "UTF-8");
+    public static String getContentByUri(String uri, boolean isExistRequired) {
+        try (InputStream io = getContentAsStream(uri, isExistRequired)) {
+            return io == null ? null : IOUtils.toString(io, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
@@ -141,16 +144,22 @@ public class FileSystemUtil {
 
     public static String getContentFromResource(Resource resource) {
         try (InputStream inputStream = resource.getInputStream()) {
-            return IOUtils.toString(inputStream, "UTF-8");
+            return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 
-    public static void removeAllFromDirectory(String dir, List<String> excludePaths) throws IOException {
+    public static void removeAllFromDirectory(String dir, List<String> excludePaths) {
         File root = new File(dir);
-        for (File file : root.listFiles()) {
-            deleteRecursively(file, excludePaths);
+        if (root.listFiles() == null)
+            return;
+        try {
+            for (File file : root.listFiles()) {
+                deleteRecursively(file, excludePaths);
+            }
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
         }
     }
 
@@ -160,13 +169,13 @@ public class FileSystemUtil {
         if (uri.startsWith("jar:") || uri.startsWith("classpath:")) {
             Resource resource = DEFAULT_RESOURCE_LOADER.getResource(uri);
             if (!resource.exists()) {
-                throw new N2oException("File Not Found:"+uri);
+                throw new IllegalStateException("File Not Found:" + uri);
             }
             return resource.contentLength();
         } else if (uri.startsWith("file:")) {
             File file = new File(PathUtil.convertUrlToAbsolutePath(uri));
-            if (!file.exists()){
-                throw new N2oException("File Not Found:"+uri);
+            if (!file.exists()) {
+                throw new IllegalStateException("File Not Found:" + uri);
             }
             return file.length();
         }

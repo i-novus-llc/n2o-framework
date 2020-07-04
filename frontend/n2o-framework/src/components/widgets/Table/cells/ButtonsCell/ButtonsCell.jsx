@@ -1,18 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import { compose, withHandlers } from 'recompose';
 import get from 'lodash/get';
-import Actions from '../../../../actions/Actions';
+import cx from 'classnames';
+
+import { setModel } from '../../../../../actions/models';
+import { PREFIXES } from '../../../../../constants/models';
+import Toolbar from '../../../../buttons/Toolbar';
+import withTooltip from '../../withTooltip';
 
 /**
  *
  * @param id
  * @param className
- * @param callActionImpl
  * @param visible
  * @param actions
  * @param toolbar
  * @param model
+ * @param style
+ * @param widgetId
+ * @param onResolve
  * @param other
  * @returns {*}
  * @constructor
@@ -27,20 +34,20 @@ function ButtonsCell({
   toolbar,
   actions,
   widgetId,
+  onResolve,
   ...other
 }) {
   const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`;
 
   return visible ? (
-    <Actions
-      className={cx('n2o-buttons-cell', className)}
-      style={style}
-      toolbar={toolbar}
-      actions={actions}
-      containerKey={key}
-      resolveBeforeAction={widgetId}
-      model={model}
-    />
+    <div className="d-inline-flex">
+      <Toolbar
+        className={cx('n2o-buttons-cell', className)}
+        entityKey={key}
+        toolbar={toolbar}
+        onClick={onResolve}
+      />
+    </div>
   ) : null;
 }
 
@@ -67,5 +74,13 @@ ButtonsCell.defaultProps = {
   visible: true,
 };
 
+const enhance = compose(
+  withTooltip,
+  withHandlers({
+    onResolve: ({ dispatch, widgetId, model }) => () =>
+      dispatch(setModel(PREFIXES.resolve, widgetId, model)),
+  })
+);
+
 export { ButtonsCell };
-export default ButtonsCell;
+export default enhance(ButtonsCell);

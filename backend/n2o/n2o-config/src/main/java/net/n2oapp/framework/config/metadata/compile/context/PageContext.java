@@ -3,13 +3,14 @@ package net.n2oapp.framework.config.metadata.compile.context;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oPage;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +33,39 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String submitLabel;
     /**
-     * Главный виджет страницы
+     * Тип действия кнопки отправки формы
+     */
+    private SubmitActionType submitActionType;
+    /**
+     * Модель, которая будет скопирована
+     */
+    private ReduxModel copyModel;
+    /**
+     * Идентификатор виджета источника
+     */
+    private String copyWidgetId;
+    /**
+     * Идентификатор копируемого поля источника
+     */
+    private String copyFieldId;
+    /**
+     * Модель, в которую будут скопированы данные
+     */
+    private ReduxModel targetModel;
+    /**
+     * Идентификатор целевого виджета
+     */
+    private String targetWidgetId;
+    /**
+     * Идентификатор поля целевого виджета, в которое будут скопированы данные
+     */
+    private String targetFieldId;
+    /**
+     * Тип слияния при копировании данных
+     */
+    private CopyMode copyMode;
+    /**
+     * Главный виджет открываемой страницы
      */
     private String resultWidgetId;
     /**
@@ -40,9 +73,17 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
      */
     private String parentRoute;
     /**
-     * Родительский виджет, в котором находилось действие
+     * Родительский виджет (исходный), в котором находилось действие
      */
     private String parentWidgetId;
+    /**
+     * Родительский виджет (клиентский), в котором находилось действие
+     */
+    private String parentClientWidgetId;
+    /**
+     * Родительская страница (клиентский), в которой находилось действие
+     */
+    private String parentClientPageId;
     /**
      * Наименование страницы
      */
@@ -105,7 +146,7 @@ public class PageContext extends BaseCompileContext<Page, N2oPage> {
         this.submitLabel = context.submitLabel;
         this.resultWidgetId = context.resultWidgetId;
         this.parentRoute = context.parentRoute;
-        this.parentWidgetId = context.parentWidgetId;
+        this.parentClientWidgetId = context.parentClientWidgetId;
         this.pageName = context.pageName;
         this.closeOnSuccessSubmit = context.closeOnSuccessSubmit;
         this.refreshOnSuccessSubmit = context.refreshOnSuccessSubmit;

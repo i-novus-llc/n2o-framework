@@ -117,7 +117,7 @@ http://n2oapp.net/framework/config/schema/header-2.0
 Пример::
 [source,xml]
 ----
-<extra-menu welcome-page-id="ProtoPage">
+<extra-menu>
     <page page-id="ProtoPage" route="/proto" label="Контакты"/>
     <a href="http://google.com/"/>
 </extra-menu>

@@ -13,7 +13,7 @@ import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -104,7 +104,6 @@ public class N2oCompileProcessorTest extends N2oTestBase {
     @Test
     public void testResolveTextSubModels() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
-        ((N2oEnvironment) builder.getEnvironment()).setSubModelsProcessor(subModelsProcessor);
 
         doAnswer(invocation -> {
             DataSet data = invocation.getArgument(1);
@@ -121,7 +120,7 @@ public class N2oCompileProcessorTest extends N2oTestBase {
         context.setQueryRouteMapping(queryMapping);
         DataSet data = new DataSet();
         data.put("paramId", 123);
-        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data);
+        N2oCompileProcessor processor = new N2oCompileProcessor(builder.getEnvironment(), context, data, subModelsProcessor);
 
         // совпадают модель и виджет
         String resultText = processor.resolveText("Hello, {name}", linkId);

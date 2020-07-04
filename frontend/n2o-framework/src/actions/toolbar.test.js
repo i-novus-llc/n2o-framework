@@ -75,7 +75,7 @@ describe('Тесты экшенов toolbar', () => {
     it('Возвращает правильный payload', () => {
       const action = changeButtonVisiblity(key, id, true);
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.visible).toEqual(true);
     });
   });
@@ -88,7 +88,7 @@ describe('Тесты экшенов toolbar', () => {
     it('Возвращает правильный payload', () => {
       const action = setButtonVisible(key, id);
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.visible).toEqual(true);
     });
   });
@@ -101,7 +101,7 @@ describe('Тесты экшенов toolbar', () => {
     it('Возвращает правильный payload', () => {
       const action = setButtonHidden(key, id);
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.visible).toEqual(false);
     });
   });
@@ -126,7 +126,7 @@ describe('Тесты экшенов toolbar', () => {
     it('Возвращает правильный payload', () => {
       const action = changeButtonDisabled(key, id, false);
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.disabled).toEqual(false);
     });
   });
@@ -139,7 +139,7 @@ describe('Тесты экшенов toolbar', () => {
     it('Возвращает правильный payload', () => {
       const action = setButtonDisabled(key, id);
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.disabled).toEqual(true);
     });
   });
@@ -152,7 +152,7 @@ describe('Тесты экшенов toolbar', () => {
     it('Возвращает правильный payload', () => {
       const action = setButtonEnabled(key, id);
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.disabled).toEqual(false);
     });
   });
@@ -293,36 +293,18 @@ describe('Тесты экшенов toolbar', () => {
     });
     it('Возвращает правильный payload', () => {
       const action = registerButton(key, id, {
-        id,
-        size,
-        title,
+        key,
         count,
-        icon,
-        color,
-        resolveEnabled: true,
         visible: true,
         disabled: false,
-        hint,
-        className: btnClass,
-        style,
-        containerKey: 'container',
         conditions: {},
       });
       expect(action.payload.key).toEqual(key);
-      expect(action.payload.id).toEqual(id);
-      expect(action.payload.size).toEqual(size);
-      expect(action.payload.title).toEqual(title);
-      expect(action.payload.count).toEqual(count);
-      expect(action.payload.color).toEqual(color);
+      expect(action.payload.buttonId).toEqual(id);
       expect(action.payload.visible).toEqual(true);
-      expect(action.payload.hint).toEqual(hint);
-      expect(action.payload.icon).toEqual(icon);
-      expect(action.payload.className).toEqual(btnClass);
-      expect(action.payload.style).toEqual(style);
       expect(action.payload.disabled).toEqual(false);
-      expect(action.payload.containerKey).toEqual('container');
       expect(action.payload.conditions).toEqual({});
-      expect(action.payload.resolveEnabled).toEqual(true);
+      expect(action.payload.count).toEqual(4);
     });
   });
 });

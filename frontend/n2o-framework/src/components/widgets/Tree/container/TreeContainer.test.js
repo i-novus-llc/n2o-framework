@@ -19,6 +19,7 @@ describe('Тесты TreeContainer', () => {
         ],
         valueFieldId: 1,
         multiselect: false,
+        dispatch: sinon.spy(),
       },
       'withWidgetHandlers'
     );
@@ -45,10 +46,10 @@ describe('Тесты TreeContainer', () => {
     expect(onResolve.calledOnce).toBe(true);
   });
   it('Проверка withWidgetHandlers -> onRowClickAction', () => {
-    const onActionImpl = sinon.spy();
+    const dispatch = sinon.spy();
     const wrapper = setup(
       {
-        onActionImpl,
+        dispatch,
         rowClick: { src: 'dummy' },
       },
       'withWidgetHandlers'
@@ -57,7 +58,6 @@ describe('Тесты TreeContainer', () => {
       .find(NullComponent)
       .props()
       .onRowClickAction();
-    expect(onActionImpl.calledOnce).toBe(true);
-    expect(onActionImpl.calledWith({ src: 'dummy' })).toBe(true);
+    expect(dispatch.calledOnce).toBe(true);
   });
 });

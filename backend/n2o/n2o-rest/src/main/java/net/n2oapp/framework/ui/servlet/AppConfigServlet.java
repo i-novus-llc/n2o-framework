@@ -1,7 +1,6 @@
 package net.n2oapp.framework.ui.servlet;
 
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.api.metadata.header.CompiledHeader;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
@@ -27,11 +26,10 @@ public class AppConfigServlet extends HttpServlet {
     private ReadCompileBindTerminalPipeline pipeline;
     private MetadataEnvironment environment;
     private String headerSourceId;
-    private String projectName;
 
     @Override
     public void init() {
-        appConfigJsonWriter.loadValues();
+
     }
 
     @Override
@@ -95,10 +93,6 @@ public class AppConfigServlet extends HttpServlet {
 
     public void setHeaderSourceId(String headerSourceId) {
         this.headerSourceId = headerSourceId;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
     }
 
     public void setEnvironment(MetadataEnvironment environment) {

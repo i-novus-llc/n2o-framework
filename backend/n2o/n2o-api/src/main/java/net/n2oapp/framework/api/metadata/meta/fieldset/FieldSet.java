@@ -22,6 +22,8 @@ import java.util.Set;
 @Setter
 public abstract class FieldSet extends Component implements Compiled {
     @JsonProperty
+    private String label;
+    @JsonProperty
     private LabelPosition labelPosition;
     @JsonProperty
     private Object labelWidth;
@@ -58,6 +60,8 @@ public abstract class FieldSet extends Component implements Compiled {
         private Map<String, String> style;
         @JsonProperty
         private Integer size;
+        @JsonProperty
+        private Object visible;
         @JsonProperty
         private List<FieldSet> fieldsets;
         @JsonProperty

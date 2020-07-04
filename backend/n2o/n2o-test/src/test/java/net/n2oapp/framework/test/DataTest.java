@@ -4,27 +4,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.rest.GetDataResponse;
-import net.n2oapp.framework.api.rest.N2oResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ResponseMessage;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
@@ -33,13 +29,34 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование получения данных sql запросом
  */
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
-@RunWith(SpringRunner.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
         properties = "spring.main.allow-bean-definition-overriding=true")
 public class DataTest {
     @LocalServerPort
     private int port;
+
+    /**
+     * Проверка возврата диалога в ответе на invoke
+     */
+    @Test
+    public void testDialog() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        RestTemplate restTemplate = new RestTemplate();
+        String queryPath = "/n2o/data/testDialog";
+        String fooResourceUrl = "http://localhost:" + port + queryPath;
+        try {
+            restTemplate.postForObject(fooResourceUrl,
+                    new Request("1", "testName", "testSurname", new Date()), SetDataResponse.class);
+        } catch (HttpServerErrorException e) {
+
+            Map<String, Object> result = mapper.readValue(e.getResponseBodyAsByteArray(), Map.class);
+            Map<String, Object> dialog = (Map<String, Object>) ((Map<String, Object>) result.get("meta")).get("dialog");
+            assert dialog.get("title").equals("Registration accept");
+            assert dialog.get("description").equals("Are you sure?");
+            assert ((HashMap<String, Object>)((ArrayList)((Map<String, Object>) dialog.get("toolbar")).get("bottomRight")).get(0)).size() == 2;
+        }
+    }
 
     @Test
     public void testJavaDataQuery3() {
@@ -288,7 +305,7 @@ public class DataTest {
     }
 
     @Getter
-    public class Request {
+    public static class Request {
         String id;
         String name;
         String surname;

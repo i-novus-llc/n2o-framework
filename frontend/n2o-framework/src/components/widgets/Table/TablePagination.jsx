@@ -10,8 +10,11 @@ import {
   makeWidgetSizeSelector,
   makeWidgetPageSelector,
 } from '../../../selectors/widgets';
-import { makeGetModelByPrefixSelector } from '../../../selectors/models';
-import { dataRequestWidget, changePageWidget } from '../../../actions/widgets';
+import {
+  makeGetModelByPrefixSelector,
+  makeGetFilterModelSelector,
+} from '../../../selectors/models';
+import { dataRequestWidget } from '../../../actions/widgets';
 import { PREFIXES } from '../../../constants/models';
 
 /**
@@ -51,27 +54,30 @@ class TablePagination extends Component {
       withoutBody,
       prevText,
       nextText,
+      filters,
     } = this.props;
 
     return (
-      <Pagination
-        onSelect={onChangePage}
-        activePage={activePage}
-        count={count}
-        size={size}
-        maxButtons={maxButtons}
-        stepIncrement={10}
-        prev={prev}
-        prevText={prevText}
-        next={next}
-        nextText={nextText}
-        first={first}
-        last={last}
-        lazy={lazy}
-        showCountRecords={showCountRecords}
-        hideSinglePage={hideSinglePage}
-        withoutBody={withoutBody}
-      />
+      count > 0 && (
+        <Pagination
+          onSelect={page => onChangePage(page, { ...filters })}
+          activePage={activePage}
+          count={count}
+          size={size}
+          maxButtons={maxButtons}
+          stepIncrement={10}
+          prev={prev}
+          prevText={prevText}
+          next={next}
+          nextText={nextText}
+          first={first}
+          last={last}
+          lazy={lazy}
+          showCountRecords={showCountRecords}
+          hideSinglePage={hideSinglePage}
+          withoutBody={withoutBody}
+        />
+      )
     );
   }
 }
@@ -102,14 +108,17 @@ const mapStateToProps = createStructuredSelector({
       state,
       props
     ),
+  filters: (state, props) =>
+    makeGetFilterModelSelector(props.widgetId)(state, props),
 });
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    onChangePage: page => {
+    onChangePage: (page, filters) => {
       dispatch(
         dataRequestWidget(ownProps.widgetId, {
           page,
+          ...filters,
         })
       );
     },

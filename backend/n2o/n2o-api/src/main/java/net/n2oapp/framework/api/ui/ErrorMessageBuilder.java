@@ -18,18 +18,23 @@ import java.util.StringTokenizer;
 public class ErrorMessageBuilder {
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
     private MessageSourceAccessor messageSourceAccessor;
+    private Boolean showStacktrace = true;
 
     public ErrorMessageBuilder(MessageSourceAccessor messageSourceAccessor) {
         this.messageSourceAccessor = messageSourceAccessor;
     }
 
+    public ErrorMessageBuilder(MessageSourceAccessor messageSourceAccessor, Boolean showStacktrace) {
+        this.messageSourceAccessor = messageSourceAccessor;
+        this.showStacktrace = showStacktrace;
+    }
+
     public ResponseMessage build(Exception e) {
         ResponseMessage resp = new ResponseMessage();
         resp.setText(buildText(e));
-        if (!(e instanceof N2oUserException))
+        if (showStacktrace && !(e instanceof N2oUserException))
             resp.setStacktrace(getStackFrames(getStackTrace(e)));
         if (e instanceof N2oException) {
-            resp.setChoice(((N2oException) e).getChoice());
             resp.setSeverityType(((N2oException) e).getSeverity());
             resp.setField(((N2oException) e).getField());
         } else {
@@ -43,7 +48,7 @@ public class ErrorMessageBuilder {
         if (e.getMessages() != null) {
             for (ValidationMessage message : e.getMessages()) {
                 ResponseMessage resp = new ResponseMessage();
-                resp.setChoice(e.getChoice());
+                //resp.setChoice(e.getChoice()); todo use dialog
                 resp.setSeverityType(e.getSeverity());
                 resp.setField(message.getFieldId());
                 resp.setText(message.getMessage());

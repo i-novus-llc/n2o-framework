@@ -37,6 +37,7 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
         HeaderAccessTransformer headerAccessTransformer = new HeaderAccessTransformer();
         builder.packs(new N2oHeaderPack(), new N2oAllPagesPack(), new AccessSchemaPack())
                 .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testHeaderAccessTransformer.page.xml"))
+                .sources(new CompileInfo("net/n2oapp/framework/access/metadata/transform/testObjectAccessTransformer.object.xml"))
                 .transformers(headerAccessTransformer);
     }
 
@@ -63,6 +64,8 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
         assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().size(), is(1));
         assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
 
+        assertThat(((Security) header.getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getPermissions().size(), is(1));
+
         item = header.getExtraItems().get(0);
         assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page").getUsernames().size(), is(1));
         assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page").getUsernames().contains("user"), is(true));
@@ -76,6 +79,9 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
         assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().size(), is(1));
         assertThat(((Security) item.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getUsernames().contains("user"), is(true));
 
+        assertThat(((Security) header.getExtraItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getPermissions(), nullValue());
+        assertThat(((Security) header.getExtraItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getRoles(), nullValue());
+        assertThat(((Security) header.getExtraItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getUsernames().contains("user"), is(true));
     }
 
     @Test
@@ -89,6 +95,7 @@ public class HeaderAccessTransformerTest extends SourceCompileTestBase {
                 .get(new HeaderContext("testHeaderAccessTransformer"));
         assertAccess(((Security) header.getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
         assertAccess(((Security) header.getItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
+        assertThat(((Security) header.getItems().get(2).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("url").getRoles().size(), is(1));
         assertAccess(((Security) header.getExtraItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
         assertAccess(((Security) header.getExtraItems().get(1).getSubItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap());
     }

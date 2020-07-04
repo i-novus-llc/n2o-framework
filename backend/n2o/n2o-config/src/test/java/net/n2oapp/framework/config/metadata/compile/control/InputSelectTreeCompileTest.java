@@ -15,6 +15,9 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ * Тестирование компиляции компонента ввода с выбором в выпадающем списке в виде дерева
+ */
 public class InputSelectTreeCompileTest extends SourceCompileTestBase {
     @Override
     @Before
@@ -38,9 +41,13 @@ public class InputSelectTreeCompileTest extends SourceCompileTestBase {
 
         InputSelectTree ist = (InputSelectTree) ((StandardField) form.getComponent().getFieldsets()
                 .get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl();
+        assertThat(ist.getSrc(), is("InputSelectTree"));
         assertThat(ist.getParentFieldId(), is("testParentFieldId"));
         assertThat(ist.getHasChildrenFieldId(), is("testHasChildrenFieldId"));
         assertThat(ist.getCheckingStrategy(), is(CheckingStrategy.child));
         assertThat(ist.getMaxTagCount(), is(5));
+        assertThat(ist.getSize(), is(35));
+        assertThat(ist.isHasCheckboxes(), is(true));
+        assertThat(ist.getMaxTagTextLength(), is(20));
     }
 }

@@ -16,7 +16,9 @@
               icon-field-id="testIcon"
               format="testFormat"
               cache="true"
-              size="10">
+              sort-field-id="sortFieldId"
+              size="10"
+              status-field-id="testStatus">
     <default-value id="1" name="testName" isTest="true"/>
     <options>
         <option id="1" name="testName1" isTest="true" />

@@ -20,7 +20,7 @@ const setupCloseModal = () => {
       widgetId: 'widget',
     },
     meta: {
-      closeLastModal: true,
+      modalsToClose: 1,
     },
   });
 };

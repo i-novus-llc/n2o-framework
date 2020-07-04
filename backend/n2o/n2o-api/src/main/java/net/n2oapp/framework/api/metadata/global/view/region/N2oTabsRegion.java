@@ -11,6 +11,9 @@ import lombok.Setter;
 public class N2oTabsRegion extends N2oRegion {
 
     private Boolean alwaysRefresh;
+    private Boolean lazy;
+    private String activeParam;
+    private Boolean routable;
 
     @Override
     public String getAlias() {

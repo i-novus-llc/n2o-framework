@@ -28,11 +28,19 @@ const NavItemContainer = ({
   direction,
 }) => {
   const getInnerLink = (item, className) => (
-    <NavLink exact className="nav-link" to={item.href} activeClassName="active">
+    <NavLink
+      exact
+      className={cx('nav-link', className)}
+      to={item.href}
+      activeClassName="active"
+      target={getTarget(item)}
+    >
       {item.icon && <NavItemIcon />}
       {item.label}
     </NavLink>
   );
+
+  const getTarget = item => (item.target === 'newWindow' ? '_blank' : null);
 
   const renderBadge = item => (
     <Badge color={item.badgeColor}>{item.badge}</Badge>
@@ -44,7 +52,11 @@ const NavItemContainer = ({
     if (item.linkType === 'outer') {
       return (
         <NavItem>
-          <a className={cx('nav-link', className)} href={item.href}>
+          <a
+            className={cx('nav-link', className)}
+            href={item.href}
+            target={getTarget(item)}
+          >
             {item.icon && <i className={cx('mr-1', item.icon)} />}
             {item.label}
           </a>
@@ -59,6 +71,7 @@ const NavItemContainer = ({
             className={cx('nav-link', className)}
             to={item.href}
             activeClassName="active"
+            target={getTarget(item)}
           >
             {item.icon && <NavItemIcon />}
             {item.label}
@@ -103,7 +116,7 @@ const NavItemContainer = ({
     }
   } else if (type === 'sidebar' && item.type === 'dropdown' && sidebarOpen) {
     const defaultLink = item => (
-      <Link className="dropdown-item" to={item.href}>
+      <Link className="dropdown-item" to={item.href} target={getTarget(item)}>
         {item.icon && <NavItemIcon />}
         {item.label}
       </Link>

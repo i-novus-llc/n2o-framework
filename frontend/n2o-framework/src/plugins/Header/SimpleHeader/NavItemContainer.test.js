@@ -43,4 +43,16 @@ describe('Тесты NavItemContainer', () => {
     });
     expect(wrapper.find('span.nav-link').exists()).toEqual(true);
   });
+  it('target = newWindow', () => {
+    const wrapper = setup({
+      item: {
+        id: '2131',
+        label: 'test',
+        type: 'link',
+        href: 'testHref',
+        target: 'newWindow',
+      },
+    });
+    expect(wrapper.find('Link').props().target).toEqual('_blank');
+  });
 });

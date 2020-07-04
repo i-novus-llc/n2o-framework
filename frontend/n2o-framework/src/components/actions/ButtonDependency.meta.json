@@ -14,7 +14,7 @@
           "buttons": [
             {
               "id": "filter",
-              "actionId": "filter",
+              "src": "StandardButton",
               "visible": true,
               "conditions": {
                 "visible": [
@@ -24,12 +24,12 @@
                   }
                 ]
               },
-              "title": "Видимость",
+              "label": "Видимость",
               "hint": "Скроется, если имя в выбранной записи Афанасий"
             },
             {
               "id": "enable",
-              "actionId": "enable",
+              "src": "StandardButton",
               "visible": true,
               "conditions": {
                 "enabled": [
@@ -39,13 +39,13 @@
                   }
                 ]
               },
-              "title": "Блокировка",
+              "label": "Блокировка",
               "hint": "Заблокируется, если имя в выбранной записи Иннокентий"
             },
             {
               "id": "combo",
-              "actionId": "combo",
               "visible": true,
+              "src": "StandardButton",
               "conditions": {
                 "visible": [
                   {
@@ -60,16 +60,18 @@
                   }
                 ]
               },
-              "title": "Комбинация",
+              "label": "Комбинация",
               "hint": "Заблокируется, если имя в выбранной записи Людмила. Исчезнет, если фамилия Ревин"
             },
             {
               "id": "subMenu3",
-              "title": "Видимость списка",
+              "label": "Видимость списка",
+              "src": "DropdownButton",
               "hint": "Исчезнет, если фамилия Ревин. Условие видимости на элементах списка",
               "subMenu": [
                 {
                   "id": "menuItem4",
+                  "src": "StandardButton",
                   "conditions": {
                     "visible": [
                       {
@@ -84,11 +86,12 @@
                       }
                     ]
                   },
-                  "title": "Элементы списка",
+                  "label": "Элементы списка",
                   "hint": "Исчезнет, если фамилия Ревин"
                 },
                 {
                   "id": "menuItem5",
+                  "src": "StandardButton",
                   "conditions": {
                     "visible": [
                       {
@@ -103,7 +106,7 @@
                       }
                     ]
                   },
-                  "title": "Элементы списка",
+                  "label": "Элементы списка",
                   "hint": "Исчезнет, если фамилия Ревин"
                 }
               ]

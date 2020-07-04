@@ -13,7 +13,7 @@
   }
   &top-left {
     @extend %top-label-container;
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   &right {
@@ -45,11 +45,11 @@
 }
 
 .n2o-label {
-  display: block;
-
   & .n2o-popover {
     cursor: pointer;
     margin: 0 5px;
+    display: flex;
+    align-items: center;
 
     & button {
       padding: 0;
@@ -87,4 +87,45 @@
     font-size: 0.8rem;
     line-height: 1rem;
   }
+
+  .n2o-label {
+    display: flex;
+  }
+
+}
+
+.form-container {
+  display: flex;
+}
+
+.n2o-page-actions__form-toolbar {
+  &.btn-toolbar {
+    & > .btn-group {
+      & > .n2o-dropdown {
+        & > .dropdown-menu {
+          &.n2o-dropdown-menu {
+            text-align: left;
+            & > .btn {
+              border: none;
+            }
+            & > div {
+              & > .btn {
+                width: 100%;
+                text-align: left;
+                border: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.n2o-page-actions__toolbar {
+  width: 100%;
+  display: flex;
+}
+.form-control__with-toolbar {
+  height: 100%;
 }

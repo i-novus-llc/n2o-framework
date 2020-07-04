@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import uniqueId from 'lodash/uniqueId';
 import isString from 'lodash/isString';
+import map from 'lodash/map';
+import withTooltip from '../../withTooltip';
 
 /**
  * CollapsedCell
@@ -49,7 +51,7 @@ class CollapsedCell extends React.Component {
     return (
       visible && (
         <React.Fragment>
-          {items.map(item => (
+          {map(items, item => (
             <React.Fragment key={uniqueId('collapsed-cell')}>
               <span className={labelClasses}>
                 {isString(item) ? item : item[labelFieldId]}
@@ -104,4 +106,4 @@ CollapsedCell.defaultProps = {
   visible: true,
 };
 
-export default CollapsedCell;
+export default withTooltip(CollapsedCell);

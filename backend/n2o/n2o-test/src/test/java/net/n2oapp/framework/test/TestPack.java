@@ -35,6 +35,12 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/master/:master_id/detail", getMasterDetailQueryContext()),
                 new RouteInfo("/test/select", new QueryContext("testSqlQuery4", "/test/select")),
                 new RouteInfo("/test/sql/validation", getQueryContext()),
+                new RouteInfo("/testDialog", getTestDialogActionContext()),
+                new RouteInfo("/testInsertMongo", getTestInsertMongodbContext("create", "/testInsertMongo")),
+                new RouteInfo("/testUpdateMongo", getTestInsertMongodbContext("update", "/testUpdateMongo")),
+                new RouteInfo("/testDeleteMongo", getTestInsertMongodbContext("delete", "/testDeleteMongo")),
+                new RouteInfo("/test/mongodb", new QueryContext("testMongodbQuery4", "/test/mongodb")),
+                new RouteInfo("/test/mongodbCount", new QueryContext("testMongodbQuery4", "/test/mongodbCount")),
                 new RouteInfo("/test/subModels", getQueryContextWithSubModel()));
     }
 
@@ -62,6 +68,21 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
     private ActionContext getActionContext() {
         ActionContext actionContext = new ActionContext("testActionContext", "create", "/test/invoke/action");
         actionContext.setValidations(createValidations());
+        actionContext.setMessagesForm("testForm");
+        actionContext.setFailAlertWidgetId("testForm");
+        return actionContext;
+    }
+
+    private ActionContext getTestDialogActionContext() {
+        ActionContext actionContext = new ActionContext("testDialog", "create", "/testDialog");
+        actionContext.setMessagesForm("testForm");
+        actionContext.setFailAlertWidgetId("testForm");
+        actionContext.setParentWidgetId("testDialog_main");
+        return actionContext;
+    }
+
+    private ActionContext getTestInsertMongodbContext(String operationId, String route) {
+        ActionContext actionContext = new ActionContext("testMongodbCRUD", operationId, route);
         actionContext.setMessagesForm("testForm");
         actionContext.setFailAlertWidgetId("testForm");
         return actionContext;

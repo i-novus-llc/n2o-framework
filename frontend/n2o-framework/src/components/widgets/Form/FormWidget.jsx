@@ -26,6 +26,7 @@ class FormWidget extends React.Component {
    */
   getWidgetProps() {
     const { resolveProps } = this.context;
+
     return {
       fieldsets: values(
         resolveProps(this.props.form.fieldsets, Fieldsets.StandardFieldset)
@@ -39,6 +40,7 @@ class FormWidget extends React.Component {
       dataProvider: this.props.dataProvider,
       prompt: this.props.form.prompt,
       autoFocus: this.props.form.autoFocus,
+      autoSubmit: this.props.autoSubmit,
     };
   }
 

@@ -106,6 +106,7 @@ function InputSelectTree({
   showCheckedStrategy,
   _control,
   setControlRef,
+  maxTagTextLength,
   ...rest
 }) {
   const popupProps = {
@@ -180,7 +181,10 @@ function InputSelectTree({
     const mode = ['includes', 'startsWith', 'endsWith'];
 
     if (mode.includes(filter)) {
-      return String.prototype[filter].call(node.props[labelFieldId], input);
+      return String.prototype[filter].call(
+        node.props[labelFieldId].toLowerCase(),
+        input.toLowerCase()
+      );
     }
     return true;
   };
@@ -369,14 +373,12 @@ function InputSelectTree({
 
   const getPopupContainer = container => container;
 
-  const open = !loading ? dropdownExpanded : false;
-
   return (
     <TreeSelect
       ref={setControlRef}
       tabIndex={1}
       {...value && { value: setValue(value) }}
-      open={open}
+      open={dropdownExpanded}
       onDropdownVisibleChange={handleDropdownVisibleChange}
       className={cx('n2o form-control', 'n2o-input-select-tree', className, {
         loading,
@@ -389,7 +391,7 @@ function InputSelectTree({
       filterTreeNode={handlerFilter}
       treeNodeFilterProp={labelFieldId}
       treeNodeLabelProp={labelFieldId}
-      maxTagTextLength="10"
+      maxTagTextLength={maxTagTextLength}
       removeIcon={clearIcon}
       clearIcon={clearIcon}
       onChange={handleChange}
@@ -401,10 +403,16 @@ function InputSelectTree({
       prefixCls="n2o-select-tree"
       showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
       getPopupContainer={getPopupContainer}
-      notFoundContent={intl.formatMessage({
-        id: 'inputSelectTree.notFoundContent',
-        defaultMessage: notFoundContent || ' ',
-      })}
+      notFoundContent={
+        loading ? (
+          <InlineSpinner />
+        ) : (
+          intl.formatMessage({
+            id: 'inputSelectTree.notFoundContent',
+            defaultMessage: notFoundContent || ' ',
+          })
+        )
+      }
       placeholder={intl.formatMessage({
         id: 'inputSelectTree.placeholder',
         defaultMessage: placeholder || ' ',
@@ -447,6 +455,7 @@ InputSelectTree.defaultProps = {
   allowClear: true,
   placeholder: '',
   showSearch: true,
+  maxTagTextLength: 10,
   dropdownPopupAlign: {
     points: ['tl', 'bl'],
     overflow: {
@@ -585,6 +594,10 @@ InputSelectTree.propTypes = {
    */
   dropdownPopupAlign: PropTypes.object,
   showCheckedStrategy: PropTypes.string,
+  /**
+   * Количество символов выбранных элементов в chechbox режиме
+   */
+  maxTagTextLength: PropTypes.number,
 };
 
 export { TreeNode, InputSelectTree };

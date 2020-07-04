@@ -2,7 +2,9 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import pick from 'lodash/pick';
 import every from 'lodash/every';
+import isUndefined from 'lodash/isUndefined';
 import isFunction from 'lodash/isFunction';
+import isNull from 'lodash/isNull';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Manager, Reference, Popper } from 'react-popper';
@@ -150,7 +152,6 @@ class DateTimeControl extends React.Component {
   onChange(inputName) {
     const { onChange } = this.props;
     const value = this.getValue(inputName);
-
     onChange(value);
   }
 
@@ -198,8 +199,6 @@ class DateTimeControl extends React.Component {
           }
         }
       );
-
-      setTimeout(() => findDOMNode(this._control).focus(), 0);
     }
   }
   /**
@@ -207,20 +206,13 @@ class DateTimeControl extends React.Component {
    * @todo объеденить методы select и onInputChange в 1 метод
    */
   onInputChange(date, inputName, callback = null) {
-    const { timeFormat } = this.props;
-    const newDate =
-      !timeFormat && inputName === DateTimeControl.endInputName && date
-        ? date
-            .add(23, 'h')
-            .add(59, 'm')
-            .add(59, 's')
-        : date;
-
     this.setState(
       {
-        inputs: { ...this.state.inputs, [inputName]: newDate },
+        inputs: { ...this.state.inputs, [inputName]: date },
       },
-      () => (isFunction(callback) ? callback() : this.onChange(inputName))
+      () => {
+        return isFunction(callback) ? callback() : this.onChange(inputName);
+      }
     );
   }
   onInputBlur(date, inputName) {
@@ -279,9 +271,6 @@ class DateTimeControl extends React.Component {
       ) {
         if (this.state.focused) {
           if (this.props.type === 'date-interval') {
-            const start = this.state.inputs[DateTimeControl.beginInputName];
-            const end = this.state.inputs[DateTimeControl.endInputName];
-            this.onChange([start, end]);
             const valueToBlur = this.getValue();
 
             if (every(valueToBlur, value => value)) {
@@ -295,6 +284,17 @@ class DateTimeControl extends React.Component {
       }
     }
   }
+
+  /**
+   * Приводит min, max к moment оъекту, текущему формату
+   */
+
+  parseRange(range) {
+    return !isUndefined(moment(range)['_f'])
+      ? moment(range)
+      : moment(range, this.props.dateFormat);
+  }
+
   /**
    * Рендер попапа
    */
@@ -303,6 +303,7 @@ class DateTimeControl extends React.Component {
     const { inputs, isPopUpVisible, placement } = this.state;
     const popUp = (
       <PopUp
+        dateFormat={this.props.dateFormat}
         time={this.defaultTime}
         type={this.props.type}
         isTimeSet={this.state.isTimeSet}
@@ -315,8 +316,9 @@ class DateTimeControl extends React.Component {
         select={this.select}
         setPlacement={this.setPlacement}
         setVisibility={this.setVisibility}
-        max={parseDate(max, "yyyy-MM-dd'T'HH:mm:ss")}
-        min={parseDate(min, "yyyy-MM-dd'T'HH:mm:ss")}
+        max={this.parseRange(max)}
+        min={this.parseRange(min)}
+        date={this.props.date}
         locale={locale}
       />
     );
@@ -352,10 +354,11 @@ class DateTimeControl extends React.Component {
       className,
       autoFocus,
       openOnFocus,
+      popupPlacement,
     } = this.props;
+
     const { inputs } = this.state;
     const dateInputGroupProps = pick(this.props, ['max', 'min']);
-
     return (
       <div className="n2o-date-picker-container">
         <div className="n2o-date-picker" ref={c => (this.datePicker = c)}>
@@ -384,9 +387,9 @@ class DateTimeControl extends React.Component {
             </Reference>
             {this.state.isPopUpVisible && (
               <Popper
-                placement="bottom-start"
+                placement={popupPlacement}
                 modifiers={MODIFIERS}
-                positionFixed={true}
+                strategy="fixed"
               >
                 {({ ref, style, placement }) => (
                   <div
@@ -421,6 +424,7 @@ DateTimeControl.defaultProps = {
   locale: 'ru',
   autoFocus: false,
   openOnFocus: false,
+  popupPlacement: 'bottom-start',
 };
 
 DateTimeControl.propTypes = {
@@ -455,6 +459,7 @@ DateTimeControl.propTypes = {
   timeFormat: PropTypes.string,
   autoFocus: PropTypes.bool,
   openOnFocus: PropTypes.bool,
+  popupPlacement: PropTypes.string,
 };
 
 export default DateTimeControl;

@@ -16,7 +16,8 @@ public class N2oSimpleHeader extends N2oHeader {
     private String color;
     private N2oSimpleMenu menu;
     private N2oSimpleMenu extraMenu;
-    private String homePageId;
+    private String homePageUrl;
+    private String welcomePageId;
     private String projectName;
     private String projectImageSrc;
     private String profilePageId;

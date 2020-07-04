@@ -21,15 +21,16 @@ import Pagination from '../Table/TablePagination';
  * @param {object} dataProvider - конфиг dataProvider
  * @param {boolean} fetchOnInit - флаг запроса при инициализации
  * @param {object} list - объект конфиг секций в виджете
+ * @param {object} placeholder
  * @param {object|null} rowClick - кастомный клик
  * @param {boolean} hasMoreButton - флаг включения загрузки по нажатию на кнопку
  * @param {number} maxHeight - максимальная высота виджета
  * @param {boolean} fetchOnScroll - запрос при скролле
- * @param {boolean} showPagination - флаг включения пагинации
  * @param {string} prevText - текст previous кнопки пагинации
  * @param {string} nextText - текст next кнопки пагинации
  * @param {boolean} divider - флаг разделителя между строками
  * @param {boolean} hasSelect - флаг включения выбора строк
+ * @param {boolean} rows - настройка security
  * @param {object} context - контекст
  * @returns {*}
  * @constructor
@@ -53,14 +54,16 @@ function ListWidget(
     hasMoreButton,
     maxHeight,
     fetchOnScroll,
-    showPagination,
     prevText,
     nextText,
     divider,
     hasSelect,
+    rows,
   },
   context
 ) {
+  const { size } = paging;
+
   const prepareFilters = () => {
     return context.resolveProps(filter, Fieldsets.StandardFieldset);
   };
@@ -77,7 +80,6 @@ function ListWidget(
       actions={actions}
       filter={prepareFilters()}
       bottomLeft={
-        showPagination &&
         paging && (
           <Pagination
             prev={true}
@@ -94,6 +96,7 @@ function ListWidget(
     >
       <ListContainer
         page={1}
+        size={size}
         maxHeight={maxHeight}
         pageId={pageId}
         hasMoreButton={hasMoreButton}
@@ -109,6 +112,7 @@ function ListWidget(
         divider={divider}
         hasSelect={hasSelect}
         placeholder={placeholder}
+        rows={rows}
       />
     </StandardWidget>
   );
@@ -130,7 +134,6 @@ ListWidget.propTypes = {
   rowClick: PropTypes.func,
   hasMoreButton: PropTypes.bool,
   maxHeight: PropTypes.number,
-  showPagination: PropTypes.bool,
   prevText: PropTypes.string,
   nextText: PropTypes.string,
   hasSelect: PropTypes.bool,
@@ -145,8 +148,8 @@ ListWidget.defaultProps = {
   style: {},
   filter: {},
   list: {},
+  paging: {},
   fetchOnScroll: false,
-  showPagination: false,
   prevText: 'Назад',
   nextText: 'Вперед',
   hasSelect: false,

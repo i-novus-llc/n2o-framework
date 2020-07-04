@@ -1,7 +1,7 @@
 package net.n2oapp.demo;
 
-import net.n2oapp.framework.boot.N2oAutoConfiguration;
-import net.n2oapp.framework.engine.sql.jdbc.RoutingDataSourceAutoConfiguration;
+import net.n2oapp.framework.boot.N2oFrameworkAutoConfiguration;
+import net.n2oapp.framework.boot.sql.jdbc.RoutingDataSourceAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
@@ -39,7 +39,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
         WebMvcAutoConfiguration.class,
 //        WebSocketAutoConfiguration.class,
         RoutingDataSourceAutoConfiguration.class,
-        N2oAutoConfiguration.class
+        N2oFrameworkAutoConfiguration.class
 })
 public class DemoApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {

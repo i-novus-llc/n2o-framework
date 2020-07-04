@@ -6,19 +6,25 @@ import {
 import createActionHelper from './createActionHelper';
 
 /**
+ * @deprecated
+ */
+
+/**
  * Экшен начала инвока
  * @param widgetId
  * @param dataProvider
  * @param data
  * @param modelLink
  * @param meta
+ * @param needResolve
  */
 export function startInvoke(
   widgetId,
   dataProvider,
   data,
   modelLink,
-  meta = { refresh: true }
+  meta = { refresh: true },
+  needResolve = true
 ) {
   return createActionHelper(START_INVOKE)(
     {
@@ -26,6 +32,7 @@ export function startInvoke(
       dataProvider,
       data,
       modelLink,
+      needResolve,
     },
     meta
   );

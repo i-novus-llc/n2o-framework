@@ -3,9 +3,16 @@ import isFunction from 'lodash/isFunction';
 import isArray from 'lodash/isArray';
 import each from 'lodash/each';
 import isString from 'lodash/isString';
+import merge from 'lodash/merge';
 import evalExpression, { parseExpression } from './evalExpression';
 
-const blackList = ['dataProvider', 'action', 'actions'];
+const blackList = [
+  'dataProvider',
+  'action',
+  'actions',
+  'queryMapping',
+  'pathMapping',
+];
 
 export function resolve(code) {
   return new Function(
@@ -22,6 +29,7 @@ export function resolve(code) {
  * Функция преобразует шаблоные props свойства вида \`name\` в константные данные из контекста
  * @param {Object} props - объект свойств которые требуется преобразовать
  * @param {Object} data - объект контекста, над которым будет произведенно преобразование
+ * @param {Array} additionalBlackList - дополнительные исключения
  * @return {Object}
  * @example
  * const props = {
@@ -38,7 +46,11 @@ export function resolve(code) {
  *
  * //- {fio: "Иванов Иван Иванович"}
  */
-export default function propsResolver(props, data = {}) {
+export default function propsResolver(
+  props,
+  data = {},
+  additionalBlackList = []
+) {
   let obj = {};
   if (isArray(props)) {
     obj = [];
@@ -46,7 +58,7 @@ export default function propsResolver(props, data = {}) {
   if (isObject(props) && !isFunction(props)) {
     for (let k in props) {
       if (isObject(props[k])) {
-        if (blackList.includes(k)) {
+        if (merge(blackList, additionalBlackList).includes(k)) {
           obj[k] = props[k];
         } else {
           obj[k] = propsResolver(props[k], data);
@@ -59,7 +71,7 @@ export default function propsResolver(props, data = {}) {
     }
     each(props, (p, k) => {
       if (isObject(p)) {
-        if (blackList.includes(k)) {
+        if (merge(blackList, additionalBlackList).includes(k)) {
           obj[k] = p;
         } else {
           obj[k] = propsResolver(p, data);

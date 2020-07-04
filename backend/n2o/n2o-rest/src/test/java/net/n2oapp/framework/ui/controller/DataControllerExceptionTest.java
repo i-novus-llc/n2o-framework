@@ -2,6 +2,7 @@ package net.n2oapp.framework.ui.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.context.ContextEngine;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
@@ -15,6 +16,7 @@ import net.n2oapp.framework.api.processing.N2oModule;
 import net.n2oapp.framework.api.rest.GetDataResponse;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.*;
+import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.engine.data.N2oInvocationFactory;
@@ -51,7 +53,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
 
         doThrow(e).when(dataProcessingStack).processAction(any(ActionRequestInfo.class), any(ActionResponseInfo.class), any(DataSet.class));
         DataController controller = buildController(dataProcessingStack);
-        SetDataResponse response = controller.setData("/page/widget/1/create", null, new DataSet(), null);
+        SetDataResponse response = controller.setData("/page/widget/1/create", null, null, new DataSet(), null);
 
         assertThat(response.getMeta().getAlert().getAlertKey(), is("page_main"));
         assertThat(response.getMeta().getAlert().getMessages().get(0).getSeverity(), is("danger"));
@@ -62,7 +64,7 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         messages.add(new ValidationMessage("message2", "field2", "validation2"));
         e = new N2oValidationException("Validation exception", "widget", messages, "messageForm");
         doThrow(e).when(dataProcessingStack).processAction(any(ActionRequestInfo.class), any(ActionResponseInfo.class), any(DataSet.class));
-        response = controller.setData("/page/widget/1/create", null, new DataSet(), null);
+        response = controller.setData("/page/widget/1/create", null, null, new DataSet(), null);
 
         assertThat(response.getMeta().getMessages().getForm(), is("page_main"));
         assertThat(response.getMeta().getMessages().getFields().size(), is(2));
@@ -112,13 +114,11 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
 
         Mockito.when(invocationFactory.produce(Mockito.any(Class.class))).thenReturn(testDataProviderEngine);
 
-        N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory, null, null);
+        N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory);
 
         N2oValidationModule validationModule = new N2oValidationModule(new ValidationProcessor(invocationProcessor));
         Map<String, N2oModule> moduleMap = new HashMap<>();
         moduleMap.put("validationModule", validationModule);
-        ObjectMapper mapper = new ObjectMapper();
-        DomainProcessor domainProcessor = new DomainProcessor(mapper);
 
         N2oOperationProcessor operationProcessor = new N2oOperationProcessor(invocationProcessor, new N2oOperationExceptionHandler());
 
@@ -138,9 +138,10 @@ public class DataControllerExceptionTest extends DataControllerTestBase {
         QueryProcessor queryProcessor = mock(QueryProcessor.class);
         Map<String, Object> map = new HashMap<>();
         ErrorMessageBuilder messageBuilder = new ErrorMessageBuilder(builder.getEnvironment().getMessageSource());
-        OperationController operationController = new OperationController(dataProcessingStack, domainProcessor, operationProcessor, messageBuilder);
+        OperationController operationController = new OperationController(dataProcessingStack,
+                operationProcessor, messageBuilder, builder.getEnvironment());
         QueryController queryController = new QueryController(dataProcessingStack, queryProcessor, null,
-                builder.getEnvironment().getMetadataRegister(), messageBuilder);
+                messageBuilder, builder.getEnvironment());
         map.put("operationController", operationController);
         map.put("queryController", queryController);
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { pure } from 'recompose';
-import { pick } from 'lodash';
+import pick from 'lodash/pick';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import evalExpression from '../../../utils/evalExpression';

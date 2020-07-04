@@ -34,15 +34,19 @@ const typesFunctions = {
  */
 function parseFormatter(data, typeAndformat = false) {
   const str = toString(data);
-  if (isNil(data) || !typeAndformat || str === '') return data;
-
   const typeAndFormat = split(trim(typeAndformat), ' ');
+
+  const type = typeAndFormat[0];
+  if (
+    isNil(data) ||
+    !typeAndformat ||
+    (str === '' && typeAndFormat[0] !== 'dateFromNow')
+  )
+    return data;
 
   if (!typeAndFormat.length) return null;
 
-  const type = typeAndFormat[0];
   const format = join(slice(typeAndFormat, 1), ' ');
-
   return typesFunctions[type]({ data: str, format });
 }
 

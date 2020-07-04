@@ -2,20 +2,19 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
       xmlns:test="http://n2oapp.net/framework/config/schema/test"
       name="testPage"
-      layout="SingleLayout"
       route="/testRoute"
       object-id="utObjectField">
-    <toolbar place="tbTopLeft" >
-        <button id="close" model="filter">
+    <toolbar place="TopLeft">
+        <button id="close" model="filter" widget-id="test">
             <close/>
         </button>
         <sub-menu>
-            <menu-item action-id="test2"/>
+            <menu-item action-id="test2" widget-id="test"/>
         </sub-menu>
         <group>
-            <button action-id="test3"/>
+            <button action-id="test3" widget-id="test"/>
             <sub-menu>
-                <menu-item action-id="test4"/>
+                <menu-item action-id="test4" widget-id="test"/>
             </sub-menu>
         </group>
     </toolbar>
@@ -30,7 +29,7 @@
             <invoke operation-id="create" />
         </action>
     </actions>
-    <regions test:attr1="val1">
+    <regions>
         <line place="single" test:attr1="testAttribute">
             <html name="test1" test:attr1="htmlTestAttribute"/>
             <html name="test2" />

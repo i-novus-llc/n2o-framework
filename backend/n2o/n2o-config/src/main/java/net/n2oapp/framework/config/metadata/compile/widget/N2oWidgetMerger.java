@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T> {
 
-
     @Override
     public T merge(T source, T override) {
         setIfNotNull(source::setId, override::getId);
@@ -20,7 +19,6 @@ public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T>
         setIfNotNull(source::setQueryId, override::getQueryId);
         setIfNotNull(source::setObjectId, override::getObjectId);
         setIfNotNull(source::setDependsOn, override::getDependsOn);
-        setIfNotNull(source::setDefaultValuesQueryId, override::getDefaultValuesQueryId);
         setIfNotNull(source::setFetchOnInit, override::getFetchOnInit);
         setIfNotNull(source::setMasterFieldId, override::getMasterFieldId);
         setIfNotNull(source::setDetailFieldId, override::getDetailFieldId);
@@ -36,7 +34,6 @@ public class N2oWidgetMerger<T extends N2oWidget> implements BaseSourceMerger<T>
         setIfNotNull(source::setAutoFocus, override::getAutoFocus);
         addIfNotNull(source, override, N2oWidget::setToolbars, N2oWidget::getToolbars);
         addIfNotNull(source, override, N2oWidget::setPreFilters, N2oWidget::getPreFilters);
-        addIfNotNull(source, override, N2oWidget::setPreFields, N2oWidget::getPreFields);
         mergeExtAttributes(source, override);
         return source;
     }

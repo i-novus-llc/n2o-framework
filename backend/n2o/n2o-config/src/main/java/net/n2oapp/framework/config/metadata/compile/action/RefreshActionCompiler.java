@@ -24,9 +24,9 @@ public class RefreshActionCompiler extends AbstractActionCompiler<RefreshAction,
     public RefreshAction compile(N2oRefresh source, CompileContext<?, ?> context, CompileProcessor p) {
         RefreshAction refreshAction = new RefreshAction();
         compileAction(refreshAction, source, p);
-        refreshAction.getOptions().setType(p.resolve(property("n2o.api.action.refresh.type"), String.class));
+        refreshAction.setType(p.resolve(property("n2o.api.action.refresh.type"), String.class));
         String targetWidgetId = initTargetWidget(source, context, p);
-        ((RefreshPayload)refreshAction.getOptions().getPayload()).setWidgetId(targetWidgetId);
+        ((RefreshPayload)refreshAction.getPayload()).setWidgetId(targetWidgetId);
         return refreshAction;
     }
 }

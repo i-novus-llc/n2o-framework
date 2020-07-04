@@ -13,11 +13,12 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
         b.ios(new InvokeActionElementIOV1(),
                 new ShowModalElementIOV1(),
                 new OpenPageElementIOV1(),
+                new OpenDrawerElementIOV1(),
                 new AnchorElementIOV1(),
                 new CloseActionElementIOV1(),
                 new SetValueElementIOV1(),
                 new N2oValidateActionElementIOV1(),
-                new CustomActionIOv1(),
+                new PerformElementIOv1(),
                 new CopyActionElementIOV1(),
                 new ClearActionElementIOV1());
         b.readers(new InvokeActionReaderV1(),
@@ -25,15 +26,23 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ShowModalWithActionReaderV1(),
                 new OpenPageReaderV1(),
                 new AnchorReaderV1());
-        b.compilers(new CustomActionCompiler(),
+        b.compilers(new PerformCompiler(),
                 new ShowModalCompiler(),
+                new OpenDrawerCompiler(),
                 new InvokeActionCompiler(),
                 new CloseActionCompiler(),
                 new RefreshActionCompiler(),
                 new OpenPageCompiler(),
                 new AnchorCompiler(),
                 new ClearActionCompiler(),
-                new CopyActionCompiler());
-        b.binders(new InvokeActionBinder(), new ReduxActionBinder(), new LinkActionBinder(), new ShowModalBinder());
+                new CopyActionCompiler(),
+                new SetValueActionCompiler());
+        b.binders(new InvokeActionBinder(),
+                new ReduxActionBinder(),
+                new LinkActionBinder(),
+                new ShowModalBinder(),
+                new OpenDrawerBinder(),
+                new PerformButtonBinder(),
+                new SubMenuBinder());
     }
 }

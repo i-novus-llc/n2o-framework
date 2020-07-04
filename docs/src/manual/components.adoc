@@ -42,23 +42,56 @@ image::images/page_standard.png[]
 </page>
 ----
 
-Возможные места расположения регионов на странице
-определяются шаблоном. Шаблон страницы задается атрибутом `layout`.
-Шаблон по умолчанию `SingleLayout`. Местоположение региона можно задать через `place`:
-
 image::images/page_left_right.png[]
 
 .Страница с разметкой регионов "слева и справа"
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-      layout="LeftRightLayout" name="Моя страница">
-  <regions>
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+      name="Моя страница">
+  <left>
     <panel place="left">...</panel>
+  </left>
+  <right>
     <panel place="right">...</panel>
-  </regions>
+  </right>
 </page>
+----
+
+image::images/page_top_left_right.png[]
+
+.Страница с разметкой регионов "сверху, слева и справа"
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+      name="Моя страница">
+  <top>
+    <panel>...</panel>
+  </top>
+  <left width="30%">
+    <panel>...</panel>
+  </left>
+  <right width="70%">
+    <panel>...</panel>
+  </right>
+</page>
+----
+
+image::images/page_searchable.png[]
+
+.Страница с поисковой строкой
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+      name="Моя страница">
+  <search-bar search-filter-id="name" search-param="name"/>
+  <regions>
+    <!-- Регионы -->
+  </regions>
+</searchable-page>
 ----
 
 .Виды страниц
@@ -73,6 +106,18 @@ image::images/page_left_right.png[]
 |<page>
 |StandardPage
 |link:https://n2oapp.net/sandbox/new/manual/page/standard[Страница с регионами]
+
+|<left-right-page>
+|LeftRightPage
+|link:https://n2oapp.net/sandbox/new/manual/page/left_right[Страница с разметкой регионов "слева и справа"]
+
+|<top-left-right-page>
+|TopLeftRightPage
+|link:https://n2oapp.net/sandbox/new/manual/page/top_left_right[Страница с разметкой регионов "сверху, слева и справа"]
+
+|<searchable-page>
+|SearchablePage
+|link:https://n2oapp.net/sandbox/new/manual/page/searchable[Страница с поисковой строкой]
 
 |===
 
@@ -232,6 +277,25 @@ image::images/widget_form.png[]
 </form>
 ----
 Поля формы задаются внутри элемента `<fields>`.
+
+==== Автоматическое сохранение данных формы
+
+В N2O есть возможность автоматически сохранять данные формы без необходимости
+нажатия кнопки. Для этого используется действие формы `<submit>`.
+
+.Автоматическое сохранение формы
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<form xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
+  name="Моя форма">
+  <fields>
+    <input-text id="firstName" label="Имя"/>
+    <input-text id="lastName" label="Фамилия"/>
+  </fields>
+  <submit operation-id="update"/>
+</form>
+----
 
 === Кнопки и действия
 
@@ -516,6 +580,22 @@ image::images/fieldset_col_row.png[]
 Ширина столбца `<col>` задается атрибутом `size`.
 Всего доступно 12 размеров согласно сетки link:https://getbootstrap.com/docs/4.0/layout/grid/[Bootstrap].
 
+.Мульти-филдсеты
+Существует возможность создавать филдсеты с динамическим числом полей.
+При нажатии кнопки добавления в филдсет будет добавлено еще одно поле или набор полей.
+Также имеется возможность удаления полей и копирования.
+[source,xml]
+----
+<form>
+    <fields>
+        <multi-set id="members" label="Участник #index" add-label="Добавить участника"
+                   can-remove-all="true" remove-all-label="Удалить всех участников" can-copy="true">
+            ...
+        </multi-set>
+    </fields>
+</form>
+----
+
 === Поля ввода
 Поля ввода - это простейшие компоненты N2O, предназначенные для ввода или вывода различных данных.
 Поля могу содержать заголовок, подсказку, сообщения валидации и многое другое.
@@ -657,6 +737,24 @@ image::images/cell_in_list.png[]
 </list>
 ----
 
+.Переключаемые ячейки
+Предоставляют возможность использовать различные виды ячеек в колонке
+в зависимости от условия.
+[source,xml]
+----
+<switch value-field-id="type">
+    <case value="type1">
+        <badge.../>
+    </case>
+    <case value="type2">
+        <icon.../>
+    </case>
+    ...
+    <default>
+        <text/>
+    </default>
+</switch>
+----
 
 
 .Основные виды ячеек

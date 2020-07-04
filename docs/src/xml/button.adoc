@@ -1,0 +1,350 @@
+== Кнопки
+
+Библиотека компонентов::
+```
+http://n2oapp.net/framework/config/schema/button-2.0
+```
+
+=== Базовые свойства
+
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|label
+|Строка
+|Заголовок кнопки
+|Вычисляется из `action-id`
+
+|icon
+|http://fontawesome.io/icons/[CSS класс]
+|Иконка
+|Вычисляется из `action-id`
+
+|type
+|text, icon, textAndIcon
+|Кнопка с иконкой или без
+|Если задан `icon`, то `iconAndText`, иначе `text`
+
+|class
+|https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
+|Css класс кнопки
+|
+
+|style
+|CSS свойство
+|Стиль кнопки
+|
+
+|color
+|primary, secondary, success, danger, warning, info, light, dark, link
+|Цвет кнопки
+|
+
+|src
+|Строка
+|Реализация действия.
+|
+
+|visible
+|true false
+|Видимость по умолчанию.
+|true
+
+|enabled
+|true false
+|Доступность по умолчанию.
+|true
+
+|===
+
+===== <button>
+Кнопка.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|id
+|Строка
+|Идентификатор кнопки
+|Вычисляется из `action-id`
+
+|action-id
+|Ссылка на link:#__action[действие страницы]
+|Действие страницы, которое будет вызвано при нажатии на кнопку
+|
+
+|validate
+|true false
+|Валидировать ли форму при нажатии на кнопку.
+|
+
+|visibility-condition
+|Строка
+|Условие видимости.
+|
+
+|enabling-condition
+|Строка
+|Условие доступности.
+|
+
+|tooltip-position
+|left, right, top, bottom
+|Позиция подсказки.
+|
+
+|confirm
+|true false
+|Показать предупреждение перед выполнением действия.
+|
+
+|confirm-text
+|Строка
+|Текст предупреждения.
+|
+
+|confirm-title
+|Строка
+|Заголовок окна предупреждения.
+|
+
+|confirm-ok-label
+|Строка
+|Текст кнопки подтверждения.
+|
+
+|confirm-cancel-label
+|Строка
+|Текст кнопки отмены.
+|
+
+|widget-id
+|Строка
+|Идентификатор виджета над которым будет выполнена операция. По умолчанию главный виджет страницы(если он один).
+|
+|===
+
+Тело::
+link:#_Действия[Обработчик действия]
+
+Пример::
+[source,xml]
+----
+<button action-id="create"/>
+----
+
+[source,xml]
+----
+<button
+  label="Добавить в реестр"
+  icon="fa-plus"
+  type="textAndIcon">
+  <open-page page-id="register" action-id="create"/>
+</button>
+----
+
+===== <sub-menu>
+Кнопка с выпадающим меню.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|generate
+|Строка
+|Генерация стандартных кнопок.
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<sub-menu>
+  <menu-item>...<menu-item>
+  <menu-item>...<menu-item>
+  <menu-item>...<menu-item>
+</sub-menu>
+----
+
+==== <dependencies>
+Зависимости компонента
+
+Пример::
+[source,xml]
+----
+<button id="btn">
+  <dependencies>
+    ...
+  </dependencies>
+</button>
+----
+
+===== <enabling>
+Условие доступности
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|ref-widget-id
+|Строка
+|Идентификатор виджета, по полю которого будет фильтрация
+|
+
+|ref-model
+|resolve, filter
+|Модель виджета, по полю которого будет фильтрация
+|
+
+|on
+|Строка
+|Поля, от которых зависит условие доступности
+|Вычисляется по условию
+
+|message
+|Строка
+|Сообщение о причине недоступности
+|
+
+
+|===
+
+Тело::
+Java Script выражение
+
+Пример::
+[source,xml]
+----
+<dependencies>
+  <enabling on="type">type.id == 1</enabling>
+  <!-- Поле доступно, если type.id равен 1 -->
+</dependencies>
+----
+
+===== <visibility>
+Условие видимости
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|ref-widget-id
+|Строка
+|Идентификатор виджета, по полю которого будет фильтрация
+|
+
+|ref-model
+|resolve, filter
+|Модель виджета, по полю которого будет фильтрация
+|
+
+|on
+|Строка
+|Поля, от которых зависит условие доступности
+|Вычисляется по условию
+
+|===
+
+Тело::
+Java Script выражение
+
+Пример::
+[source,xml]
+----
+<dependencies>
+  <visibility on="type">type.id == 1</visibility>
+  <!-- Поле видимо, если type.id равен 1 -->
+</dependencies>
+----
+
+===== <copy>
+Копирование данных.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|source-model
+|resolve edit filter multi
+|Модель, которая будет скопирована
+|resolve
+
+|source-widget-id
+|Строка
+|Идентификатор виджета источника
+|Текущий виджет
+
+|source-field-id
+|Строка
+|Идентификатор копируемого поля источника
+|Вся модель
+
+|target-model
+|resolve edit filter multi
+|Модель, в которую будут скопированы данные
+|resolve
+
+|target-widget-id
+|Строка
+|Идентификатор целевого виджета
+|Текущий виджет
+
+|target-field-id
+|Строка
+|Идентификатор поля целевого виджета, в которое будут скопированы данные
+|Вся модель
+
+|mode
+|merge replace add
+|Тип слияния данных
+|merge
+
+|===
+
+Пример::
+[source,xml]
+----
+<copy source-field-id="id" target-widget-id="table"
+      target-field-id="dictionary.id"/>
+----
+
+===== <link>
+Ссылка.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|href
+|Строка
+|URL
+|
+
+|target
+|Строка
+|
+|
+
+|===
+
+Тело::
+    <path-params> - параметры url.
+    <query-params> - параметры запроса.
+
+Пример::
+[source,xml]
+----
+  <link href="../" target="application">
+    <path-params>...</path-params>
+    <query-params>...</query-params>
+  </link>
+----

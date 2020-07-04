@@ -6,6 +6,9 @@ import net.n2oapp.framework.config.metadata.compile.N2oButtonGeneratorFactory;
 import net.n2oapp.framework.config.metadata.compile.toolbar.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.table.*;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
+import net.n2oapp.framework.config.metadata.compile.widget.table.FilterColumnHeaderCompiler;
+import net.n2oapp.framework.config.metadata.compile.widget.table.MultiColumnHeaderCompiler;
+import net.n2oapp.framework.config.metadata.compile.widget.table.SimpleColumnHeaderCompiler;
 
 public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
@@ -13,12 +16,13 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
         b.packs(new N2oWidgetsIOPack());
         b.compilers(new FormCompiler(),
                 new ListWidgetCompiler(),
-                new ToolbarCompiler(),
-                new TableCompiler(),
+                new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler(),
+                new TableCompiler(), new SimpleColumnHeaderCompiler(), new FilterColumnHeaderCompiler(), new MultiColumnHeaderCompiler(),
                 new HtmlWidgetCompiler(),
                 new CustomWidgetCompiler(),
-                new TreeCompiler());
-        b.mergers(new N2oWidgetMerger(), new N2oFormMerger());
+                new TreeCompiler(),
+                new ChartCompiler());
+        b.mergers(new N2oWidgetMerger(), new N2oFormMerger(), new N2oTableMerger());
 
         CrudGenerator crudGenerator = new CrudGenerator();
         N2oButtonGeneratorFactory buttonGeneratorFactory = new N2oButtonGeneratorFactory();
@@ -37,8 +41,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new TableRefreshGenerator(),
                 new TableResizeGenerator(),
                 new TableSettingsGenerator());
-        b.binders(new WidgetBinder(), new TableBinder());
-
+        b.binders(new WidgetBinder(), new TableBinder(), new ListWidgetBinder());
 
     }
 }

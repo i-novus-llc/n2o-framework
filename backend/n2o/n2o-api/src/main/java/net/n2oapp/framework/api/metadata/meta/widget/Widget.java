@@ -7,12 +7,16 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Клиентская модель виджета
@@ -20,6 +24,7 @@ import java.util.*;
 @Getter
 @Setter
 public abstract class Widget<T extends WidgetComponent> extends Component {
+    @JsonProperty
     private String id;
     private String route;
     /**
@@ -42,10 +47,11 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
     private Set<String> notCopiedFields;
     private List<Validation> validations = new ArrayList<>();
     @JsonProperty
-    private WidgetDataProvider dataProvider;
+    private ClientDataProvider dataProvider;
     @JsonProperty
     private Toolbar toolbar;
     @JsonProperty
+    @Deprecated
     private Map<String, Action> actions;
     @JsonProperty
     private WidgetDependency dependency;

@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.ui;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 
 import java.util.*;
 
@@ -10,6 +11,7 @@ import java.util.*;
  */
 public class ResponseInfo  {
 
+    private N2oDialog dialog;
     private List<ResponseMessage> messageList;
     private Map<String, Object> attributes;
     private boolean stackedMessages = false;
@@ -27,6 +29,9 @@ public class ResponseInfo  {
         attributes.put(name, value);
     }
 
+    public void setDialog(N2oDialog dialog) {
+        this.dialog = dialog;
+    }
 
     public List<ResponseMessage> getMessageList() {
         return messageList != null ? messageList : Collections.emptyList();
@@ -55,5 +60,9 @@ public class ResponseInfo  {
 
     public void setStackedMessages(boolean stackedMessages) {
         this.stackedMessages = stackedMessages;
+    }
+
+    public N2oDialog getDialog() {
+        return dialog;
     }
 }

@@ -8,7 +8,8 @@
             {
               "id": "refresh",
               "hint": "Запросить данные",
-              "title": "Запрос (Вернёт 401)",
+              "src": "PerformButton",
+              "label": "Запрос (Вернёт 401)",
               "actionId": "refresh"
             }
           ]

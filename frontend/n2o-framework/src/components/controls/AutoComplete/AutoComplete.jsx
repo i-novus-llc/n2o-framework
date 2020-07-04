@@ -11,6 +11,7 @@ import map from 'lodash/map';
 import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
 import isNil from 'lodash/isNil';
+import some from 'lodash/some';
 import { compose } from 'recompose';
 import listContainer from '../listContainer';
 import onClickOutside from 'react-onclickoutside';
@@ -66,11 +67,10 @@ class AutoComplete extends React.Component {
   };
 
   handleClickOutside = () => {
-    const { onBlur } = this.props;
     const { isExpanded } = this.state;
     if (isExpanded) {
       this._setIsExpanded(false);
-      onBlur();
+      this.onBlur();
     }
   };
 
@@ -145,14 +145,24 @@ class AutoComplete extends React.Component {
   };
 
   onChange = input => {
-    const { onInput } = this.props;
+    const { onInput, tags, options, data, valueFieldId } = this.props;
     const onSetNewInputValue = input => {
       onInput(input);
       this._handleDataSearch(input);
     };
 
     if (!isEqual(this.state.input, input)) {
-      this.setState({ input }, () => onSetNewInputValue(input));
+      const getSelected = prevState =>
+        tags
+          ? prevState.value
+          : some(options || data, option => option[valueFieldId] === input)
+          ? [input]
+          : [];
+
+      this.setState(
+        prevState => ({ input, value: getSelected(prevState) }),
+        () => onSetNewInputValue(input)
+      );
     }
   };
 
@@ -295,7 +305,6 @@ class AutoComplete extends React.Component {
                   value={input}
                   onFocus={this.onFocus}
                   onClick={this.onClick}
-                  onBlur={this.onBlur}
                   onRemoveItem={this._removeSelectedItem}
                   isExpanded={isExpanded}
                   setTextareaRef={this.setTextareaRef(ref)}
@@ -321,7 +330,7 @@ class AutoComplete extends React.Component {
             <Popper
               placement="bottom-start"
               modifiers={MODIFIERS}
-              positionFixed={true}
+              strategy="fixed"
             >
               {({ ref, style, placement, scheduleUpdate }) => (
                 <div

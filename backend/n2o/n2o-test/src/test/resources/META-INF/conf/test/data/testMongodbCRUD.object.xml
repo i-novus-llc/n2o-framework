@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <operations>
+        <operation id="create">
+            <invocation>
+                <mongodb collection-name="user" operation="insertOne"/>
+            </invocation>
+            <in>
+                <field id="name" mapping="['name']"/>
+                <field id="age" mapping="['age']"/>
+                <field id="birthday" mapping="['birthday']" domain="date"/>
+                <field id="vip" mapping="['vip']" domain="boolean"/>
+                <field id="gender" mapping="['gender']" domain="object"/>
+            </in>
+            <out>
+                <field id="id" mapping="#this"/>
+            </out>
+        </operation>
+        <operation id="update">
+            <invocation>
+                <mongodb collection-name="user" operation="updateOne"/>
+            </invocation>
+            <in>
+                <field id="id" mapping="['id']"/>
+                <field id="name" mapping="['name']"/>
+                <field id="age" mapping="['age']"/>
+                <field id="birthday" mapping="['birthday']" domain="date"/>
+                <field id="vip" mapping="['vip']" domain="boolean"/>
+                <field id="gender" mapping="['gender']" domain="object"/>
+            </in>
+        </operation>
+        <operation id="delete">
+            <invocation>
+                <mongodb collection-name="user" operation="deleteOne"/>
+            </invocation>
+            <in>
+                <field id="id" mapping="['id']"/>
+            </in>
+        </operation>
+    </operations>
+</object>

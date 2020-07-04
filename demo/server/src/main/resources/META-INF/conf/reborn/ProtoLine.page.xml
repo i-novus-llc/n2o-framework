@@ -2,14 +2,14 @@
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Горизонтальный делитель">
     <regions>
         <line place="single" id="firstTab" collapsible="true">
-            <table id="first" name="Пациенты" query-id="ProtoPatient">
+            <table id="first" name="Клиенты" query-id="ProtoClient">
                 <pagination/>
                 <columns>
                     <column text-field-id="name"/>
                     <column text-field-id="surname"/>
                 </columns>
             </table>
-            <table id="second" name="Пациенты" query-id="ProtoPatient">
+            <table id="second" name="Клиенты" query-id="ProtoClient">
                 <pagination/>
                 <columns>
                     <column text-field-id="name"/>
@@ -19,7 +19,7 @@
                     </column>
                 </columns>
             </table>
-            <table id="third" name="Пациенты" query-id="ProtoPatient">
+            <table id="third" name="Клиенты" query-id="ProtoClient">
                 <pagination/>
                 <columns>
                     <column text-field-id="name"/>

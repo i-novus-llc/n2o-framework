@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withHandlers } from 'recompose';
+import { compose, withHandlers, getContext } from 'recompose';
 import isEqual from 'lodash/isEqual';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
@@ -10,6 +10,8 @@ import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
 import map from 'lodash/map';
 import set from 'lodash/set';
+import get from 'lodash/get';
+import isUndefined from 'lodash/isUndefined';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
@@ -19,9 +21,15 @@ import TableCell from '../Table/TableCell';
 import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
 import PropTypes from 'prop-types';
-import { makeGetFilterModelSelector } from '../../../selectors/models';
+import {
+  makeGetFilterModelSelector,
+  makeGetModelByPrefixSelector,
+} from '../../../selectors/models';
 import { getContainerColumns } from '../../../selectors/columns';
 import evalExpression from '../../../utils/evalExpression';
+import { replace } from 'connected-react-router';
+import { dataProviderResolver } from '../../../core/dataProviderResolver';
+import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
@@ -90,6 +98,7 @@ class AdvancedTableContainer extends React.Component {
   renderCell(props) {
     const { actions } = this.props;
     const propStyles = pick(props, ['width']);
+
     return <ReduxCell {...propStyles} {...props} actions={actions} />;
   }
 
@@ -110,6 +119,24 @@ class AdvancedTableContainer extends React.Component {
     //TODO something
   }
 
+  mapHeaders = (headers, isChild = false) =>
+    map(headers, header => {
+      let mappedChildren = null;
+
+      if (header.children || isChild) {
+        mappedChildren = this.mapHeaders(header.children || [], true);
+
+        return {
+          ...header,
+          dataIndex: header.id,
+          title: header.label,
+          children: header.children ? mappedChildren : undefined,
+        };
+      }
+
+      return header;
+    });
+
   mapColumns() {
     const {
       cells,
@@ -118,6 +145,7 @@ class AdvancedTableContainer extends React.Component {
       sorting,
       onSort,
       registredColumns,
+      filters,
     } = this.props;
 
     map(registredColumns, ({ frozen, visible }, key) => {
@@ -128,8 +156,34 @@ class AdvancedTableContainer extends React.Component {
       }
     });
 
-    return headers.map(header => {
-      const cell = find(cells, c => c.id === header.id);
+    return this.mapHeaders(headers).map(header => {
+      const cell = find(cells, c => c.id === header.id) || {};
+      let children = get(header, 'children', null);
+
+      const mapChildren = children =>
+        map(children, child => {
+          if (!isEmpty(child.children)) {
+            child.children = mapChildren(child.children);
+          }
+
+          return {
+            ...child,
+            title: (
+              <AdvancedTableHeaderCell
+                as="div"
+                {...child}
+                onFilter={this.handleSetFilter}
+                filters={filters}
+                filterControl={child.filterControl}
+              />
+            ),
+          };
+        });
+
+      if (children) {
+        header.children = mapChildren(children);
+      }
+
       return {
         ...header,
         title: this.renderCell({
@@ -145,7 +199,7 @@ class AdvancedTableContainer extends React.Component {
         dataIndex: header.id,
         columnId: header.id,
         key: header.id,
-        hasSpan: cell.hasSpan,
+        hasSpan: get(cell, 'hasSpan', false),
         render: (value, record, index) => ({
           needRender: header.needRender,
           children: this.renderCell({
@@ -165,7 +219,8 @@ class AdvancedTableContainer extends React.Component {
 
   mapData(datasource) {
     if (!datasource) return;
-    return datasource.map(item => {
+
+    return map(datasource, item => {
       return {
         ...item,
         key: item.id,
@@ -216,17 +271,49 @@ const mapStateToProps = (state, props) => {
   return {
     filters: makeGetFilterModelSelector(props.widgetId)(state, props),
     registredColumns: getContainerColumns(props.widgetId)(state, props),
+    multi: makeGetModelByPrefixSelector(PREFIXES.multi, props.widgetId)(
+      state,
+      props
+    ),
   };
 };
 
-const withWidgetHandlers = withHandlers({
-  onRowClickAction: ({ rowClick, onActionImpl }) => model => {
-    const { enablingCondition } = rowClick;
-    const allowRowClick = evalExpression(enablingCondition, model);
-    (allowRowClick && onActionImpl(rowClick)) ||
-      (allowRowClick === undefined && onActionImpl(rowClick));
-  },
-});
+export const withWidgetHandlers = compose(
+  getContext({
+    store: PropTypes.object,
+  }),
+  withHandlers({
+    onRowClickAction: ({ rowClick, dispatch, store }) => model => {
+      const state = store.getState();
+      const {
+        enablingCondition,
+        action,
+        url,
+        pathMapping,
+        queryMapping,
+        target,
+      } = rowClick;
+      const allowRowClick = evalExpression(enablingCondition, model);
+      const { url: compiledUrl } = dataProviderResolver(state, {
+        url,
+        pathMapping,
+        queryMapping,
+      });
+
+      if (action && (allowRowClick || isUndefined(allowRowClick))) {
+        dispatch(action);
+      } else if (url) {
+        if (target === 'application') {
+          dispatch(replace(compiledUrl));
+        } else if (target === '_blank') {
+          window.open(compiledUrl);
+        } else {
+          window.location = compiledUrl;
+        }
+      }
+    },
+  })
+);
 
 const enhance = compose(
   widgetContainer(
@@ -265,6 +352,7 @@ const enhance = compose(
           actions: props.actions,
           redux: true,
           rowSelection: props.rowSelection,
+          autoCheckboxOnSelect: props.autoCheckboxOnSelect,
           tableSize: props.tableSize,
           placeholder: props.placeholder,
           useFixedHeader: props.useFixedHeader,
@@ -273,10 +361,10 @@ const enhance = compose(
           multiHeader: props.multiHeader,
           bordered: props.bordered,
           rowClick: props.rowClick,
-          onActionImpl: props.onActionImpl,
           expandedFieldId: props.expandedFieldId,
           className: props.className,
           rows: props.rows,
+          dispatch: props.dispatch,
         };
       },
     },

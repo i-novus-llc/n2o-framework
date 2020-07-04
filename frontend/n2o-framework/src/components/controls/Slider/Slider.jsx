@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import omit from 'lodash/omit';
 import BaseSlider, { createSliderWithTooltip } from 'rc-slider';
-import { stringConverter, prepareStyle } from './utils';
+import { prepareStyle } from './utils';
 
 const SliderWithTooltip = createSliderWithTooltip(BaseSlider);
+const RangeSliderWithTooltip = createSliderWithTooltip(BaseSlider.Range);
 
 /**
  * Компонент Slider
@@ -49,7 +50,9 @@ function Slider(props) {
 
   const Component = multiple ? BaseSlider.Range : BaseSlider;
   const RenderSlider = showTooltip
-    ? SliderWithTooltip
+    ? multiple
+      ? RangeSliderWithTooltip
+      : SliderWithTooltip
     : Component;
 
   const tooltipProps = {
@@ -121,23 +124,13 @@ Slider.propTypes = {
    * Форматированный вывод тултипа
    */
   tooltipFormatter: PropTypes.string,
-  stringMode: PropTypes.bool,
 };
 
 Slider.defaultProps = {
   multiple: false,
   showTooltip: false,
   tooltipPlacement: 'top',
-  stringMode: true,
 };
 
-const WrapSlider = stringConverter([
-  'value',
-  'max',
-  'min',
-  'step',
-  'stoppingValue',
-])(Slider);
-
 export { Slider };
-export default WrapSlider;
+export default Slider;

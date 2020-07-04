@@ -8,6 +8,7 @@ import DropdownToggle from 'reactstrap/lib/DropdownToggle';
 import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import Badge from 'reactstrap/lib/Badge';
 import Button from 'reactstrap/lib/Button';
+import { MODIFIERS } from '../../controls/DatePicker/utils';
 
 /**
  * Компонент заголовок с фильтрацией
@@ -31,13 +32,19 @@ class AdvancedTableFilter extends Component {
     this.toggleFilter = this.toggleFilter.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.value !== this.props.value) {
+      this.setState({ value: this.props.value });
+    }
+  }
+
   toggleFilter() {
     this.setState({ filterOpen: !this.state.filterOpen });
   }
 
   onChangeFilter(value) {
     this.setState({
-      value: value ? value.toString() : '',
+      value,
     });
   }
 
@@ -50,16 +57,18 @@ class AdvancedTableFilter extends Component {
 
   onSetFilter() {
     const { onFilter, id } = this.props;
-    onFilter &&
-      onFilter({
-        id,
-        value: this.state.value,
-      });
+
+    onFilter({
+      id,
+      value: this.state.value,
+    });
   }
 
   render() {
-    const { children, component } = this.props;
+    const { children, control } = this.props;
     const { filterOpen, value } = this.state;
+    const { component, ...controlProps } = control;
+
     return (
       <React.Fragment>
         {children}
@@ -82,6 +91,8 @@ class AdvancedTableFilter extends Component {
           <DropdownMenu
             className="n2o-advanced-table-filter-dropdown"
             tag="div"
+            modifiers={MODIFIERS}
+            positionFixed={true}
             right={true}
           >
             <AdvancedTableFilterPopup
@@ -90,6 +101,7 @@ class AdvancedTableFilter extends Component {
               onResetFilter={this.onResetFilter}
               onSetFilter={this.onSetFilter}
               component={component}
+              controlProps={controlProps}
             />
           </DropdownMenu>
         </Dropdown>
@@ -103,10 +115,12 @@ AdvancedTableFilter.propTypes = {
   id: PropTypes.string,
   onFilter: PropTypes.func,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  control: PropTypes.object,
 };
 
 AdvancedTableFilter.defaultProps = {
   onFilter: () => {},
+  control: {},
 };
 
 export { AdvancedTableFilter };

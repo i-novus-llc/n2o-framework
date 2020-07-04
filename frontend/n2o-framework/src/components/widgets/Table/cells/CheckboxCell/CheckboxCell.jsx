@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import set from 'lodash/set';
+import unset from 'lodash/unset';
+import isUndefined from 'lodash/isUndefined';
 import isEqual from 'lodash/isEqual';
 import {
   compose,
@@ -11,17 +13,16 @@ import {
   setDisplayName,
 } from 'recompose';
 import withCell from '../../withCell';
+import withTooltip from '../../withTooltip';
 import CheckboxN2O from '../../../../controls/Checkbox/CheckboxN2O';
+import cn from 'classnames';
 
 function CheckboxCell({
-  callActionImpl,
-  updateFieldInModel,
   model,
   fieldKey,
   id,
   visible,
   disabled,
-  callInvoke,
   checked,
   handleClick,
   handleChange,
@@ -59,7 +60,6 @@ CheckboxCell.propTypes = {
    * Класс
    */
   className: PropTypes.string,
-  callInvoke: PropTypes.func,
   /**
    * Флаг видимости
    */
@@ -75,6 +75,7 @@ export { CheckboxCell };
 export default compose(
   setDisplayName('CheckboxCell'),
   withCell,
+  withTooltip,
   withState(
     'checked',
     'setChecked',
@@ -84,15 +85,7 @@ export default compose(
     handleClick: () => e => {
       e.stopPropagation();
     },
-    handleChange: ({
-      callActionImpl,
-      callInvoke,
-      action,
-      setChecked,
-      model,
-      fieldKey,
-      id,
-    }) => e => {
+    handleChange: ({ callAction, setChecked, model, fieldKey, id }) => e => {
       const checked = e.nativeEvent.target.checked;
 
       const data = set(
@@ -104,7 +97,7 @@ export default compose(
       );
 
       setChecked(checked);
-      callActionImpl(e, { action, model: data });
+      callAction(data);
     },
   }),
   lifecycle({

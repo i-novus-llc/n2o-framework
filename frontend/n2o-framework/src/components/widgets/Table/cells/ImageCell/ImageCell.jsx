@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, setDisplayName } from 'recompose';
+import { compose, setDisplayName, withHandlers } from 'recompose';
 import withCell from '../../withCell';
 import imageShapes from './imageShapes';
 import get from 'lodash/get';
+import withTooltip from '../../withTooltip';
 
 /**
  * Ячейка таблицы с картинкой
@@ -43,14 +44,14 @@ class ImageCell extends React.Component {
       model,
       id,
       shape,
-      callActionImpl,
+      onClick,
       action,
       visible,
     } = this.props;
 
     return (
       visible && (
-        <div
+        <span
           title={title}
           style={{ ...style, ...this.setCursor(action) }}
           className={className}
@@ -59,9 +60,9 @@ class ImageCell extends React.Component {
             src={get(model, fieldKey || id)}
             alt={title}
             className={getImageClass(shape)}
-            onClick={callActionImpl}
+            onClick={onClick}
           />
-        </div>
+        </span>
       )
     );
   }
@@ -105,5 +106,11 @@ ImageCell.defaultProps = {
 export { ImageCell };
 export default compose(
   setDisplayName('ImageCell'),
-  withCell
+  withCell,
+  withTooltip,
+  withHandlers({
+    onClick: ({ callAction, model }) => () => {
+      callAction(model);
+    },
+  })
 )(ImageCell);

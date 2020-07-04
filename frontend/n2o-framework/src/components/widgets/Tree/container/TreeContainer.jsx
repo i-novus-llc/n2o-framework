@@ -35,7 +35,7 @@ export const withWidgetContainer = widgetContainer(
         size: props.size,
         actions: props.actions,
         redux: true,
-        onActionImpl: props.onActionImpl,
+        dispatch: props.dispatch,
         rowClick: props.rowClick,
 
         childIcon: props.childIcon,
@@ -70,8 +70,8 @@ const mapToString = (data, params) =>
   isArray(data) ? map(data, toStringData(params)) : toStringData(params)(data);
 
 export const withWidgetHandlers = withHandlers({
-  onRowClickAction: ({ rowClick, onActionImpl }) => () => {
-    onActionImpl(rowClick);
+  onRowClickAction: ({ rowClick, dispatch }) => () => {
+    dispatch(rowClick.action);
   },
 
   onResolve: props => keys => {
@@ -81,7 +81,7 @@ export const withWidgetHandlers = withHandlers({
       valueFieldId,
       multiselect,
       rowClick,
-      onActionImpl,
+      dispatch,
     } = props;
     const value = filter(datasource, data =>
       some(keys, key => key == data[valueFieldId])
@@ -93,7 +93,7 @@ export const withWidgetHandlers = withHandlers({
       onResolve(value ? value[0] : null);
     }
 
-    if (rowClick) onActionImpl(rowClick);
+    if (rowClick) dispatch(rowClick.action);
   },
 });
 

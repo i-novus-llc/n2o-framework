@@ -3,12 +3,13 @@ package net.n2oapp.framework.config.metadata.compile.control;
 import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.InputText;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oControlsV2IOPack;
+import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ * Тестирование компиляции компонента ввода текста
+ */
 public class InputTextCompileTest extends SourceCompileTestBase {
     @Override
     @Before
@@ -29,8 +33,7 @@ public class InputTextCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
-                new N2oActionsPack(), new N2oAllDataPack(), new N2oControlsV2IOPack());
+        builder.packs(new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsV2IOPack());
         builder.compilers(new InputTextCompiler());
     }
 
@@ -40,47 +43,19 @@ public class InputTextCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testInputText"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         List<FieldSet.Row> rows = form.getComponent().getFieldsets().get(0).getRows();
+
         assertThat(field.getStyle().size(), is(2));
         assertThat(field.getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(field.getStyle().get("paddingTop"), is("0"));
-        assertThat(field.getDependencies().size(), is(10));
-        assertThat(field.getDependencies().get(0).getExpression(), is("test2 == null"));
-        assertThat(field.getDependencies().get(0).getOn().get(0), is("test2"));
-        assertThat(field.getDependencies().get(0).getType(), is(ValidationType.enabled));
-        assertThat(field.getDependencies().get(1).getExpression(), is("test3 == null"));
-        assertThat(field.getDependencies().get(1).getOn().get(0), is("test3"));
-        assertThat(field.getDependencies().get(1).getType(), is(ValidationType.required));
-        assertThat(field.getDependencies().get(2).getExpression(), is("test4 == null"));
-        assertThat(field.getDependencies().get(2).getOn().get(0), is("test4"));
-        assertThat(field.getDependencies().get(2).getType(), is(ValidationType.reset));
-        assertThat(field.getDependencies().get(3).getExpression(), is("test4 == null"));
-        assertThat(field.getDependencies().get(3).getOn().get(0), is("test4"));
-        assertThat(field.getDependencies().get(3).getType(), is(ValidationType.visible));
-        assertThat(field.getDependencies().get(4).getExpression(), is("test4 == null"));
-        assertThat(field.getDependencies().get(4).getOn().get(0), is("test4"));
-        assertThat(field.getDependencies().get(4).getType(), is(ValidationType.reset));
-        assertThat(field.getDependencies().get(5).getExpression(), is("test4 == null"));
-        assertThat(field.getDependencies().get(5).getOn().get(0), is("test4"));
-        assertThat(field.getDependencies().get(5).getType(), is(ValidationType.visible));
-        assertThat(field.getDependencies().get(6).getExpression(), is("test4 == null"));
-        assertThat(field.getDependencies().get(6).getOn().get(0), is("test4"));
-        assertThat(field.getDependencies().get(6).getType(), is(ValidationType.visible));
-        assertThat(field.getDependencies().get(7).getOn().get(0), is("test4"));
-        assertThat(field.getDependencies().get(7).getExpression(), is("test4 == null"));
-        assertThat(field.getDependencies().get(7).getType(), is(ValidationType.reset));
-        assertThat(field.getDependencies().get(8).getOn().get(0), is("test4"));
-        assertThat(field.getDependencies().get(8).getExpression(), is("true"));
-        assertThat(field.getDependencies().get(8).getType(), is(ValidationType.reset));
-        assertThat(field.getDependencies().get(9).getOn().get(0), is("name"));
-        assertThat(field.getDependencies().get(9).getOn().get(1), is("type"));
-        assertThat(field.getDependencies().get(9).getType(), is(ValidationType.reRender));
         InputText inputText = (InputText) ((StandardField) field).getControl();
         assertThat(inputText.getSrc(), is("InputText"));
+        assertThat(inputText.getMeasure(), is("cm"));
         InputText inputText1 = (InputText) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(inputText1.getSrc(), is("InputNumber"));
         assertThat(inputText1.getMax(), is(Integer.MAX_VALUE));
         assertThat(inputText1.getMin(), is(Integer.MIN_VALUE));
         assertThat(inputText1.getStep(), is("1"));
+        assertThat(inputText1.getMeasure(), is("cm"));
         assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
         assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
         assertThat(((StandardField) rows.get(4).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
@@ -100,5 +75,4 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(field.getLabel(), nullValue());
         assertThat(field.getLabelClass(), is("testLabelClass"));
     }
-
 }

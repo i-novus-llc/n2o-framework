@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.aware.JsonPropertiesAware;
-import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.Confirm;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
@@ -21,10 +20,10 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public class MenuItem implements IdAware, Serializable, JsonPropertiesAware {
+public class MenuItem extends Component implements IdAware, Serializable {
     @JsonProperty
     private String id;
-    @JsonProperty("title")
+    @JsonProperty
     private String label;
     @JsonProperty
     private String icon;
@@ -33,19 +32,13 @@ public class MenuItem implements IdAware, Serializable, JsonPropertiesAware {
     @JsonProperty
     private Object enabled;
     @JsonProperty
-    private String actionId;
-    @JsonProperty
     private Action action;
-    @JsonProperty
-    private String className;
-    @JsonProperty
-    private Map<String, String> style;
     @JsonProperty
     private String hint;
     @JsonProperty
     private String hintPosition;
     @JsonProperty
-    private Map<ValidationType, List<ButtonCondition>> conditions = new HashMap<>();
+    private Map<ValidationType, List<Condition>> conditions = new HashMap<>();
     @JsonProperty
     private Confirm confirm;
     @JsonProperty
@@ -53,10 +46,8 @@ public class MenuItem implements IdAware, Serializable, JsonPropertiesAware {
     @JsonProperty
     private String validatedWidgetId;
 
-    private Map<String, Object> properties;
-
     @JsonAnyGetter
     public Map<String, Object> getJsonProperties() {
-        return properties;
+        return getProperties();
     }
 }

@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.global.aware.IdAware;
 import net.n2oapp.framework.api.metadata.persister.ElementPersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 
 import java.util.Arrays;
@@ -171,7 +171,7 @@ public class PersisterJdomUtil {
             try {
                 persister = (NamespacePersister<E>) persisterFactory.produce(value);
             } catch (EngineNotFoundException ex) {
-                persister = (NamespacePersister<E>) persisterFactory.produce(Namespace.getNamespace(defaultNamespaceUri), value.getClass());
+                persister = (NamespacePersister<E>) persisterFactory.produce(value.getClass(), Namespace.getNamespace(defaultNamespaceUri));
             }
             Element subChild = persister.persist(value, element.getNamespace());
             if (childName != null)

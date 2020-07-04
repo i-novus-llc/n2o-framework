@@ -10,7 +10,6 @@
         {
           "id": "testBut",
           "title": "Кнопка",
-          "actionId": "testBut",
           "icon": "fa fa-vk",
           "hint": "Подсказка",
           "hintPosition": "top",
@@ -31,13 +30,5 @@
         }
       ]
     }
-  ],
-  "actions": {
-    "testBut": {
-      "src": "dummyImpl",
-      "options": {
-        "testProp": "testValueProp"
-      }
-    }
-  }
+  ]
 }

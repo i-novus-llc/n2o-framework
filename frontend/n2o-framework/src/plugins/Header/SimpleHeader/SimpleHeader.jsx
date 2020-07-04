@@ -1,4 +1,7 @@
 import React from 'react';
+
+import isEmpty from 'lodash/isEmpty';
+
 import PropTypes from 'prop-types';
 import Navbar from 'reactstrap/lib/Navbar';
 import Nav from 'reactstrap/lib/Nav';
@@ -9,7 +12,6 @@ import Input from 'reactstrap/lib/Input';
 import NavbarBrand from 'reactstrap/lib/NavbarBrand';
 import NavbarToggler from 'reactstrap/lib/NavbarToggler';
 import Collapse from 'reactstrap/lib/Collapse';
-import SecurityCheck from '../../../core/auth/SecurityCheck';
 
 import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
@@ -30,6 +32,7 @@ import NavItemContainer from './NavItemContainer';
  * @example
  * //каждый item состоит из id {string}, label {string}, type {string} ('text', 'type' или 'dropdown'),
  * //href {string}(для ссылок), linkType {string}(для ссылок; значения - 'outer' или 'inner')
+ * //badge {string} (текст баджа), badgeColor {string} (цвет баджа), target {string} ('newWindow' или null)
  * //subItems {array} (массив из элементов дропдауна)
  *<SimpleHeader  items = { [
  *     {
@@ -37,6 +40,7 @@ import NavItemContainer from './NavItemContainer';
  *       label: 'link',
  *       href: '/test',
  *       type: 'link',
+ *       target: 'newWindow',
  *     },
  *     {
  *       id: 'dropdown',
@@ -106,6 +110,7 @@ class SimpleHeader extends React.Component {
       style,
       className,
       search,
+      homePageUrl,
     } = this.props;
     const isInversed = color === 'inverse';
     const navColor = isInversed ? 'primary' : 'light';
@@ -135,13 +140,22 @@ class SimpleHeader extends React.Component {
           dark={isInversed}
           expand="md"
         >
-          <NavbarBrand href="/">
-            <NavbarBrandContent brand={brand} brandImage={brandImage} />
-          </NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
+          {brandImage && (
+            <NavbarBrand className="n2o-brand" href={homePageUrl}>
+              <NavbarBrandContent brandImage={brandImage} />
+            </NavbarBrand>
+          )}
+          {brand && (
+            <a href={homePageUrl} className="navbar-brand">
+              {brand}
+            </a>
+          )}
+          {!isEmpty(items) && <NavbarToggler onClick={this.toggle} />}
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav navbar>{navItems}</Nav>
-            <Nav className="ml-auto" navbar>
+            <Nav className="main-nav" navbar>
+              {navItems}
+            </Nav>
+            <Nav className="ml-auto main-nav-extra" navbar>
               {extraNavItems}
               {search && (
                 <NavItem>
@@ -189,6 +203,7 @@ SimpleHeader.propTypes = {
       subItems: PropTypes.array,
       badge: PropTypes.string,
       badgeColor: PropTypes.string,
+      target: PropTypes.string,
     })
   ),
   /**
@@ -204,12 +219,17 @@ SimpleHeader.propTypes = {
       subItems: PropTypes.array,
       badge: 'badge',
       badgeColor: 'color',
+      target: PropTypes.string,
     })
   ),
   /**
    * Строка поиска
    */
   search: PropTypes.bool,
+  /**
+   * Адрес ссылка бренда
+   */
+  homePageUrl: PropTypes.string,
   /**
    * Цвет хедера
    */
@@ -235,6 +255,7 @@ SimpleHeader.propTypes = {
 SimpleHeader.defaultProps = {
   color: 'default',
   fixed: true,
+  homePageUrl: '/',
   collapsed: true,
   className: '',
   items: [],

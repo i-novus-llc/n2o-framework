@@ -27,9 +27,9 @@ public class CustomRegionJsonTest extends JsonMetadataTestBase {
     public void noneRegion() {
         check("net/n2oapp/framework/config/mapping/testCustomRegionJson.page.xml",
                 "components/regions/CustomRegion/CustomRegion.meta.json")
-                .cutXml("layout.regions.single[0]")
+                .cutXml("regions.single[0]")
                 .changeValue("items[0].widgetId", "testLineRegionJson_html")
-                .exclude("items[0].widgetId", "items[0].opened", "items[1]", "items[0].id")
+                .exclude("id", "items[0].widgetId", "items[0].opened", "items[1]", "items[0].id")
                 .assertEquals();
     }
 

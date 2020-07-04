@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<html xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <![CDATA[
+        <div class='jumbotron'><h4>user:{}{digit key 125}{there is no such key} {username} {surname} / username: {username} / surname: {surname}</h4></div><div class='jumbotron'><ul><li>{username}</li><li>{surname}{test-key}</li></ul></div><div class='jumbotron'>{html}</div>
+    ]]>
+</html>

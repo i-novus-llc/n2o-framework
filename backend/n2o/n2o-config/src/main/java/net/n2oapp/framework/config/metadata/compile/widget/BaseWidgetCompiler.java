@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
@@ -27,11 +26,11 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.*;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -40,6 +39,7 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
+import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
@@ -69,11 +69,16 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setProperties(p.mapAttributes(source));
         compiled.setObjectId(object != null ? object.getId() : null);
+        if (p.getScope(WidgetObjectScope.class) != null)
+            p.getScope(WidgetObjectScope.class).put(source.getId(), object);
         compiled.setQueryId(source.getQueryId());
         compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));
         compiled.setRoute(initWidgetRoute(source, p));
         compileMasterLink(compiled, p);
-        compiled.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyWidgetSrc()), String.class)));
+        String defaultWidgetSrc = null;
+        if (getPropertyWidgetSrc() != null)
+            defaultWidgetSrc = p.resolve(property(getPropertyWidgetSrc()), String.class);
+        compiled.setSrc(p.cast(source.getSrc(), defaultWidgetSrc));
         compiled.setOpened(source.getOpened());
         compiled.setIcon(source.getIcon());
         compiled.setUpload(p.cast(source.getUpload(), source.getQueryId() != null ? UploadType.query : UploadType.defaults));
@@ -99,7 +104,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             //Если есть master/detail зависимость, то для восстановления необходимо в маршруте добавить идентификатор мастер записи
             String selectedId = normalizeParam(p.cast(source.getMasterParam(), widgetScope.getDependsOnWidgetId() + "_id"));
             return normalize(colon(selectedId)) + normalize(source.getId());
-
         }
         return normalize(source.getId());
     }
@@ -286,8 +290,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
         Toolbar compiledToolbar = new Toolbar();
         IndexScope index = new IndexScope();
+        ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.widget.toolbar.place"), String.class));
         for (N2oToolbar toolbar : source.getToolbars()) {
-            compiledToolbar.putAll(p.compile(toolbar, context, widgetScope, widgetRouteScope, compiledActions, object, index, validations));
+            compiledToolbar.putAll(p.compile(toolbar, context, widgetScope, widgetRouteScope, compiledActions, object,
+                    index, validations, toolbarPlaceScope));
         }
         compiled.setToolbar(compiledToolbar);
     }
@@ -361,27 +367,35 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return null;
     }
 
-    private WidgetDataProvider initDataProvider(D widget, S source, CompileContext<?, ?> context, String widgetRoute, CompiledQuery query,
+    private ClientDataProvider initDataProvider(D widget, S source, CompileContext<?, ?> context, String widgetRoute, CompiledQuery query,
                                                 CompileProcessor p, ValidationList validationList,
                                                 ParentRouteScope parentRouteScope, SubModelsScope subModelsScope,
                                                 CopiedFieldScope copiedFieldScope, CompiledObject object) {
         if (query == null)
             return null;
-        WidgetDataProvider dataProvider = new WidgetDataProvider();
+        ClientDataProvider dataProvider = new ClientDataProvider();
         //Адресом URL для провайдера данных виджета будет маршрут виджета на странице
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + normalize(widgetRoute));
         //Копируем соответствие параметров URL из маршрута страницы в провайдер данных виджета
-        Map<String, BindLink> pathMap = new StrictMap<>();
+        Map<String, ModelLink> pathMap = new StrictMap<>();
         if (parentRouteScope != null && parentRouteScope.getPathMapping() != null) {
             pathMap.putAll(parentRouteScope.getPathMapping());
         }
         dataProvider.setPathMapping(pathMap);
         if (widget.getFilters() != null) {
-            Map<String, BindLink> queryMap = new StrictMap<>();
+            Map<String, ModelLink> queryMap = new StrictMap<>();
             ((List<Filter>) widget.getFilters()).stream().filter(f -> !pathMap.containsKey(f.getParam()))
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);
         }
+
+        SearchBarScope searchBarScope = p.getScope(SearchBarScope.class);
+        if (searchBarScope != null) {
+            ModelLink modelLink = new ModelLink(searchBarScope.getModelPrefix(), searchBarScope.getWidgetId());
+            modelLink.setFieldValue(searchBarScope.getModelKey());
+            dataProvider.getQueryMapping().put(searchBarScope.getModelKey(), modelLink);
+        }
+
         p.addRoute(getQueryContext(widget, source, context, widgetRoute, query, validationList, subModelsScope,
                 copiedFieldScope, p, object));
         return dataProvider;
@@ -633,7 +647,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     filter.setRoutable(p.cast(preFilter.getRoutable(), false));
                     filter.setFilterId(queryFilter.getFilterField());
                     Object prefilterValue = getPrefilterValue(preFilter);
-                    if (StringUtils.isJs(prefilterValue)) {
+                    ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+                    if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
+                        filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
+                    } else if (StringUtils.isJs(prefilterValue)) {
                         String widgetId = masterWidgetId;
                         if (preFilter.getRefWidgetId() != null) {
                             widgetId = preFilter.getRefPageId() == null ?
@@ -663,13 +680,5 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         } else {
             return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
         }
-    }
-
-    protected Pagination createPaging(Integer size, Boolean prev, Boolean next, String property, CompileProcessor p) {
-        Pagination pagination = new Pagination();
-        pagination.setSize(size != null ? size : p.resolve(Placeholders.property(property), Integer.class));
-        pagination.setPrev(prev);
-        pagination.setNext(next);
-        return pagination;
     }
 }

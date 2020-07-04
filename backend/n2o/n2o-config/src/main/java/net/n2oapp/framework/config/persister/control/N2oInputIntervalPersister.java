@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.persister.control;
 
 import net.n2oapp.framework.api.metadata.control.interval.N2oInputInterval;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setAttribute;
 

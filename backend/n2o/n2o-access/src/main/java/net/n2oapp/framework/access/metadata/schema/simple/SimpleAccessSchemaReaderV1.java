@@ -6,8 +6,8 @@ import net.n2oapp.framework.access.metadata.schema.permission.PermissionReader;
 import net.n2oapp.framework.access.metadata.schema.role.RoleReader;
 import net.n2oapp.framework.access.metadata.schema.user.UserReader;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getChildren;

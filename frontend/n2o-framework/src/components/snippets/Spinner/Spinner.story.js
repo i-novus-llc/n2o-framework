@@ -92,7 +92,7 @@ stories
       loading: true,
       type: 'cover',
       text: 'text',
-      delay: 1000,
+      delay: 5000,
     };
     return (
       <Fragment>

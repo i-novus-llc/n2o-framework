@@ -8,8 +8,9 @@ import net.n2oapp.framework.config.io.IOProcessorImpl;
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.ElementNameQualifier;
 import org.custommonkey.xmlunit.XMLUnit;
-import org.jdom.Element;
-import org.jdom.output.XMLOutputter;
+import org.jdom2.Element;
+import org.jdom2.output.XMLOutputter;
+import org.jdom2.util.NamespaceStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -49,16 +50,7 @@ public class SelectivePersister implements PersistersBuilder<SelectivePersister>
         }
     };
 
-    private static final XMLOutputter XML_OUTPUTTER = new XMLOutputter(N2O_FORMAT) {
-
-        @Override
-        protected void printElement(Writer out, Element element, int level, NamespaceStack namespaces) throws IOException {
-            if (element instanceof MockElement)
-                return;
-            super.printElement(out, element, level, namespaces);
-        }
-    };
-
+    private static final XMLOutputter XML_OUTPUTTER = new XMLOutputter(N2O_FORMAT);
 
     private PersisterFactoryByMap persisterFactory;
     private IOProcessor persisterProcessor;
@@ -117,7 +109,7 @@ public class SelectivePersister implements PersistersBuilder<SelectivePersister>
 
     @SuppressWarnings("unchecked")
     private String toString(NamespaceUriAware n2o) {
-        Element element = persisterFactory.produce(n2o.getNamespace(),  n2o.getClass()).persist(n2o,n2o.getNamespace());
+        Element element = persisterFactory.produce(n2o.getClass(),  n2o.getNamespace()).persist(n2o,n2o.getNamespace());
         return XML_OUTPUTTER.outputString(element);
     }
 

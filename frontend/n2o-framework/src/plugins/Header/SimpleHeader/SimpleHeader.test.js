@@ -23,7 +23,7 @@ const setup = (propOverrides, defaultProps = props) => {
 };
 
 describe('<SimpleHeader />', () => {
-  it('проверяет создание компонента', () => {
+  it.skip('проверяет создание компонента', () => {
     const { wrapper } = setup();
     wrapper.update();
     expect(shallowToJson(wrapper)).toMatchSnapshot();

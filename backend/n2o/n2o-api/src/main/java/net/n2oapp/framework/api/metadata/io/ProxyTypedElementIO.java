@@ -2,8 +2,8 @@ package net.n2oapp.framework.api.metadata.io;
 
 import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Проксирующий считыватель типизированных элементов

@@ -50,6 +50,9 @@ es/
 esdoc/
 storybook/
 
+#Test results
+allure-results
+
 # Compiled output
 public/dist
 public/index.html
@@ -65,3 +68,8 @@ firebase-debug.log
 
 # Jest
 .jest-test-results.json
+
+#MacOs
+*.DS_Store*
+
+

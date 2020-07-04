@@ -15,6 +15,9 @@
                     <button id="update">
                         <open-page page-id="testToolbarAccessTransformer" submit-operation-id="update"/>
                     </button>
+                    <button>
+                        <a href="/test/access"/>
+                    </button>
                 </toolbar>
             </table>
         </panel>

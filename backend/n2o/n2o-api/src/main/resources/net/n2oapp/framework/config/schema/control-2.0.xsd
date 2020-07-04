@@ -3,6 +3,7 @@
            targetNamespace="http://n2oapp.net/framework/config/schema/control-2.0"
            xmlns:obj="http://n2oapp.net/framework/config/schema/object-3.0"
            xmlns:act="http://n2oapp.net/framework/config/schema/action-1.0"
+           xmlns:btn="http://n2oapp.net/framework/config/schema/button-1.0"
            xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0">
 
 
@@ -10,7 +11,9 @@
     <xs:element name="text-area" type="controlTextAreaDefinition"/>
     <xs:element name="text-editor" type="controlTextEditorDefinition"/>
     <xs:element name="code-editor" type="controlCodeEditor"/>
+    <xs:element name="code" type="controlCodeViewer"/>
     <xs:element name="input-text" type="controlInputTextDefinition"/>
+    <xs:element name="input-money" type="controlInputMoneyDefinition"/>
     <xs:element name="output-text" type="controlOutputTextDefinition"/>
     <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
     <xs:element name="checkbox" type="controlCheckboxDefinition"/>
@@ -31,7 +34,12 @@
     <xs:element name="field" type="fieldCustom"/>
     <xs:element name="text" type="controlText"/>
     <xs:element name="rating" type="controlRating"/>
+    <xs:element name="alert" type="controlAlertDefinition"/>
     <xs:element name="auto-complete" type="controlAutoCompleteDefinition"/>
+    <xs:element name="progress" type="controlProgressDefinition"/>
+    <xs:element name="status" type="controlStatusDefinition"/>
+    <xs:element name="button" type="btn:buttonDefinition"/>
+    <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -39,6 +47,7 @@
             <xs:element name="text-area" type="controlTextAreaDefinition" minOccurs="0"/>
             <xs:element name="text-editor" type="controlTextEditorDefinition" minOccurs="0"/>
             <xs:element name="code-editor" type="controlCodeEditor" minOccurs="0"/>
+            <xs:element name="code" type="controlCodeViewer" minOccurs="0"/>
             <xs:element name="input-text" type="controlInputTextDefinition" minOccurs="0"/>
             <xs:element name="input-money" type="controlInputMoneyDefinition" minOccurs="0"/>
             <xs:element name="output-text" type="controlOutputTextDefinition" minOccurs="0"/>
@@ -56,12 +65,17 @@
             <xs:element name="input-select" type="controlInputSelectDefinition" minOccurs="0"/>
             <xs:element name="input-select-tree" type="inputSelectTreeDefinition" minOccurs="0"/>
             <xs:element name="search-buttons" type="controlSearchButtonsDefinition" minOccurs="0"/>
-            <!--<xs:element name="html" type="controlHtml" minOccurs="0"/>-->
+            <xs:element name="html" type="controlHtml" minOccurs="0"/>
             <xs:element name="field" type="fieldCustom" minOccurs="0"/>
             <xs:element name="text" type="controlText" minOccurs="0"/>
             <xs:element name="slider" type="controlSliderDefinition" minOccurs="0"/>
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
+            <xs:element name="alert" type="controlAlertDefinition" minOccurs="0"/>
             <xs:element name="auto-complete" type="controlAutoCompleteDefinition" minOccurs="0"/>
+            <xs:element name="progress" type="controlProgressDefinition" minOccurs="0"/>
+            <xs:element name="status" type="controlStatusDefinition" minOccurs="0"/>
+            <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
+            <xs:element name="interval-field" type="controlRangeFieldDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -70,6 +84,7 @@
             <xs:element name="dependencies" type="controlDependenciesDefinition" minOccurs="0"/>
             <xs:element name="validations" type="controlValidationsDefinition" minOccurs="0"/>
             <xs:element name="toolbar" type="controlToolbarDefinition" minOccurs="0"/>
+            <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
@@ -154,6 +169,11 @@
                 <xs:attribute name="default-value" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Зависимость от полей</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -247,6 +267,11 @@
                         <xs:documentation>Поле выборки, отвечающее за иконку вариантов выбора</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="status-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор status поля.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="cache" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Кэшировать результаты выборки</xs:documentation>
@@ -260,6 +285,18 @@
                 <xs:attribute name="search" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Возможность поиска по значению</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля, которое определяет (true/false) выбираем мы узел или нет.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -285,6 +322,16 @@
                         </xs:complexType>
                     </xs:element>
                 </xs:sequence>
+                <xs:attribute name="begin-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию начала интервала</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="end-param" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию конца интервала</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -300,14 +347,22 @@
     <xs:complexType name="controlDependenciesDefinition" abstract="true">
         <xs:sequence>
             <xs:element name="enabling" type="baseDependencyDefinition" minOccurs="0"/>
-            <xs:element name="visibility" type="visibilityDependencyDefinition" minOccurs="0"/>
+            <xs:element name="visibility" type="controlVisibilityDependencyDefinition" minOccurs="0"/>
             <xs:element name="set-value" type="baseDependencyDefinition" minOccurs="0"/>
             <xs:element name="requiring" type="baseDependencyDefinition" minOccurs="0"/>
-            <xs:element name="fetch" type="baseDependencyDefinition" minOccurs="0"/>
+            <xs:element name="fetch" type="baseDependencyDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>
+                        Обновление модели компонента при изменении зависимых полей.
+                        Нужен для списковых компонентов с открытым списком (radio-group, checkbox-group),
+                        у которых есть фильтры от других полей.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element name="reset" type="baseDependencyDefinition" minOccurs="0"/>
             <xs:element name="fetch-value" type="fetchValueDependencyDefinition" minOccurs="0">
                 <xs:annotation>
-                    <xs:documentation>Обновление модели поля ввода</xs:documentation>
+                    <xs:documentation>Обновление модели поля ввода.</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
@@ -315,8 +370,23 @@
 
     <xs:complexType name="controlToolbarDefinition" abstract="true">
         <xs:sequence>
-            <xs:element name="button" type="controlToolbarButtonDefinition"/>
+            <xs:element name="button" type="controlToolbarButtonDefinition" minOccurs="0"/>
+            <xs:element name="sub-menu" type="controlSubmenuDefinition" minOccurs="0"/>
         </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="controlSubmenuDefinition">
+        <xs:annotation>
+            <xs:documentation>Кнопка с выпадающим меню.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="btn:baseSubMenuDefinition">
+                <xs:sequence>
+                    <xs:element name="menu-item" type="btn:menuItemDefinition" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="controlOptionsListInlineDefinition">
@@ -384,6 +454,11 @@
                         <xs:documentation>Поле выборки, содержащее наименование файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="sort-field-id" type="xs:string" use="optional">
+                    <xs:annotation>
+                        <xs:documentation>Поле сортировки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="message-field-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, содержащее сообщение файла.</xs:documentation>
@@ -428,26 +503,22 @@
                         <xs:documentation>Маска текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="measure" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Единица измерения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="controlCodeEditor">
         <xs:complexContent>
-            <xs:extension base="controlTextDefinition">
-                <xs:attribute name="language" use="optional">
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="language" type="codeLanguage" use="optional">
                     <xs:annotation>
                         <xs:documentation>Язык кода.</xs:documentation>
                     </xs:annotation>
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="sql"/>
-                            <xs:enumeration value="xml"/>
-                            <xs:enumeration value="javascript"/>
-                            <xs:enumeration value="groovy"/>
-                            <xs:enumeration value="java"/>
-                        </xs:restriction>
-                    </xs:simpleType>
                 </xs:attribute>
                 <xs:attribute name="min-lines" type="xs:positiveInteger" use="optional">
                     <xs:annotation>
@@ -463,6 +534,62 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="controlCodeViewer">
+        <xs:complexContent>
+            <xs:extension base="controlDefinition">
+                <xs:sequence>
+                    <xs:element name="children" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
+                <xs:attribute name="language" type="codeLanguage">
+                    <xs:annotation>
+                        <xs:documentation>Язык кода.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="theme" type="colorTheme" default="light">
+                    <xs:annotation>
+                        <xs:documentation>Цвет фона.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="show-line-numbers" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Отображение нумерации строк.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="starting-line-number" type="xs:integer" default="1">
+                    <xs:annotation>
+                        <xs:documentation>Значение, с которого будет производиться нумерация.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="hide-buttons" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Скрытие кнопок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="hide-overflow" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Скрытие вертикальной полосы прокрутки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="colorTheme">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="light"/>
+            <xs:enumeration value="dark"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="codeLanguage">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="sql"/>
+            <xs:enumeration value="xml"/>
+            <xs:enumeration value="javascript"/>
+            <xs:enumeration value="groovy"/>
+            <xs:enumeration value="java"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <!--<xs:complexType name="updateModelPreFilterDefinition">-->
     <!--<xs:complexContent>-->
@@ -542,6 +669,86 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="controlAlertDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="header" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст заголовка.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="footer" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Текст нижней части.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет оповещения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fade" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Включение плавного отображения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="tag" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Тэг.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlRangeFieldDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:sequence>
+                    <xs:element name="begin" type="controls" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="end" type="controls" minOccurs="1" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlProgressDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="max" type="xs:integer" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Максимальное значение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="bar-text" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Описание шкалы прогресса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="animated" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Включает анимацию. При включении отображает полоски.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="striped" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Отображение полосок на шкале прогресса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет шкалы прогресса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="bar-class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Класс шкалы прогресса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="fieldCustom">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
@@ -605,6 +812,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="measure" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Единица измерения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -636,12 +848,36 @@
     <xs:complexType name="controlInputMoneyDefinition">
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="suffix" type="xs:string"/>
-                <xs:attribute name="prefix" type="xs:string"/>
-                <xs:attribute name="thousands-separator" type="xs:string"/>
-                <xs:attribute name="decimal-separator" type="xs:string"/>
-                <xs:attribute name="integer-limit" type="xs:integer"/>
-                <xs:attribute name="fraction-formatting" type="fractionFormattingType" default="off"/>
+                <xs:attribute name="suffix" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Суффикс.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="prefix" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Префикс.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="thousands-separator" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Знак, отделяющий группу из трех разрядов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="decimal-separator" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Знак, отделяющий дробную часть.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="integer-limit" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ограничение по количеству знаков целой части.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fraction-formatting" type="fractionFormattingType" default="off">
+                    <xs:annotation>
+                        <xs:documentation>Форматирование дробной части.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -675,6 +911,31 @@
                 <xs:attribute name="format" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Формат выводимого текста.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlStatusDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:annotation>
+                    <xs:documentation>Компонент отображения статуса.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="color" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Цвет индикатора.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Текст статуса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text-position" type="positionType" default="right">
+                    <xs:annotation>
+                        <xs:documentation>Расположение текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -812,7 +1073,10 @@
     <xs:complexType name="controlSelectDefinition">
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
-                <xs:attribute name="type" type="inputSelectType">
+                <xs:annotation>
+                    <xs:documentation>Компонент выбора из выпадающего списка.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="type" type="inputSelectType" default="single">
                     <xs:annotation>
                         <xs:documentation>Тип выбора в выпадающем списке.</xs:documentation>
                     </xs:annotation>
@@ -820,6 +1084,38 @@
                 <xs:attribute name="cleanable" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Опция очистки компонента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-format" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Все варианты select-format будут работать только когда тип checkboxes.
+                            Нужно использовать либо универсальный заголовок, либо 3 вида
+                            заголовков при разном числе элементов.
+                            Если не задать ни один, то число выбранных элементов не будет отображаться
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-format-one" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при одном элементе.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-format-few" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при нескольких элементах.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="select-format-many" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок поля при большом числе элементов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="description-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля для отображения дополнительной информации в опциях выпадающего списка.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -888,6 +1184,13 @@
                         <xs:documentation>Стирание значения при потере фокуса.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="description-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля для отображения дополнительной информации в опциях выпадающего списка.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -896,36 +1199,29 @@
         <xs:complexContent>
             <xs:extension base="controlListFieldDefinition">
                 <xs:sequence>
-                    <xs:element name="default-model" type="defaultModelDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="default-model" type="defaultModelDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="parent-field-id" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Идентификатор родительского поля.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="has-children-field-id" type="xs:string" use="optional">
+                <xs:attribute name="has-children-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Наличие дочерних элементов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="enabled-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Идентификатор поля, которое определяет (true/false) выбираем мы узел или нет.
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="master-field-id" type="xs:string" use="optional">
+                <xs:attribute name="master-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор master поля.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="detail-field-id" type="xs:string" use="optional">
+                <xs:attribute name="detail-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор detail поля.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="value-field-id" type="xs:string" use="optional">
+                <xs:attribute name="value-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор узла дерева.</xs:documentation>
                     </xs:annotation>
@@ -936,21 +1232,26 @@
                         <xs:documentation>Поддержка загрузки через ajax запрос.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="checkboxes" type="xs:boolean" use="optional" default="false">
+                <xs:attribute name="checkboxes" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
                             Отображение чекбоксов в элементах дерева. Переводит InputSelectTree в мульти режим.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="checking-strategy" type="checkingStrategyType" use="optional" default="all">
+                <xs:attribute name="checking-strategy" type="checkingStrategyType" default="all">
                     <xs:annotation>
                         <xs:documentation>Стратегия выбора данных из дерева.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="max-tag-count" type="xs:integer" use="optional">
+                <xs:attribute name="max-tag-count" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Максимальное количество элементов в поле.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная длина текста элемента (в режиме чекбоксов).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -1123,10 +1424,10 @@
         <xs:attribute name="apply-on-init" type="xs:boolean" default="true"/>
     </xs:complexType>
 
-    <xs:complexType name="visibilityDependencyDefinition" abstract="true">
+    <xs:complexType name="controlVisibilityDependencyDefinition" abstract="true">
         <xs:complexContent>
             <xs:extension base="baseDependencyDefinition">
-                <xs:attribute name="reset" type="xs:boolean" default="true">
+                <xs:attribute name="reset" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Сбросить значение при срабатывании зависимости.</xs:documentation>
                     </xs:annotation>
@@ -1165,7 +1466,7 @@
             <xs:element name="close" type="act:closeDefinition" minOccurs="0"/>
             <xs:element name="set-value" type="act:setValueDefinition" minOccurs="0"/>
             <xs:element name="execute-query" type="act:executeQueryDefinition" minOccurs="0"/>
-            <xs:element name="custom" type="act:customDefinition" minOccurs="0"/>
+            <xs:element name="perform" type="act:performDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">
 
@@ -1193,11 +1494,6 @@
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>CSS стиль</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="action-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Действие виджета, которое будет вызвано при нажатии</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="model" type="clientModel">

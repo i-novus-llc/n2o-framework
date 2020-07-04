@@ -3,6 +3,7 @@
         <object-access object-id="testToolbarAccessTransformer" actions="*"/>
     </user>
     <role id="role">
+        <url-access pattern="/test/*"/>
     </role>
     <role id="admin">
         <object-access object-id="testToolbarAccessTransformer" actions="create"/>

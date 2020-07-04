@@ -2,36 +2,32 @@
     <role id="role">
         <object-access object-id="testObjectAccessTransformer" remove-filters="idFilter"/>
         <object-access object-id="testObjectAccessTransformer" operations="create,update" remove-filters="nameFilter"/>
-        <object-access object-id="test"/>
         <object-filters object-id="testObjectAccessTransformer">
-            <eq field-id="id" id="idFilter"/>
-            <eq field-id="name" id="nameFilter"/>
+            <eq field-id="id" id="idFilter" value="test"/>
+            <eq field-id="name" id="nameFilter" value="test"/>
         </object-filters>
     </role>
     <role id="role2">
         <object-access object-id="testObjectAccessTransformer" remove-filters="idFilter2,nameFilter2"/>
-        <object-access object-id="test"/>
         <object-filters object-id="testObjectAccessTransformer">
-            <eq field-id="id" id="idFilter2"/>
-            <eq field-id="name" id="nameFilter2"/>
+            <eq field-id="id" id="idFilter2" value="test"/>
+            <eq field-id="name" id="nameFilter2" value="test"/>
         </object-filters>
     </role>
 
     <permission id="permission">
         <object-access object-id="testObjectAccessTransformer" remove-filters="permIdFilter"/>
         <object-access object-id="testObjectAccessTransformer" operations="update" remove-filters="permNameFilter"/>
-        <object-access object-id="test"/>
         <object-filters object-id="testObjectAccessTransformer">
-            <eq field-id="id" id="permIdFilter"/>
-            <eq field-id="name" id="permNameFilter"/>
+            <eq field-id="id" id="permIdFilter" value="test"/>
+            <eq field-id="name" id="permNameFilter" value="test"/>
         </object-filters>
     </permission>
     <permission id="permission2">
         <object-access object-id="testObjectAccessTransformer" remove-filters="permIdFilter2,permNameFilter2"/>
-        <object-access object-id="test"/>
         <object-filters object-id="testObjectAccessTransformer">
-            <eq field-id="id" id="permIdFilter2"/>
-            <eq field-id="name" id="permNameFilter2"/>
+            <eq field-id="id" id="permIdFilter2" value="test"/>
+            <eq field-id="name" id="permNameFilter2" value="test"/>
         </object-filters>
     </permission>
 
@@ -41,8 +37,8 @@
     <user username="user2">
         <object-access object-id="testObjectAccessTransformer" operations="*" remove-filters="userIdFilter2,userNameFilter2"/>
         <object-filters object-id="testObjectAccessTransformer">
-            <eq field-id="id" id="userIdFilter2"/>
-            <eq field-id="name" id="userNameFilter2"/>
+            <eq field-id="id" id="userIdFilter2" value="test"/>
+            <eq field-id="name" id="userNameFilter2" value="test"/>
         </object-filters>
     </user>
 
@@ -50,8 +46,8 @@
         <object-access object-id="testObjectAccessTransformer" remove-filters="anonymIdFilter"/>
         <object-access object-id="testObjectAccessTransformer" operations="update" remove-filters="anonymNameFilter"/>
         <object-filters object-id="testObjectAccessTransformer">
-            <eq field-id="id" id="anonymIdFilter"/>
-            <eq field-id="name" id="anonymNameFilter"/>
+            <eq field-id="id" id="anonymIdFilter" value="test"/>
+            <eq field-id="name" id="anonymNameFilter" value="test"/>
         </object-filters>
     </anonymous>
 
@@ -59,8 +55,8 @@
         <object-access object-id="testObjectAccessTransformer" remove-filters="permitAllIdFilter"/>
         <object-access object-id="testObjectAccessTransformer" operations="update" remove-filters="permitAllNameFilter"/>
         <object-filters object-id="testObjectAccessTransformer">
-            <eq field-id="id" id="permitAllIdFilter"/>
-            <eq field-id="name" id="permitAllNameFilter"/>
+            <eq field-id="id" id="permitAllIdFilter" value="test"/>
+            <eq field-id="name" id="permitAllNameFilter" value="test"/>
         </object-filters>
     </permit-all>
 
@@ -68,8 +64,8 @@
         <object-access object-id="testObjectAccessTransformer" remove-filters="authIdFilter"/>
         <object-access object-id="testObjectAccessTransformer" operations="update" remove-filters="authNameFilter"/>
         <object-filters object-id="testObjectAccessTransformer">
-            <eq field-id="id" id="authIdFilter"/>
-            <eq field-id="name" id="authNameFilter"/>
+            <eq field-id="id" id="authIdFilter" value="test"/>
+            <eq field-id="name" id="authNameFilter" value="test"/>
         </object-filters>
     </authenticated>
 

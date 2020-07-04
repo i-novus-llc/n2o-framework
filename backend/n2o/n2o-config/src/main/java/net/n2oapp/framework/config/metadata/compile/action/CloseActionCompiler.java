@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
+import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
@@ -30,15 +31,19 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
 
     @Override
     public AbstractAction compile(N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (context instanceof ModalPageContext) {
+        if (context instanceof ModalPageContext || context instanceof DialogContext) {
             CloseAction closeAction = new CloseAction();
             compileAction(closeAction, source, p);
-            closeAction.getOptions().setType(p.resolve(property("n2o.api.action.close.type"), String.class));
-            closeAction.getOptions().setMeta(initMeta(closeAction, source, context, p));
+            closeAction.setType(p.resolve(property("n2o.api.action.close.type"), String.class));
+            closeAction.setMeta(initMeta(closeAction, source, context, p));
             CloseActionPayload payload = new CloseActionPayload();
-            payload.setPageId(((ModalPageContext) context).getClientPageId());
-            payload.setPrompt(p.cast(((ModalPageContext) context).getUnsavedDataPromptOnClose(), source.getPrompt(), true));
-            closeAction.getOptions().setPayload(payload);
+            if (context instanceof ModalPageContext) {
+                payload.setPageId(((PageContext) context).getClientPageId());
+                payload.setPrompt(p.cast(((PageContext) context).getUnsavedDataPromptOnClose(), source.getPrompt(), true));
+            } else {
+                payload.setPageId(((DialogContext) context).getParentWidgetId());
+            }
+            closeAction.setPayload(payload);
             return closeAction;
         } else {
             N2oAnchor anchor = new N2oAnchor();
@@ -53,7 +58,7 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
                 anchor.setHref("/");
                 anchor.setTarget(Target.application);
             }
-            return new AnchorCompiler().compile(anchor, context, p);//todo нужно получать компилятор из фабрики
+            return p.compile(anchor, context);
         }
     }
 
@@ -62,13 +67,13 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
         boolean refresh = p.cast(source.getRefreshOnClose(), false);
         boolean redirect = source.getRedirectUrl() != null;
         if (!redirect && (context instanceof ModalPageContext))
-            meta.setCloseLastModal(true);
+            meta.setModalsToClose(1);
         if (refresh) {
             meta.setRefresh(new RefreshSaga());
             meta.getRefresh().setType(RefreshSaga.Type.widget);
             String refreshWidgetId = null;
             if (context instanceof PageContext) {
-                refreshWidgetId = ((PageContext) context).getParentWidgetId();
+                refreshWidgetId = ((PageContext) context).getParentClientWidgetId();
             }
             meta.getRefresh().getOptions().setWidgetId(refreshWidgetId);
         }

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.register.route;
 
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import org.junit.Assert;
 import org.junit.Before;

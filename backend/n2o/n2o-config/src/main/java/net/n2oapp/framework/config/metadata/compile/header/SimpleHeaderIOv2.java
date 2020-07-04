@@ -5,8 +5,8 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuIOv2;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -31,7 +31,8 @@ public class SimpleHeaderIOv2 implements NamespaceIO<N2oSimpleHeader> {
 
     @Override
     public void io(Element e, N2oSimpleHeader m, IOProcessor p) {
-        p.attribute(e, "home-page-id", m::getHomePageId, m::setHomePageId);
+        p.attribute(e, "home-page-url", m::getHomePageUrl, m::setHomePageUrl);
+        p.attribute(e, "welcome-page-id", m::getWelcomePageId, m::setWelcomePageId);
         p.attribute(e, "brand-name", m::getProjectName, m::setProjectName);
         p.attribute(e, "logo-src", m::getProjectImageSrc, m::setProjectImageSrc);
         p.attribute(e, "class", m::getCssClass, m::setCssClass);

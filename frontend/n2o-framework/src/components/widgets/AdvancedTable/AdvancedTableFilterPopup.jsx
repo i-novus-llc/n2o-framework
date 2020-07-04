@@ -3,6 +3,7 @@ import { pure } from 'recompose';
 import PropTypes from 'prop-types';
 import InputText from '../../controls/InputText/InputText';
 import Button from 'reactstrap/lib/Button';
+import assign from 'lodash/assign';
 
 /**
  * Компонент overlay для фильтра
@@ -11,6 +12,7 @@ import Button from 'reactstrap/lib/Button';
  * @param onResetFilter - callback на сброс фильтра
  * @param onSetFilter - callback на поиск
  * @param component - компонент контрол фильтра
+ * @param controlProps
  * @returns {*}
  * @constructor
  */
@@ -20,8 +22,10 @@ function AdvancedTableFilterPopup({
   onResetFilter,
   onSetFilter,
   component,
+  controlProps,
 }) {
   const childProps = {
+    ...controlProps,
     value,
     onChange,
   };
@@ -30,7 +34,12 @@ function AdvancedTableFilterPopup({
     <React.Fragment>
       <div className="n2o-advanced-table-filter-dropdown-popup">
         {component ? (
-          React.createElement(component, childProps)
+          React.createElement(
+            component,
+            assign({}, childProps, {
+              popupPlacement: 'right',
+            })
+          )
         ) : (
           <InputText value={value} onChange={onChange} />
         )}
@@ -52,12 +61,14 @@ AdvancedTableFilterPopup.propTypes = {
   onChange: PropTypes.func,
   onResetFilter: PropTypes.func,
   onSetFilter: PropTypes.func,
+  controlProps: PropTypes.object,
 };
 
 AdvancedTableFilterPopup.defaultProps = {
   onChange: () => {},
   onResetFilter: () => {},
   onSetFilter: () => {},
+  controlProps: {},
 };
 
 export { AdvancedTableFilterPopup };

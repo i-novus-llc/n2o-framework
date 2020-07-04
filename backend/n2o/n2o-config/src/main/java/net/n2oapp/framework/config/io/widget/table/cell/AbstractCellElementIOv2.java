@@ -4,11 +4,11 @@ package net.n2oapp.framework.config.io.widget.table.cell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 
 /**
- * Чтение\запись абстрактнрой ячейки
+ * Чтение\запись абстрактной ячейки
  */
 public abstract class AbstractCellElementIOv2<T extends N2oAbstractCell> implements NamespaceIO<T>, CellIOv2 {
 
@@ -19,5 +19,4 @@ public abstract class AbstractCellElementIOv2<T extends N2oAbstractCell> impleme
         p.attribute(e, "style", c::getStyle, c::setStyle);
         p.attribute(e, "visible", c::getVisible, c::setVisible);
     }
-
 }

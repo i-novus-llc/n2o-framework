@@ -4,7 +4,7 @@ import cx from "classnames";
 import FormGroup from "reactstrap/lib/FormGroup";
 import Label from "reactstrap/lib/Label";
 
-import Control from "n2o/lib/components/widgets/Form/fields/StandardField/Control";
+import Control from "n2o-framework/lib/components/widgets/Form/fields/StandardField/Control";
 
 import "./FloatingLabel.scss";
 

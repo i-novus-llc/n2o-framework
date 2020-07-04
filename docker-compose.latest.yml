@@ -2,16 +2,13 @@ version: "3.6"
 
 services:
   frontend:
-    image: "${DOCKER_REGISTRY}/n2o/demo:latest"
     ports:
       - "8710:8080"
     environment:
       - SERVER_SERVLET_CONTEXT_PATH=/latest/demo
   docs:
-    image: "${DOCKER_REGISTRY}/n2o/docs:latest"
     ports:
       - "8711:80"
   storybook:
-    image: "${DOCKER_REGISTRY}/n2o/storybook:latest"
     ports:
       - "8712:80"

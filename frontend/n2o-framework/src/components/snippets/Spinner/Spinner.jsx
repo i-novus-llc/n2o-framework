@@ -18,6 +18,7 @@ class BaseSpinner extends Component {
 
     this.state = {
       loading: true,
+      showSpinner: false,
     };
 
     this.renderCoverSpiner = this.renderCoverSpiner.bind(this);
@@ -29,9 +30,29 @@ class BaseSpinner extends Component {
   }
 
   componentDidMount() {
+    this.setState({
+      loading: this.props.loading,
+    });
     const { delay } = this.props;
-
     this.setLoadingWithTimeout(false, delay);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.loading !== this.props.loading) {
+      this.setState(
+        {
+          loading: this.props.loading,
+        },
+        () =>
+          setTimeout(
+            () =>
+              this.state.loading
+                ? this.setState({ showSpinner: true })
+                : this.setState({ showSpinner: false }),
+            400
+          )
+      );
+    }
   }
 
   setLoadingWithTimeout = (loading, timeout) => {
@@ -48,15 +69,14 @@ class BaseSpinner extends Component {
       loading,
       ...rest
     } = this.props;
-    const { loading: stateLoading } = this.state;
-
+    const { showSpinner } = this.state;
     return (
       <div
         className={cx('n2o-spinner-wrapper', {
           [className]: className,
         })}
       >
-        {loading && (
+        {showSpinner && (
           <Fragment>
             <div className="n2o-spinner-container ">
               <Comp className="spinner-border" color={color} {...rest} />
@@ -74,7 +94,7 @@ class BaseSpinner extends Component {
     const { type, children, delay, loading, ...rest } = this.props;
     const { loading: stateLoading } = this.state;
 
-    return loading || stateLoading ? (
+    return loading ? (
       <Comp className="spinner" {...rest} />
     ) : React.Children.count(children) ? (
       children
@@ -88,6 +108,8 @@ class BaseSpinner extends Component {
       ? this.renderCoverSpiner()
       : this.renderLineSpinner();
   }
+
+  static setState(state1) {}
 }
 
 BaseSpinner.propTypes = {

@@ -16,5 +16,6 @@
     </permission>
     <permission id="permission2">
         <object-access object-id="testObjectAccessTransformer" actions="*"/>
+        <url-access pattern="/test/*"/>
     </permission>
 </access>

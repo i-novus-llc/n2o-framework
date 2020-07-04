@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -27,11 +28,11 @@ public class ConfigStarter {
     private volatile static boolean wasRunning = false;
     private final static ReadWriteLock startingLock = new ReentrantReadWriteLock();//блокировка на время старта
 
-    private N2oEventBus eventBus;
-    private ConfigMetadataLocker locker;
-    private WatchDir watchDir;
-    private String configPath;
-    private N2oApplicationBuilder applicationBuilder;
+    private final N2oEventBus eventBus;
+    private final ConfigMetadataLocker locker;
+    private final WatchDir watchDir;
+    private final Collection<String> configPaths;
+    private final N2oApplicationBuilder applicationBuilder;
 
     @Value("${n2o.config.monitoring.enabled}")
     private boolean monitoringEnabled = false;
@@ -42,12 +43,12 @@ public class ConfigStarter {
                          N2oEventBus eventBus,
                          ConfigMetadataLocker locker,
                          WatchDir watchDir,
-                         String configPath) {
+                         Collection<String> configPath) {
         this.eventBus = eventBus;
         this.locker = locker;
         this.applicationBuilder = applicationBuilder;
         this.watchDir = watchDir;
-        this.configPath = configPath;
+        this.configPaths = configPath;
     }
 
     public void restart() {
@@ -74,7 +75,7 @@ public class ConfigStarter {
     }
 
     public String getConfigPath() {
-        return configPath;
+        return configPaths == null || configPaths.isEmpty() ? null : configPaths.iterator().next();
     }
 
     private void syncStart() {
@@ -96,23 +97,26 @@ public class ConfigStarter {
         if (!watchEnabled)
             return;
         //получить путь к папке
-        String path = getConfigPath();
-        if (path == null) {
+        if (configPaths == null || configPaths.isEmpty()) {
             logger.info("Monitoring did not start: path is null");
             return;
         }
-        logger.info("Start monitoring path: " + path);
+        logger.info("Start monitoring path: " + configPaths);
 
         //Запустить мониторинг файлов
-        File dir = new File(path);
-        if (!dir.exists()) dir.mkdirs();
+        for (String path : configPaths) {
+            File dir = new File(path);
+            if (!dir.exists()) dir.mkdirs();
+        }
         MetadataEnvironment environment = applicationBuilder.getEnvironment();
-        watchDir.setListener(new XMLChangeListener(path,
+        watchDir.setListener(new XMLChangeListener(configPaths,
                 environment.getMetadataRegister(),
                 environment.getSourceTypeRegister(),
                 eventBus));
-        watchDir.addPath(path);
-        monitoringIgnores.forEach((skip -> watchDir.skipOn(PathUtil.concatAbsoluteAndLocalPath(path, skip))));
+        for (String path : configPaths) {
+            watchDir.addPath(path);
+            monitoringIgnores.forEach((skip -> watchDir.skipOn(PathUtil.concatAbsoluteAndLocalPath(path, skip))));
+        }
         watchDir.start();
     }
 

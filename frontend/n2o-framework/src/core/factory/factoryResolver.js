@@ -11,8 +11,8 @@ import fields from '../../components/widgets/Form/fieldsets';
 import actions from '../../impl/actions';
 import exportModal from '../../components/widgets/Table/ExportModal';
 import storyModal from '../../components/widgets/Table/StoryModal';
-import ToggleColumn from '../../components/actions/Dropdowns/ToggleColumn';
-import ChangeSize from '../../components/actions/Dropdowns/ChangeSize';
+import ToggleColumn from '../../components/buttons/ToggleColumn/ToggleColumn';
+import ChangeSize from '../../components/buttons/ChangeSize/ChangeSize';
 import controls from '../../components/controls';
 import NotFoundFactory from '../../core/factory/NotFoundFactory';
 

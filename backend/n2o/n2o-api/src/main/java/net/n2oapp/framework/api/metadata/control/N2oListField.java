@@ -1,6 +1,5 @@
 package net.n2oapp.framework.api.metadata.control;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -13,7 +12,6 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class N2oListField extends N2oStandardField {
-
     protected Boolean search;
     protected Boolean autoselectAlone;
     protected Boolean autoselectFirst;
@@ -32,10 +30,13 @@ public abstract class N2oListField extends N2oStandardField {
     private String searchFilterId;
     private String labelFieldId;
     private String valueFieldId;
+    private String sortFieldId;
     private String masterFieldId;
     private String detailFieldId;
     private String format;
     private Map<String, String> defValue;
+    private String statusFieldId;
+    private String enabledFieldId;
 
     public abstract boolean isSingle();
 

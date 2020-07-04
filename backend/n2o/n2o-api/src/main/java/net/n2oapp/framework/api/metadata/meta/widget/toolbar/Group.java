@@ -5,10 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.meta.action.Action;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +16,7 @@ public class Group implements Compiled, IdAware {
     @JsonProperty
     private String id;
     @JsonProperty
-    private List<Button> buttons;
+    private List<AbstractButton> buttons;
 
     public Group(String id) {
         this.id = id;

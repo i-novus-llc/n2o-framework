@@ -1,8 +1,11 @@
 package net.n2oapp.framework.config.io.control;
 
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
+import net.n2oapp.framework.api.metadata.control.Submit;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
@@ -12,13 +15,13 @@ import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationCondition;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Чтение/запись базовых свойств контрола
  */
-public abstract class StandardFieldIOv2<T extends N2oStandardField> extends FieldIOv2<T>{
+public abstract class StandardFieldIOv2<T extends N2oStandardField> extends FieldIOv2<T> {
 
     private static Namespace dataProviderNamespace = DataProviderIOv1.NAMESPACE;
 
@@ -29,6 +32,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attributeBoolean(e, "copied", m::getCopied, m::setCopied);
         p.child(e, null, "validations", m::getValidations, m::setValidations,
                 N2oField.Validations.class, this::inlineValidations);
+        p.child(e, null, "submit", m::getSubmit, m::setSubmit, Submit.class, this::submit);
     }
 
     private void inlineValidations(Element e, N2oField.Validations t, IOProcessor p) {
@@ -71,6 +75,23 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attribute(e, "message", t::getMessage, t::setMessage);
         p.attribute(e, "enabled", t::getEnabled, t::setEnabled);
         p.attribute(e, "side", t::getSide, t::setSide);
+    }
+
+    private void submit(Element e, Submit t, IOProcessor p) {
+        p.attribute(e, "operation-id", t::getOperationId, t::setOperationId);
+        p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
+        p.attributeBoolean(e, "message-on-fail", t::getMessageOnFail, t::setMessageOnFail);
+        p.attribute(e, "route", t::getRoute, t::setRoute);
+        p.children(e, null, "path-param", t::getPathParams, t::setPathParams, N2oParam.class, this::submitParam);
+        p.children(e, null, "header-param", t::getHeaderParams, t::setHeaderParams, N2oParam.class, this::submitParam);
+        p.children(e, null, "form-param", t::getFormParams, t::setFormParams, N2oParam.class, this::submitParam);
+    }
+
+    private void submitParam(Element e, N2oParam t, IOProcessor p) {
+        p.attribute(e, "name", t::getName, t::setName);
+        p.attribute(e, "value", t::getValue, t::setValue);
+        p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
+        p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
     }
 
     private void param(Element e, N2oObject.Parameter t, IOProcessor p) {

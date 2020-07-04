@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.reader.tools;
 
 import net.n2oapp.framework.api.metadata.aware.CssClassAware;
-import org.jdom.Element;
+import org.jdom2.Element;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
 
 /**

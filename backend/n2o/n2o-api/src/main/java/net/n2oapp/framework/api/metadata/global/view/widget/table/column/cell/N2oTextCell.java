@@ -14,4 +14,8 @@ public class N2oTextCell extends N2oAbstractCell {
     private N2oSwitch classSwitch;
     @JsonProperty
     private String format;
+    @JsonProperty
+    private String subTextFieldKey;
+    @JsonProperty
+    private String subTextFormat;
 }

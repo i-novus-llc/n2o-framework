@@ -4,6 +4,7 @@ import cx from 'classnames';
 
 import Control from './Control';
 import Label from './Label';
+import Toolbar from '../../../../buttons/Toolbar';
 
 import Measure from './Measure';
 import Description from './Description';
@@ -80,10 +81,15 @@ class StandardField extends React.Component {
       message,
       colLength,
       help,
+      toolbar,
+      containerKey,
+      dataProvider,
+      form,
       ...props
     } = this.props;
 
     const flexStyle = { display: 'flex' };
+
     const validationMap = {
       'is-valid': 'text-success',
       'is-invalid': 'text-danger',
@@ -96,21 +102,25 @@ class StandardField extends React.Component {
         ? undefined
         : labelWidth;
 
-    const styleHelper =
-      labelWidthPixels && colLength > 1
-        ? {
-            maxWidth: `calc(100% - ${labelWidthPixels})`,
-          }
-        : { width: '100%' };
+    const styleHelper = toolbar
+      ? { width: '100%' }
+      : labelWidthPixels && colLength > 1
+      ? {
+          maxWidth: `calc(100% - ${labelWidthPixels})`,
+        }
+      : { width: '100%' };
     const extendedLabelStyle = {
       width: labelWidthPixels,
       flex: labelWidthPixels ? 'none' : undefined,
       ...labelStyle,
     };
 
+    const fieldId = `field-${props.form}-id`;
+
     return (
       visible && (
         <div
+          id={fieldId}
           className={cx('n2o-form-group', 'form-group', className, {
             ['label-' + labelPosition]: labelPosition,
             'n2o-form-group--disabled': loading,
@@ -130,7 +140,11 @@ class StandardField extends React.Component {
             help={help}
           />
           <div style={styleHelper}>
-            <div style={flexStyle}>
+            <div
+              className={cx('form-container', {
+                'form-container_with-toolbar': toolbar,
+              })}
+            >
               <Control
                 placeholder={placeholder}
                 visible={visible}
@@ -139,12 +153,20 @@ class StandardField extends React.Component {
                 onBlur={onBlur}
                 onFocus={onFocus}
                 onChange={onChange}
-                {...control}
                 {...props}
-                className={cx(control && control.className, {
+                {...control}
+                className={cx(control.className, {
                   [validationClass]: touched,
+                  'form-control__with-toolbar': toolbar,
                 })}
               />
+              {toolbar && (
+                <Toolbar
+                  className="n2o-page-actions__form-toolbar"
+                  toolbar={toolbar}
+                  entityKey={form}
+                />
+              )}
               <Measure value={measure} />
               <FieldActions actions={fieldActions} />
               {loading && (

@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import Avatar from 'react-avatar';
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 /**
  * Ячейка аватара

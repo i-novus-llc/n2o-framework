@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
-import net.n2oapp.framework.api.metadata.meta.Page;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
@@ -35,9 +35,6 @@ public class PageBinderTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
-        doNothing().when(subModelsProcessor).executeSubModels(isA(List.class), isA(DataSet.class));
-        ((N2oEnvironment) builder.getEnvironment()).setSubModelsProcessor(subModelsProcessor);
         builder.getEnvironment().getContextProcessor().set("test", "Test");
         builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oPagesPack(),
                 new N2oWidgetsPack(), new N2oRegionsPack());
@@ -54,6 +51,8 @@ public class PageBinderTest extends SourceCompileTestBase {
         assertThat(page.getModels().get("resolve['testPageBinders_main'].birthday").getBindLink(), is("models.resolve['testPageBinders_main'].birthday"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].birthday").getValue()).getValues().get("begin"), is("01.11.2018"));
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].birthday").getValue()).getValues().get("end"), is("11.11.2018"));
+        assertThat(page.getModels().get("resolve['testPageBinders_main'].intervalTest.end").getValue(), is(156));
+        assertThat(page.getModels().get("resolve['testPageBinders_main'].intervalTest.begin") == null, is(true));
     }
 
     /**
@@ -63,7 +62,7 @@ public class PageBinderTest extends SourceCompileTestBase {
     public void pageNameResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
         context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "page_master"));
-        context.setParentWidgetId("page_master");
+        context.setParentClientWidgetId("page_master");
         context.setParentRoute("/page");
         ModelLink modelLink = new ModelLink(ReduxModel.RESOLVE, "page_master");
         modelLink.setValue("`name`");
@@ -79,7 +78,6 @@ public class PageBinderTest extends SourceCompileTestBase {
     @Test
     public void pageNameResolveSubModels() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
-        ((N2oEnvironment) builder.getEnvironment()).setSubModelsProcessor(subModelsProcessor);
         doAnswer(invocation -> {
             List<SubModelQuery> subModelQueries = invocation.getArgument(0);
             DataSet data = invocation.getArgument(1);
@@ -93,14 +91,14 @@ public class PageBinderTest extends SourceCompileTestBase {
 
         PageContext context = new PageContext("testPageBinders", "/page/:id_param/view");
         context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "page_master"));
-        context.setParentWidgetId("page_master");
+        context.setParentClientWidgetId("page_master");
         context.setParentRoute("/page");
         ModelLink modelLink = new ModelLink(ReduxModel.RESOLVE, "page_master", "id");
         modelLink.setSubModelQuery(new SubModelQuery("query1"));
         context.setPathRouteMapping(Collections.singletonMap("id_param", modelLink));
         context.setParentModelLink(modelLink);
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
-                .get(context, new DataSet().add("id_param", 123));
+                .get(context, new DataSet().add("id_param", 123), subModelsProcessor);
         assertThat(page.getPageProperty().getTitle(), is("Hello, Joe"));
     }
 
@@ -108,7 +106,7 @@ public class PageBinderTest extends SourceCompileTestBase {
     public void pageBreadcrumbResolve() {
         PageContext context = new PageContext("testPageBinders", "/page/:name_param/view");
         context.setParentModelLink(new ModelLink(ReduxModel.RESOLVE, "page_master"));
-        context.setParentWidgetId("page_master");
+        context.setParentClientWidgetId("page_master");
         context.setParentRoute("/page");
         ModelLink modelLink = new ModelLink(ReduxModel.RESOLVE, "page_master");
         modelLink.setValue("`name`");
@@ -122,7 +120,6 @@ public class PageBinderTest extends SourceCompileTestBase {
     @Test
     public void resolveSubModels() {
         N2oSubModelsProcessor subModelsProcessor = mock(N2oSubModelsProcessor.class);
-        ((N2oEnvironment) builder.getEnvironment()).setSubModelsProcessor(subModelsProcessor);
 
         //мок subModelProcessor. Докидывает name в данные
         doAnswer(invocation -> {
@@ -141,7 +138,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModels.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testModel.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml")
-                .get(new PageContext("testSubModels"), data);
+                .get(new PageContext("testSubModels"), data, subModelsProcessor);
 
 
         //single фильтр по умолчанию
@@ -160,14 +157,14 @@ public class PageBinderTest extends SourceCompileTestBase {
         assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w2'].testMulti").getValue()).get(0)).getValues().get("name"), is("test1"));
 
         data.put("w0_testSingleDefault_id", "2");
-        data.put("w0_testMultiDefault_id", Arrays.asList("1", "2"));
+        data.put("w0_testMultiDefault_id", Arrays.asList("2"));
         page = bind("net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModels.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testModel.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml")
-                .get(new PageContext("testSubModels"), data);
+                .get(new PageContext("testSubModels"), data, subModelsProcessor);
         //Фильтры из URL перекрывают дефолтные значения
         assertThat(((DefaultValues) page.getModels().get("filter['testSubModels_w0'].testSingleDefault").getValue()).getValues().get("name"), is("test2"));
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(0)).getValues().get("name"), is("test1"));
-        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(1)).getValues().get("name"), is("test2"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).get(0)).getValues().get("name"), is("test2"));
+        assertThat(((List) page.getModels().get("filter['testSubModels_w0'].testMultiDefault").getValue()).size(), is(1));
     }
 }

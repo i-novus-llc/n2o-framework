@@ -1,11 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import {
+  compose,
+  pure,
+  withProps,
+  defaultProps,
+  withHandlers,
+  shouldUpdate,
+  mapProps,
+  branch,
+} from 'recompose';
+import { getFormValues } from 'redux-form';
 import isBoolean from 'lodash/isBoolean';
 import memoize from 'lodash/memoize';
-import some from 'lodash/some';
-import omit from 'lodash/omit';
+import get from 'lodash/get';
 import isEqual from 'lodash/isEqual';
+import map from 'lodash/map';
+import replace from 'lodash/replace';
+import includes from 'lodash/includes';
+import isNil from 'lodash/isNil';
+
 import {
   isInitSelector,
   isVisibleSelector,
@@ -14,34 +28,10 @@ import {
   requiredSelector,
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
-import {
-  compose,
-  pure,
-  withProps,
-  defaultProps,
-  withHandlers,
-  shouldUpdate,
-} from 'recompose';
 import propsResolver from '../../../../utils/propsResolver';
-import { getFormValues } from 'redux-form';
+import withAutoSave from './withAutoSave';
 
-const excludedKeys = [
-  'dependencySelector',
-  'dispatch',
-  'onBlur',
-  'onChange',
-  'onDragStart',
-  'onDrop',
-  'onFocus',
-  'registerFieldExtra',
-  'setReRenderRef',
-  'setRef',
-  'dirty',
-  'pristine',
-  'visited',
-  'asyncValidating',
-  'active',
-];
+const INDEX_PLACEHOLDER = 'index';
 
 /**
  * HOC обертка для полей, в которой содержится мэппинг свойств редакса и регистрация дополнительных свойств полей
@@ -71,15 +61,49 @@ export default Field => {
         dependency,
         requiredToRegister,
         registerFieldExtra,
+        parentIndex,
       } = props;
+
       !isInit &&
         registerFieldExtra(form, name, {
           visible: visibleToRegister,
           disabled: disabledToRegister,
-          dependency,
+          dependency: this.modifyDependency(dependency, parentIndex),
           required: requiredToRegister,
         });
     }
+
+    modifyDependency = (dependency, parentIndex) => {
+      if (!isNil(parentIndex)) {
+        return map(dependency, dep => {
+          const { expression, on } = dep;
+          let newDep = Object.assign({}, dep);
+
+          if (expression) {
+            newDep = Object.assign({}, newDep, {
+              expression: replace(expression, INDEX_PLACEHOLDER, parentIndex),
+            });
+          }
+
+          if (on) {
+            newDep = Object.assign({}, newDep, {
+              on: this.modifyOn(on, parentIndex),
+            });
+          }
+
+          return newDep;
+        });
+      }
+
+      return dependency;
+    };
+
+    modifyOn = (on, parentIndex) =>
+      map(on, key =>
+        includes(key, INDEX_PLACEHOLDER)
+          ? replace(key, INDEX_PLACEHOLDER, parentIndex)
+          : key
+      );
 
     /**
      * мэппинг onChange
@@ -96,13 +120,8 @@ export default Field => {
      * @param e
      */
     onBlur(e) {
-      const {
-        meta: { form },
-        input: { name },
-        value,
-        input,
-        onBlur,
-      } = this.props;
+      const { input, onBlur } = this.props;
+
       input && input.onBlur(e);
       onBlur && onBlur(e.target.value);
     }
@@ -171,7 +190,7 @@ export default Field => {
         memoize(props => {
           if (!props) return;
           const { input, message, meta, model, ...rest } = props;
-          const pr = propsResolver(rest, model);
+          const pr = propsResolver(rest, model, ['toolbar']);
           return {
             ...pr,
             ...meta,
@@ -193,14 +212,33 @@ export default Field => {
       mapStateToProps,
       mapDispatchToProps
     ),
-    shouldUpdate((props, nextProps) => {
-      const prevResolvedProps = omit(props.mapProps(props), excludedKeys);
-      const resolvedProps = omit(props.mapProps(nextProps), excludedKeys);
-      const isEqualResolvedProps = some(resolvedProps, (value, key) => {
-        return !isEqual(value, prevResolvedProps[key]);
-      });
-      return isEqualResolvedProps;
+    mapProps(({ model, parentIndex, parentName, ...props }) => {
+      return {
+        ...props,
+        parentIndex,
+        model: !isNil(parentName)
+          ? {
+              ...get(model, parentName),
+              index: parentIndex,
+            }
+          : model,
+      };
     }),
+    branch(
+      ({ dataProvider, autoSubmit }) => !!autoSubmit || !!dataProvider,
+      withAutoSave
+    ),
+    shouldUpdate(
+      (props, nextProps) =>
+        !isEqual(props.model, nextProps.model) ||
+        props.isInit !== nextProps.isInit ||
+        props.visible !== nextProps.visible ||
+        props.disabled !== nextProps.disabled ||
+        props.message !== nextProps.message ||
+        props.required !== nextProps.required ||
+        props.loading !== nextProps.loading ||
+        get(props, 'input.value', null) !== get(nextProps, 'input.value', null)
+    ),
     withProps(props => ({
       ref: props.setReRenderRef,
     })),

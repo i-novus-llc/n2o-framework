@@ -3,6 +3,8 @@ import { mount } from 'enzyme';
 import ButtonsCell from '../ButtonsCell';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import FactoryProvider from '../../../../../../core/factory/FactoryProvider';
+import createFactoryConfig from '../../../../../../core/factory/createFactoryConfig';
 import sinon from 'sinon';
 
 const mockStore = configureMockStore();
@@ -13,7 +15,9 @@ const setup = (propOverrides = {}) => {
 
   const wrapper = mount(
     <Provider store={store}>
-      <ButtonsCell {...props} />
+      <FactoryProvider config={createFactoryConfig()}>
+        <ButtonsCell {...props} />
+      </FactoryProvider>
     </Provider>
   );
 
@@ -28,12 +32,12 @@ describe('<ButtonsCell />', () => {
     const { wrapper } = setup({
       toolbar: [
         {
-          buttons: [{ title: 'test' }],
+          buttons: [{ src: 'LinkButton', title: 'test' }],
         },
       ],
     });
 
     wrapper.update();
-    expect(wrapper.find('Actions').exists()).toBeTruthy();
+    expect(wrapper.find('Toolbar').exists()).toBeTruthy();
   });
 });

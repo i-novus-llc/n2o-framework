@@ -32,7 +32,7 @@ module.exports = {
     chunks: false,
     chunkModules: false,
     cached: false,
-    cachedAssets: false,
+    cachedAssets: false
   },
 
   resolve: {
@@ -42,6 +42,11 @@ module.exports = {
 
   module: {
     rules: [
+      {
+        test: /\.(js|jsx)?$/,
+        include: [path.resolve(__dirname, '../src')],
+        use: ['babel-loader']
+      },
       {
         test: /\.scss/,
         use: extractLess.extract({
@@ -84,8 +89,8 @@ module.exports = {
       root: 'ReactDOM',
       commonjs: 'react-dom',
       commonjs2: 'react-dom',
-      amd: 'react-dom',
-    },
+      amd: 'react-dom'
+    }
   },
 
   plugins: [extractLess],

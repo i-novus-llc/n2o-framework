@@ -56,6 +56,10 @@
 
 .n2o-dropdown-menu {
   z-index: 100;
+
+  & > .btn {
+    width: 100%;
+  }
 }
 .capitalize {
   text-transform: capitalize;
@@ -99,4 +103,10 @@
 
 .n2o-standard-widget-layout-toolbar {
   margin: $toolbar-margin;
+}
+
+*::-ms-clear {
+  display: none;
+  width : 0;
+  height: 0;
 }

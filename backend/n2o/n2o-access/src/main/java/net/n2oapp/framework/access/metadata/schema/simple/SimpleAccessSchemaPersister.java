@@ -5,8 +5,8 @@ import net.n2oapp.framework.access.metadata.schema.permission.PermissionPersiste
 import net.n2oapp.framework.access.metadata.schema.role.RolePersister;
 import net.n2oapp.framework.access.metadata.schema.user.UserPersister;
 import net.n2oapp.framework.config.persister.util.PersisterJdomUtil;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 @Component

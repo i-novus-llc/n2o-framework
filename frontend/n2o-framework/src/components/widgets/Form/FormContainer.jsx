@@ -22,6 +22,7 @@ import { FORM } from '../widgetTypes';
 import { getFieldsKeys } from './utils';
 import createValidator from '../../../core/validation/createValidator';
 import { PREFIXES } from '../../../constants/models';
+import propsResolver from '../../../utils/propsResolver';
 
 const arrayMergeFunction = (destinationArray, sourceArray) => sourceArray;
 
@@ -44,6 +45,7 @@ export const withWidgetContainer = widgetContainer(
         prompt: props.prompt,
         setActive: props.onFocus,
         placeholder: props.placeholder,
+        autoSubmit: props.autoSubmit,
       };
     },
   },
@@ -65,9 +67,14 @@ export const withLiveCycleMethods = lifecycle({
       resolveModel,
     } = this.props;
     if (
-      !isEqual(prevProps.activeModel, activeModel) &&
-      !isEqual(activeModel, defaultValues) &&
-      !isEqual(activeModel, reduxFormValues)
+      (!isEqual(prevProps.activeModel, activeModel) &&
+        !isEqual(activeModel, defaultValues) &&
+        !isEqual(activeModel, reduxFormValues)) ||
+      (isEqual(prevProps.resolveModel, prevProps.activeModel) &&
+        isEqual(prevProps.reduxFormValues, prevProps.defaultValues) &&
+        isEqual(this.props.resolveModel, this.props.activeModel) &&
+        isEqual(this.props.reduxFormValues, this.props.defaultValues) &&
+        !isEqual(this.props.resolveModel, this.props.defaultValues))
     ) {
       setDefaultValues(activeModel);
     } else if (
@@ -75,13 +82,14 @@ export const withLiveCycleMethods = lifecycle({
       (prevProps.datasource && !datasource)
     ) {
       setDefaultValues({});
-    } else if (
-      isEqual(prevProps.resolveModel, resolveModel) &&
-      !isEqual(prevProps.reduxFormValues, reduxFormValues) &&
-      isEqual(datasource, resolveModel)
-    ) {
-      setDefaultValues(reduxFormValues);
     }
+    // else if (
+    //   isEqual(prevProps.resolveModel, resolveModel) &&
+    //   !isEqual(prevProps.reduxFormValues, reduxFormValues) &&
+    //   isEqual(datasource, resolveModel)
+    // ) {
+    //   setDefaultValues(reduxFormValues);
+    // }
   },
 });
 
@@ -156,5 +164,5 @@ export default compose(
   withLiveCycleMethods,
   withPropsOnChangeWidget,
   withWidgetHandlers,
-  onlyUpdateForKeys(['initialValues'])
+  onlyUpdateForKeys(['initialValues', 'fields'])
 )(ReduxForm);

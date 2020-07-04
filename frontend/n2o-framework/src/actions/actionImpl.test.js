@@ -1,6 +1,10 @@
 import { startInvoke } from './actionImpl';
 import { START_INVOKE } from '../constants/actionImpls';
 
+/**
+ * @deprecated
+ */
+
 const widgetId = 'Widget_Id';
 const dataProvider = {
   url: '/n2o/test',

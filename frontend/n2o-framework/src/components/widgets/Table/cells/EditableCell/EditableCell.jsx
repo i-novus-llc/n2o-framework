@@ -6,9 +6,11 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import set from 'lodash/set';
+import unset from 'lodash/unset';
 import Text from '../../../../snippets/Text/Text';
 import withActionsEditableCell from './withActionsEditableCell';
 import withCell from '../../withCell';
+import withTooltip from '../../withTooltip';
 
 /**
  * Компонент редактируемой ячейки таблицы
@@ -90,12 +92,10 @@ export class EditableCell extends React.Component {
   }
 
   callAction(model) {
-    const { callInvoke, action, onResolve, widgetId } = this.props;
-    const dataProvider = get(action, 'options.payload.dataProvider');
-    const meta = get(action, 'options.meta');
+    const { callAction, onResolve, widgetId } = this.props;
 
-    callInvoke(model, dataProvider, meta);
     onResolve(widgetId, model);
+    callAction(model);
   }
 
   handleKeyDown() {
@@ -173,5 +173,6 @@ EditableCell.defaultProps = {
 
 export default compose(
   withActionsEditableCell,
-  withCell
+  withCell,
+  withTooltip
 )(EditableCell);

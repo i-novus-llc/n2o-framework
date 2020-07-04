@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.metadata.control.N2oButtonField;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,7 +36,7 @@ public class N2oButtonFieldXmlReaderV1 extends N2oStandardControlReaderV1<N2oBut
         if (eventElement != null && eventElement.getChildren() != null && !eventElement.getChildren().isEmpty()) {
             N2oAction event = (N2oAction) readerFactory.produce((Element) eventElement.getChildren().get(0),
                     element.getNamespace(), DEFAULT_EVENT_NAMESPACE_URI).read((Element) eventElement.getChildren().get(0));
-            buttonField.setEvent(event);
+            buttonField.setAction(event);
         }
         return buttonField;
     }

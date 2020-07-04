@@ -41,25 +41,30 @@ public class ListWidgetJsonTest extends JsonMetadataTestBase {
                         "list.subHeader.fieldKey",
                         "list.body.fieldKey",
                         "list.rightTop.fieldKey",
+                        "list.rightTop.type",
                         "list.rightBottom.fieldKey",
                         "list.extra.className",
                         "list.extra.style",
                         "list.extra.fieldKey",
                         "list.extra.toolbar[0].id",
                         "list.extra.toolbar[0].buttons[0].size",
+                        "list.extra.toolbar[0].buttons[0].rounded",
                         "list.extra.toolbar[0].buttons[0].visible",
                         "list.extra.toolbar[0].buttons[0].disabled",
                         "list.extra.toolbar[0].buttons[0].color",
+                        "list.extra.toolbar[0].buttons[0].src",
                         "list.extra.actions",
                         "list.extra.toolbar[0].buttons[0].hintPosition",
                         "list.extra.toolbar[0].buttons[0].conditions",
                         "list.extra.toolbar[0].buttons[1].size",
+                        "list.extra.toolbar[0].buttons[1].rounded",
                         "list.extra.toolbar[0].buttons[1].color",
                         "list.extra.toolbar[0].buttons[1].visible",
                         "list.extra.toolbar[0].buttons[1].disabled",
                         "list.extra.toolbar[0].buttons[1].hintPosition",
                         "list.extra.toolbar[0].buttons[1].conditions",
-                        "toolbar")
+                        "list.extra.toolbar[0].buttons[1].src",
+                        "toolbar", "paging")
                 .assertEquals();
     }
 }

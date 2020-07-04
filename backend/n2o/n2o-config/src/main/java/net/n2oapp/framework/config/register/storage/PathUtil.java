@@ -5,9 +5,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.*;
+import java.util.*;
 
 /**
  * Утилита для удобной работы с путями
@@ -142,5 +141,47 @@ public class PathUtil {
         absolutePath = normalize(absolutePath);
         configPath = normalize(configPath);
         return absolutePath.substring(absolutePath.indexOf(configPath) + configPath.length() + 1).replace("\\", "/");
+    }
+
+    /**
+     * Ищет директории соответсвующие pattern начиная с projectPaths
+     * @param projectPaths - начальные директории
+     * @param pattern - шаблон
+     * @param ignores - игнорируемые названия директорий
+     * @return - лист директорий
+     */
+    public static Set<String> getConfigPaths(String configPath, List<String> projectPaths, String pattern, Collection<String> ignores) {
+        Set<String> result = new LinkedHashSet<>();
+        if (configPath != null && !configPath.isEmpty()) result.add(configPath);
+        if (projectPaths != null) {
+            pattern = replacePathPatternAttribute(pattern.trim());
+            if (pattern.startsWith("classpath")) {
+                pattern = pattern.substring(pattern.indexOf(":") + 1);
+            }
+            if (pattern.endsWith("/")) {
+                pattern = pattern.substring(0, pattern.length() - 1);
+            }
+            if (ignores == null) {
+                ignores = new HashSet<>();
+            }
+            for (String pp : projectPaths) {
+                extractConfPaths(result, Paths.get(pp), pattern, ignores);
+            }
+        }
+        return result;
+    }
+
+    private static void extractConfPaths(Collection<String> list, Path dir, String pattern, Collection<String> ignores) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, f -> ignores.stream().noneMatch(f::endsWith) && Files.isDirectory(f))) {
+            stream.forEach(pt -> {
+                if (pt.endsWith(pattern)) {
+                    list.add(pt.toString());
+                } else {
+                    extractConfPaths(list, pt, pattern, ignores);
+                }
+            });
+        } catch (IOException e) {
+            //skip
+        }
     }
 }

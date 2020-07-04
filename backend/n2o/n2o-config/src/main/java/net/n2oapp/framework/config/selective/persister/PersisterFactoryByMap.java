@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class PersisterFactoryByMap implements NamespacePersisterFactory<NamespaceUriAware, NamespacePersister<NamespaceUriAware>>, IOProcessorAware, MetadataEnvironmentAware {
 
     private Map<Class<?>, Map<String, NamespacePersister>> map = new HashMap<>();
-    private IOProcessor ioProcessor;
+    private IOProcessor ioProcessor = new IOProcessorImpl(this);;
 
 
     @SuppressWarnings("unchecked")
@@ -43,11 +43,17 @@ public class PersisterFactoryByMap implements NamespacePersisterFactory<Namespac
 
 
     @Override
-    public NamespacePersister<NamespaceUriAware> produce(Namespace namespace, Class clazz) {
+    public NamespacePersister<NamespaceUriAware> produce(Class clazz, Namespace... namespaces) {
         if (!map.containsKey(clazz))
             return handleException(clazz);
         Map<String, NamespacePersister> inmap = map.get(clazz);
-        NamespacePersister persister = inmap.get(namespace.getURI());
+        NamespacePersister persister = null;
+        for (Namespace namespace : namespaces) {
+            if (inmap.containsKey(namespace.getURI())) {
+                persister = inmap.get(namespace.getURI());
+                break;
+            }
+        }
         if (persister == null) {
             return handleException(clazz);
         }
@@ -56,12 +62,6 @@ public class PersisterFactoryByMap implements NamespacePersisterFactory<Namespac
         if (persister instanceof IOProcessorAware)
             ((IOProcessorAware) persister).setIOProcessor(this.ioProcessor);
         return persister;
-    }
-
-    @Override
-    public boolean check(Namespace namespace, Class<NamespaceUriAware> clazz) {
-        Map<String, NamespacePersister> inmap = map.get(clazz);
-        return inmap != null && inmap.containsKey(namespace.getURI());
     }
 
     @Override

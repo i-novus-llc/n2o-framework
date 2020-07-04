@@ -17,7 +17,7 @@
               "id": "invokeExample",
               "actionId": "invokeExample",
               "hint": "Кнопка Invoke",
-              "title": "Кнопка Invoke"
+              "label": "Кнопка Invoke"
             }
           ]
         }

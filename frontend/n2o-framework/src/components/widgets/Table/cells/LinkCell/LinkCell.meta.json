@@ -6,11 +6,6 @@
   "style" : {},
   "icon": "icon",
   "type": "text",
-  "action": {
-    "src": "link",
-    "options": {
-      "path": "/page/widget/test",
-      "target": "application"
-    }
-  }
+  "url": "/page/widget/test",
+  "target": "application"
 }

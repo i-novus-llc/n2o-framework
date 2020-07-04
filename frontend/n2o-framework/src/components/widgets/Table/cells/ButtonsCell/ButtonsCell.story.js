@@ -8,6 +8,7 @@ import ButtonsCell, { ButtonsCell as ButtonCellComponent } from './ButtonsCell';
 import metadata from './ButtonsCell.meta';
 import AuthButtonContainer from '../../../../../core/auth/AuthLogin';
 import Factory from '../../../../../core/factory/Factory';
+import Toolbar from '../../../../buttons/Toolbar';
 
 const stories = storiesOf('Ячейки/ButtonsCell', module);
 
@@ -17,6 +18,37 @@ stories.addParameters({
     propTablesExclude: [Table, ButtonsCell, Factory, AuthButtonContainer],
   },
 });
+const toolbar1 = [
+  {
+    buttons: [
+      {
+        id: 'testBtn21',
+        label: 'Кнопка',
+        src: 'StandardButton',
+        color: 'success',
+        tooltipFieldId: 'tooltip',
+      },
+      {
+        id: 'testBtn24',
+        label: 'Кнопка',
+        src: 'StandardButton',
+        color: 'primary',
+      },
+      {
+        id: 'testBtn27',
+        label: 'Кнопка',
+        src: 'StandardButton',
+        color: 'primary',
+      },
+      {
+        id: 'testBtn29',
+        label: 'Кнопка',
+        src: 'StandardButton',
+        color: 'primary',
+      },
+    ],
+  },
+];
 
 const examplesDataSource = [
   {
@@ -329,7 +361,7 @@ const examplesDataSource = [
             action: {
               src: 'perform',
               options: {
-                type: 'n2o/modals/INSERT',
+                type: 'n2o/overlays/INSERT',
                 payload: {
                   pageUrl: '/page/widget/create',
                   size: 'sm',
@@ -360,6 +392,7 @@ const createTable = data =>
           component: ButtonsCell,
           id: 'buttonCells',
           fieldKey: 'buttonCells',
+          tooltipFieldId: 'tooltip',
           buttons,
         },
       ],
@@ -375,7 +408,7 @@ const createTable = data =>
           label: 'Отображение',
         },
       ],
-      datasource: [{ description }],
+      datasource: [{ description, tooltip: ['tooltip', 'body'] }],
     };
 
     return <Table {...tableProps} />;

@@ -17,6 +17,8 @@ public class CompiledHeader extends Header {
     @JsonProperty
     private String brandImage;
     @JsonProperty
+    private String homePageUrl;
+    @JsonProperty
     private String activeId;
     @JsonProperty
     private String color;

@@ -12,12 +12,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.1.RELEASE</version>
+        <version>2.2.7.RELEASE</version>
         <relativePath/>
     </parent>
 
     <properties>
-        <n2o.version>7.5.0-SNAPSHOT</n2o.version>
+        <n2o.version>7.8.0-SNAPSHOT</n2o.version>
     </properties>
 
     <dependencies>
@@ -31,12 +31,6 @@
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-web</artifactId>
-            <version>${n2o.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.n2oapp.framework</groupId>
-            <artifactId>n2o-engine-sql</artifactId>
             <version>${n2o.version}</version>
         </dependency>
 

@@ -56,7 +56,7 @@ class DateInput extends React.Component {
       this.props.onInputChange(null, name);
     } else if (
       moment(value, dateFormat).format(dateFormat) === value &&
-      hasInsideMixMax(value, this.props)
+      hasInsideMixMax(value, this.props, dateFormat)
     ) {
       this.props.onInputChange(moment(value, dateFormat), name);
     } else {
@@ -76,10 +76,10 @@ class DateInput extends React.Component {
 
   onBlur(e) {
     const { value } = e.target;
-    const { dateFormat, name } = this.props;
+    const { dateFormat, name, outputFormat } = this.props;
     if (value === '') {
       this.props.onBlur(null, name);
-    } else if (moment(value).format(dateFormat) === value) {
+    } else if (moment(value).format(outputFormat) === value) {
       this.props.onBlur(moment(value), name);
     }
   }

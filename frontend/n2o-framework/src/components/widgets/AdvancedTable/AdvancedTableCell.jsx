@@ -1,5 +1,5 @@
 import React from 'react';
-import { pure } from 'recompose';
+import pure from 'recompose/pure';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import some from 'lodash/some';

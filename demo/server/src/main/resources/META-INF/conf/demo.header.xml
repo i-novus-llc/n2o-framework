@@ -1,6 +1,6 @@
 <header xmlns="http://n2oapp.net/framework/config/schema/header-2.0"
-        color="inverse">
-    <nav welcome-page-id="ProtoPage">
+        color="inverse" welcome-page-id="ProtoPage">
+    <nav>
         <page page-id="ProtoPage" route="/proto" label="Контакты"/>
         <!--<page page-id="ProtoTabs" route="/tabs"/>-->
         <!--<page page-id="ProtoLine" route="/line"/>-->

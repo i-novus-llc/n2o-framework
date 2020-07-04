@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
@@ -9,23 +8,19 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.Models;
-import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
 import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
+import net.n2oapp.framework.api.metadata.meta.widget.Rows;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.*;
-import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import org.springframework.stereotype.Component;
@@ -41,7 +36,7 @@ import static net.n2oapp.framework.api.script.ScriptProcessor.buildSwitchExpress
  * Компиляция таблицы
  */
 @Component
-public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
+public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
 
     @Override
     public Class<? extends Source> getSourceClass() {
@@ -68,10 +63,11 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         SubModelsScope subModelsScope = new SubModelsScope();
         UploadScope uploadScope = new UploadScope();
         uploadScope.setUpload(UploadType.defaults);
+        FiltersScope filtersScope = new FiltersScope(table.getFilters());
         table.setFilter(createFilter(source, context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModel.FILTER, table.getId(), models), new FiltersScope(table.getFilters()), subModelsScope, uploadScope,
+                new ModelsScope(ReduxModel.FILTER, table.getId(), models), filtersScope, subModelsScope, uploadScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery)));
-        ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new HashMap<>()) : p.getScope(ValidationList.class);
+        ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new EnumMap<>(ReduxModel.class)) : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(table.getId(), ReduxModel.FILTER, validationList);
         //порядок вызова compileValidation и compileDataProviderAndRoutes важен
         compileValidation(table, source, validationScope);
@@ -80,8 +76,12 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
         if (pageRoutesScope != null) {
             pageRoutesScope.put(table.getId(), widgetRouteScope);
         }
+        MetaActions widgetActions = new MetaActions();
+        compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
+        compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions,
+                uploadScope, subModelsScope, filtersScope);
         compileDataProviderAndRoutes(table, source, context, p, validationList, widgetRouteScope, null, null, object);
-        component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
+        component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         component.setClassName(source.getCssClass());
         component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
         if (source.getScrollX() != null || source.getScrollY() != null) {
@@ -89,9 +89,8 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
             component.getScroll().setX(source.getScrollX());
             component.getScroll().setY(source.getScrollY());
         }
-        MetaActions widgetActions = new MetaActions();
-        compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
         if (source.getRows() != null) {
+            component.setRows(new Rows());
             if (source.getRows().getRowClass() != null) {
                 component.setRowClass(p.resolveJS(source.getRows().getRowClass()));
             } else {
@@ -104,42 +103,16 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                     component.setRowClass(buildSwitchExpression(source.getRows().getColor()));
                 }
             }
-            compileRowClick(source, component, context, p, widgetScope, widgetRouteScope, object);
+            component.setRowClick(compileRowClick(source, context, p, widgetScope, widgetRouteScope, object, widgetActions));
         }
-        compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions);
-        Boolean prev = null;
-        Boolean next = null;
-        if (source.getPagination() != null) {
-            prev = source.getPagination().getPrev();
-            next = source.getPagination().getNext();
-        }
-        table.setPaging(createPaging(source.getSize(), prev, next, "n2o.api.default.widget.table.size", p));
+        table.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         table.setChildren(p.cast(source.getChildren(),
-                p.resolve(property("n2o.api.default.widget.table.children.toggle"), N2oTable.ChildrenToggle.class))
+                p.resolve(property("n2o.api.widget.table.children.toggle"), N2oTable.ChildrenToggle.class))
         );
+        component.setAutoCheckboxOnSelect(p.cast(source.getCheckOnSelect(), p.resolve(property("n2o.api.widget.table.check_on_select"), Boolean.class)));
+        if (Boolean.TRUE.equals(source.getCheckboxes()))
+            component.setRowSelection(RowSelectionEnum.checkbox);
         return table;
-    }
-
-    private void compileRowClick(N2oTable source, TableWidgetComponent component, CompileContext<?, ?> context,
-                                 CompileProcessor p, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, CompiledObject object) {
-        N2oRowClick rowClick = source.getRows().getRowClick();
-        if (rowClick != null) {
-            Object enabledCondition = ScriptProcessor.resolveExpression(rowClick.getEnabled());
-            if (enabledCondition == null || enabledCondition instanceof String || Boolean.TRUE.equals(enabledCondition)) {
-                AbstractAction action = null;
-                if (rowClick.getActionId() != null) {
-                    MetaActions actions = p.getScope(MetaActions.class);
-                    action = (AbstractAction) actions.get(rowClick.getActionId());
-                } else if (rowClick.getAction() != null) {
-                    action = p.compile(rowClick.getAction(), context, widgetScope,
-                            widgetRouteScope, new ComponentScope(rowClick), object);
-                }
-                if (action != null && StringUtils.isJs(enabledCondition))
-                    action.setEnablingCondition((String) ScriptProcessor.removeJsBraces(enabledCondition));
-                component.setRowClick(action);
-                component.setRows(new TableWidgetComponent.Rows());
-            }
-        }
     }
 
     @Override
@@ -174,57 +147,37 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
 
     private void compileColumns(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                                 TableWidgetComponent component, CompiledQuery query, CompiledObject object,
-                                WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions) {
+                                Object... scopes) {
         if (source.getColumns() != null) {
             List<ColumnHeader> headers = new ArrayList<>();
-            List<N2oCell> cells = new ArrayList<>();
             Map<String, String> sortings = new HashMap<>();
             IndexScope columnIndex = new IndexScope();
+            CellsScope cellsScope = new CellsScope(new ArrayList<>());
             for (AbstractColumn column : source.getColumns()) {
-                compileHeaderWithCell(object, query, headers, cells, column, context, p, columnIndex, widgetScope, widgetRouteScope, widgetActions);
+                headers.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes));
                 if (column.getSortingDirection() != null) {
                     sortings.put(column.getTextFieldId(), column.getSortingDirection().toString().toUpperCase());
                 }
             }
             component.setHeaders(headers);
-            component.setCells(cells);
+            component.setCells(cellsScope.getCells());
             component.setSorting(sortings);
-            Boolean hasSelect = p.cast(source.getSelected(), p.resolve(property("n2o.api.widget.table.selected"), Boolean.class));
-            component.setHasSelect(hasSelect);
-            component.setHasFocus(hasSelect);
-        }
-    }
 
-    private void compileHeaderWithCell(CompiledObject object, CompiledQuery query, List<ColumnHeader> headers, List<N2oCell> cells,
-                                       AbstractColumn column,
-                                       CompileContext<?, ?> context, CompileProcessor p,
-                                       IndexScope columnIndex, WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions) {
-        ColumnHeader header = new ColumnHeader();
-        column.setId(p.cast(column.getId(), column.getTextFieldId()));
-        column.setSortingFieldId(p.cast(column.getSortingFieldId(), column.getTextFieldId()));
-        header.setId(column.getId());
-        header.setIcon(column.getLabelIcon());
-        header.setWidth(column.getWidth());
-        header.setResizable(column.getResizable());
-        header.setFixed(column.getFixed());
-        header.setVisible(column.getVisible());
-
-        if (query != null && query.getFieldsMap().containsKey(column.getTextFieldId())) {
-            header.setLabel(p.cast(column.getLabelName(), query.getFieldsMap().get(column.getTextFieldId()).getName()));
-        } else {
-            header.setLabel(column.getLabelName());
-        }
-        if (query != null && query.getFieldsMap().containsKey(header.getId())) {
-            header.setSortable(!query.getFieldsMap().get(header.getId()).getNoSorting());
-        }
-        headers.add(header);
-        if (column instanceof N2oSimpleColumn) {
-            N2oCell cell = ((N2oSimpleColumn) column).getCell();
-            if (cell == null) {
-                cell = new N2oTextCell();
+            RowSelectionEnum rowSelection = p.cast(source.getSelection(), p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class));
+            switch (rowSelection) {
+                case none:
+                    component.setHasSelect(false);
+                    component.setHasFocus(false);
+                    break;
+                case active:
+                    component.setHasSelect(true);
+                    component.setHasFocus(true);
+                    break;
+                case radio:
+                case checkbox:
+                    component.setRowSelection(rowSelection);
+                    break;
             }
-            cell = p.compile(cell, context, columnIndex, widgetScope, widgetRouteScope, new ComponentScope(column), object, widgetActions);
-            cells.add(cell);
         }
     }
 
@@ -234,6 +187,7 @@ public class TableCompiler extends BaseWidgetCompiler<Table, N2oTable> {
                                               SubModelsScope subModelsScope, UploadScope uploadScope, MomentScope momentScope) {
         List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
                 widgetQuery, object, modelsScope, filtersScope, subModelsScope, uploadScope, momentScope);
+
         if (fieldSets.isEmpty())
             return null;
         AbstractTable.Filter filter = new AbstractTable.Filter();

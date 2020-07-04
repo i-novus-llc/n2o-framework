@@ -11,9 +11,9 @@ import net.n2oapp.framework.api.metadata.control.multi.N2oMultiListField;
 @Getter
 @Setter
 public class N2oInputSelect extends N2oListField implements N2oSingleListField, N2oMultiListField {
-
     private ListType type;
     private Boolean resetOnBlur;
+    private String descriptionFieldId;
 
     @Override
     public boolean isSingle() {

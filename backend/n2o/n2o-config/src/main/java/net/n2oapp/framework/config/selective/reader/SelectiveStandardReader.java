@@ -7,17 +7,13 @@ import net.n2oapp.framework.config.io.control.HiddenIOv2;
 import net.n2oapp.framework.config.io.control.interval.DateIntervalIOv2;
 import net.n2oapp.framework.config.io.control.list.*;
 import net.n2oapp.framework.config.io.control.plain.*;
-import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
-import net.n2oapp.framework.config.io.dataprovider.RestDataProviderIOv1;
-import net.n2oapp.framework.config.io.dataprovider.SqlDataProviderIOv1;
-import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
+import net.n2oapp.framework.config.io.dataprovider.*;
 import net.n2oapp.framework.config.io.fieldset.LineFieldsetElementIOv4;
-import net.n2oapp.framework.config.io.fieldset.PanelFieldsetElementIOv4;
+import net.n2oapp.framework.config.io.fieldset.MultiFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.fieldset.SetFieldsetElementIOv4;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.object.ObjectElementIOv3;
-import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
-import net.n2oapp.framework.config.io.page.StandardPageElementIOv2;
+import net.n2oapp.framework.config.io.page.*;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.io.region.LineRegionIOv1;
 import net.n2oapp.framework.config.io.region.PanelRegionIOv1;
@@ -46,6 +42,9 @@ public class SelectiveStandardReader extends SelectiveReader {
     public SelectiveStandardReader addPage2() {
         return addReader(new SimplePageElementIOv2())
                 .addReader(new StandardPageElementIOv2())
+                .addReader(new LeftRightPageElementIOv2())
+                .addReader(new TopLeftRightPageElementIOv2())
+                .addReader(new SearchablePageElementIOv2())
                 .addReader(new LineRegionIOv1())
                 .addReader(new PanelRegionIOv1())
                 .addReader(new TabsRegionIOv1());
@@ -96,8 +95,10 @@ public class SelectiveStandardReader extends SelectiveReader {
     }
 
     public SelectiveStandardReader addFieldSet4Reader() {
-        return addControlReader().addReader(new SetFieldsetElementIOv4()).addReader(new LineFieldsetElementIOv4())
-                .addReader(new PanelFieldsetElementIOv4());
+        return addControlReader()
+                .addReader(new SetFieldsetElementIOv4())
+                .addReader(new LineFieldsetElementIOv4())
+                .addReader(new MultiFieldsetElementIOv4());
     }
 
     public SelectiveStandardReader addEventsReader() {
@@ -108,7 +109,6 @@ public class SelectiveStandardReader extends SelectiveReader {
         addReader(new OpenPageReaderV1());
         addReader(new ShowModalFormReaderV1());
         addReader(new ShowModalWithActionReaderV1());
-        addReader(new CustomReaderV1());
         addReader(new ActionAndCloseReaderV1());
         addReader(new CloseEventReaderV1());
         addReader(new ValidateEventReaderV1());
@@ -129,7 +129,8 @@ public class SelectiveStandardReader extends SelectiveReader {
         return addReader(new RestDataProviderIOv1())
                 .addReader(new SqlDataProviderIOv1())
                 .addReader(new JavaDataProviderIOv1())
-                .addReader(new TestDataProviderIOv1());
+                .addReader(new TestDataProviderIOv1())
+                .addReader(new MongoDbDataProviderIOv1());
     }
 
     public SelectiveStandardReader addQueryReader() {
@@ -145,9 +146,7 @@ public class SelectiveStandardReader extends SelectiveReader {
         addReader(new EditFormXmlReaderV3());
         addReader(new TableXmlReaderV3());
         addReader(new TreeXmlReaderV3());
-        addReader(new N2oChartReaderV3());
         addReader(new CustomWidgetXmlReaderV3());
-        addReader(new HtmlWidgetXmlReaderV3());
         addReader(new WizardXmlReaderV3());
 
         return this;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import sinon from 'sinon';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import ButtonUploader from './ButtonUploader';
@@ -363,6 +364,7 @@ describe('FileUploader Тесты', () => {
   });
 
   it('Проверка удаления файла', () => {
+    const onBlur = sinon.spy();
     const button = setupButton({
       files: [
         {
@@ -371,9 +373,11 @@ describe('FileUploader Тесты', () => {
           size: 1,
         },
       ],
+      onBlur,
     });
     button.instance().handleRemove(0);
     expect(button.state().files).toEqual([]);
+    expect(onBlur.calledOnce).toBeTruthy();
   });
 
   it('Проверка onChange', () => {

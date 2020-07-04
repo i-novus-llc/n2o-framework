@@ -17,7 +17,8 @@
             {
               "id": "menuItem0",
               "actionId": "invoke",
-              "title": "Запрос с ошибкой"
+              "src": "PerformButton",
+              "label": "Запрос с ошибкой"
             }
           ]
         }

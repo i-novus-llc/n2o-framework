@@ -27,7 +27,7 @@ describe('Проверка toolbar reducer', () => {
           type: REGISTER_BUTTON,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
             color: 'red',
             icon: 'fa fa-plus',
           },
@@ -42,12 +42,13 @@ describe('Проверка toolbar reducer', () => {
           error: null,
           hint: null,
           icon: 'fa fa-plus',
-          id: 'buttonId',
+          buttonId: 'buttonId',
           disabled: false,
           isInit: true,
           visible: true,
           key: 'buttonKey',
           loading: false,
+          message: null,
           size: null,
           title: null,
         },
@@ -69,7 +70,7 @@ describe('Проверка toolbar reducer', () => {
           type: CHANGE_BUTTON_VISIBILITY,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
             visible: true,
           },
         }
@@ -97,7 +98,7 @@ describe('Проверка toolbar reducer', () => {
           type: CHANGE_BUTTON_TITLE,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
             title: 'new title',
           },
         }
@@ -125,7 +126,7 @@ describe('Проверка toolbar reducer', () => {
           type: CHANGE_BUTTON_COUNT,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
             count: 30,
           },
         }
@@ -153,7 +154,7 @@ describe('Проверка toolbar reducer', () => {
           type: CHANGE_BUTTON_SIZE,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
             size: 'lg',
           },
         }
@@ -181,7 +182,7 @@ describe('Проверка toolbar reducer', () => {
           type: CHANGE_BUTTON_COLOR,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
             color: 'blue',
           },
         }
@@ -209,7 +210,7 @@ describe('Проверка toolbar reducer', () => {
           type: CHANGE_BUTTON_DISABLED,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
             disabled: false,
           },
         }
@@ -237,7 +238,7 @@ describe('Проверка toolbar reducer', () => {
           type: TOGGLE_BUTTON_DISABLED,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
           },
         }
       )
@@ -264,7 +265,7 @@ describe('Проверка toolbar reducer', () => {
           type: TOGGLE_BUTTON_VISIBILITY,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
           },
         }
       )
@@ -291,7 +292,7 @@ describe('Проверка toolbar reducer', () => {
           type: CHANGE_BUTTON_HINT,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
             hint: 'new hint',
           },
         }
@@ -322,7 +323,7 @@ describe('Проверка toolbar reducer', () => {
           type: CHANGE_BUTTON_STYLE,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
             style: {
               position: 'relative',
               left: '-4px',
@@ -356,7 +357,7 @@ describe('Проверка toolbar reducer', () => {
           type: CHANGE_BUTTON_ICON,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
             icon: 'fa fa-plus',
           },
         }
@@ -384,7 +385,7 @@ describe('Проверка toolbar reducer', () => {
           type: CHANGE_BUTTON_CLASS,
           payload: {
             key: 'buttonKey',
-            id: 'buttonId',
+            buttonId: 'buttonId',
             className: 'new-class',
           },
         }
@@ -414,7 +415,7 @@ describe('Проверка toolbar reducer', () => {
           type: RESET_STATE,
           payload: {
             widgetId: 'WidgetId',
-            buttonId: 'buttonId',
+            buttonbuttonId: 'buttonId',
             buttonKey: 'buttonKey',
           },
         }

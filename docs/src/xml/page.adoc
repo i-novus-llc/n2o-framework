@@ -33,6 +33,16 @@ http://n2oapp.net/framework/config/schema/page-2.0
 |URL страницы
 |Формируется из идентификатора страницы
 
+|modal-size
+|sm lg
+|Размер модального окна, если страница открыта в модальном окне
+|
+
+|show-title
+|true false
+|Показывать заголовок страницы?
+|
+
 |===
 
 Тело::
@@ -47,6 +57,11 @@ link:#_Виджеты[Виджет]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
+|src
+|Строка
+|Реализация страницы
+|
+
 |name
 |Строка
 |Наименование страницы
@@ -57,14 +72,14 @@ link:#_Виджеты[Виджет]
 |URL страницы
 |Формируется из идентификатора страницы
 
+|modal-size
+|sm lg
+|Размер модального окна, если страница открыта в модальном окне
+|
+
 |object-id
 |Ссылка на link:#_Объект_object[объект]
 |Главный объект страницы
-|
-
-|layout
-|React компонент
-|Вёрстка шаблона страницы
 |
 
 |===
@@ -77,9 +92,164 @@ link:#_Виджеты[Виджет]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-    name="Моя страница"
-    object-id="myObject"
-    layout="LeftRightLayout">
+    name="Моя страница">
+    <regions>...</regions>
+    <actions>...</actions>
+    <toolbar>...</toolbar>
+</page>
+----
+
+=== <left-right-page>
+Страница с двумя регионами.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|src
+|Строка
+|Реализация страницы
+|
+
+|name
+|Строка
+|Наименование страницы
+|
+
+|route
+|Строка
+|URL страницы
+|Формируется из идентификатора страницы
+
+|modal-size
+|sm lg
+|Размер модального окна, если страница открыта в модальном окне
+|
+
+|object-id
+|Ссылка на link:#_Объект_object[объект]
+|Главный объект страницы
+|
+
+|===
+Тело::
+link:#_Регионы_<left-right-page>[Регионы <left> <right>]
+
+Пример::
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+    name="Моя страница">
+    <actions>...</actions>
+    <toolbar>...</toolbar>
+    <left>...</left>
+    <right>...</right>
+</left-right-page>
+----
+
+=== <top-left-right-page>
+Страница с тремя регионами.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|src
+|Строка
+|Реализация страницы
+|
+
+|name
+|Строка
+|Наименование страницы
+|
+
+|route
+|Строка
+|URL страницы
+|Формируется из идентификатора страницы
+
+|modal-size
+|sm lg
+|Размер модального окна, если страница открыта в модальном окне
+|
+
+|object-id
+|Ссылка на link:#_Объект_object[объект]
+|Главный объект страницы
+|
+
+|scroll-top-button
+|true false
+|Показывается ли кнопка скролла в начало страницы
+|false
+
+|===
+Тело::
+link:#_Регионы_<top-left-right-page>[Регионы <top> <left> <right>]
+
+Пример::
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+    name="Моя страница">
+    <actions>...</actions>
+    <toolbar>...</toolbar>
+    <top>...</top>
+    <left>...</left>
+    <right>...</right>
+</top-left-right-page>
+----
+
+=== <searchable-page>
+Страница с поисковой строкой.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|src
+|Строка
+|Реализация страницы
+|
+
+|name
+|Строка
+|Наименование страницы
+|
+
+|route
+|Строка
+|URL страницы
+|Формируется из идентификатора страницы
+
+|modal-size
+|sm lg
+|Размер модального окна, если страница открыта в модальном окне
+|
+
+|object-id
+|Ссылка на link:#_Объект_object[объект]
+|Главный объект страницы
+|
+
+|===
+
+Тело::
+link:#_Поисковая_строка[Поисковая строка]
+
+Пример::
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+    name="Моя страница">
+    <search-bar/>
     <regions>...</regions>
     <actions>...</actions>
     <toolbar>...</toolbar>
@@ -193,7 +363,7 @@ link:#_Действия[Обработчик действия]
 |Наименование|Тип|Описание|Значение по умолчанию
 
 |place
-|topLeft, topRight, bottomLeft, bottomRight
+|topLeft, topRight, bottomLeft, bottomRight, breadcrumbLeft
 |Место расположения меню
 |topLeft
 
@@ -214,114 +384,111 @@ link:#_Действия[Обработчик действия]
 </toolbar>
 ----
 
-===== <button>
-Кнопка.
+==== <left> <right>
+Регионы <left-right-page>.
 
 Атрибуты::
 [cols="2,1,4,4"]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|id
+|width
 |Строка
-|Идентификатор кнопки
-|Вычисляется из `action-id`
-
-|action-id
-|Ссылка на link:#__action[действие страницы]
-|Действие страницы, которое будет вызвано при нажатии на кнопку
-|
-
-|label
-|Строка
-|Заголовок кнопки
-|Вычисляется из `action-id`
-
-|icon
-|http://fontawesome.io/icons/[CSS класс]
-|Иконка
-|Вычисляется из `action-id`
-
-|type
-|text, icon, textAndIcon
-|Кнопка с иконкой или без
-|Если задан `icon`, то `iconAndText`, иначе `text`
-
-|class
-|https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
-|Css класс кнопки
-|
-
-|style
-|CSS свойство
-|Стиль кнопки
+|Ширина региона
 |
 
 |===
 
-Тело::
-link:#_Действия[Обработчик действия]
+Пример::
+[source,xml]
+----
+<left width="40%">...</left>
+<right width="60%">...</right>
+----
+
+==== <top> <left> <right>
+Регионы <top-left-right-page>.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|width
+|Строка
+|Ширина региона
+|
+
+|fixed
+|true false
+|Зафиксирован ли регион.
+Фиксироваться может максимум 2 региона из 3
+|false
+
+|offset
+|Число
+|Отступ от верхней границы при фиксировании
+|
+
+|===
 
 Пример::
 [source,xml]
 ----
-<button action-id="create"/>
+<top fixed="true" offset="100">...</top>
+<left width="40%">...</left>
+<right fixed="true" width="60%" offset="100">...</right>
 ----
 
+==== <search-bar>
+Поисковая строка.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|class
+|Строка
+|CSS класс стилей
+|
+
+|placeholder
+|Строка
+|Подсказка для ввода
+|
+
+|search-widget-id
+|Строка
+|Идентификатор виджета для которого производится поиск
+|Главный виджет страницы
+
+|search-filter-id
+|Строка
+|Идентификатор фильтра
+|
+
+|search-param
+|Строка
+|Параметр поиска
+|Идентификатор виджета + Идентификатор фильтра (table_name)
+
+|===
+
+Пример::
 [source,xml]
 ----
-<button
-  label="Добавить в реестр"
-  icon="fa-plus"
-  type="textAndIcon">
-  <open-page page-id="register" action-id="create"/>
-</button>
+<search-bar button-label="Искать" search-widget-id="main" search-filter-id="name"/>
 ----
+
+===== <button>
+link:#_Кнопки_button[Кнопка]
 
 ===== <sub-menu>
-Кнопка с выпадающим меню.
+link:#_Кнопки_sub-menu[Кнопка с выпадающим меню]
 
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|label
-|Строка
-|Заголовок кнопки
-|Вычисляется из действия кнопки
-
-|icon
-|http://fontawesome.io/icons/[CSS класс]
-|Иконка
-|
-
-|type
-|text, icon, textAndIcon
-|Кнопка с иконкой или без
-|Если задан `icon`, то `iconAndText`, иначе `text`
-
-|class
-|https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
-|Css класс кнопки
-|
-
-|style
-|CSS свойство
-|Стиль кнопки
-|
-
-|===
-
-Пример::
-[source,xml]
-----
-<sub-menu>
-  <menu-item>...<menu-item>
-  <menu-item>...<menu-item>
-  <menu-item>...<menu-item>
-</sub-menu>
-----
+===== <link>
+link:#_Кнопки_link[Ссылка]
 
 ====== <menu-item>
 Пункт выпадающего меню.
@@ -396,7 +563,7 @@ http://n2oapp.net/framework/config/schema/region-1.0
 === Базовые свойства
 
 Атрибуты::
-[cols="2,1,4"]
+[cols="2,1,4,4"]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
@@ -414,6 +581,16 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |React компонент
 |Реализация региона
 |Для каждого вида региона своё значение по умолчанию
+
+|class
+|https://getbootstrap.com/docs/4.0/components/card/#background-and-color[CSS класс]
+|CSS класс панели
+|
+
+|style
+|CSS свойство
+|Стиль панели
+|
 
 |===
 
@@ -433,6 +610,21 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |true false
 |Возможность обновления данных при переключении между вкладками
 |false
+
+|lazy
+|true false
+|Ленивая загрузка вкладок
+|true
+
+|active-param
+|Строка
+|Имя параметра активной вкладки в URL
+|
+
+|routable
+|true false
+|Восстановление активных вкладок по URL
+|true
 
 |===
 
@@ -475,29 +667,39 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
+|title
+|Строка
+|Заголовок
+|
+
 |collapsible
 |true false
 |Возможность раскрытия и сворачивания виджетов
 |true
 
-|class
-|https://getbootstrap.com/docs/4.0/components/card/#background-and-color[CSS класс]
-|CSS класс панели
+|header
+|true false
+|Наличие заголовка
+|true
+
+|icon
+|CSS класс
+|Класс иконки
 |
 
-|style
-|CSS свойство
+|color
+|Строка
 |Стиль панели
 |
 
-|header
+|open
 |true false
-|С заголовком?
+|Раскрытие панели
 |true
 
-|title
+|footer-title
 |Строка
-|Заголовок
+|Заголовок для футера
 |
 
 |===

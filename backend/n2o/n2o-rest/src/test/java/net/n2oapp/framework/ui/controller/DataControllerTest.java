@@ -272,7 +272,7 @@ public class DataControllerTest extends DataControllerTestBase {
 
         Mockito.when(invocationFactory.produce(Mockito.any(Class.class))).thenReturn(testDataProviderEngine);
 
-        N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory, null, null);
+        N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory);
 
         N2oValidationModule validationModule = new N2oValidationModule(new ValidationProcessor(invocationProcessor));
         Map<String, N2oModule> moduleMap = new HashMap<>();
@@ -292,16 +292,15 @@ public class DataControllerTest extends DataControllerTestBase {
         ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
 
         Map<String, Object> map = new HashMap<>();
-        OperationController operationController = new OperationController(dataProcessingStack, domainProcessor, operationProcessor,
-                new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
+        OperationController operationController = new OperationController(dataProcessingStack, operationProcessor,
+                new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()), builder.getEnvironment());
         map.put("operationController", operationController);
 
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
 
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
-//        controller.setErrorMessageBuilder(new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
-        return controller.setData(path, params, body, new UserContext(contextEngine));
+        return controller.setData(path, params , null, body, new UserContext(contextEngine));
     }
 
 }

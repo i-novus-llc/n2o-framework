@@ -3,19 +3,25 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.Filter;
-import net.n2oapp.framework.api.metadata.meta.Page;
-import net.n2oapp.framework.api.metadata.meta.action.AbstractAction;
-import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
-import net.n2oapp.framework.api.metadata.meta.control.Field;
-import net.n2oapp.framework.api.metadata.meta.control.SearchButtons;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.control.*;
+import net.n2oapp.framework.api.metadata.meta.action.UpdateMapModelPayload;
+import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
+import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -63,9 +69,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("paddingTop"), is("0"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
-        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getSubMenu().get(0).getId(), is("testAction2"));
-        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
-        assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getSubMenu().get(0).getStyle().get("paddingTop"), is("0"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getId(), is("testAction2"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("paddingTop"), is("0"));
         //columns
         assertThat(table.getComponent().getCells().size(), is(2));
         assertThat(((N2oAbstractCell) table.getComponent().getCells().get(0)).getReactStyle().get("marginLeft"), is("10px"));
@@ -84,8 +90,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(queryContext.getFailAlertWidgetId(), is("$testTable4Compile"));
         assertThat(queryContext.getSuccessAlertWidgetId(), is("$testTable4Compile"));
         assertThat(queryContext.getMessagesForm(), is("$testTable4Compile_filter"));
-        assertThat(table.getComponent().getHasSelect(), is(true));
+        assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.checkbox));
         assertThat(table.getComponent().getFetchOnInit(), is(false));
+        assertThat(table.getComponent().getAutoCheckboxOnSelect(), is(true));
     }
 
     @Test
@@ -98,20 +105,21 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testRowClick() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4RowClickCompile.page.xml")
                 .get(new PageContext("testTable4RowClickCompile"));
-        List<AbstractAction> rowClicks = new ArrayList<>();
-        page.getWidgets().forEach((s, widget) -> rowClicks.add((AbstractAction) ((TableWidgetComponent) widget.getComponent()).getRowClick()));
+        List<TableWidgetComponent> rowClicks = new ArrayList<>();
+        page.getWidgets().forEach((s, widget) -> rowClicks.add((TableWidgetComponent) widget.getComponent()));
 
-        assertThat(rowClicks.size(), is(8));
-        assertThat(rowClicks.get(0), nullValue());
-        assertThat(rowClicks.get(1).getEnablingCondition(), nullValue(String.class));
-        assertThat(rowClicks.get(2).getEnablingCondition(), is("false"));
-        assertThat(rowClicks.get(3).getEnablingCondition(), is("true"));
-        assertThat(rowClicks.get(4).getEnablingCondition(), is("1==1"));
-        assertThat(rowClicks.get(5).getEnablingCondition(), is("false"));
-        assertThat(rowClicks.get(6).getEnablingCondition(), is("true"));
-        assertThat(rowClicks.get(7).getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.size(), is(10));
+        assertThat(rowClicks.get(0).getRowClick(), nullValue());
+        assertThat(rowClicks.get(1).getRowClick().getEnablingCondition(), nullValue(String.class));
+        assertThat(rowClicks.get(2).getRowClick().getEnablingCondition(), is("false"));
+        assertThat(rowClicks.get(3).getRowClick().getEnablingCondition(), is("true"));
+        assertThat(rowClicks.get(4).getRowClick().getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.get(5).getRowClick().getEnablingCondition(), is("false"));
+        assertThat(rowClicks.get(6).getRowClick().getEnablingCondition(), is("true"));
+        assertThat(rowClicks.get(7).getRowClick().getEnablingCondition(), is("1==1"));
+        assertThat(rowClicks.get(8).getRowClick().getAction(), notNullValue());
     }
 
     @Test
@@ -148,12 +156,12 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(context.getSortingMap().get("name"), is("id"));
         assertThat(context.getSortingMap().get("comments"), is("comments"));
 
-        assertThat(table.getComponent().getHasSelect(), is(false));
+        assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.radio));
     }
 
     @Test
     public void testFilters() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4FiltersCompile.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4FiltersCompile.page.xml")
                 .get(new PageContext("testTable4FiltersCompile"));
         Table table = (Table) page.getWidgets().get("testTable4FiltersCompile_main");
         Filter filter = table.getFilter("name");
@@ -211,20 +219,25 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getQueryMapping().get("main_gender_name").getOnSet().getBindLink(), is("models.filter['testTable4FiltersCompile_main']"));
         assertThat(page.getRoutes().getQueryMapping().get("main_gender_name").getOnSet().getValue(), is("`gender.map(function(t){return t.name})`"));
 
-        assertThat(page.getRoutes().getQueryMapping().get("nameParam").getOnGet().getPayload().get("value"), is(":nameParam"));
+        assertThat(((UpdateModelPayload)page.getRoutes().getQueryMapping().get("nameParam").getOnGet().getPayload()).getValue(), is(":nameParam"));
         assertThat(page.getRoutes().getQueryMapping().get("nameParam").getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnGet().getPayload().get("value"), is(":main_birthday_begin"));
+        assertThat(((UpdateModelPayload)page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnGet().getPayload()).getValue(), is(":main_birthday_begin"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_begin").getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(page.getRoutes().getQueryMapping().get("main_birthday_end").getOnGet().getPayload().get("value"), is(":main_birthday_end"));
+        assertThat(((UpdateModelPayload)page.getRoutes().getQueryMapping().get("main_birthday_end").getOnGet().getPayload()).getValue(), is(":main_birthday_end"));
         assertThat(page.getRoutes().getQueryMapping().get("main_birthday_end").getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(page.getRoutes().getQueryMapping().get("main_gender_id").getOnGet().getPayload().get("value"), is(":main_gender_id"));
+
         assertThat(page.getRoutes().getQueryMapping().get("main_gender_id").getOnGet().getType(), is("n2o/models/UPDATE_MAP"));
-        assertThat(page.getRoutes().getQueryMapping().get("main_gender_id").getOnGet().getPayload().get("map"), is("id"));
-        assertThat(page.getRoutes().getQueryMapping().get("main_gender_id").getOnGet().getPayload().get("field"), is("gender"));
-        assertThat(page.getRoutes().getQueryMapping().get("main_gender_name").getOnGet().getPayload().get("value"), is(":main_gender_name"));
-        assertThat(page.getRoutes().getQueryMapping().get("main_gender_name").getOnGet().getPayload().get("map"), is("name"));
-        assertThat(page.getRoutes().getQueryMapping().get("main_gender_name").getOnGet().getPayload().get("field"), is("gender"));
+        UpdateMapModelPayload genderPayload = (UpdateMapModelPayload) page.getRoutes().getQueryMapping().get("main_gender_id").getOnGet().getPayload();
+        assertThat(genderPayload.getValue(), is(":main_gender_id"));
+        assertThat(genderPayload.getMap(), is("id"));
+        assertThat(genderPayload.getField(), is("gender"));
+
         assertThat(page.getRoutes().getQueryMapping().get("main_gender_name").getOnGet().getType(), is("n2o/models/UPDATE_MAP"));
+        genderPayload = (UpdateMapModelPayload) page.getRoutes().getQueryMapping().get("main_gender_name").getOnGet().getPayload();
+        assertThat(genderPayload.getValue(), is(":main_gender_name"));
+        assertThat(genderPayload.getMap(), is("name"));
+        assertThat(genderPayload.getField(), is("gender"));
+
 
         assertThat(table.getFilter().getHideButtons(), is(true));
         Field field = table.getFilter().getFilterFieldsets().get(0).getRows().get(3).getCols().get(0).getFields().get(0);
@@ -281,10 +294,95 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testColumnVisibility() {
-        Page page = compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTableColumnVisibility.page.xml")
                 .get(new PageContext("testTableColumnVisibility"));
         List<ColumnHeader> columnHeaders = ((Table) page.getWidgets().entrySet().iterator().next().getValue()).getComponent().getHeaders();
-        assertThat(columnHeaders.get(0).getVisible(), is(Boolean.FALSE));
+        assertThat(columnHeaders.get(0).getVisible(), nullValue());
+        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getExpression(), is("abc == 1"));
+        assertThat(columnHeaders.get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.filter['table']"));
         assertThat(columnHeaders.get(1).getVisible(), is(Boolean.TRUE));
+        assertThat(columnHeaders.get(2).getVisible(), nullValue());
+        assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getExpression(), is("type == 1"));
+        assertThat(columnHeaders.get(3).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['form']"));
+    }
+
+    @Test
+    public void testFilterColumns() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFilterColumns.page.xml")
+                .get(new PageContext("testFilterColumns"));
+        List<ColumnHeader> columnHeaders = ((Table) page.getWidget()).getComponent().getHeaders();
+        assertThat(columnHeaders.get(0), instanceOf(ColumnHeader.class));
+        assertThat(columnHeaders.get(0).getId(), is("name"));
+        assertThat(columnHeaders.get(0).getLabel(), is("label"));
+        assertThat(columnHeaders.get(0).getFilterable(), is(true));
+        assertThat(columnHeaders.get(0).getFilterControl(), instanceOf(InputText.class));
+        assertThat(columnHeaders.get(0).getFilterControl().getId(), is("name"));
+
+        PageRoutes.Query query = page.getRoutes().getQueryMapping().get("main_name");
+        assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getPrefix(), is("filter"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getKey(), is("testFilterColumns_main"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getField(), is("name"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getValue(), is(":main_name"));
+        assertThat(query.getOnSet().getBindLink(), is("models.filter['testFilterColumns_main']"));
+        assertThat(query.getOnSet().getValue(), is("`name`"));
+
+        BindLink link = page.getWidget().getDataProvider().getQueryMapping().get("main_name");
+        assertThat(link.getValue(), is("`name`"));
+        assertThat(link.getBindLink(), is("models.filter['testFilterColumns_main']"));
+
+        List<N2oCell> cells = ((Table) page.getWidget()).getComponent().getCells();
+        assertThat(cells.get(0), instanceOf(N2oBadgeCell.class));
+        assertThat(cells.get(0).getId(), is("name"));
+        assertThat(cells.get(1), instanceOf(N2oTextCell.class));
+        assertThat(cells.get(1).getId(), is("age"));
+    }
+
+    @Test
+    public void testMultiColumn() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testMultiColumn.page.xml")
+                .get(new PageContext("testMultiColumn"));
+
+        List<ColumnHeader> headers = ((Table) page.getWidget()).getComponent().getHeaders();
+        assertThat(headers.size(), is(2));
+        assertThat(headers.get(0).getId(), is("test1"));
+        assertThat(headers.get(0).getMultiHeader(), nullValue());
+        assertThat(headers.get(0).getChildren(), nullValue());
+        assertThat(headers.get(1).getLabel(), is("label"));
+        assertThat(headers.get(1).getMultiHeader(), is(true));
+
+        headers = headers.get(1).getChildren();
+        assertThat(headers.size(), is(3));
+        assertThat(headers.get(0).getMultiHeader(), is(true));
+        assertThat(headers.get(1).getId(), is("test4"));
+        assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
+        assertThat(headers.get(1).getChildren(), nullValue());
+        assertThat(headers.get(2).getId(), is("name"));
+        assertThat(headers.get(2).getFilterable(), is(true));
+        assertThat(headers.get(2).getFilterControl(), instanceOf(InputText.class));
+        assertThat(headers.get(2).getFilterControl().getId(), is("name"));
+
+        // проверка компиляции фильтруемого столбца внутри мульти-столбца
+        PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");
+        assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getPrefix(), is("filter"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getKey(), is("testMultiColumn_table"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getField(), is("name"));
+        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getValue(), is(":table_name"));
+        assertThat(query.getOnSet().getBindLink(), is("models.filter['testMultiColumn_table']"));
+        assertThat(query.getOnSet().getValue(), is("`name`"));
+
+        BindLink link = page.getWidget().getDataProvider().getQueryMapping().get("table_name");
+        assertThat(link.getValue(), is("`name`"));
+        assertThat(link.getBindLink(), is("models.filter['testMultiColumn_table']"));
+
+        headers = headers.get(0).getChildren();
+        assertThat(headers.size(), is(2));
+        assertThat(headers.get(0).getId(), is("test2"));
+        assertThat(headers.get(0).getMultiHeader(), is(nullValue()));
+        assertThat(headers.get(0).getChildren(), nullValue());
+        assertThat(headers.get(1).getId(), is("test3"));
+        assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
+        assertThat(headers.get(1).getChildren(), nullValue());
     }
 }

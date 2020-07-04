@@ -95,10 +95,10 @@
         "widgetId": "Page_Table",
         "src": "perform",
         "options": {
-          "type": "n2o/modals/INSERT",
+          "type": "n2o/overlays/INSERT",
           "payload": {
             "widgetId": "Page_Table",
-            "type": "n2o/modals/INSERT",
+            "type": "n2o/overlays/INSERT",
             "name": "test2",
             "pageId": "test",
             "title": "Отправить запрос и закрыть модальное окно(сайд-эффект)",
@@ -116,7 +116,7 @@
                     "widgetId": "Page_Table"
                   },
                   "meta": {
-                    "closeLastModal": true
+                    "modalsToClose": 1
                   },
                   "widgetId": "Page_Table"
                 }

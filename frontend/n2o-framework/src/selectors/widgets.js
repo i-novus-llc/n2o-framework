@@ -9,7 +9,7 @@ import { FORM, TABLE } from '../components/widgets/widgetTypes';
  * Базовый селектор всех виджетов
  * @param state
  */
-const widgetsSelector = state => {
+const widgetsSelector = (state = {}) => {
   return state.widgets || {};
 };
 
@@ -184,6 +184,12 @@ const makeWidgetErrorSelector = widgetId =>
   Остальные селекторы
 */
 
+const makeFormModelPrefixSelector = formName =>
+  createSelector(
+    makeWidgetByIdSelector(formName),
+    widgetState => widgetState.modelPrefix || 'resolve'
+  );
+
 export {
   widgetsSelector,
   makeWidgetByIdSelector,
@@ -204,4 +210,5 @@ export {
   makeWidgetDataProviderSelector,
   isAnyTableFocusedSelector,
   makeWidgetErrorSelector,
+  makeFormModelPrefixSelector,
 };
