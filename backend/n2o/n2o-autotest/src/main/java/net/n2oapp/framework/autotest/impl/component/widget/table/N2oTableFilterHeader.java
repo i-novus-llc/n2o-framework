@@ -4,14 +4,14 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.Control;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
-import net.n2oapp.framework.autotest.api.component.widget.table.FilterHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableFilterHeader;
 
 import static net.n2oapp.framework.autotest.N2oSelenide.component;
 
 /**
  * Фильтруемый заголовок таблицы для автотестирования
  */
-public class N2oFilterHeader extends N2oStandardTableHeader implements FilterHeader {
+public class N2oTableFilterHeader extends N2oStandardTableHeader implements TableFilterHeader {
     @Override
     public <T extends Control> T filterControl(Class<T> componentClass) {
         return component(element().$(".n2o-advanced-table-filter-dropdown-popup"), StandardField.class).control(componentClass);

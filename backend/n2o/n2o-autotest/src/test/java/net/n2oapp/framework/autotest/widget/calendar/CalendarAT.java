@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.widget.calendar;
 
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.widget.CalendarWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -35,10 +36,16 @@ public class CalendarAT extends AutoTestBase {
 
     @Test
     public void testCalendar() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/calendar/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/calendar/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/calendar/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/calendar/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/calendar/createEvent.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/calendar/selectEvent.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
+        CalendarWidget calendar = page.single().widget(CalendarWidget.class);
+        calendar.shouldExists();
 
     }
 }
