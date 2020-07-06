@@ -1,7 +1,9 @@
 package net.n2oapp.framework.autotest.widget.calendar;
 
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.api.component.widget.CalendarWidget;
+import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarToolbar;
+import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarWidget;
+import net.n2oapp.framework.autotest.impl.component.widget.calendar.CalendarViewType;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -46,6 +48,9 @@ public class CalendarAT extends AutoTestBase {
 
         CalendarWidget calendar = page.single().widget(CalendarWidget.class);
         calendar.shouldExists();
+        CalendarToolbar toolbar = calendar.toolbar();
+        toolbar.shouldHaveActiveView(CalendarViewType.MONTH);
+
 
     }
 }

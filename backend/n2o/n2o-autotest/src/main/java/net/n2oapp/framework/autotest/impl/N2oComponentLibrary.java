@@ -30,7 +30,8 @@ import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
 import net.n2oapp.framework.autotest.impl.component.region.N2oTabsRegion;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oStatus;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
-import net.n2oapp.framework.autotest.impl.component.widget.N2oCalendarWidget;
+import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarToolbar;
+import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oListWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oStandardTableHeader;
@@ -54,7 +55,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oSimpleRegion.class, N2oPanelRegion.class, N2oLineRegion.class, N2oTabsRegion.class,
                 // widgets
                 N2oTableWidget.class, N2oListWidget.class, N2oFormWidget.class, N2oStandardTableHeader.class,
-                N2oTableFilterHeader.class, N2oCalendarWidget.class,
+                N2oTableFilterHeader.class, N2oCalendarWidget.class, N2oCalendarToolbar.class,
                 // fieldsets
                 N2oSimpleFieldSet.class, N2oMultiFieldSet.class, N2oMultiFieldSetItem.class,
                 // buttons
