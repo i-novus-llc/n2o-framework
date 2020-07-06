@@ -28,6 +28,7 @@ export default compose(
   defaultProps({
     startFieldId: 'start',
     endFieldId: 'end',
+    height: '500px',
   }),
   widgetContainer(
     {
