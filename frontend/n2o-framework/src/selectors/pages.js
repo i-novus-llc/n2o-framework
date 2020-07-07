@@ -2,6 +2,7 @@
  * Created by emamoshin on 22.12.2017.
  */
 import { createSelector } from 'reselect';
+import has from 'lodash/has';
 
 /*
  Базовые селекторы
@@ -50,8 +51,8 @@ const makePageMetadataByIdSelector = pageId =>
 const makePageWidgetsByIdSelector = pageId =>
   createSelector(
     makePageMetadataByIdSelector(pageId),
-    metadata => {
-      return metadata && metadata.widgets;
+    (metadata = {}) => {
+      return has(metadata, 'widget') ? metadata.widget : metadata.widgets;
     }
   );
 
