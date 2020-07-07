@@ -7,7 +7,12 @@ export function isDayOff(day) {
 }
 
 export function isCurrentDay(day) {
-  return day.getDay() === new Date().getDay();
+  const currentDate = new Date();
+  return (
+    day.getDate() === currentDate.getDate() &&
+    day.getMonth() === currentDate.getMonth() &&
+    day.getFullYear() === currentDate.getFullYear()
+  );
 }
 
 export function formatsMap(formats = {}) {
