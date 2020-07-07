@@ -1,8 +1,10 @@
 import React from 'react';
+import get from 'lodash/get';
+import { eventLessHour } from './utils';
 
 const mapStyle = ({ height, top, width } = {}, color) => ({
   position: 'absolute',
-  height: height + '%',
+  height: 'min-content',
   top: top + '%',
   width: width + '%',
   backgroundColor: color,
@@ -33,7 +35,9 @@ function CalendarEvent({
       title={tooltip}
       onClick={onClick}
     >
-      <div className="calendar__event-label">{label}</div>
+      {!eventLessHour(get(event, 'date')) && (
+        <div className="calendar__event-label">{label}</div>
+      )}
       <div className="calendar__event-name">{title}</div>
     </div>
   );
