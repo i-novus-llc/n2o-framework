@@ -90,7 +90,8 @@ class DropdownButton extends React.Component {
                       entityKey={entityKey}
                       level={BUTTONS}
                       src={src}
-                      tag={DropdownItem}
+                      className='dropdown-item'
+                      tag='div'
                     />
                   );
                 })}
