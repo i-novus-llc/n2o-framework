@@ -44,7 +44,7 @@ class DropdownButton extends React.Component {
                 {...rest}
                 onClick={this.toggle}
                 innerRef={ref}
-                className={cn("n2o-dropdown-control dropdown-toggle", className)}
+                className={cn("dropdown-toggle", className)}
                 caret
               />
             )}
@@ -76,7 +76,8 @@ class DropdownButton extends React.Component {
                       {...rest}
                       level={BUTTONS}
                       src={src}
-                      tag={DropdownItem}
+                      className='dropdown-item'
+                      tag={'div'}
                     />
                   );
                 })}
