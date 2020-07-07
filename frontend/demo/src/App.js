@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import N2O from "n2o-framework/lib/N2o";
 import { authProvider } from "n2o-auth";
+import { BrowserRouter } from 'react-router-dom';
 import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
 import functions from "n2o-framework/lib/utils/functions";
 import Route from "n2o-framework/lib/components/core/Route";
 import Page from "n2o-framework/lib/components/core/Page";
-import { BrowserRouter } from 'react-router-dom';
 
 import DashboardV2 from "./pages/DashboardV2";
 import Select from "./pages/Select";
