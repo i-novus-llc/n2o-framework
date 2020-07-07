@@ -62,7 +62,7 @@ describe('<Dropdown />', () => {
       .at(0)
       .props();
     expect(props.caret).toBeTruthy();
-    expect(props.className).toBe('n2o-dropdown-control dropdown-toggle');
+    expect(props.className).toBe('dropdown-toggle');
     expect(props.color).toBe('color');
     expect(props.count).toBe(undefined);
     expect(props.disabled).toBeFalsy();
