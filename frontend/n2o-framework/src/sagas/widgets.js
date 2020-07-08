@@ -23,6 +23,7 @@ import {
   dataSuccessWidget,
   resetWidgetState,
   setWidgetMetadata,
+  setTableSelectedId,
 } from '../actions/widgets';
 import { setModel } from '../actions/models';
 import {
@@ -211,7 +212,7 @@ export function* handleFetch(widgetId, options, isQueryEqual, prevSelectedId) {
           resolvedProvider.baseQuery
         )
       ) {
-        // yield put(setTableSelectedId(widgetId, null));
+        yield put(setTableSelectedId(widgetId, null));
       } else if (!withoutSelectedId && widgetState.selectedId) {
         resolvedProvider.baseQuery.selectedId = widgetState.selectedId;
       }
