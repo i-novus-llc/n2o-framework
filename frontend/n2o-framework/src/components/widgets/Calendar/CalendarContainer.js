@@ -1,6 +1,7 @@
 import React from 'react';
 import { compose, withHandlers, mapProps, defaultProps } from 'recompose';
 import map from 'lodash/map';
+import get from 'lodash/get';
 
 import widgetContainer from '../WidgetContainer';
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer';
@@ -9,10 +10,6 @@ import Calendar from './Calendar';
 import CalendarEvent from './CalendarEvent';
 import CalendarCell from './CalendarCell';
 import CalendarDateCell from './CalendarDateCell';
-
-const eventType = {
-  CLICK: 'click',
-};
 
 function CalendarContainer(props) {
   return <Calendar {...props} />;
@@ -91,6 +88,7 @@ export default compose(
       resources,
       messages,
       dispatch,
+      onResolve,
     }) => ({
       events: mapEvents(datasource),
       startAccessor: startFieldId,
@@ -105,10 +103,21 @@ export default compose(
       defaultView,
       style: { height },
       actionOnClickEvent: e => {
-        if (!e.disabled) dispatch(onSelectEvent);
+        if (!e.disabled) {
+          onResolve({ id: get(e, 'id') });
+          dispatch(onSelectEvent);
+        }
       },
       actionOnClickSlot: e => {
-        if (e.action === eventType.CLICK) dispatch(onSelectSlot);
+        if (get(e, 'start')) {
+          const currentData = {
+            start: get(e, 'start'),
+            end: get(e, 'end'),
+            resourceId: get(e, 'resourceId'),
+          };
+          onResolve(currentData);
+          dispatch(onSelectSlot);
+        }
       },
       formats,
       views,
