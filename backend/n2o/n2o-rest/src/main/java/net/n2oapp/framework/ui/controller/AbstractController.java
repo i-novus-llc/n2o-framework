@@ -99,11 +99,11 @@ public abstract class AbstractController {
     }
 
     private DataSet convertToDataSet(Object body, Map<String, String> mapping) {
-        DataSet result = (body instanceof DataSet) ? result = (DataSet) body :
+        DataSet result = (body instanceof DataSet) ? (DataSet) body :
                 new DataSet((Map<? extends String, ?>) body);
         if (mapping != null) {
             for (Map.Entry<String, String> entry : mapping.entrySet()) {
-                if (!result.containsKey(entry.getValue()) || result.containsKey(entry.getKey())) {
+                if (result.get(entry.getValue()) == null || result.containsKey(entry.getKey())) {
                     result.put(entry.getValue(), result.get(entry.getKey()));
                 }
             }

@@ -8,7 +8,8 @@
         </columns>
         <toolbar>
             <button label="Открыть">
-                <show-modal page-id="modal" detail-field-id="id" refresh-on-close="true"/>
+                <show-modal page-id="modal" detail-field-id="id" refresh-on-close="true"
+                            unsaved-data-prompt-on-close="false"/>
             </button>
         </toolbar>
     </table>

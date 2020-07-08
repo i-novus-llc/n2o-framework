@@ -28,7 +28,8 @@
             <button id="testDefaultValue">
                 <open-page page-id="testDefaultValue" route="/defaultValue" upload="defaults">
                         <query-param name="name" value="{name}"/>
-                        <query-param name="birthDay" value="2022-02-14T00:00:00"/>
+                        <query-param name="start" value="2022-02-14T00:00:00"/>
+                        <query-param name="end" value="2022-03-20T00:00:00"/>
                         <query-param name="gender_id" value="1"/>
                 </open-page>
             </button>

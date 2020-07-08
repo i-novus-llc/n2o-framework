@@ -1,4 +1,5 @@
 import { momentLocalizer } from 'react-big-calendar';
+import get from 'lodash/get';
 import moment from 'moment';
 
 export function isDayOff(day) {
@@ -6,7 +7,12 @@ export function isDayOff(day) {
 }
 
 export function isCurrentDay(day) {
-  return day.getDay() === new Date().getDay();
+  const currentDate = new Date();
+  return (
+    day.getDate() === currentDate.getDate() &&
+    day.getMonth() === currentDate.getMonth() &&
+    day.getFullYear() === currentDate.getFullYear()
+  );
 }
 
 export function formatsMap(formats = {}) {
@@ -48,4 +54,11 @@ export function formatsMap(formats = {}) {
     agendaTimeFormat: date => localizerFormat(date, agendaTimeFormat),
     agendaTimeRangeFormat: rangeFormat(timeStartFormat, timeEndFormat),
   };
+}
+
+export function eventLessHour(date) {
+  const begin = new Date(get(date, 'begin'));
+  const end = new Date(get(date, 'end'));
+  const difference = Math.abs(end.getTime() - begin.getTime()) / (1000 * 3600);
+  return difference < 1;
 }
