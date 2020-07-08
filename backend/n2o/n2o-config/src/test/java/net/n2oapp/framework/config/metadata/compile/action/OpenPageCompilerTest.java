@@ -429,12 +429,15 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
 
         DataSet data = new DataSet();
         data.put("detailId", 222);
-        data.put("birthDay", "2022-02-14T00:00:00");
+        data.put("start", "2022-02-14T00:00:00");
+        data.put("end", "2022-03-20T00:00:00");
         data.put("name", "testName");
         data.put("surname", "Ivanov");
         openPage = (SimplePage) read().compile().bind().get(context, data);
-        assertThat(openPage.getModels().size(), is(2));
+        assertThat(openPage.getModels().size(), is(4));
         assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].surname").getValue(), is("testName"));
+        assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate.begin").getValue(), is("2022-02-14T00:00:00"));
+        assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate.end").getValue(), is("2022-03-20T00:00:00"));
         assertThat(((DefaultValues)openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate")
                 .getValue()).getValues().get("begin"), is("2019-02-14T00:00:00"));
 
