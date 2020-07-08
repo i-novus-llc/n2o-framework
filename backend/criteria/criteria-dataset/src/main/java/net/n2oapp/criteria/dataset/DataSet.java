@@ -84,7 +84,11 @@ public class DataSet extends NestedMap {
             return (List<?>) value;
         if (value.getClass().isArray())
             return new ArrayList<>(Arrays.asList((Object[]) value));
-        return new ArrayList<>((Collection<?>) value);
+        if (value instanceof Collection)
+            return new ArrayList<>((Collection<?>) value);
+        ArrayList<Object> result = new ArrayList<>();
+        result.add(value);
+        return result;
     }
 
 
