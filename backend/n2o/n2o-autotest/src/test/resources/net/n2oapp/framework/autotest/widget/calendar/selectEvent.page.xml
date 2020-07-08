@@ -5,9 +5,15 @@
         <fields>
             <input-text id="title" label="Название события"/>
             <date-interval id="date" time-format="HH:mm:ss" label="Дата"/>
+            <select id="resource" label="Ресурс" required="true">
+                <options>
+                    <option id="1" name="Конференц зал"/>
+                    <option id="2" name="Переговорка"/>
+                </options>
+            </select>
         </fields>
         <toolbar place="bottomLeft">
-            <button icon="fa fa-trash" description="Удалить">
+            <button icon="fa fa-trash" description="Удалить" confirm="true">
                 <invoke operation-id="delete" close-on-success="true"/>
             </button>
         </toolbar>

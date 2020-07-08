@@ -7,4 +7,8 @@ import net.n2oapp.framework.autotest.api.component.widget.Widget;
  */
 public interface CalendarWidget extends Widget {
     CalendarToolbar toolbar();
+
+    CalendarMonthView monthView();
+
+    CalendarAgendaView agendaView();
 }
