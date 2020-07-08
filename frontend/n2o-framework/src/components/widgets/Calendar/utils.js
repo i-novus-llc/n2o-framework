@@ -60,5 +60,5 @@ export function eventLessHour(date) {
   const begin = new Date(get(date, 'begin'));
   const end = new Date(get(date, 'end'));
   const difference = Math.abs(end.getTime() - begin.getTime()) / (1000 * 3600);
-  return difference <= 1;
+  return difference < 1;
 }
