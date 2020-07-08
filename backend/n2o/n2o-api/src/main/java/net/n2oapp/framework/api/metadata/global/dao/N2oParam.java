@@ -1,6 +1,5 @@
 package net.n2oapp.framework.api.metadata.global.dao;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class N2oParam implements Serializable {
     /**
      * Имя параметра
@@ -25,7 +23,6 @@ public class N2oParam implements Serializable {
      * Значение параметра
      */
     private String value;
-
     /**
      * Список значений параметра
      */

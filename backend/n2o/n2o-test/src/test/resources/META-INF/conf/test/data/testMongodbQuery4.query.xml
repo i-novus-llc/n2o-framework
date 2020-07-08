@@ -50,8 +50,11 @@
             <select/>
         </field>
 
-        <field id="gender.id">
+        <field id="gender.id" domain="integer">
             <select mapping="['gender']?.get('id')"/>
+            <filters>
+                <eq filter-id="gender.id" domain="integer"/>
+            </filters>
         </field>
 
         <field id="gender.name">

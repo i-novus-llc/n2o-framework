@@ -42,7 +42,6 @@ import { evalResultCheck } from '../utils/evalResultCheck';
 import { setModel } from '../actions/models';
 
 let prevState = {};
-let prevResults = {};
 
 export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   try {
@@ -86,7 +85,6 @@ export function* modify(
   let _evalResult;
 
   const prevValues = get(prevState, [formName, fieldName, type]);
-  const prevResult = get(prevResults, [formName, fieldName, type]);
 
   if (prevValues && isEqual(prevValues, values)) return;
 
@@ -94,9 +92,6 @@ export function* modify(
     _evalResult = evalExpression(options.expression, values);
   }
 
-  if (!isUndefined(prevResult) && isEqual(_evalResult, prevResult)) return;
-
-  set(prevResults, [formName, fieldName, type], _evalResult);
   set(prevState, [formName, fieldName, type], values);
 
   switch (type) {
@@ -119,7 +114,6 @@ export function* modify(
 
         set(newFormValues, fieldName, _evalResult);
         set(prevState, [formName, fieldName, type], newFormValues);
-        set(prevResults, [formName, fieldName, type], _evalResult);
 
         yield put(setModel(modelPrefix || 'resolve', formName, newFormValues));
       }

@@ -30,13 +30,16 @@ public class PlaceHoldersResolver {
     private String prefix;
     private String suffix;
     private Boolean onlyJavaVariable;
+    private Function<String, Integer> defaultSiffixIdx = str -> {
+        String[] ends = str.split("\\W");
+        return ends.length > 0 ? ends[0].length() : 0;
+    };
 
     /**
      * Создать замену плейсхолдеров
      *
      * @param prefix Начало плейсхолдера
      * @param suffix Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
-     *
      */
     public PlaceHoldersResolver(String prefix, String suffix) {
         this.prefix = prefix;
@@ -47,10 +50,24 @@ public class PlaceHoldersResolver {
     /**
      * Создать замену плейсхолдеров
      *
-     * @param prefix Начало плейсхолдера
-     * @param suffix Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
+     * @param prefix           Начало плейсхолдера
+     * @param suffix           Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
      * @param onlyJavaVariable Учитывать плейсхолдеры только соответсвующие спецификации java переменных
+     * @param defaultSiffixIdx ункция вычисления индекса конца плейсхолдера
+     */
+    public PlaceHoldersResolver(String prefix, String suffix, Boolean onlyJavaVariable, Function<String, Integer> defaultSiffixIdx) {
+        this.prefix = prefix;
+        this.suffix = suffix;
+        this.defaultSiffixIdx = defaultSiffixIdx;
+        this.onlyJavaVariable = onlyJavaVariable;
+    }
+
+    /**
+     * Создать замену плейсхолдеров
      *
+     * @param prefix           Начало плейсхолдера
+     * @param suffix           Окончание плейсолдера. Если не задано, то до первого не буквенного символа.
+     * @param onlyJavaVariable Учитывать плейсхолдеры только соответсвующие спецификации java переменных
      */
     public PlaceHoldersResolver(String prefix, String suffix, Boolean onlyJavaVariable) {
         this.prefix = prefix;
@@ -219,8 +236,7 @@ public class PlaceHoldersResolver {
                     sb.append(split[i].substring(idxNext));
                 }
             } else {
-                String[] ends = split[i].split("\\W");
-                idxSuffix = ends.length > 0 ? ends[0].length() : 0;
+                idxSuffix = defaultSiffixIdx.apply(split[i]);
                 idxNext = idxSuffix;
                 if (idxSuffix == 0) {
                     sb.append(prefix);
@@ -254,8 +270,7 @@ public class PlaceHoldersResolver {
                     if (isPlaceHolder(value)) {
                         Object result = safeResolveValue(value, callback);
                         field.setValue(new POJONode(result));
-                    }
-                    else if (hasPlaceHolders(value)) {
+                    } else if (hasPlaceHolders(value)) {
                         String result = safeResolve(value, callback);
                         field.setValue(new TextNode(result));
                     }

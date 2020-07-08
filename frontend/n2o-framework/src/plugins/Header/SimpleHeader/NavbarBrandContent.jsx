@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
  * @param {string | element} props.brand  - брэнд(текст)
  * @param {string | element} props.brandImage - брэнд(изображение)
  */
-const NavbarBrandContent = ({ brand, brandImage }) => {
+const NavbarBrandContent = ({ brandImage }) => {
   const img =
     brandImage && typeof brandImage === 'string' ? (
       <img
@@ -17,12 +17,7 @@ const NavbarBrandContent = ({ brand, brandImage }) => {
       brandImage
     );
 
-  return (
-    <React.Fragment>
-      {img}
-      {brand}
-    </React.Fragment>
-  );
+  return <React.Fragment>{img}</React.Fragment>;
 };
 
 NavbarBrandContent.propTypes = {

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" monitoring="off"
+         dynamicConfig="true"
+         name="n2o.config">
+
+    <!-- кеш собранных метаданных -->
+    <cache name="n2o.compiled"
+           maxElementsInMemory="5000">
+    </cache>
+
+    <!-- кеш глобальных метаданных -->
+    <cache name="n2o.source"
+           maxElementsInMemory="10000">
+    </cache>
+
+    <!-- кеш клиентских метаданных -->
+    <cache name="n2o.client"
+           maxElementsInMemory="10000">
+    </cache>
+
+    <cache name="n2o.context"
+           maxElementsInMemory="10000">
+    </cache>
+
+
+</ehcache>
