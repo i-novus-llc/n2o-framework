@@ -4,6 +4,9 @@ import net.n2oapp.framework.config.io.widget.chart.charts.LineChartIOv4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
+/**
+ * Тестирования чтения и записи линейного графика
+ */
 public class LineChartXmlIOv4Test {
     @Test
     public void testLineChartXmlIOv4Test() {
