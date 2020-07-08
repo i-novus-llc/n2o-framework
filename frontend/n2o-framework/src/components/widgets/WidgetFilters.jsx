@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getFormValues, reset } from 'redux-form';
+import { batchActions } from 'redux-batched-actions';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import difference from 'lodash/difference';
@@ -76,6 +77,10 @@ class WidgetFilters extends React.Component {
         defaultValues: filterModel,
       }));
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetFilter();
   }
 
   handleChangeModel(values) {
@@ -158,7 +163,8 @@ class WidgetFilters extends React.Component {
       filterModel,
     } = this.props;
     const { defaultValues } = this.state;
-
+    console.log('point');
+    console.log(this.props);
     return (
       <Filter
         style={{ display: !visible ? 'none' : '' }}
@@ -218,16 +224,19 @@ const mapStateToProps = createStructuredSelector({
     getFormValues(generateFormName(props))(state) || {},
 });
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, { widgetId }) => {
   return {
     dispatch,
     setFilterModel: (widgetId, data) =>
       dispatch(setModel(PREFIXES.filter, widgetId, data)),
     fetchWidget: (widgetId, options) =>
       dispatch(dataRequestWidget(widgetId, options)),
-    clearFilterModel: widgetId =>
-      dispatch(removeModel(PREFIXES.filter, widgetId)),
+    clearFilterModel: () => dispatch(removeModel(PREFIXES.filter, widgetId)),
     resetFilterModel: formName => dispatch(reset(formName)),
+    resetFilter: formName =>
+      dispatch(
+        batchActions([removeModel(PREFIXES.filter, widgetId), reset(formName)])
+      ),
   };
 };
 
