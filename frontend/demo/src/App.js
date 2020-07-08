@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import N2O from "n2o-framework/lib/N2o";
 import { authProvider } from "n2o-auth";
-import { HashRouter } from 'react-router-dom';
+import { HashRouter } from "react-router-dom";
 import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
 import functions from "n2o-framework/lib/utils/functions";
 import Route from "n2o-framework/lib/components/core/Route";

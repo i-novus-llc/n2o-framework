@@ -163,8 +163,7 @@ class WidgetFilters extends React.Component {
       filterModel,
     } = this.props;
     const { defaultValues } = this.state;
-    console.log('point');
-    console.log(this.props);
+
     return (
       <Filter
         style={{ display: !visible ? 'none' : '' }}
