@@ -94,7 +94,7 @@ export default function withActionButton(options = {}) {
         const { store } = this.context;
         const {
           validationConfig,
-          entityKey,
+          validatedWidgetId,
           validate,
           dispatch,
           formValues,
@@ -103,7 +103,7 @@ export default function withActionButton(options = {}) {
         if (validate) {
           const errors = await validateField(
             validationConfig,
-            entityKey,
+            validatedWidgetId,
             store.getState(),
             isTouched
           )(formValues, dispatch);
@@ -213,8 +213,9 @@ export default function withActionButton(options = {}) {
       count: (state, ownProps) =>
         countSelector(ownProps.entityKey, ownProps.id)(state),
       validationConfig: (state, ownProps) =>
-        makeWidgetValidationSelector(ownProps.entityKey)(state),
-      formValues: (state, ownProps) => getFormValues(ownProps.entityKey)(state),
+        makeWidgetValidationSelector(ownProps.validatedWidgetId)(state),
+      formValues: (state, ownProps) =>
+        getFormValues(ownProps.validatedWidgetId)(state),
     });
 
     function mapDispatchToProps(dispatch) {
