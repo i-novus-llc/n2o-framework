@@ -256,6 +256,17 @@ class DateTimeControl extends React.Component {
       );
     }
   }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { begin, end } = this.state.inputs;
+    if (!isNull(begin)) {
+      moment(begin).isAfter(moment(end)) &&
+        this.setState({
+          inputs: { ...this.state.inputs, end: null },
+        });
+    }
+  }
+
   /**
    * Обработка клика за пределами попапа
    */
