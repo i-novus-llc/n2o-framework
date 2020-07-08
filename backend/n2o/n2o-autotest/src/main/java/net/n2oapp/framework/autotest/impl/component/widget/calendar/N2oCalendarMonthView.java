@@ -2,15 +2,12 @@ package net.n2oapp.framework.autotest.impl.component.widget.calendar;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarEvent;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarMonthView;
-import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 /**
  * Вид отображения календаря 'Месяц' для автотестирования
  */
-public class N2oCalendarMonthView extends N2oComponent implements CalendarMonthView {
+public class N2oCalendarMonthView extends N2oStandardCalendarView implements CalendarMonthView {
     @Override
     public void shouldBeDayOff(String day) {
         int index = 0;
@@ -37,12 +34,5 @@ public class N2oCalendarMonthView extends N2oComponent implements CalendarMonthV
     @Override
     public void clickOnDay(String day) {
         element().$$(".rbc-date-cell a").findBy(Condition.text(day)).click();
-    }
-
-    @Override
-    public CalendarEvent event(String label) {
-        return N2oSelenide.component(
-                element().$$(".calendar__event .calendar__event-name").find(Condition.text(label)).parent(),
-                CalendarEvent.class);
     }
 }

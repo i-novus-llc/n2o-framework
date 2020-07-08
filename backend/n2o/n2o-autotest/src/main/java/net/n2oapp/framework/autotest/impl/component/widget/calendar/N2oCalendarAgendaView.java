@@ -1,8 +1,9 @@
 package net.n2oapp.framework.autotest.impl.component.widget.calendar;
 
-import net.n2oapp.framework.autotest.N2oSelenide;
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarAgendaView;
-import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 /**
@@ -11,7 +12,38 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 public class N2oCalendarAgendaView extends N2oComponent implements CalendarAgendaView {
 
     @Override
-    public TableWidget table() {
-        return N2oSelenide.component(element().$(".rbc-agenda-table"), TableWidget.class);
+    public void shouldHaveSize(int size) {
+        rows().shouldHaveSize(size);
+    }
+
+    @Override
+    public void eventShouldHaveDate(int index, String date) {
+        dateCell(index).shouldHave(Condition.text(date));
+    }
+
+    @Override
+    public void eventShouldHaveTime(int index, String time) {
+        timeCell(index).shouldHave(Condition.text(time));
+    }
+
+    @Override
+    public void eventShouldHaveName(int index, String name) {
+        eventCell(index).shouldHave(Condition.text(name));
+    }
+
+    private ElementsCollection rows() {
+        return element().$$(".rbc-agenda-content .rbc-agenda-table tr");
+    }
+
+    private SelenideElement dateCell(int row) {
+        return rows().get(row).$(".rbc-agenda-date-cell");
+    }
+
+    private SelenideElement timeCell(int row) {
+        return rows().get(row).$(".rbc-agenda-time-cell");
+    }
+
+    private SelenideElement eventCell(int row) {
+        return rows().get(row).$(".rbc-agenda-event-cell");
     }
 }

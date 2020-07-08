@@ -10,5 +10,7 @@ public interface CalendarWidget extends Widget {
 
     CalendarMonthView monthView();
 
+    CalendarTimeView dayView();
+
     CalendarAgendaView agendaView();
 }

@@ -10,12 +10,12 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 public class N2oCalendarEvent extends N2oComponent implements CalendarEvent {
 
     @Override
-    public void shouldHaveTitle(String title) {
+    public void shouldHaveTooltipTitle(String title) {
         element().shouldHave(Condition.attribute("title", title));
     }
 
     @Override
     public void shouldNotHaveTitle() {
-        shouldHaveTitle("");
+        shouldHaveTooltipTitle("");
     }
 }

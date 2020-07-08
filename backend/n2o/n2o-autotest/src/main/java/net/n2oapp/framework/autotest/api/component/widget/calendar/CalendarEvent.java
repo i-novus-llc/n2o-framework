@@ -6,7 +6,7 @@ import net.n2oapp.framework.autotest.api.component.Component;
  * Событие календаря для автотестирования
  */
 public interface CalendarEvent extends Component {
-    void shouldHaveTitle(String title);
+    void shouldHaveTooltipTitle(String title);
 
     void shouldNotHaveTitle();
 }
