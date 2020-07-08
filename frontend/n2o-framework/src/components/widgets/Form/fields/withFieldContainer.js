@@ -222,6 +222,7 @@ export default Field => {
         props.message !== nextProps.message ||
         props.required !== nextProps.required ||
         props.loading !== nextProps.loading ||
+        props.meta.touched !== nextProps.meta.touched ||
         get(props, 'input.value', null) !== get(nextProps, 'input.value', null)
     ),
     withProps(props => ({
