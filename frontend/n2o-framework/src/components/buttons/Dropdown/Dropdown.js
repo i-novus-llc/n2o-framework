@@ -91,7 +91,7 @@ class DropdownButton extends React.Component {
                       level={BUTTONS}
                       src={src}
                       className={cn('dropdown-item', rest.className)}
-                      tag='div'
+                      tag="div"
                     />
                   );
                 })}
