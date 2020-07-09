@@ -25,7 +25,6 @@ function CalendarEvent({
   accessors,
   cellColorAccessor,
   onClick,
-  onSelect,
 }) {
   const tooltip = accessors.tooltip(event);
   const title = accessors.title(event);
@@ -37,7 +36,7 @@ function CalendarEvent({
       className="calendar__event rbc-event"
       style={style ? mapStyle(style, color, lessHour) : monthEventStyle(color)}
       title={tooltip}
-      onClick={onClick || onSelect}
+      onClick={onClick}
     >
       {!lessHour && <div className="calendar__event-label">{label}</div>}
       <div className="calendar__event-name">{title}</div>
