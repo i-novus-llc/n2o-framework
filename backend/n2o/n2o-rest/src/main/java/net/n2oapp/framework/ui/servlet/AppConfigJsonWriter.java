@@ -1,30 +1,15 @@
 package net.n2oapp.framework.ui.servlet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.JsonUtil;
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.config.AppConfig;
-import net.n2oapp.framework.api.config.ConfigBuilder;
 import net.n2oapp.framework.api.context.ContextProcessor;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.config.N2oConfigBuilder;
-import net.n2oapp.framework.config.register.storage.PathUtil;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.env.PropertyResolver;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +60,7 @@ public class AppConfigJsonWriter {
     }
 
     private N2oConfigBuilder<AppConfig> build() {
-        N2oConfigBuilder<AppConfig> configBuilder = new N2oConfigBuilder<>(AppConfig.class,
+        N2oConfigBuilder<AppConfig> configBuilder = new N2oConfigBuilder<>(new AppConfig(),
                 objectMapper, propertyResolver, contextProcessor);
         PathMatchingResourcePatternResolver r = new PathMatchingResourcePatternResolver();
         try {
