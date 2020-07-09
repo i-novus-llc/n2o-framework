@@ -68,4 +68,4 @@ image::./images/arch.png[scaledwidth=75%]
 - Spring Boot
 
 === Миграция
-link:docs/migration/index.html#_Миграция[здесь].
+link:../migration/index.html#_Миграция[Руководство по миграции]
