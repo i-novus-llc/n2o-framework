@@ -1,5 +1,7 @@
 import React from 'react';
 import get from 'lodash/get';
+import moment from 'moment';
+import cn from 'classnames';
 import { eventLessHour } from './utils';
 
 const mapStyle = ({ height, top, width } = {}, color, lessHour) => ({
@@ -10,6 +12,7 @@ const mapStyle = ({ height, top, width } = {}, color, lessHour) => ({
   backgroundColor: color,
   padding: lessHour ? '0 5px' : '2px 5px',
   lineHeight: lessHour ? '1' : '1.5',
+  flexFlow: lessHour ? 'nowrap' : 'none',
 });
 
 const monthEventStyle = color => ({
@@ -20,7 +23,6 @@ const DEFAULT_BG_COLOR = '#3174ad';
 
 function CalendarEvent({
   style,
-  label,
   event,
   accessors,
   cellColorAccessor,
@@ -30,7 +32,8 @@ function CalendarEvent({
   const tooltip = accessors.tooltip(event);
   const title = accessors.title(event);
   const color = event[cellColorAccessor] || DEFAULT_BG_COLOR;
-  const lessHour = eventLessHour(get(event, 'date'));
+  const lessHour = eventLessHour(get(event, 'date'), get(event, 'step'));
+  const begin = get(event, 'date.begin');
 
   return (
     <div
@@ -39,8 +42,16 @@ function CalendarEvent({
       title={tooltip}
       onClick={onClick || onSelect}
     >
-      {!lessHour && <div className="calendar__event-label">{label}</div>}
-      <div className="calendar__event-name">{title}</div>
+      <div
+        className={cn('calendar__event-name', {
+          'calendar__event-name--nowrap': lessHour,
+        })}
+      >
+        {title}
+      </div>
+      <div className="calendar__event-label">
+        {moment(begin).format('HH:mm')}
+      </div>
     </div>
   );
 }
