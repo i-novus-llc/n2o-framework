@@ -1,6 +1,7 @@
 import React from 'react';
 import get from 'lodash/get';
 import moment from 'moment';
+import cn from 'classnames';
 import { eventLessHour } from './utils';
 
 const mapStyle = ({ height, top, width } = {}, color, lessHour) => ({
@@ -42,8 +43,9 @@ function CalendarEvent({
       onClick={onClick || onSelect}
     >
       <div
-        className="calendar__event-name"
-        style={lessHour ? { whiteSpace: 'nowrap' } : {}}
+        className={cn('calendar__event-name', {
+          'calendar__event-name--nowrap': lessHour,
+        })}
       >
         {title}
       </div>

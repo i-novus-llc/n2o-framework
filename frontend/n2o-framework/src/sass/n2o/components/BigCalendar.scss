@@ -39,6 +39,9 @@
       font-weight: bold;
       margin-right: 5px;
       overflow: hidden;
+      &--nowrap {
+        white-space: nowrap;
+      }
     }
   }
 
