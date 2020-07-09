@@ -418,7 +418,7 @@
             </xs:annotation>
         </xs:attribute>
         <xs:sequence>
-            <xs:element name="dependencies" type="columnDependenciesDefinition">
+            <xs:element name="dependencies" type="columnDependenciesDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Зависимости столбца.</xs:documentation>
                 </xs:annotation>
