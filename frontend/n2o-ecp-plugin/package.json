@@ -16,7 +16,9 @@
     "prepublishOnly": "yarn run build",
     "start": "nwb serve-react-demo",
     "test:coverage": "nwb test-react --coverage",
-    "test:watch": "nwb test-react --server"
+    "test:watch": "nwb test-react --server",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "crypto-pro": "^1.1.0",
@@ -24,7 +26,8 @@
     "n2o-framework": "^7.8.0",
     "query-string": "^6.9.0",
     "reactstrap": "^8.1.1",
-    "recompose": "^0.30.0"
+    "recompose": "^0.30.0",
+    "snyk": "^1.336.0"
   },
   "peerDependencies": {
     "react": "16.x"
@@ -40,5 +43,6 @@
   "repository": "",
   "keywords": [
     "react-component"
-  ]
+  ],
+  "snyk": true
 }
