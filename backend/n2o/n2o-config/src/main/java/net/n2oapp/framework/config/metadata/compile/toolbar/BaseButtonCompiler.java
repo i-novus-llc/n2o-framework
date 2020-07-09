@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Set;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.ref;
 
 /**
  * Компиляция ToolbarItem
@@ -245,7 +246,14 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
 
     private void compileCondition(AbstractMenuItem.Dependency dependency, MenuItem menuItem, ValidationType validationType,
                                   String widgetId, String fieldId, CompileProcessor p) {
-        String refWidgetId = p.cast(dependency.getRefWidgetId(), widgetId);
+        String refWidgetId = null;
+        if (dependency.getRefWidgetId() != null) {
+            PageScope pageScope = p.getScope(PageScope.class);
+            if (pageScope != null) {
+                refWidgetId = pageScope.getGlobalWidgetId(dependency.getRefWidgetId());
+            }
+        }
+        refWidgetId = p.cast(refWidgetId, widgetId);
         ReduxModel refModel = p.cast(dependency.getRefModel(), ReduxModel.RESOLVE);
 
         Condition condition = new Condition();

@@ -419,11 +419,13 @@
                 <xs:documentation>Направление сортировки по умолчанию.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:element name="dependencies" type="columnDependenciesDefinition">
-            <xs:annotation>
-                <xs:documentation>Зависимости столбца.</xs:documentation>
-            </xs:annotation>
-        </xs:element>
+        <xs:sequence>
+            <xs:element name="dependencies" type="columnDependenciesDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Зависимости столбца.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="columnDefinition">
