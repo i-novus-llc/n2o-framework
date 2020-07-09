@@ -26,7 +26,7 @@ export default compose(
   defaultProps({
     startFieldId: 'start',
     endFieldId: 'end',
-    height: '500px',
+    height: '1200px',
   }),
   widgetContainer(
     {
@@ -40,9 +40,10 @@ export default compose(
   withContainerLiveCycle,
   withWidgetHandlers,
   withHandlers({
-    mapEvents: ({ startFieldId, endFieldId }) => events =>
+    mapEvents: ({ startFieldId, endFieldId, step }) => events =>
       map(events, event => ({
         ...event,
+        step,
         [startFieldId]: new Date(event[startFieldId]),
         [endFieldId]: new Date(event[endFieldId]),
       })),
