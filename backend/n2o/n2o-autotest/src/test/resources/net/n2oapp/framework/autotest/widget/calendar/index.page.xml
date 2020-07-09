@@ -18,11 +18,15 @@
         </resources>
         <action-on-select-slot>
             <show-modal page-id="createEvent" submit-operation-id="create"
-                        object-id="test" upload="defaults" route="/create"/>
+                        object-id="test" upload="defaults" route="/create">
+                <query-param name="start" value="{start}"/>
+                <query-param name="end" value="{end}"/>
+                <query-param name="resourceId" value="{resourceId}"/>
+            </show-modal>
         </action-on-select-slot>
         <action-on-select-event>
             <show-modal page-id="selectEvent" submit-operation-id="update"
-                        object-id="test" detail-field-id="id" route="/update"/>
+                        object-id="test" detail-field-id="id" route="/:id/update"/>
         </action-on-select-event>
     </calendar>
 </simple-page>

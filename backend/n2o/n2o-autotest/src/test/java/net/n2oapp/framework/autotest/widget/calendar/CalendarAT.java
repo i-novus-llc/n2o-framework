@@ -1,8 +1,13 @@
 package net.n2oapp.framework.autotest.widget.calendar;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.control.DateInterval;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.RadioGroup;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.*;
 import net.n2oapp.framework.autotest.impl.component.widget.calendar.CalendarViewType;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -59,6 +64,7 @@ public class CalendarAT extends AutoTestBase {
         toolbar.monthViewButton().click();
         CalendarMonthView monthView = calendar.monthView();
         toolbar.shouldHaveActiveView(CalendarViewType.MONTH);
+
         // проверка лэйблов тулбара
         toolbar.shouldHaveLabel("июль 2020");
         toolbar.prevButton().click();
@@ -67,6 +73,7 @@ public class CalendarAT extends AutoTestBase {
         toolbar.nextButton().click();
         toolbar.shouldHaveLabel("август 2020");
         toolbar.prevButton().click();
+
         // проверка выходных дней
         monthView.shouldBeDayOff("11");
         monthView.shouldBeDayOff("19");
@@ -78,14 +85,15 @@ public class CalendarAT extends AutoTestBase {
         // проверка тултипов
         event1.shouldHaveTooltipTitle("Тултип для События1");
         event2.shouldNotHaveTitle();
-        // клик по ячейке с событием
-        // должна открываться форма на создание, а не на изменение
-        // TODO возможно будут открываться обе формы
-        monthView.clickOnCell("07");
+        // клик по ячейке с событием не вызывает ни одной формы
+        event2.click();
         Modal modal = N2oSelenide.modal();
-        modal.shouldHaveTitle("Создание события");
-        // TODO проверить заполнение дат
-        modal.close();
+        modal.shouldNotExists();
+        // аналогично с ячейкой не содержащей события
+        monthView.clickOnCell("15");
+        modal = N2oSelenide.modal();
+        modal.shouldNotExists();
+
         // клик по числу в ячейке должен открывать выбранный день
         monthView.clickOnDay("06");
         toolbar.shouldHaveActiveView(CalendarViewType.DAY);
@@ -103,6 +111,7 @@ public class CalendarAT extends AutoTestBase {
         toolbar.dayViewButton().click();
         toolbar.shouldHaveActiveView(CalendarViewType.DAY);
         CalendarTimeView dayView = calendar.dayView();
+
         // проверка лэйблов тулбара
         toolbar.shouldHaveLabel("понедельник июль 06");
         toolbar.prevButton().click();
@@ -111,36 +120,59 @@ public class CalendarAT extends AutoTestBase {
         toolbar.nextButton().click();
         toolbar.shouldHaveLabel("вторник июль 07");
         toolbar.prevButton().click();
+
         // проверка хэдеров
         CalendarTimeViewHeader header1 = dayView.header(0);
         header1.shouldHaveTitle("Конференц зал");
         CalendarTimeViewHeader header2 = dayView.header(1);
         header2.shouldHaveTitle("Переговорка");
+
         // клик по ячейке allDay
-        // должна открыться форма на создание
+        // не должна открываться форма на создание
         header1.clickAllDay();
         Modal modal = N2oSelenide.modal();
-        modal.shouldHaveTitle("Создание события");
-        // TODO проверить заполнение дат
-        modal.close();
-        // кликаем по ячейке
+        modal.shouldNotExists();
+        // проверка, что клик по ячейке создает событие с заполненным временем и ресурсом
         dayView.clickCell(1, "4:30");
         modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Создание события");
-        // TODO проверить заполнение дат и ресурса
+        Fields fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        net.n2oapp.framework.autotest.api.component.control.InputText name = fields.field("Название события").control(InputText.class);
+        name.shouldBeEmpty();
+        DateInterval date = fields.field("Дата").control(DateInterval.class);
+        date.beginShouldHaveValue("06.07.2020 04:30:00");
+        date.endShouldHaveValue("06.07.2020 05:00:00");
+        RadioGroup resource = fields.field("Ресурс").control(RadioGroup.class);
+        resource.shouldBeChecked("Конференц зал");
         modal.close();
 
         // наличие событий
         CalendarEvent event1 = dayView.event("Событие1");
         event1.shouldExists();
-        // клик по ячейке с событием
-        // TODO проверить, что открывается форма на создание, а не изменение из-за disabled
+        // клик по событию
+        // проверка, что открывается форма на создание, а не изменение из-за disabled=true
+        event1.click();
+        modal = N2oSelenide.modal();
+        modal.shouldHaveTitle("Создание события");
+        modal.close();
 
         toolbar.nextButton().click();
         CalendarEvent event2 = dayView.event("Событие2");
         event2.shouldExists();
         // клик по ячейке с событием
-        // TODO проверить, что открывается форма на изменение
+        // проверка, что открывается форма на изменение
+        event2.click();
+        modal = N2oSelenide.modal();
+        modal.shouldHaveTitle("Просмотр события");
+        fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        name = fields.field("Название события").control(InputText.class);
+        name.shouldBeEmpty();
+        date = fields.field("Дата").control(DateInterval.class);
+        date.beginShouldHaveValue("07.07.2020 13:00:00");
+        date.endShouldHaveValue("07.07.2020 15:00:00");
+        resource = fields.field("Ресурс").control(RadioGroup.class);
+        resource.shouldBeChecked("Переговорка");
+        modal.close();
 
         event2.shouldNotHaveTitle();
     }
@@ -166,5 +198,27 @@ public class CalendarAT extends AutoTestBase {
         agendaView.eventShouldHaveDate(1, "вт июль 07");
         agendaView.eventShouldHaveTime(1, "13:00 — 15:00");
         agendaView.eventShouldHaveName(1, "Событие2");
+    }
+
+    @Test
+    public void testCalendarWeekView() {
+        toolbar.weekViewButton().click();
+        toolbar.shouldHaveActiveView(CalendarViewType.WEEK);
+        CalendarTimeView weekView = calendar.weekView();
+
+        // проверка лэйблов тулбара
+        toolbar.shouldHaveLabel("понедельник июль 06");
+        toolbar.prevButton().click();
+        toolbar.shouldHaveLabel("воскресенье июль 05");
+        toolbar.nextButton().click();
+        toolbar.nextButton().click();
+        toolbar.shouldHaveLabel("вторник июль 07");
+        toolbar.prevButton().click();
+
+        // проверка хэдеров
+        CalendarTimeViewHeader header1 = weekView.header(0);
+        header1.shouldHaveTitle("Конференц зал");
+        CalendarTimeViewHeader header2 = weekView.header(1);
+        header2.shouldHaveTitle("Переговорка");
     }
 }

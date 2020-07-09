@@ -9,4 +9,6 @@ public interface CalendarEvent extends Component {
     void shouldHaveTooltipTitle(String title);
 
     void shouldNotHaveTitle();
+
+    void click();
 }

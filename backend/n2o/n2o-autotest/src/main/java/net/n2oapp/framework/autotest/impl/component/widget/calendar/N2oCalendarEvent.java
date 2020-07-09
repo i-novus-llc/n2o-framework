@@ -18,4 +18,9 @@ public class N2oCalendarEvent extends N2oComponent implements CalendarEvent {
     public void shouldNotHaveTitle() {
         shouldHaveTooltipTitle("");
     }
+
+    @Override
+    public void click() {
+        element().click();
+    }
 }

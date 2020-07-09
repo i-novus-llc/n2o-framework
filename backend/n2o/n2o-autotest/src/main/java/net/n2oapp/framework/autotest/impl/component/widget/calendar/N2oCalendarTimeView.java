@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.widget.calendar;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarTimeView;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarTimeViewHeader;
+import org.openqa.selenium.Point;
 
 /**
  * Вид отображения календаря 'День' для автотестирования
@@ -20,7 +21,9 @@ public class N2oCalendarTimeView extends N2oStandardCalendarView implements Cale
         if ("30".equals(time[1]))
             cellIdx++;
 
-        element().$$(".rbc-time-content .rbc-day-slot").get(columnIndex)
-                .$$(".calendar__cell").get(cellIdx).click();
+        // TODO
+        Point location = element().$$(".rbc-time-content .rbc-day-slot").get(columnIndex)
+                .$$(".calendar__cell").get(cellIdx).getLocation();
+        element().$$(".rbc-events-container").get(columnIndex).click(location.getX(), location.getY());
     }
 }
