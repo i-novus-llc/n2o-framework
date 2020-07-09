@@ -51,10 +51,9 @@ export default compose(
   withContainerLiveCycle,
   withWidgetHandlers,
   withHandlers({
-    mapEvents: ({ startFieldId, endFieldId, currentView }) => events =>
+    mapEvents: ({ startFieldId, endFieldId }) => events =>
       map(events, event => ({
         ...event,
-        currentView,
         [startFieldId]: new Date(event[startFieldId]),
         [endFieldId]: new Date(event[endFieldId]),
       })),
