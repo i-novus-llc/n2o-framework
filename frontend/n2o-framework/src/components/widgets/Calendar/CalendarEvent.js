@@ -26,8 +26,9 @@ function CalendarEvent({
   event,
   accessors,
   cellColorAccessor,
-  onClick,
-  monthView,
+  onResolve,
+  onSelectEvent,
+  dispatch,
 }) {
   const tooltip = accessors.tooltip(event);
   const title = accessors.title(event);
@@ -36,14 +37,17 @@ function CalendarEvent({
   const begin = get(event, 'date.begin');
   const disabled = get(event, 'disabled', false);
 
+  const handleClick = () => {
+    onResolve({ id: get(event, 'id') });
+    dispatch(onSelectEvent);
+  };
+
   return (
     <div
-      className={cn('calendar__event rbc-event', {
-        'calendar__event--nopointer': monthView || disabled,
-      })}
+      className="calendar__event rbc-event"
       style={style ? mapStyle(style, color, lessHour) : monthEventStyle(color)}
       title={tooltip}
-      onClick={onClick}
+      onClick={!disabled ? handleClick : null}
     >
       <div
         className={cn('calendar__event-name', {
