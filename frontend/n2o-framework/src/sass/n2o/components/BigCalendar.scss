@@ -21,6 +21,8 @@
   }
 
   &__event {
+    display: flex;
+    flex-wrap: wrap;
     border: none;
     box-sizing: border-box;
     box-shadow: none;
@@ -32,6 +34,18 @@
     cursor: pointer;
     width: 100%;
     text-align: left;
+    &--nopointer {
+      cursor: default !important;
+    }
+    &-name {
+      text-overflow: ellipsis;
+      font-weight: bold;
+      margin-right: 5px;
+      overflow: hidden;
+      &--nowrap {
+        white-space: nowrap;
+      }
+    }
   }
 
   &__cell {

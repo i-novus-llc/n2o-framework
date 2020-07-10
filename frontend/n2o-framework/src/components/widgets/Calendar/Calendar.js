@@ -20,7 +20,7 @@ const localizer = momentLocalizer(moment);
  * @reactProps {object} components - настройте отображение различных разделов календаря, предоставив настраиваемые компоненты
  * @reactProps {object} views - массив имен встроенных представлений
  * @reactProps {object} formats - форматы отображения дат
- * @reactProps {number} step - шаг времени в календаре (15 = 1 час)
+ * @reactProps {number} step - шаг времени в календаре (30 = 1 час)
  * @reactProps {number} timeslots - количество слотов в ячейке (шаге)
  * @reactProps {bool} selectable - возможность выбрать даты путем выделения
  * @reactProps {object} resources - разбиение не по дням, а по каким либо сущностям
@@ -51,6 +51,7 @@ function Calendar({
   actionOnClickEvent,
   actionOnClickSlot,
   messages,
+  changeView,
 }) {
   return (
     <BigCalendar
@@ -73,9 +74,10 @@ function Calendar({
       max={maxDate}
       min={minDate}
       resources={resources}
-      onSelectEvent={e => actionOnClickEvent(e)}
-      onSelectSlot={e => actionOnClickSlot(e)}
+      onSelectEvent={actionOnClickEvent}
+      onSelectSlot={actionOnClickSlot}
       messages={messages}
+      onView={changeView}
     />
   );
 }

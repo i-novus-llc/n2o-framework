@@ -1,5 +1,6 @@
 import { momentLocalizer } from 'react-big-calendar';
 import get from 'lodash/get';
+import isNumber from 'lodash/isNumber';
 import moment from 'moment';
 
 export function isDayOff(day) {
@@ -56,9 +57,13 @@ export function formatsMap(formats = {}) {
   };
 }
 
-export function eventLessHour(date) {
-  const begin = new Date(get(date, 'begin'));
-  const end = new Date(get(date, 'end'));
-  const difference = Math.abs(end.getTime() - begin.getTime()) / (1000 * 3600);
-  return difference < 1;
+export function eventLessHour(date, step) {
+  if (isNumber(step)) {
+    const begin = new Date(get(date, 'begin'));
+    const end = new Date(get(date, 'end'));
+    const difference =
+      Math.abs(end.getTime() - begin.getTime()) / (1000 * 3600);
+    return difference <= (step / 60) * 2;
+  }
+  return false;
 }
