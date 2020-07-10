@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.widget.calendar;
 
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.DateInterval;
@@ -135,19 +136,6 @@ public class CalendarAT extends AutoTestBase {
         header1.clickAllDay();
         Modal modal = N2oSelenide.modal();
         modal.shouldNotExists();
-        // проверка, что клик по ячейке создает событие с заполненным временем и ресурсом
-        dayView.clickCell(1, "4:30");
-        modal = N2oSelenide.modal();
-        modal.shouldHaveTitle("Создание события");
-        Fields fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
-        net.n2oapp.framework.autotest.api.component.control.InputText name = fields.field("Название события").control(InputText.class);
-        name.shouldBeEmpty();
-        DateInterval date = fields.field("Дата").control(DateInterval.class);
-        date.beginShouldHaveValue("06.07.2020 04:30:00");
-        date.endShouldHaveValue("06.07.2020 05:00:00");
-        RadioGroup resource = fields.field("Ресурс").control(RadioGroup.class);
-        resource.shouldBeChecked("Переговорка");
-        modal.close();
 
         // наличие событий
         CalendarEvent event1 = dayView.event("Событие1");
@@ -166,17 +154,45 @@ public class CalendarAT extends AutoTestBase {
         event2.click();
         modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Просмотр события");
-        fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
-        name = fields.field("Название события").control(InputText.class);
-        name.shouldHaveValue("Событие2");
-        date = fields.field("Дата").control(DateInterval.class);
+        Fields fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
+        DateInterval date = fields.field("Дата").control(DateInterval.class);
         date.beginShouldHaveValue("07.07.2020 13:00:00");
         date.endShouldHaveValue("07.07.2020 15:00:00");
-        resource = fields.field("Ресурс").control(RadioGroup.class);
+        RadioGroup resource = fields.field("Ресурс").control(RadioGroup.class);
         resource.shouldBeChecked("Переговорка");
         modal.close();
 
         event2.shouldNotHaveTooltip();
+
+        // проверка, что клик по ячейке создает событие с заполненным временем и ресурсом
+        dayView.clickCell(1, "4:30");
+        modal = N2oSelenide.modal();
+        modal.shouldHaveTitle("Создание события");
+        fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        fields.field("Название события").control(InputText.class).shouldBeEmpty();
+        date = fields.field("Дата").control(DateInterval.class);
+        date.beginShouldHaveValue("07.07.2020 04:30:00");
+        date.endShouldHaveValue("07.07.2020 05:00:00");
+        resource = fields.field("Ресурс").control(RadioGroup.class);
+        resource.shouldBeChecked("Переговорка");
+
+        // СОЗДАНИЕ события
+        fields.field("Название события").control(InputText.class).val("Событие3");
+        modal.toolbar().bottomRight().button("Сохранить").click();
+        Selenide.sleep(500);
+        modal.shouldNotExists();
+        // проверка, что событие появилось в календаре
+        CalendarEvent event3 = dayView.event("Событие3");
+        event3.shouldExists();
+
+        // УДАЛЕНИЕ события
+        // проверка, что изменения применились
+        event3.click();
+        modal.content(SimplePage.class).single().widget(FormWidget.class).toolbar().topRight().button("Удалить").click();
+        Selenide.sleep(500);
+        modal.shouldNotExists();
+        event3.shouldNotExists();
     }
 
     @Test
