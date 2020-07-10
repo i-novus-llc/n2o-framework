@@ -18,7 +18,6 @@ public class N2oCalendar extends N2oWidget {
     private String defaultDate;
     private CalendarViewType defaultView;
     private String[] views;
-    private Boolean toolbar;
     private String minDate;
     private String maxDate;
     private String minTime;
