@@ -12,7 +12,8 @@
     "react-light-accordion": "^0.1.4",
     "react-scripts": "^2.1.3",
     "react-split-pane": "^0.1.84",
-    "reactstrap": "^8.0.0"
+    "reactstrap": "^8.0.0",
+    "snyk": "^1.361.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -21,7 +22,9 @@
     "eject": "react-scripts eject",
     "server": "node server.js",
     "cosmos": "cosmos",
-    "cosmos:export": "cosmos-export"
+    "cosmos:export": "cosmos-export",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.8.1",
@@ -42,5 +45,6 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "snyk": true
 }
