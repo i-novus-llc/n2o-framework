@@ -1,5 +1,11 @@
 import React from 'react';
-import { compose, withHandlers, mapProps, defaultProps } from 'recompose';
+import {
+  compose,
+  withHandlers,
+  mapProps,
+  defaultProps,
+  withState,
+} from 'recompose';
 import map from 'lodash/map';
 import get from 'lodash/get';
 import moment from 'moment';
@@ -11,6 +17,10 @@ import Calendar from './Calendar';
 import CalendarEvent from './CalendarEvent';
 import CalendarCell from './CalendarCell';
 import CalendarDateCell from './CalendarDateCell';
+
+const view = {
+  MONTH: 'month',
+};
 
 function CalendarContainer(props) {
   return <Calendar {...props} />;
@@ -28,6 +38,7 @@ export default compose(
     endFieldId: 'end',
     height: '1200px',
   }),
+  withState('currentView', 'setCurrentView', ({ defaultView }) => defaultView),
   widgetContainer(
     {
       mapProps: ({ calendar, ...props }) => ({
@@ -91,6 +102,8 @@ export default compose(
       messages,
       dispatch,
       onResolve,
+      setCurrentView,
+      currentView,
     }) => ({
       events: mapEvents(datasource),
       startAccessor: startFieldId,
@@ -105,13 +118,14 @@ export default compose(
       defaultView,
       style: { height },
       actionOnClickEvent: e => {
-        if (!e.disabled) {
+        if (!e.disabled && currentView !== view.MONTH) {
           onResolve({ id: get(e, 'id') });
           dispatch(onSelectEvent);
         }
       },
       actionOnClickSlot: e => {
-        if (get(e, 'start')) {
+        const dateIsSame = moment(get(e, 'start')).isSame(get(e, 'end'));
+        if (get(e, 'start') && currentView !== view.MONTH && !dateIsSame) {
           const currentData = {
             start: moment(get(e, 'start')).format('YYYY-MM-DD HH:mm'),
             end: moment(get(e, 'end')).format('YYYY-MM-DD HH:mm'),
@@ -120,6 +134,9 @@ export default compose(
           onResolve(currentData);
           dispatch(onSelectSlot);
         }
+      },
+      changeView: e => {
+        setCurrentView(e);
       },
       formats,
       views,
