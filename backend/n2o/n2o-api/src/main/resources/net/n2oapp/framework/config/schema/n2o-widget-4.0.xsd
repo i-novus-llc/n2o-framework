@@ -746,11 +746,6 @@
                         <xs:documentation>Поле выборки, отвечающее за данные тултипа события.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="all-day-field-id" type="xs:string" use="required">
-                    <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за данные события, занимающего весь день.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="start-field-id" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, отвечающее за дату начала события.</xs:documentation>

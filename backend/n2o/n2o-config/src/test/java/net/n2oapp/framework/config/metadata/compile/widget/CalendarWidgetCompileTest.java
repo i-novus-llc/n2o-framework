@@ -54,7 +54,6 @@ public class CalendarWidgetCompileTest extends SourceCompileTestBase {
         assertThat(calendar.getComponent().getTimeSlots(), is(2));
         assertThat(calendar.getComponent().getTitleFieldId(), is("title"));
         assertThat(calendar.getComponent().getTooltipFieldId(), is("tooltip"));
-        assertThat(calendar.getComponent().getAllDayFieldId(), is("allDay"));
         assertThat(calendar.getComponent().getStartFieldId(), is("start"));
         assertThat(calendar.getComponent().getEndFieldId(), is("end"));
         assertThat(calendar.getComponent().getCellColorFieldId(), is("color"));

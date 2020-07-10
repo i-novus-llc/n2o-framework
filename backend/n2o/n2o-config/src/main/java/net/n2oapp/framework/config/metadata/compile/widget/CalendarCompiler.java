@@ -69,7 +69,6 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
                 p.resolve(property("n2o.api.widget.calendar.time_slot_count"), Integer.class)));
         component.setTitleFieldId(source.getTitleFieldId());
         component.setTooltipFieldId(source.getTooltipFieldId());
-        component.setAllDayFieldId(source.getAllDayFieldId());
         component.setStartFieldId(source.getStartFieldId());
         component.setEndFieldId(source.getEndFieldId());
         component.setCellColorFieldId(source.getCellColorFieldId());

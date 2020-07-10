@@ -3,14 +3,14 @@
     <regions>
         <region>
             <calendar id="calendar1" views="month" title-field-id="title" tooltip-field-id="tooltip"
-                      all-day-field-id="allDay" start-field-id="start" end-field-id="end"
+                      start-field-id="start" end-field-id="end"
                       cell-color-field-id="color" disabled-field-id="disabled"/>
 
             <calendar id="calendar2" height="500px" default-date="2020-04-29T00:00:00"
                       default-view="workWeek" views="month,day,agenda,workWeek" toolbar="false"
                       min-date="2020-04-01T00:00:00" max-date="2020-05-15T04:00:00" mark-days-off="false"
                       selectable="false" step="60" timeslot-count="1"  title-field-id="title"
-                      tooltip-field-id="tooltip" all-day-field-id="allDay" start-field-id="start"
+                      tooltip-field-id="tooltip" start-field-id="start"
                       end-field-id="end" cell-color-field-id="color" disabled-field-id="disabled">
                 <resources value-field-id="resourceId">
                     <resource id="1" title="Training room"/>

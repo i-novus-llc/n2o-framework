@@ -31,7 +31,6 @@ public class CalendarWidgetIOv4 extends WidgetElementIOv4<N2oCalendar> {
         p.attributeInteger(e, "timeslot-count", m::getTimeSlotCount, m::setTimeSlotCount);
         p.attribute(e, "title-field-id", m::getTitleFieldId, m::setTitleFieldId);
         p.attribute(e, "tooltip-field-id", m::getTooltipFieldId, m::setTooltipFieldId);
-        p.attribute(e, "all-day-field-id", m::getAllDayFieldId, m::setAllDayFieldId);
         p.attribute(e, "start-field-id", m::getStartFieldId, m::setStartFieldId);
         p.attribute(e, "end-field-id", m::getEndFieldId, m::setEndFieldId);
         p.attribute(e, "cell-color-field-id", m::getCellColorFieldId, m::setCellColorFieldId);
