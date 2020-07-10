@@ -93,7 +93,7 @@ export default compose(
       onSelectSlot,
       formats,
       views,
-      timeslots,
+      timeSlots,
       selectable,
       maxDate,
       minDate,
@@ -127,8 +127,8 @@ export default compose(
         const dateIsSame = moment(get(e, 'start')).isSame(get(e, 'end'));
         if (get(e, 'start') && currentView !== view.MONTH && !dateIsSame) {
           const currentData = {
-            start: get(e, 'start'),
-            end: get(e, 'end'),
+            start: moment(get(e, 'start')).format('YYYY-MM-DD HH:mm'),
+            end: moment(get(e, 'end')).format('YYYY-MM-DD HH:mm'),
             resourceId: get(e, 'resourceId'),
           };
           onResolve(currentData);
@@ -140,7 +140,7 @@ export default compose(
       },
       formats,
       views,
-      timeslots,
+      timeslots: timeSlots,
       selectable,
       maxDate,
       minDate,
