@@ -51,6 +51,7 @@ function Calendar({
   actionOnClickEvent,
   actionOnClickSlot,
   messages,
+  changeView,
 }) {
   return (
     <BigCalendar
@@ -73,9 +74,10 @@ function Calendar({
       max={maxDate}
       min={minDate}
       resources={resources}
-      onSelectEvent={e => actionOnClickEvent(e)}
-      onSelectSlot={e => actionOnClickSlot(e)}
+      onSelectEvent={actionOnClickEvent}
+      onSelectSlot={actionOnClickSlot}
       messages={messages}
+      onView={changeView}
     />
   );
 }

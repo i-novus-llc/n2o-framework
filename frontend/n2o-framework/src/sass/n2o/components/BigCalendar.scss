@@ -34,6 +34,9 @@
     cursor: pointer;
     width: 100%;
     text-align: left;
+    &--nopointer {
+      cursor: default !important;
+    }
     &-name {
       text-overflow: ellipsis;
       font-weight: bold;
