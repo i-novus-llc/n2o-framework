@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.impl.component.widget.calendar;
+package net.n2oapp.framework.autotest.impl.component.widget.calendar.view;
 
 /**
  * Типы отображения календаря для автотестирования

@@ -5,6 +5,7 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarToolbar;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
+import net.n2oapp.framework.autotest.impl.component.widget.calendar.view.CalendarViewType;
 
 /**
  * Панель действий календаря для автотестирования

@@ -1,7 +1,12 @@
 package net.n2oapp.framework.autotest.impl.component.widget.calendar;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.component.widget.calendar.*;
+import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarToolbar;
+import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarWidget;
+import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarAgendaView;
+import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarDayView;
+import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarMonthView;
+import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarWeekView;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oWidget;
 
 /**
@@ -19,12 +24,17 @@ public class N2oCalendarWidget extends N2oWidget implements CalendarWidget {
     }
 
     @Override
-    public CalendarTimeView dayView() {
-        return N2oSelenide.component(element().$(".rbc-time-view"), CalendarTimeView.class);
+    public CalendarDayView dayView() {
+        return N2oSelenide.component(element().$(".rbc-time-view"), CalendarDayView.class);
     }
 
     @Override
     public CalendarAgendaView agendaView() {
         return N2oSelenide.component(element().$(".rbc-agenda-view"), CalendarAgendaView.class);
+    }
+
+    @Override
+    public CalendarWeekView weekView() {
+        return N2oSelenide.component(element().$(".rbc-time-view"), CalendarWeekView.class);
     }
 }

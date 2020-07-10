@@ -32,7 +32,10 @@ import net.n2oapp.framework.autotest.impl.component.snippet.N2oStatus;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oListWidget;
-import net.n2oapp.framework.autotest.impl.component.widget.calendar.*;
+import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarEvent;
+import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarToolbar;
+import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarWidget;
+import net.n2oapp.framework.autotest.impl.component.widget.calendar.view.*;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oStandardTableHeader;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableFilterHeader;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableWidget;
@@ -56,8 +59,9 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oListWidget.class, N2oFormWidget.class,
                 N2oTableWidget.class, N2oStandardTableHeader.class, N2oTableFilterHeader.class,
                 // widgets (calendar)
-                N2oCalendarWidget.class, N2oCalendarToolbar.class, N2oCalendarEvent.class, N2oCalendarMonthView.class,
-                N2oCalendarTimeView.class, N2oCalendarAgendaView.class, N2oCalendarTimeViewHeader.class,
+                N2oCalendarWidget.class, N2oCalendarToolbar.class, N2oCalendarEvent.class,
+                N2oCalendarMonthView.class, N2oCalendarAgendaView.class, N2oCalendarDayView.class, N2oCalendarWeekView.class,
+                N2oCalendarDayViewHeader.class, N2oCalendarWeekViewHeader.class,
                 // fieldsets
                 N2oSimpleFieldSet.class, N2oMultiFieldSet.class, N2oMultiFieldSetItem.class,
                 // buttons

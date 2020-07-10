@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.api.component.widget.calendar;
+package net.n2oapp.framework.autotest.api.component.widget.calendar.view;
 
 import net.n2oapp.framework.autotest.api.component.Component;
 

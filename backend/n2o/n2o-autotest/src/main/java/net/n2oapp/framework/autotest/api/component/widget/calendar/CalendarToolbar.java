@@ -2,7 +2,7 @@ package net.n2oapp.framework.autotest.api.component.widget.calendar;
 
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
-import net.n2oapp.framework.autotest.impl.component.widget.calendar.CalendarViewType;
+import net.n2oapp.framework.autotest.impl.component.widget.calendar.view.CalendarViewType;
 
 /**
  * Панель действий календаря для автотестирования

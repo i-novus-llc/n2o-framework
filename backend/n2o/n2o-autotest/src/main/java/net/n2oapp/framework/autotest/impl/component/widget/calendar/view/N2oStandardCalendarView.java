@@ -1,9 +1,9 @@
-package net.n2oapp.framework.autotest.impl.component.widget.calendar;
+package net.n2oapp.framework.autotest.impl.component.widget.calendar.view;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.CalendarEvent;
-import net.n2oapp.framework.autotest.api.component.widget.calendar.StandardCalendarView;
+import net.n2oapp.framework.autotest.api.component.widget.calendar.view.StandardCalendarView;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 /**

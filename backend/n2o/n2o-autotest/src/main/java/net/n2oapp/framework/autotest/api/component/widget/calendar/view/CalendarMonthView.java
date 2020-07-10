@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.api.component.widget.calendar;
+package net.n2oapp.framework.autotest.api.component.widget.calendar.view;
 
 /**
  * Вид отображения календаря 'Месяц' для автотестирования
