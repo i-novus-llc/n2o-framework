@@ -1,6 +1,8 @@
 import { momentLocalizer } from 'react-big-calendar';
 import get from 'lodash/get';
 import isNumber from 'lodash/isNumber';
+import isEmpty from 'lodash/isEmpty';
+import split from 'lodash/split';
 import moment from 'moment';
 
 export function isDayOff(day) {
@@ -66,4 +68,15 @@ export function eventLessHour(date, step) {
     return difference <= (step / 60) * 2;
   }
   return false;
+}
+
+export function timeParser(min, max) {
+  if (!isEmpty(min) && !isEmpty(max)) {
+    const minTime = split(min, ':');
+    const maxTime = split(max, ':');
+    return {
+      min: new Date(0, 0, 0, minTime[0], minTime[1], minTime[2], 0),
+      max: new Date(0, 0, 0, maxTime[0], maxTime[1], maxTime[2], 0),
+    };
+  }
 }
