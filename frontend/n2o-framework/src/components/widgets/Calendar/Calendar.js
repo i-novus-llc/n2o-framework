@@ -51,6 +51,7 @@ function Calendar({
   actionOnClickEvent,
   actionOnClickSlot,
   messages,
+  changeView,
 }) {
   return (
     <BigCalendar
@@ -76,6 +77,7 @@ function Calendar({
       onSelectEvent={e => actionOnClickEvent(e)}
       onSelectSlot={e => actionOnClickSlot(e)}
       messages={messages}
+      onView={e => changeView(e)}
     />
   );
 }
