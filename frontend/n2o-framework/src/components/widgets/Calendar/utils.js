@@ -71,12 +71,12 @@ export function eventLessHour(date, step) {
 }
 
 export function timeParser(min, max) {
-  const minTime = split(min, ':');
-  const maxTime = split(max, ':');
-  return !isEmpty(minTime) && !isEmpty(maxTime)
-    ? {
-        min: new Date(0, 0, 0, minTime[0], minTime[1], minTime[2], 0),
-        max: new Date(0, 0, 0, maxTime[0], maxTime[1], maxTime[2], 0),
-      }
-    : {};
+  if (!isEmpty(min) && !isEmpty(max)) {
+    const minTime = split(min, ':');
+    const maxTime = split(max, ':');
+    return {
+      min: new Date(0, 0, 0, minTime[0], minTime[1], minTime[2], 0),
+      max: new Date(0, 0, 0, maxTime[0], maxTime[1], maxTime[2], 0),
+    };
+  }
 }
