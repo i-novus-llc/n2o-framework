@@ -118,14 +118,9 @@ describe('Проверка саги dependency', () => {
       let next = gen.next();
       next = gen.next();
       expect(next.value.payload.action.payload).toEqual({
-        key: 'testForm',
-        prefix: 'resolve',
-        model: {
-          testField: 12,
-        },
+        keepDirty: false,
+        value: 12,
       });
-      expect(gen.next().value.type).toBe('SELECT');
-      expect(gen.next().done).toEqual(true);
     });
     it('Проверка type reset с ложным expression', () => {
       const gen = setupModify('reset', {
