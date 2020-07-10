@@ -2,6 +2,7 @@ import React from 'react';
 import { compose, withHandlers, mapProps, defaultProps } from 'recompose';
 import map from 'lodash/map';
 import get from 'lodash/get';
+import moment from 'moment';
 
 import widgetContainer from '../WidgetContainer';
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer';
@@ -112,8 +113,8 @@ export default compose(
       actionOnClickSlot: e => {
         if (get(e, 'start')) {
           const currentData = {
-            start: get(e, 'start'),
-            end: get(e, 'end'),
+            start: moment(get(e, 'start')).format('YYYY-MM-DD HH:mm'),
+            end: moment(get(e, 'end')).format('YYYY-MM-DD HH:mm'),
             resourceId: get(e, 'resourceId'),
           };
           onResolve(currentData);
