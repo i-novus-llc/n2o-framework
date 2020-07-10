@@ -58,11 +58,17 @@ export default compose(
         [startFieldId]: new Date(event[startFieldId]),
         [endFieldId]: new Date(event[endFieldId]),
       })),
-    createComponents: ({ cell, cellColorFieldId, markDaysOff }) => () => ({
+    createComponents: ({
+      cell,
+      cellColorFieldId,
+      markDaysOff,
+      currentView,
+    }) => () => ({
       eventWrapper: eventProps => (
         <CalendarEvent
           {...eventProps}
           {...cell}
+          monthView={currentView === view.MONTH}
           cellColorAccessor={cellColorFieldId}
         />
       ),
