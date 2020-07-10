@@ -22,8 +22,6 @@ public class CalendarWidgetIOv4 extends WidgetElementIOv4<N2oCalendar> {
         p.attribute(e, "default-date", m::getDefaultDate, m::setDefaultDate);
         p.attributeEnum(e, "default-view", m::getDefaultView, m::setDefaultView, CalendarViewType.class);
         p.attributeArray(e, "views", ",", m::getViews, m::setViews);
-        p.attribute(e, "min-date", m::getMinDate, m::setMinDate);
-        p.attribute(e, "max-date", m::getMaxDate, m::setMaxDate);
         p.attribute(e, "min-time", m::getMinTime, m::setMinTime);
         p.attribute(e, "max-time", m::getMaxTime, m::setMaxTime);
         p.attributeBoolean(e, "mark-days-off", m::getMarkDaysOff, m::setMarkDaysOff);

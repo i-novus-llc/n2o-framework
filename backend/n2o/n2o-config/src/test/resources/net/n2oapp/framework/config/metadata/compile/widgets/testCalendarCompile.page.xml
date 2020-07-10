@@ -8,7 +8,6 @@
 
             <calendar id="calendar2" height="500px" default-date="2020-04-29T00:00:00"
                       default-view="workWeek" views="month,day,agenda,workWeek" toolbar="false"
-                      min-date="2020-04-01" max-date="2020-05-15"
                       min-time="08:00:00" max-time="20:00:00" mark-days-off="false"
                       selectable="false" step="60" timeslot-count="1"  title-field-id="title"
                       tooltip-field-id="tooltip" all-day-field-id="allDay" start-field-id="start"
