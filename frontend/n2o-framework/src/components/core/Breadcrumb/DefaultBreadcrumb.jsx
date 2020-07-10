@@ -11,7 +11,7 @@ function DefaultBreadcrumb({ items }) {
 
     return (
       <BreadcrumbItem key={index} active={lastCrumb}>
-        {!lastCrumb ? (
+        {path && !lastCrumb ? (
           <Link className="n2o-breadcrumb-link" to={path} key={index}>
             {label}
           </Link>
