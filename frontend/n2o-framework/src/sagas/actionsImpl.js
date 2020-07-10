@@ -14,7 +14,10 @@ import merge from 'deepmerge';
 import { START_INVOKE } from '../constants/actionImpls';
 import { CALL_ACTION_IMPL } from '../constants/toolbar';
 
-import { makeWidgetValidationSelector } from '../selectors/widgets';
+import {
+  makeFormModelPrefixSelector,
+  makeWidgetValidationSelector,
+} from '../selectors/widgets';
 import { getModelSelector } from '../selectors/models';
 
 import { validateField } from '../core/validation/createValidator';
@@ -152,13 +155,14 @@ export function* handleInvoke(apiProvider, action) {
       : yield call(fetchInvoke, dataProvider, model, apiProvider);
 
     const meta = merge(action.meta.success || {}, response.meta || {});
+    const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId));
 
     if (
       needResolve &&
       (optimistic || (!meta.redirect && !meta.modalsToClose))
     ) {
       yield put(
-        setModel(PREFIXES.resolve, widgetId, optimistic ? model : response.data)
+        setModel(modelPrefix, widgetId, optimistic ? model : response.data)
       );
     }
     yield put(successInvoke(widgetId, { ...meta, withoutSelectedId: true }));
