@@ -27,16 +27,20 @@ function CalendarEvent({
   accessors,
   cellColorAccessor,
   onClick,
+  monthView,
 }) {
   const tooltip = accessors.tooltip(event);
   const title = accessors.title(event);
   const color = event[cellColorAccessor] || DEFAULT_BG_COLOR;
   const lessHour = eventLessHour(get(event, 'date'), get(event, 'step'));
   const begin = get(event, 'date.begin');
+  const disabled = get(event, 'disabled', false);
 
   return (
     <div
-      className="calendar__event rbc-event"
+      className={cn('calendar__event rbc-event', {
+        'calendar__event--nopointer': monthView || disabled,
+      })}
       style={style ? mapStyle(style, color, lessHour) : monthEventStyle(color)}
       title={tooltip}
       onClick={onClick}
