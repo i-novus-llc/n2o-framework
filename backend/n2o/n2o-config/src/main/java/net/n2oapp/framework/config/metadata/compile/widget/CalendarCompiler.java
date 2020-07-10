@@ -58,8 +58,10 @@ public class CalendarCompiler extends BaseWidgetCompiler<Calendar, N2oCalendar> 
                 source.getDefaultView().getTitle() :
                 p.resolve(property("n2o.api.widget.calendar.view"), String.class));
         component.setViews(Arrays.stream(source.getViews()).map(v -> CalendarViewType.valueOf(v).getTitle()).toArray(String[]::new));
-        component.setMinDate((Date) p.resolve(source.getMinDate(), dateDomain));
-        component.setMaxDate((Date) p.resolve(source.getMaxDate(), dateDomain));
+        component.setMinDate(source.getMinDate());
+        component.setMaxDate(source.getMaxDate());
+        component.setMinTime(source.getMinTime());
+        component.setMaxTime(source.getMaxTime());
         component.setMarkDaysOff(p.cast(source.getMarkDaysOff(),
                 p.resolve(property("n2o.api.widget.calendar.mark_days_off"), Boolean.class)));
         component.setSelectable(p.cast(source.getSelectable(),

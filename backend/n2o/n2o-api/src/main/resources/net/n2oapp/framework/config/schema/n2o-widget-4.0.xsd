@@ -710,12 +710,22 @@
                 </xs:attribute>
                 <xs:attribute name="min-date" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Минимальная дата.</xs:documentation>
+                        <xs:documentation>Минимальная отображаемая дата.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="max-date" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Максимальная дата.</xs:documentation>
+                        <xs:documentation>Максимальная отображаемая дата.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="min-time" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Минимальное отображаемое время.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max-time" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Максимальное отображаемое время.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="mark-days-off" type="xs:boolean" default="true">

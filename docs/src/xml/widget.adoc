@@ -1350,12 +1350,22 @@ link:#__node[Дочерний узел]
 
 |min-date
 |Строка
-|Минимальная дата
+|Минимальная отображаемая дата
 |
 
 |max-date
 |Строка
-|Максимальная дата
+|Максимальная отображаемая дата
+|
+
+|min-time
+|Строка
+|Минимальное отображаемое время
+|
+
+|max-time
+|Строка
+|Максимальное отображаемое время
 |
 
 |mark-days-off
@@ -1420,6 +1430,7 @@ link:#__node[Дочерний узел]
 ----
 <calendar
   height="500px" default-view="month" views="month,day,agenda"
+  min-date="2020-04-01" max-date="2020-05-15" min-time="08:00:00" max-time="20:00:00"
   title-field-id = "title" tooltip-field-id = "tooltip" all-day-field-id = "allDay"
   start-field-id = "start" end-field-id = "end" cell-color-field-id = "color"
   disabled-field-id = "disabled">

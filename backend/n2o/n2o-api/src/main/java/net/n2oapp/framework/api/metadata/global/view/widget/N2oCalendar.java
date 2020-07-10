@@ -21,6 +21,8 @@ public class N2oCalendar extends N2oWidget {
     private Boolean toolbar;
     private String minDate;
     private String maxDate;
+    private String minTime;
+    private String maxTime;
     private Boolean markDaysOff;
     private Boolean selectable;
     private Integer step;
