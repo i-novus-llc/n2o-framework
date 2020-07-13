@@ -17,4 +17,9 @@ public class N2oCalendarDayView extends N2oCalendarTimeView implements CalendarD
         element().$$(".rbc-time-content .rbc-day-slot").get(resourceIndex)
                 .$$(".calendar__cell").get(cellIdx).click(0,0);
     }
+
+    @Override
+    public void clickCell(String startTime) {
+        clickCell(0, startTime);
+    }
 }

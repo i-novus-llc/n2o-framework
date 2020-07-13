@@ -5,4 +5,6 @@ package net.n2oapp.framework.autotest.api.component.widget.calendar.view;
  */
 public interface CalendarWeekView extends CalendarTimeView {
     void clickCell(int resourceIndex, String day, String startTime);
+
+    void clickCell(String day, String startTime);
 }

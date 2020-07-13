@@ -24,4 +24,9 @@ public class N2oCalendarWeekView extends N2oCalendarTimeView implements Calendar
         element().$$(".rbc-time-content .rbc-day-slot").get(resourceIndex * 7 + dayOfWeekIndex)
                 .$$(".calendar__cell").get(cellIdx).click(0, 0);
     }
+
+    @Override
+    public void clickCell(String day, String startTime) {
+        clickCell(0, day, startTime);
+    }
 }
