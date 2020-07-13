@@ -50,6 +50,8 @@ describe('Проверка саги formPlugin', () => {
     const removeFieldMessageAction = put(
       removeFieldMessage(action.meta.form, action.meta.field)
     );
+
+    generator.next();
     expect(generator.next().value).toEqual(removeFieldMessageAction);
     expect(generator.next().done).toEqual(true);
   });

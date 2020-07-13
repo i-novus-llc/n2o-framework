@@ -13,7 +13,7 @@ import has from 'lodash/has';
 import { isPromise } from '../../tools/helpers';
 import * as presets from './presets';
 import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin';
-import { batchActions } from 'redux-batched-actions/lib/index';
+import { batchActions } from 'redux-batched-actions';
 
 function findPriorityMessage(messages) {
   return (
@@ -159,7 +159,9 @@ export const validateField = (
 
     map(registeredFields, (field, key) => {
       if (!has(errors, key) && get(field, 'message', null)) {
-        messagesAction.push(removeFieldMessage(formName, key));
+        if (!field.validation || isEmpty(field.validation)) {
+          messagesAction.push(removeFieldMessage(formName, key));
+        }
       }
     });
 
