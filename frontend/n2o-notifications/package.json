@@ -1,6 +1,6 @@
 {
 	"name": "n2o-notifications",
-	"version": "7.8.0",
+	"version": "7.9.0",
 	"description": "n2o-notifications React component",
 	"main": "lib/index.js",
 	"module": "es/index.js",
@@ -20,7 +20,7 @@
 		"test:watch": "nwb test-react --server"
 	},
 	"dependencies": {
-		"n2o-framework": "^7.8.0",
+		"n2o-framework": "^7.9.0",
 		"net": "^1.0.2",
 		"react-redux": "5.1.2",
 		"reactstrap": "^8.0.0",
@@ -41,7 +41,7 @@
 		"react-dom": "^16.8.6"
 	},
 	"peerDependencies": {
-		"n2o-framework": "^7.8.0"
+		"n2o-framework": "^7.9.0"
 	},
 	"author": "",
 	"homepage": "",
