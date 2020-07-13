@@ -2,7 +2,7 @@ import React from 'react';
 import get from 'lodash/get';
 import moment from 'moment';
 import cn from 'classnames';
-import { eventLessHour } from './utils';
+import { eventLessHour, isAllDay } from './utils';
 
 const mapStyle = ({ height, top, width } = {}, color, lessHour) => ({
   position: 'absolute',
@@ -26,24 +26,29 @@ function CalendarEvent({
   event,
   accessors,
   cellColorAccessor,
-  onClick,
-  monthView,
+  onResolve,
+  onSelectEvent,
+  dispatch,
 }) {
   const tooltip = accessors.tooltip(event);
   const title = accessors.title(event);
   const color = event[cellColorAccessor] || DEFAULT_BG_COLOR;
   const lessHour = eventLessHour(get(event, 'date'), get(event, 'step'));
   const begin = get(event, 'date.begin');
+  const end = get(event, 'date.end');
   const disabled = get(event, 'disabled', false);
+
+  const handleClick = () => {
+    onResolve({ id: get(event, 'id') });
+    dispatch(onSelectEvent);
+  };
 
   return (
     <div
-      className={cn('calendar__event rbc-event', {
-        'calendar__event--nopointer': monthView || disabled,
-      })}
+      className="calendar__event rbc-event"
       style={style ? mapStyle(style, color, lessHour) : monthEventStyle(color)}
       title={tooltip}
-      onClick={onClick}
+      onClick={!disabled ? handleClick : null}
     >
       <div
         className={cn('calendar__event-name', {
@@ -53,7 +58,7 @@ function CalendarEvent({
         {title}
       </div>
       <div className="calendar__event-label">
-        {moment(begin).format('HH:mm')}
+        {!isAllDay(begin, end) ? moment(begin).format('HH:mm') : null}
       </div>
     </div>
   );

@@ -24,9 +24,9 @@ public class CalendarWidgetComponent extends WidgetComponent {
     @JsonProperty
     private String[] views;
     @JsonProperty
-    private Date minDate;
+    private String minTime;
     @JsonProperty
-    private Date maxDate;
+    private String maxTime;
     @JsonProperty
     private Boolean markDaysOff;
     @JsonProperty
