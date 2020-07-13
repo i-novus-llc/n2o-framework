@@ -26,7 +26,6 @@ public class N2oCalendar extends N2oWidget {
     private Integer timeSlotCount;
     private String titleFieldId;
     private String tooltipFieldId;
-    private String allDayFieldId;
     private String startFieldId;
     private String endFieldId;
     private String cellColorFieldId;

@@ -1383,11 +1383,6 @@ link:#__node[Дочерний узел]
 |Поле выборки, отвечающее за данные тултипа события
 |
 
-|all-day-field-id
-|Строка
-|Поле выборки, отвечающее за данные события, занимающего весь день
-|
-
 |start-field-id
 |Строка
 |Поле выборки, отвечающее за дату начала события
@@ -1416,7 +1411,7 @@ link:#__node[Дочерний узел]
 <calendar
   height="500px" default-view="month" views="month,day,agenda"
   min-time="08:00:00" max-time="20:00:00"
-  title-field-id = "title" tooltip-field-id = "tooltip" all-day-field-id = "allDay"
+  title-field-id = "title" tooltip-field-id = "tooltip"
   start-field-id = "start" end-field-id = "end" cell-color-field-id = "color"
   disabled-field-id = "disabled">
   <resources>...</resources>

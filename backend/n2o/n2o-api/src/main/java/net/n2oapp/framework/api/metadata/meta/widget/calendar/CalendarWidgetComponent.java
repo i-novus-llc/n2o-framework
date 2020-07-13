@@ -40,8 +40,6 @@ public class CalendarWidgetComponent extends WidgetComponent {
     @JsonProperty
     private String tooltipFieldId;
     @JsonProperty
-    private String allDayFieldId;
-    @JsonProperty
     private String startFieldId;
     @JsonProperty
     private String endFieldId;
