@@ -21,8 +21,7 @@ const setup = propsOverride => {
   );
 };
 
-
-describe('<CalendarContaianer />', () => {
+describe('<CalendarContainer />', () => {
   it('отрисовка', () => {
     const wrapper = setup();
     expect(wrapper.find(CalendarContainer).exists()).toBe(true);

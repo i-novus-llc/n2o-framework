@@ -703,19 +703,14 @@
                         <xs:documentation>Список используемых видов отображения в календаре (через запятую).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="toolbar" type="xs:boolean" default="true">
+                <xs:attribute name="min-time" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Отображение\скрытие тулбара.</xs:documentation>
+                        <xs:documentation>Минимальное отображаемое время.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="min-date" type="xs:string">
+                <xs:attribute name="max-time" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Минимальная дата.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="max-date" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Максимальная дата.</xs:documentation>
+                        <xs:documentation>Максимальное отображаемое время.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="mark-days-off" type="xs:boolean" default="true">

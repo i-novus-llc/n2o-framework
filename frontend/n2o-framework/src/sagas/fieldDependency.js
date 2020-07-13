@@ -14,9 +14,8 @@ import isUndefined from 'lodash/isUndefined';
 import some from 'lodash/some';
 import includes from 'lodash/includes';
 import get from 'lodash/get';
-import isEqual from 'lodash/isEqual';
 import set from 'lodash/set';
-import { actionTypes, change, getFormValues } from 'redux-form';
+import { actionTypes, change } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 
 import { makeFormByName } from '../selectors/formPlugin';
@@ -84,10 +83,6 @@ export function* modify(
 ) {
   let _evalResult;
 
-  const prevValues = get(prevState, [formName, fieldName, type]);
-
-  if (prevValues && isEqual(prevValues, values)) return;
-
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
   }
@@ -110,10 +105,12 @@ export function* modify(
 
       if (!isUndefined(_evalResult)) {
         const modelPrefix = yield select(makeFormModelPrefixSelector(formName));
-        newFormValues = Object.assign({}, values);
-
-        set(newFormValues, fieldName, _evalResult);
-        set(prevState, [formName, fieldName, type], newFormValues);
+        yield put(
+          change(formName, fieldName, {
+            keepDirty: false,
+            value: _evalResult,
+          })
+        );
 
         yield put(setModel(modelPrefix || 'resolve', formName, newFormValues));
       }

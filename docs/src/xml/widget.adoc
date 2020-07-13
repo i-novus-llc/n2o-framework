@@ -1343,19 +1343,14 @@ link:#__node[Дочерний узел]
 |Список используемых видов отображения в календаре (через запятую)
 |
 
-|toolbar
-|true false
-|Отображение\скрытие тулбара
-|true
-
-|min-date
+|min-time
 |Строка
-|Минимальная дата
+|Минимальное отображаемое время
 |
 
-|max-date
+|max-time
 |Строка
-|Максимальная дата
+|Максимальное отображаемое время
 |
 
 |mark-days-off
@@ -1415,6 +1410,7 @@ link:#__node[Дочерний узел]
 ----
 <calendar
   height="500px" default-view="month" views="month,day,agenda"
+  min-time="08:00:00" max-time="20:00:00"
   title-field-id = "title" tooltip-field-id = "tooltip"
   start-field-id = "start" end-field-id = "end" cell-color-field-id = "color"
   disabled-field-id = "disabled">

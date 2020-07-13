@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import cn from 'classnames';
-import { formatsMap } from './utils';
+import { formatsMap, timeParser } from './utils';
 
 const localizer = momentLocalizer(moment);
 
@@ -44,14 +44,13 @@ function Calendar({
   formats,
   timeslots,
   selectable,
-  maxDate,
-  minDate,
+  minTime,
+  maxTime,
   step,
   resources,
-  actionOnClickEvent,
-  actionOnClickSlot,
+  onSelectEvent,
+  onSelectSlot,
   messages,
-  changeView,
 }) {
   return (
     <BigCalendar
@@ -71,13 +70,11 @@ function Calendar({
       formats={formatsMap(formats)}
       timeslots={timeslots}
       selectable={selectable}
-      max={maxDate}
-      min={minDate}
       resources={resources}
-      onSelectEvent={actionOnClickEvent}
-      onSelectSlot={actionOnClickSlot}
+      onSelectEvent={onSelectEvent}
+      onSelectSlot={onSelectSlot}
       messages={messages}
-      onView={changeView}
+      {...timeParser(minTime, maxTime)}
     />
   );
 }

@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  compose,
-  withHandlers,
-  mapProps,
-  defaultProps,
-  withState,
-} from 'recompose';
+import { compose, withHandlers, mapProps, defaultProps } from 'recompose';
 import map from 'lodash/map';
 import get from 'lodash/get';
 import moment from 'moment';
@@ -17,10 +11,6 @@ import Calendar from './Calendar';
 import CalendarEvent from './CalendarEvent';
 import CalendarCell from './CalendarCell';
 import CalendarDateCell from './CalendarDateCell';
-
-const view = {
-  MONTH: 'month',
-};
 
 function CalendarContainer(props) {
   return <Calendar {...props} />;
@@ -38,7 +28,6 @@ export default compose(
     endFieldId: 'end',
     height: '1200px',
   }),
-  withState('currentView', 'setCurrentView', ({ defaultView }) => defaultView),
   widgetContainer(
     {
       mapProps: ({ calendar, ...props }) => ({
@@ -62,13 +51,17 @@ export default compose(
       cell,
       cellColorFieldId,
       markDaysOff,
-      currentView,
+      onResolve,
+      onSelectEvent,
+      dispatch,
     }) => () => ({
       eventWrapper: eventProps => (
         <CalendarEvent
           {...eventProps}
           {...cell}
-          monthView={currentView === view.MONTH}
+          onResolve={onResolve}
+          onSelectEvent={onSelectEvent}
+          dispatch={dispatch}
           cellColorAccessor={cellColorFieldId}
         />
       ),
@@ -101,15 +94,13 @@ export default compose(
       views,
       timeSlots,
       selectable,
-      maxDate,
-      minDate,
+      minTime,
+      maxTime,
       step,
       resources,
       messages,
       dispatch,
       onResolve,
-      setCurrentView,
-      currentView,
     }) => ({
       events: mapEvents(datasource),
       startAccessor: startFieldId,
@@ -123,33 +114,34 @@ export default compose(
       components: createComponents(),
       defaultView,
       style: { height },
-      actionOnClickEvent: e => {
-        if (!e.disabled && currentView !== view.MONTH) {
+      onSelectEvent: e => {
+        if (!e.disabled) {
           onResolve({ id: get(e, 'id') });
           dispatch(onSelectEvent);
         }
       },
-      actionOnClickSlot: e => {
-        const dateIsSame = moment(get(e, 'start')).isSame(get(e, 'end'));
-        if (get(e, 'start') && currentView !== view.MONTH && !dateIsSame) {
+      onSelectSlot: e => {
+        if (get(e, 'start')) {
+          const dateIsSame = moment(get(e, 'start')).isSame(get(e, 'end'));
           const currentData = {
             start: moment(get(e, 'start')).format('YYYY-MM-DD HH:mm'),
-            end: moment(get(e, 'end')).format('YYYY-MM-DD HH:mm'),
+            end: dateIsSame
+              ? moment(get(e, 'end'))
+                  .add(1, 'days')
+                  .format('YYYY-MM-DD HH:mm')
+              : moment(get(e, 'end')).format('YYYY-MM-DD HH:mm'),
             resourceId: get(e, 'resourceId'),
           };
           onResolve(currentData);
           dispatch(onSelectSlot);
         }
       },
-      changeView: e => {
-        setCurrentView(e);
-      },
       formats,
       views,
       timeslots: timeSlots,
       selectable,
-      maxDate,
-      minDate,
+      minTime,
+      maxTime,
       step,
       resources,
       messages,
