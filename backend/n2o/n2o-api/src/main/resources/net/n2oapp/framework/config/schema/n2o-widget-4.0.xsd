@@ -703,16 +703,6 @@
                         <xs:documentation>Список используемых видов отображения в календаре (через запятую).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="min-date" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Минимальная отображаемая дата.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="max-date" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Максимальная отображаемая дата.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="min-time" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Минимальное отображаемое время.</xs:documentation>

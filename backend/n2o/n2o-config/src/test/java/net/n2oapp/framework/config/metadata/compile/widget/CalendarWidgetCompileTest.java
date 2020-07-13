@@ -69,8 +69,6 @@ public class CalendarWidgetCompileTest extends SourceCompileTestBase {
         assertThat(calendar2.getComponent().getDate(), is(simpleDateFormat.parse("2020-04-29T00:00:00")));
         assertThat(calendar2.getComponent().getDefaultView(), is("work_week"));
         assertThat(calendar2.getComponent().getViews(), is(new String[] {"month", "day", "agenda", "work_week"}));
-        assertThat(calendar2.getComponent().getMinDate(), is("2020-04-01"));
-        assertThat(calendar2.getComponent().getMaxDate(), is("2020-05-15"));
         assertThat(calendar2.getComponent().getMinTime(), is("08:00:00"));
         assertThat(calendar2.getComponent().getMaxTime(), is("20:00:00"));
         assertThat(calendar2.getComponent().getMarkDaysOff(), is(false));
