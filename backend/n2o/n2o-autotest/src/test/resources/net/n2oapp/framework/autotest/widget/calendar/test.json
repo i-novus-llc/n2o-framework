@@ -19,5 +19,13 @@
     "color": "#0055aa",
     "disabled": false,
     "resourceId": "2"
+  },
+  {
+    "id" : 3,
+    "title" : "All day event",
+    "start" : "2020-07-07 00:00",
+    "end" : "2020-07-08 00:00",
+    "color" : "#0055aa",
+    "resourceId" : "1"
   }
 ]

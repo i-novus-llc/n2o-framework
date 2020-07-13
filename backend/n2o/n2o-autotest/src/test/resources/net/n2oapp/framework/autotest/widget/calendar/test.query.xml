@@ -33,9 +33,6 @@
         <field id="tooltip">
             <select/>
         </field>
-        <field id="allDay" domain="boolean">
-            <select/>
-        </field>
         <field id="color">
             <select/>
         </field>

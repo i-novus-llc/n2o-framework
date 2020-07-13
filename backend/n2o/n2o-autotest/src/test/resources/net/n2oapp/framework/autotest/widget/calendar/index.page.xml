@@ -6,7 +6,6 @@
               views="month,day,agenda,week,workWeek"
               title-field-id = "title"
               tooltip-field-id = "tooltip"
-              all-day-field-id = "allDay"
               start-field-id = "start"
               end-field-id = "end"
               cell-color-field-id = "color"

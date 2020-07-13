@@ -10,6 +10,7 @@
                 <field id="date.begin" mapping="['start']"/>
                 <field id="date.end" mapping="['end']"/>
                 <field id="color" default-value="#0055aa"/>
+                <field id="resource.id" mapping="['resourceId']" domain="string"/>
             </in>
             <out>
                 <field id="id"/>
@@ -24,6 +25,7 @@
                 <field id="title"/>
                 <field id="date.begin" mapping="['start']"/>
                 <field id="date.end" mapping="['end']"/>
+                <field id="resource.id" mapping="['resourceId']" domain="string"/>
             </in>
         </operation>
         <operation id="delete">

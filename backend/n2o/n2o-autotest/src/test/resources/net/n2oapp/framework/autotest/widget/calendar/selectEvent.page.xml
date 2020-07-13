@@ -12,8 +12,8 @@
                 </options>
             </radio-group>
         </fields>
-        <toolbar place="bottomLeft">
-            <button icon="fa fa-trash" description="Удалить" confirm="true">
+        <toolbar place="topRight">
+            <button label="Удалить" color="danger">
                 <invoke operation-id="delete" close-on-success="true"/>
             </button>
         </toolbar>
