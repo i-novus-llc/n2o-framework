@@ -80,3 +80,10 @@ export function timeParser(min, max) {
     };
   }
 }
+
+export function isAllDay(start, end) {
+  const startDate = moment(start, 'YYYY-MM-DD HH:mm');
+  const endDate = moment(end, 'YYYY-MM-DD HH:mm');
+  const dateDiff = endDate.diff(startDate, 'days');
+  return dateDiff >= 1;
+}
