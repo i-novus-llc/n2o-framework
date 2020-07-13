@@ -1,7 +1,6 @@
-package net.n2oapp.framework.config.metadata.compile.chart;
+package net.n2oapp.framework.config.metadata.compile.widget.chart;
 
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.metadata.compile.widget.chart.PieChartCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oChartsIOPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.JsonMetadataTestBase;
@@ -24,7 +23,7 @@ public class PieChartJsonTest extends JsonMetadataTestBase {
 
     @Test
     public void pieChart() {
-        check("net/n2oapp/framework/config/metadata/compile/chart/testPieChart.widget.xml",
+        check("net/n2oapp/framework/config/metadata/compile/widgets/chart/testPieChart.widget.xml",
                 "components/widgets/Chart/json/PieChart.meta.json")
                 .cutJson("Page_Chart.chart")
                 .cutXml("chart")

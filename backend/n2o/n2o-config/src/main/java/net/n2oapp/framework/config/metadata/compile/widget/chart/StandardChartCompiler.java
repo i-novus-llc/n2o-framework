@@ -18,12 +18,12 @@ public abstract class StandardChartCompiler<D extends StandardChartWidgetCompone
         ChartAxis xAxis = new ChartAxis();
         xAxis.setFieldId(source.getXAxisFieldId());
         xAxis.setPosition((p.cast(source.getXAxisPosition(), N2oStandardChart.XAxisPositionEnum.bottom)).toString());
-        xAxis.setHasLabel(p.cast(source.getXHasLabel(), p.resolve(property("n2o.api.default.widget.chart.axis.has-label"), Boolean.class)));
+        xAxis.setHasLabel(p.cast(source.getXHasLabel(), p.resolve(property("n2o.api.widget.chart.axis.has-label"), Boolean.class)));
         chart.setXAxis(xAxis);
         ChartAxis yAxis = new ChartAxis();
         yAxis.setFieldId(source.getYAxisFieldId());
         yAxis.setPosition((p.cast(source.getYAxisPosition(), N2oStandardChart.YAxisPositionEnum.left)).toString());
-        yAxis.setHasLabel(p.cast(source.getYHasLabel(), p.resolve(property("n2o.api.default.widget.chart.axis.has-label"), Boolean.class)));
+        yAxis.setHasLabel(p.cast(source.getYHasLabel(), p.resolve(property("n2o.api.widget.chart.axis.has-label"), Boolean.class)));
         chart.setYAxis(yAxis);
         ChartGrid grid = new ChartGrid();
         grid.setStrokeDashArray(source.getGridStrokeDashArray());

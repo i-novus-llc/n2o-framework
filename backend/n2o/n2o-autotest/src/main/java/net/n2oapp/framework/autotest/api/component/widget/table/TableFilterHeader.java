@@ -5,7 +5,7 @@ import net.n2oapp.framework.autotest.api.component.control.Control;
 /**
  * Фильтруемый заголовок таблицы для автотестирования
  */
-public interface FilterHeader extends StandardTableHeader {
+public interface TableFilterHeader extends StandardTableHeader {
 
     <T extends Control> T filterControl(Class<T> componentClass);
 
