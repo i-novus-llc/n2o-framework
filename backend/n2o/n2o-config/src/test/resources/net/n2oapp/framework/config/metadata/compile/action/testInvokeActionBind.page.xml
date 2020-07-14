@@ -1,7 +1,6 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-      layout="LeftRightLayout">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
     <regions>
-        <none place="left">
+        <region place="left">
             <form object-id="testActionContext" id="w1">
                 <toolbar>
                     <button id="a1" model="filter">
@@ -9,8 +8,8 @@
                     </button>
                 </toolbar>
             </form>
-        </none>
-        <none place="right">
+        </region>
+        <region place="right">
             <form object-id="testActionContext" id="w2">
                 <toolbar>
                     <button id="a2">
@@ -18,6 +17,6 @@
                     </button>
                 </toolbar>
             </form>
-        </none>
+        </region>
     </regions>
 </page>
