@@ -103,17 +103,16 @@ export function parseDate(value, dateFormat) {
 export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
   let res = {};
   if (Array.isArray(val)) {
-    val.map(input => {
-      if (!input.value) {
-        res[input.name] = null;
+    map(val, ({ value, name }) => {
+      if (!value) {
+        res[name] = null;
       } else {
-        const value = addTime(
-          withLocale(parseDate(input.value, dateFormat), locale).startOf('day'),
-          defaultTime[input.name].hours,
-          defaultTime[input.name].mins,
-          defaultTime[input.name].seconds
+        res[name] = addTime(
+          withLocale(parseDate(value, dateFormat), locale).startOf('day'),
+          defaultTime[name].hours,
+          defaultTime[name].mins,
+          defaultTime[name].seconds
         );
-        res[input.name] = value;
       }
     });
     return res;
@@ -121,13 +120,12 @@ export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
   if (!val) {
     return { [defaultName]: null };
   }
-  const value = addTime(
+  res[defaultName] = addTime(
     withLocale(parseDate(val, dateFormat), locale).startOf('day'),
     defaultTime[defaultName].hours,
     defaultTime[defaultName].mins,
     defaultTime[defaultName].seconds
   );
-  res[defaultName] = value;
   return res;
 }
 
@@ -136,6 +134,8 @@ export function mapToValue(val, defaultTime, dateFormat, locale, defaultName) {
  * @param val
  * @param defaultTime
  * @param defaultName
+ * @param timeFormat
+ * @param format
  */
 export function mapToDefaultTime(
   val,
@@ -146,27 +146,27 @@ export function mapToDefaultTime(
 ) {
   if (Array.isArray(val)) {
     let res = {};
-    val.map(input => {
-      res[input.name] = {
+    map(val, ({ name, defaultTime, value }) => {
+      res[name] = {
         hours: defaultTime
-          ? moment(input.defaultTime || '00:00', timeFormat).hour()
-          : (input.value && moment(input.value).hour()) || 0,
+          ? moment(defaultTime || '00:00', timeFormat).hour()
+          : (value && moment(value).hour()) || 0,
         mins: defaultTime
-          ? moment(input.defaultTime || '00:00', timeFormat).minute()
-          : (input.value && moment(input.value).minute()) || 0,
+          ? moment(defaultTime || '00:00', timeFormat).minute()
+          : (value && moment(value).minute()) || 0,
         seconds: defaultTime
-          ? moment(input.defaultTime || '00:00', timeFormat).second()
-          : (input.value && moment(input.value).second()) || 0,
+          ? moment(defaultTime || '00:00', timeFormat).second()
+          : (value && moment(value).second()) || 0,
         hasDefaultTime: false,
       };
 
       if (
-        res[input.name].hours ||
-        res[input.name].mins ||
-        res[input.name].seconds ||
+        res[name].hours ||
+        res[name].mins ||
+        res[name].seconds ||
         timeFormat
       ) {
-        res[input.name].hasDefaultTime = true;
+        res[name].hasDefaultTime = true;
       }
     });
 
