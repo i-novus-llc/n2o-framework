@@ -10,7 +10,7 @@ import {
   cancel,
 } from 'redux-saga/effects';
 import { isEmpty, isUndefined, some, includes, get } from 'lodash';
-import { actionTypes, change } from 'redux-form';
+import { actionTypes, change, getFormValues } from 'redux-form';
 import evalExpression from '../utils/evalExpression';
 
 import { makeFormByName } from '../selectors/formPlugin';
@@ -52,8 +52,9 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   }
 }
 
-export function* modify(values, formName, fieldName, type, options = {}) {
+export function* modify(formName, fieldName, type, options = {}) {
   let _evalResult;
+  const values = yield select(getFormValues(formName));
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
   }
@@ -106,7 +107,6 @@ export function* modify(values, formName, fieldName, type, options = {}) {
 }
 
 export function* checkAndModify(
-  values,
   fields,
   formName,
   fieldName,
@@ -127,7 +127,7 @@ export function* checkAndModify(
             actionType === REGISTER_FIELD_EXTRA) &&
             dep.applyOnInit)
         ) {
-          yield call(modify, values, formName, fieldId, dep.type, dep);
+          yield call(modify, formName, fieldId, dep.type, dep);
         }
       }
     }
@@ -139,11 +139,10 @@ export function* resolveDependency(action) {
     const { form: formName, field: fieldName } = action.meta;
     const form = yield select(makeFormByName(formName));
     if (!isEmpty(form)) {
-      const { values, registeredFields: fields } = form;
+      const { registeredFields: fields } = form;
       if (!isEmpty(fields)) {
         yield call(
           checkAndModify,
-          values,
           fields,
           formName,
           fieldName || action.name,
