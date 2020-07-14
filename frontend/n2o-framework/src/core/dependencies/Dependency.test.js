@@ -122,7 +122,6 @@ const REDUX_CHANGE = '@@redux-form/CHANGE';
 
 const setup = mockData => {
   return checkAndModify(
-    mockData.values,
     mockData.fields,
     mockData.formName,
     mockData.fieldName,
@@ -143,11 +142,11 @@ const setupModify = mockData => {
 describe('Тестирование саги', () => {
   it('Тестирование вызова функции экшена на саге', () => {
     const gen = setup(mockData);
-    console.log();
+    gen.next();
     expect(gen.next().value).toEqual(
       call(
         modify,
-        mockData.values,
+        undefined,
         mockData.formName,
         mockData.fields.field1.name,
         mockData.fields.field1.dependency[0].type,

@@ -52,9 +52,8 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
   }
 }
 
-export function* modify(formName, fieldName, type, options = {}) {
+export function* modify(values, formName, fieldName, type, options = {}) {
   let _evalResult;
-  const values = yield select(getFormValues(formName));
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
   }
@@ -106,12 +105,7 @@ export function* modify(formName, fieldName, type, options = {}) {
   }
 }
 
-export function* checkAndModify(
-  fields,
-  formName,
-  fieldName,
-  actionType
-) {
+export function* checkAndModify(fields, formName, fieldName, actionType) {
   for (const entry of Object.entries(fields)) {
     const [fieldId, field] = entry;
     if (field.dependency) {
@@ -127,7 +121,8 @@ export function* checkAndModify(
             actionType === REGISTER_FIELD_EXTRA) &&
             dep.applyOnInit)
         ) {
-          yield call(modify, formName, fieldId, dep.type, dep);
+          const values = yield select(getFormValues(formName));
+          yield call(modify, values, formName, fieldId, dep.type, dep);
         }
       }
     }
