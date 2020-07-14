@@ -169,7 +169,7 @@ export default function withActionButton(options = {}) {
 
         const currentMessage = disabled ? message || hint : hint;
         return (
-          <div id={this.generatedButtonId}>
+          <>
             <RenderTooltip
               message={currentMessage}
               id={this.generatedButtonId}
@@ -185,6 +185,7 @@ export default function withActionButton(options = {}) {
                 'formValues',
               ])}
               onClick={this.handleClick}
+              id={this.generatedButtonId}
             />
             {confirm && (
               <ModalDialog
@@ -195,7 +196,7 @@ export default function withActionButton(options = {}) {
                 close={this.handleCloseConfirmModal}
               />
             )}
-          </div>
+          </>
         );
       }
     }
