@@ -2,6 +2,8 @@ package net.n2oapp.framework.autotest.run;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.config.AppConfig;
+import net.n2oapp.framework.api.config.ConfigBuilder;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
@@ -53,6 +55,7 @@ public class N2oController {
     private ErrorMessageBuilder errorMessageBuilder;
     private QueryProcessor queryProcessor;
     private N2oOperationProcessor operationProcessor;
+    private ConfigBuilder<AppConfig> configBuilder;
 
     @Value("${n2o.config.path}")
     private String basePath;
@@ -60,11 +63,12 @@ public class N2oController {
 
     @Autowired
     public N2oController(DataProcessingStack dataProcessingStack, ErrorMessageBuilder errorMessageBuilder,
-                         QueryProcessor queryProcessor, N2oOperationProcessor operationProcessor) {
+                         QueryProcessor queryProcessor, N2oOperationProcessor operationProcessor, ConfigBuilder<AppConfig> configBuilder) {
         this.queryProcessor = queryProcessor;
         this.dataProcessingStack = dataProcessingStack;
         this.errorMessageBuilder = errorMessageBuilder;
         this.operationProcessor = operationProcessor;
+        this.configBuilder = configBuilder;
     }
 
 
@@ -74,6 +78,7 @@ public class N2oController {
         List<SourceInfo> headers = builder.getEnvironment().getMetadataRegister().find(N2oHeader.class);
         Assert.isTrue(!headers.isEmpty(), "No header metadata found");
         config.put("menu", builder.read().transform().validate().compile().transform().bind().get(new HeaderContext(headers.get(0).getId()), new DataSet()));
+        config.put("user", configBuilder.get().getProperties().get("user"));
         return config;
     }
 
