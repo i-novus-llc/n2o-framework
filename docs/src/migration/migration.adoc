@@ -33,7 +33,8 @@
 - Упразднены `master-field-id` и `detail-field-id` в `show-modal` и `open-page`,
 пока на уровне xml, в следующих версиях будет убрано совсем.
 Вместо них необходимо использовать `<path-param>` и `<pre-filters>` в виджете на открываемой странице.
-- переименованы <in-parameters> и <out-parameters> в <in> и <out>, а <param> в <field>
+- Переименованы <in-parameters> и <out-parameters> в <in> и <out>, а <param> в <field>
+- Упразднен `layout` у <page>. Вместо него необходимо использовать src с указанием класса страницы
 
 
 ==== Миграция с 7.4 на 7.5
