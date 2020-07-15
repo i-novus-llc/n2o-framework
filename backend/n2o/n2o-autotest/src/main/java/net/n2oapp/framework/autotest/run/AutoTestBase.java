@@ -1,10 +1,14 @@
 package net.n2oapp.framework.autotest.run;
 
-import net.n2oapp.framework.autotest.N2oSelenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.selenide.AllureSelenide;
+import net.n2oapp.framework.api.config.AppConfig;
+import net.n2oapp.framework.api.config.ConfigBuilder;
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.N2oConfigBuilder;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,8 @@ public class AutoTestBase extends N2oTestBase {
 
     private ApplicationContext context;
 
+    private ConfigBuilder<AppConfig> configBuilder;
+
     public static void configureSelenide() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
@@ -37,6 +43,10 @@ public class AutoTestBase extends N2oTestBase {
     public void setUp() throws Exception {
         super.setUp();
         context.getBean(N2oController.class).setBuilder(builder);
+        configBuilder = new N2oConfigBuilder<>(new AppConfig(), new ObjectMapper(),
+                builder.getEnvironment().getSystemProperties(),
+                builder.getEnvironment().getContextProcessor());
+        context.getBean(N2oController.class).setConfig(configBuilder);
     }
 
     @Override
@@ -56,4 +66,9 @@ public class AutoTestBase extends N2oTestBase {
     public void setContext(ApplicationContext context) {
         this.context = context;
     }
+
+    public ConfigBuilder<AppConfig> getConfig() {
+        return configBuilder;
+    }
+
 }

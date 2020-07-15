@@ -55,6 +55,11 @@ public class N2oController {
     private ErrorMessageBuilder errorMessageBuilder;
     private QueryProcessor queryProcessor;
     private N2oOperationProcessor operationProcessor;
+
+    public void setConfig(ConfigBuilder<AppConfig> configBuilder) {
+        this.configBuilder = configBuilder;
+    }
+
     private ConfigBuilder<AppConfig> configBuilder;
 
     @Value("${n2o.config.path}")
@@ -73,13 +78,11 @@ public class N2oController {
 
 
     @GetMapping("/n2o/config")
-    public Map config() {
-        Map<String, Object> config = new HashMap<>();
+    public AppConfig config() {
         List<SourceInfo> headers = builder.getEnvironment().getMetadataRegister().find(N2oHeader.class);
         Assert.isTrue(!headers.isEmpty(), "No header metadata found");
-        config.put("menu", builder.read().transform().validate().compile().transform().bind().get(new HeaderContext(headers.get(0).getId()), new DataSet()));
-        config.put("user", configBuilder.get().getProperties().get("user"));
-        return config;
+        configBuilder.menu(builder.read().transform().validate().compile().transform().bind().get(new HeaderContext(headers.get(0).getId()), new DataSet()));
+        return configBuilder.get();
     }
 
     @GetMapping({"/n2o/page/**", "/n2o/page/", "/n2o/page"})
