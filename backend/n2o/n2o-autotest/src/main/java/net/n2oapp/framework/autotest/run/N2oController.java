@@ -55,16 +55,10 @@ public class N2oController {
     private ErrorMessageBuilder errorMessageBuilder;
     private QueryProcessor queryProcessor;
     private N2oOperationProcessor operationProcessor;
-
-    public void setConfig(ConfigBuilder<AppConfig> configBuilder) {
-        this.configBuilder = configBuilder;
-    }
-
     private ConfigBuilder<AppConfig> configBuilder;
 
     @Value("${n2o.config.path}")
     private String basePath;
-
 
     @Autowired
     public N2oController(DataProcessingStack dataProcessingStack, ErrorMessageBuilder errorMessageBuilder,
@@ -75,7 +69,6 @@ public class N2oController {
         this.operationProcessor = operationProcessor;
         this.configBuilder = configBuilder;
     }
-
 
     @GetMapping("/n2o/config")
     public AppConfig config() {
@@ -115,6 +108,10 @@ public class N2oController {
         this.builder = builder;
     }
 
+    public void setConfig(ConfigBuilder<AppConfig> configBuilder) {
+        this.configBuilder = configBuilder;
+    }
+
     private ControllerFactory createControllerFactory(MetadataEnvironment environment) {
         SubModelsProcessor subModelsProcessor = new N2oSubModelsProcessor(queryProcessor);
         Map<String, Object> beans = new HashMap<>();
@@ -148,4 +145,5 @@ public class N2oController {
         }
         return headers;
     }
+
 }

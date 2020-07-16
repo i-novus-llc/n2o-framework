@@ -3,19 +3,16 @@ package net.n2oapp.framework.boot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.engine.factory.integration.spring.OverrideBean;
 import net.n2oapp.framework.api.MetadataEnvironment;
-import net.n2oapp.framework.api.config.AppConfig;
-import net.n2oapp.framework.api.config.ConfigBuilder;
-import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.event.N2oEventBus;
 import net.n2oapp.framework.api.metadata.reader.ConfigMetadataLocker;
 import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.config.ConfigStarter;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.N2oConfigBuilder;
+import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.persister.MetadataPersister;
-import net.n2oapp.framework.config.reader.ConfigMetadataLockerImpl;
+import net.n2oapp.framework.config.reader.*;
 import net.n2oapp.framework.config.reader.util.N2oJdomTextProcessing;
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.route.N2oRouter;
@@ -35,7 +32,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
-import org.springframework.core.env.PropertyResolver;
 
 import java.util.*;
 
@@ -138,13 +134,4 @@ public class N2oMetadataConfiguration {
         headerWarmUpper.setApplicationBuilder(applicationBuilder);
         return headerWarmUpper;
     }
-
-    @Bean
-    @ConditionalOnMissingBean
-    ConfigBuilder<AppConfig> configBuilder(ObjectMapper objectMapper,
-                                           PropertyResolver propertyResolver,
-                                           ContextProcessor contextProcessor) {
-        return new N2oConfigBuilder<>(new AppConfig(), objectMapper, propertyResolver, contextProcessor);
-    }
-
 }
