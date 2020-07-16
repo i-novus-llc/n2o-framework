@@ -62,12 +62,12 @@ public class N2oController {
 
     @Autowired
     public N2oController(DataProcessingStack dataProcessingStack, ErrorMessageBuilder errorMessageBuilder,
-                         QueryProcessor queryProcessor, N2oOperationProcessor operationProcessor, ConfigBuilder<AppConfig> configBuilder) {
+                         QueryProcessor queryProcessor, N2oOperationProcessor operationProcessor) {
         this.queryProcessor = queryProcessor;
         this.dataProcessingStack = dataProcessingStack;
         this.errorMessageBuilder = errorMessageBuilder;
         this.operationProcessor = operationProcessor;
-        this.configBuilder = configBuilder;
+//        this.configBuilder = configBuilder;
     }
 
     @GetMapping("/n2o/config")
