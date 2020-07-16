@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.page;
 
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Regions;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
@@ -70,6 +71,7 @@ public class TopLeftRightPageAT extends AutoTestBase {
         StandardButton btn = widget.toolbar().topLeft().button("Открыть");
         btn.shouldBeEnabled();
         btn.click();
+        Selenide.sleep(500);
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
