@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Set;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.ref;
 
 /**
  * Компиляция ToolbarItem
@@ -57,11 +56,16 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             button.setLabel(source.getLabel());
         }
         CompiledObject.Operation operation = null;
-        CompiledObject compiledObject;
+        CompiledObject compiledObject = null;
         WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
-        if (widgetObjectScope != null && widgetObjectScope.containsKey(source.getWidgetId())) {
-            compiledObject = widgetObjectScope.getObject(source.getWidgetId());
-        } else
+        if (widgetObjectScope != null) {
+            if (widgetObjectScope.size() == 1)
+                source.setWidgetId(widgetObjectScope.keySet().stream().findFirst().get());
+            if (widgetObjectScope.containsKey(source.getWidgetId())) {
+                compiledObject = widgetObjectScope.getObject(source.getWidgetId());
+            }
+        }
+        if (compiledObject == null)
             compiledObject = p.getScope(CompiledObject.class);
         Action action = compileAction(button, source, context, p, compiledObject);
 
