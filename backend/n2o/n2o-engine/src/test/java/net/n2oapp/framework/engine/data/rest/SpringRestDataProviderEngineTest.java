@@ -7,9 +7,7 @@ import net.n2oapp.framework.api.metadata.dataprovider.N2oRestDataProvider;
 import net.n2oapp.framework.engine.data.rest.json.RestEngineTimeModule;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.mock.http.client.MockClientHttpResponse;
 import org.springframework.web.client.HttpStatusCodeException;
 
@@ -35,7 +33,7 @@ public class SpringRestDataProviderEngineTest {
         actionEngine.invoke(dataProvider, request);
         Map<String, Object> header = (Map<String, Object>) restTemplate.getRequestHeader();
         assertThat(header.size(), is(1));
-        assertThat(header.get(HttpHeaders.CONTENT_TYPE), is(Arrays.asList(MediaType.APPLICATION_JSON_VALUE)));
+        assertThat(header.get("Content-Type"), is(Arrays.asList("application/json")));
         assertThat(restTemplate.getQuery(), is("http://www.example.org/1"));
 
         //случай с повторением параметра
