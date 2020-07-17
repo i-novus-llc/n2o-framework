@@ -17,6 +17,11 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
     }
 
     @Override
+    public void shouldHaveTitle(String title) {
+        element().shouldHave(Condition.text(title));
+    }
+
+    @Override
     public void shouldBeExpanded() {
         element().$(".rc-collapse-item").should(Condition.cssClass("rc-collapse-item-active"));
     }
