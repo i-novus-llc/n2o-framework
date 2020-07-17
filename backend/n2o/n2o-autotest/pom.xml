@@ -80,6 +80,13 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-access</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
