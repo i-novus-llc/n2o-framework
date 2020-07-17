@@ -23,7 +23,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
     @Override
     public void validate(N2oQuery n2oQuery, ValidateProcessor p) {
         if (n2oQuery.getObjectId() != null)
-            checkForExistsObject(n2oQuery.getObjectId(), p);
+            checkForExistsObject(n2oQuery.getId(), n2oQuery.getObjectId(), p);
         if (n2oQuery.getFields() != null) {
             checkForUniqueFields(n2oQuery.getFields(), n2oQuery.getId(), p);
             checkForUniqueFilterFields(n2oQuery.getFields(), n2oQuery.getId());
@@ -34,11 +34,13 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
     /**
      * Проверка существования Объекта
      *
+     * @param queryId  Идентификатор выборки
      * @param objectId Идентификатор объекта
      * @param p        Процессор валидации метаданных
      */
-    private void checkForExistsObject(String objectId, ValidateProcessor p) {
-        p.checkForExists(objectId, N2oObject.class, "Выборка '%s' ссылается не несуществующий объект {0}");
+    private void checkForExistsObject(String queryId, String objectId, ValidateProcessor p) {
+        p.checkForExists(objectId, N2oObject.class,
+                String.format("Выборка '%s' ссылается не несуществующий объект %s", queryId, objectId));
     }
 
     /**
