@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * Валидация списковых компонентов
  */
 @Component
-public class ListFieldQueryValidation implements SourceValidator<N2oListField>, SourceClassAware {
+public class ListFieldQueryValidator implements SourceValidator<N2oListField>, SourceClassAware {
 
     @Override
     public void validate(N2oListField field, ValidateProcessor p) {
