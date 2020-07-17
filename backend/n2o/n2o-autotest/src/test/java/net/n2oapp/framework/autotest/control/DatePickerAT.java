@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.DateInput;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -10,6 +11,10 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * Автотест компонента ввода даты
  */
@@ -88,5 +93,66 @@ public class DatePickerAT extends AutoTestBase {
         date.clickCalendarButton();
         date.timeVal("23", "59", "58");
         date.shouldHaveValue("15/02/2020 23:59:58");
+    }
+
+    @Test
+    public void testDefaultValue() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/date_picker/default/index.page.xml"));
+        page = open(SimplePage.class);
+        page.shouldExists();
+
+        Fields fields = page.single().widget(FormWidget.class).fields();
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int m = calendar.get(Calendar.MONTH) + 1;
+        String month = addLeadingZero(m);
+        int d = calendar.get(Calendar.DAY_OF_MONTH);
+        String day = addLeadingZero(d);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        DateInput now = fields.field("Сейчас").control(DateInput.class);
+        now.shouldHaveValue(String.format("%s.%s.%s %s", day, month, year,
+                new SimpleDateFormat("HH:mm:ss").format(calendar.getTime())));
+
+        DateInput today = fields.field("Сегодня").control(DateInput.class);
+        today.shouldHaveValue(String.format("%s.%s.%s", day, month, year));
+
+        DateInput beginMonth = fields.field("Начало месяца").control(DateInput.class);
+        beginMonth.shouldHaveValue(String.format("01.%s.%s", month, year));
+
+        int monthLastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        DateInput endMonth = fields.field("Конец месяца").control(DateInput.class);
+        endMonth.shouldHaveValue(String.format("%s.%s.%s", monthLastDay, month, year));
+
+        DateInput beginYear = fields.field("Начало года").control(DateInput.class);
+        beginYear.shouldHaveValue("01.01." + year);
+
+        DateInput endYear = fields.field("Конец года").control(DateInput.class);
+        endYear.shouldHaveValue("31.12." + year);
+
+
+        // разница между текущим днем недели и понедельником
+        // учитывается, что понедельник может быть не первым днем недели
+        int dif = dayOfWeek - Calendar.MONDAY;
+        dif = dif > 0 ? dif : dif + 7;
+        calendar.add(Calendar.DATE, - dif);
+        DateInput beginWeek = fields.field("Начало недели").control(DateInput.class);
+        beginWeek.shouldHaveValue(String.format("%s.%s.%s",
+                addLeadingZero(calendar.get(Calendar.DATE)),
+                addLeadingZero(calendar.get(Calendar.MONTH) + 1),
+                calendar.get(Calendar.YEAR))
+        );
+
+        DateInput endWeek = fields.field("Конец недели").control(DateInput.class);
+        calendar.add(Calendar.DATE, 6);
+        endWeek.shouldHaveValue(String.format("%s.%s.%s",
+                addLeadingZero(calendar.get(Calendar.DATE)),
+                addLeadingZero(calendar.get(Calendar.MONTH) + 1),
+                calendar.get(Calendar.YEAR))
+        );
+    }
+
+    private String addLeadingZero(int i) {
+        return i < 10 ? "0" + i : "" + i;
     }
 }
