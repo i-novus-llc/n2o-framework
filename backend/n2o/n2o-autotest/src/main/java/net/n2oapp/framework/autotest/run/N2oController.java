@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.run;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.config.AppConfig;
@@ -15,6 +16,7 @@ import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.N2oConfigBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
@@ -67,7 +69,6 @@ public class N2oController {
         this.dataProcessingStack = dataProcessingStack;
         this.errorMessageBuilder = errorMessageBuilder;
         this.operationProcessor = operationProcessor;
-//        this.configBuilder = configBuilder;
     }
 
     @GetMapping("/n2o/config")
@@ -104,12 +105,15 @@ public class N2oController {
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
-    public void setBuilder(N2oApplicationBuilder builder) {
+    public void setUp(N2oApplicationBuilder builder) {
         this.builder = builder;
+        configBuilder = new N2oConfigBuilder<>(new AppConfig(), new ObjectMapper(),
+                builder.getEnvironment().getSystemProperties(),
+                builder.getEnvironment().getContextProcessor());
     }
 
-    public void setConfig(ConfigBuilder<AppConfig> configBuilder) {
-        this.configBuilder = configBuilder;
+    public void setConfigInfo(String key, Object value) {
+        this.configBuilder.add(key, value);
     }
 
     private ControllerFactory createControllerFactory(MetadataEnvironment environment) {

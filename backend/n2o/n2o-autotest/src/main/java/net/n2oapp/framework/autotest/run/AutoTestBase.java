@@ -1,14 +1,10 @@
 package net.n2oapp.framework.autotest.run;
 
 import com.codeborne.selenide.logevents.SelenideLogger;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.selenide.AllureSelenide;
-import net.n2oapp.framework.api.config.AppConfig;
-import net.n2oapp.framework.api.config.ConfigBuilder;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.N2oConfigBuilder;
 import net.n2oapp.framework.config.test.N2oTestBase;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Map;
 
 import static com.codeborne.selenide.Configuration.headless;
 
@@ -31,7 +29,8 @@ public class AutoTestBase extends N2oTestBase {
 
     private ApplicationContext context;
 
-    private ConfigBuilder<AppConfig> configBuilder;
+    @Autowired
+    protected N2oController n2oController;
 
     public static void configureSelenide() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
@@ -42,11 +41,7 @@ public class AutoTestBase extends N2oTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        context.getBean(N2oController.class).setBuilder(builder);
-        configBuilder = new N2oConfigBuilder<>(new AppConfig(), new ObjectMapper(),
-                builder.getEnvironment().getSystemProperties(),
-                builder.getEnvironment().getContextProcessor());
-        context.getBean(N2oController.class).setConfig(configBuilder);
+        n2oController.setUp(builder);
     }
 
     @Override
@@ -67,8 +62,8 @@ public class AutoTestBase extends N2oTestBase {
         this.context = context;
     }
 
-    public ConfigBuilder<AppConfig> getConfig() {
-        return configBuilder;
+    public void setUserInfo(Map<String, Object> user) {
+        n2oController.setConfigInfo("user", user);
     }
 
 }
