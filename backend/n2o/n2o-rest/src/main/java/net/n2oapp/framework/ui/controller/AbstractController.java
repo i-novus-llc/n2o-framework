@@ -65,6 +65,7 @@ public abstract class AbstractController {
         DataSet bodyData = convertToDataSet(body, actionCtx.getOperationMapping());
         putParams(headerParams, bodyData, actionCtx.getOperationMapping());
         putParams(queryParams, bodyData, actionCtx.getOperationMapping());
+        putParams(queryData, bodyData, actionCtx.getOperationMapping());
 
         ActionRequestInfo<DataSet> requestInfo = new ActionRequestInfo<>();
         requestInfo.setContext(actionCtx);
@@ -94,6 +95,16 @@ public abstract class AbstractController {
                         data.put(entry.getValue(), Arrays.asList(value));
                     }
                 }
+            }
+        }
+    }
+
+    private void putParams(DataSet params, DataSet data, Map<String, String> mapping) {
+        if (params != null && mapping != null) {
+            for (Map.Entry<String, String> entry : mapping.entrySet()) {
+                Object value = params.get(entry.getKey());
+                if (value != null)
+                    data.put(entry.getValue(), value);
             }
         }
     }
