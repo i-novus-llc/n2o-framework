@@ -1,7 +1,6 @@
 package net.n2oapp.framework.engine.data.rest;
 
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpRequest;
@@ -9,15 +8,13 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.mock.http.client.MockClientHttpRequest;
 import org.springframework.mock.http.client.MockClientHttpResponse;
 import org.springframework.web.client.RequestCallback;
-import org.springframework.web.client.ResponseExtractor;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 
 public class TestRestTemplate extends RestTemplate {
     private String query;
@@ -44,6 +41,10 @@ public class TestRestTemplate extends RestTemplate {
 
     public Object getRequestBody() {
         return (requestBody instanceof HttpEntity ? ((HttpEntity) requestBody).getBody() : requestBody);
+    }
+
+    public Object getRequestHeader() {
+        return (requestBody instanceof HttpEntity ? ((HttpEntity) requestBody).getHeaders() : Collections.EMPTY_MAP);
     }
 
     @Override

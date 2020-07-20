@@ -31,6 +31,9 @@ public class SpringRestDataProviderEngineTest {
         Map<String, Object> request = new HashMap<>();
         request.put("id", 1);
         actionEngine.invoke(dataProvider, request);
+        Map<String, Object> header = (Map<String, Object>) restTemplate.getRequestHeader();
+        assertThat(header.size(), is(1));
+        assertThat(header.get("Content-Type"), is(Arrays.asList("application/json")));
         assertThat(restTemplate.getQuery(), is("http://www.example.org/1"));
 
         //случай с повторением параметра
