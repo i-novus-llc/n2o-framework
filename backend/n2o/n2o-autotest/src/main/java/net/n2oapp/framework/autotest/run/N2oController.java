@@ -112,7 +112,7 @@ public class N2oController {
                 builder.getEnvironment().getContextProcessor());
     }
 
-    public void setConfigInfo(String key, Object value) {
+    public void addConfigProperty(String key, Object value) {
         this.configBuilder.add(key, value);
     }
 
@@ -131,8 +131,7 @@ public class N2oController {
                 subModelsProcessor, errorMessageBuilder, environment));
         beans.put("bulkActionMergeController", new BulkActionMergeController(dataProcessingStack,
                 operationProcessor, environment));
-        ControllerFactory factory = new N2oControllerFactory(beans);
-        return factory;
+        return new N2oControllerFactory(beans);
     }
 
     private String getPath(HttpServletRequest request, String prefix) {

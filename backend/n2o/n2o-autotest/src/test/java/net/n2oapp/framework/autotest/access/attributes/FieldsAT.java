@@ -55,6 +55,7 @@ public class FieldsAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
 
         Fields fields = page.widgets().widget(FormWidget.class).fields();
+        fields.shouldHaveSize(3);
         fields.field("Доступно всем").shouldExists();
         fields.field("Только с ролью admin").shouldExists();
         fields.field("Только с правом edit").shouldExists();
@@ -71,6 +72,7 @@ public class FieldsAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
 
         Fields fields = page.widgets().widget(FormWidget.class).fields();
+        fields.shouldHaveSize(2);
         fields.field("Доступно всем").shouldExists();
         fields.field("Только с ролью admin").shouldNotExists();
         fields.field("Только с правом edit").shouldNotExists();

@@ -85,6 +85,8 @@ public class HeaderAT extends AutoTestBase {
         page.header().extra().shouldHaveSize(1);
         AnchorMenuItem extraLink = page.header().extra().item(0, AnchorMenuItem.class);
         extraLink.labelShouldHave("Admin");
+        extraLink.click();
+        page.breadcrumb().titleShouldHaveText("Главная страница");
     }
 
     @Test
