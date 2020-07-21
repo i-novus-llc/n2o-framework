@@ -12,6 +12,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
@@ -96,7 +97,9 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
      * @return Заголовки
      */
     protected HttpHeaders initHeaders(Map<String, Object> args) {
-        return new HttpHeaders();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        return httpHeaders;
     }
 
     private static class N2oResponseExtractor implements ResponseExtractor<Object> {
