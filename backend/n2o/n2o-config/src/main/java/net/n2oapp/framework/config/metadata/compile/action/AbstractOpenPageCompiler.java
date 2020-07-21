@@ -143,8 +143,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String actionRoute = initActionRoute(source, actionModelLink, p);
         String masterIdParam = initMasterLink(actionRoute, pathMapping, actionModelLink);
         addPathMappings(source, pathMapping, widgetScope, pageScope, actionDataModel, p);
+        String parentRoute = normalize(route);
         route = normalize(route + actionRoute);
-        String parentRoute = RouteUtil.absolute("../", route);// example "/:id/action" -> "/:id"
 
         PageContext pageContext = constructContext(pageId, route);
         pageContext.setPageName(source.getPageName());
