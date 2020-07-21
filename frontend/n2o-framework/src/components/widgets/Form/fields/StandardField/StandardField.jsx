@@ -108,7 +108,7 @@ class StandardField extends React.Component {
       ? {
           maxWidth: `calc(100% - ${labelWidthPixels})`,
         }
-      : { width: '100%' };
+      : { width: '100%', display: 'flex' };
     const extendedLabelStyle = {
       width: labelWidthPixels,
       flex: labelWidthPixels ? 'none' : undefined,
@@ -178,16 +178,14 @@ class StandardField extends React.Component {
               )}
             </div>
             <Description value={description} />
-            {message && (
-              <div
-                className={cx(
-                  'n2o-validation-message',
-                  validationMap[validationClass]
-                )}
-              >
-                {touched && message && message.text}
-              </div>
-            )}
+            <div
+              className={cx(
+                'n2o-validation-message',
+                validationMap[validationClass]
+              )}
+            >
+              {touched && message && message.text}
+            </div>
           </div>
         </div>
       )
