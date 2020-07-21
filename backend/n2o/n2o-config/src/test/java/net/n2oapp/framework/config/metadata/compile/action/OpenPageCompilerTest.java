@@ -469,5 +469,8 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(btn2.getPathMapping().size(), is(1));
         assertThat(btn2.getPathMapping().get("account_id").getBindLink(), is("models.resolve['page_main'].accountId"));
         assertThat(btn2.getPathMapping().get("account_id").getValue(), nullValue());
+        ModelLink link = page.getModels().get("resolve['page_main'].accountId");
+        assertThat(link.getBindLink(), is("models.resolve['page_main'].accountId"));
+        assertThat(link.getValue(), is(111));
     }
 }
