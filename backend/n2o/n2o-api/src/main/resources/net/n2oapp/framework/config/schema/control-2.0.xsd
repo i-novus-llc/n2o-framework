@@ -1076,7 +1076,7 @@
                 <xs:annotation>
                     <xs:documentation>Компонент выбора из выпадающего списка.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="type" type="inputSelectType" default="single">
+                <xs:attribute name="type" type="selectType" default="single">
                     <xs:annotation>
                         <xs:documentation>Тип выбора в выпадающем списке.</xs:documentation>
                     </xs:annotation>
@@ -1396,6 +1396,13 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="selectType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="single"/>
+            <xs:enumeration value="checkboxes"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="inputSelectType">
         <xs:restriction base="xs:string">

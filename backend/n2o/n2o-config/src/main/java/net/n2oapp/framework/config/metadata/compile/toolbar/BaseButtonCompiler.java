@@ -56,11 +56,16 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             button.setLabel(source.getLabel());
         }
         CompiledObject.Operation operation = null;
-        CompiledObject compiledObject;
+        CompiledObject compiledObject = null;
         WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
-        if (widgetObjectScope != null && widgetObjectScope.containsKey(source.getWidgetId())) {
-            compiledObject = widgetObjectScope.getObject(source.getWidgetId());
-        } else
+        if (widgetObjectScope != null) {
+            if (widgetObjectScope.size() == 1)
+                source.setWidgetId(widgetObjectScope.keySet().stream().findFirst().get());
+            if (widgetObjectScope.containsKey(source.getWidgetId())) {
+                compiledObject = widgetObjectScope.getObject(source.getWidgetId());
+            }
+        }
+        if (compiledObject == null)
             compiledObject = p.getScope(CompiledObject.class);
         Action action = compileAction(button, source, context, p, compiledObject);
 
@@ -245,7 +250,14 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
 
     private void compileCondition(AbstractMenuItem.Dependency dependency, MenuItem menuItem, ValidationType validationType,
                                   String widgetId, String fieldId, CompileProcessor p) {
-        String refWidgetId = p.cast(dependency.getRefWidgetId(), widgetId);
+        String refWidgetId = null;
+        if (dependency.getRefWidgetId() != null) {
+            PageScope pageScope = p.getScope(PageScope.class);
+            if (pageScope != null) {
+                refWidgetId = pageScope.getGlobalWidgetId(dependency.getRefWidgetId());
+            }
+        }
+        refWidgetId = p.cast(refWidgetId, widgetId);
         ReduxModel refModel = p.cast(dependency.getRefModel(), ReduxModel.RESOLVE);
 
         Condition condition = new Condition();

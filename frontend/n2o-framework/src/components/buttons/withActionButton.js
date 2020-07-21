@@ -44,6 +44,7 @@ export default function withActionButton(options = {}) {
       constructor(props) {
         super(props);
         this.initIfNeeded();
+        this.generatedTooltipId = id();
         this.generatedButtonId = props.uid || id();
       }
 
@@ -169,10 +170,10 @@ export default function withActionButton(options = {}) {
 
         const currentMessage = disabled ? message || hint : hint;
         return (
-          <div id={this.generatedButtonId}>
+          <div id={this.generatedTooltipId}>
             <RenderTooltip
               message={currentMessage}
-              id={this.generatedButtonId}
+              id={this.generatedTooltipId}
             />
             <WrappedComponent
               {...omit(this.props, [

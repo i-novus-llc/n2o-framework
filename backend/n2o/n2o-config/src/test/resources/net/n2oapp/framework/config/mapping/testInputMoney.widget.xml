@@ -2,5 +2,6 @@
     <fields>
         <input-money id="money" suffix="^" prefix="*" thousands-separator=" " decimal-separator=","
                      integer-limit="100" fraction-formatting="manual" default-value="default"/>
+        <input-money id="money2"/>
     </fields>
 </form>

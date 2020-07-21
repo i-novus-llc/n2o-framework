@@ -295,7 +295,7 @@ public class N2oQueryProcessor implements QueryProcessor, MetadataEnvironmentAwa
                 continue;
             }
             Set<String> filters = new HashSet<>();
-            Collections.addAll(filters, selection.getFilters().split(","));
+            Collections.addAll(filters, selection.getFilters().split("\\s*,\\s*"));
             if (filterFields.size() == filters.size()) {
                 filterFields.forEach(filters::remove);
                 if (filters.isEmpty()) {

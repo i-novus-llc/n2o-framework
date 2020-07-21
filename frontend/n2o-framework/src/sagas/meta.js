@@ -98,13 +98,15 @@ export function* messagesFormEffect({ meta }) {
   try {
     const formID = get(meta, 'messages.form', false);
     const fields = get(meta, 'messages.fields', false);
-    const putBanchActions = flow([batchActions, put]);
+    const putBatchActions = flow([batchActions, put]);
+
     if (formID && fields) {
-      const serrializeData = map(toPairs(fields), ([name, ...message]) =>
+      const serializeData = map(toPairs(fields), ([name, ...message]) =>
         addFieldMessage(formID, name, ...message)
       );
-      yield putBanchActions(serrializeData);
+
       yield put(touch(formID, ...keys(fields)));
+      yield putBatchActions(serializeData);
     }
   } catch (e) {
     console.error(e);
