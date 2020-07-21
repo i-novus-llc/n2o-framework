@@ -178,14 +178,16 @@ class StandardField extends React.Component {
               )}
             </div>
             <Description value={description} />
-            <div
-              className={cx(
-                'n2o-validation-message',
-                validationMap[validationClass]
-              )}
-            >
-              {touched && message && message.text}
-            </div>
+            {message && (
+              <div
+                className={cx(
+                  'n2o-validation-message',
+                  validationMap[validationClass]
+                )}
+              >
+                {touched && message && message.text}
+              </div>
+            )}
           </div>
         </div>
       )
