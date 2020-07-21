@@ -108,7 +108,7 @@ class StandardField extends React.Component {
       ? {
           maxWidth: `calc(100% - ${labelWidthPixels})`,
         }
-      : { width: '100%', display: 'flex' };
+      : { width: '100%' };
     const extendedLabelStyle = {
       width: labelWidthPixels,
       flex: labelWidthPixels ? 'none' : undefined,
