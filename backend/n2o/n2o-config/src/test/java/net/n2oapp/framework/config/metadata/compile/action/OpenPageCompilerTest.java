@@ -26,6 +26,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -452,5 +453,24 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
                 .getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider().getQueryMapping();
         assertThat(queryMapping1.size(), is(1));
         assertThat(queryMapping1.get("id").getValue(), is(1));
+    }
+
+    @Test
+    public void testPathParam() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageWithPathParam.page.xml")
+                .get(new PageContext("testOpenPageWithPathParam", "/page"));
+
+        PerformButton btn1 = (PerformButton) page.getWidget().getToolbar().getButton("btn1");
+        assertThat(btn1.getPathMapping().size(), is(1));
+        assertThat(btn1.getPathMapping().get("client_id").getBindLink(), nullValue());
+        assertThat(btn1.getPathMapping().get("client_id").getValue(), is("123"));
+
+        PerformButton btn2 = (PerformButton) page.getWidget().getToolbar().getButton("btn2");
+        assertThat(btn2.getPathMapping().size(), is(1));
+        assertThat(btn2.getPathMapping().get("account_id").getBindLink(), is("models.resolve['page_main'].accountId"));
+        assertThat(btn2.getPathMapping().get("account_id").getValue(), nullValue());
+        ModelLink link = page.getModels().get("resolve['page_main'].accountId");
+        assertThat(link.getBindLink(), is("models.resolve['page_main'].accountId"));
+        assertThat(link.getValue(), is(111));
     }
 }

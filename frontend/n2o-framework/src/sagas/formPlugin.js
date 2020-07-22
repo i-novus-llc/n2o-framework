@@ -36,11 +36,13 @@ export function* copyAction({ payload }) {
   const { target, source, mode = 'replace', sourceMapper } = payload;
   const state = yield select(modelsSelector);
   let sourceModel = get(state, values(source).join('.'));
-  let targetModel = yield select(
+  let selectedTargetModel = yield select(
     makeGetModelByPrefixSelector(target.prefix, target.key)
-  ) || {};
+  );
+  let targetModel = selectedTargetModel || [];
   const expression = parseExpression(sourceMapper);
   let newModel = {};
+  const targetModelField = get(targetModel, [target.field], []);
 
   if (expression) {
     sourceModel = evalExpression(expression, sourceModel);
@@ -51,25 +53,24 @@ export function* copyAction({ payload }) {
       ? {
           ...targetModel,
           [target.field]: {
-            ...targetModel[target.field],
+            ...targetModelField,
             ...sourceModel,
           },
         }
       : { ...targetModel, ...sourceModel };
   } else if (mode === 'add') {
-    if (
-      !Array.isArray(sourceModel) ||
-      !Array.isArray(targetModel[target.field])
-    ) {
-      throw new Error('Source or target is not an array!');
+    if (!Array.isArray(sourceModel) || !Array.isArray(targetModelField)) {
+      console.warn('Source or target is not an array!');
     }
+
+    sourceModel = Object.values(sourceModel);
 
     newModel = target.field
       ? {
           ...targetModel,
-          [target.field]: [...targetModel[target.field], ...sourceModel],
+          [target.field]: [...targetModelField, ...sourceModel],
         }
-      : [...targetModel[target.field], ...sourceModel];
+      : [...targetModelField, ...sourceModel];
   } else {
     newModel = target.field
       ? {
