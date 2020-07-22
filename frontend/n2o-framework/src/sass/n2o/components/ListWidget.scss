@@ -5,7 +5,7 @@
 
   &-cell {
     .btn-group {
-      display: block;
+      flex-wrap: wrap;
       @media (max-width: 1650px) {
         .btn-link::before {
           content: "|";
