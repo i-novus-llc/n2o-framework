@@ -3,7 +3,9 @@ package net.n2oapp.framework.autotest.action;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
+import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -88,7 +90,7 @@ public class CopyActionAT extends AutoTestBase {
         btn.click();
         Modal modal = N2oSelenide.modal();
         TableWidget table = modal.content(SimplePage.class).single().widget(TableWidget.class);
-        StandardButton saveBtn = modal.toolbar().bottomRight().button("Выбрать");
+        StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
 
         table.columns().rows().row(1).click();
         saveBtn.click();
@@ -121,16 +123,84 @@ public class CopyActionAT extends AutoTestBase {
         StandardButton btn = form.toolbar().topLeft().button("Выбрать");
 
         // копирование первой и третьей строки
+        // COPY-MODE=ADD
         btn.click();
         Modal modal = N2oSelenide.modal();
         TableWidget table = modal.content(SimplePage.class).single().widget(TableWidget.class);
-        StandardButton saveBtn = modal.toolbar().bottomRight().button("Выбрать");
+        StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
 
         table.columns().rows().row(0).click();
         table.columns().rows().row(2).click();
         saveBtn.click();
         modal.shouldNotExists();
 
+        // проверяем наличие двух элементов в мультисете
+        multiSet.shouldHaveItems(2);
+        MultiFieldSetItem item1 = multiSet.item(0);
+        MultiFieldSetItem item2 = multiSet.item(1);
+        item1.fields().field("id").control(InputText.class).shouldHaveValue("1");
+        item1.fields().field("name").control(InputText.class).shouldHaveValue("test1");
+        item2.fields().field("id").control(InputText.class).shouldHaveValue("3");
+        item2.fields().field("name").control(InputText.class).shouldHaveValue("test3");
 
+        // копирование первой и четвертой строки
+        btn.click();
+        modal = N2oSelenide.modal();
+
+        table.columns().rows().row(3).click();
+        table.columns().rows().row(0).click();
+        saveBtn.click();
+        modal.shouldNotExists();
+
+        // проверяем наличие четырех элементов в мультисете
+        // первая строка из таблицы должна присутствовать дважды
+        multiSet.shouldHaveItems(4);
+        MultiFieldSetItem item3 = multiSet.item(2);
+        MultiFieldSetItem item4 = multiSet.item(3);
+        item1.fields().field("id").control(InputText.class).shouldHaveValue("1");
+        item1.fields().field("name").control(InputText.class).shouldHaveValue("test1");
+        item2.fields().field("id").control(InputText.class).shouldHaveValue("3");
+        item2.fields().field("name").control(InputText.class).shouldHaveValue("test3");
+        item3.fields().field("id").control(InputText.class).shouldHaveValue("1");
+        item3.fields().field("name").control(InputText.class).shouldHaveValue("test1");
+        item4.fields().field("id").control(InputText.class).shouldHaveValue("4");
+        item4.fields().field("name").control(InputText.class).shouldHaveValue("test4");
+    }
+
+    @Test
+    public void testReplaceCopyFromModal() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/copy/modal_replace/modal.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        StandardField field = page.single().widget(FormWidget.class).fields().field("Адрес");
+        InputText address = field.control(InputText.class);
+        address.shouldBeEmpty();
+        StandardButton btn = field.toolbar().button("Ввести новый");
+
+        // копирование значений нескольких полей
+        // COPY-MODE=REPLACE
+        btn.click();
+        Modal modal = N2oSelenide.modal();
+        FormWidget modalForm = modal.content(SimplePage.class).single().widget(FormWidget.class);
+        InputText city = modalForm.fields().field("Город").control(InputText.class);
+        InputText street = modalForm.fields().field("Улица").control(InputText.class);
+        city.val("NY");
+        street.val("Wall Street");
+        StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
+        saveBtn.click();
+
+        // проверяем, что оба значения скопировались
+        address.shouldHaveValue("NY, Wall Street");
+
+        // копируем только улицу
+        btn.click();
+        modal = N2oSelenide.modal();
+        city.shouldBeEmpty();
+        street.val("Broadway");
+        saveBtn.click();
+
+        address.shouldHaveValue("Broadway");
     }
 }

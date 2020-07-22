@@ -11,8 +11,8 @@
         </fields>
         <toolbar>
             <button label="Выбрать" model="filter">
-                <show-modal page-id="modal" submit-action-type="copy" submit-label="Выбрать"
-                            copy-model="multi" target-field-id="members" copy-mode="add"/>
+                <show-modal page-id="modal" submit-action-type="copy" copy-model="multi"
+                            target-field-id="members" copy-mode="add"/>
             </button>
         </toolbar>
     </form>

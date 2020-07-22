@@ -8,7 +8,7 @@
         <toolbar>
             <button id="update" label="Открыть" model="filter">
                 <show-modal page-id="modal" submit-action-type="copy" copy-widget-id="table"
-                            submit-label="Выбрать" target-widget-id="form"/>
+                            target-widget-id="form"/>
             </button>
         </toolbar>
     </form>
