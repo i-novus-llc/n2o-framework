@@ -71,7 +71,6 @@ public class TopLeftRightPageAT extends AutoTestBase {
         StandardButton btn = widget.toolbar().topLeft().button("Открыть");
         btn.shouldBeEnabled();
         btn.click();
-        Selenide.sleep(500);
 
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
