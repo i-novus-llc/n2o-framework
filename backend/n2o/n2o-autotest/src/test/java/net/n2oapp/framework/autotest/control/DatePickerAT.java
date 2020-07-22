@@ -104,11 +104,8 @@ public class DatePickerAT extends AutoTestBase {
         Fields fields = page.single().widget(FormWidget.class).fields();
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int m = calendar.get(Calendar.MONTH) + 1;
-        String month = addLeadingZero(m);
-        int d = calendar.get(Calendar.DAY_OF_MONTH);
-        String day = addLeadingZero(d);
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        String month = addLeadingZero(calendar.get(Calendar.MONTH) + 1);
+        String day = addLeadingZero(calendar.get(Calendar.DAY_OF_MONTH));
 
         DateInput now = fields.field("Сейчас").control(DateInput.class);
         now.shouldHaveValue(String.format("%s.%s.%s %s", day, month, year,
@@ -129,27 +126,6 @@ public class DatePickerAT extends AutoTestBase {
 
         DateInput endYear = fields.field("Конец года").control(DateInput.class);
         endYear.shouldHaveValue("31.12." + year);
-
-
-        // разница между текущим днем недели и понедельником
-        // учитывается, что понедельник может быть не первым днем недели
-        int dif = dayOfWeek - Calendar.MONDAY;
-        dif = dif > 0 ? dif : dif + 7;
-        calendar.add(Calendar.DATE, - dif);
-        DateInput beginWeek = fields.field("Начало недели").control(DateInput.class);
-        beginWeek.shouldHaveValue(String.format("%s.%s.%s",
-                addLeadingZero(calendar.get(Calendar.DATE)),
-                addLeadingZero(calendar.get(Calendar.MONTH) + 1),
-                calendar.get(Calendar.YEAR))
-        );
-
-        DateInput endWeek = fields.field("Конец недели").control(DateInput.class);
-        calendar.add(Calendar.DATE, 6);
-        endWeek.shouldHaveValue(String.format("%s.%s.%s",
-                addLeadingZero(calendar.get(Calendar.DATE)),
-                addLeadingZero(calendar.get(Calendar.MONTH) + 1),
-                calendar.get(Calendar.YEAR))
-        );
     }
 
     private String addLeadingZero(int i) {

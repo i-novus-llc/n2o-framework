@@ -7,14 +7,6 @@
                 <date-time id="today" label="Сегодня" default-value="{$.today()}"/>
             </row>
             <row>
-                <date-time id="yesterday" label="Вчера" default-value="{$.yesterday()}"/>
-                <date-time id="tomorrow" label="Завтра" default-value="{$.tomorrow()}"/>
-            </row>
-            <row>
-                <date-time id="beginWeek" label="Начало недели" default-value="{$.beginWeek()}"/>
-                <date-time id="endWeek" label="Конец недели" default-value="{$.endWeek()}"/>
-            </row>
-            <row>
                 <date-time id="beginMonth" label="Начало месяца" default-value="{$.beginMonth()}"/>
                 <date-time id="endMonth" label="Конец месяца" default-value="{$.endMonth()}"/>
             </row>
