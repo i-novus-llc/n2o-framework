@@ -5,7 +5,8 @@
   "useWorkspaces": true,
   "npmClientArgs": [
     "--no-package-lock",
-    "--no-lockfile"
+    "--no-lockfile",
+    "--ignore-engines"
   ],
   "packages": [
     "demo",
