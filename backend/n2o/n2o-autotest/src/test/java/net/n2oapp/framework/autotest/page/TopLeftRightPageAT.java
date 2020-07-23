@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.page;
 
-import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Regions;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
