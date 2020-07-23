@@ -17,6 +17,11 @@ public class N2oFieldSets extends N2oComponentsCollection implements FieldSets {
     }
 
     @Override
+    public <T extends FieldSet> T fieldset(Class<T> componentClass) {
+        return fieldset(0, componentClass);
+    }
+
+    @Override
     public <T extends FieldSet> T fieldset(int index, Class<T> componentClass) {
         return component(elements().get(index), componentClass);
     }
