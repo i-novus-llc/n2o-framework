@@ -6,7 +6,7 @@
   "npmClientArgs": [
     "--no-package-lock",
     "--no-lockfile",
-    "--ignore-engines"
+    "-- --ignore-engines"
   ],
   "packages": [
     "demo",
