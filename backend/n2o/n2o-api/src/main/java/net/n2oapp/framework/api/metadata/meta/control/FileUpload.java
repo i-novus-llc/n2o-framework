@@ -30,4 +30,6 @@ public class FileUpload extends Control {
     private String requestParam;
     @JsonProperty
     private Boolean multi;
+    @JsonProperty
+    private String accept;
 }
