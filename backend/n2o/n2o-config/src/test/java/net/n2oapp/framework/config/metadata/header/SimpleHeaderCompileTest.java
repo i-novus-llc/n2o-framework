@@ -2,10 +2,12 @@ package net.n2oapp.framework.config.metadata.header;
 
 import net.n2oapp.framework.api.metadata.header.CompiledHeader;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
+import net.n2oapp.framework.api.metadata.header.SearchBar;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oQueriesPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,7 +27,7 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         builder.getEnvironment().getContextProcessor().set("username", "test");
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack());
+        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oQueriesPack());
     }
 
     @Test
@@ -74,5 +76,29 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
                 .bind().get(new HeaderContext("headerWithMenu"), null);
 
         Assert.assertEquals("test", header.getExtraItems().get(0).getLabel());
+    }
+
+    @Test
+    public void searchBarTest() {
+        CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
+                "net/n2oapp/framework/config/metadata/header/testPage.page.xml",
+                "net/n2oapp/framework/config/metadata/header/headerWithSearch.header.xml",
+                "net/n2oapp/framework/config/metadata/header/search.query.xml")
+                .bind().get(new HeaderContext("headerWithSearch"), null);
+        SearchBar searchBar = header.getSearch();
+        Assert.assertNotNull(searchBar);
+        Assert.assertEquals("urlId", searchBar.getUrlFieldId());
+        Assert.assertEquals("labelId", searchBar.getLabelFieldId());
+        Assert.assertEquals("iconId", searchBar.getIconFieldId());
+        Assert.assertEquals("descriptionId", searchBar.getDescrFieldId());
+
+        Assert.assertNotNull(searchBar.getSearchPageLocation());
+        Assert.assertEquals("advancedUrl", searchBar.getSearchPageLocation().getUrl());
+        Assert.assertEquals("param", searchBar.getSearchPageLocation().getSearchQueryName());
+        Assert.assertEquals(SearchBar.LinkType.inner, searchBar.getSearchPageLocation().getLinkType());
+
+        Assert.assertNotNull(searchBar.getDataProvider());
+        Assert.assertEquals("n2o/data/search", searchBar.getDataProvider().getUrl());
+        Assert.assertEquals("filterId", searchBar.getDataProvider().getQuickSearchParam());
     }
 }
