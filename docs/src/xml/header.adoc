@@ -124,6 +124,7 @@ http://n2oapp.net/framework/config/schema/header-2.0
 ----
 
 === <search>
+Панель поиска
 
 Атрибуты::
 [cols="2,1,4,4"]
@@ -137,37 +138,37 @@ http://n2oapp.net/framework/config/schema/header-2.0
 
 |filter-field-id
 |Строка
-|ID поля фильтра
+|Идентификатор поля фильтра
 |
 
 |url-field-id
 |Строка
-|Маппинг url
+|Поле выборки, отвечающее за ссылку перехода на результат поиска
 |
 
 |label-field-id
 |Строка
-|Маппинг label
+|Поле выборки, отвечающее за заголовок
 |
 
 |icon-field-id
 |Строка
-|Маппинг icon
+|Поле выборки, отвечающее за иконку
 |
 
 |description-field-id
 |Строка
-|Маппинг описания
+|Поле выборки, отвечающее за описание
 |
 
 |advanced-target
 |self, newWindow, application
-|Сценарий переадресации после успешного выполнения операции объекта
+|Тип сценария открытия ссылки
 |
 
 |advanced-url
 |Строка
-|Запрос за данными, для отображения их в открывшейся странице результатов поиска
+|Базовый url
 |
 
 |advanced-param
@@ -182,15 +183,14 @@ http://n2oapp.net/framework/config/schema/header-2.0
 [source,xml]
 ----
 <search
-             query-id="popupSearch"
-             filter-field-id="filterValue"
-             url-field-id="href"
-             label-field-id="label"
-             icon-field-id="icon"
-             description-field-id="description"
-
-             advanced-target="application"
-             advanced-url="/search"
-             advanced-param="q"
-    />
+     query-id="popupSearch"
+     filter-field-id="filterValue"
+     url-field-id="href"
+     label-field-id="label"
+     icon-field-id="icon"
+     description-field-id="description"
+     advanced-target="application"
+     advanced-url="/search"
+     advanced-param="q"
+/>
 ----

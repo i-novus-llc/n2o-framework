@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.header.N2oSearchBar;
 import net.n2oapp.framework.api.metadata.header.SearchBar;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -49,8 +49,8 @@ public class SearchBarCompiler implements BaseSourceCompiler<SearchBar, N2oSearc
         return pageLocation;
     }
 
-    private WidgetDataProvider initDataProvider(N2oSearchBar source, CompileProcessor p) {
-        WidgetDataProvider dataProvider = new WidgetDataProvider();
+    private ClientDataProvider initDataProvider(N2oSearchBar source, CompileProcessor p) {
+        ClientDataProvider dataProvider = new ClientDataProvider();
         QueryContext queryContext = new QueryContext(source.getQueryId());
         ModelsScope modelsScope = p.getScope(ModelsScope.class);
         queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
@@ -61,5 +61,4 @@ public class SearchBarCompiler implements BaseSourceCompiler<SearchBar, N2oSearc
         dataProvider.setQuickSearchParam(source.getFilterFieldId());
         return dataProvider;
     }
-
 }

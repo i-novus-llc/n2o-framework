@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.header.N2oSearchBar;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.TypedElementIO;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 public class N2oSearchBarIOv2 implements TypedElementIO<N2oSearchBar> {
     @Override
@@ -25,7 +25,6 @@ public class N2oSearchBarIOv2 implements TypedElementIO<N2oSearchBar> {
         p.attribute(e, "label-field-id", m::getLabelFieldId, m::setLabelFieldId);
         p.attribute(e, "icon-field-id", m::getIconFieldId, m::setIconFieldId);
         p.attribute(e, "description-field-id", m::getDescriptionFieldId, m::setDescriptionFieldId);
-
         p.attributeEnum(e, "advanced-target", m::getAdvancedTarget, m::setAdvancedTarget, Target.class);
         p.attribute(e, "advanced-url", m::getAdvancedUrl, m::setAdvancedUrl);
         p.attribute(e, "advanced-param", m::getAdvancedParam, m::setAdvancedParam);

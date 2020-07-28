@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 @Getter
 @Setter
 public class N2oSearchBar implements Source {
-
     private String queryId;
     private String filterFieldId;
     private String urlFieldId;
@@ -21,5 +20,4 @@ public class N2oSearchBar implements Source {
     private Target advancedTarget;
     private String advancedUrl;
     private String advancedParam;
-
 }

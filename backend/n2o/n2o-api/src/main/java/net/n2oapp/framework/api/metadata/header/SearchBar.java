@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 
 /**
  * Клиентская модель панели поиска
@@ -23,7 +23,7 @@ public class SearchBar implements Compiled {
     @JsonProperty
     private SearchPageLocation searchPageLocation;
     @JsonProperty
-    private WidgetDataProvider dataProvider;
+    private ClientDataProvider dataProvider;
 
     @Setter
     @Getter
