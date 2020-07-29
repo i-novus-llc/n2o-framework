@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.global.view.page;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
@@ -25,7 +26,7 @@ public class N2oTopLeftRightPage extends N2oBasePage {
 
     @Getter
     @Setter
-    public static class RegionOptions {
+    public static class RegionOptions implements Source {
         private String width;
         private Boolean fixed;
         private Integer offset;
