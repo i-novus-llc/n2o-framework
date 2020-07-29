@@ -32,7 +32,7 @@ class DropdownButton extends React.Component {
   };
 
   render() {
-    const { subMenu, className, ...rest } = this.props;
+    const { subMenu, className, entityKey, ...rest } = this.props;
     const { open } = this.state;
 
     return (
@@ -44,7 +44,7 @@ class DropdownButton extends React.Component {
                 {...rest}
                 onClick={this.toggle}
                 innerRef={ref}
-                className={cn("dropdown-toggle", className)}
+                className={cn('dropdown-toggle', className)}
                 caret
               />
             )}
@@ -69,14 +69,18 @@ class DropdownButton extends React.Component {
               >
                 {map(subMenu, ({ src, component, ...rest }) => {
                   return component ? (
-                    React.createElement(component, rest)
+                    React.createElement(
+                      component,
+                      Object.assign({}, rest, { entityKey })
+                    )
                   ) : (
                     <Factory
+                      entityKey={entityKey}
                       key={rest.id}
                       {...rest}
                       level={BUTTONS}
                       src={src}
-                      className='dropdown-item'
+                      className="dropdown-item"
                       tag={'div'}
                     />
                   );

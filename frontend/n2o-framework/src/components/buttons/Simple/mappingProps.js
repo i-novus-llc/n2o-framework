@@ -12,5 +12,6 @@ export default function mappingProps(props) {
     count: props.count,
     onClick: props.onClick,
     className: props.className,
+    entityKey: props.entityKey,
   };
 }

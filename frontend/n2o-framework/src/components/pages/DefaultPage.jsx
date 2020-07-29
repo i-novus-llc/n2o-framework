@@ -13,7 +13,6 @@ import Toolbar from '../buttons/Toolbar';
  * @param metadata
  * @param toolbar
  * @param actions
- * @param containerKey
  * @param error
  * @param pageId
  * @param regions
@@ -24,17 +23,7 @@ import Toolbar from '../buttons/Toolbar';
  * @constructor
  */
 function DefaultPage(
-  {
-    metadata,
-    toolbar,
-    actions,
-    containerKey,
-    error,
-    pageId,
-    regions,
-    children,
-    disabled,
-  },
+  { metadata, toolbar, actions, pageId, error, regions, children, disabled },
   context
 ) {
   return (
@@ -51,15 +40,15 @@ function DefaultPage(
       )}
       {toolbar && (toolbar.topLeft || toolbar.topRight) && (
         <div className="n2o-page-actions">
-          <Toolbar entityKey={containerKey} toolbar={toolbar.topLeft} />
-          <Toolbar entityKey={containerKey} toolbar={toolbar.topRight} />
+          <Toolbar entityKey={pageId} toolbar={toolbar.topLeft} />
+          <Toolbar entityKey={pageId} toolbar={toolbar.topRight} />
         </div>
       )}
       {children}
       {toolbar && (toolbar.bottomLeft || toolbar.bottomRight) && (
         <div className="n2o-page-actions">
-          <Toolbar entityKey={containerKey} toolbar={toolbar.bottomLeft} />
-          <Toolbar entityKey={containerKey} toolbar={toolbar.bottomRight} />
+          <Toolbar entityKey={pageId} toolbar={toolbar.bottomLeft} />
+          <Toolbar entityKey={pageId} toolbar={toolbar.bottomRight} />
         </div>
       )}
     </div>
@@ -70,7 +59,6 @@ DefaultPage.propTypes = {
   metadata: PropTypes.object,
   toolbar: PropTypes.object,
   actions: PropTypes.object,
-  containerKey: PropTypes.string,
   error: PropTypes.object,
   pageId: PropTypes.string,
   regions: PropTypes.object,
