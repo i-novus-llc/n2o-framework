@@ -1133,22 +1133,25 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 |show-size
 |true false
 |Отображение размера файла
+|true
+
+|accept
+|Строка
+|Доступные расширения файлов (через запятую)
 |
+
 
 |===
 Пример::
 [source,xml]
-    <file-upload id="file"
-                 label="Загрузить файл"
-                 class="custom-class"
-                 multi="true"
-                 ajax="true"
-                 upload-url="/n2o/data"
-                 delete-url="/files/delete/{file.id}"
-                 value-field-id="hash"
-                 label-field-id="filename"
-                 url-field-id="url"
-                 show-size="true"/>
+<file-upload id="file" label="Загрузить файл"
+             class="custom-class" multi="true"
+             ajax="true" upload-url="/n2o/data"
+             delete-url="/files/delete/{file.id}"
+             value-field-id="hash"
+             label-field-id="filename"
+             url-field-id="url" show-size="true"
+             accept=".img,.png"/>
 
 
 === <select>

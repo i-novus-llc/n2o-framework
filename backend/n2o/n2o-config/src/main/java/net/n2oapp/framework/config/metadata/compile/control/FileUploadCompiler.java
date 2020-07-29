@@ -14,7 +14,7 @@ import java.util.HashMap;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Сборка компонента загрузки файлов
+ * Компиляция компонента загрузки файлов
  */
 @Component
 public class FileUploadCompiler extends StandardFieldCompiler<FileUpload, N2oFileUpload> {
@@ -25,23 +25,24 @@ public class FileUploadCompiler extends StandardFieldCompiler<FileUpload, N2oFil
 
     @Override
     public StandardField<FileUpload> compile(N2oFileUpload source, CompileContext<?, ?> context, CompileProcessor p) {
-        FileUpload compiled = new FileUpload();
-        compiled.setUploadUrl(p.resolveJS(source.getUploadUrl()));
-        compiled.setDeleteUrl(p.resolveJS(source.getDeleteUrl()));
-        compiled.setAjax(p.cast(source.getMulti(), true));
-        compiled.setMulti(p.cast(source.getMulti(), false));
-        compiled.setShowSize(p.cast(source.getShowSize(),
+        FileUpload fileUpload = new FileUpload();
+        fileUpload.setUploadUrl(p.resolveJS(source.getUploadUrl()));
+        fileUpload.setDeleteUrl(p.resolveJS(source.getDeleteUrl()));
+        fileUpload.setAjax(p.cast(source.getAjax(), true));
+        fileUpload.setMulti(p.cast(source.getMulti(), false));
+        fileUpload.setAccept(source.getAccept());
+        fileUpload.setShowSize(p.cast(source.getShowSize(),
                 p.resolve(property("n2o.api.control.fileupload.show_size"), Boolean.class)));
-        compiled.setValueFieldId(p.cast(source.getValueFieldId(),
+        fileUpload.setValueFieldId(p.cast(source.getValueFieldId(),
                 p.resolve(property("n2o.api.control.fileupload.value_field_id"), String.class)));
-        compiled.setLabelFieldId(p.cast(source.getLabelFieldId(),
+        fileUpload.setLabelFieldId(p.cast(source.getLabelFieldId(),
                 p.resolve(property("n2o.api.control.fileupload.label_field_id"), String.class)));
-        compiled.setUrlFieldId(p.cast(source.getUrlFieldId(),
+        fileUpload.setUrlFieldId(p.cast(source.getUrlFieldId(),
                 p.resolve(property("n2o.api.control.fileupload.url_field_id"), String.class)));
-        compiled.setResponseFieldId(p.cast(source.getMessageFieldId(),
+        fileUpload.setResponseFieldId(p.cast(source.getMessageFieldId(),
                 p.resolve(property("n2o.api.control.fileupload.response_field_id"), String.class)));
-        compiled.setRequestParam(p.cast(source.getRequestParam(), "file"));
-        return compileStandardField(compiled, source, context, p);
+        fileUpload.setRequestParam(p.cast(source.getRequestParam(), "file"));
+        return compileStandardField(fileUpload, source, context, p);
     }
 
     @Override
