@@ -152,8 +152,8 @@ export default Field => {
      * @returns {*}
      */
     render() {
-      const { model, ...rest } = this.props;
-      return <Field {...propsResolver(rest, model, ['toolbar'])} />;
+      const props = this.props.mapProps(this.props);
+      return <Field {...props} />;
     }
   }
 
@@ -189,6 +189,21 @@ export default Field => {
         }
         return 'is-invalid';
       },
+    }),
+    withHandlers({
+      mapProps: ({ getValidationState }) =>
+        memoize(props => {
+          if (!props) return;
+          const { input, message, meta, model, ...rest } = props;
+          const pr = propsResolver(rest, model, ['toolbar']);
+          return {
+            ...pr,
+            ...meta,
+            validationClass: getValidationState(message),
+            message,
+            ...input,
+          };
+        }),
     }),
     withProps(props => ({
       visibleToRegister: props.visible,
