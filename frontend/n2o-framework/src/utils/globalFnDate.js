@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 let formats = {
-  dateFormat: 'DD.MM.YYYY',
+  dateFormat: 'YYYY-MM-DD',
   timeFormat: 'HH:mm:ss',
 };
 
