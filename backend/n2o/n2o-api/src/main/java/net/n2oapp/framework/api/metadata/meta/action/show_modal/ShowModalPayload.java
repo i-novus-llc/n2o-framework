@@ -33,6 +33,8 @@ public class ShowModalPayload implements ActionPayload {
     @JsonProperty
     private String size;
     @JsonProperty
+    private Boolean scrollable;
+    @JsonProperty
     private Boolean closeButton = true;
     @JsonProperty
     private Boolean visible = true;

@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 @Getter
 @Setter
 public class ShowModal extends AbstractAction<ShowModalPayload, MetaSaga> {
-
     private String objectId;
     private String operationId;
     private String pageId;
