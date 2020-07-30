@@ -49,7 +49,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             button.setIcon(source.getIcon());
         } else if (source.getType() != null && source.getType() == LabelType.text) {
             button.setLabel(source.getLabel());
-        } else{
+        } else {
             button.setIcon(source.getIcon());
             button.setLabel(source.getLabel());
         }
