@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import N2O from "n2o-framework/lib/N2o";
 import { authProvider } from "n2o-auth";
-import { HashRouter } from "react-router-dom";
 import createFactoryConfig from "n2o-framework/lib/core/factory/createFactoryConfig";
 import functions from "n2o-framework/lib/utils/functions";
 import Route from "n2o-framework/lib/components/core/Route";
@@ -43,7 +42,6 @@ const config = {
 class App extends Component {
   render() {
     return (
-      <HashRouter>
         <N2O {...createFactoryConfig(config)}>
           {/* 1 полный кастом */}
           <Route path="/custom/v1" exact component={DashboardV2} />
@@ -66,7 +64,6 @@ class App extends Component {
           {/* 5 */}
           {/*<Route path="custom/:id" component={Page} render={Page} page={"DefaultPage" || "MyPage"} needMetadata={true || false} />*/}
         </N2O>
-      </HashRouter>
     );
   }
 }
