@@ -8,5 +8,7 @@ import net.n2oapp.framework.autotest.api.component.fieldset.FieldSet;
 public interface FieldSets extends ComponentsCollection {
     FieldSet fieldset(int index);
 
+    <T extends FieldSet> T fieldset(Class<T> componentClass);
+
     <T extends FieldSet> T fieldset(int index, Class<T> componentClass);
 }

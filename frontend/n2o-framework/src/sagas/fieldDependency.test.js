@@ -116,7 +116,6 @@ describe('Проверка саги dependency', () => {
         expression: `10 + 2`,
       });
       let next = gen.next();
-      next = gen.next();
       expect(next.value.payload.action.payload).toEqual({
         keepDirty: false,
         value: 12,
