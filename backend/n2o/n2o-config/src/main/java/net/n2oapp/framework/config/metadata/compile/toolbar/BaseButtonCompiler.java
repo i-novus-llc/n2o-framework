@@ -45,13 +45,11 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         button.setId(p.cast(source.getId(), source.getActionId(), "menuItem" + idx.get()));
         source.setId(button.getId());
         button.setProperties(p.mapAttributes(source));
-        if (source.getType() != null) {
-            if (source.getType() == LabelType.icon) {
-                button.setIcon(source.getIcon());
-            } else if (source.getType() == LabelType.text) {
-                button.setLabel(source.getLabel());
-            }
-        } else {
+        if (source.getType() != null && source.getType() == LabelType.icon) {
+            button.setIcon(source.getIcon());
+        } else if (source.getType() != null && source.getType() == LabelType.text) {
+            button.setLabel(source.getLabel());
+        } else{
             button.setIcon(source.getIcon());
             button.setLabel(source.getLabel());
         }

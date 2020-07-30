@@ -63,14 +63,12 @@ public class ButtonFieldCompiler extends FieldCompiler<ButtonField, N2oButtonFie
     protected void initItem(ButtonField button, N2oButtonField source,
                             CompileContext<?, ?> context, CompileProcessor p) {
         button.setProperties(p.mapAttributes(source));
-        if (source.getType() != null) {
-            if (source.getType() == LabelType.icon) {
-                button.setLabel(null);
-                button.setIcon(source.getIcon());
-            } else if (source.getType() == LabelType.text) {
-                button.setLabel(source.getLabel());
-            }
-        } else {
+        if (source.getType() != null && source.getType() == LabelType.icon) {
+            button.setLabel(null);
+            button.setIcon(source.getIcon());
+        } else if (source.getType() != null && source.getType() == LabelType.text) {
+            button.setLabel(source.getLabel());
+        } else{
             button.setIcon(source.getIcon());
             button.setLabel(source.getLabel());
         }
