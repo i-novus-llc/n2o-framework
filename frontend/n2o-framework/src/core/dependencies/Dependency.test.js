@@ -217,14 +217,8 @@ describe('Тестирование саги', () => {
     set(mockData, 'values.field2', 'test');
     gen = setupModify(mockData);
     gen.next();
-    expect(gen.next().value).toEqual(
-      put(
-        change(mockData.formName, mockData.fields.field1.name, {
-          keepDirty: false,
-          value: 'test',
-        })
-      )
-    );
+    expect(gen.next().value.type).toBe('SELECT');
+    expect(gen.next().done).toBe(true);
   });
   it('Проверка модификатора reset зависимости', () => {
     let gen;
