@@ -37,8 +37,6 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 
 /**
  * Компиляция ToolbarItem
- *
- * @param <S>
  */
 public abstract class BaseButtonCompiler<S extends GroupItem, B extends AbstractButton> implements BaseSourceCompiler<B, S, CompileContext<?, ?>> {
 
@@ -47,10 +45,12 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         button.setId(p.cast(source.getId(), source.getActionId(), "menuItem" + idx.get()));
         source.setId(button.getId());
         button.setProperties(p.mapAttributes(source));
-        if (source.getType() != null && source.getType().equals(LabelType.icon)) {
-            button.setIcon(source.getIcon());
-        } else if (source.getType() != null && source.getType().equals(LabelType.text)) {
-            button.setLabel(source.getLabel());
+        if (source.getType() != null) {
+            if (source.getType() == LabelType.icon) {
+                button.setIcon(source.getIcon());
+            } else if (source.getType() == LabelType.text) {
+                button.setLabel(source.getLabel());
+            }
         } else {
             button.setIcon(source.getIcon());
             button.setLabel(source.getLabel());
