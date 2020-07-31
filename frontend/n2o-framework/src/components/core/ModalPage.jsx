@@ -47,6 +47,7 @@ function ModalPage(props) {
     actions,
     close,
     disabled,
+    scrollable,
     ...rest
   } = props;
 
@@ -69,6 +70,7 @@ function ModalPage(props) {
           style={{
             zIndex: 10,
           }}
+          scrollable={true}
         >
           <ModalHeader
             className={classes}
@@ -162,6 +164,7 @@ ModalPage.defaultProps = {
 ModalPage.contextTypes = {
   defaultPromptMessage: PropTypes.string,
   resolveProps: PropTypes.func,
+  scrollable: false,
 };
 
 export default compose(withOverlayMethods)(ModalPage);
