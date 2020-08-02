@@ -19,16 +19,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class N2oConfigBuilderTest {
     @Rule
-    public TemporaryFolder folder= new TemporaryFolder();
+    public TemporaryFolder folder = new TemporaryFolder();
 
     @Before
     public void setUp() throws Exception {
         File configJsonFile = folder.newFile("config.json");
-        List<String> configJson = Collections.singletonList("{\"name\" : \"test\", \"version\":\"1.0\"}");
+        List<String> configJson = Collections.singletonList("{\"name\" : \"test\", \"version\":\"1.0\", " +
+                "\"menu\": {\"items\": {\"items1\": [\"item1\"]}, \"simple\": 1}, \"array\": [1]}");
         Files.write(configJsonFile.toPath(), configJson);
 
         File configJsonFile2 = folder.newFile("config2.json");
-        List<String> configJson2 = Collections.singletonList("{\"version\":\"2.0\", \"desc\":\"description\"}");
+        List<String> configJson2 = Collections.singletonList("{\"version\":\"2.0\", \"desc\":\"description\", " +
+                "\"menu\": {\"items\": {\"items2\":[\"item2\", \"item3\"]}, \"simple\": 9}, \"array\": [2, 3]}");
         Files.write(configJsonFile2.toPath(), configJson2);
     }
 
@@ -73,6 +75,10 @@ public class N2oConfigBuilderTest {
         assertThat(config.getName(), is("test"));
         assertThat(config.getProperty("version"), is("2.0"));
         assertThat(config.getProperty("desc"), is("description"));
+        assertThat(((HashMap) ((HashMap) config.getProperty("menu")).get("items")).get("items1"), is(Arrays.asList("item1")));
+        assertThat(((HashMap) ((HashMap) config.getProperty("menu")).get("items")).get("items2"), is(Arrays.asList("item2", "item3")));
+        assertThat(((HashMap) config.getProperty("menu")).get("simple"), is(9));
+        assertThat(config.getProperty("array"), is(Arrays.asList(1, 2, 3)));
     }
 
     @Getter
