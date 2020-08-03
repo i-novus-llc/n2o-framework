@@ -79,13 +79,13 @@ public class N2oConfigBuilder<T extends AppConfig> implements ConfigBuilder<T> {
 
     @Override
     public ConfigBuilder<T> add(String property, Object value) {
-        appConfig.getProperties().put(property, value);
+        appConfig.setProperty(property, value);
         return this;
     }
 
     @Override
     public ConfigBuilder<T> addAll(Map<String, Object> values) {
-        appConfig.getProperties().putAll(values);
+        values.forEach(this::add);
         return this;
     }
 
