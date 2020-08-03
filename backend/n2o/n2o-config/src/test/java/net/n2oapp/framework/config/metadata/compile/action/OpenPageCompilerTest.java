@@ -157,12 +157,12 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         AsyncMetaSaga meta = submit.getMeta();
         assertThat(meta.getSuccess().getRefresh().getOptions().getWidgetId(), is("page_test"));
         assertThat(meta.getSuccess().getModalsToClose(), nullValue());
-        assertThat(meta.getSuccess().getRedirect().getPath(), is("/page/widget"));
+        assertThat(meta.getSuccess().getRedirect().getPath(), is("/page/widget/:page_test_id"));
         ActionContext submitContext = (ActionContext) route("/page/widget/123/action2/submit", CompiledObject.class);
         assertThat(submitContext.getRedirect(), nullValue());
 
         LinkActionImpl close = (LinkActionImpl) openPage.getWidget().getActions().get("close");
-        assertThat(close.getUrl(), is("/page/widget"));
+        assertThat(close.getUrl(), is("/page/widget/:page_test_id"));
         assertThat(close.getTarget(), is(Target.application));
 
         Widget modalWidget = openPage.getWidget();
@@ -198,7 +198,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(updatePage.getBreadcrumb().get(0).getLabel(), is("parent"));
         assertThat(updatePage.getBreadcrumb().get(0).getPath(), is("/page/123"));
         assertThat(updatePage.getBreadcrumb().get(1).getLabel(), is("first"));
-        assertThat(updatePage.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget"));
+        assertThat(updatePage.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget/456"));
         assertThat(updatePage.getBreadcrumb().get(2).getLabel(), is("second"));
         assertThat(updatePage.getBreadcrumb().get(2).getPath(), nullValue());
 
@@ -212,7 +212,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(masterDetailPage.getBreadcrumb().get(0).getLabel(), is("parent"));
         assertThat(masterDetailPage.getBreadcrumb().get(0).getPath(), is("/page/123"));
         assertThat(masterDetailPage.getBreadcrumb().get(1).getLabel(), is("first"));
-        assertThat(masterDetailPage.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget"));
+        assertThat(masterDetailPage.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget/456"));
         assertThat(masterDetailPage.getBreadcrumb().get(2).getLabel(), is("second"));
         assertThat(masterDetailPage.getBreadcrumb().get(2).getPath(), nullValue());
 
@@ -221,7 +221,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(level3Page.getBreadcrumb().get(0).getLabel(), is("parent"));
         assertThat(level3Page.getBreadcrumb().get(0).getPath(), is("/page/123"));
         assertThat(level3Page.getBreadcrumb().get(1).getLabel(), is("first"));
-        assertThat(level3Page.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget"));
+        assertThat(level3Page.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget/456"));
         assertThat(level3Page.getBreadcrumb().get(2).getLabel(), is("second"));
         assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?surname=:surname&name=:name&detailId=:detailId&secondName=test"));
     }
