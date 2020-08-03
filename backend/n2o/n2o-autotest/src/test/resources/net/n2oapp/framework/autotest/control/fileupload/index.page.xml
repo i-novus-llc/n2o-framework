@@ -12,6 +12,7 @@
                          label-field-id="fileName" value-field-id="id" url-field-id="url"
                          upload-url="/files"
                          delete-url="/files"
+                         accept=".json"
             />
 
             <file-upload label="FileUpload3" id="fileUpload3" multi="true"
