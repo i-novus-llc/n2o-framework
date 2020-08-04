@@ -3,7 +3,6 @@
     <form>
         <fields>
             <row>
-                <date-time id="now" label="Сейчас" time-format="HH:mm:ss" default-value="{$.now()}"/>
                 <date-time id="today" label="Сегодня" default-value="{$.today()}"/>
             </row>
             <row>
