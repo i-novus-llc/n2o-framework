@@ -36,7 +36,7 @@ export default compose(
     ...mappingProps(props),
     url: props.url,
     href: props.url,
-    target: props.target === 'newWindow' ? '_blank' : props.target,
+    target: props.target,
     tag: 'a',
   }))
 );
