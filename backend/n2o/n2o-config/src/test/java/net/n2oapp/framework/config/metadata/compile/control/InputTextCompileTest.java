@@ -52,8 +52,8 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(inputText.getMeasure(), is("cm"));
         InputText inputText1 = (InputText) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(inputText1.getSrc(), is("InputNumber"));
-        assertThat(inputText1.getMax(), is(Integer.MAX_VALUE));
-        assertThat(inputText1.getMin(), is(Integer.MIN_VALUE));
+        assertThat(inputText1.getMax(), is("99999999999999"));
+        assertThat(inputText1.getMin(), is("-99999999999999"));
         assertThat(inputText1.getStep(), is("1"));
         assertThat(inputText1.getMeasure(), is("cm"));
         assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
