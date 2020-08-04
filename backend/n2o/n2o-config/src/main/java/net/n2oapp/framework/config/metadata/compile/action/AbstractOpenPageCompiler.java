@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
@@ -144,7 +145,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             currentClientWidgetId = actionModelLink.getWidgetId();
 
         String actionRoute = initActionRoute(source, actionModelLink, p);
-        String masterIdParam = initMasterLink(actionRoute, pathMapping, actionModelLink);
+        String masterIdParam = initMasterLink(source.getPathParams(), actionRoute, pathMapping, actionModelLink);
         addPathMappings(source, pathMapping, widgetScope, pageScope, actionDataModel, p);
         String parentRoute = normalize(route);
         List<String> pathParams = PathUtil.getPathParams(actionRoute);
@@ -218,16 +219,31 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     /**
      * Инициализация ссылки на идентификатор модели текущего виджета
      *
+     * @param pathParams      Параметры пути
      * @param actionRoute     Маршрут с параметром
      * @param pathMapping     Параметры, в которые добавится ссылка
      * @param actionModelLink Модель данных действия
      * @return Наименование параметра ссылки
      */
-    private String initMasterLink(String actionRoute, Map<String, ModelLink> pathMapping, ModelLink actionModelLink) {
+    private String initMasterLink(N2oParam[] pathParams, String actionRoute, Map<String, ModelLink> pathMapping, ModelLink actionModelLink) {
         List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
         String masterIdParam = null;
         if (!actionRouteParams.isEmpty()) {
             masterIdParam = actionRouteParams.get(0);
+
+            if (pathParams != null) {
+                String finalMasterIdParam = masterIdParam;
+                Optional<N2oParam> pathParam = Arrays.stream(pathParams)
+                        .filter(p -> finalMasterIdParam.equals(p.getName())).findFirst();
+                if (pathParam.isPresent()) {
+                    String value = pathParam.get().getValue();
+                    actionModelLink = StringUtils.isLink(value) ?
+                            new ModelLink(actionModelLink.getModel(),
+                                    actionModelLink.getWidgetId(),
+                                    value.substring(1, value.length() - 1)) :
+                            new ModelLink(value);
+                }
+            }
             pathMapping.put(masterIdParam, actionModelLink);
         }
         return masterIdParam;

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <form>
+        <fields>
+            <file-upload id="fileUpload" upload-url="/upload" delete-url="/delete"
+                         ajax="false" multi="true" accept=".img,.png"
+                         show-size="false" value-field-id="valueId"
+                         label-field-id="labelId" url-field-id="urlId"
+                         message-field-id="messageId" request-param="param">
+                <default-value id="value1" url="/test" filename="file"/>
+            </file-upload>
+
+            <file-upload id="fileUpload2"/>
+        </fields>
+    </form>
+</simple-page>

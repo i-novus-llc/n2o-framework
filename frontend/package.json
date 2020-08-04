@@ -2,14 +2,19 @@
   "name": "n2o-frontend",
   "private": true,
   "version": "7.6.1",
-  "workspaces": [
-    "n2o-framework",
-    "n2o-auth",
-    "demo",
-    "n2o-simple-project",
-    "n2o-notifications",
-    "n2o-ecp-plugin"
-  ],
+  "workspaces": {
+    "packages": [
+      "n2o-framework",
+      "n2o-auth",
+      "demo",
+      "n2o-simple-project",
+      "n2o-notifications",
+      "n2o-ecp-plugin"
+    ],
+    "nohoist": [
+      "**/react-router-dom"
+    ]
+  },
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",

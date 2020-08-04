@@ -407,6 +407,9 @@
     </xs:complexType>
 
     <xs:complexType name="controlFileUploadDefinition">
+        <xs:annotation>
+            <xs:documentation>Компонент загрузки файлов.</xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="controlDefinition">
                 <xs:sequence>
@@ -434,44 +437,44 @@
                         <xs:documentation>Отображение размера файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="upload-url" type="xs:string" use="optional">
+                <xs:attribute name="upload-url" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL загрузки файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="delete-url" type="xs:string" use="optional">
+                <xs:attribute name="delete-url" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL удаления файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="value-field-id" type="xs:string" use="optional">
+                <xs:attribute name="value-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, содержащее идентификатор файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="label-field-id" type="xs:string" use="optional">
+                <xs:attribute name="label-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, содержащее наименование файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="sort-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Поле сортировки</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="message-field-id" type="xs:string" use="optional">
+                <xs:attribute name="message-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, содержащее сообщение файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="url-field-id" type="xs:string" use="optional">
+                <xs:attribute name="url-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, содержащее URL скачивания файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="request-param" type="xs:string" use="optional">
+                <xs:attribute name="request-param" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Наименование поля в запросе miltipart form data.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="accept" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Доступные расширения файлов (через запятую).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

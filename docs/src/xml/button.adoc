@@ -22,9 +22,9 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |Вычисляется из `action-id`
 
 |type
-|text, icon, textAndIcon
+|text, icon, iconAndText
 |Кнопка с иконкой или без
-|Если задан `icon`, то `iconAndText`, иначе `text`
+|iconAndText
 
 |class
 |https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
@@ -141,7 +141,7 @@ link:#_Действия[Обработчик действия]
 <button
   label="Добавить в реестр"
   icon="fa-plus"
-  type="textAndIcon">
+  type="icon">
   <open-page page-id="register" action-id="create"/>
 </button>
 ----

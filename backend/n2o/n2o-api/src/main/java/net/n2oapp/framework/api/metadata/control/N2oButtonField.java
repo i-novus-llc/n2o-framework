@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 @Getter
 @Setter
 public class N2oButtonField extends N2oField implements ModelAware {
-
     private String title;
     private String titleFieldId;
     private String icon;
@@ -34,5 +33,4 @@ public class N2oButtonField extends N2oField implements ModelAware {
     private String confirmOkLabel;
     private String confirmCancelLabel;
     private String tooltipPosition;
-
 }

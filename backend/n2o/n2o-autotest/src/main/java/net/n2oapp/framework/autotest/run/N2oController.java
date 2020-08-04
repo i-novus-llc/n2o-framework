@@ -1,7 +1,10 @@
 package net.n2oapp.framework.autotest.run;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.config.AppConfig;
+import net.n2oapp.framework.api.config.ConfigBuilder;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
@@ -13,6 +16,7 @@ import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.N2oConfigBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
@@ -53,10 +57,10 @@ public class N2oController {
     private ErrorMessageBuilder errorMessageBuilder;
     private QueryProcessor queryProcessor;
     private N2oOperationProcessor operationProcessor;
+    private ConfigBuilder<AppConfig> configBuilder;
 
     @Value("${n2o.config.path}")
     private String basePath;
-
 
     @Autowired
     public N2oController(DataProcessingStack dataProcessingStack, ErrorMessageBuilder errorMessageBuilder,
@@ -67,14 +71,12 @@ public class N2oController {
         this.operationProcessor = operationProcessor;
     }
 
-
     @GetMapping("/n2o/config")
-    public Map config() {
-        Map<String, Object> config = new HashMap<>();
+    public AppConfig config() {
         List<SourceInfo> headers = builder.getEnvironment().getMetadataRegister().find(N2oHeader.class);
         Assert.isTrue(!headers.isEmpty(), "No header metadata found");
-        config.put("menu", builder.read().transform().validate().compile().transform().bind().get(new HeaderContext(headers.get(0).getId()), new DataSet()));
-        return config;
+        configBuilder.menu(builder.read().transform().validate().compile().transform().bind().get(new HeaderContext(headers.get(0).getId()), new DataSet()));
+        return configBuilder.get();
     }
 
     @GetMapping({"/n2o/page/**", "/n2o/page/", "/n2o/page"})
@@ -103,8 +105,15 @@ public class N2oController {
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
     }
 
-    public void setBuilder(N2oApplicationBuilder builder) {
+    public void setUp(N2oApplicationBuilder builder) {
         this.builder = builder;
+        configBuilder = new N2oConfigBuilder<>(new AppConfig(), new ObjectMapper(),
+                builder.getEnvironment().getSystemProperties(),
+                builder.getEnvironment().getContextProcessor());
+    }
+
+    public void addConfigProperty(String key, Object value) {
+        this.configBuilder.add(key, value);
     }
 
     private ControllerFactory createControllerFactory(MetadataEnvironment environment) {
@@ -122,8 +131,7 @@ public class N2oController {
                 subModelsProcessor, errorMessageBuilder, environment));
         beans.put("bulkActionMergeController", new BulkActionMergeController(dataProcessingStack,
                 operationProcessor, environment));
-        ControllerFactory factory = new N2oControllerFactory(beans);
-        return factory;
+        return new N2oControllerFactory(beans);
     }
 
     private String getPath(HttpServletRequest request, String prefix) {
@@ -140,4 +148,5 @@ public class N2oController {
         }
         return headers;
     }
+
 }
