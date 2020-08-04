@@ -25,7 +25,7 @@ export default compose(
 
       if (target === 'application') {
         props.dispatch(replace(compiledUrl));
-      } else if (target === '_blank') {
+      } else if (target === '_blank' || target === 'newWindow') {
         window.open(compiledUrl);
       } else {
         window.location = compiledUrl;
