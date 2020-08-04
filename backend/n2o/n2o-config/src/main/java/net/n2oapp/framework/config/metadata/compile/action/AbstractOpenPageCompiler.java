@@ -30,9 +30,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.register.storage.PathUtil;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
