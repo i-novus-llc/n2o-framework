@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -106,10 +105,6 @@ public class DatePickerAT extends AutoTestBase {
         int year = calendar.get(Calendar.YEAR);
         String month = addLeadingZero(calendar.get(Calendar.MONTH) + 1);
         String day = addLeadingZero(calendar.get(Calendar.DAY_OF_MONTH));
-
-        DateInput now = fields.field("Сейчас").control(DateInput.class);
-        now.shouldHaveValue(String.format("%s.%s.%s %s", day, month, year,
-                new SimpleDateFormat("HH:mm:ss").format(calendar.getTime())));
 
         DateInput today = fields.field("Сегодня").control(DateInput.class);
         today.shouldHaveValue(String.format("%s.%s.%s", day, month, year));
