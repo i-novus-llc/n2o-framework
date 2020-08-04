@@ -37,7 +37,7 @@ public class InvocationParametersMapping {
     }
 
     /**
-     * Собирает агрументы для действия invocation
+     * Собирает аргументы для действия invocation
      *
      * @param invocation действие
      * @param inDataSet  входные данные
@@ -117,12 +117,14 @@ public class InvocationParametersMapping {
     /**
      * Собирает аргументы для query, на выход будет массив из одного аргумента типа net.n2oapp.criteria.api.Criteria
      *
-     * @param invocation       вызов действия с одним аргументом типа net.n2oapp.criteria.api.Criteria
+     * @param invocation          вызов действия с одним аргументом типа net.n2oapp.criteria.api.Criteria
      * @param criteria
      * @param criteriaConstructor
      * @return
      */
-    public static Object[] prepareArgsForQuery(N2oArgumentsInvocation invocation, CompiledQuery query, N2oPreparedCriteria criteria, CriteriaConstructor criteriaConstructor) {
+    public static Object[] prepareArgsForQuery(N2oArgumentsInvocation invocation, CompiledQuery query,
+                                               N2oPreparedCriteria criteria, CriteriaConstructor criteriaConstructor,
+                                               DomainProcessor domainProcessor) {
 
         Class<?>[] classesOfArguments = takeClassesOfArguments(invocation);
         if (classesOfArguments == null || classesOfArguments.length == 0)
@@ -145,12 +147,18 @@ public class InvocationParametersMapping {
                 criteriaIdx = i;
             }
         }
-        if (Arrays.stream(invocation.getArguments()).filter(arg -> (arg.getType().equals(Argument.Type.ENTITY) || arg.getType().equals(Argument.Type.CRITERIA))).collect(Collectors.toList()).size() > 1)
+        if (Arrays.stream(invocation.getArguments()).filter(arg -> (arg.getType().equals(Argument.Type.ENTITY) ||
+                arg.getType().equals(Argument.Type.CRITERIA))).collect(Collectors.toList()).size() > 1)
             throw new IllegalArgumentException("There must be only one argument with Criteria or Entity type ");
         for (Restriction r : criteria.getRestrictions()) {
             N2oQuery.Filter filter = query.getFiltersMap().get(r.getFieldId()).get(r.getType());
             String mapping = filter.getMapping().startsWith("[") ? filter.getMapping() : "[" + criteriaIdx + "]." + filter.getMapping();
             inMap(argumentInstances, mapping, r.getValue());
+        }
+        for (int i = 0; i < argumentInstances.length; i++) {
+            String defaultValue = invocation.getArguments()[i].getDefaultValue();
+            if (argumentInstances[i] == null && defaultValue != null)
+                argumentInstances[i] = domainProcessor.deserialize(defaultValue);
         }
         return argumentInstances;
     }
