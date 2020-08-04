@@ -26,13 +26,12 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
+import net.n2oapp.framework.config.register.storage.PathUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
@@ -148,9 +147,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String masterIdParam = initMasterLink(actionRoute, pathMapping, actionModelLink);
         addPathMappings(source, pathMapping, widgetScope, pageScope, actionDataModel, p);
         String parentRoute = normalize(route);
-        Matcher matcher = Pattern.compile("(:\\w+)").matcher(actionRoute);
-        if (matcher.find())
-            parentRoute = normalize(parentRoute + "/" + matcher.group(1));
+        List<String> pathParams = PathUtil.getPathParams(actionRoute);
+        if (!pathParams.isEmpty())
+            parentRoute = normalize(parentRoute + "/" + pathParams.get(0));
         route = normalize(route + actionRoute);
 
         PageContext pageContext = constructContext(pageId, route);
