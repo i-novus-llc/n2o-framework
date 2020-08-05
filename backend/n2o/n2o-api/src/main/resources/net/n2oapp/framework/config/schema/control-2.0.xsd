@@ -21,6 +21,7 @@
     <xs:element name="date-interval" type="controlDateIntervalDefinition"/>
     <xs:element name="date-time" type="controlDatePickerDefinition"/>
     <xs:element name="file-upload" type="controlFileUploadDefinition"/>
+    <xs:element name="image-upload" type="controlImageUploadDefinition"/>
     <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition"/>
     <xs:element name="radio-group" type="controlOptionsListInlineDefinition"/>
     <xs:element name="select" type="controlSelectDefinition"/>
@@ -57,6 +58,7 @@
             <xs:element name="date-interval" type="controlDateIntervalDefinition" minOccurs="0"/>
             <xs:element name="date-time" type="controlDatePickerDefinition" minOccurs="0"/>
             <xs:element name="file-upload" type="controlFileUploadDefinition" minOccurs="0"/>
+            <xs:element name="image-upload" type="controlImageUploadDefinition" minOccurs="0"/>
             <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
             <xs:element name="radio-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
             <xs:element name="select" type="controlSelectDefinition" minOccurs="0"/>
@@ -475,6 +477,45 @@
                 <xs:attribute name="accept" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Доступные расширения файлов (через запятую).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlImageUploadDefinition">
+        <xs:annotation>
+            <xs:documentation>Компонент загрузки изображений.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="controlFileUploadDefinition">
+                <xs:attribute name="list-type" default="image">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>Тип отображения при мультивыборе.</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="image">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        В строку только изображения с возможностью просмотра (опционально) и удаления.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="card">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Вид горизонтальной карточки с показом названия, размера и
+                                        кнопками удаления и просмотра (опционально).
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="lightbox" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Возможность просмотра изображения в большом окне.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
