@@ -10,8 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Утилита для удобной работы с путями
@@ -70,14 +68,6 @@ public class PathUtil {
             url += "**/" + fileNamePattern + "." + fileExtension;
         }
         return url;
-    }
-
-    public static List<String> getPathParams(String url) {
-        List<String> pathParams = new ArrayList<>();
-        Matcher matcher = Pattern.compile("(:\\w+)").matcher(url);
-        while (matcher.find())
-            pathParams.add(matcher.group());
-        return pathParams;
     }
 
     public static String convertRootPathToFilePathPattern(String rootPath, String localPath) {
@@ -158,9 +148,10 @@ public class PathUtil {
 
     /**
      * Ищет директории соответсвующие pattern начиная с projectPaths
+     *
      * @param projectPaths - начальные директории
-     * @param pattern - шаблон
-     * @param ignores - игнорируемые названия директорий
+     * @param pattern      - шаблон
+     * @param ignores      - игнорируемые названия директорий
      * @return - лист директорий
      */
     public static Set<String> getConfigPaths(String configPath, List<String> projectPaths, String pattern, Collection<String> ignores) {

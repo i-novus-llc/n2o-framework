@@ -27,7 +27,6 @@ import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
-import net.n2oapp.framework.config.register.storage.PathUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -146,9 +145,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String masterIdParam = initMasterLink(source.getPathParams(), actionRoute, pathMapping, actionModelLink);
         addPathMappings(source, pathMapping, widgetScope, pageScope, actionDataModel, p);
         String parentRoute = normalize(route);
-        List<String> pathParams = PathUtil.getPathParams(actionRoute);
+        List<String> pathParams = RouteUtil.getPathParams(actionRoute);
         if (!pathParams.isEmpty())
-            parentRoute = normalize(parentRoute + "/" + pathParams.get(0));
+            parentRoute = normalize(parentRoute + "/:" + pathParams.get(0));
         route = normalize(route + actionRoute);
 
         PageContext pageContext = constructContext(pageId, route);
