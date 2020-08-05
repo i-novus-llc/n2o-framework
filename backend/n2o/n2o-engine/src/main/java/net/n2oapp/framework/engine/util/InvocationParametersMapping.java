@@ -118,8 +118,10 @@ public class InvocationParametersMapping {
      * Собирает аргументы для query, на выход будет массив из одного аргумента типа net.n2oapp.criteria.api.Criteria
      *
      * @param invocation          вызов действия с одним аргументом типа net.n2oapp.criteria.api.Criteria
+     * @param query
      * @param criteria
      * @param criteriaConstructor
+     * @param domainProcessor
      * @return
      */
     public static Object[] prepareArgsForQuery(N2oArgumentsInvocation invocation, CompiledQuery query,
