@@ -15,6 +15,7 @@
     <xs:element name="input-text" type="controlInputTextDefinition"/>
     <xs:element name="input-money" type="controlInputMoneyDefinition"/>
     <xs:element name="output-text" type="controlOutputTextDefinition"/>
+    <xs:element name="output-list" type="controlOutputListDefinition"/>
     <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
     <xs:element name="checkbox" type="controlCheckboxDefinition"/>
     <xs:element name="password" type="controlPasswordDefinition"/>
@@ -51,6 +52,7 @@
             <xs:element name="input-text" type="controlInputTextDefinition" minOccurs="0"/>
             <xs:element name="input-money" type="controlInputMoneyDefinition" minOccurs="0"/>
             <xs:element name="output-text" type="controlOutputTextDefinition" minOccurs="0"/>
+            <xs:element name="output-list" type="controlOutputListDefinition" minOccurs="0"/>
             <xs:element name="masked-input" type="controlMaskedInputDefinition" minOccurs="0"/>
             <xs:element name="checkbox" type="controlCheckboxDefinition" minOccurs="0"/>
             <xs:element name="password" type="controlPasswordDefinition" minOccurs="0"/>
@@ -895,6 +897,9 @@
 
     <xs:complexType name="controlOutputTextDefinition">
         <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Компонент вывода однострочного текста.</xs:documentation>
+            </xs:annotation>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
@@ -915,6 +920,55 @@
                     <xs:annotation>
                         <xs:documentation>Формат выводимого текста.</xs:documentation>
                     </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlOutputListDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:annotation>
+                    <xs:documentation>Компонент вывода многострочного текста.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="label-field-id" type="xs:string" default="name">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, содержащее значение элемента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="href-field-id" type="xs:string" default="href">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, содержащее ссылку элемента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target" type="act:aType" default="newWindow">
+                    <xs:annotation>
+                        <xs:documentation>Способ открытия ссылок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="separator" type="xs:string" default=" ">
+                    <xs:annotation>
+                        <xs:documentation>Разделитель между элементами.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="direction" type="xs:string" default="column">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>Направление отображения элементов.</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="row">
+                                <xs:annotation>
+                                    <xs:documentation>Отображение элементов в строку.</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="column">
+                                <xs:annotation>
+                                    <xs:documentation>Отображение элементов в столбец.</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>

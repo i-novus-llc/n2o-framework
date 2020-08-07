@@ -940,7 +940,51 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 
 [source,xml]
 ----
-<output-text id="text" icon="fa fa-plus" position="left" type="iconAndText" format="number 0,0.00"/>
+<output-text id="text" icon="fa fa-plus" position="left"
+             type="iconAndText" format="number 0,0.00"/>
+----
+
+=== <output-text>
+Компонент вывода многострочного текста
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|label-field-id
+|Строка
+|Поле выборки, содержащее значение элемента
+|name
+
+|href-field-id
+|Строка
+|Поле выборки, содержащее ссылку элемента
+|href
+
+|target
+|newWindow, self, application
+|Способ открытия ссылок
+|newWindow
+
+|separator
+|Строка
+|Разделитель между элементами
+|пробел
+
+|direction
+|row column
+|Направление отображения элементов (в строку или в столбец).
+|column
+
+|===
+
+Пример::
+
+[source,xml]
+----
+<output-list id="list" label-field-id="label" href-field-id="link"
+             target="application" direction="row" separator=","/>
 ----
 
 === <masked-input>
