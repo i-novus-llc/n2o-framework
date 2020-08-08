@@ -46,7 +46,7 @@ function SidebarItemContainer({
   item,
   activeId,
   sidebarOpen,
-  level = 0,
+  level = 1,
 }) {
   const { type, linkType, subItems } = item;
 
@@ -84,11 +84,11 @@ function SidebarItemContainer({
         <div
           className={cn(
             'n2o-sidebar__sub-item',
-            `n2o-sidebar__sub-item--${level}`
+            `n2o-sidebar__sub-item--level-${level}`
           )}
         >
           <SidebarItemContainer
-            level={++level}
+            level={level + 1}
             key={i}
             activeId={activeId}
             item={subItem}
