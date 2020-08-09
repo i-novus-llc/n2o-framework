@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
-import { compose, withContext, lifecycle } from 'recompose';
+import { compose, withContext, lifecycle, getContext } from 'recompose';
 import numeral from 'numeral';
 import 'numeral/locales/ru';
 import {
@@ -52,6 +52,9 @@ export default compose(
       getFromConfig: key => get(props, key),
     })
   ),
+  getContext({
+    i18n: PropTypes.object,
+  }),
   lifecycle({
     componentDidMount() {
       const { realTimeConfig, requestConfig, setReady } = this.props;
@@ -59,6 +62,11 @@ export default compose(
         requestConfig();
       } else {
         setReady();
+      }
+    },
+    componentDidUpdate(prevProps) {
+      if (prevProps.locale !== this.props.locale) {
+        this.props.i18n.changeLanguage(this.props.locale);
       }
     },
   })
