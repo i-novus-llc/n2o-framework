@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import pick from 'lodash/pick';
 import { compose, withContext, defaultProps, withProps } from 'recompose';
 import { IntlProvider, addLocaleData } from 'react-intl';
+import { withTranslation } from 'react-i18next';
+import './i18n';
 
 import history from './history';
 import configureStore from './store';
@@ -123,15 +125,17 @@ N2o.propTypes = {
     PropTypes.node,
   ]),
   version: PropTypes.string,
+  locales: PropTypes.object,
 };
 
 const EnhancedN2O = compose(
+  withTranslation(),
   defaultProps({
     defaultTemplate: HeaderFooterTemplate,
     defaultBreadcrumb: DefaultBreadcrumb,
     defaultPage: 'StandardPage',
-    defaultPromptMessage:
-      'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
+    // key from locale translation
+    defaultPromptMessage: 'defaultPromptMessage',
     defaultErrorPages: configureErrorPages(),
     formats: {
       dateFormat: 'YYYY-MM-DD',
@@ -145,9 +149,12 @@ const EnhancedN2O = compose(
     realTimeConfig: true,
     embeddedRouting: true,
     evalContext: {},
+    locales: {},
   }),
   withContext(
     {
+      t: PropTypes.func,
+      i18n: PropTypes.func,
       defaultTemplate: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.element,
@@ -170,6 +177,8 @@ const EnhancedN2O = compose(
       version: PropTypes.string,
     },
     props => ({
+      t: props.t,
+      i18n: props.i18n,
       defaultTemplate: props.defaultTemplate,
       defaultBreadcrumb: props.defaultBreadcrumb,
       defaultPromptMessage: props.defaultPromptMessage,
