@@ -1,0 +1,56 @@
+.n2o-image-uploader {
+
+  &-container {
+    max-width: max-content;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+  }
+
+  &-control {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 12px;
+  }
+
+  &-control:hover {
+    border: $image-uploader-border;
+    cursor: pointer;
+  }
+
+  &-img-info {
+    display: flex;
+
+    &__file-name {
+      margin-right: 5px;
+      font-size: 12px;
+    }
+    &__file-size {
+      font-size: 12px;
+    }
+  }
+
+  &-files-item {
+    display: flex;
+    max-height: 100px;
+  }
+
+  &-files-item .with-info {
+    border: $image-uploader-card-border;
+    margin-right: 5px;
+  }
+
+  &-img-list {
+    display: flex;
+  }
+
+  &--img {
+    width: 90px;
+    height: 90px;
+    margin: 0 5px 0 5px;
+  }
+}
