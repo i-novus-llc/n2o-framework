@@ -26,6 +26,7 @@ import { HeaderFooterTemplate } from './components/core/templates';
 import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb';
 import globalFnDate from './utils/globalFnDate';
 import configureErrorPages from './components/errors';
+import locales from './locales';
 
 addLocaleData(ruLocaleData);
 
@@ -62,6 +63,7 @@ class N2o extends Component {
       <Provider store={this.store}>
         <SecurityProvider {...security}>
           <Application
+            locales={Object.keys(locales)}
             realTimeConfig={realTimeConfig}
             render={({ locale, messages }) => (
               <IntlProvider locale={locale} messages={messages}>

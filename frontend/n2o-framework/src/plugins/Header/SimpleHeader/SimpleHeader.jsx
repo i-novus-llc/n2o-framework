@@ -15,6 +15,7 @@ import Collapse from 'reactstrap/lib/Collapse';
 
 import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
+import LocaleSelect from '../../../components/controls/LocaleSelect/LocaleSelect';
 
 /**
  * Хедер-плагин
@@ -111,6 +112,7 @@ class SimpleHeader extends React.Component {
       className,
       search,
       homePageUrl,
+      localeSelect,
     } = this.props;
     const isInversed = color === 'inverse';
     const navColor = isInversed ? 'primary' : 'light';
@@ -171,6 +173,7 @@ class SimpleHeader extends React.Component {
               )}
             </Nav>
           </Collapse>
+          {localeSelect && <LocaleSelect slim />}
         </Navbar>
       </div>
     );
@@ -250,6 +253,10 @@ SimpleHeader.propTypes = {
    * Стили
    */
   style: PropTypes.object,
+  /**
+   * Включение показа контрола смены локализации
+   */
+  localeSelect: PropTypes.bool,
 };
 
 SimpleHeader.defaultProps = {
@@ -262,6 +269,7 @@ SimpleHeader.defaultProps = {
   extraItems: [],
   search: false,
   style: {},
+  localeSelect: false,
 };
 
 export default SimpleHeader;

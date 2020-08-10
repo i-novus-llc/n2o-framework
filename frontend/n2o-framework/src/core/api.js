@@ -19,6 +19,7 @@ export const BASE_PATH_METADATA = '/page';
 export const BASE_PATH_DATA = '/data/';
 export const BASE_PATH_VALIDATION = '/validation';
 export const BASE_PATH_CONFIG = '/config';
+export const BASE_PATH_LOCALE_CHANGE = '/locale';
 
 export const FETCH_APP_CONFIG = 'FETCH_APP_CONFIG';
 export const FETCH_PAGE_METADATA = 'FETCH_PAGE_METADATA';
@@ -26,6 +27,7 @@ export const FETCH_WIDGET_DATA = 'FETCH_WIDGET_DATA';
 export const FETCH_INVOKE_DATA = 'FETCH_INVOKE_DATA';
 export const FETCH_VALIDATE = 'FETCH_VALIDATE';
 export const FETCH_VALUE = 'FETCH_VALUE';
+export const CHANGE_LOCALE = 'CHANGE_LOCALE';
 
 /**
  * Удаляет все пустые значения в параметрах запроса
@@ -125,6 +127,10 @@ export const defaultApiProvider = {
       ].join('')
     ).catch(console.error),
   [FETCH_VALUE]: ({ url, headers }) => request(url, { headers }),
+  [CHANGE_LOCALE]: locale =>
+    request([API_PREFIX, BASE_PATH_LOCALE_CHANGE].join(''), {
+      body: JSON.stringify({ locale }),
+    }),
 };
 
 /**

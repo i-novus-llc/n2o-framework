@@ -9,6 +9,7 @@ import 'numeral/locales/ru';
 import {
   requestConfig as requestConfigAction,
   setReady as setReadyAction,
+  registerLocales,
 } from '../../actions/global';
 import { globalSelector } from '../../selectors/global';
 import Spinner from '../snippets/Spinner/Spinner';
@@ -37,6 +38,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setReady: bindActionCreators(setReadyAction, dispatch),
   requestConfig: bindActionCreators(requestConfigAction, dispatch),
+  registerLocales: locales => dispatch(registerLocales(locales)),
 });
 
 export default compose(
@@ -57,7 +59,15 @@ export default compose(
   }),
   lifecycle({
     componentDidMount() {
-      const { realTimeConfig, requestConfig, setReady } = this.props;
+      const {
+        realTimeConfig,
+        requestConfig,
+        setReady,
+        locales = {},
+        registerLocales,
+      } = this.props;
+      registerLocales(locales);
+
       if (realTimeConfig) {
         requestConfig();
       } else {
