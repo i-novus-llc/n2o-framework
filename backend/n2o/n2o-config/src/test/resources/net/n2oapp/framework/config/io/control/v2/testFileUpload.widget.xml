@@ -2,8 +2,8 @@
     <fields>
         <file-upload id="test"
                      multi="true"
-                     ajax="true"
-                     show-size="true"
+                     ajax="false"
+                     show-size="false"
                      upload-url="/url"
                      delete-url="/url"
                      value-field-id="test"
