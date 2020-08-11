@@ -1,4 +1,7 @@
 import React from 'react';
+
+import map from 'lodash/map';
+
 import ImageUploaderItem from './ImageUploaderItem';
 import PropTypes from 'prop-types';
 
@@ -10,7 +13,7 @@ class ImageUploaderList extends React.Component {
     const { files, onRemove, uploading, ...rest } = this.props;
     return (
       <>
-        {files.map((file, index) => {
+        {map(files, (file, index) => {
           return (
             <ImageUploaderItem
               file={file}

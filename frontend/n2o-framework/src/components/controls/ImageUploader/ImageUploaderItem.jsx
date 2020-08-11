@@ -2,6 +2,8 @@ import React from 'react';
 import Tooltip from 'reactstrap/lib/Tooltip';
 import cn from 'classnames';
 import Progress from 'reactstrap/lib/Progress';
+import Modal from 'reactstrap/lib/Modal';
+import onClickOutside from 'react-onclickoutside';
 import { convertSize } from '../FileUploader/utils';
 import Spinner from '../../snippets/Spinner/Spinner';
 import PropTypes from 'prop-types';
@@ -13,6 +15,7 @@ class ImageUploaderItem extends React.Component {
 
     this.state = {
       tooltipOpen: false,
+      modalOpen: false,
     };
 
     this.toggle = this.toggle.bind(this);
@@ -22,6 +25,15 @@ class ImageUploaderItem extends React.Component {
       tooltipOpen: !this.state.tooltipOpen,
     });
   }
+
+  modalOpen() {
+    this.setState({ modalOpen: true });
+  }
+
+  modalClose() {
+    this.setState({ modalOpen: false });
+  }
+
   render() {
     const {
       file,
@@ -34,13 +46,20 @@ class ImageUploaderItem extends React.Component {
       index,
       loading,
       autoUpload,
+      lightBox,
+      listType = 'image',
     } = this.props;
+
+    const cardType = listType === 'card';
+    const imageType = listType === 'image';
     const withInformation = showSize || showName;
+    const imgSrc = URL.createObjectURL(file);
+
     return (
       <div className="n2o-image-uploader-files-item">
         <span
           className={cn('n2o-file-uploader-files-item-info', {
-            'with-info': withInformation,
+            'with-info': cardType && withInformation,
           })}
         >
           <a
@@ -48,15 +67,34 @@ class ImageUploaderItem extends React.Component {
             href={file.link}
             target="_blank"
             id={`tooltip-${file.id}`}
-            className={cn('n2o-file-uploader-link', {
+            className={cn('n2o-image-uploader-link', {
               'n2o-file-uploader-item-error': file.error,
+              'single-img': imageType,
             })}
           >
-            <img
-              className="n2o-image-uploader--img"
-              src={URL.createObjectURL(file)}
-              alt="some"
-            />
+            <div
+              className={cn('n2o-image-uploader__watch', {
+                'single-img': imageType,
+              })}
+            >
+              <div className="n2o-image-uploader__watch--icons-container">
+                {lightBox && (
+                  <span>
+                    <i
+                      onClick={() => this.modalOpen()}
+                      className="n2o-image-uploader__watch--eye fa fa-eye"
+                    />
+                  </span>
+                )}
+                <span>
+                  <i
+                    onClick={() => onRemove(index, file.id)}
+                    className="n2o-image-uploader__watch--trash fa fa-trash"
+                  />
+                </span>
+              </div>
+            </div>
+            <img className="n2o-image-uploader--img" src={imgSrc} alt="some" />
             {file.link && (
               <i className=" n2o-file-uploader-external-link fa fa-external-link" />
             )}
@@ -71,19 +109,13 @@ class ImageUploaderItem extends React.Component {
             </Tooltip>
           )}
           <div className="n2o-image-uploader-img-info">
-            {showName && (
+            {cardType && showName && (
               <span className="n2o-image-uploader-img-info__file-name">
                 {file.name}
               </span>
             )}
             <span className="n2o-image-uploader-img-info__file-size">
-              {showSize && <span>{convertSize(file.size)}</span>}
-              {!disabled && !loading && (
-                <i
-                  onClick={() => onRemove(index, file.id)}
-                  className={'n2o-file-uploader-remove fa fa-times ml-2'}
-                />
-              )}
+              {cardType && showSize && <span>{convertSize(file.size)}</span>}
               {loading && <Spinner className="ml-2" type="inline" size="sm" />}
             </span>
           </div>
@@ -97,6 +129,25 @@ class ImageUploaderItem extends React.Component {
               color={statusBarColor}
             />
           ))}
+        <Modal
+          isOpen={this.state.modalOpen}
+          backdrop={true}
+          centered
+          toggle={() => this.modalClose()}
+          className="n2o-image-uploader__modal"
+        >
+          <div className="n2o-image-uploader__modal--body">
+            <i
+              onClick={() => this.modalClose()}
+              className="n2o-image-uploader__modal--icon-close fa fa-times"
+            />
+            <img
+              className="n2o-image-uploader__modal--image"
+              src={URL.createObjectURL(file)}
+              alt="some"
+            />
+          </div>
+        </Modal>
       </div>
     );
   }
@@ -104,8 +155,6 @@ class ImageUploaderItem extends React.Component {
 
 ImageUploaderItem.propTypes = {
   file: PropTypes.object,
-  percentage: PropTypes.number,
-  statusBarColor: PropTypes.string,
   onRemove: PropTypes.func,
   showSize: PropTypes.bool,
   disabled: PropTypes.bool,

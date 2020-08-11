@@ -20,7 +20,7 @@ function ImageUploader({ ...rest }) {
     showName,
     disabled,
     children,
-    onDrop,
+    onImagesDrop,
     onDragEnter,
     onDragLeave,
     multiple,
@@ -31,6 +31,9 @@ function ImageUploader({ ...rest }) {
     onStartUpload,
     uploaderClass,
     saveBtnStyle,
+    lightBox,
+    listType,
+    imgError,
   } = rest;
   const showControl = multiple || (!multiple && isEmpty(files));
   return (
@@ -46,11 +49,12 @@ function ImageUploader({ ...rest }) {
                   'd-none': !showControl,
                   [className]: className,
                   [uploaderClass]: uploaderClass,
+                  'img-error': !isEmpty(imgError),
                 })}
                 accept={accept}
                 multiple={multiple}
                 disabled={disabled}
-                onDrop={onDrop}
+                onDrop={onImagesDrop}
                 onDragEnter={onDragEnter}
                 onDragLeave={onDragLeave}
               >
@@ -66,7 +70,9 @@ function ImageUploader({ ...rest }) {
                 autoUpload={autoUpload}
                 showSize={showSize}
                 showName={showName}
+                lightBox={lightBox}
                 disabled={disabled}
+                listType={listType}
               />
             )}
           </div>

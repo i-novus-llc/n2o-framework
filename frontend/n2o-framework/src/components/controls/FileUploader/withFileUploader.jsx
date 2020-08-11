@@ -19,10 +19,12 @@ const FileUploaderControl = WrappedComponent => {
 
       this.state = {
         files: props.files || [],
+        imgError: {},
       };
       this.requests = {};
 
       this.handleDrop = this.handleDrop.bind(this);
+      this.handleImagesDrop = this.handleImagesDrop.bind(this);
       this.handleRemove = this.handleRemove.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.startUpload = this.startUpload.bind(this);
@@ -126,10 +128,12 @@ const FileUploaderControl = WrappedComponent => {
         onFocus: () => {},
         onBlur: () => {},
         onDrop: this.handleDrop,
+        onImagesDrop: this.handleImagesDrop,
         onDragLeave: this.onDragLeave,
         onDragEnter: this.onDragEnter,
         onRemove: this.handleRemove,
         onStartUpload: this.onStartUpload,
+        imgError: this.state.imgError,
       };
     }
 
@@ -137,6 +141,7 @@ const FileUploaderControl = WrappedComponent => {
      * Загрузка файлов в state
      * @param files
      */
+
     handleDrop(files) {
       const { onChange, autoUpload, onBlur } = this.props;
       this.setState(
@@ -163,6 +168,40 @@ const FileUploaderControl = WrappedComponent => {
     }
 
     /**
+     * Загрузка изображений в state
+     * @param files
+     */
+    handleImagesDrop(files) {
+      function beforeUpload(file) {
+        const isJpgOrPngOrSvg =
+          file.type === 'image/jpeg' ||
+          file.type === 'image/png' ||
+          file.type === 'image/svg+xml';
+        if (!isJpgOrPngOrSvg) {
+          return false;
+        }
+
+        return isJpgOrPngOrSvg;
+      }
+
+      const everyIsValid = every(files, file => beforeUpload(file));
+
+      if (everyIsValid) {
+        this.setState({
+          imgError: {},
+        });
+
+        this.handleDrop(files);
+      } else {
+        this.setState({
+          imgError: {
+            message: 'You can only upload JPG/PNG/SVG file!',
+          },
+        });
+      }
+    }
+
+    /**
      * Удаление из стейта
      * @param index
      * @param id
@@ -178,6 +217,10 @@ const FileUploaderControl = WrappedComponent => {
         onDelete,
         deleteRequest,
       } = this.props;
+
+      this.setState({
+        imgError: {},
+      });
 
       if (deleteUrl) {
         if (isFunction(deleteRequest)) {

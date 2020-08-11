@@ -1,4 +1,7 @@
 import React from 'react';
+
+import isEmpty from 'lodash/isEmpty';
+
 import withFileUploader from '../FileUploader/withFileUploader';
 import PropTypes from 'prop-types';
 import ImageUploader from './ImageUploader';
@@ -13,12 +16,12 @@ function defaultDropZone(icon, label) {
 }
 
 function DropZone(props) {
-  const { icon, label, children } = props;
-
+  const { icon, label, children, imgError } = props;
+  const currentLabel = !isEmpty(imgError) ? imgError.message : label;
   return (
     <ImageUploader
       {...props}
-      children={children || defaultDropZone(icon, label)}
+      children={children || defaultDropZone(icon, currentLabel)}
       componentClass={'n2o-drop-zone'}
     />
   );

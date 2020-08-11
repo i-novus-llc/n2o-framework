@@ -3,23 +3,79 @@
   &-container {
     max-width: max-content;
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     flex-wrap: wrap;
+  }
+
+  &-link {
+    position: relative;
+    height: 100px;
+    display: flex;
+    align-items: center;
+  }
+
+  &-link.single-img {
+    border: $image-uploader-card-border;
+    border-radius: 3px;
+  }
+
+
+  &__watch {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+    justify-content: center;
+    color: #d2d2d2;
+    background-color: $primary;
+    opacity: 0;
+    z-index: 100;
+    transition: .3s;
+
+    &--icons-container {
+      width: 2.5rem;
+      display: flex;
+      font-size: 16px;
+      justify-content: space-around;
+    }
+  }
+
+  &-link:hover {
+    .n2o-image-uploader__watch {
+      opacity: 0.8;
+      transition: .3s;
+    }
+  }
+
+  &__watch--eye:hover, &__watch--trash:hover {
+    color: white;
+    cursor: pointer;
   }
 
   &-control {
     width: 100px;
     height: 100px;
+    margin: 0 5px 5px 0;
     display: flex;
+    border: 1px dashed #d9d9d9;
+    border-radius: 3px;
     justify-content: center;
     align-items: center;
     text-align: center;
     font-size: 12px;
+    transition: .3s;
+  }
+
+  &-control.img-error {
+    color: darkred;
   }
 
   &-control:hover {
     border: $image-uploader-border;
     cursor: pointer;
+    transition: .3s;
   }
 
   &-img-info {
@@ -28,19 +84,25 @@
     &__file-name {
       margin-right: 5px;
       font-size: 12px;
+      color: #3f515e;
     }
     &__file-size {
+      margin-right: 5px;
       font-size: 12px;
+      color: #3f515e;
     }
   }
 
   &-files-item {
     display: flex;
     max-height: 100px;
+    margin: 0 0 5px 0;
   }
 
   &-files-item .with-info {
+    min-height: 100px;
     border: $image-uploader-card-border;
+    border-radius: 3px;
     margin-right: 5px;
   }
 
@@ -50,7 +112,29 @@
 
   &--img {
     width: 90px;
-    height: 90px;
     margin: 0 5px 0 5px;
+    transform: scale(.90);
+  }
+
+  &__modal {
+    width: min-content;
+    height: min-content;
+    padding: 10px;
+
+    &--icon-close {
+      color: #3f515e;
+      float: right;
+      margin: 15px;
+    }
+
+    &--icon-close:hover {
+      cursor: pointer;
+      color: $primary;
+    }
+
+    &--image {
+      width: 400px;
+      transform: scale(.90);
+    }
   }
 }

@@ -7,12 +7,15 @@
   "deleteUrl": "/n2o/data/delete",
   "showSize": true,
   "showName": true,
-  "multi": true,
+  "multi": false,
   "autoUpload": false,
+  "listType": "image",
+  "lightBox": true,
   "valueFieldId": "customId",
   "labelFieldId": "customName",
   "statusFieldId": "customStatus",
   "sizeFieldId": "customSize",
   "responseFieldId": "customResponse",
-  "urlFieldId": "customLink"
+  "urlFieldId": "customLink",
+  "icon": "fa fa-plus"
 }
