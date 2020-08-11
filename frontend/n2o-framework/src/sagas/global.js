@@ -50,7 +50,7 @@ export function* changeLocale(apiProvider, action) {
   try {
     const locale = get(action, 'payload.locale');
     yield call(fetchSaga, CHANGE_LOCALE_API, locale, apiProvider);
-    window.reload();
+    window.location.reload();
   } catch (err) {
     console.error(err);
   }

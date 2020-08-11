@@ -15,7 +15,6 @@ export function LocaleSelect({
   value,
   onChange,
   locales,
-  slim,
   direction,
   opened,
   toggle,

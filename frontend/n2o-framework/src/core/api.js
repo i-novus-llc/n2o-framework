@@ -129,6 +129,7 @@ export const defaultApiProvider = {
   [FETCH_VALUE]: ({ url, headers }) => request(url, { headers }),
   [CHANGE_LOCALE]: locale =>
     request([API_PREFIX, BASE_PATH_LOCALE_CHANGE].join(''), {
+      method: 'POST',
       body: JSON.stringify({ locale }),
     }),
 };

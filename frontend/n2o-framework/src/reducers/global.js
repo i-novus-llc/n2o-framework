@@ -13,7 +13,7 @@ const defaultState = {
   ready: false,
   loading: false,
   error: null,
-  locale: 'ru_RU',
+  locale: 'ru',
   messages: {},
   menu: {},
   rootPageId: null,

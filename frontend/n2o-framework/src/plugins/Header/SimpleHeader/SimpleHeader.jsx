@@ -173,7 +173,7 @@ class SimpleHeader extends React.Component {
               )}
             </Nav>
           </Collapse>
-          {localeSelect && <LocaleSelect slim />}
+          {localeSelect && <LocaleSelect />}
         </Navbar>
       </div>
     );
