@@ -426,7 +426,6 @@ const FileUploaderControl = WrappedComponent => {
     }
 
     render() {
-      console.warn(this.state.imgFiles);
       return <WrappedComponent {...this.getUploaderProps()} />;
     }
   }

@@ -37,18 +37,13 @@ class ImageUploaderItem extends React.Component {
   render() {
     const {
       file,
-      percentage,
-      statusBarColor,
       onRemove,
       showSize,
       showName,
-      disabled,
       index,
       loading,
-      autoUpload,
       lightBox,
       listType = 'image',
-      imgFiles,
       src,
     } = this.props;
     const cardType = listType === 'card';
