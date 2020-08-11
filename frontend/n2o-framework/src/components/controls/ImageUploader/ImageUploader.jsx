@@ -11,7 +11,6 @@ import ImageUploaderList from './ImageUploaderList';
 
 function ImageUploader({ ...rest }) {
   const {
-    accept,
     uploading,
     statusBarColor,
     onRemove,
@@ -27,6 +26,7 @@ function ImageUploader({ ...rest }) {
     visible,
     className,
     files,
+    imgFiles,
     componentClass,
     onStartUpload,
     uploaderClass,
@@ -51,7 +51,7 @@ function ImageUploader({ ...rest }) {
                   [uploaderClass]: uploaderClass,
                   'img-error': !isEmpty(imgError),
                 })}
-                accept={accept}
+                accept={'image/*'}
                 multiple={multiple}
                 disabled={disabled}
                 onDrop={onImagesDrop}
@@ -73,6 +73,7 @@ function ImageUploader({ ...rest }) {
                 lightBox={lightBox}
                 disabled={disabled}
                 listType={listType}
+                imgFiles={imgFiles}
               />
             )}
           </div>

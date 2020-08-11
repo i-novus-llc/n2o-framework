@@ -10,7 +10,7 @@ class ImageUploaderList extends React.Component {
     super(props);
   }
   render() {
-    const { files, onRemove, uploading, ...rest } = this.props;
+    const { files, onRemove, uploading, imgFiles, ...rest } = this.props;
     return (
       <>
         {map(files, (file, index) => {
@@ -22,6 +22,7 @@ class ImageUploaderList extends React.Component {
               onRemove={onRemove}
               index={index}
               loading={uploading && uploading[file.id]}
+              src={imgFiles[index]}
               {...rest}
             />
           );

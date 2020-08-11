@@ -19,6 +19,7 @@ const FileUploaderControl = WrappedComponent => {
 
       this.state = {
         files: props.files || [],
+        imgFiles: [],
         imgError: {},
       };
       this.requests = {};
@@ -121,6 +122,7 @@ const FileUploaderControl = WrappedComponent => {
       return {
         ...this.props,
         files: this.state.files,
+        imgFiles: this.state.imgFiles,
         uploading: this.state.uploading,
         requests: this.requests,
         multiple: this.props.multi,
@@ -191,6 +193,10 @@ const FileUploaderControl = WrappedComponent => {
           imgError: {},
         });
 
+        this.setState({
+          imgFiles: this.state.imgFiles.concat(files),
+        });
+
         this.handleDrop(files);
       } else {
         this.setState({
@@ -232,9 +238,12 @@ const FileUploaderControl = WrappedComponent => {
       }
 
       const newFiles = this.state.files.slice();
+      const newImgFiles = this.state.imgFiles.slice();
       newFiles.splice(index, 1);
+      newImgFiles.splice(index, 1);
       this.setState({
         files: [...newFiles],
+        imgFiles: [...newImgFiles],
       });
 
       if (value) {
@@ -267,7 +276,6 @@ const FileUploaderControl = WrappedComponent => {
         onStart,
         uploadRequest,
       } = this.props;
-
       const url = this.resolveUrl(uploadUrl);
 
       this.setState({
@@ -418,6 +426,7 @@ const FileUploaderControl = WrappedComponent => {
     }
 
     render() {
+      console.warn(this.state.imgFiles);
       return <WrappedComponent {...this.getUploaderProps()} />;
     }
   }

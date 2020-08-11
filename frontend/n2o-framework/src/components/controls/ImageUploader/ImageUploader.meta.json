@@ -8,7 +8,7 @@
   "showSize": true,
   "showName": true,
   "multi": false,
-  "autoUpload": false,
+  "autoUpload": true,
   "listType": "image",
   "lightBox": true,
   "valueFieldId": "customId",

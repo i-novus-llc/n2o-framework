@@ -48,13 +48,13 @@ class ImageUploaderItem extends React.Component {
       autoUpload,
       lightBox,
       listType = 'image',
+      imgFiles,
+      src,
     } = this.props;
-
     const cardType = listType === 'card';
     const imageType = listType === 'image';
     const withInformation = showSize || showName;
-    const imgSrc = URL.createObjectURL(file);
-
+    const imgSrc = URL.createObjectURL(src);
     return (
       <div className="n2o-image-uploader-files-item">
         <span
@@ -64,7 +64,6 @@ class ImageUploaderItem extends React.Component {
         >
           <a
             title={file.name}
-            href={file.link}
             target="_blank"
             id={`tooltip-${file.id}`}
             className={cn('n2o-image-uploader-link', {
@@ -95,9 +94,6 @@ class ImageUploaderItem extends React.Component {
               </div>
             </div>
             <img className="n2o-image-uploader--img" src={imgSrc} alt="some" />
-            {file.link && (
-              <i className=" n2o-file-uploader-external-link fa fa-external-link" />
-            )}
           </a>
           {(!isEmpty(file.error) || !isEmpty(file.response)) && (
             <Tooltip
@@ -120,15 +116,6 @@ class ImageUploaderItem extends React.Component {
             </span>
           </div>
         </span>
-        {loading ||
-          (!autoUpload && !file.status && (
-            <Progress
-              className="n2o-file-uploader-progress-bar"
-              value={percentage}
-              animated={true}
-              color={statusBarColor}
-            />
-          ))}
         <Modal
           isOpen={this.state.modalOpen}
           backdrop={true}
@@ -143,7 +130,7 @@ class ImageUploaderItem extends React.Component {
             />
             <img
               className="n2o-image-uploader__modal--image"
-              src={URL.createObjectURL(file)}
+              src={imgSrc}
               alt="some"
             />
           </div>
