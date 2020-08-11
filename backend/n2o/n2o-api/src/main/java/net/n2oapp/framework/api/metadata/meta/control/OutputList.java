@@ -14,7 +14,7 @@ public class OutputList extends Control {
     @JsonProperty
     private String labelFieldId;
     @JsonProperty
-    private String linkFieldId;
+    private String hrefFieldId;
     @JsonProperty
     private Target target;
     @JsonProperty

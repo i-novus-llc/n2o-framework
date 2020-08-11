@@ -929,7 +929,10 @@
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:annotation>
-                    <xs:documentation>Компонент вывода многострочного текста.</xs:documentation>
+                    <xs:documentation>
+                        Компонент вывода многострочного текста.
+                        В случае, если в данных приходит ссылка, текст будет отображаться как ссылка.
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="label-field-id" type="xs:string" default="name">
                     <xs:annotation>

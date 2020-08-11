@@ -32,7 +32,7 @@ public class OutputListCompiler extends StandardFieldCompiler<OutputList, N2oOut
         OutputList outputList = new OutputList();
         outputList.setLabelFieldId(p.cast(source.getLabelFieldId(),
                 p.resolve(property("n2o.api.control.output_list.label_field_id"), String.class)));
-        outputList.setLinkFieldId(p.cast(source.getHrefFieldId(),
+        outputList.setHrefFieldId(p.cast(source.getHrefFieldId(),
                 p.resolve(property("n2o.api.control.output_list.href_field_id"), String.class)));
         outputList.setTarget(p.cast(source.getTarget(),
                 p.resolve(property("n2o.api.control.output_list.target"), Target.class)));

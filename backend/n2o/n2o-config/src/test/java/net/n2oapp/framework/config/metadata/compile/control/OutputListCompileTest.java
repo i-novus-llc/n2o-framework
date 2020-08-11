@@ -42,7 +42,7 @@ public class OutputListCompileTest extends SourceCompileTestBase {
                 .get(0).getCols().get(0).getFields().get(0))).getControl();
         assertThat(outputList.getSrc(), is("OutputList"));
         assertThat(outputList.getLabelFieldId(), is("label"));
-        assertThat(outputList.getLinkFieldId(), is("link"));
+        assertThat(outputList.getHrefFieldId(), is("link"));
         assertThat(outputList.getTarget(), is(Target.application));
         assertThat(outputList.getDirection(), is(OutputList.Direction.row));
         assertThat(outputList.getSeparator(), is(","));
@@ -50,7 +50,7 @@ public class OutputListCompileTest extends SourceCompileTestBase {
         outputList = (OutputList) ((StandardField) (form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0))).getControl();
         assertThat(outputList.getLabelFieldId(), is("name"));
-        assertThat(outputList.getLinkFieldId(), is("href"));
+        assertThat(outputList.getHrefFieldId(), is("href"));
         assertThat(outputList.getTarget(), is(Target.newWindow));
         assertThat(outputList.getDirection(), is(OutputList.Direction.column));
         assertThat(outputList.getSeparator(), is(" "));
