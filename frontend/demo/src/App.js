@@ -36,7 +36,18 @@ const config = {
   },
   evalContext: functions,
   realTimeConfig: true,
-  embeddedRouting: true
+  embeddedRouting: true,
+  locales: {
+    ru: {
+      // тут могут быть переводы, которые добавятся к базовым
+    },
+    en: {
+      // there may be translations that will be added to the basic ones
+    },
+    fr: {
+      // il peut y avoir des traductions qui seront ajoutées aux traductions de base
+    }
+  }
 };
 
 class App extends Component {

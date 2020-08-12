@@ -55,7 +55,14 @@ class N2o extends Component {
   }
 
   render() {
-    const { security, realTimeConfig, embeddedRouting, children } = this.props;
+    const {
+      security,
+      realTimeConfig,
+      embeddedRouting,
+      children,
+      i18n,
+      locales: customLocales = {},
+    } = this.props;
 
     const config = this.generateConfig();
 
@@ -63,7 +70,9 @@ class N2o extends Component {
       <Provider store={this.store}>
         <SecurityProvider {...security}>
           <Application
-            locales={Object.keys(locales)}
+            i18n={i18n}
+            locales={locales}
+            customLocales={customLocales}
             realTimeConfig={realTimeConfig}
             render={({ locale, messages }) => (
               <IntlProvider locale={locale} messages={messages}>

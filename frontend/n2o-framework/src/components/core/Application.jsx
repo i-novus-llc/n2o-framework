@@ -2,8 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import get from 'lodash/get';
+import map from 'lodash/map';
+import keys from 'lodash/keys';
 import { connect } from 'react-redux';
-import { compose, withContext, lifecycle, getContext } from 'recompose';
+import {
+  compose,
+  withContext,
+  lifecycle,
+  getContext,
+  withHandlers,
+} from 'recompose';
 import numeral from 'numeral';
 import 'numeral/locales/ru';
 import {
@@ -57,6 +65,13 @@ export default compose(
   getContext({
     i18n: PropTypes.object,
   }),
+  withHandlers({
+    addCustomLocales: ({ i18n, customLocales }) => () => {
+      map(keys(customLocales), locale => {
+        i18n.addResourceBundle(locale, 'translation', customLocales[locale]);
+      });
+    },
+  }),
   lifecycle({
     componentDidMount() {
       const {
@@ -64,9 +79,12 @@ export default compose(
         requestConfig,
         setReady,
         locales = {},
+        customLocales,
         registerLocales,
+        addCustomLocales,
       } = this.props;
-      registerLocales(locales);
+      addCustomLocales();
+      registerLocales(keys(Object.assign({}, locales, customLocales)));
 
       if (realTimeConfig) {
         requestConfig();
