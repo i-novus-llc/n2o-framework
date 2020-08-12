@@ -21,10 +21,10 @@ public class SortWidgetPayload extends PerformActionPayload {
     private String widgetId;
 
     @JsonProperty
-    private String field;
+    private String fieldKey;
 
     @JsonProperty
-    private Object direction;
+    private Object sortDirection;
 
     @Override
     public boolean equals(Object o) {
@@ -32,12 +32,12 @@ public class SortWidgetPayload extends PerformActionPayload {
         if (o == null || getClass() != o.getClass()) return false;
         SortWidgetPayload payload = (SortWidgetPayload) o;
         return widgetId.equals(payload.widgetId) &&
-                field.equals(payload.field) &&
-                direction.equals(payload.direction);
+                fieldKey.equals(payload.fieldKey) &&
+                sortDirection.equals(payload.sortDirection);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(widgetId, field, direction);
+        return Objects.hash(widgetId, fieldKey, sortDirection);
     }
 }
