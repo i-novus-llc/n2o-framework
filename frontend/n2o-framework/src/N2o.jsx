@@ -26,6 +26,7 @@ import { HeaderFooterTemplate } from './components/core/templates';
 import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb';
 import globalFnDate from './utils/globalFnDate';
 import configureErrorPages from './components/errors';
+import locales from './locales';
 
 addLocaleData(ruLocaleData);
 
@@ -54,7 +55,14 @@ class N2o extends Component {
   }
 
   render() {
-    const { security, realTimeConfig, embeddedRouting, children } = this.props;
+    const {
+      security,
+      realTimeConfig,
+      embeddedRouting,
+      children,
+      i18n,
+      locales: customLocales = {},
+    } = this.props;
 
     const config = this.generateConfig();
 
@@ -62,6 +70,9 @@ class N2o extends Component {
       <Provider store={this.store}>
         <SecurityProvider {...security}>
           <Application
+            i18n={i18n}
+            locales={locales}
+            customLocales={customLocales}
             realTimeConfig={realTimeConfig}
             render={({ locale, messages }) => (
               <IntlProvider locale={locale} messages={messages}>
