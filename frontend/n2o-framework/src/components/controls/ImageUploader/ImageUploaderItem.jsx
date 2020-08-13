@@ -1,13 +1,15 @@
 import React from 'react';
-import Tooltip from 'reactstrap/lib/Tooltip';
+import PropTypes from 'prop-types';
+
+import isEmpty from 'lodash/isEmpty';
+
 import cn from 'classnames';
-import Progress from 'reactstrap/lib/Progress';
+
+import Tooltip from 'reactstrap/lib/Tooltip';
 import Modal from 'reactstrap/lib/Modal';
-import onClickOutside from 'react-onclickoutside';
+
 import { convertSize } from '../FileUploader/utils';
 import Spinner from '../../snippets/Spinner/Spinner';
-import PropTypes from 'prop-types';
-import isEmpty from 'lodash/isEmpty';
 
 class ImageUploaderItem extends React.Component {
   constructor(props) {

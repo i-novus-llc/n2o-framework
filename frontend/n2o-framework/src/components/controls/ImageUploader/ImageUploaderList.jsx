@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import map from 'lodash/map';
 
 import ImageUploaderItem from './ImageUploaderItem';
-import PropTypes from 'prop-types';
 
 class ImageUploaderList extends React.Component {
   constructor(props) {

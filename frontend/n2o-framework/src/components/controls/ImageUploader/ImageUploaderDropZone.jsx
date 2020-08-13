@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import isEmpty from 'lodash/isEmpty';
 
 import withFileUploader from '../FileUploader/withFileUploader';
-import PropTypes from 'prop-types';
 import ImageUploader from './ImageUploader';
 
 function defaultDropZone(icon, label) {

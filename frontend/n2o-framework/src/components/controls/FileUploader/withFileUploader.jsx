@@ -8,7 +8,7 @@ import every from 'lodash/every';
 import some from 'lodash/some';
 import get from 'lodash/get';
 import isFunction from 'lodash/isFunction';
-import { post, deleteFile } from './utils';
+import { post, deleteFile, everyIsValid } from './utils';
 import { id } from '../../../utils/id';
 import evalExpression, { parseExpression } from '../../../utils/evalExpression';
 
@@ -174,21 +174,7 @@ const FileUploaderControl = WrappedComponent => {
      * @param files
      */
     handleImagesDrop(files) {
-      function beforeUpload(file) {
-        const isJpgOrPngOrSvg =
-          file.type === 'image/jpeg' ||
-          file.type === 'image/png' ||
-          file.type === 'image/svg+xml';
-        if (!isJpgOrPngOrSvg) {
-          return false;
-        }
-
-        return isJpgOrPngOrSvg;
-      }
-
-      const everyIsValid = every(files, file => beforeUpload(file));
-
-      if (everyIsValid) {
+      if (everyIsValid(files)) {
         this.setState({
           imgError: {},
         });

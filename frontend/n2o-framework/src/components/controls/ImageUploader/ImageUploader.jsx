@@ -9,7 +9,7 @@ import isEmpty from 'lodash/isEmpty';
 import Button from 'reactstrap/lib/Button';
 import ImageUploaderList from './ImageUploaderList';
 
-function ImageUploader({ ...rest }) {
+function ImageUploader(props) {
   const {
     uploading,
     statusBarColor,
@@ -34,7 +34,7 @@ function ImageUploader({ ...rest }) {
     lightBox,
     listType,
     imgError,
-  } = rest;
+  } = props;
   const showControl = multiple || (!multiple && isEmpty(files));
   return (
     <React.Fragment>

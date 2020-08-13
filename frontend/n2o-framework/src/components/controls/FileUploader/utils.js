@@ -1,4 +1,5 @@
 import axios from 'axios';
+import every from 'lodash/every';
 
 const Size = {
   0: 'Б',
@@ -35,3 +36,17 @@ export function convertSize(size, step = 0) {
   }
   return Math.round(size) + ' ' + Size[step];
 }
+
+function beforeUpload(file) {
+  const isImage =
+    file.type === 'image/jpeg' ||
+    file.type === 'image/png' ||
+    file.type === 'image/svg+xml';
+  if (!isImage) {
+    return false;
+  }
+
+  return isImage;
+}
+
+export const everyIsValid = files => every(files, file => beforeUpload(file));
