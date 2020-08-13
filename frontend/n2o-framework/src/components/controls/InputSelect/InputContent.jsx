@@ -10,6 +10,13 @@ import isEqual from 'lodash/isEqual';
 
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
 
+const textLengthStyle = {
+  position: 'absolute',
+  zIndex: -9999,
+  opacity: 0,
+  pointerEvents: 'none',
+};
+
 /**
  * InputSelectGroup
  * @reactProps {boolean} disabled - флаг неактивности
@@ -45,17 +52,38 @@ class InputContent extends React.Component {
 
     this.state = {
       paddingTextArea: {},
+      notEnoughPlace: false,
     };
+
+    this._textRef = null;
   }
 
   componentDidMount() {
     this.calcPaddingTextarea();
   }
 
-  componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.selected, this.props.selected)) {
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      !isEqual(prevProps.selected, this.props.selected) ||
+      !isEqual(prevProps.value, this.props.value)
+    ) {
       this.calcPaddingTextarea();
     }
+
+    // if (!isEqual(prevProps.value, this.props.value)) {
+    //   this.checkTextOnEnoughPlace();
+    // }
+
+    // if (!prevState.notEnoughPlace && this.state.notEnoughPlace) {
+    //   console.log('point');
+    //   this.setState(prevProps => ({
+    //     paddingTextArea: {
+    //       ...prevProps.paddingTextArea,
+    //       paddingTop: prevProps.paddingTextArea.paddingTop + 45,
+    //       paddingLeft: 12,
+    //     },
+    //   }));
+    // }
   }
 
   getHeight(el) {
@@ -69,6 +97,24 @@ class InputContent extends React.Component {
   getMargin(item, propertyName) {
     return +split(window.getComputedStyle(item)[propertyName], 'px')[0];
   }
+
+  setTextRef = el => {
+    this._textRef = el;
+  };
+
+  checkTextOnEnoughPlace = () => {
+    const { _textarea } = this.props;
+    const textareaStyles = window.getComputedStyle(_textarea);
+    const notEnoughPlace =
+      _textarea.offsetWidth -
+        (parseInt(textareaStyles.paddingLeft) +
+          parseInt(textareaStyles.paddingRight)) <=
+      this._textRef.offsetWidth;
+
+    this.setState({ notEnoughPlace });
+
+    return notEnoughPlace;
+  };
 
   calcPaddingTextarea() {
     const { _textarea, _selectedList, selected } = this.props;
@@ -92,6 +138,7 @@ class InputContent extends React.Component {
         },
         0
       );
+
       const lastItem = selectedList[selectedList.length - 1];
 
       if (lastItem) {
@@ -252,6 +299,9 @@ class InputContent extends React.Component {
 
     return (
       <React.Fragment>
+        <span style={textLengthStyle} ref={this.setTextRef}>
+          {value}
+        </span>
         {multiSelect ? (
           <React.Fragment>
             <SelectedItems
