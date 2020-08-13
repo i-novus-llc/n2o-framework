@@ -1,75 +1,49 @@
 import React from 'react';
 
-import map from 'lodash/map';
-import get from 'lodash/get';
-import isUndefined from 'lodash/isUndefined';
+import cn from 'classnames';
 
-const hasLink = (item, linkFieldId) => !isUndefined(get(item, linkFieldId));
-const lastItem = (data, index) => index === data.length - 1;
+import withFetchData from '../withFetchData';
 
-const getHref = (item, linkFieldId) => get(item, linkFieldId);
-const getLabel = (item, labelFieldId) => get(item, labelFieldId);
-
-function LabelWithSeparator({ label, lastItem, separator, data, index }) {
-  return `${label} ${!lastItem(data, index) && separator}`;
-}
-
-function TextRow({ data, labelFieldId, linkFieldId, separator }) {
-  return (
-    <div>
-      {map(data, (item, index) => {
-        const href = getHref(item, linkFieldId);
-        const label = getLabel(item, labelFieldId);
-
-        return hasLink(item, linkFieldId) ? (
-          <a href={href}>
-            {
-              <LabelWithSeparator
-                label={label}
-                lastItem={lastItem}
-                separator={separator}
-                data={data}
-                index={index}
-              />
-            }
-          </a>
-        ) : (
-          <LabelWithSeparator
-            label={label}
-            lastItem={lastItem}
-            separator={separator}
-            data={data}
-            index={index}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-function TextColumn({ data, labelFieldId, separator, linkFieldId }) {
-  return (
-    <ul>
-      {map(data, item => (
-        <li>{item.labelFieldId}</li>
-      ))}
-    </ul>
-  );
-}
+import { TextRow, TextColumn } from './utils';
 
 function OutputList({
-  data,
+  data = [],
   className,
-  labelFieldId,
-  linkFieldId,
-  target,
+  labelFieldId = 'name',
+  linkFieldId = 'href',
+  target = '_blank',
   direction = 'column',
   separator = ' ',
+  ...props
 }) {
   const columnType = direction === 'column';
   const rowType = direction === 'row';
 
-  return <>{columnType ? <TextColumn /> : <TextRow />}</>;
+  return (
+    <div className={cn('n2o-output-list', { [className]: className })}>
+      {columnType ? (
+        <TextColumn
+          data={data}
+          labelFieldId={labelFieldId}
+          linkFieldId={linkFieldId}
+          separator={separator}
+          direction={direction}
+          target={target}
+          {...props}
+        />
+      ) : (
+        <TextRow
+          data={data}
+          labelFieldId={labelFieldId}
+          linkFieldId={linkFieldId}
+          separator={separator}
+          direction={direction}
+          target={target}
+          {...props}
+        />
+      )}
+    </div>
+  );
 }
 
-export default OutputList;
+export default withFetchData(OutputList);
