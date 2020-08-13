@@ -70,20 +70,12 @@ class InputContent extends React.Component {
       this.calcPaddingTextarea();
     }
 
-    // if (!isEqual(prevProps.value, this.props.value)) {
-    //   this.checkTextOnEnoughPlace();
-    // }
-
-    // if (!prevState.notEnoughPlace && this.state.notEnoughPlace) {
-    //   console.log('point');
-    //   this.setState(prevProps => ({
-    //     paddingTextArea: {
-    //       ...prevProps.paddingTextArea,
-    //       paddingTop: prevProps.paddingTextArea.paddingTop + 45,
-    //       paddingLeft: 12,
-    //     },
-    //   }));
-    // }
+    if (
+      !isEqual(prevProps.value, this.props.value) &&
+      !this.state.notEnoughPlace
+    ) {
+      this.checkTextOnEnoughPlace();
+    }
   }
 
   getHeight(el) {
@@ -102,6 +94,12 @@ class InputContent extends React.Component {
     this._textRef = el;
   };
 
+  onSelect = item => {
+    this.props.onSelect(item);
+
+    if (this.state.notEnoughPlace) this.setState({ notEnoughPlace: false });
+  };
+
   checkTextOnEnoughPlace = () => {
     const { _textarea } = this.props;
     const textareaStyles = window.getComputedStyle(_textarea);
@@ -111,7 +109,17 @@ class InputContent extends React.Component {
           parseInt(textareaStyles.paddingRight)) <=
       this._textRef.offsetWidth;
 
-    this.setState({ notEnoughPlace });
+    if (notEnoughPlace) {
+      this.setState(prevState => ({
+        notEnoughPlace,
+        paddingTextArea: {
+          paddingTop:
+            prevState.paddingTextArea.paddingTop +
+            45 * Math.ceil(this._textRef.offsetWidth / _textarea.offsetWidth),
+          paddingLeft: 12,
+        },
+      }));
+    }
 
     return notEnoughPlace;
   };
@@ -145,12 +153,14 @@ class InputContent extends React.Component {
         mainHeight = this.getHeight(_textarea) - this.getHeight(lastItem);
       }
 
-      this.setState({
-        paddingTextArea: {
-          paddingTop: selected.length === 0 ? 5 : mainHeight,
-          paddingLeft: selected.length === 0 ? 10 : mainWidth || undefined,
-        },
-      });
+      if (!this.state.notEnoughPlace) {
+        this.setState({
+          paddingTextArea: {
+            paddingTop: selected.length === 0 ? 5 : mainHeight,
+            paddingLeft: selected.length === 0 ? 10 : mainWidth || undefined,
+          },
+        });
+      }
     }
   }
 
@@ -178,7 +188,6 @@ class InputContent extends React.Component {
       setActiveValueId,
       disabledValues,
       options,
-      onSelect,
       onClick,
       isExpanded,
       autoFocus,
@@ -254,7 +263,7 @@ class InputContent extends React.Component {
           find(options, item => item[valueFieldId] === activeValueId) || value;
 
         if (newValue) {
-          onSelect(newValue);
+          this.onSelect(newValue);
           setActiveValueId(null);
         }
       } else if (e.key === 'Escape') {
