@@ -103,7 +103,7 @@ export class InputNumber extends React.Component {
     }
 
     if (matchesWhiteList(nextValue) || this.pasted) {
-      if (value > this.props.max) {
+      if (value > this.props.max || value < this.props.min) {
         return;
       } else {
         this.setState({ value: this.resolveValue(value) }, () => {
