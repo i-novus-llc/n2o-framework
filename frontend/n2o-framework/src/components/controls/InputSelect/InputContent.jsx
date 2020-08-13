@@ -108,8 +108,8 @@ class InputContent extends React.Component {
   };
 
   checkTextOnEnoughPlace = () => {
-    if (!_textarea) return;
     const { _textarea } = this.props;
+    if (!_textarea) return;
     const textareaStyles = window.getComputedStyle(_textarea);
     const notEnoughPlace =
       _textarea.offsetWidth -
