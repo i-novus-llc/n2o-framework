@@ -1,0 +1,21 @@
+{
+  "label": "Загрузите изображение",
+  "className": "custom-class",
+  "requestParam": "avatar",
+  "disabled": false,
+  "uploadUrl": "/n2o/data",
+  "deleteUrl": "/n2o/data/delete",
+  "showSize": true,
+  "showName": true,
+  "multi": false,
+  "autoUpload": true,
+  "listType": "image",
+  "lightBox": true,
+  "valueFieldId": "customId",
+  "labelFieldId": "customName",
+  "statusFieldId": "customStatus",
+  "sizeFieldId": "customSize",
+  "responseFieldId": "customResponse",
+  "urlFieldId": "customLink",
+  "icon": "fa fa-plus"
+}
