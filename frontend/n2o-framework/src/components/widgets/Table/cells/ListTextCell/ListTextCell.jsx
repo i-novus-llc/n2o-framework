@@ -13,10 +13,15 @@ function ListTextCell(props) {
 
   const tooltipList = get(model, fieldKey);
   const singleElement = tooltipList.length === 1;
+  const nullElements = tooltipList.length === 0;
 
   return (
     <div className="list-text-cell">
-      {singleElement ? first(tooltipList) : <Tooltip {...props} />}
+      {singleElement ? (
+        first(tooltipList)
+      ) : nullElements ? null : (
+        <Tooltip {...props} />
+      )}
     </div>
   );
 }
