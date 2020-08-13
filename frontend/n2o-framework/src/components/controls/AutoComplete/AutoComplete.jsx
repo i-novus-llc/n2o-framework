@@ -193,7 +193,7 @@ class AutoComplete extends React.Component {
           this.forceUpdate();
         }
 
-        onChange(value);
+        onChange(this.state.value);
       }
     );
   };
