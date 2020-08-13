@@ -97,10 +97,18 @@ class InputContent extends React.Component {
   onSelect = item => {
     this.props.onSelect(item);
 
-    if (this.state.notEnoughPlace) this.setState({ notEnoughPlace: false });
+    if (this.state.notEnoughPlace)
+      this.setState(prevState => ({
+        notEnoughPlace: false,
+        paddingTextArea: {
+          ...prevState.paddingTextArea,
+          paddingTop: prevState.paddingTextArea.paddingTop - 45,
+        },
+      }));
   };
 
   checkTextOnEnoughPlace = () => {
+    if (!_textarea) return;
     const { _textarea } = this.props;
     const textareaStyles = window.getComputedStyle(_textarea);
     const notEnoughPlace =
