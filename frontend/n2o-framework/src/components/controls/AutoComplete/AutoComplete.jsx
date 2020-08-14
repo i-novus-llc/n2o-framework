@@ -51,7 +51,7 @@ class AutoComplete extends React.Component {
     }
   };
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps, prevState) => {
     const { value, options, tags } = this.props;
 
     if (!isEqual(prevProps.options, options)) {
@@ -63,6 +63,13 @@ class AutoComplete extends React.Component {
         value: isArray(value) ? value : value ? [value] : [],
         input: value && !tags ? value : '',
       });
+    }
+
+    if (
+      prevState.input !== this.state.input &&
+      !this.checkOnIncludeInputInOptions()
+    ) {
+      this._setIsExpanded(false);
     }
   };
 
@@ -112,6 +119,16 @@ class AutoComplete extends React.Component {
     this._selectedList = selectedList;
   };
 
+  checkOnIncludeInputInOptions = () => {
+    const { options, valueFieldId } = this.props;
+    return !!find(
+      options,
+      item =>
+        includes(item[valueFieldId], this.state.input) ||
+        isEmpty(this.state.input)
+    );
+  };
+
   onFocus = () => {
     const { openOnFocus } = this.props;
 
@@ -121,7 +138,7 @@ class AutoComplete extends React.Component {
   };
 
   onClick = () => {
-    this._setIsExpanded(true);
+    if (this.checkOnIncludeInputInOptions()) this._setIsExpanded(true);
   };
 
   _handleDataSearch = (input, delay = 400, callback) => {
