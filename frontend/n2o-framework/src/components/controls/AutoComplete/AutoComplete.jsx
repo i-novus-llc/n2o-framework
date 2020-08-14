@@ -65,11 +65,8 @@ class AutoComplete extends React.Component {
       });
     }
 
-    if (
-      prevState.input !== this.state.input &&
-      !this.checkOnIncludeInputInOptions()
-    ) {
-      this._setIsExpanded(false);
+    if (prevState.input !== this.state.input) {
+      this._setIsExpanded(this.checkOnIncludeInputInOptions());
     }
   };
 
