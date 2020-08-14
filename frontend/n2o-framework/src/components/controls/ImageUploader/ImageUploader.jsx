@@ -1,95 +1,57 @@
 import React from 'react';
-
-import Dropzone from 'react-dropzone';
-
-import cn from 'classnames';
+import PropTypes from 'prop-types';
 
 import isEmpty from 'lodash/isEmpty';
 
-import Button from 'reactstrap/lib/Button';
-import ImageUploaderList from './ImageUploaderList';
+import withFileUploader from '../FileUploader/withFileUploader';
+import ImageUpload from './ImageUpload';
 
-function ImageUploader(props) {
-  const {
-    uploading,
-    statusBarColor,
-    onRemove,
-    autoUpload,
-    showSize,
-    showName,
-    disabled,
-    children,
-    onImagesDrop,
-    onDragEnter,
-    onDragLeave,
-    multiple,
-    visible,
-    className,
-    files,
-    imgFiles,
-    componentClass,
-    onStartUpload,
-    uploaderClass,
-    saveBtnStyle,
-    lightBox,
-    listType,
-    imgError,
-  } = props;
-  const showControl = multiple || (!multiple && isEmpty(files));
+function defaultDropZone(icon, label) {
   return (
     <React.Fragment>
-      {visible && (
-        <div>
-          <div
-            className={`n2o-image-uploader-container ${componentClass}-container`}
-          >
-            {!disabled && (
-              <Dropzone
-                className={cn('n2o-image-uploader-control', componentClass, {
-                  'd-none': !showControl,
-                  [className]: className,
-                  [uploaderClass]: uploaderClass,
-                  'img-error': !isEmpty(imgError),
-                })}
-                accept={'image/*'}
-                multiple={multiple}
-                disabled={disabled}
-                onDrop={onImagesDrop}
-                onDragEnter={onDragEnter}
-                onDragLeave={onDragLeave}
-              >
-                {children}
-              </Dropzone>
-            )}
-            {!isEmpty(files) && (
-              <ImageUploaderList
-                files={files}
-                uploading={uploading}
-                statusBarColor={statusBarColor}
-                onRemove={onRemove}
-                autoUpload={autoUpload}
-                showSize={showSize}
-                showName={showName}
-                lightBox={lightBox}
-                disabled={disabled}
-                listType={listType}
-                imgFiles={imgFiles}
-              />
-            )}
-          </div>
-          {!autoUpload && (
-            <Button
-              className={'n2o-drop-zone-save-btn'}
-              style={saveBtnStyle}
-              onClick={onStartUpload}
-            >
-              Сохранить
-            </Button>
-          )}
-        </div>
-      )}
+      <div className={icon} />
+      {label}
     </React.Fragment>
   );
 }
 
-export default ImageUploader;
+function ImageUploader(props) {
+  const { icon, label, children, imgError } = props;
+  const currentLabel = !isEmpty(imgError) ? imgError.message : label;
+  return (
+    <ImageUpload
+      {...props}
+      children={children || defaultDropZone(icon, currentLabel)}
+      componentClass={'n2o-drop-zone'}
+    />
+  );
+}
+
+ImageUploader.defaultProps = {
+  saveBtnStyle: {
+    marginTop: '10px',
+  },
+};
+
+ImageUploader.propTypes = {
+  label: PropTypes.string,
+  uploading: PropTypes.object,
+  icon: PropTypes.string,
+  files: PropTypes.arrayOf(PropTypes.object),
+  className: PropTypes.string,
+  onDrop: PropTypes.func,
+  autoUpload: PropTypes.bool,
+  onRemove: PropTypes.func,
+  onStartUpload: PropTypes.func,
+  saveBtnStyle: PropTypes.object,
+  visible: PropTypes.bool,
+  disabled: PropTypes.bool,
+  requestParam: PropTypes.string,
+  maxSize: PropTypes.number,
+  minSize: PropTypes.number,
+  multiple: PropTypes.bool,
+  onChange: PropTypes.func,
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+};
+
+export default withFileUploader(ImageUploader);

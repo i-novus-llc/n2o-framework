@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import ImageUploaderDropZone from './ImageUploaderDropZone';
+import ImageUploaderDropZone from './ImageUploader';
 import metadata from './ImageUploader.meta.json';
 import withForm from 'N2oStorybook/decorators/withForm';
 import uniqueId from 'lodash/uniqueId';
