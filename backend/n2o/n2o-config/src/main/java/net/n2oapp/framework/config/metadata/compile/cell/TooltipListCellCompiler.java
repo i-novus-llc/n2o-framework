@@ -24,7 +24,6 @@ public class TooltipListCellCompiler extends AbstractCellCompiler<N2oTooltipList
         N2oTooltipListCell cell = new N2oTooltipListCell();
         build(cell, source, context, p, property("n2o.api.cell.tooltip_list.src"));
         cell.setLabel(source.getLabel());
-        cell.setOneLabel(source.getOneLabel());
         cell.setFewLabel(source.getFewLabel());
         cell.setManyLabel(source.getManyLabel());
         cell.setDashedLabel(p.cast(source.getDashedLabel(), p.resolve(property("n2o.api.cell.tooltip_list.dashed_label"), Boolean.class)));

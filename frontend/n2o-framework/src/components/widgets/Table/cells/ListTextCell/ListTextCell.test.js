@@ -66,7 +66,7 @@ describe('<ListTextCell />', () => {
       fieldKey: 'test',
       model: { test: ['1'] },
     });
-    expect(wrapperOneLabel.text()).toBe('1 объект');
+    expect(wrapperOneLabel.text()).toBe('1');
 
     const { wrapper: wrapperFewLabel } = setupImageCell({
       label: 'Объектов {size} шт',
