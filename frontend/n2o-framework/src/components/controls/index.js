@@ -27,6 +27,7 @@ import Pills from './Pills';
 import AutoComplete from './AutoComplete/AutoComplete';
 import CodeViewer from './CodeViewer/CodeViewer';
 import ProgressControl from './ProgressControl/ProgressControl';
+import ImageUploader from './ImageUploader/ImageUploader';
 
 export default {
   InputText: InputText,
@@ -58,4 +59,5 @@ export default {
   Pills: Pills,
   AutoComplete: AutoComplete,
   ProgressControl: ProgressControl,
+  ImageUploader: ImageUploader,
 };
