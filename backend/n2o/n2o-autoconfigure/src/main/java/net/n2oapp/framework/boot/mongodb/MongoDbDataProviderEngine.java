@@ -37,7 +37,6 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     public static final String FILTERS = "filters";
     private String connectionUrl;
     private String databaseName;
-    private MongoClient mongoClient;
     private ObjectMapper mapper;
     private Function<String, Integer> defaultSiffixIdx = str -> {
         if (str.startsWith("."))
@@ -59,21 +58,16 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
         if (connUrl == null)
             throw new N2oException("Need to define n2o.engine.mongodb.connection_url property");
 
-        mongoClient = new MongoClient(new MongoClientURI(connUrl));
-
-        return mongoClient
-                .getDatabase(dbName)
-                .getCollection(invocation.getCollectionName());
+        try (MongoClient mongoClient = new MongoClient(new MongoClientURI(connUrl))){
+            return mongoClient
+                    .getDatabase(dbName)
+                    .getCollection(invocation.getCollectionName());
+        }
     }
 
     @Override
     public Object invoke(N2oMongoDbDataProvider invocation, Map<String, Object> inParams) {
-        try {
             return execute(invocation, inParams, getCollection(invocation));
-        } finally {
-            if (mongoClient != null)
-                mongoClient.close();
-        }
     }
 
     @Override
