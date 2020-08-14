@@ -36,12 +36,15 @@ function ImageUpload(props) {
     imgError,
   } = props;
   const showControl = multiple || (!multiple && isEmpty(files));
+  const componentClassContainer = `${componentClass}-container`;
   return (
     <React.Fragment>
       {visible && (
         <div>
           <div
-            className={`n2o-image-uploader-container ${componentClass}-container`}
+            className={cn('n2o-image-uploader-container', {
+              [componentClassContainer]: componentClass,
+            })}
           >
             {!disabled && (
               <Dropzone
