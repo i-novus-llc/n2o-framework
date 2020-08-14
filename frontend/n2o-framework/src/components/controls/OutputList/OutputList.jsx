@@ -7,19 +7,18 @@ import cn from 'classnames';
 
 import { Link } from 'react-router-dom';
 
-import { getHref, getLabel, hasLink, valueWithSeparator } from './utils';
+import { getHref, getLabel, hasLink, lastItem } from './utils';
 
 function OutputList({
-  value = [],
+  value,
   className,
-  labelFieldId = 'name',
-  linkFieldId = 'href',
-  target = '_blank',
-  direction = 'column',
-  separator = '',
+  labelFieldId,
+  linkFieldId,
+  target,
+  direction,
+  separator,
 }) {
-  const directionClassName = `output-${direction}`;
-  const list = valueWithSeparator(value, labelFieldId, separator);
+  const directionClassName = `n2o-output-list_${direction}_direction`;
 
   return (
     <div
@@ -27,8 +26,14 @@ function OutputList({
         [className]: className,
       })}
     >
-      {map(list, item => {
-        const label = <>{getLabel(item, labelFieldId)}&nbsp;</>;
+      {map(value, (item, index) => {
+        const label = (
+          <>
+            {getLabel(item, labelFieldId) +
+              `${!lastItem(value, index) ? separator : ''}`}
+            &nbsp;
+          </>
+        );
         const href = getHref(item, linkFieldId);
         const link = hasLink(item, linkFieldId);
 
