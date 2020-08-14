@@ -1,7 +1,7 @@
 .n2o-output-list {
-  &__items-list {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
+  display: flex;
+}
+
+.n2o-output-list.output-column {
+  flex-direction: column;
 }

@@ -61,7 +61,7 @@ stories
   .add(
     'OutputList row links',
     () => {
-      return <OutputList {...OutputListJson} data={data} />;
+      return <OutputList {...OutputListJson} value={data} />;
     },
     {
       info: {
@@ -86,7 +86,7 @@ stories
   .add(
     'OutputList row',
     () => {
-      return <OutputList {...OutputListJson} data={data2} />;
+      return <OutputList {...OutputListJson} value={data2} />;
     },
     {
       info: {
@@ -109,9 +109,11 @@ stories
     }
   )
   .add(
-    'without separator',
+    'default space separator',
     () => {
-      return <OutputList {...omit(OutputListJson, 'separator')} data={data2} />;
+      return (
+        <OutputList {...omit(OutputListJson, 'separator')} value={data2} />
+      );
     },
     {
       info: {
@@ -136,7 +138,7 @@ stories
     'OutputList column links',
     () => {
       return (
-        <OutputList {...OutputListJson} data={data} direction={'column'} />
+        <OutputList {...OutputListJson} value={data} direction={'column'} />
       );
     },
     {
@@ -163,7 +165,7 @@ stories
     'OutputList column',
     () => {
       return (
-        <OutputList {...OutputListJson} data={data2} direction={'column'} />
+        <OutputList {...OutputListJson} value={data2} direction={'column'} />
       );
     },
     {

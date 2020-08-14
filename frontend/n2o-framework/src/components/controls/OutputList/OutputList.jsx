@@ -1,49 +1,87 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+import map from 'lodash/map';
 
 import cn from 'classnames';
 
-import withFetchData from '../withFetchData';
+import { Link } from 'react-router-dom';
 
-import { TextRow, TextColumn } from './utils';
+import { getHref, getLabel, hasLink, valueWithSeparator } from './utils';
 
 function OutputList({
-  data = [],
+  value = [],
   className,
   labelFieldId = 'name',
   linkFieldId = 'href',
   target = '_blank',
   direction = 'column',
-  separator = ' ',
-  ...props
+  separator = '',
 }) {
-  const columnType = direction === 'column';
-  const rowType = direction === 'row';
+  const directionClassName = `output-${direction}`;
+  const list = valueWithSeparator(value, labelFieldId, separator);
 
   return (
-    <div className={cn('n2o-output-list', { [className]: className })}>
-      {columnType ? (
-        <TextColumn
-          data={data}
-          labelFieldId={labelFieldId}
-          linkFieldId={linkFieldId}
-          separator={separator}
-          direction={direction}
-          target={target}
-          {...props}
-        />
-      ) : (
-        <TextRow
-          data={data}
-          labelFieldId={labelFieldId}
-          linkFieldId={linkFieldId}
-          separator={separator}
-          direction={direction}
-          target={target}
-          {...props}
-        />
-      )}
+    <div
+      className={cn('n2o-output-list', directionClassName, {
+        [className]: className,
+      })}
+    >
+      {map(list, item => {
+        const label = <>{getLabel(item, labelFieldId)}&nbsp;</>;
+        const href = getHref(item, linkFieldId);
+        const link = hasLink(item, linkFieldId);
+
+        return link ? (
+          <Link to={href} target={target} className="n2o-output-list__link">
+            {label}
+          </Link>
+        ) : (
+          <span className="n2o-output-list__text">{label}</span>
+        );
+      })}
     </div>
   );
 }
 
-export default withFetchData(OutputList);
+OutputList.propTypes = {
+  /**
+   * элементы OutputList, строки или ссылки
+   */
+  value: PropTypes.array,
+  /**
+   * кастомный класс контейнера
+   */
+  className: PropTypes.string,
+  /**
+   * id по которому из value берется текст row или link
+   */
+  labelFieldId: PropTypes.string,
+  /**
+   * id по которому из value берется href для link
+   */
+  linkFieldId: PropTypes.string,
+  /**
+   * Тип ссылки
+   */
+  target: PropTypes.string,
+  /**
+   * направление OutputList. row - элементы в строку. column(default) - элементы списком
+   */
+  direction: PropTypes.string,
+  /**
+   * разделитель между элементами (space default)
+   */
+  separator: PropTypes.string,
+};
+
+OutputList.defaultProps = {
+  value: [],
+  labelFieldId: 'name',
+  linkFieldId: 'href',
+  target: '_blank',
+  direction: 'column',
+  separator: '',
+};
+
+export default OutputList;
