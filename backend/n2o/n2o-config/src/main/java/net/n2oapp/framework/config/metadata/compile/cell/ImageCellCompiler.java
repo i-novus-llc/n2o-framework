@@ -26,7 +26,7 @@ public class ImageCellCompiler extends AbstractCellCompiler<N2oImageCell, N2oIma
         if (source.getShape() != null) {
             cell.setShape(source.getShape());
         }
-        cell.setWidth(source.getWidth());
+        cell.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.cell.image.width"), Integer.class)));
         cell.setUrl(source.getUrl());
         compileAction(cell, source, context, p);
         return cell;

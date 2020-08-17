@@ -51,5 +51,8 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getProperties().get("width"), is(30));
 
         assertThat(cell.getCompiledAction(), instanceOf(LinkActionImpl.class));
+
+        cell = (N2oImageCell) table.getComponent().getCells().get(1);
+        assertThat(cell.getWidth(), is(100));
     }
 }
