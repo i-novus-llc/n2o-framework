@@ -33,6 +33,7 @@ public class ListWidgetJsonTest extends JsonMetadataTestBase {
                         "dataProvider.queryMapping",
                         "list.leftTop.title",
                         "list.leftTop.fieldKey",
+                        "list.leftTop.width",
                         "list.leftBottom.as",
                         "list.leftBottom.fieldKey",
                         "list.header.as",
