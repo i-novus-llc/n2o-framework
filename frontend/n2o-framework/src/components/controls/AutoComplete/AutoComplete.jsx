@@ -12,7 +12,7 @@ import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
 import isNil from 'lodash/isNil';
 import some from 'lodash/some';
-import { compose } from 'recompose';
+import { compose, mapProps } from 'recompose';
 import listContainer from '../listContainer';
 import onClickOutside from 'react-onclickoutside';
 import cn from 'classnames';
@@ -118,6 +118,10 @@ class AutoComplete extends React.Component {
 
   checkOnIncludeInputInOptions = () => {
     const { options, valueFieldId } = this.props;
+    console.log('point');
+    console.log(options);
+    console.log(this.props);
+    console.log(this.state.input);
     return !!find(
       options,
       item =>
@@ -549,6 +553,10 @@ AutoComplete.defaultProps = {
 
 const enhance = compose(
   listContainer,
+  mapProps(props => ({
+    ...props,
+    options: !isEmpty(props.data) ? props.data : props.options,
+  })),
   onClickOutside
 );
 
