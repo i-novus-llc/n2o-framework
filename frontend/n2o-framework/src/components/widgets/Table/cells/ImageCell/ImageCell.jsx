@@ -47,6 +47,7 @@ class ImageCell extends React.Component {
       onClick,
       action,
       visible,
+      width,
     } = this.props;
 
     return (
@@ -57,6 +58,7 @@ class ImageCell extends React.Component {
           className={className}
         >
           <img
+            style={{ width: `${width}px` }}
             src={get(model, fieldKey || id)}
             alt={title}
             className={getImageClass(shape)}
