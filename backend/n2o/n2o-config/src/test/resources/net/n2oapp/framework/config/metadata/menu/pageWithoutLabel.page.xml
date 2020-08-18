@@ -1,11 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-1.0">
-    <layout>n2o/layout/single</layout>
-    <name>test2</name>
-
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+      name="test2">
     <regions>
-        <region place="single" type="tabs">
-        </region>
+        <region place="single" type="tabs"/>
     </regions>
-
 </page>
