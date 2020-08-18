@@ -954,7 +954,7 @@
                         <xs:documentation>Разделитель между элементами.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="direction" type="xs:string" default="column">
+                <xs:attribute name="direction" default="column">
                     <xs:simpleType>
                         <xs:annotation>
                             <xs:documentation>Направление отображения элементов.</xs:documentation>
