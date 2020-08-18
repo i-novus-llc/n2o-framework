@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция ячейки с картинкой
+ * Компиляция ячейки с изображением
  */
 @Component
 public class ImageCellCompiler extends AbstractCellCompiler<N2oImageCell, N2oImageCell> {
@@ -26,6 +26,7 @@ public class ImageCellCompiler extends AbstractCellCompiler<N2oImageCell, N2oIma
         if (source.getShape() != null) {
             cell.setShape(source.getShape());
         }
+        cell.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.cell.image.width"), Integer.class)));
         cell.setUrl(source.getUrl());
         compileAction(cell, source, context, p);
         return cell;
