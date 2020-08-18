@@ -15,6 +15,7 @@
     <xs:element name="calendar" type="calendarReferenceDefinition"/>
     <xs:element name="widget" type="customReferenceDefinition"/>
     <xs:element name="html" type="htmlReferenceDefinition"/>
+    <xs:element name="tiles" type="tilesReferenceDefinition"/>
 
     <xs:complexType name="widgets" abstract="true">
         <xs:sequence>
@@ -794,6 +795,80 @@
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="tilesReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>
+                        Виджет Tiles
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="cols-sm" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Количество колонок в мобильной вресии, по умолчнаию 2.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="cols-md" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Количество колонок в планшетах, по умолчнаию 3.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="cols-lg" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Количество колонок в десктопной версии, по умолчнаию 5.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:element name="content">
+                    <xs:complexType>
+                        <xs:annotation>
+                            <xs:documentation>Содержимое виджета.
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:sequence name="content">
+                            <xs:element name="block" type="tilesBlockDefinition"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="tilesBlockDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Tile.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор плитки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="class" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Css class</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="style" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Стиль плитки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Тип плитки.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:element name="cell" type="cell:cellDefinition">
+            <xs:annotation>
+                <xs:documentation>Ячейка с содержимым плитки.</xs:documentation>
+            </xs:annotation>
+        </xs:element>
     </xs:complexType>
 
     <xs:complexType name="rowsTableDefinition">
