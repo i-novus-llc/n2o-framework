@@ -46,9 +46,9 @@ public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
         MetaActions widgetActions = new MetaActions();
         compileToolbarAndAction(tiles, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
 
-        tiles.setColsSm(source.getColsSm());
-        tiles.setColsMd(source.getColsMd());
-        tiles.setColsLg(source.getColsLg());
+        tiles.setColsSm(source.getColsSm() > 0 ? source.getColsSm() : 2);
+        tiles.setColsMd(source.getColsMd() > 0 ? source.getColsMd() : 3);
+        tiles.setColsLg(source.getColsLg() > 0 ? source.getColsLg() : 5);
         tiles.setSrc(source.getSrc());
         List<Tiles.Tile> tls = new LinkedList<>();
         for (N2oTiles.Block block : source.getContent()) {

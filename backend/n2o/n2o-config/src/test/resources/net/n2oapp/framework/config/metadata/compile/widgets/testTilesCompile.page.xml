@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <region>
+            <tiles id="tiles_test" cols-sm="1" cols-md="2" сols-lg="4">
+                <content>
+                    <block id="id1" class="test1" style="test1" src="tile1">
+                        <cell src="cell1"/>
+                    </block>
+                    <block id="id2" class="test2" style="test2" src="tile2">
+                        <cell src="cell2"/>
+                    </block>
+                </content>
+            </tiles>
+            <tiles id="tiles_default">
+                <content>
+                    <block id="id1" class="test1" style="test1" src="tile1">
+                        <cell src="cell1"/>
+                    </block>
+                    <block id="id2" class="test2" style="test2" src="tile2">
+                        <cell src="cell2"/>
+                    </block>
+                </content>
+            </tiles>
+        </region>
+    </regions>
+</page>

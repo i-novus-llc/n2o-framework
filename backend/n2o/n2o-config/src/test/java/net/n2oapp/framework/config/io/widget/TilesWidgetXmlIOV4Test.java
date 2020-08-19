@@ -10,7 +10,7 @@ import org.junit.Test;
  */
 public class TilesWidgetXmlIOV4Test {
     @Test
-    public void testTableXmlIOV4() {
+    public void testTilesXmlIOV4() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
 
         tester.ios(new TilesWidgetIOV4())

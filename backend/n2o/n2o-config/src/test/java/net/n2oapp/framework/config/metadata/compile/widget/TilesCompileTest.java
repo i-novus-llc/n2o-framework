@@ -1,10 +1,13 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.Tiles;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.widget.TilesWidgetIOV4;
-import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.pack.N2oCellsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
+import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,38 +25,37 @@ public class TilesCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack())
-                .ios(new TilesWidgetIOV4())
-                .compilers(new TilesCompiler());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(), new N2oCellsPack());
     }
 
     @Test
     public void testTiles() {
-        Tiles tiles = (Tiles) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTilesCompile.widget.xml")
-                .get(new WidgetContext("testTilesCompile"));
-        assertThat(tiles.getId(), is("$testTilesCompile"));
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTilesCompile.page.xml")
+                .get(new PageContext("testTilesCompile"));
+        Tiles tiles = (Tiles) page.getWidgets().get("testTilesCompile_tiles_test");
+
         assertThat(tiles.getColsSm(), is(1));
         assertThat(tiles.getColsMd(), is(2));
-        assertThat(tiles.getColsLg(), is(5));
-//        assertThat(tiles.getSrc(), is("TilesWidget"));
+        assertThat(tiles.getColsLg(), is(4));
 
         Tiles.Tile tile = tiles.getTile().get(0);
         assertThat(tile.getId(), is("id1"));
         assertThat(tile.getClassName(), is("test1"));
         assertThat(tile.getStyle(), is("test1"));
-        assertThat(tile.getSrc(), is("tile1")); //todo
-//        assertThat(tile.getComponent().getId(), is("cId1"));
+        assertThat(tile.getSrc(), is("tile1"));
         assertThat(tile.getComponent().getSrc(), is("cell1"));
 
         tile = tiles.getTile().get(1);
         assertThat(tile.getId(), is("id2"));
         assertThat(tile.getClassName(), is("test2"));
         assertThat(tile.getStyle(), is("test2"));
-        assertThat(tile.getSrc(), is("tile2")); //todo
-//        assertThat(tile.getComponent().getId(), is("cId2"));
+        assertThat(tile.getSrc(), is("tile2"));
         assertThat(tile.getComponent().getSrc(), is("cell2"));
 
-
-//        assertThat(tiles.getDataProvider().getUrl(), is("n2o/data/testTilesCompile"));
+        tiles = (Tiles) page.getWidgets().get("testTilesCompile_tiles_default");
+        assertThat(tiles.getColsSm(), is(2));
+        assertThat(tiles.getColsMd(), is(3));
+        assertThat(tiles.getColsLg(), is(5));
     }
+
 }
