@@ -28,7 +28,7 @@ public class TilesWidgetIOV4 extends WidgetElementIOv4<N2oTiles> {
         super.io(e, t, p);
         p.attributeInteger(e, "cols-sm", t::getColsSm, t::setColsSm);
         p.attributeInteger(e, "cols-md", t::getColsMd, t::setColsMd);
-        p.attributeInteger(e, "сols-lg", t::getColsLg, t::setColsLg);
+        p.attributeInteger(e, "cols-lg", t::getColsLg, t::setColsLg);
         p.anyChildren(e, "content", t::getContent, t::setContent, p.oneOf(N2oTiles.Block.class)
                 .add("block", N2oTiles.Block.class, this::content));
     }
