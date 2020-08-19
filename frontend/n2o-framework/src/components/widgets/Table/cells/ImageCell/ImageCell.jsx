@@ -58,7 +58,7 @@ class ImageCell extends React.Component {
           className={className}
         >
           <img
-            style={width ? { width: `${width}px` } : {}}
+            style={{ width: `${width}px` }}
             src={get(model, fieldKey || id)}
             alt={title}
             className={getImageClass(shape)}
@@ -103,6 +103,7 @@ ImageCell.propTypes = {
 
 ImageCell.defaultProps = {
   visible: true,
+  width: 'auto',
 };
 
 export { ImageCell };
