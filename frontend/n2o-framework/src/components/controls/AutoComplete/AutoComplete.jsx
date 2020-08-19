@@ -64,10 +64,6 @@ class AutoComplete extends React.Component {
         input: value && !tags ? value : '',
       });
     }
-
-    if (prevState.input !== this.state.input) {
-      this._setIsExpanded(this.checkOnIncludeInputInOptions());
-    }
   };
 
   handleClickOutside = () => {
@@ -116,20 +112,6 @@ class AutoComplete extends React.Component {
     this._selectedList = selectedList;
   };
 
-  checkOnIncludeInputInOptions = () => {
-    const { options, valueFieldId } = this.props;
-    console.log('point');
-    console.log(options);
-    console.log(this.props);
-    console.log(this.state.input);
-    return !!find(
-      options,
-      item =>
-        includes(item[valueFieldId], this.state.input) ||
-        isEmpty(this.state.input)
-    );
-  };
-
   onFocus = () => {
     const { openOnFocus } = this.props;
 
@@ -139,7 +121,7 @@ class AutoComplete extends React.Component {
   };
 
   onClick = () => {
-    if (this.checkOnIncludeInputInOptions()) this._setIsExpanded(true);
+    this._setIsExpanded(true);
   };
 
   _handleDataSearch = (input, delay = 400, callback) => {
@@ -382,6 +364,7 @@ class AutoComplete extends React.Component {
                     groupFieldId={groupFieldId}
                     hasCheckboxes={hasCheckboxes}
                     format={format}
+                    renderIfEmpty={false}
                   >
                     <div className="n2o-alerts">
                       {alerts &&
