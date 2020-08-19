@@ -8447,10 +8447,10 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-crypto-pro@^1.1.0:
-  version "1.1.2"
-  resolved "https://registry.npmjs.org/crypto-pro/-/crypto-pro-1.1.2.tgz#77ebe6e9ca1ab67d513c0d8bda003370fae6b934"
-  integrity sha512-8X2rokyeF4zSELe7UKh57yB/w7vtTliQb4UyWZDGodOxmadZpLyaC/PzLUJsQ62+Zv3G0mdoM6j8qnP2aFijUw==
+crypto-pro@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/crypto-pro/-/crypto-pro-1.1.0.tgz#0fc852d21ec2d5a8c3ae02fff7e655e84941f404"
+  integrity sha1-D8hS0h7C1ajDrgL/9+ZV6ElB9AQ=
   dependencies:
     bowser "1.5.0"
 
