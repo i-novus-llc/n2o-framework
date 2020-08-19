@@ -13,9 +13,9 @@ import java.io.Serializable;
 @Setter
 public class N2oTiles extends N2oWidget {
 
-    private int colsSm;
-    private int colsMd;
-    private int colsLg;
+    private Integer colsSm;
+    private Integer colsMd;
+    private Integer colsLg;
     private Block[] content;
 
     @Getter

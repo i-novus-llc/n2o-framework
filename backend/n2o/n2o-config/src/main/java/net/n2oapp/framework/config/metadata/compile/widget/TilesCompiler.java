@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import java.util.LinkedList;
 import java.util.List;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция виджета Плитки
  */
@@ -46,9 +48,10 @@ public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
         MetaActions widgetActions = new MetaActions();
         compileToolbarAndAction(tiles, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
 
-        tiles.setColsSm(source.getColsSm() > 0 ? source.getColsSm() : 2);
-        tiles.setColsMd(source.getColsMd() > 0 ? source.getColsMd() : 3);
-        tiles.setColsLg(source.getColsLg() > 0 ? source.getColsLg() : 5);
+        tiles.setColsSm(p.cast(source.getColsSm(), p.resolve(property("n2o.api.widget.tiles.colsSm"), Integer.class)));
+        tiles.setColsMd(p.cast(source.getColsMd(), p.resolve(property("n2o.api.widget.tiles.colsMd"), Integer.class)));
+        tiles.setColsLg(p.cast(source.getColsLg(), p.resolve(property("n2o.api.widget.tiles.colsLg"), Integer.class)));
+
         List<Tiles.Tile> tls = new LinkedList<>();
         for (N2oTiles.Block block : source.getContent()) {
             Tiles.Tile tile = new Tiles.Tile();
@@ -56,7 +59,7 @@ public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
             tile.setStyle(block.getStyle());
             tile.setSrc(block.getSrc());
             tile.setClassName(block.getClassName());
-            tile.setComponent(block.getComponent());
+            tile.setComponent(p.compile(block.getComponent(), context, p));
             tls.add(tile);
         }
         tiles.setTile(tls);

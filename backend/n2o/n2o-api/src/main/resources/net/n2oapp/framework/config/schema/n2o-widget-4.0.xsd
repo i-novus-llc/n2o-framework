@@ -287,8 +287,10 @@
                         <xs:complexType>
                             <xs:sequence>
                                 <xs:element name="column" type="columnDefinition" maxOccurs="unbounded" minOccurs="1"/>
-                                <xs:element name="filter-column" type="filterColumnDefinition" maxOccurs="unbounded" minOccurs="0"/>
-                                <xs:element name="multi-column" type="multiColumnDefinition" maxOccurs="unbounded" minOccurs="0"/>
+                                <xs:element name="filter-column" type="filterColumnDefinition" maxOccurs="unbounded"
+                                            minOccurs="0"/>
+                                <xs:element name="multi-column" type="multiColumnDefinition" maxOccurs="unbounded"
+                                            minOccurs="0"/>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
@@ -336,7 +338,8 @@
                 </xs:attribute>
                 <xs:attribute name="check-on-select" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.</xs:documentation>
+                        <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="children" default="collapse">
@@ -617,7 +620,7 @@
                             </xs:annotation>
                             <xs:attribute name="value-field-id" type="xs:string">
                                 <xs:annotation>
-                                   <xs:documentation>Поле выборки, отвечающее за маппинг ресурсов.</xs:documentation>
+                                    <xs:documentation>Поле выборки, отвечающее за маппинг ресурсов.</xs:documentation>
                                 </xs:annotation>
                             </xs:attribute>
                             <xs:sequence>
@@ -701,7 +704,8 @@
                 </xs:attribute>
                 <xs:attribute name="views" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Список используемых видов отображения в календаре (через запятую).</xs:documentation>
+                        <xs:documentation>Список используемых видов отображения в календаре (через запятую).
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="min-time" type="xs:string">
@@ -761,7 +765,8 @@
                 </xs:attribute>
                 <xs:attribute name="disabled-field-id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за блокирование события для выбора.</xs:documentation>
+                        <xs:documentation>Поле выборки, отвечающее за блокирование события для выбора.
+                        </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -805,21 +810,21 @@
                         Виджет плитки.
                     </xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="cols-sm" type="xs:string">
+                <xs:attribute name="cols-sm" type="xs:integer">
                     <xs:annotation>
-                        <xs:documentation>Количество колонок в мобильной версии, по умолчнаию 2.
+                        <xs:documentation>Количество колонок в мобильной версии, по умолчанию 2.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="cols-md" type="xs:string">
+                <xs:attribute name="cols-md" type="xs:integer">
                     <xs:annotation>
-                        <xs:documentation>Количество колонок в планшетах, по умолчнаию 3.
+                        <xs:documentation>Количество колонок в планшетах, по умолчанию 3.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="cols-lg" type="xs:string">
+                <xs:attribute name="cols-lg" type="xs:integer">
                     <xs:annotation>
-                        <xs:documentation>Количество колонок в десктопной версии, по умолчнаию 5.
+                        <xs:documentation>Количество колонок в десктопной версии, по умолчанию 5.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -829,7 +834,7 @@
                             <xs:documentation>Содержимое виджета, список блоков (карточек).
                             </xs:documentation>
                         </xs:annotation>
-                        <xs:sequence name="content">
+                        <xs:sequence>
                             <xs:element name="block" type="tilesBlockDefinition"/>
                         </xs:sequence>
                     </xs:complexType>
@@ -864,7 +869,7 @@
                 <xs:documentation>Реализация блока (карточки), React компонент.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:element name="cell" type="cell:cellDefinition">
+        <xs:element name="cell" type="cell:cellDefinition" minOccurs="1">
             <xs:annotation>
                 <xs:documentation>Ячейка с содержимым блока (карточки).</xs:documentation>
             </xs:annotation>
