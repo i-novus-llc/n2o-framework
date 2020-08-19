@@ -1559,7 +1559,7 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 [source,xml]
 ----
 
-<tiles id="tiles_id" cols-sm="1" cols-md="2" сols-lg="5">
+<tiles id="tiles_id" cols-sm="1" cols-md="2" cols-lg="5">
     <content>
      ...
     </content>
@@ -1604,6 +1604,11 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 |style
 |Строка
 |Css стиль блока
+|
+
+|src
+|React компонент
+|Реализация карточки
 |
 
 |===

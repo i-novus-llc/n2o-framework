@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Клиентская модель виджета Плитки
+ * Клиентская модель виджета плитки
  */
 @Getter
 @Setter

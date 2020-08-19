@@ -802,12 +802,12 @@
             <xs:extension base="widgetDefinition">
                 <xs:annotation>
                     <xs:documentation>
-                        Виджет Tiles
+                        Виджет плитки.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="cols-sm" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Количество колонок в мобильной вресии, по умолчнаию 2.
+                        <xs:documentation>Количество колонок в мобильной версии, по умолчнаию 2.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -826,7 +826,7 @@
                 <xs:element name="content">
                     <xs:complexType>
                         <xs:annotation>
-                            <xs:documentation>Содержимое виджета.
+                            <xs:documentation>Содержимое виджета, список блоков (карточек).
                             </xs:documentation>
                         </xs:annotation>
                         <xs:sequence name="content">
@@ -841,32 +841,32 @@
     <xs:complexType name="tilesBlockDefinition">
         <xs:annotation>
             <xs:documentation>
-                Tile.
+                Блок (карточка).
             </xs:documentation>
         </xs:annotation>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Идентификатор плитки.</xs:documentation>
+                <xs:documentation>Идентификатор блока (карточки).</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Css class</xs:documentation>
+                <xs:documentation>Имя класса</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль плитки.</xs:documentation>
+                <xs:documentation>Стиль блока (карточки).</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Тип плитки.</xs:documentation>
+                <xs:documentation>Реализация блока (карточки), React компонент.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:element name="cell" type="cell:cellDefinition">
             <xs:annotation>
-                <xs:documentation>Ячейка с содержимым плитки.</xs:documentation>
+                <xs:documentation>Ячейка с содержимым блока (карточки).</xs:documentation>
             </xs:annotation>
         </xs:element>
     </xs:complexType>

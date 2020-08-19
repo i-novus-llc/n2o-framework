@@ -49,15 +49,14 @@ public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
         tiles.setColsSm(source.getColsSm() > 0 ? source.getColsSm() : 2);
         tiles.setColsMd(source.getColsMd() > 0 ? source.getColsMd() : 3);
         tiles.setColsLg(source.getColsLg() > 0 ? source.getColsLg() : 5);
-        tiles.setSrc(source.getSrc());
         List<Tiles.Tile> tls = new LinkedList<>();
         for (N2oTiles.Block block : source.getContent()) {
             Tiles.Tile tile = new Tiles.Tile();
             tile.setId(block.getId());
             tile.setStyle(block.getStyle());
-            tile.setSrc(block.getSrc()); //todo
+            tile.setSrc(block.getSrc());
             tile.setClassName(block.getClassName());
-            tile.setComponent(block.getComponent()); //todo
+            tile.setComponent(block.getComponent());
             tls.add(tile);
         }
         tiles.setTile(tls);
