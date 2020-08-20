@@ -5,46 +5,26 @@ import map from 'lodash/map';
 
 import cn from 'classnames';
 
-import { Link } from 'react-router-dom';
+import OutputListItem from './OutputListItem';
 
-import { getHref, getLabel, hasLink, lastItem } from './utils';
-
-function OutputList({
-  value,
-  className,
-  labelFieldId,
-  linkFieldId,
-  target,
-  direction,
-  separator,
-}) {
+function OutputList({ value, className, direction, ...rest }) {
   const directionClassName = `n2o-output-list_${direction}_direction`;
 
   return (
-    <div
+    <ul
       className={cn('n2o-output-list', directionClassName, {
         [className]: className,
       })}
     >
-      {map(value, (item, index) => {
-        const label = (
-          <>
-            {getLabel(item, labelFieldId) +
-              `${!lastItem(value, index) ? separator : ''}`}
-          </>
-        );
-        const href = getHref(item, linkFieldId);
-        const link = hasLink(item, linkFieldId);
-
-        return link ? (
-          <Link to={href} target={target} className="n2o-output-list__link">
-            {label}
-          </Link>
-        ) : (
-          <span className="n2o-output-list__text">{label}</span>
-        );
-      })}
-    </div>
+      {map(value, (item, index) => (
+        <OutputListItem
+          key={index}
+          {...rest}
+          {...item}
+          isLast={index === value.length - 1}
+        />
+      ))}
+    </ul>
   );
 }
 
@@ -85,7 +65,7 @@ OutputList.defaultProps = {
   linkFieldId: 'href',
   target: '_blank',
   direction: 'column',
-  separator: ' ',
+  separator: '',
 };
 
 export default OutputList;
