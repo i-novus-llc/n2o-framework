@@ -31,7 +31,6 @@ function OutputList({
           <>
             {getLabel(item, labelFieldId) +
               `${!lastItem(value, index) ? separator : ''}`}
-            &nbsp;
           </>
         );
         const href = getHref(item, linkFieldId);
@@ -86,7 +85,7 @@ OutputList.defaultProps = {
   linkFieldId: 'href',
   target: '_blank',
   direction: 'column',
-  separator: '',
+  separator: ' ',
 };
 
 export default OutputList;
