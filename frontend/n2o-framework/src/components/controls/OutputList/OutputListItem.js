@@ -30,7 +30,7 @@ function OutputListItem(props) {
           {label}
         </a>
       )}
-      {!isLast ? separator : ''}
+      <span className="white-space-pre">{!isLast ? separator : ''}</span>
     </li>
   );
 }
