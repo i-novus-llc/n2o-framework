@@ -5,6 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose, withPropsOnChange } from 'recompose';
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 import omit from 'lodash/omit';
+import get from 'lodash/get';
 
 import isUndefined from 'lodash/isUndefined';
 
@@ -23,6 +24,12 @@ import { validateField } from '../../core/validation/createValidator';
 import ModalDialog from '../actions/ModalDialog/ModalDialog';
 import { id } from '../../utils/id';
 import linkResolver from '../../utils/linkResolver';
+import PopoverConfirm from '../snippets/PopoverConfirm/PopoverConfirm';
+
+const ConfirmMode = {
+  POPOVER: 'popover',
+  MODAL: 'modal',
+};
 
 const RenderTooltip = ({ id, message }) => {
   return (
@@ -167,6 +174,7 @@ export default function withActionButton(options = {}) {
       render() {
         const { confirm, hint, disabled, message } = this.props;
         const { confirmVisible } = this.state;
+        const confirmMode = get(confirm, 'mode');
 
         const currentMessage = disabled ? message || hint : hint;
         return (
@@ -188,7 +196,15 @@ export default function withActionButton(options = {}) {
               onClick={this.handleClick}
               id={this.generatedButtonId}
             />
-            {confirm && (
+            {confirmMode === ConfirmMode.POPOVER ? (
+              <PopoverConfirm
+                {...this.mapConfirmProps(confirm)}
+                isOpen={confirmVisible}
+                onConfirm={this.handleConfirm}
+                onDeny={this.handleCloseConfirmModal}
+                target={this.generatedButtonId}
+              />
+            ) : confirmMode === ConfirmMode.MODAL ? (
               <ModalDialog
                 {...this.mapConfirmProps(confirm)}
                 visible={confirmVisible}
@@ -196,7 +212,7 @@ export default function withActionButton(options = {}) {
                 onDeny={this.handleCloseConfirmModal}
                 close={this.handleCloseConfirmModal}
               />
-            )}
+            ) : null}
           </div>
         );
       }
