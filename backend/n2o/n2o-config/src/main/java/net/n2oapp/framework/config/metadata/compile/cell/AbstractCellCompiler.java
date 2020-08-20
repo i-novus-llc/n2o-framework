@@ -36,7 +36,12 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
         compiled.setReactStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setJsonVisible(p.resolveJS(source.getVisible(), Boolean.class));
         compiled.setProperties(p.mapAttributes(source));
-        compiled.setTooltipFieldId(source.getTooltipFieldId());
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            AbstractColumn column = componentScope.unwrap(AbstractColumn.class);
+            if (column != null)
+                compiled.setTooltipFieldId(column.getTooltipFieldId());
+        }
         return compiled;
     }
 

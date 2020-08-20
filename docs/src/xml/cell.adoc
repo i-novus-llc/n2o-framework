@@ -33,11 +33,6 @@ http://n2oapp.net/framework/config/schema/n2o-cell-2.0
 |Видимость ячейки
 |
 
-|tooltip-field-id
-|Строка
-|Подсказка при наведении на ячейку.
-|
-
 |===
 
 === <text>
