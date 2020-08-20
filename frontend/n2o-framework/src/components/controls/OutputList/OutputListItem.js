@@ -1,5 +1,6 @@
 import React from 'react';
 import get from 'lodash/get';
+import cn from 'classnames';
 import { Link } from 'react-router-dom';
 
 function OutputListItem(props) {
@@ -11,11 +12,21 @@ function OutputListItem(props) {
   return (
     <li>
       {isInnerLink ? (
-        <Link to={href} className="n2o-output-list__link" target={target}>
+        <Link
+          to={href}
+          className={cn('n2o-output-list__item', 'n2o-output-list__item--link')}
+          target={target}
+        >
           {label}
         </Link>
       ) : (
-        <a href={href} target={target} className="n2o-output-list__link">
+        <a
+          href={href}
+          target={target}
+          className={cn('n2o-output-list__item', {
+            'n2o-output-list__item--link': !!href,
+          })}
+        >
           {label}
         </a>
       )}

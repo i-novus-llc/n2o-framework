@@ -8,7 +8,7 @@ import cn from 'classnames';
 import OutputListItem from './OutputListItem';
 
 function OutputList({ value, className, direction, ...rest }) {
-  const directionClassName = `n2o-output-list_${direction}_direction`;
+  const directionClassName = `n2o-output-list--${direction}`;
 
   return (
     <ul

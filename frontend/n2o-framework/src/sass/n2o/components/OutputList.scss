@@ -5,7 +5,13 @@
   margin: 0;
   list-style: none;
 
-  &_column_direction {
+  &__item {
+    &--link {
+      text-decoration: underline;
+    }
+  }
+
+  &--column {
     flex-direction: column;
   }
 }
