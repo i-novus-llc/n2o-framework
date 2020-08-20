@@ -54,7 +54,6 @@ public abstract class AbstractMenuItemIO<T extends AbstractMenuItem> implements 
     private void dependency(Element e, AbstractMenuItem.Dependency t, IOProcessor p) {
         p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
         p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
-        p.attributeArray(e, "on", ",", t::getOn, t::setOn);
         p.text(e, t::getValue, t::setValue);
     }
 
