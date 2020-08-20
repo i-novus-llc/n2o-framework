@@ -35,6 +35,7 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
         compiled.setCssClass(p.resolveJS(source.getCssClass()));
         compiled.setReactStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setJsonVisible(p.resolveJS(source.getVisible(), Boolean.class));
+        compiled.setProperties(p.mapAttributes(source));
         return compiled;
     }
 
