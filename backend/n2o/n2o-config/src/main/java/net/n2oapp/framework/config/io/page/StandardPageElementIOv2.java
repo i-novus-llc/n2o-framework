@@ -8,7 +8,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись страницы версии 2.0
+ * Чтение\запись стандартной страницы версии 2.0
  */
 @Component
 public class StandardPageElementIOv2 extends BasePageElementIOv2<N2oStandardPage> {
