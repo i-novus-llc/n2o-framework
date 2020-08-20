@@ -2,7 +2,7 @@ import React from 'react';
 import StandardButton from './StandardButton';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
-import { replace } from 'connected-react-router';
+import { push } from 'connected-react-router';
 
 const mockStore = configureMockStore();
 const delay = timeout => new Promise(res => setTimeout(res, timeout));
@@ -48,7 +48,7 @@ describe('<StandardButton />', () => {
       });
       await wrapper.find('Button').simulate('click');
       await delay(100);
-      expect(store.getActions()[1]).toEqual(replace('/testUrl'));
+      expect(store.getActions()[1]).toEqual(push('/testUrl'));
     });
   });
 });
