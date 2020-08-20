@@ -1,9 +1,12 @@
 package net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.aware.CssClassAware;
+import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 
 import java.util.Map;
 
@@ -12,7 +15,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oAbstractCell implements N2oCell, CssClassAware {
+public abstract class N2oAbstractCell implements N2oCell, ExtensionAttributesAware, CssClassAware {
     @JsonProperty
     private String id;
     @JsonProperty
@@ -28,4 +31,11 @@ public abstract class N2oAbstractCell implements N2oCell, CssClassAware {
     private String visible;
     @JsonProperty("visible")
     private Object jsonVisible;
+    private Map<N2oNamespace, Map<String, String>> extAttributes;
+    private Map<String, Object> properties;
+
+    @JsonAnyGetter
+    public Map<String, Object> getJsonProperties() {
+        return properties;
+    }
 }

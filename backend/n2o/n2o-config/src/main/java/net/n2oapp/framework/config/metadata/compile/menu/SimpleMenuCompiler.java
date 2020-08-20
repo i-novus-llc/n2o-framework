@@ -13,6 +13,9 @@ import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
+/**
+ * Компиляция простого меню
+ */
 @Component
 public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSimpleMenu, HeaderContext>, SourceClassAware {
 
@@ -25,13 +28,9 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
     public SimpleMenu compile(N2oSimpleMenu source, HeaderContext context, CompileProcessor p) {
         SimpleMenu items = new SimpleMenu();
         IndexScope idx = p.getScope(IndexScope.class) != null ? p.getScope(IndexScope.class) : new IndexScope();
-        if (source != null) {
-            if (source.getMenuItems() != null) {
-                for (N2oSimpleMenu.MenuItem mi : source.getMenuItems()) {
-                    items.add(createMenuItem(mi, idx, p));
-                }
-            }
-        }
+        if (source != null && source.getMenuItems() != null)
+            for (N2oSimpleMenu.MenuItem mi : source.getMenuItems())
+                items.add(createMenuItem(mi, idx, p));
         return items;
     }
 
@@ -41,37 +40,38 @@ public class SimpleMenuCompiler implements BaseSourceCompiler<SimpleMenu, N2oSim
         item.setId("menuItem" + idx.get());
         item.setLabel(mi.getLabel());
         item.setIcon(mi.getIcon());
-        item.setTarget(mi.getTarget() != null ? mi.getTarget().name() : null);
-        item.setLinkType(
-                mi instanceof N2oSimpleMenu.AnchorItem ? HeaderItem.LinkType.outer : HeaderItem.LinkType.inner
-        );
-        if (mi.getSubMenu() == null || mi.getSubMenu().length == 0) {
-            if (mi.getPageId() == null) {
-                item.setHref(mi.getHref());
-            } else {
-                N2oPage page = p.getSource(mi.getPageId(), N2oPage.class);
-                if (item.getLabel() == null) {
-                    item.setLabel(page.getName() == null ? page.getId() : page.getName());
-                }
-                if (mi.getRoute() == null) {
-                    item.setHref(page.getRoute() == null ? "/" + mi.getPageId() : page.getRoute());
-                } else {
-                    item.setHref(mi.getRoute());
-                }
-                PageContext pageContext = new PageContext(mi.getPageId(), item.getHref());
-                p.addRoute(pageContext);
-            }
-            item.setType("link");
-        } else {
+        item.setTarget(mi.getTarget());
+        item.setLinkType(mi instanceof N2oSimpleMenu.AnchorItem ?
+                HeaderItem.LinkType.outer :
+                HeaderItem.LinkType.inner);
+        if (mi.getSubMenu() == null || mi.getSubMenu().length == 0)
+            createLinkItem(mi, item, p);
+        else {
             SimpleMenu subItems = new SimpleMenu();
-            for (N2oSimpleMenu.MenuItem subMenu : mi.getSubMenu()) {
+            for (N2oSimpleMenu.MenuItem subMenu : mi.getSubMenu())
                 subItems.add(createMenuItem(subMenu, idx, p));
-            }
             item.setSubItems(subItems);
             item.setHref(item.getSubItems().get(0).getHref());
             item.setType("dropdown");
         }
         item.setProperties(p.mapAttributes(mi));
         return item;
+    }
+
+    private void createLinkItem(N2oSimpleMenu.MenuItem mi, HeaderItem item, CompileProcessor p) {
+        if (mi.getPageId() == null)
+            item.setHref(mi.getHref());
+        else {
+            N2oPage page = p.getSource(mi.getPageId(), N2oPage.class);
+            if (item.getLabel() == null)
+                item.setLabel(page.getName() == null ? page.getId() : page.getName());
+            if (mi.getRoute() == null)
+                item.setHref(page.getRoute() == null ? "/" + mi.getPageId() : page.getRoute());
+            else
+                item.setHref(mi.getRoute());
+            PageContext pageContext = new PageContext(mi.getPageId(), item.getHref());
+            p.addRoute(pageContext);
+        }
+        item.setType("link");
     }
 }

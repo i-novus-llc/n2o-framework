@@ -5,8 +5,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeString;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeEnum;
+import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
+
 @Component
 public class N2oImageCellXmlReader extends AbstractN2oCellXmlReader<N2oImageCell> {
     @Override
@@ -19,7 +19,7 @@ public class N2oImageCellXmlReader extends AbstractN2oCellXmlReader<N2oImageCell
         if (element == null)
             return null;
         N2oImageCell imageCell = new N2oImageCell();
-        imageCell.setWidth(getAttributeString(element, "width"));
+        imageCell.setWidth(getAttributeInteger(element, "width"));
         imageCell.setShape(getAttributeEnum(element, "shape", ImageShape.class));
         return imageCell;
     }

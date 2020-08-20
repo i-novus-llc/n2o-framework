@@ -38,6 +38,7 @@
         <xs:sequence>
             <xs:element name="page" type="pageDef" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="a" type="aDef" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="sub-menu" type="subMenuDef" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="label" type="xs:string" use="required">
             <xs:annotation>

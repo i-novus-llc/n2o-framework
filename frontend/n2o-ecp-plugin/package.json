@@ -19,7 +19,7 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "crypto-pro": "^1.1.0",
+    "crypto-pro": "1.1.0",
     "lodash": "^4.17.15",
     "n2o-framework": "^7.9.0",
     "query-string": "^6.9.0",

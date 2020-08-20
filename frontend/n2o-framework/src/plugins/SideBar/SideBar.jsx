@@ -26,6 +26,7 @@ import {
  * @param controlled - флаг контроллед режима
  * @param onToggle - переключение compressed
  * @param extra - екстра итемы
+ * @param homePageUrl - url брэнда
  * @returns {*}
  * @constructor
  */
@@ -40,6 +41,7 @@ export function SideBar({
   controlled,
   onToggle,
   extra,
+  homePageUrl,
 }) {
   const renderItems = items =>
     map(items, (item, i) => (
@@ -58,7 +60,7 @@ export function SideBar({
       className={cn('n2o-sidebar', { 'n2o-sidebar--compressed': !visible })}
     >
       <div className="n2o-sidebar__nav-brand n2o-nav-brand d-flex justify-content-center">
-        <a className="d-flex align-items-center" href="/">
+        <a className="d-flex align-items-center" href={homePageUrl}>
           {brandImage && (
             <img
               className={cn({ 'mr-2': visible })}
@@ -147,11 +149,16 @@ SideBar.propTypes = {
    * Extra элементы
    */
   extra: PropTypes.array,
+  /**
+   * Адрес ссылка бренда
+   */
+  homePageUrl: PropTypes.string,
 };
 
 SideBar.defaultProps = {
   controlled: false,
   brand: '',
+  homePageUrl: '/',
 };
 
 export default compose(

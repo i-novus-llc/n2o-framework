@@ -16,7 +16,6 @@ public class TooltipListCellElementIOv2 extends AbstractCellElementIOv2<N2oToolt
     public void io(Element e, N2oTooltipListCell c, IOProcessor p) {
         super.io(e, c, p);
         p.attribute(e, "label", c::getLabel, c::setLabel);
-        p.attribute(e, "label-one", c::getOneLabel, c::setOneLabel);
         p.attribute(e, "label-few", c::getFewLabel, c::setFewLabel);
         p.attribute(e, "label-many", c::getManyLabel, c::setManyLabel);
         p.attributeBoolean(e, "dashed-label", c::getDashedLabel, c::setDashedLabel);
