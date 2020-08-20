@@ -230,7 +230,7 @@ class AutoComplete extends React.Component {
     }
 
     this.setState({ value: newValue }, () => {
-      onChange(value);
+      onChange(newValue);
       this.forceUpdate();
     });
   };
