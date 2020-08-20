@@ -12,7 +12,7 @@ import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
 import isNil from 'lodash/isNil';
 import some from 'lodash/some';
-import { compose } from 'recompose';
+import { compose, mapProps } from 'recompose';
 import listContainer from '../listContainer';
 import onClickOutside from 'react-onclickoutside';
 import cn from 'classnames';
@@ -51,7 +51,7 @@ class AutoComplete extends React.Component {
     }
   };
 
-  componentDidUpdate = prevProps => {
+  componentDidUpdate = (prevProps, prevState) => {
     const { value, options, tags } = this.props;
 
     if (!isEqual(prevProps.options, options)) {
@@ -364,6 +364,7 @@ class AutoComplete extends React.Component {
                     groupFieldId={groupFieldId}
                     hasCheckboxes={hasCheckboxes}
                     format={format}
+                    renderIfEmpty={false}
                   >
                     <div className="n2o-alerts">
                       {alerts &&
@@ -535,6 +536,10 @@ AutoComplete.defaultProps = {
 
 const enhance = compose(
   listContainer,
+  mapProps(props => ({
+    ...props,
+    options: !isEmpty(props.data) ? props.data : props.options,
+  })),
   onClickOutside
 );
 
