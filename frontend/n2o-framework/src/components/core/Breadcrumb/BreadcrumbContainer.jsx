@@ -51,6 +51,7 @@ BreadcrumbContainer.defaultProps = {
 export default compose(
   getContext({
     store: PropTypes.object,
+    defaultBreadcrumb: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   }),
   withProps(props => ({
     items: map(props.items, item => {

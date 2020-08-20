@@ -83,8 +83,9 @@ public class N2oController {
     public Page page(HttpServletRequest request) {
         String path = getPath(request, "/n2o/page");
         CompileContext<Page, ?> context = builder.route(path, Page.class, request.getParameterMap());
-        return builder.read().transform().validate().compile().transform().bind().get(context, context.getParams(path, request.getParameterMap()));
-
+        N2oSubModelsProcessor n2oSubModelsProcessor = new N2oSubModelsProcessor(queryProcessor);
+        n2oSubModelsProcessor.setEnvironment(builder.getEnvironment());
+        return builder.read().transform().validate().compile().transform().bind().get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
     }
 
     @GetMapping({"/n2o/data/**", "/n2o/data/", "/n2o/data"})

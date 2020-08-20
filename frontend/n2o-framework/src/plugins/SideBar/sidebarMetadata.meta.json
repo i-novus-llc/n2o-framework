@@ -79,14 +79,41 @@
         {
           "id": "link1",
           "label": "N2O",
-          "type": "link",
-          "href": "/test3"
+          "type": "dropdown",
+          "href": "/test3",
+          "iconClass": "fa fa-folder",
+          "subItems": [
+            {
+              "id": "/n2o-framework",
+              "label": "N2O-Framework",
+              "type": "dropdown",
+              "href": "/n2o-framework",
+              "iconClass": "fa fa-book",
+              "subItems": [
+                {
+                  "id": "/n2o-framework",
+                  "label": "N2O-Framework",
+                  "type": "link",
+                  "href": "/n2o-framework",
+                  "iconClass": "fa fa-book"
+                }
+              ]
+            },
+            {
+              "id": "/n2o-studio",
+              "label": "N2O-Studio",
+              "type": "link",
+              "href": "/n2o-studio",
+              "iconClass": "fa fa-book"
+            }
+          ]
         },
         {
           "id": "link2",
           "label": "LSD",
           "type": "link",
-          "href": "/test4"
+          "href": "/test4",
+          "iconClass": "fa fa-book"
         }
       ]
     }

@@ -4,7 +4,6 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.PlaceHoldersResolver;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceMetadata;
@@ -163,7 +162,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public Map<String, Object> mapAttributes(ExtensionAttributesAware source) {
-        if (source.getExtAttributes() == null)
+        if (source.getExtAttributes() == null || source.getExtAttributes().isEmpty())
             return null;
         ExtensionAttributeMapperFactory extensionAttributeMapperFactory = env.getExtensionAttributeMapperFactory();
         HashMap<String, Object> extAttributes = new HashMap<>();
@@ -268,7 +267,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     @Override
     public String resolveUrl(String url, ModelLink link) {
         List<String> paramNames = getParams(url);
-        if (paramNames == null || paramNames.isEmpty() || params == null)
+        if (paramNames.isEmpty() || params == null)
             return url;
         Map<String, String> valueParamMap = new HashMap<>();
         collectModelLinks(context.getPathRouteMapping(), link.getWidgetLink(), valueParamMap);

@@ -10,6 +10,7 @@
 для суффикса и префикса является "".
 Дополнительно добавлены настройки `n2o.api.control.input.money.prefix` и `n2o.api.control.input.money.suffix`.
 
+- Добавлена настройка `n2o.api.default.page.show_title` значение по умолчанию false
 
 ==== Миграция с 7.7 на 7.8
 

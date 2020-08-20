@@ -92,7 +92,8 @@
 |===
 
 Тело::
-Список ссылок на link:#$$__page_2$$[страницу] или link:#$$__a_2$$[внешние ссылки.]
+Список ссылок на link:#$$__page_2$$[страницу], link:#$$__a_2$$[внешние ссылки.]
+или вложенное выпадающее меню
 
 Пример::
 [source,xml]
@@ -100,5 +101,6 @@
 <sub-menu label="Ссылки" >
     <page page-id="ProtoPage" route="/proto" label="Контакты"/>
     <a label="N2O" href="https://n2oapp.net/demo/"/>
+    <sub-menu>...</sub-menu>
 </sub-menu>
 ----

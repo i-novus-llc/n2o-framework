@@ -33,13 +33,21 @@ export const renderIcon = (icon, label, type, sidebarOpen, subItems) => {
 
 /**
  * Sidebar Item
+ * @param className
  * @param item - объект итема
  * @param activeId - активный элемент
  * @param sidebarOpen - флаг сжатия сайдбара
+ * @param level - уровень вложенности
  * @returns {*}
  * @constructor
  */
-function SidebarItemContainer({ item, activeId, sidebarOpen }) {
+function SidebarItemContainer({
+  className,
+  item,
+  activeId,
+  sidebarOpen,
+  level = 1,
+}) {
   const { type, linkType, subItems } = item;
 
   const renderItem = type => (
@@ -72,15 +80,28 @@ function SidebarItemContainer({ item, activeId, sidebarOpen }) {
 
   const renderDropdown = () => (
     <SidebarDropdown {...item} sidebarOpen={sidebarOpen}>
-      {map(subItems, subItem => (
-        <div className="n2o-sidebar__sub-item">{renderLink(subItem)}</div>
+      {map(subItems, (subItem, i) => (
+        <div
+          className={cn(
+            'n2o-sidebar__sub-item',
+            `n2o-sidebar__sub-item--level-${level}`
+          )}
+        >
+          <SidebarItemContainer
+            level={level + 1}
+            key={i}
+            activeId={activeId}
+            item={subItem}
+            sidebarOpen={sidebarOpen}
+          />
+        </div>
       ))}
     </SidebarDropdown>
   );
 
   return (
     <div
-      className={cn({
+      className={cn(className, {
         'n2o-sidebar__item--dropdown': type === ItemType.DROPDOWN,
       })}
     >

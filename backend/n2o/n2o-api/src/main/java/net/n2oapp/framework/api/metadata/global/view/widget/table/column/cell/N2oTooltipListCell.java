@@ -14,8 +14,6 @@ public class N2oTooltipListCell extends N2oAbstractCell {
     @JsonProperty
     private String label;
     @JsonProperty
-    private String oneLabel;
-    @JsonProperty
     private String fewLabel;
     @JsonProperty
     private String manyLabel;
