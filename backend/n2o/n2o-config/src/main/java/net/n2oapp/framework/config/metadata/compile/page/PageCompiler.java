@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.meta.page.PageProperty;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
-import net.n2oapp.framework.config.metadata.compile.context.DrawerPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 
@@ -80,8 +79,7 @@ public abstract class PageCompiler<S extends N2oPage, C extends Page> implements
         pageProperty.setHtmlTitle(pageName);
         if (context instanceof ModalPageContext) {
             pageProperty.setHeaderTitle(pageName);
-        }
-        if (showTitle)
+        } else if (showTitle)
             pageProperty.setTitle(pageName);
         if (context.getParentModelLink() != null)
             pageProperty.setModelLink(context.getParentModelLink());

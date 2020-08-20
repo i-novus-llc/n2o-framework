@@ -37,7 +37,6 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
     public static final String FILTERS = "filters";
     private String connectionUrl;
     private String databaseName;
-    private MongoClient mongoClient;
     private ObjectMapper mapper;
     private Function<String, Integer> defaultSiffixIdx = str -> {
         if (str.startsWith("."))
@@ -52,27 +51,19 @@ public class MongoDbDataProviderEngine implements MapInvocationEngine<N2oMongoDb
         this.mapper = objectMapper;
     }
 
-    private MongoCollection<Document> getCollection(N2oMongoDbDataProvider invocation) {
+    @Override
+    public Object invoke(N2oMongoDbDataProvider invocation, Map<String, Object> inParams) {
         String connUrl = invocation.getConnectionUrl() != null ? invocation.getConnectionUrl() : connectionUrl;
         String dbName = invocation.getDatabaseName() != null ? invocation.getDatabaseName() : databaseName;
 
         if (connUrl == null)
             throw new N2oException("Need to define n2o.engine.mongodb.connection_url property");
 
-        mongoClient = new MongoClient(new MongoClientURI(connUrl));
-
-        return mongoClient
-                .getDatabase(dbName)
-                .getCollection(invocation.getCollectionName());
-    }
-
-    @Override
-    public Object invoke(N2oMongoDbDataProvider invocation, Map<String, Object> inParams) {
-        try {
-            return execute(invocation, inParams, getCollection(invocation));
-        } finally {
-            if (mongoClient != null)
-                mongoClient.close();
+        try (MongoClient mongoClient = new MongoClient(new MongoClientURI(connUrl))) {
+            MongoCollection<Document> collection = mongoClient
+                    .getDatabase(dbName)
+                    .getCollection(invocation.getCollectionName());
+            return execute(invocation, inParams, collection);
         }
     }
 

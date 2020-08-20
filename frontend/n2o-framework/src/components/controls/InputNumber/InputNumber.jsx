@@ -59,7 +59,7 @@ export class InputNumber extends React.Component {
     this.resolveValue = this.resolveValue.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const { value } = this.props;
     if (prevProps.value !== value && !isNil(value)) {
       this.setState({ value: this.resolveValue(value) });
@@ -103,11 +103,15 @@ export class InputNumber extends React.Component {
     }
 
     if (matchesWhiteList(nextValue) || this.pasted) {
-      this.setState({ value: this.resolveValue(value) }, () => {
-        if (!isNaN(toNumber(value))) {
-          this.props.onChange(this.resolveValue(nextValue));
-        }
-      });
+      if (value > this.props.max || value < this.props.min) {
+        return;
+      } else {
+        this.setState({ value: this.resolveValue(value) }, () => {
+          if (!isNaN(toNumber(value))) {
+            this.props.onChange(this.resolveValue(nextValue));
+          }
+        });
+      }
     }
   }
 
@@ -192,7 +196,6 @@ export class InputNumber extends React.Component {
       placeholder,
     } = this.props;
     const { value } = this.state;
-
     return (
       visible && (
         <div
