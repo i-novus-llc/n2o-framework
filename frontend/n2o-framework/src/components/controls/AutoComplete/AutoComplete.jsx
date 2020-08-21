@@ -12,6 +12,7 @@ import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
 import isNil from 'lodash/isNil';
 import some from 'lodash/some';
+import pick from 'lodash/pick';
 import { compose, mapProps } from 'recompose';
 import listContainer from '../listContainer';
 import onClickOutside from 'react-onclickoutside';
@@ -52,17 +53,40 @@ class AutoComplete extends React.Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { value, options, tags } = this.props;
+    const { value, options, tags, valueFieldId } = this.props;
+    const compareListProps = ['options', 'value'];
+    const compareListState = ['input'];
 
-    if (!isEqual(prevProps.options, options)) {
-      this.setState({ options });
-    }
+    if (
+      !isEqual(
+        pick(prevProps, compareListProps),
+        pick(this.props, compareListProps)
+      ) ||
+      !isEqual(
+        pick(prevState, compareListState),
+        pick(this.state, compareListState)
+      )
+    ) {
+      const state = {};
 
-    if (prevProps.value !== value) {
-      this.setState({
-        value: isArray(value) ? value : value ? [value] : [],
-        input: value && !tags ? value : '',
-      });
+      if (!isEqual(prevProps.options, options)) {
+        state.options = options;
+      }
+
+      if (prevProps.value !== value) {
+        state.value = isArray(value) ? value : value ? [value] : [];
+        state.input = value && !tags ? value : '';
+      }
+
+      if (
+        prevState.input !== this.state.input &&
+        some(options, o => includes(o[valueFieldId], this.state.input)) &&
+        !this.state.isExpanded
+      ) {
+        this._setIsExpanded(true);
+      }
+
+      if (!isEmpty(state)) this.setState(state);
     }
   };
 
