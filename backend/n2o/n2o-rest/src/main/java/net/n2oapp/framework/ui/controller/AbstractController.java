@@ -114,8 +114,9 @@ public abstract class AbstractController {
                 new DataSet((Map<? extends String, ?>) body);
         if (mapping != null) {
             for (Map.Entry<String, String> entry : mapping.entrySet()) {
-                if (result.get(entry.getValue()) == null || result.containsKey(entry.getKey())) {
-                    result.put(entry.getValue(), result.get(entry.getKey()));
+                Object value = result.get(entry.getKey());
+                if (value != null && (result.get(entry.getValue()) == null || result.containsKey(entry.getKey()))) {
+                    result.put(entry.getValue(), value);
                 }
             }
         }
