@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
+import net.n2oapp.framework.api.metadata.meta.control.OutputList.Direction;
 import net.n2oapp.framework.autotest.api.component.control.OutputList;
 
 /**
@@ -20,32 +21,36 @@ public class N2oOutputList extends N2oControl implements OutputList {
 
     @Override
     public void shouldHaveValues(String separator, String... values) {
-        check(element().$$(".n2o-output-list__text"), separator, values);
+        check(element().$$(".n2o-output-list__item")
+                .filter(Condition.not(Condition.cssClass("n2o-output-list__item--link"))), separator, values);
     }
 
     @Override
     public void shouldHaveLinkValues(String separator, String... values) {
-        check(element().$$(".n2o-output-list__link"), separator, values);
+        check(element().$$(".n2o-output-list__item--link"), separator, values);
     }
 
     @Override
-    public void shouldHaveDirection(net.n2oapp.framework.api.metadata.meta.control.OutputList.Direction direction) {
-        element().shouldHave(Condition.cssClass("n2o-output-list_" + direction.name() + "_direction"));
+    public void shouldHaveDirection(Direction direction) {
+        element().shouldHave(Condition.cssClass("n2o-output-list--" + direction.name()));
     }
 
     @Override
     public void linkShouldHaveValue(String itemValue, String link) {
-        element().$$(".n2o-output-list__link").find(Condition.text(itemValue))
+        element().$$(".n2o-output-list__item--link").find(Condition.text(itemValue))
                 .shouldHave(Condition.attribute("href", link));
     }
 
     private void check(ElementsCollection elements, String separator, String... values) {
         elements.shouldHaveSize(values.length);
-        for (int i = 0; i < values.length - 1; i++)
-            elements.get(i).shouldHave(Condition.text(values[i] + separator));
+        for (int i = 0; i < values.length - 1; i++) {
+            elements.get(i).shouldHave(Condition.text(values[i]));
+            elements.get(i).parent().$(".white-space-pre").shouldHave(Condition.text(separator));
+        }
 
-        // если последний элемент в elements не является последним среди всех, то добавляем сепаратор
-        elements.last().shouldHave(Condition.text(values[values.length - 1] +
-                (element().lastChild().text().equals(elements.last().text()) ? "" : separator)));
+        elements.last().shouldHave(Condition.text(values[values.length - 1]));
+        // если последний элемент в elements является последним среди всех, то проверяем сепаратор на пустоту
+        if (element().lastChild().text().equals(elements.last().text()))
+            elements.last().parent().$(".white-space-pre").shouldBe(Condition.empty);
     }
 }

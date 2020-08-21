@@ -2,7 +2,7 @@
     <form query-id="test">
         <fields>
             <output-list id="output1" separator=","/>
-            <output-list id="output2" separator=";" direction="row"/>
+            <output-list id="output2" separator="; " direction="row"/>
             <output-list id="output3"/>
         </fields>
     </form>

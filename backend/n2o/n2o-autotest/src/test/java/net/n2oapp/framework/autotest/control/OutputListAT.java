@@ -59,7 +59,7 @@ public class OutputListAT extends AutoTestBase {
         outputList.shouldHaveDirection(Direction.column);
 
         OutputList outputList2 = fields.field("output2").control(OutputList.class);
-        separator = ";";
+        separator = "; ";
         outputList2.shouldHaveValues(separator, "test2", "test4");
         outputList2.shouldHaveLinkValues(separator, "test1", "test3");
         outputList2.shouldHaveDirection(Direction.row);
