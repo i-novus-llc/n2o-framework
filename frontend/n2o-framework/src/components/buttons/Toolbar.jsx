@@ -17,23 +17,36 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
     onClick();
   };
 
-  const renderButtons = props =>
-    props.component ? (
-      !isUndefined(get(props, 'enabled')) ? (
-        React.createElement(props.component, {
-          ...omit(props, ['enabled']),
-          entityKey,
-          disabled: !get(props, 'enabled'),
-        })
-      ) : (
-        React.createElement(props.component, {
+  const remapButtons = props => {
+    const subMenu = get(props, 'subMenu');
+    const enabled = get(props, 'enabled');
+    return subMenu
+      ? {
           ...props,
           entityKey,
-        })
-      )
+          subMenu: map(subMenu, item => {
+            return {
+              ...omit(item, ['enabled']),
+              disabled: !item.enabled,
+            };
+          }),
+        }
+      : !isUndefined(enabled)
+      ? {
+          ...omit(props, ['enabled']),
+          entityKey,
+          disabled: !enabled,
+        }
+      : props;
+  };
+
+  const renderButtons = props => {
+    return props.component ? (
+      React.createElement(props.component, remapButtons(props))
     ) : (
       <Factory level={BUTTONS} {...props} entityKey={entityKey} />
     );
+  };
 
   const renderBtnGroup = ({ buttons }) => (
     <ButtonGroup>{map(buttons, renderButtons)}</ButtonGroup>
