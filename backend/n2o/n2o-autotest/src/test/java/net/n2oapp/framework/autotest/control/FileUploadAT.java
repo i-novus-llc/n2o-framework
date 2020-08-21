@@ -82,6 +82,12 @@ public class FileUploadAT extends AutoTestBase {
         fileUpload.deleteFile(0);
         fileUpload.uploadFilesShouldBe(0);
         assertThat(fileStoreController.getFileStore().size(), is(0));
+
+        // загрузка файла с неразрешенным расширением
+        fileUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/index.page.xml");
+        // загрузка не произошла
+        fileUpload.uploadFilesShouldBe(0);
+        assertThat(fileStoreController.getFileStore().size(), is(0));
     }
 
     public void serialTwoFileUploadTest() {

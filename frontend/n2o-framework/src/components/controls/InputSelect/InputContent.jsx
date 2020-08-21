@@ -10,6 +10,13 @@ import isEqual from 'lodash/isEqual';
 
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
 
+const textLengthStyle = {
+  position: 'absolute',
+  zIndex: -9999,
+  opacity: 0,
+  pointerEvents: 'none',
+};
+
 /**
  * InputSelectGroup
  * @reactProps {boolean} disabled - флаг неактивности
@@ -45,16 +52,29 @@ class InputContent extends React.Component {
 
     this.state = {
       paddingTextArea: {},
+      notEnoughPlace: false,
     };
+
+    this._textRef = null;
   }
 
   componentDidMount() {
     this.calcPaddingTextarea();
   }
 
-  componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.selected, this.props.selected)) {
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      !isEqual(prevProps.selected, this.props.selected) ||
+      !isEqual(prevProps.value, this.props.value)
+    ) {
       this.calcPaddingTextarea();
+    }
+
+    if (
+      !isEqual(prevProps.value, this.props.value) &&
+      !this.state.notEnoughPlace
+    ) {
+      this.checkTextOnEnoughPlace();
     }
   }
 
@@ -69,6 +89,48 @@ class InputContent extends React.Component {
   getMargin(item, propertyName) {
     return +split(window.getComputedStyle(item)[propertyName], 'px')[0];
   }
+
+  setTextRef = el => {
+    this._textRef = el;
+  };
+
+  onSelect = item => {
+    this.props.onSelect(item);
+
+    if (this.state.notEnoughPlace)
+      this.setState(prevState => ({
+        notEnoughPlace: false,
+        paddingTextArea: {
+          ...prevState.paddingTextArea,
+          paddingTop: prevState.paddingTextArea.paddingTop - 45,
+        },
+      }));
+  };
+
+  checkTextOnEnoughPlace = () => {
+    const { _textarea } = this.props;
+    if (!_textarea) return;
+    const textareaStyles = window.getComputedStyle(_textarea);
+    const notEnoughPlace =
+      _textarea.offsetWidth -
+        (parseInt(textareaStyles.paddingLeft) +
+          parseInt(textareaStyles.paddingRight)) <=
+      this._textRef.offsetWidth;
+
+    if (notEnoughPlace) {
+      this.setState(prevState => ({
+        notEnoughPlace,
+        paddingTextArea: {
+          paddingTop:
+            prevState.paddingTextArea.paddingTop +
+            45 * Math.ceil(this._textRef.offsetWidth / _textarea.offsetWidth),
+          paddingLeft: 12,
+        },
+      }));
+    }
+
+    return notEnoughPlace;
+  };
 
   calcPaddingTextarea() {
     const { _textarea, _selectedList, selected } = this.props;
@@ -92,18 +154,21 @@ class InputContent extends React.Component {
         },
         0
       );
+
       const lastItem = selectedList[selectedList.length - 1];
 
       if (lastItem) {
         mainHeight = this.getHeight(_textarea) - this.getHeight(lastItem);
       }
 
-      this.setState({
-        paddingTextArea: {
-          paddingTop: selected.length === 0 ? 5 : mainHeight,
-          paddingLeft: selected.length === 0 ? 10 : mainWidth || undefined,
-        },
-      });
+      if (!this.state.notEnoughPlace) {
+        this.setState({
+          paddingTextArea: {
+            paddingTop: selected.length === 0 ? 5 : mainHeight,
+            paddingLeft: selected.length === 0 ? 10 : mainWidth || undefined,
+          },
+        });
+      }
     }
   }
 
@@ -131,7 +196,6 @@ class InputContent extends React.Component {
       setActiveValueId,
       disabledValues,
       options,
-      onSelect,
       onClick,
       isExpanded,
       autoFocus,
@@ -207,7 +271,7 @@ class InputContent extends React.Component {
           find(options, item => item[valueFieldId] === activeValueId) || value;
 
         if (newValue) {
-          onSelect(newValue);
+          this.onSelect(newValue);
           setActiveValueId(null);
         }
       } else if (e.key === 'Escape') {
@@ -252,6 +316,9 @@ class InputContent extends React.Component {
 
     return (
       <React.Fragment>
+        <span style={textLengthStyle} ref={this.setTextRef}>
+          {value}
+        </span>
         {multiSelect ? (
           <React.Fragment>
             <SelectedItems

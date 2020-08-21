@@ -38,15 +38,23 @@ public class BaseButtonCompileTest extends SourceCompileTestBase {
         Page page = compile("net/n2oapp/framework/config/metadata/compile/toolbar/testButton.page.xml")
                 .get(new PageContext("testButton"));
 
-        AbstractButton btn = page.getToolbar().getButton("btn");
-        assertThat(btn.getLabel(), is("Удалить"));
-        assertThat(btn.getColor(), is("danger"));
+        AbstractButton btn = page.getToolbar().getButton("btn1");
+        assertThat(btn.getLabel(), is("delete"));
         assertThat(btn.getIcon(), nullValue());
+        assertThat(btn.getColor(), is("danger"));
         assertThat(btn.getHintPosition(), is("right"));
         assertThat(btn.getClassName(), is("Button"));
         assertThat(btn.getStyle().size(), is(1));
         assertThat(btn.getStyle().get("color"), is("red"));
         assertThat(btn.getHint(), is("hint"));
         assertThat(((InvokeAction) btn.getAction()).getPayload().getWidgetId(), is("testButton_table"));
+
+        btn = page.getToolbar().getButton("btn2");
+        assertThat(btn.getLabel(), nullValue());
+        assertThat(btn.getIcon(), is("fa fa-pencil"));
+
+        btn = page.getToolbar().getButton("btn3");
+        assertThat(btn.getLabel(), is("load"));
+        assertThat(btn.getIcon(), is("fa fa-download"));
     }
 }

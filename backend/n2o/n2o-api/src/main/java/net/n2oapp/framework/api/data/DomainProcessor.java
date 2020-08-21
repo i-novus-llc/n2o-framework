@@ -13,7 +13,6 @@ import net.n2oapp.framework.api.metadata.domain.Domain;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -22,16 +21,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
-import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.ResolverStyle;
-import java.time.format.SignStyle;
 import java.util.*;
 
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
-import static java.time.temporal.ChronoField.*;
 
 /**
  * Процессор приведения к типу
@@ -81,8 +76,8 @@ public class DomainProcessor {
             return convertArray(value, domain);
         } else if (isInterval(domain)) {
             return convertInterval(value, domain);
-        } else if (StringUtils.isJson(value)){
-            return convertObject(((String)value).substring(1, ((String) value).length()-1), domain);
+        } else if (StringUtils.isJson(value)) {
+            return convertObject(((String) value).substring(1, ((String) value).length() - 1), domain);
         }
         return convertObject(value, domain);
     }
@@ -109,7 +104,7 @@ public class DomainProcessor {
      */
     public Object deserialize(Object value, Class<?> clazz) {
         if (clazz.isEnum())
-            return deserializeEnum(value, (Class<? extends Enum>)clazz);
+            return deserializeEnum(value, (Class<? extends Enum>) clazz);
         Object result = deserialize(value, Domain.getByClass(clazz));
         if (result != null
                 && !StringUtils.isDynamicValue(result)
@@ -125,10 +120,9 @@ public class DomainProcessor {
     /**
      * Конвертировать значение в Enum объект
      *
-     * @param value Значение
+     * @param value     Значение
      * @param enumClass Enum класс
      * @return Enum объект или null
-     *
      */
     @SuppressWarnings("unchecked")
     public <T extends Enum<T>> T deserializeEnum(Object value, Class<T> enumClass) {

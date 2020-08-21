@@ -64,8 +64,9 @@ public class FieldToolbarAT extends AutoTestBase {
         toolbar.button("Открыть страницу").shouldBeEnabled();
 
         toolbar.button("Ссылка").click();
+        Selenide.switchTo().window(1);
         page.urlShouldMatches("https://yandex.ru.*");
-        Selenide.back();
+        Selenide.switchTo().window(0);
 
         fields.field("id").control(InputText.class).val("test");
         toolbar.button("Показать текст").click();
@@ -105,8 +106,9 @@ public class FieldToolbarAT extends AutoTestBase {
         dropdownButton.menuItem("Открыть страницу").shouldBeEnabled();
 
         dropdownButton.menuItem("Ссылка").click();
+        Selenide.switchTo().window(1);
         page.urlShouldMatches("https://yandex.ru.*");
-        Selenide.back();
+        Selenide.switchTo().window(0);
 
         fields.field("id").control(InputText.class).val("test");
         fields.field("sub").control(InputText.class).val("notForShow");

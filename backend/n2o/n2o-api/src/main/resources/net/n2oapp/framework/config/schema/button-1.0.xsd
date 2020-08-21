@@ -150,12 +150,12 @@
                 <xs:annotation>
                     <xs:documentation>Кнопка.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="type" type="textType" use="optional">
+                <xs:attribute name="type" type="textType" default="iconAndText">
                     <xs:annotation>
                         <xs:documentation>Кнопка с иконкой или без.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="src" type="xs:string" use="optional">
+                <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Реализация действия.</xs:documentation>
                     </xs:annotation>
@@ -168,42 +168,42 @@
         <xs:annotation>
             <xs:documentation>Базовое определение кнопки с выпадающим меню.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="label" type="xs:string" use="optional">
+        <xs:attribute name="label" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Заголовок кнопки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="icon" type="xs:string" use="optional">
+        <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Иконка.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="type" type="textType" use="optional">
+        <xs:attribute name="type" type="textType" default="iconAndText">
             <xs:annotation>
                 <xs:documentation>Кнопка с иконкой или без.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="class" type="xs:string" use="optional">
+        <xs:attribute name="class" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Css класс кнопки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="style" type="xs:string" use="optional">
+        <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Стиль кнопки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="color" type="colorDefinition" use="optional">
+        <xs:attribute name="color" type="colorDefinition">
             <xs:annotation>
                 <xs:documentation>Цвет кнопки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="generate" type="xs:string" use="optional">
+        <xs:attribute name="generate" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="src" type="xs:string" use="optional">
+        <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Реализация действия.</xs:documentation>
             </xs:annotation>
@@ -365,7 +365,7 @@
 
     <xs:simpleType name="colorDefinition">
         <xs:annotation>
-            <xs:documentation>Цвет кнопки</xs:documentation>
+            <xs:documentation>Цвет кнопки.</xs:documentation>
         </xs:annotation>
         <xs:union memberTypes="xs:string">
             <xs:simpleType>
