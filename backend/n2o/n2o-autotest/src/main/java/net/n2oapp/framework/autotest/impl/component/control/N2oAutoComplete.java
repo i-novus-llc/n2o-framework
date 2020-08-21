@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.AutoComplete;
 import org.openqa.selenium.Keys;
@@ -24,8 +25,27 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
     }
 
     @Override
+    public void addTag(String value) {
+        val(value);
+        inputElement().sendKeys(Keys.chord(Keys.ENTER));
+    }
+
+    @Override
+    public void removeTag(String value) {
+        inputSelectedList().$$(".selected-item")
+                .findBy(Condition.text(value)).$("button").click();
+    }
+
+    @Override
     public void shouldHaveValue(String value) {
         inputElement().shouldHave(Condition.value(value));
+    }
+
+    @Override
+    public void shouldHaveTags(String... tags) {
+        ElementsCollection items = inputSelectedList().$$(".selected-item");
+        items.shouldHaveSize(tags.length);
+        items.shouldHave(CollectionCondition.texts(tags));
     }
 
     @Override
@@ -45,5 +65,9 @@ public class N2oAutoComplete extends N2oControl implements AutoComplete {
 
     private SelenideElement inputElement() {
         return element().$(".n2o-inp");
+    }
+
+    private SelenideElement inputSelectedList() {
+        return element().$(".n2o-input-select-selected-list");
     }
 }
