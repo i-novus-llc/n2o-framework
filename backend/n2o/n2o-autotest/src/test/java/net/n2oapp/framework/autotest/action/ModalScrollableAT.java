@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
@@ -16,6 +17,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Автотест для действия открытия модального окна
+ */
 public class ModalScrollableAT extends AutoTestBase {
 
     @BeforeAll
@@ -53,11 +57,12 @@ public class ModalScrollableAT extends AutoTestBase {
         Modal modalPage = N2oSelenide.modal();
         modalPage.shouldExists();
         modalPage.shouldHaveTitle("Модальное окно");
-        modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields().shouldHaveSize(11);
-        modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldExists();
-        modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields().field("value9").control(InputText.class).shouldExists();
         modalPage.shouldBeScrollable();
+        Fields fields = modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        fields.shouldHaveSize(11);
+        fields.field("id").control(InputText.class).shouldExists();
         modalPage.scrollDown();
+        fields.field("value9").control(InputText.class).shouldExists();
         modalPage.close();
 
 
@@ -65,10 +70,11 @@ public class ModalScrollableAT extends AutoTestBase {
         modalPage = N2oSelenide.modal();
         modalPage.shouldExists();
         modalPage.shouldHaveTitle("Модальное окно");
-        modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields().shouldHaveSize(11);
-        modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldExists();
-        modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields().field("value9").control(InputText.class).shouldExists();
         modalPage.shouldNotBeScrollable();
+        fields = modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        fields.shouldHaveSize(11);
+        fields.field("id").control(InputText.class).shouldExists();
+        fields.field("value9").control(InputText.class).shouldExists();
         modalPage.close();
         page.shouldExists();
     }
