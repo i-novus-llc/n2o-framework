@@ -21,5 +21,4 @@ public class StandardPageXmlIOv2Test {
 
         assert tester.check("net/n2oapp/framework/config/io/page/testStandardPageIOv2.page.xml");
     }
-
 }

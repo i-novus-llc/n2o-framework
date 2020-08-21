@@ -3,7 +3,7 @@
            xmlns:wgt="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
            xmlns:btn="http://n2oapp.net/framework/config/schema/button-1.0"
            xmlns:ac="http://n2oapp.net/framework/config/schema/action-1.0"
-           xmlns:reg="http://n2oapp.net/framework/config/schema/region-1.0"
+           xmlns:reg="http://n2oapp.net/framework/config/schema/region-2.0"
            targetNamespace="http://n2oapp.net/framework/config/schema/page-3.0">
 
     <xs:element name="page" type="standardPageDefinition"/>
@@ -235,27 +235,15 @@
         <xs:annotation>
             <xs:documentation>Регион страницы.</xs:documentation>
         </xs:annotation>
-        <xs:sequence >
-            <xs:any namespace="##other"/>
-            <xs:element name="region" type="reg:regionDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="tabs" type="reg:tabsDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="line" type="reg:lineDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="panel" type="reg:panelDefinition" maxOccurs="unbounded" minOccurs="0"/>
-
-            <xs:element name="table" type="wgt:tableReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="form" type="wgt:formReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="tree" type="wgt:treeReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="list" type="wgt:listWidgetReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="chart" type="wgt:chartReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="calendar" type="wgt:calendarReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="widget" type="wgt:customReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="html" type="wgt:htmlReferenceDefinition" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
-        <xs:anyAttribute>
-            <xs:annotation>
-                <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
-            </xs:annotation>
-        </xs:anyAttribute>
+        <xs:complexContent>
+            <xs:extension base="reg:regionsAndWidgets">
+                <xs:anyAttribute>
+                    <xs:annotation>
+                        <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
+                    </xs:annotation>
+                </xs:anyAttribute>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="actionsDefinition">

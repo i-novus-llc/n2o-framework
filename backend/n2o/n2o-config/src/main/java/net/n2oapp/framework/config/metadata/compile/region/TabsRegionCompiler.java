@@ -36,7 +36,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         build(region, source, p);
         region.setTabs(new ArrayList<>());
         region.setPlace(source.getPlace());
-        region.setItems(initItems(source, p, TabsRegion.Tab.class));
+//        region.setItems(initItems(source, p, TabsRegion.Tab.class));
         region.setAlwaysRefresh(source.getAlwaysRefresh() != null ? source.getAlwaysRefresh() : false);
         region.setLazy(p.cast(source.getLazy(), p.resolve(property("n2o.api.region.tabs.lazy"), Boolean.class)));
         compileTabsRoute(source, region.getId(), p);

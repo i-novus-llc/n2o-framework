@@ -3,6 +3,9 @@ package net.n2oapp.framework.config.io.region;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
+/**
+ * Тестирование чтения/записи региона с горизонтальным делителем версии 1.0
+ */
 public class LineRegionXmlIOv1Test {
     @Test
     public void testLineRegionXmlIOv1Test() {

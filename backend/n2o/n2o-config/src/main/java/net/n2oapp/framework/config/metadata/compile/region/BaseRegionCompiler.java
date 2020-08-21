@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -15,7 +16,7 @@ import java.util.StringJoiner;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
-public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> implements BaseSourceCompiler<D, S, PageContext> {
+public abstract class BaseRegionCompiler<D extends Region, S extends N2oAbstractRegion> implements BaseSourceCompiler<D, S, PageContext> {
 
     protected abstract String getPropertyRegionSrc();
 

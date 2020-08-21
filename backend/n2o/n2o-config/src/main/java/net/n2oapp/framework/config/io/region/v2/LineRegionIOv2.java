@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.io.region;
+package net.n2oapp.framework.config.io.region.v2;
 
 import net.n2oapp.framework.api.metadata.global.view.region.N2oLineRegion;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -6,10 +6,10 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись региона с горизонтальным делителем версии 1.0
+ * Чтение\запись региона с горизонтальным делителем версии 2.0
  */
 @Component
-public class LineRegionIOv1 extends BaseRegionIOv1<N2oLineRegion> {
+public class LineRegionIOv2 extends BaseRegionIOv2<N2oLineRegion> {
     @Override
     public void io(Element e, N2oLineRegion r, IOProcessor p) {
         super.io(e, r, p);

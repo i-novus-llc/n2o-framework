@@ -6,10 +6,10 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись региона в виде вкладок.
+ * Чтение\запись региона в виде вкладок версии 1.0
  */
 @Component
-public class TabsRegionIOv1 extends BaseRegionIOv1<N2oTabsRegion> {
+public class TabsRegionIOv1 extends AbstractRegionIOv1<N2oTabsRegion> {
 
     @Override
     public void io(Element e, N2oTabsRegion r, IOProcessor p) {
