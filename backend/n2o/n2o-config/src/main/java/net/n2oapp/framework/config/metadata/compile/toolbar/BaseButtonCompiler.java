@@ -57,8 +57,8 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         CompiledObject compiledObject = null;
         WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
         if (widgetObjectScope != null) {
-            if (widgetObjectScope.size() == 1)
-                source.setWidgetId(widgetObjectScope.keySet().stream().findFirst().get());
+            if (widgetObjectScope.size() == 1 && source.getWidgetId() == null)
+                source.setWidgetId(widgetObjectScope.keySet().iterator().next());
             if (widgetObjectScope.containsKey(source.getWidgetId())) {
                 compiledObject = widgetObjectScope.getObject(source.getWidgetId());
             }
