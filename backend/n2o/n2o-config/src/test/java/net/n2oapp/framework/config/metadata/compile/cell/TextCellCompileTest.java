@@ -44,6 +44,7 @@ public class TextCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getFormat(), is("0,0.00"));
         assertThat(cell.getSubTextFieldKey(), is("subtext"));
         assertThat(cell.getSubTextFormat(), is("date DD.MM.YYYY"));
+        assertThat(cell.getTooltipFieldId(), is("tooltipId"));
 
         cell = (N2oTextCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("TextCell"));
@@ -53,4 +54,5 @@ public class TextCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSubTextFormat(), is("date DD.MM.YYYY"));
         assertThat(cell.getCssClass(), is("`test2 == 1 ? 'a' : test2 == 2 ? 'b' : test2 == 3 ? 'c' : null`"));
     }
+
 }
