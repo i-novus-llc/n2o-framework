@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.modal;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
@@ -26,6 +27,26 @@ public class N2oModal extends N2oComponent implements Modal {
     }
 
     @Override
+    public void scrollUp() {
+        Selenide.executeJavaScript("document.querySelector('.modal-body').scrollTop = 0");
+    }
+
+    @Override
+    public void scrollDown() {
+        Selenide.executeJavaScript("document.querySelector('.modal-body').scrollTop = document.querySelector('.modal-body').scrollHeight");
+    }
+
+    @Override
+    public void shouldBeScrollable() {
+        element().$(".modal-dialog-scrollable .modal-body").should(Condition.exist);
+    }
+
+    @Override
+    public void shouldNotBeScrollable() {
+        element().$(".modal-dialog-scrollable .modal-body").shouldNot(Condition.exist);
+    }
+
+    @Override
     public void close() {
         element().$(".modal-header .close").click();
     }
@@ -42,4 +63,5 @@ public class N2oModal extends N2oComponent implements Modal {
             return N2oSelenide.collection(element().$$(".modal-footer .n2o-modal-actions").last().$$(".btn"), Toolbar.class);
         }
     }
+
 }
