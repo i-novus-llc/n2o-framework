@@ -19,19 +19,21 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
 
   const remapButtons = props => {
     const subMenu = get(props, 'subMenu');
-    const enabled = get(props, 'enabled');
+    const enabled = item => get(item, 'enabled');
     return subMenu
       ? {
           ...props,
           entityKey,
           subMenu: map(subMenu, item => {
-            return {
-              ...omit(item, ['enabled']),
-              disabled: !item.enabled,
-            };
+            return !isUndefined(enabled(item))
+              ? {
+                  ...omit(item, ['enabled']),
+                  disabled: !item.enabled,
+                }
+              : item;
           }),
         }
-      : !isUndefined(enabled)
+      : !isUndefined(enabled(props))
       ? {
           ...omit(props, ['enabled']),
           entityKey,
