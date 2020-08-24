@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,14 +42,17 @@ public class TilesCompileTest extends SourceCompileTestBase {
         Tiles.Tile tile = tiles.getTile().get(0);
         assertThat(tile.getId(), is("id1"));
         assertThat(tile.getClassName(), is("test1"));
-        assertThat(tile.getStyle(), is("test1"));
+        assertThat(tile.getStyle().size(), Matchers.is(1));
+        assertThat(tile.getStyle().get("style"), is("test1"));
+
         assertThat(tile.getSrc(), is("tile1"));
         assertThat(tile.getComponent().getSrc(), is("cell1"));
 
         tile = tiles.getTile().get(1);
         assertThat(tile.getId(), is("id2"));
         assertThat(tile.getClassName(), is("test2"));
-        assertThat(tile.getStyle(), is("test2"));
+        assertThat(tile.getStyle().size(), Matchers.is(1));
+        assertThat(tile.getStyle().get("style"), is("test2"));
         assertThat(tile.getSrc(), is("tile2"));
         assertThat(tile.getComponent().getSrc(), is("cell2"));
 

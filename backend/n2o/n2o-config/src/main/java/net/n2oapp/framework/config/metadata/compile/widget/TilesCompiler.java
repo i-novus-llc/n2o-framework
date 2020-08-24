@@ -10,7 +10,7 @@ import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -52,15 +52,9 @@ public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
         tiles.setColsMd(p.cast(source.getColsMd(), p.resolve(property("n2o.api.widget.tiles.colsMd"), Integer.class)));
         tiles.setColsLg(p.cast(source.getColsLg(), p.resolve(property("n2o.api.widget.tiles.colsLg"), Integer.class)));
 
-        List<Tiles.Tile> tls = new LinkedList<>();
+        List<Tiles.Tile> tls = new ArrayList<>(source.getContent().length);
         for (N2oTiles.Block block : source.getContent()) {
-            Tiles.Tile tile = new Tiles.Tile();
-            tile.setId(block.getId());
-            tile.setStyle(block.getStyle());
-            tile.setSrc(block.getSrc());
-            tile.setClassName(block.getClassName());
-            tile.setComponent(p.compile(block.getComponent(), context, p));
-            tls.add(tile);
+            tls.add(p.compile(block, context, p));
         }
         tiles.setTile(tls);
         return tiles;

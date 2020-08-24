@@ -13,7 +13,7 @@ public class TilesWidgetXmlIOV4Test {
     public void testTilesXmlIOV4() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
 
-        tester.ios(new TilesWidgetIOV4())
+        tester.ios(new TilesWidgetIOV4(), new TilesWidgetIOV4.BlockIO())
                 .addPack(new N2oCellsIOPack());
 
         assert tester.check("net/n2oapp/framework/config/io/widget/TilesWidgetIOV4.widget.xml");

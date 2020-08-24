@@ -287,10 +287,8 @@
                         <xs:complexType>
                             <xs:sequence>
                                 <xs:element name="column" type="columnDefinition" maxOccurs="unbounded" minOccurs="1"/>
-                                <xs:element name="filter-column" type="filterColumnDefinition" maxOccurs="unbounded"
-                                            minOccurs="0"/>
-                                <xs:element name="multi-column" type="multiColumnDefinition" maxOccurs="unbounded"
-                                            minOccurs="0"/>
+                                <xs:element name="filter-column" type="filterColumnDefinition" maxOccurs="unbounded" minOccurs="0"/>
+                                <xs:element name="multi-column" type="multiColumnDefinition" maxOccurs="unbounded" minOccurs="0"/>
                             </xs:sequence>
                         </xs:complexType>
                     </xs:element>
@@ -338,8 +336,7 @@
                 </xs:attribute>
                 <xs:attribute name="check-on-select" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.
-                        </xs:documentation>
+                        <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="children" default="collapse">
@@ -620,7 +617,7 @@
                             </xs:annotation>
                             <xs:attribute name="value-field-id" type="xs:string">
                                 <xs:annotation>
-                                    <xs:documentation>Поле выборки, отвечающее за маппинг ресурсов.</xs:documentation>
+                                   <xs:documentation>Поле выборки, отвечающее за маппинг ресурсов.</xs:documentation>
                                 </xs:annotation>
                             </xs:attribute>
                             <xs:sequence>
@@ -704,8 +701,7 @@
                 </xs:attribute>
                 <xs:attribute name="views" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Список используемых видов отображения в календаре (через запятую).
-                        </xs:documentation>
+                        <xs:documentation>Список используемых видов отображения в календаре (через запятую).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="min-time" type="xs:string">
@@ -765,8 +761,7 @@
                 </xs:attribute>
                 <xs:attribute name="disabled-field-id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Поле выборки, отвечающее за блокирование события для выбора.
-                        </xs:documentation>
+                        <xs:documentation>Поле выборки, отвечающее за блокирование события для выбора.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -869,7 +864,7 @@
                 <xs:documentation>Реализация блока (карточки), React компонент.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:element name="cell" type="cell:cellDefinition" minOccurs="1">
+        <xs:element name="cell" type="cell:cellDefinition" minOccurs="1" maxOccurs="1">
             <xs:annotation>
                 <xs:documentation>Ячейка с содержимым блока (карточки).</xs:documentation>
             </xs:annotation>

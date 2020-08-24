@@ -2,9 +2,9 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
-
-import java.io.Serializable;
 
 /**
  * Исходная модель виджета плитки
@@ -20,12 +20,9 @@ public class N2oTiles extends N2oWidget {
 
     @Getter
     @Setter
-    public static class Block implements Serializable {
+    public static class Block extends N2oComponent implements IdAware {
 
         private String id;
-        private String className;
-        private String style;
-        private String src;
         private N2oCell component;
 
     }

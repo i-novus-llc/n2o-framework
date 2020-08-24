@@ -1540,7 +1540,7 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 
 |cols-sm
 |Число
-|Количество колонок в мобильной вресии
+|Количество колонок в мобильной версии
 |2
 
 |cols-md
