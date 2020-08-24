@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.aware.SrcAware;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 import java.util.Map;
 
@@ -37,6 +38,7 @@ public abstract class N2oAbstractRegion implements Source, IdAware, SrcAware, Na
     private String className;
     private String style;
     Map<N2oNamespace, Map<String, String>> extAttributes;
+    private N2oWidget[] widgets;
 
     @Override
     public String getPostfix() {

@@ -15,7 +15,9 @@ public abstract class BaseRegionIOv2<T extends N2oRegion> extends AbstractRegion
     @Override
     public void io(Element e, T r, IOProcessor p) {
         super.io(e, r, p);
-        p.anyChildren(e, null, r::getWidgets, r::setWidgets, p.anyOf(N2oWidget.class), WidgetIOv4.NAMESPACE);
-        p.anyChildren(e, null, r::getRegions, r::setRegions, p.anyOf(N2oAbstractRegion.class), RegionIOv2.NAMESPACE);
+        p.anyChildren(e, null, r::getWidgets, r::setWidgets, p.anyOf(N2oWidget.class)
+                .ignore(getRegions()), WidgetIOv4.NAMESPACE);
+        p.anyChildren(e, null, r::getRegions, r::setRegions, p.anyOf(N2oAbstractRegion.class)
+                .ignore(getWidgets()), RegionIOv2.NAMESPACE);
     }
 }

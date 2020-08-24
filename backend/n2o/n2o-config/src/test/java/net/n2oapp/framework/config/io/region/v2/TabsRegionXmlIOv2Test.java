@@ -10,7 +10,7 @@ import org.junit.Test;
  */
 public class TabsRegionXmlIOv2Test {
     @Test
-    public void testTabsRegionXmlIOv2Test() {
+    public void test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.addPack(new N2oRegionsV2IOPack())
                 .addPack(new N2oWidgetsIOPack());

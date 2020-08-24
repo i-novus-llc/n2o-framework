@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -28,8 +28,10 @@ import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -42,7 +44,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     protected abstract void initRegions(S source, D page, CompileProcessor p, PageContext context,
                                         PageScope pageScope, PageRoutes pageRoutes);
 
-    public D compilePage(S source, D page, PageContext context, CompileProcessor p, N2oRegion[] regions, SearchBarScope searchBarScope) {
+    public D compilePage(S source, D page, PageContext context, CompileProcessor p, N2oAbstractRegion[] regions, SearchBarScope searchBarScope) {
         List<N2oWidget> sourceWidgets = collectWidgets(regions);
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
@@ -91,23 +93,23 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         return page;
     }
 
-    protected List<N2oWidget> collectWidgets(N2oRegion[] regions) {
+    protected List<N2oWidget> collectWidgets(N2oAbstractRegion[] regions) {
         List<N2oWidget> result = new ArrayList<>();
         Map<String, Integer> ids = new HashMap<>();
         if (regions != null) {
-            for (N2oRegion region : regions) {
+            for (N2oAbstractRegion region : regions) {
                 if (!ids.containsKey(region.getAlias())) {
                     ids.put(region.getAlias(), 1);
                 }
-                if (region.getWidgets() != null) {
-                    result.addAll(Arrays.stream(region.getWidgets()).map(w -> {
-                        if (w.getId() == null) {
-                            String widgetPrefix = region.getAlias();
-                            w.setId(widgetPrefix + ids.put(widgetPrefix, ids.get(widgetPrefix) + 1));
-                        }
-                        return w;
-                    }).collect(Collectors.toList()));
-                }
+//                if (region.getWidgets() != null) {
+//                    result.addAll(Arrays.stream(region.getWidgets()).map(w -> {
+//                        if (w.getId() == null) {
+//                            String widgetPrefix = region.getAlias();
+//                            w.setId(widgetPrefix + ids.put(widgetPrefix, ids.get(widgetPrefix) + 1));
+//                        }
+//                        return w;
+//                    }).collect(Collectors.toList()));
+//                }
             }
         }
         return result;

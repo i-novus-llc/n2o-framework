@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -37,7 +37,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
         Map<String, List<Region>> regionMap = new HashMap<>();
         if (source.getRegions() != null) {
             IndexScope index = new IndexScope();
-            for (N2oRegion n2oRegion : source.getRegions()) {
+            for (N2oAbstractRegion n2oRegion : source.getRegions()) {
                 Region region = p.compile(n2oRegion, context, index, pageScope, pageRoutes);
                 String place = p.cast(n2oRegion.getPlace(), "single");
                 if (regionMap.get(place) != null) {

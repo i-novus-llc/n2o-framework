@@ -15,6 +15,7 @@ public class N2oTabsRegion extends N2oAbstractRegion {
     private Boolean lazy;
     private String activeParam;
     private Boolean routable;
+    private N2oWidget[] widgets;
     private Tab[] tabs;
 
     @Getter

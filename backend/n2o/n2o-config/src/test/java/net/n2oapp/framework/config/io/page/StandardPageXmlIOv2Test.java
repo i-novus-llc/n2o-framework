@@ -9,13 +9,13 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтения/записи стандартной страницы версии 2.0
+ * Тестирование чтения\записи стандартной страницы версии 2.0
  */
 public class StandardPageXmlIOv2Test {
     @Test
-    public void testStandardPageXmlIOv2Test() {
+    public void test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
-        tester.ios(new TableElementIOV4(), new StandardPageElementIOv2(), new CloseActionElementIOV1(),
+        tester.ios(new StandardPageElementIOv2(), new TableElementIOV4(), new CloseActionElementIOV1(),
                 new ButtonIO(), new SubmenuIO())
                 .addPack(new N2oRegionsV1IOPack());
 

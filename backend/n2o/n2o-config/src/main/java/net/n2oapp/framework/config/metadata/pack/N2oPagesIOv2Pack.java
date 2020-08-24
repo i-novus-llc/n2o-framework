@@ -6,9 +6,9 @@ import net.n2oapp.framework.config.io.page.*;
 import net.n2oapp.framework.config.reader.page.PageXmlReaderV1;
 
 /**
- * Набор считывателей страниц
+ * Набор считывателей страниц версии 2.0
  */
-public class N2oPagesIOPack implements MetadataPack<ReadersBuilder> {
+public class N2oPagesIOv2Pack implements MetadataPack<ReadersBuilder> {
     @Override
     public void build(ReadersBuilder b) {
         b.readers(new PageXmlReaderV1());

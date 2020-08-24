@@ -10,6 +10,8 @@ import org.jdom2.Element;
  * Чтение\запись абстрактного региона версии 2.0
  */
 public abstract class AbstractRegionIOv2<T extends N2oAbstractRegion & NamespaceUriAware> implements NamespaceIO<T> {
+    private String[] regions = {"region", "panel", "line", "tabs"};
+    private String[] widgets = {"form", "table", "tree", "list", "chart", "widget", "html"};
 
     @Override
     public void io(Element e, T r, IOProcessor p) {
@@ -24,5 +26,13 @@ public abstract class AbstractRegionIOv2<T extends N2oAbstractRegion & Namespace
     @Override
     public String getNamespaceUri() {
         return RegionIOv2.NAMESPACE.getURI();
+    }
+
+    public String[] getRegions() {
+        return regions;
+    }
+
+    public String[] getWidgets() {
+        return widgets;
     }
 }

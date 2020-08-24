@@ -6,11 +6,11 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтения/записи региона в виде в виде панелей версии 1.0
+ * Тестирование чтения/записи региона в виде панелей версии 2.0
  */
 public class PanelRegionXmlIOv2Test {
     @Test
-    public void testPanelRegionXmlIOv2Test() {
+    public void test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.addPack(new N2oRegionsV2IOPack())
                 .addPack(new N2oWidgetsIOPack());

@@ -26,8 +26,10 @@ public class TabsRegionIOv2 extends AbstractRegionIOv2<N2oTabsRegion> {
     }
 
     private void tabs(Element e, N2oTabsRegion.Tab t, IOProcessor p) {
-        p.anyChildren(e, null, t::getWidgets, t::setWidgets, p.anyOf(N2oWidget.class), WidgetIOv4.NAMESPACE);
-        p.anyChildren(e, null, t::getRegions, t::setRegions, p.anyOf(N2oAbstractRegion.class), RegionIOv2.NAMESPACE);
+        p.anyChildren(e, null, t::getWidgets, t::setWidgets, p.anyOf(N2oWidget.class)
+                .ignore(getRegions()), WidgetIOv4.NAMESPACE);
+        p.anyChildren(e, null, t::getRegions, t::setRegions, p.anyOf(N2oAbstractRegion.class)
+                .ignore(getWidgets()), RegionIOv2.NAMESPACE);
     }
 
     @Override

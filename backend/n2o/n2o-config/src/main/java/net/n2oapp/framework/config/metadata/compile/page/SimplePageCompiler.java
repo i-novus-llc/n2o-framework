@@ -29,6 +29,9 @@ import java.util.HashMap;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
+/**
+ * Компиляция страницы с единственным виджетом
+ */
 @Component
 public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> {
 

@@ -2,8 +2,10 @@ package net.n2oapp.framework.config.io.region;
 
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
+import net.n2oapp.framework.config.io.widget.WidgetIOv4;
 import org.jdom2.Element;
 
 /**
@@ -18,6 +20,7 @@ public abstract class AbstractRegionIOv1<T extends N2oAbstractRegion & Namespace
         p.attribute(e, "src", r::getSrc, r::setSrc);
         p.attribute(e, "class", r::getClassName, r::setClassName);
         p.attribute(e, "style", r::getStyle, r::setStyle);
+        p.anyChildren(e, null, r::getWidgets, r::setWidgets, p.anyOf(N2oWidget.class), WidgetIOv4.NAMESPACE);
         p.anyAttributes(e, r::getExtAttributes, r::setExtAttributes);
     }
 

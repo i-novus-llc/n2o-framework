@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.io.page;
+package net.n2oapp.framework.config.io.page.v3;
 
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -10,10 +10,10 @@ import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись страницы с одним виджетом версии 2.0
+ * Чтение\запись страницы с одним виджетом версии 3.0
  */
 @Component
-public class SimplePageElementIOv2 implements NamespaceIO<N2oSimplePage> {
+public class SimplePageElementIOv3 implements NamespaceIO<N2oSimplePage> {
     private Namespace widgetDefaultNamespace = WidgetIOv4.NAMESPACE;
 
     @Override
@@ -44,7 +44,7 @@ public class SimplePageElementIOv2 implements NamespaceIO<N2oSimplePage> {
 
     @Override
     public String getNamespaceUri() {
-        return "http://n2oapp.net/framework/config/schema/page-2.0";
+        return "http://n2oapp.net/framework/config/schema/page-3.0";
     }
 
     public void setWidgetDefaultNamespace(String widgetDefaultNamespace) {

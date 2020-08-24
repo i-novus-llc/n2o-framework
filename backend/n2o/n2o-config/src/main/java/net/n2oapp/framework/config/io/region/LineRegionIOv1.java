@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись региона с горизонтальным делителем версии 1.0
  */
 @Component
-public class LineRegionIOv1 extends BaseRegionIOv1<N2oLineRegion> {
+public class LineRegionIOv1 extends AbstractRegionIOv1<N2oLineRegion> {
     @Override
     public void io(Element e, N2oLineRegion r, IOProcessor p) {
         super.io(e, r, p);

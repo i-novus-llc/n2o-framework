@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oTopLeftRightPage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.TopLeftRightPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -26,7 +26,7 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
         TopLeftRightPage page = new TopLeftRightPage();
         page.setNeedScrollButton(p.cast(source.getScrollTopButton(),
                 p.resolve(property("n2o.api.page.top_left_right.need_scroll_button"), Boolean.class)));
-        List<N2oRegion> allRegions = new ArrayList<>();
+        List<N2oAbstractRegion> allRegions = new ArrayList<>();
 
         if (source.getTop() != null || source.getLeft() != null || source.getRight() != null) {
             TopLeftRightPage.Places places = new TopLeftRightPage.Places();
@@ -45,7 +45,7 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
             }
             page.setPlaces(places);
         }
-        return compilePage(source, page, context, p, allRegions.toArray(new N2oRegion[0]), null);
+        return compilePage(source, page, context, p, allRegions.toArray(new N2oAbstractRegion[0]), null);
     }
 
     private TopLeftRightPage.Places.RegionOptions compileRegionOptions(N2oTopLeftRightPage.RegionOptions source, CompileProcessor p) {
@@ -67,11 +67,11 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
         page.setRegions(regionMap);
     }
 
-    private void mapRegion(N2oRegion[] regions, String position, Map<String, List<Region>> regionMap,
+    private void mapRegion(N2oAbstractRegion[] regions, String position, Map<String, List<Region>> regionMap,
                            CompileProcessor p, PageContext context, Object... scopes) {
         if (regions != null) {
             List<Region> regionList = new ArrayList<>();
-            for (N2oRegion n2oRegion : regions) {
+            for (N2oAbstractRegion n2oRegion : regions) {
                 Region region = p.compile(n2oRegion, context, scopes);
                 regionList.add(region);
             }

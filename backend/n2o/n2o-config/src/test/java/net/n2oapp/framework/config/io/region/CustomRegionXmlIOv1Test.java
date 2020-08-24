@@ -8,7 +8,7 @@ import org.junit.Test;
  */
 public class CustomRegionXmlIOv1Test {
     @Test
-    public void testCustomRegionXmlIOv1Test() {
+    public void test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new CustomRegionIOv1());
 

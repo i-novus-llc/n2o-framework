@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.io.page;
+package net.n2oapp.framework.config.io.page.v3;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
@@ -8,18 +8,21 @@ import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
-import net.n2oapp.framework.config.io.region.RegionIOv1;
+import net.n2oapp.framework.config.io.region.v2.RegionIOv2;
 import net.n2oapp.framework.config.io.toolbar.ToolbarIO;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
 /**
- * Чтение\запись базовой страницы версии 2.0
+ * Чтение\запись базовой страницы версии 3.0
  */
-public abstract class BasePageElementIOv2<T extends N2oBasePage> implements NamespaceIO<T> {
-    private Namespace regionDefaultNamespace = RegionIOv1.NAMESPACE;
-    private Namespace pageDefaultNamespace = PageIOv2.NAMESPACE;
+public abstract class BasePageElementIOv3<T extends N2oBasePage> implements NamespaceIO<T> {
+    private Namespace regionDefaultNamespace = RegionIOv2.NAMESPACE;
+    private Namespace pageDefaultNamespace = PageIOv3.NAMESPACE;
     private Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
+
+    private String[] regions = {"region", "panel", "line", "tabs"};
+    private String[] widgets = {"form", "table", "tree", "list", "chart", "widget", "html"};
 
     @Override
     public void io(Element e, T m, IOProcessor p) {
@@ -58,5 +61,13 @@ public abstract class BasePageElementIOv2<T extends N2oBasePage> implements Name
 
     public void setRegionDefaultNamespace(String regionDefaultNamespace) {
         this.regionDefaultNamespace = Namespace.getNamespace(regionDefaultNamespace);
+    }
+
+    public String[] getRegions() {
+        return regions;
+    }
+
+    public String[] getWidgets() {
+        return widgets;
     }
 }
