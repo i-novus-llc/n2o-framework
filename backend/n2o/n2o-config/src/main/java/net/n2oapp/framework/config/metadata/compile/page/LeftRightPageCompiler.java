@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oLeftRightPage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -24,10 +25,16 @@ public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage, St
         List<N2oAbstractRegion> allRegions = new ArrayList<>();
         allRegions.addAll(Arrays.asList(source.getLeft()));
         allRegions.addAll(Arrays.asList(source.getRight()));
+        List<N2oWidget> allWidgets = new ArrayList<>();
+        if (source.getLeftRegionWidgets() != null)
+            allWidgets.addAll(Arrays.asList(source.getLeftRegionWidgets()));
+        if (source.getRightRegionWidgets() != null)
+            allWidgets.addAll(Arrays.asList(source.getRightRegionWidgets()));
         if ((source.getLeftWidth() != null && !source.getLeftWidth().isEmpty()) ||
                 (source.getRightWidth() != null && !source.getRightWidth().isEmpty()))
             page.setWidth(page.new RegionWidth(source.getLeftWidth(), source.getRightWidth()));
-        return compilePage(source, page, context, p, allRegions.toArray(new N2oAbstractRegion[0]), null);
+        return compilePage(source, page, context, p, allWidgets.toArray(new N2oWidget[0]),
+                allRegions.toArray(new N2oAbstractRegion[0]), null);
     }
 
     @Override

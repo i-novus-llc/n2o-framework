@@ -11,7 +11,7 @@ import org.junit.Test;
 public class Page1ReaderTest {
 
     @Test
-    public void testPage1ReaderWithRegions() throws Exception{
+    public void testPage1ReaderWithRegions() {
         N2oStandardPage page = new SelectiveStandardReader().addReader(new PageXmlReaderV1()).addWidgetReaderV3().addFieldSet3Reader()
                 .readByPath("net/n2oapp/framework/config/reader/page/testPageElementReaderV1WithRegions.page.xml");
         assert page.getPostfix().equals("page");
@@ -65,6 +65,5 @@ public class Page1ReaderTest {
         assert page.getRegions()[0].getWidgets()[0].getCounter().getPreFilters()[0].getValue().equals("true");
         assert page.getContainers().get(0).getCounter().getPreFilters()[0].getFieldId().equals("filterFiled");
         assert page.getContainers().get(0).getCounter().getPreFilters()[0].getValue().equals("true");
-
     }
 }

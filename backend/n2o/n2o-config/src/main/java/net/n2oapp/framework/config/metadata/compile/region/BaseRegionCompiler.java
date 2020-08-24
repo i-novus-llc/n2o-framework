@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
@@ -42,7 +41,7 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oAbstract
     }
 
     @SuppressWarnings("unchecked")
-    protected <I extends Region.Item> List<I> initItems(N2oRegion source, CompileProcessor p, Class<I> itemClass) {
+    protected <I extends Region.Item> List<I> initItems(N2oAbstractRegion source, CompileProcessor p, Class<I> itemClass) {
         List<I> items = new ArrayList<>();
         if (source.getWidgets() != null) {
             IndexScope index = new IndexScope(1);

@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oTopLeftRightPage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.TopLeftRightPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -45,7 +46,17 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
             }
             page.setPlaces(places);
         }
-        return compilePage(source, page, context, p, allRegions.toArray(new N2oAbstractRegion[0]), null);
+
+        List<N2oWidget> allWidgets = new ArrayList<>();
+        if (source.getTopRegionWidgets() != null)
+            allWidgets.addAll(Arrays.asList(source.getTopRegionWidgets()));
+        if (source.getLeftRegionWidgets() != null)
+            allWidgets.addAll(Arrays.asList(source.getLeftRegionWidgets()));
+        if (source.getRightRegionWidgets() != null)
+            allWidgets.addAll(Arrays.asList(source.getRightRegionWidgets()));
+
+        return compilePage(source, page, context, p, allWidgets.toArray(new N2oWidget[0]),
+                allRegions.toArray(new N2oAbstractRegion[0]), null);
     }
 
     private TopLeftRightPage.Places.RegionOptions compileRegionOptions(N2oTopLeftRightPage.RegionOptions source, CompileProcessor p) {

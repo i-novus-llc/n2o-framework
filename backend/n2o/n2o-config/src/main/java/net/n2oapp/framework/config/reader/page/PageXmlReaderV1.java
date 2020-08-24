@@ -64,14 +64,12 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
             region.setPlace(getAttributeString(element, "place"));
             region.setWidth(getAttributeString(element, "width"));
             region.setName(getAttributeString(element, "name"));
-            if (region instanceof N2oRegion) {
-                List<N2oWidget> widgets = new ArrayList<>();
-                for (Object c : widgetElements) {
-                    N2oWidget wgt = readWidget((Element) c, readerFactory);
-                    widgets.add(wgt);
-                }
-                ((N2oRegion) region).setWidgets(widgets.toArray(new N2oWidget[widgets.size()]));
+            List<N2oWidget> widgets = new ArrayList<>();
+            for (Object c : widgetElements) {
+                N2oWidget wgt = readWidget((Element) c, readerFactory);
+                widgets.add(wgt);
             }
+            region.setWidgets(widgets.toArray(new N2oWidget[widgets.size()]));
             regions.add(region);
         }
     }
@@ -113,7 +111,7 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
     private void readContainers(N2oStandardPage n2oPage, List<N2oAbstractRegion> regions, Element containers) {
         n2oPage.setResultContainer(getAttributeString(containers, "result-container"));
         List containerElements = containers.getChildren();
-        for(Object c : containerElements) {
+        for (Object c : containerElements) {
             Element container = (Element) c;
             N2oAbstractRegion region;
             if (containerElements.size() == 1) {

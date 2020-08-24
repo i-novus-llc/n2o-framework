@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -28,10 +29,8 @@ import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -44,8 +43,9 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     protected abstract void initRegions(S source, D page, CompileProcessor p, PageContext context,
                                         PageScope pageScope, PageRoutes pageRoutes);
 
-    public D compilePage(S source, D page, PageContext context, CompileProcessor p, N2oAbstractRegion[] regions, SearchBarScope searchBarScope) {
-        List<N2oWidget> sourceWidgets = collectWidgets(regions);
+    public D compilePage(S source, D page, PageContext context, CompileProcessor p, N2oWidget[] widgets,
+                         N2oAbstractRegion[] regions, SearchBarScope searchBarScope) {
+        List<N2oWidget> sourceWidgets = collectWidgets(widgets, regions);
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
         PageScope pageScope = new PageScope();
@@ -93,26 +93,31 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         return page;
     }
 
-    protected List<N2oWidget> collectWidgets(N2oAbstractRegion[] regions) {
+    protected List<N2oWidget> collectWidgets(N2oWidget[] widgets, N2oAbstractRegion[] regions) {
         List<N2oWidget> result = new ArrayList<>();
         Map<String, Integer> ids = new HashMap<>();
+        if (regions != null)
+            addWidgets(regions, widgets, result, ids, "w");
+        return result;
+    }
+
+    private void addWidgets(N2oAbstractRegion[] regions, N2oWidget[] widgets, List<N2oWidget> result,
+                            Map<String, Integer> ids, String prefix) {
+        if (!ids.containsKey(prefix))
+            ids.put(prefix, 1);
+        if (widgets != null) {
+            result.addAll(Arrays.stream(widgets).map(w -> {
+                if (w.getId() == null)
+                    w.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
+                return w;
+            }).collect(Collectors.toList()));
+        }
         if (regions != null) {
             for (N2oAbstractRegion region : regions) {
-                if (!ids.containsKey(region.getAlias())) {
-                    ids.put(region.getAlias(), 1);
-                }
-//                if (region.getWidgets() != null) {
-//                    result.addAll(Arrays.stream(region.getWidgets()).map(w -> {
-//                        if (w.getId() == null) {
-//                            String widgetPrefix = region.getAlias();
-//                            w.setId(widgetPrefix + ids.put(widgetPrefix, ids.get(widgetPrefix) + 1));
-//                        }
-//                        return w;
-//                    }).collect(Collectors.toList()));
-//                }
+                N2oAbstractRegion[] regs = region instanceof N2oRegion ? ((N2oRegion) region).getRegions() : null;
+                addWidgets(regs, region.getWidgets(), result, ids, region.getAlias());
             }
         }
-        return result;
     }
 
     private void initDefaults(PageContext context, List<N2oWidget> sourceWidgets) {
