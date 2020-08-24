@@ -37,7 +37,7 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
       ? {
           ...omit(props, ['enabled']),
           entityKey,
-          disabled: !enabled,
+          disabled: !enabled(props),
         }
       : props;
   };
