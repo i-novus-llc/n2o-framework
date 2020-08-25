@@ -281,4 +281,22 @@ public abstract class RouteUtil {
         }
         return normalize(result.toString());
     }
+
+    /**
+     * Получает часть адреса url до параметров запроса
+     * @param url Адресс
+     * @return Часть адреса url
+     */
+    public static String parsePath(String url) {
+        return url.contains("?") ? url.substring(0, url.indexOf('?')) : url;
+    }
+
+    /**
+     * Получает часть адреса url отвечающего за ппараметры запроса
+     * @param url Адресс
+     * @return Часть адреса url
+     */
+    public static String parseQuery(String url) {
+        return url.contains("?") ? url.substring(url.indexOf('?') + 1) : null;
+    }
 }
