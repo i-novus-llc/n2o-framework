@@ -17,8 +17,11 @@ import static org.hamcrest.Matchers.*;
 
 public class XmlMetadataLoaderTest {
 
+    /**
+     * Проверка, что параметры переданные в load резолвятся в xml
+     */
     @Test
-    public void testLoad(){
+    public void testLoadWithParams(){
         XmlInfo info = new XmlInfo("testXmlInfo", N2oSimplePage.class, "net/n2oapp/framework/config/metadata/testXmlInfo.page.xml");
         XmlMetadataLoader xmlMetadataLoader = new XmlMetadataLoader(
                 new ReaderFactoryByMap().register(new SimplePageElementIOv2()).register(new FormElementIOV4()));

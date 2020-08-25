@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.reader.SourceLoader;
+import net.n2oapp.framework.config.io.MetadataParamHolder;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 
 /**
@@ -35,7 +37,12 @@ public class SelectiveMetadataLoader implements SourceLoader<CompileInfo> {
 
     @Override
     public <S extends SourceMetadata> S load(CompileInfo info, String params) {
-        return SelectiveUtil.readByPath(info.getId(), info.getPath(), readerFactory);
+        try {
+            MetadataParamHolder.setParams(RouteUtil.parseQueryParams(params));
+            return SelectiveUtil.readByPath(info.getId(), info.getPath(), readerFactory);
+        } finally {
+            MetadataParamHolder.setParams(null);
+        }
     }
 
     public void setReaderFactory(NamespaceReaderFactory readerFactory) {
