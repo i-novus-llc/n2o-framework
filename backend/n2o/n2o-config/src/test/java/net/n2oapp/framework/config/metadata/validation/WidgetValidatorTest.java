@@ -29,13 +29,16 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     }
 
     /**
-     * Проверяется, что в виджете указана выборка
+     * Проверяется, что в виджете значение префильтра 'name' является ссылкой, но зависимость для нее прописана
      */
     @Test(expected = N2oMetadataValidationException.class)
     public void testRequiredReferenceForPrefilters() {
         validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters.widget.xml");
     }
 
+    /**
+     *  Проверяется, что префильтр ссылается через ref-widget на существующий виджет
+     */
     @Test
     public void testRequiredReferenceForPrefiltersFound() {
         validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters2.widget.xml");
@@ -71,5 +74,13 @@ public class WidgetValidatorTest extends SourceValidationTestBase {
     @Test(expected = N2oMetadataValidationException.class)
     public void testPreFilterRoutable() {
         validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters7.widget.xml");
+    }
+
+    /**
+     * Проверяется, что учитываются параметры выборки
+     */
+    @Test
+    public void testQueryParams() {
+        validate("net/n2oapp/framework/config/metadata/validation/widget/testWidgetPreFilters8.widget.xml");
     }
 }
