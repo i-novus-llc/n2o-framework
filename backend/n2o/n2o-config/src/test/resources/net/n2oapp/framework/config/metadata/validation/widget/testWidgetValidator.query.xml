@@ -3,4 +3,11 @@
     <list>
         <test file="${file}.json"/>
     </list>
+    <fields>
+        <field id="name">
+            <filters>
+                <eq/>
+            </filters>
+        </field>
+    </fields>
 </query>
