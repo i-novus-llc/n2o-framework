@@ -34,7 +34,7 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
         n2oPage.setObjectId(ReaderJdomUtil.getElementString(root, "object-id"));
         n2oPage.setName(ReaderJdomUtil.getElementString(root, "name"));
         n2oPage.setSrc(ReaderJdomUtil.getElementString(root, "src"));
-        List<N2oAbstractRegion> regions = new ArrayList<>();
+        List<N2oRegion> regions = new ArrayList<>();
         Element containers = root.getChild("containers", namespace);
         if (containers != null) {
             readContainers(n2oPage, regions, containers);
@@ -43,20 +43,20 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
         if (regionsElem != null) {
             readRegions(n2oPage, regions, regionsElem);
         }
-        n2oPage.setRegions(regions.toArray(new N2oAbstractRegion[regions.size()]));
+        n2oPage.setItems(regions.toArray(new N2oRegion[regions.size()]));
         n2oPage.setModalWidth(ReaderJdomUtil.getElementString(root, "modal-width"));
         n2oPage.setMinModalWidth(ReaderJdomUtil.getElementString(root, "modal-min-width"));
         n2oPage.setMaxModalWidth(ReaderJdomUtil.getElementString(root, "modal-max-width"));
         return n2oPage;
     }
 
-    private void readRegions(N2oStandardPage n2oPage, List<N2oAbstractRegion> regions, Element regionsElem) {
+    private void readRegions(N2oStandardPage n2oPage, List<N2oRegion> regions, Element regionsElem) {
         n2oPage.setResultContainer(getAttributeString(regionsElem, "result-container"));
         List regionElements = regionsElem.getChildren();
         for (Object r : regionElements) {
             Element element = (Element) r;
             List widgetElements = element.getChildren();
-            N2oAbstractRegion region = createRegion(regionElements, getAttributeString(element, "type"), widgetElements);
+            N2oRegion region = createRegion(regionElements, getAttributeString(element, "type"), widgetElements);
             String src = getAttributeString(element, "src");
             if (src != null)
                 region.setSrc(src);
@@ -69,13 +69,13 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
                 N2oWidget wgt = readWidget((Element) c, readerFactory);
                 widgets.add(wgt);
             }
-            region.setWidgets(widgets.toArray(new N2oWidget[widgets.size()]));
+            region.setItems(widgets.toArray(new N2oWidget[widgets.size()]));
             regions.add(region);
         }
     }
 
-    private N2oAbstractRegion createRegion(List regionElements, String type, List widgetElements) {
-        N2oAbstractRegion region;
+    private N2oRegion createRegion(List regionElements, String type, List widgetElements) {
+        N2oRegion region;
         if (type == null) {
             if (widgetElements.size() == 1 && regionElements.size() == 1) {
                 region = new N2oNoneRegion();
@@ -108,16 +108,16 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
         return region;
     }
 
-    private void readContainers(N2oStandardPage n2oPage, List<N2oAbstractRegion> regions, Element containers) {
+    private void readContainers(N2oStandardPage n2oPage, List<N2oRegion> regions, Element containers) {
         n2oPage.setResultContainer(getAttributeString(containers, "result-container"));
         List containerElements = containers.getChildren();
         for (Object c : containerElements) {
             Element container = (Element) c;
-            N2oAbstractRegion region;
+            N2oRegion region;
             if (containerElements.size() == 1) {
                 region = new N2oNoneRegion();
                 N2oWidget widget = readWidget(container, readerFactory);
-                ((N2oNoneRegion) region).setWidgets(new N2oWidget[]{widget});
+                ((N2oNoneRegion) region).setItems(new N2oWidget[]{widget});
             } else {
                 region = new N2oTabsRegion();
             }

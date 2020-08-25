@@ -1,8 +1,7 @@
 package net.n2oapp.framework.config.io.region.v2;
 
-import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.widget.WidgetIOv4;
 import org.jdom2.Element;
@@ -26,10 +25,9 @@ public class TabsRegionIOv2 extends AbstractRegionIOv2<N2oTabsRegion> {
     }
 
     private void tabs(Element e, N2oTabsRegion.Tab t, IOProcessor p) {
-        p.anyChildren(e, null, t::getWidgets, t::setWidgets, p.anyOf(N2oWidget.class)
-                .ignore(getRegions()), WidgetIOv4.NAMESPACE);
-        p.anyChildren(e, null, t::getRegions, t::setRegions, p.anyOf(N2oAbstractRegion.class)
-                .ignore(getWidgets()), RegionIOv2.NAMESPACE);
+        p.attribute(e, "name", t::getName, t::setName);
+        p.anyChildren(e, null, t::getItems, t::setItems, p.anyOf(SourceComponent.class),
+                WidgetIOv4.NAMESPACE, RegionIOv2.NAMESPACE);
     }
 
     @Override

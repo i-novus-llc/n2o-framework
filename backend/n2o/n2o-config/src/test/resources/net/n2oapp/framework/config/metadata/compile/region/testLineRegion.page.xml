@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <line place="left" collapsible="false" name="Line1">
+            <form name="form1"/>
+            <line place="left" collapsible="false">
+                <form name="form2"/>
+                <line place="right">
+                    <form/>
+                </line>
+            </line>
+            <line place="right">
+                <form name="form3"/>
+            </line>
+            <form name="form4" />
+        </line>
+        <line place="right" name="Line2" style="color:red">
+            <table name="table1"/>
+            <panel title="panel1">
+                <table name="table2"/>
+            </panel>
+            <table name="table3"/>
+        </line>
+        <line/>
+    </regions>
+</page>

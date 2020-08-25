@@ -1,9 +1,8 @@
 package net.n2oapp.framework.config.io.page.v3;
 
 
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.config.io.widget.WidgetIOv4;
 import org.jdom2.Element;
@@ -18,10 +17,8 @@ public class StandardPageElementIOv3 extends BasePageElementIOv3<N2oStandardPage
     @Override
     public void io(Element e, N2oStandardPage m, IOProcessor p) {
         super.io(e, m, p);
-        p.anyChildren(e, "regions", m::getRegions, m::setRegions, p.anyOf(N2oAbstractRegion.class)
-                .ignore(getWidgets()), getRegionDefaultNamespace());
-        p.anyChildren(e, "regions", m::getWidgets, m::setWidgets, p.anyOf(N2oWidget.class)
-                .ignore(getRegions()), WidgetIOv4.NAMESPACE);
+        p.anyChildren(e, "regions", m::getItems, m::setItems, p.anyOf(SourceComponent.class),
+                getRegionDefaultNamespace(), WidgetIOv4.NAMESPACE);
     }
 
     @Override

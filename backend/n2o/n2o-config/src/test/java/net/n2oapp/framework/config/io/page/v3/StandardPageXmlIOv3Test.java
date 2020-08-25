@@ -9,7 +9,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтения/записи стандартной страницы версии 3.0
+ * Тестирование чтения\записи стандартной страницы версии 3.0
  */
 public class StandardPageXmlIOv3Test {
     @Test

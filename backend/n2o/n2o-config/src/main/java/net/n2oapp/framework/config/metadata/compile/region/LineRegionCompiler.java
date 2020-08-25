@@ -1,7 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
+import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oLineRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.region.LineRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -10,9 +13,10 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Компиляция региона с горизонтальным делителем.
+ * Компиляция региона с горизонтальным делителем
  */
 @Component
 public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRegion> {
@@ -34,7 +38,7 @@ public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRe
         region.setPlace(source.getPlace());
         region.setItems(new ArrayList<>());
         region.setCollapsible(source.getCollapsible());
-        region.setItems(initItems(source, p, Region.Item.class));
+        region.setItems(initItems(source, context, p, Region.Item.class));
         return region;
     }
 
@@ -44,12 +48,25 @@ public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRe
     }
 
     @Override
-    protected LineRegion.Item createItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
+    protected LineRegion.Item createWidgetItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
         LineRegion.Item item = new LineRegion.Item();
         item.setId("line" + index.get());
         item.setOpened(p.cast(widget.getOpened(), true));
         item.setLabel(widget.getName());
         item.setProperties(p.mapAttributes(widget));
+        return item;
+    }
+
+    @Override
+    protected Region.Item createRegionItem(N2oRegion region, IndexScope index, PageContext context, CompileProcessor p) {
+        LineRegion.Item item = new LineRegion.Item();
+        item.setId("line" + index.get());
+        List<Compiled> content = new ArrayList<>();
+        if (region.getItems() != null && region.getItems().length != 0)
+            for (SourceComponent component : region.getItems())
+                content.add(p.compile(component, context, p));
+
+        item.setContent(content);
         return item;
     }
 }

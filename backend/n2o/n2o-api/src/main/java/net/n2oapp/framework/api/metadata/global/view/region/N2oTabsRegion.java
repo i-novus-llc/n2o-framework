@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.global.view.region;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 /**
@@ -10,7 +11,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
  */
 @Getter
 @Setter
-public class N2oTabsRegion extends N2oAbstractRegion {
+public class N2oTabsRegion extends N2oRegion {
     private Boolean alwaysRefresh;
     private Boolean lazy;
     private String activeParam;
@@ -21,8 +22,8 @@ public class N2oTabsRegion extends N2oAbstractRegion {
     @Getter
     @Setter
     public static class Tab implements Source {
-        private N2oWidget[] widgets;
-        private N2oAbstractRegion[] regions;
+        private String name;
+        private SourceComponent[] items;
     }
 
     @Override

@@ -1,12 +1,12 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
@@ -29,8 +29,10 @@ import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -43,9 +45,8 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
     protected abstract void initRegions(S source, D page, CompileProcessor p, PageContext context,
                                         PageScope pageScope, PageRoutes pageRoutes);
 
-    public D compilePage(S source, D page, PageContext context, CompileProcessor p, N2oWidget[] widgets,
-                         N2oAbstractRegion[] regions, SearchBarScope searchBarScope) {
-        List<N2oWidget> sourceWidgets = collectWidgets(widgets, regions);
+    public D compilePage(S source, D page, PageContext context, CompileProcessor p, SourceComponent[] items, SearchBarScope searchBarScope) {
+        List<N2oWidget> sourceWidgets = collectWidgets(items);
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
         PageScope pageScope = new PageScope();
@@ -93,29 +94,27 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         return page;
     }
 
-    protected List<N2oWidget> collectWidgets(N2oWidget[] widgets, N2oAbstractRegion[] regions) {
+    protected List<N2oWidget> collectWidgets(SourceComponent[] items) {
         List<N2oWidget> result = new ArrayList<>();
-        Map<String, Integer> ids = new HashMap<>();
-        if (regions != null)
-            addWidgets(regions, widgets, result, ids, "w");
+        if (items != null) {
+            Map<String, Integer> ids = new HashMap<>();
+            addWidgets(items, result, ids, "w");
+        }
         return result;
     }
 
-    private void addWidgets(N2oAbstractRegion[] regions, N2oWidget[] widgets, List<N2oWidget> result,
+    private void addWidgets(SourceComponent[] items, List<N2oWidget> result,
                             Map<String, Integer> ids, String prefix) {
         if (!ids.containsKey(prefix))
             ids.put(prefix, 1);
-        if (widgets != null) {
-            result.addAll(Arrays.stream(widgets).map(w -> {
-                if (w.getId() == null)
-                    w.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
-                return w;
-            }).collect(Collectors.toList()));
-        }
-        if (regions != null) {
-            for (N2oAbstractRegion region : regions) {
-                N2oAbstractRegion[] regs = region instanceof N2oRegion ? ((N2oRegion) region).getRegions() : null;
-                addWidgets(regs, region.getWidgets(), result, ids, region.getAlias());
+        for (SourceComponent item : items) {
+            if (item instanceof N2oWidget) {
+                N2oWidget widget = ((N2oWidget) item);
+                if (widget.getId() == null)
+                    widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
+                result.add(widget);
+            } else if (item instanceof N2oRegion && ((N2oRegion) item).getItems() != null) {
+                addWidgets(((N2oRegion) item).getItems(), result, ids, ((N2oRegion) item).getAlias());
             }
         }
     }

@@ -2,10 +2,12 @@ package net.n2oapp.framework.config.metadata.compile.region;
 
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oPanelRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
+import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
@@ -37,7 +39,7 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         region.setPlace(source.getPlace());
         region.setClassName(source.getClassName());
         region.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        region.setItems(initItems(source, p, PanelRegion.Panel.class));
+        region.setItems(initItems(source, context, p, PanelRegion.Panel.class));
         region.setColor(source.getColor());
         region.setIcon(source.getIcon());
         if (region.getItems() != null && !region.getItems().isEmpty()) {
@@ -78,7 +80,7 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
     }
 
     @Override
-    protected PanelRegion.Panel createItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
+    protected PanelRegion.Panel createWidgetItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
         PanelRegion.Panel panel = new PanelRegion.Panel();
         panel.setIcon(widget.getIcon());
         panel.setLabel(widget.getName());
@@ -86,5 +88,10 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         panel.setOpened(p.cast(widget.getOpened(), true));
         panel.setProperties(p.mapAttributes(widget));
         return panel;
+    }
+
+    @Override
+    protected Region.Item createRegionItem(N2oRegion region, IndexScope index, PageContext context, CompileProcessor p) {
+        return null;
     }
 }

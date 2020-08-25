@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oTopLeftRightPage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.TopLeftRightPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -27,36 +27,27 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
         TopLeftRightPage page = new TopLeftRightPage();
         page.setNeedScrollButton(p.cast(source.getScrollTopButton(),
                 p.resolve(property("n2o.api.page.top_left_right.need_scroll_button"), Boolean.class)));
-        List<N2oAbstractRegion> allRegions = new ArrayList<>();
+        List<SourceComponent> allItems = new ArrayList<>();
 
         if (source.getTop() != null || source.getLeft() != null || source.getRight() != null) {
             TopLeftRightPage.Places places = new TopLeftRightPage.Places();
 
             if (source.getTop() != null) {
-                allRegions.addAll(Arrays.asList(source.getTop()));
+                allItems.addAll(Arrays.asList(source.getTop()));
                 places.setTop(compileRegionOptions(source.getTopOptions(), p));
             }
             if (source.getLeft() != null) {
-                allRegions.addAll(Arrays.asList(source.getLeft()));
+                allItems.addAll(Arrays.asList(source.getLeft()));
                 places.setLeft(compileRegionOptions(source.getLeftOptions(), p));
             }
             if (source.getRight() != null) {
-                allRegions.addAll(Arrays.asList(source.getRight()));
+                allItems.addAll(Arrays.asList(source.getRight()));
                 places.setRight(compileRegionOptions(source.getRightOptions(), p));
             }
             page.setPlaces(places);
         }
 
-        List<N2oWidget> allWidgets = new ArrayList<>();
-        if (source.getTopRegionWidgets() != null)
-            allWidgets.addAll(Arrays.asList(source.getTopRegionWidgets()));
-        if (source.getLeftRegionWidgets() != null)
-            allWidgets.addAll(Arrays.asList(source.getLeftRegionWidgets()));
-        if (source.getRightRegionWidgets() != null)
-            allWidgets.addAll(Arrays.asList(source.getRightRegionWidgets()));
-
-        return compilePage(source, page, context, p, allWidgets.toArray(new N2oWidget[0]),
-                allRegions.toArray(new N2oAbstractRegion[0]), null);
+        return compilePage(source, page, context, p, allItems.toArray(new SourceComponent[0]), null);
     }
 
     private TopLeftRightPage.Places.RegionOptions compileRegionOptions(N2oTopLeftRightPage.RegionOptions source, CompileProcessor p) {
@@ -78,15 +69,14 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
         page.setRegions(regionMap);
     }
 
-    private void mapRegion(N2oAbstractRegion[] regions, String position, Map<String, List<Region>> regionMap,
+    private void mapRegion(SourceComponent[] items, String position, Map<String, List<Region>> regionMap,
                            CompileProcessor p, PageContext context, Object... scopes) {
-        if (regions != null) {
-            List<Region> regionList = new ArrayList<>();
-            for (N2oAbstractRegion n2oRegion : regions) {
-                Region region = p.compile(n2oRegion, context, scopes);
-                regionList.add(region);
-            }
-            regionMap.put(position, regionList);
+        if (items != null) {
+            List<Region> regions = new ArrayList<>();
+            for (SourceComponent item : items)
+                if (item instanceof N2oRegion)
+                    regions.add(p.compile(item, context, scopes));
+            regionMap.put(position, regions);
         }
     }
 

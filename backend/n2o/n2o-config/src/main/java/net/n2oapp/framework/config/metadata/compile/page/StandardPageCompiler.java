@@ -1,9 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -28,24 +29,27 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
 
     @Override
     public StandardPage compile(N2oStandardPage source, PageContext context, CompileProcessor p) {
-        return compilePage(source, new StandardPage(), context, p, source.getWidgets(), source.getRegions(), null);
+        return compilePage(source, new StandardPage(), context, p, source.getItems(), null);
     }
 
     @Override
     protected void initRegions(N2oStandardPage source, StandardPage page, CompileProcessor p, PageContext context,
                                PageScope pageScope, PageRoutes pageRoutes) {
         Map<String, List<Region>> regionMap = new HashMap<>();
-        if (source.getRegions() != null) {
+        if (source.getItems() != null) {
             IndexScope index = new IndexScope();
-            for (N2oAbstractRegion n2oRegion : source.getRegions()) {
-                Region region = p.compile(n2oRegion, context, index, pageScope, pageRoutes);
-                String place = p.cast(n2oRegion.getPlace(), "single");
-                if (regionMap.get(place) != null) {
-                    regionMap.get(place).add(region);
-                } else {
-                    List<Region> regionList = new ArrayList<>();
-                    regionList.add(region);
-                    regionMap.put(place, regionList);
+            for (SourceComponent item : source.getItems()) {
+                if (item instanceof N2oRegion) {
+                    N2oRegion n2oRegion = ((N2oRegion) item);
+                    Region region = p.compile(n2oRegion, context, index, pageScope, pageRoutes);
+                    String place = p.cast(n2oRegion.getPlace(), "single");
+                    if (regionMap.get(place) != null) {
+                        regionMap.get(place).add(region);
+                    } else {
+                        List<Region> regionList = new ArrayList<>();
+                        regionList.add(region);
+                        regionMap.put(place, regionList);
+                    }
                 }
             }
             page.setRegions(regionMap);

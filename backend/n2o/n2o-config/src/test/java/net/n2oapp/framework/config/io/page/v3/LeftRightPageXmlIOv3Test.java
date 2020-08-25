@@ -9,7 +9,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтения и записи страницы с правыми и левыми регионами версии 3.0
+ * Тестирование чтения\записи страницы с правыми и левыми регионами версии 3.0
  */
 public class LeftRightPageXmlIOv3Test {
     @Test

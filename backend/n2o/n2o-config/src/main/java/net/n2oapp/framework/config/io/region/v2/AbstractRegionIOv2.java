@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.io.region.v2;
 
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import org.jdom2.Element;
@@ -9,9 +9,7 @@ import org.jdom2.Element;
 /**
  * Чтение\запись абстрактного региона версии 2.0
  */
-public abstract class AbstractRegionIOv2<T extends N2oAbstractRegion & NamespaceUriAware> implements NamespaceIO<T> {
-    private String[] regions = {"region", "panel", "line", "tabs"};
-    private String[] widgets = {"form", "table", "tree", "list", "chart", "widget", "html"};
+public abstract class AbstractRegionIOv2<T extends N2oRegion & NamespaceUriAware> implements NamespaceIO<T> {
 
     @Override
     public void io(Element e, T r, IOProcessor p) {
@@ -26,13 +24,5 @@ public abstract class AbstractRegionIOv2<T extends N2oAbstractRegion & Namespace
     @Override
     public String getNamespaceUri() {
         return RegionIOv2.NAMESPACE.getURI();
-    }
-
-    public String[] getRegions() {
-        return regions;
-    }
-
-    public String[] getWidgets() {
-        return widgets;
     }
 }

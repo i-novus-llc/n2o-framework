@@ -21,9 +21,6 @@ public abstract class BasePageElementIOv3<T extends N2oBasePage> implements Name
     private Namespace pageDefaultNamespace = PageIOv3.NAMESPACE;
     private Namespace actionDefaultNamespace = ActionIOv1.NAMESPACE;
 
-    private String[] regions = {"region", "panel", "line", "tabs"};
-    private String[] widgets = {"form", "table", "tree", "list", "chart", "widget", "html"};
-
     @Override
     public void io(Element e, T m, IOProcessor p) {
         p.attribute(e, "name", m::getName, m::setName);
@@ -61,13 +58,5 @@ public abstract class BasePageElementIOv3<T extends N2oBasePage> implements Name
 
     public void setRegionDefaultNamespace(String regionDefaultNamespace) {
         this.regionDefaultNamespace = Namespace.getNamespace(regionDefaultNamespace);
-    }
-
-    public String[] getRegions() {
-        return regions;
-    }
-
-    public String[] getWidgets() {
-        return widgets;
     }
 }

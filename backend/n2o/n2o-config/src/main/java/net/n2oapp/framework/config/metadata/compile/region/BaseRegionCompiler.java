@@ -1,7 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
@@ -15,7 +16,7 @@ import java.util.StringJoiner;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
-public abstract class BaseRegionCompiler<D extends Region, S extends N2oAbstractRegion> implements BaseSourceCompiler<D, S, PageContext> {
+public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> implements BaseSourceCompiler<D, S, PageContext> {
 
     protected abstract String getPropertyRegionSrc();
 
@@ -41,26 +42,33 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oAbstract
     }
 
     @SuppressWarnings("unchecked")
-    protected <I extends Region.Item> List<I> initItems(N2oAbstractRegion source, CompileProcessor p, Class<I> itemClass) {
+    protected <I extends Region.Item> List<I> initItems(N2oRegion source, PageContext context, CompileProcessor p, Class<I> itemClass) {
         List<I> items = new ArrayList<>();
-        if (source.getWidgets() != null) {
-            IndexScope index = new IndexScope(1);
-            for (N2oWidget n2oWidget : source.getWidgets()) {
-                Region.Item item = createItem(n2oWidget, index, p);
-                PageScope pageScope = p.getScope(PageScope.class);
-                if (pageScope != null) {
-                    item.setWidgetId(pageScope.getGlobalWidgetId(n2oWidget.getId()));
-                } else {
-                    item.setWidgetId(n2oWidget.getId());
-                }
-                if (!itemClass.equals(item.getClass()))
-                    throw new IllegalStateException();
-                items.add((I) item);
+        IndexScope index = new IndexScope(1);
+        if (source.getItems() != null) {
+            for (SourceComponent item : source.getItems()) {
+                if (item instanceof N2oWidget) {
+                    N2oWidget widget = ((N2oWidget) item);
+                    Region.Item regionItem = createWidgetItem(widget, index, p);
+                    PageScope pageScope = p.getScope(PageScope.class);
+                    if (pageScope != null) {
+                        regionItem.setWidgetId(pageScope.getGlobalWidgetId(widget.getId()));
+                    } else {
+                        regionItem.setWidgetId(widget.getId());
+                    }
+                    if (!itemClass.equals(regionItem.getClass()))
+                        throw new IllegalStateException();
+                    items.add((I) regionItem);
+                } else if (item instanceof N2oRegion)
+//                    for (SourceComponent r : ((N2oRegion) item).getItems())
+                        items.add((I) createRegionItem(((N2oRegion) item), index, context, p));
             }
         }
         return items;
     }
 
-    protected abstract Region.Item createItem(N2oWidget widget, IndexScope index, CompileProcessor p);
+    protected abstract Region.Item createWidgetItem(N2oWidget widget, IndexScope index, CompileProcessor p);
+
+    protected abstract Region.Item createRegionItem(N2oRegion region, IndexScope index, PageContext context, CompileProcessor p);
 
 }

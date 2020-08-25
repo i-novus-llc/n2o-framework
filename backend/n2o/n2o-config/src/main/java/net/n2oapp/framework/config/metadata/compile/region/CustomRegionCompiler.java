@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.region.CustomRegion;
@@ -30,7 +31,7 @@ public class CustomRegionCompiler extends BaseRegionCompiler<CustomRegion, N2oCu
         CustomRegion region = new CustomRegion();
         build(region, source, p);
         region.setPlace(source.getPlace());
-        region.setItems(initItems(source, p, Region.Item.class));
+        region.setItems(initItems(source, context, p, Region.Item.class));
         return region;
     }
 
@@ -40,11 +41,16 @@ public class CustomRegionCompiler extends BaseRegionCompiler<CustomRegion, N2oCu
     }
 
     @Override
-    protected CustomRegion.Item createItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
+    protected CustomRegion.Item createWidgetItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
         CustomRegion.Item item = new CustomRegion.Item();
         item.setId("none" + index.get());
         item.setLabel(widget.getName());
         item.setProperties(p.mapAttributes(widget));
         return item;
+    }
+
+    @Override
+    protected Region.Item createRegionItem(N2oRegion region, IndexScope index, PageContext context, CompileProcessor p) {
+        return null;
     }
 }

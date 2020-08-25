@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.io.page;
 
 
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oAbstractRegion;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ public class StandardPageElementIOv2 extends BasePageElementIOv2<N2oStandardPage
     @Override
     public void io(Element e, N2oStandardPage m, IOProcessor p) {
         super.io(e, m, p);
-        p.anyChildren(e, "regions", m::getRegions, m::setRegions, p.anyOf(N2oAbstractRegion.class), getRegionDefaultNamespace());
+        p.anyChildren(e, "regions", m::getItems, m::setItems, p.anyOf(SourceComponent.class), getRegionDefaultNamespace());
     }
 
     @Override
