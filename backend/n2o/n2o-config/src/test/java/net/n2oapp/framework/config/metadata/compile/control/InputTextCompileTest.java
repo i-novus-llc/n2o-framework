@@ -39,7 +39,7 @@ public class InputTextCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testInputText() {
-        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testInputText.widget.xml")
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testInputText.widget.xml")
                 .get(new WidgetContext("testInputText"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         List<FieldSet.Row> rows = form.getComponent().getFieldsets().get(0).getRows();
@@ -69,7 +69,7 @@ public class InputTextCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testNoLabelInputText() {
-        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testInputText.widget.xml")
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testInputText.widget.xml")
                 .get(new WidgetContext("testInputText"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(1).getFields().get(0);
         assertThat(field.getLabel(), nullValue());

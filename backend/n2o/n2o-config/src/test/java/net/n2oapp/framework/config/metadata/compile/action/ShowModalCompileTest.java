@@ -39,6 +39,9 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+/**
+ * Тестирование компиляции действия открытия модального окна
+ */
 public class ShowModalCompileTest extends SourceCompileTestBase {
 
     @Override
@@ -78,6 +81,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         //create
         assertThat(payload.getPageUrl(), is("/p/create"));
         assertThat(payload.getSize(), is("sm"));
+        assertThat(payload.getScrollable(), is(true));
         assertThat(payload.getPageId(), is("p_create"));
 
 //        assertThat(payload.getActions().size(), is(2));

@@ -195,4 +195,20 @@ public class RouteUtilTest {
         assertThat(RouteUtil.addQueryParams("/base", queryMapping),
                 is("/base?nameParam=:name&surname=:surname&vipParam=true&gender=1"));
     }
+
+    @Test
+    public void parsePath() {
+        assertThat(RouteUtil.parsePath("/example?test=1&par=val"), is("/example"));
+        assertThat(RouteUtil.parsePath("/example?"), is("/example"));
+        assertThat(RouteUtil.parsePath("/example"), is("/example"));
+    }
+
+    @Test
+    public void parseQuery() {
+        assertThat(RouteUtil.parseQuery("/example?test=1&par=val"), is("test=1&par=val"));
+        assertThat(RouteUtil.parseQuery("?test=1&par=val"), is("test=1&par=val"));
+        assertThat(RouteUtil.parseQuery("/example?"), is(""));
+        assertThat(RouteUtil.parseQuery("/example"), nullValue());
+    }
+
 }

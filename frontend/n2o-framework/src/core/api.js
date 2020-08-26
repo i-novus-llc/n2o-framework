@@ -1,11 +1,11 @@
 import isMap from 'lodash/isMap';
 import isPlainObject from 'lodash/isPlainObject';
 import isFunction from 'lodash/isFunction';
-import identity from 'lodash/identity';
 import omitBy from 'lodash/omitBy';
 import pickBy from 'lodash/pickBy';
 import isObject from 'lodash/isObject';
 import isEmpty from 'lodash/isEmpty';
+import isNil from 'lodash/isNil';
 import assign from 'lodash/assign';
 import defaultTo from 'lodash/defaultTo';
 import flatten from 'flat';
@@ -26,6 +26,8 @@ export const FETCH_WIDGET_DATA = 'FETCH_WIDGET_DATA';
 export const FETCH_INVOKE_DATA = 'FETCH_INVOKE_DATA';
 export const FETCH_VALIDATE = 'FETCH_VALIDATE';
 export const FETCH_VALUE = 'FETCH_VALUE';
+
+const identity = value => !isNil(value);
 
 /**
  * Удаляет все пустые значения в параметрах запроса

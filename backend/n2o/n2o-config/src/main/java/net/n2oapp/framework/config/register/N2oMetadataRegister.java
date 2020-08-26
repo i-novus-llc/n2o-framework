@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.MetadataRegister;
 import net.n2oapp.framework.config.reader.ReferentialIntegrityViolationException;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -24,7 +25,7 @@ public class N2oMetadataRegister implements MetadataRegister {
 
     @Override
     public SourceInfo get(String id, Class<? extends SourceMetadata> sourceClass) {
-        MetaKey key = new MetaKey(id.contains("?") ? id.substring(0, id.indexOf("?")) : id, sourceClass);
+        MetaKey key = new MetaKey(RouteUtil.parsePath(id), sourceClass);
         if (!register.containsKey(key)) {
             throw new ReferentialIntegrityViolationException(id, sourceClass);
         }
@@ -52,7 +53,7 @@ public class N2oMetadataRegister implements MetadataRegister {
 
     @Override
     public boolean contains(String id, Class<? extends SourceMetadata> sourceClass) {
-        return register.containsKey(new MetaKey(id.contains("?") ? id.substring(0, id.indexOf("?")) : id, sourceClass));
+        return register.containsKey(new MetaKey(RouteUtil.parsePath(id), sourceClass));
     }
 
     @Override
@@ -68,7 +69,7 @@ public class N2oMetadataRegister implements MetadataRegister {
 
     @Override
     public void remove(String id, Class<? extends SourceMetadata> sourceClass) {
-        register.remove(new MetaKey(id.contains("?") ? id.substring(0, id.indexOf("?")) : id, sourceClass));
+        register.remove(new MetaKey(RouteUtil.parsePath(id), sourceClass));
     }
 
     @Override

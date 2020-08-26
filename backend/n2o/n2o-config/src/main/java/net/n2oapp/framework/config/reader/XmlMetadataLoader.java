@@ -40,7 +40,6 @@ public class XmlMetadataLoader implements SourceLoader<XmlInfo> {
 
     @Override
     public <S extends SourceMetadata> S load(XmlInfo info, String params) {
-        //todo обратоку входных params
         Class<? extends SourceMetadata> sourceClass = info.getBaseSourceClass();
         try (InputStream inputStream = FileSystemUtil.getContentAsStream(info.getURI())) {
             MetadataParamHolder.setParams(RouteUtil.parseQueryParams(params));

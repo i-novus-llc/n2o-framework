@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
- * Компиляция поля для ввода текста c автоподбором
+ * Компиляция компонента ввода текста с автоподбором
  */
 @Component
 public class AutoCompleteCompiler extends StandardFieldCompiler<AutoComplete, N2oAutoComplete> {
@@ -39,6 +41,8 @@ public class AutoCompleteCompiler extends StandardFieldCompiler<AutoComplete, N2
     public StandardField<AutoComplete> compile(N2oAutoComplete source, CompileContext<?, ?> context, CompileProcessor p) {
         AutoComplete autoComplete = new AutoComplete();
         autoComplete.setValueFieldId(p.cast(source.getValueFieldId(), "name"));
+        autoComplete.setTags(p.cast(source.getTags(),
+                p.resolve(property("n2o.api.control.auto_complete.tags"), Boolean.class)));
         if (source.getQueryId() != null)
             autoComplete.setDataProvider(compileDataProvider(source, context, p));
         else if (source.getOptions() != null) {

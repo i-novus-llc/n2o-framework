@@ -23,7 +23,5 @@ public class N2oIconCell extends N2oAbstractCell {
     private String text;
     @JsonProperty("textPlace")
     private Position position;
-    @JsonProperty
-    private String tooltipFieldId;
 
 }

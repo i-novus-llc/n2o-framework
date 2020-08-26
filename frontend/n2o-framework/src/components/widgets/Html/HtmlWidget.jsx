@@ -16,53 +16,37 @@ import dependency from '../../../core/dependency';
  * @reactProps {object} datasource
  */
 
-class HtmlWidget extends React.Component {
-  /**
-   * Мэппинг пропсов
-   */
-  getWidgetProps() {
-    return {
-      id: this.props.id,
-      url: this.props.url,
-      dataProvider: this.props.dataProvider,
-      datasource: this.props.datasource,
-      ...this.props.html,
-    };
-  }
+function HtmlWidget(props) {
+  const {
+    fetchOnInit,
+    id: widgetId,
+    toolbar,
+    actions,
+    className,
+    style,
+    pageId,
+    datasource,
+    ...rest
+  } = props;
 
-  /**
-   * Базовый рендер
-   */
-  render() {
-    const {
-      fetchOnInit,
-      id: widgetId,
-      toolbar,
-      actions,
-      className,
-      style,
-      pageId,
-      datasource,
-    } = this.props;
-    return (
-      <StandardWidget
+  return (
+    <StandardWidget
+      widgetId={widgetId}
+      toolbar={toolbar}
+      actions={actions}
+      className={className}
+      fetchOnInit={fetchOnInit}
+      style={style}
+    >
+      <HtmlContainer
+        pageId={pageId}
         widgetId={widgetId}
-        toolbar={toolbar}
-        actions={actions}
-        className={className}
         fetchOnInit={fetchOnInit}
-        style={style}
-      >
-        <HtmlContainer
-          pageId={pageId}
-          widgetId={widgetId}
-          fetchOnInit={fetchOnInit}
-          datasource={datasource}
-          {...this.getWidgetProps()}
-        />
-      </StandardWidget>
-    );
-  }
+        datasource={datasource}
+        {...rest}
+      />
+    </StandardWidget>
+  );
 }
 
 HtmlWidget.defaultProps = {
@@ -70,8 +54,7 @@ HtmlWidget.defaultProps = {
 };
 
 HtmlWidget.propTypes = {
-  containerId: PropTypes.string.isRequired,
-  pageId: PropTypes.string.isRequired,
+  pageId: PropTypes.string,
   fetchOnInit: PropTypes.bool,
   url: PropTypes.bool,
   widgetId: PropTypes.string,
