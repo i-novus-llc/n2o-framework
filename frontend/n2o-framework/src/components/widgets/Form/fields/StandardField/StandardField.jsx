@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import isUndefined from 'lodash/isUndefined';
 
 import Control from './Control';
 import Label from './Label';
@@ -85,6 +86,7 @@ class StandardField extends React.Component {
       containerKey,
       dataProvider,
       form,
+      noLabel,
       ...props
     } = this.props;
 
@@ -127,18 +129,20 @@ class StandardField extends React.Component {
           })}
           style={style}
         >
-          <Label
-            id={id}
-            value={label}
-            style={extendedLabelStyle}
-            className={cx(
-              labelClass,
-              { ['label-alignment-' + labelAlignment]: labelAlignment },
-              'n2o-label'
-            )}
-            required={required}
-            help={help}
-          />
+          {!noLabel || isUndefined(noLabel) ? (
+            <Label
+              id={id}
+              value={label}
+              style={extendedLabelStyle}
+              className={cx(
+                labelClass,
+                { ['label-alignment-' + labelAlignment]: labelAlignment },
+                'n2o-label'
+              )}
+              required={required}
+              help={help}
+            />
+          ) : null}
           <div style={styleHelper}>
             <div
               className={cx('form-container', {
