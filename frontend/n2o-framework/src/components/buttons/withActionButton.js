@@ -6,6 +6,7 @@ import { compose, withPropsOnChange } from 'recompose';
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 import omit from 'lodash/omit';
 import get from 'lodash/get';
+import isNil from 'lodash/isNil';
 
 import isUndefined from 'lodash/isUndefined';
 
@@ -175,6 +176,9 @@ export default function withActionButton(options = {}) {
         const { confirm, hint, disabled, message } = this.props;
         const { confirmVisible } = this.state;
         const confirmMode = get(confirm, 'mode');
+        const visible = !isNil(this.props.visible)
+          ? this.props.visible
+          : this.props.visibleFromState;
 
         const currentMessage = disabled ? message || hint : hint;
         return (
@@ -193,6 +197,7 @@ export default function withActionButton(options = {}) {
                 'validationConfig',
                 'formValues',
               ])}
+              visible={visible}
               onClick={this.handleClick}
               id={this.generatedButtonId}
             />
@@ -221,7 +226,7 @@ export default function withActionButton(options = {}) {
     const mapStateToProps = createStructuredSelector({
       isInit: (state, ownProps) =>
         isInitSelector(ownProps.entityKey, ownProps.id)(state),
-      visible: (state, ownProps) =>
+      visibleFromState: (state, ownProps) =>
         isVisibleSelector(ownProps.entityKey, ownProps.id)(state),
       disabled: (state, ownProps) =>
         isDisabledSelector(ownProps.entityKey, ownProps.id)(state),
@@ -256,7 +261,6 @@ export default function withActionButton(options = {}) {
     };
 
     ButtonContainer.defaultProps = {
-      visible: true,
       disabled: false,
     };
 
