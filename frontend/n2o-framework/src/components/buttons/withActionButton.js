@@ -261,7 +261,6 @@ export default function withActionButton(options = {}) {
     };
 
     ButtonContainer.defaultProps = {
-      visible: true,
       disabled: false,
     };
 
