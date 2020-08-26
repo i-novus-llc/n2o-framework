@@ -20,11 +20,14 @@ import java.util.Map;
 public abstract class Region implements Compiled, SrcAware, IdAware {
     @JsonProperty
     private String id;
-    private String place;
     @JsonProperty
     private String src;
     @JsonProperty
+    private String name;
+    @JsonProperty
     private List<? extends Item> items;
+    @JsonProperty
+    private List<Compiled> content;
     private Map<String, Object> properties;
 
     @JsonAnyGetter
@@ -43,6 +46,7 @@ public abstract class Region implements Compiled, SrcAware, IdAware {
         private Boolean opened;
         @JsonProperty
         private Boolean fetchOnInit;
+        // TODO убрать
         @JsonProperty
         private String widgetId;
         private Map<String, Object> properties;

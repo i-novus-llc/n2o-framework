@@ -1,11 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
-import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -37,8 +35,8 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         TabsRegion region = new TabsRegion();
         build(region, source, p);
         region.setTabs(new ArrayList<>());
-        region.setPlace(source.getPlace());
-        region.setItems(initItems(source, context, p, TabsRegion.Tab.class));
+        IndexScope indexScope = p.getScope(IndexScope.class);
+        region.setItems(initItems(source, indexScope, context, p, TabsRegion.Tab.class));
         region.setAlwaysRefresh(source.getAlwaysRefresh() != null ? source.getAlwaysRefresh() : false);
         region.setLazy(p.cast(source.getLazy(), p.resolve(property("n2o.api.region.tabs.lazy"), Boolean.class)));
         compileTabsRoute(source, region.getId(), p);
@@ -87,11 +85,5 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         tab.setFetchOnInit(tab.getOpened());
         tab.setProperties(p.mapAttributes(widget));
         return tab;
-    }
-
-
-    @Override
-    protected Region.Item createRegionItem(N2oRegion region, IndexScope index, PageContext context, CompileProcessor p) {
-        return null;
     }
 }

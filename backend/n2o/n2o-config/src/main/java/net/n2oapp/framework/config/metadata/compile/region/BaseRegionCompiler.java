@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
+import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
@@ -42,9 +43,9 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
     }
 
     @SuppressWarnings("unchecked")
-    protected <I extends Region.Item> List<I> initItems(N2oRegion source, PageContext context, CompileProcessor p, Class<I> itemClass) {
+    protected <I extends Region.Item> List<I> initItems(N2oRegion source, IndexScope index, PageContext context,
+                                                        CompileProcessor p, Class<I> itemClass) {
         List<I> items = new ArrayList<>();
-        IndexScope index = new IndexScope(1);
         if (source.getItems() != null) {
             for (SourceComponent item : source.getItems()) {
                 if (item instanceof N2oWidget) {
@@ -59,16 +60,24 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
                     if (!itemClass.equals(regionItem.getClass()))
                         throw new IllegalStateException();
                     items.add((I) regionItem);
-                } else if (item instanceof N2oRegion)
-//                    for (SourceComponent r : ((N2oRegion) item).getItems())
-                        items.add((I) createRegionItem(((N2oRegion) item), index, context, p));
+                }
+//                } else if (item instanceof N2oRegion)
+//                    items.add((I) createRegionItem(((N2oRegion) item), index, context, p));
             }
         }
         return items;
     }
 
+    protected List<Compiled> initContent(SourceComponent[] items, IndexScope index, PageContext context,
+                                                       CompileProcessor p) {
+        if (items == null || items.length == 0)
+            return null;
+
+        List<Compiled> content = new ArrayList<>();
+        for (SourceComponent item : items)
+            content.add(p.compile(item, context, p, index));
+        return content;
+    }
+
     protected abstract Region.Item createWidgetItem(N2oWidget widget, IndexScope index, CompileProcessor p);
-
-    protected abstract Region.Item createRegionItem(N2oRegion region, IndexScope index, PageContext context, CompileProcessor p);
-
 }

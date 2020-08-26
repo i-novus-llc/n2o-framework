@@ -2,12 +2,10 @@ package net.n2oapp.framework.config.metadata.compile.region;
 
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oPanelRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
-import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
@@ -36,10 +34,10 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
     public PanelRegion compile(N2oPanelRegion source, PageContext context, CompileProcessor p) {
         PanelRegion region = new PanelRegion();
         build(region, source, p);
-        region.setPlace(source.getPlace());
         region.setClassName(source.getClassName());
         region.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        region.setItems(initItems(source, context, p, PanelRegion.Panel.class));
+        IndexScope indexScope = p.getScope(IndexScope.class);
+        region.setContent(initContent(source.getItems(), indexScope, context, p));
         region.setColor(source.getColor());
         region.setIcon(source.getIcon());
         if (region.getItems() != null && !region.getItems().isEmpty()) {
@@ -51,11 +49,7 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         region.setCollapsible(source.getCollapsible() != null ? source.getCollapsible() : true);
         region.setFullScreen(false);
         compilePanelRoute(source, region.getId(), p);
-        if (source.getTitle() == null && region.getItems().size() == 1) {
-            region.setHeaderTitle(region.getItems().get(0).getLabel());
-        } else {
-            region.setHeaderTitle(source.getTitle());
-        }
+        region.setHeaderTitle(source.getTitle());
         return region;
     }
 
@@ -88,10 +82,5 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         panel.setOpened(p.cast(widget.getOpened(), true));
         panel.setProperties(p.mapAttributes(widget));
         return panel;
-    }
-
-    @Override
-    protected Region.Item createRegionItem(N2oRegion region, IndexScope index, PageContext context, CompileProcessor p) {
-        return null;
     }
 }

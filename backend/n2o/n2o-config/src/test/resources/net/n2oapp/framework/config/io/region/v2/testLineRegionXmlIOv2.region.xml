@@ -1,6 +1,6 @@
 <line xmlns="http://n2oapp.net/framework/config/schema/region-2.0"
       id="tabs" class="test" place="single" src="test" style="test"
-      collapsible="false">
+      collapsible="false" name="Line1">
     <form/>
     <line/>
     <table/>

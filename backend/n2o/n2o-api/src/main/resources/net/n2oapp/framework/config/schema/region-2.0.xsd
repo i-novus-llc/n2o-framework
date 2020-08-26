@@ -39,11 +39,6 @@
                         <xs:documentation>Идентификатор региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="place" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Местоположение региона на странице.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Реализация региона.</xs:documentation>
@@ -79,11 +74,6 @@
         <xs:attribute name="id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Идентификатор региона.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="place" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Местоположение региона на странице.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
@@ -136,6 +126,11 @@
                 <xs:annotation>
                     <xs:documentation>Вкладка.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="name">
+                    <xs:annotation>
+                        <xs:documentation>Наименование вкладки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -146,6 +141,11 @@
                 <xs:annotation>
                     <xs:documentation>Регион с горизонтальным делителем.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="name">
+                    <xs:annotation>
+                        <xs:documentation>Наименование региона.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="collapsible" type="xs:boolean">
                     <xs:annotation>
                         <xs:documentation>Возможность раскрытия и сворачивания виджетов.</xs:documentation>
@@ -163,10 +163,10 @@
                 </xs:annotation>
                 <xs:attribute name="title" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Заголовок.</xs:documentation>
+                        <xs:documentation>Заголовок панели.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="collapsible" type="xs:boolean">
+                <xs:attribute name="collapsible" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Возможность раскрытия и сворачивания виджетов.</xs:documentation>
                     </xs:annotation>
