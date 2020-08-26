@@ -11,7 +11,7 @@ describe('Проверка Label', () => {
     expect(wrapper.find('.col-form-label').exists()).toEqual(true);
   });
   it('required = true', () => {
-    const wrapper = setup({ required: true });
+    const wrapper = setup({ required: true, value: 'test' });
     expect(wrapper.find('.n2o-field-label-required').exists()).toEqual(true);
   });
   it('help = true', () => {

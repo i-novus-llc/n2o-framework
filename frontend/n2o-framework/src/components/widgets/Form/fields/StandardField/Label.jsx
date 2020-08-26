@@ -27,13 +27,19 @@ const Label = ({ id, value, required, className, style, help, ...props }) => {
   return React.isValidElement(value) ? (
     <div className={'n2o-field-label'}>
       {React.cloneElement(value, newProps)}
-      {required ? <span className="n2o-field-label-required">*</span> : ''}
+      {required && value ? (
+        <span className="n2o-field-label-required">*</span>
+      ) : (
+        ''
+      )}
       {help && <HelpPopover id={id} help={help} />}
     </div>
   ) : (
     <BootstrapLabel className={cx('n2o-field-label', className)} style={style}>
       {value}
-      {required ? <span className="n2o-field-label-required">*</span> : null}
+      {required && value ? (
+        <span className="n2o-field-label-required">*</span>
+      ) : null}
       {help && <HelpPopover id={id} help={help} />}
     </BootstrapLabel>
   );
