@@ -47,12 +47,12 @@
                         <xs:documentation>Цвет кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean" use="optional" default="true">
+                <xs:attribute name="visible" type="xs:string" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Видимость кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true">
+                <xs:attribute name="enabled" type="xs:string" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Доступность кнопки.</xs:documentation>
                     </xs:annotation>
@@ -67,7 +67,6 @@
                         <xs:documentation>Сделать кнопку круглой.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true"/>
                 <xs:attribute name="action-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.</xs:documentation>
@@ -150,12 +149,12 @@
                 <xs:annotation>
                     <xs:documentation>Кнопка.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="type" type="textType" use="optional">
+                <xs:attribute name="type" type="textType" default="iconAndText">
                     <xs:annotation>
                         <xs:documentation>Кнопка с иконкой или без.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="src" type="xs:string" use="optional">
+                <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Реализация действия.</xs:documentation>
                     </xs:annotation>
@@ -168,42 +167,42 @@
         <xs:annotation>
             <xs:documentation>Базовое определение кнопки с выпадающим меню.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="label" type="xs:string" use="optional">
+        <xs:attribute name="label" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Заголовок кнопки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="icon" type="xs:string" use="optional">
+        <xs:attribute name="icon" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Иконка.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="type" type="textType" use="optional">
+        <xs:attribute name="type" type="textType" default="iconAndText">
             <xs:annotation>
                 <xs:documentation>Кнопка с иконкой или без.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="class" type="xs:string" use="optional">
+        <xs:attribute name="class" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Css класс кнопки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="style" type="xs:string" use="optional">
+        <xs:attribute name="style" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Стиль кнопки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="color" type="colorDefinition" use="optional">
+        <xs:attribute name="color" type="colorDefinition">
             <xs:annotation>
                 <xs:documentation>Цвет кнопки.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="generate" type="xs:string" use="optional">
+        <xs:attribute name="generate" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="src" type="xs:string" use="optional">
+        <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Реализация действия.</xs:documentation>
             </xs:annotation>
@@ -323,11 +322,6 @@
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="on" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Поля, от которых зависит условие.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="enablingDependencyDefinition">
@@ -365,7 +359,7 @@
 
     <xs:simpleType name="colorDefinition">
         <xs:annotation>
-            <xs:documentation>Цвет кнопки</xs:documentation>
+            <xs:documentation>Цвет кнопки.</xs:documentation>
         </xs:annotation>
         <xs:union memberTypes="xs:string">
             <xs:simpleType>

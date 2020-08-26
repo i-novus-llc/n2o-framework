@@ -26,6 +26,19 @@
 
     z-index: 1100;
   }
+
+  &--fixed {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    z-index: 1100;
+    .details {
+      height: 350px;
+      overflow: auto;
+      word-break: break-all;
+    }
+  }
 }
 
 .n2o-alert {

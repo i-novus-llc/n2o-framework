@@ -39,7 +39,7 @@ public class InputTextCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testInputText() {
-        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testInputText.widget.xml")
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testInputText.widget.xml")
                 .get(new WidgetContext("testInputText"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
         List<FieldSet.Row> rows = form.getComponent().getFieldsets().get(0).getRows();
@@ -52,8 +52,8 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(inputText.getMeasure(), is("cm"));
         InputText inputText1 = (InputText) ((StandardField) rows.get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(inputText1.getSrc(), is("InputNumber"));
-        assertThat(inputText1.getMax(), is(Integer.MAX_VALUE));
-        assertThat(inputText1.getMin(), is(Integer.MIN_VALUE));
+        assertThat(inputText1.getMax(), is("99999999999999"));
+        assertThat(inputText1.getMin(), is("-99999999999999"));
         assertThat(inputText1.getStep(), is("1"));
         assertThat(inputText1.getMeasure(), is("cm"));
         assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
@@ -69,7 +69,7 @@ public class InputTextCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testNoLabelInputText() {
-        Form form = (Form) compile("net/n2oapp/framework/config/mapping/testInputText.widget.xml")
+        Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testInputText.widget.xml")
                 .get(new WidgetContext("testInputText"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(1).getFields().get(0);
         assertThat(field.getLabel(), nullValue());

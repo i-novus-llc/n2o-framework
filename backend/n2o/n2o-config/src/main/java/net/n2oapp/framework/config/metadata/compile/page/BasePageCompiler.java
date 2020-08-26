@@ -55,7 +55,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             pageScope.setResultWidgetId(resultWidgetId);
         }
         String pageName = p.cast(context.getPageName(), source.getName());
-        boolean showTitle = p.cast(source.getShowTitle(), false);
+        boolean showTitle = p.cast(source.getShowTitle(), p.resolve(property("n2o.api.default.page.show_title"), Boolean.class), false);
         page.setPageProperty(initPageName(pageName, showTitle, context, p));
         page.setProperties(p.mapAttributes(source));
         BreadcrumbList breadcrumb = initBreadcrumb(pageName, context, p);

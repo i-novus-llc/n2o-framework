@@ -59,7 +59,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         listControl.setLabelFieldId(p.cast(p.resolveJS(listControl.getLabelFieldId()), "name"));
         listControl.setCaching(source.getCache());
         listControl.setEnabledFieldId(source.getEnabledFieldId());
-        initSubModel(source, p.getScope(SubModelsScope.class));
+        initSubModel(source, listControl.getData(), p.getScope(SubModelsScope.class));
         return compileStandardField(listControl, source, context, p);
     }
 
@@ -109,21 +109,21 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
         return field;
     }
 
-    private void initSubModel(S source, SubModelsScope scope) {
+    private void initSubModel(S source, List<Map<String, Object>> data, SubModelsScope scope) {
         if (scope == null)
             return;
-        if (source.getQueryId() != null || source.getOptions() != null)
-            scope.add(createSubModel(source));
+        if (source.getQueryId() != null || data != null)
+            scope.add(createSubModel(source, data));
     }
 
-    private SubModelQuery createSubModel(N2oListField item) {
+    private SubModelQuery createSubModel(N2oListField item, List<Map<String, Object>> data) {
         return new SubModelQuery(
                 item.getId(),
                 item.getQueryId(),
                 item.getValueFieldId() != null ? item.getValueFieldId() : "id",
                 item.getLabelFieldId() != null ? item.getLabelFieldId() : "name",
                 !item.isSingle(),
-                item.getOptions() == null ? null : Arrays.asList(item.getOptions())
+                data
         );
     }
 

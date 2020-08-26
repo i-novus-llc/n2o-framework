@@ -4,6 +4,7 @@ import { compose, withHandlers } from 'recompose';
 import get from 'lodash/get';
 import cx from 'classnames';
 
+import propsResolver from '../../../../../utils/propsResolver';
 import { setModel } from '../../../../../actions/models';
 import { PREFIXES } from '../../../../../constants/models';
 import Toolbar from '../../../../buttons/Toolbar';
@@ -44,7 +45,7 @@ function ButtonsCell({
       <Toolbar
         className={cx('n2o-buttons-cell', className)}
         entityKey={key}
-        toolbar={toolbar}
+        toolbar={propsResolver(toolbar, model)}
         onClick={onResolve}
       />
     </div>

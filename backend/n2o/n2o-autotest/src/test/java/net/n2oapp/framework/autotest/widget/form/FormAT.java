@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -99,5 +100,40 @@ public class FormAT extends AutoTestBase {
         button2.hover();
         // у кнопки2 не должно быть подсказки, т.к. не указан description
         tooltip.shouldNotBeExist();
+    }
+
+    @Test
+    public void testMode() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/form/mode/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        InputText masterName = page.widgets().widget(FormWidget.class).fields().field("master-name")
+                .control(InputText.class);
+        InputText childName = page.widgets().widget(1, FormWidget.class).fields().field("child-name")
+                .control(InputText.class);
+        InputText master2Name = page.widgets().widget(2, FormWidget.class).fields().field("master2-name")
+                .control(InputText.class);
+        InputText child2Name = page.widgets().widget(3, FormWidget.class).fields().field("child2-name")
+                .control(InputText.class);
+
+        masterName.shouldHaveValue("test");
+        childName.shouldHaveValue("test");
+        master2Name.shouldHaveValue("test");
+        child2Name.shouldHaveValue("test");
+
+        childName.val("123");
+        child2Name.val("123");
+        childName.shouldHaveValue("123");
+        child2Name.shouldHaveValue("123");
+
+        masterName.val("test1");
+        master2Name.val("test1");
+
+        // one-model (запрос будет -> значение поля вернется к исходному)
+        childName.shouldHaveValue("test");
+        // two-models (запроса не будет -> значение поля не изменится)
+        child2Name.shouldHaveValue("123");
     }
 }

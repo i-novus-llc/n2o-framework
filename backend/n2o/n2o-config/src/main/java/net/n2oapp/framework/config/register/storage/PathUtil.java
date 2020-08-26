@@ -5,7 +5,10 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -145,9 +148,10 @@ public class PathUtil {
 
     /**
      * Ищет директории соответсвующие pattern начиная с projectPaths
+     *
      * @param projectPaths - начальные директории
-     * @param pattern - шаблон
-     * @param ignores - игнорируемые названия директорий
+     * @param pattern      - шаблон
+     * @param ignores      - игнорируемые названия директорий
      * @return - лист директорий
      */
     public static Set<String> getConfigPaths(String configPath, List<String> projectPaths, String pattern, Collection<String> ignores) {

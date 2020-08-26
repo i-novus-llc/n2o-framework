@@ -1,13 +1,27 @@
 import React from 'react';
+
+import get from 'lodash/get';
+import first from 'lodash/first';
+
 import PropTypes from 'prop-types';
 import { compose, setDisplayName } from 'recompose';
 import withCell from '../../withCell';
 import Tooltip from './Tooltip';
 
 function ListTextCell(props) {
+  const { model, fieldKey } = props;
+
+  const tooltipList = get(model, fieldKey);
+  const singleElement = tooltipList.length === 1;
+  const nullElements = tooltipList.length === 0;
+
   return (
     <div className="list-text-cell">
-      <Tooltip {...props} />
+      {singleElement ? (
+        first(tooltipList)
+      ) : nullElements ? null : (
+        <Tooltip {...props} />
+      )}
     </div>
   );
 }

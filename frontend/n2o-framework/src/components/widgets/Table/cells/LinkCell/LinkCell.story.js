@@ -187,7 +187,7 @@ stories
       />
     );
   })
-  .add('Ссылка с url и target=newWindow', () => {
+  .add('Ссылка с url и target=_blank', () => {
     const tableProps = {
       headers: [
         {
@@ -202,7 +202,7 @@ stories
           ...LinkCellWithPerformJSON,
           type: 'text',
           url: 'https://google.com/',
-          target: 'newWindow',
+          target: '_blank',
         },
       ],
       datasource: [
