@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import map from 'lodash/map';
-import get from 'lodash/get';
 import isUndefined from 'lodash/isUndefined';
-import omit from 'lodash/omit';
+import setWith from 'lodash/setWith';
+import unset from 'lodash/unset';
 import ButtonToolbar from 'reactstrap/lib/ButtonToolbar';
 import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 
@@ -17,20 +17,22 @@ function Toolbar({ className, toolbar, entityKey, onClick }) {
     onClick();
   };
 
+  const remapButtons = obj => {
+    if (!isUndefined(obj.enabled)) {
+      setWith(obj, 'disabled', !obj.enabled, Object);
+      setWith(obj, 'entityKey', entityKey, Object);
+
+      unset(obj, 'enabled');
+    }
+    if (!isUndefined(obj.subMenu)) {
+      map(obj.subMenu, item => remapButtons(item));
+    }
+    return obj;
+  };
+
   const renderButtons = props =>
     props.component ? (
-      !isUndefined(get(props, 'enabled')) ? (
-        React.createElement(props.component, {
-          ...omit(props, ['enabled']),
-          entityKey,
-          disabled: !get(props, 'enabled'),
-        })
-      ) : (
-        React.createElement(props.component, {
-          ...props,
-          entityKey,
-        })
-      )
+      React.createElement(props.component, remapButtons(props))
     ) : (
       <Factory level={BUTTONS} {...props} entityKey={entityKey} />
     );
