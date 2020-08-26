@@ -70,6 +70,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
         compileFieldToolbar(field, source, context, p);
         field.setLabel(initLabel(source, p));
+        field.setNoLabelBlock(p.cast(source.getNoLabelBlock(),
+                p.resolve(property("n2o.api.field.no_label_block"), Boolean.class)));
         field.setLabelClass(p.resolveJS(source.getLabelClass()));
         field.setHelp(p.resolveJS(source.getHelp()));
         field.setDescription(p.resolveJS(source.getDescription()));
@@ -78,9 +80,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     }
 
     protected String initLabel(S source, CompileProcessor p) {
-        if (source.getNoLabel() == null || !source.getNoLabel()) {
+        if (!Boolean.TRUE.equals(source.getNoLabelBlock()) || !Boolean.TRUE.equals(source.getNoLabel()))
             return p.resolveJS(source.getLabel());
-        }
         return null;
     }
 

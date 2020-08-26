@@ -47,6 +47,7 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(field.getStyle().size(), is(2));
         assertThat(field.getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(field.getStyle().get("paddingTop"), is("0"));
+        assertThat(field.getNoLabelBlock(), is(false));
         InputText inputText = (InputText) ((StandardField) field).getControl();
         assertThat(inputText.getSrc(), is("InputText"));
         assertThat(inputText.getMeasure(), is("cm"));
@@ -73,6 +74,7 @@ public class InputTextCompileTest extends SourceCompileTestBase {
                 .get(new WidgetContext("testInputText"));
         Field field = form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(1).getFields().get(0);
         assertThat(field.getLabel(), nullValue());
+        assertThat(field.getNoLabelBlock(), is(true));
         assertThat(field.getLabelClass(), is("testLabelClass"));
     }
 }

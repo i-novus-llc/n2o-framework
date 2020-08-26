@@ -111,6 +111,11 @@
                 <xs:documentation>Не отображать заголовок</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="no-label-block" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Не отображать блок с заголовком</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Реализация компонента</xs:documentation>
