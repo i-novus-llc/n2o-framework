@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import isUndefined from 'lodash/isUndefined';
 
 import Control from './Control';
 import Label from './Label';
@@ -129,7 +128,7 @@ class StandardField extends React.Component {
           })}
           style={style}
         >
-          {!noLabelBlock || isUndefined(noLabelBlock) ? (
+          {!noLabelBlock ? (
             <Label
               id={id}
               value={label}
