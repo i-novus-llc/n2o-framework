@@ -322,11 +322,6 @@
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="on" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Поля, от которых зависит условие.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="enablingDependencyDefinition">
