@@ -27,7 +27,7 @@ public class IntervalFieldJsonTest extends JsonMetadataTestBase {
                 "components/widgets/Form/fields/RangeField/RangeField.meta.json")
                 .cutXml("form.fieldsets[0].rows[0].cols[0].fields[0]").
                 exclude("controlClass", "labelStyle", "disabled", "controlClass", "measure", "validationClass",
-                        "autoFocus",
+                        "autoFocus", "noLabelBlock",
                         "loading", "controlStyle", "className", "required", "enabled", "description", "style",
                         "fieldActions",
                         "message", "help", "beginControl.min", "beginControl.max", "endControl.min", "endControl.max"
