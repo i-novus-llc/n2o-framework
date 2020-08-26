@@ -86,7 +86,7 @@ class StandardField extends React.Component {
       containerKey,
       dataProvider,
       form,
-      noLabel,
+      noLabelBlock,
       ...props
     } = this.props;
 
@@ -129,7 +129,7 @@ class StandardField extends React.Component {
           })}
           style={style}
         >
-          {!noLabel || isUndefined(noLabel) ? (
+          {!noLabelBlock || isUndefined(noLabelBlock) ? (
             <Label
               id={id}
               value={label}
