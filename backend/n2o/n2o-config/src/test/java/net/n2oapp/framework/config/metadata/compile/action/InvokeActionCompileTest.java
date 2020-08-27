@@ -5,10 +5,10 @@ import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
-import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
@@ -21,13 +21,15 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
  * Проверка копиляции invoke-action
  */
-public class InvokeActionCompileTest  extends SourceCompileTestBase {
+public class InvokeActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @Before
@@ -167,4 +169,41 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(provider2.getPathMapping().get("ppName2").getValue(), is("ppValue2"));
         assertThat(provider2.getHeadersMapping().get("hpName2").getValue(), is("hpValue2"));
     }
+
+    @Test
+    public void RouteAndPathValidationTest() {
+        DataSet data = new DataSet().add("parent_id", 123);
+        StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/routeAndPath.page.xml")
+                .get(new PageContext("routeAndPath", "/p/:parent_id/create"), data);
+        InvokeAction a1 = (InvokeAction) page.getWidgets().get("p_create_w2").getActions().get("b1");
+        assertThat(a1.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/w2/:p_create_w2_id/:main_id"));
+    }
+
+    @Test
+    public void emptyRouteValidationTest() {
+        DataSet data = new DataSet().add("parent_id", 123);
+        Throwable thrown = catchThrowable(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyRoute.page.xml")
+                .get(new PageContext("emptyRoute", "/p/:parent_id/create"), data));
+        assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
+        assertThat(thrown.getMessage(), is("route not set"));
+    }
+
+    @Test
+    public void emptyPathValidationTest() {
+        DataSet data = new DataSet().add("parent_id", 123);
+        Throwable thrown = catchThrowable(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyPath.page.xml")
+                .get(new PageContext("emptyPath", "/p/:parent_id/create"), data));
+        assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
+        assertThat(thrown.getMessage(), is("path-param not set"));
+    }
+
+    @Test()
+    public void multiplyPathValidationTest() {
+        DataSet data = new DataSet().add("parent_id", 123);
+        Throwable thrown = catchThrowable(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/multiplyPath.page.xml")
+                .get(new PageContext("multiplyPath", "/p/:parent_id/create"), data));
+        assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
+        assertThat(thrown.getMessage(), is("route not contains path-param"));
+    }
+
 }

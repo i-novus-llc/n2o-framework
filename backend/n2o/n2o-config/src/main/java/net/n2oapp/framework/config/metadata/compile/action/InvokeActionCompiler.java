@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -143,6 +144,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setTargetModel(model);
         dataProvider.setTargetWidgetId(invokeAction.getPayload().getWidgetId());
         dataProvider.setId(source.getId());
+        validatePathAndRoute(source, routeScope);
         dataProvider.setPathParams(source.getPathParams());
         dataProvider.setFormParams(source.getFormParams());
         dataProvider.setHeaderParams(source.getHeaderParams());
@@ -173,6 +175,18 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             compiledDataProvider.getPathMapping().putAll(routeScope.getPathMapping());
         }
         payload.setDataProvider(compiledDataProvider);
+    }
+
+    private void validatePathAndRoute(N2oInvokeAction source, ParentRouteScope routeScope) {
+        String route = source.getRoute();
+        N2oParam[] pathParams = source.getPathParams();
+        if (route == null && pathParams == null) return;
+        if (route == null && (pathParams != null || pathParams.length > 0)) throw new IllegalArgumentException("route not set");
+        if (pathParams == null && route != null) throw new IllegalArgumentException("path-param not set");
+        for (N2oParam pathParam : pathParams) {
+            if (!route.toLowerCase().contains(pathParam.getName().toLowerCase())) throw new IllegalArgumentException("route not contains path-param");
+            if (routeScope.getUrl().toLowerCase().contains(pathParam.getName().toLowerCase())) throw new IllegalArgumentException("route duplicate in parent url");
+        }
     }
 
     private RedirectSaga initServerRedirect(AsyncMetaSaga meta) {
