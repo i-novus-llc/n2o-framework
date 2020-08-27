@@ -26,7 +26,10 @@ import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProvi
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
@@ -180,12 +183,17 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
     private void validatePathAndRoute(N2oInvokeAction source, ParentRouteScope routeScope) {
         String route = source.getRoute();
         N2oParam[] pathParams = source.getPathParams();
-        if (route == null && pathParams == null) return;
-        if (route == null && (pathParams != null || pathParams.length > 0)) throw new IllegalArgumentException("route not set");
-        if (pathParams == null && route != null) throw new IllegalArgumentException("path-param not set");
+        List<String> routeParams = route == null ? null : RouteUtil.getParams(route);
+        if ((routeParams == null || routeParams.isEmpty()) && (pathParams == null || pathParams.length == 0)) return;
+
+        if (routeParams == null) throw new IllegalArgumentException("route not set");
+        if (pathParams == null) throw new IllegalArgumentException("path-param not set");
+
         for (N2oParam pathParam : pathParams) {
-            if (!route.toLowerCase().contains(pathParam.getName().toLowerCase())) throw new IllegalArgumentException("route not contains path-param");
-            if (routeScope.getUrl().toLowerCase().contains(pathParam.getName().toLowerCase())) throw new IllegalArgumentException("route duplicate in parent url");
+            if (!routeParams.contains(pathParam.getName()))
+                throw new IllegalArgumentException("route not contains path-param");
+            if (routeScope.getUrl() != null && RouteUtil.getParams(routeScope.getUrl()).contains(pathParam.getName()))
+                throw new IllegalArgumentException("route duplicate in parent url");
         }
     }
 

@@ -19,7 +19,7 @@
     </regions>
     <actions>
         <action id="save" widget-id="testActionContext">
-            <invoke operation-id="create" widget-id="testActionContext" route="/test">
+            <invoke operation-id="create" widget-id="testActionContext" route="/:test">
                 <path-param name="test" value="testValue"/>
             </invoke>
         </action>

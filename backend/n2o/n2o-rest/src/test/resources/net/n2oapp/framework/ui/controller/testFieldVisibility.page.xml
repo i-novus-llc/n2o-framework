@@ -33,9 +33,7 @@
         </fields>
         <toolbar>
             <button id="create6">
-                <invoke operation-id="create6" route="/create6">
-                    <path-param name="create6" value="pathValue6"/>
-                </invoke>
+                <invoke operation-id="create6" route="/create6"/>
             </button>
         </toolbar>
     </form>
