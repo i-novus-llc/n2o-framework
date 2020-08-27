@@ -4,12 +4,10 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,32 +40,6 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
         return id.toString();
     }
 
-    @SuppressWarnings("unchecked")
-    protected <I extends Region.Item> List<I> initItems(N2oRegion source, IndexScope index, PageContext context,
-                                                        CompileProcessor p, Class<I> itemClass) {
-        List<I> items = new ArrayList<>();
-        if (source.getItems() != null) {
-            for (SourceComponent item : source.getItems()) {
-                if (item instanceof N2oWidget) {
-                    N2oWidget widget = ((N2oWidget) item);
-                    Region.Item regionItem = createWidgetItem(widget, index, p);
-                    PageScope pageScope = p.getScope(PageScope.class);
-                    if (pageScope != null) {
-                        regionItem.setWidgetId(pageScope.getGlobalWidgetId(widget.getId()));
-                    } else {
-                        regionItem.setWidgetId(widget.getId());
-                    }
-                    if (!itemClass.equals(regionItem.getClass()))
-                        throw new IllegalStateException();
-                    items.add((I) regionItem);
-                }
-//                } else if (item instanceof N2oRegion)
-//                    items.add((I) createRegionItem(((N2oRegion) item), index, context, p));
-            }
-        }
-        return items;
-    }
-
     protected List<Compiled> initContent(SourceComponent[] items, IndexScope index, PageContext context,
                                                        CompileProcessor p) {
         if (items == null || items.length == 0)
@@ -78,6 +50,4 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
             content.add(p.compile(item, context, p, index));
         return content;
     }
-
-    protected abstract Region.Item createWidgetItem(N2oWidget widget, IndexScope index, CompileProcessor p);
 }

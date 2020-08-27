@@ -143,7 +143,7 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(0), instanceOf(PanelRegion.class));
         assertThat(regions.get(0).getId(), is("panel_0"));
         assertThat(regions.get(0).getSrc(), is("PanelRegion"));
-        assertThat(((PanelRegion) regions.get(0)).getHeaderTitle(), is("form1"));
+        assertThat(((PanelRegion) regions.get(0)).getHeaderTitle(), is("Panel1"));
         assertThat(regions.get(0).getContent().size(), is(1));
         assertThat(regions.get(0).getContent().get(0), instanceOf(Form.class));
         assertThat(((Form) (regions.get(0).getContent().get(0))).getName(), is("form1"));

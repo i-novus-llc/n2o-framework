@@ -17,6 +17,5 @@ public class N2oRegionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new PanelRegionCompiler(),
                 new LineRegionCompiler(),
                 new CustomRegionCompiler());
-        
     }
 }

@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oPanelRegion;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
@@ -71,16 +70,5 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
     @Override
     protected String createId(String regionPlace, CompileProcessor p) {
         return createId(regionPlace, "panel", p);
-    }
-
-    @Override
-    protected PanelRegion.Panel createWidgetItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
-        PanelRegion.Panel panel = new PanelRegion.Panel();
-        panel.setIcon(widget.getIcon());
-        panel.setLabel(widget.getName());
-        panel.setId("panel" + index.get());
-        panel.setOpened(p.cast(widget.getOpened(), true));
-        panel.setProperties(p.mapAttributes(widget));
-        return panel;
     }
 }

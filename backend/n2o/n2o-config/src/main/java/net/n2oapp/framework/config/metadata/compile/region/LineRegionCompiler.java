@@ -2,9 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oLineRegion;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.region.LineRegion;
-import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.stereotype.Component;
@@ -39,10 +37,5 @@ public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRe
     @Override
     protected String createId(String regionPlace, CompileProcessor p) {
         return createId(regionPlace, "line", p);
-    }
-
-    @Override
-    protected Region.Item createWidgetItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
-        return null;
     }
 }

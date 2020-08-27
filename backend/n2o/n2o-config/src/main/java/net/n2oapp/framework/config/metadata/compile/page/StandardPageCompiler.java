@@ -4,7 +4,9 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -39,8 +41,14 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
         if (source.getItems() != null) {
             IndexScope index = new IndexScope();
             for (SourceComponent item : source.getItems()) {
-                if (item instanceof N2oRegion) {
-                    N2oRegion n2oRegion = ((N2oRegion) item);
+                N2oRegion n2oRegion = null;
+                if (item instanceof N2oRegion)
+                    n2oRegion = ((N2oRegion) item);
+                else if (item instanceof N2oWidget) {
+                    n2oRegion = new N2oCustomRegion();
+                    n2oRegion.setItems(new SourceComponent[]{item});
+                }
+                if (n2oRegion != null) {
                     Region region = p.compile(n2oRegion, context, index, pageScope, pageRoutes);
                     String place = p.cast(n2oRegion.getPlace(), "single");
                     if (regionMap.get(place) != null) {
@@ -52,8 +60,8 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
                     }
                 }
             }
-            page.setRegions(regionMap);
         }
+        page.setRegions(regionMap);
     }
 
     @Override

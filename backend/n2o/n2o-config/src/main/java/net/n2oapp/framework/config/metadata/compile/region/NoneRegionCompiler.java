@@ -2,7 +2,6 @@ package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oNoneRegion;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.region.NoneRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -39,14 +38,5 @@ public class NoneRegionCompiler extends BaseRegionCompiler<NoneRegion, N2oNoneRe
     @Override
     protected String createId(String regionPlace, CompileProcessor p) {
         return createId(regionPlace, "none", p);
-    }
-
-    @Override
-    protected NoneRegion.Item createWidgetItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
-        NoneRegion.Item item = new NoneRegion.Item();
-        item.setId("none" + index.get());
-        item.setLabel(widget.getName());
-        item.setProperties(p.mapAttributes(widget));
-        return item;
     }
 }
