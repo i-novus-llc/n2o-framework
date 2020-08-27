@@ -11,7 +11,9 @@
         </fields>
         <toolbar>
             <button id="create7">
-                <invoke operation-id="create7" route="/create7"/>
+                <invoke operation-id="create7" route="/create7">
+                    <path-param name="create7" value="pathValue7"/>
+                </invoke>
             </button>
         </toolbar>
     </form>

@@ -32,19 +32,29 @@
         </fields>
         <toolbar>
             <button id="create">
-                <invoke operation-id="create" route="/create"/>
+                <invoke operation-id="create" route="/create">
+                    <path-param name="create" value="pathValue"/>
+                </invoke>
             </button>
             <button id="create2">
-                <invoke operation-id="create2" route="/create2"/>
+                <invoke operation-id="create2" route="/create2">
+                    <path-param name="create2" value="pathValue2"/>
+                </invoke>
             </button>
             <button id="create3">
-                <invoke operation-id="create3" route="/create3"/>
+                <invoke operation-id="create3" route="/create3">
+                    <path-param name="create3" value="pathValue3"/>
+                </invoke>
             </button>
             <button id="create4">
-                <invoke operation-id="create4" route="/create4"/>
+                <invoke operation-id="create4" route="/create4">
+                    <path-param name="create4" value="pathValue4"/>
+                </invoke>
             </button>
             <button id="create5">
-                <invoke operation-id="create5" route="/create5"/>
+                <invoke operation-id="create5" route="/create5">
+                    <path-param name="create5" value="pathValue5"/>
+                </invoke>
             </button>
         </toolbar>
     </form>
