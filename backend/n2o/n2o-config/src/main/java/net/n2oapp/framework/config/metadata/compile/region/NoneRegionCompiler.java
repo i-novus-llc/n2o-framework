@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.global.view.region.N2oNoneRegion;
 import net.n2oapp.framework.api.metadata.meta.region.NoneRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,7 +32,8 @@ public class NoneRegionCompiler extends BaseRegionCompiler<NoneRegion, N2oNoneRe
         NoneRegion region = new NoneRegion();
         build(region, source, p);
         IndexScope indexScope = p.getScope(IndexScope.class);
-        region.setContent(initContent(source.getItems(), indexScope, context, p));
+        PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
+        region.setContent(initContent(source.getItems(), indexScope, pageWidgetsScope, context, p));
         return region;
     }
 

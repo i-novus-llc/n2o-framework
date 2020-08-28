@@ -116,24 +116,17 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
 
         assertThat(page.getRegions().size(), is(1));
         List<Region> regions = page.getRegions().get("single");
-        assertThat(regions.size(), is(2));
+        assertThat(regions.size(), is(1));
 
-        // LINE1
+        // LINE
         assertThat(regions.get(0), instanceOf(LineRegion.class));
         assertThat(regions.get(0).getId(), is("line_0"));
         assertThat(regions.get(0).getSrc(), is("ListRegion"));
         assertThat(regions.get(0).getName(), is("form1"));
-        assertThat(regions.get(0).getContent().size(), is(1));
+        assertThat(regions.get(0).getContent().size(), is(2));
         assertThat(regions.get(0).getContent().get(0), instanceOf(Form.class));
         assertThat(((Form) (regions.get(0).getContent().get(0))).getName(), is("form1"));
-
-        // LINE2
-        assertThat(regions.get(1), instanceOf(LineRegion.class));
-        assertThat(regions.get(1).getId(), is("line_1"));
-        assertThat(regions.get(1).getSrc(), is("ListRegion"));
-        assertThat(regions.get(1).getName(), is("form1"));
-        assertThat(regions.get(1).getContent().size(), is(1));
-        assertThat(regions.get(1).getContent().get(0), instanceOf(Form.class));
-        assertThat(((Form) (regions.get(1).getContent().get(0))).getName(), is("form2"));
+        assertThat(regions.get(0).getContent().get(1), instanceOf(Form.class));
+        assertThat(((Form) (regions.get(0).getContent().get(1))).getName(), is("form2"));
     }
 }

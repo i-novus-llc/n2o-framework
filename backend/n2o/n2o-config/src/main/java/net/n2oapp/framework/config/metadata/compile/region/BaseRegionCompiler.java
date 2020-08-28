@@ -4,10 +4,12 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,14 +42,20 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
         return id.toString();
     }
 
-    protected List<Compiled> initContent(SourceComponent[] items, IndexScope index, PageContext context,
-                                                       CompileProcessor p) {
+    protected List<Compiled> initContent(SourceComponent[] items, IndexScope index, PageWidgetsScope pageWidgetsScope,
+                                         PageContext context, CompileProcessor p) {
         if (items == null || items.length == 0)
             return null;
 
         List<Compiled> content = new ArrayList<>();
         for (SourceComponent item : items)
-            content.add(p.compile(item, context, p, index));
+            if (item instanceof N2oWidget)
+                // TODO - необходимо учесть случай, когда виджет вне страницы (PageScope == null)
+                pageWidgetsScope.getWidgets().keySet().stream()
+                        .filter(k -> k.endsWith(((N2oWidget) item).getId())).findFirst()
+                        .ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s)));
+            else if (item instanceof N2oRegion)
+                content.add(p.compile(item, context, p, index));
         return content;
     }
 }

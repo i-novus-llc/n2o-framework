@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -23,10 +24,7 @@ import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
-import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
-import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.util.ArrayList;
@@ -43,7 +41,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public abstract class BasePageCompiler<S extends N2oBasePage, D extends StandardPage> extends PageCompiler<S, D> {
 
     protected abstract void initRegions(S source, D page, CompileProcessor p, PageContext context,
-                                        PageScope pageScope, PageRoutes pageRoutes);
+                                        PageScope pageScope, PageRoutes pageRoutes, PageWidgetsScope pageWidgetsScope);
 
     public D compilePage(S source, D page, PageContext context, CompileProcessor p, SourceComponent[] items, SearchBarScope searchBarScope) {
         List<N2oWidget> sourceWidgets = collectWidgets(items);
@@ -75,12 +73,13 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         //compile widget
         WidgetObjectScope widgetObjectScope = new WidgetObjectScope();
-        page.setWidgets(initWidgets(routeScope, pageRoutes, sourceWidgets, context, p, pageScope, breadcrumb,
-                validationList, models, pageRoutesScope, widgetObjectScope, searchBarScope));
+        Map<String, Widget> compiledWidgets = initWidgets(routeScope, pageRoutes, sourceWidgets, context, p, pageScope, breadcrumb,
+                validationList, models, pageRoutesScope, widgetObjectScope, searchBarScope);
+        page.setWidgets(compiledWidgets);
         registerRoutes(pageRoutes, context, p);
         page.setRoutes(pageRoutes);
         //compile region
-        initRegions(source, page, p, context, pageScope, pageRoutes);
+        initRegions(source, page, p, context, pageScope, pageRoutes, new PageWidgetsScope(compiledWidgets));
         CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
         page.setObject(object);
         page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
@@ -113,6 +112,10 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                 if (widget.getId() == null)
                     widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
                 result.add(widget);
+            } else if (item instanceof N2oTabsRegion) {
+                for (N2oTabsRegion.Tab tab : ((N2oTabsRegion) item).getTabs())
+                    if (tab.getItems() != null)
+                        addWidgets(tab.getItems(), result, ids, ((N2oTabsRegion) item).getAlias());
             } else if (item instanceof N2oRegion && ((N2oRegion) item).getItems() != null) {
                 addWidgets(((N2oRegion) item).getItems(), result, ids, ((N2oRegion) item).getAlias());
             }

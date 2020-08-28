@@ -37,7 +37,5 @@ public class TabsRegionJsonTest extends JsonMetadataTestBase {
                 .cutXml("regions.single[0]")
                 .exclude("id", "tabs[0].fetchOnInit", "tabs[0].opened", "tabs[0].widgetId", "tabs[1]")
                 .assertEquals();
-
     }
-
 }

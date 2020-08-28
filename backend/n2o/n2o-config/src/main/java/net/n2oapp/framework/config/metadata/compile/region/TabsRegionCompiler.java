@@ -3,13 +3,16 @@ package net.n2oapp.framework.config.metadata.compile.region;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
+import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -39,7 +42,8 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         build(region, source, p);
         region.setTabs(new ArrayList<>());
         IndexScope indexScope = p.getScope(IndexScope.class);
-        region.setItems(initItems(source, indexScope, context, p));
+        PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
+        region.setItems(initItems(source, indexScope, pageWidgetsScope, context, p));
         region.setAlwaysRefresh(source.getAlwaysRefresh() != null ? source.getAlwaysRefresh() : false);
         region.setLazy(p.cast(source.getLazy(), p.resolve(property("n2o.api.region.tabs.lazy"), Boolean.class)));
         compileTabsRoute(source, region.getId(), p);
@@ -67,8 +71,8 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     }
 
 
-    protected <I extends Region.Item> List<I> initItems(N2oTabsRegion source, IndexScope index, PageContext context,
-                                                        CompileProcessor p) {
+    protected <I extends Region.Item> List<I> initItems(N2oTabsRegion source, IndexScope index, PageWidgetsScope pageWidgetsScope,
+                                                        PageContext context, CompileProcessor p) {
         List<I> items = new ArrayList<>();
         if (source.getTabs() != null)
             for (N2oTabsRegion.Tab t : source.getTabs()) {
@@ -76,8 +80,14 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                 tab.setId(createId(null, source.getAlias(), p));
                 tab.setLabel(t.getName());
                 List<Compiled> content = new ArrayList<>();
-                for (SourceComponent item : t.getItems())
-                    content.add(p.compile(item, context, p, index));
+                if (t.getItems() != null)
+                    for (SourceComponent item : t.getItems())
+                        if (item instanceof N2oWidget)
+                            pageWidgetsScope.getWidgets().keySet().stream()
+                                    .filter(k -> k.endsWith(((N2oWidget) item).getId())).findFirst()
+                                    .ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s)));
+                        else if (item instanceof N2oRegion)
+                            content.add(p.compile(item, context, p, index));
                 tab.setContent(content);
             }
         return items;

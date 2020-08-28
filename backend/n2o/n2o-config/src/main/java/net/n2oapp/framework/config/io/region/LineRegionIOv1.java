@@ -13,6 +13,10 @@ public class LineRegionIOv1 extends AbstractRegionIOv1<N2oLineRegion> {
     @Override
     public void io(Element e, N2oLineRegion r, IOProcessor p) {
         super.io(e, r, p);
+        // define region title by first widget name or region title if exists
+        if (!e.getChildren().isEmpty())
+            p.read(e.getChildren().get(0), r, (w, reg) -> reg.setName(
+                    w.getAttribute("name") != null ? w.getAttribute("name").getValue() : null));
         p.attributeBoolean(e, "collapsible", r::getCollapsible, r::setCollapsible);
     }
 

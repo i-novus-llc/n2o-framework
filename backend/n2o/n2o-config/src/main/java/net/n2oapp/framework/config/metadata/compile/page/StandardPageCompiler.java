@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
 
     @Override
     protected void initRegions(N2oStandardPage source, StandardPage page, CompileProcessor p, PageContext context,
-                               PageScope pageScope, PageRoutes pageRoutes) {
+                               PageScope pageScope, PageRoutes pageRoutes, PageWidgetsScope pageWidgetsScope) {
         Map<String, List<Region>> regionMap = new HashMap<>();
         if (source.getItems() != null) {
             IndexScope index = new IndexScope();
@@ -45,11 +46,12 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
                 if (item instanceof N2oRegion)
                     n2oRegion = ((N2oRegion) item);
                 else if (item instanceof N2oWidget) {
+                    // если виджет не в регионе оборачиваем его в кастомный регион
                     n2oRegion = new N2oCustomRegion();
                     n2oRegion.setItems(new SourceComponent[]{item});
                 }
                 if (n2oRegion != null) {
-                    Region region = p.compile(n2oRegion, context, index, pageScope, pageRoutes);
+                    Region region = p.compile(n2oRegion, context, index, pageScope, pageRoutes, pageWidgetsScope);
                     String place = p.cast(n2oRegion.getPlace(), "single");
                     if (regionMap.get(place) != null) {
                         regionMap.get(place).add(region);

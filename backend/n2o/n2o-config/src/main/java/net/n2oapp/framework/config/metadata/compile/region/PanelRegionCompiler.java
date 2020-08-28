@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
+import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
@@ -36,7 +37,8 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         region.setClassName(source.getClassName());
         region.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         IndexScope indexScope = p.getScope(IndexScope.class);
-        region.setContent(initContent(source.getItems(), indexScope, context, p));
+        PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
+        region.setContent(initContent(source.getItems(), indexScope, pageWidgetsScope, context, p));
         region.setColor(source.getColor());
         region.setIcon(source.getIcon());
         if (region.getItems() != null && !region.getItems().isEmpty()) {

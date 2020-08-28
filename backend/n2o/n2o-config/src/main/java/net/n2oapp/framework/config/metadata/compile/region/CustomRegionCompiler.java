@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.meta.region.CustomRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,7 +29,8 @@ public class CustomRegionCompiler extends BaseRegionCompiler<CustomRegion, N2oCu
         CustomRegion region = new CustomRegion();
         build(region, source, p);
         IndexScope indexScope = p.getScope(IndexScope.class);
-        region.setContent(initContent(source.getItems(), indexScope, context, p));
+        PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
+        region.setContent(initContent(source.getItems(), indexScope, pageWidgetsScope, context, p));
         return region;
     }
 
