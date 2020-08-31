@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.aware.SrcAware;
 
 import java.util.List;
@@ -37,27 +36,12 @@ public abstract class Region implements Compiled, SrcAware, IdAware {
 
     @Getter
     @Setter
-    public static class Item implements Compiled, PropertiesAware {
+    public static class Item implements Compiled {
         @JsonProperty
         private String id = "item";
         @JsonProperty
         private String label;
         @JsonProperty
-        private Boolean opened;
-        @JsonProperty
-        private Boolean fetchOnInit;
-        // TODO убрать
-        @JsonProperty
-        private String widgetId;
-        private Map<String, Object> properties;
-        @JsonProperty
         private List<Compiled> content;
-
-        @JsonAnyGetter
-        public Map<String, Object> getJsonProperties() {
-            return properties;
-        }
-
     }
-
 }

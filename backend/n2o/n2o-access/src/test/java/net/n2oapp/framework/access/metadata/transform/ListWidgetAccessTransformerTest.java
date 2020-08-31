@@ -44,8 +44,8 @@ public class ListWidgetAccessTransformerTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testListWidgetAccessTransformer"));
 
-        Security.SecurityObject securityObject = ((Security) ((ListWidget) page.getWidgets()
-                .get("testListWidgetAccessTransformer_testList")).getRows().getProperties()
+        Security.SecurityObject securityObject = ((Security) ((ListWidget) page.getRegions().get("single")
+                .get(0).getContent().get(0)).getRows().getProperties()
                 .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
 
         assertThat(securityObject.getPermissions().size(), is(1));
