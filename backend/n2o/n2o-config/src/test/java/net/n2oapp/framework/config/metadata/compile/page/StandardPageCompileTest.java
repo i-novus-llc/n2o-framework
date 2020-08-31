@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.metadata.meta.action.SelectedWidgetPayload;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -8,7 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.LineRegion;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
-import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -69,7 +70,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getRegions().get("single").get(0).getClass(), is(equalTo(LineRegion.class)));
         assertThat(page.getRegions().get("single").get(0).getSrc(), is("ListRegion"));
         assertThat(page.getRegions().get("single").get(0).getProperties().get("attr1"), is("testAttribute"));
-        assertThat(page.getRegions().get("single").get(0).getItems().get(0).getProperties().get("attr1"), is("htmlTestAttribute"));
+        assertThat(((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getProperties().get("attr1"), is("htmlTestAttribute"));
 
         assertThat(page.getWidgets().size(), is(2));
         assertThat(page.getWidgets().get("testRoute_line1").getProperties().get("attr1"), is("htmlTestAttribute"));

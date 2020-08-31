@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись региона в виде панелей версии 1.0
  */
 @Component
-public class PanelRegionIOv1 extends AbstractRegionIOv1<N2oPanelRegion> {
+public class PanelRegionIOv1 extends BaseRegionIOv1<N2oPanelRegion> {
     @Override
     public void io(Element e, N2oPanelRegion r, IOProcessor p) {
         super.io(e, r, p);

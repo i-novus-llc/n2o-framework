@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись кастомного региона версии 1.0
  */
 @Component
-public class CustomRegionIOv1 extends AbstractRegionIOv1<N2oCustomRegion>  {
+public class CustomRegionIOv1 extends BaseRegionIOv1<N2oCustomRegion>  {
     @Override
     public Class<N2oCustomRegion> getElementClass() {
         return N2oCustomRegion.class;

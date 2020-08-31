@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
-import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -40,7 +39,6 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     public TabsRegion compile(N2oTabsRegion source, PageContext context, CompileProcessor p) {
         TabsRegion region = new TabsRegion();
         build(region, source, p);
-        region.setTabs(new ArrayList<>());
         IndexScope indexScope = p.getScope(IndexScope.class);
         PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
         region.setItems(initItems(source, indexScope, pageWidgetsScope, context, p));
@@ -71,9 +69,9 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     }
 
 
-    protected <I extends Region.Item> List<I> initItems(N2oTabsRegion source, IndexScope index, PageWidgetsScope pageWidgetsScope,
-                                                        PageContext context, CompileProcessor p) {
-        List<I> items = new ArrayList<>();
+    protected List<TabsRegion.Tab> initItems(N2oTabsRegion source, IndexScope index, PageWidgetsScope pageWidgetsScope,
+                                             PageContext context, CompileProcessor p) {
+        List<TabsRegion.Tab> items = new ArrayList<>();
         if (source.getTabs() != null)
             for (N2oTabsRegion.Tab t : source.getTabs()) {
                 TabsRegion.Tab tab = new TabsRegion.Tab();
@@ -89,6 +87,7 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                         else if (item instanceof N2oRegion)
                             content.add(p.compile(item, context, p, index));
                 tab.setContent(content);
+                items.add(tab);
             }
         return items;
     }

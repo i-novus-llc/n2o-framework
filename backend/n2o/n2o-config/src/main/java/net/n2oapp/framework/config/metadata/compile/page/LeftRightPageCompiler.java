@@ -24,8 +24,10 @@ public class LeftRightPageCompiler extends BasePageCompiler<N2oLeftRightPage, St
     public StandardPage compile(N2oLeftRightPage source, PageContext context, CompileProcessor p) {
         StandardPage page = new StandardPage();
         List<SourceComponent> allItems = new ArrayList<>();
-        allItems.addAll(Arrays.asList(source.getLeft()));
-        allItems.addAll(Arrays.asList(source.getRight()));
+        if (source.getLeft() != null)
+            allItems.addAll(Arrays.asList(source.getLeft()));
+        if (source.getRight() != null)
+            allItems.addAll(Arrays.asList(source.getRight()));
         if ((source.getLeftWidth() != null && !source.getLeftWidth().isEmpty()) ||
                 (source.getRightWidth() != null && !source.getRightWidth().isEmpty()))
             page.setWidth(page.new RegionWidth(source.getLeftWidth(), source.getRightWidth()));

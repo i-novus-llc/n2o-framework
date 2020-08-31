@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Deprecated
 @Component
-public class NoneRegionIOv1 extends AbstractRegionIOv1<N2oNoneRegion> {
+public class NoneRegionIOv1 extends BaseRegionIOv1<N2oNoneRegion> {
     @Override
     public Class<N2oNoneRegion> getElementClass() {
         return N2oNoneRegion.class;

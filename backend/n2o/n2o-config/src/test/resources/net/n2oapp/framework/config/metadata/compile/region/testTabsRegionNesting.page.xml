@@ -14,8 +14,8 @@
         </tabs>
         <tabs>
             <tab>
-                <form name="form4"/>
-                <form name="form5"/>
+                <table name="table1"/>
+                <table name="table2"/>
             </tab>
         </tabs>
         <tabs>

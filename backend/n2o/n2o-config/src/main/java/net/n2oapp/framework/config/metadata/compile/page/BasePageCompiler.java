@@ -113,12 +113,12 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                     widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
                 result.add(widget);
             } else if (item instanceof N2oTabsRegion) {
-                for (N2oTabsRegion.Tab tab : ((N2oTabsRegion) item).getTabs())
-                    if (tab.getItems() != null)
-                        addWidgets(tab.getItems(), result, ids, ((N2oTabsRegion) item).getAlias());
-            } else if (item instanceof N2oRegion && ((N2oRegion) item).getItems() != null) {
+                if (((N2oTabsRegion) item).getTabs() != null)
+                    for (N2oTabsRegion.Tab tab : ((N2oTabsRegion) item).getTabs())
+                        if (tab.getItems() != null)
+                            addWidgets(tab.getItems(), result, ids, ((N2oTabsRegion) item).getAlias());
+            } else if (item instanceof N2oRegion && ((N2oRegion) item).getItems() != null)
                 addWidgets(((N2oRegion) item).getItems(), result, ids, ((N2oRegion) item).getAlias());
-            }
         }
     }
 

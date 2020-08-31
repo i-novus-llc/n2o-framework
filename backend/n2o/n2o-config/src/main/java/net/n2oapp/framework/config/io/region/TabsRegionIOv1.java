@@ -1,7 +1,9 @@
 package net.n2oapp.framework.config.io.region;
 
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.config.io.widget.WidgetIOv4;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,7 @@ public class TabsRegionIOv1 extends AbstractRegionIOv1<N2oTabsRegion> {
         p.attributeBoolean(e, "lazy", r::getLazy, r::setLazy);
         p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
         p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
+        p.anyChildren(e, null, r::getWidgets, r::setWidgets, p.anyOf(N2oWidget.class), WidgetIOv4.NAMESPACE);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.io.region;
 
+import net.n2oapp.framework.config.metadata.pack.N2oWidgetsIOPack;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
@@ -11,6 +12,7 @@ public class CustomRegionXmlIOv1Test {
     public void test() {
         ION2oMetadataTester tester = new ION2oMetadataTester();
         tester.ios(new CustomRegionIOv1());
+        tester.addPack(new N2oWidgetsIOPack());
 
         assert tester.check("net/n2oapp/framework/config/io/region/testCustomRegionXmlIOv1.region.xml");
     }

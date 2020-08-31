@@ -3,4 +3,5 @@
        title="header" collapsible="true" header="true"
        icon="fa fa-exclamation" color="secondary" open="false"
        footer-title="footer" active-param="active" routable="false">
+    <form/>
 </panel>
