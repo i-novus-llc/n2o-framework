@@ -61,7 +61,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setProperties(p.mapAttributes(source));
         BreadcrumbList breadcrumb = initBreadcrumb(pageName, context, p);
         page.setBreadcrumb(breadcrumb);
-        page.setWidgets(new StrictMap<>());
         Models models = new Models();
         page.setModels(models);
         //init base route
@@ -75,7 +74,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         WidgetObjectScope widgetObjectScope = new WidgetObjectScope();
         Map<String, Widget> compiledWidgets = initWidgets(routeScope, pageRoutes, sourceWidgets, context, p, pageScope, breadcrumb,
                 validationList, models, pageRoutesScope, widgetObjectScope, searchBarScope);
-        page.setWidgets(compiledWidgets);
         registerRoutes(pageRoutes, context, p);
         page.setRoutes(pageRoutes);
         //compile region
@@ -88,7 +86,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             initToolbarGenerate(source, resultWidgetId);
         MetaActions metaActions = new MetaActions();
         compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumb,
-                validationList, page.getWidgets(), widgetObjectScope);
+                validationList, compiledWidgets, widgetObjectScope);
         page.setActions(metaActions);
         return page;
     }

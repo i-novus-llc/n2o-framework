@@ -46,7 +46,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testCopyAction.page.xml")
                 .get(new ModalPageContext("testCopyAction", "/modal"));
 
-        Table table = (Table) page.getWidgets().get("modal_table1");
+        Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
         CopyAction action = (CopyAction) table.getActions().get("test");
         assertThat(action.getType(), is("n2o/models/COPY"));

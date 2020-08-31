@@ -26,7 +26,7 @@ public class StandardPageBinder extends PageBinder<StandardPage> {
             }
         }
 
-        return bindPage(page, p, page.getWidgets());
+        return bindPage(page, p, BasePageUtil.getCompiledWidgets(page));
     }
 
     @Override

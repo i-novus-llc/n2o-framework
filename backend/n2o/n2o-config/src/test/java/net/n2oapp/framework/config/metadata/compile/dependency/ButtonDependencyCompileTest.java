@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.dependency;
 
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
@@ -21,7 +22,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 /**
- * Тестирование компиляции зависимости между полем и  кнопками
+ * Тестирование компиляции зависимости между полем и кнопками
  */
 public class ButtonDependencyCompileTest extends SourceCompileTestBase {
     @Override
@@ -41,11 +42,16 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
     public void testButtonDependency() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dependency/testButtonDependency.page.xml")
                 .get(new PageContext("testButtonDependency"));
-        List<AbstractButton> buttons = page.getWidgets().get("testButtonDependency_table").getToolbar().get("topLeft").get(0).getButtons();
-        assertThat(((Submenu) buttons.get(0)).getSubMenu().get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testButtonDependency_table']"));
-        assertThat(((Submenu) buttons.get(0)).getSubMenu().get(1).getConditions().get(ValidationType.enabled).get(0).getModelLink(), is("models.resolve['testButtonDependency_table']"));
-        assertThat(((Submenu) buttons.get(0)).getSubMenu().get(2).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testButtonDependency_table']"));
-        assertThat(((Submenu) buttons.get(0)).getSubMenu().get(2).getConditions().get(ValidationType.visible).get(0).getModelLink(), is("models.resolve['testButtonDependency_table']"));
+        List<AbstractButton> buttons = ((Widget) page.getRegions().get("single").get(0).getItems().get(0).getContent().get(0))
+                .getToolbar().get("topLeft").get(0).getButtons();
+        assertThat(((Submenu) buttons.get(0)).getSubMenu().get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(),
+                is("models.resolve['testButtonDependency_table']"));
+        assertThat(((Submenu) buttons.get(0)).getSubMenu().get(1).getConditions().get(ValidationType.enabled).get(0).getModelLink(),
+                is("models.resolve['testButtonDependency_table']"));
+        assertThat(((Submenu) buttons.get(0)).getSubMenu().get(2).getConditions().get(ValidationType.visible).get(0).getModelLink(),
+                is("models.resolve['testButtonDependency_table']"));
+        assertThat(((Submenu) buttons.get(0)).getSubMenu().get(2).getConditions().get(ValidationType.visible).get(0).getModelLink(),
+                is("models.resolve['testButtonDependency_table']"));
 
         assertThat(buttons.get(1).getVisible(), is(false));
         assertThat(buttons.get(1).getEnabled(), is(false));
