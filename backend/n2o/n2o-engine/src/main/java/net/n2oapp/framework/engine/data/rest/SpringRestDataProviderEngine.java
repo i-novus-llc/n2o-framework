@@ -62,7 +62,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         String query = invocation.getQuery();
         if (query == null)
             throw new N2oException("query mustn't be null");
-        final N2oRestDataProvider.Method method = invocation.getMethod() == null ? N2oRestDataProvider.Method.GET : invocation.getMethod();
+        final HttpMethod method = invocation.getMethod() == null ? HttpMethod.GET : HttpMethod.resolve(invocation.getMethod().name());
         Map<String, Object> args = new HashMap<>();
         data.forEach(args::put);
         if (!query.contains("http")) {
@@ -87,7 +87,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         query = replaceListPlaceholder(query, "{sorting}", args.remove("sorting"), "", (a, b) -> a + sortingSeparator + b);
         query = replaceListPlaceholder(query, "{join}", args.remove("join"), "", (a, b) -> a + joinSeparator + b);
         query = normalizeQueryParams(query);
-        return executeQuery(method.name(), query, args, invocation.getProxyHost(), invocation.getProxyPort());
+        return executeQuery(method, query, args, invocation.getProxyHost(), invocation.getProxyPort());
     }
 
     /**
@@ -129,23 +129,22 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         }
     }
 
-    private Object executeQuery(String method, String query, Map<String, Object> args, String proxyHost,
+    private Object executeQuery(HttpMethod method, String query, Map<String, Object> args, String proxyHost,
                                 Integer proxyPort) {
         query = getURL(proxyHost, proxyPort, query);
         HttpHeaders headers = initHeaders(args);
         Map<String, Object> body = new HashMap<>(args);
 
         switch (method) {
-            case "GET":
-                return exchange(query, HttpMethod.GET, headers, args);
-            case "POST":
-                return exchange(query, HttpMethod.POST, body, headers, args);
-            case "PUT":
-                return exchange(query, HttpMethod.PUT, body, headers, args);
-            case "DELETE":
-                return exchange(query, HttpMethod.DELETE, headers, args);
+            case GET:
+            case DELETE:
+                return exchange(query, method, headers, args);
+            case POST:
+            case PUT:
+            case PATCH:
+                return exchange(query, method, body, headers, args);
             default:
-                throw new UnsupportedOperationException("Method " + method + " unsupported");
+                throw new UnsupportedOperationException("Method " + method.name() + " unsupported");
         }
     }
 

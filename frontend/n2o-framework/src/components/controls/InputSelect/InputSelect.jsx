@@ -471,7 +471,7 @@ class InputSelect extends React.Component {
   }
 
   toggle() {
-    if (!this.state.isExpanded) {
+    if (!this.state.isExpanded && !this.props.disabled) {
       this.setState(
         {
           isExpanded: true,
