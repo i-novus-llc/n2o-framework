@@ -418,7 +418,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             compileParams(control, source, paramScope, uploadScope, p);
         }
 
-        if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()))
+        if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()) &&
+                Boolean.TRUE.equals(source.getCopied()))
             return;
         ModelsScope defaultValues = p.getScope(ModelsScope.class);
         if (defaultValues != null && defaultValues.hasModels()) {
