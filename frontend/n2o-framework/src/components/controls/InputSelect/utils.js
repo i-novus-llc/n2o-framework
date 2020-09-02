@@ -4,12 +4,15 @@ import isString from 'lodash/isString';
 import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import has from 'lodash/has';
+import isNil from 'lodash/isNil';
 
 export const UNKNOWN_GROUP_FIELD_ID = '';
 
 export const inArray = (array = [], item = {}) => {
   return array.some(arrayItem =>
-    isString(item) ? arrayItem === item : arrayItem.id === item.id
+    isString(item)
+      ? arrayItem === item
+      : !isNil(arrayItem.id) && !isNil(item.id) && arrayItem.id === item.id
   );
 };
 
