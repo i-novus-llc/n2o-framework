@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil.collectWidgets;
+
 /**
  * Исходная модель страницы с тремя регионами
  */
@@ -34,9 +36,9 @@ public class N2oTopLeftRightPage extends N2oBasePage {
     @Override
     public List<N2oWidget> getContainers() {
         List<N2oWidget> containers = new ArrayList<>();
-        addWidgets(containers, top);
-        addWidgets(containers, left);
-        addWidgets(containers, right);
+        collectWidgets(containers, top);
+        collectWidgets(containers, left);
+        collectWidgets(containers, right);
         return containers;
     }
 }

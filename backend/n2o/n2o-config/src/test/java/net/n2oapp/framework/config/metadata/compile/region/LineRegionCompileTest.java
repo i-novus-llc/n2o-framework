@@ -49,7 +49,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(0), instanceOf(LineRegion.class));
         assertThat(regions.get(0).getId(), is("line_0"));
         assertThat(regions.get(0).getSrc(), is("ListRegion"));
-        assertThat(regions.get(0).getName(), is("Line1"));
+        assertThat(((LineRegion)regions.get(0)).getName(), is("Line1"));
         assertThat(((LineRegion) regions.get(0)).getCollapsible(), is(false));
         assertThat(regions.get(0).getItems(), nullValue());
         List<Compiled> content = regions.get(0).getContent();
@@ -122,7 +122,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(0), instanceOf(LineRegion.class));
         assertThat(regions.get(0).getId(), is("line_0"));
         assertThat(regions.get(0).getSrc(), is("ListRegion"));
-        assertThat(regions.get(0).getName(), is("form1"));
+        assertThat(((LineRegion)regions.get(0)).getName(), is("form1"));
         assertThat(regions.get(0).getContent().size(), is(2));
         assertThat(regions.get(0).getContent().get(0), instanceOf(Form.class));
         assertThat(((Form) (regions.get(0).getContent().get(0))).getName(), is("form1"));

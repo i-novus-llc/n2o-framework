@@ -38,26 +38,6 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testRegion() {
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testRegion");
-
-        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testRegion.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testRegionAccessTransformer.page.xml");
-
-        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testRegionAccessTransformer"));
-        Security.SecurityObject regionSecurityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
-                .getProperties()
-                .get(SECURITY_PROP_NAME))
-                .getSecurityMap()
-                .get("object");
-
-        Security.SecurityObject widgetSecurityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
-                .getProperties()
-                .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        assertThat(regionSecurityObject, equalTo(widgetSecurityObject));
-    }
-
-    @Test
     public void testRegionV2() {
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testRegionV2");
 

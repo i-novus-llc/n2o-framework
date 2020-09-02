@@ -1,6 +1,9 @@
-package net.n2oapp.framework.config.metadata.compile.page;
+package net.n2oapp.framework.api.metadata.global.view.page;
 
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
@@ -47,5 +50,19 @@ public class BasePageUtil {
                         addWidgets(widgets, tab.getContent());
             } else if (i instanceof Region && ((Region) i).getContent() != null)
                 addWidgets(widgets, ((Region) i).getContent());
+    }
+
+    /**
+     * Сбор виджетов в список
+     * @param containers  результирующий список виджетов
+     * @param items    список регионв и виджетов
+     */
+    public static void collectWidgets(List<N2oWidget> containers, SourceComponent[] items) {
+        if (items != null && items.length != 0)
+            for (SourceComponent item : items)
+                if (item instanceof N2oWidget)
+                    containers.add((N2oWidget) item);
+                else if (item instanceof N2oRegion)
+                    collectWidgets(containers, ((N2oRegion) item).getItems());
     }
 }

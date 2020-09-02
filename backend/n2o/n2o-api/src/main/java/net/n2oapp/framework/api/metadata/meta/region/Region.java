@@ -22,8 +22,6 @@ public abstract class Region implements Compiled, SrcAware, IdAware {
     @JsonProperty
     private String src;
     @JsonProperty
-    private String name;
-    @JsonProperty
     private List<? extends Item> items;
     @JsonProperty
     private List<Compiled> content;

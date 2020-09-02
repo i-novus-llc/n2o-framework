@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import java.util.ArrayList;
 import java.util.List;
 
+import static net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil.collectWidgets;
+
 
 /**
  * "Исходная" модель стандартной страницы
@@ -20,7 +22,7 @@ public class N2oStandardPage extends N2oBasePage {
     @Override
     public List<N2oWidget> getContainers() {
         List<N2oWidget> containers = new ArrayList<>();
-        addWidgets(containers, items);
+        collectWidgets(containers, items);
         return containers;
     }
 }
