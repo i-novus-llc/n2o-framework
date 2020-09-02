@@ -162,7 +162,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         ClientDataProvider provider2 = menuItem0action.getPayload().getDataProvider();
         assertThat(provider2.getSubmitForm(), is(false));
         assertThat(provider2.getFormMapping().size(), is(1));
-        assertThat(provider2.getPathMapping().size(), is(2));
+        assertThat(provider2.getPathMapping().size(), is(1));
         assertThat(provider2.getHeadersMapping().size(), is(1));
 
         assertThat(provider2.getFormMapping().get("fpName2").getValue(), is("fpValue2"));
@@ -174,9 +174,18 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     public void RouteAndPathValidationTest() {
         DataSet data = new DataSet().add("parent_id", 123);
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/routeAndPath.page.xml")
-                .get(new PageContext("routeAndPath", "/p/:parent_id/create"), data);
-        InvokeAction a1 = (InvokeAction) page.getWidgets().get("p_create_w2").getActions().get("b1");
-        assertThat(a1.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/w2/:p_create_w2_id/:main_id"));
+                .get(new PageContext("routeAndPath"), data);
+        InvokeAction action = (InvokeAction) page.getWidgets().get("routeAndPath_w2").getActions().get("b1");
+        assertThat(action.getPayload().getDataProvider().getUrl(), is("n2o/data/routeAndPath/w2/:main_id"));
+        assertThat(action.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(action.getPayload().getModelLink(), is("models.resolve['routeAndPath_w2']"));
+        assertThat(action.getPayload().getWidgetId(), is("routeAndPath_w2"));
+
+        action = (InvokeAction) page.getWidgets().get("routeAndPath_w2").getActions().get("b2");
+        assertThat(action.getPayload().getDataProvider().getUrl(), is("n2o/data/routeAndPath/w2/:routeAndPath_w2_id/b2"));
+        assertThat(action.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(action.getPayload().getModelLink(), is("models.resolve['routeAndPath_w2']"));
+        assertThat(action.getPayload().getWidgetId(), is("routeAndPath_w2"));
     }
 
     @Test

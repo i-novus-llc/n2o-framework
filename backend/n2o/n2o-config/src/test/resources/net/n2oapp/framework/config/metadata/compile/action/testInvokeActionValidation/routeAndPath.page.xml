@@ -4,9 +4,12 @@
             <form object-id="testActionContext" id="w2">
                 <toolbar>
                     <button id="b1">
-                        <invoke operation-id="create" model="resolve" route="/:main_id">
+                        <invoke operation-id="create" route="/:main_id" model="filter">
                             <path-param name="main_id" value="{id}"/>
                         </invoke>
+                    </button>
+                    <button id="b2">
+                        <invoke operation-id="create" model="filter"/>
                     </button>
                 </toolbar>
             </form>

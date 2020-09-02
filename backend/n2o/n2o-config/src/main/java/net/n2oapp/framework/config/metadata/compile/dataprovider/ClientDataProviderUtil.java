@@ -52,7 +52,7 @@ public class ClientDataProviderUtil {
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
             path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            if (widgetScope != null) {
+            if (widgetScope != null && (source.getPathParams() == null || source.getPathParams().length == 0)) {
                 String clientWidgetId = widgetScope.getClientWidgetId();
                 if (ReduxModel.RESOLVE.equals(targetModel)) {
                     String widgetSelectedId = clientWidgetId + "_id";
