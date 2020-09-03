@@ -38,6 +38,11 @@ http://n2oapp.net/framework/config/schema/control-2.0
 |Не отображать заголовок
 |false
 
+|no-label-block
+|true false
+|Не отображать блок с заголовком
+|false
+
 |src
 |React компонент
 |Реализация компонента
