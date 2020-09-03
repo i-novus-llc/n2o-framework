@@ -177,7 +177,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testStandardFieldSubmit"));
         Field field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
-        ActionContext context = (ActionContext) route("/testStandardFieldSubmit/:testStandardFieldSubmit_form_id/a/b/c", CompiledObject.class);
+        ActionContext context = (ActionContext) route("/testStandardFieldSubmit/a/b/c", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("update"));
         assertThat(context.isMessageOnFail(), is(true));
@@ -188,9 +188,9 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
         assertThat(dataProvider.getSubmitForm(), is(false));
-        assertThat(dataProvider.getUrl(), is("n2o/data/testStandardFieldSubmit/:testStandardFieldSubmit_form_id/a/b/c"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/testStandardFieldSubmit/a/b/c"));
 
-        assertThat(dataProvider.getPathMapping().size(), is(3));
+        assertThat(dataProvider.getPathMapping().size(), is(2));
         ModelLink link = dataProvider.getPathMapping().get("name1");
         assertThat(link.getValue(), is("value1"));
         assertThat(link.getModel(), nullValue());
@@ -201,11 +201,6 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(link.getModel(), is(ReduxModel.FILTER));
         assertThat(link.getWidgetId(), is("testStandardFieldSubmit_id2"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmit_id2']"));
-        link = dataProvider.getPathMapping().get("testStandardFieldSubmit_form_id");
-        assertThat(link.getValue(), nullValue());
-        assertThat(link.getModel(), is(ReduxModel.RESOLVE));
-        assertThat(link.getWidgetId(), is("testStandardFieldSubmit_form"));
-        assertThat(link.getBindLink(), is("models.resolve['testStandardFieldSubmit_form'].id"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");

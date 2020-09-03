@@ -138,7 +138,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testFormSubmit"));
         Form form = (Form) page.getWidget();
 
-        ActionContext context = (ActionContext) route("/testFormSubmit/:testFormSubmit_form_id/a/b/c", CompiledObject.class);
+        ActionContext context = (ActionContext) route("/testFormSubmit/a/b/c", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("test"));
         assertThat(context.isMessageOnFail(), is(true));
@@ -149,9 +149,9 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         ClientDataProvider dataProvider = form.getFormDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
         assertThat(dataProvider.getSubmitForm(), is(true));
-        assertThat(dataProvider.getUrl(), is("n2o/data/testFormSubmit/:testFormSubmit_form_id/a/b/c"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/testFormSubmit/a/b/c"));
 
-        assertThat(dataProvider.getPathMapping().size(), is(3));
+        assertThat(dataProvider.getPathMapping().size(), is(2));
         ModelLink link = dataProvider.getPathMapping().get("name1");
         assertThat(link.getValue(), is("value1"));
         assertThat(link.getModel(), nullValue());
@@ -162,11 +162,6 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(link.getModel(), is(ReduxModel.FILTER));
         assertThat(link.getWidgetId(), is("testFormSubmit_id2"));
         assertThat(link.getBindLink(), is("models.filter['testFormSubmit_id2']"));
-        link = dataProvider.getPathMapping().get("testFormSubmit_form_id");
-        assertThat(link.getValue(), nullValue());
-        assertThat(link.getModel(), is(ReduxModel.RESOLVE));
-        assertThat(link.getWidgetId(), is("testFormSubmit_form"));
-        assertThat(link.getBindLink(), is("models.resolve['testFormSubmit_form'].id"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
