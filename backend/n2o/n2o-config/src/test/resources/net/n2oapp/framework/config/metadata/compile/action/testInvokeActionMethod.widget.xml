@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testActionContext">
+    <actions>
+        <action id="testDefault" model="filter">
+            <invoke operation-id="create"/>
+        </action>
+        <action id="testGET">
+            <invoke operation-id="get" method="GET"/>
+        </action>
+        <action id="testPUT">
+            <invoke operation-id="put" method="PUT" model="filter"/>
+        </action>
+        <action id="testDelete">
+            <invoke operation-id="delete" method="DELETE"/>
+        </action>
+    </actions>
+</table>

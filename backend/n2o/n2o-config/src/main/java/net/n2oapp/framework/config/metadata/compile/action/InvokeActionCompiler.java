@@ -61,7 +61,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             PageScope pageScope = p.getScope(PageScope.class);
             invokeAction.getPayload().setPageId(pageScope.getPageId());
         }
-
+        invokeAction.setMethod(p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), String.class)));
         initDataProvider(invokeAction, source, context, p, targetWidgetModel, routeScope);
         return invokeAction;
     }
