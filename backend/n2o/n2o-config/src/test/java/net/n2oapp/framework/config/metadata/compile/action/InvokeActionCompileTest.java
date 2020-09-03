@@ -5,10 +5,10 @@ import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
-import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
@@ -27,7 +27,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Проверка копиляции invoke-action
  */
-public class InvokeActionCompileTest  extends SourceCompileTestBase {
+public class InvokeActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @Before
@@ -45,7 +45,9 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         builder.binders(new InvokeActionBinder(), new ReduxActionBinder());
 
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.query.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.object.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.object.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContextMethod.query.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContextMethod.object.xml"));
     }
 
     @Test
@@ -104,7 +106,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getModelLink(), is("models.resolve['w']"));
         assertThat(testAction.getPayload().getWidgetId(), is("w"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.GET));
-        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testGET"));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/:w_id/testGET"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         assertThat(testAction.getMeta().getSuccess().getRefresh(), notNullValue());
         assertThat(testAction.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("w"));
@@ -112,10 +114,10 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
 
         testAction = (InvokeAction) table.getActions().get("testPUT");
         assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
-        assertThat(testAction.getPayload().getModelLink(), is("models.filter['w']"));
+        assertThat(testAction.getPayload().getModelLink(), is("models.resolve['w']"));
         assertThat(testAction.getPayload().getWidgetId(), is("w"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.PUT));
-        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testPUT"));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/:w_id/testPUT"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         assertThat(testAction.getMeta().getSuccess().getRefresh(), notNullValue());
         assertThat(testAction.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("w"));
@@ -126,7 +128,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getModelLink(), is("models.resolve['w']"));
         assertThat(testAction.getPayload().getWidgetId(), is("w"));
         assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.DELETE));
-        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDelete"));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/:w_id/testDelete"));
         assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
         assertThat(testAction.getMeta().getSuccess().getRefresh(), notNullValue());
         assertThat(testAction.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("w"));
