@@ -61,7 +61,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             PageScope pageScope = p.getScope(PageScope.class);
             invokeAction.getPayload().setPageId(pageScope.getPageId());
         }
-        invokeAction.setMethod(p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), String.class)));
         initDataProvider(invokeAction, source, context, p, targetWidgetModel, routeScope);
         return invokeAction;
     }
@@ -146,7 +145,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setPathParams(source.getPathParams());
         dataProvider.setFormParams(source.getFormParams());
         dataProvider.setHeaderParams(source.getHeaderParams());
-        dataProvider.setMethod(RequestMethod.POST);
+        dataProvider.setMethod(RequestMethod.valueOf(p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), String.class))));
         dataProvider.setUrl(source.getRoute());
         dataProvider.setSubmitForm(p.cast(source.getSubmitForm(), true));
 
