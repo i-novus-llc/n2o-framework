@@ -14,6 +14,7 @@ public class InvokeAction extends AbstractAction<InvokeActionPayload, AsyncMetaS
 
     private String objectId;
     private String operationId;
+    private String method;
 
     public InvokeAction() {
         super(new InvokeActionPayload(), new AsyncMetaSaga());

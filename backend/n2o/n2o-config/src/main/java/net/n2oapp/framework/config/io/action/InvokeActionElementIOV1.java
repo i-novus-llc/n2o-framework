@@ -32,6 +32,7 @@ public class InvokeActionElementIOV1 extends AbstractActionElementIOV1<N2oInvoke
         p.attributeBoolean(e, "message-on-fail", ia::getMessageOnFail, ia::setMessageOnFail);
         p.attributeBoolean(e, "optimistic", ia::getOptimistic, ia::setOptimistic);
         p.attributeBoolean(e, "submit-form", ia::getSubmitForm, ia::setSubmitForm);
+        p.attribute(e,"method", ia::getMethod, ia::setMethod);
 
         p.children(e, null, "form-param", ia::getFormParams, ia::setFormParams, N2oParam::new, this::param);
         p.children(e, null, "path-param", ia::getPathParams, ia::setPathParams, N2oParam::new, this::param);

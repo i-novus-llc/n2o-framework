@@ -30,6 +30,7 @@ public class N2oInvokeAction extends N2oAbstractAction {
     private Boolean messageOnFail;
     private Boolean optimistic;
     private Boolean submitForm;
+    private String method;
 
     private N2oParam[] formParams;
     private N2oParam[] pathParams;
