@@ -4,9 +4,6 @@
         <action id="testDefault" model="filter">
             <invoke operation-id="create"/>
         </action>
-        <action id="testGET">
-            <invoke operation-id="get" method="GET"/>
-        </action>
         <action id="testPUT">
             <invoke operation-id="put" method="PUT"/>
         </action>
