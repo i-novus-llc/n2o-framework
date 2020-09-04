@@ -13,14 +13,6 @@
                 <param name="birthdate" required="true"/>
             </in-parameters>
         </action>
-        <action id="get">
-            <invocation>
-                <n2o:java method="test"/>
-            </invocation>
-            <in-parameters>
-                <param name="id"/>
-            </in-parameters>
-        </action>
         <action id="put">
             <invocation>
                 <n2o:java method="test"/>
