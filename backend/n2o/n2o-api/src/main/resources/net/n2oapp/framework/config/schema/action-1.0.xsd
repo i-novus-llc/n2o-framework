@@ -503,7 +503,7 @@
                 <xs:attribute name="method" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Вызываемый метод, возможные значения: GET, POST, PUT, DELETE.
+                            Вызываемый метод, возможные значения: POST, PUT, DELETE.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>

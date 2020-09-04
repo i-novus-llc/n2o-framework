@@ -168,7 +168,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         actionContextData.setOperation(compiledObject.getOperations().get(source.getOperationId()));
         dataProvider.setActionContextData(actionContextData);
         ClientDataProvider compiledDataProvider = ClientDataProviderUtil.compile(dataProvider, context, p);
-        if (routeScope != null) {
+        if (routeScope != null && compiledDataProvider.getPathMapping() != null) {
             compiledDataProvider.getPathMapping().putAll(routeScope.getPathMapping());
         }
         payload.setDataProvider(compiledDataProvider);

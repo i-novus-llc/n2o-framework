@@ -46,8 +46,7 @@ public class ClientDataProviderUtil {
 
         if (RequestMethod.POST == source.getMethod() ||
                 RequestMethod.PUT == source.getMethod() ||
-                RequestMethod.DELETE == source.getMethod() ||
-                RequestMethod.GET == source.getMethod()) { //todo
+                RequestMethod.DELETE == source.getMethod()) {
             Map<String, ModelLink> pathMapping = new StrictMap<>();
             pathMapping.putAll(compileParams(source.getPathParams(), p, targetModel, targetWidget));
             dataProvider.setFormMapping(compileParams(source.getFormParams(), p, targetModel, targetWidget));
@@ -68,7 +67,6 @@ public class ClientDataProviderUtil {
             }
             path = normalize(path + normalize(p.cast(source.getUrl(), source.getId(), "")));
             dataProvider.setPathMapping(pathMapping);
-//            dataProvider.setMethod((RequestMethod)p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), String.class)));
             dataProvider.setMethod(source.getMethod());
             dataProvider.setOptimistic(source.getOptimistic());
             dataProvider.setSubmitForm(source.getSubmitForm());
