@@ -25,7 +25,6 @@ import {
   makeGetFilterModelSelector,
   makeGetModelByPrefixSelector,
 } from '../../../selectors/models';
-import { makeWidgetLoadingSelector } from '../../../selectors/widgets';
 import { getContainerColumns } from '../../../selectors/columns';
 import evalExpression from '../../../utils/evalExpression';
 import { replace } from 'connected-react-router';
@@ -276,7 +275,6 @@ const mapStateToProps = (state, props) => {
       state,
       props
     ),
-    isLoading: makeWidgetLoadingSelector(props.widgetId)(state, props),
   };
 };
 

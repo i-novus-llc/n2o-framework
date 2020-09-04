@@ -35,7 +35,6 @@ import AdvancedTableCell from './AdvancedTableCell';
 import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
 import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
 import withAdvancedTableRef from './withAdvancedTableRef';
-import Spinner from '../../snippets/Spinner/Spinner';
 
 export const getIndex = (data, selectedId) => {
   const index = findIndex(data, model => model.id == selectedId);
@@ -722,14 +721,7 @@ class AdvancedTable extends Component {
       isActive,
       onFocus,
       rowSelection,
-      isLoading,
     } = this.props;
-
-    const TableSpinner = (
-      <div className="n2o-advanced-table-placeholder-spinner">
-        <Spinner transparent />
-      </div>
-    );
 
     return (
       <HotKeys
@@ -758,7 +750,7 @@ class AdvancedTable extends Component {
             onExpand={onExpand}
             useFixedHeader={useFixedHeader}
             indentSize={20}
-            emptyText={!isLoading ? AdvancedTableEmptyText : TableSpinner}
+            emptyText={AdvancedTableEmptyText}
             scroll={this.getScroll()}
           />
         </div>
