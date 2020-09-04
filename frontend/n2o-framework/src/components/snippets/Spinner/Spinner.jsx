@@ -105,6 +105,7 @@ BaseSpinner.propTypes = {
   delay: PropTypes.number,
   text: PropTypes.string,
   transparent: PropTypes.bool,
+  color: PropTypes.string,
   minSpinnerTimeToShow: PropTypes.number,
 };
 
