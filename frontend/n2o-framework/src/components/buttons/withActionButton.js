@@ -31,13 +31,12 @@ const ConfirmMode = {
   MODAL: 'modal',
 };
 
-const RenderTooltip = ({ id, message }) => {
-  return (
-    !isUndefined(message) && (
-      <UncontrolledTooltip target={id}>{message}</UncontrolledTooltip>
-    )
+const RenderTooltip = ({ id, message }) =>
+  !isUndefined(message) && (
+    <UncontrolledTooltip target={id} boundariesElement={document}>
+      {message}
+    </UncontrolledTooltip>
   );
-};
 
 export default function withActionButton(options = {}) {
   const onClick = options.onClick;
