@@ -17,7 +17,7 @@ class BaseSpinner extends Component {
     super(props);
 
     this.state = {
-      loading: true,
+      loading: false,
       showSpinner: false,
     };
 
@@ -39,19 +39,7 @@ class BaseSpinner extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.loading !== this.props.loading) {
-      this.setState(
-        {
-          loading: this.props.loading,
-        },
-        () =>
-          setTimeout(
-            () =>
-              this.state.loading
-                ? this.setState({ showSpinner: true })
-                : this.setState({ showSpinner: false }),
-            400
-          )
-      );
+      setTimeout(() => this.setState({ showSpinner: this.props.loading }), 400);
     }
   }
 
@@ -92,7 +80,6 @@ class BaseSpinner extends Component {
 
   renderLineSpinner() {
     const { type, children, delay, loading, ...rest } = this.props;
-    const { loading: stateLoading } = this.state;
 
     return loading ? (
       <Comp className="spinner" {...rest} />
