@@ -22,7 +22,6 @@ class ImageUploaderList extends React.Component {
               onRemove={onRemove}
               index={index}
               loading={uploading && uploading[file.id]}
-              src={imgFiles[index]}
               {...rest}
             />
           );
