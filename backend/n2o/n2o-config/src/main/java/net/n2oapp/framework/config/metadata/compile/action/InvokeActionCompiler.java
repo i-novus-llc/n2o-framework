@@ -186,14 +186,14 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         List<String> routeParams = route == null ? null : RouteUtil.getParams(route);
         if ((routeParams == null || routeParams.isEmpty()) && (pathParams == null || pathParams.length == 0)) return;
 
-        if (routeParams == null) throw new IllegalArgumentException("route not set");
-        if (pathParams == null) throw new IllegalArgumentException("path-param not set");
+        if (routeParams == null) throw new N2oException("route not set");
+        if (pathParams == null) throw new N2oException("path-param not set");
 
         for (N2oParam pathParam : pathParams) {
             if (!routeParams.contains(pathParam.getName()))
-                throw new IllegalArgumentException("route not contains path-param");
+                throw new N2oException(String.format("route \"%s\" not contains path-param", pathParam.getName()));
             if (routeScope.getUrl() != null && RouteUtil.getParams(routeScope.getUrl()).contains(pathParam.getName()))
-                throw new IllegalArgumentException("route duplicate in parent url");
+                throw new N2oException(String.format("route \"%s\" duplicate in parent url", pathParam.getName()));
         }
     }
 
