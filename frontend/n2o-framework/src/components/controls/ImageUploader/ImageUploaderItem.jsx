@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import isEmpty from 'lodash/isEmpty';
+import isUndefined from 'lodash/isUndefined';
+import get from 'lodash/get';
 
 import cn from 'classnames';
 
@@ -46,12 +48,16 @@ class ImageUploaderItem extends React.Component {
       loading,
       lightBox,
       listType = 'image',
-      src,
     } = this.props;
+
     const cardType = listType === 'card';
     const imageType = listType === 'image';
     const withInformation = showSize || showName;
-    const imgSrc = URL.createObjectURL(src);
+
+    const imgSrc = isUndefined(file.link)
+      ? URL.createObjectURL(file)
+      : get(file, 'link');
+
     return (
       <div className="n2o-image-uploader-files-item">
         <span
