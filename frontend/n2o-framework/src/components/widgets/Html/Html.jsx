@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Spinner from '../../../components/snippets/Spinner/InlineSpinner';
 
 /**
  * Компонент встаквки html-кода
@@ -27,20 +26,16 @@ export const replacePlaceholders = (html, data) => {
 };
 
 const Html = props => {
-  const { html, loading, data } = props;
+  const { html, data, loading = false } = props;
 
   return (
-    <React.Fragment>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: data ? replacePlaceholders(html, data) : html,
-          }}
-        />
-      )}
-    </React.Fragment>
+    !loading && (
+      <div
+        dangerouslySetInnerHTML={{
+          __html: html && data ? replacePlaceholders(html, data) : html,
+        }}
+      />
+    )
   );
 };
 

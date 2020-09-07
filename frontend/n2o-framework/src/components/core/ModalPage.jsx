@@ -11,6 +11,8 @@ import Toolbar from '../buttons/Toolbar';
 import Spinner from '../snippets/Spinner/Spinner';
 import withOverlayMethods from './withOverlayMethods';
 
+const style = { zIndex: 10 };
+
 /**
  * Компонент, отображающий модальное окно
  * @reactProps {string} pageId - id пейджа
@@ -47,6 +49,7 @@ function ModalPage(props) {
     actions,
     close,
     disabled,
+    scrollable,
     ...rest
   } = props;
 
@@ -66,9 +69,8 @@ function ModalPage(props) {
           toggle={() => rest.closeOverlay(true)}
           size={size}
           backdrop={false}
-          style={{
-            zIndex: 10,
-          }}
+          style={style}
+          scrollable={scrollable}
         >
           <ModalHeader
             className={classes}
@@ -162,6 +164,7 @@ ModalPage.defaultProps = {
 ModalPage.contextTypes = {
   defaultPromptMessage: PropTypes.string,
   resolveProps: PropTypes.func,
+  scrollable: false,
 };
 
 export default compose(withOverlayMethods)(ModalPage);

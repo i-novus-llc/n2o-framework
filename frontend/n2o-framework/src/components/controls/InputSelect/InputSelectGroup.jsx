@@ -78,7 +78,7 @@ function InputSelectGroup({
         )}
         {children}
       </div>
-      {!withoutButtons && (
+      {!withoutButtons && !disabled && (
         <div className="n2o-input-control">
           {(selected.length || input) && cleanable && (
             <div

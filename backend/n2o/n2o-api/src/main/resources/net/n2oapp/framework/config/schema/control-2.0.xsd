@@ -15,6 +15,7 @@
     <xs:element name="input-text" type="controlInputTextDefinition"/>
     <xs:element name="input-money" type="controlInputMoneyDefinition"/>
     <xs:element name="output-text" type="controlOutputTextDefinition"/>
+    <xs:element name="output-list" type="controlOutputListDefinition"/>
     <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
     <xs:element name="checkbox" type="controlCheckboxDefinition"/>
     <xs:element name="password" type="controlPasswordDefinition"/>
@@ -52,6 +53,7 @@
             <xs:element name="input-text" type="controlInputTextDefinition" minOccurs="0"/>
             <xs:element name="input-money" type="controlInputMoneyDefinition" minOccurs="0"/>
             <xs:element name="output-text" type="controlOutputTextDefinition" minOccurs="0"/>
+            <xs:element name="output-list" type="controlOutputListDefinition" minOccurs="0"/>
             <xs:element name="masked-input" type="controlMaskedInputDefinition" minOccurs="0"/>
             <xs:element name="checkbox" type="controlCheckboxDefinition" minOccurs="0"/>
             <xs:element name="password" type="controlPasswordDefinition" minOccurs="0"/>
@@ -111,6 +113,11 @@
         <xs:attribute name="no-label" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Не отображать заголовок</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="no-label-block" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Не отображать блок с заголовком</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
@@ -866,6 +873,9 @@
     </xs:complexType>
 
     <xs:complexType name="controlAutoCompleteDefinition">
+        <xs:annotation>
+            <xs:documentation>Компонент ввода текста с автоподбором.</xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:sequence>
@@ -882,9 +892,34 @@
                         </xs:complexType>
                     </xs:element>
                 </xs:sequence>
-                <xs:attribute name="query-id" type="xs:string"/>
-                <xs:attribute name="value-field-id" type="xs:string"/>
-                <xs:attribute name="search-filter-id" type="xs:string"/>
+                <xs:attribute name="query-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор запроса за данными для автоподбора.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="value-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля выборки, отображаемого в автоподборе.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="search-filter-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор фильтра, используемого для поиска.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="tags" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Отображение выбранных элементов тегами.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -936,6 +971,9 @@
 
     <xs:complexType name="controlOutputTextDefinition">
         <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Компонент вывода однострочного текста.</xs:documentation>
+            </xs:annotation>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
@@ -957,6 +995,40 @@
                         <xs:documentation>Формат выводимого текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlOutputListDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:annotation>
+                    <xs:documentation>
+                        Компонент вывода многострочного текста.
+                        В случае, если в данных приходит ссылка, текст будет отображаться как ссылка.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="label-field-id" type="xs:string" default="name">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, содержащее значение элемента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="href-field-id" type="xs:string" default="href">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, содержащее ссылку элемента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target" type="act:aType" default="newWindow">
+                    <xs:annotation>
+                        <xs:documentation>Способ открытия ссылок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="separator" type="xs:string" default=" ">
+                    <xs:annotation>
+                        <xs:documentation>Разделитель между элементами.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="direction" type="directionType" default="column"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -985,6 +1057,24 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="directionType">
+        <xs:restriction base="xs:string">
+            <xs:annotation>
+                <xs:documentation>Направление отображения элементов.</xs:documentation>
+            </xs:annotation>
+            <xs:enumeration value="row">
+                <xs:annotation>
+                    <xs:documentation>Отображение элементов в строку.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="column">
+                <xs:annotation>
+                    <xs:documentation>Отображение элементов в столбец.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="fractionFormattingType">
         <xs:restriction base="xs:string">
