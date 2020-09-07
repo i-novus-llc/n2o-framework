@@ -21,8 +21,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static net.n2oapp.properties.test.TestUtil.assertOnException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -191,28 +190,28 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
     @Test
     public void emptyRouteValidationTest() {
         DataSet data = new DataSet().add("parent_id", 123);
-        Throwable thrown = catchThrowable(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyRoute.page.xml")
-                .get(new PageContext("emptyRoute", "/p/:parent_id/create"), data));
-        assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
-        assertThat(thrown.getMessage(), is("route not set"));
+        assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyRoute.page.xml")
+                        .get(new PageContext("emptyRoute", "/p/:parent_id/create"), data),
+                IllegalArgumentException.class,
+                e -> assertThat(e.getMessage(), is("route not set")));
     }
 
     @Test
     public void emptyPathValidationTest() {
         DataSet data = new DataSet().add("parent_id", 123);
-        Throwable thrown = catchThrowable(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyPath.page.xml")
-                .get(new PageContext("emptyPath", "/p/:parent_id/create"), data));
-        assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
-        assertThat(thrown.getMessage(), is("path-param not set"));
+        assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyPath.page.xml")
+                        .get(new PageContext("emptyPath", "/p/:parent_id/create"), data),
+                IllegalArgumentException.class,
+                e -> assertThat(e.getMessage(), is("path-param not set")));
     }
 
     @Test()
     public void multiplyPathValidationTest() {
         DataSet data = new DataSet().add("parent_id", 123);
-        Throwable thrown = catchThrowable(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/multiplyPath.page.xml")
-                .get(new PageContext("multiplyPath", "/p/:parent_id/create"), data));
-        assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
-        assertThat(thrown.getMessage(), is("route not contains path-param"));
+        assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/multiplyPath.page.xml")
+                        .get(new PageContext("multiplyPath", "/p/:parent_id/create"), data),
+                IllegalArgumentException.class,
+                e -> assertThat(e.getMessage(), is("route not contains path-param")));
     }
 
 }
