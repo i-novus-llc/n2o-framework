@@ -500,7 +500,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="method" type="xs:string">
+                <xs:attribute name="method" type="httpInvokeMethodDef">
                     <xs:annotation>
                         <xs:documentation>
                             Вызываемый метод, возможные значения: POST, PUT, DELETE.
@@ -510,6 +510,14 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="httpInvokeMethodDef">
+        <xs:restriction>
+            <xs:enumeration value="POST"/>
+            <xs:enumeration value="PUT"/>
+            <xs:enumeration value="DELETE"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="redirectTargetType">
         <xs:annotation>
