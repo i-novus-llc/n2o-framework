@@ -216,4 +216,51 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(link.getWidgetId(), is("testStandardFieldSubmit_form"));
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmit_form']"));
     }
+
+    @Test
+    public void testSubmitWithoutRoute() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldSubmitWithoutRoute.page.xml")
+                .get(new PageContext("testStandardFieldSubmitWithoutRoute"));
+        Field field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+
+        ActionContext context = (ActionContext) route("/testStandardFieldSubmitWithoutRoute", CompiledObject.class);
+        assertThat(context, notNullValue());
+        assertThat(context.getOperationId(), is("update"));
+        assertThat(context.isMessageOnFail(), is(true));
+        assertThat(context.isMessageOnSuccess(), is(false));
+        assertThat(context.getSuccessAlertWidgetId(), is("form"));
+        assertThat(context.getFailAlertWidgetId(), is("form"));
+
+        ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
+        assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
+        assertThat(dataProvider.getSubmitForm(), is(false));
+        assertThat(dataProvider.getUrl(), is("n2o/data/testStandardFieldSubmitWithoutRoute"));
+
+        assertThat(dataProvider.getPathMapping().size(), is(2));
+        ModelLink link = dataProvider.getPathMapping().get("name1");
+        assertThat(link.getValue(), is("value1"));
+        assertThat(link.getModel(), nullValue());
+        assertThat(link.getWidgetId(), nullValue());
+        assertThat(link.getBindLink(), nullValue());
+        link = dataProvider.getPathMapping().get("name2");
+        assertThat(link.getValue(), nullValue());
+        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getWidgetId(), is("testStandardFieldSubmitWithoutRoute_id2"));
+        assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmitWithoutRoute_id2']"));
+
+        assertThat(dataProvider.getHeadersMapping().size(), is(1));
+        link = dataProvider.getHeadersMapping().get("name3");
+        assertThat(link.getValue(), is("`a`"));
+        assertThat(link.getModel(), is(ReduxModel.RESOLVE));
+        assertThat(link.getWidgetId(), is("testStandardFieldSubmitWithoutRoute_id3"));
+        assertThat(link.getBindLink(), is("models.resolve['testStandardFieldSubmitWithoutRoute_id3']"));
+
+        assertThat(dataProvider.getFormMapping().size(), is(1));
+        link = dataProvider.getFormMapping().get("name4");
+        assertThat(link.getValue(), is("`b`"));
+        assertThat(link.getModel(), is(ReduxModel.FILTER));
+        assertThat(link.getWidgetId(), is("testStandardFieldSubmitWithoutRoute_form"));
+        assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmitWithoutRoute_form']"));
+    }
+
 }

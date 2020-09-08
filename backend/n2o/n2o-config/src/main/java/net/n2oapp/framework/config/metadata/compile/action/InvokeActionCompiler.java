@@ -186,7 +186,7 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         List<String> routeParams = route == null ? null : RouteUtil.getParams(route);
         if ((routeParams == null || routeParams.isEmpty()) && (pathParams == null || pathParams.length == 0)) return;
 
-        if (routeParams == null) throw new N2oException("route not set");
+        if (routeParams == null) throw new N2oException("path-param not used in route");
         if (pathParams == null) throw new N2oException("path-param not set");
 
         for (N2oParam pathParam : pathParams) {

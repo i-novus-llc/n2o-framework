@@ -193,7 +193,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyRoute.page.xml")
                         .get(new PageContext("emptyRoute"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("route not set")));
+                e -> assertThat(e.getMessage(), is("path-param not used in route")));
     }
 
     @Test
