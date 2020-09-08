@@ -77,6 +77,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
                 .get(pageContext);
 
         Table table = (Table) rootPage.getWidgets().get("p_main");
+        assertThat(((ShowModal) table.getActions().get("create")).getPrompt(), is(true));
         ShowModalPayload payload = ((ShowModal) table.getActions().get("create")).getPayload();
         //create
         assertThat(payload.getPageUrl(), is("/p/create"));

@@ -178,7 +178,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pageContext.setRefreshClientWidgetId(pageScope.getGlobalWidgetId(source.getRefreshWidgetId()));
         }
         pageContext.setRefreshOnClose(p.cast(source.getRefreshOnClose(), false));
-        pageContext.setUnsavedDataPromptOnClose(source.getUnsavedDataPromptOnClose());
+//        pageContext.setUnsavedDataPromptOnClose(source.getUnsavedDataPromptOnClose());
+        pageContext.setUnsavedDataPromptOnClose(p.cast(source.getUnsavedDataPromptOnClose(), true));
         if (source.getSubmitOperationId() != null
                 && source.getRedirectUrlAfterSubmit() == null
                 && source.getFocusAfterSubmit() != null
