@@ -14,6 +14,7 @@ public class ShowModal extends AbstractAction<ShowModalPayload, MetaSaga> {
     private String objectId;
     private String operationId;
     private String pageId;
+    private Boolean prompt;
 
     public ShowModal() {
         super(new ShowModalPayload(), null);
