@@ -1,21 +1,20 @@
 import React from 'react';
 
 import isEmpty from 'lodash/isEmpty';
+import get from 'lodash/get';
+import map from 'lodash/map';
 
 import PropTypes from 'prop-types';
 import Navbar from 'reactstrap/lib/Navbar';
 import Nav from 'reactstrap/lib/Nav';
-import NavItem from 'reactstrap/lib/NavItem';
-import InputGroup from 'reactstrap/lib/InputGroup';
-import InputGroupAddon from 'reactstrap/lib/InputGroupAddon';
-import Input from 'reactstrap/lib/Input';
-import map from 'lodash/map';
+
 import NavbarBrand from 'reactstrap/lib/NavbarBrand';
 import NavbarToggler from 'reactstrap/lib/NavbarToggler';
 import Collapse from 'reactstrap/lib/Collapse';
 
 import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
+
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer';
 
 /**
@@ -160,7 +159,12 @@ class SimpleHeader extends React.Component {
             </Nav>
             <Nav className="ml-auto main-nav-extra" navbar>
               {extraNavItems}
-              {search && <SearchBarContainer />}
+              {search && (
+                <SearchBarContainer
+                  dataProvider={get(search, 'dataProvider')}
+                  searchPageLocation={get(search, 'searchPageLocation')}
+                />
+              )}
             </Nav>
           </Collapse>
         </Navbar>
