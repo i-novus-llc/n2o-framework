@@ -49,6 +49,7 @@ public class ImageUploadCompileTest extends SourceCompileTestBase {
         assertThat(imageUpload.getAjax(), is(false));
         assertThat(imageUpload.getMulti(), is(true));
         assertThat(imageUpload.getShowSize(), is(false));
+        assertThat(imageUpload.getShowName(), is(true));
         assertThat(imageUpload.getAccept(), is(".img,.png"));
         assertThat(imageUpload.getUploadUrl(), is("/upload"));
         assertThat(imageUpload.getDeleteUrl(), is("/delete"));
@@ -69,6 +70,7 @@ public class ImageUploadCompileTest extends SourceCompileTestBase {
         assertThat(imageUpload2.getAjax(), is(true));
         assertThat(imageUpload2.getMulti(), is(false));
         assertThat(imageUpload2.getShowSize(), is(true));
+        assertThat(imageUpload2.getShowName(), is(false));
         assertThat(imageUpload2.getValueFieldId(), is("id"));
         assertThat(imageUpload2.getLabelFieldId(), is("name"));
         assertThat(imageUpload2.getUrlFieldId(), is("url"));

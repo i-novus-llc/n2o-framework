@@ -4,6 +4,7 @@
                       multi="true"
                       ajax="false"
                       show-size="false"
+                      show-name="true"
                       upload-url="/url"
                       delete-url="/url"
                       value-field-id="test"

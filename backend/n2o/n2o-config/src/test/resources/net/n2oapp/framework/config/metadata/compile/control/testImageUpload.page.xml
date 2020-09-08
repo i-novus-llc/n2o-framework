@@ -5,7 +5,7 @@
             <image-upload id="imageUpload" list-type="card" lightbox="true"
                           upload-url="/upload" delete-url="/delete"
                           ajax="false" multi="true" accept=".img,.png"
-                          show-size="false" value-field-id="valueId"
+                          show-size="false" show-name="true" value-field-id="valueId"
                           label-field-id="labelId" url-field-id="urlId"
                           message-field-id="messageId" request-param="param">
                 <default-value id="value1" url="/test" filename="file"/>
