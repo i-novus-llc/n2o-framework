@@ -111,7 +111,9 @@
   }
 
   &--img {
-    width: 90px;
+    max-width: 90px;
+    min-width: 50px;
+    max-height: 90px;
     margin: 0 5px 0 5px;
     transform: scale(.90);
   }
