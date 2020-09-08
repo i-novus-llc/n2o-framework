@@ -18,6 +18,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Тестирование компиляции простого хедера
@@ -165,19 +166,19 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/header/search.query.xml")
                 .bind().get(new HeaderContext("headerWithSearch"), null);
         SearchBar searchBar = header.getSearch();
-        Assert.assertNotNull(searchBar);
-        Assert.assertEquals("urlId", searchBar.getUrlFieldId());
-        Assert.assertEquals("labelId", searchBar.getLabelFieldId());
-        Assert.assertEquals("iconId", searchBar.getIconFieldId());
-        Assert.assertEquals("descriptionId", searchBar.getDescrFieldId());
+        assertThat(searchBar, notNullValue());
+        assertThat("urlId", is(searchBar.getUrlFieldId()));
+        assertThat("labelId", is(searchBar.getLabelFieldId()));
+        assertThat("iconId", is(searchBar.getIconFieldId()));
+        assertThat("descriptionId", is(searchBar.getDescrFieldId()));
 
-        Assert.assertNotNull(searchBar.getSearchPageLocation());
-        Assert.assertEquals("advancedUrl", searchBar.getSearchPageLocation().getUrl());
-        Assert.assertEquals("param", searchBar.getSearchPageLocation().getSearchQueryName());
-        Assert.assertEquals(SearchBar.LinkType.inner, searchBar.getSearchPageLocation().getLinkType());
+        assertThat(searchBar.getSearchPageLocation(), notNullValue());
+        assertThat("advancedUrl", is(searchBar.getSearchPageLocation().getUrl()));
+        assertThat("param", is(searchBar.getSearchPageLocation().getSearchQueryName()));
+        assertThat(SearchBar.LinkType.inner, is(searchBar.getSearchPageLocation().getLinkType()));
 
-        Assert.assertNotNull(searchBar.getDataProvider());
-        Assert.assertEquals("n2o/data/search", searchBar.getDataProvider().getUrl());
-        Assert.assertEquals("filterId", searchBar.getDataProvider().getQuickSearchParam());
+        assertThat(searchBar.getDataProvider(), notNullValue());
+        assertThat("n2o/data/search", is(searchBar.getDataProvider().getUrl()));
+        assertThat("filterId", is(searchBar.getDataProvider().getQuickSearchParam()));
     }
 }
