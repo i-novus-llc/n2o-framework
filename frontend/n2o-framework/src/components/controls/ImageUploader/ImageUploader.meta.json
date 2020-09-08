@@ -10,7 +10,7 @@
   "multi": false,
   "autoUpload": true,
   "listType": "image",
-  "lightBox": true,
+  "lightbox": true,
   "valueFieldId": "customId",
   "labelFieldId": "customName",
   "statusFieldId": "customStatus",
