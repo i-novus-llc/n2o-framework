@@ -69,7 +69,7 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
                 N2oWidget wgt = readWidget((Element) c, readerFactory);
                 widgets.add(wgt);
             }
-            region.setItems(widgets.toArray(new N2oWidget[widgets.size()]));
+            region.setContent(widgets.toArray(new N2oWidget[widgets.size()]));
             regions.add(region);
         }
     }
@@ -117,7 +117,7 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
             if (containerElements.size() == 1) {
                 region = new N2oNoneRegion();
                 N2oWidget widget = readWidget(container, readerFactory);
-                ((N2oNoneRegion) region).setItems(new N2oWidget[]{widget});
+                ((N2oNoneRegion) region).setContent(new N2oWidget[]{widget});
             } else {
                 region = new N2oTabsRegion();
             }

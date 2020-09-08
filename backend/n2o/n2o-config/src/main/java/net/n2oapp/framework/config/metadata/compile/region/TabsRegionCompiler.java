@@ -78,8 +78,8 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                 tab.setId(createId(null, source.getAlias(), p));
                 tab.setLabel(t.getName());
                 List<Compiled> content = new ArrayList<>();
-                if (t.getItems() != null)
-                    for (SourceComponent item : t.getItems())
+                if (t.getContent() != null)
+                    for (SourceComponent item : t.getContent())
                         if (item instanceof N2oWidget)
                             pageWidgetsScope.getWidgets().keySet().stream()
                                     .filter(k -> k.endsWith(((N2oWidget) item).getId())).findFirst()

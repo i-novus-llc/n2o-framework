@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.LineRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
+import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -51,7 +52,6 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(0).getSrc(), is("ListRegion"));
         assertThat(((LineRegion)regions.get(0)).getName(), is("Line1"));
         assertThat(((LineRegion) regions.get(0)).getCollapsible(), is(false));
-        assertThat(regions.get(0).getItems(), nullValue());
         List<Compiled> content = regions.get(0).getContent();
         assertThat(content.size(), is(3));
         // line form1
@@ -89,7 +89,6 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(1), instanceOf(LineRegion.class));
         assertThat(regions.get(1).getId(), is("line_3"));
         assertThat(regions.get(1).getSrc(), is("ListRegion"));
-        assertThat(regions.get(1).getItems(), nullValue());
         content = regions.get(1).getContent();
         assertThat(content.size(), is(2));
         // line table1

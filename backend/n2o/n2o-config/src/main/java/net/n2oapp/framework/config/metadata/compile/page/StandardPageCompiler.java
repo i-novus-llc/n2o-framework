@@ -41,29 +41,46 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
         Map<String, List<Region>> regionMap = new HashMap<>();
         if (source.getItems() != null) {
             IndexScope index = new IndexScope();
+            List<N2oWidget> widgets = new ArrayList<>();
             for (SourceComponent item : source.getItems()) {
-                N2oRegion n2oRegion = null;
-                if (item instanceof N2oRegion)
-                    n2oRegion = ((N2oRegion) item);
-                else if (item instanceof N2oWidget) {
-                    // если виджет не в регионе оборачиваем его в кастомный регион
-                    n2oRegion = new N2oCustomRegion();
-                    n2oRegion.setItems(new SourceComponent[]{item});
-                }
-                if (n2oRegion != null) {
-                    Region region = p.compile(n2oRegion, context, index, pageScope, pageRoutes, pageWidgetsScope);
-                    String place = p.cast(n2oRegion.getPlace(), "single");
-                    if (regionMap.get(place) != null) {
-                        regionMap.get(place).add(region);
-                    } else {
-                        List<Region> regionList = new ArrayList<>();
-                        regionList.add(region);
-                        regionMap.put(place, regionList);
+                if (item instanceof N2oRegion) {
+                    if (!widgets.isEmpty()) {
+                        createRegion(p, context, pageScope, pageRoutes, pageWidgetsScope, regionMap, index, widgets);
                     }
+                    compileRegion(p, context, pageScope, pageRoutes, pageWidgetsScope, regionMap, index, (N2oRegion) item);
                 }
+                else if (item instanceof N2oWidget) {
+                    widgets.add((N2oWidget) item);
+                }
+            }
+            if (!widgets.isEmpty()) {
+                createRegion(p, context, pageScope, pageRoutes, pageWidgetsScope, regionMap, index, widgets);
             }
         }
         page.setRegions(regionMap);
+    }
+
+    private void createRegion(CompileProcessor p, PageContext context, PageScope pageScope, PageRoutes pageRoutes, PageWidgetsScope pageWidgetsScope, Map<String, List<Region>> regionMap, IndexScope index, List<N2oWidget> widgets) {
+        N2oRegion n2oRegion = new N2oCustomRegion();
+        N2oWidget[] content = new N2oWidget[widgets.size()];
+        widgets.toArray(content);
+        n2oRegion.setContent(content);
+        compileRegion(p, context, pageScope, pageRoutes, pageWidgetsScope, regionMap, index, n2oRegion);
+        widgets.clear();
+    }
+
+    private void compileRegion(CompileProcessor p, PageContext context, PageScope pageScope, PageRoutes pageRoutes,
+                               PageWidgetsScope pageWidgetsScope, Map<String, List<Region>> regionMap, IndexScope index,
+                               N2oRegion n2oRegion) {
+        Region region = p.compile(n2oRegion, context, index, pageScope, pageRoutes, pageWidgetsScope);
+        String place = p.cast(n2oRegion.getPlace(), "single");
+        if (regionMap.get(place) != null) {
+            regionMap.get(place).add(region);
+        } else {
+            List<Region> regionList = new ArrayList<>();
+            regionList.add(region);
+            regionMap.put(place, regionList);
+        }
     }
 
     @Override

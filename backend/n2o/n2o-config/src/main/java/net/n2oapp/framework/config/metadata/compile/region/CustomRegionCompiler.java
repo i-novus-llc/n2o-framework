@@ -30,7 +30,7 @@ public class CustomRegionCompiler extends BaseRegionCompiler<CustomRegion, N2oCu
         build(region, source, p);
         IndexScope indexScope = p.getScope(IndexScope.class);
         PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
-        region.setContent(initContent(source.getItems(), indexScope, pageWidgetsScope, context, p));
+        region.setContent(initContent(source.getContent(), indexScope, pageWidgetsScope, context, p));
         return region;
     }
 

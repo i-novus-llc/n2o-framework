@@ -36,11 +36,7 @@ public class PanelRegion extends Region {
     @JsonProperty
     private Boolean header;
 
-    @Override
-    @JsonProperty("panels")
-    public List<? extends Item> getItems() {
-        return super.getItems();
-    }
+
 
 
     @Getter

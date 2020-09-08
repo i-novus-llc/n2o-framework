@@ -93,10 +93,11 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Form) tabsItems.get(0).getContent().get(0)).getName(), is("form2"));
 
         // TABS2
-        assertThat(regions.get(1).getId(), is("tab_4"));
-        assertThat(regions.get(1).getItems().size(), is(1));
-        assertThat(regions.get(1).getItems().get(0).getId(), is("tab_5"));
-        content = regions.get(1).getItems().get(0).getContent();
+        TabsRegion region = (TabsRegion) regions.get(1);
+        assertThat(region.getId(), is("tab_4"));
+        assertThat(region.getItems().size(), is(1));
+        assertThat(region.getItems().get(0).getId(), is("tab_5"));
+        content = region.getItems().get(0).getContent();
         assertThat(content.size(), is(2));
         assertThat(content.get(0), instanceOf(Table.class));
         assertThat(((Table) content.get(0)).getId(), is("testTabsRegionNesting_tab4"));
@@ -106,10 +107,11 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Table) content.get(1)).getName(), is("table2"));
 
         // TABS3
-        assertThat(regions.get(2).getId(), is("tab_6"));
-        assertThat(regions.get(2).getItems().size(), is(1));
-        assertThat(regions.get(2).getItems().get(0).getId(), is("tab_7"));
-        assertThat(regions.get(2).getItems().get(0).getContent().size(), is(0));
+        region = (TabsRegion) regions.get(2);
+        assertThat(region.getId(), is("tab_6"));
+        assertThat(region.getItems().size(), is(1));
+        assertThat(region.getItems().get(0).getId(), is("tab_7"));
+        assertThat(region.getItems().get(0).getContent().size(), is(0));
     }
 
     @Test
@@ -120,7 +122,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(page.getRegions().size(), is(1));
         List<Region> regions = page.getRegions().get("single");
         assertThat(regions.size(), is(1));
-        List<? extends Region.Item> items = regions.get(0).getItems();
+        List<? extends Region.Item> items = ((TabsRegion) regions.get(0)).getItems();
 
         assertThat(items.size(), is(2));
         assertThat(items.get(0), instanceOf(TabsRegion.Tab.class));

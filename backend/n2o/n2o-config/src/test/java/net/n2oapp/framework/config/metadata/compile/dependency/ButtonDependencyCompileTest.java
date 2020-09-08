@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.dependency;
 
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Condition;
@@ -42,7 +43,7 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
     public void testButtonDependency() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dependency/testButtonDependency.page.xml")
                 .get(new PageContext("testButtonDependency"));
-        List<AbstractButton> buttons = ((Widget) page.getRegions().get("single").get(0).getItems().get(0).getContent().get(0))
+        List<AbstractButton> buttons = ((Widget) ((TabsRegion) page.getRegions().get("single").get(0)).getItems().get(0).getContent().get(0))
                 .getToolbar().get("topLeft").get(0).getButtons();
         assertThat(((Submenu) buttons.get(0)).getSubMenu().get(0).getConditions().get(ValidationType.visible).get(0).getModelLink(),
                 is("models.resolve['testButtonDependency_table']"));

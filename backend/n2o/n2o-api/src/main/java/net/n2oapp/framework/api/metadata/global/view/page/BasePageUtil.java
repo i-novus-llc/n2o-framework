@@ -29,8 +29,8 @@ public class BasePageUtil {
         List<Region> regions = page.getRegions().values().stream().flatMap(Collection::stream).collect(Collectors.toList());
         for (Region r : regions) {
             if (r instanceof TabsRegion) {
-                if (r.getItems() != null)
-                    for (Region.Item tab : r.getItems())
+                if (((TabsRegion)r).getItems() != null)
+                    for (Region.Item tab : ((TabsRegion)r).getItems())
                         addWidgets(widgets, tab.getContent());
             } else {
                 if (r.getContent() != null)
@@ -63,6 +63,6 @@ public class BasePageUtil {
                 if (item instanceof N2oWidget)
                     containers.add((N2oWidget) item);
                 else if (item instanceof N2oRegion)
-                    collectWidgets(containers, ((N2oRegion) item).getItems());
+                    collectWidgets(containers, ((N2oRegion) item).getContent());
     }
 }

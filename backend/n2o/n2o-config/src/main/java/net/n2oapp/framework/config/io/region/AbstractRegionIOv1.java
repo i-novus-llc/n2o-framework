@@ -16,7 +16,7 @@ public abstract class AbstractRegionIOv1<T extends N2oRegion & NamespaceUriAware
         p.attribute(e, "id", r::getId, r::setId);
         p.attribute(e, "place", r::getPlace, r::setPlace);
         p.attribute(e, "src", r::getSrc, r::setSrc);
-        p.attribute(e, "class", r::getClassName, r::setClassName);
+        p.attribute(e, "class", r::getCssClass, r::setCssClass);
         p.attribute(e, "style", r::getStyle, r::setStyle);
         p.anyAttributes(e, r::getExtAttributes, r::setExtAttributes);
     }

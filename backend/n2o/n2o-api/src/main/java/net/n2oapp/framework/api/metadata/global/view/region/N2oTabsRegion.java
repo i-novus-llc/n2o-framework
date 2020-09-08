@@ -24,25 +24,27 @@ public class N2oTabsRegion extends N2oRegion {
     @Setter
     public static class Tab implements Source {
         private String name;
-        private SourceComponent[] items;
+        private SourceComponent[] content;
     }
 
+    @Deprecated
     public void setWidgets(N2oWidget[] widgets) {
         if (widgets != null) {
             Tab[] tabs = new Tab[widgets.length];
             for (int i = 0; i < widgets.length; i++) {
                 Tab tab = new Tab();
                 tab.setName(widgets[i].getName());
-                tab.setItems(new SourceComponent[]{widgets[i]});
+                tab.setContent(new SourceComponent[]{widgets[i]});
                 tabs[i] = tab;
             }
             this.tabs = tabs;
         }
     }
 
+    @Deprecated
     public N2oWidget[] getWidgets() {
         if (tabs != null)
-            return Arrays.stream(tabs).map(t -> t.getItems()[0]).toArray(N2oWidget[]::new);
+            return Arrays.stream(tabs).map(t -> t.getContent()[0]).toArray(N2oWidget[]::new);
         return null;
     }
 

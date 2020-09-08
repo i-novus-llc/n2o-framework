@@ -17,11 +17,8 @@ public class TabsRegion extends Region {
     @JsonProperty
     private Boolean lazy;
 
-    @Override
     @JsonProperty("tabs")
-    public List<? extends Item> getItems() {
-        return super.getItems();
-    }
+    private List<Tab> items;
 
     @Getter
     @Setter

@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
+import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -72,7 +73,6 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(0).getSrc(), is("PanelRegion"));
         assertThat(((PanelRegion) regions.get(0)).getHeaderTitle(), is("Panel1"));
         assertThat(((PanelRegion) regions.get(0)).getCollapsible(), is(false));
-        assertThat(regions.get(0).getItems(), nullValue());
         List<Compiled> content = regions.get(0).getContent();
         assertThat(content.size(), is(3));
         // panel form1
@@ -110,7 +110,6 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(1), instanceOf(PanelRegion.class));
         assertThat(regions.get(1).getId(), is("panel_3"));
         assertThat(regions.get(1).getSrc(), is("PanelRegion"));
-        assertThat(regions.get(1).getItems(), nullValue());
         content = regions.get(1).getContent();
         assertThat(content.size(), is(2));
         // panel table1
