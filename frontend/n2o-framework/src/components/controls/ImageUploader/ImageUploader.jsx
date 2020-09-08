@@ -20,9 +20,9 @@ function ImageUploader(props) {
   const currentLabel = !isEmpty(imgError) ? imgError.message : label;
   return (
     <ImageUpload
-      {...props}
       children={children || defaultDropZone(icon, currentLabel)}
       componentClass={'n2o-drop-zone'}
+      {...props}
     />
   );
 }

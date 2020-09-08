@@ -31,7 +31,7 @@ function ImageUpload(props) {
     onStartUpload,
     uploaderClass,
     saveBtnStyle,
-    lightBox,
+    lightbox,
     listType,
     imgError,
   } = props;
@@ -73,7 +73,7 @@ function ImageUpload(props) {
                 autoUpload={autoUpload}
                 showSize={showSize}
                 showName={showName}
-                lightBox={lightBox}
+                lightBox={lightbox}
                 disabled={disabled}
                 listType={listType}
                 imgFiles={imgFiles}

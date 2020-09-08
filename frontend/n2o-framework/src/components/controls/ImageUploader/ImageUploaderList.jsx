@@ -5,30 +5,22 @@ import map from 'lodash/map';
 
 import ImageUploaderItem from './ImageUploaderItem';
 
-class ImageUploaderList extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    const { files, onRemove, uploading, imgFiles, ...rest } = this.props;
+function ImageUploaderList(props) {
+  const { files, onRemove, uploading, imgFiles, ...rest } = props;
+
+  return map(files, (file, index) => {
     return (
-      <>
-        {map(files, (file, index) => {
-          return (
-            <ImageUploaderItem
-              file={file}
-              key={index}
-              percentage={file.percentage}
-              onRemove={onRemove}
-              index={index}
-              loading={uploading && uploading[file.id]}
-              {...rest}
-            />
-          );
-        })}
-      </>
+      <ImageUploaderItem
+        file={file}
+        key={index}
+        percentage={file.percentage}
+        onRemove={onRemove}
+        index={index}
+        loading={uploading && uploading[file.id]}
+        {...rest}
+      />
     );
-  }
+  });
 }
 
 ImageUploaderList.propTypes = {
