@@ -89,6 +89,7 @@ http://n2oapp.net/framework/config/schema/header-2.0
 <nav>
     <a href="http://google.com/"/>
     <page page-id="ProtoPage" route="/proto" label="Контакты"/>
+    <sub-menu>...</sub-menu>
 </nav>
 ----
 
@@ -120,6 +121,7 @@ http://n2oapp.net/framework/config/schema/header-2.0
 <extra-menu>
     <page page-id="ProtoPage" route="/proto" label="Контакты"/>
     <a href="http://google.com/"/>
+    <sub-menu>...</sub-menu>
 </extra-menu>
 ----
 

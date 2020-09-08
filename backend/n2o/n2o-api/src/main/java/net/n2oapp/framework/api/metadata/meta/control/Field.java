@@ -27,6 +27,8 @@ public class Field extends Component {
     @JsonProperty
     private String label;
     @JsonProperty
+    private Boolean noLabelBlock;
+    @JsonProperty
     private String labelClass;
     @JsonProperty
     private String description;
@@ -37,7 +39,6 @@ public class Field extends Component {
     @JsonProperty("dependency")
     private List<ControlDependency> dependencies = new ArrayList<>();
     private List<Validation> serverValidations;
-    @JsonProperty("validation")
     private List<Validation> clientValidations;
 
     public void addDependency(ControlDependency dependency) {

@@ -30,7 +30,8 @@ public class CompiledHeader extends Header {
     private String className;
     @JsonProperty
     private Map<String, String> style;
-    private String welcomePage;
+    @JsonProperty
+    private Boolean search;
     @JsonProperty
     private SimpleMenu items;
     @JsonProperty

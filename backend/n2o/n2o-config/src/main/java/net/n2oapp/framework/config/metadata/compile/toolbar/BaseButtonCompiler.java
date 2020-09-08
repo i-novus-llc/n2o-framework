@@ -37,8 +37,6 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 
 /**
  * Компиляция ToolbarItem
- *
- * @param <S>
  */
 public abstract class BaseButtonCompiler<S extends GroupItem, B extends AbstractButton> implements BaseSourceCompiler<B, S, CompileContext<?, ?>> {
 
@@ -47,9 +45,9 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         button.setId(p.cast(source.getId(), source.getActionId(), "menuItem" + idx.get()));
         source.setId(button.getId());
         button.setProperties(p.mapAttributes(source));
-        if (source.getType() != null && source.getType().equals(LabelType.icon)) {
+        if (source.getType() != null && source.getType() == LabelType.icon) {
             button.setIcon(source.getIcon());
-        } else if (source.getType() != null && source.getType().equals(LabelType.text)) {
+        } else if (source.getType() != null && source.getType() == LabelType.text) {
             button.setLabel(source.getLabel());
         } else {
             button.setIcon(source.getIcon());
@@ -59,8 +57,8 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         CompiledObject compiledObject = null;
         WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
         if (widgetObjectScope != null) {
-            if (widgetObjectScope.size() == 1)
-                source.setWidgetId(widgetObjectScope.keySet().stream().findFirst().get());
+            if (widgetObjectScope.size() == 1 && source.getWidgetId() == null)
+                source.setWidgetId(widgetObjectScope.keySet().iterator().next());
             if (widgetObjectScope.containsKey(source.getWidgetId())) {
                 compiledObject = widgetObjectScope.getObject(source.getWidgetId());
             }
@@ -240,16 +238,12 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             else if (d instanceof AbstractMenuItem.VisibilityDependency)
                 validationType = ValidationType.visible;
 
-            if (d.getOn() != null)
-                for (String on : d.getOn())
-                    compileCondition(d, button, validationType, widgetId, on, p);
-            else
-                compileCondition(d, button, validationType, widgetId, null, p);
+            compileCondition(d, button, validationType, widgetId, p);
         }
     }
 
     private void compileCondition(AbstractMenuItem.Dependency dependency, MenuItem menuItem, ValidationType validationType,
-                                  String widgetId, String fieldId, CompileProcessor p) {
+                                  String widgetId, CompileProcessor p) {
         String refWidgetId = null;
         if (dependency.getRefWidgetId() != null) {
             PageScope pageScope = p.getScope(PageScope.class);
@@ -262,7 +256,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
 
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
-        condition.setModelLink(new ModelLink(refModel, refWidgetId, fieldId).getBindLink());
+        condition.setModelLink(new ModelLink(refModel, refWidgetId, null).getBindLink());
         if (dependency instanceof AbstractMenuItem.EnablingDependency)
             condition.setMessage(((AbstractMenuItem.EnablingDependency) dependency).getMessage());
 

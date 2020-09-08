@@ -45,12 +45,17 @@
   padding: 2px 3px 2px 3px!important;
 }
 
-.btn .badge {
-  left: 3px;
+.badge {
+  display: inline-flex;
+  align-items: center;
+
+  span {
+    padding-bottom: 2px;
+  }
 }
 
-.badge {
-  //line-height: 1rem;
+.btn .badge {
+  left: 3px;
 }
 
 .table th {

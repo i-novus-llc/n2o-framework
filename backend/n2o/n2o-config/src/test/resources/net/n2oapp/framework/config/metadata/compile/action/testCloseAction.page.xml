@@ -8,6 +8,9 @@
         </actions>
         <toolbar>
             <button id="test" action-id="test"/>
+            <button id="open">
+                <open-page page-id="testOpenPageCloseAction" route="/b/c/"/>
+            </button>
         </toolbar>
     </table>
 </simple-page>

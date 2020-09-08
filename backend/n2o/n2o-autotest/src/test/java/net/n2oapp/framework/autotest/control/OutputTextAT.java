@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -12,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест поля вывода текста
+ * Автотест компонента вывода однострочного текста
  */
 public class OutputTextAT extends AutoTestBase {
 
@@ -68,5 +69,21 @@ public class OutputTextAT extends AutoTestBase {
 
         output.shouldBeEmpty();
         output.shouldHaveIcon("fa fa-plus");
+    }
+
+    @Test
+    public void testDefaultValue() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/output_text/default/index.page.xml"));
+        page = open(SimplePage.class);
+        page.shouldExists();
+
+        Fields fields = page.single().widget(FormWidget.class).fields();
+
+        OutputText output1 = fields.field("moment").control(OutputText.class);
+        output1.shouldHaveValue("06.02.2019");
+        OutputText output2 = fields.field("numeral").control(OutputText.class);
+        output2.shouldHaveValue("1,50");
+        OutputText output3 = fields.field("lodash").control(OutputText.class);
+        output3.shouldHaveValue("a~b~c");
     }
 }

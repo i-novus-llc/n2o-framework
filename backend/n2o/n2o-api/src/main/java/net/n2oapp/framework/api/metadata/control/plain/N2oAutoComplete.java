@@ -6,22 +6,14 @@ import lombok.Setter;
 import java.util.Map;
 
 /**
- * Компонент ввода текста
+ * Компонент ввода текста с автоподбором
  */
 @Getter
 @Setter
 public class N2oAutoComplete extends N2oPlainField {
-
-    public N2oAutoComplete(String id) {
-        setId(id);
-    }
-
-    public N2oAutoComplete() {
-    }
-
     private String queryId;
     private String valueFieldId;
     private String searchFilterId;
-    protected Map<String, String>[] options;
-
+    private Boolean tags;
+    private Map<String, String>[] options;
 }

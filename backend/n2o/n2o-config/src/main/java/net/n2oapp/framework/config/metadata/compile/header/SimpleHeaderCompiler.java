@@ -40,13 +40,11 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
     }
 
     private void initWelcomePage(N2oSimpleHeader source, CompileProcessor p) {
-
         String welcomePageId;
         if (source.getMenu() != null && source.getWelcomePageId() != null)
             welcomePageId = source.getWelcomePageId();
         else
             welcomePageId = p.resolve(property("n2o.header.homepage.id"), String.class);
-
 
         PageContext context = new PageContext(welcomePageId, "/");
         p.addRoute(context);

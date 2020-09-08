@@ -34,7 +34,7 @@ import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBar
  * @example
  * //каждый item состоит из id {string}, label {string}, type {string} ('text', 'type' или 'dropdown'),
  * //href {string}(для ссылок), linkType {string}(для ссылок; значения - 'outer' или 'inner')
- * //badge {string} (текст баджа), badgeColor {string} (цвет баджа), target {string} ('newWindow' или null)
+ * //badge {string} (текст баджа), badgeColor {string} (цвет баджа), target {string} ('_blank' или null)
  * //subItems {array} (массив из элементов дропдауна)
  *<SimpleHeader  items = { [
  *     {
@@ -42,7 +42,7 @@ import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBar
  *       label: 'link',
  *       href: '/test',
  *       type: 'link',
- *       target: 'newWindow',
+ *       target: '_blank',
  *     },
  *     {
  *       id: 'dropdown',

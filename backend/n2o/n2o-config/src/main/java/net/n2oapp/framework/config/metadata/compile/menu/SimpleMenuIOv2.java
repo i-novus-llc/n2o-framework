@@ -60,6 +60,7 @@ public class SimpleMenuIOv2 implements NamespaceIO<N2oSimpleMenu> {
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChildren(e, null, m::getSubMenu, m::setSubMenu, p.oneOf(N2oSimpleMenu.MenuItem.class)
                 .add("page", N2oSimpleMenu.PageItem.class, this::page)
-                .add("a", N2oSimpleMenu.AnchorItem.class, this::anchor));
+                .add("a", N2oSimpleMenu.AnchorItem.class, this::anchor)
+                .add("sub-menu", N2oSimpleMenu.MenuItem.class, this::subMenu));
     }
 }

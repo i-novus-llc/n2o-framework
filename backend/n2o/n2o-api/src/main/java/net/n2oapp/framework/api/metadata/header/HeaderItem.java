@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
+import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class HeaderItem implements Compiled, PropertiesAware {
     @JsonProperty
     private String icon;
     @JsonProperty
-    private String target;
+    private Target target;
     @JsonProperty
     private SimpleMenu subItems;
     @JsonProperty("type")

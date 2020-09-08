@@ -3,9 +3,7 @@ package net.n2oapp.framework.config.reader.widget;
 
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oAbstractTable;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.Size;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oSimpleColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.*;
 import net.n2oapp.framework.config.reader.widget.cell.*;
@@ -61,7 +59,7 @@ public class TableXmlReaderTest extends BaseWidgetReaderTest {
         assert imageCell.getWidth() == null;
         assert imageCell.getShape() == null;
         N2oImageCell imageCell2 = (N2oImageCell) ((N2oSimpleColumn) table3.getColumns()[8]).getCell();
-        assert imageCell2.getWidth().equals("32");
+        assert imageCell2.getWidth().equals(32);
         assert imageCell2.getShape().equals(ImageShape.circle);
         N2oProgressBarCell progressBarCell = (N2oProgressBarCell) ((N2oSimpleColumn) table3.getColumns()[10]).getCell();
         assert progressBarCell.getSize().equals(N2oProgressBarCell.Size.small);

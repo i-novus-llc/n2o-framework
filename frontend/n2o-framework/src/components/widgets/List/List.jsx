@@ -107,10 +107,13 @@ class List extends Component {
         };
       }
 
-      this.setState(
-        state,
-        () => this._virtualizer && this._virtualizer.forceUpdateGrid()
-      );
+      this.setState(state, () => {
+        if (this._virtualizer) {
+          this._virtualizer.forceUpdateGrid();
+        }
+
+        this._resizeAll();
+      });
     }
 
     if (!isEqual(rows, prevProps.rows)) {
@@ -173,6 +176,13 @@ class List extends Component {
       }
     }, 300);
   }
+
+  _resizeAll = () => {
+    this.cache.clearAll();
+    if (this._virtualizer) {
+      this._virtualizer.recomputeRowHeights();
+    }
+  };
 
   renderRow({ index, key, style, parent }) {
     const {
