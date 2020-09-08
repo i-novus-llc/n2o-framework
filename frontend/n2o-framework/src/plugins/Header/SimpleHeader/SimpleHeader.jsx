@@ -1,6 +1,7 @@
 import React from 'react';
 
 import isEmpty from 'lodash/isEmpty';
+import get from 'lodash/get';
 
 import PropTypes from 'prop-types';
 import Navbar from 'reactstrap/lib/Navbar';
@@ -17,6 +18,7 @@ import Collapse from 'reactstrap/lib/Collapse';
 import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer';
+import withFetchData from '../../../components/controls/withFetchData';
 
 /**
  * Хедер-плагин
@@ -160,7 +162,12 @@ class SimpleHeader extends React.Component {
             </Nav>
             <Nav className="ml-auto main-nav-extra" navbar>
               {extraNavItems}
-              {search && <SearchBarContainer />}
+              {search && (
+                <SearchBarContainer
+                  dataProvider={get(search, 'dataProvider')}
+                  searchPageLocation={get(search, 'searchPageLocation')}
+                />
+              )}
             </Nav>
           </Collapse>
         </Navbar>
@@ -257,4 +264,4 @@ SimpleHeader.defaultProps = {
   list: [],
 };
 
-export default SimpleHeader;
+export default withFetchData(SimpleHeader);
