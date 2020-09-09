@@ -335,6 +335,7 @@ const enhance = compose(
           rowClass: props.rowClass,
           onFetch: props.onFetch,
           onSort: props.onSort,
+          children: props.children,
           onResolve: newModel => {
             props.onResolve(newModel);
             if (props.selectedId != newModel.id) {
