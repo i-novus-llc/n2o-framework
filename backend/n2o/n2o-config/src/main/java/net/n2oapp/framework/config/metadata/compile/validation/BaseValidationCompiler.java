@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.validation;
 
 import net.n2oapp.framework.api.data.validation.Validation;
+import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -19,6 +20,8 @@ public abstract class BaseValidationCompiler<D extends Validation, S extends N2o
         compiled.setId(source.getId());
         compiled.setFieldId(source.getFieldId());
         compiled.setSide(source.getSide());
+        compiled.setMessage(source.getMessage());
+        compiled.setSeverity(p.cast(source.getSeverity(), SeverityType.danger));
         resolveEnabled(compiled, source);
         if (danger.equals(source.getSeverity()) || warning.equals(source.getSeverity()))
             compiled.setMoment(castDefault(source.getServerMoment(), N2oValidation.ServerMoment.beforeOperation));
@@ -28,10 +31,9 @@ public abstract class BaseValidationCompiler<D extends Validation, S extends N2o
 
     private void resolveEnabled(D compiled, S source) {
         if (source.getEnabled() == null) return;
-        if (source.getEnabled().startsWith("{") && source.getEnabled().endsWith("}")) {
+        if (source.getEnabled().startsWith("{") && source.getEnabled().endsWith("}"))
             compiled.addEnablingCondition(source.getEnabled());
-        } else {
+        else
             compiled.setEnabled(Boolean.valueOf(source.getEnabled()));
-        }
     }
 }

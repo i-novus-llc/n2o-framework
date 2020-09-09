@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.CompiledMetadata;
-import net.n2oapp.framework.api.metadata.global.aware.OriginAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
@@ -64,7 +63,7 @@ public class CompiledObject implements CompiledMetadata {
 
     @Getter
     @Setter
-    public static class Operation extends N2oObject.Operation implements Compiled, OriginAware, PropertiesAware {
+    public static class Operation extends N2oObject.Operation implements Compiled, PropertiesAware {
 
         private Map<String, Object> properties;
         private Map<String, N2oObject.Parameter> inParametersMap;
@@ -114,11 +113,6 @@ public class CompiledObject implements CompiledMetadata {
 
         public Map<String, Validation> getValidationsMap() {
             return validationsMap != null ? validationsMap : Collections.emptyMap();
-        }
-
-        @Override
-        public boolean isReal() {
-            return this.getObjectId() != null;
         }
 
         public Boolean getAuto() {

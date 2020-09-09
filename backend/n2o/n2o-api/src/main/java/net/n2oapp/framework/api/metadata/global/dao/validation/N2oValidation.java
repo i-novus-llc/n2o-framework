@@ -4,15 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.global.aware.IdAware;
 
 import java.io.Serializable;
 
 /**
- * User: operhod
- * Date: 16.12.13
- * Time: 14:42
+ * Исходная модель абстрактной валидации
  */
 @Getter
 @Setter
@@ -20,6 +18,7 @@ public abstract class N2oValidation implements IdAware, Source, NamespaceUriAwar
     private String id;
     private String fieldId;
     private SeverityType severity;
+    // TODO - похоже нужно убрать
     private ClientMoment clientMoment;
     private ServerMoment serverMoment;
     private String message;
@@ -113,6 +112,11 @@ public abstract class N2oValidation implements IdAware, Source, NamespaceUriAwar
         public String getId() {
             return id;
         }
+
+        @Override
+        public void setId(String id) {
+            this.id = id;
+        }
     }
 
     public enum ClientMoment implements IdAware {
@@ -132,6 +136,11 @@ public abstract class N2oValidation implements IdAware, Source, NamespaceUriAwar
         @Override
         public String getId() {
             return id;
+        }
+
+        @Override
+        public void setId(String id) {
+            this.id = id;
         }
     }
 }

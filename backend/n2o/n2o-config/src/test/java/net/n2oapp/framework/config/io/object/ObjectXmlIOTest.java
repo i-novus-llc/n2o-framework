@@ -14,10 +14,7 @@ import org.junit.Test;
 import java.util.Arrays;
 
 /**
- * Test for reading and persisting object
- *
- * @author igafurov
- * @since 25.04.2017
+ * Тестирование чтение\записи объекта
  */
 public class ObjectXmlIOTest {
     ION2oMetadataTester tester = new ION2oMetadataTester()
@@ -117,7 +114,6 @@ public class ObjectXmlIOTest {
         assert tester.check("net/n2oapp/framework/config/io/object/testObjectReader.object.xml",
                 (N2oObject object) -> {
                     assert object.getName().equals("test");
-                    assert object.getParent().equals("test");
 
                     assert object.getObjectFields().length == 2;
                     ObjectScalarField field = (ObjectScalarField) object.getObjectFields()[0];

@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Клиентская модель Constraint валидации
+ * Клиентская модель валидации ограничений полей
  */
 @Getter
 @Setter
@@ -56,5 +56,4 @@ public class ConstraintValidation extends Validation {
     public String getType() {
         return "constraint";
     }
-
 }

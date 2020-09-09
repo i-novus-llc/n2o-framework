@@ -311,7 +311,6 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         CompiledObject.Operation compiledOperation = new CompiledObject.Operation(inParamMap, outParamMap);
         //compiledOperation = compiler.cloneToInheritedClass(action, compiledOperation); //todo
         initDefaultOperationProperties(compiledOperation, operation, processor);
-        compiledOperation.setObjectId(compiled.getId());
         if (compiledOperation.getInParametersMap() != null) {
             for (N2oObject.Parameter parameter : compiledOperation.getInParametersMap().values()) {
                 resolveDefaultParameter(parameter, compiled);

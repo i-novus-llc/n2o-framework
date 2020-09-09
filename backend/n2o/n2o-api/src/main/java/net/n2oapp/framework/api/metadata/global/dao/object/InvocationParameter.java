@@ -5,15 +5,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * User: operehod
- * Date: 03.10.2014
- * Time: 10:20
+ * Параметр
  */
 @Getter
 @Setter
 @NoArgsConstructor
 public class InvocationParameter extends AbstractParameter {
-
     private String domain;
     private MapperType mapper;
     protected String defaultValue;
@@ -29,5 +26,7 @@ public class InvocationParameter extends AbstractParameter {
         this.setRequired(parameter.getRequired());
         this.normalize = parameter.getNormalize();
         this.mapper = parameter.getMapper();
+        this.mappingCondition = parameter.getMappingCondition();
+        this.entityClass = parameter.getEntityClass();
     }
 }

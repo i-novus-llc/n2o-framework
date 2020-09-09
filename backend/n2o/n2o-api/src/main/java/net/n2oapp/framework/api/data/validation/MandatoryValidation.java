@@ -13,14 +13,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Валидация описанная в mandatory
+ * Клиентская модель валидации обязательности заполнения поля
  */
 @Getter
 @Setter
 @NoArgsConstructor
 public class MandatoryValidation extends Validation {
-
     protected Field field;
+    // TODO нигде не используется
     private String mandatoryExpression;
     @JsonProperty("expression")
     private String enablingExpression;

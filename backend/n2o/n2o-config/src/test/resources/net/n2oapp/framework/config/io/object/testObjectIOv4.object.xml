@@ -5,6 +5,11 @@
         module-name="module-name" service-class="service-class"
         service-name="service-name" table-name="table-name">
     <fields>
+        <reference id="ref" name="refName" object-id="utBlank" mapping="ref2"
+                   entity-class="ref" required="true">
+            <field id="id" name="id"/>
+            <field id="name" name="title"/>
+        </reference>
         <field id="test" name="test" domain="string" mapping="birth_date" required="true" default-value="test"
                mapper="dataset" normalize="#{ T(java.lang.Math).random() * 100.0 }"/>
         <set id="testSet" object-id="utBlank" name="testSet" mapping="birth_date" entity-class="set"
@@ -13,6 +18,12 @@
             <field id="name" mapping="name"/>
             <field id="code" mapping="code"/>
         </set>
+        <list id="testSet2" object-id="utBlank" name="testSet2" mapping="birth_date" entity-class="list"
+             required="true">
+            <field id="id" mapping="id"/>
+            <field id="name" mapping="name"/>
+            <field id="code" mapping="code"/>
+        </list>
     </fields>
     <operations>
         <operation id="op" name="name" submit-label="f" description="description" success-text="test" fail-text="test" confirm-text="test">
