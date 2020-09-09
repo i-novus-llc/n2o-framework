@@ -12,6 +12,7 @@ import { hideWidget, showWidget } from '../../../actions/widgets';
 import HtmlWidgetJson from '../../widgets/Html/HtmlWidget.meta';
 import ListMetadata from '../List/ListMetadata.meta';
 import SecureTabRegionJson from './TabsRegions.meta';
+import TabsRegionWithContentMetaJson from './TabsRegionWithContent.meta.json';
 import AuthButtonContainer from '../../../core/auth/AuthLogin';
 import configureStore from '../../../store';
 import authProviderExample from '../../../../.storybook/auth/authProviderExample';
@@ -34,8 +35,8 @@ stories.addParameters({
 
 const TabsRegionJson = set(
   cloneObject(SecureTabRegionJson),
-  'tabs',
-  pullAt(cloneObject(SecureTabRegionJson).tabs, 0)
+  'items',
+  pullAt(cloneObject(SecureTabRegionJson).items, 0)
 );
 
 const { store } = makeStore();
@@ -57,7 +58,38 @@ stories
       
       <TabsRegion 
           pageId="Page"
-          tabs={[
+          items={[
+            {
+              id: "tab1",
+              opened: true,
+              fetchOnInit: true,
+              widgetId: "Page_Html",
+              label: "HTML"
+            }
+          ]} 
+       />
+      ~~~
+      `,
+      },
+    }
+  )
+  .add(
+    'Вкладки с content',
+    () => {
+      store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
+
+      return <TabsRegion {...TabsRegionWithContentMetaJson} pageId="Page" />;
+    },
+    {
+      info: {
+        text: `
+      Компонент 'Табы'
+      ~~~js
+      import TabsRegion from 'n2o-framework/lib/components/regions/Tabs/TabsRegion';
+      
+      <TabsRegion 
+          pageId="Page"
+          items={[
             {
               id: "tab1",
               opened: true,
@@ -81,7 +113,7 @@ stories
         </small>
         <AuthButtonContainer />
         <br />
-        <TabsRegion {...SecureTabRegionJson} pageId="Page" />
+        <TabsRegion {...TabsRegionJson} pageId="Page" />
       </div>
     );
   })

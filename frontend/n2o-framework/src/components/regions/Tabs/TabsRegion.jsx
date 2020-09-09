@@ -6,6 +6,7 @@ import map from 'lodash/map';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import pull from 'lodash/pull';
+import isNil from 'lodash/isNil';
 import { compose, setDisplayName } from 'recompose';
 import withRegionContainer from '../withRegionContainer';
 import Tabs from './Tabs';
@@ -16,9 +17,11 @@ import { WIDGETS } from '../../../core/factory/factoryLevels';
 import Factory from '../../../core/factory/Factory';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 
+import RegionContent from '../RegionContent';
+
 /**
  * Регион Таб
- * @reactProps {array} tabs - массив из объектов, которые описывают виджет {id, name, opened, pageId, fetchOnInit, widget}
+ * @reactProps {array} items - массив из объектов, которые описывают виджет {id, name, opened, pageId, fetchOnInit, widget}
  * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {string} pageId - идентификатор страницы
  * @reactProps {function} resolveVisibleDependency - резол видимости таба
@@ -39,7 +42,7 @@ class TabRegion extends React.Component {
 
   handleChangeActive(id, prevId) {
     const {
-      tabs,
+      items,
       lazy,
       alwaysRefresh,
       getWidgetProps,
@@ -48,7 +51,7 @@ class TabRegion extends React.Component {
     } = this.props;
     const { readyTabs } = this.state;
     const widgetId = get(
-      find(tabs, ({ id: tabId }) => tabId === id),
+      find(items, ({ id: tabId }) => tabId === id),
       'widgetId'
     );
     const widgetProps = getWidgetProps(widgetId);
@@ -70,7 +73,7 @@ class TabRegion extends React.Component {
 
   findReadyTabs() {
     return filter(
-      map(this.props.tabs, tab => {
+      map(this.props.items, tab => {
         if (tab.opened) {
           return tab.id;
         }
@@ -81,7 +84,7 @@ class TabRegion extends React.Component {
 
   render() {
     const {
-      tabs,
+      items,
       getWidget,
       getWidgetProps,
       getVisible,
@@ -90,16 +93,17 @@ class TabRegion extends React.Component {
       activeEntity,
     } = this.props;
     const { readyTabs, visibleTabs } = this.state;
-
     return (
       <Tabs activeId={activeEntity} onChangeActive={this.handleChangeActive}>
-        {tabs.map(tab => {
-          const { security } = tab;
+        {items.map(tab => {
+          const { security, content } = tab;
+
           const widgetProps = getWidgetProps(tab.widgetId);
           const widgetMeta = getWidget(pageId, tab.widgetId);
           const dependencyVisible = getVisible(pageId, tab.widgetId);
           const widgetVisible = get(widgetProps, 'isVisible', true);
           const tabVisible = get(visibleTabs, tab.widgetId, true);
+          const tabHasContent = !isNil(content);
 
           const tabProps = {
             key: tab.id,
@@ -109,7 +113,6 @@ class TabRegion extends React.Component {
             active: tab.opened,
             visible: dependencyVisible && widgetVisible && tabVisible,
           };
-
           const tabEl = (
             <Tab {...tabProps}>
               {lazy ? (
@@ -119,6 +122,7 @@ class TabRegion extends React.Component {
               ) : (
                 <Factory id={tab.widgetId} level={WIDGETS} {...widgetMeta} />
               )}
+              {tabHasContent && <RegionContent content={content} />}
             </Tab>
           );
 
@@ -155,7 +159,7 @@ TabRegion.propTypes = {
   /**
    * Список табов
    */
-  tabs: PropTypes.array.isRequired,
+  items: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
   /**
    * ID странцы
@@ -179,6 +183,6 @@ TabRegion.defaultProps = {
 export { TabRegion };
 export default compose(
   setDisplayName('TabsRegion'),
-  withRegionContainer({ listKey: 'tabs' }),
+  withRegionContainer({ listKey: 'items' }),
   withWidgetProps
 )(TabRegion);
