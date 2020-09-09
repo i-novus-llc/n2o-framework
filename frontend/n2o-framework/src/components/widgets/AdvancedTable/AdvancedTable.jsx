@@ -133,12 +133,17 @@ class AdvancedTable extends Component {
       selectIndex,
       data,
       autoFocus,
+      children,
     } = this.state;
     if (!isAnyTableFocused && isActive && !rowClick && autoFocus) {
       this.setSelectAndFocus(
         get(data[selectIndex], 'id'),
         get(data[focusIndex], 'id')
       );
+    }
+
+    if (children === 'expand') {
+      this.openAllRows();
     }
 
     this.setState({
