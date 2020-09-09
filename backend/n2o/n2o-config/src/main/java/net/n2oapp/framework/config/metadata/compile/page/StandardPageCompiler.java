@@ -44,35 +44,32 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
             List<N2oWidget> widgets = new ArrayList<>();
             for (SourceComponent item : source.getItems()) {
                 if (item instanceof N2oRegion) {
-                    if (!widgets.isEmpty()) {
-                        createRegion(p, context, pageScope, pageRoutes, pageWidgetsScope, regionMap, index, widgets);
-                    }
-                    compileRegion(p, context, pageScope, pageRoutes, pageWidgetsScope, regionMap, index, (N2oRegion) item);
-                }
-                else if (item instanceof N2oWidget) {
+                    if (!widgets.isEmpty())
+                        createRegion(p, context, regionMap, widgets, pageScope, pageRoutes, pageWidgetsScope, index);
+                    compileRegion(p, context, regionMap, (N2oRegion) item, pageScope, pageRoutes, pageWidgetsScope, index);
+                } else if (item instanceof N2oWidget) {
                     widgets.add((N2oWidget) item);
                 }
             }
-            if (!widgets.isEmpty()) {
-                createRegion(p, context, pageScope, pageRoutes, pageWidgetsScope, regionMap, index, widgets);
-            }
+            if (!widgets.isEmpty())
+                createRegion(p, context, regionMap, widgets, pageScope, pageRoutes, pageWidgetsScope, index);
         }
         page.setRegions(regionMap);
     }
 
-    private void createRegion(CompileProcessor p, PageContext context, PageScope pageScope, PageRoutes pageRoutes, PageWidgetsScope pageWidgetsScope, Map<String, List<Region>> regionMap, IndexScope index, List<N2oWidget> widgets) {
+    private void createRegion(CompileProcessor p, PageContext context, Map<String, List<Region>> regionMap,
+                              List<N2oWidget> widgets, Object... scopes) {
         N2oRegion n2oRegion = new N2oCustomRegion();
         N2oWidget[] content = new N2oWidget[widgets.size()];
         widgets.toArray(content);
         n2oRegion.setContent(content);
-        compileRegion(p, context, pageScope, pageRoutes, pageWidgetsScope, regionMap, index, n2oRegion);
+        compileRegion(p, context, regionMap, n2oRegion, scopes);
         widgets.clear();
     }
 
-    private void compileRegion(CompileProcessor p, PageContext context, PageScope pageScope, PageRoutes pageRoutes,
-                               PageWidgetsScope pageWidgetsScope, Map<String, List<Region>> regionMap, IndexScope index,
-                               N2oRegion n2oRegion) {
-        Region region = p.compile(n2oRegion, context, index, pageScope, pageRoutes, pageWidgetsScope);
+    private void compileRegion(CompileProcessor p, PageContext context, Map<String, List<Region>> regionMap,
+                               N2oRegion n2oRegion, Object... scopes) {
+        Region region = p.compile(n2oRegion, context, scopes);
         String place = p.cast(n2oRegion.getPlace(), "single");
         if (regionMap.get(place) != null) {
             regionMap.get(place).add(region);

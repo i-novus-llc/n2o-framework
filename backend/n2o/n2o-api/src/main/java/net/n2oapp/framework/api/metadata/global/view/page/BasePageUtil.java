@@ -21,16 +21,17 @@ public class BasePageUtil {
 
     /**
      * Получение виджетов скомпилированной страницы
-     * @param page Клиентская модель стандартной страницы
-     * @return Список виджетов
+     *
+     * @param page  Клиентская модель стандартной страницы
+     * @return      Список виджетов
      */
     public static List<Widget> getCompiledWidgets(StandardPage page) {
         List<Widget> widgets = new ArrayList<>();
         List<Region> regions = page.getRegions().values().stream().flatMap(Collection::stream).collect(Collectors.toList());
         for (Region r : regions) {
             if (r instanceof TabsRegion) {
-                if (((TabsRegion)r).getItems() != null)
-                    for (Region.Item tab : ((TabsRegion)r).getItems())
+                if (((TabsRegion) r).getItems() != null)
+                    for (Region.Item tab : ((TabsRegion) r).getItems())
                         addWidgets(widgets, tab.getContent());
             } else {
                 if (r.getContent() != null)
@@ -53,9 +54,11 @@ public class BasePageUtil {
     }
 
     /**
-     * Сбор виджетов в список
-     * @param containers  результирующий список виджетов
-     * @param items    список регионв и виджетов
+     * Сбор всех виджетов из массива регионов и виджетов.
+     * Регионы могут содержать, как виджеты, так и регионы, поэтому производится глубокий поиск.
+     *
+     * @param containers Результирующий список виджетов
+     * @param items      Массив компонентов(регионов и виджетов)
      */
     public static void collectWidgets(List<N2oWidget> containers, SourceComponent[] items) {
         if (items != null && items.length != 0)
