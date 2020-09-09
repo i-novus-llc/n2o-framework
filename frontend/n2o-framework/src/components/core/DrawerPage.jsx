@@ -49,6 +49,7 @@ function DrawerPage(props) {
     level,
     backdropClosable,
     animation,
+    prompt,
     ...rest
   } = props;
 
@@ -71,8 +72,8 @@ function DrawerPage(props) {
       >
         <Drawer
           visible={!loading && visible !== false}
-          onHandleClick={() => rest.closeOverlay(true)}
-          onClose={() => rest.closeOverlay(true)}
+          onHandleClick={() => rest.closeOverlay(prompt)}
+          onClose={() => rest.closeOverlay(prompt)}
           title={headerTitle}
           backdrop={backdrop}
           width={width}
