@@ -17,6 +17,7 @@ public class ImageUploadIOv2 extends BaseFileUploadIOv2<N2oImageUpload> {
         super.io(e, m, p);
         p.attributeEnum(e, "list-type", m::getListType, m::setListType, ImageUpload.ListType.class);
         p.attributeBoolean(e, "lightbox", m::getLightbox, m::setLightbox);
+        p.attributeBoolean(e, "show-name", m::getShowName, m::setShowName);
     }
 
     @Override

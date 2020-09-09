@@ -27,6 +27,8 @@ public class ImageUploadCompiler extends BaseFileUploadCompiler<ImageUpload, N2o
                 p.resolve(property("n2o.api.control.image_upload.list_type"), ImageUpload.ListType.class)));
         imageUpload.setLightbox(p.cast(source.getLightbox(),
                 p.resolve(property("n2o.api.control.image_upload.lightbox"), Boolean.class)));
+        imageUpload.setShowName(p.cast(source.getShowName(),
+                p.resolve(property("n2o.api.control.image_upload.show_name"), Boolean.class)));
         return compileFileUpload(imageUpload, source, context, p);
     }
 

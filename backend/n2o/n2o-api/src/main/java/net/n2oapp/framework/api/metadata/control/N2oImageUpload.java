@@ -12,4 +12,5 @@ import net.n2oapp.framework.api.metadata.meta.control.ImageUpload;
 public class N2oImageUpload extends N2oFileUpload {
     private ImageUpload.ListType listType;
     private Boolean lightbox;
+    private Boolean showName;
 }

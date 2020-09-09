@@ -14,6 +14,8 @@ public class ImageUpload extends FileUpload {
     private ListType listType;
     @JsonProperty
     private Boolean lightbox;
+    @JsonProperty
+    private Boolean showName;
 
     public enum ListType {
         image,
