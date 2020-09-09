@@ -29,7 +29,6 @@ import net.n2oapp.framework.config.util.CompileUtil;
 import java.util.Collections;
 import java.util.Map;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
@@ -51,18 +50,6 @@ public class ClientDataProviderUtil {
             dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), p, targetModel, targetWidget));
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
             path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            if (widgetScope != null && (source.getPathParams() == null || source.getPathParams().length == 0)) {
-                String clientWidgetId = widgetScope.getClientWidgetId();
-                if (ReduxModel.RESOLVE.equals(targetModel)) {
-                    String widgetSelectedId = clientWidgetId + "_id";
-                    //todo не нужно добавлять принудительно параметр в url, нужно только если его задали в route="/:id/action"
-                    path = normalize(path + normalize(colon(widgetSelectedId)));
-                    pathMapping.put(widgetSelectedId, new ModelLink(targetModel, clientWidgetId, "id"));
-                    if (context.getPathRouteMapping() != null)
-                        pathMapping.putAll(context.getPathRouteMapping());
-                }
-            }
             path = normalize(path + normalize(p.cast(source.getUrl(), source.getId(), "")));
             dataProvider.setPathMapping(pathMapping);
             dataProvider.setMethod(RequestMethod.POST);
