@@ -55,7 +55,6 @@ function withOverlayMethods(WrappedComponent) {
 
     render() {
       return (
-        // {this.props.showPrompt && this.showPrompt()}
         <WrappedComponent
           {...this.props}
           headerTitle={get(this.props, 'metadata.page.headerTitle', '')}
