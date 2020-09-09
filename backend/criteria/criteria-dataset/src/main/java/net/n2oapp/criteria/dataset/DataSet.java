@@ -20,7 +20,8 @@ public class DataSet extends NestedMap {
     }
 
     public DataSet(Map<? extends String, ?> m) {
-        super(m);
+        super();
+        m.forEach((k, v) -> put(k, v instanceof DataSet ? new DataSet((DataSet) v) : v));
     }
 
     public String getId() {
@@ -73,7 +74,7 @@ public class DataSet extends NestedMap {
             return null;
         if (value instanceof DataSet)
             return (DataSet) value;
-        return new DataSet((Map<? extends String, ?>) value);
+        return new DataSet((Map<String, Object>) value);
     }
 
     public List<?> getList(String key) {
