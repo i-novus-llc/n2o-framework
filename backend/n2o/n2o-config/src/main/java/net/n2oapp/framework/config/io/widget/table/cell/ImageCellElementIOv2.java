@@ -10,7 +10,7 @@ import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись ячейки с картинкой
+ * Чтение\запись ячейки с изображением
  */
 @Component
 public class ImageCellElementIOv2 extends AbstractCellElementIOv2<N2oImageCell> {
@@ -21,7 +21,7 @@ public class ImageCellElementIOv2 extends AbstractCellElementIOv2<N2oImageCell> 
         super.io(e, c, p);
         p.attribute(e, "url", c::getUrl, c::setUrl);
         p.attribute(e, "action-id", c::getActionId, c::setActionId);
-        p.attribute(e, "width", c::getWidth, c::setWidth);
+        p.attributeInteger(e, "width", c::getWidth, c::setWidth);
         p.attributeEnum(e, "shape", c::getShape, c::setShape, ImageShape.class);
         p.anyChild(e, null, c::getAction, c::setAction, p.anyOf(N2oAction.class), actionDefaultNamespace);
     }

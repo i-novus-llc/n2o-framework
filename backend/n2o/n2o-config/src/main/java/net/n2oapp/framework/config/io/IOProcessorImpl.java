@@ -1022,7 +1022,7 @@ public final class IOProcessorImpl implements IOProcessor {
             return null;
         }
         String resolve = StringUtils.resolveProperties(text, MetadataParamHolder.getParams());
-        resolve = systemProperties == null ? resolve : StringUtils.resolveProperties(text, systemProperties::getProperty);
+        resolve = systemProperties == null ? resolve : StringUtils.resolveProperties(resolve, systemProperties::getProperty);
         return messageSourceAccessor == null ? resolve : StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
     }
 

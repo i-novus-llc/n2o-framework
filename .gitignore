@@ -73,3 +73,4 @@ firebase-debug.log
 *.DS_Store*
 
 
+*@tmp/

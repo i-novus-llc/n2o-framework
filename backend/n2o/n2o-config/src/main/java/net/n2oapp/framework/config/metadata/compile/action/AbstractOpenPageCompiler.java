@@ -14,6 +14,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
+import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
@@ -234,11 +235,14 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                         .filter(p -> finalMasterIdParam.equals(p.getName())).findFirst();
                 if (pathParam.isPresent()) {
                     String value = pathParam.get().getValue();
-                    actionModelLink = StringUtils.isLink(value) ?
-                            new ModelLink(actionModelLink.getModel(),
-                                    actionModelLink.getWidgetId(),
-                                    value.substring(1, value.length() - 1)) :
-                            new ModelLink(value);
+                    if (StringUtils.isLink(value)) {
+                        SubModelQuery subModelQuery = actionModelLink.getSubModelQuery();
+                        actionModelLink = new ModelLink(actionModelLink.getModel(),
+                                actionModelLink.getWidgetId(),
+                                value.substring(1, value.length() - 1));
+                        actionModelLink.setSubModelQuery(subModelQuery);
+                    }
+                    else actionModelLink = new ModelLink(value);
                 }
             }
             pathMapping.put(masterIdParam, actionModelLink);

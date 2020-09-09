@@ -36,9 +36,7 @@ public class NestedMap extends LinkedHashMap<String, Object> {
 
     @Override
     public void putAll(Map<? extends String, ?> m) {
-        for (String key : m.keySet()) {
-            put(wrapKey(key), m.get(key));
-        }
+        m.forEach((k, v) -> put(wrapKey(k), v));
     }
 
     @Override

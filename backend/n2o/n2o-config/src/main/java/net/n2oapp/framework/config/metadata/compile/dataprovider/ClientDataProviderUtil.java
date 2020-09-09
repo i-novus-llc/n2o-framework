@@ -38,17 +38,17 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
  */
 public class ClientDataProviderUtil {
 
-    public static ClientDataProvider compile(N2oClientDataProvider source, CompileContext<?, ?> context, CompileProcessor p) {
+    public static ClientDataProvider compile(N2oClientDataProvider compiled, CompileContext<?, ?> context, CompileProcessor p) {
         ClientDataProvider dataProvider = new ClientDataProvider();
         String path = null;
-        String targetWidget = source.getTargetWidgetId() == null ? initTargetWidget(context, p) : source.getTargetWidgetId();
-        ReduxModel targetModel = initTargetWidgetModel(p, source.getTargetModel());
+        String targetWidget = compiled.getTargetWidgetId() == null ? initTargetWidget(context, p) : compiled.getTargetWidgetId();
+        ReduxModel targetModel = initTargetWidgetModel(p, compiled.getTargetModel());
 
-        if (RequestMethod.POST == source.getMethod()) {
+        if (RequestMethod.POST == compiled.getMethod()) {
             Map<String, ModelLink> pathMapping = new StrictMap<>();
-            pathMapping.putAll(compileParams(source.getPathParams(), p, targetModel, targetWidget));
-            dataProvider.setFormMapping(compileParams(source.getFormParams(), p, targetModel, targetWidget));
-            dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), p, targetModel, targetWidget));
+            pathMapping.putAll(compileParams(compiled.getPathParams(), p, targetModel, targetWidget));
+            dataProvider.setFormMapping(compileParams(compiled.getFormParams(), p, targetModel, targetWidget));
+            dataProvider.setHeadersMapping(compileParams(compiled.getHeaderParams(), p, targetModel, targetWidget));
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
             path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
             WidgetScope widgetScope = p.getScope(WidgetScope.class);
@@ -63,18 +63,18 @@ public class ClientDataProviderUtil {
                         pathMapping.putAll(context.getPathRouteMapping());
                 }
             }
-            path = normalize(path + normalize(p.cast(source.getUrl(), source.getId(), "")));
+            path = normalize(path + normalize(p.cast(compiled.getUrl(), compiled.getId(), "")));
             dataProvider.setPathMapping(pathMapping);
             dataProvider.setMethod(RequestMethod.POST);
-            dataProvider.setOptimistic(source.getOptimistic());
-            dataProvider.setSubmitForm(source.getSubmitForm());
+            dataProvider.setOptimistic(compiled.getOptimistic());
+            dataProvider.setSubmitForm(compiled.getSubmitForm());
 
-            initActionContext(source, pathMapping, p.cast(path, source.getUrl()), p);
+            initActionContext(compiled, pathMapping, p.cast(path, compiled.getUrl()), p);
         }
 
-        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + p.cast(path, source.getUrl()));
-        dataProvider.setQueryMapping(compileParams(source.getQueryParams(), p, targetModel, targetWidget));
-        dataProvider.setQuickSearchParam(source.getQuickSearchParam());
+        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + p.cast(path, compiled.getUrl()));
+        dataProvider.setQueryMapping(compileParams(compiled.getQueryParams(), p, targetModel, targetWidget));
+        dataProvider.setQuickSearchParam(compiled.getQuickSearchParam());
 
         return dataProvider;
     }
@@ -139,8 +139,9 @@ public class ClientDataProviderUtil {
 
             Map<String, String> operationMapping = new StrictMap<>();
             for (N2oObject.Parameter inParameter : actionContextData.getOperation().getInParametersMap().values()) {
-                String param = p.cast(inParameter.getParam(), RouteUtil.normalizeParam(inParameter.getId()));
-                operationMapping.put(param, inParameter.getId());
+                String param = inParameter.getParam();
+                if (param != null)
+                    operationMapping.put(param, inParameter.getId());
             }
             actionContext.setOperationMapping(operationMapping);
             p.addRoute(actionContext);

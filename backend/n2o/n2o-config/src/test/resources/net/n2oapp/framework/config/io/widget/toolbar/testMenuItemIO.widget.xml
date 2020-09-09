@@ -8,8 +8,8 @@
                 confirm="true" confirm-text="test" confirm-type="modal" confirm-title="title" confirm-ok-label="ok"
                 confirm-cancel-label="cancel">
             <dependencies>
-                <enabling ref-model="resolve" ref-widget-id="ref" on="field1" message="Не указана дата"/>
-                <visibility ref-model="resolve" ref-widget-id="ref" on="field2"/>
+                <enabling ref-model="resolve" ref-widget-id="ref" message="Не указана дата"/>
+                <visibility ref-model="resolve" ref-widget-id="ref"/>
             </dependencies>
             <copy source-model="resolve" source-widget-id="table" source-field-id="id"
                   target-model="resolve" target-widget-id="form" target-field-id="dictionary.id"
