@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Страница загрузки изображений"
+             route="/pageRoute">
+    <form>
+        <fields>
+            <image-upload label="imageUpload1" id="imageUpload1"
+                          label-field-id="fileName" value-field-id="id" url-field-id="url"
+                          upload-url="/files"
+                          delete-url="/files"
+            />
+
+            <image-upload label="imageUpload2" id="imageUpload2"
+                          label-field-id="fileName" value-field-id="id" url-field-id="url"
+                          upload-url="/files"
+                          delete-url="/files"
+                          accept=".png"
+                          list-type="card"
+                          lightbox="true"
+                          show-name="true"
+            />
+
+            <image-upload label="imageUpload3" id="imageUpload3" multi="true"
+                          label-field-id="fileName" value-field-id="id" url-field-id="url"
+                          upload-url="/files"
+                          delete-url="/files"
+                          lightbox="true"
+            />
+        </fields>
+    </form>
+</simple-page>
