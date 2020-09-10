@@ -373,11 +373,6 @@ after-success-operation, after-fail-operation
 |Момент срабатывания валидации на сервере
 |before-operation
 
-|client-moment
-|before-load, after-load, before-store, after-store, before-submit, after-submit
-|Момент срабатывания валидации на клиенте
-|after-store
-
 |message
 |Строка
 |Сообщение, в случае нарушения валидации.

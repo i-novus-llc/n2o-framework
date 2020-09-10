@@ -449,11 +449,6 @@
                 <xs:documentation>Уровень важности валидации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="client-moment" type="clientMomentDefinition" default="after-store">
-            <xs:annotation>
-                <xs:documentation>Момент срабатывания валидации на клиенте.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
         <xs:attribute name="server-moment" type="serverMomentDefinition" default="before-operation">
             <xs:annotation>
                 <xs:documentation>Момент срабатывания валидации на сервере.</xs:documentation>
@@ -507,17 +502,6 @@
             <xs:enumeration value="after-fail-query"/>
             <xs:enumeration value="after-fail-operation"/>
             <xs:enumeration value="after-success-operation"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="clientMomentDefinition">
-        <xs:restriction>
-            <xs:enumeration value="before-load"/>
-            <xs:enumeration value="after-load"/>
-            <xs:enumeration value="before-store"/>
-            <xs:enumeration value="after-store"/>
-            <xs:enumeration value="before-submit"/>
-            <xs:enumeration value="after-submit"/>
         </xs:restriction>
     </xs:simpleType>
 

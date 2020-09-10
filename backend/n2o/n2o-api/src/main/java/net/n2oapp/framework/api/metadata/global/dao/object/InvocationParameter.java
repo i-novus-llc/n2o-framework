@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Параметр
+ * Исходная модель параметра вызова
  */
 @Getter
 @Setter

@@ -38,10 +38,9 @@ public class ConditionValidation extends Validation {
         this.expression = expression;
     }
 
-    private Set<String> getExpressionsOn () {
+    private Set<String> getExpressionsOn() {
         Set<String> res = new HashSet<>();
-        if (expressionOn != null && expressionOn.length()>0) {
-            // TODO добавить возможность использовать пробелы и задание в несколько строк
+        if (expressionOn != null && expressionOn.length() > 0) {
             String[] expressions = expressionOn.split(",");
             for (String exp : expressions) {
                 res.add(exp.trim());

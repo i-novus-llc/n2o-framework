@@ -14,7 +14,7 @@ import org.junit.Test;
 import java.util.Arrays;
 
 /**
- * Тестирование чтение\записи объекта
+ * Тестирование чтения\записи объекта
  */
 public class ObjectXmlIOTest {
     ION2oMetadataTester tester = new ION2oMetadataTester()
