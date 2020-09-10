@@ -29,6 +29,7 @@ import net.n2oapp.framework.config.util.CompileUtil;
 import java.util.Collections;
 import java.util.Map;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
@@ -50,6 +51,8 @@ public class ClientDataProviderUtil {
             dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), p, targetModel, targetWidget));
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
             path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
+            if (context.getPathRouteMapping() != null)
+                pathMapping.putAll(context.getPathRouteMapping());
             path = normalize(path + normalize(p.cast(source.getUrl(), source.getId(), "")));
             dataProvider.setPathMapping(pathMapping);
             dataProvider.setMethod(RequestMethod.POST);
