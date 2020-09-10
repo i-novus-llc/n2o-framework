@@ -11,7 +11,7 @@ public class N2oImagePreviewModal extends N2oModal implements ImagePreviewModal 
     }
 
     @Override
-    public void imageLink(String link) {
+    public void imageShouldHaveLink(String link) {
         element().parent().$(".n2o-image-uploader__modal--body .n2o-image-uploader__modal--image").shouldHave(Condition.attribute("src", link));
     }
 

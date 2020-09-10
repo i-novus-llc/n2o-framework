@@ -5,6 +5,6 @@ package net.n2oapp.framework.autotest.api.component.modal;
  */
 public interface ImagePreviewModal extends Modal {
 
-    void imageLink(String link);
+    void imageShouldHaveLink(String link);
 
 }

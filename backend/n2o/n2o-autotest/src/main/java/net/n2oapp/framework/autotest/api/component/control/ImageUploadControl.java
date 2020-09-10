@@ -15,7 +15,7 @@ public interface ImageUploadControl extends Control {
 
     void shouldHavePreview(int index);
 
-    void shouldDontHavePreview(int index);
+    void shouldNotHavePreview(int index);
 
     void openPreviewDialog(int index);
 

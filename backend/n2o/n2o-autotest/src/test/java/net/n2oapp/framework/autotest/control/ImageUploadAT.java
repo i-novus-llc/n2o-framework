@@ -23,7 +23,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Автотесты поля загрузки файлов
+ * Автотесты поля загрузки изображений
  */
 public class ImageUploadAT extends AutoTestBase {
 
@@ -69,7 +69,7 @@ public class ImageUploadAT extends AutoTestBase {
 
         imageUpload.nameInfoShouldNotExist(0);
         imageUpload.sizeInfoShouldBeInvisible(0);
-        imageUpload.shouldDontHavePreview(0);
+        imageUpload.shouldNotHavePreview(0);
 
         assertThat(fileStoreController.getFileStore().size(), is(1));
         imageUpload.deleteImage(0);
@@ -94,7 +94,7 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.openPreviewDialog(0);
         ImagePreviewModal modal = N2oSelenide.modal(ImagePreviewModal.class);
         modal.shouldExists();
-        modal.imageLink("http://localhost:" + port + "/files/image.png");
+        modal.imageShouldHaveLink("http://localhost:" + port + "/files/image.png");
         modal.close();
 
         assertThat(fileStoreController.getFileStore().size(), is(1));
@@ -121,7 +121,7 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.openPreviewDialog(0);
         ImagePreviewModal modal = N2oSelenide.modal(ImagePreviewModal.class);
         modal.shouldExists();
-        modal.imageLink("http://localhost:" + port + "/files/image.png");
+        modal.imageShouldHaveLink("http://localhost:" + port + "/files/image.png");
         modal.close();
 
         //todo загружает этот и предыдущий файл, значение с прошлого инпут поля не очищается и добавляется к текущему
@@ -131,7 +131,7 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.openPreviewDialog(1);
         modal = N2oSelenide.modal(ImagePreviewModal.class);
         modal.shouldExists();
-        modal.imageLink("http://localhost:" + port + "/files/image2.png");
+        modal.imageShouldHaveLink("http://localhost:" + port + "/files/image2.png");
         modal.close();
 
         assertThat(fileStoreController.getFileStore().size(), is(2));
