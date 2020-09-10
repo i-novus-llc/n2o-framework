@@ -1,9 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
-import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.ImageUploadControl;
-import net.n2oapp.framework.autotest.api.component.modal.ImagePreviewModal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -91,11 +89,10 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.sizeInfoShouldBeVisible(0);
         imageUpload.sizeShouldBe(0, "186 Б");
         imageUpload.shouldHavePreview(0);
-        imageUpload.openPreviewDialog(0);
-        ImagePreviewModal modal = N2oSelenide.modal(ImagePreviewModal.class);
-        modal.shouldExists();
-        modal.imageShouldHaveLink("http://localhost:" + port + "/files/image.png");
-        modal.close();
+        imageUpload.openPreviewDialog(simplePage, 0);
+        imageUpload.previewDialogShouldExists();
+        imageUpload.previewDialogShouldHaveLink("http://localhost:" + port + "/files/image.png");
+        imageUpload.closePreviewDialog();
 
         assertThat(fileStoreController.getFileStore().size(), is(1));
         imageUpload.deleteImage(0);
@@ -118,21 +115,19 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/image_upload/image.png");
         imageUpload.shouldHaveSize(1);
         imageUpload.shouldHavePreview(0);
-        imageUpload.openPreviewDialog(0);
-        ImagePreviewModal modal = N2oSelenide.modal(ImagePreviewModal.class);
-        modal.shouldExists();
-        modal.imageShouldHaveLink("http://localhost:" + port + "/files/image.png");
-        modal.close();
+        imageUpload.openPreviewDialog(simplePage, 0);
+        imageUpload.previewDialogShouldExists();
+        imageUpload.previewDialogShouldHaveLink("http://localhost:" + port + "/files/image.png");
+        imageUpload.closePreviewDialog();
 
         //todo загружает этот и предыдущий файл, значение с прошлого инпут поля не очищается и добавляется к текущему
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/image_upload/image2.png");
         imageUpload.shouldHaveSize(2);
         imageUpload.shouldHavePreview(1);
-        imageUpload.openPreviewDialog(1);
-        modal = N2oSelenide.modal(ImagePreviewModal.class);
-        modal.shouldExists();
-        modal.imageShouldHaveLink("http://localhost:" + port + "/files/image2.png");
-        modal.close();
+        imageUpload.openPreviewDialog(simplePage, 1);
+        imageUpload.previewDialogShouldExists();
+        imageUpload.previewDialogShouldHaveLink("http://localhost:" + port + "/files/image2.png");
+        imageUpload.closePreviewDialog();
 
         assertThat(fileStoreController.getFileStore().size(), is(2));
         imageUpload.deleteImage(1);

@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.ImageUploadControl;
+import net.n2oapp.framework.autotest.api.component.page.Page;
 
 import java.io.File;
 
@@ -11,6 +12,8 @@ import java.io.File;
  */
 public class N2oImageUploadControl extends N2oControl implements ImageUploadControl {
 
+
+    private Page page;
 
     @Override
     public void shouldBeEmpty() {
@@ -49,8 +52,24 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
-    public void openPreviewDialog(int index) {
+    public void openPreviewDialog(Page page, int index) {
+        this.page = page;
         getPreviewElement(index).hover().shouldBe(Condition.visible).click();
+    }
+
+    @Override
+    public void closePreviewDialog() {
+        page.element().$(".n2o-image-uploader__modal--body .n2o-image-uploader__modal--icon-close").click();
+    }
+
+    @Override
+    public void previewDialogShouldExists() {
+        page.element().$(".n2o-image-uploader__modal--body").should(Condition.exist);
+    }
+
+    @Override
+    public void previewDialogShouldHaveLink(String link) {
+        page.element().$(".n2o-image-uploader__modal--body .n2o-image-uploader__modal--image").shouldHave(Condition.attribute("src", link));
     }
 
     @Override

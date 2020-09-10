@@ -19,7 +19,6 @@ import net.n2oapp.framework.autotest.impl.component.fieldset.N2oSimpleFieldSet;
 import net.n2oapp.framework.autotest.impl.component.header.N2oAnchorMenuItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oDropdownMenuItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
-import net.n2oapp.framework.autotest.impl.component.modal.N2oImagePreviewModal;
 import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
 import net.n2oapp.framework.autotest.impl.component.page.N2oLeftRightPage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
@@ -53,7 +52,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
         return Arrays.asList(
                 // pages
                 N2oSimplePage.class, N2oLeftRightPage.class, N2oStandardPage.class, N2oTopLeftRightPage.class,
-                N2oModal.class, N2oDrawer.class, N2oSimpleHeader.class, N2oImagePreviewModal.class,
+                N2oModal.class, N2oDrawer.class, N2oSimpleHeader.class,
                 // regions
                 N2oSimpleRegion.class, N2oPanelRegion.class, N2oLineRegion.class, N2oTabsRegion.class,
                 // widgets

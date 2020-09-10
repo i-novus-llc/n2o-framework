@@ -1,5 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
+import net.n2oapp.framework.autotest.api.component.page.Page;
+
 import java.io.File;
 
 /**
@@ -17,7 +19,13 @@ public interface ImageUploadControl extends Control {
 
     void shouldNotHavePreview(int index);
 
-    void openPreviewDialog(int index);
+    void openPreviewDialog(Page page, int index);
+
+    void closePreviewDialog();
+
+    void previewDialogShouldExists();
+
+    void previewDialogShouldHaveLink(String link);
 
     void shouldHaveSize(int size);
 
