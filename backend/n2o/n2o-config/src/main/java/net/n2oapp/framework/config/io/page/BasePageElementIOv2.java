@@ -14,7 +14,7 @@ import org.jdom2.Element;
 import org.jdom2.Namespace;
 
 /**
- * Чтение\запись базовой страницы
+ * Чтение\запись базовой страницы версии 2.0
  */
 public abstract class BasePageElementIOv2<T extends N2oBasePage> implements NamespaceIO<T> {
     private Namespace regionDefaultNamespace = RegionIOv1.NAMESPACE;

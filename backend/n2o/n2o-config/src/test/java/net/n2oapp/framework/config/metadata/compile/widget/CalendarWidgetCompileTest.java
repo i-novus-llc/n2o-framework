@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.is;
 
 
 /**
- * Тестирование компиляции виджета календарь
+ * Тестирование компиляции виджета Календарь
  */
 public class CalendarWidgetCompileTest extends SourceCompileTestBase {
     @Override
@@ -44,7 +44,7 @@ public class CalendarWidgetCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testCalendarCompile.page.xml")
                 .get(new PageContext("testCalendarCompile"));
 
-        Calendar calendar = (Calendar) page.getWidgets().get("testCalendarCompile_calendar1");
+        Calendar calendar = (Calendar) page.getRegions().get("single").get(0).getContent().get(0);
         assertThat(calendar.getSrc(), is("CalendarWidget"));
         assertThat(calendar.getName(), is("calendar1"));
         assertThat(calendar.getComponent().getDefaultView(), is("month"));
@@ -62,12 +62,12 @@ public class CalendarWidgetCompileTest extends SourceCompileTestBase {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         simpleDateFormat.setTimeZone(TimeZone.getDefault());
 
-        Calendar calendar2 = (Calendar) page.getWidgets().get("testCalendarCompile_calendar2");
+        Calendar calendar2 = (Calendar) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(calendar2.getName(), is("calendar2"));
         assertThat(calendar2.getComponent().getHeight(), is("500px"));
         assertThat(calendar2.getComponent().getDate(), is(simpleDateFormat.parse("2020-04-29T00:00:00")));
         assertThat(calendar2.getComponent().getDefaultView(), is("work_week"));
-        assertThat(calendar2.getComponent().getViews(), is(new String[] {"month", "day", "agenda", "work_week"}));
+        assertThat(calendar2.getComponent().getViews(), is(new String[]{"month", "day", "agenda", "work_week"}));
         assertThat(calendar2.getComponent().getMinTime(), is("08:00:00"));
         assertThat(calendar2.getComponent().getMaxTime(), is("20:00:00"));
         assertThat(calendar2.getComponent().getMarkDaysOff(), is(false));

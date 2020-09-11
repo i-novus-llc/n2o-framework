@@ -17,8 +17,8 @@
             <xs:documentation>Базовое определение страницы.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="actions" type="actionsDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="toolbar" type="pageToolbarDefinition" maxOccurs="1" minOccurs="0"/>
+            <xs:element name="actions" type="actionsDefinition" minOccurs="0"/>
+            <xs:element name="toolbar" type="pageToolbarDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="name" type="xs:string">
             <xs:annotation>
@@ -45,7 +45,7 @@
                 <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="show-title" type="xs:boolean" use="optional" default="false">
+        <xs:attribute name="show-title" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Отображать заголовок страницы?</xs:documentation>
             </xs:annotation>
@@ -64,7 +64,7 @@
                     <xs:documentation>Страница с регионами.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="regions" type="regionsDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="regions" type="regionsDefinition" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -96,7 +96,7 @@
                         <xs:documentation>Размер модального окна, если страница открыта в модальном окне.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="show-title" type="xs:boolean" use="optional" default="false">
+                <xs:attribute name="show-title" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Отображать заголовок страницы?</xs:documentation>
                     </xs:annotation>
@@ -117,8 +117,8 @@
                     <xs:documentation>Страница c двумя регионами.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="left" type="leftRightRegionsDefinition" maxOccurs="1" minOccurs="1"/>
-                    <xs:element name="right" type="leftRightRegionsDefinition" maxOccurs="1" minOccurs="1"/>
+                    <xs:element name="left" type="leftRightRegionsDefinition"/>
+                    <xs:element name="right" type="leftRightRegionsDefinition"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -146,9 +146,9 @@
                     <xs:documentation>Страница с тремя регионами.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="top" type="topLeftRightRegionsDefinition" minOccurs="1" maxOccurs="1"/>
-                    <xs:element name="left" type="topLeftRightRegionsDefinition" minOccurs="1" maxOccurs="1"/>
-                    <xs:element name="right" type="topLeftRightRegionsDefinition" minOccurs="1" maxOccurs="1"/>
+                    <xs:element name="top" type="topLeftRightRegionsDefinition"/>
+                    <xs:element name="left" type="topLeftRightRegionsDefinition"/>
+                    <xs:element name="right" type="topLeftRightRegionsDefinition"/>
                 </xs:sequence>
                 <xs:attribute name="scroll-top-button" type="xs:boolean" default="false">
                     <xs:annotation>
@@ -174,7 +174,7 @@
                     <xs:annotation>
                         <xs:documentation>
                             Зафиксирован ли регион.
-                            Фиксироваться может максимум 2 региона из 3.
+                            Фиксироваться может максимум 2 региона из 3-х.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -190,11 +190,11 @@
     <xs:complexType name="searchablePageDefinition">
         <xs:complexContent>
             <xs:extension base="standardPageDefinition">
-            <xs:annotation>
-                <xs:documentation>Страница c поисковой строкой.</xs:documentation>
-            </xs:annotation>
+                <xs:annotation>
+                    <xs:documentation>Страница c поисковой строкой.</xs:documentation>
+                </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="search-bar" type="searchBarDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="search-bar" type="searchBarDefinition"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -233,10 +233,10 @@
 
     <xs:complexType name="regionsDefinition">
         <xs:annotation>
-            <xs:documentation>Регион страницы</xs:documentation>
+            <xs:documentation>Регион страницы.</xs:documentation>
         </xs:annotation>
-        <xs:sequence>
-            <xs:any namespace="##other" processContents="strict"/>
+        <xs:sequence >
+            <xs:any namespace="##other"/>
             <xs:element name="region" type="reg:regionDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="tabs" type="reg:tabsDefinition" maxOccurs="unbounded" minOccurs="0"/>
             <xs:element name="line" type="reg:lineDefinition" maxOccurs="unbounded" minOccurs="0"/>
@@ -251,14 +251,14 @@
 
     <xs:complexType name="actionsDefinition">
         <xs:annotation>
-            <xs:documentation>Список действий над объектом</xs:documentation>
+            <xs:documentation>Список действий над объектом.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name="action" type="actionDefinition" maxOccurs="unbounded" minOccurs="1"/>
+            <xs:element name="action" type="actionDefinition" maxOccurs="unbounded"/>
         </xs:sequence>
-        <xs:attribute name="generate" type="generateType">
+        <xs:attribute name="generate" type="wgt:generateDefinition">
             <xs:annotation>
-                <xs:documentation>Генерация стандартных действий</xs:documentation>
+                <xs:documentation>Генерация стандартных действий.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -334,12 +334,12 @@
             <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0"/>
             <xs:element name="group" type="pageGroupDefinition" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="place" type="placeType" use="optional">
+        <xs:attribute name="place" type="placeType">
             <xs:annotation>
                 <xs:documentation>Место расположения меню.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="generate" type="xs:string" use="optional">
+        <xs:attribute name="generate" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
             </xs:annotation>
@@ -355,21 +355,12 @@
             <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
             <xs:element name="sub-menu" type="btn:subMenuDefinition" minOccurs="0"/>
         </xs:sequence>
-        <xs:attribute name="generate" type="xs:string" use="optional">
+        <xs:attribute name="generate" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
-
-
-    <xs:simpleType name="generateType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="crud"/>
-            <xs:enumeration value="saveAndClose"/>
-            <xs:enumeration value="close"/>
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:simpleType name="placeType">
         <xs:restriction base="xs:string">
@@ -380,14 +371,6 @@
             <xs:enumeration value="topCenter"/>
             <xs:enumeration value="bottomCenter"/>
             <xs:enumeration value="title"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="typeType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="text"/>
-            <xs:enumeration value="icon"/>
-            <xs:enumeration value="textAndIcon"/>
         </xs:restriction>
     </xs:simpleType>
 

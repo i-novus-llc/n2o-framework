@@ -1,12 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -22,14 +24,13 @@ import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
-import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
-import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -40,10 +41,10 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public abstract class BasePageCompiler<S extends N2oBasePage, D extends StandardPage> extends PageCompiler<S, D> {
 
     protected abstract void initRegions(S source, D page, CompileProcessor p, PageContext context,
-                                        PageScope pageScope, PageRoutes pageRoutes);
+                                        PageScope pageScope, PageRoutes pageRoutes, PageWidgetsScope pageWidgetsScope);
 
-    public D compilePage(S source, D page, PageContext context, CompileProcessor p, N2oRegion[] regions, SearchBarScope searchBarScope) {
-        List<N2oWidget> sourceWidgets = collectWidgets(regions);
+    public D compilePage(S source, D page, PageContext context, CompileProcessor p, SourceComponent[] items, SearchBarScope searchBarScope) {
+        List<N2oWidget> sourceWidgets = collectWidgets(items);
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
         PageScope pageScope = new PageScope();
@@ -59,7 +60,6 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setProperties(p.mapAttributes(source));
         BreadcrumbList breadcrumb = initBreadcrumb(pageName, context, p);
         page.setBreadcrumb(breadcrumb);
-        page.setWidgets(new StrictMap<>());
         Models models = new Models();
         page.setModels(models);
         //init base route
@@ -71,12 +71,12 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         //compile widget
         WidgetObjectScope widgetObjectScope = new WidgetObjectScope();
-        page.setWidgets(initWidgets(routeScope, pageRoutes, sourceWidgets, context, p, pageScope, breadcrumb,
-                validationList, models, pageRoutesScope, widgetObjectScope, searchBarScope));
+        Map<String, Widget> compiledWidgets = initWidgets(routeScope, pageRoutes, sourceWidgets, context, p, pageScope, breadcrumb,
+                validationList, models, pageRoutesScope, widgetObjectScope, searchBarScope);
         registerRoutes(pageRoutes, context, p);
         page.setRoutes(pageRoutes);
         //compile region
-        initRegions(source, page, p, context, pageScope, pageRoutes);
+        initRegions(source, page, p, context, pageScope, pageRoutes, new PageWidgetsScope(compiledWidgets));
         CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
         page.setObject(object);
         page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
@@ -85,31 +85,38 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
             initToolbarGenerate(source, resultWidget == null ? null : resultWidget.getId());
         MetaActions metaActions = new MetaActions();
         compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumb,
-                validationList, page.getWidgets(), widgetObjectScope);
+                validationList, compiledWidgets, widgetObjectScope);
         page.setActions(metaActions);
         return page;
     }
 
-    protected List<N2oWidget> collectWidgets(N2oRegion[] regions) {
+    protected List<N2oWidget> collectWidgets(SourceComponent[] items) {
         List<N2oWidget> result = new ArrayList<>();
-        Map<String, Integer> ids = new HashMap<>();
-        if (regions != null) {
-            for (N2oRegion region : regions) {
-                if (!ids.containsKey(region.getAlias())) {
-                    ids.put(region.getAlias(), 1);
-                }
-                if (region.getWidgets() != null) {
-                    result.addAll(Arrays.stream(region.getWidgets()).map(w -> {
-                        if (w.getId() == null) {
-                            String widgetPrefix = region.getAlias();
-                            w.setId(widgetPrefix + ids.put(widgetPrefix, ids.get(widgetPrefix) + 1));
-                        }
-                        return w;
-                    }).collect(Collectors.toList()));
-                }
-            }
+        if (items != null) {
+            Map<String, Integer> ids = new HashMap<>();
+            addWidgets(items, result, ids, "w");
         }
         return result;
+    }
+
+    private void addWidgets(SourceComponent[] items, List<N2oWidget> result,
+                            Map<String, Integer> ids, String prefix) {
+        if (!ids.containsKey(prefix))
+            ids.put(prefix, 1);
+        for (SourceComponent item : items) {
+            if (item instanceof N2oWidget) {
+                N2oWidget widget = ((N2oWidget) item);
+                if (widget.getId() == null)
+                    widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
+                result.add(widget);
+            } else if (item instanceof N2oTabsRegion) {
+                if (((N2oTabsRegion) item).getTabs() != null)
+                    for (N2oTabsRegion.Tab tab : ((N2oTabsRegion) item).getTabs())
+                        if (tab.getContent() != null)
+                            addWidgets(tab.getContent(), result, ids, ((N2oTabsRegion) item).getAlias());
+            } else if (item instanceof N2oRegion && ((N2oRegion) item).getContent() != null)
+                addWidgets(((N2oRegion) item).getContent(), result, ids, ((N2oRegion) item).getAlias());
+        }
     }
 
     private void initDefaults(PageContext context, N2oWidget resultWidget) {

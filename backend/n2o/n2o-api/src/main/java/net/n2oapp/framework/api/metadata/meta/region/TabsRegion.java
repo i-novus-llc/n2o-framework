@@ -13,17 +13,12 @@ import java.util.List;
 @Setter
 public class TabsRegion extends Region {
     @JsonProperty
-    private List<Tab> tabs;
-    @JsonProperty
     private Boolean alwaysRefresh;
     @JsonProperty
     private Boolean lazy;
 
-    @Override
     @JsonProperty("tabs")
-    public List<? extends Item> getItems() {
-        return super.getItems();
-    }
+    private List<Tab> items;
 
     @Getter
     @Setter

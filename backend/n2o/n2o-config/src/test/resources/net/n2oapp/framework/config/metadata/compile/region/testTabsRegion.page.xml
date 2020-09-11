@@ -4,7 +4,7 @@
         <tabs>
             <form/>
         </tabs>
-        <tabs place="left" active-param="param1">
+        <tabs place="left" active-param="param1" always-refresh="true" lazy="false">
             <form/>
         </tabs>
         <tabs id="tabId" place="single" active-param="param2">

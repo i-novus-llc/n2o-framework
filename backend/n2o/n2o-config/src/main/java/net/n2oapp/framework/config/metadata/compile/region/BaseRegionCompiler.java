@@ -1,5 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
+import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -7,7 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
-import net.n2oapp.framework.config.metadata.compile.page.PageScope;
+import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,27 +42,20 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
         return id.toString();
     }
 
-    @SuppressWarnings("unchecked")
-    protected <I extends Region.Item> List<I> initItems(N2oRegion source, CompileProcessor p, Class<I> itemClass) {
-        List<I> items = new ArrayList<>();
-        if (source.getWidgets() != null) {
-            IndexScope index = new IndexScope(1);
-            for (N2oWidget n2oWidget : source.getWidgets()) {
-                Region.Item item = createItem(n2oWidget, index, p);
-                PageScope pageScope = p.getScope(PageScope.class);
-                if (pageScope != null) {
-                    item.setWidgetId(pageScope.getGlobalWidgetId(n2oWidget.getId()));
-                } else {
-                    item.setWidgetId(n2oWidget.getId());
-                }
-                if (!itemClass.equals(item.getClass()))
-                    throw new IllegalStateException();
-                items.add((I) item);
-            }
-        }
-        return items;
+    protected List<Compiled> initContent(SourceComponent[] items, IndexScope index, PageWidgetsScope pageWidgetsScope,
+                                         PageContext context, CompileProcessor p) {
+        if (items == null || items.length == 0)
+            return null;
+
+        List<Compiled> content = new ArrayList<>();
+        for (SourceComponent item : items)
+            if (item instanceof N2oWidget)
+                // TODO - необходимо учесть случай, когда виджет вне страницы (PageScope == null)
+                pageWidgetsScope.getWidgets().keySet().stream()
+                        .filter(k -> k.endsWith(((N2oWidget) item).getId())).findFirst()
+                        .ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s)));
+            else if (item instanceof N2oRegion)
+                content.add(p.compile(item, context, p, index));
+        return content;
     }
-
-    protected abstract Region.Item createItem(N2oWidget widget, IndexScope index, CompileProcessor p);
-
 }
