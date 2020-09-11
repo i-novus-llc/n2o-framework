@@ -2,6 +2,7 @@
 <xs:schema targetNamespace="http://n2oapp.net/framework/config/schema/object-4.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0"
+           xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
            xmlns:dp="http://n2oapp.net/framework/config/schema/data-provider-1.0">
 
     <xs:element name="object" type="objectDefinition"/>
@@ -369,6 +370,7 @@
             <xs:element name="condition" type="conditionDefinition" minOccurs="0"/>
             <xs:element name="constraint" type="constraintDefinition" minOccurs="0"/>
             <xs:element name="mandatory" type="requiredDefinition" minOccurs="0"/>
+            <xs:element name="dialog" type="dialogDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -404,7 +406,8 @@
                 <xs:sequence>
                     <xs:element name="invocation" type="operationInvocationDefinition"/>
                     <xs:element name="in" type="operationInParameterListDefinition" maxOccurs="unbounded"/>
-                    <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0"
+                                maxOccurs="unbounded"/>
                 </xs:sequence>
                 <xs:attribute name="result" type="xs:string">
                     <xs:annotation>
@@ -476,6 +479,38 @@
         </xs:attribute>
     </xs:complexType>
 
+    <xs:complexType name="dialogDefinition">
+        <xs:annotation>
+            <xs:documentation>Валидация с диалогом выбора.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="invocation" type="operationInvocationDefinition" minOccurs="0"/>
+            <xs:element name="in" type="operationInParameterListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="toolbar" type="tool:toolbarDefinition"/>
+        </xs:sequence>
+        <xs:attribute name="id" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор валидации.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="server-moment" type="serverMomentDefinition" default="before-operation">
+            <xs:annotation>
+                <xs:documentation>Момент срабатывания валидации на сервере.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="message" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Сообщение, в случае нарушения валидации. Может содержать параметры.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="result" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Результат валидации.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:simpleType name="validationSideDefinition">
         <xs:restriction>
             <xs:enumeration value="client"/>
@@ -483,7 +518,6 @@
             <xs:enumeration value="client,server"/>
         </xs:restriction>
     </xs:simpleType>
-
 
     <xs:simpleType name="severityDefinition">
         <xs:restriction>

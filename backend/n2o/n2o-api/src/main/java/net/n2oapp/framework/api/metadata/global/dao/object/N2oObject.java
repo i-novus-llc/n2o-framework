@@ -11,6 +11,7 @@ import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationDialog;
 
 import java.util.Map;
 import java.util.Objects;
@@ -30,6 +31,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
     private String serviceName;
     private Operation[] operations;
     private N2oValidation[] n2oValidations;
+    private N2oValidationDialog[] n2oValidationDialogs;
     private AbstractParameter[] objectFields;
 
     @Override

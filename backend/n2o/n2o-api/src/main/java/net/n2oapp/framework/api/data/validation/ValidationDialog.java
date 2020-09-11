@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.data.validation;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
@@ -10,38 +9,22 @@ import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
- * Клиентская модель валидации ограничений полей
+ * Клиентская модель валидации с диалогом выбора
  */
 @Getter
 @Setter
-@NoArgsConstructor
-public class ConstraintValidation extends Validation {
-    private Set<String> requiredFields;
+public class ValidationDialog extends Validation {
     private N2oInvocation invocation;
     private List<InvocationParameter> inParameterList;
     private List<InvocationParameter> outParametersList;
+    private Toolbar toolbar;
 
-    public ConstraintValidation(ConstraintValidation validation) {
-        super(validation);
-        this.requiredFields = validation.getRequiredFields();
-        this.invocation = validation.getInvocation();
-        this.inParameterList = validation.getInParameterList();
-        this.outParametersList = validation.getOutParametersList();
-    }
 
-    public void setInParameterList(List<InvocationParameter> inParameterList) {
-        this.requiredFields = inParameterList.stream()
-                .filter(p -> p.getRequired() != null && p.getRequired())
-                .map(InvocationParameter::getId)
-                .collect(Collectors.toSet());
-        this.inParameterList = inParameterList;
-    }
 
     @Override
     public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
@@ -53,6 +36,6 @@ public class ConstraintValidation extends Validation {
 
     @Override
     public String getType() {
-        return "constraint";
+        return "dialog";
     }
 }

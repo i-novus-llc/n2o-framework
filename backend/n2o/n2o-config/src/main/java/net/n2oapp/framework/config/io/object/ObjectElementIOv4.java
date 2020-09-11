@@ -9,13 +9,11 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraint;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatory;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationCondition;
+import net.n2oapp.framework.api.metadata.global.dao.validation.*;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
+import net.n2oapp.framework.config.io.toolbar.ToolbarIO;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -45,7 +43,9 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyChildren(e, "validations", t::getN2oValidations, t::setN2oValidations, p.oneOf(N2oValidation.class)
                 .add("constraint", N2oConstraint.class, this::constraint)
                 .add("condition", N2oValidationCondition.class, this::condition)
-                .add("mandatory", N2oMandatory.class, this::mandatory));
+                .add("mandatory", N2oMandatory.class, this::mandatory)
+                .add("dialog", N2oValidationDialog.class, this::dialog));
+        p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
     }
 
     private void abstractParameter(Element e, AbstractParameter t, IOProcessor p) {
@@ -142,6 +142,15 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.text(e, t::getExpression, t::setExpression);
         p.attribute(e, "on", t::getExpressionOn, t::setExpressionOn);
         p.attribute(e, "src", t::getSrc, t::setSrc);
+    }
+
+    private void dialog(Element e, N2oValidationDialog t, IOProcessor p) {
+        validation(e, t, p);
+        p.attribute(e, "result", t::getResult, t::setResult);
+        p.children(e, "in", "field", t::getInParameters, t::setInParameters, N2oObject.Parameter.class, this::inParam);
+        p.children(e, "out", "field", t::getOutParameters, t::setOutParameters, N2oObject.Parameter.class, this::outParam);
+        p.child(e, null, "toolbar", t::getToolbar, t::setToolbar, new ToolbarIO());
+        p.anyChild(e, "invocation", t::getN2oInvocation, t::setN2oInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
     }
 
     @Override
