@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import cx from 'classnames';
-import omit from 'lodash/omit';
+
 import BaseSlider, { createSliderWithTooltip } from 'rc-slider';
+
 import { prepareStyle } from './utils';
 
 const SliderWithTooltip = createSliderWithTooltip(BaseSlider);
@@ -40,6 +42,7 @@ function Slider(props) {
     style,
     className,
     onChange,
+    initial,
     ...rest
   } = props;
 
@@ -63,8 +66,6 @@ function Slider(props) {
     onChange(value);
   };
 
-  const sliderProps = omit(rest, ['value']);
-
   return (
     <RenderSlider
       className={cx('n2o-slider', className)}
@@ -72,8 +73,9 @@ function Slider(props) {
       tipFormatter={expressionFn}
       vertical={vertical}
       style={prepareStyle(vertical, style)}
-      onAfterChange={handleAfterChange}
-      {...sliderProps}
+      onChange={handleAfterChange}
+      defaultValue={initial}
+      {...rest}
     />
   );
 }
