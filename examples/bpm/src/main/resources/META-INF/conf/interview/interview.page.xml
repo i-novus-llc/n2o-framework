@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Интервью">
+    <form id="interview" query-id="interview" object-id="interview" route="/interview">
+        <fields>
+            <output-text id="id"/>
+            <row>
+                <output-text id="position" label="Должность"/>
+                <output-text id="salary" label="Предлагаемая зарплата"/>
+            </row>
+            <row>
+                <output-text id="lastName" label="Фамилия"/>
+                <output-text id="salaryExpected" label="Ожидаемая зарплата"/>
+            </row>
+            <input-text id="skills" label="Навыки"/>
+            <row>
+                <input-text id="agreedSalary" label="Согласованная зарплата"/>
+                <checkbox id="interviewed" label="Прошел собеседование"/>
+            </row>
+        </fields>
+        <toolbar place="bottomRight">
+            <button label="save">
+                <invoke operation-id="setTaskVariables" close-on-success="true">
+                    <form-param name="id" value="{id}"/>
+                </invoke>
+            </button>
+            <button label="complete">
+                <invoke operation-id="completeTask" close-on-success="true">
+                    <form-param name="id" value="{id}"/>
+                </invoke>
+            </button>
+        </toolbar>
+        <pre-filters>
+            <eq field-id="id" param="id"/>
+        </pre-filters>
+    </form>
+</simple-page>

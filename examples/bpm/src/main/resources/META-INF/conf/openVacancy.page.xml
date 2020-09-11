@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Открыть вакансию" >
+    <form id="recruitment" object-id="openVacancy">
+        <fields>
+            <hidden id="processKey" default-value="recruitment"/>
+            <input-text id="position" label="Должность" required="true"/>
+            <input-text  id="salary" label="Зарплата" required="true"/>
+        </fields>
+    </form>
+</simple-page>
