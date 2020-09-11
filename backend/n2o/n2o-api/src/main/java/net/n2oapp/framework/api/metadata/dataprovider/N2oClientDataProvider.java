@@ -9,12 +9,14 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 
+import java.io.Serializable;
+
 /**
  *  Провайдер данных клиента
  */
 @Getter
 @Setter
-public class N2oClientDataProvider implements Source {
+public class N2oClientDataProvider implements Serializable {
     private String id;
     private String url;
     private N2oParam[] formParams;
@@ -31,7 +33,7 @@ public class N2oClientDataProvider implements Source {
 
     @Getter
     @Setter
-    public static class ActionContextData implements Source {
+    public static class ActionContextData implements Serializable {
         private String objectId;
         private String operationId;
         private String route;

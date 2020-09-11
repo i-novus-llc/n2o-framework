@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест поля вывода текста
+ * Автотест компонента вывода однострочного текста
  */
 public class OutputTextAT extends AutoTestBase {
 

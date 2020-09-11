@@ -1,0 +1,8 @@
+{
+  "className": "custom-class",
+  "labelFieldId": "name",
+  "linkFieldId": "href",
+  "target": "application",
+  "direction": "row",
+  "separator": ","
+}

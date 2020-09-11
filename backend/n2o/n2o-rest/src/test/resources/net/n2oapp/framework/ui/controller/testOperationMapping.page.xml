@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/testOperationMapping">
+    <form object-id="testObject" route="/widget">
+        <fields>
+            <input-select id="field1"/>
+            <input-select id="field2"/>
+            <input-select id="field3"/>
+        </fields>
+        <toolbar>
+            <button id="create8">
+                <invoke operation-id="create8" route="/create8"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>

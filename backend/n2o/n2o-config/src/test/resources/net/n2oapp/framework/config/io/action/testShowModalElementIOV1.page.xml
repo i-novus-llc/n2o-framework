@@ -6,7 +6,8 @@
                         page-id="test"
                         submit-operation-id="create" submit-label="Отправить"
                         refresh-on-close="false" refresh-widget-id="testWidget"
-                        upload="query" modal-size="lg" submit-model="resolve"
+                        modal-size="lg" scrollable="true"
+                        upload="query" submit-model="resolve"
                         copy-model="edit" copy-widget-id="table" copy-field-id="test"
                         submit-action-type="copy" target-model="resolve" target-widget-id="table"
                         target-field-id="test" copy-mode="replace">

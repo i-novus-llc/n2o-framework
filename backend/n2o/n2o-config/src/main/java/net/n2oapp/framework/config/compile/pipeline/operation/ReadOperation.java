@@ -15,6 +15,7 @@ import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.reader.SourceLoaderFactory;
 import net.n2oapp.framework.api.register.SourceInfo;
 import net.n2oapp.framework.api.register.MetadataRegister;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 
 import java.util.function.Supplier;
 
@@ -41,7 +42,7 @@ public class ReadOperation<S extends SourceMetadata, I> implements PipelineOpera
         String sourceId = context.getSourceId(bindProcessor);
         Class<S> sourceClass = (Class<S>) context.getSourceClass();
         SourceInfo info = configRegister.get(sourceId, sourceClass);
-        return readerFactory.read(info, sourceId.contains("?") ? sourceId.substring(sourceId.indexOf("?") + 1) : null);
+        return readerFactory.read(info, RouteUtil.parseQuery(sourceId));
     }
 
     @Override

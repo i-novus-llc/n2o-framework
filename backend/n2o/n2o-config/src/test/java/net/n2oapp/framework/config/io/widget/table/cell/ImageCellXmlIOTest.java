@@ -7,7 +7,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтения и записи ячейки с картинкой
+ * Тестирование чтения/записи ячейки с изображением
  */
 public class ImageCellXmlIOTest {
     @Test

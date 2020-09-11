@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import Text from '../../../../snippets/Typography/Text/Text';
+import SubText from './SubText';
 import withTooltip from '../../withTooltip';
 
 /** Описание */
@@ -27,9 +28,8 @@ function TextCell({
           {...rest}
         />
         {subTextFieldKey ? (
-          <Text
-            className="text-muted"
-            text={model && subTextFieldKey && get(model, subTextFieldKey)}
+          <SubText
+            subText={model && get(model, subTextFieldKey)}
             format={subTextFormat}
           />
         ) : null}

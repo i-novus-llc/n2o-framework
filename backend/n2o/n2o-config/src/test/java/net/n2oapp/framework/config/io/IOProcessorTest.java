@@ -22,6 +22,8 @@ import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.XMLOutputter;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.PropertyResolver;
 import org.xml.sax.SAXException;
 
@@ -596,7 +598,7 @@ public class IOProcessorTest {
 
     @Test
     public void testProps() throws Exception {
-        //test PropertyResolver
+        //test properties
         ReaderFactoryByMap readerFactory = new ReaderFactoryByMap();
         readerFactory.register(new BodyNamespaceEntityIO());
         IOProcessorImpl p = new IOProcessorImpl(readerFactory);
@@ -604,22 +606,44 @@ public class IOProcessorTest {
         properties.setProperty("testProp1", "testProp1");
         PropertyResolver systemProperties = new SimplePropertyResolver(properties);
         p.setSystemProperties(systemProperties);
-        testElementWithProperty(p);
+        testElementWithProperty(p, "testProp1");
 
         //test params
         HashMap<String, String> params = new HashMap<>();
-        params.put("testProp1", "testProp1");
-        MetadataParamHolder.setParams(params);
+        params.put("testProp1", "testProp2");
         p = new IOProcessorImpl(readerFactory);
-        testElementWithProperty(p);
-        MetadataParamHolder.setParams(null);
+        try {
+            MetadataParamHolder.setParams(params);
+            testElementWithProperty(p, "testProp2");
+        } finally {
+            MetadataParamHolder.setParams(null);
+        }
+
+        //test messages
+        p = new IOProcessorImpl(readerFactory);
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasenames("test_messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        p.setMessageSourceAccessor(new MessageSourceAccessor(messageSource));
+        testElementWithProperty(p, "testProp3");
+
+        //test override
+        p = new IOProcessorImpl(readerFactory);
+        p.setSystemProperties(systemProperties);
+        p.setMessageSourceAccessor(new MessageSourceAccessor(messageSource));
+        try {
+            MetadataParamHolder.setParams(params);
+            testElementWithProperty(p, "testProp2");//самый приоритетный params
+        } finally {
+            MetadataParamHolder.setParams(null);
+        }
     }
 
-    private void testElementWithProperty(IOProcessorImpl p) throws JDOMException, IOException {
+    private void testElementWithProperty(IOProcessorImpl p, String expectedValue) throws JDOMException, IOException {
         Element in = dom("net/n2oapp/framework/config/io/ioprocessor22.xml");
         BaseEntity baseEntity = new BaseEntity();
         p.element(in, "attr", baseEntity::getAttr, baseEntity::setAttr);
-        assertThat(baseEntity.getAttr(), equalTo("testProp1"));
+        assertThat(baseEntity.getAttr(), equalTo(expectedValue));
     }
 
     @Test
