@@ -86,6 +86,126 @@ app.all("/sign/set", (req, res) => {
   console.log(req.body);
   res.send(200);
 });
+
+app.get("/n2o/data/tiles", (req, res) => {
+    res.send({
+        meta: {},
+        page: 0,
+        size: 10,
+        list: [
+            {
+                tile1: {
+                    title: 'Ячейка с картинкой',
+                    url: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                },
+                tile2: {
+                    text: '11-23-2017 17:32:23'
+                },
+            },
+            {
+                tile1: {
+                    title: 'Ячейка с картинкой 2',
+                    url: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                },
+                tile2: {
+                    text: '11-23-2018 17:32:23'
+                }
+            },
+            {
+                tile1: {
+                    title: 'Ячейка с картинкой 2',
+                    url: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                },
+                tile2: {
+                    text: '11-23-2019 17:32:23'
+                }
+            },
+            {
+                tile1: {
+                    title: 'Ячейка с картинкой',
+                    url: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                },
+                tile2: {
+                    text: '11-23-2020 17:32:23'
+                },
+            },
+            {
+                tile1: {
+                    title: 'Ячейка с картинкой 2',
+                    url: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                },
+                tile2: {
+                    text: '11-23-2021 17:32:23'
+                }
+            },
+            {
+                tile1: {
+                    title: 'Ячейка с картинкой 2',
+                    url: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                },
+                tile2: {
+                    text: '11-23-2022 17:32:23'
+                }
+            },
+            {
+                tile1: {
+                    title: 'Ячейка с картинкой',
+                    url: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                },
+                tile2: {
+                    text: '11-23-2023 17:32:23'
+                },
+            },
+            {
+                tile1: {
+                    title: 'Ячейка с картинкой 2',
+                    url: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                },
+                tile2: {
+                    text: '11-23-2024 17:32:23'
+                }
+            },
+            {
+                tile1: {
+                    title: 'Ячейка с картинкой 2',
+                    url: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                },
+                tile2: {
+                    text: '11-23-2025 17:32:23'
+                }
+            },
+            {
+                tile1: {
+                    title: 'Ячейка с картинкой',
+                    url: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                },
+                tile2: {
+                    text: '11-23-2026 17:32:23'
+                },
+            },
+            {
+                tile1: {
+                    title: 'Ячейка с картинкой 2',
+                    url: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                },
+                tile2: {
+                    text: '11-23-2027 17:32:23'
+                }
+            },
+            {
+                tile1: {
+                    title: 'Ячейка с картинкой 2',
+                    url: 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                },
+                tile2: {
+                    text: '11-23-2028 17:32:23'
+                }
+            }
+        ]
+    });
+});
+
+
 app.use("/n2o", exampleProxy);
 app.use("/n2o/data", exampleProxy);
 app.use("/n2o/config", exampleProxy);
