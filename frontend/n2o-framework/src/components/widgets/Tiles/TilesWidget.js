@@ -5,8 +5,7 @@ import dependency from '../../../core/dependency';
 import StandardWidget from '../StandardWidget';
 import TilesContainer from './TilesContainer';
 import Fieldsets from '../Form/fieldsets';
-import Pagination from '../../snippets/Pagination/Pagination';
-// import Pagination from '../Table/TablePagination';
+import Pagination from '../Table/TablePagination';
 
 function TilesWidget(
   {
@@ -45,7 +44,6 @@ function TilesWidget(
             prev={true}
             next={true}
             widgetId={widgetId}
-            withoutBody={true}
             prevText={prevText}
             nextText={nextText}
           />

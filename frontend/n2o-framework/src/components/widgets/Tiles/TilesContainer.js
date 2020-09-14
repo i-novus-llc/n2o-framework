@@ -1,6 +1,5 @@
 import React from 'react';
-import { compose, mapProps, lifecycle, withState } from 'recompose';
-import isEqual from 'lodash/isEqual';
+import { compose, mapProps } from 'recompose';
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer';
 import { withContainerLiveCycle } from '../Table/TableContainer';
 
@@ -12,7 +11,6 @@ function TilesContainer(props) {
 }
 
 export default compose(
-  withState('data', 'setData', []),
   widgetContainer(
     {
       mapProps: props => ({
@@ -23,20 +21,15 @@ export default compose(
   ),
   withContainerLiveCycle,
   withWidgetHandlers,
-  lifecycle({
-    componentDidUpdate(prevProps) {
-      if (!isEqual(prevProps.datasource, this.props.datasource)) {
-        this.props.setData(this.props.datasource);
-      }
-    },
-  }),
-  mapProps(({ data, className, widgetId, tiles, colsSm, colsMd, colsLg }) => ({
-    className: className,
-    id: widgetId,
-    tiles: tiles,
-    data: data,
-    colsSm: colsSm,
-    colsMd: colsMd,
-    colsLg: colsLg,
-  }))
+  mapProps(
+    ({ datasource, className, widgetId, tiles, colsSm, colsMd, colsLg }) => ({
+      className: className,
+      id: widgetId,
+      tiles: tiles,
+      data: datasource,
+      colsSm: colsSm,
+      colsMd: colsMd,
+      colsLg: colsLg,
+    })
+  )
 )(TilesContainer);

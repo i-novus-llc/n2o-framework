@@ -6,9 +6,9 @@ const getResolution = width => {
   };
 
   let resolution = {
-    isMobile: width < 639,
-    isTablet: width < 1200,
-    isDesktop: width > 1200,
+    isMobile: width < 767,
+    isTablet: width < 1367,
+    isDesktop: width > 1368,
   };
 
   if (resolution.isMobile) {
