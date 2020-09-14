@@ -41,7 +41,6 @@ public class ImageUploadAT extends AutoTestBase {
         super.setUp();
 
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/image_upload/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/image_upload/files.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
         simplePage = open(SimplePage.class);
