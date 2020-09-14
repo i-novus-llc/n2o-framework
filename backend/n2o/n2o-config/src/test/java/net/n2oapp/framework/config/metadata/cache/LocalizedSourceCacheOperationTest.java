@@ -31,7 +31,7 @@ public class LocalizedSourceCacheOperationTest {
         LocaleContextHolder.setLocale(new Locale("ru"));
         CacheTemplate cacheTemplate = mock(CacheTemplate.class);
         MetadataRegister metadataRegister = mock(MetadataRegister.class);
-        when(cacheTemplate.execute(eq("n2o.source.ru"), eq("test.N2oPage"), any())).thenReturn(getPage());
+        when(cacheTemplate.execute(eq("n2o.source"), eq("test.N2oPage.ru"), any())).thenReturn(getPage());
         when(metadataRegister.get("test", N2oPage.class)).thenReturn(new XmlInfo("test", N2oPage.class, "", ""));
         LocalizedSourceCacheOperation operation = new LocalizedSourceCacheOperation(cacheTemplate, metadataRegister);
         Object testPage = operation.execute(new PageContext("test"), null, this::getPage, null,
