@@ -35,7 +35,10 @@ import net.n2oapp.framework.config.io.IOProcessorImpl;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.CrudGenerator;
 import net.n2oapp.framework.config.persister.N2oMetadataPersisterFactory;
-import net.n2oapp.framework.config.reader.*;
+import net.n2oapp.framework.config.reader.GroovySourceReader;
+import net.n2oapp.framework.config.reader.N2oNamespaceReaderFactory;
+import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
+import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
@@ -44,8 +47,8 @@ import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -53,11 +56,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Collections;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -95,13 +95,6 @@ public class N2oEnvironmentConfiguration {
     @ConditionalOnMissingBean
     public ScriptProcessor scriptProcessor() {
         return new ScriptProcessor();
-    }
-
-    @Bean
-    public LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(new Locale("ru"));
-        return slr;
     }
 
     @Bean
@@ -271,10 +264,6 @@ public class N2oEnvironmentConfiguration {
 
     @Configuration
     static class PipelineOperationConfiguration {
-
-        @Value("${n2o.i18n.enabled}")
-        private Boolean i18nEnabled;
-
         @Bean
         @ConditionalOnMissingBean
         ReadOperation readOperation(MetadataRegister configRegister, SourceLoaderFactory readerFactory) {
@@ -295,19 +284,15 @@ public class N2oEnvironmentConfiguration {
 
         @Bean
         @ConditionalOnMissingBean
+        @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "false")
         SourceCacheOperation sourceCacheOperation(CacheManager cacheManager, MetadataRegister metadataRegister) {
-            if (i18nEnabled) {
-                return new LocalizedSourceCacheOperation(new SyncCacheTemplate(cacheManager), metadataRegister);
-            }
             return new SourceCacheOperation(new SyncCacheTemplate(cacheManager), metadataRegister);
         }
 
         @Bean
         @ConditionalOnMissingBean
+        @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "false")
         CompileCacheOperation compileCacheOperation(CacheManager cacheManager) {
-            if (i18nEnabled) {
-                return new LocalizedCompileCacheOperation(new SyncCacheTemplate(cacheManager));
-            }
             return new CompileCacheOperation(new SyncCacheTemplate(cacheManager));
         }
 
