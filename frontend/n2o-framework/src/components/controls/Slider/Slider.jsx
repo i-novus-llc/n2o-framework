@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import isUndefined from 'lodash/isUndefined';
+import isNumber from 'lodash/isNumber';
+import omit from 'lodash/omit';
+import assign from 'lodash/assign';
+
 import cx from 'classnames';
 
 import BaseSlider, { createSliderWithTooltip } from 'rc-slider';
@@ -42,7 +47,10 @@ function Slider(props) {
     style,
     className,
     onChange,
-    initial,
+    min,
+    max,
+    step,
+    value,
     ...rest
   } = props;
 
@@ -66,6 +74,14 @@ function Slider(props) {
     onChange(value);
   };
 
+  const currentValue = isNumber(value) ? value : !isUndefined(min) ? min : 0;
+
+  const restProps = multiple
+    ? omit(rest, ['value'])
+    : assign({}, rest, {
+        value: currentValue,
+      });
+
   return (
     <RenderSlider
       className={cx('n2o-slider', className)}
@@ -74,8 +90,10 @@ function Slider(props) {
       vertical={vertical}
       style={prepareStyle(vertical, style)}
       onChange={handleAfterChange}
-      defaultValue={initial}
-      {...rest}
+      min={min}
+      max={max}
+      step={step}
+      {...restProps}
     />
   );
 }
