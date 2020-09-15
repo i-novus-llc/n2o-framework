@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
@@ -10,12 +11,15 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
+import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
 import net.n2oapp.framework.config.io.widget.table.cell.ToolbarCellElementIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -33,6 +37,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Тест сборки формы
@@ -47,9 +52,10 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack())
-                .ios(new SimplePageElementIOv2(), new FormElementIOV4(), new ToolbarCellElementIOv2())
-                .compilers(new SimplePageCompiler(), new FormCompiler(), new ToolbarCompiler())
+        builder.packs(new N2oAllDataPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oCellsPack(), new N2oActionsPack(),
+                new N2oWidgetsPack())
+                .ios(new SimplePageElementIOv2())
+                .compilers(new SimplePageCompiler())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/widgets/testTable4Compile.query.xml"),
                         new CompileInfo("net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml"));
     }
@@ -138,7 +144,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testFormSubmit"));
         Form form = (Form) page.getWidget();
 
-        ActionContext context = (ActionContext) route("/testFormSubmit/:testFormSubmit_form_id/a/b/c", CompiledObject.class);
+        ActionContext context = (ActionContext) route("/testFormSubmit/a/b/c", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("test"));
         assertThat(context.isMessageOnFail(), is(true));
@@ -149,9 +155,9 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         ClientDataProvider dataProvider = form.getFormDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
         assertThat(dataProvider.getSubmitForm(), is(true));
-        assertThat(dataProvider.getUrl(), is("n2o/data/testFormSubmit/:testFormSubmit_form_id/a/b/c"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/testFormSubmit/a/b/c"));
 
-        assertThat(dataProvider.getPathMapping().size(), is(3));
+        assertThat(dataProvider.getPathMapping().size(), is(2));
         ModelLink link = dataProvider.getPathMapping().get("name1");
         assertThat(link.getValue(), is("value1"));
         assertThat(link.getModel(), nullValue());
@@ -162,11 +168,6 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(link.getModel(), is(ReduxModel.FILTER));
         assertThat(link.getWidgetId(), is("testFormSubmit_id2"));
         assertThat(link.getBindLink(), is("models.filter['testFormSubmit_id2']"));
-        link = dataProvider.getPathMapping().get("testFormSubmit_form_id");
-        assertThat(link.getValue(), nullValue());
-        assertThat(link.getModel(), is(ReduxModel.RESOLVE));
-        assertThat(link.getWidgetId(), is("testFormSubmit_form"));
-        assertThat(link.getBindLink(), is("models.resolve['testFormSubmit_form'].id"));
 
         assertThat(dataProvider.getHeadersMapping().size(), is(1));
         link = dataProvider.getHeadersMapping().get("name3");
@@ -181,5 +182,23 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(link.getModel(), is(ReduxModel.FILTER));
         assertThat(link.getWidgetId(), is("testFormSubmit_form"));
         assertThat(link.getBindLink(), is("models.filter['testFormSubmit_form']"));
+    }
+
+    @Test
+    public void testSubmitInModal () {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModalIndex.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModal.object.xml",
+                "net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModal.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModal.query.xml"
+                )
+                .get(new PageContext("testSubmitInModalIndex"));
+
+        PageContext detailContext = (PageContext) route("/testSubmitInModalIndex/:testSubmitInModalIndex_main_id/open", Page.class);
+        DataSet data = new DataSet();
+        data.put("testSubmitInModalIndex_main_id", 1);
+        SimplePage detailPage = (SimplePage) read().compile().bind().get(detailContext, data);
+        Form form = (Form) detailPage.getWidget();
+        assertThat(form.getFormDataProvider().getPathMapping().size(), is(1));
+        assertThat(form.getFormDataProvider().getUrl(), is("n2o/data/testSubmitInModalIndex/:testSubmitInModalIndex_main_id/open"));
     }
 }

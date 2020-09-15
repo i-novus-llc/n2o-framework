@@ -51,18 +51,8 @@ public class ClientDataProviderUtil {
             dataProvider.setHeadersMapping(compileParams(source.getHeaderParams(), p, targetModel, targetWidget));
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
             path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            if (widgetScope != null) {
-                String clientWidgetId = widgetScope.getClientWidgetId();
-                if (ReduxModel.RESOLVE.equals(targetModel)) {
-                    String widgetSelectedId = clientWidgetId + "_id";
-                    //todo не нужно добавлять принудительно параметр в url, нужно только если его задали в route="/:id/action"
-                    path = normalize(path + normalize(colon(widgetSelectedId)));
-                    pathMapping.put(widgetSelectedId, new ModelLink(targetModel, clientWidgetId, "id"));
-                    if (context.getPathRouteMapping() != null)
-                        pathMapping.putAll(context.getPathRouteMapping());
-                }
-            }
+            if (context.getPathRouteMapping() != null)
+                pathMapping.putAll(context.getPathRouteMapping());
             path = normalize(path + normalize(p.cast(source.getUrl(), source.getId(), "")));
             dataProvider.setPathMapping(pathMapping);
             dataProvider.setMethod(RequestMethod.POST);
