@@ -96,9 +96,14 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
     }
 
     private void submitFormParam(Element e, N2oFormParam t, IOProcessor p) {
-        submitParam(e, t, p);
-        if (t.getName() == null)
+        if (!t.nameExists())
             p.attribute(e, "id", t::getId, t::setId);
+        if (t.getId() == null || t.nameExists())
+            p.attribute(e, "name", t::getName, t::setName);
+
+        p.attribute(e, "value", t::getValue, t::setValue);
+        p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
+        p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
     }
 
     private void param(Element e, N2oObject.Parameter t, IOProcessor p) {
