@@ -18,7 +18,9 @@
         </action>
         <action>
             <invoke operation-id="test2" submit-form="false">
-                <form-param name="a" value="1" />
+                <form-param id="a" value="1" />
+                <!-- deprecated -->
+                <form-param id="a2" value="1"/>
                 <path-param name="b" value="2"/>
                 <header-param name="c" value="3"/>
             </invoke>

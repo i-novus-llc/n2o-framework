@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.control.Submit;
+import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
@@ -84,7 +85,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.children(e, null, "path-param", t::getPathParams, t::setPathParams, N2oParam.class, this::submitParam);
         p.children(e, null, "header-param", t::getHeaderParams, t::setHeaderParams, N2oParam.class, this::submitParam);
-        p.children(e, null, "form-param", t::getFormParams, t::setFormParams, N2oParam.class, this::submitParam);
+        p.children(e, null, "form-param", t::getFormParams, t::setFormParams, N2oFormParam.class, this::submitFormParam);
     }
 
     private void submitParam(Element e, N2oParam t, IOProcessor p) {
@@ -92,6 +93,12 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attribute(e, "value", t::getValue, t::setValue);
         p.attribute(e, "ref-widget-id", t::getRefWidgetId, t::setRefWidgetId);
         p.attributeEnum(e, "ref-model", t::getRefModel, t::setRefModel, ReduxModel.class);
+    }
+
+    private void submitFormParam(Element e, N2oFormParam t, IOProcessor p) {
+        submitParam(e, t, p);
+        if (t.getName() == null)
+            p.attribute(e, "id", t::getId, t::setId);
     }
 
     private void param(Element e, N2oObject.Parameter t, IOProcessor p) {
