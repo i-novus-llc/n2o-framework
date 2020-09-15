@@ -28,10 +28,6 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
      */
     private String route;
     /**
-     * Шаблон url
-     */
-    private String urlPattern;
-    /**
      * Связь query параметров в маршруте с моделями данных
      */
     private Map<String, ModelLink> queryRouteMapping;
@@ -112,11 +108,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     }
 
     public String getUrlPattern() {
-        return urlPattern != null ? urlPattern : route;
-    }
-
-    public void setUrlPattern(String urlPattern) {
-        this.urlPattern = urlPattern;
+        return route;
     }
 
     @Override
@@ -125,7 +117,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         if (route == null) {
             data = new DataSet();
         } else {
-            data = getResultData(url, getUrlPattern());
+            data = getResultData(url, route);
         }
         if (queryParams != null) {
             queryParams.forEach((k, v) -> {
@@ -207,7 +199,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         return Objects.hash(sourceId, compiledClass);
     }
 
-    private DataSet getResultData(String url, String urlPattern) {
+    protected DataSet getResultData(String url, String urlPattern) {
         DataSet data = new DataSet();
         String[] splitUrl = url.split("/");
         String[] splitPattern = urlPattern.split("/");
