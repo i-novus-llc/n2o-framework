@@ -1,0 +1,780 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TilesContainer /> отрисовка 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <Connect(withProps(pure(WidgetContainer)))
+    colsLg={4}
+    colsMd={3}
+    colsSm={2}
+    id="Page_Tiles"
+    level="widgets"
+    src="TilesWidget"
+    tiles={
+      Array [
+        Object {
+          "className": "p-4",
+          "fieldKey": "url",
+          "id": "tile1",
+          "src": "ImageCell",
+          "style": Object {},
+        },
+        Object {
+          "className": "mt-1 mb-4",
+          "fieldKey": "text",
+          "id": "tile2",
+          "src": "TextCell",
+          "style": Object {},
+        },
+        Object {
+          "className": "mt-3",
+          "fieldKey": "rating",
+          "id": "tile3",
+          "src": "RatingCell",
+          "style": Object {},
+        },
+      ]
+    }
+  >
+    <withProps(pure(WidgetContainer))
+      colsLg={4}
+      colsMd={3}
+      colsSm={2}
+      dispatch={[Function]}
+      id="Page_Tiles"
+      isAnyTableFocused={false}
+      level="widgets"
+      src="TilesWidget"
+      tiles={
+        Array [
+          Object {
+            "className": "p-4",
+            "fieldKey": "url",
+            "id": "tile1",
+            "src": "ImageCell",
+            "style": Object {},
+          },
+          Object {
+            "className": "mt-1 mb-4",
+            "fieldKey": "text",
+            "id": "tile2",
+            "src": "TextCell",
+            "style": Object {},
+          },
+          Object {
+            "className": "mt-3",
+            "fieldKey": "rating",
+            "id": "tile3",
+            "src": "RatingCell",
+            "style": Object {},
+          },
+        ]
+      }
+      widget={
+        Object {
+          "containerId": null,
+          "count": 0,
+          "dataProvider": undefined,
+          "error": null,
+          "filter": Object {
+            "key": null,
+            "type": null,
+          },
+          "isActive": false,
+          "isEnabled": true,
+          "isFilterVisible": true,
+          "isInit": true,
+          "isLoading": true,
+          "isResolved": false,
+          "isVisible": true,
+          "modelPrefix": undefined,
+          "page": undefined,
+          "pageId": undefined,
+          "selectedId": null,
+          "size": undefined,
+          "sorting": Object {},
+          "type": "TilesWidget",
+          "validation": undefined,
+        }
+      }
+    >
+      <pure(WidgetContainer)
+        colsLg={4}
+        colsMd={3}
+        colsSm={2}
+        dispatch={[Function]}
+        id="Page_Tiles"
+        isActive={false}
+        isAnyTableFocused={false}
+        isEnabled={true}
+        isInit={true}
+        isLoading={true}
+        level="widgets"
+        selectedId={null}
+        sorting={Object {}}
+        src="TilesWidget"
+        tiles={
+          Array [
+            Object {
+              "className": "p-4",
+              "fieldKey": "url",
+              "id": "tile1",
+              "src": "ImageCell",
+              "style": Object {},
+            },
+            Object {
+              "className": "mt-1 mb-4",
+              "fieldKey": "text",
+              "id": "tile2",
+              "src": "TextCell",
+              "style": Object {},
+            },
+            Object {
+              "className": "mt-3",
+              "fieldKey": "rating",
+              "id": "tile3",
+              "src": "RatingCell",
+              "style": Object {},
+            },
+          ]
+        }
+        type="TilesWidget"
+        visible={true}
+        widget={
+          Object {
+            "containerId": null,
+            "count": 0,
+            "dataProvider": undefined,
+            "error": null,
+            "filter": Object {
+              "key": null,
+              "type": null,
+            },
+            "isActive": false,
+            "isEnabled": true,
+            "isFilterVisible": true,
+            "isInit": true,
+            "isLoading": true,
+            "isResolved": false,
+            "isVisible": true,
+            "modelPrefix": undefined,
+            "page": undefined,
+            "pageId": undefined,
+            "selectedId": null,
+            "size": undefined,
+            "sorting": Object {},
+            "type": "TilesWidget",
+            "validation": undefined,
+          }
+        }
+      >
+        <WidgetContainer
+          colsLg={4}
+          colsMd={3}
+          colsSm={2}
+          defaultSorting={Object {}}
+          dispatch={[Function]}
+          fetchOnInit={true}
+          id="Page_Tiles"
+          isActive={false}
+          isAnyTableFocused={false}
+          isEnabled={true}
+          isInit={true}
+          isLoading={true}
+          level="widgets"
+          placeholder={false}
+          resolveModel={Object {}}
+          selectedId={null}
+          sorting={Object {}}
+          src="TilesWidget"
+          tiles={
+            Array [
+              Object {
+                "className": "p-4",
+                "fieldKey": "url",
+                "id": "tile1",
+                "src": "ImageCell",
+                "style": Object {},
+              },
+              Object {
+                "className": "mt-1 mb-4",
+                "fieldKey": "text",
+                "id": "tile2",
+                "src": "TextCell",
+                "style": Object {},
+              },
+              Object {
+                "className": "mt-3",
+                "fieldKey": "rating",
+                "id": "tile3",
+                "src": "RatingCell",
+                "style": Object {},
+              },
+            ]
+          }
+          type="TilesWidget"
+          visible={true}
+          widget={
+            Object {
+              "containerId": null,
+              "count": 0,
+              "dataProvider": undefined,
+              "error": null,
+              "filter": Object {
+                "key": null,
+                "type": null,
+              },
+              "isActive": false,
+              "isEnabled": true,
+              "isFilterVisible": true,
+              "isInit": true,
+              "isLoading": true,
+              "isResolved": false,
+              "isVisible": true,
+              "modelPrefix": undefined,
+              "page": undefined,
+              "pageId": undefined,
+              "selectedId": null,
+              "size": undefined,
+              "sorting": Object {},
+              "type": "TilesWidget",
+              "validation": undefined,
+            }
+          }
+        >
+          <div
+            className=""
+            style={
+              Object {
+                "position": "relative",
+              }
+            }
+          >
+            <Placeholder
+              loading={false}
+              once={true}
+              type="list"
+            >
+              <BaseSpinner
+                color="primary"
+                delay={400}
+                loading={true}
+                minSpinnerTimeToShow={250}
+                text=""
+                transparent={false}
+                type="cover"
+              >
+                <div
+                  className="n2o-spinner-wrapper"
+                >
+                  <lifecycle(getContext(withHandlers(mapProps(TilesContainer))))
+                    colsLg={4}
+                    colsMd={3}
+                    colsSm={2}
+                    defaultSorting={Object {}}
+                    dispatch={[Function]}
+                    fetchOnInit={true}
+                    id="Page_Tiles"
+                    isActive={false}
+                    isAnyTableFocused={false}
+                    isEnabled={true}
+                    isInit={true}
+                    isLoading={true}
+                    level="widgets"
+                    onActionImpl={[Function]}
+                    onFetch={[Function]}
+                    onFocus={[Function]}
+                    onResolve={[Function]}
+                    onSetModel={[Function]}
+                    onSort={[Function]}
+                    placeholder={false}
+                    resolveModel={Object {}}
+                    selectedId={null}
+                    sorting={Object {}}
+                    src="TilesWidget"
+                    tiles={
+                      Array [
+                        Object {
+                          "className": "p-4",
+                          "fieldKey": "url",
+                          "id": "tile1",
+                          "src": "ImageCell",
+                          "style": Object {},
+                        },
+                        Object {
+                          "className": "mt-1 mb-4",
+                          "fieldKey": "text",
+                          "id": "tile2",
+                          "src": "TextCell",
+                          "style": Object {},
+                        },
+                        Object {
+                          "className": "mt-3",
+                          "fieldKey": "rating",
+                          "id": "tile3",
+                          "src": "RatingCell",
+                          "style": Object {},
+                        },
+                      ]
+                    }
+                    type="TilesWidget"
+                    visible={true}
+                    widget={
+                      Object {
+                        "containerId": null,
+                        "count": 0,
+                        "dataProvider": undefined,
+                        "error": null,
+                        "filter": Object {
+                          "key": null,
+                          "type": null,
+                        },
+                        "isActive": false,
+                        "isEnabled": true,
+                        "isFilterVisible": true,
+                        "isInit": true,
+                        "isLoading": true,
+                        "isResolved": false,
+                        "isVisible": true,
+                        "modelPrefix": undefined,
+                        "page": undefined,
+                        "pageId": undefined,
+                        "selectedId": null,
+                        "size": undefined,
+                        "sorting": Object {},
+                        "type": "TilesWidget",
+                        "validation": undefined,
+                      }
+                    }
+                  >
+                    <getContext(withHandlers(mapProps(TilesContainer)))
+                      colsLg={4}
+                      colsMd={3}
+                      colsSm={2}
+                      defaultSorting={Object {}}
+                      dispatch={[Function]}
+                      fetchOnInit={true}
+                      id="Page_Tiles"
+                      isActive={false}
+                      isAnyTableFocused={false}
+                      isEnabled={true}
+                      isInit={true}
+                      isLoading={true}
+                      level="widgets"
+                      onActionImpl={[Function]}
+                      onFetch={[Function]}
+                      onFocus={[Function]}
+                      onResolve={[Function]}
+                      onSetModel={[Function]}
+                      onSort={[Function]}
+                      placeholder={false}
+                      resolveModel={Object {}}
+                      selectedId={null}
+                      sorting={Object {}}
+                      src="TilesWidget"
+                      tiles={
+                        Array [
+                          Object {
+                            "className": "p-4",
+                            "fieldKey": "url",
+                            "id": "tile1",
+                            "src": "ImageCell",
+                            "style": Object {},
+                          },
+                          Object {
+                            "className": "mt-1 mb-4",
+                            "fieldKey": "text",
+                            "id": "tile2",
+                            "src": "TextCell",
+                            "style": Object {},
+                          },
+                          Object {
+                            "className": "mt-3",
+                            "fieldKey": "rating",
+                            "id": "tile3",
+                            "src": "RatingCell",
+                            "style": Object {},
+                          },
+                        ]
+                      }
+                      type="TilesWidget"
+                      visible={true}
+                      widget={
+                        Object {
+                          "containerId": null,
+                          "count": 0,
+                          "dataProvider": undefined,
+                          "error": null,
+                          "filter": Object {
+                            "key": null,
+                            "type": null,
+                          },
+                          "isActive": false,
+                          "isEnabled": true,
+                          "isFilterVisible": true,
+                          "isInit": true,
+                          "isLoading": true,
+                          "isResolved": false,
+                          "isVisible": true,
+                          "modelPrefix": undefined,
+                          "page": undefined,
+                          "pageId": undefined,
+                          "selectedId": null,
+                          "size": undefined,
+                          "sorting": Object {},
+                          "type": "TilesWidget",
+                          "validation": undefined,
+                        }
+                      }
+                    >
+                      <withHandlers(mapProps(TilesContainer))
+                        colsLg={4}
+                        colsMd={3}
+                        colsSm={2}
+                        defaultSorting={Object {}}
+                        dispatch={[Function]}
+                        fetchOnInit={true}
+                        id="Page_Tiles"
+                        isActive={false}
+                        isAnyTableFocused={false}
+                        isEnabled={true}
+                        isInit={true}
+                        isLoading={true}
+                        level="widgets"
+                        onActionImpl={[Function]}
+                        onFetch={[Function]}
+                        onFocus={[Function]}
+                        onResolve={[Function]}
+                        onSetModel={[Function]}
+                        onSort={[Function]}
+                        placeholder={false}
+                        resolveModel={Object {}}
+                        selectedId={null}
+                        sorting={Object {}}
+                        src="TilesWidget"
+                        store={
+                          Object {
+                            "dispatch": [Function],
+                            "getState": [Function],
+                            "replaceReducer": [Function],
+                            "subscribe": [Function],
+                            Symbol(observable): [Function],
+                          }
+                        }
+                        tiles={
+                          Array [
+                            Object {
+                              "className": "p-4",
+                              "fieldKey": "url",
+                              "id": "tile1",
+                              "src": "ImageCell",
+                              "style": Object {},
+                            },
+                            Object {
+                              "className": "mt-1 mb-4",
+                              "fieldKey": "text",
+                              "id": "tile2",
+                              "src": "TextCell",
+                              "style": Object {},
+                            },
+                            Object {
+                              "className": "mt-3",
+                              "fieldKey": "rating",
+                              "id": "tile3",
+                              "src": "RatingCell",
+                              "style": Object {},
+                            },
+                          ]
+                        }
+                        type="TilesWidget"
+                        visible={true}
+                        widget={
+                          Object {
+                            "containerId": null,
+                            "count": 0,
+                            "dataProvider": undefined,
+                            "error": null,
+                            "filter": Object {
+                              "key": null,
+                              "type": null,
+                            },
+                            "isActive": false,
+                            "isEnabled": true,
+                            "isFilterVisible": true,
+                            "isInit": true,
+                            "isLoading": true,
+                            "isResolved": false,
+                            "isVisible": true,
+                            "modelPrefix": undefined,
+                            "page": undefined,
+                            "pageId": undefined,
+                            "selectedId": null,
+                            "size": undefined,
+                            "sorting": Object {},
+                            "type": "TilesWidget",
+                            "validation": undefined,
+                          }
+                        }
+                      >
+                        <mapProps(TilesContainer)
+                          colsLg={4}
+                          colsMd={3}
+                          colsSm={2}
+                          defaultSorting={Object {}}
+                          dispatch={[Function]}
+                          fetchOnInit={true}
+                          id="Page_Tiles"
+                          isActive={false}
+                          isAnyTableFocused={false}
+                          isEnabled={true}
+                          isInit={true}
+                          isLoading={true}
+                          level="widgets"
+                          onActionImpl={[Function]}
+                          onFetch={[Function]}
+                          onFocus={[Function]}
+                          onResolve={[Function]}
+                          onRowClickAction={[Function]}
+                          onSetModel={[Function]}
+                          onSort={[Function]}
+                          placeholder={false}
+                          resolveModel={Object {}}
+                          selectedId={null}
+                          sorting={Object {}}
+                          src="TilesWidget"
+                          store={
+                            Object {
+                              "dispatch": [Function],
+                              "getState": [Function],
+                              "replaceReducer": [Function],
+                              "subscribe": [Function],
+                              Symbol(observable): [Function],
+                            }
+                          }
+                          tiles={
+                            Array [
+                              Object {
+                                "className": "p-4",
+                                "fieldKey": "url",
+                                "id": "tile1",
+                                "src": "ImageCell",
+                                "style": Object {},
+                              },
+                              Object {
+                                "className": "mt-1 mb-4",
+                                "fieldKey": "text",
+                                "id": "tile2",
+                                "src": "TextCell",
+                                "style": Object {},
+                              },
+                              Object {
+                                "className": "mt-3",
+                                "fieldKey": "rating",
+                                "id": "tile3",
+                                "src": "RatingCell",
+                                "style": Object {},
+                              },
+                            ]
+                          }
+                          type="TilesWidget"
+                          visible={true}
+                          widget={
+                            Object {
+                              "containerId": null,
+                              "count": 0,
+                              "dataProvider": undefined,
+                              "error": null,
+                              "filter": Object {
+                                "key": null,
+                                "type": null,
+                              },
+                              "isActive": false,
+                              "isEnabled": true,
+                              "isFilterVisible": true,
+                              "isInit": true,
+                              "isLoading": true,
+                              "isResolved": false,
+                              "isVisible": true,
+                              "modelPrefix": undefined,
+                              "page": undefined,
+                              "pageId": undefined,
+                              "selectedId": null,
+                              "size": undefined,
+                              "sorting": Object {},
+                              "type": "TilesWidget",
+                              "validation": undefined,
+                            }
+                          }
+                        >
+                          <TilesContainer
+                            colsLg={4}
+                            colsMd={3}
+                            colsSm={2}
+                            tiles={
+                              Array [
+                                Object {
+                                  "className": "p-4",
+                                  "fieldKey": "url",
+                                  "id": "tile1",
+                                  "src": "ImageCell",
+                                  "style": Object {},
+                                },
+                                Object {
+                                  "className": "mt-1 mb-4",
+                                  "fieldKey": "text",
+                                  "id": "tile2",
+                                  "src": "TextCell",
+                                  "style": Object {},
+                                },
+                                Object {
+                                  "className": "mt-3",
+                                  "fieldKey": "rating",
+                                  "id": "tile3",
+                                  "src": "RatingCell",
+                                  "style": Object {},
+                                },
+                              ]
+                            }
+                          >
+                            <ForwardRef(withResizeDetector(Tiles))
+                              colsLg={4}
+                              colsMd={3}
+                              colsSm={2}
+                              tiles={
+                                Array [
+                                  Object {
+                                    "className": "p-4",
+                                    "fieldKey": "url",
+                                    "id": "tile1",
+                                    "src": "ImageCell",
+                                    "style": Object {},
+                                  },
+                                  Object {
+                                    "className": "mt-1 mb-4",
+                                    "fieldKey": "text",
+                                    "id": "tile2",
+                                    "src": "TextCell",
+                                    "style": Object {},
+                                  },
+                                  Object {
+                                    "className": "mt-3",
+                                    "fieldKey": "rating",
+                                    "id": "tile3",
+                                    "src": "RatingCell",
+                                    "style": Object {},
+                                  },
+                                ]
+                              }
+                            >
+                              <ResizeDetectorHOC
+                                colsLg={4}
+                                colsMd={3}
+                                colsSm={2}
+                                forwardedRef={null}
+                                tiles={
+                                  Array [
+                                    Object {
+                                      "className": "p-4",
+                                      "fieldKey": "url",
+                                      "id": "tile1",
+                                      "src": "ImageCell",
+                                      "style": Object {},
+                                    },
+                                    Object {
+                                      "className": "mt-1 mb-4",
+                                      "fieldKey": "text",
+                                      "id": "tile2",
+                                      "src": "TextCell",
+                                      "style": Object {},
+                                    },
+                                    Object {
+                                      "className": "mt-3",
+                                      "fieldKey": "rating",
+                                      "id": "tile3",
+                                      "src": "RatingCell",
+                                      "style": Object {},
+                                    },
+                                  ]
+                                }
+                              >
+                                <ResizeDetector
+                                  handleHeight={true}
+                                  handleWidth={true}
+                                  nodeType="div"
+                                  onResize={null}
+                                  querySelector={null}
+                                  refreshRate={1000}
+                                  skipOnMount={false}
+                                  targetDomEl={null}
+                                  targetRef={
+                                    Object {
+                                      "current": null,
+                                    }
+                                  }
+                                >
+                                  <Tiles
+                                    colsLg={4}
+                                    colsMd={3}
+                                    colsSm={2}
+                                    targetRef={
+                                      Object {
+                                        "current": null,
+                                      }
+                                    }
+                                    tiles={
+                                      Array [
+                                        Object {
+                                          "className": "p-4",
+                                          "fieldKey": "url",
+                                          "id": "tile1",
+                                          "src": "ImageCell",
+                                          "style": Object {},
+                                        },
+                                        Object {
+                                          "className": "mt-1 mb-4",
+                                          "fieldKey": "text",
+                                          "id": "tile2",
+                                          "src": "TextCell",
+                                          "style": Object {},
+                                        },
+                                        Object {
+                                          "className": "mt-3",
+                                          "fieldKey": "rating",
+                                          "id": "tile3",
+                                          "src": "RatingCell",
+                                          "style": Object {},
+                                        },
+                                      ]
+                                    }
+                                  >
+                                    <div
+                                      className="n2o-tiles__container col-12"
+                                    />
+                                  </Tiles>
+                                </ResizeDetector>
+                              </ResizeDetectorHOC>
+                            </ForwardRef(withResizeDetector(Tiles))>
+                          </TilesContainer>
+                        </mapProps(TilesContainer)>
+                      </withHandlers(mapProps(TilesContainer))>
+                    </getContext(withHandlers(mapProps(TilesContainer)))>
+                  </lifecycle(getContext(withHandlers(mapProps(TilesContainer))))>
+                </div>
+              </BaseSpinner>
+            </Placeholder>
+          </div>
+        </WidgetContainer>
+      </pure(WidgetContainer)>
+    </withProps(pure(WidgetContainer))>
+  </Connect(withProps(pure(WidgetContainer)))>
+</Provider>
+`;

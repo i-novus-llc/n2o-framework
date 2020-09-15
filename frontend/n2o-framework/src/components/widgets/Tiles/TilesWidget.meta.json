@@ -1,0 +1,33 @@
+{
+  "Page_Tiles": {
+    "id": "$testTilesJson",
+    "src": "TilesWidget",
+    "colsSm": 2,
+    "colsMd": 3,
+    "colsLg": 4,
+    "tiles": [
+      {
+        "id": "tile1",
+        "className": "p-4",
+        "style": {
+        },
+        "fieldKey": "url",
+        "src": "ImageCell"
+      },
+      {
+        "id": "tile2",
+        "className": "mt-1 mb-4",
+        "style": {},
+        "fieldKey": "text",
+        "src": "TextCell"
+      },
+      {
+        "id": "tile3",
+        "className": "mt-3",
+        "style": {},
+        "fieldKey": "rating",
+        "src": "RatingCell"
+      }
+    ]
+  }
+}

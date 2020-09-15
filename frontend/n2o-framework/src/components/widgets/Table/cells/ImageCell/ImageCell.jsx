@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, setDisplayName, withHandlers } from 'recompose';
+import cn from 'classnames';
 import withCell from '../../withCell';
 import imageShapes from './imageShapes';
 import get from 'lodash/get';
@@ -54,7 +55,7 @@ class ImageCell extends React.Component {
         <span
           title={title}
           style={{ ...style, ...this.setCursor(action) }}
-          className={className}
+          className={cn(className, 'n2o-image-cell')}
         >
           <img
             src={get(model, fieldKey || id)}
