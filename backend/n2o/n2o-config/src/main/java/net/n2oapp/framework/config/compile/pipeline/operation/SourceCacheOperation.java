@@ -80,7 +80,15 @@ public class SourceCacheOperation<S extends SourceMetadata> extends MetadataChan
         this.cacheTemplate = cacheTemplate;
     }
 
-    private String getKey(String id, Class<? extends SourceMetadata> sourceClass) {
+    protected String getKey(String id, Class<? extends SourceMetadata> sourceClass) {
         return id + "." + sourceClass.getSimpleName();
+    }
+
+    protected CacheTemplate getCacheTemplate() {
+        return cacheTemplate;
+    }
+
+    protected MetadataRegister getMetadataRegister() {
+        return metadataRegister;
     }
 }
