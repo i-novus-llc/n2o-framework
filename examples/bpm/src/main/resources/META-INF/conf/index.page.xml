@@ -16,9 +16,9 @@
                 </columns>
                 <rows>
                     <click>
-                        <open-page page-id="{taskDefinitionKey}" route="/:task_form/task">
+                        <open-page page-id="{taskDefinitionKey}" route="/:id/:task_form">
+                            <path-param name="id" value="{id}"/>
                             <path-param name="task_form" value="{taskDefinitionKey}"/>
-                            <query-param name="id" value="{id}"/>
                         </open-page>
                     </click>
                 </rows>

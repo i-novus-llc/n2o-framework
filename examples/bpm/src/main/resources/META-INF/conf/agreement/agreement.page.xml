@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Согласование кадидата">
-    <form id="agreement" query-id="agreement" object-id="agreement" route="/agreement">
+    <form id="agreement" query-id="agreement" object-id="agreement">
         <fields>
             <output-text id="id"/>
             <row>
@@ -18,18 +18,11 @@
 
         <toolbar place="bottomRight">
             <button label="save">
-                <invoke operation-id="setTaskVariables" close-on-success="true">
-                    <form-param name="id" value="{id}"/>
-                </invoke>
+                <invoke operation-id="setTaskVariables" close-on-success="true"/>
             </button>
             <button label="complete">
-                <invoke operation-id="completeTask" close-on-success="true">
-                    <form-param name="id" value="{id}"/>
-                </invoke>
+                <invoke operation-id="completeTask" close-on-success="true" redirect-url="/" redirect-target="self"/>
             </button>
         </toolbar>
-        <pre-filters>
-            <eq field-id="id" param="id"/>
-        </pre-filters>
     </form>
 </simple-page>
