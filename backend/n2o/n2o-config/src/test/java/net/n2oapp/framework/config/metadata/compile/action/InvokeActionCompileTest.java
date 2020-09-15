@@ -191,7 +191,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyRoute.page.xml")
                         .get(new PageContext("emptyRoute"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("path-param not used in route")));
+                e -> assertThat(e.getMessage(), is("path-param \"main_id\" not used in route")));
     }
 
     @Test
@@ -199,7 +199,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyPath.page.xml")
                         .get(new PageContext("emptyPath"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("path-param not set")));
+                e -> assertThat(e.getMessage(), is("path-param \"/:main_id\" for route \"main_id\" not set")));
     }
 
     @Test()
@@ -207,7 +207,7 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/multiplyPath.page.xml")
                         .get(new PageContext("multiplyPath"), null),
                 N2oException.class,
-                e -> assertThat(e.getMessage(), is("route \"t_id\" not contains path-param")));
+                e -> assertThat(e.getMessage(), is("route \"/:main_id\" not contains path-param \"t_id\"")));
     }
 
 }
