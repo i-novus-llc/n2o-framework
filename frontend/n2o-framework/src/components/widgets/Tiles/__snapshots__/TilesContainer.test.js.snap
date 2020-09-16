@@ -26,7 +26,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
           "component": Object {
             "src": "ImageCell",
           },
-          "fieldKey": "url",
           "id": "tile1",
           "style": Object {},
         },
@@ -35,7 +34,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
           "component": Object {
             "src": "TextCell",
           },
-          "fieldKey": "text",
           "id": "tile2",
           "style": Object {},
         },
@@ -67,7 +65,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
             "component": Object {
               "src": "ImageCell",
             },
-            "fieldKey": "url",
             "id": "tile1",
             "style": Object {},
           },
@@ -76,7 +73,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
             "component": Object {
               "src": "TextCell",
             },
-            "fieldKey": "text",
             "id": "tile2",
             "style": Object {},
           },
@@ -141,7 +137,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
               "component": Object {
                 "src": "ImageCell",
               },
-              "fieldKey": "url",
               "id": "tile1",
               "style": Object {},
             },
@@ -150,7 +145,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
               "component": Object {
                 "src": "TextCell",
               },
-              "fieldKey": "text",
               "id": "tile2",
               "style": Object {},
             },
@@ -221,7 +215,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                 "component": Object {
                   "src": "ImageCell",
                 },
-                "fieldKey": "url",
                 "id": "tile1",
                 "style": Object {},
               },
@@ -230,7 +223,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                 "component": Object {
                   "src": "TextCell",
                 },
-                "fieldKey": "text",
                 "id": "tile2",
                 "style": Object {},
               },
@@ -332,7 +324,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                           "component": Object {
                             "src": "ImageCell",
                           },
-                          "fieldKey": "url",
                           "id": "tile1",
                           "style": Object {},
                         },
@@ -341,7 +332,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                           "component": Object {
                             "src": "TextCell",
                           },
-                          "fieldKey": "text",
                           "id": "tile2",
                           "style": Object {},
                         },
@@ -418,7 +408,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                             "component": Object {
                               "src": "ImageCell",
                             },
-                            "fieldKey": "url",
                             "id": "tile1",
                             "style": Object {},
                           },
@@ -427,7 +416,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                             "component": Object {
                               "src": "TextCell",
                             },
-                            "fieldKey": "text",
                             "id": "tile2",
                             "style": Object {},
                           },
@@ -513,7 +501,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                               "component": Object {
                                 "src": "ImageCell",
                               },
-                              "fieldKey": "url",
                               "id": "tile1",
                               "style": Object {},
                             },
@@ -522,7 +509,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                               "component": Object {
                                 "src": "TextCell",
                               },
-                              "fieldKey": "text",
                               "id": "tile2",
                               "style": Object {},
                             },
@@ -609,7 +595,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                 "component": Object {
                                   "src": "ImageCell",
                                 },
-                                "fieldKey": "url",
                                 "id": "tile1",
                                 "style": Object {},
                               },
@@ -618,7 +603,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                 "component": Object {
                                   "src": "TextCell",
                                 },
-                                "fieldKey": "text",
                                 "id": "tile2",
                                 "style": Object {},
                               },
@@ -674,7 +658,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                   "component": Object {
                                     "src": "ImageCell",
                                   },
-                                  "fieldKey": "url",
                                   "id": "tile1",
                                   "style": Object {},
                                 },
@@ -683,7 +666,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                   "component": Object {
                                     "src": "TextCell",
                                   },
-                                  "fieldKey": "text",
                                   "id": "tile2",
                                   "style": Object {},
                                 },
@@ -710,7 +692,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                     "component": Object {
                                       "src": "ImageCell",
                                     },
-                                    "fieldKey": "url",
                                     "id": "tile1",
                                     "style": Object {},
                                   },
@@ -719,7 +700,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                     "component": Object {
                                       "src": "TextCell",
                                     },
-                                    "fieldKey": "text",
                                     "id": "tile2",
                                     "style": Object {},
                                   },
@@ -747,7 +727,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                       "component": Object {
                                         "src": "ImageCell",
                                       },
-                                      "fieldKey": "url",
                                       "id": "tile1",
                                       "style": Object {},
                                     },
@@ -756,7 +735,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                       "component": Object {
                                         "src": "TextCell",
                                       },
-                                      "fieldKey": "text",
                                       "id": "tile2",
                                       "style": Object {},
                                     },
@@ -803,7 +781,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                           "component": Object {
                                             "src": "ImageCell",
                                           },
-                                          "fieldKey": "url",
                                           "id": "tile1",
                                           "style": Object {},
                                         },
@@ -812,7 +789,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                           "component": Object {
                                             "src": "TextCell",
                                           },
-                                          "fieldKey": "text",
                                           "id": "tile2",
                                           "style": Object {},
                                         },

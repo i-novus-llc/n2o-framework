@@ -25,44 +25,24 @@ stories.add('Компонент', () => {
       size: 10,
       list: [
         {
-          tile1: {
-            title: 'Ячейка с картинкой',
-            url:
-              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTivmPCOe7GabP3hXYjSilJL1rkyrKF65PLV-oFw4MsOagkurzQ',
-          },
-          tile2: {
-            text: 'Карточка 1',
-          },
+          tile1:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTivmPCOe7GabP3hXYjSilJL1rkyrKF65PLV-oFw4MsOagkurzQ',
+          tile2: 'Карточка 1',
         },
         {
-          tile1: {
-            title: 'Ячейка с картинкой 2',
-            url:
-              'https://upload.wikimedia.org/wikipedia/commons/2/2e/Not_boyfriends_computer.jpg',
-          },
-          tile2: {
-            text: 'Карточка 2',
-          },
+          tile1:
+            'https://upload.wikimedia.org/wikipedia/commons/2/2e/Not_boyfriends_computer.jpg',
+          tile2: 'Карточка 2',
         },
         {
-          tile1: {
-            title: 'Ячейка с картинкой 3',
-            url:
-              'https://www.zastavki.com/pictures/1024x1024/2015/Girls_Smiling_beautiful_girl__photo_George_Chernyad_ev_111193_31.jpg',
-          },
-          tile2: {
-            text: 'Карточка 3',
-          },
+          tile1:
+            'https://www.zastavki.com/pictures/1024x1024/2015/Girls_Smiling_beautiful_girl__photo_George_Chernyad_ev_111193_31.jpg',
+          tile2: 'Карточка 3',
         },
         {
-          tile1: {
-            title: 'Ячейка с картинкой 4',
-            url:
-              'http://sedayejavedan.persiangig.com/blue,girl,lonely,sad-a470b418368e548210d276093519d9ad_h.jpg',
-          },
-          tile2: {
-            text: 'Карточка 4',
-          },
+          tile1:
+            'http://sedayejavedan.persiangig.com/blue,girl,lonely,sad-a470b418368e548210d276093519d9ad_h.jpg',
+          tile2: 'Карточка 4',
         },
       ],
     };

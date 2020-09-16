@@ -10,7 +10,6 @@
         "id": "tile1",
         "className": "p-4",
         "style": {},
-        "fieldKey": "url",
         "component": {
           "src": "ImageCell"
         }
@@ -19,7 +18,6 @@
         "id": "tile2",
         "className": "mt-1 mb-4",
         "style": {},
-        "fieldKey": "text",
         "component": {
           "src": "TextCell"
         }
