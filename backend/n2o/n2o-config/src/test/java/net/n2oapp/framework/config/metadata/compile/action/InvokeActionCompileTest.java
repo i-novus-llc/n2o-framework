@@ -47,7 +47,9 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         builder.binders(new InvokeActionBinder(), new ReduxActionBinder());
 
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.query.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.object.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContext.object.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContextMethod.query.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/testActionContextMethod.object.xml"));
     }
 
     @Test
@@ -80,6 +82,46 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
         assertThat(dataProvider.getQueryMapping().size(), is(0));
         assertThat(dataProvider.getOptimistic(), is(true));
         assertThat(route("/w/menuItem0", CompiledObject.class), notNullValue());
+    }
+
+    @Test
+    public void method() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionMethod.widget.xml")
+                .get(new WidgetContext("testInvokeActionMethod", "/w"));
+
+        InvokeAction testAction;
+        testAction = (InvokeAction) table.getActions().get("testDefault");
+        assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(testAction.getPayload().getModelLink(), is("models.filter['w']"));
+        assertThat(testAction.getPayload().getWidgetId(), is("w"));
+        assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.POST));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDefault"));
+        assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
+        assertThat(testAction.getMeta().getSuccess().getRefresh(), notNullValue());
+        assertThat(testAction.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("w"));
+        assertThat(testAction.getMeta().getSuccess().getModalsToClose(), nullValue());
+
+        testAction = (InvokeAction) table.getActions().get("testPUT");
+        assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(testAction.getPayload().getModelLink(), is("models.resolve['w']"));
+        assertThat(testAction.getPayload().getWidgetId(), is("w"));
+        assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.PUT));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/:w_id/testPUT"));
+        assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
+        assertThat(testAction.getMeta().getSuccess().getRefresh(), notNullValue());
+        assertThat(testAction.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("w"));
+        assertThat(testAction.getMeta().getSuccess().getModalsToClose(), nullValue());
+
+        testAction = (InvokeAction) table.getActions().get("testDelete");
+        assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(testAction.getPayload().getModelLink(), is("models.resolve['w']"));
+        assertThat(testAction.getPayload().getWidgetId(), is("w"));
+        assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.DELETE));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/:w_id/testDelete"));
+        assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
+        assertThat(testAction.getMeta().getSuccess().getRefresh(), notNullValue());
+        assertThat(testAction.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("w"));
+        assertThat(testAction.getMeta().getSuccess().getModalsToClose(), nullValue());
     }
 
     @Test

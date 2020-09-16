@@ -44,7 +44,9 @@ public class ClientDataProviderUtil {
         String targetWidget = source.getTargetWidgetId() == null ? initTargetWidget(context, p) : source.getTargetWidgetId();
         ReduxModel targetModel = initTargetWidgetModel(p, source.getTargetModel());
 
-        if (RequestMethod.POST == source.getMethod()) {
+        if (RequestMethod.POST == source.getMethod() ||
+                RequestMethod.PUT == source.getMethod() ||
+                RequestMethod.DELETE == source.getMethod()) {
             Map<String, ModelLink> pathMapping = new StrictMap<>();
             pathMapping.putAll(compileParams(source.getPathParams(), p, targetModel, targetWidget));
             dataProvider.setFormMapping(compileParams(source.getFormParams(), p, targetModel, targetWidget));
@@ -55,7 +57,7 @@ public class ClientDataProviderUtil {
                 pathMapping.putAll(context.getPathRouteMapping());
             path = normalize(path + normalize(p.cast(source.getUrl(), source.getId(), "")));
             dataProvider.setPathMapping(pathMapping);
-            dataProvider.setMethod(RequestMethod.POST);
+            dataProvider.setMethod(source.getMethod());
             dataProvider.setOptimistic(source.getOptimistic());
             dataProvider.setSubmitForm(source.getSubmitForm());
 
