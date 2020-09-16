@@ -31,10 +31,6 @@ public class N2oFormParam extends N2oParam {
         return getId();
     }
 
-    public boolean nameExists() {
-        return super.getName() != null;
-    }
-
     // необходим для обратной совместимости после замены name на id
     @Deprecated
     public void setName(String name) {
