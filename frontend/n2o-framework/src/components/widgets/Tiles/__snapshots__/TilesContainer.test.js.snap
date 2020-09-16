@@ -19,27 +19,33 @@ exports[`<TilesContainer /> отрисовка 1`] = `
     id="Page_Tiles"
     level="widgets"
     src="TilesWidget"
-    tiles={
+    tile={
       Array [
         Object {
           "className": "p-4",
+          "component": Object {
+            "src": "ImageCell",
+          },
           "fieldKey": "url",
           "id": "tile1",
-          "src": "ImageCell",
           "style": Object {},
         },
         Object {
           "className": "mt-1 mb-4",
+          "component": Object {
+            "src": "TextCell",
+          },
           "fieldKey": "text",
           "id": "tile2",
-          "src": "TextCell",
           "style": Object {},
         },
         Object {
           "className": "mt-3",
+          "component": Object {
+            "src": "RatingCell",
+          },
           "fieldKey": "rating",
           "id": "tile3",
-          "src": "RatingCell",
           "style": Object {},
         },
       ]
@@ -54,27 +60,33 @@ exports[`<TilesContainer /> отрисовка 1`] = `
       isAnyTableFocused={false}
       level="widgets"
       src="TilesWidget"
-      tiles={
+      tile={
         Array [
           Object {
             "className": "p-4",
+            "component": Object {
+              "src": "ImageCell",
+            },
             "fieldKey": "url",
             "id": "tile1",
-            "src": "ImageCell",
             "style": Object {},
           },
           Object {
             "className": "mt-1 mb-4",
+            "component": Object {
+              "src": "TextCell",
+            },
             "fieldKey": "text",
             "id": "tile2",
-            "src": "TextCell",
             "style": Object {},
           },
           Object {
             "className": "mt-3",
+            "component": Object {
+              "src": "RatingCell",
+            },
             "fieldKey": "rating",
             "id": "tile3",
-            "src": "RatingCell",
             "style": Object {},
           },
         ]
@@ -122,27 +134,33 @@ exports[`<TilesContainer /> отрисовка 1`] = `
         selectedId={null}
         sorting={Object {}}
         src="TilesWidget"
-        tiles={
+        tile={
           Array [
             Object {
               "className": "p-4",
+              "component": Object {
+                "src": "ImageCell",
+              },
               "fieldKey": "url",
               "id": "tile1",
-              "src": "ImageCell",
               "style": Object {},
             },
             Object {
               "className": "mt-1 mb-4",
+              "component": Object {
+                "src": "TextCell",
+              },
               "fieldKey": "text",
               "id": "tile2",
-              "src": "TextCell",
               "style": Object {},
             },
             Object {
               "className": "mt-3",
+              "component": Object {
+                "src": "RatingCell",
+              },
               "fieldKey": "rating",
               "id": "tile3",
-              "src": "RatingCell",
               "style": Object {},
             },
           ]
@@ -196,27 +214,33 @@ exports[`<TilesContainer /> отрисовка 1`] = `
           selectedId={null}
           sorting={Object {}}
           src="TilesWidget"
-          tiles={
+          tile={
             Array [
               Object {
                 "className": "p-4",
+                "component": Object {
+                  "src": "ImageCell",
+                },
                 "fieldKey": "url",
                 "id": "tile1",
-                "src": "ImageCell",
                 "style": Object {},
               },
               Object {
                 "className": "mt-1 mb-4",
+                "component": Object {
+                  "src": "TextCell",
+                },
                 "fieldKey": "text",
                 "id": "tile2",
-                "src": "TextCell",
                 "style": Object {},
               },
               Object {
                 "className": "mt-3",
+                "component": Object {
+                  "src": "RatingCell",
+                },
                 "fieldKey": "rating",
                 "id": "tile3",
-                "src": "RatingCell",
                 "style": Object {},
               },
             ]
@@ -301,27 +325,33 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                     selectedId={null}
                     sorting={Object {}}
                     src="TilesWidget"
-                    tiles={
+                    tile={
                       Array [
                         Object {
                           "className": "p-4",
+                          "component": Object {
+                            "src": "ImageCell",
+                          },
                           "fieldKey": "url",
                           "id": "tile1",
-                          "src": "ImageCell",
                           "style": Object {},
                         },
                         Object {
                           "className": "mt-1 mb-4",
+                          "component": Object {
+                            "src": "TextCell",
+                          },
                           "fieldKey": "text",
                           "id": "tile2",
-                          "src": "TextCell",
                           "style": Object {},
                         },
                         Object {
                           "className": "mt-3",
+                          "component": Object {
+                            "src": "RatingCell",
+                          },
                           "fieldKey": "rating",
                           "id": "tile3",
-                          "src": "RatingCell",
                           "style": Object {},
                         },
                       ]
@@ -381,27 +411,33 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                       selectedId={null}
                       sorting={Object {}}
                       src="TilesWidget"
-                      tiles={
+                      tile={
                         Array [
                           Object {
                             "className": "p-4",
+                            "component": Object {
+                              "src": "ImageCell",
+                            },
                             "fieldKey": "url",
                             "id": "tile1",
-                            "src": "ImageCell",
                             "style": Object {},
                           },
                           Object {
                             "className": "mt-1 mb-4",
+                            "component": Object {
+                              "src": "TextCell",
+                            },
                             "fieldKey": "text",
                             "id": "tile2",
-                            "src": "TextCell",
                             "style": Object {},
                           },
                           Object {
                             "className": "mt-3",
+                            "component": Object {
+                              "src": "RatingCell",
+                            },
                             "fieldKey": "rating",
                             "id": "tile3",
-                            "src": "RatingCell",
                             "style": Object {},
                           },
                         ]
@@ -470,27 +506,33 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                             Symbol(observable): [Function],
                           }
                         }
-                        tiles={
+                        tile={
                           Array [
                             Object {
                               "className": "p-4",
+                              "component": Object {
+                                "src": "ImageCell",
+                              },
                               "fieldKey": "url",
                               "id": "tile1",
-                              "src": "ImageCell",
                               "style": Object {},
                             },
                             Object {
                               "className": "mt-1 mb-4",
+                              "component": Object {
+                                "src": "TextCell",
+                              },
                               "fieldKey": "text",
                               "id": "tile2",
-                              "src": "TextCell",
                               "style": Object {},
                             },
                             Object {
                               "className": "mt-3",
+                              "component": Object {
+                                "src": "RatingCell",
+                              },
                               "fieldKey": "rating",
                               "id": "tile3",
-                              "src": "RatingCell",
                               "style": Object {},
                             },
                           ]
@@ -560,27 +602,33 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                               Symbol(observable): [Function],
                             }
                           }
-                          tiles={
+                          tile={
                             Array [
                               Object {
                                 "className": "p-4",
+                                "component": Object {
+                                  "src": "ImageCell",
+                                },
                                 "fieldKey": "url",
                                 "id": "tile1",
-                                "src": "ImageCell",
                                 "style": Object {},
                               },
                               Object {
                                 "className": "mt-1 mb-4",
+                                "component": Object {
+                                  "src": "TextCell",
+                                },
                                 "fieldKey": "text",
                                 "id": "tile2",
-                                "src": "TextCell",
                                 "style": Object {},
                               },
                               Object {
                                 "className": "mt-3",
+                                "component": Object {
+                                  "src": "RatingCell",
+                                },
                                 "fieldKey": "rating",
                                 "id": "tile3",
-                                "src": "RatingCell",
                                 "style": Object {},
                               },
                             ]
@@ -619,27 +667,33 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                             colsLg={4}
                             colsMd={3}
                             colsSm={2}
-                            tiles={
+                            tile={
                               Array [
                                 Object {
                                   "className": "p-4",
+                                  "component": Object {
+                                    "src": "ImageCell",
+                                  },
                                   "fieldKey": "url",
                                   "id": "tile1",
-                                  "src": "ImageCell",
                                   "style": Object {},
                                 },
                                 Object {
                                   "className": "mt-1 mb-4",
+                                  "component": Object {
+                                    "src": "TextCell",
+                                  },
                                   "fieldKey": "text",
                                   "id": "tile2",
-                                  "src": "TextCell",
                                   "style": Object {},
                                 },
                                 Object {
                                   "className": "mt-3",
+                                  "component": Object {
+                                    "src": "RatingCell",
+                                  },
                                   "fieldKey": "rating",
                                   "id": "tile3",
-                                  "src": "RatingCell",
                                   "style": Object {},
                                 },
                               ]
@@ -649,27 +703,33 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                               colsLg={4}
                               colsMd={3}
                               colsSm={2}
-                              tiles={
+                              tile={
                                 Array [
                                   Object {
                                     "className": "p-4",
+                                    "component": Object {
+                                      "src": "ImageCell",
+                                    },
                                     "fieldKey": "url",
                                     "id": "tile1",
-                                    "src": "ImageCell",
                                     "style": Object {},
                                   },
                                   Object {
                                     "className": "mt-1 mb-4",
+                                    "component": Object {
+                                      "src": "TextCell",
+                                    },
                                     "fieldKey": "text",
                                     "id": "tile2",
-                                    "src": "TextCell",
                                     "style": Object {},
                                   },
                                   Object {
                                     "className": "mt-3",
+                                    "component": Object {
+                                      "src": "RatingCell",
+                                    },
                                     "fieldKey": "rating",
                                     "id": "tile3",
-                                    "src": "RatingCell",
                                     "style": Object {},
                                   },
                                 ]
@@ -680,27 +740,33 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                 colsMd={3}
                                 colsSm={2}
                                 forwardedRef={null}
-                                tiles={
+                                tile={
                                   Array [
                                     Object {
                                       "className": "p-4",
+                                      "component": Object {
+                                        "src": "ImageCell",
+                                      },
                                       "fieldKey": "url",
                                       "id": "tile1",
-                                      "src": "ImageCell",
                                       "style": Object {},
                                     },
                                     Object {
                                       "className": "mt-1 mb-4",
+                                      "component": Object {
+                                        "src": "TextCell",
+                                      },
                                       "fieldKey": "text",
                                       "id": "tile2",
-                                      "src": "TextCell",
                                       "style": Object {},
                                     },
                                     Object {
                                       "className": "mt-3",
+                                      "component": Object {
+                                        "src": "RatingCell",
+                                      },
                                       "fieldKey": "rating",
                                       "id": "tile3",
-                                      "src": "RatingCell",
                                       "style": Object {},
                                     },
                                   ]
@@ -730,27 +796,33 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                         "current": null,
                                       }
                                     }
-                                    tiles={
+                                    tile={
                                       Array [
                                         Object {
                                           "className": "p-4",
+                                          "component": Object {
+                                            "src": "ImageCell",
+                                          },
                                           "fieldKey": "url",
                                           "id": "tile1",
-                                          "src": "ImageCell",
                                           "style": Object {},
                                         },
                                         Object {
                                           "className": "mt-1 mb-4",
+                                          "component": Object {
+                                            "src": "TextCell",
+                                          },
                                           "fieldKey": "text",
                                           "id": "tile2",
-                                          "src": "TextCell",
                                           "style": Object {},
                                         },
                                         Object {
                                           "className": "mt-3",
+                                          "component": Object {
+                                            "src": "RatingCell",
+                                          },
                                           "fieldKey": "rating",
                                           "id": "tile3",
-                                          "src": "RatingCell",
                                           "style": Object {},
                                         },
                                       ]

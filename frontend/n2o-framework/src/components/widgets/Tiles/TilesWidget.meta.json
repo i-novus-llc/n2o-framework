@@ -5,28 +5,33 @@
     "colsSm": 2,
     "colsMd": 3,
     "colsLg": 4,
-    "tiles": [
+    "tile": [
       {
         "id": "tile1",
         "className": "p-4",
-        "style": {
-        },
+        "style": {},
         "fieldKey": "url",
-        "src": "ImageCell"
+        "component": {
+          "src": "ImageCell"
+        }
       },
       {
         "id": "tile2",
         "className": "mt-1 mb-4",
         "style": {},
         "fieldKey": "text",
-        "src": "TextCell"
+        "component": {
+          "src": "TextCell"
+        }
       },
       {
         "id": "tile3",
         "className": "mt-3",
         "style": {},
         "fieldKey": "rating",
-        "src": "RatingCell"
+        "component": {
+          "src": "RatingCell"
+        }
       }
     ]
   }

@@ -22,10 +22,10 @@ export default compose(
   withContainerLiveCycle,
   withWidgetHandlers,
   mapProps(
-    ({ datasource, className, widgetId, tiles, colsSm, colsMd, colsLg }) => ({
+    ({ datasource, className, widgetId, tile, colsSm, colsMd, colsLg }) => ({
       className: className,
       id: widgetId,
-      tiles: tiles,
+      tile: tile,
       data: datasource,
       colsSm: colsSm,
       colsMd: colsMd,

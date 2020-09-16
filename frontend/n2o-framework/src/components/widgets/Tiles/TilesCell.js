@@ -11,14 +11,21 @@ import { CELLS } from '../../../core/factory/factoryLevels';
  * @reactProps {object} model - Модель
  */
 function TilesCell(props) {
-  const { src, model, id } = props;
+  const { component, model, id } = props;
   const data = get(model, id);
 
   const getPassProps = () => {
     return omit(props, ['component', 'model']);
   };
 
-  return <Factory src={src} level={CELLS} model={data} {...getPassProps()} />;
+  return (
+    <Factory
+      src={get(component, 'src')}
+      level={CELLS}
+      model={data}
+      {...getPassProps()}
+    />
+  );
 }
 
 TilesCell.propTypes = {

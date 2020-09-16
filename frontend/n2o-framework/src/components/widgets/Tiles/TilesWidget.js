@@ -20,7 +20,7 @@ function TilesWidget(
     fetchOnInit,
     prevText,
     nextText,
-    tiles,
+    tile,
     paging,
     colsSm,
     colsMd,
@@ -60,7 +60,7 @@ function TilesWidget(
         dataProvider={dataProvider}
         widgetId={widgetId}
         fetchOnInit={fetchOnInit}
-        tiles={tiles}
+        tile={tile}
         colsSm={colsSm}
         colsMd={colsMd}
         colsLg={colsLg}
