@@ -16,6 +16,7 @@ import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
 
 import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer';
+import isUndefined from 'lodash/isUndefined';
 
 /**
  * Хедер-плагин
@@ -116,6 +117,11 @@ class SimpleHeader extends React.Component {
 
     const isInversed = color === 'inverse';
     const navColor = isInversed ? 'primary' : 'light';
+
+    const trigger = !isUndefined(get(search, 'dataProvider'))
+      ? 'CHANGE'
+      : 'ENTER';
+
     const mapItems = (items, options) =>
       map(items, (item, i) => (
         <NavItemContainer
@@ -128,7 +134,6 @@ class SimpleHeader extends React.Component {
 
     const navItems = mapItems(items);
     const extraNavItems = mapItems(extraItems, { right: true });
-
     return (
       <div
         style={style}
@@ -160,10 +165,7 @@ class SimpleHeader extends React.Component {
             <Nav className="ml-auto main-nav-extra" navbar>
               {extraNavItems}
               {search && (
-                <SearchBarContainer
-                  dataProvider={get(search, 'dataProvider')}
-                  searchPageLocation={get(search, 'searchPageLocation')}
-                />
+                <SearchBarContainer trigger={trigger} {...this.props.search} />
               )}
             </Nav>
           </Collapse>
