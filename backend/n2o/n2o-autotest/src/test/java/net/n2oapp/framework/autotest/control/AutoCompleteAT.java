@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
  * Автотест для компонента ввода текста с автозаполнением
  */
 public class AutoCompleteAT extends AutoTestBase {
+    private SimplePage page;
 
     @BeforeAll
     public static void beforeClass() {
@@ -25,22 +26,22 @@ public class AutoCompleteAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
+        page = open(SimplePage.class);
+        page.shouldExists();
     }
 
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
+        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(),
+                new N2oFieldSetsPack(), new N2oControlsPack());
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Test
     public void testAutoComplete() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/auto_complete/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-
         AutoComplete autoComplete = page.single().widget(FormWidget.class).fields().field("AutoComplete1")
                 .control(AutoComplete.class);
         autoComplete.shouldExists();
@@ -57,5 +58,29 @@ public class AutoCompleteAT extends AutoTestBase {
         autoComplete.shouldHaveValue("abc");
         autoComplete.val("d");
         autoComplete.shouldNotHaveDropdownOptions();
+    }
+
+    @Test
+    public void testTags() {
+        AutoComplete autoComplete = page.single().widget(FormWidget.class).fields().field("AutoComplete2")
+                .control(AutoComplete.class);
+        autoComplete.shouldExists();
+
+        autoComplete.addTag("item1");
+        autoComplete.shouldHaveTags("item1");
+
+        autoComplete.val("ab");
+        autoComplete.shouldHaveDropdownOptions("abc");
+        autoComplete.chooseDropdownOption("abc");
+        autoComplete.shouldHaveTags("item1", "abc");
+
+        autoComplete.addTag("item2");
+        autoComplete.shouldHaveTags("item1", "abc", "item2");
+
+        autoComplete.removeTag("item1");
+        autoComplete.removeTag("item2");
+        autoComplete.shouldHaveTags("abc");
+        autoComplete.removeTag("abc");
+        autoComplete.shouldBeEmpty();
     }
 }

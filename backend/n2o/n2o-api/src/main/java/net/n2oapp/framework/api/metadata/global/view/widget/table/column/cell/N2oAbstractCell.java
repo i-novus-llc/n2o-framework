@@ -33,6 +33,8 @@ public abstract class N2oAbstractCell implements N2oCell, ExtensionAttributesAwa
     private Object jsonVisible;
     private Map<N2oNamespace, Map<String, String>> extAttributes;
     private Map<String, Object> properties;
+    @JsonProperty
+    private String tooltipFieldId;
 
     @JsonAnyGetter
     public Map<String, Object> getJsonProperties() {

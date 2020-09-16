@@ -5,10 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Действие открытия модального окна со страницей
+ * Действие открытия модального окна
  */
 @Getter
 @Setter
 public class N2oShowModal extends N2oAbstractPageAction {
     private String modalSize;
+    private Boolean scrollable;
 }

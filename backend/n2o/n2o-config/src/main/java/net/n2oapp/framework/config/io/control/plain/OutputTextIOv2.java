@@ -7,6 +7,9 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
+/**
+ * Чтение/запись компонента вывода однострочного текста
+ */
 @Component
 public class OutputTextIOv2 extends PlainFieldIOv2<N2oOutputText> {
 
@@ -17,7 +20,6 @@ public class OutputTextIOv2 extends PlainFieldIOv2<N2oOutputText> {
         p.attribute(e, "format", m::getFormat, m::setFormat);
         p.attributeEnum(e, "type", m::getType, m::setType, IconType.class);
         p.attributeEnum(e, "position", m::getPosition, m::setPosition, Position.class);
-
     }
 
     @Override

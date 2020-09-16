@@ -44,7 +44,7 @@ public class ProgressCompileTest extends SourceCompileTestBase {
         assertThat(progress.getAnimated(), is(true));
         assertThat(progress.getStriped(), is(true));
         assertThat(progress.getBarClass(), is("class"));
-        assertThat(progress.getBarText(), is("text"));
+        assertThat(progress.getBarText(), is("`2 + 2`"));
         assertThat(progress.getColor(), is("info"));
 
         progress = (Progress) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()

@@ -5,7 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.OutputText;
 
 /**
- * Компонент вывода текста для автотестирования
+ * Компонент вывода однострочного текста для автотестирования
  */
 public class N2oOutputText extends N2oControl implements OutputText {
 

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Чтение/запись компонента ввода текста с автоподбором
+ */
 @Component
 public class AutoCompleteIOv2 extends PlainFieldIOv2<N2oAutoComplete> {
 
@@ -18,6 +21,7 @@ public class AutoCompleteIOv2 extends PlainFieldIOv2<N2oAutoComplete> {
         p.attribute(e, "query-id", m::getQueryId, m::setQueryId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
         p.attribute(e, "search-filter-id", m::getSearchFilterId, m::setSearchFilterId);
+        p.attributeBoolean(e, "tags", m::getTags, m::setTags);
         p.children(e, "options", "option", m::getOptions, m::setOptions, HashMap::new, this::option);
     }
 

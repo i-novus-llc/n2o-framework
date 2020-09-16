@@ -48,6 +48,7 @@ class ImageCell extends React.Component {
       onClick,
       action,
       visible,
+      width,
     } = this.props;
 
     return (
@@ -58,6 +59,7 @@ class ImageCell extends React.Component {
           className={cn(className, 'n2o-image-cell')}
         >
           <img
+            style={{ width }}
             src={get(model, fieldKey || id)}
             alt={title}
             className={getImageClass(shape)}
@@ -102,6 +104,7 @@ ImageCell.propTypes = {
 
 ImageCell.defaultProps = {
   visible: true,
+  width: 'auto',
 };
 
 export { ImageCell };

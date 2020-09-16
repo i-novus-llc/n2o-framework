@@ -1,5 +1,5 @@
 import { compose, mapProps } from 'recompose';
-import { replace } from 'connected-react-router';
+import { push } from 'connected-react-router';
 import withActionButton from '../withActionButton';
 import { dataProviderResolver } from '../../../core/dataProviderResolver';
 import mappingProps from '../Simple/mappingProps';
@@ -24,7 +24,7 @@ export default compose(
       }
 
       if (target === 'application') {
-        props.dispatch(replace(compiledUrl));
+        props.dispatch(push(compiledUrl));
       } else if (target === '_blank') {
         window.open(compiledUrl);
       } else {
