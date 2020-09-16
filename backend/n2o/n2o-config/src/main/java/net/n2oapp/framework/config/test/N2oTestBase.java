@@ -10,8 +10,11 @@ import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
 import net.n2oapp.properties.OverrideProperties;
 import net.n2oapp.properties.reader.PropertiesReader;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
+
+import java.util.Locale;
 
 /**
  * Базовый класс для тестирования конвеерной сборки метаданных
@@ -24,8 +27,10 @@ public abstract class N2oTestBase {
         environment.setNamespacePersisterFactory(new PersisterFactoryByMap());
         environment.setNamespaceReaderFactory(new ReaderFactoryByMap());
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames("n2o_messages", "messages");
+        messageSource.addBasenames("n2o_api_messages", "n2o_api_messages",  "n2o_config_messages",
+                "n2o_config_messages", "test_messages", "messages");
         messageSource.setDefaultEncoding("UTF-8");
+        LocaleContextHolder.setLocale(new Locale("ru"));
         environment.setMessageSource(new MessageSourceAccessor(messageSource));
         OverrideProperties properties = PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties");
         environment.setSystemProperties(new SimplePropertyResolver(properties));

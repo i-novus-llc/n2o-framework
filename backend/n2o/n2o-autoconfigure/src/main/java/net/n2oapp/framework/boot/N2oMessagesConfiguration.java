@@ -53,7 +53,8 @@ public class N2oMessagesConfiguration {
         messageSource.setCacheSeconds(cacheSeconds);
         messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(
                 StringUtils.trimAllWhitespace(basename)));
-        messageSource.addBasenames("n2o_messages", "n2o_content");
+        messageSource.addBasenames("n2o_api_messages", "n2o_config_messages",
+                "n2o_rest_messages",  "messages");
         return messageSource;
     }
 
