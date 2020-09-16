@@ -1,0 +1,24 @@
+.n2o-tiles {
+  &__container {
+    display: flex;
+    flex-flow: row wrap;
+  }
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: $tiles-item-width;
+    height: $tiles-item-height;
+    border: $tiles-border;
+    margin: $tiles-item-margin;
+    .n2o-image-cell {
+      img {
+        max-width: 100%;
+      }
+    }
+    &:hover {
+      border: $tiles-hover-border;
+      box-shadow: $tiles-hover-shadow;
+    }
+  }
+}
