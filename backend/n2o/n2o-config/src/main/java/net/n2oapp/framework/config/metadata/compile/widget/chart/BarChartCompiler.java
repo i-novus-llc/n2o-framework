@@ -21,7 +21,7 @@ public class BarChartCompiler extends StandardChartCompiler<BarChart, N2oBarChar
     @Override
     public BarChart compile(N2oBarChart source, CompileContext<?, ?> context, CompileProcessor p) {
         BarChart chart = new BarChart();
-        build(chart, source, context, p, property("n2o.api.widget.chart.bar"));
+        build(chart, source, context, p, property("n2o.api.widget.chart.bar.src"));
         chart.setType(ChartType.bar);
         for (N2oBarChartItem item : source.getItems()) {
             BarChartItem component = new BarChartItem();
