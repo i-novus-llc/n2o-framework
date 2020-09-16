@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.ImageUploadControl;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import static com.codeborne.selenide.Configuration.headless;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -41,6 +43,7 @@ public class ImageUploadAT extends AutoTestBase {
         super.setUp();
 
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/image_upload/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/image_upload/files.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
 
         simplePage = open(SimplePage.class);
@@ -85,8 +88,7 @@ public class ImageUploadAT extends AutoTestBase {
 
         imageUpload.nameInfoShouldExist(0);
         imageUpload.nameShouldBe(0, "image.png");
-        imageUpload.sizeInfoShouldBeVisible(0);
-        imageUpload.sizeShouldBe(0, "186 Б");
+        imageUpload.sizeShouldBe(0, "186");
         imageUpload.shouldHavePreview(0);
         imageUpload.openPreviewDialog(simplePage, 0);
         imageUpload.previewDialogShouldExists();
@@ -105,23 +107,27 @@ public class ImageUploadAT extends AutoTestBase {
         assertThat(fileStoreController.getFileStore().size(), is(0));
     }
 
-    //    @Test
+    @Test
     public void multiImageUploadTest() {
         ImageUploadControl imageUpload = getFields().field("imageUpload3").control(ImageUploadControl.class);
         imageUpload.shouldBeEnabled();
         fileStoreController.clearFileStore();
+        assertThat(fileStoreController.getFileStore().size(), is(0));
 
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/image_upload/image.png");
         imageUpload.shouldHaveSize(1);
+        assertThat(fileStoreController.getFileStore().size(), is(1));
         imageUpload.shouldHavePreview(0);
         imageUpload.openPreviewDialog(simplePage, 0);
         imageUpload.previewDialogShouldExists();
         imageUpload.previewDialogShouldHaveLink("http://localhost:" + port + "/files/image.png");
         imageUpload.closePreviewDialog();
 
-        //todo загружает этот и предыдущий файл, значение с прошлого инпут поля не очищается и добавляется к текущему
+        Selenide.refresh();
+
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/image_upload/image2.png");
         imageUpload.shouldHaveSize(2);
+        assertThat(fileStoreController.getFileStore().size(), is(2));
         imageUpload.shouldHavePreview(1);
         imageUpload.openPreviewDialog(simplePage, 1);
         imageUpload.previewDialogShouldExists();
