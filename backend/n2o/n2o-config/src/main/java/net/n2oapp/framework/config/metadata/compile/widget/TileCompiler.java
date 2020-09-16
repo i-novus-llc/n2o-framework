@@ -23,8 +23,9 @@ public class TileCompiler extends ComponentCompiler<Tiles.Tile, N2oTiles.Block> 
     public Tiles.Tile compile(N2oTiles.Block source, CompileContext<?, ?> context, CompileProcessor p) {
         Tiles.Tile tile = new Tiles.Tile();
         tile.setId(source.getId());
-        compileComponent(tile, source, context, p);
         tile.setComponent(p.compile(source.getComponent(), context, p));
+        source.setSrc(p.cast(source.getSrc(), tile.getComponent().getSrc()));
+        compileComponent(tile, source, context, p);
         return tile;
     }
 

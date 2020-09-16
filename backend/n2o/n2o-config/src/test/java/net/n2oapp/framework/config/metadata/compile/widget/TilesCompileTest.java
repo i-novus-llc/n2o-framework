@@ -44,7 +44,6 @@ public class TilesCompileTest extends SourceCompileTestBase {
         assertThat(tile.getClassName(), is("test1"));
         assertThat(tile.getStyle().size(), Matchers.is(1));
         assertThat(tile.getStyle().get("style"), is("test1"));
-
         assertThat(tile.getSrc(), is("tile1"));
         assertThat(tile.getComponent().getSrc(), is("cell1"));
 
@@ -57,11 +56,17 @@ public class TilesCompileTest extends SourceCompileTestBase {
         assertThat(tile.getComponent().getSrc(), is("cell2"));
 
         tile = tiles.getTile().get(2);
+        assertThat(tile.getId(), is("id3"));
+        assertThat(tile.getClassName(), is("test3"));
+        assertThat(tile.getStyle().size(), Matchers.is(1));
+        assertThat(tile.getStyle().get("style"), is("test3"));
+        assertThat(tile.getSrc(), is("ImageCell"));
         assertThat(tile.getComponent(), instanceOf(N2oImageCell.class));
         assertThat(((N2oImageCell) tile.getComponent()).getUrl(), is("/test"));
 
         tiles = (Tiles) page.getWidgets().get("testTilesCompile_tiles_default");
         assertThat(tiles.getSrc(), is("TilesWidget"));
+        assertThat(tiles.getTile().get(0).getSrc(), is("cell2"));
         assertThat(tiles.getColsSm(), is(2));
         assertThat(tiles.getColsMd(), is(3));
         assertThat(tiles.getColsLg(), is(5));
