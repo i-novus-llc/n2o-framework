@@ -22,9 +22,7 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new CustomWidgetCompiler(),
                 new TreeCompiler(),
                 new ChartCompiler(),
-                new CalendarCompiler(),
-                new TilesCompiler(),
-                new TileCompiler());
+                new CalendarCompiler());
         b.mergers(new N2oWidgetMerger(), new N2oFormMerger(), new N2oTableMerger());
 
         CrudGenerator crudGenerator = new CrudGenerator();
