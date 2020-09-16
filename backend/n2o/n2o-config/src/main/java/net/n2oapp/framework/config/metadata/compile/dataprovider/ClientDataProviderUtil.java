@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
-import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -107,7 +106,7 @@ public class ClientDataProviderUtil {
             } else {
                 link = new ModelLink(value);
             }
-            result.put(param instanceof N2oFormParam ? ((N2oFormParam) param).getId() : param.getName(), link);
+            result.put(param.getName(), link);
         }
         return result;
     }

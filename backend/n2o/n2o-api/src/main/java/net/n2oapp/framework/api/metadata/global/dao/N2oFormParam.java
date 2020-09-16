@@ -25,11 +25,13 @@ public class N2oFormParam extends N2oParam {
         setRefPageId(refPageId);
     }
 
+    // необходим для обратной совместимости после замены name на id
     @Deprecated
     public String getName() {
-        return super.getName();
+        return getId();
     }
 
+    // необходим для обратной совместимости после замены name на id
     @Deprecated
     public void setName(String name) {
         this.id = name;
