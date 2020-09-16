@@ -89,6 +89,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         routeAndGet("/test/master/1/detail/2/open3", Page.class);
         QueryContext queryContext = (QueryContext) route("/test/master/1/detail/2/open3/main", CompiledQuery.class);
         assertThat(queryContext.getFilters().isEmpty(), is(true));
+        assertThat(queryContext.getSourceId(null), is("testOpenPageRoute?file=test2"));
     }
 
     /**
