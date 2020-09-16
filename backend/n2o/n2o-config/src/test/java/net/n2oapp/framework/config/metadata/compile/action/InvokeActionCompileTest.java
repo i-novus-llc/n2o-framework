@@ -143,8 +143,12 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionParam.widget.xml")
                 .get(new WidgetContext("testInvokeActionParam", "/w"));
 
-        ActionContext actionContext = (ActionContext) route("/w/:testInvokeActionParam_id/menuItem0", CompiledObject.class);
-        assertThat(actionContext.getOperationMapping().size(), is(0));
+        // operationMapping should not contains form params from corresponding invoke
+        // but could contains from other
+        ActionContext actionContext1 = (ActionContext) route("/w/test", CompiledObject.class);
+        assertThat(actionContext1.getOperationMapping().containsKey("fpName1"), is(false));
+        ActionContext actionContext2 = (ActionContext) route("/w/:testInvokeActionParam_id/menuItem0", CompiledObject.class);
+        assertThat(actionContext2.getOperationMapping().containsKey("fpGender.id"), is(false));
 
         //filter model
         InvokeAction testAction = (InvokeAction) table.getActions().get("test");

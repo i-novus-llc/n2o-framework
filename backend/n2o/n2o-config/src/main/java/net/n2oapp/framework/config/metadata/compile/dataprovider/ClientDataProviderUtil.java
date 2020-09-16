@@ -21,6 +21,7 @@ import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
+import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
@@ -139,15 +140,15 @@ public class ClientDataProviderUtil {
             actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
             actionContext.setMessageOnFail(actionContextData.isMessageOnFail());
 
-            Set<String> formParams = p.getScope(CompiledObject.class).getOperations()
-                    .get(actionContext.getOperationId()).getFormParams();
+            CompiledObject compiledObject = p.getCompiled(new ObjectContext(source.getActionContextData().getObjectId()));
+            Set<String> formParams = compiledObject.getOperations().get(actionContext.getOperationId()).getFormParams();
             if (source.getFormParams() != null)
                 Arrays.stream(source.getFormParams()).forEach(fp -> formParams.add(fp.getId()));
 
             Map<String, String> operationMapping = new StrictMap<>();
             for (N2oObject.Parameter inParameter : actionContextData.getOperation().getInParametersMap().values()) {
                 String param = inParameter.getParam();
-                // form params should be ignored in operationMapping
+                // form params from this source should be ignored in operationMapping
                 if (param != null && !formParams.contains(param))
                     operationMapping.put(param, inParameter.getId());
             }
