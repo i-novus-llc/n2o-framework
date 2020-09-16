@@ -65,9 +65,9 @@ public class CompiledObject implements CompiledMetadata {
     @Getter
     @Setter
     public static class Operation extends N2oObject.Operation implements Compiled, OriginAware, PropertiesAware {
-
         private Map<String, Object> properties;
         private Map<String, N2oObject.Parameter> inParametersMap;
+        private Set<String> formParams = new HashSet<>();
         private Map<String, N2oObject.Parameter> outParametersMap;
         private List<Validation> validationList;
         private List<ConditionValidation> conditionList;

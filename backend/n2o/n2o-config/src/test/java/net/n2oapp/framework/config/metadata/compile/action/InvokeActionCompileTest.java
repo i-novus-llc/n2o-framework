@@ -143,6 +143,9 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionParam.widget.xml")
                 .get(new WidgetContext("testInvokeActionParam", "/w"));
 
+        ActionContext actionContext = (ActionContext) route("/w/:testInvokeActionParam_id/menuItem0", CompiledObject.class);
+        assertThat(actionContext.getOperationMapping().size(), is(0));
+
         //filter model
         InvokeAction testAction = (InvokeAction) table.getActions().get("test");
         ClientDataProvider provider1 = testAction.getPayload().getDataProvider();
@@ -163,7 +166,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(provider2.getPathMapping().size(), is(2));
         assertThat(provider2.getHeadersMapping().size(), is(1));
 
-        assertThat(provider2.getFormMapping().get("fpName2").getValue(), is("fpValue2"));
+        assertThat(provider2.getFormMapping().get("fpGender.id").getValue(), is(1));
         assertThat(provider2.getPathMapping().get("ppName2").getValue(), is("ppValue2"));
         assertThat(provider2.getHeadersMapping().get("hpName2").getValue(), is("hpValue2"));
     }
