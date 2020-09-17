@@ -72,6 +72,10 @@
     color: darkred;
   }
 
+  &-item-error {
+    border-color: darkred!important;
+  }
+
   &-control:hover {
     border: $image-uploader-border;
     cursor: pointer;
@@ -112,10 +116,12 @@
 
   &--img {
     max-width: 90px;
-    min-width: 50px;
+    min-width: 90px;
     max-height: 90px;
     margin: 0 5px 0 5px;
     transform: scale(.90);
+    color: darkred;
+    font-size: 14px;
   }
 
   &__modal {
