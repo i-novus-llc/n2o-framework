@@ -18,7 +18,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static com.codeborne.selenide.Configuration.headless;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -90,10 +89,11 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.nameShouldBe(0, "image.png");
         imageUpload.sizeShouldBe(0, "186");
         imageUpload.shouldHavePreview(0);
-        imageUpload.openPreviewDialog(simplePage, 0);
-        imageUpload.previewDialogShouldExists();
-        imageUpload.previewDialogShouldHaveLink("http://localhost:" + port + "/files/image.png");
-        imageUpload.closePreviewDialog();
+
+        ImageUploadControl.previewDialog previewDialog = imageUpload.openPreviewDialog(simplePage, 0);
+        previewDialog.shouldExists();
+        previewDialog.shouldHaveLink("http://localhost:" + port + "/files/image.png");
+        previewDialog.close();
 
         assertThat(fileStoreController.getFileStore().size(), is(1));
         imageUpload.deleteImage(0);
@@ -118,10 +118,11 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.shouldHaveSize(1);
         assertThat(fileStoreController.getFileStore().size(), is(1));
         imageUpload.shouldHavePreview(0);
-        imageUpload.openPreviewDialog(simplePage, 0);
-        imageUpload.previewDialogShouldExists();
-        imageUpload.previewDialogShouldHaveLink("http://localhost:" + port + "/files/image.png");
-        imageUpload.closePreviewDialog();
+
+        ImageUploadControl.previewDialog previewDialog = imageUpload.openPreviewDialog(simplePage, 0);
+        previewDialog.shouldExists();
+        previewDialog.shouldHaveLink("http://localhost:" + port + "/files/image.png");
+        previewDialog.close();
 
         Selenide.refresh();
 
@@ -129,10 +130,11 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.shouldHaveSize(2);
         assertThat(fileStoreController.getFileStore().size(), is(2));
         imageUpload.shouldHavePreview(1);
-        imageUpload.openPreviewDialog(simplePage, 1);
-        imageUpload.previewDialogShouldExists();
-        imageUpload.previewDialogShouldHaveLink("http://localhost:" + port + "/files/image2.png");
-        imageUpload.closePreviewDialog();
+
+        previewDialog = imageUpload.openPreviewDialog(simplePage, 1);
+        previewDialog.shouldExists();
+        previewDialog.shouldHaveLink("http://localhost:" + port + "/files/image2.png");
+        previewDialog.close();
 
         assertThat(fileStoreController.getFileStore().size(), is(2));
         imageUpload.deleteImage(1);

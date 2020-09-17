@@ -12,9 +12,6 @@ import java.io.File;
  */
 public class N2oImageUploadControl extends N2oControl implements ImageUploadControl {
 
-
-    private Page page;
-
     @Override
     public void shouldBeEmpty() {
 
@@ -52,24 +49,9 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
-    public void openPreviewDialog(Page page, int index) {
-        this.page = page;
+    public previewDialog openPreviewDialog(Page page, int index) {
         getPreviewElement(index).hover().shouldBe(Condition.visible).click();
-    }
-
-    @Override
-    public void closePreviewDialog() {
-        page.element().$(".n2o-image-uploader__modal--body .n2o-image-uploader__modal--icon-close").click();
-    }
-
-    @Override
-    public void previewDialogShouldExists() {
-        page.element().$(".n2o-image-uploader__modal--body").should(Condition.exist);
-    }
-
-    @Override
-    public void previewDialogShouldHaveLink(String link) {
-        page.element().$(".n2o-image-uploader__modal--body .n2o-image-uploader__modal--image").shouldHave(Condition.attribute("src", link));
+        return new previewDialogImpl(page);
     }
 
     @Override
@@ -107,12 +89,6 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
         getSizeElement(index).shouldHave(Condition.text(fileSize));
     }
 
-    @Override
-    public void uploadImageShouldHaveLink(int index, String href) {
-        element().parent().$$(".n2o-file-uploader-files-item-info .n2o-image-uploader__watch .n2o-image-uploader--img")
-                .get(index).shouldHave(Condition.attribute("href", href));
-    }
-
     private SelenideElement getPreviewElement(int index) {
         return element().parent().$$(".n2o-file-uploader-files-item-info  .n2o-image-uploader__watch .n2o-image-uploader__watch--eye")
                 .get(index);
@@ -126,6 +102,30 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     private SelenideElement getSizeElement(int index) {
         return element().parent().$$(".n2o-file-uploader-files-item-info .n2o-image-uploader-img-info .n2o-image-uploader-img-info__file-size")
                 .get(index);
+    }
+
+    public static class previewDialogImpl implements previewDialog {
+
+        private SelenideElement element;
+
+        public previewDialogImpl(Page page) {
+            element = page.element().$(".n2o-image-uploader__modal--body");
+        }
+
+        @Override
+        public void shouldExists() {
+            element.should(Condition.exist);
+        }
+
+        @Override
+        public void shouldHaveLink(String link) {
+            element.$(".n2o-image-uploader__modal--image").shouldHave(Condition.attribute("src", link));
+        }
+
+        @Override
+        public void close() {
+            element.$(".n2o-image-uploader__modal--icon-close").click();
+        }
     }
 
 }
