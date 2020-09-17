@@ -35,8 +35,9 @@ public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2o
         showModal.setPageId(source.getPageId());
 
         compileAction(showModal, source, p);
-        initPageContext(showModal, source, context, p);
+        PageContext pageContext = initPageContext(showModal, source, context, p);
         compilePayload(showModal, source, context, p);
+        showModal.getPayload().setPrompt(pageContext.getUnsavedDataPromptOnClose());
         return showModal;
     }
 

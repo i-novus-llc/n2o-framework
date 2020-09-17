@@ -36,7 +36,7 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
         compileAction(showModal, source, p);
         PageContext pageContext = initPageContext(showModal, source, context, p);
         compilePayload(showModal, source, context, p);
-        showModal.setPrompt(pageContext.getUnsavedDataPromptOnClose());
+        showModal.getPayload().setPrompt(pageContext.getUnsavedDataPromptOnClose());
         return showModal;
     }
 
