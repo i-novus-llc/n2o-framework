@@ -1,5 +1,8 @@
 .progress {
   margin-bottom: 0;
+  &-bar {
+    padding-bottom: 2px;
+  }
 }
 
 .mini.progress {
