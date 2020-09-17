@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+    <operations>
+
+        <operation id="setTaskVariables">
+            <invocation>
+                <java method="setVariables">
+                    <spring bean="taskService"/>
+                    <arguments>
+                        <argument name="id" class="java.lang.String" type="class"/>
+                        <argument name="variables" class="net.n2oapp.criteria.dataset.DataSet" type="class"/>
+                    </arguments>
+                </java>
+            </invocation>
+            <in-parameters>
+                <param id="id" domain="string"/>
+                <param id="sendOffer" mapping="[1]['sendOffer']"/>
+            </in-parameters>
+        </operation>
+
+        <operation id="completeTask">
+            <invocation>
+                <java method="complete">
+                    <spring bean="taskService"/>
+                    <arguments>
+                        <argument name="id" class="java.lang.String" type="class"/>
+                        <argument name="variables" class="net.n2oapp.criteria.dataset.DataSet" type="class"/>
+                    </arguments>
+                </java>
+            </invocation>
+            <in-parameters>
+                <param id="id" domain="string"/>
+                <param id="sendOffer" mapping="[1]['sendOffer']" required="true"/>
+            </in-parameters>
+        </operation>
+
+    </operations>
+</object>
