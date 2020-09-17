@@ -28,7 +28,7 @@ function TilesWidget(
   },
   context
 ) {
-  const { size } = paging;
+  const { size = 10 } = paging;
   const prepareFilters = () => {
     return context.resolveProps(filter, Fieldsets.StandardFieldset);
   };
