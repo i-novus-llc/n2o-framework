@@ -19,9 +19,9 @@ public class StandardChartWidgetComponent<T extends AbstractChartItem> extends C
      private ChartAxis yAxis;
      @JsonProperty("cartesianGrid")
      private ChartGrid grid;
-     @JsonProperty("tooltip")
+     @JsonProperty
      private ChartTooltip tooltip;
-     @JsonProperty("legend")
+     @JsonProperty
      private ChartLegend legend;
 
      public StandardChartWidgetComponent(List<T> items) {
