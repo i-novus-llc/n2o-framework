@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.action;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
+import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -17,14 +18,14 @@ public class InvokeActionElementIOV1 extends AbstractActionElementIOV1<N2oInvoke
     public void io(Element e, N2oInvokeAction ia, IOProcessor p) {
         super.io(e, ia, p);
         p.attribute(e, "operation-id", ia::getOperationId, ia::setOperationId);
-        p.attribute(e,"route", ia::getRoute, ia::setRoute);
+        p.attribute(e, "route", ia::getRoute, ia::setRoute);
         p.read(e, ia, (el, md) -> {
             if (el.getAttribute("close-after-success") != null) {
                 p.attributeBoolean(e, "close-after-success", ia::getCloseOnSuccess, ia::setCloseOnSuccess);
             }
         });
         p.attributeBoolean(e, "close-on-success", ia::getCloseOnSuccess, ia::setCloseOnSuccess);
-        p.attribute(e,"refresh-widget-id", ia::getRefreshWidgetId, ia::setRefreshWidgetId);
+        p.attribute(e, "refresh-widget-id", ia::getRefreshWidgetId, ia::setRefreshWidgetId);
         p.attributeBoolean(e, "refresh-on-success", ia::getRefreshOnSuccess, ia::setRefreshOnSuccess);
         p.attribute(e, "redirect-url", ia::getRedirectUrl, ia::setRedirectUrl);
         p.attributeEnum(e, "redirect-target", ia::getRedirectTarget, ia::setRedirectTarget, Target.class);
@@ -33,7 +34,7 @@ public class InvokeActionElementIOV1 extends AbstractActionElementIOV1<N2oInvoke
         p.attributeBoolean(e, "optimistic", ia::getOptimistic, ia::setOptimistic);
         p.attributeBoolean(e, "submit-form", ia::getSubmitForm, ia::setSubmitForm);
 
-        p.children(e, null, "form-param", ia::getFormParams, ia::setFormParams, N2oParam::new, this::param);
+        p.children(e, null, "form-param", ia::getFormParams, ia::setFormParams, N2oFormParam::new, this::formParam);
         p.children(e, null, "path-param", ia::getPathParams, ia::setPathParams, N2oParam::new, this::param);
         p.children(e, null, "header-param", ia::getHeaderParams, ia::setHeaderParams, N2oParam::new, this::param);
     }
@@ -53,5 +54,14 @@ public class InvokeActionElementIOV1 extends AbstractActionElementIOV1<N2oInvoke
         p.attribute(e, "value", param::getValue, param::setValue);
         p.attribute(e, "ref-widget-id", param::getRefWidgetId, param::setRefWidgetId);
         p.attributeEnum(e, "ref-model", param::getRefModel, param::setRefModel, ReduxModel.class);
+    }
+
+    private void formParam(Element e, N2oFormParam fp, IOProcessor p) {
+        p.attribute(e, "id", fp::getId, fp::setId);
+        if (fp.getId() == null)
+            p.attribute(e, "name", fp::getName, fp::setName);
+        p.attribute(e, "value", fp::getValue, fp::setValue);
+        p.attribute(e, "ref-widget-id", fp::getRefWidgetId, fp::setRefWidgetId);
+        p.attributeEnum(e, "ref-model", fp::getRefModel, fp::setRefModel, ReduxModel.class);
     }
 }
