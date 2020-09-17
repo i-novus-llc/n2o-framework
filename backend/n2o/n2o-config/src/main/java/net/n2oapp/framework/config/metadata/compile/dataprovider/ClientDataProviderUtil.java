@@ -10,7 +10,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
-import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
@@ -21,16 +20,12 @@ import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
-import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.util.CompileUtil;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -140,8 +135,7 @@ public class ClientDataProviderUtil {
             actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
             actionContext.setMessageOnFail(actionContextData.isMessageOnFail());
 
-            CompiledObject compiledObject = p.getCompiled(new ObjectContext(source.getActionContextData().getObjectId()));
-            Set<String> formParams = compiledObject.getOperations().get(actionContext.getOperationId()).getFormParams();
+            Set<String> formParams = new HashSet<>();
             if (source.getFormParams() != null)
                 Arrays.stream(source.getFormParams()).forEach(fp -> formParams.add(fp.getId()));
 
