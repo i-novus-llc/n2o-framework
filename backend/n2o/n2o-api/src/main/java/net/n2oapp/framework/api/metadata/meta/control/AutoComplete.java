@@ -20,6 +20,8 @@ public class AutoComplete extends Control {
     @JsonProperty
     private String valueFieldId;
     @JsonProperty
+    private String placeholder;
+    @JsonProperty
     private List<Map<String, Object>> data;
     @JsonProperty
     private Boolean tags;
