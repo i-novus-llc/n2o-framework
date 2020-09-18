@@ -53,8 +53,9 @@ class ImageUploaderItem extends React.Component {
     const cardType = listType === 'card';
     const imageType = listType === 'image';
     const withInformation = showSize || showName;
-
-    const imgSrc = isUndefined(file.link)
+    const imgSrc = !isUndefined(file.error)
+      ? ''
+      : isUndefined(file.link)
       ? URL.createObjectURL(file)
       : get(file, 'link');
 
@@ -70,7 +71,7 @@ class ImageUploaderItem extends React.Component {
             target="_blank"
             id={`tooltip-${file.id}`}
             className={cn('n2o-image-uploader-link', {
-              'n2o-file-uploader-item-error': file.error,
+              'n2o-image-uploader-item-error': file.error,
               'single-img': imageType,
             })}
           >
@@ -80,7 +81,7 @@ class ImageUploaderItem extends React.Component {
               })}
             >
               <div className="n2o-image-uploader__watch--icons-container">
-                {lightBox && (
+                {lightBox && isUndefined(file.error) && (
                   <span>
                     <i
                       onClick={() => this.modalOpen()}
@@ -96,7 +97,11 @@ class ImageUploaderItem extends React.Component {
                 </span>
               </div>
             </div>
-            <img className="n2o-image-uploader--img" src={imgSrc} alt="some" />
+            <img
+              className="n2o-image-uploader--img"
+              src={imgSrc}
+              alt="upload error"
+            />
           </a>
           {(!isEmpty(file.error) || !isEmpty(file.response)) && (
             <Tooltip
@@ -134,7 +139,7 @@ class ImageUploaderItem extends React.Component {
             <img
               className="n2o-image-uploader__modal--image"
               src={imgSrc}
-              alt="some"
+              alt="upload error"
             />
           </div>
         </Modal>
