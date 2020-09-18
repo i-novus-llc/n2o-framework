@@ -2,12 +2,7 @@
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
 
     <unique result-mapping="#this">
-        <java method="getTask">
-            <spring bean="bpmIntegration"/>
-            <arguments>
-                <argument name="id" class="java.lang.String" type="class"/>
-            </arguments>
-        </java>
+        <camunda operation="getTask"/>
     </unique>
 
     <fields>

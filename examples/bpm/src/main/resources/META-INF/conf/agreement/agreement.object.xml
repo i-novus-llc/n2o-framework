@@ -4,29 +4,17 @@
 
         <operation id="setTaskVariables">
             <invocation>
-                <java method="setVariables">
-                    <spring bean="taskService"/>
-                    <arguments>
-                        <argument name="id" class="java.lang.String" type="class"/>
-                        <argument name="variables" class="net.n2oapp.criteria.dataset.DataSet" type="class"/>
-                    </arguments>
-                </java>
+                <camunda operation="setTaskVariables"/>
             </invocation>
             <in-parameters>
                 <param id="id" domain="string"/>
-                <param id="sendOffer" mapping="[1]['sendOffer']"/>
+                <param id="sendOffer"/>
             </in-parameters>
         </operation>
 
         <operation id="completeTask">
             <invocation>
-                <java method="complete">
-                    <spring bean="taskService"/>
-                    <arguments>
-                        <argument name="id" class="java.lang.String" type="class"/>
-                        <argument name="variables" class="net.n2oapp.criteria.dataset.DataSet" type="class"/>
-                    </arguments>
-                </java>
+                <camunda operation="completeTask"/>
             </invocation>
             <in-parameters>
                 <param id="id" domain="string"/>

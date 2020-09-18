@@ -3,18 +3,12 @@
     <operations>
         <operation id="newProcess">
             <invocation>
-                <java method="startProcessInstanceByKey">
-                    <spring bean="runtimeService"/>
-                    <arguments>
-                        <argument name="processKey" class="java.lang.String" type="class"/>
-                        <argument name="variables" class="net.n2oapp.criteria.dataset.DataSet" type="class"/>
-                    </arguments>
-                </java>
+                <camunda operation="startProcess"/>
             </invocation>
             <in-parameters>
-                <param id="processKey" domain="string" required="true"/>
-                <param id="position" mapping="[1]['position']" domain="string" required="true"/>
-                <param id="salary" mapping="[1]['salary']" domain="string" required="true"/>
+                <param id="id" domain="string" required="true"/>
+                <param id="position" domain="string" required="true"/>
+                <param id="salary" domain="string" required="true"/>
             </in-parameters>
         </operation>
     </operations>

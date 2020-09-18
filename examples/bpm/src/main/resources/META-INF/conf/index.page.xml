@@ -10,7 +10,6 @@
                 </toolbar>
                 <columns>
                     <column text-field-id="id"/>
-                    <column text-field-id="processName" label="Процесс"/>
                     <column text-field-id="name" label="Задача"/>
                     <column text-field-id="position" label="Должность"/>
                 </columns>
@@ -22,6 +21,14 @@
                         </open-page>
                     </click>
                 </rows>
+
+                <filters>
+                    <row>
+                        <input-text id="name" label="Задача"/>
+                        <input-text id="position" label="Должность"/>
+                        <search-buttons id="search"/>
+                    </row>
+                </filters>
                 <pagination/>
             </table>
         </region>

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-@Component
+//@Component
 public class BpmIntegration {
 
     @Autowired
@@ -22,6 +22,7 @@ public class BpmIntegration {
 
     @SuppressWarnings("unused")
     public Integer getTasksCount() {
+//        processEngine.getProcessEngineConfiguration().getDataSource()
         return processEngine.getTaskService().createTaskQuery().list().size();
     }
 

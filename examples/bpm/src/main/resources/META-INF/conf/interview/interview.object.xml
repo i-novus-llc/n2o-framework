@@ -4,37 +4,25 @@
 
         <operation id="setTaskVariables">
             <invocation>
-                <java method="setVariables">
-                    <spring bean="taskService"/>
-                    <arguments>
-                        <argument name="id" class="java.lang.String" type="class"/>
-                        <argument name="variables" class="net.n2oapp.criteria.dataset.DataSet" type="class"/>
-                    </arguments>
-                </java>
+                <camunda operation="setTaskVariables"/>
             </invocation>
             <in-parameters>
                 <param id="id" domain="string"/>
-                <param id="skills" mapping="[1]['skills']"/>
-                <param id="agreedSalary"  mapping="[1]['agreedSalary']"/>
-                <param id="interviewed"  mapping="[1]['interviewed']"/>
+                <param id="skills"/>
+                <param id="agreedSalary"/>
+                <param id="interviewed"/>
             </in-parameters>
         </operation>
 
         <operation id="completeTask">
             <invocation>
-                <java method="complete">
-                    <spring bean="taskService"/>
-                    <arguments>
-                        <argument name="id" class="java.lang.String" type="class"/>
-                        <argument name="variables" class="net.n2oapp.criteria.dataset.DataSet" type="class"/>
-                    </arguments>
-                </java>
+                <camunda operation="completeTask"/>
             </invocation>
             <in-parameters>
                 <param id="id" domain="string"/>
-                <param id="skills" mapping="[1]['skills']" required="true"/>
-                <param id="agreedSalary"  mapping="[1]['agreedSalary']" required="true"/>
-                <param id="interviewed"  mapping="[1]['interviewed']" required="true"/>
+                <param id="skills" required="true"/>
+                <param id="agreedSalary" required="true"/>
+                <param id="interviewed" required="true"/>
             </in-parameters>
         </operation>
 

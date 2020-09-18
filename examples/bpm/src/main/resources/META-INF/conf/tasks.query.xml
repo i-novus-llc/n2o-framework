@@ -2,38 +2,34 @@
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
 
     <list>
-        <java method="getTasks">
-            <spring bean="bpmIntegration"/>
-            <arguments>
-                <argument class="net.n2oapp.criteria.api.Criteria" type="criteria"/>
-            </arguments>
-        </java>
+        <camunda operation="findTasks" variables="position" />
     </list>
 
     <count>
-        <java method="getTasksCount">
-            <spring bean="bpmIntegration"/>
-        </java>
+        <camunda operation="countTasks"/>
     </count>
 
     <fields>
         <field id="id" domain="string">
             <filters>
-                <eq filter-id="id" domain="string" mapping="[0]"/>
+                <eq filter-id="id" domain="string"/>
             </filters>
-            <select/>
-        </field>
-        <field id="processName" domain="string">
             <select/>
         </field>
         <field id="name" domain="string">
             <select/>
+            <filters>
+                <like filter-id="name">name</like>
+            </filters>
         </field>
         <field id="taskDefinitionKey" domain="string">
             <select/>
         </field>
         <field id="position" domain="string">
-            <select/>
+            <select mapping="['variables']?.get('position')">position</select>
+            <filters>
+                <like filter-id="position">position</like>
+            </filters>
         </field>
     </fields>
 </query>
