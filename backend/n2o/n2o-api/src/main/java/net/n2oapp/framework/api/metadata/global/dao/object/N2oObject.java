@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 
@@ -75,7 +76,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
 
         @Getter
         @Setter
-        public static class Validations implements Source {
+        public static class Validations implements Serializable {
             private Activate activate;
             private String[] whiteList;
             private String[] blackList;
@@ -88,7 +89,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
 
             @Getter
             @Setter
-            public static class Validation implements Source {
+            public static class Validation implements Serializable {
                 private String refId;
             }
         }
