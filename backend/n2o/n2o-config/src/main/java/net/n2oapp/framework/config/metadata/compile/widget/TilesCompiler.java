@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Tiles;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
@@ -51,13 +52,24 @@ public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
         tiles.setColsSm(p.cast(source.getColsSm(), p.resolve(property("n2o.api.widget.tiles.colsSm"), Integer.class)));
         tiles.setColsMd(p.cast(source.getColsMd(), p.resolve(property("n2o.api.widget.tiles.colsMd"), Integer.class)));
         tiles.setColsLg(p.cast(source.getColsLg(), p.resolve(property("n2o.api.widget.tiles.colsLg"), Integer.class)));
+        tiles.setHeight(p.cast(source.getHeight(), p.resolve(property("n2o.api.widget.tiles.height"), Integer.class)));
+        tiles.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.widget.tiles.width"), Integer.class)));
 
         List<Tiles.Tile> tls = new ArrayList<>(source.getContent().length);
         for (N2oTiles.Block block : source.getContent()) {
             tls.add(p.compile(block, context, p));
         }
         tiles.setTile(tls);
+        tiles.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.tiles.size"), Integer.class)));
         return tiles;
+    }
+
+    private Pagination compilePaging(N2oTiles source, Integer size) {
+        Pagination pagination = new Pagination();
+        pagination.setSize(source.getSize() != null ? source.getSize() : size);
+        pagination.setPrev(source.getPagination() != null ? source.getPagination().getPrev() : null);
+        pagination.setNext(source.getPagination() != null ? source.getPagination().getNext() : null);
+        return pagination;
     }
 
 }

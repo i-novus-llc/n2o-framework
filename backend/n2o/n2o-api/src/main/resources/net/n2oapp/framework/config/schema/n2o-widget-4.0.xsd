@@ -823,6 +823,19 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="height" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Минимальная высота плитки, по умолчанию 350.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="width" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ширина плитки, по умолчанию 260.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+
                 <xs:element name="content">
                     <xs:complexType>
                         <xs:annotation>

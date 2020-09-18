@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 
 import java.util.List;
 
@@ -21,6 +22,12 @@ public class Tiles extends Widget {
     private int colsMd;
     @JsonProperty
     private int colsLg;
+    @JsonProperty
+    private int height;
+    @JsonProperty
+    private int width;
+    @JsonProperty
+    private Pagination paging;
     @JsonProperty
     private List<Tile> tile;
 

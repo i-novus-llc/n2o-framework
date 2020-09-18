@@ -38,6 +38,9 @@ public class TilesCompileTest extends SourceCompileTestBase {
         assertThat(tiles.getColsSm(), is(1));
         assertThat(tiles.getColsMd(), is(2));
         assertThat(tiles.getColsLg(), is(4));
+        assertThat(tiles.getHeight(), is(450));
+        assertThat(tiles.getWidth(), is(300));
+        assertThat(tiles.getPaging().getSize(), is(10));
 
         Tiles.Tile tile = tiles.getTile().get(0);
         assertThat(tile.getId(), is("id1"));
@@ -70,6 +73,8 @@ public class TilesCompileTest extends SourceCompileTestBase {
         assertThat(tiles.getColsSm(), is(2));
         assertThat(tiles.getColsMd(), is(3));
         assertThat(tiles.getColsLg(), is(5));
+        assertThat(tiles.getHeight(), is(350));
+        assertThat(tiles.getWidth(), is(260));
     }
 
 }
