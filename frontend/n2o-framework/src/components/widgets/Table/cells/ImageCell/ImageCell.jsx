@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, setDisplayName, withHandlers } from 'recompose';
+import {compose, setDisplayName, withHandlers,} from 'recompose';
 import withCell from '../../withCell';
 import imageShapes from './imageShapes';
 import get from 'lodash/get';
+import isEqual from 'lodash/isEqual';
 import withTooltip from '../../withTooltip';
 
 /**
@@ -17,25 +18,42 @@ import withTooltip from '../../withTooltip';
  */
 
 class ImageCell extends React.Component {
-  setCursor(action) {
-    return action ? { cursor: 'pointer' } : null;
+  constructor(props) {
+    super(props);
+    this.ref = React.createRef();
+    this.state = {
+      size: null,
+    };
   }
 
-  /**
-   * Рендер
-   */
+  componentDidMount() {
+    setTimeout(() => {
+      const height = get(this.ref, 'current.clientHeight');
+      const width = get(this.ref, 'current.clientWidth');
+      if (height && width)
+        this.setState({ size: Math.min(height, width) }, () =>
+          console.warn('cdu >', this.state)
+        );
+    }, 500);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.ref && !this.state.size) {
+      setTimeout(() => {
+        this.setState(
+          {
+            size: Math.min(
+              this.ref.current.clientHeight,
+              this.ref.current.clientWidth
+            ),
+          },
+          console.warn('cdu >>', this.state)
+        );
+      }, 500);
+    }
+  }
 
   render() {
-    const getImageClass = shape => {
-      const shapeToClass = {
-        rounded: 'rounded',
-        circle: 'rounded-circle',
-        thumbnail: 'img-thumbnail',
-      };
-
-      return shape ? shapeToClass[shape] : '';
-    };
-
     const {
       title,
       fieldKey,
@@ -50,19 +68,39 @@ class ImageCell extends React.Component {
       width,
     } = this.props;
 
+    const setCursor = action => {
+      return action ? { cursor: 'pointer' } : null;
+    };
+
+    const getImageClass = shape => {
+      const shapeToClass = {
+        rounded: 'rounded',
+        thumbnail: 'img-thumbnail',
+      };
+
+      return shape ? shapeToClass[shape] : '';
+    };
+
+    const setRoundImage = () => {
+      return this.state.size
+        ? { clipPath: `circle(${this.state.size / 2}px at center)` }
+        : {};
+    };
+
     return (
       visible && (
         <span
           title={title}
-          style={{ ...style, ...this.setCursor(action) }}
+          style={{ ...style, ...setCursor(action), ...setRoundImage() }}
           className={className}
         >
           <img
-            style={{ width }}
+            style={{ maxWidth: width }}
             src={get(model, fieldKey || id)}
             alt={title}
             className={getImageClass(shape)}
             onClick={onClick}
+            ref={this.ref}
           />
         </span>
       )
