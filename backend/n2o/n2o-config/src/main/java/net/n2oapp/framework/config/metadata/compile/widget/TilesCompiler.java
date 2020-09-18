@@ -64,6 +64,9 @@ public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
         return tiles;
     }
 
+    /**
+     * Компиляция паджинации
+     */
     private Pagination compilePaging(N2oTiles source, Integer size) {
         Pagination pagination = new Pagination();
         pagination.setSize(source.getSize() != null ? source.getSize() : size);
