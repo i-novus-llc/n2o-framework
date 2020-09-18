@@ -90,7 +90,7 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.sizeShouldBe(0, "186");
         imageUpload.shouldHavePreview(0);
 
-        ImageUploadControl.previewDialog previewDialog = imageUpload.openPreviewDialog(simplePage, 0);
+        ImageUploadControl.PreviewDialog previewDialog = imageUpload.openPreviewDialog(simplePage, 0);
         previewDialog.shouldExists();
         previewDialog.shouldHaveLink("http://localhost:" + port + "/files/image.png");
         previewDialog.close();
@@ -119,7 +119,7 @@ public class ImageUploadAT extends AutoTestBase {
         assertThat(fileStoreController.getFileStore().size(), is(1));
         imageUpload.shouldHavePreview(0);
 
-        ImageUploadControl.previewDialog previewDialog = imageUpload.openPreviewDialog(simplePage, 0);
+        ImageUploadControl.PreviewDialog previewDialog = imageUpload.openPreviewDialog(simplePage, 0);
         previewDialog.shouldExists();
         previewDialog.shouldHaveLink("http://localhost:" + port + "/files/image.png");
         previewDialog.close();

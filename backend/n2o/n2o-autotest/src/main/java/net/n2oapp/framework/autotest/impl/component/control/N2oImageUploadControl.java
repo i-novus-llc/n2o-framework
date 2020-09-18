@@ -49,9 +49,9 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
-    public previewDialog openPreviewDialog(Page page, int index) {
+    public PreviewDialog openPreviewDialog(Page page, int index) {
         getPreviewElement(index).hover().shouldBe(Condition.visible).click();
-        return new previewDialogImpl(page);
+        return new PreviewDialogImpl(page);
     }
 
     @Override
@@ -104,11 +104,11 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
                 .get(index);
     }
 
-    public static class previewDialogImpl implements previewDialog {
+    public static class PreviewDialogImpl implements PreviewDialog {
 
         private SelenideElement element;
 
-        public previewDialogImpl(Page page) {
+        public PreviewDialogImpl(Page page) {
             element = page.element().$(".n2o-image-uploader__modal--body");
         }
 

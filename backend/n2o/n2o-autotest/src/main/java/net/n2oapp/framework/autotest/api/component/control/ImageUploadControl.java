@@ -19,7 +19,7 @@ public interface ImageUploadControl extends Control {
 
     void shouldNotHavePreview(int index);
 
-    previewDialog openPreviewDialog(Page page, int index);
+    PreviewDialog openPreviewDialog(Page page, int index);
 
     void shouldHaveSize(int size);
 
@@ -35,7 +35,7 @@ public interface ImageUploadControl extends Control {
 
     void sizeShouldBe(int index, String fileSize);
 
-    interface previewDialog {
+    interface PreviewDialog {
 
         void shouldExists();
 
