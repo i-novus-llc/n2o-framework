@@ -108,7 +108,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
     }
 
     public String getUrlPattern() {
-        return route;
+        return StringUtils.hasLink(sourceId) ? route : null;
     }
 
     @Override
