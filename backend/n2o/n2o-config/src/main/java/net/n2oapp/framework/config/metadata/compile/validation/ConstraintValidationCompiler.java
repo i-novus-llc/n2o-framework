@@ -30,13 +30,14 @@ public class ConstraintValidationCompiler extends BaseValidationCompiler<Constra
         ConstraintValidation validation = new ConstraintValidation();
         compileValidation(validation, source, context, p);
         validation.setId(source.getId());
+        validation.setSeverity(source.getSeverity());
 
         //in
         List<InvocationParameter> inParams = new ArrayList<>();
         if (source.getInParameters() != null)
             for (N2oObject.Parameter parameter : source.getInParameters())
                 inParams.add(new InvocationParameter(parameter));
-        validation.setInParameterList(inParams);
+        validation.setInParametersList(inParams);
 
         //out
         List<InvocationParameter> outParams = new ArrayList<>();

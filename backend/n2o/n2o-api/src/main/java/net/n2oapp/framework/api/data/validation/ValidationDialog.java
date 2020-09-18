@@ -20,16 +20,14 @@ import java.util.List;
 @Setter
 public class ValidationDialog extends Validation {
     private N2oInvocation invocation;
-    private List<InvocationParameter> inParameterList;
+    private List<InvocationParameter> inParametersList;
     private List<InvocationParameter> outParametersList;
     private Toolbar toolbar;
 
-
-
     @Override
     public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
-        dataSet = DomainProcessor.getInstance().doDomainConversation(dataSet, getInParameterList());
-        DataSet result = serviceProvider.invoke(getInvocation(), dataSet, getInParameterList(), getOutParametersList());
+        dataSet = DomainProcessor.getInstance().doDomainConversation(dataSet, getInParametersList());
+        DataSet result = serviceProvider.invoke(getInvocation(), dataSet, getInParametersList(), getOutParametersList());
         if (result.get(CompiledObject.VALIDATION_RESULT_PARAM) == null || !(boolean) result.get(CompiledObject.VALIDATION_RESULT_PARAM))
             callback.onFail(StringUtils.resolveLinks(getMessage(), result));
     }

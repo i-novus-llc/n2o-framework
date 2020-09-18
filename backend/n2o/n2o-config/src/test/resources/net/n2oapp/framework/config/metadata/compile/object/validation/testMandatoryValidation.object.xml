@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <validations>
+        <mandatory id="man1" severity="danger" message="message" side="client,server"
+                   server-moment="after-fail-operation" enabled="false" on="field1" field-id="field1">
+            field1 != null
+        </mandatory>
+        <mandatory id="man2" severity="info" src="net/n2oapp/framework/config/metadata/compile/object/validation/testMandatoryValidation.js"/>
+    </validations>
+</object>

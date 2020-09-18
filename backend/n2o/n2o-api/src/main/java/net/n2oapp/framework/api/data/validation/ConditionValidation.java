@@ -21,7 +21,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 public class ConditionValidation extends Validation {
-    @JsonProperty("expression")
+    @JsonProperty
     private String expression;
     private String expressionOn;
 

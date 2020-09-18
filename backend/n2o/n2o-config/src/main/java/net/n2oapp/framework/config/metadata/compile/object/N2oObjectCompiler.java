@@ -40,6 +40,13 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     public CompiledObject compile(N2oObject source, C context, CompileProcessor p) {
         CompiledObject compiled = new CompiledObject();
         compiled.setId(source.getId());
+        compiled.setTableName(source.getTableName());
+        compiled.setEntityClass(source.getEntityClass());
+        compiled.setAppName(source.getAppName());
+        compiled.setModuleName(source.getModuleName());
+        compiled.setServiceClass(source.getServiceClass());
+        compiled.setServiceName(source.getServiceName());
+
         compiled.setOperations(new StrictMap<>());
         compiled.setObjectFields(new ArrayList<>());
         compiled.setObjectFieldsMap(new HashMap<>());
@@ -49,12 +56,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiled.setValidations(initValidations(source, compiled, context, p));
         compiled.setValidationsMap(initValidationsMap(compiled.getValidations()));
         initOperationsMap(source, compiled, context, p);
-        compiled.setTableName(source.getTableName());
-        compiled.setEntityClass(source.getEntityClass());
-        compiled.setAppName(source.getAppName());
-        compiled.setModuleName(source.getModuleName());
-        compiled.setServiceClass(source.getServiceClass());
-        compiled.setServiceName(source.getServiceName());
+
         if (context instanceof ActionContext) {
             ActionContext actionContext = (ActionContext) context;
             if (actionContext.getValidations() != null)
