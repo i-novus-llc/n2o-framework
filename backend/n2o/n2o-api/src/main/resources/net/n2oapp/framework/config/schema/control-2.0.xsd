@@ -135,7 +135,7 @@
         </xs:attribute>
         <xs:attribute name="placeholder" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Текст внутри поля, исчезающий при фокусе</xs:documentation>
+                <xs:documentation>Подсказка для ввода</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="required" type="xs:boolean" default="false">
