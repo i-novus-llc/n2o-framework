@@ -58,6 +58,16 @@ public class DataServlet extends N2oServlet {
         objectMapper.writeValue(res.getWriter(), result);
     }
 
+    @Override
+    protected void safeDoPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        safeDoPost(req, resp);
+    }
+
+    @Override
+    protected void safeDoDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        safeDoPost(req, resp);
+    }
+
     private Object getRequestBody(HttpServletRequest request) {
         try {
             if (request.getReader() == null) return new DataSet();
