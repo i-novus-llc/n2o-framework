@@ -617,7 +617,7 @@
                             </xs:annotation>
                             <xs:attribute name="value-field-id" type="xs:string">
                                 <xs:annotation>
-                                   <xs:documentation>Поле выборки, отвечающее за маппинг ресурсов.</xs:documentation>
+                                    <xs:documentation>Поле выборки, отвечающее за маппинг ресурсов.</xs:documentation>
                                 </xs:annotation>
                             </xs:attribute>
                             <xs:sequence>

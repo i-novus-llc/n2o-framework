@@ -39,7 +39,7 @@ public class InputMoneyCompileTest extends SourceCompileTestBase {
 
         assertThat(inputMoney.getSrc(), is("InputMoney"));
         assertThat(inputMoney.getPrefix(), is("*"));
-        assertThat(inputMoney.getSuffix(), is("^"));
+        assertThat(inputMoney.getSuffix(), is("`suffix`"));
         assertThat(inputMoney.getThousandsSeparatorSymbol(), is(" "));
         assertThat(inputMoney.getDecimalSymbol(), is(","));
         assertThat(inputMoney.getRequireDecimal(), is(false));
