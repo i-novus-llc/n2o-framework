@@ -22,7 +22,17 @@ export default compose(
   withContainerLiveCycle,
   withWidgetHandlers,
   mapProps(
-    ({ datasource, className, widgetId, tile, colsSm, colsMd, colsLg }) => ({
+    ({
+      datasource,
+      className,
+      widgetId,
+      tile,
+      colsSm,
+      colsMd,
+      colsLg,
+      width,
+      height,
+    }) => ({
       className: className,
       id: widgetId,
       tile: tile,
@@ -30,6 +40,8 @@ export default compose(
       colsSm: colsSm,
       colsMd: colsMd,
       colsLg: colsLg,
+      tileWidth: width,
+      tileHeight: height,
     })
   )
 )(TilesContainer);
