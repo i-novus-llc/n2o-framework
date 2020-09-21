@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
@@ -101,6 +102,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                             resolveDefaultParameter(parameter, compiled);
                             parameter.setRequired(p.cast(parameter.getRequired(), parameter.getDefaultValue() == null));
                         }
+                    resolveOperationInvocation(n2oConstraint.getN2oInvocation(), source);
                 }
                 result.add(p.compile(validation, context));
             }
@@ -154,9 +156,9 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             N2oJavaDataProvider javaDataProvider = (N2oJavaDataProvider) invocation;
             if (javaDataProvider.getClassName() == null)
                 javaDataProvider.setClassName(source.getServiceClass());
-            if (source.getEntityClass() != null)
+            if (source.getEntityClass() != null && javaDataProvider.getArguments() != null)
                 Arrays.stream(javaDataProvider.getArguments())
-                        .filter(arg -> arg.getClassName() == null)
+                        .filter(arg -> arg.getClassName() == null && arg.getType() == Argument.Type.ENTITY)
                         .forEach(arg -> arg.setClassName(source.getEntityClass()));
         }
     }
@@ -204,6 +206,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                                 resolveDefaultParameter(parameter, compiled);
                                 parameter.setRequired(p.cast(parameter.getRequired(), parameter.getDefaultValue() == null));
                             }
+                        resolveOperationInvocation(n2oConstraint.getN2oInvocation(), source);
                     }
                     inlineValidations.add(p.compile(n2oValidation, context));
                 }
