@@ -5,6 +5,8 @@
     "colsSm": 2,
     "colsMd": 3,
     "colsLg": 4,
+    "width": "260",
+    "height": "350",
     "tile": [
       {
         "id": "tile1",
@@ -23,13 +25,21 @@
         }
       },
       {
-        "id": "tile3",
-        "className": "mt-3",
+        "src": "ButtonsCell",
         "style": {},
-        "fieldKey": "rating",
-        "component": {
-          "src": "RatingCell"
-        }
+        "toolbar": [
+          {
+            "buttons": [
+              {
+                "id": "testBut",
+                "label": "Кнопка",
+                "icon": "fa fa-vk",
+                "src": "StandardButton",
+                "className": "mt-4 mb-4"
+              }
+            ]
+          }
+        ]
       }
     ]
   }

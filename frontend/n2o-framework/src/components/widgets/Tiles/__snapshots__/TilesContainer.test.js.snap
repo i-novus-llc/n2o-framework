@@ -16,6 +16,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
     colsLg={4}
     colsMd={3}
     colsSm={2}
+    height="350"
     id="Page_Tiles"
     level="widgets"
     src="TilesWidget"
@@ -38,22 +39,32 @@ exports[`<TilesContainer /> отрисовка 1`] = `
           "style": Object {},
         },
         Object {
-          "className": "mt-3",
-          "component": Object {
-            "src": "RatingCell",
-          },
-          "fieldKey": "rating",
-          "id": "tile3",
+          "src": "ButtonsCell",
           "style": Object {},
+          "toolbar": Array [
+            Object {
+              "buttons": Array [
+                Object {
+                  "className": "mt-4 mb-4",
+                  "icon": "fa fa-vk",
+                  "id": "testBut",
+                  "label": "Кнопка",
+                  "src": "StandardButton",
+                },
+              ],
+            },
+          ],
         },
       ]
     }
+    width="260"
   >
     <withProps(pure(WidgetContainer))
       colsLg={4}
       colsMd={3}
       colsSm={2}
       dispatch={[Function]}
+      height="350"
       id="Page_Tiles"
       isAnyTableFocused={false}
       level="widgets"
@@ -77,13 +88,21 @@ exports[`<TilesContainer /> отрисовка 1`] = `
             "style": Object {},
           },
           Object {
-            "className": "mt-3",
-            "component": Object {
-              "src": "RatingCell",
-            },
-            "fieldKey": "rating",
-            "id": "tile3",
+            "src": "ButtonsCell",
             "style": Object {},
+            "toolbar": Array [
+              Object {
+                "buttons": Array [
+                  Object {
+                    "className": "mt-4 mb-4",
+                    "icon": "fa fa-vk",
+                    "id": "testBut",
+                    "label": "Кнопка",
+                    "src": "StandardButton",
+                  },
+                ],
+              },
+            ],
           },
         ]
       }
@@ -114,12 +133,14 @@ exports[`<TilesContainer /> отрисовка 1`] = `
           "validation": undefined,
         }
       }
+      width="260"
     >
       <pure(WidgetContainer)
         colsLg={4}
         colsMd={3}
         colsSm={2}
         dispatch={[Function]}
+        height="350"
         id="Page_Tiles"
         isActive={false}
         isAnyTableFocused={false}
@@ -149,13 +170,21 @@ exports[`<TilesContainer /> отрисовка 1`] = `
               "style": Object {},
             },
             Object {
-              "className": "mt-3",
-              "component": Object {
-                "src": "RatingCell",
-              },
-              "fieldKey": "rating",
-              "id": "tile3",
+              "src": "ButtonsCell",
               "style": Object {},
+              "toolbar": Array [
+                Object {
+                  "buttons": Array [
+                    Object {
+                      "className": "mt-4 mb-4",
+                      "icon": "fa fa-vk",
+                      "id": "testBut",
+                      "label": "Кнопка",
+                      "src": "StandardButton",
+                    },
+                  ],
+                },
+              ],
             },
           ]
         }
@@ -188,6 +217,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
             "validation": undefined,
           }
         }
+        width="260"
       >
         <WidgetContainer
           colsLg={4}
@@ -196,6 +226,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
           defaultSorting={Object {}}
           dispatch={[Function]}
           fetchOnInit={true}
+          height="350"
           id="Page_Tiles"
           isActive={false}
           isAnyTableFocused={false}
@@ -227,13 +258,21 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                 "style": Object {},
               },
               Object {
-                "className": "mt-3",
-                "component": Object {
-                  "src": "RatingCell",
-                },
-                "fieldKey": "rating",
-                "id": "tile3",
+                "src": "ButtonsCell",
                 "style": Object {},
+                "toolbar": Array [
+                  Object {
+                    "buttons": Array [
+                      Object {
+                        "className": "mt-4 mb-4",
+                        "icon": "fa fa-vk",
+                        "id": "testBut",
+                        "label": "Кнопка",
+                        "src": "StandardButton",
+                      },
+                    ],
+                  },
+                ],
               },
             ]
           }
@@ -266,6 +305,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
               "validation": undefined,
             }
           }
+          width="260"
         >
           <div
             className=""
@@ -299,6 +339,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                     defaultSorting={Object {}}
                     dispatch={[Function]}
                     fetchOnInit={true}
+                    height="350"
                     id="Page_Tiles"
                     isActive={false}
                     isAnyTableFocused={false}
@@ -336,13 +377,21 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                           "style": Object {},
                         },
                         Object {
-                          "className": "mt-3",
-                          "component": Object {
-                            "src": "RatingCell",
-                          },
-                          "fieldKey": "rating",
-                          "id": "tile3",
+                          "src": "ButtonsCell",
                           "style": Object {},
+                          "toolbar": Array [
+                            Object {
+                              "buttons": Array [
+                                Object {
+                                  "className": "mt-4 mb-4",
+                                  "icon": "fa fa-vk",
+                                  "id": "testBut",
+                                  "label": "Кнопка",
+                                  "src": "StandardButton",
+                                },
+                              ],
+                            },
+                          ],
                         },
                       ]
                     }
@@ -375,6 +424,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                         "validation": undefined,
                       }
                     }
+                    width="260"
                   >
                     <getContext(withHandlers(mapProps(TilesContainer)))
                       colsLg={4}
@@ -383,6 +433,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                       defaultSorting={Object {}}
                       dispatch={[Function]}
                       fetchOnInit={true}
+                      height="350"
                       id="Page_Tiles"
                       isActive={false}
                       isAnyTableFocused={false}
@@ -420,13 +471,21 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                             "style": Object {},
                           },
                           Object {
-                            "className": "mt-3",
-                            "component": Object {
-                              "src": "RatingCell",
-                            },
-                            "fieldKey": "rating",
-                            "id": "tile3",
+                            "src": "ButtonsCell",
                             "style": Object {},
+                            "toolbar": Array [
+                              Object {
+                                "buttons": Array [
+                                  Object {
+                                    "className": "mt-4 mb-4",
+                                    "icon": "fa fa-vk",
+                                    "id": "testBut",
+                                    "label": "Кнопка",
+                                    "src": "StandardButton",
+                                  },
+                                ],
+                              },
+                            ],
                           },
                         ]
                       }
@@ -459,6 +518,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                           "validation": undefined,
                         }
                       }
+                      width="260"
                     >
                       <withHandlers(mapProps(TilesContainer))
                         colsLg={4}
@@ -467,6 +527,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                         defaultSorting={Object {}}
                         dispatch={[Function]}
                         fetchOnInit={true}
+                        height="350"
                         id="Page_Tiles"
                         isActive={false}
                         isAnyTableFocused={false}
@@ -513,13 +574,21 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                               "style": Object {},
                             },
                             Object {
-                              "className": "mt-3",
-                              "component": Object {
-                                "src": "RatingCell",
-                              },
-                              "fieldKey": "rating",
-                              "id": "tile3",
+                              "src": "ButtonsCell",
                               "style": Object {},
+                              "toolbar": Array [
+                                Object {
+                                  "buttons": Array [
+                                    Object {
+                                      "className": "mt-4 mb-4",
+                                      "icon": "fa fa-vk",
+                                      "id": "testBut",
+                                      "label": "Кнопка",
+                                      "src": "StandardButton",
+                                    },
+                                  ],
+                                },
+                              ],
                             },
                           ]
                         }
@@ -552,6 +621,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                             "validation": undefined,
                           }
                         }
+                        width="260"
                       >
                         <mapProps(TilesContainer)
                           colsLg={4}
@@ -560,6 +630,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                           defaultSorting={Object {}}
                           dispatch={[Function]}
                           fetchOnInit={true}
+                          height="350"
                           id="Page_Tiles"
                           isActive={false}
                           isAnyTableFocused={false}
@@ -607,13 +678,21 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                 "style": Object {},
                               },
                               Object {
-                                "className": "mt-3",
-                                "component": Object {
-                                  "src": "RatingCell",
-                                },
-                                "fieldKey": "rating",
-                                "id": "tile3",
+                                "src": "ButtonsCell",
                                 "style": Object {},
+                                "toolbar": Array [
+                                  Object {
+                                    "buttons": Array [
+                                      Object {
+                                        "className": "mt-4 mb-4",
+                                        "icon": "fa fa-vk",
+                                        "id": "testBut",
+                                        "label": "Кнопка",
+                                        "src": "StandardButton",
+                                      },
+                                    ],
+                                  },
+                                ],
                               },
                             ]
                           }
@@ -646,6 +725,7 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                               "validation": undefined,
                             }
                           }
+                          width="260"
                         >
                           <TilesContainer
                             colsLg={4}
@@ -670,16 +750,26 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                   "style": Object {},
                                 },
                                 Object {
-                                  "className": "mt-3",
-                                  "component": Object {
-                                    "src": "RatingCell",
-                                  },
-                                  "fieldKey": "rating",
-                                  "id": "tile3",
+                                  "src": "ButtonsCell",
                                   "style": Object {},
+                                  "toolbar": Array [
+                                    Object {
+                                      "buttons": Array [
+                                        Object {
+                                          "className": "mt-4 mb-4",
+                                          "icon": "fa fa-vk",
+                                          "id": "testBut",
+                                          "label": "Кнопка",
+                                          "src": "StandardButton",
+                                        },
+                                      ],
+                                    },
+                                  ],
                                 },
                               ]
                             }
+                            tileHeight="350"
+                            tileWidth="260"
                           >
                             <ForwardRef(withResizeDetector(Tiles))
                               colsLg={4}
@@ -704,16 +794,26 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                     "style": Object {},
                                   },
                                   Object {
-                                    "className": "mt-3",
-                                    "component": Object {
-                                      "src": "RatingCell",
-                                    },
-                                    "fieldKey": "rating",
-                                    "id": "tile3",
+                                    "src": "ButtonsCell",
                                     "style": Object {},
+                                    "toolbar": Array [
+                                      Object {
+                                        "buttons": Array [
+                                          Object {
+                                            "className": "mt-4 mb-4",
+                                            "icon": "fa fa-vk",
+                                            "id": "testBut",
+                                            "label": "Кнопка",
+                                            "src": "StandardButton",
+                                          },
+                                        ],
+                                      },
+                                    ],
                                   },
                                 ]
                               }
+                              tileHeight="350"
+                              tileWidth="260"
                             >
                               <ResizeDetectorHOC
                                 colsLg={4}
@@ -739,16 +839,26 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                       "style": Object {},
                                     },
                                     Object {
-                                      "className": "mt-3",
-                                      "component": Object {
-                                        "src": "RatingCell",
-                                      },
-                                      "fieldKey": "rating",
-                                      "id": "tile3",
+                                      "src": "ButtonsCell",
                                       "style": Object {},
+                                      "toolbar": Array [
+                                        Object {
+                                          "buttons": Array [
+                                            Object {
+                                              "className": "mt-4 mb-4",
+                                              "icon": "fa fa-vk",
+                                              "id": "testBut",
+                                              "label": "Кнопка",
+                                              "src": "StandardButton",
+                                            },
+                                          ],
+                                        },
+                                      ],
                                     },
                                   ]
                                 }
+                                tileHeight="350"
+                                tileWidth="260"
                               >
                                 <ResizeDetector
                                   handleHeight={true}
@@ -793,16 +903,26 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                           "style": Object {},
                                         },
                                         Object {
-                                          "className": "mt-3",
-                                          "component": Object {
-                                            "src": "RatingCell",
-                                          },
-                                          "fieldKey": "rating",
-                                          "id": "tile3",
+                                          "src": "ButtonsCell",
                                           "style": Object {},
+                                          "toolbar": Array [
+                                            Object {
+                                              "buttons": Array [
+                                                Object {
+                                                  "className": "mt-4 mb-4",
+                                                  "icon": "fa fa-vk",
+                                                  "id": "testBut",
+                                                  "label": "Кнопка",
+                                                  "src": "StandardButton",
+                                                },
+                                              ],
+                                            },
+                                          ],
                                         },
                                       ]
                                     }
+                                    tileHeight="350"
+                                    tileWidth="260"
                                   >
                                     <div
                                       className="n2o-tiles__container col-12"

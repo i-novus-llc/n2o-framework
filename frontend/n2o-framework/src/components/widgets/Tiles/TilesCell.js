@@ -4,6 +4,7 @@ import omit from 'lodash/omit';
 import get from 'lodash/get';
 import Factory from '../../../core/factory/Factory';
 import { CELLS } from '../../../core/factory/factoryLevels';
+import propsResolver from '../../../utils/propsResolver';
 /**
  * Строка карточки
  * @reactProps {string} className - имя css класса
@@ -22,6 +23,7 @@ function TilesCell(props) {
       src={get(component, 'src')}
       level={CELLS}
       model={model}
+      {...propsResolver(omit(component, ['src', 'width']), model)}
       {...getPassProps()}
     />
   );

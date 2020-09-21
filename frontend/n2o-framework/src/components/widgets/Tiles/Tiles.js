@@ -15,15 +15,31 @@ import { withResizeDetector } from 'react-resize-detector';
  * @reactProps {number} colsMd - количество колонок в режиме планшета
  * @reactProps {number} colsLg - количество колонок в режиме десктопа
  * @reactProps {number} id - id виджета
+ * @reactProps {string} tileWidth - ширина ввиджета
+ * @reactProps {string} tileHeight - высота виджета
  */
 
 function Tiles(props) {
-  const { tile, className, data, id, colsSm, colsMd, colsLg, width } = props;
+  const {
+    tile,
+    className,
+    data,
+    id,
+    colsSm,
+    colsMd,
+    colsLg,
+    width,
+    tileWidth,
+    tileHeight,
+  } = props;
   const col = calcCols(colsSm, colsMd, colsLg, width);
 
   const renderTilesItem = (element, index) => (
     <div className={`col-${col} d-flex justify-content-center`}>
-      <div className={cn('n2o-tiles__item')}>
+      <div
+        className={cn('n2o-tiles__item')}
+        style={{ width: tileWidth, minHeight: tileHeight }}
+      >
         {map(tile, cell => (
           <TilesCell
             className={cn('n2o-tiles__cell', cell.className)}
@@ -77,6 +93,19 @@ Tiles.propTypes = {
    * id виджета
    */
   id: PropTypes.number,
+  /**
+   * высота виджета
+   */
+  tileHeight: PropTypes.string,
+  /**
+   * ширина виджета
+   */
+  tileWidth: PropTypes.string,
+};
+
+Tiles.defaultProps = {
+  tileWidth: '260px',
+  tileHeight: '350px',
 };
 
 export { Tiles };
