@@ -2,11 +2,9 @@ package net.n2oapp.framework.api.metadata.local;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.CompiledMetadata;
-import net.n2oapp.framework.api.metadata.global.aware.OriginAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
@@ -15,11 +13,11 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReference
 import java.util.*;
 
 /**
- * Сокмпилированный объект
+ * Скомпилированный объект
  */
 @Getter
 @Setter
-public class CompiledObject implements CompiledMetadata {
+public class CompiledObject implements Compiled, IdAware {
     public static final String VALIDATION_RESULT_PARAM = "validation";
 
     private String id;
@@ -41,11 +39,6 @@ public class CompiledObject implements CompiledMetadata {
 
     private List<Validation> fieldValidations;
 
-    @Override
-    public final Class<? extends CompiledMetadata> getCompiledBaseClass() {
-        return CompiledObject.class;
-    }
-
     public Map<String, AbstractParameter> getObjectFieldsMap() {
         return objectFieldsMap;
     }
@@ -64,18 +57,15 @@ public class CompiledObject implements CompiledMetadata {
 
     @Getter
     @Setter
-    public static class Operation extends N2oObject.Operation implements Compiled, OriginAware, PropertiesAware {
-
+    public static class Operation extends N2oObject.Operation implements Compiled, PropertiesAware {
         private Map<String, Object> properties;
         private Map<String, N2oObject.Parameter> inParametersMap;
         private Map<String, N2oObject.Parameter> outParametersMap;
         private List<Validation> validationList;
-        private List<ConditionValidation> conditionList;
         private Map<String, Validation> validationsMap;
         private Map<String, Validation> whiteListValidationsMap;
         private Set<String> inParamsSet = new LinkedHashSet<>();
         private Set<String> outParamsSet = new LinkedHashSet<>();
-        private Boolean auto;
 
         public Operation(
                 Map<String, N2oObject.Parameter> inParametersMap,
@@ -115,40 +105,5 @@ public class CompiledObject implements CompiledMetadata {
         public Map<String, Validation> getValidationsMap() {
             return validationsMap != null ? validationsMap : Collections.emptyMap();
         }
-
-        @Override
-        public boolean isReal() {
-            return this.getObjectId() != null;
-        }
-
-        public Boolean getAuto() {
-            return auto;
-        }
-
-        public void setAuto(Boolean auto) {
-            this.auto = auto;
-        }
     }
-
-    public Map<String, Operation> getOperations() {
-        return operations;
-    }
-
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    @Override
-    public Class<N2oObject> getSourceClass() {
-        return N2oObject.class;
-    }
-
-
 }

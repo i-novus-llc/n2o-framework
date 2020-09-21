@@ -4,7 +4,7 @@
 
 Библиотека компонентов::
 ```
-http://n2oapp.net/framework/config/schema/object-3.0
+http://n2oapp.net/framework/config/schema/object-4.0
 ```
 
 Атрибуты::
@@ -49,12 +49,10 @@ http://n2oapp.net/framework/config/schema/object-3.0
 
 |===
 
-
-
 Пример::
 [source,xml]
 ----
-<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0"
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0"
   name="Мой объект"
   table-name="mytable"
   entity-class="com.example.MyEntity">
@@ -113,11 +111,6 @@ http://n2oapp.net/framework/config/schema/object-3.0
 |Обязательность поля
 |false
 
-|enabled
-|true false
-|Включение поля
-|true
-
 |===
 
 Пример::
@@ -171,11 +164,6 @@ http://n2oapp.net/framework/config/schema/object-3.0
 |Обязательность поля
 |false
 
-|enabled
-|true false
-|Включение поля
-|true
-
 |===
 
 Тело::
@@ -221,8 +209,29 @@ http://n2oapp.net/framework/config/schema/object-3.0
 </fields>
 ----
 
+==== <set>
+Поле - множество объектов.
+
+Атрибуты::
+Аналогичны `<reference>`.
+
+Пример::
+[source,xml]
+----
+<fields>
+  <set
+    id="statuses"
+    object-id="state"
+    mapping="statusList">
+    <field id="id" mapping="id"/>
+    <field id="name" mapping="name"/>
+    <field id="code" mapping="code"/>
+  </set>
+</fields>
+----
+
 === <operations>
-Операции над объектом.
+Список операций над объектом.
 
 ==== <operation>
 Операция над объектом.
@@ -263,11 +272,15 @@ http://n2oapp.net/framework/config/schema/object-3.0
 |Текст, в случае непредвиденной ошибки
 |Не удалось выполнить действие
 
-|confirmation-text
+|confirm
+|true false
+|Требуется ли подтверждение действия?
+|
+
+|confirm-text
 |Параметризованный текст
 |Текст подтверждения действия
 |Вы уверены, что хотите выполнить действие?
-
 
 |===
 
@@ -311,8 +324,7 @@ link:#_Провайдеры_данных[Провайдер данных]
 Список link:#_Параметр_провайдера_данных_field[параметров]
 
 ===== <validations>
-Валидации операции.
-
+Список валидаций операции.
 
 Атрибуты::
 [cols="2,1,4,4"]
@@ -361,15 +373,10 @@ after-success-operation, after-fail-operation
 |Момент срабатывания валидации на сервере
 |before-operation
 
-|client-moment
-|before-load, after-load, before-store, after-store, before-submit, after-submit
-|Момент срабатывания валидации на клиенте
-|after-store
-
 |message
 |Строка
 |Сообщение, в случае нарушения валидации.
-Может содержать параметры.
+Может содержать параметры
 |
 
 |field-id
@@ -382,10 +389,15 @@ after-success-operation, after-fail-operation
 |Включение валидации
 |true
 
+|side
+|client server client,server
+|Выполнение на клиенте и/или сервере
+|
+
 |===
 
 ==== <condition>
-Валидация условий заполненности полей.
+Валидация условия значений полей.
 
 Атрибуты::
 [cols="2,1,4,4"]
@@ -394,13 +406,13 @@ after-success-operation, after-fail-operation
 
 |on
 |Список полей
-|Поля от которых зависит условие валидации
+|Поля, от которых зависит условие валидации
 |Вычисляется по условию
 
 |src
 |Строка
 |Путь к js файлу, который содержит условие валидации.
-Если не задан, необходимо задать условие в теле.
+Если не задан, необходимо задать условие в теле
 |
 
 |===
@@ -422,6 +434,46 @@ java Script выражение
 </validations>
 ----
 
+==== <mandatory>
+Валидация обязательности заполнения поля.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|on
+|Список полей
+|Поля, от которых зависит условие валидации
+|Вычисляется по условию
+
+|src
+|Строка
+|Путь к js файлу, который содержит условие валидации.
+Если не задан, необходимо задать условие в теле
+|
+
+|===
+
+Тело::
+JavaScript выражение
+
+[TIP]
+Вводить javaScript выражение не обязательно.
+Будут сделаны стандартные проверки на undefined, null, пустую строку,
+наличие id, пустой список
+
+Пример::
+[source,xml]
+----
+<validations>
+  <mandatory
+    id="requiredName"
+    field-id="name"
+    message="Наименование должно быть заполнено"/>
+</validations>
+----
+
 ==== <constraint>
 Валидация ограничений полей.
 
@@ -432,7 +484,7 @@ java Script выражение
 
 |result
 |SpEL выражение
-|Получение результата валидации
+|Результат валидации
 |
 
 |===
@@ -462,6 +514,61 @@ java Script выражение
 </validations>
 ----
 
+==== <dialog>
+Валидация с диалогом выбора.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|id
+|Строка
+|Идентификатор валидации
+|
+
+|server-moment
+|before-operation, before-query, after-success-query, after-fail-query,
+after-success-operation, after-fail-operation
+|Момент срабатывания валидации на сервере
+|before-operation
+
+|message
+|Строка
+|Сообщение, в случае нарушения валидации.
+Может содержать параметры
+|
+
+|result
+|SpEL выражение
+|Результат валидации
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<validations>
+  <dialog
+    id="checkName"
+    message="Имя не Иван. Вы уверены, что хотите продолжить?"
+    result="name == 'Ivan'">
+    <invocation>...</invocation>
+    <in>
+      <field id="name"/>
+      <field id="validated"/>
+    </in>
+    <out>
+      <field id="name"/>
+    </out>
+    <toolbar>
+      ...
+    </toolbar>
+  </dialog>
+</validations>
+----
+
 ===== <invocation>
 Вызов валидации.
 
@@ -483,47 +590,5 @@ link:#_Провайдеры_данных[Провайдер данных]
 Тело::
 Список link:#_Параметр_провайдера_данных_field[параметров]
 
-==== <mandatory>
-Валидация обязательности заполнения поля.
-
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|field-id
-|Идентификатор
-|Поле, которое должно быть заполнено
-|
-
-|message
-|Строка
-|Сообщение, в случае нарушения валидации.
-Может содержать параметры.
-|Поле обязательно для заполнения
-
-|on
-|Список полей
-|Поля от которых зависит условие валидации
-|Вычисляется по условию
-
-|===
-
-Тело::
-JavaScript выражение
-
-[TIP]
-Вводить javaScript выражение не обязательно.
-Будут сделаны стандартные проверки на undefined, null, пустую строку,
-наличие id, пустой список.
-
-Пример::
-[source,xml]
-----
-<validations>
-  <mandatory
-    id="requiredName"
-    field-id="name"
-    message="Наименование должно быть заполнено"/>
-</validations>
-----
+===== <toolbar>
+link:#_Виджеты_toolbar[Меню управляющих кнопок].
