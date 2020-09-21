@@ -25,8 +25,19 @@ public class ImageUploadCompiler extends BaseFileUploadCompiler<ImageUpload, N2o
         ImageUpload imageUpload = new ImageUpload();
         imageUpload.setListType(p.cast(source.getListType(),
                 p.resolve(property("n2o.api.control.image_upload.list_type"), ImageUpload.ListType.class)));
-        imageUpload.setLightbox(p.cast(source.getLightbox(),
-                p.resolve(property("n2o.api.control.image_upload.lightbox"), Boolean.class)));
+        imageUpload.setCanLightbox(p.cast(source.getCanLightbox(),
+                p.resolve(property("n2o.api.control.image_upload.can_lightbox"), Boolean.class)));
+        imageUpload.setCanDelete(p.cast(source.getCanDelete(),
+                p.resolve(property("n2o.api.control.image_upload.can_delete"), Boolean.class)));
+        imageUpload.setWidth(p.cast(source.getWidth(),
+                p.resolve(property("n2o.api.control.image_upload.width"), Integer.class)));
+        imageUpload.setHeight(p.cast(source.getHeight(),
+                p.resolve(property("n2o.api.control.image_upload.height"), Integer.class)));
+        imageUpload.setIcon(source.getIcon());
+        imageUpload.setIconSize(source.getIconSize());
+        imageUpload.setShowTooltip(p.cast(source.getShowTooltip(),
+                p.resolve(property("n2o.api.control.image_upload.show_tooltip"), Boolean.class)));
+        imageUpload.setShape(source.getShape());
         imageUpload.setShowName(p.cast(source.getShowName(),
                 p.resolve(property("n2o.api.control.image_upload.show_name"), Boolean.class)));
         return compileFileUpload(imageUpload, source, context, p);
