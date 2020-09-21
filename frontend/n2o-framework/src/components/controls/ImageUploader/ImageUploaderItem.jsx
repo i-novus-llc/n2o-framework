@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 import isEmpty from 'lodash/isEmpty';
 import isUndefined from 'lodash/isUndefined';
+import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
+import omit from 'lodash/omit';
 
 import cn from 'classnames';
 
@@ -48,11 +50,17 @@ class ImageUploaderItem extends React.Component {
       loading,
       lightBox,
       listType = 'image',
+      customUploaderSize,
+      showTooltip,
+      viewOnly,
+      shape,
     } = this.props;
 
     const cardType = listType === 'card';
     const imageType = listType === 'image';
     const withInformation = showSize || showName;
+    const shapeCircle = isEqual(shape, 'circle');
+
     const imgSrc = !isUndefined(file.error)
       ? ''
       : isUndefined(file.link)
@@ -60,7 +68,7 @@ class ImageUploaderItem extends React.Component {
       : get(file, 'link');
 
     return (
-      <div className="n2o-image-uploader-files-item">
+      <div className="n2o-image-uploader-files-item" style={customUploaderSize}>
         <span
           className={cn('n2o-file-uploader-files-item-info', {
             'with-info': cardType && withInformation,
@@ -73,12 +81,16 @@ class ImageUploaderItem extends React.Component {
             className={cn('n2o-image-uploader-link', {
               'n2o-image-uploader-item-error': file.error,
               'single-img': imageType,
+              'n2o-image-uploader-link--shape-circle': shapeCircle,
             })}
+            style={customUploaderSize}
           >
             <div
               className={cn('n2o-image-uploader__watch', {
                 'single-img': imageType,
+                'n2o-image-uploader__watch--shape-circle': shapeCircle,
               })}
+              style={customUploaderSize}
             >
               <div className="n2o-image-uploader__watch--icons-container">
                 {lightBox && isUndefined(file.error) && (
@@ -89,21 +101,27 @@ class ImageUploaderItem extends React.Component {
                     />
                   </span>
                 )}
-                <span>
-                  <i
-                    onClick={() => onRemove(index, file.id)}
-                    className="n2o-image-uploader__watch--trash fa fa-trash"
-                  />
-                </span>
+                {!viewOnly && (
+                  <span>
+                    <i
+                      onClick={() => onRemove(index, file.id)}
+                      className="n2o-image-uploader__watch--trash fa fa-trash"
+                    />
+                  </span>
+                )}
               </div>
             </div>
             <img
-              className="n2o-image-uploader--img"
+              className={cn('n2o-image-uploader--img', {
+                'n2o-image-uploader--img--shape-circle': shapeCircle,
+              })}
               src={imgSrc}
-              alt="upload error"
+              alt={!shapeCircle && 'upload error'}
+              style={omit(customUploaderSize, 'height')}
             />
           </a>
-          {(!isEmpty(file.error) || !isEmpty(file.response)) && (
+          {((showTooltip && !isEmpty(file.error)) ||
+            (showTooltip && !isEmpty(file.response))) && (
             <Tooltip
               isOpen={this.state.tooltipOpen}
               target={`tooltip-${file.id}`}

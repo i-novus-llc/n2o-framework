@@ -1,36 +1,72 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import isEmpty from 'lodash/isEmpty';
-
 import withFileUploader from '../FileUploader/withFileUploader';
 import ImageUpload from './ImageUpload';
 
-function defaultDropZone(icon, label) {
-  return (
-    <React.Fragment>
-      <div className={icon} />
-      {label}
-    </React.Fragment>
-  );
-}
+import {
+  createCustomSizes,
+  getSize,
+  getCurrentLabel,
+  defaultDropZone,
+} from './utils';
 
-function ImageUploader(props) {
-  const { icon, label, children, imgError } = props;
-  const currentLabel = !isEmpty(imgError) ? imgError.message : label;
+/**
+ * Компонент ImageUploader
+ * @param props - иконка в dropzone uploader
+ * @param icon - иконка в dropzone uploader
+ * @param label - label в dropzone
+ * @param children - children
+ * @param showTooltip - флаг на резолв тултипа со статусом загрузки
+ * @param imgError - ошибка загрузки
+ * @param width - кастом ширина
+ * @param height - кастом высота
+ * @param iconSize - кастом размер иконки
+ * @param unit - еденицы измерения для кастом размеров (px default)
+ * @param viewOnly - мод в котором возможно только загрузить img и просматривать его
+ * @param shape -мод в котором можно указать форму uploader (circle)
+ */
+
+function ImageUploader({
+  icon,
+  label,
+  children,
+  showTooltip,
+  imgError,
+  width,
+  height,
+  iconSize,
+  unit,
+  viewOnly,
+  shape,
+  ...rest
+}) {
+  const currentLabel = getCurrentLabel(imgError, label);
+  const size = createCustomSizes(width, height, iconSize, unit);
+
+  const component = children || defaultDropZone(icon, currentLabel, size);
+
   return (
     <ImageUpload
-      children={children || defaultDropZone(icon, currentLabel)}
+      children={component}
       componentClass={'n2o-drop-zone'}
-      {...props}
+      customUploaderSize={getSize(size, 'uploader')}
+      icon={icon}
+      label={label}
+      showTooltip={showTooltip}
+      imgError={imgError}
+      width={width}
+      height={height}
+      iconSize={iconSize}
+      viewOnly={viewOnly}
+      shape={shape}
+      {...rest}
     />
   );
 }
 
-ImageUploader.defaultProps = {
-  saveBtnStyle: {
-    marginTop: '10px',
-  },
+ImageUpload.defaultProps = {
+  showTooltip: true,
 };
 
 ImageUploader.propTypes = {
@@ -52,6 +88,12 @@ ImageUploader.propTypes = {
   multiple: PropTypes.bool,
   onChange: PropTypes.func,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  avatar: PropTypes.bool,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  showTooltip: PropTypes.bool,
+  viewOnly: PropTypes.bool,
+  shape: PropTypes.string,
 };
 
 export default withFileUploader(ImageUploader);

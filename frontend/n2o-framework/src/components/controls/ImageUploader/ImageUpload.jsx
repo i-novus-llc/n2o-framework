@@ -34,11 +34,16 @@ function ImageUpload(props) {
     lightbox,
     listType,
     imgError,
+    showTooltip,
+    customUploaderSize,
+    viewOnly,
+    shape,
   } = props;
   const showControl = multiple || (!multiple && isEmpty(files));
   const componentClassContainer = `${componentClass}-container`;
+
   return (
-    <React.Fragment>
+    <>
       {visible && (
         <div>
           <div
@@ -53,7 +58,10 @@ function ImageUpload(props) {
                   [className]: className,
                   [uploaderClass]: uploaderClass,
                   'img-error': !isEmpty(imgError),
+                  'n2o-image-uploader-control--shape-circle':
+                    shape === 'circle',
                 })}
+                style={customUploaderSize}
                 accept={'image/*'}
                 multiple={multiple}
                 disabled={disabled}
@@ -77,6 +85,10 @@ function ImageUpload(props) {
                 disabled={disabled}
                 listType={listType}
                 imgFiles={imgFiles}
+                customUploaderSize={customUploaderSize}
+                showTooltip={showTooltip}
+                viewOnly={viewOnly}
+                shape={shape}
               />
             )}
           </div>
@@ -91,7 +103,7 @@ function ImageUpload(props) {
           )}
         </div>
       )}
-    </React.Fragment>
+    </>
   );
 }
 

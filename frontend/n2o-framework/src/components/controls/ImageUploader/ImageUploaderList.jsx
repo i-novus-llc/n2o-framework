@@ -6,7 +6,15 @@ import map from 'lodash/map';
 import ImageUploaderItem from './ImageUploaderItem';
 
 function ImageUploaderList(props) {
-  const { files, onRemove, uploading, imgFiles, ...rest } = props;
+  const {
+    files,
+    onRemove,
+    uploading,
+    imgFiles,
+    showTooltip,
+    viewOnly,
+    ...rest
+  } = props;
 
   return map(files, (file, index) => {
     return (
@@ -17,6 +25,8 @@ function ImageUploaderList(props) {
         onRemove={onRemove}
         index={index}
         loading={uploading && uploading[file.id]}
+        showTooltip={showTooltip}
+        viewOnly={viewOnly}
         {...rest}
       />
     );
