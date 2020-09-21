@@ -9,7 +9,7 @@ public interface ExtTask {
 
     String getName();
 
-    int getPriority();
+    Integer getPriority();
 
     String getOwner();
 

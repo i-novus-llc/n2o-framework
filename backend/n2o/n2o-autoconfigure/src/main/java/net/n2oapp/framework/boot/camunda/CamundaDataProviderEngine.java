@@ -7,9 +7,9 @@ import java.util.Map;
 
 public class CamundaDataProviderEngine implements MapInvocationEngine<N2oCamundaDataProvider> {
 
-    private final CamundaEngine engine;
+    private final CamundaProxyEngine engine;
 
-    public CamundaDataProviderEngine(CamundaEngine engine) {
+    public CamundaDataProviderEngine(CamundaProxyEngine engine) {
         this.engine = engine;
     }
 
@@ -20,7 +20,7 @@ public class CamundaDataProviderEngine implements MapInvocationEngine<N2oCamunda
 
         switch (invocation.getOperation()) {
             case countTasks:
-                return engine.getCountTasks();
+                return engine.getCountTasks(inParams);
             case findTasks:
                 return engine.findTasks(inParams);
             case getTask:
@@ -43,7 +43,7 @@ public class CamundaDataProviderEngine implements MapInvocationEngine<N2oCamunda
 
     private String extractId(Map<String, Object> inParams) {
         Object id = inParams.remove("id");
-        return id == null ? null : (String) id;
+        return id == null ? null : id.toString();
     }
 
     private Object getTask(Map<String, Object> inParams) {

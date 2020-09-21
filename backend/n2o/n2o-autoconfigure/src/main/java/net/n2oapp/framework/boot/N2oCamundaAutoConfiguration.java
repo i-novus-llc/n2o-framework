@@ -1,8 +1,8 @@
 package net.n2oapp.framework.boot;
 
 import net.n2oapp.framework.boot.camunda.CamundaDataProviderEngine;
-import net.n2oapp.framework.boot.camunda.CamundaEngine;
-import net.n2oapp.framework.boot.camunda.EmbeddedCamundaEngine;
+import net.n2oapp.framework.boot.camunda.CamundaProxyEngine;
+import net.n2oapp.framework.boot.camunda.EmbeddedCamundaProxyEngine;
 import org.camunda.bpm.BpmPlatform;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +22,21 @@ public class N2oCamundaAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public CamundaDataProviderEngine camundaDataProviderEngine(@Autowired CamundaEngine camundaEngine) {
+    public CamundaDataProviderEngine camundaDataProviderEngine(@Autowired CamundaProxyEngine camundaEngine) {
         return new CamundaDataProviderEngine(camundaEngine);
     }
 
     @Bean
+    @ConditionalOnMissingBean
     @ConditionalOnProperty(name = "n2o.engine.camunda.rest_url", matchIfMissing = true)
-    public CamundaEngine embeddedCamundaEngine(@Autowired ProcessEngine processEngine) {
-        return new EmbeddedCamundaEngine(processEngine);
+    public CamundaProxyEngine embeddedCamundaEngine(@Autowired ProcessEngine processEngine) {
+        return new EmbeddedCamundaProxyEngine(processEngine);
     }
 
     @Bean
+    @ConditionalOnMissingBean
     @ConditionalOnProperty(name = "n2o.engine.camunda.rest_url")
-    public CamundaEngine restCamundaEngine() {
+    public CamundaProxyEngine restCamundaEngine() {
         return null; //TODO
     }
 }

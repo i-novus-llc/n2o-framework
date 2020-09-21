@@ -14,7 +14,7 @@ public class ExtTaskImpl implements ExtTask {
 
     private String name;
 
-    private int priority;
+    private Integer priority;
 
     private String owner;
 

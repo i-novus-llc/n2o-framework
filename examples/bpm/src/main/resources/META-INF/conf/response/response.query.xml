@@ -14,16 +14,17 @@
         </field>
 
         <field id="position" domain="string">
-            <select/>
+            <select mapping="['variables']?.get('position')"/>
         </field>
         <field id="salary" domain="integer">
-            <select/>
+            <select mapping="['variables']?.get('salary')"/>
         </field>
+
         <field id="lastName" domain="string">
-            <select/>
+            <select mapping="['variables']?.get('lastName')"/>
         </field>
         <field id="salaryExpected" domain="integer">
-            <select/>
+            <select mapping="['variables']?.get('salaryExpected')"/>
         </field>
     </fields>
 </query>
