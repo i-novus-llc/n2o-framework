@@ -100,6 +100,8 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.shouldHaveSize(0);
         assertThat(fileStoreController.getFileStore().size(), is(0));
 
+        Selenide.refresh();
+
         // загрузка файла с неразрешенным расширением
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/index.page.xml");
         // загрузка не произошла

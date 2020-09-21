@@ -70,10 +70,6 @@ public class FileStoreController {
         return fm;
     }
 
-    public int size() {
-        return fileStore.size();
-    }
-
     @Getter
     @AllArgsConstructor
     static class ListResponse {

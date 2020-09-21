@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.control;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.ImageUploadControl;
 import net.n2oapp.framework.autotest.api.component.page.Page;
@@ -14,12 +15,12 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public void shouldBeEmpty() {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void shouldHaveValue(String value) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -34,8 +35,7 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public void deleteImage(int index) {
-        element().parent().$$(".n2o-file-uploader-files-item-info  .n2o-image-uploader__watch .n2o-image-uploader__watch--trash")
-                .get(index).hover().shouldBe(Condition.visible).click();
+        getFilesItems().get(index).$(".n2o-image-uploader__watch .n2o-image-uploader__watch--trash").hover().shouldBe(Condition.visible).click();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     @Override
     public void shouldHaveSize(int size) {
-        element().parent().$$(".n2o-image-uploader-container .n2o-image-uploader-files-item").shouldHaveSize(size);
+        getFilesItems().shouldHaveSize(size);
     }
 
     @Override
@@ -89,19 +89,20 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
         getSizeElement(index).shouldHave(Condition.text(fileSize));
     }
 
+    private ElementsCollection getFilesItems() {
+        return element().parent().$$(".n2o-file-uploader-files-item-info");
+    }
+
     private SelenideElement getPreviewElement(int index) {
-        return element().parent().$$(".n2o-file-uploader-files-item-info  .n2o-image-uploader__watch .n2o-image-uploader__watch--eye")
-                .get(index);
+        return getFilesItems().get(index).$(".n2o-image-uploader__watch .n2o-image-uploader__watch--eye");
     }
 
     private SelenideElement getNameElement(int index) {
-        return element().parent().$$(".n2o-file-uploader-files-item-info .n2o-image-uploader-img-info .n2o-image-uploader-img-info__file-name")
-                .get(index);
+        return getFilesItems().get(index).$(".n2o-image-uploader-img-info .n2o-image-uploader-img-info__file-name");
     }
 
     private SelenideElement getSizeElement(int index) {
-        return element().parent().$$(".n2o-file-uploader-files-item-info .n2o-image-uploader-img-info .n2o-image-uploader-img-info__file-size")
-                .get(index);
+        return getFilesItems().get(index).$(".n2o-image-uploader-img-info .n2o-image-uploader-img-info__file-size");
     }
 
     public static class PreviewDialogImpl implements PreviewDialog {
