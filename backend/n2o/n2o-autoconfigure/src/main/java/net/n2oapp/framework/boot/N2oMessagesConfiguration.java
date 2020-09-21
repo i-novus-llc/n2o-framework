@@ -72,7 +72,7 @@ public class N2oMessagesConfiguration {
     @Bean("n2oMessageSourceAccessor")
     @ConditionalOnMissingBean(name = "n2oMessageSourceAccessor")
     public MessageSourceAccessor messageSourceAccessor(@Qualifier("n2oMessageSource") MessageSource messageSource) {
-        return new MessageSourceAccessor(messageSource);
+        return new MessageSourceAccessor(messageSource, new Locale("ru"));
     }
 
     @Bean
