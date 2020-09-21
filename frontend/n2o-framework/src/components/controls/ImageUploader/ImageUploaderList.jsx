@@ -12,7 +12,7 @@ function ImageUploaderList(props) {
     uploading,
     imgFiles,
     showTooltip,
-    viewOnly,
+    canDelete,
     ...rest
   } = props;
 
@@ -26,7 +26,7 @@ function ImageUploaderList(props) {
         index={index}
         loading={uploading && uploading[file.id]}
         showTooltip={showTooltip}
-        viewOnly={viewOnly}
+        canDelete={canDelete}
         {...rest}
       />
     );

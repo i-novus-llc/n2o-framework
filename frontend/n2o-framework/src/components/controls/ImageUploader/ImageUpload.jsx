@@ -36,7 +36,7 @@ function ImageUpload(props) {
     imgError,
     showTooltip,
     customUploaderSize,
-    viewOnly,
+    canDelete,
     shape,
   } = props;
   const showControl = multiple || (!multiple && isEmpty(files));
@@ -87,7 +87,7 @@ function ImageUpload(props) {
                 imgFiles={imgFiles}
                 customUploaderSize={customUploaderSize}
                 showTooltip={showTooltip}
-                viewOnly={viewOnly}
+                canDelete={canDelete}
                 shape={shape}
               />
             )}

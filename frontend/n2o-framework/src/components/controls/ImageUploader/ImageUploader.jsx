@@ -23,7 +23,7 @@ import {
  * @param height - кастом высота
  * @param iconSize - кастом размер иконки
  * @param unit - еденицы измерения для кастом размеров (px default)
- * @param viewOnly - мод в котором возможно только загрузить img и просматривать его
+ * @param canDelete - отключает возможность удаления
  * @param shape -мод в котором можно указать форму uploader (circle)
  */
 
@@ -37,7 +37,7 @@ function ImageUploader({
   height,
   iconSize,
   unit,
-  viewOnly,
+  canDelete,
   shape,
   ...rest
 }) {
@@ -58,7 +58,7 @@ function ImageUploader({
       width={width}
       height={height}
       iconSize={iconSize}
-      viewOnly={viewOnly}
+      canDelete={canDelete}
       shape={shape}
       {...rest}
     />
@@ -67,6 +67,8 @@ function ImageUploader({
 
 ImageUpload.defaultProps = {
   showTooltip: true,
+  canDelete: true,
+  lightbox: false,
 };
 
 ImageUploader.propTypes = {
@@ -92,7 +94,7 @@ ImageUploader.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   showTooltip: PropTypes.bool,
-  viewOnly: PropTypes.bool,
+  canDelete: PropTypes.bool,
   shape: PropTypes.string,
 };
 

@@ -52,7 +52,7 @@ class ImageUploaderItem extends React.Component {
       listType = 'image',
       customUploaderSize,
       showTooltip,
-      viewOnly,
+      canDelete,
       shape,
     } = this.props;
 
@@ -101,7 +101,7 @@ class ImageUploaderItem extends React.Component {
                     />
                   </span>
                 )}
-                {!viewOnly && (
+                {!canDelete && (
                   <span>
                     <i
                       onClick={() => onRemove(index, file.id)}
