@@ -40,6 +40,7 @@ public class AutoCompleteCompiler extends StandardFieldCompiler<AutoComplete, N2
     @Override
     public StandardField<AutoComplete> compile(N2oAutoComplete source, CompileContext<?, ?> context, CompileProcessor p) {
         AutoComplete autoComplete = new AutoComplete();
+        autoComplete.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         autoComplete.setValueFieldId(p.cast(source.getValueFieldId(), "name"));
         autoComplete.setTags(p.cast(source.getTags(),
                 p.resolve(property("n2o.api.control.auto_complete.tags"), Boolean.class)));
