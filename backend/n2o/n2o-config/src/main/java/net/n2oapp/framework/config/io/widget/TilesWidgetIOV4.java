@@ -6,7 +6,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись плиток
+ * Чтение\запись виджета Плитки
  */
 @Component
 public class TilesWidgetIOV4 extends WidgetElementIOv4<N2oTiles> {
@@ -31,5 +31,4 @@ public class TilesWidgetIOV4 extends WidgetElementIOv4<N2oTiles> {
         p.attributeInteger(e, "height", t::getHeight, t::setHeight);
         p.anyChildren(e, "content", t::getContent, t::setContent, p.anyOf(N2oTiles.Block.class), TilesWidgetIOV4.NAMESPACE);
     }
-
 }

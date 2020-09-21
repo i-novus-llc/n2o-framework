@@ -4,8 +4,8 @@
         <block id="id1" class="test1" style="test1" src="tile1">
             <cell src="cell1"/>
         </block>
-        <block id="id2" class="test2" style="test2" src="tile2">
-            <cell src="cell2"/>
+        <block id="id2">
+            <image src="cell2"/>
         </block>
     </content>
 </tiles>

@@ -74,5 +74,4 @@ public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
         pagination.setNext(source.getPagination() != null ? source.getPagination().getNext() : null);
         return pagination;
     }
-
 }
