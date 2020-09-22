@@ -33,10 +33,8 @@ public class CompiledObject implements CompiledMetadata {
     //все валидации объекта разложенные в мапу по идентификаторам
     private Map<String, Validation> validationsMap;
     private String tableName;
-    private String entityClass;
     private String appName;
     private String moduleName;
-    private String serviceClass;
     private String serviceName;
 
     private List<Validation> fieldValidations;
