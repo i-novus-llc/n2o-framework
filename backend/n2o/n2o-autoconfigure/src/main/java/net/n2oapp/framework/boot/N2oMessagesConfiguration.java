@@ -46,8 +46,6 @@ public class N2oMessagesConfiguration {
     private String basename;
     @Value("${n2o.i18n.default-locale:en}")
     private String defaultLocale;
-    @Value("${n2o.i18n.enabled}")
-    private Boolean i18nEnabled;
 
 
     @Bean("n2oMessageSource")
@@ -78,15 +76,18 @@ public class N2oMessagesConfiguration {
         return new MessageSourceAccessor(messageSource);
     }
 
-    @Bean
+    @Bean(name = "localeResolver")
+    @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "false")
+    public LocaleResolver fixedLocaleResolver() {
+        return new FixedLocaleResolver(new Locale(defaultLocale));
+    }
+
+    @Bean(name = "localeResolver")
+    @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "true")
     public LocaleResolver localeResolver() {
-        if(i18nEnabled) {
-            SessionLocaleResolver slr = new SessionLocaleResolver();
-            slr.setDefaultLocale(new Locale(defaultLocale));
-            return slr;
-        } else {
-            return new FixedLocaleResolver(new Locale(defaultLocale));
-        }
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        slr.setDefaultLocale(new Locale(defaultLocale));
+        return slr;
     }
 
     @Bean
