@@ -36,8 +36,7 @@ public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2o
 
         compileAction(showModal, source, p);
         PageContext pageContext = initPageContext(showModal, source, context, p);
-        compilePayload(showModal, source, context, p);
-        showModal.getPayload().setPrompt(pageContext.getUnsavedDataPromptOnClose());
+        compilePayload(showModal, source, pageContext, p);
         return showModal;
     }
 
@@ -61,7 +60,7 @@ public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2o
         payload.setQueryMapping(queryMapping);
     }
 
-    private void compilePayload(OpenDrawer showModal, N2oOpenDrawer source, CompileContext<?, ?> context, CompileProcessor p) {
+    private void compilePayload(OpenDrawer showModal, N2oOpenDrawer source, PageContext pageContext, CompileProcessor p) {
         OpenDrawerPayload payload = showModal.getPayload();
         payload.setBackdrop(source.getBackdrop());
         payload.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.action.open_drawer.width"), String.class)));
@@ -70,5 +69,6 @@ public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2o
         payload.setLevel(source.getLevel());
         payload.setBackdropClosable(p.cast(source.getBackdropClosable(), true));
         payload.setClosable(p.cast(source.getClosable(), true));
+        payload.setPrompt(pageContext.getUnsavedDataPromptOnClose());
     }
 }
