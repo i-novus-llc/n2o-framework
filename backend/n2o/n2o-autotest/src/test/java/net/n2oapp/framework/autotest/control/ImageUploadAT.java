@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.control;
 
 import com.codeborne.selenide.Selenide;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.ImageUploadControl;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -63,14 +64,17 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.shouldBeEnabled();
         fileStoreController.clearFileStore();
 
+        imageUpload.uploadAreaShouldHaveIcon("fa fa-upload");
+
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/image_upload/image.png");
         imageUpload.shouldHaveSize(1);
 
         imageUpload.nameInfoShouldNotExist(0);
-        imageUpload.sizeInfoShouldBeInvisible(0);
+        imageUpload.sizeInfoShouldNotBeVisible(0);
         imageUpload.shouldNotHavePreview(0);
 
         assertThat(fileStoreController.getFileStore().size(), is(1));
+        imageUpload.shouldHaveDeleteButton(0);
         imageUpload.deleteImage(0);
         imageUpload.shouldHaveSize(0);
         assertThat(fileStoreController.getFileStore().size(), is(0));
@@ -82,10 +86,23 @@ public class ImageUploadAT extends AutoTestBase {
         imageUpload.shouldBeEnabled();
         fileStoreController.clearFileStore();
 
+        imageUpload.shouldHaveSize(0);
+        imageUpload.uploadAreaShouldHaveIcon("fa fa-plus");
+        imageUpload.uploadAreaIconShouldHaveSize(100);
+        imageUpload.uploadAreaShouldHaveWidth(200);
+        imageUpload.uploadAreaShouldHaveHeight(200);
+
+        // загрузка файла с неразрешенным расширением
+        imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/index.page.xml");
+        // загрузка не произошла
+        imageUpload.shouldHaveSize(0);
+        assertThat(fileStoreController.getFileStore().size(), is(0));
+
         imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/image_upload/image.png");
         imageUpload.shouldHaveSize(1);
 
         imageUpload.nameInfoShouldExist(0);
+        imageUpload.uploadAreaShapeShouldBe(ImageShape.circle);
         imageUpload.nameShouldBe(0, "image.png");
         imageUpload.sizeShouldBe(0, "186");
         imageUpload.shouldHavePreview(0);
@@ -96,17 +113,7 @@ public class ImageUploadAT extends AutoTestBase {
         previewDialog.close();
 
         assertThat(fileStoreController.getFileStore().size(), is(1));
-        imageUpload.deleteImage(0);
-        imageUpload.shouldHaveSize(0);
-        assertThat(fileStoreController.getFileStore().size(), is(0));
-
-        Selenide.refresh();
-
-        // загрузка файла с неразрешенным расширением
-        imageUpload.uploadFromClasspath("net/n2oapp/framework/autotest/control/fileupload/index.page.xml");
-        // загрузка не произошла
-        imageUpload.shouldHaveSize(0);
-        assertThat(fileStoreController.getFileStore().size(), is(0));
+        imageUpload.shouldNotHaveDeleteButton(0);
     }
 
     @Test
