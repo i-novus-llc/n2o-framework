@@ -85,8 +85,6 @@ public class ImageUploadCompileTest extends SourceCompileTestBase {
         assertThat(imageUpload2.getResponseFieldId(), is("message"));
         assertThat(imageUpload2.getRequestParam(), is("file"));
         assertThat(imageUpload2.getCanDelete(), is(true));
-        assertThat(imageUpload2.getWidth(), is(300));
-        assertThat(imageUpload2.getHeight(), is(300));
         assertThat(imageUpload2.getShowTooltip(), is(true));
     }
 }
