@@ -1,9 +1,10 @@
-package net.n2oapp.framework.config.metadata.compile.widget;
+package net.n2oapp.framework.config.metadata.compile.widget.tree;
 
 import net.n2oapp.framework.api.metadata.meta.widget.Tree;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.TreeElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
+import net.n2oapp.framework.config.metadata.compile.widget.TreeCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;

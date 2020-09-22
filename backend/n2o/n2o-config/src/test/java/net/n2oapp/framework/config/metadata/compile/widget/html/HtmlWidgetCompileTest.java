@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.widget;
+package net.n2oapp.framework.config.metadata.compile.widget.html;
 
 import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -7,6 +7,7 @@ import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.compile.toolbar.PerformButtonCompiler;
 import net.n2oapp.framework.config.metadata.compile.toolbar.SubmenuCompiler;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarCompiler;
+import net.n2oapp.framework.config.metadata.compile.widget.HtmlWidgetCompiler;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
 import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;

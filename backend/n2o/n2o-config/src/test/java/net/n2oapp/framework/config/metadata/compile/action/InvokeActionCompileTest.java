@@ -143,6 +143,13 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionParam.widget.xml")
                 .get(new WidgetContext("testInvokeActionParam", "/w"));
 
+        // operationMapping should not contains form params from corresponding invoke
+        // but could contains from other
+        ActionContext actionContext1 = (ActionContext) route("/w/test", CompiledObject.class);
+        assertThat(actionContext1.getOperationMapping().containsKey("fpName1"), is(false));
+        ActionContext actionContext2 = (ActionContext) route("/w/:testInvokeActionParam_id/menuItem0", CompiledObject.class);
+        assertThat(actionContext2.getOperationMapping().containsKey("fpGender.id"), is(false));
+
         //filter model
         InvokeAction testAction = (InvokeAction) table.getActions().get("test");
         ClientDataProvider provider1 = testAction.getPayload().getDataProvider();
@@ -163,7 +170,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         assertThat(provider2.getPathMapping().size(), is(2));
         assertThat(provider2.getHeadersMapping().size(), is(1));
 
-        assertThat(provider2.getFormMapping().get("fpName2").getValue(), is("fpValue2"));
+        assertThat(provider2.getFormMapping().get("fpGender.id").getValue(), is(1));
         assertThat(provider2.getPathMapping().get("ppName2").getValue(), is("ppValue2"));
         assertThat(provider2.getHeadersMapping().get("hpName2").getValue(), is("hpValue2"));
     }

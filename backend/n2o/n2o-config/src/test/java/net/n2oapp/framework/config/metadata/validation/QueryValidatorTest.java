@@ -34,7 +34,7 @@ public class QueryValidatorTest extends SourceValidationTestBase {
     @Test
     public void testCheckForExistsObject() {
         exception.expect(N2oMetadataValidationException.class);
-        exception.expectMessage("Выборка checkForExistsObject ссылается не несуществующий объект nonExistantObjectId");
+        exception.expectMessage("Выборка checkForExistsObject ссылается на несуществующий объект nonExistantObjectId");
         validate("net/n2oapp/framework/config/metadata/validation/query/checkForExistsObject.query.xml");
     }
 
