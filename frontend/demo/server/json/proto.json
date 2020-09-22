@@ -1713,12 +1713,18 @@
         "collapsible": false,
         "fullScreen": false,
         "header": true,
-        "panels": [
+        "content": [
           {
-            "id": "panel1",
-            "label": "Клиенты",
-            "opened": true,
-            "widgetId": "clients"
+            "src": "HtmlWidget",
+            "html": {
+              "url": null,
+              "html": "<h1>World</h1>",
+              "fetchOnInit": false
+            },
+            "security": {
+              "roles": ["admin"]
+            }
+
           }
         ]
       }
@@ -1732,12 +1738,18 @@
         "open": true,
         "collapsible": true,
         "fullScreen": false,
-        "panels": [
+        "content": [
           {
-            "id": "panel1",
-            "label": "Контакты",
-            "opened": true,
-            "widgetId": "contacts"
+            "src": "HtmlWidget",
+            "html": {
+              "url": null,
+              "html": "<h1>World</h1>",
+              "fetchOnInit": false
+            },
+            "security": {
+              "roles": ["admin"]
+            }
+
           }
         ]
       },
@@ -1749,11 +1761,18 @@
         "open": true,
         "collapsible": true,
         "fullScreen": false,
-        "panels": [
+        "content": [
           {
-            "id": "panel1",
-            "opened": true,
-            "widgetId": "form"
+            "src": "HtmlWidget",
+            "html": {
+              "url": null,
+              "html": "<h1>World</h1>",
+              "fetchOnInit": false
+            },
+            "security": {
+              "roles": ["admin"]
+            }
+
           }
         ]
       }
