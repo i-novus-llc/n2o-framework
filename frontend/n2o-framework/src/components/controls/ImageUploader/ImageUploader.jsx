@@ -43,7 +43,6 @@ function ImageUploader({
 }) {
   const currentLabel = getCurrentLabel(imgError, label);
   const size = createCustomSizes(width, height, iconSize, unit);
-
   const component = children || defaultDropZone(icon, currentLabel, size);
 
   return (

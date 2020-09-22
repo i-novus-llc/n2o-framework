@@ -6,6 +6,7 @@ import isUndefined from 'lodash/isUndefined';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import omit from 'lodash/omit';
+import assign from 'lodash/assign';
 
 import cn from 'classnames';
 
@@ -60,6 +61,7 @@ class ImageUploaderItem extends React.Component {
     const imageType = listType === 'image';
     const withInformation = showSize || showName;
     const shapeCircle = isEqual(shape, 'circle');
+    const cardWithShapeCircle = cardType && shapeCircle;
 
     const imgSrc = !isUndefined(file.error)
       ? ''
@@ -67,8 +69,19 @@ class ImageUploaderItem extends React.Component {
       ? URL.createObjectURL(file)
       : get(file, 'link');
 
+    const modifyStyle = size => {
+      return cardType && !shapeCircle ? omit(size, 'maxWidth', 'width') : size;
+    };
+
+    const modifyContainerStyle = size => {
+      return cardWithShapeCircle ? omit(size, 'maxWidth', 'width') : size;
+    };
+
     return (
-      <div className="n2o-image-uploader-files-item" style={customUploaderSize}>
+      <div
+        className="n2o-image-uploader-files-item"
+        style={modifyContainerStyle(customUploaderSize)}
+      >
         <span
           className={cn('n2o-file-uploader-files-item-info', {
             'with-info': cardType && withInformation,
@@ -83,14 +96,14 @@ class ImageUploaderItem extends React.Component {
               'single-img': imageType,
               'n2o-image-uploader-link--shape-circle': shapeCircle,
             })}
-            style={customUploaderSize}
+            style={modifyStyle(customUploaderSize)}
           >
             <div
               className={cn('n2o-image-uploader__watch', {
                 'single-img': imageType,
                 'n2o-image-uploader__watch--shape-circle': shapeCircle,
               })}
-              style={customUploaderSize}
+              style={modifyStyle(customUploaderSize)}
             >
               <div className="n2o-image-uploader__watch--icons-container">
                 {lightBox && isUndefined(file.error) && (
@@ -101,7 +114,7 @@ class ImageUploaderItem extends React.Component {
                     />
                   </span>
                 )}
-                {!canDelete && (
+                {canDelete && (
                   <span>
                     <i
                       onClick={() => onRemove(index, file.id)}
