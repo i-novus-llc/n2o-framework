@@ -4,9 +4,9 @@
         <fields>
             <input-text id="name" label="Имя">
                 <submit operation-id="updateField">
-                    <form-param name="idParam" value="{id}"/>
-                    <form-param name="keyParam" value="name"/>
-                    <form-param name="valueParam" value="{name}"/>
+                    <form-param id="id" value="{id}"/>
+                    <form-param id="key" value="name"/>
+                    <form-param id="value" value="{name}"/>
                 </submit>
             </input-text>
             <select id="gender" label="Пол">
@@ -15,18 +15,18 @@
                     <option id="w" name="Женский"/>
                 </options>
                 <submit operation-id="updateField">
-                    <form-param name="idParam" value="{id}"/>
-                    <form-param name="keyParam" value="gender.id"/>
-                    <form-param name="valueParam" value="{gender.id}"/>
+                    <form-param id="id" value="{id}"/>
+                    <form-param id="key" value="gender.id"/>
+                    <form-param id="value" value="{gender.id}"/>
                 </submit>
             </select>
             <date-interval id="vacation" label="Даты отпуска">
                 <submit operation-id="updateField">
-                    <form-param name="idParam" value="{id}"/>
-                    <form-param name="keyParam" value="vacation.begin"/>
-                    <form-param name="valueParam" value="{vacation.begin}"/>
-                    <form-param name="key2Param" value="vacation.end"/>
-                    <form-param name="value2Param" value="{vacation.end}"/>
+                    <form-param id="id" value="{id}"/>
+                    <form-param id="key" value="vacation.begin"/>
+                    <form-param id="value" value="{vacation.begin}"/>
+                    <form-param id="key2" value="vacation.end"/>
+                    <form-param id="value2" value="{vacation.end}"/>
                 </submit>
             </date-interval>
         </fields>

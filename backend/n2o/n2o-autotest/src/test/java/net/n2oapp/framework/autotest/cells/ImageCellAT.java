@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.cells;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
-import net.n2oapp.framework.autotest.api.component.cell.*;
+import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест ячеек таблицы
+ * Автотест ячейки таблицы с изображением
  */
 public class ImageCellAT extends AutoTestBase {
 
@@ -50,10 +50,9 @@ public class ImageCellAT extends AutoTestBase {
 
     @Test
     public void imageCellTest() {
-        int col = 0;
-
-        rows.row(0).cell(col, ImageCell.class).imageShouldBe(getBaseUrl()+"/favicon.ico");
-        rows.row(0).cell(col, ImageCell.class).shapeShouldBe(ImageShape.circle);
+        ImageCell cell = rows.row(0).cell(0, ImageCell.class);
+        cell.imageShouldBe(getBaseUrl() + "/favicon.ico");
+        cell.widthShouldBe(15);
+        cell.shapeShouldBe(ImageShape.circle);
     }
-
 }

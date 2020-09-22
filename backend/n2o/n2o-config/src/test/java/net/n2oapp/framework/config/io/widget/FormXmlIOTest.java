@@ -9,7 +9,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтения и записи формы из/в xml-файла
+ * Тестирование чтения/записи виджета Форма
  */
 public class FormXmlIOTest {
 

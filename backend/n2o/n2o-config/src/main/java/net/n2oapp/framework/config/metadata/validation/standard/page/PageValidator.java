@@ -26,18 +26,41 @@ public class PageValidator implements SourceValidator<N2oPage>, SourceClassAware
     @Override
     public void validate(N2oPage page, ValidateProcessor p) {
         if (page.getObjectId() != null) {
-            p.checkForExists(page.getObjectId(), N2oObject.class,
-                    "Страница '" + page.getId() + "' ссылается на несуществующий объект {0}");
+            checkForExistsObject(page.getId(), page.getObjectId(), p);
         }
+
         PageScope scope = new PageScope();
         scope.setWidgetIds(p.safeStreamOf(page.getContainers()).map(N2oMetadata::getId).collect(Collectors.toSet()));
-
         p.safeStreamOf(page.getContainers()).forEach(widget -> p.validate(widget, scope));
+        checkForExistsDependsOnWidget(page, scope, p);
+    }
+
+    /**
+     * Проверка существования Объекта
+     *
+     * @param pageId   Идентификатор страницы
+     * @param objectId Идентификатор объекта
+     * @param p        Процессор валидации метаданных
+     */
+    private void checkForExistsObject(String pageId, String objectId, ValidateProcessor p) {
+        p.checkForExists(objectId, N2oObject.class,
+                String.format("Страница %s ссылается на несуществующий объект %s", pageId, objectId));
+    }
+
+    /**
+     * Проверка существования depends-on виджетов
+     *
+     * @param page  Страница
+     * @param scope Информация о странице
+     * @param p     Процессор валидации метаданных
+     */
+    private void checkForExistsDependsOnWidget(N2oPage page, PageScope scope, ValidateProcessor p) {
         p.safeStreamOf(page.getContainers())
                 .filter(w -> w.getDependsOn() != null)
                 .forEach(w -> {
                     if (!scope.getWidgetIds().contains(w.getDependsOn()))
-                        throw new N2oMetadataValidationException("depends-on link to a non-existent widget " + w.getDependsOn());
+                        throw new N2oMetadataValidationException(
+                                "Атрибут depends-on ссылается на несуществующий виджет " + w.getDependsOn());
                 });
     }
 }

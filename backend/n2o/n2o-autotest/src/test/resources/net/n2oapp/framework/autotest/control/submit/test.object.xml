@@ -6,11 +6,11 @@
                 <test operation="updateField" file="net/n2oapp/framework/autotest/control/submit/test.json"/>
             </invocation>
             <in>
-                <field id="id" param="idParam"/>
-                <field id="key" param="keyParam"/>
-                <field id="value" param="valueParam"/>
-                <field id="key2" param="key2Param"/>
-                <field id="value2" param="value2Param"/>
+                <field id="id"/>
+                <field id="key"/>
+                <field id="value"/>
+                <field id="key2"/>
+                <field id="value2"/>
             </in>
         </operation>
     </operations>
