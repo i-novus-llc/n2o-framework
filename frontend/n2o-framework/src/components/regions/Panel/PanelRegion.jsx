@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import every from 'lodash/every';
 import isUndefined from 'lodash/isUndefined';
+import map from 'lodash/map';
+
 import { compose, setDisplayName } from 'recompose';
 import PanelShortHand from '../../snippets/Panel/PanelShortHand';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
@@ -10,6 +13,8 @@ import withRegionContainer from '../withRegionContainer';
 import withWidgetProps from '../withWidgetProps';
 import withSecurity from '../../../core/auth/withSecurity';
 import { SECURITY_CHECK } from '../../../core/auth/authTypes';
+import RegionContent from '../RegionContent';
+import isNil from 'lodash/isNil';
 
 /**
  * Регион Панель
@@ -113,12 +118,15 @@ class PanelRegion extends React.Component {
       activeEntity,
       open,
       changeActiveEntity,
+      content,
     } = this.props;
     const isInvisible = every(
       panels,
       item => getWidgetProps(item.widgetId).isVisible === false
     );
 
+    const panelHasContent = !isNil(content);
+    console.warn('value ------>', content);
     return (
       <PanelShortHand
         tabs={this.state.tabs}
@@ -127,7 +135,8 @@ class PanelRegion extends React.Component {
         style={{ display: isInvisible && 'none' }}
         onVisibilityChange={changeActiveEntity}
       >
-        {panels.map(container => this.getContent(container))}
+        {map(panels, container => this.getContent(container))}
+        {panelHasContent && <RegionContent {...content} />}
       </PanelShortHand>
     );
   }
