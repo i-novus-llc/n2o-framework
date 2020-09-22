@@ -27,11 +27,11 @@ public abstract class N2oTestBase {
         environment.setNamespacePersisterFactory(new PersisterFactoryByMap());
         environment.setNamespaceReaderFactory(new ReaderFactoryByMap());
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.addBasenames("n2o_api_messages", "n2o_api_messages",  "n2o_config_messages",
-                "n2o_config_messages", "test_messages", "messages");
+        messageSource.addBasenames("n2o_api_messages", "n2o_api_messages",  "n2o_config_messages", "test_messages", "messages");
         messageSource.setDefaultEncoding("UTF-8");
-        LocaleContextHolder.setLocale(new Locale("ru"));
-        environment.setMessageSource(new MessageSourceAccessor(messageSource));
+        Locale locale = new Locale("ru");
+        LocaleContextHolder.setLocale(locale);
+        environment.setMessageSource(new MessageSourceAccessor(messageSource, locale));
         OverrideProperties properties = PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties");
         environment.setSystemProperties(new SimplePropertyResolver(properties));
 
