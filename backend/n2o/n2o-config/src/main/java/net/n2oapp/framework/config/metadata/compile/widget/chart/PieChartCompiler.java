@@ -19,18 +19,22 @@ public class PieChartCompiler extends AbstractChartCompiler<PieChart, N2oPieChar
     @Override
     public PieChart compile(N2oPieChart source, CompileContext<?, ?> context, CompileProcessor p) {
         PieChart chart = new PieChart();
-        build(chart, source, context, p, property("n2o.api.widget.chart.pie"));
+        build(chart, source, context, p, property("n2o.api.widget.chart.pie.src"));
         chart.setType(ChartType.pie);
         chart.getComponent().setCenterX(source.getCenterX());
         chart.getComponent().setCenterY(source.getCenterY());
-        chart.getComponent().setInnerRadius(p.cast(source.getInnerRadius(), 0));
+        chart.getComponent().setInnerRadius(p.cast(source.getInnerRadius(),
+                p.resolve(property("n2o.api.widget.chart.pie.inner_radius"), Integer.class)));
         chart.getComponent().setOuterRadius(source.getOuterRadius());
-        chart.getComponent().setStartAngle(p.cast(source.getStartAngle(), 0));
-        chart.getComponent().setEndAngle(p.cast(source.getEndAngle(), 360));
+        chart.getComponent().setStartAngle(p.cast(source.getStartAngle(),
+                p.resolve(property("n2o.api.widget.chart.pie.start_angle"), Integer.class)));
+        chart.getComponent().setEndAngle(p.cast(source.getEndAngle(),
+                p.resolve(property("n2o.api.widget.chart.pie.end_angle"), Integer.class)));
         chart.getComponent().setNameFieldId(source.getNameFieldId());
         chart.getComponent().setValueFieldId(source.getValueFieldId());
         chart.getComponent().setColor(source.getColor());
-        chart.getComponent().setHasLabel(p.cast(source.getHasLabel(), p.resolve(property("n2o.api.widget.chart.has-label"), Boolean.class)));
+        chart.getComponent().setHasLabel(p.cast(source.getHasLabel(),
+                p.resolve(property("n2o.api.widget.chart.has_label"), Boolean.class)));
         return chart;
     }
 
