@@ -8,7 +8,7 @@
     <fields>
         <field id="id" domain="string">
             <filters>
-                <eq filter-id="id" domain="string" mapping="[0]"/>
+                <eq filter-id="id" domain="string"/>
             </filters>
             <select/>
         </field>

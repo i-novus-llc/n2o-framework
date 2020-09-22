@@ -18,7 +18,7 @@
             </invocation>
             <in-parameters>
                 <param id="id" domain="string"/>
-                <param id="sendOffer" mapping="[1]['sendOffer']" required="true"/>
+                <param id="sendOffer" required="true"/>
             </in-parameters>
         </operation>
 
