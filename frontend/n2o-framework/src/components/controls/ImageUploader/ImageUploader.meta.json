@@ -17,5 +17,5 @@
   "sizeFieldId": "customSize",
   "responseFieldId": "customResponse",
   "urlFieldId": "customLink",
-  "icon": "fa fa-plus"
+  "icon": "fa fa-user-circle-o"
 }

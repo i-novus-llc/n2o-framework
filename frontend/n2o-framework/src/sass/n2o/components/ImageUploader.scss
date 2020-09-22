@@ -2,6 +2,7 @@
 
   &-container {
     max-width: max-content;
+    min-height: max-content;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -13,6 +14,12 @@
     display: flex;
     align-items: center;
   }
+
+  &-link--shape-circle, &-link--shape-circle.single-img {
+    border-radius: 50%!important;
+    overflow: hidden;
+  }
+
 
   &-link.single-img {
     border: $image-uploader-card-border;
@@ -42,6 +49,13 @@
     }
   }
 
+  &__watch--shape-circle {
+    border-radius: 50%;
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+
   &-link:hover {
     .n2o-image-uploader__watch {
       opacity: 0.8;
@@ -57,7 +71,8 @@
   &-control {
     width: 100px;
     height: 100px;
-    margin: 0 5px 5px 0;
+    margin-right: 5px;
+    margin-bottom: 5px;
     display: flex;
     border: 1px dashed #d9d9d9;
     border-radius: 3px;
@@ -66,6 +81,10 @@
     text-align: center;
     font-size: 12px;
     transition: .3s;
+  }
+
+  &-control--shape-circle {
+    border-radius: 50%;
   }
 
   &-control.img-error {
@@ -79,6 +98,18 @@
   &-control:hover {
     border: $image-uploader-border;
     cursor: pointer;
+    transition: .3s;
+  }
+
+  &-control.avatar {
+    border: none;
+    cursor: default;
+    transition: .3s;
+  }
+
+  &-control.avatar:hover {
+    border: none;
+    cursor: default;
     transition: .3s;
   }
 
@@ -100,7 +131,8 @@
   &-files-item {
     display: flex;
     max-height: 100px;
-    margin: 0 0 5px 0;
+    margin-right: 5px;
+    margin-bottom: 5px;
   }
 
   &-files-item .with-info {
@@ -118,10 +150,21 @@
     max-width: 90px;
     min-width: 90px;
     max-height: 90px;
-    margin: 0 5px 0 5px;
+    margin: 0 5px 0 0;
     transform: scale(.90);
     color: darkred;
     font-size: 14px;
+    text-align: center;
+  }
+
+  &--img--shape-circle {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+    transform: scale(1);
+    object-fit: cover;
   }
 
   &__modal {
