@@ -41,9 +41,15 @@ public class LocalizedCompileTest extends SourceCompileTestBase {
 
     @Test
     public void test() {
+        Locale currentLocale = LocaleContextHolder.getLocale();
         LocaleContextHolder.setLocale(new Locale("ru"));
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cache/testLocalizedCompile.page.xml")
                 .get(new PageContext("testLocalizedCompile"));
         assertThat(page.getWidget().getName(), is("Иван"));
+        LocaleContextHolder.setLocale(new Locale("en"));
+        page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/cache/testLocalizedCompile.page.xml")
+                .get(new PageContext("testLocalizedCompile"));
+        assertThat(page.getWidget().getName(), is("Ivan"));
+        LocaleContextHolder.setLocale(currentLocale);
     }
 }

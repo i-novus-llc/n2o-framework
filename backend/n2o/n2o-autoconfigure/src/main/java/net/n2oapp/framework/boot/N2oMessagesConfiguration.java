@@ -21,6 +21,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.nio.charset.Charset;
@@ -43,8 +44,10 @@ public class N2oMessagesConfiguration {
     private int cacheSeconds;
     @Value("${spring.messages.basename:n2o_api_messages,n2o_config_messages,n2o_rest_messages,messages}")
     private String basename;
-    @Value("${n2o.i18n.locale.default:ru}")
+    @Value("${n2o.i18n.default-locale:en}")
     private String defaultLocale;
+    @Value("${n2o.i18n.enabled}")
+    private Boolean i18nEnabled;
 
 
     @Bean("n2oMessageSource")
@@ -53,6 +56,7 @@ public class N2oMessagesConfiguration {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setDefaultEncoding(encoding.name());
         messageSource.setCacheSeconds(cacheSeconds);
+        messageSource.setFallbackToSystemLocale(false);
         messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(StringUtils.trimAllWhitespace(basename)));
         return messageSource;
     }
@@ -71,15 +75,18 @@ public class N2oMessagesConfiguration {
     @Bean("n2oMessageSourceAccessor")
     @ConditionalOnMissingBean(name = "n2oMessageSourceAccessor")
     public MessageSourceAccessor messageSourceAccessor(@Qualifier("n2oMessageSource") MessageSource messageSource) {
-        return new MessageSourceAccessor(messageSource, new Locale(defaultLocale));
+        return new MessageSourceAccessor(messageSource);
     }
 
     @Bean
-    @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "true")
     public LocaleResolver localeResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(new Locale(defaultLocale));
-        return slr;
+        if(i18nEnabled) {
+            SessionLocaleResolver slr = new SessionLocaleResolver();
+            slr.setDefaultLocale(new Locale(defaultLocale));
+            return slr;
+        } else {
+            return new FixedLocaleResolver(new Locale(defaultLocale));
+        }
     }
 
     @Bean

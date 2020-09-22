@@ -18,5 +18,5 @@
     "extraItems": []
   },
   "user": { "username": null, "testProperty": "testProperty" },
-  "locale": "${n2o.i18n.locale.default}"
+  "locale": "${n2o.i18n.default-locale}"
 }

@@ -31,7 +31,7 @@ public abstract class N2oTestBase {
         messageSource.setDefaultEncoding("UTF-8");
         Locale locale = new Locale("ru");
         LocaleContextHolder.setLocale(locale);
-        environment.setMessageSource(new MessageSourceAccessor(messageSource, locale));
+        environment.setMessageSource(new MessageSourceAccessor(messageSource));
         OverrideProperties properties = PropertiesReader.getPropertiesFromClasspath("META-INF/n2o.properties");
         environment.setSystemProperties(new SimplePropertyResolver(properties));
 
