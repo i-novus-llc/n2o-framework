@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.widget;
+package net.n2oapp.framework.config.metadata.compile.widget.list;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCheckboxCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
