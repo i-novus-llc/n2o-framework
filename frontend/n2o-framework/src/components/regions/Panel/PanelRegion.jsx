@@ -3,18 +3,16 @@ import PropTypes from 'prop-types';
 
 import every from 'lodash/every';
 import isUndefined from 'lodash/isUndefined';
+import isArray from 'lodash/isArray';
 import map from 'lodash/map';
 
 import { compose, setDisplayName } from 'recompose';
 import PanelShortHand from '../../snippets/Panel/PanelShortHand';
-import { WIDGETS } from '../../../core/factory/factoryLevels';
-import Factory from '../../../core/factory/Factory';
 import withRegionContainer from '../withRegionContainer';
 import withWidgetProps from '../withWidgetProps';
 import withSecurity from '../../../core/auth/withSecurity';
 import { SECURITY_CHECK } from '../../../core/auth/authTypes';
 import RegionContent from '../RegionContent';
-import isNil from 'lodash/isNil';
 
 /**
  * Регион Панель
@@ -56,17 +54,9 @@ class PanelRegion extends React.Component {
     this.getPanelsWithAccess();
   }
 
-  getContent(panel) {
-    const { getWidget, pageId } = this.props;
-    return (
-      <Factory
-        level={WIDGETS}
-        id={panel.widgetId}
-        key={panel.widgetId}
-        {...getWidget(pageId, panel.widgetId)}
-        pageId={pageId}
-      />
-    );
+  getContent(meta) {
+    const content = isArray(meta) ? meta : [meta];
+    return <RegionContent content={content} />;
   }
 
   getTab(panel) {
@@ -100,9 +90,9 @@ class PanelRegion extends React.Component {
   }
 
   getPanelsWithAccess() {
-    const { panels } = this.props;
+    const { content } = this.props;
     this.setState({ tabs: [] }, async () => {
-      for (const panel of panels) {
+      for (const panel of content) {
         await this.checkPanel(panel);
       }
     });
@@ -113,20 +103,16 @@ class PanelRegion extends React.Component {
    */
   render() {
     const {
-      panels,
+      content,
       getWidgetProps,
       activeEntity,
       open,
       changeActiveEntity,
-      content,
     } = this.props;
     const isInvisible = every(
-      panels,
+      content,
       item => getWidgetProps(item.widgetId).isVisible === false
     );
-
-    const panelHasContent = !isNil(content);
-    console.warn('value ------>', content);
     return (
       <PanelShortHand
         tabs={this.state.tabs}
@@ -135,8 +121,7 @@ class PanelRegion extends React.Component {
         style={{ display: isInvisible && 'none' }}
         onVisibilityChange={changeActiveEntity}
       >
-        {map(panels, container => this.getContent(container))}
-        {panelHasContent && <RegionContent {...content} />}
+        {map(content, meta => this.getContent(meta))}
       </PanelShortHand>
     );
   }
