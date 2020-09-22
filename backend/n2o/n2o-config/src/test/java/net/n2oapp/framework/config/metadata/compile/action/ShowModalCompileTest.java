@@ -83,6 +83,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(payload.getSize(), is("sm"));
         assertThat(payload.getScrollable(), is(true));
         assertThat(payload.getPageId(), is("p_create"));
+        assertThat(payload.getPrompt(), is(true));
 
 //        assertThat(payload.getActions().size(), is(2));
 //        assertThat(payload.getActions().containsKey("submit"), is(true));
@@ -155,6 +156,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(payload.getPageUrl(), is("/p/:id/update"));
 //        assertThat(payload.getTitle(), is("Модальное окно"));
         assertThat(payload.getSize(), is("lg"));
+        assertThat(payload.getPrompt(), is(false));
 
         PageContext modalContext = (PageContext) route("/p/123/update", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPageSecondFlow"));

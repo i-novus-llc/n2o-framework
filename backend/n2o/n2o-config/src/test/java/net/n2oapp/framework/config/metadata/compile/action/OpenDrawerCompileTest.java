@@ -74,6 +74,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(payload.getPageUrl(), is("/p/create"));
         assertThat(payload.getPageId(), is("p_create"));
         assertThat(payload.getMode(), is("drawer"));
+        assertThat(payload.getPrompt(), is(true));
 
         PageContext drawerContext = (PageContext) route("/p/create", Page.class);
         assertThat(drawerContext.getSourceId(null), is("testShowModalPage"));
@@ -125,6 +126,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
 
         //update
         assertThat(payload.getPageUrl(), is("/p/:id/update"));
+        assertThat(payload.getPrompt(), is(false));
 
         PageContext drawerContext = (PageContext) route("/p/123/update", Page.class);
         assertThat(drawerContext.getSourceId(null), is("testOpenDrawerPageSecondFlow"));
