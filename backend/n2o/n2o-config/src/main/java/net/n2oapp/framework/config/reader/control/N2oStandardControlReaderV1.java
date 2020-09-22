@@ -8,7 +8,7 @@ import net.n2oapp.framework.api.metadata.control.N2oActionButton;
 import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
-import net.n2oapp.framework.api.metadata.control.interval.N2oIntervalField;
+import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
 import net.n2oapp.framework.api.metadata.control.list.Inlineable;
 import net.n2oapp.framework.api.metadata.control.list.N2oSelectTree;
 import net.n2oapp.framework.api.metadata.control.plain.N2oText;
@@ -18,12 +18,14 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.reader.MetadataReaderException;
 import net.n2oapp.framework.config.reader.tools.ActionButtonsReaderV1;
 import net.n2oapp.framework.config.reader.tools.PreFilterReaderV1Util;
-import org.jdom.Element;
-import org.jdom.Namespace;
-import org.jdom.Text;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
+import org.jdom2.Text;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
@@ -73,8 +75,8 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
             actionButtonsReaderV1.setReaderFactory(readerFactory);
             List<N2oActionButton> buttons = getChildrenAsList(field, "actions", "button", actionButtonsReaderV1);
             if (n2oField instanceof N2oStandardField) {
-                ((N2oStandardField)n2oField).setActionButtons(buttons);
-                ((N2oStandardField)n2oField).setCopied(getAttributeBoolean(field, "copied"));
+                ((N2oStandardField) n2oField).setActionButtons(buttons);
+                ((N2oStandardField) n2oField).setCopied(getAttributeBoolean(field, "copied"));
             }
             if (n2oField instanceof N2oListField) {
                 if ("on".equalsIgnoreCase(getAttributeString(field, "cache")))
@@ -221,10 +223,10 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
                 String fieldId = getAttributeString(el, "field-id");
                 values.put(fieldId, el.getText());
             });
-            ((N2oListField)field).setDefValue(values);
-        } else if (field instanceof N2oIntervalField) {
-            ((N2oIntervalField)field).setBegin(getAttributeString(defaultModel, "begin"));
-            ((N2oIntervalField)field).setEnd(getAttributeString(defaultModel, "end"));
+            ((N2oListField) field).setDefValue(values);
+        } else if (field instanceof N2oSimpleIntervalField) {
+            ((N2oSimpleIntervalField) field).setBegin(getAttributeString(defaultModel, "begin"));
+            ((N2oSimpleIntervalField) field).setEnd(getAttributeString(defaultModel, "end"));
         }
     }
 
@@ -261,7 +263,7 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         n2oControl.setDescription(getElementString(fieldSetElement, "description"));
         n2oControl.setId(getAttributeString(fieldSetElement, "id"));
         if (n2oControl instanceof N2oStandardField) {
-            ((N2oStandardField)n2oControl).setPlaceholder(getAttributeString(fieldSetElement, "placeholder"));
+            ((N2oStandardField) n2oControl).setPlaceholder(getAttributeString(fieldSetElement, "placeholder"));
         }
     }
 
@@ -358,5 +360,4 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
             selectTree.setPreFilters(PreFilterReaderV1Util.getControlPreFilterListDefinition(preFilters));
         }
     }
-
 }

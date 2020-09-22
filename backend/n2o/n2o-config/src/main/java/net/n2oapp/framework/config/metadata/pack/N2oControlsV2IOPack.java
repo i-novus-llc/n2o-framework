@@ -25,6 +25,7 @@ public class N2oControlsV2IOPack implements MetadataPack<N2oApplicationBuilder> 
                 new InputMoneyIOV2(),
                 new MaskedInputIOv2(),
                 new OutputTextIOv2(),
+                new OutputListIOv2(),
                 new PasswordIOv2(),
                 new RadioGroupIOv2(),
                 new SelectTreeIOv2(),
@@ -43,9 +44,12 @@ public class N2oControlsV2IOPack implements MetadataPack<N2oApplicationBuilder> 
                 new RatingIOv2(),
                 new AlertIOv2(),
                 new AutoCompleteIOv2(),
+                new ProgressIOv2(),
+                new StatusFieldIOv2(),
                 new ButtonIO(),
                 new SubmenuIO(),
-                new ButtonFieldIOv2()
-        );
+                new ButtonFieldIOv2(),
+                new RatingIOv2(),
+                new IntervalFieldIOv2());
     }
 }

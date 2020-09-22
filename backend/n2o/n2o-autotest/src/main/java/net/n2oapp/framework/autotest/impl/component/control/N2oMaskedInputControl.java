@@ -6,26 +6,67 @@ import net.n2oapp.framework.autotest.api.component.control.MaskedInputControl;
 import org.openqa.selenium.Keys;
 
 /**
- * Ввод текста для автотестирования
+ * Ввод текста с маской для автотестирования
  */
 public class N2oMaskedInputControl extends N2oControl implements MaskedInputControl {
 
     @Override
+    public void shouldBeEmpty() {
+        SelenideElement elm = inputElement();
+        if (elm.exists()) inputElement().shouldBe(Condition.empty);
+        else cellInputElement().shouldBe(Condition.empty);
+    }
+
+    @Override
     public String val() {
-        SelenideElement elm = element().parent().$(".n2o-input-mask");
-        return elm.exists() ? elm.val() : element().$(".n2o-editable-cell .n2o-editable-cell-text").text();
+        SelenideElement elm = inputElement();
+        return elm.exists() ? elm.val() : cellInputElement().text();
     }
 
     @Override
     public void val(String value) {
-        element().parent().$(".n2o-input-mask").sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
-        element().parent().$(".n2o-input-mask").pressEnter();
+        inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
+        inputElement().pressEnter();
     }
 
     @Override
     public void shouldHaveValue(String value) {
         SelenideElement elm = element().parent().$(".n2o-input-mask");
-        if (elm.exists()) elm.shouldHave(Condition.value(value));
-        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(Condition.text(value));
+        if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.value(value));
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.text(value));
+    }
+
+    @Override
+    public void shouldHavePlaceholder(String value) {
+        Condition condition = Condition.attribute("placeholder", value);
+
+        SelenideElement elm = element().parent().$(".n2o-input-mask");
+        if (elm.exists()) elm.shouldHave(condition);
+        else element().$(".n2o-editable-cell .n2o-editable-cell-text").shouldHave(condition);
+    }
+
+    @Override
+    public void shouldHaveMeasure() {
+        inputMeasure().should(Condition.exist);
+    }
+
+    @Override
+    public void measureShouldHaveText(String text) {
+        inputMeasure().shouldHave(Condition.text(text));
+    }
+
+    private SelenideElement inputElement() {
+        element().shouldBe(Condition.exist);
+        return element().parent().$(".n2o-input-mask");
+    }
+
+    private SelenideElement cellInputElement() {
+        return element().$(".n2o-editable-cell .n2o-editable-cell-text");
+    }
+
+    private SelenideElement inputMeasure() {
+        return element().parent().$(".n2o-control-container-placeholder");
     }
 }

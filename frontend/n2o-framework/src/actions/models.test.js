@@ -91,13 +91,14 @@ describe('Тесты экшенов models', () => {
 
   describe('Проверка экшена copyModel', () => {
     it('Генирирует правильное событие', () => {
-      const action = copyModel(source, target);
+      const action = copyModel(source, target, 'replace');
       expect(action.type).toEqual(COPY);
     });
     it('Возвращает правильный payload', () => {
-      const action = copyModel(source, target);
+      const action = copyModel(source, target, { mode: 'replace' });
       expect(action.payload.source).toEqual(source);
       expect(action.payload.target).toEqual(target);
+      expect(action.payload.mode).toEqual('replace');
     });
   });
 

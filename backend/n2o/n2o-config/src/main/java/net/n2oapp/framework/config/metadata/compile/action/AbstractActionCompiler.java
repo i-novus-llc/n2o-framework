@@ -1,7 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
@@ -15,7 +17,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 
 /**
- * Абстрактаня реализация компиляции действия
+ * Абстрактная реализация компиляции действия
  */
 public abstract class AbstractActionCompiler<D extends Action, S extends N2oAction>
         implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
@@ -66,5 +68,16 @@ public abstract class AbstractActionCompiler<D extends Action, S extends N2oActi
             }
         }
         return targetWidgetId;
+    }
+
+    protected ReduxModel getTargetWidgetModel(CompileProcessor p, ReduxModel defaultModel) {
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            ModelAware modelAware = componentScope.unwrap(ModelAware.class);
+            if (modelAware != null && modelAware.getModel() != null) {
+                return modelAware.getModel();
+            }
+        }
+        return defaultModel;
     }
 }

@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.control.ControlIOv2;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Чтение\запись филдсета  версии 4.0
@@ -18,6 +18,7 @@ public abstract class FieldsetElementIOv4<T extends N2oFieldSet> implements Name
 
     @Override
     public void io(Element e, T fs, IOProcessor p) {
+        p.attribute(e, "id", fs::getId, fs::setId);
         p.attribute(e, "ref-id", fs::getRefId, fs::setRefId);
         p.attribute(e, "src", fs::getSrc, fs::setSrc);
         p.attribute(e, "class", fs::getCssClass, fs::setCssClass);
@@ -26,8 +27,6 @@ public abstract class FieldsetElementIOv4<T extends N2oFieldSet> implements Name
         p.attributeEnum(e, "field-label-location", fs::getFieldLabelLocation, fs::setFieldLabelLocation, N2oFieldSet.FieldLabelLocation.class);
         p.attributeEnum(e, "field-label-align", fs::getFieldLabelAlign, fs::setFieldLabelAlign, N2oFieldSet.FieldLabelAlign.class);
         p.attribute(e, "field-label-width", fs::getLabelWidth, fs::setLabelWidth);
-        p.attribute(e, "enabling-condition", fs::getEnablingCondition, fs::setEnablingCondition);
-        p.attribute(e, "enabling-condition-on", fs::getEnablingConditionOn, fs::setEnablingConditionOn);
         p.attribute(e, "enabled", fs::getEnabled, fs::setEnabled);
         p.attribute(e, "visible", fs::getVisible, fs::setVisible);
         p.attributeArray(e, "depends-on", ",", fs::getDependsOn, fs::setDependsOn);

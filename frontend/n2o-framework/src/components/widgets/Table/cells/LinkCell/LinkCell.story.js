@@ -72,7 +72,7 @@ stories
       </React.Fragment>
     );
   })
-  .add('LinkCell с иконкой', () => {
+  .add('LinkCell с иконкой и тултипом', () => {
     fetchMock.restore().get('begin:n2o/page', page);
 
     const tableProps = {
@@ -94,6 +94,7 @@ stories
           ...LinkCellWithPerformJSON,
           icon: 'fa fa-pencil',
           type: 'iconAndText',
+          tooltipFieldId: 'tooltip',
         },
         {
           component: LinkCell,
@@ -107,6 +108,7 @@ stories
         {
           id: 'id',
           name: 'Изменить',
+          tooltip: ['tooltip', 'body'],
         },
       ],
     };
@@ -185,7 +187,7 @@ stories
       />
     );
   })
-  .add('Ссылка с url и target=newWindow', () => {
+  .add('Ссылка с url и target=_blank', () => {
     const tableProps = {
       headers: [
         {
@@ -200,7 +202,7 @@ stories
           ...LinkCellWithPerformJSON,
           type: 'text',
           url: 'https://google.com/',
-          target: 'newWindow',
+          target: '_blank',
         },
       ],
       datasource: [

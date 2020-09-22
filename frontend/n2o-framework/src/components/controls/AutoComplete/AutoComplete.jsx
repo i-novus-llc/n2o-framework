@@ -12,7 +12,8 @@ import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
 import isNil from 'lodash/isNil';
 import some from 'lodash/some';
-import { compose } from 'recompose';
+import pick from 'lodash/pick';
+import { compose, mapProps } from 'recompose';
 import listContainer from '../listContainer';
 import onClickOutside from 'react-onclickoutside';
 import cn from 'classnames';
@@ -51,18 +52,32 @@ class AutoComplete extends React.Component {
     }
   };
 
-  componentDidUpdate = prevProps => {
-    const { value, options, tags } = this.props;
+  componentDidUpdate = (prevProps, prevState) => {
+    const { value, options, tags, valueFieldId } = this.props;
+    const compareListProps = ['options', 'value'];
+    const compareListState = ['input'];
 
-    if (!isEqual(prevProps.options, options)) {
-      this.setState({ options });
-    }
+    if (
+      !isEqual(
+        pick(prevProps, compareListProps),
+        pick(this.props, compareListProps)
+      ) ||
+      !isEqual(
+        pick(prevState, compareListState),
+        pick(this.state, compareListState)
+      )
+    ) {
+      const state = {};
 
-    if (prevProps.value !== value) {
-      this.setState({
-        value: isArray(value) ? value : value ? [value] : [],
-        input: value && !tags ? value : '',
-      });
+      if (!isEqual(prevProps.options, options)) {
+        state.options = options;
+      }
+
+      if (prevProps.value !== value) {
+        state.value = isArray(value) ? value : value ? [value] : [];
+        state.input = value && !tags ? value : '';
+      }
+      if (!isEmpty(state)) this.setState(state);
     }
   };
 
@@ -193,7 +208,7 @@ class AutoComplete extends React.Component {
           this.forceUpdate();
         }
 
-        onChange(value);
+        onChange(this.state.value);
       }
     );
   };
@@ -230,7 +245,7 @@ class AutoComplete extends React.Component {
     }
 
     this.setState({ value: newValue }, () => {
-      onChange(value);
+      onChange(newValue);
       this.forceUpdate();
     });
   };
@@ -330,7 +345,7 @@ class AutoComplete extends React.Component {
             <Popper
               placement="bottom-start"
               modifiers={MODIFIERS}
-              positionFixed={true}
+              strategy="fixed"
             >
               {({ ref, style, placement, scheduleUpdate }) => (
                 <div
@@ -364,6 +379,7 @@ class AutoComplete extends React.Component {
                     groupFieldId={groupFieldId}
                     hasCheckboxes={hasCheckboxes}
                     format={format}
+                    renderIfEmpty={false}
                   >
                     <div className="n2o-alerts">
                       {alerts &&
@@ -535,6 +551,10 @@ AutoComplete.defaultProps = {
 
 const enhance = compose(
   listContainer,
+  mapProps(props => ({
+    ...props,
+    options: !isEmpty(props.data) ? props.data : props.options,
+  })),
   onClickOutside
 );
 

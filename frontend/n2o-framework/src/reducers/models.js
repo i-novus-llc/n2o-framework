@@ -6,6 +6,7 @@ import merge from 'lodash/merge';
 import pick from 'lodash/pick';
 import each from 'lodash/each';
 import isString from 'lodash/isString';
+
 import {
   SET,
   REMOVE,
@@ -14,7 +15,6 @@ import {
   UPDATE,
   UPDATE_MAP,
   MERGE,
-  COPY,
   CLEAR,
   PREFIXES,
 } from '../constants/models';
@@ -86,14 +86,6 @@ function resolve(state, action) {
       const newValue = isString(value) ? [value] : value;
 
       return setIn(state, [key, field], mapFn(newValue, v => ({ [map]: v })));
-
-    case COPY:
-      return {
-        ...state[action.payload.target.prefix],
-        [action.payload.target.key]: {
-          ...state[action.payload.source.prefix][action.payload.source.key],
-        },
-      };
     case CLEAR:
       return {
         ...state,
@@ -119,10 +111,6 @@ export default function models(state = modelState, action) {
     case UPDATE_MAP:
       return Object.assign({}, state, {
         [action.payload.prefix]: resolve(state[action.payload.prefix], action),
-      });
-    case COPY:
-      return Object.assign({}, state, {
-        [action.payload.target.prefix]: resolve(state, action),
       });
     case MERGE:
       return { ...merge(state, action.payload.combine) };

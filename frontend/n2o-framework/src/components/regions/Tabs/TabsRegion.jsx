@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
-import isUndefined from 'lodash/isUndefined';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import pull from 'lodash/pull';
@@ -32,6 +31,10 @@ class TabRegion extends React.Component {
       visibleTabs: {},
     };
     this.handleChangeActive = this.handleChangeActive.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.props.changeActiveEntity(null);
   }
 
   handleChangeActive(id, prevId) {

@@ -3,8 +3,6 @@ package net.n2oapp.framework.api.metadata.meta.action.show_modal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.event.action.ShowModalMode;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
@@ -14,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Клиентская модель коомпонента show-modal
+ * Клиентская модель компонента show-modal
  */
 @Getter
 @Setter
@@ -35,6 +33,8 @@ public class ShowModalPayload implements ActionPayload {
     @JsonProperty
     private String size;
     @JsonProperty
+    private Boolean scrollable;
+    @JsonProperty
     private Boolean closeButton = true;
     @JsonProperty
     private Boolean visible = true;
@@ -42,6 +42,4 @@ public class ShowModalPayload implements ActionPayload {
     private Map<String, Action> actions;
     @JsonProperty
     private List<Group> toolbar;
-    @JsonProperty
-    private ShowModalMode mode;
 }

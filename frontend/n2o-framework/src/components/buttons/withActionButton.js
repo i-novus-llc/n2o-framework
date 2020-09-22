@@ -3,11 +3,17 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, withPropsOnChange } from 'recompose';
+import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 import omit from 'lodash/omit';
+import get from 'lodash/get';
+import isNil from 'lodash/isNil';
+
+import isUndefined from 'lodash/isUndefined';
 
 import { registerButton } from '../../actions/toolbar';
 import {
   isDisabledSelector,
+  messageSelector,
   isInitSelector,
   isVisibleSelector,
   countSelector,
@@ -17,9 +23,21 @@ import { makeWidgetValidationSelector } from '../../selectors/widgets';
 import { validateField } from '../../core/validation/createValidator';
 
 import ModalDialog from '../actions/ModalDialog/ModalDialog';
-import Tooltip from '../snippets/Tooltip/Tooltip';
 import { id } from '../../utils/id';
 import linkResolver from '../../utils/linkResolver';
+import PopoverConfirm from '../snippets/PopoverConfirm/PopoverConfirm';
+
+const ConfirmMode = {
+  POPOVER: 'popover',
+  MODAL: 'modal',
+};
+
+const RenderTooltip = ({ id, message }) =>
+  !isUndefined(message) && (
+    <UncontrolledTooltip target={id} boundariesElement={document}>
+      {message}
+    </UncontrolledTooltip>
+  );
 
 export default function withActionButton(options = {}) {
   const onClick = options.onClick;
@@ -33,6 +51,7 @@ export default function withActionButton(options = {}) {
       constructor(props) {
         super(props);
         this.initIfNeeded();
+        this.generatedTooltipId = id();
         this.generatedButtonId = props.uid || id();
       }
 
@@ -83,7 +102,7 @@ export default function withActionButton(options = {}) {
         const { store } = this.context;
         const {
           validationConfig,
-          entityKey,
+          validatedWidgetId,
           validate,
           dispatch,
           formValues,
@@ -92,7 +111,7 @@ export default function withActionButton(options = {}) {
         if (validate) {
           const errors = await validateField(
             validationConfig,
-            entityKey,
+            validatedWidgetId,
             store.getState(),
             isTouched
           )(formValues, dispatch);
@@ -153,26 +172,43 @@ export default function withActionButton(options = {}) {
       };
 
       render() {
-        const { confirm, hint } = this.props;
+        const { confirm, hint, disabled, message } = this.props;
         const { confirmVisible } = this.state;
+        const confirmMode = get(confirm, 'mode');
+        const visible = !isNil(this.props.visible)
+          ? this.props.visible
+          : this.props.visibleFromState;
+
+        const currentMessage = disabled ? message || hint : hint;
         return (
-          <React.Fragment>
-            <Tooltip target={this.generatedButtonId} hint={hint}>
-              <WrappedComponent
-                {...omit(this.props, [
-                  'isInit',
-                  'targetTooltip',
-                  'initialProps',
-                  'registerButton',
-                  'uid',
-                  'validationConfig',
-                  'formValues',
-                ])}
-                onClick={this.handleClick}
-                id={this.generatedButtonId}
+          <div id={this.generatedTooltipId}>
+            <RenderTooltip
+              message={currentMessage}
+              id={this.generatedTooltipId}
+            />
+            <WrappedComponent
+              {...omit(this.props, [
+                'isInit',
+                'targetTooltip',
+                'initialProps',
+                'registerButton',
+                'uid',
+                'validationConfig',
+                'formValues',
+              ])}
+              visible={visible}
+              onClick={this.handleClick}
+              id={this.generatedButtonId}
+            />
+            {confirmMode === ConfirmMode.POPOVER ? (
+              <PopoverConfirm
+                {...this.mapConfirmProps(confirm)}
+                isOpen={confirmVisible}
+                onConfirm={this.handleConfirm}
+                onDeny={this.handleCloseConfirmModal}
+                target={this.generatedButtonId}
               />
-            </Tooltip>
-            {confirm && (
+            ) : confirmMode === ConfirmMode.MODAL ? (
               <ModalDialog
                 {...this.mapConfirmProps(confirm)}
                 visible={confirmVisible}
@@ -180,8 +216,8 @@ export default function withActionButton(options = {}) {
                 onDeny={this.handleCloseConfirmModal}
                 close={this.handleCloseConfirmModal}
               />
-            )}
-          </React.Fragment>
+            ) : null}
+          </div>
         );
       }
     }
@@ -189,15 +225,18 @@ export default function withActionButton(options = {}) {
     const mapStateToProps = createStructuredSelector({
       isInit: (state, ownProps) =>
         isInitSelector(ownProps.entityKey, ownProps.id)(state),
-      visible: (state, ownProps) =>
+      visibleFromState: (state, ownProps) =>
         isVisibleSelector(ownProps.entityKey, ownProps.id)(state),
       disabled: (state, ownProps) =>
         isDisabledSelector(ownProps.entityKey, ownProps.id)(state),
+      message: (state, ownProps) =>
+        messageSelector(ownProps.entityKey, ownProps.id)(state),
       count: (state, ownProps) =>
         countSelector(ownProps.entityKey, ownProps.id)(state),
       validationConfig: (state, ownProps) =>
-        makeWidgetValidationSelector(ownProps.entityKey)(state),
-      formValues: (state, ownProps) => getFormValues(ownProps.entityKey)(state),
+        makeWidgetValidationSelector(ownProps.validatedWidgetId)(state),
+      formValues: (state, ownProps) =>
+        getFormValues(ownProps.validatedWidgetId)(state),
     });
 
     function mapDispatchToProps(dispatch) {
@@ -221,7 +260,6 @@ export default function withActionButton(options = {}) {
     };
 
     ButtonContainer.defaultProps = {
-      visible: true,
       disabled: false,
     };
 

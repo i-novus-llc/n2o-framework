@@ -12,9 +12,9 @@ import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import org.jdom.Attribute;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Attribute;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.core.env.PropertyResolver;
 
@@ -757,6 +757,28 @@ public final class IOProcessorImpl implements IOProcessor {
     }
 
     @Override
+    public void childAttributeInteger(Element element, String childName, String name, Supplier<Integer> getter, Consumer<Integer> setter) {
+        if (r) {
+            Element child = element.getChild(childName, element.getNamespace());
+            if (child == null) return;
+            Attribute attribute = child.getAttribute(name);
+            if (attribute != null) {
+                setter.accept(Integer.parseInt(process(attribute.getValue())));
+            }
+        } else {
+            if (getter.get() == null) return;
+            Element childElement = element.getChild(childName, element.getNamespace());
+            if (childElement == null) {
+                childElement = new Element(childName, element.getNamespace());
+                childElement.setAttribute(new Attribute(name, getter.get().toString()));
+                element.addContent(childElement);
+            } else {
+                childElement.setAttribute(new Attribute(name, getter.get().toString()));
+            }
+        }
+    }
+
+    @Override
     public <T extends Enum<T>> void childAttributeEnum(Element element, String childName, String name, Supplier<T> getter, Consumer<T> setter, Class<T> enumClass) {
         if (r) {
             Element child = element.getChild(childName, element.getNamespace());
@@ -1000,7 +1022,7 @@ public final class IOProcessorImpl implements IOProcessor {
             return null;
         }
         String resolve = StringUtils.resolveProperties(text, MetadataParamHolder.getParams());
-        resolve = systemProperties == null ? resolve : StringUtils.resolveProperties(text, systemProperties::getProperty);
+        resolve = systemProperties == null ? resolve : StringUtils.resolveProperties(resolve, systemProperties::getProperty);
         return messageSourceAccessor == null ? resolve : StringUtils.resolveProperties(resolve, messageSourceAccessor::getMessage);
     }
 

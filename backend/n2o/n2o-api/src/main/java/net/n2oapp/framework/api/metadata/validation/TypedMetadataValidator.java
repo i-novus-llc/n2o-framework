@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.aware.SourceClassAware;
 import net.n2oapp.framework.api.metadata.validate.SourceValidator;
 
 /**
- * Типихированный валидатор
+ * Типизированный валидатор
  */
 public abstract class TypedMetadataValidator<T> implements SourceValidator<T>, SourceClassAware {
 

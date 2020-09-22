@@ -11,5 +11,7 @@ export default function mappingProps(props) {
     disabled: props.disabled,
     count: props.count,
     onClick: props.onClick,
+    rounded: props.rounded,
+    className: props.className,
   };
 }

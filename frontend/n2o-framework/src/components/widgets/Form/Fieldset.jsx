@@ -3,8 +3,9 @@ import isBoolean from 'lodash/isBoolean';
 import isString from 'lodash/isString';
 import each from 'lodash/each';
 import concat from 'lodash/concat';
+import isNil from 'lodash/isNil';
 import { bindActionCreators } from 'redux';
-import { compose } from 'recompose';
+import { compose, mapProps } from 'recompose';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -169,7 +170,7 @@ class Fieldset extends React.Component {
     return fields;
   }
 
-  renderRow(rowId, row) {
+  renderRow(rowId, row, props) {
     const {
       labelPosition,
       labelWidth,
@@ -178,7 +179,10 @@ class Fieldset extends React.Component {
       autoFocusId,
       form,
       modelPrefix,
+      disabled,
+      autoSubmit,
     } = this.props;
+
     return (
       <FieldsetRow
         key={rowId}
@@ -191,6 +195,9 @@ class Fieldset extends React.Component {
         autoFocusId={autoFocusId}
         form={form}
         modelPrefix={modelPrefix}
+        disabled={disabled}
+        autoSubmit={autoSubmit}
+        {...props}
       />
     );
   }
@@ -201,6 +208,9 @@ class Fieldset extends React.Component {
       style,
       component: ElementType,
       children,
+      parentName,
+      parentIndex,
+      disabled,
       ...rest
     } = this.props;
     this.fields = [];
@@ -216,9 +226,9 @@ class Fieldset extends React.Component {
       <div className={classes} style={style}>
         <ElementType
           {...rest}
-          render={rows => {
+          render={(rows, props = { parentName, parentIndex }) => {
             this.fields = this.calculateAllFields(rows);
-            return rows.map((row, id) => this.renderRow(id, row));
+            return rows.map((row, id) => this.renderRow(id, row, props));
           }}
         />
       </div>
@@ -249,11 +259,13 @@ Fieldset.propTypes = {
   enableFields: PropTypes.func,
   disableFields: PropTypes.func,
   modelPrefix: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 Fieldset.defaultProps = {
   labelPosition: 'top-left',
   component: 'div',
+  disabled: false,
 };
 
 Fieldset.contextTypes = {
@@ -276,6 +288,10 @@ const FieldsetContainer = compose(
     null,
     mapDispatchToProps
   ),
+  mapProps(({ enabled, ...props }) => ({
+    ...props,
+    disabled: !isNil(enabled) ? !enabled : false,
+  })),
   withObserveDependency(config)
 )(Fieldset);
 

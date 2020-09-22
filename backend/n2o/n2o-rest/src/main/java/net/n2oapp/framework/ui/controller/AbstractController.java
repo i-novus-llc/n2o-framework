@@ -1,6 +1,5 @@
 package net.n2oapp.framework.ui.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.criteria.api.Direction;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
@@ -8,17 +7,14 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
-import net.n2oapp.framework.api.ui.ErrorMessageBuilder;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.user.UserContext;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
@@ -27,9 +23,7 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static net.n2oapp.framework.mvc.n2o.N2oServlet.USER;
 
@@ -56,19 +50,30 @@ public abstract class AbstractController {
     }
 
     @SuppressWarnings("unchecked")
-    protected ActionRequestInfo createActionRequestInfo(String path, Map<String, String[]> params, Object body, UserContext user) {
-        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, params);
-        DataSet queryData = actionCtx.getParams(path, params);
+    protected ActionRequestInfo createActionRequestInfo(String path,
+                                                        Map<String, String[]> queryParams,
+                                                        Map<String, String[]> headerParams,
+                                                        Object body,
+                                                        UserContext user) {
+        ActionContext actionCtx = (ActionContext) router.get(path, CompiledObject.class, queryParams);
+        DataSet queryData = actionCtx.getParams(path, queryParams);
         CompiledObject object = environment.getReadCompileBindTerminalPipelineFunction()
                 .apply(new N2oPipelineSupport(environment))
                 .get(actionCtx, queryData);
         CompiledObject.Operation operation = object.getOperations().get(actionCtx.getOperationId());
-        ActionRequestInfo<DataSet> requestInfo = new ActionRequestInfo();
+
+        DataSet bodyData = convertToDataSet(body);
+        putParams(headerParams, bodyData, actionCtx.getOperationMapping());
+        putParams(queryParams, bodyData, actionCtx.getOperationMapping());
+        putParams(queryData, bodyData, actionCtx.getOperationMapping());
+
+        ActionRequestInfo<DataSet> requestInfo = new ActionRequestInfo<>();
+        requestInfo.setContext(actionCtx);
         requestInfo.setQueryData(queryData);
+        requestInfo.setData(bodyData);
         requestInfo.setUser(user);
         requestInfo.setObject(object);
         requestInfo.setOperation(operation);
-        requestInfo.setData(convertToDataSet(body));
         requestInfo.setRedirect(actionCtx.getRedirect());
         requestInfo.setMessageOnSuccess(actionCtx.isMessageOnSuccess());
         requestInfo.setMessageOnFail(actionCtx.isMessageOnFail());
@@ -77,6 +82,31 @@ public abstract class AbstractController {
         requestInfo.setMessagesForm(actionCtx.getMessagesForm());
         //requestInfo.setChoice(); todo
         return requestInfo;
+    }
+
+    private void putParams(Map<String, String[]> params, DataSet data, Map<String, String> mapping) {
+        if (params != null && mapping != null) {
+            for (Map.Entry<String, String> entry : mapping.entrySet()) {
+                String[] value = params.get(entry.getKey());
+                if (value != null) {
+                    if (value.length == 1) {
+                        data.put(entry.getValue(), value[0]);
+                    } else {
+                        data.put(entry.getValue(), Arrays.asList(value));
+                    }
+                }
+            }
+        }
+    }
+
+    private void putParams(DataSet params, DataSet data, Map<String, String> mapping) {
+        if (params != null && mapping != null) {
+            for (Map.Entry<String, String> entry : mapping.entrySet()) {
+                Object value = params.get(entry.getKey());
+                if (value != null)
+                    data.put(entry.getValue(), value);
+            }
+        }
     }
 
     private DataSet convertToDataSet(Object body) {

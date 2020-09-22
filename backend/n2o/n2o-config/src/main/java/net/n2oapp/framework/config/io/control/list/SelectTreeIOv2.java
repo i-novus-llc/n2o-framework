@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.control.list.N2oSelectTree;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNodes;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,12 +17,12 @@ public class SelectTreeIOv2 extends ListFieldIOv2<N2oSelectTree> {
         p.attributeBoolean(e, "ajax", m::getAjax, m::setAjax);
         p.attributeBoolean(e, "search", m::getSearch, m::setSearch);
         p.attributeBoolean(e, "checkboxes", m::getCheckboxes, m::setCheckboxes);
-        p.attribute(e, "enabled-field-id", m::getEnabledFieldId, m::setEnabledFieldId);
         p.attribute(e, "parent-field-id", m::getParentFieldId, m::setParentFieldId);
         p.attribute(e, "has-children-field-id", m::getHasChildrenFieldId, m::setHasChildrenFieldId);
         p.attribute(e, "value-field-id", m::getValueFieldId, m::setValueFieldId);
         p.attribute(e, "master-field-id", m::getMasterFieldId, m::setMasterFieldId);
         p.attribute(e, "detail-field-id", m::getDetailFieldId, m::setDetailFieldId);
+        p.attributeInteger(e, "size", m::getSize, m::setSize);
 
         p.child(e, null, "inheritance-nodes", m::getInheritanceNodes, m::setInheritanceNodes, InheritanceNodes.class, this::inheritanceNodes);
     }

@@ -1,7 +1,7 @@
 package net.n2oapp.framework.config.reader.header;
 
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import net.n2oapp.framework.api.metadata.header.N2oCustomHeader;
 import net.n2oapp.framework.api.metadata.reader.AbstractFactoredReader;
 import net.n2oapp.framework.config.reader.tools.PropertiesReaderV1;

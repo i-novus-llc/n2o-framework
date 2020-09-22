@@ -1,14 +1,18 @@
 package net.n2oapp.demo;
 
 import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+
 import net.n2oapp.demo.model.ProtoClient;
 import net.n2oapp.demo.model.ProtoContacts;
 import net.n2oapp.demo.model.ProtoPage;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.HttpClientBuilder;
+import net.n2oapp.framework.autotest.Colors;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.HttpStatus;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,6 +42,8 @@ public class DemoIntegrationAT {
 
     @BeforeAll
     public static void configure() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
 
         headless = true;
@@ -58,7 +64,7 @@ public class DemoIntegrationAT {
     public void checkStaticContent() throws IOException {
         HttpUriRequest request = new HttpGet("http://localhost:" + port + "/index.html");
         HttpResponse httpResponse = HttpClientBuilder.create().build().execute(request);
-        assertThat(httpResponse.getStatusLine().getStatusCode(), equalTo(HttpStatus.SC_OK));
+        assertThat(httpResponse.getCode(), equalTo(HttpStatus.SC_OK));
     }
 
     /**
@@ -104,8 +110,8 @@ public class DemoIntegrationAT {
         protoPage.searchClients();
 
         protoPage.tableShouldHaveSize(1);
-        protoPage.tableCellShouldHaveText(0, 0, "Лапаева");
-        protoPage.tableCellShouldHaveText(0, 1, "Вера");
+        protoPage.tableCellShouldHaveText(0, 1, "Лапаева");
+        protoPage.tableCellShouldHaveText(0, 2, "Вера");
     }
 
     /**
@@ -118,8 +124,8 @@ public class DemoIntegrationAT {
         protoPage.searchClients();
 
         protoPage.tableShouldHaveSize(2);
-        protoPage.tableCellShouldHaveText(0, 0, "Кручинина");
-        protoPage.tableCellShouldHaveText(1, 0, "Мишин");
+        protoPage.tableCellShouldHaveText(0, 1, "Кручинина");
+        protoPage.tableCellShouldHaveText(1, 1, "Мишин");
     }
 
     /**
@@ -143,7 +149,7 @@ public class DemoIntegrationAT {
 
         protoPage.getFirstNameFilter().shouldHaveValue("");
         protoPage.genderFilterShouldBeUnchecked("Женский");
-        protoPage.getVIPFilter().shouldBeUnchecked();
+        protoPage.getVIPFilter().shouldBeEmpty();
     }
 
 
@@ -205,10 +211,12 @@ public class DemoIntegrationAT {
         clientCard.save();
 
         protoPage.shouldBeClientsPage();
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Успешно обновлены данные клиента с фамилией Сергеев");
         protoPage.tableShouldSelectedRow(4);
-        protoPage.tableCellShouldHaveText(4, 0, "Сергеев");
-        protoPage.tableCellShouldHaveText(4, 1, "Николай");
-        protoPage.tableCellShouldHaveText(4, 2, "Петрович");
+        protoPage.tableCellShouldHaveText(4, 1, "Сергеев");
+        protoPage.tableCellShouldHaveText(4, 2, "Николай");
+        protoPage.tableCellShouldHaveText(4, 3, "Петрович");
     }
 
     /**
@@ -235,10 +243,12 @@ public class DemoIntegrationAT {
 
         protoPage.shouldDialogClosed("Карточка клиента:", 4000);
         protoPage.shouldBeClientsPage();
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Успешно обновлены данные клиента с фамилией Александринкин");
         protoPage.tableShouldSelectedRow(1);
-        protoPage.tableCellShouldHaveText(1, 0, "Александринкин");
-        protoPage.tableCellShouldHaveText(1, 1, "Иннокентута");
-        protoPage.tableCellShouldHaveText(1, 2, "Игнатиевичя");
+        protoPage.tableCellShouldHaveText(1, 1, "Александринкин");
+        protoPage.tableCellShouldHaveText(1, 2, "Иннокентута");
+        protoPage.tableCellShouldHaveText(1, 3, "Игнатиевичя");
     }
 
     /**
@@ -262,10 +272,12 @@ public class DemoIntegrationAT {
         clientCard.save();
 
         protoPage.shouldBeClientsPage();
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Успешно обновлены данные клиента с фамилией Сергеева");
         protoPage.tableShouldSelectedRow(7);
-        protoPage.tableCellShouldHaveText(7, 0, "Сергеева");
-        protoPage.tableCellShouldHaveText(7, 1, "Анастасия");
-        protoPage.tableCellShouldHaveText(7, 2, "Михайловна");
+        protoPage.tableCellShouldHaveText(7, 1, "Сергеева");
+        protoPage.tableCellShouldHaveText(7, 2, "Анастасия");
+        protoPage.tableCellShouldHaveText(7, 3, "Михайловна");
     }
 
     /**
@@ -275,8 +287,12 @@ public class DemoIntegrationAT {
     public void testVipCell() {
         protoPage.vipCellShouldBeChecked(2);
         protoPage.setVipCellNotChecked(2);
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Успешно обновлены данные клиента с фамилией");
         protoPage.vipCellShouldNotBeChecked(2);
         protoPage.setVipCellChecked(2);
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Успешно обновлены данные клиента с фамилией");
         protoPage.vipCellShouldBeChecked(2);
     }
 
@@ -292,10 +308,14 @@ public class DemoIntegrationAT {
         protoPage.clickBirthdayCell(0);
         protoPage.getBirthdayCell(0).shouldHaveValue(exDate);
         protoPage.getBirthdayCell(0).val(testDate);
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Успешно обновлены данные клиента с фамилией Плюхина");
         protoPage.getBirthdayCell(0).shouldHaveValue(testDate);
 
         protoPage.clickBirthdayCell(0);
         protoPage.getBirthdayCell(0).val(exDate);
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Успешно обновлены данные клиента с фамилией Плюхина");
         protoPage.getBirthdayCell(0).shouldHaveValue(exDate);
     }
 
@@ -316,12 +336,14 @@ public class DemoIntegrationAT {
         clientCard.save();
 
         protoPage.shouldBeClientsPage();
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Клиент 'Гадойбоев' создан");
         protoPage.tableShouldSelectedRow(0);
-        protoPage.tableCellShouldHaveText(0, 0, "Гадойбоев");
-        protoPage.tableCellShouldHaveText(0, 1, "Муминджон");
-        protoPage.tableCellShouldHaveText(0, 2, "Джамшутович");
-        protoPage.tableCellShouldHaveText(0, 3, "17.01.2020");
-        protoPage.tableCellShouldHaveText(0, 4, "Мужской");
+        protoPage.tableCellShouldHaveText(0, 1, "Гадойбоев");
+        protoPage.tableCellShouldHaveText(0, 2, "Муминджон");
+        protoPage.tableCellShouldHaveText(0, 3, "Джамшутович");
+        protoPage.tableCellShouldHaveText(0, 4, "17.01.2020");
+        protoPage.tableCellShouldHaveText(0, 5, "Мужской");
         protoPage.vipCellShouldBeChecked(0);
     }
 
@@ -354,12 +376,14 @@ public class DemoIntegrationAT {
         clientCard.close();
 
         protoPage.shouldBeClientsPage();
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Клиент 'Иванов' создан");
         protoPage.tableShouldSelectedRow(0);
-        protoPage.tableCellShouldHaveText(0, 0, "Иванов");
-        protoPage.tableCellShouldHaveText(0, 1, "Алексей");
-        protoPage.tableCellShouldHaveText(0, 2, "Петрович");
-        protoPage.tableCellShouldHaveText(0, 3, "17.01.2020");
-        protoPage.tableCellShouldHaveText(0, 4, "Мужской");
+        protoPage.tableCellShouldHaveText(0, 1, "Иванов");
+        protoPage.tableCellShouldHaveText(0, 2, "Алексей");
+        protoPage.tableCellShouldHaveText(0, 3, "Петрович");
+        protoPage.tableCellShouldHaveText(0, 4, "17.01.2020");
+        protoPage.tableCellShouldHaveText(0, 5, "Мужской");
         protoPage.vipCellShouldBeChecked(0);
     }
 
@@ -370,11 +394,11 @@ public class DemoIntegrationAT {
     public void testUpdateClient() {
         protoPage.selectClient(3);
 
-        protoPage.tableCellShouldHaveText(3, 0, "Сиянкин");
-        protoPage.tableCellShouldHaveText(3, 1, "Мир");
-        protoPage.tableCellShouldHaveText(3, 2, "Григориевич");
-        protoPage.tableCellShouldHaveText(3, 3, "02.05.1930");
-        protoPage.tableCellShouldHaveText(3, 4, "Мужской");
+        protoPage.tableCellShouldHaveText(3, 1, "Сиянкин");
+        protoPage.tableCellShouldHaveText(3, 2, "Мир");
+        protoPage.tableCellShouldHaveText(3, 3, "Григориевич");
+        protoPage.tableCellShouldHaveText(3, 4, "02.05.1930");
+        protoPage.tableCellShouldHaveText(3, 5, "Мужской");
         protoPage.vipCellShouldBeChecked(3);
 
         ProtoClient modalClientCard = protoPage.editClientFromTableToolBar();
@@ -394,12 +418,14 @@ public class DemoIntegrationAT {
 
         protoPage.shouldDialogClosed("Карточка клиента:", 4000);
         protoPage.shouldBeClientsPage();
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Успешно обновлены данные клиента с фамилией Жуков");
         protoPage.tableShouldSelectedRow(3);
-        protoPage.tableCellShouldHaveText(3, 0, "Жуков");
-        protoPage.tableCellShouldHaveText(3, 1, "Геннадий");
-        protoPage.tableCellShouldHaveText(3, 2, "Юрьевич");
-        protoPage.tableCellShouldHaveText(3, 3, "02.05.1930");
-        protoPage.tableCellShouldHaveText(3, 4, "Мужской");
+        protoPage.tableCellShouldHaveText(3, 1, "Жуков");
+        protoPage.tableCellShouldHaveText(3, 2, "Геннадий");
+        protoPage.tableCellShouldHaveText(3, 3, "Юрьевич");
+        protoPage.tableCellShouldHaveText(3, 4, "02.05.1930");
+        protoPage.tableCellShouldHaveText(3, 5, "Мужской");
         protoPage.vipCellShouldBeChecked(3);
     }
 
@@ -408,11 +434,11 @@ public class DemoIntegrationAT {
      */
     @Test
     public void testUpdateClientFromToolbarCell() {
-        protoPage.tableCellShouldHaveText(2, 0, "Пищикова");
-        protoPage.tableCellShouldHaveText(2, 1, "Нина");
-        protoPage.tableCellShouldHaveText(2, 2, "Никитевна");
-        protoPage.tableCellShouldHaveText(2, 3, "10.05.1929");
-        protoPage.tableCellShouldHaveText(2, 4, "Женский");
+        protoPage.tableCellShouldHaveText(2, 1, "Пищикова");
+        protoPage.tableCellShouldHaveText(2, 2, "Нина");
+        protoPage.tableCellShouldHaveText(2, 3, "Никитевна");
+        protoPage.tableCellShouldHaveText(2, 4, "10.05.1929");
+        protoPage.tableCellShouldHaveText(2, 5, "Женский");
         protoPage.vipCellShouldBeChecked(2);
 
         ProtoClient modalClientCard = protoPage.editClientFromTableCell(2);
@@ -432,12 +458,14 @@ public class DemoIntegrationAT {
 
         protoPage.shouldDialogClosed("Клиент - Изменение", 4000);
         protoPage.shouldBeClientsPage();
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Успешно обновлены данные клиента с фамилией Иванова");
         protoPage.tableShouldSelectedRow(2);
-        protoPage.tableCellShouldHaveText(2, 0, "Иванова");
-        protoPage.tableCellShouldHaveText(2, 1, "Александра");
-        protoPage.tableCellShouldHaveText(2, 2, "Петровна");
-        protoPage.tableCellShouldHaveText(2, 3, "10.05.1929");
-        protoPage.tableCellShouldHaveText(2, 4, "Женский");
+        protoPage.tableCellShouldHaveText(2, 1, "Иванова");
+        protoPage.tableCellShouldHaveText(2, 2, "Александра");
+        protoPage.tableCellShouldHaveText(2, 3, "Петровна");
+        protoPage.tableCellShouldHaveText(2, 4, "10.05.1929");
+        protoPage.tableCellShouldHaveText(2, 5, "Женский");
         protoPage.vipCellShouldBeChecked(2);
     }
 
@@ -448,11 +476,11 @@ public class DemoIntegrationAT {
     public void testViewClient() {
         protoPage.selectClient(1);
 
-        protoPage.tableCellShouldHaveText(1, 0, "Маркин");
-        protoPage.tableCellShouldHaveText(1, 1, "Семен");
-        protoPage.tableCellShouldHaveText(1, 2, "Демьянович");
-        protoPage.tableCellShouldHaveText(1, 3, "25.03.1929");
-        protoPage.tableCellShouldHaveText(1, 4, "Мужской");
+        protoPage.tableCellShouldHaveText(1, 1, "Маркин");
+        protoPage.tableCellShouldHaveText(1, 2, "Семен");
+        protoPage.tableCellShouldHaveText(1, 3, "Демьянович");
+        protoPage.tableCellShouldHaveText(1, 4, "25.03.1929");
+        protoPage.tableCellShouldHaveText(1, 5, "Мужской");
         protoPage.vipCellShouldNotBeChecked(1);
 
         ProtoClient modalClientCard = protoPage.viewClientFromTableToolBar();
@@ -463,7 +491,7 @@ public class DemoIntegrationAT {
         modalClientCard.patronymic().shouldHaveValue("Демьянович");
         modalClientCard.birthdayShouldHaveValue("25.03.1929");
         modalClientCard.gender().shouldSelected("Мужской");
-        modalClientCard.getVIP().shouldBeUnchecked();
+        modalClientCard.getVIP().shouldBeEmpty();
 
         modalClientCard.surname().shouldBeDisabled();
         modalClientCard.firstName().shouldBeDisabled();
@@ -483,6 +511,7 @@ public class DemoIntegrationAT {
      * Тест удаления клиента (предпоследняя строка) из тулбара в колонке
      */
     @Test
+    @Order(4)
     public void testTableInPlaceDelete() {
         protoPage.tableShouldHaveSize(10);
         int count = protoPage.getClientsCount();
@@ -494,6 +523,8 @@ public class DemoIntegrationAT {
         protoPage.shouldDialogHaveText("Предупреждение", "Вы уверены, что хотите удалить клиента " + surnames.get(8));
         protoPage.acceptDialog("Предупреждение");
 
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Клиент "+ surnames.get(8)+" удален");
         protoPage.clientsCountShouldBe(count - 1);
         List<String> nSurnames = protoPage.getSurnameColumn();
         for (int i = 0; i < 8; i++) {
@@ -518,6 +549,8 @@ public class DemoIntegrationAT {
         protoPage.shouldDialogHaveText("Предупреждение", "Вы уверены, что хотите удалить клиента " + surnames.get(8));
         protoPage.acceptDialog("Предупреждение");
 
+        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.tableAlertTextShouldBe("Клиент "+ surnames.get(8)+" удален");
         protoPage.clientsCountShouldBe(count - 1);
         List<String> nSurnames = protoPage.getSurnameColumn();
         for (int i = 0; i < 8; i++) {
@@ -532,7 +565,7 @@ public class DemoIntegrationAT {
     @Test
     public void testMasterDetail() {
         protoPage.selectClient(6);
-        protoPage.tableCellShouldHaveText(6, 0, "Чуканова");
+        protoPage.tableCellShouldHaveText(6, 1, "Чуканова");
         protoPage.contactsListShouldHaveText(0, "3333333");
         protoPage.getSurnameCard().shouldHaveValue("Чуканова");
         protoPage.getFirstnameCard().shouldHaveValue("Изольда");
@@ -540,7 +573,7 @@ public class DemoIntegrationAT {
         protoPage.getVIPCard().shouldBeChecked();
 
         protoPage.selectClient(5);
-        protoPage.tableCellShouldHaveText(5, 0, "Дуванова");
+        protoPage.tableCellShouldHaveText(5, 1, "Дуванова");
         protoPage.contactsListShouldHaveText(0, "+7950267859");
         protoPage.getSurnameCard().shouldHaveValue("Дуванова");
         protoPage.getFirstnameCard().shouldHaveValue("Ольга");
@@ -552,24 +585,54 @@ public class DemoIntegrationAT {
      * Проверка создания контакта
      */
     @Test
+    @Order(5)
     public void testCreateContact() {
         protoPage.getSurnameFilter().val("Маркин");
         protoPage.searchClients();
-        protoPage.tableCellShouldHaveText(0, 0, "Маркин");
+        protoPage.tableCellShouldHaveText(0, 1, "Маркин");
 
         ProtoContacts modalProtoContacts = protoPage.createContact();
-        modalProtoContacts.shouldHaveTitle("Контакты - Создание");
-        modalProtoContacts.selectClient("Маркин");
+        modalProtoContacts.shouldHaveTitle("Контакты");
         modalProtoContacts.selectContactType("Моб. телефон");
         modalProtoContacts.getPhoneNumber().val("9999999999");
         modalProtoContacts.getDescription().val("рабочий телефон");
         modalProtoContacts.save();
 
-        protoPage.shouldDialogClosed("Контакты - Создание", 6000);
+        protoPage.shouldDialogClosed("Контакты", 8000);
         protoPage.shouldBeClientsPage();
+        protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.contactsAlertTextShouldBe("Данные сохранены");
         protoPage.tableShouldHaveSize(1);
 
         protoPage.contactsListShouldHaveText(0, "+7 (999) 999-99-99");
+    }
+
+    /**
+     * Проверка редактирования контакта после testCreateContact!
+     */
+    @Test
+    @Order(6)
+    public void testEditContact() {
+        protoPage.getSurnameFilter().val("Маркин");
+        protoPage.searchClients();
+        protoPage.tableCellShouldHaveText(0, 1, "Маркин");
+        protoPage.contactsListShouldHaveText(0, "+7 (999) 999-99-99");
+
+        ProtoContacts modalProtoContacts = protoPage.editContact(0);
+        modalProtoContacts.shouldHaveTitle("Контакты");
+        modalProtoContacts.shouldHaveContactType("Мобильный телефон");
+        modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (999) 999-99-99");
+        modalProtoContacts.getPhoneNumber().val("8888888888");
+        modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (888) 888-88-88");
+        modalProtoContacts.save();
+
+        protoPage.shouldDialogClosed("Контакты", 8000);
+        protoPage.shouldBeClientsPage();
+        protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
+        protoPage.contactsAlertTextShouldBe("Данные сохранены");
+        protoPage.tableShouldHaveSize(1);
+
+        protoPage.contactsListShouldHaveText(0, "+7 (888) 888-88-88");
     }
 
     private boolean isSorted(List<String> list, Boolean dir) {

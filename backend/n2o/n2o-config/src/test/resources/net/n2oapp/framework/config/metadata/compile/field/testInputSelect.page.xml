@@ -1,4 +1,4 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" layout="LeftRightLayout">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
     <regions>
         <region place="left">
             <form id="main">
@@ -7,10 +7,12 @@
                                   label-field-id="name" value-field-id="id" search-filter-id="search"
                                   icon-field-id="icon" image-field-id="image" group-field-id="country"
                                   badge-field-id="badgeFieldId" badge-color-field-id="badgeColorFieldId"
-                                  format="`id+' '+id`" sort-field-id="sortName">
+                                  format="`id+' '+id`" sort-field-id="sortName"
+                                  description-field-id="descFieldId"
+                                  enabled-field-id="isEnabled" status-field-id="testStatus">
                         <default-value id="1" name="test" isTest="true"/>
                             <pre-filters>
-                                <notEq field-id="ref" value="{someField}" reset-on-change="true"/>
+                                <notEq field-id="ref" value="{someField}" param="test" reset-on-change="true"/>
                                 <contains field-id="country">
                                     <value>1</value>
                                     <value>2</value>

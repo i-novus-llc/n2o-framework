@@ -4,6 +4,9 @@ import net.n2oapp.framework.config.io.widget.chart.charts.AreaChartIOv4;
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
+/**
+ * Тестирования чтения и записи диаграммы-области
+ */
 public class AreaChartXmlIOv4Test {
     @Test
     public void testAreaChartXmlIOv4Test() {

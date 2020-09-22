@@ -3,6 +3,8 @@ package net.n2oapp.framework.config.register.route;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -78,7 +80,7 @@ public abstract class RouteUtil {
      * Получение всех параметров url
      *
      * @param url
-     * @return список параметров
+     * @return Список параметров
      */
     public static List<String> getParams(String url) {
         List<String> result = new ArrayList<>();
@@ -99,6 +101,21 @@ public abstract class RouteUtil {
             }
         }
         return result;
+    }
+
+    /**
+     * Получение всех path параметров из url
+     * /:a/test/:b?id=:c -> [a, b]
+     * @param url
+     * @return Список path параметров
+     */
+    public static List<String> getPathParams(String url) {
+        List<String> pathParams = new ArrayList<>();
+        String[] urlParts = url.split("\\?");
+        Matcher matcher = Pattern.compile("(:\\w+)").matcher(urlParts[0]);
+        while (matcher.find())
+            pathParams.add(matcher.group().substring(1));
+        return pathParams;
     }
 
 
@@ -263,5 +280,23 @@ public abstract class RouteUtil {
             result.append(parentRoute).append(normalize(childRoute));
         }
         return normalize(result.toString());
+    }
+
+    /**
+     * Получает часть адреса url до параметров запроса
+     * @param url Адресс
+     * @return Часть адреса url
+     */
+    public static String parsePath(String url) {
+        return url.contains("?") ? url.substring(0, url.indexOf('?')) : url;
+    }
+
+    /**
+     * Получает часть адреса url отвечающего за ппараметры запроса
+     * @param url Адресс
+     * @return Часть адреса url
+     */
+    public static String parseQuery(String url) {
+        return url.contains("?") ? url.substring(url.indexOf('?') + 1) : null;
     }
 }

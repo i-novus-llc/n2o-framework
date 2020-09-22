@@ -10,8 +10,8 @@ import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
 import net.n2oapp.framework.config.io.region.RegionIOv1;
 import net.n2oapp.framework.config.io.toolbar.ToolbarIO;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 /**
  * Чтение\запись базовой страницы
@@ -28,6 +28,7 @@ public abstract class BasePageElementIOv2<T extends N2oBasePage> implements Name
         p.attribute(e, "object-id", m::getObjectId, m::setObjectId);
         p.attribute(e, "route", m::getRoute, m::setRoute);
         p.attribute(e, "modal-size", m::getModalSize, m::setModalSize);
+        p.attributeBoolean(e, "show-title", m::getShowTitle, m::setShowTitle);
         p.children(e, "actions", "action", m::getActions, m::setActions, ActionsBar::new, this::action);
         p.childAttributeEnum(e, "actions", "generate", m::getActionGenerate, m::setActionGenerate, GenerateType.class);
         p.children(e, null, "toolbar", m::getToolbars, m::setToolbars, new ToolbarIO());

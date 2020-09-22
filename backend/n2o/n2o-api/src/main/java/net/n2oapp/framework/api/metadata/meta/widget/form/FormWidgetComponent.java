@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Клиентская модель коомпонента формы
+ * Клиентская модель компонента формы
  */
 @Getter
 @Setter

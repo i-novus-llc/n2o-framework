@@ -1,43 +1,11 @@
 import React from 'react';
 import { PopoverConfirm } from './PopoverConfirm';
 import sinon from 'sinon';
-import Actions from '../../actions/Actions';
-import mockStore from 'redux-mock-store';
-import { Provider } from 'react-redux';
-import metaJson from './../../actions/PopoverConfirm/PopoverConfirm.meta';
 
 const props = {
   component: {
     header: 'header',
   },
-};
-
-const setupAction = store => {
-  return mount(
-    <Provider store={mockStore()(store)}>
-      <Actions
-        actions={{
-          dummy: {
-            src: 'dummyImpl',
-          },
-        }}
-        toolbar={[
-          {
-            buttons: [
-              {
-                title: 'Кнопка',
-                actionId: 'dummy',
-                confirm: {
-                  target: 'test',
-                  ...metaJson,
-                },
-              },
-            ],
-          },
-        ]}
-      />
-    </Provider>
-  );
 };
 
 const setupComponent = propsOverride => {
@@ -59,10 +27,13 @@ describe('Тесты PopoverConfirm', () => {
     const wrapper = setupComponent();
     expect(wrapper.find('.n2o-popover').exists()).toEqual(true);
   });
-  it('Показывает popover', () => {
+  it('Confirm click popover', () => {
     const onClick = sinon.spy();
-    const wrapper = setupComponent({ toggle: onClick });
-    wrapper.find('.toggle-popover').simulate('click');
+    const wrapper = setupComponent({ isOpen: true, onConfirm: onClick });
+    wrapper
+      .find('ButtonGroup')
+      .childAt(1)
+      .simulate('click');
     expect(onClick.called).toEqual(true);
   });
   it('Проверка onConfirm', () => {
@@ -75,14 +46,5 @@ describe('Тесты PopoverConfirm', () => {
       .last()
       .simulate('click');
     expect(onClick.called).toEqual(true);
-  });
-  it('Проверка isOpen', () => {
-    const onClick = sinon.spy();
-    const div = document.createElement('div');
-    div.setAttribute('id', 'test');
-    document.body.appendChild(div);
-    const wrapper = setupAction({ onClick: onClick });
-    wrapper.find('.toggle-popover').simulate('click');
-    expect(wrapper.find('PopoverConfirm').props().isOpen).toEqual(true);
   });
 });

@@ -3,11 +3,11 @@ package net.n2oapp.framework.config.io.widget.table.cell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oBadgeCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.Position;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись ячейки с текстом со стилем или без.
+ * Чтение\запись ячейки со значком
  */
 @Component
 public class BadgeCellElementIOv2 extends AbstractCellElementIOv2<N2oBadgeCell> {

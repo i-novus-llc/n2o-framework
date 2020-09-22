@@ -7,7 +7,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class N2oInputInterval extends N2oIntervalField {
+public class N2oInputInterval extends N2oSimpleIntervalField {
     private Integer max;
     private Integer min;
     private String step;

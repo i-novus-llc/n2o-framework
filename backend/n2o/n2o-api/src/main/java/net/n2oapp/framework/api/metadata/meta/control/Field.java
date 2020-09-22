@@ -5,10 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.Component;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Клиентская молель поля
@@ -27,11 +27,15 @@ public class Field extends Component {
     @JsonProperty
     private String label;
     @JsonProperty
+    private Boolean noLabelBlock;
+    @JsonProperty
     private String labelClass;
     @JsonProperty
     private String description;
     @JsonProperty
     private String help;
+    @JsonProperty
+    private Group[] toolbar;
     @JsonProperty("dependency")
     private List<ControlDependency> dependencies = new ArrayList<>();
     private List<Validation> serverValidations;
@@ -40,5 +44,4 @@ public class Field extends Component {
     public void addDependency(ControlDependency dependency) {
         dependencies.add(dependency);
     }
-
 }

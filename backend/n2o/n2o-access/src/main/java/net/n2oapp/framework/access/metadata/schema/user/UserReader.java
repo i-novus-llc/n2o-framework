@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.aware.ReaderFactoryAware;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Класс для чтения элемента доступа user из схемы доступа и преобразования его в инстанс N2oUserAccess

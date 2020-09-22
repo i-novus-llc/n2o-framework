@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.pipeline.PipelineFunction;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.util.N2oTestUtil;
-import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.util.N2oSubModelsProcessor;
 import org.junit.Before;
@@ -24,7 +23,7 @@ import static org.mockito.Mockito.*;
 
 public class N2oSubModelsProcessorTest {
 
-    private SubModelsProcessor processor;
+    private N2oSubModelsProcessor processor;
 
     @Before
     public void setUp() {
@@ -111,12 +110,17 @@ public class N2oSubModelsProcessorTest {
         assert ((List) dataSet.get("gender")).isEmpty();
 
         //компонент с <options>
-        Map<String, String> optionsMap = new HashMap<>();
+        Map<String, Object> optionsMap = new HashMap<>();
         optionsMap.put("id", "1");
         optionsMap.put("name", "test");
-        List<Map<String, String>> options = Collections.singletonList(optionsMap);
+        List<Map<String, Object>> options = Collections.singletonList(optionsMap);
         subModelQuery = new SubModelQuery("gender", null, "id", "name", true, options);
         dataSet = new DataSet("gender[0].id", "1");
+        processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
+        assert "test".equals(((Map) ((List) dataSet.get("gender")).get(0)).get("name"));
+
+        optionsMap.put("id", 2);
+        dataSet = new DataSet("gender[0].id", 2);
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
         assert "test".equals(((Map) ((List) dataSet.get("gender")).get(0)).get("name"));
     }

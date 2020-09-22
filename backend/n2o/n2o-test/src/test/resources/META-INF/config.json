@@ -2,7 +2,7 @@
     "test": "test",
     "$schema": "http://json-schema.org/draft-06/schema#",
     "type": "object",
-    "properties": {
+    "additional": {
         "item1": {
             "subitem1": "subitem"
         },
@@ -13,5 +13,6 @@
             "subitem1": "subitem"
         }
     },
-    "brand":"Test"
+    "brand":"Test",
+    "username": "#{username}"
 }

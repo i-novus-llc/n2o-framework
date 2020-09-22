@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import every from 'lodash/every';
+import isUndefined from 'lodash/isUndefined';
 import { compose, setDisplayName } from 'recompose';
 import PanelShortHand from '../../snippets/Panel/PanelShortHand';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
@@ -94,7 +95,7 @@ class PanelRegion extends React.Component {
   }
 
   getPanelsWithAccess() {
-    const { authProvider, user, panels } = this.props;
+    const { panels } = this.props;
     this.setState({ tabs: [] }, async () => {
       for (const panel of panels) {
         await this.checkPanel(panel);
@@ -110,6 +111,7 @@ class PanelRegion extends React.Component {
       panels,
       getWidgetProps,
       activeEntity,
+      open,
       changeActiveEntity,
     } = this.props;
     const isInvisible = every(
@@ -121,7 +123,7 @@ class PanelRegion extends React.Component {
       <PanelShortHand
         tabs={this.state.tabs}
         {...this.props}
-        open={activeEntity}
+        open={isUndefined(activeEntity) ? open : activeEntity}
         style={{ display: isInvisible && 'none' }}
         onVisibilityChange={changeActiveEntity}
       >

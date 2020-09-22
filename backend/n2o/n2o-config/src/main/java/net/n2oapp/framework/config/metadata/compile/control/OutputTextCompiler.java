@@ -12,7 +12,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 
 
 /**
- * Компиляция поля для вывода текста
+ * Компиляция компонента вывода однострочного текста
  */
 @Component
 public class OutputTextCompiler extends StandardFieldCompiler<OutputText, N2oOutputText> {
@@ -36,8 +36,6 @@ public class OutputTextCompiler extends StandardFieldCompiler<OutputText, N2oOut
         outputText.setExpandable(p.resolve(property("n2o.api.control.output_text.expandable"), Object.class));
         outputText.setIcon(p.resolveJS(source.getIcon()));
         outputText.setFormat(p.resolveJS(source.getFormat()));
-        StandardField<OutputText> outputTextField = compileStandardField(outputText, source, context, p);
-        return outputTextField;
+        return compileStandardField(outputText, source, context, p);
     }
 }
-

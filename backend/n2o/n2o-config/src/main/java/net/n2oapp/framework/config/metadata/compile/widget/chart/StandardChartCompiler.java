@@ -17,24 +17,34 @@ public abstract class StandardChartCompiler<D extends StandardChartWidgetCompone
     protected D compileStandardChart(D chart, S source, CompileContext<?, ?> context, CompileProcessor p) {
         ChartAxis xAxis = new ChartAxis();
         xAxis.setFieldId(source.getXAxisFieldId());
-        xAxis.setPosition((p.cast(source.getXAxisPosition(), N2oStandardChart.XAxisPositionEnum.bottom)).toString());
-        xAxis.setHasLabel(p.cast(source.getXHasLabel(), p.resolve(property("n2o.api.default.widget.chart.axis.has-label"), Boolean.class)));
+        xAxis.setPosition((p.cast(source.getXAxisPosition(),
+                p.resolve(property("n2o.api.widget.chart.axis.x_position")),N2oStandardChart.XAxisPosition.class))
+                .toString());
+        xAxis.setHasLabel(p.cast(source.getXHasLabel(),
+                p.resolve(property("n2o.api.widget.chart.axis.has_label"), Boolean.class)));
         chart.setXAxis(xAxis);
         ChartAxis yAxis = new ChartAxis();
         yAxis.setFieldId(source.getYAxisFieldId());
-        yAxis.setPosition((p.cast(source.getYAxisPosition(), N2oStandardChart.YAxisPositionEnum.left)).toString());
-        yAxis.setHasLabel(p.cast(source.getYHasLabel(), p.resolve(property("n2o.api.default.widget.chart.axis.has-label"), Boolean.class)));
+        yAxis.setPosition((p.cast(source.getYAxisPosition(),
+                p.resolve(property("n2o.api.widget.chart.axis.y_position")),N2oStandardChart.YAxisPosition.class))
+                .toString());
+        yAxis.setHasLabel(p.cast(source.getYHasLabel(),
+                p.resolve(property("n2o.api.widget.chart.axis.has_label"), Boolean.class)));
         chart.setYAxis(yAxis);
         ChartGrid grid = new ChartGrid();
         grid.setStrokeDashArray(source.getGridStrokeDashArray());
-        grid.setHorizontal(p.cast(source.getGridHorizontal(), true));
-        grid.setVertical(p.cast(source.getGridVertical(), true));
+        grid.setHorizontal(p.cast(source.getGridHorizontal(),
+                p.resolve(property("n2o.api.widget.chart.grid.horizontal"), Boolean.class)));
+        grid.setVertical(p.cast(source.getGridVertical(),
+                p.resolve(property("n2o.api.widget.chart.grid.vertical"), Boolean.class)));
         chart.setGrid(grid);
         ChartTooltip tooltip = new ChartTooltip();
-        tooltip.setSeparator(source.getTooltipSeparator());
+        tooltip.setSeparator(p.cast(source.getTooltipSeparator(),
+                p.resolve(property("n2o.api.widget.chart.tooltip.separator"), String.class), " "));
         chart.setTooltip(tooltip);
         ChartLegend legend = new ChartLegend();
-        legend.setIconType(p.cast(source.getLegendIconType(), ChartLegendIconType.line));
+        legend.setIconType(p.cast(source.getLegendIconType(),
+                p.resolve(property("n2o.api.widget.chart.legend.icon_type"), ChartLegendIconType.class)));
         chart.setLegend(legend);
         return chart;
     }

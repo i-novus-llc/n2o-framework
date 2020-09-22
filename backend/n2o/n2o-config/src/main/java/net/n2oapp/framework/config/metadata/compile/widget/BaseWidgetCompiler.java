@@ -29,7 +29,7 @@ import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetDependency;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.*;
@@ -39,6 +39,7 @@ import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
+import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.StylesResolver;
@@ -74,7 +75,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         compiled.setName(p.cast(source.getName(), object != null ? object.getName() : null, source.getId()));
         compiled.setRoute(initWidgetRoute(source, p));
         compileMasterLink(compiled, p);
-        compiled.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyWidgetSrc()), String.class)));
+        String defaultWidgetSrc = null;
+        if (getPropertyWidgetSrc() != null)
+            defaultWidgetSrc = p.resolve(property(getPropertyWidgetSrc()), String.class);
+        compiled.setSrc(p.cast(source.getSrc(), defaultWidgetSrc));
         compiled.setOpened(source.getOpened());
         compiled.setIcon(source.getIcon());
         compiled.setUpload(p.cast(source.getUpload(), source.getQueryId() != null ? UploadType.query : UploadType.defaults));
@@ -167,11 +171,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                                                 ValidationList validationList, ParentRouteScope widgetRouteScope,
                                                 SubModelsScope subModelsScope, CopiedFieldScope copiedFieldScope,
                                                 CompiledObject object) {
-        CompiledQuery query = getDataProviderQuery(source, p);
+        String queryId = getDataProviderQueryId(source);
         String widgetRoute = widgetRouteScope.getUrl();
-        compiled.setDataProvider(initDataProvider(compiled, source, context, widgetRoute, query, p, validationList,
+        compiled.setDataProvider(initDataProvider(compiled, source, context, widgetRoute, queryId, p, validationList,
                 widgetRouteScope, subModelsScope, copiedFieldScope, object));
-        compileRouteWidget(compiled, source, query, p, widgetRouteScope);
+        compileRouteWidget(compiled, source, getDataProviderQuery(queryId, p), p, widgetRouteScope);
         compileFetchOnInit(source, compiled);
     }
 
@@ -286,8 +290,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
 
         Toolbar compiledToolbar = new Toolbar();
         IndexScope index = new IndexScope();
+        ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.widget.toolbar.place"), String.class));
         for (N2oToolbar toolbar : source.getToolbars()) {
-            compiledToolbar.putAll(p.compile(toolbar, context, widgetScope, widgetRouteScope, compiledActions, object, index, validations));
+            compiledToolbar.putAll(p.compile(toolbar, context, widgetScope, widgetRouteScope, compiledActions, object,
+                    index, validations, toolbarPlaceScope));
         }
         compiled.setToolbar(compiledToolbar);
     }
@@ -361,23 +367,23 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         return null;
     }
 
-    private WidgetDataProvider initDataProvider(D widget, S source, CompileContext<?, ?> context, String widgetRoute, CompiledQuery query,
+    private ClientDataProvider initDataProvider(D widget, S source, CompileContext<?, ?> context, String widgetRoute, String queryId,
                                                 CompileProcessor p, ValidationList validationList,
                                                 ParentRouteScope parentRouteScope, SubModelsScope subModelsScope,
                                                 CopiedFieldScope copiedFieldScope, CompiledObject object) {
-        if (query == null)
+        if (queryId == null)
             return null;
-        WidgetDataProvider dataProvider = new WidgetDataProvider();
+        ClientDataProvider dataProvider = new ClientDataProvider();
         //Адресом URL для провайдера данных виджета будет маршрут виджета на странице
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + normalize(widgetRoute));
         //Копируем соответствие параметров URL из маршрута страницы в провайдер данных виджета
-        Map<String, BindLink> pathMap = new StrictMap<>();
+        Map<String, ModelLink> pathMap = new StrictMap<>();
         if (parentRouteScope != null && parentRouteScope.getPathMapping() != null) {
             pathMap.putAll(parentRouteScope.getPathMapping());
         }
         dataProvider.setPathMapping(pathMap);
         if (widget.getFilters() != null) {
-            Map<String, BindLink> queryMap = new StrictMap<>();
+            Map<String, ModelLink> queryMap = new StrictMap<>();
             ((List<Filter>) widget.getFilters()).stream().filter(f -> !pathMap.containsKey(f.getParam()))
                     .forEach(f -> queryMap.put(f.getParam(), f.getLink()));
             dataProvider.setQueryMapping(queryMap);
@@ -390,15 +396,15 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
             dataProvider.getQueryMapping().put(searchBarScope.getModelKey(), modelLink);
         }
 
-        p.addRoute(getQueryContext(widget, source, context, widgetRoute, query, validationList, subModelsScope,
+        p.addRoute(getQueryContext(widget, source, context, widgetRoute, queryId, validationList, subModelsScope,
                 copiedFieldScope, p, object));
         return dataProvider;
     }
 
-    protected QueryContext getQueryContext(D widget, S source, CompileContext<?, ?> context, String route, CompiledQuery query,
+    protected QueryContext getQueryContext(D widget, S source, CompileContext<?, ?> context, String route, String queryId,
                                            ValidationList validationList, SubModelsScope subModelsScope,
                                            CopiedFieldScope copiedFieldScope, CompileProcessor p, CompiledObject object) {
-        QueryContext queryContext = new QueryContext(query.getId(), route);
+        QueryContext queryContext = new QueryContext(queryId, route);
         List<Validation> validations = validationList == null ? null : validationList.get(widget.getId(), ReduxModel.FILTER);
         if (context instanceof PageContext && ((PageContext) context).getSubmitOperationId() != null) {
             CompiledObject.Operation operation = object.getOperations().get(((PageContext) context).getSubmitOperationId());
@@ -486,26 +492,29 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     /**
-     * Инициализация выборки виджета, учитывая источник данных
+     * Получение ID выборки виджета, учитывая источник данных
      */
-    private CompiledQuery getDataProviderQuery(S source, CompileProcessor p) {
-        String queryId = null;
+    private String getDataProviderQueryId(S source) {
         UploadType upload = source.getUpload();
-        if (UploadType.query == upload) {
-            queryId = source.getQueryId();
-            if (queryId == null)
-                throw new N2oException("Upload is 'query', but queryId isn't set in widget");
-        } else if (UploadType.defaults == upload) {
-            queryId = source.getDefaultValuesQueryId();
-        } else if (UploadType.copy == upload) {
-            queryId = source.getQueryId();
-        } else if (upload == null && source.getQueryId() != null) {
-            queryId = source.getQueryId();
+        if (upload == null) return source.getQueryId();
+        switch (upload) {
+            case query:
+                if (source.getQueryId() == null)
+                    throw new N2oException("Upload is 'query', but queryId isn't set in widget");
+            case copy:
+                return source.getQueryId();
+            case defaults:
+                return source.getDefaultValuesQueryId();
+            default:
+                return null;
         }
+    }
 
-        if (queryId != null)
-            return p.getCompiled(new QueryContext(queryId));
-        return null;
+    /**
+     * Инициализация выборки виджета по id
+     */
+    private CompiledQuery getDataProviderQuery(String queryId, CompileProcessor p) {
+        return queryId == null ? null : p.getCompiled(new QueryContext(queryId));
     }
 
     /**
@@ -584,7 +593,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     }
 
     private void initFilters(D compiled, S source, CompileProcessor p) {
-        CompiledQuery query = getDataProviderQuery(source, p);
+        CompiledQuery query = getDataProviderQuery(getDataProviderQueryId(source), p);
         if (query == null)
             return;
         List<Filter> filters = new ArrayList<>();
@@ -641,7 +650,10 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                     filter.setRoutable(p.cast(preFilter.getRoutable(), false));
                     filter.setFilterId(queryFilter.getFilterField());
                     Object prefilterValue = getPrefilterValue(preFilter);
-                    if (StringUtils.isJs(prefilterValue)) {
+                    ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+                    if (routeScope != null && routeScope.getQueryMapping() != null && routeScope.getQueryMapping().containsKey(filter.getParam())) {
+                        filter.setLink(routeScope.getQueryMapping().get(filter.getParam()));
+                    } else if (StringUtils.isJs(prefilterValue)) {
                         String widgetId = masterWidgetId;
                         if (preFilter.getRefWidgetId() != null) {
                             widgetId = preFilter.getRefPageId() == null ?

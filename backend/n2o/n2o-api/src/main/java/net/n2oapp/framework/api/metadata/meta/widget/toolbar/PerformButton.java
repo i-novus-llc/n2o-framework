@@ -22,6 +22,8 @@ public class PerformButton extends AbstractButton implements UrlAware {
     @JsonProperty
     private Target target;
     @JsonProperty
+    private Boolean rounded;
+    @JsonProperty
     private Map<String, ModelLink> pathMapping;
     @JsonProperty
     private Map<String, ModelLink> queryMapping;

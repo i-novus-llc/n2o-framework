@@ -9,7 +9,7 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>n2o</artifactId>
-        <version>7.6.0-SNAPSHOT</version>
+        <version>7.10.0-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -25,7 +25,6 @@
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
-
 
         <dependency>
             <groupId>net.n2oapp.properties</groupId>
@@ -69,7 +68,7 @@
 
         <dependency>
             <groupId>org.jdom</groupId>
-            <artifactId>jdom</artifactId>
+            <artifactId>jdom2</artifactId>
         </dependency>
 
         <dependency>

@@ -2,11 +2,13 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.Filter;
+import net.n2oapp.framework.api.metadata.meta.action.SelectedWidgetPayload;
+import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.LineRegion;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -101,17 +103,17 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getList().get(10).getPath(), is("/page/master/:page_master_id/detail2/:page_detail2_id"));
         assertThat(page.getRoutes().getPathMapping().size(), is(6));
         assertThat(page.getRoutes().getPathMapping().get("page_master_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
-        assertThat(page.getRoutes().getPathMapping().get("page_master_id").getPayload().get("widgetId"), is("page_master"));
-        assertThat(page.getRoutes().getPathMapping().get("page_master_id").getPayload().get("value"), is(":page_master_id"));
+        assertThat(((SelectedWidgetPayload)page.getRoutes().getPathMapping().get("page_master_id").getPayload()).getWidgetId(), is("page_master"));
+        assertThat(((SelectedWidgetPayload)page.getRoutes().getPathMapping().get("page_master_id").getPayload()).getValue(), is(":page_master_id"));
         assertThat(page.getRoutes().getPathMapping().get("page_detail_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
-        assertThat(page.getRoutes().getPathMapping().get("page_detail_id").getPayload().get("widgetId"), is("page_detail"));
-        assertThat(page.getRoutes().getPathMapping().get("page_detail_id").getPayload().get("value"), is(":page_detail_id"));
+        assertThat(((SelectedWidgetPayload)page.getRoutes().getPathMapping().get("page_detail_id").getPayload()).getWidgetId(), is("page_detail"));
+        assertThat(((SelectedWidgetPayload)page.getRoutes().getPathMapping().get("page_detail_id").getPayload()).getValue(), is(":page_detail_id"));
         assertThat(page.getRoutes().getPathMapping().get("page_detail2_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
-        assertThat(page.getRoutes().getPathMapping().get("page_detail2_id").getPayload().get("widgetId"), is("page_detail2"));
-        assertThat(page.getRoutes().getPathMapping().get("page_detail2_id").getPayload().get("value"), is(":page_detail2_id"));
+        assertThat(((SelectedWidgetPayload)page.getRoutes().getPathMapping().get("page_detail2_id").getPayload()).getWidgetId(), is("page_detail2"));
+        assertThat(((SelectedWidgetPayload)page.getRoutes().getPathMapping().get("page_detail2_id").getPayload()).getValue(), is(":page_detail2_id"));
         assertThat(page.getRoutes().getPathMapping().get("page_detail4_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
-        assertThat(page.getRoutes().getPathMapping().get("page_detail4_id").getPayload().get("widgetId"), is("page_detail4"));
-        assertThat(page.getRoutes().getPathMapping().get("page_detail4_id").getPayload().get("value"), is(":page_detail4_id"));
+        assertThat(((SelectedWidgetPayload)page.getRoutes().getPathMapping().get("page_detail4_id").getPayload()).getWidgetId(), is("page_detail4"));
+        assertThat(((SelectedWidgetPayload)page.getRoutes().getPathMapping().get("page_detail4_id").getPayload()).getValue(), is(":page_detail4_id"));
         assertThat(page.getWidgets().get("page_detail").getFilter("parent.id").getParam(), is("master_id"));
 
         assertThat(((PageContext) route("/page/master/1", Page.class)).getClientPageId(), is(context.getClientPageId()));
@@ -123,6 +125,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
     @Test
     public void masterDetails() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.object.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/testStandardPageDependency.page.xml")
                 .get(new PageContext("testStandardPageDependency"));
         assertThat(page.getWidgets().size(), is(3));
@@ -138,7 +141,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(preFilters.get(0).getParam(), is("testStandardPageDependency_master_id"));
         assertThat(preFilters.get(0).getLink().getBindLink(), is("models.resolve['testStandardPageDependency_master'].id"));
         assertThat(preFilters.get(0).getLink().getValue(), nullValue());
-        WidgetDataProvider dataProvider = page.getWidgets().get("testStandardPageDependency_detail").getDataProvider();
+        ClientDataProvider dataProvider = page.getWidgets().get("testStandardPageDependency_detail").getDataProvider();
         assertThat(dataProvider.getPathMapping().get("testStandardPageDependency_master_id").getBindLink(), is("models.resolve['testStandardPageDependency_master'].id"));
         assertThat(((QueryContext) route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail", CompiledQuery.class)).getFilters().size(), is(1));
         assertThat(((QueryContext) route("/testStandardPageDependency/master/:testStandardPageDependency_master_id/detail", CompiledQuery.class)).getFilters().get(0).getParam(), is("testStandardPageDependency_master_id"));
@@ -158,6 +161,11 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getVisible().get(0).getOn(), is("models.resolve['testStandardPageDependency_master']"));
         assertThat(page.getWidgets().get("testStandardPageDependency_detail").getDependency().getVisible().get(0).getCondition(), is("parent.id == 1"));
 
+        //проверим что у кнопки delete родительский pathmapping скопировался
+        assertThat(((InvokeAction)page.getWidgets().get("testStandardPageDependency_panel1").getActions().get("delete"))
+                .getPayload().getDataProvider().getPathMapping().get("testStandardPageDependency_master_id").getBindLink(),
+                is("models.resolve['testStandardPageDependency_master'].id"));
+
     }
 
     @Test
@@ -167,7 +175,7 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testWidgetPrefilters"));
         assertThat(page.getRoutes().getQueryMapping().size(), is(13));
 
-        WidgetDataProvider dataProvider = page.getWidgets().get("testWidgetPrefilters_detail1").getDataProvider();
+        ClientDataProvider dataProvider = page.getWidgets().get("testWidgetPrefilters_detail1").getDataProvider();
         List<Filter> preFilters = page.getWidgets().get("testWidgetPrefilters_detail1").getFilters();
         assertThat(preFilters.get(0).getFilterId(), is("parent.id"));
         assertThat(preFilters.get(0).getParam(), is("testWidgetPrefilters_master1_id"));

@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose, pure } from 'recompose';
-import get from 'lodash/get';
+import { compose, pure, withProps } from 'recompose';
+import keys from 'lodash/keys';
+import filter from 'lodash/filter';
+import map from 'lodash/map';
+import includes from 'lodash/includes';
+import pick from 'lodash/pick';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isFunction from 'lodash/isFunction';
@@ -14,33 +18,20 @@ import Placeholder from '../snippets/Placeholder/Placeholder';
 import {
   dataRequestWidget,
   registerWidget,
-  removeWidget,
-  resetWidgetState,
   resolveWidget,
   setActive,
   setTableSelectedId,
   sortByWidget,
 } from '../../actions/widgets';
-import { setModel, removeModel, removeAllModel } from '../../actions/models';
-import { PREFIXES } from '../../constants/models';
+import { setModel, removeAllModel } from '../../actions/models';
 import {
   makeGetModelByPrefixSelector,
   makeGetResolveModelSelector,
 } from '../../selectors/models';
 import {
   isAnyTableFocusedSelector,
-  makeIsActiveSelector,
-  makeSelectedIdSelector,
-  makeTypeSelector,
-  makeWidgetDataProviderSelector,
-  makeWidgetEnabledSelector,
-  makeWidgetIsInitSelector,
-  makeWidgetLoadingSelector,
-  makeWidgetSortingSelector,
-  makeWidgetVisibleSelector,
+  makeWidgetByIdSelector,
 } from '../../selectors/widgets';
-import observeStore from '../../utils/observeStore';
-import propsResolver from '../../utils/propsResolver';
 import { removeAlerts } from '../../actions/alerts';
 import Spinner from '../snippets/Spinner/Spinner';
 
@@ -69,10 +60,6 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         onResolve: props.onResolve,
       };
     }
-  }
-
-  function filterSelector(bindLink) {
-    return store => get(store, bindLink);
   }
 
   /**
@@ -154,6 +141,24 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         dispatch(batchActions(actions));
       }
 
+      isEqualRegisteredWidgetWithProps = () => {
+        const { widget } = this.props;
+        const propsParamsNames = keys(this.props);
+        const widgetParamsNames = filter(keys(widget), key => key !== 'error');
+        const commonParamsNames = [];
+
+        map(widgetParamsNames, widgetParamName => {
+          if (includes(propsParamsNames, widgetParamName)) {
+            commonParamsNames.push(widgetParamName);
+          }
+        });
+
+        const widgetStateParams = pick(widget, commonParamsNames);
+        const widgetPropsParams = pick(this.props, commonParamsNames);
+
+        return isEqual(widgetStateParams, widgetPropsParams);
+      };
+
       onSetModel(prefix, widgetId, model) {
         const { dispatch } = this.props;
         dispatch(setModel(prefix, widgetId, model));
@@ -205,9 +210,10 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           defaultSorting,
           validation,
           dataProvider,
-          dataProviderFromState,
+          modelPrefix,
         } = this.props;
-        if (!isInit || !isEqual(dataProvider, dataProviderFromState)) {
+
+        if (!isInit || !this.isEqualRegisteredWidgetWithProps()) {
           dispatch(
             registerWidget(widgetId, {
               pageId,
@@ -217,6 +223,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
               sorting: defaultSorting,
               dataProvider,
               validation,
+              modelPrefix,
             })
           );
         }
@@ -303,10 +310,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
 
     const mapStateToProps = (state, props) => {
       return {
-        isInit: makeWidgetIsInitSelector(props.widgetId)(state, props),
-        visible: makeWidgetVisibleSelector(props.widgetId)(state, props),
-        isEnabled: makeWidgetEnabledSelector(props.widgetId)(state),
-        isLoading: makeWidgetLoadingSelector(props.widgetId)(state, props),
+        widget: makeWidgetByIdSelector(props.widgetId)(state, props),
         isAnyTableFocused: isAnyTableFocusedSelector(state, props),
         datasource: makeGetModelByPrefixSelector('datasource', props.widgetId)(
           state,
@@ -317,14 +321,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           props.modelPrefix,
           props.widgetId
         )(state, props),
-        sorting: makeWidgetSortingSelector(props.widgetId)(state, props),
-        selectedId: makeSelectedIdSelector(props.widgetId)(state, props),
         defaultSorting: props.sorting,
-        isActive: makeIsActiveSelector(props.widgetId)(state, props),
-        type: makeTypeSelector(props.widgetId)(state, props),
-        dataProviderFromState: makeWidgetDataProviderSelector(props.widgetId)(
-          state
-        ),
       };
     };
 
@@ -339,6 +336,17 @@ const createWidgetContainer = (initialConfig, widgetType) => {
         mapStateToProps,
         mapDispatchToProps
       ),
+      withProps(({ widget }) => ({
+        isInit: widget.isInit,
+        visible: widget.isVisible,
+        isEnabled: widget.isEnabled,
+        isLoading: widget.isLoading,
+        sorting: widget.sorting,
+        selectedId: widget.selectedId,
+        isActive: widget.isActive,
+        type: widget.type,
+        dataProviderFromState: widget.dataProvider,
+      })),
       pure
     )(WidgetContainer);
   };

@@ -3,16 +3,14 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.N2oSearchButtons;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oTable;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.RowSelectionEnum;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
-import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oFilterColumn;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -65,8 +63,9 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         SubModelsScope subModelsScope = new SubModelsScope();
         UploadScope uploadScope = new UploadScope();
         uploadScope.setUpload(UploadType.defaults);
+        FiltersScope filtersScope = new FiltersScope(table.getFilters());
         table.setFilter(createFilter(source, context, p, widgetScope, query, object,
-                new ModelsScope(ReduxModel.FILTER, table.getId(), models), new FiltersScope(table.getFilters()), subModelsScope, uploadScope,
+                new ModelsScope(ReduxModel.FILTER, table.getId(), models), filtersScope, subModelsScope, uploadScope,
                 new MomentScope(N2oValidation.ServerMoment.beforeQuery)));
         ValidationList validationList = p.getScope(ValidationList.class) == null ? new ValidationList(new EnumMap<>(ReduxModel.class)) : p.getScope(ValidationList.class);
         ValidationScope validationScope = new ValidationScope(table.getId(), ReduxModel.FILTER, validationList);
@@ -77,8 +76,12 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         if (pageRoutesScope != null) {
             pageRoutesScope.put(table.getId(), widgetRouteScope);
         }
+        MetaActions widgetActions = new MetaActions();
+        compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
+        compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions,
+                uploadScope, subModelsScope, filtersScope);
         compileDataProviderAndRoutes(table, source, context, p, validationList, widgetRouteScope, null, null, object);
-        component.setSize(source.getSize() != null ? source.getSize() : p.resolve("${n2o.api.default.widget.table.size}", Integer.class));
+        component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         component.setClassName(source.getCssClass());
         component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
         if (source.getScrollX() != null || source.getScrollY() != null) {
@@ -86,8 +89,6 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             component.getScroll().setX(source.getScrollX());
             component.getScroll().setY(source.getScrollY());
         }
-        MetaActions widgetActions = new MetaActions();
-        compileToolbarAndAction(table, source, context, p, widgetScope, widgetRouteScope, widgetActions, object, null);
         if (source.getRows() != null) {
             component.setRows(new Rows());
             if (source.getRows().getRowClass() != null) {
@@ -104,19 +105,21 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             }
             component.setRowClick(compileRowClick(source, context, p, widgetScope, widgetRouteScope, object, widgetActions));
         }
-        compileColumns(source, context, p, component, query, object, widgetScope, widgetRouteScope, widgetActions);
-        table.setPaging(compilePaging(source, p.resolve(Placeholders.property("n2o.api.default.widget.table.size"), Integer.class)));
+        table.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         table.setChildren(p.cast(source.getChildren(),
-                p.resolve(property("n2o.api.default.widget.table.children.toggle"), N2oTable.ChildrenToggle.class))
+                p.resolve(property("n2o.api.widget.table.children.toggle"), N2oTable.ChildrenToggle.class))
         );
+        component.setAutoCheckboxOnSelect(p.cast(source.getCheckOnSelect(), p.resolve(property("n2o.api.widget.table.check_on_select"), Boolean.class)));
+        if (Boolean.TRUE.equals(source.getCheckboxes()))
+            component.setRowSelection(RowSelectionEnum.checkbox);
         return table;
     }
 
     @Override
-    protected QueryContext getQueryContext(Table widget, N2oTable source, CompileContext<?, ?> context, String route, CompiledQuery query,
+    protected QueryContext getQueryContext(Table widget, N2oTable source, CompileContext<?, ?> context, String route, String queryId,
                                            ValidationList validationList, SubModelsScope subModelsScope,
                                            CopiedFieldScope copiedFieldScope, CompileProcessor p, CompiledObject object) {
-        QueryContext queryContext = super.getQueryContext(widget, source, context, route, query, validationList,
+        QueryContext queryContext = super.getQueryContext(widget, source, context, route, queryId, validationList,
                 subModelsScope, copiedFieldScope, p, object);
         queryContext.setSortingMap(new StrictMap<>());
         if (source.getColumns() != null) {
@@ -144,15 +147,14 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
 
     private void compileColumns(N2oTable source, CompileContext<?, ?> context, CompileProcessor p,
                                 TableWidgetComponent component, CompiledQuery query, CompiledObject object,
-                                WidgetScope widgetScope, ParentRouteScope widgetRouteScope, MetaActions widgetActions) {
+                                Object... scopes) {
         if (source.getColumns() != null) {
             List<ColumnHeader> headers = new ArrayList<>();
             Map<String, String> sortings = new HashMap<>();
             IndexScope columnIndex = new IndexScope();
             CellsScope cellsScope = new CellsScope(new ArrayList<>());
             for (AbstractColumn column : source.getColumns()) {
-                headers.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope,
-                        widgetScope, widgetRouteScope, widgetActions, query));
+                headers.add(p.compile(column, context, p, new ComponentScope(column), object, columnIndex, cellsScope, query, scopes));
                 if (column.getSortingDirection() != null) {
                     sortings.put(column.getTextFieldId(), column.getSortingDirection().toString().toUpperCase());
                 }
@@ -160,9 +162,22 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             component.setHeaders(headers);
             component.setCells(cellsScope.getCells());
             component.setSorting(sortings);
-            Boolean hasSelect = p.cast(source.getSelected(), p.resolve(property("n2o.api.widget.table.selected"), Boolean.class));
-            component.setHasSelect(hasSelect);
-            component.setHasFocus(hasSelect);
+
+            RowSelectionEnum rowSelection = p.cast(source.getSelection(), p.resolve(property("n2o.api.widget.table.selection"), RowSelectionEnum.class));
+            switch (rowSelection) {
+                case none:
+                    component.setHasSelect(false);
+                    component.setHasFocus(false);
+                    break;
+                case active:
+                    component.setHasSelect(true);
+                    component.setHasFocus(true);
+                    break;
+                case radio:
+                case checkbox:
+                    component.setRowSelection(rowSelection);
+                    break;
+            }
         }
     }
 
@@ -172,13 +187,6 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
                                               SubModelsScope subModelsScope, UploadScope uploadScope, MomentScope momentScope) {
         List<FieldSet> fieldSets = initFieldSets(source.getFilters(), context, p, widgetScope,
                 widgetQuery, object, modelsScope, filtersScope, subModelsScope, uploadScope, momentScope);
-        if (source.getColumns() != null) {
-            SourceComponent[] filterColumnsFilters = Arrays.stream(source.getColumns()).filter(c -> c instanceof N2oFilterColumn)
-                    .map(c -> ((N2oFilterColumn) c).getFilter())
-                    .toArray(SourceComponent[]::new);
-            initFieldSets(filterColumnsFilters, context, p, widgetScope, widgetQuery, object, modelsScope,
-                    filtersScope, subModelsScope, uploadScope, momentScope);
-        }
 
         if (fieldSets.isEmpty())
             return null;

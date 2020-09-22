@@ -5,8 +5,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.widget.WidgetIOv4;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,6 +21,7 @@ public class SimplePageElementIOv2 implements NamespaceIO<N2oSimplePage> {
         p.attribute(e, "name", m::getName, m::setName);
         p.attribute(e, "route", m::getRoute, m::setRoute);
         p.attribute(e, "modal-size", m::getModalSize, m::setModalSize);
+        p.attributeBoolean(e, "show-title", m::getShowTitle, m::setShowTitle);
         p.anyAttributes(e, m::getExtAttributes, m::setExtAttributes);
         p.anyChild(e,null, m::getWidget, m::setWidget, p.anyOf(N2oWidget.class), widgetDefaultNamespace);
         m.setNamespaceUri(getNamespaceUri());

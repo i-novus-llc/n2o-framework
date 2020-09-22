@@ -21,8 +21,9 @@ public class N2oWidgetsPack implements MetadataPack<N2oApplicationBuilder> {
                 new HtmlWidgetCompiler(),
                 new CustomWidgetCompiler(),
                 new TreeCompiler(),
-                new ChartCompiler());
-        b.mergers(new N2oWidgetMerger(), new N2oFormMerger());
+                new ChartCompiler(),
+                new CalendarCompiler());
+        b.mergers(new N2oWidgetMerger(), new N2oFormMerger(), new N2oTableMerger());
 
         CrudGenerator crudGenerator = new CrudGenerator();
         N2oButtonGeneratorFactory buttonGeneratorFactory = new N2oButtonGeneratorFactory();

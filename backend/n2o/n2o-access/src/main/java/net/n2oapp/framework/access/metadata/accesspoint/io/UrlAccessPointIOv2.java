@@ -2,7 +2,7 @@ package net.n2oapp.framework.access.metadata.accesspoint.io;
 
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oUrlAccessPoint;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**

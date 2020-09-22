@@ -4,9 +4,11 @@ import { compose, withHandlers } from 'recompose';
 import get from 'lodash/get';
 import cx from 'classnames';
 
+import propsResolver from '../../../../../utils/propsResolver';
 import { setModel } from '../../../../../actions/models';
 import { PREFIXES } from '../../../../../constants/models';
 import Toolbar from '../../../../buttons/Toolbar';
+import withTooltip from '../../withTooltip';
 
 /**
  *
@@ -39,12 +41,14 @@ function ButtonsCell({
   const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`;
 
   return visible ? (
-    <Toolbar
-      className={cx('n2o-buttons-cell', className)}
-      entityKey={key}
-      toolbar={toolbar}
-      onClick={onResolve}
-    />
+    <div className="d-inline-flex">
+      <Toolbar
+        className={cx('n2o-buttons-cell', className)}
+        entityKey={key}
+        toolbar={propsResolver(toolbar, model)}
+        onClick={onResolve}
+      />
+    </div>
   ) : null;
 }
 
@@ -72,6 +76,7 @@ ButtonsCell.defaultProps = {
 };
 
 const enhance = compose(
+  withTooltip,
   withHandlers({
     onResolve: ({ dispatch, widgetId, model }) => () =>
       dispatch(setModel(PREFIXES.resolve, widgetId, model)),

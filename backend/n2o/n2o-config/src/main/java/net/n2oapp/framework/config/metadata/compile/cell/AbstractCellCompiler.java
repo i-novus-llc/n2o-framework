@@ -21,9 +21,9 @@ import java.util.Map;
  * Компиляция абстрактной ячейки
  */
 public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends N2oAbstractCell>
-        implements BaseSourceCompiler<D, S, CompileContext<?,?>> {
+        implements BaseSourceCompiler<D, S, CompileContext<?, ?>> {
 
-    protected D build(D compiled, S source, CompileContext<?,?> context, CompileProcessor p, String defaultSrc) {
+    protected D build(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p, String defaultSrc) {
         ComponentScope columnScope = p.getScope(ComponentScope.class);
         if (columnScope != null) {
             AbstractColumn column = columnScope.unwrap(AbstractColumn.class);
@@ -35,6 +35,13 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
         compiled.setCssClass(p.resolveJS(source.getCssClass()));
         compiled.setReactStyle(StylesResolver.resolveStyles(source.getStyle()));
         compiled.setJsonVisible(p.resolveJS(source.getVisible(), Boolean.class));
+        compiled.setProperties(p.mapAttributes(source));
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (componentScope != null) {
+            AbstractColumn column = componentScope.unwrap(AbstractColumn.class);
+            if (column != null)
+                compiled.setTooltipFieldId(column.getTooltipFieldId());
+        }
         return compiled;
     }
 

@@ -1,8 +1,11 @@
 package net.n2oapp.framework.api.rest;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.meta.page.Dialog;
 import net.n2oapp.framework.api.metadata.meta.saga.AlertSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MessageSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
@@ -19,12 +22,14 @@ import java.util.Map;
  */
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class N2oResponse {
     /**
      * Мета информация
      */
     @JsonProperty
     private MetaSaga meta;
+    @JsonIgnore
     private int status = 200;
 
     public N2oResponse() {
@@ -66,7 +71,9 @@ public class N2oResponse {
     }
 
     public void setResponseMessages(List<ResponseMessage> messageList, String widgetId, Boolean stacked) {
-        setMeta(new MetaSaga());
+        if (getMeta() == null)
+            setMeta(new MetaSaga());
+        getMeta().setMessages(null);
 
         if (messageList == null || messageList.isEmpty())
             return;
@@ -76,5 +83,11 @@ public class N2oResponse {
             getMeta().getAlert().setStacked(stacked);
         }
         messageList.forEach(m -> addResponseMessage(m, widgetId));
+    }
+
+    public void setDialog(Dialog dialog) {
+        if (getMeta() == null)
+            setMeta(new MetaSaga());
+        getMeta().setDialog(dialog);
     }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 
-import InputNumber from './InputNumber';
+import { InputNumber } from './InputNumber';
 
 const setup = propOverrides => {
   const props = Object.assign(
@@ -197,7 +197,7 @@ describe('<InputNumber />', () => {
       .find('input')
       .simulate('change', { target: { value: '100.999999' } });
     wrapper.find('input').simulate('blur');
-    expect(wrapper.find('input').props().value).toBe('');
+    expect(wrapper.find('input').props().value).toBe('9');
   });
 
   it('значения меньше min невалидны', () => {
@@ -214,7 +214,7 @@ describe('<InputNumber />', () => {
       .find('input')
       .simulate('change', { target: { value: '-100.999999' } });
     wrapper.find('input').simulate('blur');
-    expect(wrapper.find('input').props().value).toBe('');
+    expect(wrapper.find('input').props().value).toBe('9');
   });
 
   it('показывает/скрывает кнопки по showButtons', () => {

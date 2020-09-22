@@ -21,6 +21,7 @@ import net.n2oapp.framework.api.metadata.pipeline.*;
 import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.api.util.SubModelsProcessor;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.util.CompileUtil;
 
@@ -44,6 +45,10 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
      * Сервисы окружения
      */
     private MetadataEnvironment env;
+    /**
+     * Процессор вложенных моделей
+     */
+    private SubModelsProcessor subModelsProcessor;
     /**
      * Переменные влияющие на сборку
      */
@@ -103,6 +108,25 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     /**
+     * Конструктор процессора сборки метаданных со связыванием и процессором вложенных моделей
+     *
+     * @param env     Окружение сборки метаданных
+     * @param params  Параметры запроса
+     * @param context Входной контекст сборки(не используется для компиляции метаданных)
+     * @param subModelsProcessor Процессор вложенных моделей
+     */
+    public N2oCompileProcessor(MetadataEnvironment env, CompileContext<?, ?> context, DataSet params,
+                               SubModelsProcessor subModelsProcessor) {
+        this(env);
+        this.context = context;
+        this.params = params;
+        this.subModelsProcessor = subModelsProcessor;
+        model = new DataModel();
+        model.addAll(context.getQueryRouteMapping(), params);
+        model.addAll(context.getPathRouteMapping(), params);
+    }
+
+    /**
      * Конструктор процессора внутренней сборки метаданных
      *
      * @param parent Родительский процессор сборки
@@ -131,13 +155,14 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public <D extends Compiled> void bind(D compiled) {
-        bindPipeline.get(compiled, context, params);
+        if (compiled != null)
+            bindPipeline.get(compiled, context, params);
     }
 
 
     @Override
     public Map<String, Object> mapAttributes(ExtensionAttributesAware source) {
-        if (source.getExtAttributes() == null)
+        if (source.getExtAttributes() == null || source.getExtAttributes().isEmpty())
             return null;
         ExtensionAttributeMapperFactory extensionAttributeMapperFactory = env.getExtensionAttributeMapperFactory();
         HashMap<String, Object> extAttributes = new HashMap<>();
@@ -179,13 +204,13 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     @SuppressWarnings("unchecked")
     @Override
     public <T> T resolve(String placeholder, Class<T> clazz) {
-        Object value = resolvePlaceholder(placeholder);
+        Object value = resolveRequiredPlaceholder(placeholder);
         return (T) env.getDomainProcessor().deserialize(value, clazz);
     }
 
     @Override
     public Object resolve(String placeholder, String domain) {
-        Object value = resolvePlaceholder(placeholder);
+        Object value = resolveRequiredPlaceholder(placeholder);
         return env.getDomainProcessor().deserialize(value, domain);
     }
 
@@ -208,6 +233,11 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     public String getMessage(String messageCode, Object... arguments) {
         String defaultMessage = messageCode.contains("{0}") ? MessageFormat.format(messageCode, arguments) : messageCode;
         return env.getMessageSource().getMessage(messageCode, arguments, defaultMessage);
+    }
+
+    @Override
+    public boolean canResolveParam(String param) {
+        return params != null && params.containsKey(param);
     }
 
     @Override
@@ -237,7 +267,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     @Override
     public String resolveUrl(String url, ModelLink link) {
         List<String> paramNames = getParams(url);
-        if (paramNames == null || paramNames.isEmpty() || params == null)
+        if (paramNames.isEmpty() || params == null)
             return url;
         Map<String, String> valueParamMap = new HashMap<>();
         collectModelLinks(context.getPathRouteMapping(), link.getWidgetLink(), valueParamMap);
@@ -263,15 +293,26 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         }
         if (res.isPresent()) {
             Object value = params.get(res.get());
-            if (value instanceof String)
-                value = resolveText((String) value);
-            if (value != null) {
-                BindLink resultLink = link instanceof ModelLink ? new ModelLink((ModelLink) link) : new BindLink(link.getBindLink());
-                resultLink.setValue(value);
-                return resultLink;
-            }
+            BindLink resultLink = createLink(link, value);
+            if (resultLink != null) return resultLink;
+        }
+        if (link instanceof ModelLink && ((ModelLink) link).getParam() != null) {
+            Object value = params.get(((ModelLink) link).getParam());
+            BindLink resultLink = createLink(link, value);
+            if (resultLink != null) return resultLink;
         }
         return link;
+    }
+
+    private BindLink createLink(BindLink link, Object value) {
+        if (value instanceof String)
+            value = resolveText((String) value);
+        if (value != null) {
+            BindLink resultLink = link instanceof ModelLink ? new ModelLink((ModelLink) link) : new BindLink(link.getBindLink());
+            resultLink.setValue(value);
+            return resultLink;
+        }
+        return null;
     }
 
     @Override
@@ -289,7 +330,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     public String resolveText(String text, ModelLink link) {
         String resolved = resolveText(text);
         if (link != null)
-            return LINK_RESOLVER.resolve(resolved, model.getDataIfAbsent(link, env.getSubModelsProcessor()));
+            return LINK_RESOLVER.resolve(resolved, model.getDataIfAbsent(link, subModelsProcessor));
         else
             return resolved;
     }
@@ -355,6 +396,13 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         return value;
     }
 
+    private Object resolveRequiredPlaceholder(String placeholder) {
+        if (StringUtils.isProperty(placeholder)) {
+            return env.getSystemProperties().resolveRequiredPlaceholders(placeholder);
+        } else
+            return placeholder;
+    }
+
     private void collectModelLinks(Map<String, ModelLink> linkMap, ModelLink link, Map<String, String> resultMap) {
         if (linkMap != null) {
             linkMap.forEach((k, v) -> {
@@ -375,13 +423,15 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
             for (DefaultValues defaultValues : (List<DefaultValues>) link.getValue()) {
                 DataSet dataSet = new DataSet();
                 dataSet.put(link.getFieldId(), defaultValues.getValues());
-                env.getSubModelsProcessor().executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
+                if (subModelsProcessor != null)
+                    subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
                 defaultValues.setValues((Map<String, Object>) dataSet.get(link.getFieldId()));
             }
         } else if (link.getValue() instanceof DefaultValues) {
             DataSet dataSet = new DataSet();
             dataSet.put(link.getFieldId(), ((DefaultValues) link.getValue()).getValues());
-            env.getSubModelsProcessor().executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
+            if (subModelsProcessor != null)
+                subModelsProcessor.executeSubModels(Collections.singletonList(link.getSubModelQuery()), dataSet);
             ((DefaultValues) link.getValue()).setValues((Map<String, Object>) dataSet.get(link.getFieldId()));
         }
     }

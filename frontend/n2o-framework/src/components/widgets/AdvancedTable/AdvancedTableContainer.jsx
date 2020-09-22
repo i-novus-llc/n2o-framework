@@ -10,7 +10,7 @@ import omit from 'lodash/omit';
 import findIndex from 'lodash/findIndex';
 import map from 'lodash/map';
 import set from 'lodash/set';
-import has from 'lodash/has';
+import get from 'lodash/get';
 import isUndefined from 'lodash/isUndefined';
 import AdvancedTable from './AdvancedTable';
 import widgetContainer from '../WidgetContainer';
@@ -21,11 +21,15 @@ import TableCell from '../Table/TableCell';
 import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
 import PropTypes from 'prop-types';
-import { makeGetFilterModelSelector } from '../../../selectors/models';
+import {
+  makeGetFilterModelSelector,
+  makeGetModelByPrefixSelector,
+} from '../../../selectors/models';
 import { getContainerColumns } from '../../../selectors/columns';
 import evalExpression from '../../../utils/evalExpression';
 import { replace } from 'connected-react-router';
-import compileUrl from '../../../utils/compileUrl';
+import { dataProviderResolver } from '../../../core/dataProviderResolver';
+import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
@@ -94,6 +98,7 @@ class AdvancedTableContainer extends React.Component {
   renderCell(props) {
     const { actions } = this.props;
     const propStyles = pick(props, ['width']);
+
     return <ReduxCell {...propStyles} {...props} actions={actions} />;
   }
 
@@ -114,6 +119,24 @@ class AdvancedTableContainer extends React.Component {
     //TODO something
   }
 
+  mapHeaders = (headers, isChild = false) =>
+    map(headers, header => {
+      let mappedChildren = null;
+
+      if (header.children || isChild) {
+        mappedChildren = this.mapHeaders(header.children || [], true);
+
+        return {
+          ...header,
+          dataIndex: header.id,
+          title: header.label,
+          children: header.children ? mappedChildren : undefined,
+        };
+      }
+
+      return header;
+    });
+
   mapColumns() {
     const {
       cells,
@@ -122,6 +145,7 @@ class AdvancedTableContainer extends React.Component {
       sorting,
       onSort,
       registredColumns,
+      filters,
     } = this.props;
 
     map(registredColumns, ({ frozen, visible }, key) => {
@@ -132,19 +156,32 @@ class AdvancedTableContainer extends React.Component {
       }
     });
 
-    return headers.map(header => {
+    return this.mapHeaders(headers).map(header => {
       const cell = find(cells, c => c.id === header.id) || {};
+      let children = get(header, 'children', null);
 
-      if (has(header, 'children')) {
-        set(
-          header,
-          'children',
-          map(header.children, child => ({
+      const mapChildren = children =>
+        map(children, child => {
+          if (!isEmpty(child.children)) {
+            child.children = mapChildren(child.children);
+          }
+
+          return {
             ...child,
-            dataIndex: child.id,
-            title: child.label,
-          }))
-        );
+            title: (
+              <AdvancedTableHeaderCell
+                as="div"
+                {...child}
+                onFilter={this.handleSetFilter}
+                filters={filters}
+                filterControl={child.filterControl}
+              />
+            ),
+          };
+        });
+
+      if (children) {
+        header.children = mapChildren(children);
       }
 
       return {
@@ -158,11 +195,11 @@ class AdvancedTableContainer extends React.Component {
           sorting: sorting && sorting[header.id],
           onSort,
         }),
-        label: header.label,
+        label: header.title,
         dataIndex: header.id,
         columnId: header.id,
         key: header.id,
-        hasSpan: cell.hasSpan,
+        hasSpan: get(cell, 'hasSpan', false),
         render: (value, record, index) => ({
           needRender: header.needRender,
           children: this.renderCell({
@@ -182,7 +219,8 @@ class AdvancedTableContainer extends React.Component {
 
   mapData(datasource) {
     if (!datasource) return;
-    return datasource.map(item => {
+
+    return map(datasource, item => {
       return {
         ...item,
         key: item.id,
@@ -233,6 +271,10 @@ const mapStateToProps = (state, props) => {
   return {
     filters: makeGetFilterModelSelector(props.widgetId)(state, props),
     registredColumns: getContainerColumns(props.widgetId)(state, props),
+    multi: makeGetModelByPrefixSelector(PREFIXES.multi, props.widgetId)(
+      state,
+      props
+    ),
   };
 };
 
@@ -252,7 +294,11 @@ export const withWidgetHandlers = compose(
         target,
       } = rowClick;
       const allowRowClick = evalExpression(enablingCondition, model);
-      const compiledUrl = compileUrl(url, { pathMapping, queryMapping }, state);
+      const { url: compiledUrl } = dataProviderResolver(state, {
+        url,
+        pathMapping,
+        queryMapping,
+      });
 
       if (action && (allowRowClick || isUndefined(allowRowClick))) {
         dispatch(action);
@@ -306,6 +352,7 @@ const enhance = compose(
           actions: props.actions,
           redux: true,
           rowSelection: props.rowSelection,
+          autoCheckboxOnSelect: props.autoCheckboxOnSelect,
           tableSize: props.tableSize,
           placeholder: props.placeholder,
           useFixedHeader: props.useFixedHeader,

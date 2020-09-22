@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 import cn from 'classnames';
 import Alert from '../snippets/Alerts/Alert';
 import DocumentTitle from '../core/DocumentTitle';
+import PageTitle from '../core/PageTitle';
 import DefaultBreadcrumb from '../core/Breadcrumb/DefaultBreadcrumb';
 import BreadcrumbContainer from '../core/Breadcrumb/BreadcrumbContainer';
 import Toolbar from '../buttons/Toolbar';
@@ -13,7 +14,7 @@ import Toolbar from '../buttons/Toolbar';
  * @param metadata
  * @param toolbar
  * @param actions
- * @param containerKey
+ * @param entityKey
  * @param error
  * @param pageId
  * @param regions
@@ -28,7 +29,7 @@ function DefaultPage(
     metadata,
     toolbar,
     actions,
-    containerKey,
+    entityKey,
     error,
     pageId,
     regions,
@@ -49,19 +50,23 @@ function DefaultPage(
           items={metadata.breadcrumb}
         />
       )}
-      {toolbar && (toolbar.topLeft || toolbar.topRight) && (
+      {!isEmpty(metadata) && metadata.page && <PageTitle {...metadata.page} />}
+      {toolbar && (toolbar.topLeft || toolbar.topRight || toolbar.topCenter) && (
         <div className="n2o-page-actions">
-          <Toolbar entityKey={containerKey} toolbar={toolbar.topLeft} />
-          <Toolbar entityKey={containerKey} toolbar={toolbar.topRight} />
+          <Toolbar entityKey={entityKey} toolbar={toolbar.topLeft} />
+          <Toolbar entityKey={entityKey} toolbar={toolbar.topCenter} />
+          <Toolbar entityKey={entityKey} toolbar={toolbar.topRight} />
         </div>
       )}
       {children}
-      {toolbar && (toolbar.bottomLeft || toolbar.bottomRight) && (
-        <div className="n2o-page-actions">
-          <Toolbar entityKey={containerKey} toolbar={toolbar.bottomLeft} />
-          <Toolbar entityKey={containerKey} toolbar={toolbar.bottomRight} />
-        </div>
-      )}
+      {toolbar &&
+        (toolbar.bottomLeft || toolbar.bottomRight || toolbar.bottomCenter) && (
+          <div className="n2o-page-actions">
+            <Toolbar entityKey={entityKey} toolbar={toolbar.bottomLeft} />
+            <Toolbar entityKey={entityKey} toolbar={toolbar.bottomCenter} />
+            <Toolbar entityKey={entityKey} toolbar={toolbar.bottomRight} />
+          </div>
+        )}
     </div>
   );
 }
@@ -70,7 +75,7 @@ DefaultPage.propTypes = {
   metadata: PropTypes.object,
   toolbar: PropTypes.object,
   actions: PropTypes.object,
-  containerKey: PropTypes.string,
+  entityKey: PropTypes.string,
   error: PropTypes.object,
   pageId: PropTypes.string,
   regions: PropTypes.object,

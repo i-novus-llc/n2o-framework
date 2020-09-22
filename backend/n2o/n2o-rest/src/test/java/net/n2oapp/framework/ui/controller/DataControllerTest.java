@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 
 public class DataControllerTest extends DataControllerTestBase {
@@ -244,6 +245,52 @@ public class DataControllerTest extends DataControllerTestBase {
         assertThat(response.getMeta().getMessages().getFields().get("id2").getField(), is("id2"));
     }
 
+    /**
+     * Проверка operation in param.
+     */
+    @Test
+    public void testOperationMapping() {
+        ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = createPipeline();
+
+        //Параметры не превращаются в body, но учитываются в in field
+        Map<String, String[]> params = new HashMap<>();
+        params.put("param1", new String[] {"value11"});
+        params.put("param3", new String[] {"value33"});
+        DataSet body = new DataSet();
+        body.put("field1", "value1");
+        body.put("field2", "value2");
+        body.put("field3", "value3");
+
+        SetDataResponse response = testOperation("/testOperationMapping/widget/:testOperationMapping_main_id/create8", pipeline, params, body);
+        assertThat(response.getData().size(), is(3));
+        assertThat(response.getData().get("field1"), is("value11"));
+        assertThat(response.getData().get("field3"), is("value33"));
+        assertThat(response.getData().get("param1"), nullValue());
+        assertThat(response.getData().get("param3"), nullValue());
+
+        //Поля в body не считаются за параметры и не учитываются в in field
+        params = new HashMap<>();
+        body = new DataSet();
+        body.put("param1", "value1");
+        body.put("field2", "value2");
+        body.put("param3", "value3");
+
+        response = testOperation("/testOperationMapping/widget/:testOperationMapping_main_id/create8", pipeline, params, body);
+        assertThat(response.getData().get("field1"), nullValue());
+        assertThat(response.getData().get("field3"), nullValue());
+
+        //В in field нет значения по умолчанию для param, параметры похожие на in field id не превращаются в параметры
+        params = new HashMap<>();
+        params.put("field2", new String[] {"value22"});
+        body = new DataSet();
+        body.put("field1", "value1");
+        body.put("field2", "value2");
+        body.put("field3", "value3");
+
+        response = testOperation("/testOperationMapping/widget/:testOperationMapping_main_id/create8", pipeline, params, body);
+        assertThat(response.getData().get("field2"), is("value2"));
+    }
+
 
     private ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> createPipeline() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline = compile(
@@ -252,11 +299,13 @@ public class DataControllerTest extends DataControllerTestBase {
                 "net/n2oapp/framework/ui/controller/testPageWithRequiredField.page.xml",
                 "net/n2oapp/framework/ui/controller/testFieldVisibility.page.xml",
                 "net/n2oapp/framework/ui/controller/testQuery.query.xml",
-                "net/n2oapp/framework/ui/controller/testPage.page.xml");
+                "net/n2oapp/framework/ui/controller/testPage.page.xml",
+                "net/n2oapp/framework/ui/controller/testOperationMapping.page.xml");
         pipeline.get(new PageContext("testPage"));
         pipeline.get(new PageContext("testPageWithRequiredField"));
         pipeline.get(new PageContext("testFieldVisibility"));
         pipeline.get(new PageContext("testListControlValidation"));
+        pipeline.get(new PageContext("testOperationMapping"));
         return pipeline;
     }
 
@@ -272,14 +321,12 @@ public class DataControllerTest extends DataControllerTestBase {
 
         Mockito.when(invocationFactory.produce(Mockito.any(Class.class))).thenReturn(testDataProviderEngine);
 
-        N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory, null, null);
+        N2oInvocationProcessor invocationProcessor = new N2oInvocationProcessor(invocationFactory);
+        invocationProcessor.setEnvironment(builder.getEnvironment());
 
         N2oValidationModule validationModule = new N2oValidationModule(new ValidationProcessor(invocationProcessor));
         Map<String, N2oModule> moduleMap = new HashMap<>();
         moduleMap.put("validationModule", validationModule);
-        ObjectMapper mapper = new ObjectMapper();
-        DomainProcessor domainProcessor = new DomainProcessor(mapper);
-
         N2oOperationProcessor operationProcessor = new N2oOperationProcessor(invocationProcessor, new N2oOperationExceptionHandler());
 
         ApplicationContext context = Mockito.mock(ApplicationContext.class);
@@ -292,16 +339,15 @@ public class DataControllerTest extends DataControllerTestBase {
         ContextEngine contextEngine = Mockito.mock(ContextEngine.class);
 
         Map<String, Object> map = new HashMap<>();
-        OperationController operationController = new OperationController(dataProcessingStack, domainProcessor, operationProcessor,
-                new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
+        OperationController operationController = new OperationController(dataProcessingStack, operationProcessor,
+                new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()), builder.getEnvironment());
         map.put("operationController", operationController);
 
         N2oControllerFactory factory = new N2oControllerFactory(map);
         factory.setEnvironment(builder.getEnvironment());
 
         DataController controller = new DataController(factory, builder.getEnvironment(), router);
-//        controller.setErrorMessageBuilder(new ErrorMessageBuilder(builder.getEnvironment().getMessageSource()));
-        return controller.setData(path, params, body, new UserContext(contextEngine));
+        return controller.setData(path, params , null, body, new UserContext(contextEngine));
     }
 
 }

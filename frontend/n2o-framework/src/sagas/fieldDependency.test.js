@@ -13,15 +13,17 @@ import fetchMock from 'fetch-mock';
 import { FETCH_END, FETCH_START } from '../constants/fetch';
 import { actionTypes } from 'redux-form';
 
-const setupModify = (type, options, ...rest) => {
-  const values = {
+const setupModify = (
+  type,
+  options,
+  values = {
     testField: 0,
-  };
-
+  }
+) => {
   const formName = 'testForm';
   const fieldName = 'testField';
 
-  return modify(values, formName, fieldName, type, options, ...rest);
+  return modify(values, formName, fieldName, type, options, () => {});
 };
 
 const setupCheckAndModify = () => {
@@ -70,9 +72,13 @@ describe('Проверка саги dependency', () => {
       expect(next.done).toEqual(true);
     });
     it('Проверка type enabled с ложным expression', () => {
-      const gen = setupModify('enabled', {
-        expression: `testField != 0`,
-      });
+      const gen = setupModify(
+        'enabled',
+        {
+          expression: `testField != 1`,
+        },
+        { testField: 1 }
+      );
       let next = gen.next();
       expect(next.value.payload.action.type).toEqual(DISABLE_FIELD);
       expect(next.value.payload.action.payload).toEqual({
@@ -94,9 +100,13 @@ describe('Проверка саги dependency', () => {
       expect(gen.next().done).toEqual(true);
     });
     it('Проверка type visible с ложным expression', () => {
-      const gen = setupModify('visible', {
-        expression: `testField != 0`,
-      });
+      const gen = setupModify(
+        'visible',
+        {
+          expression: `testField != 2`,
+        },
+        { testField: 2 }
+      );
       let next = gen.next();
       expect(next.value.payload.action.type).toEqual(HIDE_FIELD);
       expect(gen.next().done).toEqual(true);
@@ -110,7 +120,6 @@ describe('Проверка саги dependency', () => {
         keepDirty: false,
         value: 12,
       });
-      expect(gen.next().done).toEqual(true);
     });
     it('Проверка type reset с ложным expression', () => {
       const gen = setupModify('reset', {
@@ -119,9 +128,13 @@ describe('Проверка саги dependency', () => {
       expect(gen.next().done).toEqual(false);
     });
     it('Проверка type reset с истинным expression', () => {
-      const gen = setupModify('reset', {
-        expression: `testField === 0`,
-      });
+      const gen = setupModify(
+        'reset',
+        {
+          expression: `testField === 3`,
+        },
+        { testField: 3 }
+      );
       let next = gen.next();
       expect(next.value.payload.action.payload).toEqual({
         keepDirty: false,

@@ -22,7 +22,13 @@ import java.util.Arrays;
 public class ObjectXmlIOTest {
     ION2oMetadataTester tester = new ION2oMetadataTester()
             .addReader(new SelectiveStandardReader().addObjectReader().addInvocationsReader2().addDataProviders())
-            .addPersister(new SelectiveStandardPersister().addObjectPersister().addInvocationObjectPersister().addDataProviders());
+            .addPersister(new SelectiveStandardPersister().addObjectPersister().addInvocationObjectPersister().addDataProviders())
+            .addIO(new ObjectElementIOv4());
+
+    @Test
+    public void testObjectV4XmlIO() {
+        assert tester.check("net/n2oapp/framework/config/io/object/testObjectIOv4.object.xml");
+    }
 
     @Test
     public void testObjectV3XmlIO() {

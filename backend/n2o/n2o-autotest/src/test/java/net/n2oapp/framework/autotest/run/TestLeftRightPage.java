@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.run;
 
 import net.n2oapp.framework.autotest.api.collection.Regions;
+import net.n2oapp.framework.autotest.api.collection.Alerts;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
@@ -37,5 +38,30 @@ public class TestLeftRightPage extends N2oComponent implements LeftRightPage {
     @Override
     public Dialog dialog(String title) {
         return null;
+    }
+
+    @Override
+    public Tooltip tooltip() {
+        return null;
+    }
+
+    @Override
+    public Alerts alerts() {
+        return null;
+    }
+
+    @Override
+    public void urlShouldMatches(String regexp) {
+
+    }
+
+    @Override
+    public void scrollUp() {
+
+    }
+
+    @Override
+    public void scrollDown() {
+
     }
 }

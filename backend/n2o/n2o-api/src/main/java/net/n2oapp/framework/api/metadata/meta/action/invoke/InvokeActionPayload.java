@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.meta.action.ActionPayload;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 
 /**
- * Клиентская модель коомпонента invoke-action
+ * Клиентская модель компонента invoke-action
  */
 @Getter
 @Setter
@@ -17,7 +17,7 @@ public class InvokeActionPayload implements ActionPayload {
     @JsonProperty
     private String pageId;
     @JsonProperty
-    private WidgetDataProvider dataProvider;
+    private ClientDataProvider dataProvider;
     @JsonProperty
     private String modelLink;
 }

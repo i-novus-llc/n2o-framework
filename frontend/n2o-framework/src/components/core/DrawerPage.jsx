@@ -13,7 +13,7 @@ import withOverlayMethods from './withOverlayMethods';
  * @reactProps {string} pageId - id пейджа
  * @reactProps {string} name - имя модалки
  * @reactProps {boolean} visible - отображается модалка или нет
- * @reactProps {string} title - заголовок в хэдере
+ * @reactProps {string} headerTitle - заголовок в хэдере
  * @reactProps {object} actions - объект экшнов
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
  * @reactProps {object} props - аргументы для экшенов-функций
@@ -36,11 +36,19 @@ function DrawerPage(props) {
     queryMapping,
     visible,
     loading,
-    title,
+    headerTitle,
+    footer,
     disabled,
     toolbar,
     actions,
-    containerKey,
+    entityKey,
+    width,
+    height,
+    placement,
+    backdrop,
+    level,
+    backdropClosable,
+    animation,
     ...rest
   } = props;
 
@@ -62,26 +70,30 @@ function DrawerPage(props) {
         transparent
       >
         <Drawer
-          visible={!loading && visible}
+          visible={!loading && visible !== false}
           onHandleClick={() => rest.closeOverlay(true)}
-          title={title}
-          backdrop={false}
+          onClose={() => rest.closeOverlay(true)}
+          title={headerTitle}
+          backdrop={backdrop}
+          width={width}
+          height={height}
+          placement={placement}
+          level={level}
+          backdropClosable={backdropClosable}
+          animation={animation}
           footer={
-            toolbar && (
+            !!toolbar ? (
               <div
                 className={cn('n2o-modal-actions', {
                   'n2o-disabled': disabled,
                 })}
               >
-                <Toolbar
-                  toolbar={toolbar.bottomLeft}
-                  containerKey={containerKey}
-                />
-                <Toolbar
-                  toolbar={toolbar.bottomRight}
-                  containerKey={containerKey}
-                />
+                <Toolbar toolbar={toolbar.bottomLeft} entityKey={entityKey} />
+                <Toolbar toolbar={toolbar.bottomCenter} entityKey={entityKey} />
+                <Toolbar toolbar={toolbar.bottomRight} entityKey={entityKey} />
               </div>
+            ) : (
+              footer
             )
           }
         >
@@ -91,7 +103,7 @@ function DrawerPage(props) {
                 pageUrl={pageUrl}
                 pageId={pageId}
                 pageMapping={pageMapping}
-                containerKey={containerKey}
+                entityKey={entityKey}
                 needMetadata={true}
               />
             ) : src ? (
@@ -109,7 +121,7 @@ export const DrawerWindow = DrawerPage;
 DrawerPage.propTypes = {
   pageId: PropTypes.string,
   visible: PropTypes.bool,
-  title: PropTypes.string,
+  headerTitle: PropTypes.string,
   name: PropTypes.string,
   props: PropTypes.object,
   close: PropTypes.func.isRequired,

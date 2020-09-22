@@ -235,47 +235,6 @@ describe('Тесты models reducer', () => {
     });
   });
 
-  it('Проверка COPY', () => {
-    expect(
-      models(
-        {
-          resolve: {
-            testKey: {
-              name: 'new name',
-            },
-          },
-          edit: {
-            testKey: {},
-          },
-        },
-        {
-          type: COPY,
-          payload: {
-            source: {
-              prefix: 'resolve',
-              key: 'testKey',
-            },
-            target: {
-              prefix: 'edit',
-              key: 'testKey',
-            },
-          },
-        }
-      )
-    ).toEqual({
-      edit: {
-        testKey: {
-          name: 'new name',
-        },
-      },
-      resolve: {
-        testKey: {
-          name: 'new name',
-        },
-      },
-    });
-  });
-
   it('Проверка REMOVE_ALL', () => {
     expect(
       models(
@@ -303,4 +262,21 @@ describe('Тесты models reducer', () => {
       edit: {},
     });
   });
+});
+
+const createState = (resolve = {}, filter = {}) => ({
+  resolve: {
+    proto_clients: {
+      id: 1,
+      name: 'Ivan',
+      surname: 'Ivanov',
+    },
+    ...resolve,
+  },
+  filter: {
+    proto_form: {
+      test: 'test',
+    },
+    ...filter,
+  },
 });

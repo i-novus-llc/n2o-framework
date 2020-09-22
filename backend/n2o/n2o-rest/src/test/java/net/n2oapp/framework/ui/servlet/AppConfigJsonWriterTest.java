@@ -13,10 +13,7 @@ import org.springframework.mock.env.MockEnvironment;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -46,7 +43,6 @@ public class AppConfigJsonWriterTest {
         appConfigJsonWriter.setPath("META-INF/config.json");
         appConfigJsonWriter.setOverridePath("META-INF/config-build.json");
 
-        appConfigJsonWriter.loadValues();
         StringWriter sw = new StringWriter();
         appConfigJsonWriter.writeValues(new PrintWriter(sw), new HashMap<>());
         ObjectNode result = (ObjectNode) objectMapper.readTree(sw.toString());
@@ -78,26 +74,32 @@ public class AppConfigJsonWriterTest {
         testContextEngine.put("name", "some text \"text in quotes\"");
         ContextProcessor processor = new ContextProcessor(testContextEngine);
         writer.setContextProcessor(processor);
+        writer.setObjectMapper(new ObjectMapper());
+
         List<String> configs = Arrays.asList("{\"test\":{\"inner-value\":123}}", "{\"test2\":{\"inner-value\":\"#{name}\"}}");
         writer.setConfigs(configs);
-        writer.setObjectMapper(new ObjectMapper());
+        StringWriter sw = new StringWriter();
+        writer.writeValues(new PrintWriter(sw), Collections.emptyMap());
+        ObjectNode result = (ObjectNode) new ObjectMapper().readTree(sw.toString());
+        assertThat(result.get("test").get("inner-value").asInt(), is(123));
+        assertThat(result.get("test2").get("inner-value").asText(), is("some text \"text in quotes\""));
+
         Map<String, Object> added = new HashMap<>();
         added.put("test", new Sub("test"));
         added.put("test2", new Sub("test2"));
 
-        StringWriter sw = new StringWriter();
+        sw = new StringWriter();
         writer.writeValues(new PrintWriter(sw), added);
-        ObjectNode result = (ObjectNode) new ObjectMapper().readTree(sw.toString());
-        assertThat(result.get("test").get("inner-value").asInt(), is(123));
+        result = (ObjectNode) new ObjectMapper().readTree(sw.toString());
         assertThat(result.get("test").get("inner-class").asText(), is("test"));
-
-        assertThat(result.get("test2").get("inner-value").asText(), is("some text \"text in quotes\""));
         assertThat(result.get("test2").get("inner-class").asText(), is("test2"));
     }
 
     public static class Sub {
         @JsonProperty("inner-class")
         private String innerClass;
+        @JsonProperty("inner-value")
+        private Object innerValue;
 
         public Sub(String innerClass) {
             this.innerClass = innerClass;
@@ -105,6 +107,10 @@ public class AppConfigJsonWriterTest {
 
         public String getInnerClass() {
             return innerClass;
+        }
+
+        public Object getInnerValue() {
+            return innerValue;
         }
     }
 

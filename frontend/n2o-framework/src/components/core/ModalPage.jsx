@@ -11,13 +11,15 @@ import Toolbar from '../buttons/Toolbar';
 import Spinner from '../snippets/Spinner/Spinner';
 import withOverlayMethods from './withOverlayMethods';
 
+const style = { zIndex: 10 };
+
 /**
  * Компонент, отображающий модальное окно
  * @reactProps {string} pageId - id пейджа
  * @reactProps {string} name - имя модалки
  * @reactProps {boolean} visible - отображается модалка или нет
  * @reactProps {string} size - размер('sm' или 'lg')
- * @reactProps {string} title - заголовок в хэдере
+ * @reactProps {string} headerTitle - заголовок в хэдере
  * @reactProps {boolean} closeButton - Есть кнопка закрытия или нет
  * @reactProps {object} actions - объект экшнов
  * @reactProps {array} toolbar - массив, описывающий внений вид кнопок-экшенов
@@ -36,7 +38,7 @@ function ModalPage(props) {
     entityKey,
     toolbar,
     visible,
-    title,
+    headerTitle,
     loading,
     pageUrl,
     pageId,
@@ -45,9 +47,9 @@ function ModalPage(props) {
     queryMapping,
     size,
     actions,
-    containerKey,
     close,
     disabled,
+    scrollable,
     ...rest
   } = props;
 
@@ -67,15 +69,14 @@ function ModalPage(props) {
           toggle={() => rest.closeOverlay(true)}
           size={size}
           backdrop={false}
-          style={{
-            zIndex: 10,
-          }}
+          style={style}
+          scrollable={scrollable}
         >
           <ModalHeader
             className={classes}
             toggle={() => rest.closeOverlay(true)}
           >
-            {title}
+            {headerTitle}
           </ModalHeader>
           <ModalBody className={classes}>
             {pageUrl ? (
@@ -83,7 +84,7 @@ function ModalPage(props) {
                 pageUrl={pageUrl}
                 pageId={pageId}
                 pageMapping={pageMapping}
-                containerKey={containerKey}
+                entityKey={entityKey}
                 needMetadata={true}
               />
             ) : src ? (
@@ -97,14 +98,9 @@ function ModalPage(props) {
                   'n2o-disabled': disabled,
                 })}
               >
-                <Toolbar
-                  toolbar={toolbar.bottomLeft}
-                  containerKey={containerKey}
-                />
-                <Toolbar
-                  toolbar={toolbar.bottomRight}
-                  containerKey={containerKey}
-                />
+                <Toolbar toolbar={toolbar.bottomLeft} entityKey={entityKey} />
+                <Toolbar toolbar={toolbar.bottomCenter} entityKey={entityKey} />
+                <Toolbar toolbar={toolbar.bottomRight} entityKey={entityKey} />
               </div>
             </ModalFooter>
           )}
@@ -132,7 +128,7 @@ ModalPage.propTypes = {
   /**
    * Заголовок
    */
-  title: PropTypes.string,
+  headerTitle: PropTypes.string,
   /**
    * Включение кнопки закрытия
    */
@@ -168,6 +164,7 @@ ModalPage.defaultProps = {
 ModalPage.contextTypes = {
   defaultPromptMessage: PropTypes.string,
   resolveProps: PropTypes.func,
+  scrollable: false,
 };
 
 export default compose(withOverlayMethods)(ModalPage);

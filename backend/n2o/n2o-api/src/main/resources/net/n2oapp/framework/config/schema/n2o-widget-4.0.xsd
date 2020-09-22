@@ -12,6 +12,7 @@
     <xs:element name="form" type="formReferenceDefinition"/>
     <xs:element name="tree" type="treeReferenceDefinition"/>
     <xs:element name="chart" type="chartReferenceDefinition"/>
+    <xs:element name="calendar" type="calendarReferenceDefinition"/>
     <xs:element name="widget" type="customReferenceDefinition"/>
     <xs:element name="html" type="htmlReferenceDefinition"/>
 
@@ -22,6 +23,7 @@
             <xs:element name="tree" type="treeReferenceDefinition" minOccurs="0"/>
             <xs:element name="list" type="listWidgetReferenceDefinition" minOccurs="0"/>
             <xs:element name="chart" type="chartReferenceDefinition" minOccurs="0"/>
+            <xs:element name="calendar" type="calendarReferenceDefinition" minOccurs="0"/>
             <xs:element name="widget" type="customReferenceDefinition" minOccurs="0"/>
             <xs:element name="html" type="htmlReferenceDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
@@ -51,7 +53,6 @@
             </xs:element>
             <xs:element name="toolbar" type="tool:widgetToolbarDefinition" maxOccurs="1" minOccurs="0"/>
             <xs:element name="pre-filters" type="preFiltersDefinition" maxOccurs="1" minOccurs="0"/>
-            <xs:element name="pre-fields" type="preFieldsDefinition" maxOccurs="1" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="optional">
             <xs:annotation>
@@ -306,9 +307,9 @@
                         </xs:annotation>
                     </xs:element>
                 </xs:sequence>
-                <xs:attribute name="selected" type="xs:boolean" default="true">
+                <xs:attribute name="selection" type="rowSelectionEnum" default="active">
                     <xs:annotation>
-                        <xs:documentation>Таблица без выделенных записей.</xs:documentation>
+                        <xs:documentation>Вариант выбора строки таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="table-size" type="sizeEnum">
@@ -327,13 +328,21 @@
                         <xs:documentation>Высота таблицы, после которой появится вертикальный скрол.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="children" use="optional" default="collapse">
+                <xs:attribute name="checkboxes" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде</xs:documentation>
+                        <xs:documentation>Наличие чекбоксов в первом столбце таблицы.</xs:documentation>
                     </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="check-on-select" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Срабатывание (включение/выключение) чекбокса при клике по строке.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="children" default="collapse">
                     <xs:simpleType>
                         <xs:annotation>
-                            <xs:documentation>Отображение дочерних записей в закрытом или раскрытом виде
+                            <xs:documentation>
+                                Отображение дочерних записей в закрытом или раскрытом виде.
                             </xs:documentation>
                         </xs:annotation>
                         <xs:restriction base="xs:string">
@@ -410,11 +419,13 @@
                 <xs:documentation>Направление сортировки по умолчанию.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:element name="dependencies" type="columnDependenciesDefinition">
-            <xs:annotation>
-                <xs:documentation>Зависимости столбца.</xs:documentation>
-            </xs:annotation>
-        </xs:element>
+        <xs:sequence>
+            <xs:element name="dependencies" type="columnDependenciesDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Зависимости столбца.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="columnDefinition">
@@ -500,7 +511,8 @@
                     <xs:documentation>Виджет форма.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="fields" type="fieldsDefinition" maxOccurs="1" minOccurs="0"/>
+                    <xs:element name="fields" type="fieldsDefinition" minOccurs="0"/>
+                    <xs:element name="submit" type="act:submitDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="default-values-query-id" type="xs:string">
                     <xs:annotation>
@@ -581,6 +593,174 @@
                 <xs:attribute name="height" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Высота диаграммы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="calendarReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет календарь.</xs:documentation>
+                </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="resources" minOccurs="0">
+                        <xs:complexType>
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Ресурсы календаря. Ресурсы используются для возможности разбиения календаря
+                                    на определенные сущности (бронирование переговорных комнат и т.д.).
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:attribute name="value-field-id" type="xs:string">
+                                <xs:annotation>
+                                   <xs:documentation>Поле выборки, отвечающее за маппинг ресурсов.</xs:documentation>
+                                </xs:annotation>
+                            </xs:attribute>
+                            <xs:sequence>
+                                <xs:element name="resource" type="calendarResourceDefinition"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="action-on-select-slot" type="act:actions">
+                        <xs:annotation>
+                            <xs:documentation>Действие на добавление события в календаре.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="action-on-select-event" type="act:actions">
+                        <xs:annotation>
+                            <xs:documentation>Действие на клик по событию.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="formats" minOccurs="0">
+                        <xs:complexType>
+                            <xs:annotation>
+                                <xs:documentation>
+                                    Форматы дат и времени. Список всех возможных форматов
+                                    (http://jquense.github.io/react-big-calendar/examples/index.html#prop-formats)
+                                </xs:documentation>
+                            </xs:annotation>
+                            <xs:sequence>
+                                <xs:element name="format">
+                                    <xs:complexType>
+                                        <xs:annotation>
+                                            <xs:documentation>Формат даты и времени.</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:attribute name="id" use="required">
+                                            <xs:simpleType>
+                                                <xs:annotation>
+                                                    <xs:documentation>Тип формата.</xs:documentation>
+                                                </xs:annotation>
+                                                <xs:restriction base="xs:string">
+                                                    <xs:enumeration value="dateFormat"/>
+                                                    <xs:enumeration value="dayFormat"/>
+                                                    <xs:enumeration value="weekdayFormat"/>
+                                                    <xs:enumeration value="timeGutterFormat"/>
+                                                    <xs:enumeration value="monthHeaderFormat"/>
+                                                    <xs:enumeration value="dayRangeHeaderFormat"/>
+                                                    <xs:enumeration value="dayHeaderFormat"/>
+                                                    <xs:enumeration value="agendaHeaderFormat"/>
+                                                    <xs:enumeration value="selectRangeFormat"/>
+                                                    <xs:enumeration value="agendaDateFormat"/>
+                                                    <xs:enumeration value="agendaTimeFormat"/>
+                                                    <xs:enumeration value="agendaTimeRangeFormat"/>
+                                                    <xs:enumeration value="eventTimeRangeFormat"/>
+                                                    <xs:enumeration value="eventTimeRangeStartFormat"/>
+                                                    <xs:enumeration value="eventTimeRangeEndFormat"/>
+                                                </xs:restriction>
+                                            </xs:simpleType>
+                                        </xs:attribute>
+                                        <xs:attribute name="value" use="required">
+                                            <xs:annotation>
+                                                <xs:documentation>Значение формата.</xs:documentation>
+                                            </xs:annotation>
+                                        </xs:attribute>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="height" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Высота календаря.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default-date" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Стартовая дата календаря (по умолчанию текущая).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="default-view" type="calendarViewType" default="month">
+                    <xs:annotation>
+                        <xs:documentation>Вид отображения календаря по умолчанию.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="views" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Список используемых видов отображения в календаре (через запятую).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="min-time" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Минимальное отображаемое время.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max-time" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Максимальное отображаемое время.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="mark-days-off" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Подсветка выходных дней.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="selectable" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Включает возможность добавлять события в календарь.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="step" type="xs:integer" default="30">
+                    <xs:annotation>
+                        <xs:documentation>Шаг при создании события (в минутах).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="timeslot-count" type="xs:integer" default="2">
+                    <xs:annotation>
+                        <xs:documentation>Количество слотов на раздел.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="title-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за заголовок события.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="tooltip-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за данные тултипа события.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="start-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за дату начала события.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="end-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за дату завершения события.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="cell-color-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за цвет ячейки события.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="disabled-field-id" type="xs:string" use="required">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, отвечающее за блокирование события для выбора.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -770,6 +950,19 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="rowSelectionEnum">
+        <xs:restriction base="xs:string">
+            <!--нельзя выбрать-->
+            <xs:enumeration value="none"/>
+            <!--выбор кликом по строке-->
+            <xs:enumeration value="active"/>
+            <!--выбор с помощью radio кнопок в первом столбце-->
+            <xs:enumeration value="radio"/>
+            <!--выбор с помощью чекбоксов в первом столбце-->
+            <xs:enumeration value="checkbox"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:simpleType name="sizeEnum">
         <xs:restriction base="xs:string">
             <!--не задано-->
@@ -823,6 +1016,8 @@
             <xs:enumeration value="topRight"/>
             <xs:enumeration value="bottomLeft"/>
             <xs:enumeration value="bottomRight"/>
+            <xs:enumeration value="topCenter"/>
+            <xs:enumeration value="bottomCenter"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -833,6 +1028,70 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="asc"/>
             <xs:enumeration value="desc"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="calendarResourceDefinition">
+        <xs:annotation>
+            <xs:documentation>Ресурс календаря.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор ресурса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="title" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Имя ресурса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="calendarFormatDefinition">
+        <xs:annotation>
+            <xs:documentation>Формат даты и времени.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" use="required">
+            <xs:simpleType>
+                <xs:annotation>
+                    <xs:documentation>Тип формата.</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="dateFormat"/>
+                    <xs:enumeration value="dayFormat"/>
+                    <xs:enumeration value="weekdayFormat"/>
+                    <xs:enumeration value="timeGutterFormat"/>
+                    <xs:enumeration value="monthHeaderFormat"/>
+                    <xs:enumeration value="dayRangeHeaderFormat"/>
+                    <xs:enumeration value="dayHeaderFormat"/>
+                    <xs:enumeration value="agendaHeaderFormat"/>
+                    <xs:enumeration value="selectRangeFormat"/>
+                    <xs:enumeration value="agendaDateFormat"/>
+                    <xs:enumeration value="agendaTimeFormat"/>
+                    <xs:enumeration value="agendaTimeRangeFormat"/>
+                    <xs:enumeration value="eventTimeRangeFormat"/>
+                    <xs:enumeration value="eventTimeRangeStartFormat"/>
+                    <xs:enumeration value="eventTimeRangeEndFormat"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="value" use="required">
+            <xs:annotation>
+                <xs:documentation>Значение формата.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:simpleType name="calendarViewType">
+        <xs:annotation>
+            <xs:documentation>Вид календаря.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="day"/>
+            <xs:enumeration value="week"/>
+            <xs:enumeration value="workWeek"/>
+            <xs:enumeration value="day"/>
+            <xs:enumeration value="agenda"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -928,21 +1187,6 @@
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="preFieldsDefinition">
-        <xs:annotation>
-            <xs:documentation>Предустановленная фильтрация.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="eq" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="in" type="preFieldDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="contains" type="preFieldDefValues" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="more" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="less" type="preFieldDefValue" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNotNull" type="preFieldDefBase" maxOccurs="unbounded" minOccurs="0"/>
-            <xs:element name="isNull" type="preFieldDefBase" maxOccurs="unbounded" minOccurs="0"/>
-        </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="preFieldDefBase">

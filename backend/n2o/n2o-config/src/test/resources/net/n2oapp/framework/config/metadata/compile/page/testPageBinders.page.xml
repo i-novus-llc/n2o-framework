@@ -1,4 +1,4 @@
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Hello, {name}">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Hello, {name}" show-title="true">
     <regions>
         <region place="test">
             <form id="main">
@@ -14,6 +14,14 @@
                     <date-interval id="birthday">
                         <default-value end="11.11.2018" begin="01.11.2018"/>
                     </date-interval>
+                    <interval-field id="intervalTest">
+                        <begin>
+                            <input-text id="beginTest"/>
+                        </begin>
+                        <end>
+                            <input-text id="endTest" default-value="156"/>
+                        </end>
+                    </interval-field>
                 </fields>
             </form>
         </region>

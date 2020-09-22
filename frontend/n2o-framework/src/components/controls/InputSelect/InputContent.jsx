@@ -6,8 +6,16 @@ import ReactDOM from 'react-dom';
 import find from 'lodash/find';
 import reduce from 'lodash/reduce';
 import split from 'lodash/split';
+import isEqual from 'lodash/isEqual';
 
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
+
+const textLengthStyle = {
+  position: 'absolute',
+  zIndex: -9999,
+  opacity: 0,
+  pointerEvents: 'none',
+};
 
 /**
  * InputSelectGroup
@@ -38,154 +46,94 @@ import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
  * @reactProps {boolean} isExpanded - флаг видимости popUp
  */
 
-function InputContent({
-  disabled,
-  value,
-  placeholder,
-  onRemoveItem,
-  onFocus,
-  onBlur,
-  inputFocus,
-  isSelected,
-  selected,
-  labelFieldId,
-  valueFieldId,
-  clearSelected,
-  multiSelect,
-  collapseSelected,
-  lengthToGroup,
-  onInputChange,
-  openPopUp,
-  closePopUp,
-  activeValueId,
-  setActiveValueId,
-  disabledValues,
-  options,
-  onSelect,
-  onClick,
-  isExpanded,
-  autoFocus,
-  selectedPadding,
-  setTextareaRef,
-  setSelectedListRef,
-  _textarea,
-  _selectedList,
-  setRef,
-  tags,
-}) {
-  /**
-   * Обработчик изменения инпута при нажатии на клавишу
-   * @param e - событие изменения
-   * @private
-   */
+class InputContent extends React.Component {
+  constructor(props) {
+    super(props);
 
-  const handleKeyDown = e => {
+    this.state = {
+      paddingTextArea: {},
+      notEnoughPlace: false,
+    };
+
+    this._textRef = null;
+  }
+
+  componentDidMount() {
+    this.calcPaddingTextarea();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     if (
-      multiSelect &&
-      e.key === 'Backspace' &&
-      selected.length &&
-      !e.target.value
+      !isEqual(prevProps.selected, this.props.selected) ||
+      !isEqual(prevProps.value, this.props.value)
     ) {
-      const endElementOfSelect = selected[selected.length - 1];
-      onRemoveItem(endElementOfSelect);
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (!isExpanded) {
-        openPopUp(true);
-        setActiveValueId(
-          getFirstNotDisabledId(options, selected, disabledValues, valueFieldId)
-        );
-      } else {
-        if (activeValueId) {
-          setActiveValueId(
-            getNextId(
-              options,
-              activeValueId,
-              valueFieldId,
-              selected,
-              disabledValues
-            )
-          );
-        } else {
-          setActiveValueId(
-            getFirstNotDisabledId(
-              options,
-              selected,
-              disabledValues,
-              valueFieldId
-            )
-          );
-        }
-      }
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActiveValueId(
-        getPrevId(
-          options,
-          activeValueId,
-          valueFieldId,
-          selected,
-          disabledValues
-        )
-      );
-    } else if (e.key === 'Enter') {
-      e.preventDefault();
-      const newValue =
-        find(options, item => item[valueFieldId] === activeValueId) || value;
-
-      if (newValue) {
-        onSelect(newValue);
-        setActiveValueId(null);
-      }
-    } else if (e.key === 'Escape') {
-      closePopUp(false);
+      this.calcPaddingTextarea();
     }
-  };
 
-  const handleClick = ({ target }) => {
-    target.select();
-    onClick && onClick();
-  };
-
-  /**
-   * Обработчик изменения инпута
-   * @param e - событие изменения
-   * @private
-   */
-
-  const handleInputChange = e => {
-    onInputChange(e.target.value);
-
-    if (tags) {
-      setActiveValueId(null);
+    if (
+      !isEqual(prevProps.value, this.props.value) &&
+      !this.state.notEnoughPlace
+    ) {
+      this.checkTextOnEnoughPlace();
     }
-  };
+  }
 
-  const getPlaceholder = selected.length > 0 ? '' : placeholder;
-  let inputEl = null;
-
-  const handleRef = input => {
-    const el = input && ReactDOM.findDOMNode(input);
-    if (el && isSelected) {
-      el.select();
-    } else if (el && inputFocus) {
-      inputFocus && el.focus();
-    }
-  };
-
-  const getHeight = el => {
+  getHeight(el) {
     return el.clientHeight;
-  };
+  }
 
-  const getWidth = el => {
+  getWidth(el) {
     return el.clientWidth;
-  };
+  }
 
-  const getMargin = (item, propertyName) => {
+  getMargin(item, propertyName) {
     return +split(window.getComputedStyle(item)[propertyName], 'px')[0];
+  }
+
+  setTextRef = el => {
+    this._textRef = el;
   };
 
-  const calcPaddingTextarea = () => {
+  onSelect = item => {
+    this.props.onSelect(item);
+
+    if (this.state.notEnoughPlace)
+      this.setState(prevState => ({
+        notEnoughPlace: false,
+        paddingTextArea: {
+          ...prevState.paddingTextArea,
+          paddingTop: prevState.paddingTextArea.paddingTop - 45,
+        },
+      }));
+  };
+
+  checkTextOnEnoughPlace = () => {
+    const { _textarea } = this.props;
+    if (!_textarea) return;
+    const textareaStyles = window.getComputedStyle(_textarea);
+    const notEnoughPlace =
+      _textarea.offsetWidth -
+        (parseInt(textareaStyles.paddingLeft) +
+          parseInt(textareaStyles.paddingRight)) <=
+      this._textRef.offsetWidth;
+
+    if (notEnoughPlace) {
+      this.setState(prevState => ({
+        notEnoughPlace,
+        paddingTextArea: {
+          paddingTop:
+            prevState.paddingTextArea.paddingTop +
+            45 * Math.ceil(this._textRef.offsetWidth / _textarea.offsetWidth),
+          paddingLeft: 12,
+        },
+      }));
+    }
+
+    return notEnoughPlace;
+  };
+
+  calcPaddingTextarea() {
+    const { _textarea, _selectedList, selected } = this.props;
     if (_textarea && _selectedList) {
       let mainWidth = undefined;
       let mainHeight = undefined;
@@ -196,50 +144,216 @@ function InputContent({
       mainWidth = reduce(
         selectedList,
         (acc, item) => {
-          const marginLeft = getMargin(item, 'margin-left');
-          const marginRight = getMargin(item, 'margin-right');
+          const marginLeft = this.getMargin(item, 'margin-left');
+          const marginRight = this.getMargin(item, 'margin-right');
           const newWidth = acc + item.offsetWidth + marginRight + marginLeft;
-          if (newWidth >= getWidth(_selectedList)) {
+          if (newWidth >= this.getWidth(_selectedList)) {
             acc = 0;
           }
           return acc + item.offsetWidth + marginLeft + marginRight;
         },
         0
       );
+
       const lastItem = selectedList[selectedList.length - 1];
 
       if (lastItem) {
-        mainHeight = getHeight(_textarea) - getHeight(lastItem);
+        mainHeight = this.getHeight(_textarea) - this.getHeight(lastItem);
       }
 
-      return {
-        paddingTop: selected.length === 0 ? 5 : mainHeight,
-        paddingLeft: selected.length === 0 ? 10 : mainWidth || undefined,
-      };
+      if (!this.state.notEnoughPlace) {
+        this.setState({
+          paddingTextArea: {
+            paddingTop: selected.length === 0 ? 5 : mainHeight,
+            paddingLeft: selected.length === 0 ? 10 : mainWidth || undefined,
+          },
+        });
+      }
     }
-  };
+  }
 
-  const INPUT_STYLE = {
-    paddingLeft: selectedPadding ? selectedPadding : undefined,
-  };
+  render() {
+    const {
+      disabled,
+      value,
+      placeholder,
+      onRemoveItem,
+      onFocus,
+      onBlur,
+      inputFocus,
+      isSelected,
+      selected,
+      labelFieldId,
+      valueFieldId,
+      clearSelected,
+      multiSelect,
+      collapseSelected,
+      lengthToGroup,
+      onInputChange,
+      openPopUp,
+      closePopUp,
+      activeValueId,
+      setActiveValueId,
+      disabledValues,
+      options,
+      onClick,
+      isExpanded,
+      autoFocus,
+      selectedPadding,
+      setTextareaRef,
+      setSelectedListRef,
+      setRef,
+      tags,
+    } = this.props;
+    const { paddingTextArea } = this.state;
+    /**
+     * Обработчик изменения инпута при нажатии на клавишу
+     * @param e - событие изменения
+     * @private
+     */
+    const handleKeyDown = e => {
+      if (
+        multiSelect &&
+        e.key === 'Backspace' &&
+        selected.length &&
+        !e.target.value
+      ) {
+        const endElementOfSelect = selected[selected.length - 1];
+        onRemoveItem(endElementOfSelect);
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!isExpanded) {
+          openPopUp(true);
+          setActiveValueId(
+            getFirstNotDisabledId(
+              options,
+              selected,
+              disabledValues,
+              valueFieldId
+            )
+          );
+        } else {
+          if (activeValueId) {
+            setActiveValueId(
+              getNextId(
+                options,
+                activeValueId,
+                valueFieldId,
+                selected,
+                disabledValues
+              )
+            );
+          } else {
+            setActiveValueId(
+              getFirstNotDisabledId(
+                options,
+                selected,
+                disabledValues,
+                valueFieldId
+              )
+            );
+          }
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        setActiveValueId(
+          getPrevId(
+            options,
+            activeValueId,
+            valueFieldId,
+            selected,
+            disabledValues
+          )
+        );
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        const newValue =
+          find(options, item => item[valueFieldId] === activeValueId) || value;
 
-  return (
-    <React.Fragment>
-      {multiSelect ? (
-        <React.Fragment>
-          <SelectedItems
-            selected={selected}
-            labelFieldId={labelFieldId}
-            onRemoveItem={onRemoveItem}
-            onDeleteAll={clearSelected}
-            disabled={disabled}
-            collapseSelected={collapseSelected}
-            lengthToGroup={lengthToGroup}
-            setRef={setSelectedListRef}
-          />
-          <textarea
+        if (newValue) {
+          this.onSelect(newValue);
+          setActiveValueId(null);
+        }
+      } else if (e.key === 'Escape') {
+        closePopUp(false);
+      }
+    };
+
+    const handleClick = ({ target }) => {
+      target.select();
+      onClick && onClick();
+    };
+
+    /**
+     * Обработчик изменения инпута
+     * @param e - событие изменения
+     * @private
+     */
+
+    const handleInputChange = e => {
+      onInputChange(e.target.value);
+
+      if (tags) {
+        setActiveValueId(null);
+      }
+    };
+
+    const getPlaceholder = selected.length > 0 ? '' : placeholder;
+    let inputEl = null;
+
+    const handleRef = input => {
+      const el = input && ReactDOM.findDOMNode(input);
+      if (el && isSelected) {
+        el.select();
+      } else if (el && inputFocus) {
+        inputFocus && el.focus();
+      }
+    };
+
+    const INPUT_STYLE = {
+      paddingLeft: selectedPadding ? selectedPadding : undefined,
+    };
+
+    return (
+      <React.Fragment>
+        <span style={textLengthStyle} ref={this.setTextRef}>
+          {value}
+        </span>
+        {multiSelect ? (
+          <React.Fragment>
+            <SelectedItems
+              selected={selected}
+              labelFieldId={labelFieldId}
+              onRemoveItem={onRemoveItem}
+              onDeleteAll={clearSelected}
+              disabled={disabled}
+              collapseSelected={collapseSelected}
+              lengthToGroup={lengthToGroup}
+              setRef={setSelectedListRef}
+            />
+            <textarea
+              onKeyDown={handleKeyDown}
+              ref={setTextareaRef}
+              placeholder={getPlaceholder}
+              disabled={disabled}
+              value={value}
+              onChange={handleInputChange}
+              onClick={handleClick}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              className={cn('form-control n2o-inp', {
+                'n2o-inp--multi': multiSelect,
+              })}
+              autoFocus={autoFocus}
+              style={{
+                ...paddingTextArea,
+              }}
+            />
+          </React.Fragment>
+        ) : (
+          <input
             onKeyDown={handleKeyDown}
-            ref={setTextareaRef}
+            ref={setRef}
             placeholder={getPlaceholder}
             disabled={disabled}
             value={value}
@@ -247,34 +361,15 @@ function InputContent({
             onClick={handleClick}
             onFocus={onFocus}
             onBlur={onBlur}
-            className={cn('form-control n2o-inp', {
-              'n2o-inp--multi': multiSelect,
-            })}
+            type="text"
+            className="form-control n2o-inp"
             autoFocus={autoFocus}
-            style={{
-              ...calcPaddingTextarea(),
-            }}
+            style={INPUT_STYLE}
           />
-        </React.Fragment>
-      ) : (
-        <input
-          onKeyDown={handleKeyDown}
-          ref={setRef}
-          placeholder={getPlaceholder}
-          disabled={disabled}
-          value={value}
-          onChange={handleInputChange}
-          onClick={handleClick}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          type="text"
-          className="form-control n2o-inp"
-          autoFocus={autoFocus}
-          style={INPUT_STYLE}
-        />
-      )}
-    </React.Fragment>
-  );
+        )}
+      </React.Fragment>
+    );
+  }
 }
 
 InputContent.propTypes = {

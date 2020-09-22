@@ -13,8 +13,8 @@ import net.n2oapp.framework.access.metadata.schema.simple.N2oSimpleAccessSchema;
 import net.n2oapp.framework.access.metadata.schema.user.N2oUserAccess;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 /**

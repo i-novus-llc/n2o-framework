@@ -114,7 +114,7 @@ stories
               prompt: true,
             },
             meta: {
-              closeLastModal: true,
+              modalsToClose: 1,
             },
           },
         },

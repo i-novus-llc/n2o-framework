@@ -1,6 +1,6 @@
 package net.n2oapp.framework.api.metadata.aware;
 
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 /**
  * Знание о URI схемы

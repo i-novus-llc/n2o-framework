@@ -2,7 +2,7 @@ package net.n2oapp.framework.config.io.fieldset;
 
 import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oLineFieldSet;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +13,7 @@ public class LineFieldsetElementIOv4 extends FieldsetElementIOv4<N2oLineFieldSet
 
     @Override
     public void io(Element e, N2oLineFieldSet fs, IOProcessor p) {
-        super.io(e,fs,p);
+        super.io(e, fs, p);
         p.attributeBoolean(e, "collapsible", fs::getCollapsible, fs::setCollapsible);
         p.attributeBoolean(e, "expand", fs::getExpand, fs::setExpand);
     }

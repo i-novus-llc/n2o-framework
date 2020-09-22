@@ -139,7 +139,8 @@ const setupModify = mockData => {
     mockData.formName,
     mockData.fields.field1.name,
     mockData.fields.field1.dependency[0].type,
-    mockData.fields.field1.dependency[0]
+    mockData.fields.field1.dependency[0],
+    () => {}
   );
 };
 
@@ -153,7 +154,8 @@ describe('Тестирование саги', () => {
         mockData.formName,
         mockData.fields.field1.name,
         mockData.fields.field1.dependency[0].type,
-        mockData.fields.field1.dependency[0]
+        mockData.fields.field1.dependency[0],
+        undefined
       )
     );
     expect(gen.next().done).toBe(true);
@@ -174,7 +176,12 @@ describe('Тестирование саги', () => {
     expect(gen.next().done).toBe(false);
   });
   it('Проверка модификатора зависимостей', () => {
-    let gen = setupModify(mockData);
+    let gen = setupModify({
+      ...mockData,
+      values: {
+        field2: 'sadsa',
+      },
+    });
     expect(gen.next().value).toEqual(
       put(hideField(mockData.formName, mockData.fields.field1.name))
     );
@@ -190,7 +197,7 @@ describe('Тестирование саги', () => {
     let gen;
     /* Enabled */
     set(mockData, 'fields.field1.dependency[0].type', 'enabled');
-    gen = setupModify(mockData);
+    gen = setupModify({ ...mockData, values: { field2: 'test' } });
     expect(gen.next().value).toEqual(
       put(enableField(mockData.formName, mockData.fields.field1.name))
     );
@@ -209,14 +216,8 @@ describe('Тестирование саги', () => {
     set(mockData, 'fields.field1.dependency[0].expression', 'field2');
     set(mockData, 'values.field2', 'test');
     gen = setupModify(mockData);
-    expect(gen.next().value).toEqual(
-      put(
-        change(mockData.formName, mockData.fields.field1.name, {
-          keepDirty: false,
-          value: 'test',
-        })
-      )
-    );
+    gen.next();
+    expect(gen.next().value.type).toBe('SELECT');
     expect(gen.next().done).toBe(true);
   });
   it('Проверка модификатора reset зависимости', () => {

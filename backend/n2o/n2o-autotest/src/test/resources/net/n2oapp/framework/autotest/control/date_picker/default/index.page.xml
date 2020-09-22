@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <form>
+        <fields>
+            <row>
+                <date-time id="today" label="Сегодня" default-value="{$.today()}"/>
+            </row>
+            <row>
+                <date-time id="beginMonth" label="Начало месяца" default-value="{$.beginMonth()}"/>
+                <date-time id="endMonth" label="Конец месяца" default-value="{$.endMonth()}"/>
+            </row>
+            <row>
+                <date-time id="beginYear" label="Начало года" default-value="{$.beginYear()}"/>
+                <date-time id="endYear" label="Конец года" default-value="{$.endYear()}"/>
+            </row>
+        </fields>
+    </form>
+</simple-page>

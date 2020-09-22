@@ -40,6 +40,7 @@ class FormWidget extends React.Component {
       dataProvider: this.props.dataProvider,
       prompt: this.props.form.prompt,
       autoFocus: this.props.form.autoFocus,
+      autoSubmit: this.props.autoSubmit,
     };
   }
 

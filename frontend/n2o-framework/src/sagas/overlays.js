@@ -1,9 +1,14 @@
-import { takeEvery, select, put, call, race } from 'redux-saga/effects';
+import { takeEvery, select, put, call } from 'redux-saga/effects';
 import { isDirty } from 'redux-form';
 import { CLOSE } from '../constants/overlays';
 import keys from 'lodash/keys';
+import has from 'lodash/has';
 import { makePageWidgetsByIdSelector } from '../selectors/pages';
-import { showPrompt, destroyOverlay } from '../actions/overlays';
+import {
+  showPrompt,
+  destroyOverlay,
+  destroyOverlays,
+} from '../actions/overlays';
 
 /**
  * Проверка на изменение данных в формах
@@ -13,8 +18,14 @@ import { showPrompt, destroyOverlay } from '../actions/overlays';
 export function* checkOnDirtyForm(name) {
   let someOneDirtyForm = false;
   const state = yield select();
-  const widgets = makePageWidgetsByIdSelector(name)(state);
+  let widgets = makePageWidgetsByIdSelector(name)(state);
+
+  if (has(widgets, 'id')) {
+    widgets = { [widgets.id]: widgets };
+  }
+
   const widgetsKeys = keys(widgets);
+
   for (let i = 0; i < widgetsKeys.length; i++) {
     if (widgets[widgetsKeys[i]].src === 'FormWidget') {
       someOneDirtyForm = isDirty(widgetsKeys[i])(state);
@@ -41,6 +52,10 @@ export function* checkPrompt(action) {
   }
 }
 
+export function* closeOverlays({ meta }) {
+  yield put(destroyOverlays(meta.modalsToClose));
+}
+
 export const overlaysSagas = [
   takeEvery(CLOSE, checkPrompt),
   takeEvery(
@@ -48,7 +63,7 @@ export const overlaysSagas = [
       action.meta &&
       action.payload &&
       !action.payload.prompt &&
-      action.meta.closeLastModal,
-    checkPrompt
+      action.meta.modalsToClose,
+    closeOverlays
   ),
 ];

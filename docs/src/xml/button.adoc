@@ -22,9 +22,9 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |Вычисляется из `action-id`
 
 |type
-|text, icon, textAndIcon
+|text, icon, iconAndText
 |Кнопка с иконкой или без
-|Если задан `icon`, то `iconAndText`, иначе `text`
+|iconAndText
 
 |class
 |https://getbootstrap.com/docs/4.0/components/buttons/#examples[CSS класс]
@@ -141,7 +141,7 @@ link:#_Действия[Обработчик действия]
 <button
   label="Добавить в реестр"
   icon="fa-plus"
-  type="textAndIcon">
+  type="icon">
   <open-page page-id="register" action-id="create"/>
 </button>
 ----
@@ -202,10 +202,10 @@ link:#_Действия[Обработчик действия]
 |Модель виджета, по полю которого будет фильтрация
 |
 
-|on
+|message
 |Строка
-|Поля, от которых зависит условие доступности
-|Вычисляется по условию
+|Сообщение о причине недоступности
+|
 
 
 |===
@@ -217,7 +217,7 @@ Java Script выражение
 [source,xml]
 ----
 <dependencies>
-  <enabling on="type">type.id == 1</enabling>
+  <enabling ref-widget-id="main" ref-model="resolve">type.id == 1</enabling>
   <!-- Поле доступно, если type.id равен 1 -->
 </dependencies>
 ----
@@ -240,11 +240,6 @@ Java Script выражение
 |Модель виджета, по полю которого будет фильтрация
 |
 
-|on
-|Строка
-|Поля, от которых зависит условие доступности
-|Вычисляется по условию
-
 |===
 
 Тело::
@@ -254,9 +249,61 @@ Java Script выражение
 [source,xml]
 ----
 <dependencies>
-  <visibility on="type">type.id == 1</visibility>
+  <visibility ref-widget-id="main" ref-model="resolve">type.id == 1</visibility>
   <!-- Поле видимо, если type.id равен 1 -->
 </dependencies>
+----
+
+===== <copy>
+Копирование данных.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|source-model
+|resolve edit filter multi
+|Модель, которая будет скопирована
+|resolve
+
+|source-widget-id
+|Строка
+|Идентификатор виджета источника
+|Текущий виджет
+
+|source-field-id
+|Строка
+|Идентификатор копируемого поля источника
+|Вся модель
+
+|target-model
+|resolve edit filter multi
+|Модель, в которую будут скопированы данные
+|resolve
+
+|target-widget-id
+|Строка
+|Идентификатор целевого виджета
+|Текущий виджет
+
+|target-field-id
+|Строка
+|Идентификатор поля целевого виджета, в которое будут скопированы данные
+|Вся модель
+
+|mode
+|merge replace add
+|Тип слияния данных
+|merge
+
+|===
+
+Пример::
+[source,xml]
+----
+<copy source-field-id="id" target-widget-id="table"
+      target-field-id="dictionary.id"/>
 ----
 
 ===== <link>

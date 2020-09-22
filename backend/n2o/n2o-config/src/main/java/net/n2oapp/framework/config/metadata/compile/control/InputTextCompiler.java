@@ -32,6 +32,7 @@ public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInput
     public StandardField<InputText> compile(N2oInputText source, CompileContext<?,?> context, CompileProcessor p) {
         InputText inputText = new InputText();
         inputText.setPlaceholder(p.resolveJS(source.getPlaceholder()));
+        inputText.setMeasure(source.getMeasure());
         compileDomain(inputText, source, p);
         if (source.getStep() != null && source.getStep().replace(",", "").replace(".", "").replace("0", "").isEmpty()) {
             inputText.setShowButtons(false);
@@ -51,9 +52,13 @@ public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInput
         if (domain == null) domain = Domain.STRING;
         switch (domain) {
             case INTEGER:
-            case LONG:
                 inputText.setMin(p.cast(p.resolveJS(source.getMin(), Integer.class), Integer.MIN_VALUE));
                 inputText.setMax(p.cast(p.resolveJS(source.getMax(), Integer.class), Integer.MAX_VALUE));
+                inputText.setStep(castDefault(source.getStep(), "1"));
+                return;
+            case LONG:
+                inputText.setMin(p.cast(p.resolveJS(source.getMin(), Long.class), "-99999999999999"));
+                inputText.setMax(p.cast(p.resolveJS(source.getMax(), Long.class), "99999999999999"));
                 inputText.setStep(castDefault(source.getStep(), "1"));
                 return;
             case SHORT:

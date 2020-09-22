@@ -1,6 +1,6 @@
 {
   "name": "n2o-ecp-plugin",
-  "version": "7.6.0-SNAPSHOT",
+  "version": "7.9.0",
   "description": "Плагин упрощающий работу с Крипто-Про в N2O-7",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -19,9 +19,9 @@
     "test:watch": "nwb test-react --server"
   },
   "dependencies": {
-    "crypto-pro": "^1.1.0",
+    "crypto-pro": "1.1.0",
     "lodash": "^4.17.15",
-    "n2o-framework": "^7.6.0-SNAPSHOT",
+    "n2o-framework": "^7.9.0",
     "query-string": "^6.9.0",
     "reactstrap": "^8.1.1",
     "recompose": "^0.30.0"
@@ -30,7 +30,7 @@
     "react": "16.x"
   },
   "devDependencies": {
-    "nwb": "0.23.x",
+    "nwb": "0.25.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0"
   },

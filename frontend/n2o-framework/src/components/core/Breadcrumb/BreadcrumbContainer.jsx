@@ -25,7 +25,6 @@ import propsResolver from '../../../utils/propsResolver';
  * */
 function BreadcrumbContainer(props) {
   const DefaultBreadcrumb = props.defaultBreadcrumb;
-
   return (
     <React.Fragment>
       <DefaultBreadcrumb items={props.items} />
@@ -52,6 +51,7 @@ BreadcrumbContainer.defaultProps = {
 export default compose(
   getContext({
     store: PropTypes.object,
+    defaultBreadcrumb: PropTypes.oneOfType([PropTypes.func, PropTypes.node]),
   }),
   withProps(props => ({
     items: map(props.items, item => {

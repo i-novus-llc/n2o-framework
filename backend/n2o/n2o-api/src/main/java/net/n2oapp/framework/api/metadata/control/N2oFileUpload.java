@@ -23,4 +23,5 @@ public class N2oFileUpload extends N2oStandardField {
     private Boolean multi;
     private Boolean ajax;
     private Map<String, String> defValue;
+    private String accept;
 }

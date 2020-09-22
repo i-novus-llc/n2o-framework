@@ -12,8 +12,10 @@ import createFactoryConfig from '../../../../../core/factory/createFactoryConfig
 const setupLinkCell = propsOverride => {
   const props = {
     ...meta,
+    tooltipFieldId: 'tooltip',
     model: {
       name: 'test name',
+      tooltip: ['tooltip', 'body'],
     },
   };
   return mount(
@@ -58,11 +60,18 @@ describe('Тесты LinkCell', () => {
     });
     expect(wrapper.find('a[href="/n2o/self/test"]').exists()).toEqual(true);
   });
-  it('Отрисовывается ссылка по таргету "newWindow"', () => {
+  it('Отрисовывается ссылка по таргету "_blank"', () => {
     const wrapper = setupLinkCell({
       url: 'https://google.com',
-      target: 'newWindow',
+      target: '_blank',
     });
     expect(wrapper.find('a[target="_blank"]').exists()).toEqual(true);
+  });
+  it('Cell обернут тултипом', () => {
+    const wrapper = setupLinkCell({
+      url: 'https://google.com',
+      target: '_blank',
+    });
+    expect(wrapper.find('.list-text-cell__trigger').exists()).toEqual(true);
   });
 });

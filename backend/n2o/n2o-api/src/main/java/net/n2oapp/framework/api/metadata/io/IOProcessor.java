@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.TypedElementPersister;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.metadata.reader.TypedElementReader;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -331,6 +331,17 @@ public interface IOProcessor {
      * @param setter    запись атрибута
      */
     void childAttributeBoolean(Element element, String childName, String name, Supplier<Boolean> getter, Consumer<Boolean> setter);
+
+    /**
+     * Считывание\запись атрибута у дочернего элемента типа Integer
+     *
+     * @param element   элемент
+     * @param childName имя дочернего элемента
+     * @param name      имя атрибута
+     * @param getter    получение атрибута
+     * @param setter    запись атрибута
+     */
+    void childAttributeInteger(Element element, String childName, String name, Supplier<Integer> getter, Consumer<Integer> setter);
 
     /**
      * Считывание\запись атрибута у дочернего элемента

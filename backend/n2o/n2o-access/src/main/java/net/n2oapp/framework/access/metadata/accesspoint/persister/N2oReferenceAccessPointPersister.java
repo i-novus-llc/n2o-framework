@@ -1,8 +1,8 @@
 package net.n2oapp.framework.access.metadata.accesspoint.persister;
 
 import net.n2oapp.framework.access.metadata.accesspoint.model.N2oReferenceAccessPoint;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.setAttribute;

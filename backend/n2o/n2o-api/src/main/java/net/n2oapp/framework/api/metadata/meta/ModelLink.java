@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.metadata.meta;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 

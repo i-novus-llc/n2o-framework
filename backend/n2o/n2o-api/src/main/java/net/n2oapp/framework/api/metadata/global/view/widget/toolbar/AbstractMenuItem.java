@@ -52,13 +52,15 @@ public abstract class AbstractMenuItem extends ActionComponent implements Extens
     @Getter
     @Setter
     public static class Dependency implements Source {
-        private String[] on;
         private String value;
         private String refWidgetId;
         private ReduxModel refModel;
     }
 
+    @Getter
+    @Setter
     public static class EnablingDependency extends Dependency {
+        private String message;
     }
 
     public static class VisibilityDependency extends Dependency {

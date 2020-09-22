@@ -12,11 +12,11 @@
     margin-left: $input-btn-padding-y;
   }
 
-  & > .text{
+  & > .text {
     display: flex;
+    align-items: center;
     order: 2;
     min-height: 1.4rem;
-    overflow: hidden;
   }
 
   &--expandable > .text {

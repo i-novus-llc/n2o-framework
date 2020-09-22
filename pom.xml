@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
-        <version>2.1.1.RELEASE</version>
+        <version>2.2.7.RELEASE</version>
     </parent>
 
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>framework</artifactId>
     <packaging>pom</packaging>
-    <version>7.6.0-SNAPSHOT</version>
+    <version>7.10.0-SNAPSHOT</version>
 
     <name>N2O Framework</name>
     <description>Framework for creating web applications with rich user interface without deep knowledge of WEB technologies and Frontend frameworks. Based on Java и ReactJS</description>
@@ -35,19 +35,21 @@
     <properties>
         <java.version>1.8</java.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
-        <jococo-maven-plugin.version>0.7.8</jococo-maven-plugin.version>
-        <maven.source.version>3.0.1</maven.source.version>
+        <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+        <maven.source.version>3.2.0</maven.source.version>
         <maven.failsafe.version>2.22.2</maven.failsafe.version>
-        <maven.javadoc.version>3.1.0</maven.javadoc.version>
+        <maven.javadoc.version>3.2.0</maven.javadoc.version>
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 
-        <lombok.version>1.18.4</lombok.version>
+        <lombok.version>1.18.12</lombok.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <maven-compiler-plugin.version>3.5</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <junit-jupiter.version>5.5.2</junit-jupiter.version>
+        <allure-junit5.version>2.13.3</allure-junit5.version>
     </properties>
 
     <build>
@@ -72,27 +74,18 @@
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jococo-maven-plugin.version}</version>
                     <configuration>
-                        <append>true</append>
+                        <destFile>${project.build.directory}/jacoco.exec</destFile>
                     </configuration>
                     <executions>
-                        <execution>
-                            <id>agent-for-ut</id>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>agent-for-it</id>
-                            <goals>
-                                <goal>prepare-agent-integration</goal>
-                            </goals>
-                        </execution>
                         <execution>
                             <id>jacoco-site</id>
                             <phase>verify</phase>
                             <goals>
-                                <goal>report</goal>
+                                <goal>report-aggregate</goal>
                             </goals>
+                            <configuration>
+                                <outputDirectory>${project.basedir}/target/site/jacoco-aggregate</outputDirectory>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
@@ -184,6 +177,10 @@
                     <includes>
                         <include>**/*AT.java</include>
                     </includes>
+                    <excludes>
+                        <exclude>**/*Test.java</exclude>
+                        <exclude>**/*Tests.java</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
@@ -202,6 +199,15 @@
                     <tagNameFormat>@{project.version}</tagNameFormat>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
                     <releaseProfiles>releases</releaseProfiles>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.10.0</version>
+                <configuration>
+                    <reportDirectory>allure-report</reportDirectory>
+                    <resultsDirectory>../allure-results</resultsDirectory>
                 </configuration>
             </plugin>
         </plugins>

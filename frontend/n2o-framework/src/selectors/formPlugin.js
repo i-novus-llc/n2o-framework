@@ -31,10 +31,7 @@ export const makeFieldByName = (formName, fieldName) =>
   createSelector(
     makeFormByName(formName),
     form => {
-      return (
-        (form && form.registeredFields && form.registeredFields[fieldName]) ||
-        {}
-      );
+      return get(form, ['registeredFields', fieldName], {});
     }
   );
 
@@ -118,4 +115,10 @@ export const loadingSelector = (formName, fieldName) =>
   createSelector(
     makeFieldByName(formName, fieldName),
     field => field.loading
+  );
+
+export const formValueSelector = (formName, fieldName) =>
+  createSelector(
+    makeFormByName(formName),
+    form => get(form, `values.${fieldName}`, [])
   );

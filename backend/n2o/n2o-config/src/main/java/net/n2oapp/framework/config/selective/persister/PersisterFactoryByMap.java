@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.io.ProxyNamespaceIO;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersister;
 import net.n2oapp.framework.api.metadata.persister.NamespacePersisterFactory;
 import net.n2oapp.framework.config.io.IOProcessorImpl;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class PersisterFactoryByMap implements NamespacePersisterFactory<NamespaceUriAware, NamespacePersister<NamespaceUriAware>>, IOProcessorAware, MetadataEnvironmentAware {
 
     private Map<Class<?>, Map<String, NamespacePersister>> map = new HashMap<>();
-    private IOProcessor ioProcessor;
+    private IOProcessor ioProcessor = new IOProcessorImpl(this);;
 
 
     @SuppressWarnings("unchecked")

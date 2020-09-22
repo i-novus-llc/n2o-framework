@@ -23,20 +23,16 @@ public class SliderCompiler extends ListControlCompiler<Slider, N2oSlider>{
     public StandardField<Slider> compile(N2oSlider source, CompileContext<?, ?> context, CompileProcessor p) {
         Slider slider = new Slider();
         slider.setMultiple(N2oSlider.Mode.range.equals(source.getMode()));
-        boolean isVertical = source.isVertical();
+        boolean isVertical = Boolean.TRUE.equals(source.getVertical());
         slider.setVertical(isVertical);
 
         slider.setShowTooltip(p.resolve(Placeholders.property("n2o.api.control.slider.tooltip"), Boolean.class));
         slider.setTooltipPlacement(isVertical ? "left" : "top");
-        String measure = source.getMeasure();
-        if (measure == null) {
-            measure = "";
-        }
-        slider.setTooltipFormatter(Placeholders.js("${this}" + measure));
+        slider.setTooltipFormatter("${this}" + p.cast(source.getMeasure(), ""));
 
         slider.setMin(source.getMin());
         slider.setMax(source.getMax());
-        slider.setStep(source.getStep());
+        slider.setStep(p.cast(source.getStep(), 1));
         return compileListControl(slider, source, context, p);
     }
     @Override

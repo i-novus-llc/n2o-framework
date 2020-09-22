@@ -1,4 +1,4 @@
-import { INSERT, DESTROY, HIDE, SHOW } from '../constants/overlays';
+import { INSERT_MODAL, DESTROY, HIDE, SHOW } from '../constants/overlays';
 import overlays from './overlays';
 
 describe('Тесты overlays reducer', () => {
@@ -11,7 +11,7 @@ describe('Тесты overlays reducer', () => {
           },
         ],
         {
-          type: INSERT,
+          type: INSERT_MODAL,
           payload: {
             visible: true,
             name: 'testName',
@@ -23,8 +23,12 @@ describe('Тесты overlays reducer', () => {
         name: 'stateOverlay',
       },
       {
+        mode: 'modal',
         name: 'testName',
-        props: {},
+        props: {
+          name: 'testName',
+          visible: true,
+        },
         visible: true,
       },
     ]);

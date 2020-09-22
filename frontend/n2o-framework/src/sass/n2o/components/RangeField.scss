@@ -1,11 +1,14 @@
 .n2o-range-field {
-
   &-body {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     width: 100%;
+
+    .n2o-range-field-controls-container {
+      flex-grow: 1;
+    }
 
     &--divider {
       position: relative;

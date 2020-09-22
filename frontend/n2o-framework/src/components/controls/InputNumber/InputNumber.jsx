@@ -10,6 +10,8 @@ import isEqual from 'lodash/isEqual';
 import split from 'lodash/split';
 import includes from 'lodash/includes';
 
+import { compose } from 'recompose';
+import withRightPlaceholder from '../withRightPlaceholder';
 import Input from '../Input/Input';
 
 import {
@@ -37,7 +39,7 @@ import {
  *             step='0.1'
  *             name='InputNumberExample' />
  */
-class InputNumber extends React.Component {
+export class InputNumber extends React.Component {
   constructor(props) {
     super(props);
     const value = props.value;
@@ -57,7 +59,7 @@ class InputNumber extends React.Component {
     this.resolveValue = this.resolveValue.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     const { value } = this.props;
     if (prevProps.value !== value && !isNil(value)) {
       this.setState({ value: this.resolveValue(value) });
@@ -101,11 +103,15 @@ class InputNumber extends React.Component {
     }
 
     if (matchesWhiteList(nextValue) || this.pasted) {
-      this.setState({ value: this.resolveValue(value) }, () => {
-        if (!isNaN(toNumber(value))) {
-          this.props.onChange(this.resolveValue(nextValue));
-        }
-      });
+      if (value > this.props.max || value < this.props.min) {
+        return;
+      } else {
+        this.setState({ value: this.resolveValue(value) }, () => {
+          if (!isNaN(toNumber(value))) {
+            this.props.onChange(this.resolveValue(nextValue));
+          }
+        });
+      }
     }
   }
 
@@ -137,18 +143,20 @@ class InputNumber extends React.Component {
   }
 
   onBlur() {
-    const { max, min } = this.props;
+    const { max, min, onBlur } = this.props;
+
     if (this.state.value === '-') {
       return;
     }
+
     const value = this.resolveValue(formatToFloat(this.state.value));
     this.pasted = false;
+
     if (!isNil(value) && isValid(value, min, max)) {
-      this.setState({ value });
+      this.setState({ value }, () => onBlur(value));
     } else {
-      this.setState({ value: null });
+      this.setState({ value: null }, () => onBlur());
     }
-    this.props.onBlur(value);
   }
 
   /**
@@ -188,7 +196,6 @@ class InputNumber extends React.Component {
       placeholder,
     } = this.props;
     const { value } = this.state;
-
     return (
       visible && (
         <div
@@ -299,4 +306,4 @@ InputNumber.propTypes = {
   precision: PropTypes.number,
 };
 
-export default InputNumber;
+export default compose(withRightPlaceholder)(InputNumber);

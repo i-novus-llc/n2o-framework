@@ -34,46 +34,38 @@ import java.util.List;
 import java.util.Set;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
-import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
 /**
  * Компиляция ToolbarItem
- *
- * @param <S>
  */
 public abstract class BaseButtonCompiler<S extends GroupItem, B extends AbstractButton> implements BaseSourceCompiler<B, S, CompileContext<?, ?>> {
 
     protected void initItem(MenuItem button, AbstractMenuItem source, IndexScope idx,
                             CompileContext<?, ?> context, CompileProcessor p) {
-        button.setId(castDefault(source.getId(), source.getActionId(), "menuItem" + idx.get()));
+        button.setId(p.cast(source.getId(), source.getActionId(), "menuItem" + idx.get()));
         source.setId(button.getId());
         button.setProperties(p.mapAttributes(source));
-        if (source.getType() != null && source.getType().equals(LabelType.icon)) {
+        if (source.getType() != null && source.getType() == LabelType.icon) {
             button.setIcon(source.getIcon());
-        } else if (source.getType() != null && source.getType().equals(LabelType.text)) {
+        } else if (source.getType() != null && source.getType() == LabelType.text) {
             button.setLabel(source.getLabel());
         } else {
             button.setIcon(source.getIcon());
             button.setLabel(source.getLabel());
         }
         CompiledObject.Operation operation = null;
-        Action action = null;
-        CompiledObject compiledObject;
+        CompiledObject compiledObject = null;
         WidgetObjectScope widgetObjectScope = p.getScope(WidgetObjectScope.class);
-        if (widgetObjectScope != null && widgetObjectScope.containsKey(source.getWidgetId())) {
-            compiledObject = widgetObjectScope.getObject(source.getWidgetId());
-        } else
-            compiledObject = p.getScope(CompiledObject.class);
-        if (source.getActionId() != null) {
-            MetaActions metaActions = p.getScope(MetaActions.class);
-            action = metaActions.get(source.getActionId());
-        } else {
-            N2oAction butAction = source.getAction();
-            if (butAction != null) {
-                butAction.setId(p.cast(butAction.getId(), button.getId()));
-                action = p.compile(butAction, context, compiledObject, new ComponentScope(source));
+        if (widgetObjectScope != null) {
+            if (widgetObjectScope.size() == 1 && source.getWidgetId() == null)
+                source.setWidgetId(widgetObjectScope.keySet().iterator().next());
+            if (widgetObjectScope.containsKey(source.getWidgetId())) {
+                compiledObject = widgetObjectScope.getObject(source.getWidgetId());
             }
         }
+        if (compiledObject == null)
+            compiledObject = p.getScope(CompiledObject.class);
+        Action action = compileAction(button, source, context, p, compiledObject);
 
         if (action != null) {
             button.setAction(action);
@@ -110,8 +102,24 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
 
         if (source.getModel() == null)
             source.setModel(ReduxModel.RESOLVE);
-        compileDependencies(button, source, context, p);
+        compileConditionsAndDependencies(button, source, context, p);
         button.setValidate(source.getValidate());
+    }
+
+    private Action compileAction(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p,
+                                 CompiledObject compiledObject) {
+        Action action = null;
+        if (source.getActionId() != null) {
+            MetaActions metaActions = p.getScope(MetaActions.class);
+            action = metaActions.get(source.getActionId());
+        } else {
+            N2oAction butAction = source.getAction();
+            if (butAction != null) {
+                butAction.setId(p.cast(butAction.getId(), button.getId()));
+                action = p.compile(butAction, context, compiledObject, new ComponentScope(source));
+            }
+        }
+        return action;
     }
 
     private void initConfirm(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {
@@ -156,96 +164,101 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
     }
 
     /**
-     * Компиляция зависимостей между полем и кнопкой
+     * Компиляция условий и зависимостей между полем и кнопкой
      *
      * @param button клиентская модель кнопки
      * @param source исходная модель поля
      */
-    protected void compileDependencies(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p) {
-        if (source.getVisibilityConditions() != null) {
-            String widgetId = initWidgetId(source, context, p);
-            List<Condition> conditions = new ArrayList<>();
-            for (N2oButtonCondition n2oCondition : source.getVisibilityConditions()) {
-                Condition condition = new Condition();
-                condition.setExpression(n2oCondition.getExpression().trim());
-                condition.setModelLink(new ModelLink(source.getModel(), widgetId).getBindLink());
-                conditions.add(condition);
-            }
-            button.getConditions().put(ValidationType.visible, conditions);
-        }
-        List<Condition> conditions = new ArrayList<>();
-        if (source.getEnablingConditions() != null) {
-            String widgetId = initWidgetId(source, context, p);
-            for (N2oButtonCondition n2oCondition : source.getEnablingConditions()) {
-                Condition condition = new Condition();
-                condition.setExpression(n2oCondition.getExpression().trim());
-                condition.setModelLink(new ModelLink(source.getModel(), widgetId).getBindLink());
-                conditions.add(condition);
-            }
-        }
-        if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE)) {
-            ComponentScope componentScope = p.getScope(ComponentScope.class);
-            if (componentScope == null || componentScope.unwrap(N2oCell.class) == null) {
-                String widgetId = initWidgetId(source, context, p);
-                Condition condition = new Condition();
-                condition.setExpression("!_.isEmpty(this)");
-                condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
-                conditions.add(condition);
-            }
-        }
-        if (!conditions.isEmpty()) {
-            button.getConditions().put(ValidationType.enabled, conditions);
-        }
-
-
+    protected void compileConditionsAndDependencies(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p) {
         String widgetId = initWidgetId(source, context, p);
-        if (source.getDependencies() != null) {
-            for (AbstractMenuItem.Dependency d : source.getDependencies()) {
-                ValidationType validationType = null;
-                if (d instanceof AbstractMenuItem.EnablingDependency)
-                    validationType = ValidationType.enabled;
-                else if (d instanceof AbstractMenuItem.VisibilityDependency)
-                    validationType = ValidationType.visible;
+        List<Condition> enabledConditions = new ArrayList<>();
 
-                if (d.getOn() != null)
-                    for (String on : d.getOn())
-                        compileCondition(d, button, validationType, widgetId, on, p);
-                else
-                    compileCondition(d, button, validationType, widgetId, null, p);
-            }
+        if (source.getVisibilityConditions() != null)
+            button.getConditions().put(ValidationType.visible,
+                    compileConditions(source.getVisibilityConditions(), source.getModel(), widgetId));
+        if (source.getEnablingConditions() != null)
+            enabledConditions.addAll(compileConditions(source.getEnablingConditions(), source.getModel(), widgetId));
+
+        ComponentScope componentScope = p.getScope(ComponentScope.class);
+        if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE) &&
+                (componentScope == null || componentScope.unwrap(N2oCell.class) == null)) {
+            Condition condition = new Condition();
+            condition.setExpression("!_.isEmpty(this)");
+            condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
+            enabledConditions.add(condition);
+        }
+        if (!enabledConditions.isEmpty()) {
+            button.getConditions().put(ValidationType.enabled, enabledConditions);
         }
 
-        if (StringUtils.isLink(source.getVisible())) {
-            Condition condition = new Condition();
-            condition.setExpression(source.getVisible().substring(1, source.getVisible().length() - 1));
-            condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
-            if (!button.getConditions().containsKey(ValidationType.visible))
-                button.getConditions().put(ValidationType.visible, new ArrayList<>());
-            button.getConditions().get(ValidationType.visible).add(condition);
-        } else {
-            button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
-        }
+        if (source.getDependencies() != null)
+            compileDependencies(source.getDependencies(), button, widgetId, p);
 
-        if (StringUtils.isLink(source.getEnabled())) {
-            Condition condition = new Condition();
-            condition.setExpression(source.getEnabled().substring(1, source.getEnabled().length() - 1));
-            condition.setModelLink(new ModelLink(ReduxModel.FILTER, widgetId).getBindLink());
-            if (!button.getConditions().containsKey(ValidationType.enabled))
-                button.getConditions().put(ValidationType.enabled, new ArrayList<>());
-            button.getConditions().get(ValidationType.enabled).add(condition);
+        if (componentScope != null && componentScope.unwrap(N2oCell.class) != null) {
+            button.setVisible(p.resolveJS(source.getVisible()));
+            button.setEnabled(p.resolveJS(source.getEnabled()));
         } else {
-            button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+            if (StringUtils.isLink(source.getVisible()))
+                compileLinkCondition(button, widgetId, ValidationType.visible, source.getVisible());
+            else
+                button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
+
+            if (StringUtils.isLink(source.getEnabled()))
+                compileLinkCondition(button, widgetId, ValidationType.enabled, source.getEnabled());
+            else
+                button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
+        }
+    }
+
+    private List<Condition> compileConditions(N2oButtonCondition[] conditions, ReduxModel model, String widgetId) {
+        List<Condition> result = new ArrayList<>();
+        for (N2oButtonCondition n2oCondition : conditions) {
+            Condition condition = new Condition();
+            condition.setExpression(n2oCondition.getExpression().trim());
+            condition.setModelLink(new ModelLink(model, widgetId).getBindLink());
+            result.add(condition);
+        }
+        return result;
+    }
+
+    private void compileLinkCondition(MenuItem button, String widgetId, ValidationType type, String linkCondition) {
+        Condition condition = new Condition();
+        condition.setExpression(linkCondition.substring(1, linkCondition.length() - 1));
+        condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
+        if (!button.getConditions().containsKey(type))
+            button.getConditions().put(type, new ArrayList<>());
+        button.getConditions().get(type).add(condition);
+    }
+
+    private void compileDependencies(AbstractMenuItem.Dependency[] dependencies, MenuItem button, String widgetId, CompileProcessor p) {
+        for (AbstractMenuItem.Dependency d : dependencies) {
+            ValidationType validationType = null;
+            if (d instanceof AbstractMenuItem.EnablingDependency)
+                validationType = ValidationType.enabled;
+            else if (d instanceof AbstractMenuItem.VisibilityDependency)
+                validationType = ValidationType.visible;
+
+            compileCondition(d, button, validationType, widgetId, p);
         }
     }
 
     private void compileCondition(AbstractMenuItem.Dependency dependency, MenuItem menuItem, ValidationType validationType,
-                                  String widgetId, String fieldId, CompileProcessor p) {
-        String refWidgetId = p.cast(dependency.getRefWidgetId(), widgetId);
-        ReduxModel refModel = p.cast(dependency.getRefModel(), ReduxModel.FILTER);
+                                  String widgetId, CompileProcessor p) {
+        String refWidgetId = null;
+        if (dependency.getRefWidgetId() != null) {
+            PageScope pageScope = p.getScope(PageScope.class);
+            if (pageScope != null) {
+                refWidgetId = pageScope.getGlobalWidgetId(dependency.getRefWidgetId());
+            }
+        }
+        refWidgetId = p.cast(refWidgetId, widgetId);
+        ReduxModel refModel = p.cast(dependency.getRefModel(), ReduxModel.RESOLVE);
 
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
-        condition.setModelLink(new ModelLink(refModel, refWidgetId, fieldId).getBindLink());
+        condition.setModelLink(new ModelLink(refModel, refWidgetId, null).getBindLink());
+        if (dependency instanceof AbstractMenuItem.EnablingDependency)
+            condition.setMessage(((AbstractMenuItem.EnablingDependency) dependency).getMessage());
 
         if (!menuItem.getConditions().containsKey(validationType))
             menuItem.getConditions().put(validationType, new ArrayList<>());

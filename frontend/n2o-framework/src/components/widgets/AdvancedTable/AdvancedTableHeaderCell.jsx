@@ -92,6 +92,7 @@ class AdvancedTableHeaderCell extends Component {
       label,
       title,
       filterControl,
+      as,
     } = this.props;
 
     let cellContent = null;
@@ -106,8 +107,10 @@ class AdvancedTableHeaderCell extends Component {
       cellContent = children;
     }
 
+    const ElementType = as || 'th';
+
     return (
-      <th
+      <ElementType
         title={label}
         rowSpan={rowSpan}
         colSpan={colSpan}
@@ -132,7 +135,7 @@ class AdvancedTableHeaderCell extends Component {
             cellContent
           )}
         </div>
-      </th>
+      </ElementType>
     );
   }
 

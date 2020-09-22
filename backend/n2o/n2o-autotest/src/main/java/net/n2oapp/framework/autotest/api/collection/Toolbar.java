@@ -14,11 +14,13 @@ public interface Toolbar extends ComponentsCollection {
 
     StandardButton button(Condition findBy);
 
-    DropdownButton dropdown(String label);
+    DropdownButton dropdown();
 
     DropdownButton dropdown(Condition findBy);
 
     <T extends Button> T button(String label, Class<T> componentClass);
 
     <T extends Button> T button(Condition findBy, Class<T> componentClass);
+
+    <T extends Button> T button(int index, Class<T> componentClass);
 }

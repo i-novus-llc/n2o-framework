@@ -50,6 +50,7 @@ const metadata = {
         },
         {
           ...CheckboxCellJson,
+          tooltipFieldId: 'tooltip',
         },
         {
           ...CheckboxCellJson,
@@ -80,7 +81,15 @@ const metadata = {
 
 stories.addDecorator(withPage(metadata)).add('Метаданные', () => {
   let data = {
-    list: [{ id: 0, description: 'Чекбокс', checkBox: false, checkBox2: true }],
+    list: [
+      {
+        id: 0,
+        description: 'Чекбокс',
+        checkBox: false,
+        checkBox2: true,
+        tooltip: 'tooltip',
+      },
+    ],
     count: 1,
   };
 

@@ -1,0 +1,64 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <input-text id="field" no-label-block="true">
+            <dependencies>
+                <enabling on="type">type.id == 1</enabling>
+                <enabling on="type2">type.id == 2</enabling>
+                <visibility on="type" reset="false">type.id == 1</visibility>
+                <set-value on="type">if (type.id == 1) return "Test";</set-value>
+                <requiring on="type">type.id == 1</requiring>
+                <reset on="type">type.id == 1</reset>
+            </dependencies>
+
+            <toolbar>
+                <button id="testId"
+                        type="textAndIcon"
+                        label="label"
+                        class="class"
+                        icon="icon"
+                        action-id="actionId"
+                        model="filter">
+                    <show-modal src="src"
+                                master-field-id="testId1"
+                                detail-field-id="testId2"
+                                page-id="pageId"
+                                object-id="objectId"
+                                page-name="pageName"
+                                submit-operation-id="operationId"
+                                modal-size="lg"
+                                close-after-submit="true"
+                                focus-after-submit="false"
+                                redirect-target-after-submit="application"
+                                redirect-url-after-submit="testUrl"
+                                route="/route"
+                                upload="query"/>
+                </button>
+            </toolbar>
+
+            <validations white-list="test1,test2,test3">
+                <constraint id="id" severity="danger" message="test message" side="client">
+                    <invocation>
+                        <sql>
+                            select * from table
+                        </sql>
+                    </invocation>
+                    <in-parameters>
+                        <param id="dasdf" required="true" default-value="fdsf" domain="boolean" entity-class="fsdf"
+                               mapper="dataset" mapping="fsd" mapping-condition="fsd" normalize="fsd"/>
+                    </in-parameters>
+                </constraint>
+                <condition id="testId2" field-id="fieldId" client-moment="after-load" server-moment="after-success-query"
+                           severity="info" message="test message" side="client,server"/>
+                <mandatory id="testId25" severity="success" client-moment="before-load" enabled="false"
+                           server-moment="before-query" field-id="testFieldId" message="test message" side="server"/>
+            </validations>
+
+            <submit message-on-fail="false" message-on-success="false" operation-id="update" route="a/b/c">
+                <path-param name="name1" value="value1" ref-model="resolve" ref-widget-id="id1"/>
+                <path-param name="name2" value="value2" ref-model="filter" ref-widget-id="id2"/>
+                <header-param name="name3" value="value3" ref-model="filter" ref-widget-id="id3"/>
+                <form-param id="name4" value="value4" ref-model="filter" ref-widget-id="id4"/>
+            </submit>
+        </input-text>
+    </fields>
+</form>

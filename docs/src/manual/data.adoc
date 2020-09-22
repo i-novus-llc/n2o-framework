@@ -1,6 +1,6 @@
 == Связывание с данными
 В N2O Framework визуальные компоненты связываются с данными через объекты и выборки.
-Объекты и выборки делегируют свои вызовы провадйерам данных.
+Объекты и выборки делегируют свои вызовы провайдерам данных.
 
 image::images\data-f1687.png[]
 
@@ -41,15 +41,15 @@ link:../xml/#_Объект_object[Подробнее об объектах]
   id="create"
   name="Создание">
   <invocation>...</invocation><!--Провайдер данных-->
-  <in-parameters>
+  <in>
       <!--Входные данные-->
-      <param id="name"/>
-      <param id="birthday"/>
-  </in-parameters>
-  <out-parameters>
+      <field id="name"/>
+      <field id="birthday"/>
+  </in>
+  <out>
       <!--Выходные данные-->
-      <param id="id"/>
-  </out-parameters>
+      <field id="id"/>
+  </out>
   <validations>...</validations><!--Валидации операций-->
 </operation>
 ----
@@ -91,11 +91,11 @@ link:https://n2oapp.net/sandbox/new/data/object/validation_condition[Приме�
     message="Имя {name} уже существует"
     result="cnt == 0">
     <invocation>...</invocation><!--Провайдер данных-->
-    <in-parameters>
+    <in>
         <!--Входные данные-->
-        <param id="name"/>
-        <param id="id"/>
-    </in-parameters>
+        <field id="name"/>
+        <field id="id"/>
+    </in>
   </constraint>
 </validations>
 ----
@@ -303,7 +303,7 @@ link:https://n2oapp.net/sandbox/new/data/query/list_filters[Пример]
 
 === Провайдеры данных
 Провайдеры - это универсальный способ обращения к источнику или к сервису предоставляющему данные.
-В N2O есть библиотека провайдеров данных: SQL, REST, EJB, Spring Framework.
+В N2O есть библиотека провайдеров данных: SQL, REST, EJB, Spring Framework, Mongo DB.
 
 Провайдер можно задать при получении выборки данных,
 при выполнении операций над объектом, в валидациях и в других случаях.
@@ -343,10 +343,10 @@ SQL провайдер позволяет выполнять SQL запросы 
   <invocation>
     <sql>INSERT INTO mytable (first_name, last_name) VALUES (:firstName, :lastName)</sql>
   </invocation>
-  <in-parameters>
-    <param id="firstName"/>
-    <param id="lastName"/>
-  </in-parameters>
+  <in>
+    <field id="firstName"/>
+    <field id="lastName"/>
+  </in>
 </operation>
 ----
 
@@ -384,10 +384,10 @@ REST провайдер выполняет http запросы к backend сер
   <invocation>
     <rest method="post">/api/myentity</rest>
   </invocation>
-  <in-parameters>
-    <param id="firstName"/>
-    <param id="lastName"/>
-  </in-parameters>
+  <in>
+    <field id="firstName"/>
+    <field id="lastName"/>
+  </in>
 </operation>
 ----
 link:https://n2oapp.net/sandbox/new/data/providers/rest[Пример]
@@ -441,12 +441,164 @@ link:https://n2oapp.net/sandbox/new/data/providers/rest[Пример]
       <spring/>
     </java>
   </invocation>
-  <in-parameters>
-    <param id="firstName"/>
-    <param id="lastName"/>
-  </in-parameters>
+  <in>
+    <field id="firstName"/>
+    <field id="lastName"/>
+  </in>
 </operation>
 ----
+
+==== Mongo DB провайдер данных
+Mondo DB провайдер выполняет запросы к Mongo DB базе данных.
+
+.Получение списка записей Mongo DB провайдером
+[source,xml]
+----
+<query>
+    <list>
+        <mongodb collection-name="person" operation="find"/>
+    </list>
+    <count>
+        <mongodb collection-name="person" operation="countDocuments"/>
+    </count>
+    <fields>
+        <field id="id" domain="string">
+            <select/>
+            <filters>
+                <eq filter-id="id"/>
+            </filters>
+            <sorting/>
+        </field>
+        <field id="name">
+            <select>name</select>
+        </field>
+    </fields>
+</query>
+----
+
+В теле фильтров необходимо использовать синтаксис построения запросов в mongodb.
+В соответствии с официальной документацией https://docs.mongodb.com/manual/reference/operator/ .
+Используя плейсхолдер `#`, можно вставлять данные запроса(например значение фильтра)
+
+.Пример
+[source,xml]
+----
+<query>
+    <list>
+        <mongodb collection-name="person" operation="find"/>
+    </list>
+    <fields>
+        <field id="id" domain="string">
+            <select mapping="['_id'].toString()">_id</select>
+            <filters>
+                <eq filter-id="id">{ _id: new ObjectId('#id') }</eq>
+            </filters>
+            <sorting/>
+        </field>
+        <field id="name" domain="string">
+            <select>name</select>
+            <filters>
+                <like filter-id="nameLike" mapping="['nameLikeMap']">{ name: { $regex: '.*#nameLikeMap.*'}}</like>
+                <likeStart filter-id="nameStart">{ name: {$regex: '#nameStart.*'}}</likeStart>
+            </filters>
+            <sorting mapping="['sortName']">name :sortName</sorting>
+        </field>
+        <field id="birthday" domain="localdate">
+            <select/>
+            <filters>
+                <more filter-id="birthdayMore">{birthday: {$gte: new ISODate(#birthdayMore)}}</more>
+                <less filter-id="birthdayLess">{birthday: {$lte: new ISODate(#birthdayLess)}}</less>
+            </filters>
+        </field>
+    </fields>
+</query>
+----
+
+.Автоматическая генерация для mongodb провайдера
+В mongo db идентификатор записи всегда называется `_id`  и имеет тип `ObjectId`,
+в N2O идентификатор записи должен называться `id` и имееть тип `string` или `integer`,
+поэтому:
+
+- `<select/>` для поля `id` преобразуется в `<select mapping="['_id'].toString()">_id</select>`
+- для всех остальных полей `<select/>` преобразуется в `<select>id поля</select>`
+- фильтр `eq` для поля `id` `<eq filter-id="id"/>` преобразуется в `<eq filter-id="id">{ _id: new ObjectId('#id') }</eq>`
+фильтры других типов для поля id необходимо прописывать полностью.
+Автоматическая генерация сработатет только для типа eq.
+- для других полей автоматическая генерация тела фильтра работает для всех типов.
+Но необходимо учитывать, что она простая (для полей с типом дата необходимо писать самостоятельно, с учетом написания фильтров в mongodb).
+- для поля `id` сортировка `<sorting/>` преобразуется в  `<sorting>_id :idDirection</sorting>`
+- для всех других полей, например  `name`, `<sorting/>` преобразуется в  `<sorting>name :nameDirection</sorting>`
+
+
+.Пример
+[source,xml]
+----
+Поле id
+<field id="id" domain="string">
+    <select/>
+    <filters>
+        <eq filter-id="id"/>
+    </filters>
+    <sorting/>
+</field>
+
+трансформируется в
+<field id="id" domain="string">
+    <select mapping="['_id'].toString()">_id</select>
+    <filters>
+        <eq filter-id="id">{ _id: new ObjectId('#id') }</eq>
+    </filters>
+    <sorting>_id :idDirection</sorting>
+</field>
+
+Поле name
+<field id="name" domain="string">
+    <select/>
+    <filters>
+        <like filter-id="nameLike"/>
+        <likeStart filter-id="nameStart"/>
+    </filters>
+    <sorting/>
+</field>
+
+трансформируется в
+<field id="name" domain="string">
+    <select>name</select>
+    <filters>
+        <like filter-id="nameLike">{ name: { $regex: '.*#nameLike.*'}}</like>
+        <likeStart filter-id="nameStart">{ name: {$regex: '#nameStart.*'}}</likeStart>
+    </filters>
+    <sorting>name :nameDirection</sorting>
+</field>
+
+Для даты тело фильтов необходимо прописывать самостоятельно.
+<field id="birthday" domain="localdate">
+    <select/>
+    <filters>
+        <more filter-id="birthdayMore">{birthday: {$gte: new ISODate(#birthdayMore)}}</more>
+        <less filter-id="birthdayLess">{birthday: {$lte: new ISODate(#birthdayLess)}}</less>
+    </filters>
+</field>
+----
+
+.Выполнение операции Mongo DB провайдером
+[source,xml]
+----
+<operation id="create">
+  <invocation>
+    <mongodb collection-name="person" operation="insertOne"/>
+  </invocation>
+  <in>
+    <field id="firstName"/>
+    <field id="lastName"/>
+  </in>
+</operation>
+----
+
+Доступны операции insertOne, updateOne, deleteOne, deleteMany, countDocuments.
+
+link:https://n2oapp.net/sandbox/new/data/providers/mongodb[Пример]
+
 
 === Типы данных
 Типы данных в N2O предназначены для правильной передачи значений от клиента
@@ -518,9 +670,9 @@ integer[]
 ----
 <operation>
   ...
-  <in-parameters>
-    <param id="gender.id" domain="integer"/>
-  </in-parameters>
+  <in>
+    <field id="gender.id" domain="integer"/>
+  </in>
 </operation>
 ----
 
@@ -541,7 +693,7 @@ integer[]
 .Параметр операции
 [source,xml]
 ----
-<param id="firstName"/>
+<field id="firstName"/>
 ----
 Подобная связь называется биндингом.
 
@@ -571,7 +723,7 @@ link:https://n2oapp.net/sandbox/new/data/binding/simple[Пример]
 
 [source,xml]
 ----
-<param id="gender.id"/> <!-- 1 -->
+<field id="gender.id"/> <!-- 1 -->
 ----
 
 link:https://n2oapp.net/sandbox/new/data/binding/select[Пример]
@@ -600,8 +752,8 @@ link:https://n2oapp.net/sandbox/new/data/binding/select[Пример]
 
 [source,xml]
 ----
-<param id="period.begin"/> <!-- 01.01.2018 00:00 -->
-<param id="period.end"/> <!-- 31.12.2018 00:00 -->
+<field id="period.begin"/> <!-- 01.01.2018 00:00 -->
+<field id="period.end"/> <!-- 31.12.2018 00:00 -->
 ----
 
 
@@ -636,7 +788,7 @@ link:https://n2oapp.net/sandbox/new/data/binding/interval[Пример]
 необходимо использовать "звёздочку":
 [source,xml]
 ----
-<param id="regions*.id"/> <!-- [1,16] -->
+<field id="regions*.id"/> <!-- [1,16] -->
 ----
 
 === Маппинг данных в провайдерах
@@ -649,12 +801,12 @@ link:https://n2oapp.net/sandbox/new/data/binding/interval[Пример]
 Java провайдеры используют тип параметров "массив значений".
 Поэтому в маппинге java нужно обращаться к номеру аргумента, например, `[0]`.
 
-Провайдеры sql и rest используют "ключ значение".
+Провайдеры sql, rest и mongodb используют "ключ значение".
 Поэтому в маппинге нужно обращаться к ключу, например, `['name']`.
 
 ==== Маппинг фильтров
 
-===== Маппинг фильтров в sql и rest
+===== Маппинг фильтров в sql, rest и mongodb
 
 .Маппинг фильтров в sql провайдере
 [source,xml]
@@ -722,6 +874,25 @@ link:https://n2oapp.net/sandbox/new/data/providers/sql_mapping[Пример]
 ----
 link:https://n2oapp.net/sandbox/new/data/providers/rest_mapping[Пример]
 
+
+.Маппинг сортировки в mongodb провайдере
+[source,xml]
+----
+<query>
+  <list>
+    <mongodb collection-name="user" operation="find"/>
+  </list>
+  <fields>
+      <field id="userAge" domain="integer">
+          <select/>
+          <!-- Маппинг определяет ключ "sortUserAge" в который будет скопировано значение фильтра поля "userAge" -->
+          <sorting mapping="['sortUserAge']">age :sortUserAge</sorting>
+      </field>
+  </fields>
+</query>
+----
+
+
 ==== Маппинг входных параметров операции
 ===== Маппинг входных параметров операции sql
 
@@ -732,10 +903,10 @@ link:https://n2oapp.net/sandbox/new/data/providers/rest_mapping[Пример]
   <invocation>
     <sql>INSERT INTO mytable (first_name, gender_id) VALUES (:first_name, :gender_id)</sql>
   </invocation>
-  <in-parameters>
-    <param id="name" mapping="['first_name']"/>
-    <param id="gender.id" mapping="['gender_id']"/>
-  </in-parameters>
+  <in>
+    <field id="name" mapping="['first_name']"/>
+    <field id="gender.id" mapping="['gender_id']"/>
+  </in>
 </operation>
 ----
 
@@ -762,10 +933,10 @@ POST /api/myentity
   <invocation>
     <rest method="post">/api/myentity</rest>
   </invocation>
-  <in-parameters>
-    <param id="name" mapping="['firstName']"/>
-    <param id="gender.id" mapping="['genderId']"/>
-  </in-parameters>
+  <in>
+    <field id="name" mapping="['firstName']"/>
+    <field id="gender.id" mapping="['genderId']"/>
+  </in>
 </operation>
 ----
 
@@ -822,10 +993,10 @@ class Calculator {
       </arguments>
     </java>
   </invocation>
-  <in-parameters>
-    <param id="a" mapping="[0]"/>
-    <param id="b" mapping="[1]"/>
-  </in-parameters>
+  <in>
+    <field id="a" mapping="[0]"/>
+    <field id="b" mapping="[1]"/>
+  </in>
 </operation>
 ----
 
@@ -864,11 +1035,11 @@ class MyEntity {
       <spring/>
     </java>
   </invocation>
-  <in-parameters>
+  <in>
     <!-- Для type="entity" в mapping нет [0]. -->
-    <param id="firstName" mapping="['name']"/>
-    <param id="lastName" mapping="['surname']"/>
-  </in-parameters>
+    <field id="firstName" mapping="['name']"/>
+    <field id="lastName" mapping="['surname']"/>
+  </in>
 </operation>
 ----
 
@@ -1069,8 +1240,24 @@ class MyEntity {
 </query>
 ----
 
+.Маппинг результатов выборки в mongodb провайдере
+[source,xml]
+----
+<query>
+  <list>
+    <mongodb collection-name="user" operation="find"/>
+  </list>
+  <fields>
+      <field id="userAge" domain="integer">
+          <!-- маппинг определяет из какого поля результатов выборки из бд взять значение для userAge -->
+          <select mapping="['age']">age</select>
+      </field>
+  </fields>
+</query>
+----
+
 ==== Маппинг результатов операции
-Чтобы вернуть данные от провайдера, после выполнения операции, используется элемент `<out-parameters>`:
+Чтобы вернуть данные от провайдера, после выполнения операции, используется элемент `<out>`:
 
 ===== Маппинг результатов sql
 
@@ -1081,9 +1268,9 @@ class MyEntity {
   <invocation>
     <sql>INSERT INTO mytable (first_name, gender_id) VALUES (:first_name, :gender_id)</sql>
   </invocation>
-  <out-parameters>
-    <param id="id" mapping="[0]"/>
-  </out-parameters>
+  <out>
+    <field id="id" mapping="[0]"/>
+  </out>
 </operation>
 ----
 В примере результатом выполнения SQL запроса будет вставленная в таблицу запись.
@@ -1111,11 +1298,33 @@ POST /api/myentity
   <invocation>
     <rest method="post">/api/myentity</rest>
   </invocation>
-  <out-parameters>
-    <param id="id" mapping="['result']"/>
-  </out-parameters>
+  <out>
+    <field id="id" mapping="['result']"/>
+  </out>
 </operation>
 ----
+
+===== Маппинг результатов mongodb
+
+Операция insertOne возвращает всегда id, операции updateOne, deleteOne и deleteMany
+не возвращают ничего, поэтому маппинг результатов имеет место только для insertOne.
+
+.Пример
+----
+<operation id="create">
+    <invocation>
+        <mongodb collection-name="user" operation="insertOne"/>
+    </invocation>
+    <in>
+        <field id="name" mapping="['name']"/>
+        <field id="age" mapping="['age']"/>
+    </in>
+    <out>
+        <field id="id" mapping="#this"/>
+    </out>
+</operation>
+----
+
 
 ==== Маппинг данных в Entity
 При использовании java провайдеров объект и выборка чаще всего работают с одной и той же сущностью.
@@ -1290,15 +1499,15 @@ class MyService {
           <spring/>
         </java>
       </invocation>
-      <in-parameters>
+      <in>
         <!--Перечисление только нужных полей-->
-        <param id="birtday"/>
-        <param id="sex"/><!--Будет заполнен только sex.id-->
-        <param id="addresses"/><!--Будут заполнены все внутренние поля-->
-      </in-parameters>
-      <out-parameters>
-        <param id="id"/>
-      </out-parameters>
+        <field id="birtday"/>
+        <field id="sex"/><!--Будет заполнен только sex.id-->
+        <field id="addresses"/><!--Будут заполнены все внутренние поля-->
+      </in>
+      <out>
+        <field id="id"/>
+      </out>
     </operation>
   </operations>
 </object>

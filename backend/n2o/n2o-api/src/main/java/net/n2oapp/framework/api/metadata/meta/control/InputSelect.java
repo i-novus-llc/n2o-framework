@@ -22,6 +22,8 @@ public class InputSelect extends ListControl {
     private Boolean hasCheckboxes;
     @JsonProperty
     private Boolean resetOnBlur;
+    @JsonProperty
+    private String descriptionFieldId;
 
     @Override
     public boolean containsHimself(DataSet dataSet) {

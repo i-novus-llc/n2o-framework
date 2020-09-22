@@ -1,7 +1,7 @@
 import { compose, mapProps } from 'recompose';
-import { replace } from 'connected-react-router';
+import { push } from 'connected-react-router';
 import withActionButton from '../withActionButton';
-import compileUrl from '../../../utils/compileUrl';
+import { dataProviderResolver } from '../../../core/dataProviderResolver';
 import mappingProps from '../Simple/mappingProps';
 
 function isModifiedEvent(event) {
@@ -13,14 +13,18 @@ export default compose(
     onClick: (e, props, state) => {
       e.preventDefault();
       const { url, pathMapping, queryMapping, target } = props;
-      const compiledUrl = compileUrl(url, { pathMapping, queryMapping }, state);
+      const { url: compiledUrl } = dataProviderResolver(state, {
+        url,
+        pathMapping,
+        queryMapping,
+      });
 
       if (isModifiedEvent(e)) {
         return;
       }
 
       if (target === 'application') {
-        props.dispatch(replace(compiledUrl));
+        props.dispatch(push(compiledUrl));
       } else if (target === '_blank') {
         window.open(compiledUrl);
       } else {
@@ -32,7 +36,7 @@ export default compose(
     ...mappingProps(props),
     url: props.url,
     href: props.url,
-    target: props.target === 'newWindow' ? '_blank' : props.target,
+    target: props.target,
     tag: 'a',
   }))
 );

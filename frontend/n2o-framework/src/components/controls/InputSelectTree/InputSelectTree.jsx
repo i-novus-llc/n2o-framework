@@ -106,6 +106,8 @@ function InputSelectTree({
   showCheckedStrategy,
   _control,
   setControlRef,
+  maxTagTextLength,
+  disabled,
   ...rest
 }) {
   const popupProps = {
@@ -381,6 +383,7 @@ function InputSelectTree({
       onDropdownVisibleChange={handleDropdownVisibleChange}
       className={cx('n2o form-control', 'n2o-input-select-tree', className, {
         loading,
+        'n2o-disabled': disabled,
       })}
       switcherIcon={renderSwitcherIcon}
       inputIcon={inputIcon}
@@ -390,7 +393,7 @@ function InputSelectTree({
       filterTreeNode={handlerFilter}
       treeNodeFilterProp={labelFieldId}
       treeNodeLabelProp={labelFieldId}
-      maxTagTextLength="10"
+      maxTagTextLength={maxTagTextLength}
       removeIcon={clearIcon}
       clearIcon={clearIcon}
       onChange={handleChange}
@@ -420,6 +423,7 @@ function InputSelectTree({
         id: 'inputSelectTree.searchPlaceholder',
         defaultMessage: searchPlaceholder || ' ',
       })}
+      disabled={disabled}
       {...rest}
     >
       {children}
@@ -454,6 +458,7 @@ InputSelectTree.defaultProps = {
   allowClear: true,
   placeholder: '',
   showSearch: true,
+  maxTagTextLength: 10,
   dropdownPopupAlign: {
     points: ['tl', 'bl'],
     overflow: {
@@ -592,6 +597,10 @@ InputSelectTree.propTypes = {
    */
   dropdownPopupAlign: PropTypes.object,
   showCheckedStrategy: PropTypes.string,
+  /**
+   * Количество символов выбранных элементов в chechbox режиме
+   */
+  maxTagTextLength: PropTypes.number,
 };
 
 export { TreeNode, InputSelectTree };

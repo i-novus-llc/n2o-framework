@@ -3,22 +3,26 @@ package net.n2oapp.framework.api.metadata.meta.control;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.widget.WidgetDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 
 import java.util.List;
 import java.util.Map;
 
 
 /**
- * Клиентская модель поля для ввода текста с автоподбором
+ * Клиентская модель компонента ввода текста с автоподбором
  */
 @Getter
 @Setter
 public class AutoComplete extends Control {
     @JsonProperty
-    private WidgetDataProvider dataProvider;
+    private ClientDataProvider dataProvider;
     @JsonProperty
     private String valueFieldId;
     @JsonProperty
+    private String placeholder;
+    @JsonProperty
     private List<Map<String, Object>> data;
+    @JsonProperty
+    private Boolean tags;
 }

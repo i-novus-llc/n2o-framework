@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSimplePage;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -16,9 +17,9 @@ import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import net.n2oapp.framework.config.metadata.compile.ValidationList;
-import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
 import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
@@ -42,8 +43,8 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         //todo когда появится object-id у simple-page необходимо его и id главного виджета добавить в PageScope
         pageScope.setPageId(page.getId());
         String pageName = p.cast(context.getPageName(), source.getName(), source.getWidget().getName());
-        page.setPageProperty(initPageName(pageName, context, p));
-        page.getPageProperty().setTitle(pageName);
+        boolean showTitle = p.cast(source.getShowTitle(), p.resolve(property("n2o.api.default.page.show_title"), Boolean.class), false);
+        page.setPageProperty(initPageName(pageName, showTitle, context, p));
         page.setProperties(p.mapAttributes(source));
         page.setBreadcrumb(initBreadcrumb(pageName, context, p));
         N2oWidget widget = source.getWidget();
@@ -63,8 +64,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         Widget compiledWidget = p.compile(widget, context, routes, pageScope, widgetScope, pageRouteScope, breadcrumbs, validationList, models, pageRoutesScope);
         page.setWidget(compiledWidget);
         registerRoutes(routes, context, p);
-        if (!(context instanceof ModalPageContext))
-            page.setRoutes(routes);
+        page.setRoutes(routes);
         page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
         String objectId = p.cast(source.getObjectId(), compiledWidget.getObjectId());
         CompiledObject object = null;
@@ -72,7 +72,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             object = p.getCompiled(new ObjectContext(objectId));
             page.setObject(object);
         }
-        if (context.getSubmitOperationId() != null && compiledWidget.getToolbar() == null) {
+        if ((context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))) {
             MetaActions metaActions = new MetaActions();
             page.setToolbar(compileToolbar(context, p, metaActions, pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
             compiledWidget.getActions().putAll(metaActions);
@@ -99,7 +99,9 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         N2oToolbar n2oToolbar = new N2oToolbar();
         n2oToolbar.setGenerate(new String[]{GenerateType.submit.name(), GenerateType.close.name()});
         n2oToolbar.setTargetWidgetId(p.cast(widget.getId(), MAIN_WIDGET_ID));
-        return p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, object, new IndexScope(), breadcrumbs, validationList);
+        ToolbarPlaceScope toolbarPlaceScope = new ToolbarPlaceScope(p.resolve(property("n2o.api.page.toolbar.place"), String.class));
+        return p.compile(n2oToolbar, context, metaActions, pageScope, routeScope, object,
+                new IndexScope(), breadcrumbs, validationList, toolbarPlaceScope);
     }
 
     @Override

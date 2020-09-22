@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.reader.tools;
 
 import net.n2oapp.framework.api.data.DomainProcessor;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
 
 import java.util.LinkedHashMap;

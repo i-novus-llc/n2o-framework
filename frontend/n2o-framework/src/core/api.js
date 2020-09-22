@@ -1,12 +1,13 @@
 import isMap from 'lodash/isMap';
 import isPlainObject from 'lodash/isPlainObject';
 import isFunction from 'lodash/isFunction';
-import identity from 'lodash/identity';
 import omitBy from 'lodash/omitBy';
 import pickBy from 'lodash/pickBy';
 import isObject from 'lodash/isObject';
 import isEmpty from 'lodash/isEmpty';
+import isNil from 'lodash/isNil';
 import assign from 'lodash/assign';
+import defaultTo from 'lodash/defaultTo';
 import flatten from 'flat';
 import invariant from 'invariant';
 import queryString from 'query-string';
@@ -25,6 +26,8 @@ export const FETCH_WIDGET_DATA = 'FETCH_WIDGET_DATA';
 export const FETCH_INVOKE_DATA = 'FETCH_INVOKE_DATA';
 export const FETCH_VALIDATE = 'FETCH_VALIDATE';
 export const FETCH_VALUE = 'FETCH_VALUE';
+
+const identity = value => !isNil(value);
 
 /**
  * Удаляет все пустые значения в параметрах запроса
@@ -64,7 +67,6 @@ export function handleApi(api) {
 
 /**
  * Стандартный api provider
- * @type {{}}
  */
 export const defaultApiProvider = {
   [FETCH_APP_CONFIG]: options =>
@@ -79,7 +81,9 @@ export const defaultApiProvider = {
       ].join('')
     ),
   [FETCH_PAGE_METADATA]: options =>
-    request([API_PREFIX, BASE_PATH_METADATA, options.pageUrl].join('')),
+    request([API_PREFIX, BASE_PATH_METADATA, options.pageUrl].join(''), {
+      headers: options.headers,
+    }),
   [FETCH_WIDGET_DATA]: options =>
     request(
       [
@@ -88,7 +92,10 @@ export const defaultApiProvider = {
         queryString.stringify(
           flatten(clearEmptyParams(options.baseQuery), { safe: true })
         ),
-      ].join('')
+      ].join(''),
+      {
+        headers: defaultTo(options.headers, {}),
+      }
     ),
   [FETCH_INVOKE_DATA]: options =>
     request(
@@ -103,6 +110,7 @@ export const defaultApiProvider = {
         method: options.baseMethod || 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...defaultTo(options.headers, {}),
         },
         body: JSON.stringify(options.model || {}),
       }
@@ -118,7 +126,7 @@ export const defaultApiProvider = {
         ),
       ].join('')
     ).catch(console.error),
-  [FETCH_VALUE]: ({ url }) => request(url),
+  [FETCH_VALUE]: ({ url, headers }) => request(url, { headers }),
 };
 
 /**
@@ -138,11 +146,35 @@ export function fetchInputSelectData(
   model,
   settings = { apiPrefix: API_PREFIX, basePath: BASE_PATH_DATA }
 ) {
+  const { query, headers } = options;
+
   return request(
     [
       settings.apiPrefix,
       settings.basePath,
-      generateFlatQuery(options, '', {}, '.'),
-    ].join('')
+      generateFlatQuery(query, '', {}, '.'),
+    ].join(''),
+    {
+      headers: headers,
+    }
+  );
+}
+
+export function saveFieldData(url, options) {
+  return request(
+    [
+      url,
+      '?',
+      queryString.stringify(
+        flatten(clearEmptyParams(options.baseQuery), { safe: true })
+      ),
+    ].join(''),
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(options.body),
+    }
   );
 }

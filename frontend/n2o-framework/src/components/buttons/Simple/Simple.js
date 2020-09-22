@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Button from 'reactstrap/lib/Button';
 import Badge from 'reactstrap/lib/Badge';
+import cn from 'classnames';
 import Icon from '../../snippets/Icon/Icon';
 
 const SimpleButton = ({
@@ -18,6 +19,8 @@ const SimpleButton = ({
   children,
   tag,
   onClick,
+  rounded,
+  className,
   ...rest
 }) =>
   visible ? (
@@ -27,8 +30,13 @@ const SimpleButton = ({
       size={size}
       color={color}
       outline={outline}
-      disabled={disabled}
       onClick={onClick}
+      disabled={disabled}
+      className={cn(className, {
+        'btn-rounded': rounded && !label,
+        'btn-disabled': disabled,
+        'btn-rounded__with-content': rounded && label,
+      })}
       {...rest}
     >
       {icon && <Icon name={icon} />}
@@ -64,6 +72,7 @@ SimpleButton.propTypes = {
 
 SimpleButton.defaultProps = {
   tag: 'button',
+  rounded: false,
   visible: true,
   onClick: () => {},
 };

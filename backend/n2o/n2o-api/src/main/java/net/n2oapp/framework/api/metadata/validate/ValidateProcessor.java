@@ -5,9 +5,10 @@ import net.n2oapp.framework.api.metadata.SourceMetadata;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -18,7 +19,7 @@ public interface ValidateProcessor {
     /**
      * Провалидировать вложенную метаданную
      * @param metadata Исходная метаданная
-     * @param scope Объекты, влияющие на внутренние валдиации. Должны быть разных классов.
+     * @param scope Объекты, влияющие на внутренние валидации. Должны быть разных классов.
      * @param <T> Тип метаданной
      */
     <T extends Source> void validate(T metadata, Object... scope);

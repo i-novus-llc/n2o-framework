@@ -4,6 +4,9 @@ import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.Component;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 
+/**
+ * Модальная страница для автотестирования
+ */
 public interface Modal extends Component {
 
     ModalToolbar toolbar();
@@ -12,7 +15,15 @@ public interface Modal extends Component {
 
     void shouldHaveTitle(String text);
 
+    void scrollUp();
+
+    void scrollDown();
+
     void close();
+
+    void shouldBeScrollable();
+
+    void shouldNotBeScrollable();
 
     interface ModalToolbar {
         Toolbar bottomLeft();
