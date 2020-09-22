@@ -15,7 +15,7 @@
                           delete-url="/files"
                           accept=".png"
                           list-type="card"
-                          lightbox="true"
+                          can-lightbox="true"
                           show-name="true"
             />
 
@@ -23,7 +23,7 @@
                           label-field-id="fileName" value-field-id="id" url-field-id="url"
                           upload-url="/files"
                           delete-url="/files"
-                          lightbox="true"
+                          can-lightbox="true"
             />
         </fields>
     </form>
