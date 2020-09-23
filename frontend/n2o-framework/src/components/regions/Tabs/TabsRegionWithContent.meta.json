@@ -2,7 +2,7 @@
   "src": "TabsRegion",
   "alwaysRefresh": true,
   "lazy": true,
-  "tabs": [
+  "items": [
     {
       "id": "tab1",
       "opened": true,

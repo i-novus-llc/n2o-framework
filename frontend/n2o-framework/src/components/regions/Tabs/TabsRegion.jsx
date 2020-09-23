@@ -84,7 +84,7 @@ class TabRegion extends React.Component {
 
   render() {
     const {
-      tabs,
+      items,
       getWidget,
       getWidgetProps,
       getVisible,
@@ -95,7 +95,7 @@ class TabRegion extends React.Component {
     const { readyTabs, visibleTabs } = this.state;
     return (
       <Tabs activeId={activeEntity} onChangeActive={this.handleChangeActive}>
-        {tabs.map(tab => {
+        {items.map(tab => {
           const { security, content } = tab;
 
           const widgetProps = getWidgetProps(tab.widgetId);
