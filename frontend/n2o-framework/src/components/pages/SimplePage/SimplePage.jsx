@@ -7,7 +7,8 @@ import { WIDGETS } from '../../../core/factory/factoryLevels';
 import Factory from '../../../core/factory/Factory';
 import DefaultPage from '../DefaultPage';
 
-function SimplePage({ id, widget, slim, ...rest }) {
+function SimplePage({ id, widget, metadata, ...rest }) {
+  const slim = get(metadata, 'slim');
   return (
     <DefaultPage {...rest}>
       <div
