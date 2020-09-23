@@ -59,18 +59,19 @@ public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
 
         List<Tiles.Tile> tls = new ArrayList<>(source.getContent().length);
         for (N2oTiles.Block block : source.getContent()) {
-            tls.add(compileBlock(block, context, p));
+            tls.add(compileBlock(block, context, p, widgetScope, widgetActions));
         }
         tiles.setTile(tls);
         tiles.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.tiles.size"), Integer.class)));
         return tiles;
     }
 
-    private Tiles.Tile compileBlock(N2oTiles.Block source, CompileContext<?, ?> context, CompileProcessor p) {
+    private Tiles.Tile compileBlock(N2oTiles.Block source, CompileContext<?, ?> context, CompileProcessor p,
+                                    Object... scopes) {
         Tiles.Tile tile = new Tiles.Tile();
         source.setId(p.cast(source.getId(), source.getTextFieldId()));
         tile.setId(source.getId());
-        tile.setComponent(p.compile(source.getComponent(), context, p, new IndexScope(), new ComponentScope(source)));
+        tile.setComponent(p.compile(source.getComponent(), context, p, new IndexScope(), new ComponentScope(source), scopes));
         return tile;
     }
 
