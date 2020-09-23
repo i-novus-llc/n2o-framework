@@ -56,7 +56,7 @@ class ListRegion extends React.Component {
     this.activeKeys = map(filter(content, 'opened'), 'widgetId');
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
     const panelProps = pick(this.props, ['type', 'forceRender', 'collapsible']);
-
+    console.warn('value ------>', this.props);
     return (
       <div className="n2o-list-region">
         <Collapse

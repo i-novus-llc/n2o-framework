@@ -76,8 +76,6 @@ stories
   .add(
     'Вкладки с content',
     () => {
-      store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
-
       return <TabsRegion {...TabsRegionWithContentMetaJson} pageId="Page" />;
     },
     {
