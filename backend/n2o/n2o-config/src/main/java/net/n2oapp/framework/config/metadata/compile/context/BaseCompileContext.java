@@ -107,6 +107,10 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         return route;
     }
 
+    public String getUrlPattern() {
+        return StringUtils.hasLink(sourceId) ? route : null;
+    }
+
     @Override
     public DataSet getParams(String url, Map<String, String[]> queryParams) {
         DataSet data;
@@ -195,7 +199,7 @@ public abstract class BaseCompileContext<D extends Compiled, S> implements Compi
         return Objects.hash(sourceId, compiledClass);
     }
 
-    private DataSet getResultData(String url, String urlPattern) {
+    protected DataSet getResultData(String url, String urlPattern) {
         DataSet data = new DataSet();
         String[] splitUrl = url.split("/");
         String[] splitPattern = urlPattern.split("/");
