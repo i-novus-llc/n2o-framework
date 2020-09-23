@@ -540,12 +540,12 @@
                         <xs:documentation>Иконка по умолчанию в области загрузки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="width" type="xs:integer" default="300">
+                <xs:attribute name="width" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Ширина области загрузки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="height" type="xs:integer" default="300">
+                <xs:attribute name="height" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Высота области загрузки.</xs:documentation>
                     </xs:annotation>

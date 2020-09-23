@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.control;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.autotest.api.component.control.ImageUploadControl;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 
@@ -34,8 +35,18 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
+    public void shouldHaveDeleteButton(int index) {
+        getTrashElement(index).shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void shouldNotHaveDeleteButton(int index) {
+        getTrashElement(index).shouldNotBe(Condition.exist);
+    }
+
+    @Override
     public void deleteImage(int index) {
-        getFilesItems().get(index).$(".n2o-image-uploader__watch .n2o-image-uploader__watch--trash").hover().shouldBe(Condition.visible).click();
+        getTrashElement(index).hover().shouldBe(Condition.visible).click();
     }
 
     @Override
@@ -80,13 +91,42 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
     }
 
     @Override
-    public void sizeInfoShouldBeInvisible(int index) {
+    public void sizeInfoShouldNotBeVisible(int index) {
         getSizeElement(index).shouldNotBe(Condition.visible);
     }
 
     @Override
     public void sizeShouldBe(int index, String fileSize) {
         getSizeElement(index).shouldHave(Condition.text(fileSize));
+    }
+
+    @Override
+    public void uploadAreaShapeShouldBe(ImageShape shape) {
+        // TODO дополнить после полной реализации shape у картинок
+        switch (shape) {
+            case circle:
+                element().shouldHave(Condition.cssClass("n2o-image-uploader-control--shape-circle"));
+        }
+    }
+
+    @Override
+    public void uploadAreaShouldHaveIcon(String icon) {
+        getUploadAreaElement().shouldHave(Condition.attribute("class", icon));
+    }
+
+    @Override
+    public void uploadAreaIconShouldHaveSize(int size) {
+        getUploadAreaElement().shouldHave(Condition.attributeMatching("style", ".*font-size: " + size + "px.*"));
+    }
+
+    @Override
+    public void uploadAreaShouldHaveWidth(int width) {
+        element().shouldHave(Condition.attributeMatching("style", ".*max-width: " + width + "px.*"));
+    }
+
+    @Override
+    public void uploadAreaShouldHaveHeight(int height) {
+        element().shouldHave(Condition.attributeMatching("style", ".*max-height: " + height + "px.*"));
     }
 
     private ElementsCollection getFilesItems() {
@@ -103,6 +143,14 @@ public class N2oImageUploadControl extends N2oControl implements ImageUploadCont
 
     private SelenideElement getSizeElement(int index) {
         return getFilesItems().get(index).$(".n2o-image-uploader-img-info .n2o-image-uploader-img-info__file-size");
+    }
+
+    private SelenideElement getUploadAreaElement() {
+        return element().$("div");
+    }
+
+    private SelenideElement getTrashElement(int index) {
+        return getFilesItems().get(index).$(".n2o-image-uploader__watch .n2o-image-uploader__watch--trash");
     }
 
     public static class PreviewDialogImpl implements PreviewDialog {

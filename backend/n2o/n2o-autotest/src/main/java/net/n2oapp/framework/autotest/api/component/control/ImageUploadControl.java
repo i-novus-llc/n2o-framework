@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.control;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 
 import java.io.File;
@@ -12,6 +13,10 @@ public interface ImageUploadControl extends Control {
     File uploadImage(File... file);
 
     File uploadFromClasspath(String... fileName);
+
+    void shouldHaveDeleteButton(int index);
+
+    void shouldNotHaveDeleteButton(int index);
 
     void deleteImage(int index);
 
@@ -31,9 +36,19 @@ public interface ImageUploadControl extends Control {
 
     void sizeInfoShouldBeVisible(int index);
 
-    void sizeInfoShouldBeInvisible(int index);
+    void sizeInfoShouldNotBeVisible(int index);
 
     void sizeShouldBe(int index, String fileSize);
+
+    void uploadAreaShapeShouldBe(ImageShape shape);
+
+    void uploadAreaShouldHaveIcon(String icon);
+
+    void uploadAreaIconShouldHaveSize(int size);
+
+    void uploadAreaShouldHaveWidth(int width);
+
+    void uploadAreaShouldHaveHeight(int height);
 
     interface PreviewDialog {
 
