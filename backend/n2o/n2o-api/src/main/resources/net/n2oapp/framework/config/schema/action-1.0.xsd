@@ -757,7 +757,7 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="operation-id" type="xs:string">
+        <xs:attribute name="operation-id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор операции, которая должна вызваться.</xs:documentation>
             </xs:annotation>
