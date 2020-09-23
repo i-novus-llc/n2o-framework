@@ -6,6 +6,8 @@ import { WIDGETS } from '../../../core/factory/factoryLevels';
 import withWidgetProps from '../withWidgetProps';
 import { compose, pure, setDisplayName } from 'recompose';
 
+import RegionContent from '../RegionContent';
+
 /**
  * Регион None (простой див)
  * @reactProps {array} items - массив из объектов, которые описывают виджет{id}
@@ -13,17 +15,11 @@ import { compose, pure, setDisplayName } from 'recompose';
  * @reactProps {string} pageId - идентификатор страницы
  */
 
-const NoneRegion = ({ items, getWidget, pageId }) => {
+const NoneRegion = ({ content }) => {
   return (
     <div style={{ paddingBottom: 2, paddingTop: 2 }}>
-      {items.map(item => (
-        <Factory
-          level={WIDGETS}
-          key={item.widgetId}
-          {...getWidget(pageId, item.widgetId)}
-          id={item.widgetId}
-          pageId={pageId}
-        />
+      {content.map(item => (
+        <RegionContent content={[item]} />
       ))}
     </div>
   );

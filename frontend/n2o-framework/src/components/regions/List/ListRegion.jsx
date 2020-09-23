@@ -32,18 +32,26 @@ class ListRegion extends React.Component {
     // }
   }
 
+  renderList = props => {
+    const { name, content, isVisible } = this.props;
+    return (
+      <>
+        <span className="n2o-list-region__collapse-name">{name}</span>
+        <Panel
+          {...props}
+          style={{ display: isVisible === false ? 'none' : '' }}
+        >
+          <RegionContent content={content} />
+        </Panel>
+      </>
+    );
+  };
+
   /**
    * Рендер
    */
   render() {
-    const {
-      content,
-      getWidget,
-      getWidgetProps,
-      pageId,
-      collapsible,
-      name,
-    } = this.props;
+    const { content, collapsible } = this.props;
 
     this.activeKeys = map(filter(content, 'opened'), 'widgetId');
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
@@ -55,69 +63,10 @@ class ListRegion extends React.Component {
           defaultActiveKey={this.activeKeys}
           onChange={this.handleChange}
           collapsible={collapsible}
+          className="n2o-list-region__collapse"
           {...collapseProps}
         >
-          <span>{name}</span>
-          {content.map(item => {
-            const widgetProps = getWidgetProps(item.widgetId);
-
-            const listItemProps = {
-              key: item.widgetId,
-              id: item.widgetId,
-              header: item.label || item.widgetId,
-              active: item.opened,
-            };
-
-            const { security } = item;
-            return isEmpty(security) ? (
-              <Panel
-                {...listItemProps}
-                {...panelProps}
-                style={{
-                  display: widgetProps.isVisible === false ? 'none' : '',
-                }}
-              >
-                {/*<Factory*/}
-                {/*  id={item.widgetId}*/}
-                {/*  level={WIDGETS}*/}
-                {/*  {...getWidget(pageId, item.widgetId)}*/}
-                {/*/>*/}
-                <RegionContent
-                  {...getWidget(pageId, item.widgetId)}
-                  content={[item]}
-                />
-              </Panel>
-            ) : (
-              <SecurityCheck
-                {...listItemProps}
-                config={security}
-                active={item.opened}
-                id={item.widgetId}
-                render={({ permissions, ...rest }) => {
-                  return permissions ? (
-                    <Panel
-                      {...panelProps}
-                      {...listItemProps}
-                      {...rest}
-                      style={{
-                        display: widgetProps.isVisible === false ? 'none' : '',
-                      }}
-                    >
-                      {/*<Factory*/}
-                      {/*  id={item.widgetId}*/}
-                      {/*  level={WIDGETS}*/}
-                      {/*  {...getWidget(pageId, item.widgetId)}*/}
-                      {/*/>*/}
-                      <RegionContent
-                        {...getWidget(pageId, item.widgetId)}
-                        content={[item]}
-                      />
-                    </Panel>
-                  ) : null;
-                }}
-              />
-            );
-          })}
+          {this.renderList(panelProps)}
         </Collapse>
       </div>
     );
