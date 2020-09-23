@@ -27,7 +27,7 @@ import RegionContent from '../RegionContent';
  * @reactProps open (boolean) - флаг открытости панели
  * @reactProps hasTabs (boolean) - флаг наличия табов
  * @reactProps fullScreen (boolean) - флаг возможности открывать на полный экран
- * @reactProps {array} panels - массив панелей вида
+ * @reactProps {array} content - массив панелей вида
  * @reactProps {string} pageId - идентификатор страницы
  * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {object} user - пользователь !!! не используется
@@ -131,7 +131,7 @@ PanelRegion.propTypes = {
   /**
    * Список элементов
    */
-  panels: PropTypes.array.isRequired,
+  content: PropTypes.array.isRequired,
   /**
    * ID страницы
    */

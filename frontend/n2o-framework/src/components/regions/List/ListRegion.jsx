@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { compose, setDisplayName } from 'recompose';
-import isEmpty from 'lodash/isEmpty';
+
 import filter from 'lodash/filter';
 import map from 'lodash/map';
 import pick from 'lodash/pick';
+
 import Collapse, { Panel } from '../../snippets/Collapse/Collapse';
-import Factory from '../../../core/factory/Factory';
-import { WIDGETS } from '../../../core/factory/factoryLevels';
-import SecurityCheck from '../../../core/auth/SecurityCheck';
 import withWidgetProps from '../withWidgetProps';
 import RegionContent from '../RegionContent';
 
@@ -77,7 +76,7 @@ ListRegion.propTypes = {
   /**
    * Элементы списка
    */
-  items: PropTypes.array.isRequired,
+  content: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
   /**
    * ID страницы

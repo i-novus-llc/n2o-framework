@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Factory from '../../../core/factory/Factory';
-import { WIDGETS } from '../../../core/factory/factoryLevels';
 import withWidgetProps from '../withWidgetProps';
 import { compose, pure, setDisplayName } from 'recompose';
 
@@ -10,7 +8,7 @@ import RegionContent from '../RegionContent';
 
 /**
  * Регион None (простой див)
- * @reactProps {array} items - массив из объектов, которые описывают виджет{id}
+ * @reactProps {array} content - массив из объектов, которые описывают виджет{id}
  * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {string} pageId - идентификатор страницы
  */
