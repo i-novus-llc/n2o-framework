@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <region>
+            <form id="first" object-id="test">
+                <submit>
+                    <form-param name="adsd" ref-widget-id="asd"/>
+                </submit>
+                <fields>
+                    <input-text id="value"/>
+                </fields>
+            </form>
+        </region>
+        <region>
+            <form id="second" object-id="test">
+                <fields>
+                    <input-text id="value"/>
+                    <input-text id="value2"/>
+                </fields>
+            </form>
+        </region>
+    </regions>
+    <toolbar>
+        <button label="Сохранить" widget-id="first">
+            <invoke operation-id="create" route="/create">
+                <form-param name="form_value" value="{value}" ref-widget-id="first"/>
+                <form-param name="second_form" ref-widget-id="second"/>
+            </invoke>
+        </button>
+    </toolbar>
+</page>

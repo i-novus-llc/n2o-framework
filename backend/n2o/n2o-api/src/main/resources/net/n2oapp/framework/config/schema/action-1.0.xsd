@@ -394,6 +394,29 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="formParamDefinition">
+        <xs:attribute name="name" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Название параметра</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="value" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Ссылка на значение парамерта</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-widget-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-model" type="reduxModel">
+            <xs:annotation>
+                <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:complexType name="paramDefinition">
         <xs:attribute name="name" type="xs:string" use="required">
             <xs:annotation>
@@ -424,7 +447,7 @@
                     <xs:documentation>Выполнить действие объекта.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="form-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="form-param" type="formParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="header-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
