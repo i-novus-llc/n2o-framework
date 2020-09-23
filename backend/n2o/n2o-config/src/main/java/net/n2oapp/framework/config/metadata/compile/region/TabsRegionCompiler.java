@@ -1,6 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
+import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
@@ -8,14 +11,16 @@ import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
+import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция региона в виде вкладок.
+ * Компиляция региона в виде вкладок
  */
 @Component
 public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRegion> {
@@ -34,9 +39,9 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
     public TabsRegion compile(N2oTabsRegion source, PageContext context, CompileProcessor p) {
         TabsRegion region = new TabsRegion();
         build(region, source, p);
-        region.setTabs(new ArrayList<>());
-        region.setPlace(source.getPlace());
-        region.setItems(initItems(source, p, TabsRegion.Tab.class));
+        IndexScope indexScope = p.getScope(IndexScope.class);
+        PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
+        region.setItems(initItems(source, indexScope, pageWidgetsScope, context, p));
         region.setAlwaysRefresh(source.getAlwaysRefresh() != null ? source.getAlwaysRefresh() : false);
         region.setLazy(p.cast(source.getLazy(), p.resolve(property("n2o.api.region.tabs.lazy"), Boolean.class)));
         compileTabsRoute(source, region.getId(), p);
@@ -63,28 +68,27 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         return createId(regionPlace, "tab", p);
     }
 
-    @Override
-    protected TabsRegion.Tab createItem(N2oWidget widget, IndexScope index, CompileProcessor p) {
-        TabsRegion.Tab tab = new TabsRegion.Tab();
-        boolean first = index.isFirst();
-        tab.setId("tab" + index.get());
 
-        String label = null;
-        String icon = null;
-        if (widget.getRefId() != null) {
-            N2oWidget referable = p.getSource(widget.getRefId(), widget.getClass());
-            if (referable != null) {
-                label = referable.getName();
-                icon = referable.getIcon();
+    protected List<TabsRegion.Tab> initItems(N2oTabsRegion source, IndexScope index, PageWidgetsScope pageWidgetsScope,
+                                             PageContext context, CompileProcessor p) {
+        List<TabsRegion.Tab> items = new ArrayList<>();
+        if (source.getTabs() != null)
+            for (N2oTabsRegion.Tab t : source.getTabs()) {
+                TabsRegion.Tab tab = new TabsRegion.Tab();
+                tab.setId(createId(null, source.getAlias(), p));
+                tab.setLabel(t.getName());
+                List<Compiled> content = new ArrayList<>();
+                if (t.getContent() != null)
+                    for (SourceComponent item : t.getContent())
+                        if (item instanceof N2oWidget)
+                            pageWidgetsScope.getWidgets().keySet().stream()
+                                    .filter(k -> k.endsWith(((N2oWidget) item).getId())).findFirst()
+                                    .ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s)));
+                        else if (item instanceof N2oRegion)
+                            content.add(p.compile(item, context, p, index));
+                tab.setContent(content);
+                items.add(tab);
             }
-        }
-        tab.setLabel(p.cast(widget.getName(), label));
-        tab.setIcon(p.cast(widget.getIcon(), icon));
-
-        tab.setOpened(p.cast(widget.getOpened(), first ? true : null, false));
-        tab.setFetchOnInit(tab.getOpened());
-        tab.setProperties(p.mapAttributes(widget));
-        return tab;
+        return items;
     }
-
 }

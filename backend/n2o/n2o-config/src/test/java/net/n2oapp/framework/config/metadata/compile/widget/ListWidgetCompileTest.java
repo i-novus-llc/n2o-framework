@@ -22,6 +22,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ * Тестирование компиляции виджета Список
+ */
 public class ListWidgetCompileTest extends SourceCompileTestBase {
     @Override
     @Before
@@ -38,8 +41,10 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testListWidget() {
-        ListWidget listWidget = (ListWidget) compile("net/n2oapp/framework/config/metadata/compile/widgets/testListWidgetCompile.widget.xml",
-                "net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml", "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
+        ListWidget listWidget = (ListWidget) compile(
+                "net/n2oapp/framework/config/metadata/compile/widgets/testListWidgetCompile.widget.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
                 .get(new WidgetContext("testListWidgetCompile"));
 
         assertThat(listWidget.getId(), is("$testListWidgetCompile"));
@@ -71,7 +76,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testListWidgetRowClick.page.xml")
                 .get(new PageContext("testListWidgetRowClick"));
         List<RowClick> rowClicks = new ArrayList<>();
-        page.getWidgets().forEach((s, widget) -> rowClicks.add(((ListWidget) widget).getRowClick()));
+        page.getRegions().get("right").get(0).getContent().forEach(c -> rowClicks.add(((ListWidget) c).getRowClick()));
 
         assertThat(rowClicks.size(), is(9));
         assertThat(rowClicks.get(0), nullValue());

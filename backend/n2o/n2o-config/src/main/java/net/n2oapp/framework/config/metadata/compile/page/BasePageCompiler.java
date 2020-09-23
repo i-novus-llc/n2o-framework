@@ -1,12 +1,14 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.exception.N2oException;
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -22,14 +24,13 @@ import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarPlaceScope;
-import net.n2oapp.framework.config.metadata.compile.widget.MetaActions;
-import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetObjectScope;
-import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.metadata.compile.widget.*;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -40,19 +41,18 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
 public abstract class BasePageCompiler<S extends N2oBasePage, D extends StandardPage> extends PageCompiler<S, D> {
 
     protected abstract void initRegions(S source, D page, CompileProcessor p, PageContext context,
-                                        PageScope pageScope, PageRoutes pageRoutes);
+                                        PageScope pageScope, PageRoutes pageRoutes, PageWidgetsScope pageWidgetsScope);
 
-    public D compilePage(S source, D page, PageContext context, CompileProcessor p, N2oRegion[] regions, SearchBarScope searchBarScope) {
-        List<N2oWidget> sourceWidgets = collectWidgets(regions);
+    public D compilePage(S source, D page, PageContext context, CompileProcessor p, SourceComponent[] items, SearchBarScope searchBarScope) {
+        List<N2oWidget> sourceWidgets = collectWidgets(items);
         String pageRoute = initPageRoute(source, context, p);
         page.setId(p.cast(context.getClientPageId(), RouteUtil.convertPathToId(pageRoute)));
         PageScope pageScope = new PageScope();
         pageScope.setPageId(page.getId());
-        String resultWidgetId = null;
+        N2oWidget resultWidget = initResultWidget(context, sourceWidgets);
         if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType())) {
             pageScope.setObjectId(source.getObjectId());
-            resultWidgetId = initResultWidgetId(context, sourceWidgets);
-            pageScope.setResultWidgetId(resultWidgetId);
+            pageScope.setResultWidgetId(resultWidget == null ? null : resultWidget.getId());
         }
         String pageName = p.cast(context.getPageName(), source.getName());
         boolean showTitle = p.cast(source.getShowTitle(), p.resolve(property("n2o.api.default.page.show_title"), Boolean.class), false);
@@ -60,93 +60,86 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         page.setProperties(p.mapAttributes(source));
         BreadcrumbList breadcrumb = initBreadcrumb(pageName, context, p);
         page.setBreadcrumb(breadcrumb);
-        page.setWidgets(new StrictMap<>());
         Models models = new Models();
         page.setModels(models);
         //init base route
         PageRoutes pageRoutes = new PageRoutes();
         pageRoutes.addRoute(new PageRoutes.Route(pageRoute));
-        initDefaults(context, sourceWidgets);
+        if (resultWidget != null) initDefaults(context, resultWidget);
         ParentRouteScope routeScope = new ParentRouteScope(pageRoute, context.getPathRouteMapping(), context.getQueryRouteMapping());
         ValidationList validationList = new ValidationList(new HashMap<>());
         PageRoutesScope pageRoutesScope = new PageRoutesScope();
         //compile widget
         WidgetObjectScope widgetObjectScope = new WidgetObjectScope();
-        page.setWidgets(initWidgets(routeScope, pageRoutes, sourceWidgets, context, p, pageScope, breadcrumb,
-                validationList, models, pageRoutesScope, widgetObjectScope, searchBarScope));
+        Map<String, Widget> compiledWidgets = initWidgets(routeScope, pageRoutes, sourceWidgets, context, p, pageScope, breadcrumb,
+                validationList, models, pageRoutesScope, widgetObjectScope, searchBarScope);
         registerRoutes(pageRoutes, context, p);
         page.setRoutes(pageRoutes);
         //compile region
-        initRegions(source, page, p, context, pageScope, pageRoutes);
+        initRegions(source, page, p, context, pageScope, pageRoutes, new PageWidgetsScope(compiledWidgets));
         CompiledObject object = source.getObjectId() != null ? p.getCompiled(new ObjectContext(source.getObjectId())) : null;
         page.setObject(object);
         page.setSrc(p.cast(source.getSrc(), p.resolve(property(getPropertyPageSrc()), String.class)));
         page.setProperties(p.mapAttributes(source));
         if (context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))
-            initToolbarGenerate(source, resultWidgetId);
+            initToolbarGenerate(source, resultWidget == null ? null : resultWidget.getId());
         MetaActions metaActions = new MetaActions();
         compileToolbarAndAction(page, source, context, p, metaActions, pageScope, routeScope, pageRoutes, object, breadcrumb,
-                validationList, page.getWidgets(), widgetObjectScope);
+                validationList, compiledWidgets, widgetObjectScope);
         page.setActions(metaActions);
         return page;
     }
 
-    protected List<N2oWidget> collectWidgets(N2oRegion[] regions) {
+    protected List<N2oWidget> collectWidgets(SourceComponent[] items) {
         List<N2oWidget> result = new ArrayList<>();
-        Map<String, Integer> ids = new HashMap<>();
-        if (regions != null) {
-            for (N2oRegion region : regions) {
-                if (!ids.containsKey(region.getAlias())) {
-                    ids.put(region.getAlias(), 1);
-                }
-                if (region.getWidgets() != null) {
-                    result.addAll(Arrays.stream(region.getWidgets()).map(w -> {
-                        if (w.getId() == null) {
-                            String widgetPrefix = region.getAlias();
-                            w.setId(widgetPrefix + ids.put(widgetPrefix, ids.get(widgetPrefix) + 1));
-                        }
-                        return w;
-                    }).collect(Collectors.toList()));
-                }
-            }
+        if (items != null) {
+            Map<String, Integer> ids = new HashMap<>();
+            addWidgets(items, result, ids, "w");
         }
         return result;
     }
 
-    private void initDefaults(PageContext context, List<N2oWidget> sourceWidgets) {
-        if ((context.getPreFilters() != null && !context.getPreFilters().isEmpty()) || (context.getUpload() != null)) {
-            N2oWidget widget = initResultWidget(context, sourceWidgets);
-            widget.addPreFilters(context.getPreFilters());
-            widget.setUpload(context.getUpload());
+    private void addWidgets(SourceComponent[] items, List<N2oWidget> result,
+                            Map<String, Integer> ids, String prefix) {
+        if (!ids.containsKey(prefix))
+            ids.put(prefix, 1);
+        for (SourceComponent item : items) {
+            if (item instanceof N2oWidget) {
+                N2oWidget widget = ((N2oWidget) item);
+                if (widget.getId() == null)
+                    widget.setId(prefix + ids.put(prefix, ids.get(prefix) + 1));
+                result.add(widget);
+            } else if (item instanceof N2oTabsRegion) {
+                if (((N2oTabsRegion) item).getTabs() != null)
+                    for (N2oTabsRegion.Tab tab : ((N2oTabsRegion) item).getTabs())
+                        if (tab.getContent() != null)
+                            addWidgets(tab.getContent(), result, ids, ((N2oTabsRegion) item).getAlias());
+            } else if (item instanceof N2oRegion && ((N2oRegion) item).getContent() != null)
+                addWidgets(((N2oRegion) item).getContent(), result, ids, ((N2oRegion) item).getAlias());
         }
     }
 
-    private String initResultWidgetId(PageContext context, List<N2oWidget> sourceWidgets) {
-        String resultWidgetId = context.getResultWidgetId();
-        if (resultWidgetId == null) {
-            List<N2oWidget> sourceIndependents = getSourceIndependents(sourceWidgets);
-            if (sourceIndependents.size() == 1)
-                resultWidgetId = sourceIndependents.get(0).getId();//todo может быть не задан id в виджете
-            else
-                throw new N2oException("Can't get result widget id. There were two independent's widgets");
+    private void initDefaults(PageContext context, N2oWidget resultWidget) {
+        if (resultWidget != null && ((context.getPreFilters() != null && !context.getPreFilters().isEmpty()) || (context.getUpload() != null))) {
+            resultWidget.addPreFilters(context.getPreFilters());
+            resultWidget.setUpload(context.getUpload());
         }
-        return resultWidgetId;
     }
 
     private N2oWidget initResultWidget(PageContext context, List<N2oWidget> sourceWidgets) {
         String resultWidgetId = context.getResultWidgetId();
         if (resultWidgetId != null) {
             for (N2oWidget sourceWidget : sourceWidgets) {
-                if (sourceWidget.getId() != null && sourceWidget.getId().equals(resultWidgetId))
+                if (resultWidgetId.equals(sourceWidget.getId()))
                     return sourceWidget;
             }
             throw new N2oException("Widget " + resultWidgetId + " not found!");
         } else {
             List<N2oWidget> sourceIndependents = getSourceIndependents(sourceWidgets);
-            if (sourceIndependents.size() == 1)
-                return sourceIndependents.get(0);//todo может быть не задан id в виджете
+            if (!sourceIndependents.isEmpty())
+                return sourceIndependents.get(0);
             else
-                throw new N2oException("Can't get result widget id. There were two independent's widgets");
+                return null;
         }
     }
 

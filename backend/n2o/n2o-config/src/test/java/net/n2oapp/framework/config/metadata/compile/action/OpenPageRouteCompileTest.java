@@ -1,13 +1,15 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
+import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
+import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
@@ -45,7 +47,8 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
-        LinkActionImpl action = (LinkActionImpl) page.getWidgets().get("test_detail").getActions().get("withParam");
+        LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
+                .getActions().get("withParam");
         assertThat(action.getUrl(), is("/test/master/:masterId/detail/:detailId/open1"));
         assertThat(action.getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getQueryMapping().isEmpty(), is(true));
@@ -61,7 +64,8 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
-        LinkActionImpl action = (LinkActionImpl) page.getWidgets().get("test_detail").getActions().get("withoutParam");
+        LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
+                .getActions().get("withoutParam");
         assertThat(action.getUrl(), is("/test/master/:masterId/detail/open2"));
         assertThat(action.getQueryMapping().get("test_detail_detailId"), notNullValue());
     }
@@ -75,7 +79,8 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
-        LinkActionImpl action = (LinkActionImpl) page.getWidgets().get("test_detail").getActions().get("withParamWithoutMasterDetail");
+        LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
+                .getActions().get("withParamWithoutMasterDetail");
         assertThat(action.getUrl(), is("/test/master/:masterId/detail/:detailId/open3"));
         assertThat(action.getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getQueryMapping().isEmpty(), is(true));

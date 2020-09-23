@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,13 +35,6 @@ public class PanelRegion extends Region {
     @JsonProperty
     private Boolean header;
 
-    @Override
-    @JsonProperty("panels")
-    public List<? extends Item> getItems() {
-        return super.getItems();
-    }
-
-
     @Getter
     @Setter
     public static class Panel extends Item {
@@ -50,5 +42,4 @@ public class PanelRegion extends Region {
         private String icon;
     }
 }
-
 

@@ -3,7 +3,7 @@
 Тип метаданных:: `page`
 Библиотека компонентов::
 ```
-http://n2oapp.net/framework/config/schema/page-2.0
+http://n2oapp.net/framework/config/schema/page-3.0
 ```
 === <simple-page>
 Страница с единственным виджетом.
@@ -12,7 +12,7 @@ http://n2oapp.net/framework/config/schema/page-2.0
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
     name="Моя страница">
     <form>...</form>
 </simple-page>
@@ -91,7 +91,7 @@ link:#_Виджеты[Виджет]
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
     name="Моя страница">
     <regions>...</regions>
     <actions>...</actions>
@@ -140,7 +140,7 @@ link:#_Регионы_<left-right-page>[Регионы <left> <right>]
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
     name="Моя страница">
     <actions>...</actions>
     <toolbar>...</toolbar>
@@ -195,7 +195,7 @@ link:#_Регионы_<top-left-right-page>[Регионы <top> <left> <right>]
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
     name="Моя страница">
     <actions>...</actions>
     <toolbar>...</toolbar>
@@ -247,7 +247,7 @@ link:#_Поисковая_строка[Поисковая строка]
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+<searchable-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
     name="Моя страница">
     <search-bar/>
     <regions>...</regions>
@@ -261,11 +261,13 @@ link:#_Поисковая_строка[Поисковая строка]
 
 Тело::
 Список link:#_Регионы[регионов]
+Список link:#_Виджеты[виджетов]
 
 Пример::
 [source,xml]
 ----
 <regions>
+  <form>...</form>
   <tabs>...</tabs>
   <line>...</line>
   <panel>...</panel>
@@ -406,6 +408,10 @@ link:#_Действия[Обработчик действия]
 <right width="60%">...</right>
 ----
 
+Тело::
+Список link:#_Регионы[регионов]
+Список link:#_Виджеты[виджетов]
+
 ==== <top> <left> <right>
 Регионы <top-left-right-page>.
 
@@ -439,6 +445,10 @@ link:#_Действия[Обработчик действия]
 <left width="40%">...</left>
 <right fixed="true" width="60%" offset="100">...</right>
 ----
+
+Тело::
+Список link:#_Регионы[регионов]
+Список link:#_Виджеты[виджетов]
 
 ==== <search-bar>
 Поисковая строка.
@@ -558,7 +568,7 @@ link:#_Кнопки_link[Ссылка]
 
 Библиотека компонентов::
 ```
-http://n2oapp.net/framework/config/schema/region-1.0
+http://n2oapp.net/framework/config/schema/region-2.0
 ```
 === Базовые свойства
 
@@ -594,10 +604,6 @@ http://n2oapp.net/framework/config/schema/region-1.0
 
 |===
 
-
-Тело::
-Список link:#_Виджеты[виджетов]
-
 === <tabs>
 Регион в виде вкладок.
 
@@ -632,10 +638,43 @@ http://n2oapp.net/framework/config/schema/region-1.0
 [source,xml]
 ----
 <tabs always-refresh="true">
-  <table>...</table> <!-- Первая вкладка -->
-  <form>...</form>   <!-- Вторая вкладка -->
+  <tab> <!-- Первая вкладка -->
+    ...
+  </tab>
+  <tab> <!-- Вторая вкладка -->
+    ...
+  </tab>
 </tabs>
 ----
+
+=== <tab>
+Вкладка.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|name
+|Строка
+|Наименование вкладки
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<tab name="Tab1">
+  <form/>
+  <panel/>
+  <table/>
+</tab>
+----
+
+Тело::
+Список link:#_Регионы[регионов]
+Список link:#_Виджеты[виджетов]
 
 === <line>
 Регион с горизонтальным делителем.
@@ -649,15 +688,26 @@ http://n2oapp.net/framework/config/schema/region-1.0
 |true false
 |Возможность раскрытия и сворачивания виджетов
 
+|name
+|Строка
+|Наименование вкладки
+|
+
 |===
 
 Пример::
 [source,xml]
 ----
-<line collapsible="true">
-  <table>...</table>
+<line collapsible="true" name="Line1">
+  <table/>
+  <panel/>
+  <form/>
 </line>
 ----
+
+Тело::
+Список link:#_Регионы[регионов]
+Список link:#_Виджеты[виджетов]
 
 === <panel>
 Регион в виде панелей.
@@ -708,18 +758,29 @@ http://n2oapp.net/framework/config/schema/region-1.0
 [source,xml]
 ----
 <panel collapsible="true" class="bg-primary">
-  <table>...</table>
+  <form/>
+  <line/>
+  <table/>
 </panel>
 ----
 
+Тело::
+Список link:#_Регионы[регионов]
+Список link:#_Виджеты[виджетов]
+
 === <region>
 Кастомный регион.
-
 
 Пример::
 [source,xml]
 ----
 <region>
-  <table>...</table>
+  <table/>
+  <tabs/>
+  <form/>
 </region>
 ----
+
+Тело::
+Список link:#_Регионы[регионов]
+Список link:#_Виджеты[виджетов]

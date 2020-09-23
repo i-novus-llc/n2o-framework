@@ -5,10 +5,11 @@ import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
-import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
@@ -27,7 +28,7 @@ import static org.hamcrest.Matchers.*;
 /**
  * Проверка копиляции invoke-action
  */
-public class InvokeActionCompileTest  extends SourceCompileTestBase {
+public class InvokeActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @Before
@@ -111,9 +112,9 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         DataSet data = new DataSet().add("parent_id", 123);
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionBind.page.xml")
                 .get(new PageContext("testInvokeActionBind", "/p/:parent_id/create"), data);
-        InvokeAction a1 = (InvokeAction) page.getWidgets().get("p_create_w1").getActions().get("a1");
+        InvokeAction a1 = (InvokeAction) ((Widget) page.getRegions().get("left").get(0).getContent().get(0)).getActions().get("a1");
         assertThat(a1.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/w1/a1"));
-        InvokeAction a2 = (InvokeAction) page.getWidgets().get("p_create_w2").getActions().get("a2");
+        InvokeAction a2 = (InvokeAction) ((Widget) page.getRegions().get("right").get(0).getContent().get(0)).getActions().get("a2");
         assertThat(a2.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/w2/:p_create_w2_id/a2"));
     }
 
@@ -123,7 +124,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         PageContext context = new PageContext("testInvokeActionBind", "/p/:parent_id/create");
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionBind.page.xml")
                 .get(context, data);
-        InvokeAction a1 = (InvokeAction) page.getWidgets().get("p_create_w1").getActions().get("a1");
+        InvokeAction a1 = (InvokeAction) ((Widget) page.getRegions().get("left").get(0).getContent().get(0)).getActions().get("a1");
         assertThat(a1.getMeta().getSuccess().getRedirect().getPath(), is("/p/123"));
     }
 

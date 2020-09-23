@@ -4,8 +4,8 @@ import net.n2oapp.framework.access.integration.metadata.transform.PageAccessTran
 import net.n2oapp.framework.access.integration.metadata.transform.WidgetAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -19,9 +19,7 @@ import org.junit.Test;
 
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 public class PageAccessTransformerTest extends SourceCompileTestBase {
     @Override
@@ -40,26 +38,6 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testRegion() {
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testRegion");
-
-        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testRegion.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testRegionAccessTransformer.page.xml");
-
-        StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform()).get(new PageContext("testRegionAccessTransformer"));
-        Security.SecurityObject regionSecurityObject = ((Security) page.getRegions().get("single").get(0).getItems().get(0)
-                .getProperties()
-                .get(SECURITY_PROP_NAME))
-                .getSecurityMap()
-                .get("object");
-
-        Security.SecurityObject widgetSecurityObject = ((Security) page.getWidgets()
-                .get("testRegionAccessTransformer_testTable").getProperties()
-                .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        assertThat(regionSecurityObject, equalTo(widgetSecurityObject));
-    }
-
-    @Test
     public void testRegionV2() {
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testRegionV2");
 
@@ -68,18 +46,18 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
 
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testRegionAccessTransformer"));
-        Security.SecurityObject regionSecurityObject = ((Security) page.getRegions().get("single").get(0).getItems().get(0)
+        Security.SecurityObject regionSecurityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getProperties()
                 .get(SECURITY_PROP_NAME))
                 .getSecurityMap()
                 .get("object");
 
-        Security.SecurityObject widgetSecurityObject = ((Security) page.getWidgets()
-                .get("testRegionAccessTransformer_testTable").getProperties()
+        Security.SecurityObject widgetSecurityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+                .getProperties()
                 .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(regionSecurityObject, equalTo(widgetSecurityObject));
 
-        Security.SecurityObject pageSecurityObject = ((Security)page.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page");
+        Security.SecurityObject pageSecurityObject = ((Security) page.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("page");
         assertThat(pageSecurityObject.getRoles(), nullValue());
         assertThat(pageSecurityObject.getPermissions().size(), is(1));
         assertThat(pageSecurityObject.getUsernames(), nullValue());

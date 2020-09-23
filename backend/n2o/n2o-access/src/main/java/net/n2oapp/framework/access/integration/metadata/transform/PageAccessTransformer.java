@@ -8,12 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.region.Region;
-import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Трансформатор доступа страницы
@@ -31,17 +26,6 @@ public class PageAccessTransformer extends BaseAccessTransformer<StandardPage, C
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
                 p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
         collectPageAccess(compiled, context.getSourceId((BindProcessor) p), accessSchema, p);
-        Map<String, Widget> widgets = compiled.getWidgets();
-        if (compiled.getRegions() != null) {
-            for (List<Region> regions : compiled.getRegions().values()) {
-                for (Region region : regions) {
-                    for (Region.Item item : region.getItems()) {
-                        Widget w = widgets.get(item.getWidgetId());
-                        transfer(w, item);
-                    }
-                }
-            }
-        }
         return compiled;
     }
 }

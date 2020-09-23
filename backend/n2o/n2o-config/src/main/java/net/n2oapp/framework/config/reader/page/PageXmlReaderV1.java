@@ -43,7 +43,7 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
         if (regionsElem != null) {
             readRegions(n2oPage, regions, regionsElem);
         }
-        n2oPage.setRegions(regions.toArray(new N2oRegion[regions.size()]));
+        n2oPage.setItems(regions.toArray(new N2oRegion[regions.size()]));
         n2oPage.setModalWidth(ReaderJdomUtil.getElementString(root, "modal-width"));
         n2oPage.setMinModalWidth(ReaderJdomUtil.getElementString(root, "modal-min-width"));
         n2oPage.setMaxModalWidth(ReaderJdomUtil.getElementString(root, "modal-max-width"));
@@ -65,11 +65,11 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
             region.setWidth(getAttributeString(element, "width"));
             region.setName(getAttributeString(element, "name"));
             List<N2oWidget> widgets = new ArrayList<>();
-            for(Object c : widgetElements) {
+            for (Object c : widgetElements) {
                 N2oWidget wgt = readWidget((Element) c, readerFactory);
                 widgets.add(wgt);
             }
-            region.setWidgets(widgets.toArray(new N2oWidget[widgets.size()]));
+            region.setContent(widgets.toArray(new N2oWidget[widgets.size()]));
             regions.add(region);
         }
     }
@@ -83,18 +83,26 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
                 region = new N2oTabsRegion();
             }
         } else {
-            if (type.equals("tabs")) {
-                region = new N2oTabsRegion();
-            } else if (type.equals("panel")) {
-                region = new N2oPanelRegion();
-            } else if(type.equals("pills")) {
-                region = new N2oPillsRegion();
-            } else if(type.equals("line") || type.equals("list")) {
-                region = new N2oLineRegion();
-            } else if(type.equals("select")) {
-                region = new N2oSelectRegion();
-            } else {
-                region = new N2oNoneRegion();
+            switch (type) {
+                case "tabs":
+                    region = new N2oTabsRegion();
+                    break;
+                case "panel":
+                    region = new N2oPanelRegion();
+                    break;
+                case "pills":
+                    region = new N2oPillsRegion();
+                    break;
+                case "line":
+                case "list":
+                    region = new N2oLineRegion();
+                    break;
+                case "select":
+                    region = new N2oSelectRegion();
+                    break;
+                default:
+                    region = new N2oNoneRegion();
+                    break;
             }
         }
         return region;
@@ -103,17 +111,17 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
     private void readContainers(N2oStandardPage n2oPage, List<N2oRegion> regions, Element containers) {
         n2oPage.setResultContainer(getAttributeString(containers, "result-container"));
         List containerElements = containers.getChildren();
-        for(Object c : containerElements) {
+        for (Object c : containerElements) {
             Element container = (Element) c;
             N2oRegion region;
             if (containerElements.size() == 1) {
                 region = new N2oNoneRegion();
+                N2oWidget widget = readWidget(container, readerFactory);
+                ((N2oNoneRegion) region).setContent(new N2oWidget[]{widget});
             } else {
                 region = new N2oTabsRegion();
             }
             region.setPlace(getAttributeString(container, "place"));
-            N2oWidget widget = readWidget(container, readerFactory);
-            region.setWidgets(new N2oWidget[]{widget});
             regions.add(region);
         }
     }

@@ -14,7 +14,7 @@ import org.junit.Ignore;
 
 /**
  * Тестирвоание маппинга java модели в json для простого региона
- * @Deprecated replaced by {@link CustomRegionJsonTest}
+ * @Deprecated
  */
 @Deprecated
 public class NoneRegionJsonTest extends JsonMetadataTestBase {

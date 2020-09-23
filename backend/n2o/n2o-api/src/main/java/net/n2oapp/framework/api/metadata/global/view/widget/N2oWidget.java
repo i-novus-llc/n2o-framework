@@ -5,8 +5,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.aware.CssClassAware;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
-import net.n2oapp.framework.api.metadata.aware.NameAware;
-import net.n2oapp.framework.api.metadata.aware.RefIdAware;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -26,8 +24,7 @@ import java.util.Map;
  */
 @Getter
 @Setter
-public abstract class N2oWidget extends N2oMetadata
-        implements NameAware, RefIdAware, CssClassAware, ExtensionAttributesAware {
+public abstract class N2oWidget extends N2oMetadata implements CssClassAware, ExtensionAttributesAware {
     private String src;
     private String customize;
     private String name;
