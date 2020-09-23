@@ -3,6 +3,9 @@ package net.n2oapp.framework.boot.camunda;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * Представление задачи пользователя (org.camunda.bpm.engine.task.Task) с переменными
+ */
 public interface ExtTask {
 
     String getId();

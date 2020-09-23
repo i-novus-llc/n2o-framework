@@ -3,6 +3,9 @@ package net.n2oapp.framework.boot.camunda;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Интерфейс для работы с разными движками Camunda
+ */
 public interface CamundaProxyEngine {
 
     Long getCountTasks(Map<String, Object> inParams);

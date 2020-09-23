@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Сервис для работы со встроенным движком Camunda
+ */
 public class EmbeddedCamundaProxyEngine implements CamundaProxyEngine {
 
     @Autowired

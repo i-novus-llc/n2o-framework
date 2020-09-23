@@ -6,6 +6,9 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * Представление задачи пользователя (org.camunda.bpm.engine.task.Task) с переменными
+ */
 @Getter
 @Setter
 public class ExtTaskImpl implements ExtTask {

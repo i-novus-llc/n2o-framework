@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
+/**
+ * Сервис для выполнения запросов к Camunda
+ */
 public class CamundaDataProviderEngine implements MapInvocationEngine<N2oCamundaDataProvider> {
 
     @Autowired
