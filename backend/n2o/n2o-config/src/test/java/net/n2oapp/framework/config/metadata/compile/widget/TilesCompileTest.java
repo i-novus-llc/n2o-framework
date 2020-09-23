@@ -47,28 +47,24 @@ public class TilesCompileTest extends SourceCompileTestBase {
         assertThat(tiles.getPaging().getSize(), is(10));
 
         Tiles.Tile tile = tiles.getTile().get(0);
-        assertThat(tile.getId(), is("id1"));
-        assertThat(tile.getClassName(), is("test1"));
-        assertThat(tile.getStyle().size(), is(1));
-        assertThat(tile.getStyle().get("style"), is("test1"));
-        assertThat(tile.getSrc(), is("tile1"));
+        assertThat(tile.getId(), is("test1"));
         assertThat(tile.getComponent().getSrc(), is("cell1"));
 
         tile = tiles.getTile().get(1);
         assertThat(tile.getId(), is("id2"));
-        assertThat(tile.getSrc(), is("tile2"));
         assertThat(tile.getComponent(), instanceOf(N2oTextCell.class));
         assertThat(tile.getComponent().getSrc(), is("TextCell"));
+        assertThat(tile.getComponent().getId(), is("id2"));
+        assertThat(((N2oTextCell) tile.getComponent()).getFieldKey(), is("test2"));
+        assertThat(((N2oTextCell) tile.getComponent()).getTooltipFieldId(), is("tooltip"));
 
         tile = tiles.getTile().get(2);
-        assertThat(tile.getId(), is("id3"));
-        assertThat(tile.getSrc(), is("ImageCell"));
+        assertThat(tile.getId(), is("test3"));
         assertThat(tile.getComponent(), instanceOf(N2oImageCell.class));
         assertThat(((N2oImageCell) tile.getComponent()).getUrl(), is("/test"));
 
         tiles = (Tiles) page.getWidgets().get("testTilesCompile_tiles2");
         assertThat(tiles.getSrc(), is("TilesWidget"));
-        assertThat(tiles.getTile().get(0).getSrc(), is("cell2"));
         assertThat(tiles.getColsSm(), is(2));
         assertThat(tiles.getColsMd(), is(3));
         assertThat(tiles.getColsLg(), is(5));

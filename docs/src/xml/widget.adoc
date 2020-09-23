@@ -1604,19 +1604,14 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 |Идентификатор ресурса
 |
 
-|class
+|text-field-id
 |Строка
-|Имя класса
+|Поле выборки, отображаемое в блоке
 |
 
-|style
+|tooltip-field-id
 |Строка
-|Css стиль блока
-|
-
-|src
-|React компонент
-|Реализация карточки
+|Поле выборки, отображаемое при наведении на ячейку
 |
 
 |===
@@ -1624,7 +1619,7 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 Пример::
 [source,xml]
 ----
-<block id="id2">
+<block text-field-id="id" tooltip-field-id="tooltip">
     <text/>
 </block>
 ----

@@ -4,20 +4,20 @@
         <region>
             <tiles id="tiles1" cols-sm="1" cols-md="2" cols-lg="4" height="450" width="300">
                 <content>
-                    <block id="id1" class="test1" style="style:test1" src="tile1">
+                    <block text-field-id="test1">
                         <cell src="cell1"/>
                     </block>
-                    <block id="id2" src="tile2">
+                    <block id="id2" text-field-id="test2" tooltip-field-id="tooltip">
                         <text/>
                     </block>
-                    <block id="id3">
+                    <block text-field-id="test3">
                         <image url="/test"/>
                     </block>
                 </content>
             </tiles>
             <tiles id="tiles2">
                 <content>
-                    <block id="id1">
+                    <block text-field-id="test4">
                         <cell src="cell2"/>
                     </block>
                 </content>

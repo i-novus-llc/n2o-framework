@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Tiles;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
+import net.n2oapp.framework.config.metadata.compile.ComponentScope;
+import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 import org.springframework.stereotype.Component;
@@ -57,11 +59,19 @@ public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
 
         List<Tiles.Tile> tls = new ArrayList<>(source.getContent().length);
         for (N2oTiles.Block block : source.getContent()) {
-            tls.add(p.compile(block, context, p));
+            tls.add(compileBlock(block, context, p));
         }
         tiles.setTile(tls);
         tiles.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.tiles.size"), Integer.class)));
         return tiles;
+    }
+
+    private Tiles.Tile compileBlock(N2oTiles.Block source, CompileContext<?, ?> context, CompileProcessor p) {
+        Tiles.Tile tile = new Tiles.Tile();
+        source.setId(p.cast(source.getId(), source.getTextFieldId()));
+        tile.setId(source.getId());
+        tile.setComponent(p.compile(source.getComponent(), context, p, new IndexScope(), new ComponentScope(source)));
+        return tile;
     }
 
     /**
