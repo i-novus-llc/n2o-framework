@@ -2,16 +2,14 @@ package net.n2oapp.framework.boot.camunda;
 
 import net.n2oapp.framework.api.data.MapInvocationEngine;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oCamundaDataProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
 public class CamundaDataProviderEngine implements MapInvocationEngine<N2oCamundaDataProvider> {
 
-    private final CamundaProxyEngine engine;
-
-    public CamundaDataProviderEngine(CamundaProxyEngine engine) {
-        this.engine = engine;
-    }
+    @Autowired
+    private CamundaProxyEngine engine;
 
     @Override
     public Object invoke(N2oCamundaDataProvider invocation, Map<String, Object> inParams) {

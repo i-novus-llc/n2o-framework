@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.camunda.bpm.springboot</groupId>
             <artifactId>camunda-bpm-spring-boot-starter</artifactId>
-            <version>3.4.4</version>
+            <version>7.13.0</version>
         </dependency>
 
         <dependency>
@@ -51,8 +51,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <groupId>org.camunda.bpm.springboot</groupId>
+            <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
+            <version>7.13.0</version>
             <scope>test</scope>
         </dependency>
 

@@ -4,6 +4,7 @@ import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.task.TaskQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
 import java.util.Date;
@@ -13,11 +14,8 @@ import java.util.stream.Collectors;
 
 public class EmbeddedCamundaProxyEngine implements CamundaProxyEngine {
 
-    private final ProcessEngine processEngine;
-
-    public EmbeddedCamundaProxyEngine(ProcessEngine processEngine) {
-        this.processEngine = processEngine;
-    }
+    @Autowired
+    private ProcessEngine processEngine;
 
     @Override
     public Long getCountTasks(Map<String, Object> inParams) {
