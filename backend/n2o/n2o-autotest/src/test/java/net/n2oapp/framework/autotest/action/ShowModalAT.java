@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для действия открытия модального окна
  */
-public class ModalScrollableAT extends AutoTestBase {
+public class ShowModalAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {

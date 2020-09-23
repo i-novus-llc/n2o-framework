@@ -27,6 +27,7 @@
             <xs:element name="calendar" type="calendarReferenceDefinition" minOccurs="0"/>
             <xs:element name="widget" type="customReferenceDefinition" minOccurs="0"/>
             <xs:element name="html" type="htmlReferenceDefinition" minOccurs="0"/>
+            <xs:element name="tiles" type="tilesReferenceDefinition" minOccurs="0"/>
             <xs:any namespace="##other" processContents="strict">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку виджет.</xs:documentation>
