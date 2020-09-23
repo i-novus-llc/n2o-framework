@@ -10,10 +10,9 @@ import DefaultPage from '../DefaultPage';
 function SimplePage({ id, widget, metadata, ...rest }) {
   const slim = get(metadata, 'slim');
   return (
-    <DefaultPage {...rest}>
+    <DefaultPage metadata={metadata} {...rest}>
       <div
-        className={cn({
-          'n2o-simple-page': !slim,
+        className={cn('n2o-simple-page', {
           'n2o-simple-page_slim': slim,
         })}
       >
