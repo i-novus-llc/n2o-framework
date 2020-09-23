@@ -10,10 +10,11 @@ import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 import withWidgetProps from '../withWidgetProps';
+import RegionContent from '../RegionContent';
 
 /**
  * Регион Лист
- * @reactProps {array} items - массив из объектов, которые описывают виджет{id, name, opened, pageId, fetchOnInit, widget}
+ * @reactProps {array} content - массив из объектов, которые описывают виджет{id, name, opened, pageId, fetchOnInit, widget}
  * @reactProps {string} pageId - идентификатор страницы
  * @reactProps {function} getWidget - функция получения виджета
  */
@@ -36,74 +37,89 @@ class ListRegion extends React.Component {
    */
   render() {
     const {
-      items,
+      content,
       getWidget,
       getWidgetProps,
       pageId,
       collapsible,
+      name,
     } = this.props;
 
-    this.activeKeys = map(filter(items, 'opened'), 'widgetId');
+    this.activeKeys = map(filter(content, 'opened'), 'widgetId');
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
     const panelProps = pick(this.props, ['type', 'forceRender', 'collapsible']);
+
     return (
-      <Collapse
-        defaultActiveKey={this.activeKeys}
-        onChange={this.handleChange}
-        collapsible={collapsible}
-        {...collapseProps}
-      >
-        {items.map(item => {
-          const widgetProps = getWidgetProps(item.widgetId);
+      <div className="n2o-list-region">
+        <Collapse
+          defaultActiveKey={this.activeKeys}
+          onChange={this.handleChange}
+          collapsible={collapsible}
+          {...collapseProps}
+        >
+          <span>{name}</span>
+          {content.map(item => {
+            const widgetProps = getWidgetProps(item.widgetId);
 
-          const listItemProps = {
-            key: item.widgetId,
-            id: item.widgetId,
-            header: item.label || item.widgetId,
-            active: item.opened,
-          };
+            const listItemProps = {
+              key: item.widgetId,
+              id: item.widgetId,
+              header: item.label || item.widgetId,
+              active: item.opened,
+            };
 
-          const { security } = item;
-          return isEmpty(security) ? (
-            <Panel
-              {...listItemProps}
-              {...panelProps}
-              style={{ display: widgetProps.isVisible === false ? 'none' : '' }}
-            >
-              <Factory
+            const { security } = item;
+            return isEmpty(security) ? (
+              <Panel
+                {...listItemProps}
+                {...panelProps}
+                style={{
+                  display: widgetProps.isVisible === false ? 'none' : '',
+                }}
+              >
+                {/*<Factory*/}
+                {/*  id={item.widgetId}*/}
+                {/*  level={WIDGETS}*/}
+                {/*  {...getWidget(pageId, item.widgetId)}*/}
+                {/*/>*/}
+                <RegionContent
+                  {...getWidget(pageId, item.widgetId)}
+                  content={[item]}
+                />
+              </Panel>
+            ) : (
+              <SecurityCheck
+                {...listItemProps}
+                config={security}
+                active={item.opened}
                 id={item.widgetId}
-                level={WIDGETS}
-                {...getWidget(pageId, item.widgetId)}
+                render={({ permissions, ...rest }) => {
+                  return permissions ? (
+                    <Panel
+                      {...panelProps}
+                      {...listItemProps}
+                      {...rest}
+                      style={{
+                        display: widgetProps.isVisible === false ? 'none' : '',
+                      }}
+                    >
+                      {/*<Factory*/}
+                      {/*  id={item.widgetId}*/}
+                      {/*  level={WIDGETS}*/}
+                      {/*  {...getWidget(pageId, item.widgetId)}*/}
+                      {/*/>*/}
+                      <RegionContent
+                        {...getWidget(pageId, item.widgetId)}
+                        content={[item]}
+                      />
+                    </Panel>
+                  ) : null;
+                }}
               />
-            </Panel>
-          ) : (
-            <SecurityCheck
-              {...listItemProps}
-              config={security}
-              active={item.opened}
-              id={item.widgetId}
-              render={({ permissions, ...rest }) => {
-                return permissions ? (
-                  <Panel
-                    {...panelProps}
-                    {...listItemProps}
-                    {...rest}
-                    style={{
-                      display: widgetProps.isVisible === false ? 'none' : '',
-                    }}
-                  >
-                    <Factory
-                      id={item.widgetId}
-                      level={WIDGETS}
-                      {...getWidget(pageId, item.widgetId)}
-                    />
-                  </Panel>
-                ) : null;
-              }}
-            />
-          );
-        })}
-      </Collapse>
+            );
+          })}
+        </Collapse>
+      </div>
     );
   }
 }
