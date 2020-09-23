@@ -12,7 +12,8 @@ function SimplePage({ id, widget, metadata, ...rest }) {
   return (
     <DefaultPage metadata={metadata} {...rest}>
       <div
-        className={cn('n2o-simple-page', {
+        className={cn({
+          'n2o-simple-page': !slim,
           'n2o-simple-page_slim': slim,
         })}
       >
