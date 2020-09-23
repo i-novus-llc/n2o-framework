@@ -7,7 +7,7 @@ public interface RatingCell extends Cell {
 
     void maxShouldBe(int max);
 
-    void valueShouldBe(String value);
+    void checkedShouldBe(int index);
 
-    void check(String value);
+    void check(int index);
 }

@@ -47,7 +47,7 @@ public class CalendarWithoutResourcesAT extends AutoTestBase {
         page.shouldExists();
         calendar = page.single().widget(CalendarWidget.class);
         calendar.shouldExists();
-        toolbar = calendar.calendarToolbar();
+        toolbar = calendar.toolbar();
     }
 
     @Override

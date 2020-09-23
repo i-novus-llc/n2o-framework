@@ -2,7 +2,6 @@ package net.n2oapp.framework.autotest.impl.component.cell;
 
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
 import net.n2oapp.framework.autotest.api.component.cell.RatingCell;
 
 /**
@@ -12,22 +11,17 @@ public class N2oRatingCell extends N2oCell implements RatingCell {
 
     @Override
     public void maxShouldBe(int max) {
-        ratingInput().last().shouldHave(Condition.attribute("value", ""+max));
+        element().$$(".rating__input").shouldHaveSize(max + 1);
+        element().$$(".rating__input").last().shouldHave(Condition.attribute("value", ""+max));
     }
 
     @Override
-    public void valueShouldBe(String value) {
-        ratingInput().find(Condition.selected).shouldHave(Condition.value(value));
+    public void checkedShouldBe(int index) {
+        element().$$(".rating__input").get(index).shouldBe(Condition.attribute("checked"));
     }
 
     @Override
-    public void check(String value) {
-        element().$$(".rating__label")
-                .find(Condition.attributeMatching("for", "rating-" + value + ".*"))
-                .click();
-    }
-
-    private ElementsCollection ratingInput() {
-        return element().$$(".rating__input");
+    public void check(int index) {
+        element().$$(".rating__label").get(index).hover().shouldBe(Condition.exist).click();
     }
 }

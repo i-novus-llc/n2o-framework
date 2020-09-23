@@ -249,7 +249,7 @@
                         </xs:annotation>
                     </xs:any>
                 </xs:sequence>
-                <xs:attribute name="enabled" type="xs:boolean" use="optional">
+                <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Доступность чекбокса.</xs:documentation>
                     </xs:annotation>

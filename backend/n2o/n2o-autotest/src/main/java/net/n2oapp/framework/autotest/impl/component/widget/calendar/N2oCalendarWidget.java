@@ -7,14 +7,14 @@ import net.n2oapp.framework.autotest.api.component.widget.calendar.view.Calendar
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarDayView;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarMonthView;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarWeekView;
-import net.n2oapp.framework.autotest.impl.component.widget.N2oStandardWidget;
+import net.n2oapp.framework.autotest.impl.component.widget.N2oWidget;
 
 /**
  * Виджет календарь для автотестирования
  */
-public class N2oCalendarWidget extends N2oStandardWidget implements CalendarWidget {
+public class N2oCalendarWidget extends N2oWidget implements CalendarWidget {
     @Override
-    public CalendarToolbar calendarToolbar() {
+    public CalendarToolbar toolbar() {
         return N2oSelenide.component(element().$(".rbc-toolbar"), CalendarToolbar.class);
     }
 
