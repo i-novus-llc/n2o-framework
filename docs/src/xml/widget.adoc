@@ -1553,12 +1553,21 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 |Количество колонок в десктопной версии
 |5
 
+|height
+|Число
+|Минимальная высота плитки.
+|
+
+|width
+|Число
+|Ширина плитки
+|
+
 |===
 
 Пример::
 [source,xml]
 ----
-
 <tiles id="tiles_id" cols-sm="1" cols-md="2" cols-lg="5">
     <content>
      ...
@@ -1569,22 +1578,21 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 
 ==== <content>
 Содержимое виджета плитки.
-В качестве содержимого используется список блоков (карточек).
 
 Пример::
-
 [source,xml]
 ----
 <content>
- ...
+  <block>...</block>
+  <block>...</block>
 </content>
 ----
 
 Тело::
-Блок (карточка). Каждый блок содержит в себе ячейку с данными.
+Список блоков.
 
 ==== <block>
-Блок (карточка).
+Блок.
 
 Атрибуты::
 [cols="2,1,4,4"]
@@ -1596,19 +1604,14 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 |Идентификатор ресурса
 |
 
-|class
+|text-field-id
 |Строка
-|Имя класса
+|Поле выборки, отображаемое в блоке
 |
 
-|style
+|tooltip-field-id
 |Строка
-|Css стиль блока
-|
-
-|src
-|React компонент
-|Реализация карточки
+|Поле выборки, отображаемое при наведении на ячейку
 |
 
 |===
@@ -1616,10 +1619,13 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 Пример::
 [source,xml]
 ----
-<block id="id2" class="test2" style="test2">
-    <cell/>
+<block text-field-id="id" tooltip-field-id="tooltip">
+    <text/>
 </block>
 ----
+
+Тело::
+link:#_Ячейки[Ячейка]
 
 === <widget>
 Настраиваемый виджет.
