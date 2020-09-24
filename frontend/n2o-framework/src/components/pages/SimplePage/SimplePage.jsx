@@ -7,9 +7,10 @@ import { WIDGETS } from '../../../core/factory/factoryLevels';
 import Factory from '../../../core/factory/Factory';
 import DefaultPage from '../DefaultPage';
 
-function SimplePage({ id, widget, slim, ...rest }) {
+function SimplePage({ id, widget, metadata, ...rest }) {
+  const slim = get(metadata, 'slim');
   return (
-    <DefaultPage {...rest}>
+    <DefaultPage metadata={metadata} {...rest}>
       <div
         className={cn({
           'n2o-simple-page': !slim,
