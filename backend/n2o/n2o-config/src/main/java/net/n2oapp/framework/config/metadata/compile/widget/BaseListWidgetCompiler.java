@@ -23,16 +23,17 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
      * Компиляция паджинации
      */
     protected Pagination compilePaging(N2oAbstractListWidget source, Integer size) {
-        Boolean prev = null;
-        Boolean next = null;
-        if (source.getPagination() != null) {
-            prev = source.getPagination().getPrev();
-            next = source.getPagination().getNext();
-        }
         Pagination pagination = new Pagination();
         pagination.setSize(source.getSize() != null ? source.getSize() : size);
-        pagination.setPrev(prev);
-        pagination.setNext(next);
+        if (source.getPagination() != null) {
+            pagination.setPrev(source.getPagination().getPrev());
+            pagination.setNext(source.getPagination().getNext());
+            pagination.setFirst(source.getPagination().getFirst());
+            pagination.setLast(source.getPagination().getLast());
+            pagination.setHideSinglePage(source.getPagination().getHideSinglePage());
+            pagination.setShowCount(source.getPagination().getShowCount());
+            pagination.setSrc(source.getPagination().getSrc());
+        }
         return pagination;
     }
 
