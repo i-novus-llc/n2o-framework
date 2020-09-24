@@ -2,7 +2,7 @@
   "src": "TabsRegion",
   "alwaysRefresh": true,
   "lazy": true,
-  "items": [
+  "tabs": [
     {
       "id": "tab1",
       "opened": true,
@@ -16,38 +16,65 @@
           "color": "secondary",
           "icon": "fa fa-exclamation",
           "hasTabs": false,
-          "headerTitle": "Заголовок панели",
+          "headerTitle": "PanelRegion in TabRegion",
           "footerTitle": "Подвал панели",
           "open": true,
           "collapsible": true,
           "fullScreen": false,
           "header": true,
-          "panels": [
+          "content": [
             {
-              "icon": "fa fa-plus",
-              "label": "Первый таб",
-              "id": "panel1",
-              "opened": true,
-              "widgetId": "Page_Html",
-              "isVisible": false,
-              "dependency": {
-                "visible": [
-                  {
-                    "bindLink": "models.resolve",
-                    "condition": false
-                  }
-                ]
+              "id": "$testTableJson",
+              "src": "CalendarWidget",
+              "calendar": {
+                "height": "500px",
+                "date": "2020-06-10",
+                "defaultView": "day",
+                "views": [ "day", "week", "month", "agenda" ],
+                "titleFieldId": "name",
+                "tooltipFieldId": "tooltip",
+                "allDayFieldId": "allDay",
+                "startFieldId": "begin",
+                "endFieldId": "end",
+                "cellColorFieldId": "color",
+                "disabledFieldId": "disabled",
+                "markDaysOff": true,
+                "onSelectSlot": {},
+                "onSelectEvent": {},
+                "selectable": true,
+                "step": 60,
+                "timeslots": 3,
+                "formats": {},
+                "actionOnSelectEvent": {
+                  "type": "n2o/button/Dummy"
+                }
               }
             },
             {
-              "icon": "fa fa-plus",
-              "label": "Вторая панель(secure)",
-              "id": "two",
-              "opened": true,
-              "fetchOnInit": false,
-              "widgetId": "Page.SecureHtml",
-              "security": {
-                "roles": ["admin"]
+              "id": "$testTableJson1",
+              "src": "CalendarWidget",
+              "calendar": {
+                "height": "500px",
+                "date": "2020-06-10",
+                "defaultView": "day",
+                "views": [ "day", "week", "month", "agenda" ],
+                "titleFieldId": "name",
+                "tooltipFieldId": "tooltip",
+                "allDayFieldId": "allDay",
+                "startFieldId": "begin",
+                "endFieldId": "end",
+                "cellColorFieldId": "color",
+                "disabledFieldId": "disabled",
+                "markDaysOff": true,
+                "onSelectSlot": {},
+                "onSelectEvent": {},
+                "selectable": true,
+                "step": 60,
+                "timeslots": 3,
+                "formats": {},
+                "actionOnSelectEvent": {
+                  "type": "n2o/button/Dummy"
+                }
               }
             }
           ]

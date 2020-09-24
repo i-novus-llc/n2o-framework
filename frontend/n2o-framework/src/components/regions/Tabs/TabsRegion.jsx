@@ -21,7 +21,7 @@ import RegionContent from '../RegionContent';
 
 /**
  * Регион Таб
- * @reactProps {array} items - массив из объектов, которые описывают виджет {id, name, opened, pageId, fetchOnInit, widget}
+ * @reactProps {array} tabs - массив из объектов, которые описывают виджет {id, name, opened, pageId, fetchOnInit, widget}
  * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {string} pageId - идентификатор страницы
  * @reactProps {function} resolveVisibleDependency - резол видимости таба
@@ -42,7 +42,7 @@ class TabRegion extends React.Component {
 
   handleChangeActive(id, prevId) {
     const {
-      items,
+      tabs,
       lazy,
       alwaysRefresh,
       getWidgetProps,
@@ -51,7 +51,7 @@ class TabRegion extends React.Component {
     } = this.props;
     const { readyTabs } = this.state;
     const widgetId = get(
-      find(items, ({ id: tabId }) => tabId === id),
+      find(tabs, ({ id: tabId }) => tabId === id),
       'widgetId'
     );
     const widgetProps = getWidgetProps(widgetId);
@@ -73,7 +73,7 @@ class TabRegion extends React.Component {
 
   findReadyTabs() {
     return filter(
-      map(this.props.items, tab => {
+      map(this.props.tabs, tab => {
         if (tab.opened) {
           return tab.id;
         }
@@ -84,7 +84,7 @@ class TabRegion extends React.Component {
 
   render() {
     const {
-      items,
+      tabs,
       getWidget,
       getWidgetProps,
       getVisible,
@@ -95,7 +95,7 @@ class TabRegion extends React.Component {
     const { readyTabs, visibleTabs } = this.state;
     return (
       <Tabs activeId={activeEntity} onChangeActive={this.handleChangeActive}>
-        {items.map(tab => {
+        {tabs.map(tab => {
           const { security, content } = tab;
 
           const widgetProps = getWidgetProps(tab.widgetId);
@@ -159,7 +159,7 @@ TabRegion.propTypes = {
   /**
    * Список табов
    */
-  items: PropTypes.array.isRequired,
+  tabs: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
   /**
    * ID странцы
@@ -183,6 +183,6 @@ TabRegion.defaultProps = {
 export { TabRegion };
 export default compose(
   setDisplayName('TabsRegion'),
-  withRegionContainer({ listKey: 'items' }),
+  withRegionContainer({ listKey: 'tabs' }),
   withWidgetProps
 )(TabRegion);
