@@ -11,14 +11,10 @@ import Factory from '../../../core/factory/Factory';
 import DefaultPage from '../DefaultPage';
 
 function SimplePage({ id, widget, metadata, ...rest }) {
-  const hasUnit = !isUndefined(get(metadata, 'unit'));
-  const measure = hasUnit ? get(metadata, 'unit') : 'px';
-  const createSize = size => `${size}${measure}`;
-
   const customWidth = get(metadata, 'width');
   const hasCustomWidth = !isUndefined(customWidth);
 
-  const style = hasCustomWidth ? { width: createSize(customWidth) } : {};
+  const style = hasCustomWidth ? { width: customWidth } : {};
 
   return (
     <DefaultPage metadata={metadata} {...rest}>
