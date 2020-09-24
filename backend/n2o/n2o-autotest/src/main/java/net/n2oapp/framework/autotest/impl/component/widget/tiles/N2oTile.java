@@ -7,7 +7,7 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 public class N2oTile extends N2oComponent implements Tile {
     @Override
-    public Cells cells() {
+    public Cells blocks() {
         return N2oSelenide.collection(element().$$(".n2o-tiles__item > div, .n2o-tiles__item > span"), Cells.class);
     }
 }

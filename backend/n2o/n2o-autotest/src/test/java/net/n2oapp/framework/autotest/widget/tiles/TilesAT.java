@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.tiles.Tile;
 import net.n2oapp.framework.autotest.api.component.widget.tiles.TilesWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -52,21 +53,21 @@ public class TilesAT extends AutoTestBase {
         tiles.shouldExists();
 
         Tile tile1 = tiles.tile(0);
-        tile1.cells().cell(0, ImageCell.class).imageShouldBe(getBaseUrl() + "/favicon.ico");
-        tile1.cells().cell(1, TextCell.class).textShouldHave("text1");
-        IconCell iconCell = tile1.cells().cell(2, IconCell.class);
+        tile1.blocks().cell(0, ImageCell.class).imageShouldBe(getBaseUrl() + "/favicon.ico");
+        tile1.blocks().cell(1, TextCell.class).textShouldHave("text1");
+        IconCell iconCell = tile1.blocks().cell(2, IconCell.class);
         iconCell.iconShouldBe("fa-plus");
         iconCell.textShouldHave("icon1");
         iconCell.hover();
         page.tooltip().shouldHaveText("icon1");
 
-        BadgeCell badgeCell = tile1.cells().cell(3, BadgeCell.class);
+        BadgeCell badgeCell = tile1.blocks().cell(3, BadgeCell.class);
         badgeCell.colorShouldBe(Colors.INFO);
         badgeCell.textShouldHave("alert");
-        tile1.cells().cell(4, ProgressBarCell.class).valueShouldBe("50");
-        tile1.cells().cell(5, RatingCell.class).valueShouldBe("4");
-        tile1.cells().cell(6, CheckboxCell.class).shouldBeChecked();
-        StandardButton open = tile1.cells().cell(7, ToolbarCell.class).toolbar().button("Open");
+        tile1.blocks().cell(4, ProgressBarCell.class).valueShouldBe("50");
+        tile1.blocks().cell(5, RatingCell.class).valueShouldBe("4");
+        tile1.blocks().cell(6, CheckboxCell.class).shouldBeChecked();
+        StandardButton open = tile1.blocks().cell(7, ToolbarCell.class).toolbar().button("Open");
         open.click();
         Modal modal = N2oSelenide.modal();
         modal.shouldExists();
@@ -74,12 +75,12 @@ public class TilesAT extends AutoTestBase {
 
 
         Tile tile2 = tiles.tile(1);
-        tile2.cells().cell(1, TextCell.class).textShouldHave("text2");
-        iconCell = tile2.cells().cell(2, IconCell.class);
+        tile2.blocks().cell(1, TextCell.class).textShouldHave("text2");
+        iconCell = tile2.blocks().cell(2, IconCell.class);
         iconCell.iconShouldBe("fa-minus");
         iconCell.textShouldHave("icon2");
-        tile2.cells().cell(4, ProgressBarCell.class).valueShouldBe("70");
-        tile2.cells().cell(6, CheckboxCell.class).shouldBeUnchecked();
+        tile2.blocks().cell(4, ProgressBarCell.class).valueShouldBe("70");
+        tile2.blocks().cell(6, CheckboxCell.class).shouldBeUnchecked();
     }
 
     @Test
@@ -91,7 +92,7 @@ public class TilesAT extends AutoTestBase {
         TilesWidget tiles = page.single().widget(TilesWidget.class);
         tiles.shouldExists();
 
-        TilesWidget.Paging paging = tiles.paging();
+        Paging paging = tiles.paging();
         paging.activePageShouldBe("1");
         tiles.shouldHaveItems(10);
         paging.totalElementsShouldBe(12);
@@ -99,7 +100,7 @@ public class TilesAT extends AutoTestBase {
         paging.selectPage("2");
         paging.activePageShouldBe("2");
         tiles.shouldHaveItems(2);
-        tiles.tile(0).cells().cell(0, TextCell.class).textShouldHave("text11");
+        tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("text11");
     }
 }
 

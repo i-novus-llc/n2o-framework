@@ -7,13 +7,15 @@ import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
+import net.n2oapp.framework.autotest.impl.component.widget.N2oPaging;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oStandardWidget;
 
 import java.util.List;
 
 /**
- * Виджет - таблица для автотестирования
+ * Виджет таблица для автотестирования
  */
 public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
     @Override
@@ -117,36 +119,5 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         public List<String> columnTexts(int index) {
             return element().$$(".n2o-table-row td:nth-child(" + (++index) + ")").texts();
         }
-    }
-
-    public class N2oPaging implements Paging {
-
-        @Override
-        public void activePageShouldBe(String label) {
-            element().$(".n2o-pagination .page-item.active .page-link").shouldHave(Condition.text(label));
-        }
-
-        @Override
-        public void selectPage(String number) {
-            element().$$(".n2o-pagination .page-item .page-link").findBy(Condition.text(number)).click();
-        }
-
-        @Override
-        public void pagingShouldHave(String number) {
-            element().$$(".n2o-pagination .page-item .page-link").findBy(Condition.text(number)).shouldBe(Condition.exist);
-        }
-
-        @Override
-        public int totalElements() {
-            String info = element().$(".n2o-pagination .n2o-pagination-info").text();
-            info = info.split(" ")[1];
-            return Integer.valueOf(info);
-        }
-
-        @Override
-        public void totalElementsShouldBe(int count) {
-            element().$(".n2o-pagination .n2o-pagination-info").scrollTo().should(Condition.matchesText("" + count));
-        }
-
     }
 }
