@@ -54,7 +54,6 @@ public abstract class N2oWidget extends N2oMetadata implements CssClassAware, Ex
     private String dependencyCondition;
     private String result;
     private String icon;
-    private Boolean opened;
     private String masterFieldId;
     private String detailFieldId;
     private String visible;

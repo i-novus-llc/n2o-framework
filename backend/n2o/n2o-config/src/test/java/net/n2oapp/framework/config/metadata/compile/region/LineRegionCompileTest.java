@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.LineRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
-import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -38,9 +37,29 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testNesting() {
+    public void testLineRegion() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testLineRegion.page.xml")
                 .get(new PageContext("testLineRegion"));
+
+        assertThat(page.getRegions().size(), is(1));
+        List<Region> regions = page.getRegions().get("single");
+        assertThat(regions.size(), is(2));
+
+        assertThat(((LineRegion) regions.get(0)).getSrc(), is("ListRegion"));
+        assertThat(((LineRegion) regions.get(0)).getName(), is("Line1"));
+        assertThat(((LineRegion) regions.get(0)).getCollapsible(), is(false));
+        assertThat(((LineRegion) regions.get(0)).getOpen(), is(false));
+
+        assertThat(((LineRegion) regions.get(1)).getName(), nullValue());
+        assertThat(((LineRegion) regions.get(1)).getCollapsible(), is(true));
+        assertThat(((LineRegion) regions.get(1)).getOpen(), is(true));
+
+    }
+
+    @Test
+    public void testNesting() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/region/testLineRegionNesting.page.xml")
+                .get(new PageContext("testLineRegionNesting"));
 
         assertThat(page.getRegions().size(), is(1));
         List<Region> regions = page.getRegions().get("single");
@@ -49,14 +68,13 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         // LINE1
         assertThat(regions.get(0), instanceOf(LineRegion.class));
         assertThat(regions.get(0).getId(), is("line_0"));
-        assertThat(regions.get(0).getSrc(), is("ListRegion"));
-        assertThat(((LineRegion)regions.get(0)).getName(), is("Line1"));
+        assertThat(((LineRegion) regions.get(0)).getName(), is("Line1"));
         assertThat(((LineRegion) regions.get(0)).getCollapsible(), is(false));
         List<Compiled> content = regions.get(0).getContent();
         assertThat(content.size(), is(3));
         // line form1
         assertThat(content.get(0), instanceOf(Form.class));
-        assertThat(((Form) content.get(0)).getId(), is("testLineRegion_line1"));
+        assertThat(((Form) content.get(0)).getId(), is("testLineRegionNesting_line1"));
         assertThat(((Form) content.get(0)).getName(), is("form1"));
         // line line
         assertThat(content.get(1), instanceOf(LineRegion.class));
@@ -67,7 +85,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(line1Content.size(), is(2));
         // line line form2
         assertThat(line1Content.get(0), instanceOf(Form.class));
-        assertThat(((Form) line1Content.get(0)).getId(), is("testLineRegion_line2"));
+        assertThat(((Form) line1Content.get(0)).getId(), is("testLineRegionNesting_line2"));
         assertThat(((Form) line1Content.get(0)).getName(), is("form2"));
         assertThat(((Form) line1Content.get(0)).getRoute(), is("/form2"));
         // line line line
@@ -77,28 +95,27 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(line2Content.size(), is(1));
         // line line line form3
         assertThat(line2Content.get(0), instanceOf(Form.class));
-        assertThat(((Form) line2Content.get(0)).getId(), is("testLineRegion_line3"));
+        assertThat(((Form) line2Content.get(0)).getId(), is("testLineRegionNesting_line3"));
         assertThat(((Form) line2Content.get(0)).getName(), is("form3"));
         assertThat(((Form) line2Content.get(0)).getRoute(), is("/line3"));
         // line form4
         assertThat(content.get(2), instanceOf(Form.class));
-        assertThat(((Form) content.get(2)).getId(), is("testLineRegion_line4"));
+        assertThat(((Form) content.get(2)).getId(), is("testLineRegionNesting_line4"));
         assertThat(((Form) content.get(2)).getName(), is("form4"));
 
         // LINE2
         assertThat(regions.get(1), instanceOf(LineRegion.class));
         assertThat(regions.get(1).getId(), is("line_3"));
-        assertThat(regions.get(1).getSrc(), is("ListRegion"));
         content = regions.get(1).getContent();
         assertThat(content.size(), is(2));
         // line table1
         assertThat(content.get(0), instanceOf(Table.class));
-        assertThat(((Table) content.get(0)).getId(), is("testLineRegion_line5"));
+        assertThat(((Table) content.get(0)).getId(), is("testLineRegionNesting_line5"));
         assertThat(((Table) content.get(0)).getName(), is("table1"));
         assertThat(((Table) content.get(0)).getRoute(), is("/line5"));
         // line table2
         assertThat(content.get(1), instanceOf(Table.class));
-        assertThat(((Table) content.get(1)).getId(), is("testLineRegion_line6"));
+        assertThat(((Table) content.get(1)).getId(), is("testLineRegionNesting_line6"));
         assertThat(((Table) content.get(1)).getName(), is("table2"));
         assertThat(((Table) content.get(1)).getRoute(), is("/line6"));
 
@@ -121,7 +138,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(0), instanceOf(LineRegion.class));
         assertThat(regions.get(0).getId(), is("line_0"));
         assertThat(regions.get(0).getSrc(), is("ListRegion"));
-        assertThat(((LineRegion)regions.get(0)).getName(), is("form1"));
+        assertThat(((LineRegion) regions.get(0)).getName(), is("form1"));
         assertThat(regions.get(0).getContent().size(), is(2));
         assertThat(regions.get(0).getContent().get(0), instanceOf(Form.class));
         assertThat(((Form) (regions.get(0).getContent().get(0))).getName(), is("form1"));
