@@ -419,7 +419,7 @@
                 <xs:documentation>Идентификатор параметра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="value" type="xs:string" use="required">
+        <xs:attribute name="value" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Ссылка на значение параметра.</xs:documentation>
             </xs:annotation>
