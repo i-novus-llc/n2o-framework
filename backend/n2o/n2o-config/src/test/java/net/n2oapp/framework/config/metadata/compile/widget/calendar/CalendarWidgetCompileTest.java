@@ -1,4 +1,4 @@
-package net.n2oapp.framework.config.metadata.compile.widget;
+package net.n2oapp.framework.config.metadata.compile.widget.calendar;
 
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;

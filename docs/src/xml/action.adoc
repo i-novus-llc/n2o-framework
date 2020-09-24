@@ -534,7 +534,7 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 ----
 <invoke operation-id="update" model="edit"
   confirm="false" close-on-success="true" method="POST">
-    <form-param name="..." value="..."/>
+    <form-param id="..." value="..."/>
     <path-param name="..." value="..."/>
     <header-param name="..." value="..."/>
 </invoke>
@@ -910,9 +910,9 @@ link:#_Предустановленная_фильтрация_pre_filters[Фи�
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
-|name
+|id
 |Строка
-|Название параметра
+|Идентификатор параметра
 |
 
 |value
@@ -935,5 +935,5 @@ link:#_Предустановленная_фильтрация_pre_filters[Фи�
 Пример::
 [source,xml]
 ----
-<form-param name="c" value="{id}" ref-widget-id="master" ref-model="filter"/>
+<form-param id="c" value="{id}" ref-widget-id="master" ref-model="filter"/>
 ----

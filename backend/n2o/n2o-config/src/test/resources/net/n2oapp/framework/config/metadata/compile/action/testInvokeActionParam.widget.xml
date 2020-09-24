@@ -2,19 +2,20 @@
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" query-id="testActionContext">
     <actions>
         <action id="test" model="filter">
-            <invoke operation-id="create" close-on-success="false" refresh-widget-id="testW" refresh-on-success="true" route="/:ppName1">
+            <invoke operation-id="create" close-on-success="false" route="/:ppName1/create"
+                    refresh-widget-id="testW" refresh-on-success="true">
                 <header-param name="hpName1" value="hpValue1"/>
                 <path-param name="ppName1" value="ppValue1"/>
-                <form-param name="fpName1" value="fpValue1"/>
+                <form-param id="fpName1" value="fpValue1"/>
             </invoke>
         </action>
     </actions>
     <toolbar>
         <button>
-            <invoke operation-id="create" optimistic="true" submit-form="false" route="/:ppName2">
+            <invoke operation-id="update" optimistic="true" submit-form="false" route="/:ppName2/update">
                 <header-param name="hpName2" value="hpValue2"/>
                 <path-param name="ppName2" value="ppValue2"/>
-                <form-param name="fpName2" value="fpValue2"/>
+                <form-param id="fpGender.id" value="1"/>
             </invoke>
         </button>
     </toolbar>

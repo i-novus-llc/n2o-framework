@@ -12,11 +12,9 @@ import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.io.object.ObjectElementIOv2;
 import net.n2oapp.framework.config.io.query.QueryElementIOv4;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
-import net.n2oapp.framework.config.metadata.compile.object.N2oObjectCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -40,9 +38,10 @@ public class QueryCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utObjectField.object.xml"),
                 new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"))
-                .ios(new QueryElementIOv4(), new ObjectElementIOv2())
-                .packs(new N2oDataProvidersPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack(), new N2oInvocationV2ReadersPack())
-                .compilers(new N2oQueryCompiler(), new N2oObjectCompiler());
+                .ios(new QueryElementIOv4())
+                .packs(new N2oObjectsPack(), new N2oDataProvidersPack(), new N2oWidgetsPack(),
+                        new N2oFieldSetsPack(), new N2oControlsPack())
+                .compilers(new N2oQueryCompiler());
     }
 
     @Test

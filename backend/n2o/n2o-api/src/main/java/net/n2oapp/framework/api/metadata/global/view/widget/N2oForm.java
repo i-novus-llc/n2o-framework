@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.control.Submit;
 
 /**
- * Исходная модель формы
+ * Исходная модель виджета Форма
  */
 @Getter
 @Setter

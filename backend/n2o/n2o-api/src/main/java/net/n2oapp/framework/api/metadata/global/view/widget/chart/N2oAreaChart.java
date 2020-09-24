@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Исходная модель компонента круговой диаграммы
+ * Исходная модель компонента диаграммы-области
  */
 @Getter
 @Setter

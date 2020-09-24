@@ -32,7 +32,8 @@
         <condition id="conditionName" severity="danger" message="Test conditionName">
             name === 'name'
         </condition>
-        <constraint id="constraintSurname" severity="danger" result="[0][0][0] != null">
+        <constraint id="constraintSurname" severity="danger"
+                    result="[0][0][0] != null" message="Test constraintSurname">
             <invocation>
                 <java method="test"/>
             </invocation>

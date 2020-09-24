@@ -5,6 +5,9 @@ import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
@@ -76,10 +79,8 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiled.setValidationsMap(initValidationsMap(compiled.getValidations()));
         initOperationsMap(source, compiled, context, p);
         compiled.setTableName(source.getTableName());
-        compiled.setEntityClass(source.getEntityClass());
         compiled.setAppName(source.getAppName());
         compiled.setModuleName(source.getModuleName());
-        compiled.setServiceClass(source.getServiceClass());
         compiled.setServiceName(source.getServiceName());
         if (context instanceof ActionContext) {
             ActionContext actionContext = (ActionContext) context;
@@ -101,6 +102,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                             resolveDefaultParameter(parameter, compiled);
                             parameter.setRequired(p.cast(parameter.getRequired(), parameter.getDefaultValue() == null));
                         }
+                    resolveOperationInvocation(n2oConstraint.getN2oInvocation(), source);
                 }
                 result.add(p.compile(validation, context));
             }
@@ -142,9 +144,22 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                         }
                     }
                 }
+                resolveOperationInvocation(operation.getInvocation(), source);
                 addOperation(compileOperation, compiled);
                 initOperationValidations(operation, compileOperation, source, compiled, context, p);
             }
+        }
+    }
+
+    private void resolveOperationInvocation(N2oInvocation invocation, N2oObject source) {
+        if (invocation instanceof N2oJavaDataProvider) {
+            N2oJavaDataProvider javaDataProvider = (N2oJavaDataProvider) invocation;
+            if (javaDataProvider.getClassName() == null)
+                javaDataProvider.setClassName(source.getServiceClass());
+            if (source.getEntityClass() != null && javaDataProvider.getArguments() != null)
+                Arrays.stream(javaDataProvider.getArguments())
+                        .filter(arg -> arg.getClassName() == null && arg.getType() == Argument.Type.ENTITY)
+                        .forEach(arg -> arg.setClassName(source.getEntityClass()));
         }
     }
 
@@ -191,6 +206,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                                 resolveDefaultParameter(parameter, compiled);
                                 parameter.setRequired(p.cast(parameter.getRequired(), parameter.getDefaultValue() == null));
                             }
+                        resolveOperationInvocation(n2oConstraint.getN2oInvocation(), source);
                     }
                     inlineValidations.add(p.compile(n2oValidation, context));
                 }
