@@ -7,13 +7,13 @@
             </invocation>
             <in>
                 <field id="id"/>
-                <field id="name" param="fpName1"/>
-                <field id="gender.id" param="fpGender.id"/>
+                <field id="name"/>
                 <field id="surname"/>
                 <field id="birthdate" required="true"/>
             </in>
         </operation>
-    </operations>
+        <operation id="update">
+            <invocation>
                 <java method="test"/>
             </invocation>
             <in>

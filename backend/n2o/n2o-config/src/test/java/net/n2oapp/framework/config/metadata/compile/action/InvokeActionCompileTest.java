@@ -185,9 +185,9 @@ public class InvokeActionCompileTest extends SourceCompileTestBase {
 
         // operationMapping should not contains form params from corresponding invoke
         // but could contains from other
-        ActionContext actionContext1 = (ActionContext) route("/w/test", CompiledObject.class);
+        ActionContext actionContext1 = (ActionContext) route("/w/123/create", CompiledObject.class);
         assertThat(actionContext1.getOperationMapping().containsKey("fpName1"), is(false));
-        ActionContext actionContext2 = (ActionContext) route("/w/:testInvokeActionParam_id/menuItem0", CompiledObject.class);
+        ActionContext actionContext2 = (ActionContext) route("/w/123/update", CompiledObject.class);
         assertThat(actionContext2.getOperationMapping().containsKey("fpGender.id"), is(false));
 
         //filter model

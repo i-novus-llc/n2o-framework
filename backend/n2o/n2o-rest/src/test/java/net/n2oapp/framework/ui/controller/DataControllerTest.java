@@ -261,7 +261,7 @@ public class DataControllerTest extends DataControllerTestBase {
         body.put("field2", "value2");
         body.put("field3", "value3");
 
-        SetDataResponse response = testOperation("/testOperationMapping/widget/:testOperationMapping_main_id/create8", pipeline, params, body);
+        SetDataResponse response = testOperation("/testOperationMapping/widget/create8", pipeline, params, body);
         assertThat(response.getData().size(), is(3));
         assertThat(response.getData().get("field1"), is("value11"));
         assertThat(response.getData().get("field3"), is("value33"));
@@ -275,7 +275,7 @@ public class DataControllerTest extends DataControllerTestBase {
         body.put("field2", "value2");
         body.put("param3", "value3");
 
-        response = testOperation("/testOperationMapping/widget/:testOperationMapping_main_id/create8", pipeline, params, body);
+        response = testOperation("/testOperationMapping/widget/create8", pipeline, params, body);
         assertThat(response.getData().get("field1"), nullValue());
         assertThat(response.getData().get("field3"), nullValue());
 
@@ -287,7 +287,7 @@ public class DataControllerTest extends DataControllerTestBase {
         body.put("field2", "value2");
         body.put("field3", "value3");
 
-        response = testOperation("/testOperationMapping/widget/:testOperationMapping_main_id/create8", pipeline, params, body);
+        response = testOperation("/testOperationMapping/widget/create8", pipeline, params, body);
         assertThat(response.getData().get("field2"), is("value2"));
     }
 
