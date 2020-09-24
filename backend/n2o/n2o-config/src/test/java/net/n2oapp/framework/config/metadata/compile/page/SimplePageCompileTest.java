@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.widget.HtmlWidget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
 import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
 import net.n2oapp.framework.config.io.region.v2.CustomRegionIOv2;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
@@ -41,7 +42,8 @@ public class SimplePageCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.ios(new SimplePageElementIOv2(), new CustomRegionIOv2(), new HtmlWidgetElementIOv4(), new ButtonIO())
+        builder.ios(new SimplePageElementIOv2(), new CustomRegionIOv2(), new HtmlWidgetElementIOv4(),
+                new ButtonIO(), new JavaDataProviderIOv1())
                 .compilers(new SimplePageCompiler(), new CustomRegionCompiler(), new HtmlWidgetCompiler(),
                         new ToolbarCompiler(), new PerformButtonCompiler(), new SubmenuCompiler())
                 .packs(new N2oObjectsPack(), new N2oActionsPack())

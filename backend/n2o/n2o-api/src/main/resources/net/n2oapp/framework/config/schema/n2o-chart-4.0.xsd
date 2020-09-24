@@ -110,7 +110,7 @@
         <xs:complexContent>
             <xs:extension base="chartComponentBaseDefinition">
                 <xs:sequence>
-                    <xs:element name="area" type="areaDefinition" minOccurs="1"/>
+                    <xs:element name="area" type="areaDefinition" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -123,7 +123,7 @@
         <xs:complexContent>
             <xs:extension base="chartComponentBaseDefinition">
                 <xs:sequence>
-                    <xs:element name="bar" type="barDefinition" minOccurs="1"/>
+                    <xs:element name="bar" type="barDefinition" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -136,7 +136,7 @@
         <xs:complexContent>
             <xs:extension base="chartComponentBaseDefinition">
                 <xs:sequence>
-                    <xs:element name="line" type="lineDefinition" minOccurs="1"/>
+                    <xs:element name="line" type="lineDefinition" maxOccurs="unbounded"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -166,7 +166,7 @@
         <xs:annotation>
             <xs:documentation>Область.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="field-id" type="xs:string">
+        <xs:attribute name="field-id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор поля выборки значений области.</xs:documentation>
             </xs:annotation>
@@ -197,7 +197,7 @@
         <xs:annotation>
             <xs:documentation>Столбцы.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="field-id" type="xs:string">
+        <xs:attribute name="field-id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор поля выборки значений столбцов.</xs:documentation>
             </xs:annotation>
@@ -218,7 +218,7 @@
         <xs:annotation>
             <xs:documentation>Линия.</xs:documentation>
         </xs:annotation>
-        <xs:attribute name="field-id" type="xs:string">
+        <xs:attribute name="field-id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор поля выборки значений линии.</xs:documentation>
             </xs:annotation>
@@ -279,7 +279,7 @@
                 <xs:documentation>Идентификатор поля выборки имен секторов.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="value-field-id" type="xs:string">
+        <xs:attribute name="value-field-id" type="xs:string" default="value">
             <xs:annotation>
                 <xs:documentation>Идентификатор поля выборки значений секторов.</xs:documentation>
             </xs:annotation>
