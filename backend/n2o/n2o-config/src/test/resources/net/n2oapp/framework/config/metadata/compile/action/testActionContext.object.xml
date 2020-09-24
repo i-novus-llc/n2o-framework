@@ -7,13 +7,13 @@
             </invocation>
             <in>
                 <field id="id"/>
-                <field id="name"/>
+                <field id="name" param="fpName1"/>
+                <field id="gender.id" param="fpGender.id"/>
                 <field id="surname"/>
                 <field id="birthdate" required="true"/>
             </in>
         </operation>
-        <operation id="update">
-            <invocation>
+    </operations>
                 <java method="test"/>
             </invocation>
             <in>
@@ -32,7 +32,8 @@
         <condition id="conditionName" severity="danger" message="Test conditionName">
             name === 'name'
         </condition>
-        <constraint id="constraintSurname" severity="danger" result="[0][0][0] != null">
+        <constraint id="constraintSurname" severity="danger"
+                    result="[0][0][0] != null" message="Test constraintSurname">
             <invocation>
                 <java method="test"/>
             </invocation>

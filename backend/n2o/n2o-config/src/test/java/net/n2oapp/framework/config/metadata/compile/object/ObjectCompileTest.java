@@ -1,15 +1,29 @@
 package net.n2oapp.framework.config.metadata.compile.object;
 
+import net.n2oapp.framework.api.data.validation.ConditionValidation;
+import net.n2oapp.framework.api.data.validation.ConstraintValidation;
+import net.n2oapp.framework.api.metadata.dataprovider.N2oJavaDataProvider;
+import net.n2oapp.framework.api.metadata.global.dao.invocation.model.Argument;
+import net.n2oapp.framework.api.metadata.global.dao.object.AbstractParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
+import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
+import net.n2oapp.framework.config.io.dataprovider.JavaDataProviderIOv1;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
-import net.n2oapp.framework.config.metadata.pack.N2oInvocationV2ReadersPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
+
+/**
+ * Тестирование компиляции объекта
+ */
 public class ObjectCompileTest extends SourceCompileTestBase {
     @Override
     @Before
@@ -20,39 +34,100 @@ public class ObjectCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oInvocationV2ReadersPack(), new N2oObjectsPack())
+        builder.packs(new N2oObjectsPack())
+                .ios(new JavaDataProviderIOv1())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml"));
     }
 
     @Test
-    public void testCompileActions() throws Exception {
+    public void testCompileOperations() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/utAction.object.xml")
                 .get(new ObjectContext("utAction"));
-        assert object.getOperations().size() == 2;
-        assert "create".equals(object.getOperations().get("create").getId());
-        assert "delete".equals(object.getOperations().get("delete").getId());
+        assertThat(object.getOperations().size(), is(2));
+        assertThat(object.getOperations().containsKey("create"), is(true));
+        assertThat(object.getOperations().containsKey("delete"), is(true));
+
+        N2oJavaDataProvider provider = (N2oJavaDataProvider) object.getOperations().get("create").getInvocation();
+        assertThat(provider.getClassName(), is("TestService"));
+        assertThat(provider.getArguments()[0].getName(), is("arg1"));
+        assertThat(provider.getArguments()[0].getClassName(), is("TestEntity"));
+        assertThat(provider.getArguments()[0].getType(), is(Argument.Type.ENTITY));
+        assertThat(provider.getArguments()[1].getName(), is("arg2"));
+        assertThat(provider.getArguments()[1].getClassName(), is("EntityClass"));
+        assertThat(provider.getArguments()[1].getType(), is(Argument.Type.ENTITY));
+        assertThat(provider.getArguments()[2].getName(), is("arg3"));
+        assertThat(provider.getArguments()[2].getClassName(), nullValue());
+        assertThat(provider.getArguments()[2].getType(), is(Argument.Type.PRIMITIVE));
     }
 
     @Test
-    public void testCompileValidations() throws Exception {
+    public void testCompileValidations() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/utValidation.object.xml")
                 .get(new ObjectContext("utValidation"));
-        assert 2 == object.getValidations().size();
-        assert "v1".equals(object.getValidationsMap().get("v1").getId());
-        assert "v2".equals(object.getValidationsMap().get("v2").getId());
-        assert 2 == object.getOperations().get("all").getValidationList().size();
-        assert 0 == object.getOperations().get("nothing").getValidationList().size();
-        assert "v1".equals(object.getOperations().get("white").getValidationList().get(0).getId());
-        assert "v2".equals(object.getOperations().get("black").getValidationList().get(0).getId());
+        assertThat(object.getValidations().size(), is(2));
+        assertThat(object.getValidationsMap().get("v1").getId(), is("v1"));
+        assertThat(object.getValidationsMap().get("v2").getId(), is("v2"));
+
+        assertThat(object.getOperations().size(), is(2));
+        CompiledObject.Operation all = object.getOperations().get("all");
+        assertThat(all.getValidationList().size(), is(3));
+        assertThat(all.getValidationsMap().get("val1"), instanceOf(ConstraintValidation.class));
+        assertThat(all.getValidationsMap().get("v1"), instanceOf(ConditionValidation.class));
+        assertThat(all.getValidationsMap().get("v2"), instanceOf(ConstraintValidation.class));
+
+        CompiledObject.Operation black = object.getOperations().get("black");
+        assertThat(black.getValidationList().size(), is(1));
+        assertThat(black.getValidationsMap().containsKey("v2"), is(true));
+
+        N2oJavaDataProvider val1Provider =
+                (N2oJavaDataProvider) ((ConstraintValidation) all.getValidationsMap().get("val1")).getInvocation();
+        assertThat(val1Provider.getClassName(), is("TestService"));
+        assertThat(val1Provider.getArguments()[0].getName(), is("arg1"));
+        assertThat(val1Provider.getArguments()[0].getClassName(), is("TestEntity"));
+        assertThat(val1Provider.getArguments()[0].getType(), is(Argument.Type.ENTITY));
+        assertThat(val1Provider.getArguments()[1].getName(), is("arg2"));
+        assertThat(val1Provider.getArguments()[1].getClassName(), is("EntityClass"));
+        assertThat(val1Provider.getArguments()[1].getType(), is(Argument.Type.ENTITY));
+        assertThat(val1Provider.getArguments()[2].getName(), is("arg3"));
+        assertThat(val1Provider.getArguments()[2].getClassName(), nullValue());
+        assertThat(val1Provider.getArguments()[2].getType(), is(Argument.Type.PRIMITIVE));
+
+        N2oJavaDataProvider v2Provider =
+                (N2oJavaDataProvider) ((ConstraintValidation) all.getValidationsMap().get("v2")).getInvocation();
+        assertThat(v2Provider.getClassName(), is("TestService"));
+        assertThat(v2Provider.getArguments()[0].getName(), is("arg1"));
+        assertThat(v2Provider.getArguments()[0].getClassName(), is("TestEntity"));
+        assertThat(v2Provider.getArguments()[0].getType(), is(Argument.Type.ENTITY));
+        assertThat(v2Provider.getArguments()[1].getName(), is("arg2"));
+        assertThat(v2Provider.getArguments()[1].getClassName(), is("EntityClass"));
+        assertThat(v2Provider.getArguments()[1].getType(), is(Argument.Type.ENTITY));
+        assertThat(v2Provider.getArguments()[2].getName(), is("arg3"));
+        assertThat(v2Provider.getArguments()[2].getClassName(), nullValue());
+        assertThat(v2Provider.getArguments()[2].getType(), is(Argument.Type.PRIMITIVE));
     }
 
     @Test
-    public void testCompileFields() throws Exception {
+    public void testCompileFields() {
         CompiledObject object = compile("net/n2oapp/framework/config/metadata/compile/object/utObjectField.object.xml")
                 .get(new ObjectContext("utObjectField"));
-        assert 2 == object.getObjectFields().size();
-        assert "f1".equals(object.getObjectFieldsMap().get("f1").getId());
-        assert "f2".equals(object.getObjectFieldsMap().get("f2").getId());
-        assert object.getOperations().get("create").getInParametersMap().get("f1").getDomain().equals("integer");
+        assertThat(object.getObjectFields().size(), is(2));
+
+        AbstractParameter field = object.getObjectFieldsMap().get("f1");
+        assertThat(field.getId(), is("f1"));
+        assertThat(field.getName(), is("F1"));
+        assertThat(field.getRequired(), is(true));
+        assertThat(field.getMapping(), is("['test']"));
+        assertThat(((ObjectScalarField) field).getDomain(), is("integer"));
+
+        field = object.getObjectFieldsMap().get("f2");
+        assertThat(field.getId(), is("f2"));
+        assertThat(field.getName(), is("F2"));
+        assertThat(((ObjectReferenceField) field).getReferenceObjectId(), is("utAction"));
+        assertThat(((ObjectReferenceField) field).getObjectReferenceFields().size(), is(1));
+        assertThat(((ObjectReferenceField) field).getObjectReferenceFields().get(0).getId(), is("id"));
+
+        field = object.getOperations().get("create").getInParametersMap().get("f1");
+        assertThat(field.getMapping(), is("['test']"));
+        assertThat(((N2oObject.Parameter) field).getDomain(), is("integer"));
     }
 }

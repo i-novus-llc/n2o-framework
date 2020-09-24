@@ -1,9 +1,8 @@
-package net.n2oapp.framework.config.metadata.compile.widget;
+package net.n2oapp.framework.config.metadata.compile.widget.table;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.ListWidget;
+import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -15,7 +14,7 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ListWidgetBinderTest extends SourceCompileTestBase {
+public class TableBinderTest extends SourceCompileTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -35,15 +34,17 @@ public class ListWidgetBinderTest extends SourceCompileTestBase {
         );
     }
 
+    /**
+     * резолв PathParameter у rowClick
+     */
     @Test
     public void rowClickResolve() {
-        ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/widgets/testListWidgetRowClick.page.xml",
+        ReadCompileBindTerminalPipeline pipeline = bind("net/n2oapp/framework/config/metadata/compile/page/testTableRowClick.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/object/utObjectField.object.xml",
                 "net/n2oapp/framework/config/metadata/compile/query/testEmptyBody.query.xml");
-        PageContext context = new PageContext("testListWidgetRowClick", "/p/w/:param/row");
-        ListWidget listWidget = (ListWidget) ((StandardPage) pipeline.get(context, new DataSet().add("param", "1")))
-                .getWidgets().get("p_w_row_panel9");
-        assertThat(listWidget.getRowClick().getUrl(), is("https://www.google.com/"));
-        assertThat(listWidget.getRowClick().getTarget(), is(Target.self));
+        PageContext context = new PageContext("testTableRowClick", "/p/w/:param/row");
+        TableWidgetComponent component = (TableWidgetComponent) ((SimplePage) pipeline.get(context, new DataSet().add("param", "1"))).getWidget().getComponent();
+        assertThat(component.getRowClick().getUrl(), is("/p/w/1/row/:p_w_row_main_id/p_w_row_main_row"));
+        assertThat(component.getRowClick().getPathMapping().containsKey("p_w_row_main_id"), is(true));
     }
 }
