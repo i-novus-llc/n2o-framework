@@ -3,9 +3,6 @@
     <regions>
         <region>
             <form id="first" object-id="test">
-                <submit>
-                    <form-param name="adsd" ref-widget-id="asd"/>
-                </submit>
                 <fields>
                     <input-text id="value"/>
                 </fields>
@@ -23,8 +20,8 @@
     <toolbar>
         <button label="Сохранить" widget-id="first">
             <invoke operation-id="create" route="/create">
-                <form-param name="form_value" value="{value}" ref-widget-id="first"/>
-                <form-param name="second_form" ref-widget-id="second"/>
+                <form-param id="form_value" value="{value}" ref-widget-id="first"/>
+                <form-param id="second_form" ref-widget-id="second"/>
             </invoke>
         </button>
     </toolbar>

@@ -45,10 +45,10 @@ public class InvokeActionAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        FormWidget firstForm = page.widgets().widget(0, FormWidget.class);
+        FormWidget firstForm = page.widgets().widget(1, FormWidget.class);
         InputText firstValue = firstForm.fields().field("value").control(InputText.class);
         firstValue.val("1");
-        FormWidget secondForm = page.widgets().widget(1, FormWidget.class);
+        FormWidget secondForm = page.widgets().widget(2, FormWidget.class);
         InputText secondValue = secondForm.fields().field("value").control(InputText.class);
         InputText secondValue2 = secondForm.fields().field("value2").control(InputText.class);
         secondValue.val("2");
