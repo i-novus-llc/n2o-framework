@@ -106,7 +106,9 @@ class AdvancedTableWidget extends Component {
         toolbar={toolbar}
         actions={actions}
         filter={this.prepareFilters()}
-        bottomLeft={paging && <TablePagination widgetId={widgetId} />}
+        bottomLeft={
+          paging && <TablePagination widgetId={widgetId} {...paging} />
+        }
         className={className}
         style={style}
       >
