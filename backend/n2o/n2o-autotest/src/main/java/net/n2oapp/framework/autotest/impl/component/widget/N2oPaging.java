@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.widget;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
@@ -8,6 +9,10 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
  * Компонент пагинации для автотестирования
  */
 public class N2oPaging extends N2oComponent implements Paging {
+    public N2oPaging(SelenideElement element) {
+        setElement(element);
+    }
+
     @Override
     public void activePageShouldBe(String label) {
         element().$(".n2o-pagination .page-item.active .page-link").shouldHave(Condition.text(label));

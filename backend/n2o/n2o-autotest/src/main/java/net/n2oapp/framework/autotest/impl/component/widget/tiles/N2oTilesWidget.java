@@ -23,6 +23,6 @@ public class N2oTilesWidget extends N2oStandardWidget implements TilesWidget {
 
     @Override
     public Paging paging() {
-        return new N2oPaging();
+        return new N2oPaging(element());
     }
 }

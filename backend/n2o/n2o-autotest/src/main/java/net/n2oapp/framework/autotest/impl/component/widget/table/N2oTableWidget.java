@@ -30,7 +30,7 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
 
     @Override
     public Paging paging() {
-        return new N2oPaging();
+        return new N2oPaging(element());
     }
 
     public class N2oFilters implements Filters {
