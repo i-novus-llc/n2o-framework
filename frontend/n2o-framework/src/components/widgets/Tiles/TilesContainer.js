@@ -30,8 +30,8 @@ export default compose(
       colsSm,
       colsMd,
       colsLg,
-      width,
-      height,
+      tileWidth,
+      tileHeight,
       onResolve,
       dispatch,
     }) => ({
@@ -42,8 +42,8 @@ export default compose(
       colsSm: colsSm,
       colsMd: colsMd,
       colsLg: colsLg,
-      tileWidth: width,
-      tileHeight: height,
+      tileWidth: tileWidth,
+      tileHeight: tileHeight,
       onResolve: onResolve,
       dispatch: dispatch,
     })

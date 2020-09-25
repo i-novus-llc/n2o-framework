@@ -770,8 +770,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                 },
                               ]
                             }
-                            tileHeight="350"
-                            tileWidth="260"
                           >
                             <ForwardRef(withResizeDetector(Tiles))
                               colsLg={4}
@@ -816,8 +814,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                   },
                                 ]
                               }
-                              tileHeight="350"
-                              tileWidth="260"
                             >
                               <ResizeDetectorHOC
                                 colsLg={4}
@@ -863,8 +859,6 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                     },
                                   ]
                                 }
-                                tileHeight="350"
-                                tileWidth="260"
                               >
                                 <ResizeDetector
                                   handleHeight={true}
@@ -929,8 +923,8 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                         },
                                       ]
                                     }
-                                    tileHeight="350"
-                                    tileWidth="260"
+                                    tileHeight="350px"
+                                    tileWidth="260px"
                                   >
                                     <div
                                       className="n2o-tiles__container col-12"

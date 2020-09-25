@@ -25,8 +25,8 @@ function TilesWidget(
     colsSm,
     colsMd,
     colsLg,
-    tileWidth,
-    tileHeight,
+    width,
+    height,
   },
   context
 ) {
@@ -56,8 +56,8 @@ function TilesWidget(
         colsSm={colsSm}
         colsMd={colsMd}
         colsLg={colsLg}
-        tileWidth={tileWidth}
-        tileHeight={tileHeight}
+        tileWidth={width}
+        tileHeight={height}
       />
     </StandardWidget>
   );
