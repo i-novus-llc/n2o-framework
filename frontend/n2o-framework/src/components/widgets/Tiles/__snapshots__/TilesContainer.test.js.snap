@@ -731,6 +731,8 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                             colsLg={4}
                             colsMd={3}
                             colsSm={2}
+                            dispatch={[Function]}
+                            onResolve={[Function]}
                             tile={
                               Array [
                                 Object {
@@ -775,6 +777,8 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                               colsLg={4}
                               colsMd={3}
                               colsSm={2}
+                              dispatch={[Function]}
+                              onResolve={[Function]}
                               tile={
                                 Array [
                                   Object {
@@ -819,7 +823,9 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                 colsLg={4}
                                 colsMd={3}
                                 colsSm={2}
+                                dispatch={[Function]}
                                 forwardedRef={null}
+                                onResolve={[Function]}
                                 tile={
                                   Array [
                                     Object {
@@ -879,6 +885,8 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                     colsLg={4}
                                     colsMd={3}
                                     colsSm={2}
+                                    dispatch={[Function]}
+                                    onResolve={[Function]}
                                     targetRef={
                                       Object {
                                         "current": null,

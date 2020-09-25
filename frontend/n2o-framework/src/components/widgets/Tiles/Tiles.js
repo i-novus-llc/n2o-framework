@@ -31,6 +31,8 @@ function Tiles(props) {
     width,
     tileWidth,
     tileHeight,
+    onResolve,
+    dispatch,
   } = props;
   const col = calcCols(colsSm, colsMd, colsLg, width);
 
@@ -44,10 +46,10 @@ function Tiles(props) {
           <TilesCell
             className={cn('n2o-tiles__cell', cell.className)}
             index={index}
-            key={cell.id}
             widgetId={id}
-            id={cell.id}
             model={element}
+            onResolve={onResolve}
+            dispatch={dispatch}
             {...cell}
           />
         ))}
