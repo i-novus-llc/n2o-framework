@@ -13,7 +13,7 @@
         </region>
         <region>
             <list id="list2" query-id="testListPaging" size="5">
-                <pagination/>
+                <pagination next="true" prev="true" last="true" first="false" hide-single-page="false" show-count="false"/>
                 <content>
                     <body text-field-id="body">
                         <text/>
