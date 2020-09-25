@@ -32,7 +32,6 @@ public class Page1ReaderTest {
         assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getDependencyCondition().equals("dependencyCondTest");
         assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getDependsOn().equals("depOnTest");
         assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getIcon().equals("iconTest");
-        assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getOpened().equals(false);
         assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getRefreshDependentContainer().equals(false);
         assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getQueryId().equals("stub");
         assert (((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getPreFilters()[0]).getFieldId().equals("testField");
@@ -58,7 +57,6 @@ public class Page1ReaderTest {
         assert page.getContainers().get(0).getDependencyCondition().equals("dependencyCondTest");
         assert page.getContainers().get(0).getDependsOn().equals("depOnTest");
         assert page.getContainers().get(0).getIcon().equals("iconTest");
-        assert page.getContainers().get(0).getOpened().equals(false);
         assert page.getContainers().get(0).getRefreshDependentContainer().equals(false);
         assert (page.getContainers().get(0).getPreFilters()[0]).getFieldId().equals("testField");
         assert (page.getContainers().get(0).getPreFilters()[0]).getValue().equals("name");

@@ -15,6 +15,7 @@ public class LineRegionIOv2 extends BaseRegionIOv2<N2oLineRegion> {
         super.io(e, r, p);
         p.attribute(e, "name", r::getName, r::setName);
         p.attributeBoolean(e, "collapsible", r::getCollapsible, r::setCollapsible);
+        p.attributeBoolean(e, "open", r::getOpen, r::setOpen);
     }
 
     @Override

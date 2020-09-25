@@ -684,14 +684,20 @@ http://n2oapp.net/framework/config/schema/region-2.0
 |===
 |Наименование|Тип|Описание
 
-|collapsible
-|true false
-|Возможность раскрытия и сворачивания виджетов
-
 |name
 |Строка
 |Наименование вкладки
 |
+
+|collapsible
+|true false
+|Возможность раскрытия и сворачивания содержимого региона
+|true
+
+|open
+|true false
+|Раскрытие региона
+|true
 
 |===
 
@@ -724,7 +730,7 @@ http://n2oapp.net/framework/config/schema/region-2.0
 
 |collapsible
 |true false
-|Возможность раскрытия и сворачивания виджетов
+|Возможность раскрытия и сворачивания содержимого панели
 |true
 
 |header

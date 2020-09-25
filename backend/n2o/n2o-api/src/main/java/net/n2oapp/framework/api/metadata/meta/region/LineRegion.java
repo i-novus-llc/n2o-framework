@@ -14,4 +14,6 @@ public class LineRegion extends Region {
     private String name;
     @JsonProperty
     private Boolean collapsible;
+    @JsonProperty
+    private Boolean open;
 }
