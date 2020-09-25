@@ -6592,11 +6592,6 @@ bootstrap@~4.3.1:
   resolved "https://registry.npmjs.org/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"
   integrity sha512-rXqOmH1VilAt2DyPzluTi2blhk17bO7ef+zLLPlWvG494pDxcM234pJ8wTc/6R40UWizAIIMgxjvxZg5kmsbag==
 
-bowser@1.5.0:
-  version "1.5.0"
-  resolved "https://registry.npmjs.org/bowser/-/bowser-1.5.0.tgz#b97414bacbc631f19f1e2e11466566ec19324983"
-  integrity sha1-uXQUusvGMfGfHi4RRmVm7BkySYM=
-
 boxen@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/boxen/-/boxen-2.1.0.tgz#8d576156e33fc26a34d6be8635fd16b1d745f0b2"
@@ -8436,12 +8431,10 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
-crypto-pro@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/crypto-pro/-/crypto-pro-1.1.0.tgz#0fc852d21ec2d5a8c3ae02fff7e655e84941f404"
-  integrity sha1-D8hS0h7C1ajDrgL/9+ZV6ElB9AQ=
-  dependencies:
-    bowser "1.5.0"
+crypto-pro@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/crypto-pro/-/crypto-pro-2.0.5.tgz#b4bbd9e671da830fd4b74cb319b0f5cad0e23f08"
+  integrity sha512-YZbVNt9ZmE75H97gdqS2ZGW8xnuHxdvQxLH/SmMQIizIBLmMIylOhY3HvgEUxnrIkL64/m6vrG5H2w7pGTb17Q==
 
 crypto-random-string@^2.0.0:
   version "2.0.0"
