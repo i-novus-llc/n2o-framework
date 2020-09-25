@@ -457,20 +457,20 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
 
     @Test
     public void testPathParam() {
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageWithPathParam.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageWithPathParam.page.xml")
                 .get(new PageContext("testOpenPageWithPathParam", "/page"));
 
-        PerformButton btn1 = (PerformButton) page.getWidget().getToolbar().getButton("btn1");
+        PerformButton btn1 = (PerformButton) page.getWidgets().get("page_master").getToolbar().getButton("btn1");
         assertThat(btn1.getPathMapping().size(), is(1));
         assertThat(btn1.getPathMapping().get("client_id").getBindLink(), nullValue());
         assertThat(btn1.getPathMapping().get("client_id").getValue(), is("123"));
 
-        PerformButton btn2 = (PerformButton) page.getWidget().getToolbar().getButton("btn2");
+        PerformButton btn2 = (PerformButton) page.getWidgets().get("page_master").getToolbar().getButton("btn2");
         assertThat(btn2.getPathMapping().size(), is(1));
-        assertThat(btn2.getPathMapping().get("account_id").getBindLink(), is("models.resolve['page_main'].accountId"));
+        assertThat(btn2.getPathMapping().get("account_id").getBindLink(), is("models.resolve['page_master'].accountId"));
         assertThat(btn2.getPathMapping().get("account_id").getValue(), nullValue());
-        ModelLink link = page.getModels().get("resolve['page_main'].accountId");
-        assertThat(link.getBindLink(), is("models.resolve['page_main'].accountId"));
+        ModelLink link = page.getModels().get("resolve['page_master'].accountId");
+        assertThat(link.getBindLink(), is("models.resolve['page_master'].accountId"));
         assertThat(link.getValue(), is(111));
     }
 }
