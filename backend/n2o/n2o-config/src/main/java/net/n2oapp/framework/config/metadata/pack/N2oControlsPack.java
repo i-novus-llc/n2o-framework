@@ -29,6 +29,7 @@ public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
                 new OutputListCompiler(),
                 new HiddenCompiler(),
                 new FileUploadCompiler(),
+                new ImageUploadCompiler(),
                 new CustomFieldCompiler(),
                 new SearchButtonsCompiler(),
                 new CustomControlCompiler(),
