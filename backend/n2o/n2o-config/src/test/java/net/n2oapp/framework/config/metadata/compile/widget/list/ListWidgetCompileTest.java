@@ -70,7 +70,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         assertThat(listWidget.getPaging().getLast(), is(true));
         assertThat(listWidget.getPaging().getNext(), is(true));
         assertThat(listWidget.getPaging().getPrev(), is(true));
-        assertThat(listWidget.getPaging().getShowCount(), is(true));
+        assertThat(listWidget.getPaging().getShowCountRecords(), is(true));
         assertThat(listWidget.getPaging().getSize(), is(5));
         assertThat(listWidget.getPaging().getSrc(), is("pagingSrc"));
     }

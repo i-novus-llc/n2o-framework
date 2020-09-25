@@ -38,5 +38,23 @@ public interface ListWidget extends StandardWidget {
         void clickNext();
 
         void totalElementsShouldBe(int count);
+
+        void totalElementsShouldNotExist();
+
+        void prevShouldNotExist();
+
+        void prevShouldExist();
+
+        void nextShouldNotExist();
+
+        void nextShouldExist();
+
+        void lastShouldNotExist();
+
+        void lastShouldExist();
+
+        void firstShouldNotExist();
+
+        void firstShouldExist();
     }
 }

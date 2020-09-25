@@ -14,6 +14,8 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.ParentRouteScope;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция абстрактного спискового виджета
  */
@@ -22,16 +24,16 @@ public abstract class BaseListWidgetCompiler<D extends Widget, S extends N2oAbst
     /**
      * Компиляция паджинации
      */
-    protected Pagination compilePaging(N2oAbstractListWidget source, Integer size) {
+    protected Pagination compilePaging(N2oAbstractListWidget source, Integer size, CompileProcessor p) {
         Pagination pagination = new Pagination();
         pagination.setSize(source.getSize() != null ? source.getSize() : size);
         if (source.getPagination() != null) {
-            pagination.setPrev(source.getPagination().getPrev());
-            pagination.setNext(source.getPagination().getNext());
-            pagination.setFirst(source.getPagination().getFirst());
-            pagination.setLast(source.getPagination().getLast());
-            pagination.setHideSinglePage(source.getPagination().getHideSinglePage());
-            pagination.setShowCount(source.getPagination().getShowCount());
+            pagination.setPrev(p.cast(source.getPagination().getPrev(), p.resolve(property("n2o.api.widget.list.paging.prev"), Boolean.class)));
+            pagination.setNext(p.cast(source.getPagination().getNext(), p.resolve(property("n2o.api.widget.list.paging.next"), Boolean.class)));
+            pagination.setFirst(p.cast(source.getPagination().getFirst(), p.resolve(property("n2o.api.widget.list.paging.first"), Boolean.class)));
+            pagination.setLast(p.cast(source.getPagination().getLast(), p.resolve(property("n2o.api.widget.list.paging.last"), Boolean.class)));
+            pagination.setHideSinglePage(p.cast(source.getPagination().getHideSinglePage(), p.resolve(property("n2o.api.widget.list.paging.hide_single_page"), Boolean.class)));
+            pagination.setShowCountRecords(p.cast(source.getPagination().getShowCount(), p.resolve(property("n2o.api.widget.list.paging.show_count"), Boolean.class)));
             pagination.setSrc(source.getPagination().getSrc());
         }
         return pagination;

@@ -20,7 +20,7 @@ public class Pagination implements Compiled {
     @JsonProperty
     private Boolean first;
     @JsonProperty
-    private Boolean showCount;
+    private Boolean showCountRecords;
     @JsonProperty
     private Boolean hideSinglePage;
 
@@ -72,12 +72,12 @@ public class Pagination implements Compiled {
         this.first = first;
     }
 
-    public Boolean getShowCount() {
-        return showCount;
+    public Boolean getShowCountRecords() {
+        return showCountRecords;
     }
 
-    public void setShowCount(Boolean showCount) {
-        this.showCount = showCount;
+    public void setShowCountRecords(Boolean showCountRecords) {
+        this.showCountRecords = showCountRecords;
     }
 
     public Boolean getHideSinglePage() {
