@@ -32,6 +32,8 @@ export default compose(
       colsLg,
       width,
       height,
+      onResolve,
+      dispatch,
     }) => ({
       className: className,
       id: widgetId,
@@ -42,6 +44,8 @@ export default compose(
       colsLg: colsLg,
       tileWidth: width,
       tileHeight: height,
+      onResolve: onResolve,
+      dispatch: dispatch,
     })
   )
 )(TilesContainer);
