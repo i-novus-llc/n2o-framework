@@ -26,6 +26,11 @@
     .progress-bar {
       padding: 0 5px;
     }
+    .btn-group {
+      div {
+        margin: 0;
+      }
+    }
   }
   &__cell {
     display: flex;
