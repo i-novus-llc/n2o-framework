@@ -94,13 +94,17 @@ public class TilesAT extends AutoTestBase {
 
         Paging paging = tiles.paging();
         paging.activePageShouldBe("1");
-        tiles.shouldHaveItems(10);
-        paging.totalElementsShouldBe(12);
+        tiles.shouldHaveItems(3);
+        paging.totalElementsShouldBe(5);
 
         paging.selectPage("2");
         paging.activePageShouldBe("2");
         tiles.shouldHaveItems(2);
-        tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("text11");
+        tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("text4");
+
+        paging.selectPage("1");
+        paging.activePageShouldBe("1");
+        tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("text1");
     }
 }
 
