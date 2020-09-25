@@ -50,7 +50,13 @@ class AdvancedTableWidget extends Component {
       rows,
       rowClass,
     } = this.props.table;
-    const { toolbar, actions, dataProvider, placeholder } = this.props;
+    const {
+      toolbar,
+      actions,
+      dataProvider,
+      placeholder,
+      children,
+    } = this.props;
     const { resolveProps } = this.context;
     return {
       headers: values(resolveProps(headers)),
@@ -63,6 +69,7 @@ class AdvancedTableWidget extends Component {
       autoFocus,
       dataProvider,
       placeholder,
+      children,
       rowSelection,
       autoCheckboxOnSelect,
       tableSize,
@@ -98,6 +105,7 @@ class AdvancedTableWidget extends Component {
       paging,
       className,
       style,
+      children,
     } = this.props;
     return (
       <StandardWidget
@@ -116,6 +124,7 @@ class AdvancedTableWidget extends Component {
           size={size}
           page={1}
           fetchOnInit={fetchOnInit}
+          children={children}
           {...this.getWidgetProps()}
         />
       </StandardWidget>
