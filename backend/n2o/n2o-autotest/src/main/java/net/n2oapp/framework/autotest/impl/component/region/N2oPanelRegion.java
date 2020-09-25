@@ -16,12 +16,6 @@ public class N2oPanelRegion extends N2oRegion implements PanelRegion {
         return N2oSelenide.collection(element().$$(".n2o-standard-widget-layout"), Widgets.class);
     }
 
-    // TODO убрать и заменить на 2 метода
-    @Override
-    public void toggleCollapse() {
-        collapseToggleBtn().click();
-    }
-
     @Override
     public void shouldHaveTitle(String title) {
         element().$(".card-header").shouldHave(Condition.text(title));

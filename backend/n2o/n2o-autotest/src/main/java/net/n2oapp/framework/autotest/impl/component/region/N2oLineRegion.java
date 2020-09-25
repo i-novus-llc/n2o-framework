@@ -1,10 +1,14 @@
 package net.n2oapp.framework.autotest.impl.component.region;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Widgets;
 import net.n2oapp.framework.autotest.api.component.region.LineRegion;
 
+/**
+ * Регион с горизонтальным делителем для автотестирования
+ */
 public class N2oLineRegion extends N2oRegion implements LineRegion {
     @Override
     public Widgets content() {
@@ -12,17 +16,47 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
     }
 
     @Override
-    public void toggleCollapse() {
-        element().$(".rc-collapse-header.n2o-panel-header").click();
+    public void shouldBeCollapsible() {
+        header().shouldNotHave(Condition.cssClass("n2o-disabled"));
+    }
+
+    @Override
+    public void shouldNotBeCollapsible() {
+        header().shouldHave(Condition.cssClass("n2o-disabled"));
+    }
+
+    @Override
+    public void expandContent() {
+        if (!item().is(expandedContentCondition()))
+            header().click();
+    }
+
+    @Override
+    public void collapseContent() {
+        if (item().is(expandedContentCondition()))
+            header().click();
     }
 
     @Override
     public void shouldBeExpanded() {
-        element().$(".rc-collapse-item").should(Condition.cssClass("rc-collapse-item-active"));
+        item().shouldBe(expandedContentCondition());
     }
 
     @Override
     public void shouldBeCollapsed() {
-        element().$(".rc-collapse-content").should(Condition.cssClass("rc-collapse-content-inactive"));
+        item().shouldNotBe(expandedContentCondition());
+    }
+
+
+    private SelenideElement header() {
+        return element().$(".n2o-panel-header");
+    }
+
+    private SelenideElement item() {
+        return element().$(".rc-collapse-item");
+    }
+
+    private Condition expandedContentCondition() {
+        return Condition.cssClass("rc-collapse-item-active");
     }
 }

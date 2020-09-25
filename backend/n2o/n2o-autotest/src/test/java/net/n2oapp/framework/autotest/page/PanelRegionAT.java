@@ -67,4 +67,14 @@ public class PanelRegionAT extends AutoTestBase {
         panel3.shouldNotHaveTitle();
         panel3.shouldNotBeCollapsible();
     }
+
+    @Test
+    public void testContent() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/panel/nesting/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        PanelRegion panelRegion = page.place("single").region(0, PanelRegion.class);
+
+    }
 }

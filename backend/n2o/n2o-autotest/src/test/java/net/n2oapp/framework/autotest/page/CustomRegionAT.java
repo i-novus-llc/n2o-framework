@@ -13,6 +13,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Автотест для простого региона
+ */
 public class CustomRegionAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
@@ -29,14 +32,15 @@ public class CustomRegionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/custom/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/simple/test.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/simple/test.header.xml"));
     }
 
     @Test
     public void testCustomRegion() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/custom/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
+
         page.place("single").region(0, SimpleRegion.class).content().widget(FormWidget.class).element().should(Condition.exist);
     }
 }

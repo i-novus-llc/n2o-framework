@@ -11,6 +11,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Автотест для региона с горизонтальным делителем
+ */
 public class LineRegionAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
@@ -27,20 +30,32 @@ public class LineRegionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/line/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/simple/test.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/simple/test.header.xml"));
     }
 
     @Test
-    public void lineRegionTest() {
+    public void testLineRegion() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/line/index.page.xml"));
         StandardPage page = open(StandardPage.class);
-        LineRegion region = page.place("single").region(0, LineRegion.class);
-        region.shouldBeExpanded();
-        LineRegion collapsible = page.place("single").region(1, LineRegion.class);
-        collapsible.shouldBeExpanded();
-        collapsible.toggleCollapse();
-        collapsible.shouldBeCollapsed();
-        collapsible.toggleCollapse();
-        collapsible.shouldBeExpanded();
+        page.shouldExists();
+
+        LineRegion line1 = page.place("single").region(0, LineRegion.class);
+        // TODO - check title
+        line1.shouldBeCollapsible();
+        // TODO - убрать (должно быть open по умолчанию)
+        line1.expandContent();
+        line1.shouldBeExpanded();
+        line1.collapseContent();
+        line1.shouldBeCollapsed();
+        line1.expandContent();
+        line1.shouldBeExpanded();
+
+        LineRegion line2 = page.place("single").region(1, LineRegion.class);
+        // TODO - check title
+        line2.shouldBeCollapsed();
+
+        // not collapsible line
+        LineRegion line3 = page.place("single").region(2, LineRegion.class);
+        line3.shouldNotBeCollapsible();
     }
 }

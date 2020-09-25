@@ -15,10 +15,6 @@ public interface PanelRegion extends Region, Сollapsible {
 
     void shouldHaveFooterTitle(String footer);
 
-    void expandContent();
-
-    void collapseContent();
-
     void shouldBeCollapsible();
 
     void shouldNotBeCollapsible();
