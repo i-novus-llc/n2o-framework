@@ -10,6 +10,9 @@ import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 import static net.n2oapp.framework.autotest.N2oSelenide.collection;
 
+/**
+ * Регион в виде вкладок для автотестирования
+ */
 public class N2oTabsRegion extends N2oRegion implements TabsRegion {
     @Override
     public TabItem tab(int index) {

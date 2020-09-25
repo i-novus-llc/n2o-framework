@@ -9,8 +9,11 @@ import net.n2oapp.framework.autotest.api.component.Component;
  */
 public interface TabsRegion extends Region {
     TabItem tab(int index);
+
     TabItem tab(Condition by);
+
     Widgets activeTab();
+
     void shouldHaveSize(int size);
 
     interface TabItem extends Component {
