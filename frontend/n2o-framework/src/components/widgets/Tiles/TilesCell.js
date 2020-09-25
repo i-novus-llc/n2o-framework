@@ -23,7 +23,7 @@ function TilesCell(props) {
       src={get(component, 'src')}
       level={CELLS}
       model={model}
-      {...propsResolver(omit(component, ['src', 'width']), model)}
+      {...propsResolver(omit(component, ['src']), model)}
       {...getPassProps()}
     />
   );

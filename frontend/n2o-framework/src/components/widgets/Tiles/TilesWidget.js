@@ -25,12 +25,12 @@ function TilesWidget(
     colsSm,
     colsMd,
     colsLg,
-    width,
-    height,
+    tileWidth,
+    tileHeight,
   },
   context
 ) {
-  const { size = 10 } = paging;
+  const { size } = paging;
   const prepareFilters = () => {
     return context.resolveProps(filter, Fieldsets.StandardFieldset);
   };
@@ -40,17 +40,7 @@ function TilesWidget(
       widgetId={widgetId}
       toolbar={toolbar}
       filter={prepareFilters()}
-      bottomLeft={
-        paging && (
-          <Pagination
-            prev={true}
-            next={true}
-            widgetId={widgetId}
-            prevText={prevText}
-            nextText={nextText}
-          />
-        )
-      }
+      bottomLeft={paging && <Pagination {...paging} widgetId={widgetId} />}
       className={className}
       style={style}
     >
@@ -66,8 +56,8 @@ function TilesWidget(
         colsSm={colsSm}
         colsMd={colsMd}
         colsLg={colsLg}
-        tileWidth={width}
-        tileHeight={height}
+        tileWidth={tileWidth}
+        tileHeight={tileHeight}
       />
     </StandardWidget>
   );
@@ -89,7 +79,11 @@ TilesWidget.defaultProps = {
   toolbar: {},
   disabled: false,
   filter: {},
-  paging: {},
+  paging: {
+    size: 10,
+    prev: true,
+    next: true,
+  },
 };
 
 TilesWidget.contextTypes = {
