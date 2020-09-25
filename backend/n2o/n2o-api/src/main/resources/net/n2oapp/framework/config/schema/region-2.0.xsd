@@ -146,9 +146,14 @@
                         <xs:documentation>Наименование региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="collapsible" type="xs:boolean">
+                <xs:attribute name="collapsible" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Возможность раскрытия и сворачивания виджетов.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="open" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Раскрытие региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

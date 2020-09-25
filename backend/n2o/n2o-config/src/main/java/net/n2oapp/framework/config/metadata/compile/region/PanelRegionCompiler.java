@@ -44,7 +44,7 @@ public class PanelRegionCompiler extends BaseRegionCompiler<PanelRegion, N2oPane
         region.setHeader(p.cast(source.getHeader(), true));
         region.setFooterTitle(source.getFooterTitle());
         region.setOpen(p.cast(source.getOpen(), true));
-        region.setCollapsible(source.getCollapsible() != null ? source.getCollapsible() : true);
+        region.setCollapsible(p.cast(source.getCollapsible(), true));
         region.setFullScreen(false);
         compilePanelRoute(source, region.getId(), p);
         region.setHeaderTitle(source.getTitle());

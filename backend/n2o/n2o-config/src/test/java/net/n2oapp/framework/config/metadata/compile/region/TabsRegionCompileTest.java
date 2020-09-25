@@ -21,8 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование компиляции региона в виде вкладок
@@ -49,8 +48,13 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(tabs.getSrc(), is("TabsRegion"));
         assertThat(tabs.getAlwaysRefresh(), is(false));
         assertThat(tabs.getLazy(), is(true));
+        List<TabsRegion.Tab> items = tabs.getItems();
+        assertThat(items.size(), is(3));
+        assertThat(items.get(0).getOpened(), is(true));
+        assertThat(items.get(1).getOpened(), is(false));
+        assertThat(items.get(2).getOpened(), is(false));
 
-        tabs = (TabsRegion) page.getRegions().get("left").get(0);
+        tabs = (TabsRegion) page.getRegions().get("single").get(1);
         assertThat(tabs.getAlwaysRefresh(), is(true));
         assertThat(tabs.getLazy(), is(false));
     }
@@ -151,9 +155,9 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("tab_0").getOnGet().getPayload()).getActiveEntity(), is(":tab_0"));
         assertThat(queryMapping.get("tab_0").getOnSet().getBindLink(), is("regions.tab_0.activeEntity"));
         assertThat(queryMapping.containsKey("param1"), is(true));
-        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param1").getOnGet().getPayload()).getRegionId(), is("left_tab_2"));
+        assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param1").getOnGet().getPayload()).getRegionId(), is("tab_4"));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param1").getOnGet().getPayload()).getActiveEntity(), is(":param1"));
-        assertThat(queryMapping.get("param1").getOnSet().getBindLink(), is("regions.left_tab_2.activeEntity"));
+        assertThat(queryMapping.get("param1").getOnSet().getBindLink(), is("regions.tab_4.activeEntity"));
         assertThat(queryMapping.containsKey("param2"), is(true));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param2").getOnGet().getPayload()).getRegionId(), is("tabId"));
         assertThat(((SetActiveRegionEntityPayload) queryMapping.get("param2").getOnGet().getPayload()).getActiveEntity(), is(":param2"));
