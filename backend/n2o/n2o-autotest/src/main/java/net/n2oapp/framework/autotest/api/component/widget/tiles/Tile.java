@@ -8,4 +8,8 @@ import net.n2oapp.framework.autotest.api.component.Component;
  */
 public interface Tile extends Component {
     Cells blocks();
+
+    void shouldHaveWidth(int width);
+
+    void shouldHaveHeight(int height);
 }
