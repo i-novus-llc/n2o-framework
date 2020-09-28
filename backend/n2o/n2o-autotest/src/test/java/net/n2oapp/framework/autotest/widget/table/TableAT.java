@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -93,5 +94,27 @@ public class TableAT extends AutoTestBase {
         button.shouldBeDisabled();
         button = rows.row(2).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
         button.shouldNotExists();
+    }
+
+    @Test
+    public void testPaging() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/testPagingTable.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.widgets().widget(0, TableWidget.class);
+        table.paging().totalElementsShouldBe(9);
+        table.paging().prevShouldNotExist();
+        table.paging().nextShouldNotExist();
+        table.paging().firstShouldExist();
+        table.paging().lastShouldNotExist();
+
+        TableWidget table2 = page.widgets().widget(1, TableWidget.class);
+        table2.paging().totalElementsShouldNotExist();
+        table2.paging().prevShouldExist();
+        table2.paging().nextShouldExist();
+        table2.paging().firstShouldNotExist();
+        table2.paging().lastShouldExist();
     }
 }

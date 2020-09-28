@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Название страницы" route="/">
+    <regions>
+        <region>
+            <list id="list" query-id="testListPaging" size="5">
+                <pagination/>
+                <content>
+                    <body text-field-id="body">
+                        <text/>
+                    </body>
+                </content>
+            </list>
+        </region>
+        <region>
+            <list id="list2" query-id="testListPaging" size="5">
+                <pagination next="true" prev="true" last="true" first="false" hide-single-page="false" show-count="false"/>
+                <content>
+                    <body text-field-id="body">
+                        <text/>
+                    </body>
+                </content>
+            </list>
+        </region>
+    </regions>
+
+</page>
+
+
