@@ -7,8 +7,10 @@ import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -67,5 +69,27 @@ public class ListAT extends AutoTestBase {
         FormWidget form = openPage.single().widget(FormWidget.class);
         form.shouldExists();
         form.fields().field("body").control(InputText.class).shouldHaveValue("body1");
+    }
+
+    @Test
+    public void testPaging() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/list/paging/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/list/paging/testListPaging.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        ListWidget list = page.widgets().widget(0, ListWidget.class);
+        list.paging().totalElementsShouldBe(11);
+        list.paging().prevShouldNotExist();
+        list.paging().nextShouldNotExist();
+        list.paging().firstShouldExist();
+        list.paging().lastShouldNotExist();
+
+        ListWidget list2 = page.widgets().widget(1, ListWidget.class);
+        list2.paging().totalElementsShouldNotExist();
+        list2.paging().prevShouldExist();
+        list2.paging().nextShouldExist();
+        list2.paging().firstShouldNotExist();
+        list2.paging().lastShouldExist();
     }
 }

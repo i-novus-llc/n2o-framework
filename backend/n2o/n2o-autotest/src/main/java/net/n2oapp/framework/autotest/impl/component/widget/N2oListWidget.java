@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.widget;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
@@ -80,17 +81,70 @@ public class N2oListWidget extends N2oStandardWidget implements ListWidget {
 
         @Override
         public void clickPrev() {
-            element().$$(".pagination .page-link").findBy(Condition.text("Назад")).click();
+            element().$$(".pagination .page-link").findBy(Condition.text("‹")).click();
         }
 
         @Override
         public void clickNext() {
-            element().$$(".pagination .page-link").findBy(Condition.text("Вперед")).click();
+            element().$$(".pagination .page-link").findBy(Condition.text("›")).click();
         }
 
         @Override
         public void totalElementsShouldBe(int count) {
-            element().$(".n2o-pagination-info").shouldHave(Condition.text(String.valueOf(count))).click();
+            getPaginationInfo().shouldHave(Condition.text(String.valueOf(count))).click();
+        }
+
+        @Override
+        public void totalElementsShouldNotExist() {
+            getPaginationInfo().shouldNotBe(Condition.exist);
+        }
+
+        @Override
+        public void prevShouldNotExist() {
+            getItems().findBy(Condition.text("‹")).shouldNotBe(Condition.exist);
+        }
+
+        @Override
+        public void prevShouldExist() {
+            getItems().findBy(Condition.text("‹")).shouldBe(Condition.exist);
+        }
+
+        @Override
+        public void nextShouldNotExist() {
+            getItems().findBy(Condition.text("›")).shouldNotBe(Condition.exist);
+        }
+
+        @Override
+        public void nextShouldExist() {
+            getItems().findBy(Condition.text("›")).shouldBe(Condition.exist);
+        }
+
+        @Override
+        public void lastShouldNotExist() {
+            getItems().findBy(Condition.text("»")).shouldNotBe(Condition.exist);
+        }
+
+        @Override
+        public void lastShouldExist() {
+            getItems().findBy(Condition.text("»")).shouldBe(Condition.exist);
+        }
+
+        @Override
+        public void firstShouldNotExist() {
+            getItems().findBy(Condition.text("«")).shouldNotBe(Condition.exist);
+        }
+
+        @Override
+        public void firstShouldExist() {
+            getItems().findBy(Condition.text("«")).shouldBe(Condition.exist);
+        }
+
+        private ElementsCollection getItems() {
+            return element().$$(".n2o-pagination .page-item .page-link");
+        }
+
+        private SelenideElement getPaginationInfo() {
+            return element().$(".n2o-pagination .n2o-pagination-info");
         }
     }
 }
