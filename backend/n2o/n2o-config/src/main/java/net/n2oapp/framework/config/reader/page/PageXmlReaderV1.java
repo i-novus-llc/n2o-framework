@@ -135,7 +135,6 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
                 n2oWidget.setDependsOn(getAttributeString(element, "depends-on"));
                 n2oWidget.setDependencyCondition(getAttributeString(element, "dependency-condition"));
                 n2oWidget.setRefreshPolity(getAttributeEnum(element, "refresh-policy", RefreshPolity.class));
-                n2oWidget.setOpened(getAttributeBoolean(element, "opened"));
                 n2oWidget.setIcon(getAttributeString(element, "icon"));
                 n2oWidget.setDetailFieldId(getAttributeString(widget, "detail-field-id"));
                 n2oWidget.setMasterFieldId(getAttributeString(widget, "master-field-id"));

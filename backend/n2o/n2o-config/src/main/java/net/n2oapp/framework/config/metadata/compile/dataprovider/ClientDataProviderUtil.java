@@ -23,11 +23,9 @@ import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
-import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -137,10 +135,15 @@ public class ClientDataProviderUtil {
             actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
             actionContext.setMessageOnFail(actionContextData.isMessageOnFail());
 
+            Set<String> formParams = new HashSet<>();
+            if (source.getFormParams() != null)
+                Arrays.stream(source.getFormParams()).forEach(fp -> formParams.add(fp.getId()));
+
             Map<String, String> operationMapping = new StrictMap<>();
             for (N2oObject.Parameter inParameter : actionContextData.getOperation().getInParametersMap().values()) {
                 String param = inParameter.getParam();
-                if (param != null)
+                // form params from this source should be ignored in operationMapping
+                if (param != null && !formParams.contains(param))
                     operationMapping.put(param, inParameter.getId());
             }
             actionContext.setOperationMapping(operationMapping);

@@ -1,8 +1,13 @@
 import { takeEvery, put, select } from 'redux-saga/effects';
 import { touch } from 'redux-form';
+
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 import values from 'lodash/values';
+import split from 'lodash/split';
+import includes from 'lodash/includes';
+import merge from 'lodash/merge';
+import setWith from 'lodash/setWith';
 
 import { removeFieldMessage } from '../actions/formPlugin';
 import { makeFieldByName } from '../selectors/formPlugin';
@@ -44,6 +49,11 @@ export function* copyAction({ payload }) {
   let newModel = {};
   const targetModelField = get(targetModel, [target.field], []);
 
+  const path = target.field;
+  const treePath = includes(split(path, ''), '.');
+
+  const withTreeObject = (path, sheetValue) => setWith({}, path, sheetValue);
+
   if (expression) {
     sourceModel = evalExpression(expression, sourceModel);
   }
@@ -72,12 +82,20 @@ export function* copyAction({ payload }) {
         }
       : [...targetModelField, ...sourceModel];
   } else {
-    newModel = target.field
-      ? {
-          ...targetModel,
-          [target.field]: sourceModel,
-        }
-      : sourceModel;
+    if (treePath) {
+      newModel = target.field
+        ? {
+            ...merge({}, targetModel, withTreeObject(path, sourceModel)),
+          }
+        : sourceModel;
+    } else {
+      newModel = target.field
+        ? {
+            ...targetModel,
+            [target.field]: sourceModel,
+          }
+        : sourceModel;
+    }
   }
   yield put(setModel(target.prefix, target.key, newModel));
 }

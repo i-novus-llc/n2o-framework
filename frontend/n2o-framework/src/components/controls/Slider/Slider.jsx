@@ -1,8 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+
+import isUndefined from 'lodash/isUndefined';
+import isNumber from 'lodash/isNumber';
 import omit from 'lodash/omit';
+import assign from 'lodash/assign';
+
+import cx from 'classnames';
+
 import BaseSlider, { createSliderWithTooltip } from 'rc-slider';
+
 import { prepareStyle } from './utils';
 
 const SliderWithTooltip = createSliderWithTooltip(BaseSlider);
@@ -40,6 +47,10 @@ function Slider(props) {
     style,
     className,
     onChange,
+    min,
+    max,
+    step,
+    value,
     ...rest
   } = props;
 
@@ -63,7 +74,13 @@ function Slider(props) {
     onChange(value);
   };
 
-  const sliderProps = omit(rest, ['value']);
+  const currentValue = isNumber(value) ? value : !isUndefined(min) ? min : 0;
+
+  const restProps = multiple
+    ? omit(rest, ['value'])
+    : assign({}, rest, {
+        value: currentValue,
+      });
 
   return (
     <RenderSlider
@@ -72,8 +89,11 @@ function Slider(props) {
       tipFormatter={expressionFn}
       vertical={vertical}
       style={prepareStyle(vertical, style)}
-      onAfterChange={handleAfterChange}
-      {...sliderProps}
+      onChange={handleAfterChange}
+      min={min}
+      max={max}
+      step={step}
+      {...restProps}
     />
   );
 }

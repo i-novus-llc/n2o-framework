@@ -25,5 +25,7 @@ public class TabsRegion extends Region {
     public static class Tab extends Item {
         @JsonProperty
         private String icon;
+        @JsonProperty
+        private Boolean opened;
     }
 }

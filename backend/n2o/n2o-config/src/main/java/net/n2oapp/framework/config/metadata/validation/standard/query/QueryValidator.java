@@ -40,7 +40,7 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
      */
     private void checkForExistsObject(String queryId, String objectId, ValidateProcessor p) {
         p.checkForExists(objectId, N2oObject.class,
-                String.format("Выборка '%s' ссылается не несуществующий объект %s", queryId, objectId));
+                String.format("Выборка '%s' ссылается на несуществующий объект %s", queryId, objectId));
     }
 
     /**

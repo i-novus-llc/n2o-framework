@@ -395,14 +395,33 @@
     </xs:complexType>
 
     <xs:complexType name="paramDefinition">
+        <xs:annotation>
+            <xs:documentation>Базовое определение параметра.</xs:documentation>
+        </xs:annotation>
         <xs:attribute name="name" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Название параметра</xs:documentation>
+                <xs:documentation>Название параметра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="value" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Ссылка на значение парамерта</xs:documentation>
+                <xs:documentation>Ссылка на значение параметра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="formParamDefinition">
+        <xs:annotation>
+            <xs:documentation>Параметр тела запроса.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор параметра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="value" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Ссылка на значение параметра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -414,7 +433,7 @@
                     <xs:documentation>Выполнить действие объекта.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
-                    <xs:element name="form-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="form-param" type="formParamDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="path-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
                     <xs:element name="header-param" type="paramDefinition" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
@@ -732,13 +751,13 @@
                     <xs:documentation>Параметры заголовка запроса.</xs:documentation>
                 </xs:annotation>
             </xs:element>
-            <xs:element name="form-param" type="actionParamDefinition" minOccurs="0">
+            <xs:element name="form-param" type="formActionParamDefinition" minOccurs="0">
                 <xs:annotation>
                     <xs:documentation>Параметры тела запроса.</xs:documentation>
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="operation-id" type="xs:string">
+        <xs:attribute name="operation-id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор операции, которая должна вызваться.</xs:documentation>
             </xs:annotation>
@@ -894,24 +913,50 @@
 
     <xs:complexType name="actionParamDefinition">
         <xs:annotation>
-            <xs:documentation>Предустановленные параметры</xs:documentation>
+            <xs:documentation>Предустановленные параметры.</xs:documentation>
         </xs:annotation>
         <xs:attribute name="name" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Название параметра, которое и попадет в url.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="ref-widget-id" type="xs:string" use="optional">
+        <xs:attribute name="ref-widget-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Идентификатор виджета, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="ref-model" type="reduxModel" use="optional">
+        <xs:attribute name="ref-model" type="reduxModel">
             <xs:annotation>
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="value" type="xs:string" use="optional">
+        <xs:attribute name="value" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Значение параметра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
+    <xs:complexType name="formActionParamDefinition">
+        <xs:annotation>
+            <xs:documentation>Предустановленные параметры.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Идентификатор параметра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-widget-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-model" type="reduxModel">
+            <xs:annotation>
+                <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="value" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Значение параметра.</xs:documentation>
             </xs:annotation>

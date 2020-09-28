@@ -11,6 +11,7 @@ import lombok.Setter;
 public class N2oLineRegion extends N2oRegion {
     private String name;
     private Boolean collapsible;
+    private Boolean open;
 
     @Override
     public String getAlias() {
