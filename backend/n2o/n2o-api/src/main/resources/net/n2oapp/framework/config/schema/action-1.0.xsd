@@ -419,9 +419,19 @@
                 <xs:documentation>Идентификатор параметра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="value" type="xs:string" use="required">
+        <xs:attribute name="value" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Ссылка на значение параметра.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-widget-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор виджета, по полю которого будет фильтрация.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ref-model" type="reduxModel">
+            <xs:annotation>
+                <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
@@ -509,9 +519,24 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="method" type="httpInvokeMethodDef" default="POST">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Вызываемый метод, возможные значения: POST, PUT, DELETE.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="httpInvokeMethodDef">
+        <xs:restriction>
+            <xs:enumeration value="POST"/>
+            <xs:enumeration value="PUT"/>
+            <xs:enumeration value="DELETE"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="redirectTargetType">
         <xs:annotation>
@@ -757,7 +782,7 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-        <xs:attribute name="operation-id" type="xs:string">
+        <xs:attribute name="operation-id" type="xs:string" use="required">
             <xs:annotation>
                 <xs:documentation>Идентификатор операции, которая должна вызваться.</xs:documentation>
             </xs:annotation>

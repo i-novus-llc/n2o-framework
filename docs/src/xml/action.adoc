@@ -517,6 +517,11 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 |Включение режима optimistic запросов на сервер
 |false
 
+|method
+|POST, PUT, DELETE.
+|Вызываемый метод.
+|POST
+
 |===
 
 Тело::
@@ -528,7 +533,7 @@ link:#_Предустановленные_поля_pre_fields[Предустан
 [source,xml]
 ----
 <invoke operation-id="update" model="edit"
-  confirm="false" close-on-success="true">
+  confirm="false" close-on-success="true" method="POST">
     <form-param id="..." value="..."/>
     <path-param name="..." value="..."/>
     <header-param name="..." value="..."/>

@@ -94,7 +94,7 @@ public abstract class N2oServlet extends HttpServlet {
         }
     }
 
-    protected void safeDoPut(HttpServletRequest req, HttpServletResponse resp) {
+    protected void safeDoPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
     }
 
@@ -108,7 +108,7 @@ public abstract class N2oServlet extends HttpServlet {
         }
     }
 
-    protected void safeDoDelete(HttpServletRequest req, HttpServletResponse resp) {
+    protected void safeDoDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
     }
 

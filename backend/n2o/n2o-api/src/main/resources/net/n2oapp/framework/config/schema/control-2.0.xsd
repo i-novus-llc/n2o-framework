@@ -22,6 +22,7 @@
     <xs:element name="date-interval" type="controlDateIntervalDefinition"/>
     <xs:element name="date-time" type="controlDatePickerDefinition"/>
     <xs:element name="file-upload" type="controlFileUploadDefinition"/>
+    <xs:element name="image-upload" type="controlImageUploadDefinition"/>
     <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition"/>
     <xs:element name="radio-group" type="controlOptionsListInlineDefinition"/>
     <xs:element name="select" type="controlSelectDefinition"/>
@@ -59,6 +60,7 @@
             <xs:element name="date-interval" type="controlDateIntervalDefinition" minOccurs="0"/>
             <xs:element name="date-time" type="controlDatePickerDefinition" minOccurs="0"/>
             <xs:element name="file-upload" type="controlFileUploadDefinition" minOccurs="0"/>
+            <xs:element name="image-upload" type="controlImageUploadDefinition" minOccurs="0"/>
             <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
             <xs:element name="radio-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
             <xs:element name="select" type="controlSelectDefinition" minOccurs="0"/>
@@ -444,6 +446,11 @@
                         <xs:documentation>Отображение размера файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="show-name" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Отображение имени файла.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="upload-url" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL загрузки файла.</xs:documentation>
@@ -483,6 +490,87 @@
                     <xs:annotation>
                         <xs:documentation>Доступные расширения файлов (через запятую).</xs:documentation>
                     </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlImageUploadDefinition">
+        <xs:annotation>
+            <xs:documentation>Компонент загрузки изображений.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="controlFileUploadDefinition">
+                <xs:attribute name="list-type" default="image">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>Тип отображения при мультивыборе.</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="image">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        В строку только изображения с возможностью просмотра (опционально) и удаления.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="card">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Вид горизонтальной карточки с показом названия, размера и
+                                        кнопками удаления и просмотра (опционально).
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="can-lightbox" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Возможность просмотра изображения в большом окне.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-delete" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Возможность удаления изображения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Иконка по умолчанию в области загрузки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="width" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ширина области загрузки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Высота области загрузки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon-size" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Размеры иконки (по умолчанию по размеру области загрузки).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="show-tooltip" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Наличие тултипа.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="shape">
+                    <xs:annotation>
+                        <xs:documentation>Тип формы изображения.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="circle"/>
+                            <xs:enumeration value="rounded"/>
+                            <xs:enumeration value="polaroid"/>
+                        </xs:restriction>
+                    </xs:simpleType>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>

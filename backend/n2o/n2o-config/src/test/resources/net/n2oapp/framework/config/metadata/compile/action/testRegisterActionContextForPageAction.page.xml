@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page  xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/page" name="first" object-id="testActionContext">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" route="/page" name="first"
+      object-id="testActionContext">
     <regions>
         <panel place="single">
             <form id="testActionContext" query-id="testActionContext">
@@ -18,7 +19,9 @@
     </regions>
     <actions>
         <action id="save" widget-id="testActionContext">
-            <invoke operation-id="create" widget-id="testActionContext" route="/test"/>
+            <invoke operation-id="create" widget-id="testActionContext" route="/:test">
+                <path-param name="test" value="testValue"/>
+            </invoke>
         </action>
     </actions>
 </page>
