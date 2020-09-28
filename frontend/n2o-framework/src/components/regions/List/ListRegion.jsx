@@ -33,16 +33,14 @@ class ListRegion extends React.Component {
     const { name, content, isVisible } = this.props;
     const key = props.open ? 'open' : 'close';
     return (
-      <>
-        <span className="n2o-list-region__collapse-name">{name}</span>
-        <Panel
-          key={key}
-          {...props}
-          style={{ display: isVisible === false ? 'none' : '' }}
-        >
-          <RegionContent content={content} />
-        </Panel>
-      </>
+      <Panel
+        key={key}
+        {...props}
+        header={<span className="n2o-list-region__collapse-name">{name}</span>}
+        style={{ display: isVisible === false ? 'none' : '' }}
+      >
+        <RegionContent content={content} />
+      </Panel>
     );
   };
 
@@ -50,7 +48,7 @@ class ListRegion extends React.Component {
    * Рендер
    */
   render() {
-    const { collapsible } = this.props;
+    const { collapsible, name } = this.props;
 
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
     const panelProps = pick(this.props, [
