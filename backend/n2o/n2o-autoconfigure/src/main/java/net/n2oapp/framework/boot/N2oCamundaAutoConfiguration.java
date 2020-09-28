@@ -1,7 +1,6 @@
 package net.n2oapp.framework.boot;
 
 import net.n2oapp.framework.boot.camunda.*;
-import org.camunda.bpm.engine.ProcessEngine;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -12,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class N2oCamundaAutoConfiguration {
 
     @Bean
-    @ConditionalOnClass(ProcessEngine.class)
+    @ConditionalOnClass(name = "org.camunda.bpm.engine.ProcessEngine")
     public CamundaProxyEngine embeddedCamundaEngine() {
         return new EmbeddedCamundaProxyEngine();
     }
