@@ -16,7 +16,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Компиляция виджета Плитки
+ * Тестирование компиляции виджета Плитки
  */
 public class TilesCompileTest extends SourceCompileTestBase {
     @Override
@@ -39,12 +39,11 @@ public class TilesCompileTest extends SourceCompileTestBase {
         Tiles tiles = (Tiles) page.getWidgets().get("testTilesCompile_tiles1");
 
         assertThat(tiles.getSrc(), is("TilesWidget"));
-        assertThat(tiles.getColsSm(), is(1));
-        assertThat(tiles.getColsMd(), is(2));
-        assertThat(tiles.getColsLg(), is(4));
+        assertThat(tiles.getColsSm(), is(2));
+        assertThat(tiles.getColsMd(), is(3));
+        assertThat(tiles.getColsLg(), is(6));
         assertThat(tiles.getHeight(), is(450));
         assertThat(tiles.getWidth(), is(300));
-        assertThat(tiles.getPaging().getSize(), is(10));
 
         Tiles.Tile tile = tiles.getTile().get(0);
         assertThat(tile.getId(), is("test1"));
@@ -63,10 +62,27 @@ public class TilesCompileTest extends SourceCompileTestBase {
         assertThat(tile.getComponent(), instanceOf(N2oImageCell.class));
         assertThat(((N2oImageCell) tile.getComponent()).getUrl(), is("/test"));
 
+        assertThat(tiles.getPaging().getFirst(), is(false));
+        assertThat(tiles.getPaging().getHideSinglePage(), is(false));
+        assertThat(tiles.getPaging().getLast(), is(true));
+        assertThat(tiles.getPaging().getNext(), is(true));
+        assertThat(tiles.getPaging().getPrev(), is(true));
+        assertThat(tiles.getPaging().getShowCountRecords(), is(false));
+        assertThat(tiles.getPaging().getSize(), is(5));
+        assertThat(tiles.getPaging().getSrc(), is("pagingSrc"));
+
         tiles = (Tiles) page.getWidgets().get("testTilesCompile_tiles2");
         assertThat(tiles.getSrc(), is("TilesWidget"));
-        assertThat(tiles.getColsSm(), is(2));
-        assertThat(tiles.getColsMd(), is(3));
-        assertThat(tiles.getColsLg(), is(5));
+        assertThat(tiles.getColsSm(), is(1));
+        assertThat(tiles.getColsMd(), is(2));
+        assertThat(tiles.getColsLg(), is(4));
+
+        assertThat(tiles.getPaging().getFirst(), is(true));
+        assertThat(tiles.getPaging().getHideSinglePage(), is(true));
+        assertThat(tiles.getPaging().getLast(), is(false));
+        assertThat(tiles.getPaging().getNext(), is(false));
+        assertThat(tiles.getPaging().getPrev(), is(false));
+        assertThat(tiles.getPaging().getShowCountRecords(), is(true));
+        assertThat(tiles.getPaging().getSize(), is(10));
     }
 }

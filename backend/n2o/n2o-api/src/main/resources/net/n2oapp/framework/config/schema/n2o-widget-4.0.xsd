@@ -804,24 +804,27 @@
                 <xs:annotation>
                     <xs:documentation>Виджет плитки.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="cols-sm" type="xs:integer" default="2">
+                <xs:attribute name="cols-sm" type="xs:integer" default="1">
                     <xs:annotation>
                         <xs:documentation>
-                            Количество колонок в мобильной версии, по умолчанию 2.
+                            Количество колонок в мобильной версии.
+                            Возможные значения (1, 2)
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="cols-md" type="xs:integer" default="3">
+                <xs:attribute name="cols-md" type="xs:integer" default="2">
                     <xs:annotation>
                         <xs:documentation>
-                            Количество колонок в планшетах, по умолчанию 3.
+                            Количество колонок в планшетах.
+                            Возможные значения (1, 2, 3, 4, 6)
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="cols-lg" type="xs:integer" default="5">
+                <xs:attribute name="cols-lg" type="xs:integer" default="4">
                     <xs:annotation>
                         <xs:documentation>
-                            Количество колонок в десктопной версии, по умолчанию 5.
+                            Количество колонок в десктопной версии.
+                            Возможные значения (1, 2, 3, 4, 6, 12)
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -835,7 +838,11 @@
                         <xs:documentation>Ширина плитки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-
+                <xs:element name="pagination" type="paginationDefinition">
+                    <xs:annotation>
+                        <xs:documentation>Паджинация таблицы.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
                 <xs:element name="content">
                     <xs:complexType>
                         <xs:annotation>
@@ -967,37 +974,37 @@
     </xs:complexType>
 
     <xs:complexType name="paginationDefinition">
-        <xs:attribute name="src" type="xs:string" use="optional">
+        <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Реализация паджинации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="prev" type="xs:boolean" use="optional">
+        <xs:attribute name="prev" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Показать/скрыть кнопку быстрого перехода на предыдущую страницу.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="next" type="xs:boolean" use="optional">
+        <xs:attribute name="next" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Показать/скрыть кнопку быстрого перехода на следующую страницу.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="last" type="xs:boolean" use="optional">
+        <xs:attribute name="last" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>Показать/скрыть кнопку быстрого перехода на последнюю страницу.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="first" type="xs:boolean" use="optional">
+        <xs:attribute name="first" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>Показать/скрыть кнопку быстрого перехода на первую страницу.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="show-count" type="xs:boolean" use="optional">
+        <xs:attribute name="show-count" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>Показать общее количество записей.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="hide-single-page" type="xs:boolean" use="optional">
+        <xs:attribute name="hide-single-page" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>Скрыть паджинацию на единственной странице.</xs:documentation>
             </xs:annotation>

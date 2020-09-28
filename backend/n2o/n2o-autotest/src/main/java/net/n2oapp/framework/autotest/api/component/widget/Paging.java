@@ -22,15 +22,23 @@ public interface Paging extends Component {
 
     void prevShouldExist();
 
+    void selectPrev();
+
     void nextShouldNotExist();
 
     void nextShouldExist();
+
+    void selectNext();
+
+    void firstShouldNotExist();
+
+    void firstShouldExist();
+
+    void selectFirst();
 
     void lastShouldNotExist();
 
     void lastShouldExist();
 
-    void firstShouldNotExist();
-
-    void firstShouldExist();
+    void selectLast();
 }
