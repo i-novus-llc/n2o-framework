@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import { compose, setDisplayName } from 'recompose';
 
-import filter from 'lodash/filter';
-import map from 'lodash/map';
 import pick from 'lodash/pick';
 
 import Collapse, { Panel } from '../../snippets/Collapse/Collapse';
@@ -33,16 +31,16 @@ class ListRegion extends React.Component {
 
   renderList = props => {
     const { name, content, isVisible } = this.props;
+    const key = props.open ? 'open' : 'close';
     return (
-      <>
-        <span className="n2o-list-region__collapse-name">{name}</span>
-        <Panel
-          {...props}
-          style={{ display: isVisible === false ? 'none' : '' }}
-        >
-          <RegionContent content={content} />
-        </Panel>
-      </>
+      <Panel
+        key={key}
+        {...props}
+        header={<span className="n2o-list-region__collapse-name">{name}</span>}
+        style={{ display: isVisible === false ? 'none' : '' }}
+      >
+        <RegionContent content={content} />
+      </Panel>
     );
   };
 
@@ -50,16 +48,19 @@ class ListRegion extends React.Component {
    * Рендер
    */
   render() {
-    const { content, collapsible } = this.props;
+    const { collapsible, name } = this.props;
 
-    this.activeKeys = map(filter(content, 'opened'), 'widgetId');
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
-    const panelProps = pick(this.props, ['type', 'forceRender', 'collapsible']);
-    console.warn('value ------>', this.props);
+    const panelProps = pick(this.props, [
+      'type',
+      'forceRender',
+      'collapsible',
+      'open',
+    ]);
     return (
       <div className="n2o-list-region">
         <Collapse
-          defaultActiveKey={this.activeKeys}
+          defaultActiveKey={'open'}
           onChange={this.handleChange}
           collapsible={collapsible}
           className="n2o-list-region__collapse"
