@@ -511,7 +511,7 @@ public class ValidationProcessorTest {
         constraint.setMoment(moment);
         constraint.setSeverity(severity);
         constraint.setFieldId(fieldId);
-        constraint.setInParameterList(inParams);
+        constraint.setInParametersList(inParams);
         constraint.setMessage("Field " + fieldId + " validated");
         return constraint;
     }

@@ -84,8 +84,8 @@ public class Validator {
     private boolean checkRequiredConstraint(Validation validation) {
         if (validation instanceof ConstraintValidation) {
             ConstraintValidation v = (ConstraintValidation) validation;
-            if (v.getInParameterList() != null) {
-                for (InvocationParameter inParam : v.getInParameterList()) {
+            if (v.getInParametersList() != null) {
+                for (InvocationParameter inParam : v.getInParametersList()) {
                     if (inParam.getRequired() != null
                             && inParam.getRequired()
                             && v.getRequiredFields().contains(inParam.getName())

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
+    <validations>
+        <constraint id="con1" severity="danger" message="message" side="client,server"
+                    server-moment="after-fail-operation" enabled="false" field-id="field1"
+                    result="name=='test'">
+            <invocation>
+                <test operation="create" file="test.json"/>
+            </invocation>
+            <in>
+                <field id="id"/>
+                <field id="name"/>
+                <field id="name2" required="false"/>
+            </in>
+            <out>
+                <field id="id"/>
+            </out>
+        </constraint>
+        <constraint id="con2" severity="info"/>
+    </validations>
+</object>

@@ -5,6 +5,11 @@
         module-name="module-name" service-class="service-class"
         service-name="service-name" table-name="table-name">
     <fields>
+        <reference id="ref" name="refName" object-id="utBlank" mapping="ref2"
+                   entity-class="ref" required="true">
+            <field id="id" name="id"/>
+            <field id="name" name="title"/>
+        </reference>
         <field id="test" name="test" domain="string" mapping="birth_date" required="true" default-value="test"
                mapper="dataset" normalize="#{ T(java.lang.Math).random() * 100.0 }"/>
         <set id="testSet" object-id="utBlank" name="testSet" mapping="birth_date" entity-class="set"
@@ -13,9 +18,16 @@
             <field id="name" mapping="name"/>
             <field id="code" mapping="code"/>
         </set>
+        <list id="testSet2" object-id="utBlank" name="testSet2" mapping="birth_date" entity-class="list"
+              required="true">
+            <field id="id" mapping="id"/>
+            <field id="name" mapping="name"/>
+            <field id="code" mapping="code"/>
+        </list>
     </fields>
     <operations>
-        <operation id="op" name="name" submit-label="f" description="description" success-text="test" fail-text="test" confirm-text="test">
+        <operation id="op" name="name" submit-label="f" description="description" success-text="test" fail-text="test"
+                   confirm-text="test">
             <invocation>
                 <sql>select 1</sql>
             </invocation>
@@ -36,7 +48,8 @@
     </operations>
     <validations>
         <condition id="id2" severity="danger" server-moment="after-success-operation" message="message" on="f" src=""/>
-        <constraint id="id3" severity="success" field-id="fieldId" message="message" result="#{ T(java.lang.Math).random() * 100.0 }">
+        <constraint id="id3" severity="success" field-id="fieldId" message="message"
+                    result="#{ T(java.lang.Math).random() * 100.0 }">
             <in>
                 <field id="name" mapping="name" required="true" param="param"/>
                 <field id="id" mapping="id"/>
@@ -49,5 +62,27 @@
             </invocation>
         </constraint>
         <mandatory id="id4" severity="success" message="test" src="/test" on="test"/>
+        <dialog id="id5" server-moment="after-success-operation" message="message" result="name=='Ivan'">
+            <invocation>
+                <sql/>
+            </invocation>
+            <in>
+                <field id="name"/>
+                <field id="validated"/>
+            </in>
+            <out>
+                <field id="name"/>
+            </out>
+            <toolbar>
+                <button id="yes" label="Yes">
+                    <invoke operation-id="create">
+                        <header-param name="validated" value="true"/>
+                    </invoke>
+                </button>
+                <button>
+                    <close/>
+                </button>
+            </toolbar>
+        </dialog>
     </validations>
 </object>
