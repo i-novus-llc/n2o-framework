@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Tiles;
-import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
@@ -22,7 +21,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Компиляция виджета Плитки
  */
 @Component
-public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
+public class TilesCompiler extends BaseListWidgetCompiler<Tiles, N2oTiles> {
     @Override
     protected String getPropertyWidgetSrc() {
         return "n2o.api.widget.tiles.src";
@@ -61,7 +60,7 @@ public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
         for (N2oTiles.Block block : source.getContent())
             tls.add(compileBlock(block, context, p, object, widgetScope, widgetActions));
         tiles.setTile(tls);
-        tiles.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.tiles.size"), Integer.class)));
+        tiles.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.tiles.size"), Integer.class), p));
         return tiles;
     }
 
@@ -72,16 +71,5 @@ public class TilesCompiler extends BaseWidgetCompiler<Tiles, N2oTiles> {
         tile.setId(source.getId());
         tile.setComponent(p.compile(source.getComponent(), context, p, new IndexScope(), new ComponentScope(source), scopes));
         return tile;
-    }
-
-    /**
-     * Компиляция паджинации
-     */
-    private Pagination compilePaging(N2oTiles source, Integer size) {
-        Pagination pagination = new Pagination();
-        pagination.setSize(source.getSize() != null ? source.getSize() : size);
-        pagination.setPrev(source.getPagination() != null ? source.getPagination().getPrev() : null);
-        pagination.setNext(source.getPagination() != null ? source.getPagination().getNext() : null);
-        return pagination;
     }
 }

@@ -12,7 +12,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2
  */
 @Getter
 @Setter
-public class N2oTiles extends N2oWidget {
+public class N2oTiles extends N2oAbstractListWidget {
     private Integer colsSm;
     private Integer colsMd;
     private Integer colsLg;

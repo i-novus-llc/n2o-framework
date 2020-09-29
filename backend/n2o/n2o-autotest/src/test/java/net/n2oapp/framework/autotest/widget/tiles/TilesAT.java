@@ -6,6 +6,7 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.tiles.Tile;
 import net.n2oapp.framework.autotest.api.component.widget.tiles.TilesWidget;
@@ -87,26 +88,52 @@ public class TilesAT extends AutoTestBase {
 
     @Test
     public void testPagination() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/pagination/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/pagination/test.query.xml"));
-        SimplePage page = open(SimplePage.class);
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/paging/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/paging/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        TilesWidget tiles = page.single().widget(TilesWidget.class);
+        TilesWidget tiles = page.widgets().widget(0, TilesWidget.class);
         tiles.shouldExists();
 
         Paging paging = tiles.paging();
+        paging.totalElementsShouldBe(8);
+        paging.prevShouldNotExist();
+        paging.nextShouldNotExist();
+        paging.firstShouldExist();
+        paging.lastShouldNotExist();
+
         paging.activePageShouldBe("1");
+        tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
         tiles.shouldHaveItems(3);
-        paging.totalElementsShouldBe(5);
-
-        paging.selectPage("2");
-        paging.activePageShouldBe("2");
+        paging.selectPage("3");
+        paging.activePageShouldBe("3");
         tiles.shouldHaveItems(2);
-        tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("text4");
-
-        paging.selectPage("1");
+        tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test7");
+        paging.selectFirst();
         paging.activePageShouldBe("1");
-        tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("text1");
+        tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
+
+
+        TilesWidget tiles2 = page.widgets().widget(1, TilesWidget.class);
+        tiles2.shouldExists();
+
+        paging = tiles2.paging();
+        paging.totalElementsShouldNotExist();
+        paging.prevShouldExist();
+        paging.nextShouldExist();
+        paging.firstShouldNotExist();
+        paging.lastShouldExist();
+
+        paging.activePageShouldBe("1");
+        tiles2.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
+        paging.selectNext();
+        paging.activePageShouldBe("2");
+        tiles2.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test4");
+        paging.selectPrev();
+        paging.activePageShouldBe("1");
+        paging.selectLast();
+        tiles2.shouldHaveItems(2);
+        tiles2.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test7");
     }
 }
 

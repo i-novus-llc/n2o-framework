@@ -22,6 +22,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+/**
+ * Тестирование компиляции виджета Список
+ */
 public class ListWidgetCompileTest extends SourceCompileTestBase {
     @Override
     @Before

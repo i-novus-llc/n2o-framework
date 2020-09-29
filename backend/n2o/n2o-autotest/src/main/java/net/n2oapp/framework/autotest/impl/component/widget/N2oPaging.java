@@ -31,29 +31,34 @@ public class N2oPaging extends N2oComponent implements Paging {
 
     @Override
     public int totalElements() {
-        String info = getPaginationInfo().text();
+        String info = paginationInfo().text();
         info = info.split(" ")[1];
         return Integer.parseInt(info);
     }
 
     @Override
     public void totalElementsShouldBe(int count) {
-        getPaginationInfo().scrollTo().should(Condition.matchesText("" + count));
+        paginationInfo().scrollTo().should(Condition.matchesText("" + count));
     }
 
     @Override
     public void totalElementsShouldNotExist() {
-        getPaginationInfo().shouldNotBe(Condition.exist);
+        paginationInfo().shouldNotBe(Condition.exist);
     }
 
     @Override
     public void prevShouldNotExist() {
-        getItems().findBy(Condition.text("‹")).shouldNotBe(Condition.exist);
+        prevButton().shouldNotBe(Condition.exist);
     }
 
     @Override
     public void prevShouldExist() {
-        getItems().findBy(Condition.text("‹")).shouldBe(Condition.exist);
+        prevButton().shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void selectPrev() {
+        prevButton().click();
     }
 
     @Override
@@ -67,30 +72,65 @@ public class N2oPaging extends N2oComponent implements Paging {
     }
 
     @Override
-    public void lastShouldNotExist() {
-        getItems().findBy(Condition.text("»")).shouldNotBe(Condition.exist);
-    }
-
-    @Override
-    public void lastShouldExist() {
-        getItems().findBy(Condition.text("»")).shouldBe(Condition.exist);
+    public void selectNext() {
+        nextButton().click();
     }
 
     @Override
     public void firstShouldNotExist() {
-        getItems().findBy(Condition.text("«")).shouldNotBe(Condition.exist);
+        firstButton().shouldNotBe(Condition.exist);
     }
 
     @Override
     public void firstShouldExist() {
-        getItems().findBy(Condition.text("«")).shouldBe(Condition.exist);
+        firstButton().shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void selectFirst() {
+        firstButton().click();
+    }
+
+    @Override
+    public void lastShouldNotExist() {
+        lastButton().shouldNotBe(Condition.exist);
+    }
+
+    @Override
+    public void lastShouldExist() {
+        lastButton().shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void selectLast() {
+        lastButton().click();
     }
 
     private ElementsCollection getItems() {
         return element().$$(".n2o-pagination .page-item .page-link");
     }
 
-    private SelenideElement getPaginationInfo() {
+    private SelenideElement paginationInfo() {
         return element().$(".n2o-pagination .n2o-pagination-info");
+    }
+
+    private SelenideElement button(String text) {
+        return getItems().findBy(Condition.text(text));
+    }
+
+    private SelenideElement prevButton() {
+        return button("‹");
+    }
+
+    private SelenideElement nextButton() {
+        return button("›");
+    }
+
+    private SelenideElement firstButton() {
+        return button("«");
+    }
+
+    private SelenideElement lastButton() {
+        return button("»");
     }
 }

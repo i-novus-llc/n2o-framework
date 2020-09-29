@@ -639,7 +639,7 @@ link:#_Предустановленные_параметры_действия_pa
   <toolbar>...</toolbar>
   <columns>...</columns>
   <rows>...</rows>
-  <paging>...</paging>
+  <pagination>...</pagination>
 </table>
 ----
 
@@ -1197,7 +1197,8 @@ link:#__node[Дочерний узел]
 <?xml version='1.0' encoding='UTF-8'?>
 <list name="Мой список"
       query-id="myList">
-  ...
+  <content>...</content>
+  <pagination>...</pagination>
 </list>
 ----
 
@@ -1539,19 +1540,19 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 |
 
 |cols-sm
-|Число
+|1, 2
 |Количество колонок в мобильной версии
-|2
+|1
 
 |cols-md
-|Число
+|1, 2, 3, 4, 6
 |Количество колонок в планшетах
-|3
+|2
 
 |cols-lg
-|Число
+|1, 2, 3, 4, 6, 12
 |Количество колонок в десктопной версии
-|5
+|3
 
 |height
 |Число
@@ -1568,10 +1569,9 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 Пример::
 [source,xml]
 ----
-<tiles id="tiles_id" cols-sm="1" cols-md="2" cols-lg="5">
-    <content>
-     ...
-    </content>
+<tiles id="tiles_id" cols-lg="6">
+  <content>...</content>
+  <pagination>...</pagination>
 </tiles>
 ----
 

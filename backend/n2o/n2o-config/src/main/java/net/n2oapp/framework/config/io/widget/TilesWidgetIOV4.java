@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * Чтение\запись виджета Плитки
  */
 @Component
-public class TilesWidgetIOV4 extends WidgetElementIOv4<N2oTiles> {
+public class TilesWidgetIOV4 extends AbstractListWidgetElementIOv4<N2oTiles> {
 
     @Override
     public String getElementName() {
