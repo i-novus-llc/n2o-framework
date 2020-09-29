@@ -3,11 +3,13 @@ package net.n2oapp.framework.autotest.widget.table;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -99,22 +101,43 @@ public class TableAT extends AutoTestBase {
     @Test
     public void testPaging() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/testPagingTable.query.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
         TableWidget table = page.widgets().widget(0, TableWidget.class);
-        table.paging().totalElementsShouldBe(9);
-        table.paging().prevShouldNotExist();
-        table.paging().nextShouldNotExist();
-        table.paging().firstShouldExist();
-        table.paging().lastShouldNotExist();
+        Paging paging = table.paging();
+        paging.totalElementsShouldBe(8);
+        paging.prevShouldNotExist();
+        paging.nextShouldNotExist();
+        paging.firstShouldExist();
+        paging.lastShouldNotExist();
+
+        paging.activePageShouldBe("1");
+        table.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test1");
+        paging.selectPage("3");
+        paging.activePageShouldBe("3");
+        table.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test7");
+        paging.selectFirst();
+        paging.activePageShouldBe("1");
+
 
         TableWidget table2 = page.widgets().widget(1, TableWidget.class);
-        table2.paging().totalElementsShouldNotExist();
-        table2.paging().prevShouldExist();
-        table2.paging().nextShouldExist();
-        table2.paging().firstShouldNotExist();
-        table2.paging().lastShouldExist();
+        paging = table2.paging();
+        paging.totalElementsShouldNotExist();
+        paging.prevShouldExist();
+        paging.nextShouldExist();
+        paging.firstShouldNotExist();
+        paging.lastShouldExist();
+
+        paging.activePageShouldBe("1");
+        table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test1");
+        paging.selectNext();
+        paging.activePageShouldBe("2");
+        table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test4");
+        paging.selectPrev();
+        paging.activePageShouldBe("1");
+        paging.selectLast();
+        table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test7");
     }
 }

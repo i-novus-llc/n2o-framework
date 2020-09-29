@@ -16,8 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование компиляции ячейки с изображением
@@ -53,6 +52,6 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getCompiledAction(), instanceOf(LinkActionImpl.class));
 
         cell = (N2oImageCell) table.getComponent().getCells().get(1);
-        assertThat(cell.getWidth(), is(100));
+        assertThat(cell.getWidth(), nullValue());
     }
 }

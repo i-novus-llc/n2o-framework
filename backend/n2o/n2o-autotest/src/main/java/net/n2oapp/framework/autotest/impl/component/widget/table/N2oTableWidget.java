@@ -2,20 +2,20 @@ package net.n2oapp.framework.autotest.impl.component.widget.table;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
+import net.n2oapp.framework.autotest.impl.component.widget.N2oPaging;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oStandardWidget;
 
 import java.util.List;
 
 /**
- * Виджет - таблица для автотестирования
+ * Виджет таблица для автотестирования
  */
 public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
     @Override
@@ -30,7 +30,7 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
 
     @Override
     public Paging paging() {
-        return new N2oPaging();
+        return new N2oPaging(element());
     }
 
     public class N2oFilters implements Filters {
@@ -118,89 +118,6 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
         @Override
         public List<String> columnTexts(int index) {
             return element().$$(".n2o-table-row td:nth-child(" + (++index) + ")").texts();
-        }
-    }
-
-    public class N2oPaging implements Paging {
-
-        @Override
-        public void activePageShouldBe(String label) {
-            element().$(".n2o-pagination .page-item.active .page-link").shouldHave(Condition.text(label));
-        }
-
-        @Override
-        public void selectPage(String number) {
-            getItems().findBy(Condition.text(number)).click();
-        }
-
-        @Override
-        public void pagingShouldHave(String number) {
-            getItems().findBy(Condition.text(number)).shouldBe(Condition.exist);
-        }
-
-        @Override
-        public int totalElements() {
-            String info = getPaginationInfo().text();
-            info = info.split(" ")[1];
-            return Integer.valueOf(info);
-        }
-
-        @Override
-        public void totalElementsShouldBe(int count) {
-            getPaginationInfo().scrollTo().should(Condition.matchesText("" + count));
-        }
-
-        @Override
-        public void totalElementsShouldNotExist() {
-            getPaginationInfo().shouldNotBe(Condition.exist);
-        }
-
-        @Override
-        public void prevShouldNotExist() {
-            getItems().findBy(Condition.text("‹")).shouldNotBe(Condition.exist);
-        }
-
-        @Override
-        public void prevShouldExist() {
-            getItems().findBy(Condition.text("‹")).shouldBe(Condition.exist);
-        }
-
-        @Override
-        public void nextShouldNotExist() {
-            getItems().findBy(Condition.text("›")).shouldNotBe(Condition.exist);
-        }
-
-        @Override
-        public void nextShouldExist() {
-            getItems().findBy(Condition.text("›")).shouldBe(Condition.exist);
-        }
-
-        @Override
-        public void lastShouldNotExist() {
-            getItems().findBy(Condition.text("»")).shouldNotBe(Condition.exist);
-        }
-
-        @Override
-        public void lastShouldExist() {
-            getItems().findBy(Condition.text("»")).shouldBe(Condition.exist);
-        }
-
-        @Override
-        public void firstShouldNotExist() {
-            getItems().findBy(Condition.text("«")).shouldNotBe(Condition.exist);
-        }
-
-        @Override
-        public void firstShouldExist() {
-            getItems().findBy(Condition.text("«")).shouldBe(Condition.exist);
-        }
-
-        private ElementsCollection getItems() {
-            return element().$$(".n2o-pagination .page-item .page-link");
-        }
-
-        private SelenideElement getPaginationInfo() {
-            return element().$(".n2o-pagination .n2o-pagination-info");
         }
     }
 }

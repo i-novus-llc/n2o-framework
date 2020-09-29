@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.widget.list;
 
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
+import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
 
 public interface ListWidget extends StandardWidget {
@@ -30,31 +31,5 @@ public interface ListWidget extends StandardWidget {
         <T extends Cell> T rightBottom(Class<T> clazz);
 
         <T extends Cell> T extra(Class<T> clazz);
-    }
-
-    interface Paging {
-        void clickPrev();
-
-        void clickNext();
-
-        void totalElementsShouldBe(int count);
-
-        void totalElementsShouldNotExist();
-
-        void prevShouldNotExist();
-
-        void prevShouldExist();
-
-        void nextShouldNotExist();
-
-        void nextShouldExist();
-
-        void lastShouldNotExist();
-
-        void lastShouldExist();
-
-        void firstShouldNotExist();
-
-        void firstShouldExist();
     }
 }
