@@ -1,8 +1,10 @@
 package net.n2oapp.framework.autotest.page;
 
+
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
+import net.n2oapp.framework.autotest.api.component.region.*;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -73,8 +75,45 @@ public class PanelRegionAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/panel/nesting/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-
         PanelRegion panelRegion = page.place("single").region(0, PanelRegion.class);
+        RegionItems content = panelRegion.content();
 
+        FormWidget form = content.widget(0, FormWidget.class);
+        form.shouldExists();
+        form.fields().field("field1").shouldExists();
+
+        SimpleRegion custom = content.region(1, SimpleRegion.class);
+        custom.content().widget(FormWidget.class).fields().field("field2").shouldExists();
+
+        PanelRegion panel = content.region(2, PanelRegion.class);
+        panel.shouldExists();
+        panel.shouldHaveTitle("Panel");
+
+        LineRegion line = content.region(3, LineRegion.class);
+        line.shouldExists();
+        line.shouldHaveTitle("Line");
+
+        TabsRegion tabs = content.region(4, TabsRegion.class);
+        tabs.shouldExists();
+        tabs.shouldHaveSize(2);
+        tabs.tab(1).shouldHaveText("Tab2");
+
+        FormWidget form3 = content.widget(5, FormWidget.class);
+        form3.shouldExists();
+        form3.fields().field("field3").shouldExists();
+
+        // testing collapse/expand state of nesting regions
+        // after collapse->expand global region
+        panel.collapseContent();
+        line.collapseContent();
+        tabs.tab(1).click();
+
+        panelRegion.collapseContent();
+        panelRegion.shouldBeCollapsed();
+        panelRegion.expandContent();
+
+        panel.shouldBeCollapsed();
+        line.shouldBeCollapsed();
+        tabs.tab(1).shouldBeActive();
     }
 }

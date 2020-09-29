@@ -24,10 +24,7 @@ import net.n2oapp.framework.autotest.impl.component.page.N2oLeftRightPage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oStandardPage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oTopLeftRightPage;
-import net.n2oapp.framework.autotest.impl.component.region.N2oLineRegion;
-import net.n2oapp.framework.autotest.impl.component.region.N2oPanelRegion;
-import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
-import net.n2oapp.framework.autotest.impl.component.region.N2oTabsRegion;
+import net.n2oapp.framework.autotest.impl.component.region.*;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oAlert;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oStatus;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
@@ -85,6 +82,6 @@ public class N2oComponentLibrary implements ComponentLibrary {
     @Override
     public List<Class<? extends ComponentsCollection>> collections() {
         return Arrays.asList(N2oCells.class, N2oControls.class, N2oFields.class, N2oRegions.class, N2oTableHeaders.class,
-                N2oToolbar.class, N2oWidgets.class, Menu.class, N2oFieldSets.class, N2oAlerts.class);
+                N2oToolbar.class, N2oWidgets.class, N2oRegionItems.class, Menu.class, N2oFieldSets.class, N2oAlerts.class);
     }
 }

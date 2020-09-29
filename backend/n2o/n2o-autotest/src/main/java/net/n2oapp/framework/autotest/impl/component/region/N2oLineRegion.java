@@ -1,18 +1,29 @@
 package net.n2oapp.framework.autotest.impl.component.region;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Driver;
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.collection.Widgets;
 import net.n2oapp.framework.autotest.api.component.region.LineRegion;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
+import org.openqa.selenium.WebElement;
 
 /**
  * Регион с горизонтальным делителем для автотестирования
  */
 public class N2oLineRegion extends N2oRegion implements LineRegion {
     @Override
-    public Widgets content() {
-        return N2oSelenide.collection(element().$$(".n2o-standard-widget-layout"), Widgets.class);
+    public RegionItems content() {
+        ElementsCollection nestingElements = element().$$(".rc-collapse-content-box .rc-collapse-content-box > div > div");
+        ElementsCollection firstLevelElements = element().$$(".rc-collapse-content-box > div > div")
+                .filter(new Condition("shouldBeFirstLevelElement") {
+                    @Override
+                    public boolean apply(Driver driver, WebElement element) {
+                        return !nestingElements.contains(element);
+                    }
+                });
+        return N2oSelenide.collection(firstLevelElements, RegionItems.class);
     }
 
     @Override
@@ -23,6 +34,11 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
     @Override
     public void shouldNotBeCollapsible() {
         header().shouldHave(Condition.cssClass("n2o-disabled"));
+    }
+
+    @Override
+    public void shouldHaveTitle(String title) {
+        header().$(".n2o-panel-header-text").shouldHave(Condition.text(title));
     }
 
     @Override

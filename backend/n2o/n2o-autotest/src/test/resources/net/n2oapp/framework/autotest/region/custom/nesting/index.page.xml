@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
     <regions>
-        <panel>
+        <region>
             <form name="form1">
                 <fields>
                     <input-text id="field1"/>
@@ -30,6 +30,6 @@
                     <input-text id="field3"/>
                 </fields>
             </form>
-        </panel>
+        </region>
     </regions>
 </page>
