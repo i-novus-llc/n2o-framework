@@ -87,6 +87,8 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                         else if (item instanceof N2oRegion)
                             content.add(p.compile(item, context, p, index));
                 tab.setContent(content);
+                // opened only first tab
+                tab.setOpened(items.isEmpty());
                 items.add(tab);
             }
         return items;
