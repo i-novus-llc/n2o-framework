@@ -30,11 +30,6 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         return new N2oTabItem(element().$$(".nav-item").findBy(by));
     }
 
-    @Override
-    public Widgets activeTab() {
-        return collection(element().$$("div.tab-pane.active div.n2o-standard-widget-layout"), N2oWidgets.class);
-    }
-
     public static class N2oTabItem extends N2oComponent implements TabItem {
 
         public N2oTabItem(SelenideElement element) {
