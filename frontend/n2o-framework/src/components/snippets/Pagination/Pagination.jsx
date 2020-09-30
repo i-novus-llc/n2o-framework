@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import PaginationButton from './PaginationButton';
-
-import { FormattedPlural } from 'react-intl';
+import { getContext } from 'recompose';
 
 /**
  * Компонент интерфейса разбивки по страницам
@@ -32,7 +31,7 @@ import { FormattedPlural } from 'react-intl';
  *             maxButtons={4}
  *             stepIncrement={10} />
  */
-export default class Pagination extends React.Component {
+class Pagination extends React.Component {
   /**
    * Рендер тела компонента. Алгоритм автоматически высчитывает страницы до и после текущей
    * @param activePage
@@ -180,6 +179,8 @@ export default class Pagination extends React.Component {
       withoutBody,
       prevText,
       nextText,
+      i18n,
+      t,
       ...props
     } = this.props;
     const pages = Math.ceil(count / size, 10) || 1;
@@ -244,14 +245,9 @@ export default class Pagination extends React.Component {
               display: 'inline-flex',
             }}
           >
-            {`Всего ${count}`}
+            {`${t('paginationTotal')} ${count}`}
             &nbsp;
-            <FormattedPlural
-              value={count}
-              one="запись"
-              few="записи"
-              other="записей"
-            />
+            {t('paginationInterval', { postProcess: 'interval', count })}
           </span>
         )}
       </nav>
@@ -346,3 +342,5 @@ Pagination.defaultProps = {
   size: 1,
   activePage: 1,
 };
+
+export default getContext({ t: PropTypes.func })(Pagination);

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { getContext } from 'recompose';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import isEqual from 'lodash/isEqual';
@@ -250,6 +250,7 @@ class Table extends React.Component {
       widgetId,
       isActive,
       rowClick,
+      t,
     } = this.props;
 
     if (React.Children.count(children)) {
@@ -333,12 +334,7 @@ class Table extends React.Component {
                     colSpan={headers && headers.length}
                     style={{ textAlign: 'center' }}
                   >
-                    <span className="text-muted">
-                      <FormattedMessage
-                        id="table.notFound"
-                        defaultMessage="Нет данных для отображения"
-                      />
-                    </span>
+                    <span className="text-muted">{t('noData')}</span>
                   </TableCell>
                 </TableRow>
               )}
@@ -388,5 +384,4 @@ Table.Body = TableBody;
 Table.Row = TableRow;
 Table.Cell = TableCell;
 
-//Table = pure(Table);
-export default Table;
+export default getContext({ t: PropTypes.func })(Table);

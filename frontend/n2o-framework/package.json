@@ -90,6 +90,7 @@
     "history": "4.6.1",
     "html-to-draftjs": "1.4.0",
     "i18next": "^19.6.3",
+    "i18next-intervalplural-postprocessor": "^2.0.2",
     "invariant": "^2.2.4",
     "lodash": "^4.17.15",
     "moment": "2.20.1",

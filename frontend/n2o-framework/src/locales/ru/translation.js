@@ -1,4 +1,20 @@
 export default {
   defaultPromptMessage:
     'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
+  login: 'Логин',
+  paginationInterval: '(1){запись};(2-4){записи};(7-inf){записей};',
+  paginationTotal: 'Всего',
+  noData: 'Нет данных для отображения',
+  chooseTime: 'Выберите время',
+  dialogTitle: 'Подтвердите действие',
+  dialogText: 'Вы уверены?',
+  confirm: 'Да',
+  deny: 'Нет',
+  search: 'Найти',
+  reset: 'Сбросить',
+  downloadAll: 'Загрузить все',
+  currentPage: 'Текущая страница',
+  uploadFile: 'Загрузить файл',
+  save: 'Сохранить',
+  rub: 'руб',
 };

@@ -17,11 +17,10 @@ import some from 'lodash/some';
 import Icon from '../../snippets/Icon/Icon';
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
 import CheckboxN2O from '../Checkbox/CheckboxN2O';
-import { compose, withState, setDisplayName } from 'recompose';
+import { compose, withState, setDisplayName, getContext } from 'recompose';
 import propsResolver from '../../../utils/propsResolver';
 import { visiblePartPopup, getCheckedStrategy } from './until';
 import TreeNode from './TreeSelectNode';
-import { injectIntl, intlShape } from 'react-intl';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -64,6 +63,7 @@ import PropTypes from 'prop-types';
  */
 //TODO переделать в класс
 function InputSelectTree({
+  t,
   onOpen,
   onFocus,
   value,
@@ -73,7 +73,7 @@ function InputSelectTree({
   setDropdownExpanded,
   placeholder,
   setTreeExpandedKeys,
-  notFoundContent,
+  notFoundContent = t('noData'),
   treeExpandedKeys,
   closePopupOnSelect,
   loading,
@@ -100,7 +100,6 @@ function InputSelectTree({
   handleItemOpen,
   ajax,
   className,
-  intl,
   dropdownPopupAlign,
   ref,
   showCheckedStrategy,
@@ -405,24 +404,9 @@ function InputSelectTree({
       prefixCls="n2o-select-tree"
       showCheckedStrategy={getCheckedStrategy(showCheckedStrategy)}
       getPopupContainer={getPopupContainer}
-      notFoundContent={
-        loading ? (
-          <InlineSpinner />
-        ) : (
-          intl.formatMessage({
-            id: 'inputSelectTree.notFoundContent',
-            defaultMessage: notFoundContent || ' ',
-          })
-        )
-      }
-      placeholder={intl.formatMessage({
-        id: 'inputSelectTree.placeholder',
-        defaultMessage: placeholder || ' ',
-      })}
-      searchPlaceholder={intl.formatMessage({
-        id: 'inputSelectTree.searchPlaceholder',
-        defaultMessage: searchPlaceholder || ' ',
-      })}
+      notFoundContent={loading ? <InlineSpinner /> : notFoundContent}
+      placeholder={placeholder}
+      searchPlaceholder={searchPlaceholder}
       disabled={disabled}
       {...rest}
     >
@@ -433,7 +417,6 @@ function InputSelectTree({
 
 InputSelectTree.defaultProps = {
   children: null,
-  intl: intlShape.isRequired,
   hasChildrenFieldId: 'hasChildren',
   disabled: false,
   loading: false,
@@ -450,7 +433,6 @@ InputSelectTree.defaultProps = {
   multiSelect: false,
   closePopupOnSelect: false,
   data: [],
-  notFoundContent: 'Ничего не найдено',
   searchPlaceholder: '',
   transitionName: 'slide-up',
   choiceTransitionName: 'zoom',
@@ -606,9 +588,9 @@ InputSelectTree.propTypes = {
 export { TreeNode, InputSelectTree };
 
 export default compose(
+  getContext({ t: PropTypes.func }),
   setDisplayName('InputSelectTree'),
   withState('treeExpandedKeys', 'setTreeExpandedKeys', []),
   withState('dropdownExpanded', 'setDropdownExpanded', false),
-  withState('_control', 'setControlRef', null),
-  injectIntl
+  withState('_control', 'setControlRef', null)
 )(InputSelectTree);

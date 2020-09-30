@@ -93,8 +93,9 @@ export default compose(
       }
     },
     componentDidUpdate(prevProps) {
-      if (prevProps.locale !== this.props.locale) {
-        this.props.i18n.changeLanguage(this.props.locale);
+      const { locale, i18n } = this.props;
+      if (prevProps.locale !== locale) {
+        i18n.changeLanguage(locale);
       }
     },
   })

@@ -384,7 +384,6 @@ const FileUploaderControl = WrappedComponent => {
   };
 
   ReturnedComponent.defaultProps = {
-    label: 'Загрузить файл',
     requestParam: 'file',
     visible: true,
     icon: 'fa fa-upload',

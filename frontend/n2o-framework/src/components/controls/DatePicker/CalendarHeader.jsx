@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import 'moment/locale/ru';
-import { FormattedMessage } from 'react-intl';
+import { getContext } from 'recompose';
 
 import { withLocale } from './utils';
 import Calendar from './Calendar';
@@ -77,10 +77,7 @@ class CalendarHeader extends React.Component {
             e.preventDefault();
           }}
         >
-          <FormattedMessage
-            id="Datepicker.time-choose"
-            defaultMessage={'Выберите время'}
-          />
+          {this.props.t('chooseDate')}
         </a>
       );
     }
@@ -176,4 +173,4 @@ CalendarHeader.propTypes = {
   calendarType: PropTypes.string,
 };
 
-export default CalendarHeader;
+export default getContext({ t: PropTypes.func })(CalendarHeader);

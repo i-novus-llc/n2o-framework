@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { getContext } from 'recompose';
 import Dropzone from 'react-dropzone';
 import cn from 'classnames';
 import isEmpty from 'lodash/isEmpty';
@@ -27,6 +29,7 @@ class FileUploader extends React.Component {
       onStartUpload,
       uploaderClass,
       saveBtnStyle,
+      t,
     } = this.props;
     const showControl = multiple || (!multiple && isEmpty(files));
 
@@ -70,7 +73,7 @@ class FileUploader extends React.Component {
                 style={saveBtnStyle}
                 onClick={onStartUpload}
               >
-                Сохранить
+                {t('save')}
               </Button>
             )}
           </div>
@@ -80,4 +83,4 @@ class FileUploader extends React.Component {
   }
 }
 
-export default FileUploader;
+export default getContext({ t: PropTypes.func })(FileUploader);

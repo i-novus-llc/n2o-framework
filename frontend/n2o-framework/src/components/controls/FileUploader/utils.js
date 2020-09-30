@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 const Size = {
-  0: 'Б',
-  1: 'КБ',
-  2: 'МБ',
+  0: 'B',
+  1: 'KB',
+  2: 'MB',
 };
 
 export function post(url, file, onProgress, onUpload, onError) {
@@ -28,7 +28,7 @@ export function deleteFile(url, id) {
 
 export function convertSize(size, step = 0) {
   if (!size || size === 0) {
-    return ' 0Б';
+    return ' 0B';
   }
   if (size / 1024 > 1) {
     return convertSize(size / 1024, step + 1);

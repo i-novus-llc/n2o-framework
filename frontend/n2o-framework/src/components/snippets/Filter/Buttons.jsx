@@ -2,22 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 import Button from 'reactstrap/lib/Button';
-import { FormattedMessage } from 'react-intl';
+import { getContext } from 'recompose';
 
-export default function Buttons({
+function Buttons({
+  t,
   visible,
-  searchLabel,
-  resetLabel,
+  searchLabel = t('search'),
+  resetLabel = t('reset'),
   onSearch,
   onReset,
 }) {
   return visible ? (
     <ButtonGroup>
       <Button color="primary" onClick={onSearch}>
-        <FormattedMessage id="Filter.search" defaultMessage={searchLabel} />
+        {searchLabel}
       </Button>
       <Button color="secondary" onClick={onReset}>
-        <FormattedMessage id="Filter.reset" defaultMessage={resetLabel} />
+        {resetLabel}
       </Button>
     </ButtonGroup>
   ) : null;
@@ -34,7 +35,7 @@ Buttons.propTypes = {
 Buttons.defaultProps = {
   onSearch: () => {},
   onReset: () => {},
-  searchLabel: 'Найти',
-  resetLabel: 'Сбросить',
   visible: true,
 };
+
+export default getContext({ t: PropTypes.func })(Button);

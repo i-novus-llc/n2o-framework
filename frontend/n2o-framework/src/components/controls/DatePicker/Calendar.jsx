@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import isNull from 'lodash/isNull';
 import moment from 'moment';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
 
 import Day from './Day';
 import CalendarHeader from './CalendarHeader';
@@ -15,6 +14,7 @@ import {
   hasInsideMixMax,
 } from './utils';
 import { ControlType } from './DateTimeControl';
+import { getContext } from 'recompose';
 
 /**
  * @reactProps {date} value
@@ -364,20 +364,13 @@ class Calendar extends React.Component {
   }
 
   renderTime() {
-    const { value, hasDefaultTime, timeFormat } = this.props;
+    const { value, hasDefaultTime, timeFormat, t } = this.props;
 
-    return hasDefaultTime ? (
-      value ? (
-        value.format(timeFormat)
-      ) : (
-        '00:00:00'
-      )
-    ) : (
-      <FormattedMessage
-        id="Datepicker.time-choose"
-        defaultMessage="Выберите время"
-      />
-    );
+    return hasDefaultTime
+      ? value
+        ? value.format(timeFormat)
+        : '00:00:00'
+      : t('chooseTime');
   }
 
   objFromTime(date) {
@@ -644,4 +637,4 @@ Calendar.propTypes = {
   }),
 };
 
-export default Calendar;
+export default getContext({ t: PropTypes.func })(Calendar);

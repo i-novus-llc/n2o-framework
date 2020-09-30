@@ -1,4 +1,20 @@
 export default {
   defaultPromptMessage:
     'All unsaved data will be lost, are you sure you want to leave?',
+  login: 'Login',
+  paginationInterval: '(1){record};(2-7){records};(7-inf){records};',
+  paginationTotal: 'Total',
+  noData: 'No data',
+  chooseTime: 'Choose time',
+  dialogTitle: 'Confirm action',
+  dialogText: 'Are you sure?',
+  confirm: 'Yes',
+  deny: 'No',
+  search: 'Search',
+  reset: 'Reset',
+  downloadAll: 'Download all',
+  currentPage: 'Current page',
+  uploadFile: 'Upload file',
+  save: 'Save',
+  rub: 'rub',
 };

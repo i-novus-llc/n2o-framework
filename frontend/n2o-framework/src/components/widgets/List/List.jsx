@@ -5,6 +5,7 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { authProvider } from 'n2o-auth';
+import { getContext } from 'recompose';
 
 import ListItem from './ListItem';
 import ListMoreButton from './ListMoreButton';
@@ -235,7 +236,7 @@ class List extends Component {
   }
 
   render() {
-    const { className, maxHeight } = this.props;
+    const { className, maxHeight, t } = this.props;
     const { data } = this.state;
 
     return (
@@ -245,7 +246,7 @@ class List extends Component {
       >
         {(!data || isEmpty(data)) && (
           <div className="n2o-widget-list--empty-view text-muted">
-            Нет данных для отображения
+            {t('noData')}
           </div>
         )}
         {data && !isEmpty(data) && (
@@ -368,4 +369,4 @@ List.defaultProps = {
   authProvider: authProvider,
 };
 
-export default List;
+export default getContext({ t: PropTypes.func })(List);
