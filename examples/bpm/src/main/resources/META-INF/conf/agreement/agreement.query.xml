@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
+
+    <unique result-mapping="#this">
+        <camunda operation="getTask"/>
+    </unique>
+
+    <fields>
+        <field id="id" domain="string">
+            <filters>
+                <eq filter-id="id" domain="string"/>
+            </filters>
+            <select/>
+        </field>
+
+        <field id="position" domain="string">
+            <select mapping="['variables']?.get('position')"/>
+        </field>
+        <field id="salary" domain="integer">
+            <select mapping="['variables']?.get('salary')"/>
+        </field>
+        <field id="lastName" domain="string">
+            <select mapping="['variables']?.get('lastName')"/>
+        </field>
+        <field id="salaryExpected" domain="integer">
+            <select mapping="['variables']?.get('salaryExpected')"/>
+        </field>
+        <field id="skills" domain="string">
+            <select mapping="['variables']?.get('skills')"/>
+        </field>
+        <field id="agreedSalary" domain="integer">
+            <select mapping="['variables']?.get('agreedSalary')"/>
+        </field>
+
+        <field id="sendOffer" domain="boolean">
+            <select mapping="['variables']?.get('sendOffer')"/>
+        </field>
+    </fields>
+</query>

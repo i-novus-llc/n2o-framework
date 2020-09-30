@@ -7,16 +7,21 @@ import net.n2oapp.framework.api.metadata.Compiled;
  * Клиентская модель для паджинации таблицы.
  */
 public class Pagination implements Compiled {
-    @JsonProperty("prev")
+    @JsonProperty
     private Boolean prev;
-    @JsonProperty("next")
+    @JsonProperty
     private Boolean next;
-    @JsonProperty("size")
+    @JsonProperty
     private Integer size;
+    @JsonProperty
     private String src;
+    @JsonProperty
     private Boolean last;
+    @JsonProperty
     private Boolean first;
-    private Boolean showCount;
+    @JsonProperty
+    private Boolean showCountRecords;
+    @JsonProperty
     private Boolean hideSinglePage;
 
     public Boolean getPrev() {
@@ -67,12 +72,12 @@ public class Pagination implements Compiled {
         this.first = first;
     }
 
-    public Boolean getShowCount() {
-        return showCount;
+    public Boolean getShowCountRecords() {
+        return showCountRecords;
     }
 
-    public void setShowCount(Boolean showCount) {
-        this.showCount = showCount;
+    public void setShowCountRecords(Boolean showCountRecords) {
+        this.showCountRecords = showCountRecords;
     }
 
     public Boolean getHideSinglePage() {

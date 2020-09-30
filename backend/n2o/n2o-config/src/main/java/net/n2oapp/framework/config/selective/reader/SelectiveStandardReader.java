@@ -130,7 +130,8 @@ public class SelectiveStandardReader extends SelectiveReader {
                 .addReader(new SqlDataProviderIOv1())
                 .addReader(new JavaDataProviderIOv1())
                 .addReader(new TestDataProviderIOv1())
-                .addReader(new MongoDbDataProviderIOv1());
+                .addReader(new MongoDbDataProviderIOv1())
+                .addReader(new CamundaDataProviderIOv1());
     }
 
     public SelectiveStandardReader addQueryReader() {

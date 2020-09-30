@@ -105,7 +105,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             }
             component.setRowClick(compileRowClick(source, context, p, widgetScope, widgetRouteScope, object, widgetActions));
         }
-        table.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
+        table.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p));
         table.setChildren(p.cast(source.getChildren(),
                 p.resolve(property("n2o.api.widget.table.children.toggle"), N2oTable.ChildrenToggle.class))
         );
@@ -116,10 +116,10 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
     }
 
     @Override
-    protected QueryContext getQueryContext(Table widget, N2oTable source, CompileContext<?, ?> context, String route, CompiledQuery query,
+    protected QueryContext getQueryContext(Table widget, N2oTable source, CompileContext<?, ?> context, String route, String queryId,
                                            ValidationList validationList, SubModelsScope subModelsScope,
                                            CopiedFieldScope copiedFieldScope, CompileProcessor p, CompiledObject object) {
-        QueryContext queryContext = super.getQueryContext(widget, source, context, route, query, validationList,
+        QueryContext queryContext = super.getQueryContext(widget, source, context, route, queryId, validationList,
                 subModelsScope, copiedFieldScope, p, object);
         queryContext.setSortingMap(new StrictMap<>());
         if (source.getColumns() != null) {
