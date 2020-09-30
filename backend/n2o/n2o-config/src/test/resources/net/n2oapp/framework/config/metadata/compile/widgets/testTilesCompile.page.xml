@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <region>
+            <tiles id="tiles1" cols-sm="2" cols-md="3" cols-lg="6"
+                   size="5" height="450" width="300">
+                <content>
+                    <block text-field-id="test1">
+                        <cell src="cell1"/>
+                    </block>
+                    <block id="id2" text-field-id="test2" tooltip-field-id="tooltip">
+                        <text/>
+                    </block>
+                    <block text-field-id="test3">
+                        <image url="/test"/>
+                    </block>
+                </content>
+                <pagination src="pagingSrc" show-count="false" prev="true" next="true"
+                            hide-single-page="false" last="true" first="false"/>
+            </tiles>
+            <tiles id="tiles2">
+                <content>
+                    <block text-field-id="test4">
+                        <cell src="cell2"/>
+                    </block>
+                </content>
+                <pagination/>
+            </tiles>
+        </region>
+    </regions>
+</page>

@@ -112,7 +112,8 @@ public class SelectiveStandardPersister extends SelectivePersister {
                 .addPersister(new SqlDataProviderIOv1())
                 .addPersister(new JavaDataProviderIOv1())
                 .addPersister(new TestDataProviderIOv1())
-                .addPersister(new MongoDbDataProviderIOv1());
+                .addPersister(new MongoDbDataProviderIOv1())
+                .addPersister(new CamundaDataProviderIOv1());
     }
 
     public SelectiveStandardPersister addEventPersister() {

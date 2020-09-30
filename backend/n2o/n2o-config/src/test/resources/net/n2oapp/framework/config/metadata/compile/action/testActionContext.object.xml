@@ -7,11 +7,24 @@
             </invocation>
             <in>
                 <field id="id"/>
-                <field id="name" param="fpName1"/>
-                <field id="gender.id" param="fpGender.id"/>
+                <field id="name"/>
                 <field id="surname"/>
                 <field id="birthdate" required="true"/>
             </in>
+        </operation>
+        <operation id="update">
+            <invocation>
+                <java method="test"/>
+            </invocation>
+            <in>
+                <field id="id"/>
+                <field id="name"/>
+            </in>
+        </operation>
+        <operation id="delete">
+            <invocation>
+                <java method="test"/>
+            </invocation>
         </operation>
     </operations>
 

@@ -86,6 +86,7 @@ app.all("/sign/set", (req, res) => {
   console.log(req.body);
   res.send(200);
 });
+
 app.use("/n2o", exampleProxy);
 app.use("/n2o/data", exampleProxy);
 app.use("/n2o/config", exampleProxy);
