@@ -10,6 +10,6 @@ import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 public class N2oSimpleRegion extends N2oRegion implements SimpleRegion {
     @Override
     public RegionItems content() {
-        return N2oSelenide.collection(element().$$(".n2o-standard-widget-layout"), RegionItems.class);
+        return N2oSelenide.collection(firstLevelElements(".n2o-none-region", "div"), RegionItems.class);
     }
 }

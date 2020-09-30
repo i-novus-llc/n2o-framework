@@ -1,14 +1,11 @@
 package net.n2oapp.framework.autotest.impl.component.region;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Driver;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
-import org.openqa.selenium.WebElement;
 
 /**
  * Регион в виде панели для автотестирования
@@ -16,15 +13,7 @@ import org.openqa.selenium.WebElement;
 public class N2oPanelRegion extends N2oRegion implements PanelRegion {
     @Override
     public RegionItems content() {
-        ElementsCollection nestingElements = element().$$(".card-body .card-body > div");
-        ElementsCollection firstLevelElements = element().$$(".card-body > div")
-                .filter(new Condition("shouldBeFirstLevelElement") {
-                    @Override
-                    public boolean apply(Driver driver, WebElement element) {
-                        return !nestingElements.contains(element);
-                    }
-                });
-        return N2oSelenide.collection(firstLevelElements, RegionItems.class);
+        return N2oSelenide.collection(firstLevelElements(".card-body", "div"), RegionItems.class);
     }
 
     @Override

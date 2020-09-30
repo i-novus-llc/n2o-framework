@@ -1,12 +1,13 @@
 package net.n2oapp.framework.autotest.impl.component.region;
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Widgets;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
 import net.n2oapp.framework.autotest.impl.collection.N2oWidgets;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
+import org.openqa.selenium.WebElement;
 
 import static net.n2oapp.framework.autotest.N2oSelenide.collection;
 
@@ -38,6 +39,26 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
         public N2oTabItem(SelenideElement element) {
             setElement(element);
+        }
+
+        @Override
+        public RegionItems content() {
+            int index = 0;
+            ElementsCollection tabs = element().parent().$$(".nav-item");
+            while (!tabs.get(index).is(Condition.text(element().getText()))) index++;
+
+            SelenideElement elm = element().parent().parent().$$(".tab-pane").get(index)
+                    .shouldBe(Condition.cssClass("active"));
+
+            ElementsCollection nestingElements = elm.$$(".tab-pane.active .tab-pane.active > div > div");
+            ElementsCollection firstLevelElements = elm.$$(".tab-pane.active > div > div")
+                    .filter(new Condition("shouldBeFirstLevelElement") {
+                        @Override
+                        public boolean apply(Driver driver, WebElement element) {
+                            return !nestingElements.contains(element);
+                        }
+                    });
+            return N2oSelenide.collection(firstLevelElements, RegionItems.class);
         }
 
         @Override

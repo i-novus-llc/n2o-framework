@@ -7,6 +7,8 @@ import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -109,13 +111,14 @@ public class FormAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        InputText masterName = page.widgets().widget(FormWidget.class).fields().field("master-name")
+        RegionItems content = page.place("single").region(0, SimpleRegion.class).content();
+        InputText masterName = content.widget(FormWidget.class).fields().field("master-name")
                 .control(InputText.class);
-        InputText childName = page.widgets().widget(1, FormWidget.class).fields().field("child-name")
+        InputText childName = content.widget(1, FormWidget.class).fields().field("child-name")
                 .control(InputText.class);
-        InputText master2Name = page.widgets().widget(2, FormWidget.class).fields().field("master2-name")
+        InputText master2Name = content.widget(2, FormWidget.class).fields().field("master2-name")
                 .control(InputText.class);
-        InputText child2Name = page.widgets().widget(3, FormWidget.class).fields().field("child2-name")
+        InputText child2Name = content.widget(3, FormWidget.class).fields().field("child2-name")
                 .control(InputText.class);
 
         masterName.shouldHaveValue("test");

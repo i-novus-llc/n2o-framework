@@ -17,6 +17,8 @@ public interface TabsRegion extends Region {
     void shouldHaveSize(int size);
 
     interface TabItem extends Component {
+        RegionItems content();
+
         void click();
 
         void shouldHaveText(String text);

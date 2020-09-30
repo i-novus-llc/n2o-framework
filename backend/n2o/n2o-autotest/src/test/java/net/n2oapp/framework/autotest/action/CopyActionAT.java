@@ -9,6 +9,8 @@ import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -51,8 +53,9 @@ public class CopyActionAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        TableWidget table = page.widgets().widget(TableWidget.class);
-        FormWidget form = page.widgets().widget(1, FormWidget.class);
+        RegionItems content = page.place("single").region(0, SimpleRegion.class).content();
+        TableWidget table = content.widget(TableWidget.class);
+        FormWidget form = content.widget(1, FormWidget.class);
         InputText id = form.fields().field("id").control(InputText.class);
         InputText name = form.fields().field("name").control(InputText.class);
         StandardButton copyBtn = table.toolbar().bottomRight().button("Копирование");

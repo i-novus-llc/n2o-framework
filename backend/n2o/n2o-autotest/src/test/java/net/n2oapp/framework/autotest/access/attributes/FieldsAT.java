@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.access.attributes;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -54,7 +55,7 @@ public class FieldsAT extends AutoTestBase {
         page.header().brandNameShouldBe("N2O");
         page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
 
-        Fields fields = page.widgets().widget(FormWidget.class).fields();
+        Fields fields = page.place("single").region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
         fields.shouldHaveSize(3);
         fields.field("Доступно всем").shouldExists();
         fields.field("Только с ролью admin").shouldExists();
@@ -71,7 +72,7 @@ public class FieldsAT extends AutoTestBase {
         page.header().brandNameShouldBe("N2O");
         page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
 
-        Fields fields = page.widgets().widget(FormWidget.class).fields();
+        Fields fields = page.place("single").region(0, SimpleRegion.class).content().widget(FormWidget.class).fields();
         fields.shouldHaveSize(2);
         fields.field("Доступно всем").shouldExists();
         fields.field("Только с ролью admin").shouldNotExists();

@@ -1,7 +1,8 @@
-package net.n2oapp.framework.autotest.page;
+package net.n2oapp.framework.autotest.region;
 
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
+import net.n2oapp.framework.autotest.api.component.region.*;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -58,5 +59,48 @@ public class TabsRegionAT extends AutoTestBase {
         tabs.tab(0).shouldNotBeActive();
         tabs.tab(1).shouldNotBeActive();
         tabs.tab(2).shouldBeActive();
+    }
+
+    @Test
+    public void testContent() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/nesting/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        TabsRegion tabsRegion = page.place("single").region(0, TabsRegion.class);
+        RegionItems content = tabsRegion.tab(0).content();
+
+        content.widget(0, FormWidget.class).fields().field("field1").shouldExists();
+
+        SimpleRegion custom = content.region(1, SimpleRegion.class);
+        custom.content().widget(FormWidget.class).fields().field("field2").shouldExists();
+
+        PanelRegion panel = content.region(2, PanelRegion.class);
+        panel.shouldExists();
+        panel.shouldHaveTitle("Panel");
+
+        LineRegion line = content.region(3, LineRegion.class);
+        line.shouldExists();
+        line.shouldHaveTitle("Line");
+
+        TabsRegion tabs = content.region(4, TabsRegion.class);
+        tabs.shouldExists();
+        tabs.shouldHaveSize(2);
+        tabs.tab(1).shouldHaveText("Tab2");
+
+        content.widget(5, FormWidget.class).fields().field("field3").shouldExists();
+
+        // testing collapse/expand state of nesting regions
+        // after switch between tabs in global region
+        panel.collapseContent();
+        line.collapseContent();
+        tabs.tab(1).click();
+
+        tabsRegion.tab(1).click();
+        tabsRegion.tab(1).shouldBeActive();
+        tabsRegion.tab(0).click();
+
+        panel.shouldBeCollapsed();
+        line.shouldBeCollapsed();
+        tabs.tab(1).shouldBeActive();
     }
 }

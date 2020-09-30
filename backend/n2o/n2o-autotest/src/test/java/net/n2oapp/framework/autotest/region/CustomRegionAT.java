@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.page;
+package net.n2oapp.framework.autotest.region;
 
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
@@ -49,31 +49,30 @@ public class CustomRegionAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/custom/nesting/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
+
+        // widgets in <regions> should be contained in SimpleRegion
         SimpleRegion simpleRegion = page.place("single").region(0, SimpleRegion.class);
         RegionItems content = simpleRegion.content();
+        content.widget(0, FormWidget.class).fields().field("field1").shouldExists();
+        content.widget(1, FormWidget.class).fields().field("field2").shouldExists();
 
-        FormWidget form = content.widget(0, FormWidget.class);
-        form.shouldExists();
-        form.fields().field("field1").shouldExists();
+        SimpleRegion simpleRegion2 = page.place("single").region(1, SimpleRegion.class);
+        content = simpleRegion2.content();
+        content.widget(0, FormWidget.class).fields().field("field3").shouldExists();
 
-        SimpleRegion custom = content.region(1, SimpleRegion.class);
-        custom.content().widget(FormWidget.class).fields().field("field2").shouldExists();
-
-        PanelRegion panel = content.region(2, PanelRegion.class);
+        PanelRegion panel = content.region(1, PanelRegion.class);
         panel.shouldExists();
         panel.shouldHaveTitle("Panel");
 
-        LineRegion line = content.region(3, LineRegion.class);
+        LineRegion line = content.region(2, LineRegion.class);
         line.shouldExists();
         line.shouldHaveTitle("Line");
 
-        TabsRegion tabs = content.region(4, TabsRegion.class);
+        TabsRegion tabs = content.region(3, TabsRegion.class);
         tabs.shouldExists();
         tabs.shouldHaveSize(2);
         tabs.tab(1).shouldHaveText("Tab2");
 
-        FormWidget form2 = content.widget(5, FormWidget.class);
-        form2.shouldExists();
-        form2.fields().field("field2").shouldExists();
+        content.widget(4, FormWidget.class).fields().field("field4").shouldExists();
     }
 }

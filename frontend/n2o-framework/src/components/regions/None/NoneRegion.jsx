@@ -15,7 +15,7 @@ import RegionContent from '../RegionContent';
 
 const NoneRegion = ({ content }) => {
   return (
-    <div style={{ paddingBottom: 2, paddingTop: 2 }}>
+    <div className="n2o-none-region">
       {content.map(item => (
         <RegionContent content={[item]} />
       ))}
