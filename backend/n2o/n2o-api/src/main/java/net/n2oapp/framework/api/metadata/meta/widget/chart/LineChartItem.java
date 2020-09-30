@@ -13,9 +13,11 @@ public class LineChartItem extends AbstractChartItem {
     @JsonProperty("dataKey")
     private String fieldId;
     @JsonProperty
+    private String label;
+    @JsonProperty
     private ChartLineType type;
     @JsonProperty("stroke")
     private String color;
-    @JsonProperty("label")
+    @JsonProperty
     private Boolean hasLabel;
 }

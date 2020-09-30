@@ -19,12 +19,10 @@ public class AreaChartIOv4 extends StandardChartIOv4<N2oAreaChart> {
         p.children(e, null, "area", c::getItems, c::setItems, N2oAreaChartItem.class, this::areaChartIOv4);
     }
 
-    private void areaChartIOv4(Element e, N2oAreaChartItem c, IOProcessor p) {
-        p.attribute(e, "field-id", c::getFieldId, c::setFieldId);
-        p.attributeEnum(e, "line-type", c::getLineType, c::setLineType, ChartLineType.class);
-        p.attribute(e, "color", c::getColor, c::setColor);
-        p.attribute(e, "stroke-color", c::getStrokeColor, c::setStrokeColor);
-        p.attributeBoolean(e, "has-label", c::getHasLabel, c::setHasLabel);
+    private void areaChartIOv4(Element e, N2oAreaChartItem i, IOProcessor p) {
+        item(e, i, p);
+        p.attributeEnum(e, "line-type", i::getLineType, i::setLineType, ChartLineType.class);
+        p.attribute(e, "stroke-color", i::getStrokeColor, i::setStrokeColor);
     }
 
     @Override
