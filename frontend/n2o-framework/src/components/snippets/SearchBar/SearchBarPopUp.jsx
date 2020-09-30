@@ -3,7 +3,13 @@ import Dropdown from 'reactstrap/lib/Dropdown';
 import DropdownToggle from 'reactstrap/lib/DropdownToggle';
 import SearchBarPopUpList from './SearchBarPopUpList';
 
-function SearchBarPopUp(props) {
+function SearchBarPopUp({
+  labelFieldId,
+  descriptionFieldId,
+  iconFieldId,
+  urlFieldId,
+  ...props
+}) {
   const { dropdownOpen } = props;
   return (
     <Dropdown
@@ -16,7 +22,13 @@ function SearchBarPopUp(props) {
         data-toggle="dropdown"
         aria-expanded={dropdownOpen}
       />
-      <SearchBarPopUpList {...props} />
+      <SearchBarPopUpList
+        labelFieldId={labelFieldId}
+        descriptionFieldId={descriptionFieldId}
+        iconFieldId={iconFieldId}
+        urlFieldId={urlFieldId}
+        {...props}
+      />
     </Dropdown>
   );
 }

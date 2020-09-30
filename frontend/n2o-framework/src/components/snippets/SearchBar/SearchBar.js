@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+
+import { batchActions } from 'redux-batched-actions';
+
 import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
 import Button from 'reactstrap/lib/Button';
@@ -32,13 +35,19 @@ function SearchBar({
   icon,
   button,
   onClick,
+  onBlur,
   onChange,
   onKeyDown,
+  onFocus,
   placeholder,
   menu,
   dropdownOpen,
   toggleDropdown,
   directionIconsInPopUp,
+  descriptionFieldId,
+  iconFieldId,
+  labelFieldId,
+  urlFieldId,
 }) {
   SearchBar.handleClickOutside = () => toggleDropdown('false');
   return (
@@ -50,7 +59,10 @@ function SearchBar({
             value={innerValue}
             onChange={onChange}
             placeholder={placeholder}
-            onFocus={() => toggleDropdown('true')}
+            onBlur={onBlur}
+            onFocus={() =>
+              batchActions([toggleDropdown('true'), onFocus && onFocus()])
+            }
           />
           {isString(icon) ? <i className={icon} /> : icon}
         </div>
@@ -61,6 +73,10 @@ function SearchBar({
             menu={menu}
             dropdownOpen={dropdownOpen === 'true'}
             directionIconsInPopUp={directionIconsInPopUp}
+            descriptionFieldId={descriptionFieldId}
+            iconFieldId={iconFieldId}
+            labelFieldId={labelFieldId}
+            urlFieldId={urlFieldId}
           />
         )}
       </div>
@@ -171,6 +187,9 @@ const enhance = compose(
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => onSearch(value), throttleDelay);
       }
+    },
+    onBlur: ({ setInnerValue }) => value => {
+      setInnerValue('');
     },
   }),
   lifecycle({

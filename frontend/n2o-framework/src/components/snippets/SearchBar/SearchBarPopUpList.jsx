@@ -1,35 +1,56 @@
 import React from 'react';
+
+import get from 'lodash/get';
+
+import cn from 'classnames';
+
 import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
-import {
-  RenderLink,
-  renderDescription,
-  renderDivider,
-  itemInSearchBarClassName,
-} from './utils';
+
+import { RenderLink, renderDivider, itemInSearchBarClassName } from './utils';
 import PropTypes from 'prop-types';
 
-function SearchBarPopUpList(props) {
+function SearchBarPopUpList({
+  labelFieldId,
+  descriptionFieldId,
+  iconFieldId,
+  urlFieldId,
+  ...props
+}) {
   const { menu, directionIconsInPopUp } = props;
-
   return (
     <DropdownMenu className="n2o-search-bar__popup_list">
       {menu.map(linkProps => {
-        const { id, description, disabled, separateLink } = linkProps;
+        const { id, disabled = false, linkType, separateLink } = linkProps;
+
+        const description = get(linkProps, descriptionFieldId);
+        const label = get(linkProps, labelFieldId);
+        const icon = get(linkProps, iconFieldId);
+        const href = get(linkProps, urlFieldId);
+
         return (
-          <React.Fragment key={id}>
+          <div
+            className={cn('n2o-search-bar__popup_list__item-container', {
+              disabled: disabled,
+            })}
+            key={id}
+          >
             <DropdownItem
               className={itemInSearchBarClassName(directionIconsInPopUp)}
               disabled={disabled}
             >
               <RenderLink
-                {...linkProps}
+                description={description}
+                label={label}
+                icon={icon}
+                href={href}
                 directionIconsInPopUp={directionIconsInPopUp}
+                linkType={linkType}
+                disabled={disabled}
               />
             </DropdownItem>
-            {renderDescription(linkProps)}
             {renderDivider(linkProps)}
-          </React.Fragment>
+          </div>
         );
       })}
     </DropdownMenu>

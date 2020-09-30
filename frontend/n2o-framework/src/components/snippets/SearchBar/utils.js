@@ -29,46 +29,55 @@ const renderIcon = (icon, directionIconsInPopUp) => {
   );
 };
 
-export const RenderLink = props => {
-  const {
-    linkType,
-    href,
-    description,
-    label,
-    icon,
-    directionIconsInPopUp,
-  } = props;
-  return linkType === 'outer' ? (
-    <NavLink href={href} title={description}>
+export const RenderLink = ({ label, description, icon, href, ...props }) => {
+  const { linkType, disabled, directionIconsInPopUp } = props;
+  return linkType === 'inner' ? (
+    <div className="n2o-search-bar__link-container">
       {renderIcon(icon, directionIconsInPopUp)}
-      {label}
-    </NavLink>
+      <div>
+        <BrowserRouter>
+          <NavItem>
+            <NavLink
+              exact
+              className="nav-link"
+              to={href}
+              title={description}
+              activeClassName="active"
+              disabled={disabled}
+            >
+              {label}
+              {renderDescription(description, disabled)}
+            </NavLink>
+          </NavItem>
+        </BrowserRouter>
+      </div>
+    </div>
   ) : (
-    <BrowserRouter>
-      <NavItem>
-        <NavLink
-          exact
-          className="nav-link"
-          to={href}
-          title={description}
-          activeClassName="active"
-        >
-          {renderIcon(icon, directionIconsInPopUp)}
-          {label}
-        </NavLink>
-      </NavItem>
-    </BrowserRouter>
+    <div className="n2o-search-bar__link-container">
+      {renderIcon(icon, directionIconsInPopUp)}
+      <div>
+        <BrowserRouter>
+          <NavLink href={href} title={description} disabled={disabled}>
+            {label}
+            {renderDescription(description)}
+          </NavLink>
+        </BrowserRouter>
+      </div>
+    </div>
   );
 };
 
-export const renderDescription = props => {
-  const { description, disabled } = props;
+export const renderDescription = (description, disabled) => {
   return description && disabled ? (
-    <DropdownItem header className="n2o-search-bar__popup_desc-disabled">
+    <div className="dropdown-header n2o-search-bar__popup_desc-disabled">
       {description}
-    </DropdownItem>
+    </div>
   ) : (
-    description && <DropdownItem header>{description}</DropdownItem>
+    description && (
+      <div className="dropdown-header n2o-search-bar__popup_desc-disabled">
+        {description}
+      </div>
+    )
   );
 };
 

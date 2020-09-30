@@ -12,21 +12,27 @@ import SearchBar from './SearchBar';
 function SearchBarContainer(props) {
   const {
     data,
-    dataProvider,
-    searchPageLocation,
+    trigger,
     onSearch,
     button,
     icon,
     directionIconsInPopUp,
+    descrFieldId,
+    iconFieldId,
+    labelFieldId,
+    urlFieldId,
   } = props;
-
-  const currentTrigger = !isUndefined(dataProvider) ? 'CHANGE' : 'ENTER';
 
   return (
     <SearchBar
+      descriptionFieldId={descrFieldId}
+      iconFieldId={iconFieldId}
+      labelFieldId={labelFieldId}
+      urlFieldId={urlFieldId}
       menu={data}
-      trigger={currentTrigger}
+      trigger={trigger}
       onSearch={onSearch}
+      onFocus={() => props._fetchData()}
       button={button}
       icon={icon}
       directionIconsInPopUp={directionIconsInPopUp}
@@ -53,12 +59,4 @@ SearchBarContainer.propTypes = {
   directionIconsInPopUp: PropTypes.string,
 };
 
-export default compose(
-  listContainer,
-  lifecycle({
-    componentDidMount() {
-      const { _fetchData } = this.props;
-      _fetchData();
-    },
-  })
-)(SearchBarContainer);
+export default compose(listContainer)(SearchBarContainer);
