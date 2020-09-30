@@ -44,7 +44,7 @@ public class N2oMessagesConfiguration {
     private int cacheSeconds;
     @Value("${spring.messages.basename:n2o_api_messages,n2o_config_messages,n2o_rest_messages,messages}")
     private String basename;
-    @Value("${n2o.i18n.default-locale:en}")
+    @Value("${n2o.i18n.default-locale:ru}")
     private String defaultLocale;
 
 
@@ -72,6 +72,14 @@ public class N2oMessagesConfiguration {
 
     @Bean("n2oMessageSourceAccessor")
     @ConditionalOnMissingBean(name = "n2oMessageSourceAccessor")
+    @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "false")
+    public MessageSourceAccessor fixedMessageSourceAccessor(@Qualifier("n2oMessageSource") MessageSource messageSource) {
+        return new MessageSourceAccessor(messageSource, new Locale(defaultLocale));
+    }
+
+    @Bean("n2oMessageSourceAccessor")
+    @ConditionalOnMissingBean(name = "n2oMessageSourceAccessor")
+    @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "true")
     public MessageSourceAccessor messageSourceAccessor(@Qualifier("n2oMessageSource") MessageSource messageSource) {
         return new MessageSourceAccessor(messageSource);
     }
