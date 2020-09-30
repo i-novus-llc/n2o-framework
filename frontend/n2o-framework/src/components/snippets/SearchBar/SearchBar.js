@@ -35,6 +35,7 @@ function SearchBar({
   icon,
   button,
   onClick,
+  onBlur,
   onChange,
   onKeyDown,
   onFocus,
@@ -58,6 +59,7 @@ function SearchBar({
             value={innerValue}
             onChange={onChange}
             placeholder={placeholder}
+            onBlur={onBlur}
             onFocus={() =>
               batchActions([toggleDropdown('true'), onFocus && onFocus()])
             }
@@ -185,6 +187,9 @@ const enhance = compose(
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => onSearch(value), throttleDelay);
       }
+    },
+    onBlur: ({ setInnerValue }) => value => {
+      setInnerValue('');
     },
   }),
   lifecycle({
