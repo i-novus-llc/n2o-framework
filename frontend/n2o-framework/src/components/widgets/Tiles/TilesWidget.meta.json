@@ -1,0 +1,46 @@
+{
+  "Page_Tiles": {
+    "id": "$testTilesJson",
+    "src": "TilesWidget",
+    "colsSm": 2,
+    "colsMd": 3,
+    "colsLg": 4,
+    "width": "260",
+    "height": "350",
+    "tile": [
+      {
+        "id": "tile1",
+        "className": "p-4",
+        "style": {},
+        "component": {
+          "src": "ImageCell"
+        }
+      },
+      {
+        "id": "tile2",
+        "className": "mt-1 mb-4",
+        "style": {},
+        "component": {
+          "src": "TextCell"
+        }
+      },
+      {
+        "src": "ButtonsCell",
+        "style": {},
+        "toolbar": [
+          {
+            "buttons": [
+              {
+                "id": "testBut",
+                "label": "Кнопка",
+                "icon": "fa fa-vk",
+                "src": "StandardButton",
+                "className": "mt-4 mb-4"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

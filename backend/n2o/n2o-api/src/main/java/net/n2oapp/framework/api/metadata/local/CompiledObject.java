@@ -33,10 +33,8 @@ public class CompiledObject implements CompiledMetadata {
     //все валидации объекта разложенные в мапу по идентификаторам
     private Map<String, Validation> validationsMap;
     private String tableName;
-    private String entityClass;
     private String appName;
     private String moduleName;
-    private String serviceClass;
     private String serviceName;
 
     private List<Validation> fieldValidations;
@@ -65,7 +63,6 @@ public class CompiledObject implements CompiledMetadata {
     @Getter
     @Setter
     public static class Operation extends N2oObject.Operation implements Compiled, OriginAware, PropertiesAware {
-
         private Map<String, Object> properties;
         private Map<String, N2oObject.Parameter> inParametersMap;
         private Map<String, N2oObject.Parameter> outParametersMap;

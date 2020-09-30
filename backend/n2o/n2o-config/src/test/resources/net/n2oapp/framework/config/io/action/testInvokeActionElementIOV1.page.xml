@@ -3,7 +3,7 @@
     <actions>
         <action model="edit">
             <invoke
-                    src ="test"
+                    src="test"
                     operation-id="update"
                     route="/test"
                     close-on-success="true"
@@ -17,10 +17,10 @@
             />
         </action>
         <action>
-            <invoke operation-id="test2" submit-form="false">
-                <form-param name="a" value="1" />
-                <path-param name="b" value="2"/>
-                <header-param name="c" value="3"/>
+            <invoke operation-id="test2" submit-form="false" method="POST">
+                <form-param id="a" value="1" ref-widget-id="1" ref-model="filter"/>
+                <path-param name="b" value="2" ref-widget-id="1" ref-model="filter"/>
+                <header-param name="c" value="3" ref-widget-id="1" ref-model="filter"/>
             </invoke>
         </action>
     </actions>

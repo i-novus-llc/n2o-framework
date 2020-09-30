@@ -1,0 +1,13 @@
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <region place="right">
+            <form object-id="testActionContext" id="w2">
+                <toolbar>
+                    <button id="b1">
+                        <invoke operation-id="create" model="resolve" route="/:main_id"/>
+                    </button>
+                </toolbar>
+            </form>
+        </region>
+    </regions>
+</page>

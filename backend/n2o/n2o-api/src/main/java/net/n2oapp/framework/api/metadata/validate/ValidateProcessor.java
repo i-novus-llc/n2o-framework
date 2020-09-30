@@ -19,7 +19,7 @@ public interface ValidateProcessor {
     /**
      * Провалидировать вложенную метаданную
      * @param metadata Исходная метаданная
-     * @param scope Объекты, влияющие на внутренние валдиации. Должны быть разных классов.
+     * @param scope Объекты, влияющие на внутренние валидации. Должны быть разных классов.
      * @param <T> Тип метаданной
      */
     <T extends Source> void validate(T metadata, Object... scope);

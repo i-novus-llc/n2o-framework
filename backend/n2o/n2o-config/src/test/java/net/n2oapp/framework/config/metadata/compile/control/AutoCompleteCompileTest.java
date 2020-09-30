@@ -39,15 +39,16 @@ public class AutoCompleteCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/field/testAutoComplete.page.xml")
                 .get(new PageContext("testAutoComplete"));
         Form form = (Form) page.getWidget();
-        AutoComplete autoComplete = ((StandardField<AutoComplete>) form.getComponent().getFieldsets().get(0).getRows().get(0)
+        AutoComplete autoComplete = (AutoComplete) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0)
                 .getCols().get(0).getFields().get(0)).getControl();
         assertThat(autoComplete.getSrc(), is("AutoComplete"));
         assertThat(autoComplete.getDataProvider().getUrl(), is("n2o/data/test"));
         assertThat(autoComplete.getDataProvider().getQuickSearchParam(), is("search"));
+        assertThat(autoComplete.getPlaceholder(), is("`message`"));
         assertThat(autoComplete.getValueFieldId(), is("name"));
         assertThat(autoComplete.getTags(), is(true));
 
-        autoComplete = ((StandardField<AutoComplete>) form.getComponent().getFieldsets().get(0).getRows().get(1)
+        autoComplete = (AutoComplete) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(1)
                 .getCols().get(0).getFields().get(0)).getControl();
         assertThat(autoComplete.getSrc(), is("AutoComplete"));
         assertThat(autoComplete.getData().get(0).get("name"), is("test1"));
