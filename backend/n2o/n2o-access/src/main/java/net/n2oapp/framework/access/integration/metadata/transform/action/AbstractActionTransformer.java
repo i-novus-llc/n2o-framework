@@ -16,8 +16,7 @@ public abstract class AbstractActionTransformer<D extends Action> extends BaseAc
     protected void mapSecurity(AbstractAction compiled, String pageId, String objectId, String operationId, String url, CompileProcessor p) {
         SimpleCompiledAccessSchema accessSchema = (SimpleCompiledAccessSchema)
                 p.getCompiled(new AccessContext(p.resolve(Placeholders.property("n2o.access.schema.id"), String.class)));
-        if (pageId != null && StringUtils.hasLink(pageId)) pageId = null;
-        if (objectId == null && pageId != null)
+        if (objectId == null && pageId != null && !StringUtils.hasLink(pageId))
             objectId = p.getSource(pageId, N2oPage.class).getObjectId();
         collectObjectAccess(compiled, objectId, operationId, accessSchema, p);
         collectPageAccess(compiled, pageId, accessSchema, p);
