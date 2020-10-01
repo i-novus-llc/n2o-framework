@@ -91,10 +91,15 @@ class TabRegion extends React.Component {
       pageId,
       lazy,
       activeEntity,
+      className,
     } = this.props;
     const { readyTabs, visibleTabs } = this.state;
     return (
-      <Tabs activeId={activeEntity} onChangeActive={this.handleChangeActive}>
+      <Tabs
+        className={className && className}
+        activeId={activeEntity}
+        onChangeActive={this.handleChangeActive}
+      >
         {tabs.map(tab => {
           const { security, content } = tab;
 
@@ -122,7 +127,12 @@ class TabRegion extends React.Component {
               ) : (
                 <Factory id={tab.widgetId} level={WIDGETS} {...widgetMeta} />
               )}
-              {tabHasContent && <RegionContent content={content} />}
+              {tabHasContent && (
+                <RegionContent
+                  content={content}
+                  tabSubContentClass={'tab-sub-content'}
+                />
+              )}
             </Tab>
           );
 
