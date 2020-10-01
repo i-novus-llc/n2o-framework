@@ -40,6 +40,7 @@ public class SubmenuIO implements NamespaceIO<N2oSubmenu> {
         p.attribute(e, "style", s::getStyle, s::setStyle);
         p.attributeEnum(e, "type", s::getType, s::setType, LabelType.class);
         p.attributeArray(e, "generate", ",", s::getGenerate, s::setGenerate);
+        p.attributeBoolean(e, "showToggleIcon", s::getShowToggleIcon, s::setShowToggleIcon);
         p.children(e, null, "menu-item", s::getMenuItems, s::setMenuItems, N2oMenuItem.class, new MenuItemIO());
     }
 
