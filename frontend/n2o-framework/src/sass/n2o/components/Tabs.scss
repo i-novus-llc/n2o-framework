@@ -1,6 +1,12 @@
 .tab-content {
-  border-left: 1px solid #90a4ae;
-  border-right: 1px solid #90a4ae;
-  border-bottom: 1px solid #90a4ae;
   padding: 15px;
+}
+
+.tab-sub-content {
+  border-bottom: $tabs-border;
+
+  .tab-content {
+    border-left: $tabs-border;
+    border-right: $tabs-border;
+  }
 }
