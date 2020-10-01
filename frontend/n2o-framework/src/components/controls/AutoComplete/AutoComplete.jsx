@@ -341,7 +341,7 @@ class AutoComplete extends React.Component {
               </InputSelectGroup>
             )}
           </Reference>
-          {isExpanded && (
+          {isExpanded && !isEmpty(filteredOptions) && (
             <Popper
               placement="bottom-start"
               modifiers={MODIFIERS}
