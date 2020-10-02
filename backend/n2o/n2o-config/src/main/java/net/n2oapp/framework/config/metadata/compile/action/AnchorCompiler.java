@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oRowClick;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
@@ -78,7 +79,8 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
                 }
             }
             if (clientWidgetId != null && componentScope != null &&
-                    componentScope.unwrap(ModelAware.class) != null) {
+                    (componentScope.unwrap(ModelAware.class) != null ||
+                            componentScope.unwrap(N2oRowClick.class) != null)) {
                 ReduxModel model = getTargetWidgetModel(p, ReduxModel.RESOLVE);
                 if (source.getPathParams() != null) {
                     for (N2oAnchor.Param pathParam : source.getPathParams()) {
