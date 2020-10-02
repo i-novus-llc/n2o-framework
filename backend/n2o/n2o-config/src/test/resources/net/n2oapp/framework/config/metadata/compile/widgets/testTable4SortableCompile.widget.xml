@@ -10,7 +10,7 @@
         <column text-field-id="notInQuery" label="notInQueryLabel"/>
         <column text-field-id="type">
             <toolbar>
-                <sub-menu showToggleIcon="false">
+                <sub-menu show-toggle-icon="false">
                     <menu-item/>
                 </sub-menu>
             </toolbar>

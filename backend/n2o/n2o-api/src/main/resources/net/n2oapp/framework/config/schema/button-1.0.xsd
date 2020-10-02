@@ -202,7 +202,7 @@
                 <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="showToggleIcon" type="xs:boolean" default="true">
+        <xs:attribute name="show-toggle-icon" type="xs:boolean" default="true">
             <xs:annotation>
                 <xs:documentation>Показывать иконку переключателя.</xs:documentation>
             </xs:annotation>
