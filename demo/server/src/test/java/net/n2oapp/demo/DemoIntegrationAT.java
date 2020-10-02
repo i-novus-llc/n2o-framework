@@ -30,7 +30,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = DemoApplication.class,
+@SpringBootTest(classes = DemoApplication.class, properties = { "n2o.i18n.enabled=false",  "n2o.i18n.default-locale=ru" },
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DemoIntegrationAT {

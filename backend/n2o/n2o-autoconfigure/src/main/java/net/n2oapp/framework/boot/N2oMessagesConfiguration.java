@@ -21,6 +21,7 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.nio.charset.Charset;
@@ -41,8 +42,10 @@ public class N2oMessagesConfiguration {
     private Charset encoding;
     @Value("${spring.messages.cacheSeconds:-1}")
     private int cacheSeconds;
-    @Value("${spring.messages.basename:messages}")
+    @Value("${spring.messages.basename:n2o_api_messages,n2o_config_messages,n2o_rest_messages,messages}")
     private String basename;
+    @Value("${n2o.i18n.default-locale:ru}")
+    private String defaultLocale;
 
 
     @Bean("n2oMessageSource")
@@ -51,9 +54,8 @@ public class N2oMessagesConfiguration {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setDefaultEncoding(encoding.name());
         messageSource.setCacheSeconds(cacheSeconds);
-        messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(
-                StringUtils.trimAllWhitespace(basename)));
-        messageSource.addBasenames("n2o_messages", "n2o_content");
+        messageSource.setFallbackToSystemLocale(false);
+        messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(StringUtils.trimAllWhitespace(basename)));
         return messageSource;
     }
 
@@ -70,15 +72,29 @@ public class N2oMessagesConfiguration {
 
     @Bean("n2oMessageSourceAccessor")
     @ConditionalOnMissingBean(name = "n2oMessageSourceAccessor")
+    @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "false")
+    public MessageSourceAccessor fixedMessageSourceAccessor(@Qualifier("n2oMessageSource") MessageSource messageSource) {
+        return new MessageSourceAccessor(messageSource, new Locale(defaultLocale));
+    }
+
+    @Bean("n2oMessageSourceAccessor")
+    @ConditionalOnMissingBean(name = "n2oMessageSourceAccessor")
+    @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "true")
     public MessageSourceAccessor messageSourceAccessor(@Qualifier("n2oMessageSource") MessageSource messageSource) {
         return new MessageSourceAccessor(messageSource);
     }
 
-    @Bean
+    @Bean(name = "localeResolver")
+    @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "false")
+    public LocaleResolver fixedLocaleResolver() {
+        return new FixedLocaleResolver(new Locale(defaultLocale));
+    }
+
+    @Bean(name = "localeResolver")
     @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "true")
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(new Locale("ru"));
+        slr.setDefaultLocale(new Locale(defaultLocale));
         return slr;
     }
 
