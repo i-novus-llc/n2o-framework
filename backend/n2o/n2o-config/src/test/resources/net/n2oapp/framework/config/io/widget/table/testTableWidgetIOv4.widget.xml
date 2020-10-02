@@ -8,7 +8,7 @@
 <columns>
         <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left">
             <toolbar generate="update,delete" src="test">
-                <sub-menu style="margin-left:10px;width:300px">
+                <sub-menu style="margin-left:10px;width:300px" showToggleIcon="false">
                     <menu-item style="margin-left:10px;width:300px">
                         <invoke operation-id="testId" route="route" src="src"
                                 redirect-url="/url" redirect-target="newWindow" close-on-success="true"/>
@@ -109,7 +109,7 @@
             <button action-id="test3" class="test" icon="test" label="test" type="icon">
                 <close src="test"/>
             </button>
-            <sub-menu>
+            <sub-menu showToggleIcon="true">
                 <menu-item action-id="test1" icon="test" label="test" class="test"/>
                 <menu-item action-id="test2" icon="test" label="test" class="test"/>
                 <menu-item action-id="test3" icon="test" label="test" class="test"/>
