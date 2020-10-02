@@ -3,7 +3,8 @@
         <input-select id="testId" type="multi" reset-on-blur="false" badge-color-field-id="testColor"
                       badge-field-id="testBadge" param="test"
                       enabled-field-id="isEnabled"
-                      description-field-id="descFieldId">
+                      description-field-id="descFieldId"
+                      max-tag-text-length="5">
             <dependencies>
                 <fetch-value query-id="testQuery" on="test" value-field-id="name">
                     <pre-filters>
