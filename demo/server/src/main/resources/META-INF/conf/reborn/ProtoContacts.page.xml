@@ -5,7 +5,7 @@
                 <fields>
                     <hidden id="individual.id" param="client_id"/>
                     <row>
-                        <input-select id="type" label="${client.type}" label-field-id="name">
+                        <input-select id="type" label="${contact.type}" label-field-id="name">
                             <options>
                                 <option id="2" name="${phone}"/>
                                 <option id="4" name="${email}"/>
