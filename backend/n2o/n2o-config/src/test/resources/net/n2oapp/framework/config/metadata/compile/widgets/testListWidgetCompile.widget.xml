@@ -39,5 +39,5 @@
             </toolbar>
         </extra>
     </content>
-
+    <pagination prev="true" next="true" hide-single-page="true" first="true" last="true" show-count="true" src="pagingSrc"/>
 </list>

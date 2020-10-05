@@ -403,7 +403,7 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
     protected QueryContext getQueryContext(D widget, S source, CompileContext<?, ?> context, String route, String queryId,
                                            ValidationList validationList, SubModelsScope subModelsScope,
                                            CopiedFieldScope copiedFieldScope, CompileProcessor p, CompiledObject object) {
-        QueryContext queryContext = new QueryContext(queryId, route);
+        QueryContext queryContext = new QueryContext(queryId, route, context.getUrlPattern());
         List<Validation> validations = validationList == null ? null : validationList.get(widget.getId(), ReduxModel.FILTER);
         if (context instanceof PageContext && ((PageContext) context).getSubmitOperationId() != null) {
             CompiledObject.Operation operation = object.getOperations().get(((PageContext) context).getSubmitOperationId());

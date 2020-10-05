@@ -69,6 +69,15 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((InvokeAction) listWidget.getActions().get("menuItem0")).getOperationId(), is("create"));
         assertThat(((InvokeAction) listWidget.getActions().get("menuItem0")).getObjectId(), is("utBlank"));
         assertThat(listWidget.getActions().containsKey("rightTopId"), is(true));
+
+        assertThat(listWidget.getPaging().getFirst(), is(true));
+        assertThat(listWidget.getPaging().getHideSinglePage(), is(true));
+        assertThat(listWidget.getPaging().getLast(), is(true));
+        assertThat(listWidget.getPaging().getNext(), is(true));
+        assertThat(listWidget.getPaging().getPrev(), is(true));
+        assertThat(listWidget.getPaging().getShowCountRecords(), is(true));
+        assertThat(listWidget.getPaging().getSize(), is(5));
+        assertThat(listWidget.getPaging().getSrc(), is("pagingSrc"));
     }
 
     @Test

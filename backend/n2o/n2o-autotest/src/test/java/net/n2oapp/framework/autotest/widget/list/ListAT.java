@@ -7,7 +7,9 @@ import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -56,9 +58,9 @@ public class ListAT extends AutoTestBase {
         listWidget.content(0).leftBottom(TextCell.class).textShouldHave("leftBottom1");
         listWidget.content(0).subHeader(BadgeCell.class).colorShouldBe(Colors.SUCCESS);
         listWidget.paging().totalElementsShouldBe(11);
-        listWidget.paging().clickNext();
+        listWidget.paging().selectNext();
         listWidget.shouldHaveSize(1);
-        listWidget.paging().clickPrev();
+        listWidget.paging().selectPrev();
         listWidget.shouldHaveSize(10);
 
         listWidget.content(0).click();
@@ -67,5 +69,48 @@ public class ListAT extends AutoTestBase {
         FormWidget form = openPage.widget(FormWidget.class);
         form.shouldExists();
         form.fields().field("body").control(InputText.class).shouldHaveValue("body1");
+    }
+
+    @Test
+    public void testPaging() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/list/paging/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/list/paging/testListPaging.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        ListWidget list = page.widgets().widget(0, ListWidget.class);
+        Paging paging = list.paging();
+        paging.totalElementsShouldBe(8);
+        paging.prevShouldNotExist();
+        paging.nextShouldNotExist();
+        paging.firstShouldExist();
+        paging.lastShouldNotExist();
+
+        paging.activePageShouldBe("1");
+        list.content(0).body(TextCell.class).textShouldHave("test1");
+        paging.selectPage("3");
+        paging.activePageShouldBe("3");
+        list.content(0).body(TextCell.class).textShouldHave("test7");
+        paging.selectFirst();
+        paging.activePageShouldBe("1");
+
+
+        ListWidget list2 = page.widgets().widget(1, ListWidget.class);
+        paging = list2.paging();
+        paging.totalElementsShouldNotExist();
+        paging.prevShouldExist();
+        paging.nextShouldExist();
+        paging.firstShouldNotExist();
+        paging.lastShouldExist();
+
+        paging.activePageShouldBe("1");
+        list2.content(0).body(TextCell.class).textShouldHave("test1");
+        paging.selectNext();
+        paging.activePageShouldBe("2");
+        list2.content(0).body(TextCell.class).textShouldHave("test4");
+        paging.selectPrev();
+        paging.activePageShouldBe("1");
+        paging.selectLast();
+        list2.content(0).body(TextCell.class).textShouldHave("test7");
     }
 }
