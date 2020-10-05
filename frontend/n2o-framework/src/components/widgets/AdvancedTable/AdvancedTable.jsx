@@ -676,12 +676,20 @@ class AdvancedTable extends Component {
   }
 
   getScroll() {
+    const { scroll, columns } = this.props;
+
+    const noScroll = axis => isEqual(get(scroll, axis), 'false');
+    const noScrollX = noScroll('x');
+    const noScrollY = noScroll('y');
+    const noTableScroll = noScrollX && noScrollY;
+
     if (isEmpty(this.props.data) || isEmpty(this.props.columns)) {
       return this.props.scroll;
     }
 
-    if (some(this.state.columns, col => col.fixed)) return this.props.scroll;
-    const { scroll, columns } = this.props;
+    if (some(this.state.columns, col => col.fixed)) {
+      return this.props.scroll;
+    }
 
     const calcXScroll = () => {
       const getWidth = (
@@ -713,10 +721,22 @@ class AdvancedTable extends Component {
         : pxWidth;
     };
 
-    return {
-      ...scroll,
-      x: calcXScroll(),
-    };
+    return noTableScroll
+      ? { x: false, y: false }
+      : noScrollX
+      ? {
+          ...scroll,
+          x: false,
+        }
+      : noScrollY
+      ? {
+          y: false,
+          x: calcXScroll(),
+        }
+      : {
+          ...scroll,
+          x: calcXScroll(),
+        };
   }
 
   render() {
@@ -732,7 +752,7 @@ class AdvancedTable extends Component {
       onFocus,
       rowSelection,
     } = this.props;
-
+    console.warn('value ------>', this.getScroll());
     return (
       <HotKeys
         keyMap={{ events: values(KEY_CODES) }}
