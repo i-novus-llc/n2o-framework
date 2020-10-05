@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getContext, compose, mapProps } from 'recompose';
-import { withRouter } from 'react-router-dom';
 
 import isArray from 'lodash/isArray';
 import isEqual from 'lodash/isEqual';
@@ -145,7 +144,6 @@ export default compose(
   getContext({
     getFromConfig: PropTypes.func,
   }),
-  withRouter,
   withSecurity,
   mapProps(({ getFromConfig, ...rest }) => ({
     ...rest,
