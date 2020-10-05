@@ -145,7 +145,6 @@ class InputSelect extends React.Component {
       options,
     } = this.props;
     const findValue = find(value, [labelFieldId, input]);
-
     const conditionForAddingAnObject = (resetOnBlur, input, options, value) => {
       return (
         !resetOnBlur &&
@@ -517,7 +516,6 @@ class InputSelect extends React.Component {
       this.state.value,
       item => item[labelFieldId] === this.state.input
     );
-
     return (
       <div
         style={inputSelectStyle}
