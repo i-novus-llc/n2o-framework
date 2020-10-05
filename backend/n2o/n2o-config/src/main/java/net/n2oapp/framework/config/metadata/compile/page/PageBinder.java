@@ -38,7 +38,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
                 page.getRoutes().getQueryMapping().keySet().stream()
                         .filter(param -> page.getRoutes().getQueryMapping().get(param).getOnSet() instanceof ModelLink)
                         .forEach(param -> resolvedModelLinks.put(param, (ModelLink) p.resolveLink(page.getRoutes().getQueryMapping().get(param).getOnSet())));
-                resolvedModelLinks.keySet().stream().filter(param -> resolvedModelLinks.get(param).isConst())
+                resolvedModelLinks.keySet().stream().filter(param -> (resolvedModelLinks.get(param).isConst() && resolvedModelLinks.get(param).isLink()))
                         .forEach(param -> {
                             ModelLink modelLink = resolvedModelLinks.get(param);
                             page.getModels().add(modelLink.getModel(), modelLink.getWidgetId(), modelLink.getFieldId(), modelLink);
