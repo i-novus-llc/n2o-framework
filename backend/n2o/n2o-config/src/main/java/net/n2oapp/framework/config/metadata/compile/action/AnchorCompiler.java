@@ -78,9 +78,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
                     clientWidgetId = pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());
                 }
             }
-            if (clientWidgetId != null && componentScope != null &&
-                    (componentScope.unwrap(ModelAware.class) != null ||
-                            componentScope.unwrap(N2oRowClick.class) != null)) {
+            if (clientWidgetId != null) {
                 ReduxModel model = getTargetWidgetModel(p, ReduxModel.RESOLVE);
                 if (source.getPathParams() != null) {
                     for (N2oAnchor.Param pathParam : source.getPathParams()) {
