@@ -40,7 +40,7 @@ public class LineRegionAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        LineRegion line1 = page.place("single").region(0, LineRegion.class);
+        LineRegion line1 = page.regions().region(0, LineRegion.class);
         line1.shouldHaveTitle("Line1");
         line1.shouldBeCollapsible();
         line1.shouldBeExpanded();
@@ -49,12 +49,12 @@ public class LineRegionAT extends AutoTestBase {
         line1.expandContent();
         line1.shouldBeExpanded();
 
-        LineRegion line2 = page.place("single").region(1, LineRegion.class);
+        LineRegion line2 = page.regions().region(1, LineRegion.class);
         line2.shouldHaveTitle("Line2");
         line2.shouldBeCollapsed();
 
         // not collapsible line
-        LineRegion line3 = page.place("single").region(2, LineRegion.class);
+        LineRegion line3 = page.regions().region(2, LineRegion.class);
         line3.shouldNotBeCollapsible();
     }
 
@@ -63,7 +63,7 @@ public class LineRegionAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/line/nesting/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        LineRegion lineRegion = page.place("single").region(0, LineRegion.class);
+        LineRegion lineRegion = page.regions().region(0, LineRegion.class);
         RegionItems content = lineRegion.content();
 
         content.widget(0, FormWidget.class).fields().field("field1").shouldExists();

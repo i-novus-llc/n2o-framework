@@ -35,7 +35,7 @@ public class RatingCellAT extends AutoTestBase {
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
 
-        rows = simplePage.single().widget(TableWidget.class).columns().rows();
+        rows = simplePage.widget(TableWidget.class).columns().rows();
         rows.shouldHaveSize(4);
     }
 

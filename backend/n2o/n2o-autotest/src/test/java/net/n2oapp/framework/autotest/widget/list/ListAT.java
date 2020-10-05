@@ -49,7 +49,7 @@ public class ListAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        ListWidget listWidget = page.single().widget(ListWidget.class);
+        ListWidget listWidget = page.widget(ListWidget.class);
         listWidget.shouldHaveSize(10);
         listWidget.content(0).body(TextCell.class).textShouldHave("body1");
         listWidget.content(0).leftTop(ImageCell.class).srcShouldBe(getBaseUrl() + "/favicon.ico");
@@ -64,7 +64,7 @@ public class ListAT extends AutoTestBase {
         listWidget.content(0).click();
         SimplePage openPage = N2oSelenide.page(SimplePage.class);
         openPage.shouldExists();
-        FormWidget form = openPage.single().widget(FormWidget.class);
+        FormWidget form = openPage.widget(FormWidget.class);
         form.shouldExists();
         form.fields().field("body").control(InputText.class).shouldHaveValue("body1");
     }

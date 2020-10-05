@@ -41,7 +41,7 @@ public class TabsRegionAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        TabsRegion tabs = page.place("single").region(0, TabsRegion.class);
+        TabsRegion tabs = page.regions().region(0, TabsRegion.class);
         tabs.shouldHaveSize(3);
         tabs.tab(0).shouldBeActive();
         tabs.tab(1).shouldNotBeActive();
@@ -66,7 +66,7 @@ public class TabsRegionAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/nesting/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        TabsRegion tabsRegion = page.place("single").region(0, TabsRegion.class);
+        TabsRegion tabsRegion = page.regions().region(0, TabsRegion.class);
         RegionItems content = tabsRegion.tab(0).content();
 
         content.widget(0, FormWidget.class).fields().field("field1").shouldExists();

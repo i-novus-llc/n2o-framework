@@ -47,7 +47,7 @@ public class TableAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        TableWidget table = page.single().widget(TableWidget.class);
+        TableWidget table = page.widget(TableWidget.class);
         table.filters().shouldBeVisible();
         table.filters().toolbar().button("searchLabel").shouldBeEnabled();
         table.filters().toolbar().button("resetLabel").shouldBeEnabled();
@@ -81,7 +81,7 @@ public class TableAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        TableWidget table = page.single().widget(TableWidget.class);
+        TableWidget table = page.widget(TableWidget.class);
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(3);
 

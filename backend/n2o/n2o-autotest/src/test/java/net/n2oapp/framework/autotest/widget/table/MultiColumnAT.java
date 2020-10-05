@@ -39,7 +39,7 @@ public class MultiColumnAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        content = page.place("single").region(0, SimpleRegion.class).content();
+        content = page.regions().region(0, SimpleRegion.class).content();
     }
 
     @Override

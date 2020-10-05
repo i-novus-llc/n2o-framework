@@ -45,7 +45,7 @@ public class PillsAT extends AutoTestBase {
 
     @Test
     public void testPillsCheckboxes() {
-        Pills pills = page.single().widget(FormWidget.class).fields().field("Pills1")
+        Pills pills = page.widget(FormWidget.class).fields().field("Pills1")
                 .control(Pills.class);
         pills.shouldExists();
 
@@ -62,7 +62,7 @@ public class PillsAT extends AutoTestBase {
 
     @Test
     public void testPillsRadio() {
-        Pills pills = page.single().widget(FormWidget.class).fields().field("Pills2")
+        Pills pills = page.widget(FormWidget.class).fields().field("Pills2")
                 .control(Pills.class);
         pills.shouldExists();
 

@@ -36,7 +36,7 @@ public class IconCellAT extends AutoTestBase {
         page = open(SimplePage.class);
         page.shouldExists();
 
-        rows = page.single().widget(TableWidget.class).columns().rows();
+        rows = page.widget(TableWidget.class).columns().rows();
         rows.shouldHaveSize(4);
     }
 

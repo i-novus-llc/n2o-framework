@@ -54,7 +54,7 @@ public class FieldsAT extends AutoTestBase {
         page.header().brandNameShouldBe("N2O");
         page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
 
-        Fields fields = page.single().widget(FormWidget.class).fields();
+        Fields fields = page.widget(FormWidget.class).fields();
         fields.shouldHaveSize(3);
         fields.field("Доступно всем").shouldExists();
         fields.field("Только с ролью admin").shouldExists();
@@ -71,7 +71,7 @@ public class FieldsAT extends AutoTestBase {
         page.header().brandNameShouldBe("N2O");
         page.breadcrumb().titleShouldHaveText("Доступ к полям по sec атрибутам");
 
-        Fields fields = page.single().widget(FormWidget.class).fields();
+        Fields fields = page.widget(FormWidget.class).fields();
         fields.shouldHaveSize(2);
         fields.field("Доступно всем").shouldExists();
         fields.field("Только с ролью admin").shouldNotExists();

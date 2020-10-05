@@ -28,7 +28,7 @@ public class ApiExample {
 
     public void testStandardPageAndTabsAndToolbar() {
         N2oSelenide.open("/#/proto", StandardPage.class)
-                .place("single")
+                .regions()
                 .region(0, TabsRegion.class)
                 .tab(0)
                 .content()
@@ -41,8 +41,7 @@ public class ApiExample {
 
     public void testTab() {
         N2oSelenide.open("/#/proto", SimplePage.class)
-                .single()
-                .widget(0, FormWidget.class)
+                .widget(FormWidget.class)
                 .fields()
                 .field(Condition.id("name"))
                 .control(Select.class)

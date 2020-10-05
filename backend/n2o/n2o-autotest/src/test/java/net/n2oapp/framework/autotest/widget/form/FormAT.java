@@ -49,8 +49,7 @@ public class FormAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        page.single().shouldHaveSize(1);
-        FormWidget form = page.single().widget(FormWidget.class);
+        FormWidget form = page.widget(FormWidget.class);
         form.fields().shouldHaveSize(2);
 
         StandardField surname = form.fields().field("Фамилия");
@@ -77,7 +76,7 @@ public class FormAT extends AutoTestBase {
 
         Page.Tooltip tooltip = page.tooltip();
 
-        FormWidget form = page.single().widget(FormWidget.class);
+        FormWidget form = page.widget(FormWidget.class);
         form.fields().shouldHaveSize(1);
         InputText name = form.fields().field("Имя").control(InputText.class);
 
@@ -111,7 +110,7 @@ public class FormAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        RegionItems content = page.place("single").region(0, SimpleRegion.class).content();
+        RegionItems content = page.regions().region(0, SimpleRegion.class).content();
         InputText masterName = content.widget(FormWidget.class).fields().field("master-name")
                 .control(InputText.class);
         InputText childName = content.widget(1, FormWidget.class).fields().field("child-name")

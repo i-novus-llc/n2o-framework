@@ -44,7 +44,7 @@ public class PanelRegionAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        PanelRegion panel1 = page.place("single").region(0, PanelRegion.class);
+        PanelRegion panel1 = page.regions().region(0, PanelRegion.class);
         panel1.shouldExists();
         panel1.shouldHaveTitle("Panel1");
         panel1.shouldHaveBorderColor(Colors.DANGER);
@@ -58,13 +58,13 @@ public class PanelRegionAT extends AutoTestBase {
         panel1.shouldBeCollapsed();
 
         // not collapsible panel
-        PanelRegion panel2 = page.place("single").region(1, PanelRegion.class);
+        PanelRegion panel2 = page.regions().region(1, PanelRegion.class);
         panel2.shouldExists();
         panel2.shouldHaveTitle("Panel2");
         panel2.shouldNotBeCollapsible();
 
         // panel without title
-        PanelRegion panel3 = page.place("single").region(2, PanelRegion.class);
+        PanelRegion panel3 = page.regions().region(2, PanelRegion.class);
         panel3.shouldExists();
         panel3.shouldNotHaveTitle();
         panel3.shouldNotBeCollapsible();
@@ -75,7 +75,7 @@ public class PanelRegionAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/panel/nesting/index.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        PanelRegion panelRegion = page.place("single").region(0, PanelRegion.class);
+        PanelRegion panelRegion = page.regions().region(0, PanelRegion.class);
         RegionItems content = panelRegion.content();
 
         content.widget(0, FormWidget.class).fields().field("field1").shouldExists();

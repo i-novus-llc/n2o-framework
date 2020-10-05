@@ -41,7 +41,7 @@ public class CustomRegionAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        page.place("single").region(0, SimpleRegion.class).content().widget(FormWidget.class).element().should(Condition.exist);
+        page.regions().region(0, SimpleRegion.class).content().widget(FormWidget.class).element().should(Condition.exist);
     }
 
     @Test
@@ -51,12 +51,12 @@ public class CustomRegionAT extends AutoTestBase {
         page.shouldExists();
 
         // widgets in <regions> should be contained in SimpleRegion
-        SimpleRegion simpleRegion = page.place("single").region(0, SimpleRegion.class);
+        SimpleRegion simpleRegion = page.regions().region(0, SimpleRegion.class);
         RegionItems content = simpleRegion.content();
         content.widget(0, FormWidget.class).fields().field("field1").shouldExists();
         content.widget(1, FormWidget.class).fields().field("field2").shouldExists();
 
-        SimpleRegion simpleRegion2 = page.place("single").region(1, SimpleRegion.class);
+        SimpleRegion simpleRegion2 = page.regions().region(1, SimpleRegion.class);
         content = simpleRegion2.content();
         content.widget(0, FormWidget.class).fields().field("field3").shouldExists();
 
