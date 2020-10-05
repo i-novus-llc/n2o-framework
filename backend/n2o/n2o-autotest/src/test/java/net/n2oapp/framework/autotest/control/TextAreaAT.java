@@ -48,6 +48,7 @@ public class TextAreaAT extends AutoTestBase {
         TextArea textArea = getFields().field("TextArea").control(TextArea.class);
         textArea.shouldBeEnabled();
         textArea.shouldHaveValue("");
+        textArea.shouldHavePlaceholder("test");
         textArea.val("1\n2\n3\n4\n5\n6\n7");
         textArea.shouldHaveValue("1\n2\n3\n4\n5\n6\n7");
     }
