@@ -5,14 +5,15 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
+/**
+ * Чтение/запись компонента вывода html
+ */
 @Component
 public class HtmlIOv2 extends PlainFieldIOv2<N2oHtml> {
 
     @Override
     public void io(Element e, N2oHtml m, IOProcessor p) {
         super.io(e, m, p);
-        p.attribute(e, "height", m::getHeight, m::setHeight);
-        p.attributeInteger(e, "rows", m::getRows, m::setRows);
     }
 
     @Override

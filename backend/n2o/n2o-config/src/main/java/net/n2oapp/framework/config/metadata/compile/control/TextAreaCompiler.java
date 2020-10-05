@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * Компиляция многострочного текстового поля
+ * Компиляция компонента ввода многострочного текста
  */
 @Component
 public class TextAreaCompiler extends StandardFieldCompiler<TextArea, N2oTextArea> {

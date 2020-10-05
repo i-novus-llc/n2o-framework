@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 /**
- * Тестирование компиляции компонента многострочного ввода
+ * Тестирование компиляции компонента ввода многострочного текста
  */
 public class TextAreaCompileTest extends SourceCompileTestBase {
     @Override

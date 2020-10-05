@@ -5,9 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Компонент многострочного ввода
+ * Компонент ввода многострочного текста
  */
 @Getter
 @Setter
 public class N2oTextArea extends N2oText {
+    private Integer rows;
 }
