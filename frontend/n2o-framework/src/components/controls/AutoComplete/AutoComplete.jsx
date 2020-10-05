@@ -309,6 +309,7 @@ class AutoComplete extends React.Component {
               >
                 <InputContent
                   tags={true}
+                  mode="autocomplete"
                   multiSelect={tags}
                   options={filteredOptions}
                   setRef={this.setInputRef(ref)}
