@@ -3,11 +3,11 @@
         <region>
             <form query-id="ProtoContacts">
                 <fields>
-                    <hidden id="individual.id" param="client_id"/>
+                    <hidden id="individualId" param="client_id"/>
                     <row>
                         <input-select id="type" label="${contact.type}" label-field-id="name">
                             <options>
-                                <option id="2" name="${phone}"/>
+                                <option id="2" name="${full.phone}"/>
                                 <option id="4" name="${email}"/>
                                 <option id="7" name="${fax}"/>
                             </options>

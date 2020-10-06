@@ -4,7 +4,6 @@
         <sql>
             select :select
             from pim_indiv_contact ic
-            join pim_individual i on i.id = ic.indiv_id
             join pim_party_contact_type c on c.id = ic.type_id
             where :filters
             order by :order
@@ -14,14 +13,13 @@
         <sql>
             select count(*)
             from pim_indiv_contact ic
-            join pim_individual i on i.id = ic.indiv_id
             join pim_party_contact_type c on c.id = ic.type_id
             where :filters
         </sql>
     </count>
     <fields>
         <field id="id" domain="integer">
-            <select>ic.id</select>
+            <select mapping="['id']">ic.id</select>
             <filters>
                 <eq filter-id="id">ic.id = :id</eq>
             </filters>
@@ -31,44 +29,27 @@
                 <eq filter-id="individualId">ic.indiv_id = :individualId</eq>
             </filters>
         </field>
-        <field id="individual.id" domain="integer">
-            <select>ic.indiv_id</select>
-            <filters>
-                <eq filter-id="individual.id">ic.indiv_id = :individualId</eq>
-            </filters>
-        </field>
-        <field id="individual.fullName" domain="string">
-            <select>i.surname||' '||i.name</select>
-        </field>
         <field id="value" domain="string" name="${value}">
-            <select>ic.value</select>
+            <select mapping="['value']">ic.value</select>
             <filters>
                 <eq filter-id="value">ic.value like :value||'%'</eq>
             </filters>
             <sorting>ic.value</sorting>
         </field>
         <field id="email" domain="string" name="${email}">
-            <select>ic.value</select>
+            <select mapping="['value']">ic.value</select>
         </field>
         <field id="phone" name="${phone}" domain="string">
-            <select>ic.value</select>
-        </field>
-        <field id="typeId" domain="integer" name="${type}">
-            <select>c.name</select>
-            <filters>
-                <eq filter-id="typeId">ic.type_id = :typeId</eq>
-            </filters>
+            <select mapping="['value']">ic.value</select>
         </field>
         <field id="type.id" domain="integer">
-            <expression>c.id</expression>
-            <select>c.id</select>
+            <select mapping="['type_id']">c.id as type_id</select>
             <filters>
                 <eq filter-id="type.id">ic.type_id = :type.id</eq>
             </filters>
         </field>
         <field id="type.name" domain="string" name="${type}">
-            <expression>c.name</expression>
-            <select>c.name</select>
+            <select mapping="['type_name']">c.name as type_name</select>
         </field>
     </fields>
 </query>

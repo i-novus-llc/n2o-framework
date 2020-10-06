@@ -593,7 +593,7 @@ public class DemoIntegrationAT {
 
         ProtoContacts modalProtoContacts = protoPage.createContact();
         modalProtoContacts.shouldHaveTitle("Контакты");
-        modalProtoContacts.selectContactType("Моб. телефон");
+        modalProtoContacts.selectContactType("Мобильный телефон");
         modalProtoContacts.getPhoneNumber().val("9999999999");
         modalProtoContacts.getDescription().val("рабочий телефон");
         modalProtoContacts.save();
@@ -620,7 +620,7 @@ public class DemoIntegrationAT {
 
         ProtoContacts modalProtoContacts = protoPage.editContact(0);
         modalProtoContacts.shouldHaveTitle("Контакты");
-        modalProtoContacts.shouldHaveContactType("Моб. телефон");
+        modalProtoContacts.shouldHaveContactType("Мобильный телефон");
         modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (999) 999-99-99");
         modalProtoContacts.getPhoneNumber().val("8888888888");
         modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (888) 888-88-88");
