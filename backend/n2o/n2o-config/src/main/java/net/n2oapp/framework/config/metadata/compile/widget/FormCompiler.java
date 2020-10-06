@@ -17,6 +17,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -116,6 +117,9 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         actionContextData.setFailAlertWidgetId(source.getId());
         actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
         actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
+        actionContextData.setRefresh(new RefreshSaga());
+        actionContextData.getRefresh().setType(RefreshSaga.Type.widget);
+        actionContextData.getRefresh().getOptions().setWidgetId(source.getId());
         dataProvider.setActionContextData(actionContextData);
 
         return ClientDataProviderUtil.compile(dataProvider, context, p);

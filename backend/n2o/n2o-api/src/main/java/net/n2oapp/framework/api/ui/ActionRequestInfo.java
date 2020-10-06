@@ -3,10 +3,10 @@ package net.n2oapp.framework.api.ui;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,6 +27,7 @@ public class ActionRequestInfo<D> extends RequestInfo {
     private String choice;
     private boolean isBulk;
     private RedirectSaga redirect;
+    private RefreshSaga refresh;
     private boolean messageOnSuccess = true;
     private boolean messageOnFail = true;
 
