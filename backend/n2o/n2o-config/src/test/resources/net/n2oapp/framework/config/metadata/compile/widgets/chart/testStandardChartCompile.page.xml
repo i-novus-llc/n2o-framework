@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <region>
+            <chart id="chart1">
+                <lines x-position="top" x-field-id="xField" x-has-label="true"
+                       y-position="right" y-field-id="yField" y-has-label="true"
+                       grid-horizontal="false" grid-vertical="false" grid-stroke-dasharray="3 3"
+                       legend-icon-type="diamond" tooltip-separator=":">
+                    <line field-id="test1"/>
+                </lines>
+            </chart>
+            <chart id="chart2">
+                <lines>
+                    <line field-id="test2"/>
+                </lines>
+            </chart>
+        </region>
+    </regions>
+</page>

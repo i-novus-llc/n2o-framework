@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
@@ -25,7 +26,10 @@ import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProvi
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.absolute;
@@ -61,7 +65,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
             PageScope pageScope = p.getScope(PageScope.class);
             invokeAction.getPayload().setPageId(pageScope.getPageId());
         }
-
         initDataProvider(invokeAction, source, context, p, targetWidgetModel, routeScope);
         return invokeAction;
     }
@@ -143,10 +146,11 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         dataProvider.setTargetModel(model);
         dataProvider.setTargetWidgetId(invokeAction.getPayload().getWidgetId());
         dataProvider.setId(source.getId());
+        validatePathAndRoute(source, routeScope);
         dataProvider.setPathParams(source.getPathParams());
         dataProvider.setFormParams(source.getFormParams());
         dataProvider.setHeaderParams(source.getHeaderParams());
-        dataProvider.setMethod(RequestMethod.POST);
+        dataProvider.setMethod(p.cast(source.getMethod(), p.resolve(property("n2o.api.action.invoke.method"), RequestMethod.class)));
         dataProvider.setUrl(source.getRoute());
         dataProvider.setSubmitForm(p.cast(source.getSubmitForm(), true));
 
@@ -169,10 +173,29 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
         actionContextData.setOperation(compiledObject.getOperations().get(source.getOperationId()));
         dataProvider.setActionContextData(actionContextData);
         ClientDataProvider compiledDataProvider = ClientDataProviderUtil.compile(dataProvider, context, p);
-        if (routeScope != null) {
+        if (routeScope != null && compiledDataProvider.getPathMapping() != null) {
             compiledDataProvider.getPathMapping().putAll(routeScope.getPathMapping());
         }
         payload.setDataProvider(compiledDataProvider);
+    }
+
+    private void validatePathAndRoute(N2oInvokeAction source, ParentRouteScope routeScope) {
+        String route = source.getRoute();
+        N2oParam[] pathParams = source.getPathParams();
+        List<String> routeParams = route == null ? null : RouteUtil.getParams(route);
+        if ((routeParams == null || routeParams.isEmpty()) && (pathParams == null || pathParams.length == 0)) return;
+
+        if (routeParams == null)
+            throw new N2oException(String.format("path-param \"%s\" not used in route", pathParams[0].getName()));
+        if (pathParams == null)
+            throw new N2oException(String.format("path-param \"%s\" for route \"%s\" not set", route, routeParams.get(0)));
+
+        for (N2oParam pathParam : pathParams) {
+            if (!routeParams.contains(pathParam.getName()))
+                throw new N2oException(String.format("route \"%s\" not contains path-param \"%s\"", route, pathParam.getName()));
+            if (routeScope.getUrl() != null && RouteUtil.getParams(routeScope.getUrl()).contains(pathParam.getName()))
+                throw new N2oException(String.format("param \"%s\" duplicate in parent url ", pathParam.getName()));
+        }
     }
 
     private RedirectSaga initServerRedirect(AsyncMetaSaga meta) {

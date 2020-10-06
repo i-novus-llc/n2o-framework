@@ -2,10 +2,45 @@
 # yarn lockfile v1
 
 
+"@ant-design/colors@^3.1.0":
+  version "3.2.2"
+  resolved "https://npm.i-novus.ru/@ant-design%2fcolors/-/colors-3.2.2.tgz#5ad43d619e911f3488ebac303d606e66a8423903"
+  integrity sha512-YKgNbG2dlzqMhA9NtI3/pbY16m3Yl/EeWBRa+lB1X1YaYxHrxNexiQYCLTWO/uDvAjLFMEDU+zR901waBtMtjQ==
+  dependencies:
+    tinycolor2 "^1.4.1"
+
 "@ant-design/css-animation@^1.7.2":
   version "1.7.3"
   resolved "https://registry.npmjs.org/@ant-design/css-animation/-/css-animation-1.7.3.tgz#60a1c970014e86b28f940510d69e503e428f1136"
   integrity sha512-LrX0OGZtW+W6iLnTAqnTaoIsRelYeuLZWsrmBJFUXDALQphPsN8cE5DCsmoSlL0QYb94BQxINiuS70Ar/8BNgA==
+
+"@ant-design/icons-svg@^4.0.0":
+  version "4.1.0"
+  resolved "https://npm.i-novus.ru/@ant-design%2ficons-svg/-/icons-svg-4.1.0.tgz#480b025f4b20ef7fe8f47d4a4846e4fee84ea06c"
+  integrity sha512-Fi03PfuUqRs76aI3UWYpP864lkrfPo0hluwGqh7NJdLhvH4iRDc3jbJqZIvRDLHKbXrvAfPPV3+zjUccfFvWOQ==
+
+"@ant-design/icons@^4.2.1":
+  version "4.2.2"
+  resolved "https://npm.i-novus.ru/@ant-design%2ficons/-/icons-4.2.2.tgz#6533c5a02aec49238ec4748074845ad7d85a4f5e"
+  integrity sha512-DrVV+wcupnHS7PehJ6KiTcJtAR5c25UMgjGECCc6pUT9rsvw0AuYG+a4HDjfxEQuDqKTHwW+oX/nIvCymyLE8Q==
+  dependencies:
+    "@ant-design/colors" "^3.1.0"
+    "@ant-design/icons-svg" "^4.0.0"
+    "@babel/runtime" "^7.10.4"
+    classnames "^2.2.6"
+    insert-css "^2.0.0"
+    rc-util "^5.0.1"
+
+"@ant-design/react-slick@~0.27.0":
+  version "0.27.0"
+  resolved "https://npm.i-novus.ru/@ant-design%2freact-slick/-/react-slick-0.27.0.tgz#c5d4bfd879885b74024ffbce42cccb5f7bff41e9"
+  integrity sha512-dq/p/1oKgew99cNrhT6/BA4v7c7nAhPlS6IcVGVTMsp175bYxbHBT1GfY5vxZyz97YaTnzJ8s2Wql4AOnFQ+9g==
+  dependencies:
+    "@babel/runtime" "^7.10.4"
+    classnames "^2.2.5"
+    json2mq "^0.2.0"
+    lodash "^4.17.15"
+    resize-observer-polyfill "^1.5.0"
 
 "@arcanis/slice-ansi@^1.0.2":
   version "1.0.2"
@@ -2083,6 +2118,13 @@
   version "7.10.5"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.10.5.tgz#303d8bd440ecd5a491eae6117fd3367698674c5c"
   integrity sha512-otddXKhdNn7d0ptoFRHtMLa8LqDxLYwTjB4nYgM1yy5N6gU/MUf8zqyyLltCH3yAVitBzmwK4us+DD0l/MauAg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
+"@babel/runtime@^7.10.1", "@babel/runtime@^7.10.4", "@babel/runtime@^7.11.1":
+  version "7.11.2"
+  resolved "https://npm.i-novus.ru/@babel%2fruntime/-/runtime-7.11.2.tgz#f549c13c754cc40b87644b9fa9f09a6a95fe0736"
+  integrity sha512-TeWkU52so0mPtDcaCTxNBI/IHiz0pZgr8VEFqXFtZWpYD08ZB6FaSwVAS8MKRQAP3bYKiVjwysOJgMFY28o6Tw==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -5363,6 +5405,55 @@ ansicolors@~0.2.1:
   resolved "https://registry.npmjs.org/ansicolors/-/ansicolors-0.2.1.tgz#be089599097b74a5c9c4a84a0cdbcdb62bd87aef"
   integrity sha1-vgiVmQl7dKXJxKhKDNvNtivYeu8=
 
+antd@^4.5.2:
+  version "4.5.2"
+  resolved "https://npm.i-novus.ru/antd/-/antd-4.5.2.tgz#0551b2999d5c9827d996b860e827974d50d87ed9"
+  integrity sha512-XDI4ywKpj2LfvvQjHxkdItzLH0zlVvm3wKHyko03BoSzYVinZ9MWap3PXraclb8xBKH8d/14BRJSGmIsvxzkfg==
+  dependencies:
+    "@ant-design/css-animation" "^1.7.2"
+    "@ant-design/icons" "^4.2.1"
+    "@ant-design/react-slick" "~0.27.0"
+    "@babel/runtime" "^7.10.4"
+    array-tree-filter "^2.1.0"
+    classnames "^2.2.6"
+    copy-to-clipboard "^3.2.0"
+    lodash "^4.17.13"
+    moment "^2.25.3"
+    omit.js "^2.0.2"
+    raf "^3.4.1"
+    rc-animate "~3.1.0"
+    rc-cascader "~1.3.0"
+    rc-checkbox "~2.3.0"
+    rc-collapse "~2.0.0"
+    rc-dialog "~8.1.0"
+    rc-drawer "~4.1.0"
+    rc-dropdown "~3.1.2"
+    rc-field-form "~1.8.0"
+    rc-input-number "~6.0.0"
+    rc-mentions "~1.4.0"
+    rc-menu "~8.5.0"
+    rc-notification "~4.4.0"
+    rc-pagination "~2.4.1"
+    rc-picker "~1.15.1"
+    rc-progress "~3.0.0"
+    rc-rate "~2.8.2"
+    rc-resize-observer "^0.2.3"
+    rc-select "~11.0.10"
+    rc-slider "~9.3.0"
+    rc-steps "~4.1.0"
+    rc-switch "~3.2.0"
+    rc-table "~7.8.0"
+    rc-tabs "~11.5.0"
+    rc-textarea "~0.3.0"
+    rc-tooltip "~4.2.0"
+    rc-tree "~3.8.0"
+    rc-tree-select "~4.1.0"
+    rc-trigger "~4.3.0"
+    rc-upload "~3.2.0"
+    rc-util "^5.0.1"
+    scroll-into-view-if-needed "^2.2.25"
+    warning "^4.0.3"
+
 any-observable@^0.3.0:
   version "0.3.0"
   resolved "https://registry.npmjs.org/any-observable/-/any-observable-0.3.0.tgz#af933475e5806a67d0d7df090dd5e8bef65d119b"
@@ -5540,6 +5631,11 @@ array-reduce@~0.0.0:
   version "0.0.0"
   resolved "https://registry.npmjs.org/array-reduce/-/array-reduce-0.0.0.tgz#173899d3ffd1c7d9383e4479525dbe278cab5f2b"
   integrity sha1-FziZ0//Rx9k4PkR5Ul2+J4yrXys=
+
+array-tree-filter@^2.1.0:
+  version "2.1.0"
+  resolved "https://npm.i-novus.ru/array-tree-filter/-/array-tree-filter-2.1.0.tgz#873ac00fec83749f255ac8dd083814b4f6329190"
+  integrity sha512-4ROwICNlNw/Hqa9v+rk5h22KjmzB1JGTMVKP2AKJBOCgb0yL0ASf0+YvCcLNNwquOHNX48jkeZIJ3a+oOQqKcw==
 
 array-union@^1.0.1, array-union@^1.0.2:
   version "1.0.2"
@@ -5719,6 +5815,11 @@ async-limiter@~1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
   integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
+
+async-validator@^3.0.3:
+  version "3.4.0"
+  resolved "https://npm.i-novus.ru/async-validator/-/async-validator-3.4.0.tgz#871b3e594124bf4c4eb7bcd1a9e78b44f3b09cae"
+  integrity sha512-VrFk4eYiJAWKskEz115iiuCf9O0ftnMMPXrOFMqyzGH2KxO7YwncKyn/FgOOP+0MDHMfXL7gLExagCutaZGigA==
 
 async@^1.4.0:
   version "1.5.2"
@@ -7903,6 +8004,11 @@ compute-scroll-into-view@1.0.7:
   resolved "https://registry.npmjs.org/compute-scroll-into-view/-/compute-scroll-into-view-1.0.7.tgz#ad8dbe51093c31d60cf6c2df497b2c077bd9e7d2"
   integrity sha512-nGckrnlp17cHgh9OOi9s83lfWAlBvCQkj4ycexoIokbAxRicMYnYAxBtZ/zKtvFydrshhy2RBT352QGemT6rfQ==
 
+compute-scroll-into-view@^1.0.14:
+  version "1.0.14"
+  resolved "https://npm.i-novus.ru/compute-scroll-into-view/-/compute-scroll-into-view-1.0.14.tgz#80e3ebb25d6aa89f42e533956cb4b16a04cfe759"
+  integrity sha512-mKDjINe3tc6hGelUMNDzuhorIUZ7kS7BwyY0r2wQd2HOH2tRuJykiC06iSEX8y1TuhNzvz4GcJnK16mM2J1NMQ==
+
 concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
@@ -8983,6 +9089,11 @@ date-fns@^1.23.0, date-fns@^1.27.2:
   resolved "https://registry.npmjs.org/date-fns/-/date-fns-1.30.1.tgz#2e71bf0b119153dbb4cc4e88d9ea5acfb50dc05c"
   integrity sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==
 
+date-fns@^2.15.0:
+  version "2.15.0"
+  resolved "https://npm.i-novus.ru/date-fns/-/date-fns-2.15.0.tgz#424de6b3778e4e69d3ff27046ec136af58ae5d5f"
+  integrity sha512-ZCPzAMJZn3rNUvvQIMlXhDr4A+Ar07eLeGsGREoWU19a3Pqf5oYa+ccd+B3F6XVtQY6HANMFdOQ8A+ipFnvJdQ==
+
 date-format@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/date-format/-/date-format-2.1.0.tgz#31d5b5ea211cf5fd764cd38baf9d033df7e125cf"
@@ -8997,6 +9108,11 @@ dateformat@^3.0.0:
   version "3.0.3"
   resolved "https://registry.npmjs.org/dateformat/-/dateformat-3.0.3.tgz#a6e37499a4d9a9cf85ef5872044d62901c9889ae"
   integrity sha512-jyCETtSl3VMZMWeRo7iY1FL19ges1t55hMo5yaam4Jrsm5EPL89UQkoQRyiI+Yf4k8r2ZpdngkV8hr1lIdjb3Q==
+
+dayjs@^1.8.30:
+  version "1.8.32"
+  resolved "https://npm.i-novus.ru/dayjs/-/dayjs-1.8.32.tgz#66c48b95c397d9f7907e89bd29f78b3d19d40294"
+  integrity sha512-V91aTRu5btP+uzGHaaOfodckEfBWhmi9foRP7cauAO1PTB8+tZ9o0Jec7q6TIIRY1N4q1IfiKsZunkB/AEWqMQ==
 
 debug@2, debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
@@ -12473,7 +12589,7 @@ hoist-non-react-statics@^2.2.1, hoist-non-react-statics@^2.3.1, hoist-non-react-
   resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
   integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
 
-hoist-non-react-statics@^3.3.0:
+hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   version "3.3.2"
   resolved "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==
@@ -13107,6 +13223,11 @@ inquirer@^7.0.0:
     string-width "^4.1.0"
     strip-ansi "^6.0.0"
     through "^2.3.6"
+
+insert-css@^2.0.0:
+  version "2.0.0"
+  resolved "https://npm.i-novus.ru/insert-css/-/insert-css-2.0.0.tgz#eb5d1097b7542f4c79ea3060d3aee07d053880f4"
+  integrity sha1-610Ql7dUL0x56jBg067gfQU4gPQ=
 
 internal-ip@^4.3.0:
   version "4.3.0"
@@ -14629,6 +14750,13 @@ json-stringify-safe@^5.0.1, json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.npmjs.org/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
+
+json2mq@^0.2.0:
+  version "0.2.0"
+  resolved "https://npm.i-novus.ru/json2mq/-/json2mq-0.2.0.tgz#b637bd3ba9eabe122c83e9720483aeb10d2c904a"
+  integrity sha1-tje9O6nqvhIsg+lyBIOusQ0skEo=
+  dependencies:
+    string-convert "^0.2.0"
 
 json3@^3.3.2:
   version "3.3.3"
@@ -16280,6 +16408,14 @@ mini-store@^2.0.0:
     react-lifecycles-compat "^3.0.4"
     shallowequal "^1.0.2"
 
+mini-store@^3.0.1:
+  version "3.0.6"
+  resolved "https://npm.i-novus.ru/mini-store/-/mini-store-3.0.6.tgz#44b86be5b2877271224ce0689b3a35a2dffb1ca9"
+  integrity sha512-YzffKHbYsMQGUWQRKdsearR79QsMzzJcDDmZKlJBqt5JNkqpyJHYlK6gP61O36X+sLf76sO9G6mhKBe83gIZIQ==
+  dependencies:
+    hoist-non-react-statics "^3.3.2"
+    shallowequal "^1.0.2"
+
 minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz#2e194de044626d4a10e7f7fbc00ce73e83e4d5c7"
@@ -16519,7 +16655,7 @@ moment@2.20.1:
   resolved "https://registry.npmjs.org/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
   integrity sha512-Yh9y73JRljxW5QxN08Fner68eFLxM5ynNOAw2LbIB1YAGeQzZT8QFSUvkAz609Zf+IHhhaUxqZK8dG3W/+HEvg==
 
-moment@^2.24.0:
+moment@^2.24.0, moment@^2.25.3:
   version "2.27.0"
   resolved "https://registry.npmjs.org/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
   integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
@@ -17373,6 +17509,11 @@ octokit-pagination-methods@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/octokit-pagination-methods/-/octokit-pagination-methods-1.1.0.tgz#cf472edc9d551055f9ef73f6e42b4dbb4c80bea4"
   integrity sha512-fZ4qZdQ2nxJvtcasX7Ghl+WlWS/d9IgnBIwFZXVNNZUmzpno91SX5bc5vuxiuKoCtK78XxGGNuSCrDC7xYB3OQ==
+
+omit.js@^2.0.0, omit.js@^2.0.2:
+  version "2.0.2"
+  resolved "https://npm.i-novus.ru/omit.js/-/omit.js-2.0.2.tgz#dd9b8436fab947a5f3ff214cb2538631e313ec2f"
+  integrity sha512-hJmu9D+bNB40YpL9jYebQl4lsTW6yEHRTroJzNLqQJYHm7c+NQnJGfZmIWh8S3q3KoaxV1aLhV6B3+0N0/kyJg==
 
 on-finished@~2.3.0:
   version "2.3.0"
@@ -19773,6 +19914,17 @@ rc-align@^2.4.0, rc-align@^2.4.1:
     prop-types "^15.5.8"
     rc-util "^4.0.4"
 
+rc-align@^4.0.0:
+  version "4.0.1"
+  resolved "https://npm.i-novus.ru/rc-align/-/rc-align-4.0.1.tgz#0566de141a82d9a1923b7672c70bdb19dcde6e23"
+  integrity sha512-RQ5Fhxl0LW+zsxbY8dxAcpXdaHkHH2jzRSSpvBTS7G9LMK3T+WRcn4ovjg/eqAESM6TdTx0hfqWF2S1pO75jxQ==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "2.x"
+    dom-align "^1.7.0"
+    rc-util "^5.0.1"
+    resize-observer-polyfill "^1.5.1"
+
 rc-animate@2.x:
   version "2.11.1"
   resolved "https://registry.npmjs.org/rc-animate/-/rc-animate-2.11.1.tgz#2666eeb6f1f2a495a13b2af09e236712278fdb2c"
@@ -19786,7 +19938,7 @@ rc-animate@2.x:
     rc-util "^4.15.3"
     react-lifecycles-compat "^3.0.4"
 
-rc-animate@^3.0.0-rc.1, rc-animate@^3.0.0-rc.4, rc-animate@^3.0.0-rc.5:
+rc-animate@3.x, rc-animate@^3.0.0, rc-animate@^3.0.0-rc.1, rc-animate@^3.0.0-rc.4, rc-animate@^3.0.0-rc.5, rc-animate@~3.1.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/rc-animate/-/rc-animate-3.1.0.tgz#051b689c2c7194e4c8ae016d32a0e5f9de6c8baa"
   integrity sha512-8FsM+3B1H+0AyTyGggY6JyVldHTs1CyYT8CfTmG/nGHHXlecvSLeICJhcKgRLjUiQlctNnRtB1rwz79cvBVmrw==
@@ -19795,6 +19947,24 @@ rc-animate@^3.0.0-rc.1, rc-animate@^3.0.0-rc.4, rc-animate@^3.0.0-rc.5:
     classnames "^2.2.6"
     raf "^3.4.0"
     rc-util "^5.0.1"
+
+rc-cascader@~1.3.0:
+  version "1.3.0"
+  resolved "https://npm.i-novus.ru/rc-cascader/-/rc-cascader-1.3.0.tgz#67925c7ac4b732fe06cabb3a9c91631c96d04ccf"
+  integrity sha512-wayuMo/dSZixvdpiRFZB4Q6A3omKRXQcJ3CxN02+PNiTEcRnK2KDqKUzrx7GwgMsyH5tz90lUZ91lLaEPNFv0A==
+  dependencies:
+    array-tree-filter "^2.1.0"
+    rc-trigger "^4.0.0"
+    rc-util "^5.0.1"
+    warning "^4.0.1"
+
+rc-checkbox@~2.3.0:
+  version "2.3.1"
+  resolved "https://npm.i-novus.ru/rc-checkbox/-/rc-checkbox-2.3.1.tgz#2a61bc43017c783bd2e9f1a67553bf8efe7aa4d3"
+  integrity sha512-i290/iTqmZ0WtI2UPIryqT9rW6O99+an4KeZIyZDH3r+Jbb6YdddaWNdzq7g5m9zaNhJvgjf//wJtC4fvve2Tg==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.1"
 
 rc-collapse@~1.10.0:
   version "1.10.3"
@@ -19808,6 +19978,25 @@ rc-collapse@~1.10.0:
     react-is "^16.7.0"
     shallowequal "^1.1.0"
 
+rc-collapse@~2.0.0:
+  version "2.0.0"
+  resolved "https://npm.i-novus.ru/rc-collapse/-/rc-collapse-2.0.0.tgz#08c5942f82005b4342ced02d983581e4c41cd324"
+  integrity sha512-R5+Ge1uzwK9G1wZPRPhqQsed4FXTDmU0BKzsqfNBtZdk/wd+yey8ZutmJmSozYc5hQwjPkCvJHV7gOIRZKIlJg==
+  dependencies:
+    "@ant-design/css-animation" "^1.7.2"
+    classnames "2.x"
+    rc-animate "3.x"
+    react-is "^16.7.0"
+    shallowequal "^1.1.0"
+
+rc-dialog@~8.1.0:
+  version "8.1.0"
+  resolved "https://npm.i-novus.ru/rc-dialog/-/rc-dialog-8.1.0.tgz#393910963bb05ac19d6d136620bd09622f1d677a"
+  integrity sha512-vMVAtyxpnokh/okFcDQVLO6ymIXfoTKYKtqJ/hMtf+0WcvRn4VgVDBvGyEk5zd94k0RgwEze9o2kGw8SyjivZg==
+  dependencies:
+    rc-animate "3.x"
+    rc-util "^5.0.1"
+
 rc-drawer@^3.0.2:
   version "3.2.0"
   resolved "https://registry.npmjs.org/rc-drawer/-/rc-drawer-3.2.0.tgz#6d9bba2fb1647942840dad61f36b9c88b753f565"
@@ -19815,6 +20004,164 @@ rc-drawer@^3.0.2:
   dependencies:
     classnames "^2.2.6"
     rc-util "^4.16.1"
+
+rc-drawer@~4.1.0:
+  version "4.1.0"
+  resolved "https://npm.i-novus.ru/rc-drawer/-/rc-drawer-4.1.0.tgz#d7bf0bc030300b62d282bc04e053b9acad6b08b4"
+  integrity sha512-kjeQFngPjdzAFahNIV0EvEBoIKMOnvUsAxpkSPELoD/1DuR4nLafom5ryma+TIxGwkFJ92W6yjsMi1U9aiOTeQ==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.6"
+    rc-util "^5.0.1"
+
+rc-dropdown@^3.1.0, rc-dropdown@~3.1.2:
+  version "3.1.2"
+  resolved "https://npm.i-novus.ru/rc-dropdown/-/rc-dropdown-3.1.2.tgz#5199bd532ac8519813a347d194ab4b0cee702333"
+  integrity sha512-s2W5jqvjTid5DxotGO5FlTBaQWeB+Bu7McQgjB8Ot3Wbl72AIKwLf11+lgbV4mA2vWC1H8DKyn6SW9TKLTi0xg==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.6"
+    rc-trigger "^4.0.0"
+
+rc-field-form@~1.8.0:
+  version "1.8.0"
+  resolved "https://npm.i-novus.ru/rc-field-form/-/rc-field-form-1.8.0.tgz#c51312321409727e5a333873311f9c1f5e13e8c2"
+  integrity sha512-WQyC3yBEKIWehNzkRMTBK/Lzdjronov9GsB9C9bgVcfpDqsIQSSBgGFAJMmWUAGs2IrCbgh9RBY0Ste4foHzvg==
+  dependencies:
+    "@babel/runtime" "^7.8.4"
+    async-validator "^3.0.3"
+    rc-util "^5.0.0"
+
+rc-input-number@~6.0.0:
+  version "6.0.0"
+  resolved "https://npm.i-novus.ru/rc-input-number/-/rc-input-number-6.0.0.tgz#0c0af57c8183f3ca6b87f7edf6fed3bd5a3ba16f"
+  integrity sha512-vbe+g7HvR/joknSnvLkBTi9N9I+LsV4kljfuog8WNiS7OAF3aEN0QcHSOQ4+xk6+Hx9P1tU63z2+TyEx8W/j2Q==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.5"
+    rc-util "^5.0.1"
+
+rc-mentions@~1.4.0:
+  version "1.4.0"
+  resolved "https://npm.i-novus.ru/rc-mentions/-/rc-mentions-1.4.0.tgz#6b7a2770ec02a5c0265d459a3385a23913efcc61"
+  integrity sha512-DIcjQZNerCZ50tnDnL6P9mpNmlGc9VFrSjXh55RzkAZOTelf061T7ZbYv0bYeSdohvAwYNr4gt3/Pe79AUsjLw==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.6"
+    rc-menu "^8.0.1"
+    rc-textarea "^0.3.0"
+    rc-trigger "^4.3.0"
+    rc-util "^5.0.1"
+
+rc-menu@^8.0.1, rc-menu@^8.2.1, rc-menu@~8.5.0:
+  version "8.5.2"
+  resolved "https://npm.i-novus.ru/rc-menu/-/rc-menu-8.5.2.tgz#fa43bccabfcf422b9d3cdfcae5b71da08bab7e54"
+  integrity sha512-GPtr7qoCynVEkFgco/9cW0z/xU33GV89Q6r8FgEkrdhaQSJzuSC+v8pv+Bll5fVGQlJyJgOVqiKk7l2Knk1jYg==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "2.x"
+    mini-store "^3.0.1"
+    omit.js "^2.0.0"
+    rc-motion "^1.0.1"
+    rc-trigger "^4.4.0"
+    rc-util "^5.0.1"
+    resize-observer-polyfill "^1.5.0"
+    shallowequal "^1.1.0"
+
+rc-motion@^1.0.0, rc-motion@^1.0.1:
+  version "1.0.1"
+  resolved "https://npm.i-novus.ru/rc-motion/-/rc-motion-1.0.1.tgz#9a9106cd8e932a25f49a3324443dada90c9b8006"
+  integrity sha512-+gk3bk72678cnwqsKmLTaqLNnAdvxe97SEttyGrrGH29UHiDj1tZTRwguDEAHZ9ZW44VMLmKhr2BKZqZOBPm0Q==
+  dependencies:
+    "@babel/runtime" "^7.11.1"
+    classnames "^2.2.1"
+    raf "^3.4.1"
+    rc-util "^5.0.6"
+
+rc-notification@~4.4.0:
+  version "4.4.0"
+  resolved "https://npm.i-novus.ru/rc-notification/-/rc-notification-4.4.0.tgz#192d082cd6e2995705f43c6929162631c71e3db1"
+  integrity sha512-IDeNAFGVeOsy1tv4zNVqMAXB9tianR80ewQbtObaAQfjwAjWfONdqdyjFkEU6nc6UQhSUYA5OcTGb7kwwbnh0g==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "2.x"
+    rc-animate "3.x"
+    rc-util "^5.0.1"
+
+rc-pagination@~2.4.1:
+  version "2.4.6"
+  resolved "https://npm.i-novus.ru/rc-pagination/-/rc-pagination-2.4.6.tgz#cc030c9693c730b43592bdb6974fb32c1502a500"
+  integrity sha512-1ykd3Jti+JuOFdzEFXGfVpkuH+hKxLYz3FKV6BSwnnWXLr9Y8bbm7YiTSwBmdDcOg6tinH8b4IYaKzxBWRC6EA==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.1"
+
+rc-picker@~1.15.1:
+  version "1.15.1"
+  resolved "https://npm.i-novus.ru/rc-picker/-/rc-picker-1.15.1.tgz#b0d647f3827468f844bc95c9255436ea787d26ce"
+  integrity sha512-YW6I91R1rMDTKpWY2yYjUk3mX4ttk7l8dx5fuojGBj86TGPj0R5vh+wFoRNzOeA4qAHcRzGWGPP60HFnoxL1TA==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.1"
+    date-fns "^2.15.0"
+    dayjs "^1.8.30"
+    moment "^2.24.0"
+    rc-trigger "^4.0.0"
+    rc-util "^5.0.1"
+    react "^16.0.0"
+    shallowequal "^1.1.0"
+
+rc-progress@~3.0.0:
+  version "3.0.0"
+  resolved "https://npm.i-novus.ru/rc-progress/-/rc-progress-3.0.0.tgz#cea324ce8fc31421cd815d94a4649a8a29f8f8db"
+  integrity sha512-dQv1KU3o6Vay604FMYMF4S0x4GNXAgXf1tbQ1QoxeIeQt4d5fUeB7Ri82YPu+G+aRvH/AtxYAlEcnxyVZ1/4Hw==
+  dependencies:
+    classnames "^2.2.6"
+
+rc-rate@~2.8.2:
+  version "2.8.2"
+  resolved "https://npm.i-novus.ru/rc-rate/-/rc-rate-2.8.2.tgz#d82d237d74fd4aef3e0581d2700b646cdd1cd8a2"
+  integrity sha512-f9T/D+ZwWQrWHkpidpQbnXpnVMGMC4eSRAkwuu88a8Qv1C/9LNc4AErazoh8tpnZBFqq19F3j0Glv+sDgkfEig==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.5"
+    rc-util "^5.0.1"
+
+rc-resize-observer@^0.2.0, rc-resize-observer@^0.2.1, rc-resize-observer@^0.2.3:
+  version "0.2.3"
+  resolved "https://npm.i-novus.ru/rc-resize-observer/-/rc-resize-observer-0.2.3.tgz#8268284d1766d163240b1682661ae7b59bc4523d"
+  integrity sha512-dEPCGX15eRRnu+TNBIGyEghpzE24fTDW8pHdJPJS/kCR3lafFqBLqKzBgZW6pMUuM70/ZDyFQ0Kynx9kWsXRNw==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.1"
+    rc-util "^5.0.0"
+    resize-observer-polyfill "^1.5.1"
+
+rc-select@^11.1.1:
+  version "11.1.3"
+  resolved "https://npm.i-novus.ru/rc-select/-/rc-select-11.1.3.tgz#acb6436e0ec389e1676903d9b514aa0d7565dbeb"
+  integrity sha512-Mf/EiYFmdWOoOget6RacSz1uAfn0hxf3wOa/YSOf7bw70EH6s80biDHQ4WPk8hNMxVRhzojlkktgmN4YxNQisQ==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "2.x"
+    rc-motion "^1.0.1"
+    rc-trigger "^4.3.0"
+    rc-util "^5.0.1"
+    rc-virtual-list "^1.1.2"
+    warning "^4.0.3"
+
+rc-select@~11.0.10:
+  version "11.0.13"
+  resolved "https://npm.i-novus.ru/rc-select/-/rc-select-11.0.13.tgz#fe5718af819d3e0bc12a55334bc1717257ef2dac"
+  integrity sha512-4/GDmBkGnDhYre3Dvq5UkIRXQJW8hbGdpdH8SjquSbCktAVitYV+opd/lKI28qMcBxCgjOHgYXwZ18TF+kP2VQ==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "2.x"
+    rc-motion "^1.0.1"
+    rc-trigger "^4.3.0"
+    rc-util "^5.0.1"
+    rc-virtual-list "^1.1.2"
+    warning "^4.0.3"
 
 rc-slider@^8.6.11:
   version "8.7.1"
@@ -19830,6 +20177,26 @@ rc-slider@^8.6.11:
     shallowequal "^1.1.0"
     warning "^4.0.3"
 
+rc-slider@~9.3.0:
+  version "9.3.1"
+  resolved "https://npm.i-novus.ru/rc-slider/-/rc-slider-9.3.1.tgz#444012f3b4847d592b167a9cee6a1a46779a6ef4"
+  integrity sha512-c52PWPyrfJWh28K6dixAm0906L3/4MUIxqrNQA4TLnC/Z+cBNycWJUZoJerpwSOE1HdM3XDwixCsmtFc/7aWlQ==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.5"
+    rc-tooltip "^4.0.0"
+    rc-util "^5.0.0"
+    shallowequal "^1.1.0"
+
+rc-steps@~4.1.0:
+  version "4.1.2"
+  resolved "https://npm.i-novus.ru/rc-steps/-/rc-steps-4.1.2.tgz#370f4c6b40d3888f03b271f1628953c66eb91c04"
+  integrity sha512-kTPiojPtJi12Y7whRqlydRgJXQ1u9JlvGchI6xDrmOMZVpCTLpfc/18iu+aHCtCZaSnM2ENU/9lfm/naWVFcRw==
+  dependencies:
+    "@babel/runtime" "^7.10.2"
+    classnames "^2.2.3"
+    rc-util "^5.0.1"
+
 rc-switch@~1.8.0:
   version "1.8.0"
   resolved "https://registry.npmjs.org/rc-switch/-/rc-switch-1.8.0.tgz#cff32fd04c406d8c0c0397e69bc36350a333e236"
@@ -19838,6 +20205,15 @@ rc-switch@~1.8.0:
     babel-runtime "^6.23.0"
     classnames "^2.2.1"
     prop-types "^15.5.6"
+
+rc-switch@~3.2.0:
+  version "3.2.0"
+  resolved "https://npm.i-novus.ru/rc-switch/-/rc-switch-3.2.0.tgz#aa36bb417409ff4cc7d542ec4381cb5d87cfedc1"
+  integrity sha512-WQZnRrWZ+KGh4Cd98FpP1ZgvMmebctoHzKAO2n1Xsry1FQBSGgIw4rQJRxET31VS/dR1LIKb5md/k0UzcXXc0g==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.1"
+    rc-util "^5.0.1"
 
 rc-table@6.4.3:
   version "6.4.3"
@@ -19855,6 +20231,42 @@ rc-table@6.4.3:
     shallowequal "^1.0.2"
     warning "^3.0.0"
 
+rc-table@~7.8.0:
+  version "7.8.6"
+  resolved "https://npm.i-novus.ru/rc-table/-/rc-table-7.8.6.tgz#897fb1671c62eb3a46033b53f0690fa0fd65dc61"
+  integrity sha512-rHRStVTO6FYlxs5Bk9S56Vo/Jn7pX3hOtHTHP+Vu++i9SF7DroOReMIi+OJ7RA9n3jVBxyT/9+NESXgTFvPbYA==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.5"
+    raf "^3.4.1"
+    rc-resize-observer "^0.2.0"
+    rc-util "^5.0.0"
+    shallowequal "^1.1.0"
+
+rc-tabs@~11.5.0:
+  version "11.5.6"
+  resolved "https://npm.i-novus.ru/rc-tabs/-/rc-tabs-11.5.6.tgz#bcff03f8c8dcc08b57ca97c0debe5d9fa3373957"
+  integrity sha512-Q2wqnt66SFksGXxNARLqGNMYIFH3KSm48+hMc4tq6qhgpsW104dedHcM86NUyqsQcvYWWiceUNu3TSnbe+XZnw==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "2.x"
+    raf "^3.4.1"
+    rc-dropdown "^3.1.0"
+    rc-menu "^8.2.1"
+    rc-resize-observer "^0.2.1"
+    rc-trigger "^4.2.1"
+    rc-util "^5.0.0"
+
+rc-textarea@^0.3.0, rc-textarea@~0.3.0:
+  version "0.3.0"
+  resolved "https://npm.i-novus.ru/rc-textarea/-/rc-textarea-0.3.0.tgz#9860ef797e00717d8227d1ef4ee7895dd9358ddf"
+  integrity sha512-vrTPkPT6wrO7EI8ouLFZZLXA1pFVrVRCnkmyyf0yRComFbcH1ogmFEGu85CjVT96rQqAiQFOe0QV3nKopZOJow==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.1"
+    omit.js "^2.0.0"
+    rc-resize-observer "^0.2.3"
+
 rc-tooltip@^3.7.0:
   version "3.7.3"
   resolved "https://registry.npmjs.org/rc-tooltip/-/rc-tooltip-3.7.3.tgz#280aec6afcaa44e8dff0480fbaff9e87fc00aecc"
@@ -19863,6 +20275,13 @@ rc-tooltip@^3.7.0:
     babel-runtime "6.x"
     prop-types "^15.5.8"
     rc-trigger "^2.2.2"
+
+rc-tooltip@^4.0.0, rc-tooltip@~4.2.0:
+  version "4.2.1"
+  resolved "https://npm.i-novus.ru/rc-tooltip/-/rc-tooltip-4.2.1.tgz#c1a2d5017ee03a771a9301c0dfdb46dfdf8fef94"
+  integrity sha512-oykuaGsHg7RFvPUaxUpxo7ScEqtH61C66x4JUmjlFlSS8gSx2L8JFtfwM1D68SLBxUqGqJObtxj4TED75gQTiA==
+  dependencies:
+    rc-trigger "^4.2.1"
 
 rc-tree-select@2.3.1:
   version "2.3.1"
@@ -19881,6 +20300,28 @@ rc-tree-select@2.3.1:
     shallowequal "^1.0.2"
     warning "^4.0.1"
 
+rc-tree-select@~4.1.0:
+  version "4.1.1"
+  resolved "https://npm.i-novus.ru/rc-tree-select/-/rc-tree-select-4.1.1.tgz#2d3c61f2449de72839eddf94ab876d3f6567692f"
+  integrity sha512-pawxt/W1chLpjtAEQe8mXI9C9DYNMGS/BR6eBmOY8cJDK6OWSa6M88S6F0jXc+A10D/CLfHAfF1ZIj7VGse+5Q==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "2.x"
+    rc-select "^11.1.1"
+    rc-tree "^3.8.0"
+    rc-util "^5.0.5"
+
+rc-tree@^3.8.0:
+  version "3.9.0"
+  resolved "https://npm.i-novus.ru/rc-tree/-/rc-tree-3.9.0.tgz#89de29a8ea5692447d01bbbda8931bd6b3e9b2e1"
+  integrity sha512-TYvIq2SKdVugS2mdOGC++CNWjj1VDBws4JZkFOAJVQfXFWg+BNW4rhuTzAs4ZY3KiE+1xG0u5cOVvIPr7qkxCA==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "2.x"
+    rc-motion "^1.0.0"
+    rc-util "^5.0.0"
+    rc-virtual-list "^1.1.0"
+
 rc-tree@~1.14.3:
   version "1.14.10"
   resolved "https://registry.npmjs.org/rc-tree/-/rc-tree-1.14.10.tgz#4e0dc70c43da03650b5b776bda1b480a5bea85ee"
@@ -19893,6 +20334,17 @@ rc-tree@~1.14.3:
     rc-util "^4.5.1"
     react-lifecycles-compat "^3.0.4"
     warning "^3.0.0"
+
+rc-tree@~3.8.0:
+  version "3.8.5"
+  resolved "https://npm.i-novus.ru/rc-tree/-/rc-tree-3.8.5.tgz#1f6d8c14a4f9263d5a426f7a24703a4c7be46ea3"
+  integrity sha512-audXUWwxyGB/4rLI4v+KuVucbc74y5t10XYQlR5WUe1J0sQuxP19+5GTb6DgrGXPxWOC6mxmkiw/xsKissE0GA==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "2.x"
+    rc-motion "^1.0.0"
+    rc-util "^5.0.0"
+    rc-virtual-list "^1.1.0"
 
 rc-trigger@^2.2.2:
   version "2.6.5"
@@ -19920,6 +20372,37 @@ rc-trigger@^3.0.0-rc.2:
     rc-animate "^3.0.0-rc.1"
     rc-util "^4.15.7"
 
+rc-trigger@^4.0.0, rc-trigger@^4.2.1, rc-trigger@^4.3.0, rc-trigger@^4.4.0:
+  version "4.4.0"
+  resolved "https://npm.i-novus.ru/rc-trigger/-/rc-trigger-4.4.0.tgz#52be45c7b40327b297ebacff84d69ce9285606bc"
+  integrity sha512-09562wc5I1JUbCdWohcFYJeLTpjKjEqH+0lY7plDtyI9yFXRngrvmqsrSJyT6Nat+C35ymD7fhwCCPq3cfUI4g==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.6"
+    raf "^3.4.1"
+    rc-align "^4.0.0"
+    rc-motion "^1.0.0"
+    rc-util "^5.0.1"
+
+rc-trigger@~4.3.0:
+  version "4.3.5"
+  resolved "https://npm.i-novus.ru/rc-trigger/-/rc-trigger-4.3.5.tgz#0da18a324a2afd1fa7f91cc3d73edd545c484c80"
+  integrity sha512-OKIrgGVHnpQ16H/nuOjANrnufHx/tw4cvCuiWSM+XflahUlcqJu6UtlQzNTZ2BoNinC/9Eopx5I38jVD+xLvew==
+  dependencies:
+    "@babel/runtime" "^7.10.1"
+    classnames "^2.2.6"
+    raf "^3.4.1"
+    rc-align "^4.0.0"
+    rc-animate "^3.0.0"
+    rc-util "^5.0.1"
+
+rc-upload@~3.2.0:
+  version "3.2.0"
+  resolved "https://npm.i-novus.ru/rc-upload/-/rc-upload-3.2.0.tgz#251fc3c9105902e808600a414f368f285d63bfba"
+  integrity sha512-/vyOGVxl5QVM3ZE7s+GqYPbCLC/Q/vJq0sjdwnvJw01KvAR5kVOC4jbHEaU56dMss7PFGDfNzc8zO5bWYLDzVQ==
+  dependencies:
+    classnames "^2.2.5"
+
 rc-util@^4.0.4, rc-util@^4.15.3, rc-util@^4.15.7, rc-util@^4.16.1, rc-util@^4.4.0, rc-util@^4.5.0, rc-util@^4.5.1:
   version "4.21.1"
   resolved "https://registry.npmjs.org/rc-util/-/rc-util-4.21.1.tgz#88602d0c3185020aa1053d9a1e70eac161becb05"
@@ -19931,13 +20414,22 @@ rc-util@^4.0.4, rc-util@^4.15.3, rc-util@^4.15.7, rc-util@^4.16.1, rc-util@^4.4.
     react-lifecycles-compat "^3.0.4"
     shallowequal "^1.1.0"
 
-rc-util@^5.0.1:
+rc-util@^5.0.0, rc-util@^5.0.1, rc-util@^5.0.5, rc-util@^5.0.6:
   version "5.0.6"
   resolved "https://registry.npmjs.org/rc-util/-/rc-util-5.0.6.tgz#2b828bc87a818a66384b813f76a561ad4609e9b0"
   integrity sha512-uLGxF9WjbpJSjd6iDnIjl8ZeMUglpcuh1DwO26aaXh++yAmlB6eIAJMUwwJCuqJvo4quCvsDPg1VkqHILc4U0A==
   dependencies:
     react-is "^16.12.0"
     shallowequal "^1.1.0"
+
+rc-virtual-list@^1.1.0, rc-virtual-list@^1.1.2:
+  version "1.1.6"
+  resolved "https://npm.i-novus.ru/rc-virtual-list/-/rc-virtual-list-1.1.6.tgz#b255baf9aacde149a8893324e6307214094f4c0a"
+  integrity sha512-u3+izqWL8p8bQy8nYH48qWpiGyxR/ye8D2k0zJlXmfYeL55/xh83YrzHqiDzO78uj0Ewag3nXDA0JTVrYO7ygQ==
+  dependencies:
+    classnames "^2.2.6"
+    raf "^3.4.1"
+    rc-util "^5.0.0"
 
 rc@^1.2.8:
   version "1.2.8"
@@ -20641,7 +21133,7 @@ react-widgets@^4.2.2:
     uncontrollable "^5.0.0"
     warning "^3.0.0"
 
-react@^16.11.0, react@^16.2.0, react@^16.4.1, react@^16.8.1, react@^16.8.6:
+react@^16.0.0, react@^16.11.0, react@^16.2.0, react@^16.4.1, react@^16.8.1, react@^16.8.6:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
   integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
@@ -21787,6 +22279,13 @@ scroll-into-view-if-needed@2.2.16:
   integrity sha512-i28Zt4c4fjk6+bgx8HNlrDoUleHN+lXnvIzFQVaRtT/ulStz86eyo7HmQD+f1jGBNjRs+kXEbu8wnxIwx7KAGQ==
   dependencies:
     compute-scroll-into-view "1.0.7"
+
+scroll-into-view-if-needed@^2.2.25:
+  version "2.2.25"
+  resolved "https://npm.i-novus.ru/scroll-into-view-if-needed/-/scroll-into-view-if-needed-2.2.25.tgz#117b7bc7c61bc7a2b7872a0984bc73a19bc6e961"
+  integrity sha512-C8RKJPq9lK7eubwGpLbUkw3lklcG3Ndjmea2PyauzrA0i4DPlzAmVMGxaZrBFqCrVLfvJmP80IyHnv4jxvg1OQ==
+  dependencies:
+    compute-scroll-into-view "^1.0.14"
 
 scss-tokenizer@^0.2.3:
   version "0.2.3"
@@ -23028,6 +23527,11 @@ string-argv@^0.0.2:
   version "0.0.2"
   resolved "https://registry.npmjs.org/string-argv/-/string-argv-0.0.2.tgz#dac30408690c21f3c3630a3ff3a05877bdcbd736"
   integrity sha1-2sMECGkMIfPDYwo/86BYd73L1zY=
+
+string-convert@^0.2.0:
+  version "0.2.1"
+  resolved "https://npm.i-novus.ru/string-convert/-/string-convert-0.2.1.tgz#6982cc3049fbb4cd85f8b24568b9d9bf39eeff97"
+  integrity sha1-aYLMMEn7tM2F+LJFaLnZvznu/5c=
 
 string-length@^2.0.0:
   version "2.0.0"

@@ -309,6 +309,7 @@ class AutoComplete extends React.Component {
               >
                 <InputContent
                   tags={true}
+                  mode="autocomplete"
                   multiSelect={tags}
                   options={filteredOptions}
                   setRef={this.setInputRef(ref)}
@@ -341,7 +342,7 @@ class AutoComplete extends React.Component {
               </InputSelectGroup>
             )}
           </Reference>
-          {isExpanded && (
+          {isExpanded && !isEmpty(filteredOptions) && (
             <Popper
               placement="bottom-start"
               modifiers={MODIFIERS}

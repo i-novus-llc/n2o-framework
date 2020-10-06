@@ -84,10 +84,6 @@ public class CompiledQuery implements CompiledMetadata, OriginAware, PropertiesA
         return N2oQuery.class;
     }
 
-    public Map<String, Object> getFieldsDefaultValues() {
-        return Collections.emptyMap();//todo
-    }
-
     public static class FilterEntry implements Map.Entry<String, FilterType>, Serializable {
         private String fieldId;
         private FilterType value;

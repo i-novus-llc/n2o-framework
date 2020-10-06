@@ -40,6 +40,8 @@ describe('FileUploader Тесты', () => {
       const button = setupButton();
       expect(button.state()).toEqual({
         files: [],
+        imgError: {},
+        imgFiles: [],
       });
       button.setProps({
         value: {
@@ -61,6 +63,8 @@ describe('FileUploader Тесты', () => {
             link: '/test',
           },
         ],
+        imgError: {},
+        imgFiles: [],
       });
     });
 
@@ -81,6 +85,8 @@ describe('FileUploader Тесты', () => {
             size: 329184,
           },
         ],
+        imgError: {},
+        imgFiles: [],
       });
 
       expect(button.state()).toEqual({
@@ -91,6 +97,8 @@ describe('FileUploader Тесты', () => {
             size: 329184,
           },
         ],
+        imgError: {},
+        imgFiles: [],
       });
     });
 
@@ -189,6 +197,8 @@ describe('FileUploader Тесты', () => {
             size: 329184,
           },
         ],
+        imgError: {},
+        imgFiles: [],
       });
       expect(dropZone.state()).toEqual({
         files: [
@@ -198,6 +208,8 @@ describe('FileUploader Тесты', () => {
             size: 329184,
           },
         ],
+        imgError: {},
+        imgFiles: [],
       });
     });
 

@@ -23,11 +23,9 @@ import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
-import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.config.util.CompileUtil;
 
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -44,28 +42,20 @@ public class ClientDataProviderUtil {
         String targetWidget = compiled.getTargetWidgetId() == null ? initTargetWidget(context, p) : compiled.getTargetWidgetId();
         ReduxModel targetModel = initTargetWidgetModel(p, compiled.getTargetModel());
 
-        if (RequestMethod.POST == compiled.getMethod()) {
+        if (RequestMethod.POST == compiled.getMethod() ||
+                RequestMethod.PUT == compiled.getMethod() ||
+                RequestMethod.DELETE == compiled.getMethod()) {
             Map<String, ModelLink> pathMapping = new StrictMap<>();
             pathMapping.putAll(compileParams(compiled.getPathParams(), p, targetModel, targetWidget));
             dataProvider.setFormMapping(compileParams(compiled.getFormParams(), p, targetModel, targetWidget));
             dataProvider.setHeadersMapping(compileParams(compiled.getHeaderParams(), p, targetModel, targetWidget));
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
             path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            if (widgetScope != null) {
-                String clientWidgetId = widgetScope.getClientWidgetId();
-                if (ReduxModel.RESOLVE.equals(targetModel)) {
-                    String widgetSelectedId = clientWidgetId + "_id";
-                    //todo не нужно добавлять принудительно параметр в url, нужно только если его задали в route="/:id/action"
-                    path = normalize(path + normalize(colon(widgetSelectedId)));
-                    pathMapping.put(widgetSelectedId, new ModelLink(targetModel, clientWidgetId, "id"));
-                    if (context.getPathRouteMapping() != null)
-                        pathMapping.putAll(context.getPathRouteMapping());
-                }
-            }
+            if (context.getPathRouteMapping() != null)
+                pathMapping.putAll(context.getPathRouteMapping());
             path = normalize(path + normalize(p.cast(compiled.getUrl(), compiled.getId(), "")));
             dataProvider.setPathMapping(pathMapping);
-            dataProvider.setMethod(RequestMethod.POST);
+            dataProvider.setMethod(compiled.getMethod());
             dataProvider.setOptimistic(compiled.getOptimistic());
             dataProvider.setSubmitForm(compiled.getSubmitForm());
 
@@ -137,10 +127,15 @@ public class ClientDataProviderUtil {
             actionContext.setMessageOnSuccess(actionContextData.isMessageOnSuccess());
             actionContext.setMessageOnFail(actionContextData.isMessageOnFail());
 
+            Set<String> formParams = new HashSet<>();
+            if (source.getFormParams() != null)
+                Arrays.stream(source.getFormParams()).forEach(fp -> formParams.add(fp.getId()));
+
             Map<String, String> operationMapping = new StrictMap<>();
             for (N2oObject.Parameter inParameter : actionContextData.getOperation().getInParametersMap().values()) {
                 String param = inParameter.getParam();
-                if (param != null)
+                // form params from this source should be ignored in operationMapping
+                if (param != null && !formParams.contains(param))
                     operationMapping.put(param, inParameter.getId());
             }
             actionContext.setOperationMapping(operationMapping);

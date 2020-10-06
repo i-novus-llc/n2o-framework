@@ -1,13 +1,17 @@
 .progress {
   margin-bottom: 0;
+  width: 100%;
+  &-bar {
+    padding-bottom: 2px;
+  }
 }
 
-.mini.progress {
-  height: $mini-height;
+.small.progress {
+  height: $small-height;
 }
 
-.default.progress {
-  height: $default-height;
+.normal.progress {
+  height: $normal-height;
 }
 
 .large.progress {
