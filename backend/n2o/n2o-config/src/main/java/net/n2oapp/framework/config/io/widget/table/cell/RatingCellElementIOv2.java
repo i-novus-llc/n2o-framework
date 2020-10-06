@@ -16,6 +16,7 @@ public class RatingCellElementIOv2 extends AbstractCellElementIOv2<N2oRatingCell
         p.attributeBoolean(e, "show-tooltip", c::getShowTooltip, c::setShowTooltip);
         p.attributeBoolean(e, "half", c::getHalf, c::setHalf);
         p.attributeInteger(e, "max", c::getMax, c::setMax);
+        p.attributeBoolean(e, "readonly", c::getReadonly, c::setReadonly);
     }
 
     @Override

@@ -25,6 +25,7 @@ public class RatingCellCompiler extends AbstractCellCompiler<N2oRatingCell, N2oR
         cell.setShowTooltip(p.cast(source.getShowTooltip(), p.resolve(property("n2o.api.cell.rating.showTooltip"), Boolean.class)));
         cell.setHalf(p.cast(source.getHalf(), p.resolve(property("n2o.api.cell.rating.half"), Boolean.class)));
         cell.setMax(p.cast(source.getMax(), p.resolve(property("n2o.api.cell.rating.max"), Integer.class)));
+        cell.setReadonly(p.cast(source.getReadonly(), p.resolve(property("n2o.api.cell.rating.readonly"), Boolean.class)));
         return cell;
     }
 }

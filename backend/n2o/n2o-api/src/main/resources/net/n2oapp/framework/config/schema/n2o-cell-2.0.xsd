@@ -491,6 +491,11 @@
                         <xs:documentation>Максимальное значение.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="readonly" type="xs:boolean" use="optional" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Предназначен только для чтения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
