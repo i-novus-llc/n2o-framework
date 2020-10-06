@@ -256,6 +256,17 @@ class DateTimeControl extends React.Component {
       );
     }
   }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { begin, end } = this.state.inputs;
+    if (!isNull(begin)) {
+      moment(begin).isAfter(moment(end)) &&
+        this.setState({
+          inputs: { ...this.state.inputs, end: null },
+        });
+    }
+  }
+
   /**
    * Обработка клика за пределами попапа
    */
@@ -271,9 +282,6 @@ class DateTimeControl extends React.Component {
       ) {
         if (this.state.focused) {
           if (this.props.type === 'date-interval') {
-            const start = this.state.inputs[DateTimeControl.beginInputName];
-            const end = this.state.inputs[DateTimeControl.endInputName];
-            this.onChange([start, end]);
             const valueToBlur = this.getValue();
 
             if (every(valueToBlur, value => value)) {
@@ -304,28 +312,30 @@ class DateTimeControl extends React.Component {
   renderPopUp() {
     const { max, min, locale, timeFormat } = this.props;
     const { inputs, isPopUpVisible, placement } = this.state;
-    const popUp = (
-      <PopUp
-        dateFormat={this.props.dateFormat}
-        time={this.defaultTime}
-        type={this.props.type}
-        isTimeSet={this.state.isTimeSet}
-        markTimeAsSet={this.markTimeAsSet}
-        timeFormat={timeFormat}
-        inputGroup={this.inputGroup}
-        ref={popUp => (this.popUp = popUp)}
-        placement={placement}
-        value={inputs}
-        select={this.select}
-        setPlacement={this.setPlacement}
-        setVisibility={this.setVisibility}
-        max={this.parseRange(max)}
-        min={this.parseRange(min)}
-        date={this.props.date}
-        locale={locale}
-      />
+
+    return (
+      isPopUpVisible && (
+        <PopUp
+          dateFormat={this.props.dateFormat}
+          time={this.defaultTime}
+          type={this.props.type}
+          isTimeSet={this.state.isTimeSet}
+          markTimeAsSet={this.markTimeAsSet}
+          timeFormat={timeFormat}
+          inputGroup={this.inputGroup}
+          ref={popUp => (this.popUp = popUp)}
+          placement={placement}
+          value={inputs}
+          select={this.select}
+          setPlacement={this.setPlacement}
+          setVisibility={this.setVisibility}
+          max={this.parseRange(max)}
+          min={this.parseRange(min)}
+          date={this.props.date}
+          locale={locale}
+        />
+      )
     );
-    return isPopUpVisible && popUp;
   }
 
   onFocus(e) {

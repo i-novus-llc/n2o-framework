@@ -25,13 +25,19 @@ public class N2oTooltipListCell extends N2oCell implements TooltipListCell {
 
     @Override
     public void hover() {
-        cellTrigger().hover();
+        SelenideElement elm = cellTrigger();
+        if (elm.is(Condition.exist))
+            cellTrigger().hover();
+        else element().hover();
     }
 
     @Override
     public void click() {
         element().scrollTo();
-        cellTrigger().click();
+        SelenideElement elm = cellTrigger();
+        if (elm.is(Condition.exist))
+            cellTrigger().click();
+        else element().click();
     }
 
     private SelenideElement cellTrigger() {

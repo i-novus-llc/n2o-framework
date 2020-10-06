@@ -3,12 +3,12 @@ package net.n2oapp.framework.config.metadata.compile.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.ReduxModel;
-import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.fieldset.N2oFieldSet;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.meta.*;
-import net.n2oapp.framework.api.metadata.meta.action.PerformActionPayload;
+import net.n2oapp.framework.api.metadata.meta.Breadcrumb;
+import net.n2oapp.framework.api.metadata.meta.Filter;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
+import net.n2oapp.framework.api.metadata.meta.ReduxAction;
 import net.n2oapp.framework.api.metadata.meta.action.SelectedWidgetPayload;
 import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
@@ -16,10 +16,8 @@ import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
-import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.InputSelect;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
-import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -28,6 +26,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileBindTerminalPipeline;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -404,7 +403,7 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         PageContext context = (PageContext) route("/page/widget/defaultValue", Page.class);
         SimplePage openPage = (SimplePage) read().compile().get(context);
         Map<String, PageRoutes.Query> queryMapping = openPage.getRoutes().getQueryMapping();
-        assertThat(queryMapping.size(), is(3));
+        assertThat(queryMapping.size(), is(4));
         ReduxAction onGet = queryMapping.get("name").getOnGet();
         UpdateModelPayload payload = (UpdateModelPayload) onGet.getPayload();
         assertThat(payload.getPrefix(), is("resolve"));
@@ -419,15 +418,29 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
         assertThat(payload.getValue(), is(":gender_id"));
         assertThat(queryMapping.get("gender_id").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].gender.id"));
 
+        payload = (UpdateModelPayload) queryMapping.get("start").getOnGet().getPayload();
+        assertThat(payload.getField(), is("birthDate.begin"));
+        assertThat(payload.getValue(), is(":start"));
+        assertThat(queryMapping.get("start").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].birthDate.begin"));
+
+        payload = (UpdateModelPayload) queryMapping.get("end").getOnGet().getPayload();
+        assertThat(payload.getField(), is("birthDate.end"));
+        assertThat(payload.getValue(), is(":end"));
+        assertThat(queryMapping.get("end").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].birthDate.end"));
+
         DataSet data = new DataSet();
         data.put("detailId", 222);
-        data.put("birthDay", "2022-02-14T00:00:00");
+        data.put("start", "2022-02-14T00:00:00");
+        data.put("end", "2022-03-20T00:00:00");
         data.put("name", "testName");
         data.put("surname", "Ivanov");
         openPage = (SimplePage) read().compile().bind().get(context, data);
-        assertThat(openPage.getModels().size(), is(2));
+        assertThat(openPage.getModels().size(), is(4));
         assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].surname").getValue(), is("testName"));
-        assertThat(((DefaultValues)openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate").getValue()).getValues().get("begin"), is("2019-02-14T00:00:00"));
+        assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate.begin").getValue(), is("2022-02-14T00:00:00"));
+        assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate.end").getValue(), is("2022-03-20T00:00:00"));
+        assertThat(((DefaultValues)openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate")
+                .getValue()).getValues().get("begin"), is("2019-02-14T00:00:00"));
 
         context = (PageContext) route("/page/widget/defaultValueQuery", Page.class);
         openPage = (SimplePage) read().compile().get(context);
@@ -436,9 +449,28 @@ public class OpenPageCompilerTest extends SourceCompileTestBase {
 
         context = (PageContext) route("/page/widget/testPreFilter", Page.class);
         openPage = (SimplePage) read().compile().get(context);
-        Map<String, ModelLink> queryMapping1 = ((InputSelect) ((StandardField) ((Form) openPage.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0)
-                .getCols().get(0).getFields().get(0)).getControl()).getDataProvider().getQueryMapping();
+        Map<String, ModelLink> queryMapping1 = ((InputSelect) ((StandardField) ((Form) openPage.getWidget()).getComponent()
+                .getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider().getQueryMapping();
         assertThat(queryMapping1.size(), is(1));
         assertThat(queryMapping1.get("id").getValue(), is(1));
+    }
+
+    @Test
+    public void testPathParam() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageWithPathParam.page.xml")
+                .get(new PageContext("testOpenPageWithPathParam", "/page"));
+
+        PerformButton btn1 = (PerformButton) page.getWidgets().get("page_master").getToolbar().getButton("btn1");
+        assertThat(btn1.getPathMapping().size(), is(1));
+        assertThat(btn1.getPathMapping().get("client_id").getBindLink(), nullValue());
+        assertThat(btn1.getPathMapping().get("client_id").getValue(), is("123"));
+
+        PerformButton btn2 = (PerformButton) page.getWidgets().get("page_master").getToolbar().getButton("btn2");
+        assertThat(btn2.getPathMapping().size(), is(1));
+        assertThat(btn2.getPathMapping().get("account_id").getBindLink(), is("models.resolve['page_master'].accountId"));
+        assertThat(btn2.getPathMapping().get("account_id").getValue(), nullValue());
+        ModelLink link = page.getModels().get("resolve['page_master'].accountId");
+        assertThat(link.getBindLink(), is("models.resolve['page_master'].accountId"));
+        assertThat(link.getValue(), is(111));
     }
 }

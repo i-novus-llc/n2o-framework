@@ -7,9 +7,7 @@
     </toolbar>
     <content>
 
-        <left-top text-field-id="test">
-            <image url="testUrl"/>
-        </left-top>
+        <left-top text-field-id="test"/>
 
         <header text-field-id="test">
             <progress color="test"/>
@@ -41,5 +39,5 @@
             </toolbar>
         </extra>
     </content>
-
+    <pagination prev="true" next="true" hide-single-page="true" first="true" last="true" show-count="true" src="pagingSrc"/>
 </list>

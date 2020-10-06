@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.util;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.config.register.storage.Node;
 import net.n2oapp.framework.config.register.storage.PathUtil;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -11,6 +12,8 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -33,14 +36,10 @@ public class FileSystemUtil {
             if (!file.exists())
                 file.createNewFile();
         } catch (IOException e) {
-            throw new RuntimeException("Can not touch file " + file.getAbsolutePath(), e);
+            throw new IllegalStateException("Can not touch file " + file.getAbsolutePath(), e);
         }
-        try (FileOutputStream fos = new FileOutputStream(file);
-             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
-            int b;
-            while ((b = content.read()) != -1) {
-                bos.write(b);
-            }
+        try (InputStream io = content) {
+            FileUtils.copyInputStreamToFile(io, file);
         } catch (IOException e) {
             throw new IllegalStateException("Can not save content into file " + file.getAbsolutePath(), e);
         }
@@ -48,7 +47,7 @@ public class FileSystemUtil {
 
     @SuppressWarnings("unchecked")
     public static void saveContentToFile(String content, File file) {
-        try (InputStream inputStream = IOUtils.toInputStream(content, "UTF-8")) {
+        try (InputStream inputStream = IOUtils.toInputStream(content, StandardCharsets.UTF_8)) {
             saveContentToFile(inputStream, file);
         } catch (IOException e) {
             throw new IllegalStateException(e);
@@ -59,7 +58,7 @@ public class FileSystemUtil {
     public static Boolean removeContentByUri(String uri) {
         Resource resource = DEFAULT_RESOURCE_LOADER.getResource(uri);
         File target;
-        Boolean isDeleted = false;
+        boolean isDeleted;
         try {
             target = resource.getFile();
             isDeleted = target.delete();
@@ -114,13 +113,13 @@ public class FileSystemUtil {
         return getContentByUri(node.getURI());
     }
 
-    public static String getContentByUri(String URI) {
-        return getContentByUri(URI, true);
+    public static String getContentByUri(String uri) {
+        return getContentByUri(uri, true);
     }
 
-    public static String getContentByUri(String URI, boolean isExistRequired) {
-        try (InputStream inputStream = getContentAsStream(URI, isExistRequired)) {
-            return inputStream == null ? null : IOUtils.toString(inputStream, "UTF-8");
+    public static String getContentByUri(String uri, boolean isExistRequired) {
+        try (InputStream io = getContentAsStream(uri, isExistRequired)) {
+            return io == null ? null : IOUtils.toString(io, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -145,7 +144,7 @@ public class FileSystemUtil {
 
     public static String getContentFromResource(Resource resource) {
         try (InputStream inputStream = resource.getInputStream()) {
-            return IOUtils.toString(inputStream, "UTF-8");
+            return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }

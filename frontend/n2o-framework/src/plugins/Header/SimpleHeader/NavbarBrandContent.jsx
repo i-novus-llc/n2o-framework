@@ -6,31 +6,18 @@ import PropTypes from 'prop-types';
  * @param {string | element} props.brand  - брэнд(текст)
  * @param {string | element} props.brandImage - брэнд(изображение)
  */
-const NavbarBrandContent = ({ brand, brandImage }) => {
+const NavbarBrandContent = ({ brandImage }) => {
   const img =
     brandImage && typeof brandImage === 'string' ? (
       <img
         src={brandImage}
-        style={{
-          marginRight: '5px',
-          display: 'inline-block',
-          alignSelf: 'center',
-          margin: 'auto',
-          maxWidth: 40,
-          maxHeight: 40,
-        }}
-        className="d-inline-block align-top"
+        className="n2o-brand__image d-inline-block align-top"
       />
     ) : (
       brandImage
     );
 
-  return (
-    <React.Fragment>
-      {img}
-      {brand}
-    </React.Fragment>
-  );
+  return <React.Fragment>{img}</React.Fragment>;
 };
 
 NavbarBrandContent.propTypes = {

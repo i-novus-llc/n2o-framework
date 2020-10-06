@@ -43,14 +43,14 @@ describe('Тесты NavItemContainer', () => {
     });
     expect(wrapper.find('span.nav-link').exists()).toEqual(true);
   });
-  it('target = newWindow', () => {
+  it('target = _blank', () => {
     const wrapper = setup({
       item: {
         id: '2131',
         label: 'test',
         type: 'link',
         href: 'testHref',
-        target: 'newWindow',
+        target: '_blank',
       },
     });
     expect(wrapper.find('Link').props().target).toEqual('_blank');

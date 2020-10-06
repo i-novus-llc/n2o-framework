@@ -2,6 +2,7 @@ package net.n2oapp.framework.test;
 
 import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.boot.sql.jdbc.EnableRoutingDataSource;
+import org.camunda.bpm.engine.ProcessEngine;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -22,6 +23,11 @@ public class N2oTestApplication {
     @Primary
     public OperationExceptionHandler operationExceptionHandler() {
         return new TestOperationExceptionHandler();
+    }
+
+    @Bean
+    public ProcessEngine processEngine() {
+        return null;
     }
 
 }

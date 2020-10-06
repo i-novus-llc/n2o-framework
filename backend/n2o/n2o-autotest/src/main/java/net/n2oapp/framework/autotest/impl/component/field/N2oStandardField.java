@@ -13,8 +13,8 @@ import net.n2oapp.framework.autotest.impl.collection.N2oToolbar;
 public class N2oStandardField extends N2oField implements StandardField {
 
     static final String CSS_SELECTOR = ".form-control, .n2o-input, .n2o-date-picker, .n2o-radio-container, " +
-            ".n2o-checkbox-group, .n2o-file-uploader-control, .n2o-code-editor, .n2o-html, .n2o-output-text, " +
-            ".n2o-pill-filter, .n2o-rating-stars, .n2o-slider, .n2o-text-editor, .progress";
+            ".n2o-checkbox-group, .n2o-file-uploader-control, .n2o-image-uploader-control, .n2o-code-editor, .n2o-html, .n2o-output-text, " +
+            ".n2o-output-list, .n2o-pill-filter, .n2o-rating-stars, .n2o-slider, .n2o-text-editor, .progress";
 
     @Override
     public <T extends Control> T control(Class<T> componentClass) {
@@ -22,7 +22,7 @@ public class N2oStandardField extends N2oField implements StandardField {
     }
 
     @Override
-    public Toolbar toolBar() {
+    public Toolbar toolbar() {
         return N2oSelenide.collection(element().$$(".btn-toolbar .btn"), N2oToolbar.class);
     }
 

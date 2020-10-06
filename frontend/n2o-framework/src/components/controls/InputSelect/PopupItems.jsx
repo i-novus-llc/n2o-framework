@@ -64,6 +64,7 @@ function PopupItems({
   setActiveValueId,
   activeValueId,
   autocomplete,
+  renderIfEmpty,
 }) {
   const handleRef = item => {
     if (item) {
@@ -95,7 +96,7 @@ function PopupItems({
     return item[labelFieldId];
   };
 
-  const renderSingleItem = item => {
+  const renderSingleItem = (item, index) => {
     const disabled = !isNil(item[enabledFieldId])
       ? item[enabledFieldId]
       : !hasCheckboxes &&
@@ -104,6 +105,7 @@ function PopupItems({
           selected,
           disabledValues
         );
+
     return (
       <DropdownItem
         className={cx('n2o-eclipse-content', {
@@ -115,7 +117,7 @@ function PopupItems({
         }
         disabled={disabled}
         ref={handleRef}
-        key={item.id}
+        key={index}
         onClick={e => handleItemClick(e, item)}
         title={displayTitle(item)}
         toggle={false}
@@ -124,21 +126,21 @@ function PopupItems({
         {imageFieldId && renderImage(item, imageFieldId)}
         {hasCheckboxes ? renderCheckbox(item, selected) : renderLabel(item)}
         {badgeFieldId && renderBadge(item, badgeFieldId, badgeColorFieldId)}
-         {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
-                    <DropdownItem
-                      className={cx('n2o-eclipse-content__description', {
-                        'n2o-eclipse-content__description-with-icon':
-                          !hasCheckboxes && item[iconFieldId],
-                        'n2o-eclipse-content__description-with-checkbox':
-                          hasCheckboxes && !item[iconFieldId],
-                        'n2o-eclipse-content__description-with-icon-checkbox':
-                          hasCheckboxes && item[iconFieldId],
-                      })}
-                      header
-                    >
-                      {item[descriptionFieldId]}
-                    </DropdownItem>
-                  )}
+        {descriptionFieldId && !isUndefined(item[descriptionFieldId]) && (
+          <DropdownItem
+            className={cx('n2o-eclipse-content__description', {
+              'n2o-eclipse-content__description-with-icon':
+                !hasCheckboxes && item[iconFieldId],
+              'n2o-eclipse-content__description-with-checkbox':
+                hasCheckboxes && !item[iconFieldId],
+              'n2o-eclipse-content__description-with-icon-checkbox':
+                hasCheckboxes && item[iconFieldId],
+            })}
+            header
+          >
+            {item[descriptionFieldId]}
+          </DropdownItem>
+        )}
       </DropdownItem>
     );
   };
@@ -188,6 +190,9 @@ function PopupItems({
       : renderSingleItems(options);
 
   const renderMenu = options => {
+    if (!loading && options.length === 0 && !renderIfEmpty) {
+      return null;
+    }
     if (options && options[0] !== null && options.length) {
       return renderMenuItems(options);
     }
@@ -220,6 +225,11 @@ PopupItems.propTypes = {
   setActiveValueId: PropTypes.func,
   activeValueId: PropTypes.string,
   autocomplete: PropTypes.bool,
+  renderIfEmpty: PropTypes.bool,
+};
+
+PopupItems.defaultProps = {
+  renderIfEmpty: true,
 };
 
 export default PopupItems;

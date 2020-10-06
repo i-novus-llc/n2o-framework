@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.cell.Cell;
+import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
 
 public class N2oListWidget extends N2oStandardWidget implements ListWidget {
@@ -19,7 +20,7 @@ public class N2oListWidget extends N2oStandardWidget implements ListWidget {
 
     @Override
     public Paging paging() {
-        return new N2oPaging();
+        return new N2oPaging(element());
     }
 
     public static class N2oContent implements Content {
@@ -73,24 +74,6 @@ public class N2oListWidget extends N2oStandardWidget implements ListWidget {
         @Override
         public <T extends Cell> T extra(Class<T> clazz) {
             return N2oSelenide.component(element.$(".n2o-widget-list-item-extra"), clazz);
-        }
-    }
-
-    public class N2oPaging implements Paging {
-
-        @Override
-        public void clickPrev() {
-            element().$$(".pagination .page-link").findBy(Condition.text("Назад")).click();
-        }
-
-        @Override
-        public void clickNext() {
-            element().$$(".pagination .page-link").findBy(Condition.text("Вперед")).click();
-        }
-
-        @Override
-        public void totalElementsShouldBe(int count) {
-            element().$(".n2o-pagination-info").shouldHave(Condition.text(String.valueOf(count))).click();
         }
     }
 }

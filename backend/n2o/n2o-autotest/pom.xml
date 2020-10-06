@@ -10,7 +10,7 @@
     <parent>
         <groupId>net.n2oapp.framework</groupId>
         <artifactId>n2o</artifactId>
-        <version>7.7.1-SNAPSHOT</version>
+        <version>7.11.0-SNAPSHOT</version>
         <relativePath>..</relativePath>
     </parent>
 
@@ -52,13 +52,19 @@
         <dependency>
             <groupId>com.codeborne</groupId>
             <artifactId>selenide</artifactId>
-            <version>5.6.1</version>
+            <version>5.12.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${junit-jupiter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-commons</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -71,6 +77,13 @@
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit5</artifactId>
             <version>${allure-junit5.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-access</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
 

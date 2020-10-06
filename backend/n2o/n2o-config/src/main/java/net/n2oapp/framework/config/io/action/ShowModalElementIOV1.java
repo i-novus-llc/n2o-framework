@@ -5,11 +5,11 @@ import net.n2oapp.framework.api.metadata.event.action.N2oShowModal;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись лействия открытия старницы поверх текущей
+ * Чтение/запись лействия открытия модального окна
  */
 @Component
 public class ShowModalElementIOV1 extends AbstractOpenPageElementIOV1<N2oShowModal> {
@@ -17,6 +17,7 @@ public class ShowModalElementIOV1 extends AbstractOpenPageElementIOV1<N2oShowMod
     public void io(Element e, N2oShowModal sm, IOProcessor p) {
         super.io(e, sm, p);
         p.attribute(e, "modal-size", sm::getModalSize, sm::setModalSize);
+        p.attributeBoolean(e, "scrollable", sm::getScrollable, sm::setScrollable);
         p.attribute(e, "refresh-widget-id", sm::getRefreshWidgetId, sm::setRefreshWidgetId);
         p.attributeEnum(e, "submit-action-type", sm::getSubmitActionType, sm::setSubmitActionType, SubmitActionType.class);
         p.attributeEnum(e, "copy-model", sm::getCopyModel, sm::setCopyModel, ReduxModel.class);

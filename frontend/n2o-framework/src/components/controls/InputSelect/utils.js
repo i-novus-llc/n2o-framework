@@ -9,7 +9,9 @@ export const UNKNOWN_GROUP_FIELD_ID = '';
 
 export const inArray = (array = [], item = {}) => {
   return array.some(arrayItem =>
-    isString(item) ? arrayItem === item : arrayItem.id === item.id
+    isString(item)
+      ? arrayItem === item
+      : arrayItem.id && item.id && arrayItem.id === item.id
   );
 };
 
@@ -95,3 +97,6 @@ export const getNextId = (data, currentId, valueFieldId, selected, disabled) =>
 
 export const getPrevId = (data, currentId, valueFieldId, selected, disabled) =>
   getIdByDistance(data, currentId, -1, valueFieldId, selected, disabled);
+
+export const isBottom = ({ scrollHeight, scrollTop, clientHeight }) =>
+  Math.floor(scrollHeight - scrollTop) === clientHeight;

@@ -223,17 +223,18 @@ describe('<InputSelect />', () => {
     );
   });
 
-  it('проверяет параметр onScroll', () => {
-    const onScrollEnd = sinon.spy();
-    const { wrapper } = setup({ onScrollEnd });
-    wrapper
-      .find('InputSelect')
-      .last()
-      .setState({ isExpanded: true });
-    expect(onScrollEnd.calledOnce).toEqual(false);
-    wrapper.find('div.n2o-dropdown-control').simulate('scroll');
-    expect(onScrollEnd.calledOnce).toEqual(true);
-  });
+  // it('проверяет параметр onScroll', () => {
+  //   const onScrollEnd = sinon.spy();
+  //   const { wrapper } = setup({ onScrollEnd });
+  //   wrapper
+  //     .find('InputSelect')
+  //     .last()
+  //     .setState({ isExpanded: true });
+  //
+  //   expect(onScrollEnd.calledOnce).toEqual(false);
+  //   wrapper.find('.n2o-dropdown-control').simulate('scroll');
+  //   expect(onScrollEnd.calledOnce).toEqual(true);
+  // });
 
   it.skip('добавление объекта при resetOnBlur = false', () => {
     const wrapper = mount(
@@ -364,62 +365,6 @@ describe('<InputSelect />', () => {
     );
   });
 
-  it('проверяет расчет длины выпадающего списка', () => {
-    Element.prototype.getBoundingClientRect = jest.fn(() => {
-      return {
-        width: 120,
-        height: 120,
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-      };
-    });
-
-    const { wrapper, props } = setup({
-      style: {
-        width: 100,
-        height: 100,
-      },
-    });
-    const node = wrapper.getDOMNode();
-    wrapper
-      .find('InputSelect')
-      .last()
-      .setState({ isExpanded: true });
-    expect(node.querySelector('.n2o-pop-up').style['min-width']).toEqual(
-      '120px'
-    );
-  });
-
-  it('проверяет расчет длины выпадающего списка в мулти режиме', () => {
-    Element.prototype.getBoundingClientRect = jest.fn(() => {
-      return {
-        width: 120,
-        height: 120,
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
-      };
-    });
-
-    const { wrapper, props } = setup({
-      multiSelect: true,
-      style: {
-        width: 100,
-        height: 100,
-      },
-    });
-    const node = wrapper.getDOMNode();
-    wrapper
-      .find('InputSelect')
-      .last()
-      .setState({ isExpanded: true });
-    expect(node.querySelector('.n2o-pop-up').style['min-width']).toEqual(
-      '120px'
-    );
-  });
   it('Отрисовался status color = success, при statusFieldId', () => {
     const wrapper = mount(<InputSelect {...props4} />);
     wrapper

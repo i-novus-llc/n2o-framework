@@ -58,6 +58,8 @@ public class N2oPage extends N2oComponent implements Page {
     public void scrollDown() {
         Selenide.executeJavaScript("window.scrollTo(0, document.body.scrollHeight)");
     }
+
+
     public class N2oPageToolbar implements PageToolbar {
 
         @Override
@@ -156,7 +158,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void shouldHaveText(String... text) {
-            ElementsCollection items = element.$$(".list-text-cell__tooltip-container__body");
+            ElementsCollection items = element.$$(".list-text-cell__tooltip-container__body, .tooltip-inner");
             items.shouldHaveSize(text.length);
             if (text.length != 0)
                 items.shouldHave(CollectionCondition.texts(text));

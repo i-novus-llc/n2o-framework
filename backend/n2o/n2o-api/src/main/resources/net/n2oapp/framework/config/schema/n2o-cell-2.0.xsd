@@ -249,7 +249,7 @@
                         </xs:annotation>
                     </xs:any>
                 </xs:sequence>
-                <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true">
+                <xs:attribute name="enabled" type="xs:boolean" use="optional">
                     <xs:annotation>
                         <xs:documentation>Доступность чекбокса.</xs:documentation>
                     </xs:annotation>
@@ -297,7 +297,7 @@
         <xs:complexContent>
             <xs:extension base="cellDefinition">
                 <xs:annotation>
-                    <xs:documentation>Картинка.</xs:documentation>
+                    <xs:documentation>Изображение.</xs:documentation>
                 </xs:annotation>
                 <xs:sequence>
                     <xs:annotation>
@@ -319,22 +319,22 @@
                         </xs:annotation>
                     </xs:any>
                 </xs:sequence>
-                <xs:attribute name="url" type="xs:string" use="optional">
+                <xs:attribute name="url" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL изображения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="width" type="xs:integer" use="optional">
+                <xs:attribute name="width" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Ширина изображения (px).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="action-id" type="xs:string" use="optional">
+                <xs:attribute name="action-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Действие, которое выполнится при клике по иконке.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="shape" type="shapeType" use="optional">
+                <xs:attribute name="shape" type="shapeType">
                     <xs:annotation>
                         <xs:documentation>Форма изображения.</xs:documentation>
                     </xs:annotation>
@@ -504,21 +504,20 @@
         <xs:complexContent>
             <xs:extension base="cellDefinition">
                 <xs:annotation>
-                    <xs:documentation>Ячейка с тултипом и раскрывающимся текстовым списком.</xs:documentation>
+                    <xs:documentation>
+                        Ячейка с тултипом и раскрывающимся текстовым списком.
+                        Раскрывающийся список появляется при количестве элементов больше одного.
+                        Иначе ячейка будет пустой или отображать единственное значение.
+                    </xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="label" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
                             Универсальный заголовок поля.
-                            Нужно использовать либо универсальный заголовок, либо 3 вида
-                            заголовков при разном числе элементов.
+                            Нужно использовать либо универсальный заголовок, либо 2 вида
+                            заголовков (label-few, label-many) при разном числе элементов.
                             Если не задать ни один, то ячейка будет пустой.
                         </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="label-one" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Заголовок поля при одном элементе.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="label-few" type="xs:string">

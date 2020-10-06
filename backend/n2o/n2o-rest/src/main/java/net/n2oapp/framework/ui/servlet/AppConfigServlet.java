@@ -1,5 +1,6 @@
 package net.n2oapp.framework.ui.servlet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.metadata.header.Header;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
@@ -29,7 +30,7 @@ public class AppConfigServlet extends HttpServlet {
 
     @Override
     public void init() {
-        appConfigJsonWriter.loadValues();
+
     }
 
     @Override
@@ -51,7 +52,11 @@ public class AppConfigServlet extends HttpServlet {
         }
     }
 
-    private Header getMenu() {
+    private Map<String, Object> getMenu() {
+        return new ObjectMapper().convertValue(getHeader(), Map.class);
+    }
+
+    private Header getHeader() {
         if (headerSourceId != null && !headerSourceId.isEmpty())
             return pipeline.get(new HeaderContext(headerSourceId), null);
         List<SourceInfo> headers = environment.getMetadataRegister().find(N2oHeader.class);

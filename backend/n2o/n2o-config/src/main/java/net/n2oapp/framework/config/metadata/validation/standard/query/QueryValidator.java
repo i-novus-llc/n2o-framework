@@ -9,9 +9,10 @@ import net.n2oapp.framework.api.metadata.validate.ValidateProcessor;
 import net.n2oapp.framework.api.metadata.validation.exception.N2oMetadataValidationException;
 import org.springframework.stereotype.Component;
 
-
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Валидатор выборки
@@ -21,28 +22,86 @@ public class QueryValidator implements SourceValidator<N2oQuery>, SourceClassAwa
 
     @Override
     public void validate(N2oQuery n2oQuery, ValidateProcessor p) {
-        if (n2oQuery.getObjectId() != null) {
-            p.checkForExists(n2oQuery.getObjectId(), N2oObject.class,
-                    "Выборка '%s' ссылается не несуществующий объект {0}");
-        }
-
+        if (n2oQuery.getObjectId() != null)
+            checkForExistsObject(n2oQuery.getId(), n2oQuery.getObjectId(), p);
         if (n2oQuery.getFields() != null) {
-            p.checkIdsUnique(n2oQuery.getFields(), "Поле {0} встречается более чем один раз в выборке " + n2oQuery.getId() + "!");
+            checkForUniqueFields(n2oQuery.getFields(), n2oQuery.getId(), p);
+            checkForUniqueFilterFields(n2oQuery.getFields(), n2oQuery.getId());
+            checkForExistsFiltersInSelections(n2oQuery);
         }
+    }
 
-        if (n2oQuery.getFields() != null) {
-            Set<String> filterFields = new HashSet<>();
-            for (N2oQuery.Field field : n2oQuery.getFields()) {
-                if (!field.isSearchUnavailable() && field.getFilterList() != null) {
-                    for (N2oQuery.Filter filter : field.getFilterList()) {
-                        if (filter.getFilterField() != null && !filterFields.add(filter.getFilterField())) {
-                            throw new N2oMetadataValidationException("filter-field " + filter.getFilterField() + " in query " + n2oQuery.getId() + " is repeated");
-                        }
+    /**
+     * Проверка существования Объекта
+     *
+     * @param queryId  Идентификатор выборки
+     * @param objectId Идентификатор объекта
+     * @param p        Процессор валидации метаданных
+     */
+    private void checkForExistsObject(String queryId, String objectId, ValidateProcessor p) {
+        p.checkForExists(objectId, N2oObject.class,
+                String.format("Выборка '%s' ссылается на несуществующий объект %s", queryId, objectId));
+    }
+
+    /**
+     * Проверка, что поля в выборке не повторяются
+     *
+     * @param fields  Поля выборки
+     * @param queryId Идентификатор выборки
+     * @param p       Процессор валидации метаданных
+     */
+    private void checkForUniqueFields(N2oQuery.Field[] fields, String queryId, ValidateProcessor p) {
+        p.checkIdsUnique(fields, "Поле {0} встречается более чем один раз в выборке " + queryId);
+    }
+
+    /**
+     * Проверка, что фильтруемые поля в выборке не повторяются
+     *
+     * @param fields  Поля выборки
+     * @param queryId Идентификатор выборки
+     */
+    private void checkForUniqueFilterFields(N2oQuery.Field[] fields, String queryId) {
+        Set<String> filterFields = new HashSet<>();
+        for (N2oQuery.Field field : fields) {
+            if (!field.isSearchUnavailable()) {
+                for (N2oQuery.Filter filter : field.getFilterList()) {
+                    if (filter.getFilterField() != null && !filterFields.add(filter.getFilterField())) {
+                        throw new N2oMetadataValidationException(String.format("Фильтр %s в выборке %s повторяется", filter.getFilterField(), queryId));
                     }
                 }
             }
         }
     }
+
+    /**
+     * Проверка, что фильтры указанные в <list>, <unique>, <count> существуют
+     *
+     * @param query Выборка
+     */
+    private void checkForExistsFiltersInSelections(N2oQuery query) {
+        Set<String> filterFields = Arrays.stream(query.getFields())
+                .filter(f -> f.getFilterList() != null)
+                .flatMap(f -> Arrays.stream(f.getFilterList()))
+                .map(N2oQuery.Filter::getFilterField)
+                .collect(Collectors.toSet());
+        checkFiltersExistInSelectionType(query.getLists(), filterFields, "list");
+        checkFiltersExistInSelectionType(query.getUniques(), filterFields, "unique");
+        checkFiltersExistInSelectionType(query.getCounts(), filterFields, "count");
+    }
+
+    private void checkFiltersExistInSelectionType(N2oQuery.Selection[] selections, Set<String> filterFields, String selectionType) {
+        if (selections != null) {
+            for (N2oQuery.Selection s : selections) {
+                if (s.getFilters() != null) {
+                    for (String filter : s.getFilters().split("\\s*,\\s*")) {
+                        if (!filterFields.contains(filter))
+                            throw new N2oMetadataValidationException(String.format("<%s> ссылается на несуществующий фильтр %s", selectionType, filter));
+                    }
+                }
+            }
+        }
+    }
+
 
     @Override
     public Class<? extends Source> getSourceClass() {

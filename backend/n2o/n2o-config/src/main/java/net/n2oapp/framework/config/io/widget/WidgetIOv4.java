@@ -3,7 +3,7 @@ package net.n2oapp.framework.config.io.widget;
 import net.n2oapp.framework.api.metadata.aware.BaseElementClassAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
-import org.jdom.Namespace;
+import org.jdom2.Namespace;
 
 /**
  * Интерфейс  виджета версии 4

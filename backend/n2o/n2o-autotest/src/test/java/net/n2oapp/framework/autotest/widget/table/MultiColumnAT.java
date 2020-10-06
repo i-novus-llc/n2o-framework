@@ -5,7 +5,7 @@ import net.n2oapp.framework.autotest.api.collection.Widgets;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
-import net.n2oapp.framework.autotest.api.component.widget.table.FilterHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableFilterHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -94,7 +94,7 @@ public class MultiColumnAT extends AutoTestBase {
         StandardTableHeader header2 = headers.header(1);
         StandardTableHeader header3 = headers.header(2);
         StandardTableHeader header4 = headers.header(3);
-        FilterHeader header5 = headers.header(4, FilterHeader.class);
+        TableFilterHeader header5 = headers.header(4, TableFilterHeader.class);
         StandardTableHeader header6 = headers.header(5);
         StandardTableHeader header7 = headers.header(6);
         // проверка порядка столбцов

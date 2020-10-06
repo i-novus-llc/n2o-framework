@@ -15,12 +15,14 @@
     <xs:element name="input-text" type="controlInputTextDefinition"/>
     <xs:element name="input-money" type="controlInputMoneyDefinition"/>
     <xs:element name="output-text" type="controlOutputTextDefinition"/>
+    <xs:element name="output-list" type="controlOutputListDefinition"/>
     <xs:element name="masked-input" type="controlMaskedInputDefinition"/>
     <xs:element name="checkbox" type="controlCheckboxDefinition"/>
     <xs:element name="password" type="controlPasswordDefinition"/>
     <xs:element name="date-interval" type="controlDateIntervalDefinition"/>
     <xs:element name="date-time" type="controlDatePickerDefinition"/>
     <xs:element name="file-upload" type="controlFileUploadDefinition"/>
+    <xs:element name="image-upload" type="controlImageUploadDefinition"/>
     <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition"/>
     <xs:element name="radio-group" type="controlOptionsListInlineDefinition"/>
     <xs:element name="select" type="controlSelectDefinition"/>
@@ -51,12 +53,14 @@
             <xs:element name="input-text" type="controlInputTextDefinition" minOccurs="0"/>
             <xs:element name="input-money" type="controlInputMoneyDefinition" minOccurs="0"/>
             <xs:element name="output-text" type="controlOutputTextDefinition" minOccurs="0"/>
+            <xs:element name="output-list" type="controlOutputListDefinition" minOccurs="0"/>
             <xs:element name="masked-input" type="controlMaskedInputDefinition" minOccurs="0"/>
             <xs:element name="checkbox" type="controlCheckboxDefinition" minOccurs="0"/>
             <xs:element name="password" type="controlPasswordDefinition" minOccurs="0"/>
             <xs:element name="date-interval" type="controlDateIntervalDefinition" minOccurs="0"/>
             <xs:element name="date-time" type="controlDatePickerDefinition" minOccurs="0"/>
             <xs:element name="file-upload" type="controlFileUploadDefinition" minOccurs="0"/>
+            <xs:element name="image-upload" type="controlImageUploadDefinition" minOccurs="0"/>
             <xs:element name="checkbox-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
             <xs:element name="radio-group" type="controlOptionsListInlineDefinition" minOccurs="0"/>
             <xs:element name="select" type="controlSelectDefinition" minOccurs="0"/>
@@ -111,6 +115,11 @@
                 <xs:documentation>Не отображать заголовок</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="no-label-block" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Не отображать блок с заголовком</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Реализация компонента</xs:documentation>
@@ -128,7 +137,7 @@
         </xs:attribute>
         <xs:attribute name="placeholder" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Текст внутри поля, исчезающий при фокусе</xs:documentation>
+                <xs:documentation>Подсказка для ввода</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="required" type="xs:boolean" default="false">
@@ -407,6 +416,9 @@
     </xs:complexType>
 
     <xs:complexType name="controlFileUploadDefinition">
+        <xs:annotation>
+            <xs:documentation>Компонент загрузки файлов.</xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="controlDefinition">
                 <xs:sequence>
@@ -434,45 +446,131 @@
                         <xs:documentation>Отображение размера файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="upload-url" type="xs:string" use="optional">
+                <xs:attribute name="show-name" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Отображение имени файла.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="upload-url" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL загрузки файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="delete-url" type="xs:string" use="optional">
+                <xs:attribute name="delete-url" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL удаления файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="value-field-id" type="xs:string" use="optional">
+                <xs:attribute name="value-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, содержащее идентификатор файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="label-field-id" type="xs:string" use="optional">
+                <xs:attribute name="label-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, содержащее наименование файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="sort-field-id" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Поле сортировки</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="message-field-id" type="xs:string" use="optional">
+                <xs:attribute name="message-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, содержащее сообщение файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="url-field-id" type="xs:string" use="optional">
+                <xs:attribute name="url-field-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, содержащее URL скачивания файла.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="request-param" type="xs:string" use="optional">
+                <xs:attribute name="request-param" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Наименование поля в запросе miltipart form data.</xs:documentation>
                     </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="accept" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Доступные расширения файлов (через запятую).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlImageUploadDefinition">
+        <xs:annotation>
+            <xs:documentation>Компонент загрузки изображений.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="controlFileUploadDefinition">
+                <xs:attribute name="list-type" default="image">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>Тип отображения при мультивыборе.</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="image">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        В строку только изображения с возможностью просмотра (опционально) и удаления.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="card">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Вид горизонтальной карточки с показом названия, размера и
+                                        кнопками удаления и просмотра (опционально).
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="can-lightbox" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Возможность просмотра изображения в большом окне.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="can-delete" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Возможность удаления изображения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Иконка по умолчанию в области загрузки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="width" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Ширина области загрузки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Высота области загрузки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="icon-size" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Размеры иконки (по умолчанию по размеру области загрузки).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="show-tooltip" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Наличие тултипа.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="shape">
+                    <xs:annotation>
+                        <xs:documentation>Тип формы изображения.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="circle"/>
+                            <xs:enumeration value="rounded"/>
+                            <xs:enumeration value="polaroid"/>
+                        </xs:restriction>
+                    </xs:simpleType>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
@@ -822,6 +920,9 @@
     </xs:complexType>
 
     <xs:complexType name="controlAutoCompleteDefinition">
+        <xs:annotation>
+            <xs:documentation>Компонент ввода текста с автоподбором.</xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:sequence>
@@ -838,9 +939,34 @@
                         </xs:complexType>
                     </xs:element>
                 </xs:sequence>
-                <xs:attribute name="query-id" type="xs:string"/>
-                <xs:attribute name="value-field-id" type="xs:string"/>
-                <xs:attribute name="search-filter-id" type="xs:string"/>
+                <xs:attribute name="query-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор запроса за данными для автоподбора.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="value-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля выборки, отображаемого в автоподборе.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="search-filter-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор фильтра, используемого для поиска.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="tags" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Отображение выбранных элементов тегами.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -892,6 +1018,9 @@
 
     <xs:complexType name="controlOutputTextDefinition">
         <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Компонент вывода однострочного текста.</xs:documentation>
+            </xs:annotation>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
@@ -913,6 +1042,40 @@
                         <xs:documentation>Формат выводимого текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlOutputListDefinition">
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:annotation>
+                    <xs:documentation>
+                        Компонент вывода многострочного текста.
+                        В случае, если в данных приходит ссылка, текст будет отображаться как ссылка.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="label-field-id" type="xs:string" default="name">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, содержащее значение элемента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="href-field-id" type="xs:string" default="href">
+                    <xs:annotation>
+                        <xs:documentation>Поле выборки, содержащее ссылку элемента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target" type="act:aType" default="newWindow">
+                    <xs:annotation>
+                        <xs:documentation>Способ открытия ссылок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="separator" type="xs:string" default=" ">
+                    <xs:annotation>
+                        <xs:documentation>Разделитель между элементами.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="direction" type="directionType" default="column"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -941,6 +1104,24 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="directionType">
+        <xs:restriction base="xs:string">
+            <xs:annotation>
+                <xs:documentation>Направление отображения элементов.</xs:documentation>
+            </xs:annotation>
+            <xs:enumeration value="row">
+                <xs:annotation>
+                    <xs:documentation>Отображение элементов в строку.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="column">
+                <xs:annotation>
+                    <xs:documentation>Отображение элементов в столбец.</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="fractionFormattingType">
         <xs:restriction base="xs:string">
@@ -1076,7 +1257,7 @@
                 <xs:annotation>
                     <xs:documentation>Компонент выбора из выпадающего списка.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="type" type="inputSelectType" default="single">
+                <xs:attribute name="type" type="selectType" default="single">
                     <xs:annotation>
                         <xs:documentation>Тип выбора в выпадающем списке.</xs:documentation>
                     </xs:annotation>
@@ -1396,6 +1577,13 @@
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
+
+    <xs:simpleType name="selectType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="single"/>
+            <xs:enumeration value="checkboxes"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="inputSelectType">
         <xs:restriction base="xs:string">

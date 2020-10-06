@@ -29,6 +29,7 @@ import {
 } from '../../../../selectors/formPlugin';
 import { registerFieldExtra } from '../../../../actions/formPlugin';
 import propsResolver from '../../../../utils/propsResolver';
+import withFieldValidate from './withFieldValidate';
 import withAutoSave from './withAutoSave';
 
 const INDEX_PLACEHOLDER = 'index';
@@ -62,6 +63,7 @@ export default Field => {
         requiredToRegister,
         registerFieldExtra,
         parentIndex,
+        validation,
       } = props;
 
       !isInit &&
@@ -70,6 +72,7 @@ export default Field => {
           disabled: disabledToRegister,
           dependency: this.modifyDependency(dependency, parentIndex),
           required: requiredToRegister,
+          validation: validation,
         });
     }
 
@@ -120,13 +123,8 @@ export default Field => {
      * @param e
      */
     onBlur(e) {
-      const {
-        meta: { form },
-        input: { name },
-        value,
-        input,
-        onBlur,
-      } = this.props;
+      const { input, onBlur } = this.props;
+
       input && input.onBlur(e);
       onBlur && onBlur(e.target.value);
     }
@@ -170,9 +168,11 @@ export default Field => {
     };
   };
 
-  const mapDispatchToProps = {
-    registerFieldExtra,
-  };
+  const mapDispatchToProps = dispatch => ({
+    dispatch,
+    registerFieldExtra: (form, name, initialState) =>
+      dispatch(registerFieldExtra(form, name, initialState)),
+  });
 
   return compose(
     defaultProps({
@@ -195,7 +195,7 @@ export default Field => {
         memoize(props => {
           if (!props) return;
           const { input, message, meta, model, ...rest } = props;
-          const pr = propsResolver(rest, model);
+          const pr = propsResolver(rest, model, ['toolbar']);
           return {
             ...pr,
             ...meta,
@@ -229,7 +229,11 @@ export default Field => {
           : model,
       };
     }),
-    branch(({ dataProvider }) => dataProvider, withAutoSave),
+    branch(({ validation }) => !!validation, withFieldValidate),
+    branch(
+      ({ dataProvider, autoSubmit }) => !!autoSubmit || !!dataProvider,
+      withAutoSave
+    ),
     shouldUpdate(
       (props, nextProps) =>
         !isEqual(props.model, nextProps.model) ||
@@ -239,6 +243,7 @@ export default Field => {
         props.message !== nextProps.message ||
         props.required !== nextProps.required ||
         props.loading !== nextProps.loading ||
+        props.meta.touched !== nextProps.meta.touched ||
         get(props, 'input.value', null) !== get(nextProps, 'input.value', null)
     ),
     withProps(props => ({

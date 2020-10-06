@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
-import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
@@ -33,6 +32,7 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private String help;
     private String domain;
     private Boolean noLabel;
+    private Boolean noLabelBlock;
     private Validations validations;
     private Boolean copied;
     private String defaultValue;

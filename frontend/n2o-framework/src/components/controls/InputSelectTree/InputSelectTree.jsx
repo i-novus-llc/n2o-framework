@@ -107,6 +107,7 @@ function InputSelectTree({
   _control,
   setControlRef,
   maxTagTextLength,
+  disabled,
   ...rest
 }) {
   const popupProps = {
@@ -382,6 +383,7 @@ function InputSelectTree({
       onDropdownVisibleChange={handleDropdownVisibleChange}
       className={cx('n2o form-control', 'n2o-input-select-tree', className, {
         loading,
+        'n2o-disabled': disabled,
       })}
       switcherIcon={renderSwitcherIcon}
       inputIcon={inputIcon}
@@ -421,6 +423,7 @@ function InputSelectTree({
         id: 'inputSelectTree.searchPlaceholder',
         defaultMessage: searchPlaceholder || ' ',
       })}
+      disabled={disabled}
       {...rest}
     >
       {children}

@@ -4,10 +4,7 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.pack.ReadersBuilder;
 import net.n2oapp.framework.config.io.toolbar.ButtonIO;
 import net.n2oapp.framework.config.io.toolbar.SubmenuIO;
-import net.n2oapp.framework.config.io.widget.CustomWidgetIOv4;
-import net.n2oapp.framework.config.io.widget.HtmlWidgetElementIOv4;
-import net.n2oapp.framework.config.io.widget.ListWidgetElementIOv4;
-import net.n2oapp.framework.config.io.widget.TreeElementIOv4;
+import net.n2oapp.framework.config.io.widget.*;
 import net.n2oapp.framework.config.io.widget.chart.ChartWidgetIOv4;
 import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
 import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
@@ -25,8 +22,10 @@ public class N2oWidgetsIOPack implements MetadataPack<ReadersBuilder> {
                 new CustomWidgetIOv4(),
                 new TreeElementIOv4(),
                 new ChartWidgetIOv4(),
+                new CalendarWidgetIOv4(),
                 new ButtonIO(),
-                new SubmenuIO());
+                new SubmenuIO(),
+                new TilesWidgetIOV4());
         b.readers(new FormXmlReaderV3(),
                 new TableXmlReaderV3(),
                 new EditFormXmlReaderV3());

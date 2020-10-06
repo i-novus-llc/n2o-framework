@@ -85,6 +85,7 @@ class StandardField extends React.Component {
       containerKey,
       dataProvider,
       form,
+      noLabelBlock,
       ...props
     } = this.props;
 
@@ -127,18 +128,20 @@ class StandardField extends React.Component {
           })}
           style={style}
         >
-          <Label
-            id={id}
-            value={label}
-            style={extendedLabelStyle}
-            className={cx(
-              labelClass,
-              { ['label-alignment-' + labelAlignment]: labelAlignment },
-              'n2o-label'
-            )}
-            required={required}
-            help={help}
-          />
+          {!noLabelBlock ? (
+            <Label
+              id={id}
+              value={label}
+              style={extendedLabelStyle}
+              className={cx(
+                labelClass,
+                { ['label-alignment-' + labelAlignment]: labelAlignment },
+                'n2o-label'
+              )}
+              required={required}
+              help={help}
+            />
+          ) : null}
           <div style={styleHelper}>
             <div
               className={cx('form-container', {

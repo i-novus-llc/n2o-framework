@@ -5,8 +5,6 @@ import isUndefined from 'lodash/isUndefined';
 import isArray from 'lodash/isArray';
 import map from 'lodash/map';
 
-const style = { flexGrow: 1 };
-
 function ProgressControl(props) {
   const { multi, barClassName, bars, value, barText, max } = props;
 
@@ -19,17 +17,18 @@ function ProgressControl(props) {
       return map(barsCollection, bar => {
         const { id, barText } = bar;
         return (
-          <Progress
-            style={style}
-            bar
-            key={id}
-            className={barClassName}
-            max={max}
-            value={!isUndefined(value) && value[id]}
-            {...bar}
-          >
-            {barText}
-          </Progress>
+          <div className="n2o-progress-control">
+            <Progress
+              bar
+              key={id}
+              className={barClassName}
+              max={max}
+              value={!isUndefined(value) && value[id]}
+              {...bar}
+            >
+              {barText}
+            </Progress>
+          </div>
         );
       });
     };
@@ -37,18 +36,18 @@ function ProgressControl(props) {
     //мультирежим ProgressControl
     const renderMultiProgressControl = () => {
       return (
-        <Progress style={style} multi>
-          {mapProgressControls()}
-        </Progress>
+        <div className="n2o-progress-control">
+          <Progress multi>{mapProgressControls()}</Progress>
+        </div>
       );
     };
 
     //одиночный режим ProgressControl
     const renderSimpleProgressControl = () => {
       return (
-        <Progress style={style} {...props}>
-          {barText}
-        </Progress>
+        <div className="n2o-progress-control">
+          <Progress {...props}>{barText}</Progress>
+        </div>
       );
     };
 

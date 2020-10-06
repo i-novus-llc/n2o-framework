@@ -1,14 +1,23 @@
 import React from 'react';
-import cn from 'classnames';
-import PropTypes from 'prop-types';
-import SelectedItems from './SelectedItems';
-import ReactDOM from 'react-dom';
+
 import find from 'lodash/find';
 import reduce from 'lodash/reduce';
 import split from 'lodash/split';
 import isEqual from 'lodash/isEqual';
+import assign from 'lodash/assign';
 
+import cn from 'classnames';
+import PropTypes from 'prop-types';
+import SelectedItems from './SelectedItems';
+import ReactDOM from 'react-dom';
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
+
+const textLengthStyle = {
+  position: 'absolute',
+  zIndex: -9999,
+  opacity: 0,
+  pointerEvents: 'none',
+};
 
 /**
  * InputSelectGroup
@@ -43,8 +52,13 @@ class InputContent extends React.Component {
   constructor(props) {
     super(props);
 
+    this.selectedItemsRef = React.createRef();
+    this._textRef = null;
+
     this.state = {
       paddingTextArea: {},
+      paddingLeft: { paddingLeft: 10 },
+      notEnoughPlace: false,
     };
   }
 
@@ -52,9 +66,37 @@ class InputContent extends React.Component {
     this.calcPaddingTextarea();
   }
 
-  componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.selected, this.props.selected)) {
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      !isEqual(prevProps.selected, this.props.selected) ||
+      !isEqual(prevProps.value, this.props.value)
+    ) {
       this.calcPaddingTextarea();
+
+      if (this.props.multiSelect) {
+        const defaultPaddingLeft = 10;
+
+        const selectedItemsWidth = this.selectedItemsRef
+          ? this.selectedItemsRef.current.clientWidth
+          : defaultPaddingLeft;
+
+        const currentSize =
+          selectedItemsWidth === 0
+            ? defaultPaddingLeft
+            : selectedItemsWidth + 5;
+
+        this.setState({
+          paddingLeft: assign({}, this.state.paddingLeft, {
+            paddingLeft: currentSize,
+          }),
+        });
+      }
+    }
+    if (
+      !isEqual(prevProps.value, this.props.value) &&
+      !this.state.notEnoughPlace
+    ) {
+      this.checkTextOnEnoughPlace();
     }
   }
 
@@ -70,6 +112,48 @@ class InputContent extends React.Component {
     return +split(window.getComputedStyle(item)[propertyName], 'px')[0];
   }
 
+  setTextRef = el => {
+    this._textRef = el;
+  };
+
+  onSelect = item => {
+    this.props.onSelect(item);
+
+    if (this.state.notEnoughPlace)
+      this.setState(prevState => ({
+        notEnoughPlace: false,
+        paddingTextArea: {
+          ...prevState.paddingTextArea,
+          paddingTop: prevState.paddingTextArea.paddingTop - 45,
+        },
+      }));
+  };
+
+  checkTextOnEnoughPlace = () => {
+    const { _textarea } = this.props;
+    if (!_textarea) return;
+    const textareaStyles = window.getComputedStyle(_textarea);
+    const notEnoughPlace =
+      _textarea.offsetWidth -
+        (parseInt(textareaStyles.paddingLeft) +
+          parseInt(textareaStyles.paddingRight)) <=
+      this._textRef.offsetWidth;
+
+    if (notEnoughPlace) {
+      this.setState(prevState => ({
+        notEnoughPlace,
+        paddingTextArea: {
+          paddingTop:
+            prevState.paddingTextArea.paddingTop +
+            45 * Math.ceil(this._textRef.offsetWidth / _textarea.offsetWidth),
+          paddingLeft: 12,
+        },
+      }));
+    }
+
+    return notEnoughPlace;
+  };
+
   calcPaddingTextarea() {
     const { _textarea, _selectedList, selected } = this.props;
     if (_textarea && _selectedList) {
@@ -78,7 +162,6 @@ class InputContent extends React.Component {
       const selectedList = ReactDOM.findDOMNode(_selectedList).querySelectorAll(
         '.selected-item'
       );
-
       mainWidth = reduce(
         selectedList,
         (acc, item) => {
@@ -92,18 +175,21 @@ class InputContent extends React.Component {
         },
         0
       );
+
       const lastItem = selectedList[selectedList.length - 1];
 
       if (lastItem) {
         mainHeight = this.getHeight(_textarea) - this.getHeight(lastItem);
       }
 
-      this.setState({
-        paddingTextArea: {
-          paddingTop: selected.length === 0 ? 5 : mainHeight,
-          paddingLeft: selected.length === 0 ? 10 : mainWidth || undefined,
-        },
-      });
+      if (!this.state.notEnoughPlace) {
+        this.setState({
+          paddingTextArea: {
+            paddingTop: selected.length === 0 ? 5 : mainHeight,
+            paddingLeft: selected.length === 0 ? 10 : mainWidth || undefined,
+          },
+        });
+      }
     }
   }
 
@@ -131,7 +217,6 @@ class InputContent extends React.Component {
       setActiveValueId,
       disabledValues,
       options,
-      onSelect,
       onClick,
       isExpanded,
       autoFocus,
@@ -140,8 +225,9 @@ class InputContent extends React.Component {
       setSelectedListRef,
       setRef,
       tags,
+      mode,
     } = this.props;
-    const { paddingTextArea } = this.state;
+    const { paddingTextArea, paddingLeft } = this.state;
     /**
      * Обработчик изменения инпута при нажатии на клавишу
      * @param e - событие изменения
@@ -203,11 +289,17 @@ class InputContent extends React.Component {
         );
       } else if (e.key === 'Enter') {
         e.preventDefault();
+
+        const findEquals = find(
+          options,
+          item => item[valueFieldId] === activeValueId
+        );
+
         const newValue =
-          find(options, item => item[valueFieldId] === activeValueId) || value;
+          mode === 'autocomplete' ? findEquals || value : findEquals;
 
         if (newValue) {
-          onSelect(newValue);
+          this.onSelect(newValue);
           setActiveValueId(null);
         }
       } else if (e.key === 'Escape') {
@@ -249,9 +341,12 @@ class InputContent extends React.Component {
     const INPUT_STYLE = {
       paddingLeft: selectedPadding ? selectedPadding : undefined,
     };
-
+    console.warn('value ------>', this.state.paddingLeft);
     return (
       <React.Fragment>
+        <span style={textLengthStyle} ref={this.setTextRef}>
+          {value}
+        </span>
         {multiSelect ? (
           <React.Fragment>
             <SelectedItems
@@ -262,7 +357,7 @@ class InputContent extends React.Component {
               disabled={disabled}
               collapseSelected={collapseSelected}
               lengthToGroup={lengthToGroup}
-              setRef={setSelectedListRef}
+              setRef={this.selectedItemsRef}
             />
             <textarea
               onKeyDown={handleKeyDown}
@@ -279,7 +374,8 @@ class InputContent extends React.Component {
               })}
               autoFocus={autoFocus}
               style={{
-                ...paddingTextArea,
+                paddingTextArea,
+                ...paddingLeft,
               }}
             />
           </React.Fragment>

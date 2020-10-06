@@ -30,12 +30,6 @@ public class IconCellCompiler extends AbstractCellCompiler<N2oIconCell, N2oIconC
         cell.setText(source.getText());
         cell.setIconType(p.cast(source.getIconType(), IconType.icon));
         cell.setIcon(p.cast(source.getIcon(), compileSwitch(source.getIconSwitch(), p)));
-        ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (componentScope != null) {
-            AbstractColumn column = componentScope.unwrap(AbstractColumn.class);
-            if (column != null)
-                cell.setTooltipFieldId(column.getTooltipFieldId());
-        }
         if (source.getPosition() != null) {
             cell.setPosition(source.getPosition());
         }

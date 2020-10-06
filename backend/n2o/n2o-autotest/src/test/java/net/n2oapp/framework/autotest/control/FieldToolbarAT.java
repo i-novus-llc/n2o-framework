@@ -49,7 +49,7 @@ public class FieldToolbarAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         Fields fields = page.single().widget(FormWidget.class).fields();
-        Toolbar toolbar = fields.field("id").toolBar();
+        Toolbar toolbar = fields.field("id").toolbar();
 
         toolbar.button("Ссылка").shouldBeDisabled();
         toolbar.button("Показать текст").shouldBeDisabled();
@@ -64,8 +64,9 @@ public class FieldToolbarAT extends AutoTestBase {
         toolbar.button("Открыть страницу").shouldBeEnabled();
 
         toolbar.button("Ссылка").click();
+        Selenide.switchTo().window(1);
         page.urlShouldMatches("https://yandex.ru.*");
-        Selenide.back();
+        Selenide.switchTo().window(0);
 
         fields.field("id").control(InputText.class).val("test");
         toolbar.button("Показать текст").click();
@@ -90,7 +91,8 @@ public class FieldToolbarAT extends AutoTestBase {
         page.shouldExists();
         Fields fields = page.single().widget(FormWidget.class).fields();
 
-        DropdownButton dropdownButton = fields.field("sub").toolBar().dropdown();
+        DropdownButton dropdownButton = fields.field("sub").toolbar().dropdown();
+        dropdownButton.shouldHaveItems(4);
         dropdownButton.click();
         dropdownButton.menuItem("Ссылка").shouldBeDisabled();
         dropdownButton.menuItem("Показать текст").shouldBeDisabled();
@@ -104,8 +106,9 @@ public class FieldToolbarAT extends AutoTestBase {
         dropdownButton.menuItem("Открыть страницу").shouldBeEnabled();
 
         dropdownButton.menuItem("Ссылка").click();
+        Selenide.switchTo().window(1);
         page.urlShouldMatches("https://yandex.ru.*");
-        Selenide.back();
+        Selenide.switchTo().window(0);
 
         fields.field("id").control(InputText.class).val("test");
         fields.field("sub").control(InputText.class).val("notForShow");

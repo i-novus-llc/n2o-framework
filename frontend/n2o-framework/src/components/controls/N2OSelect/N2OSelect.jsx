@@ -175,7 +175,10 @@ class N2OSelect extends React.Component {
    * @private
    */
 
-  _clearSelected() {
+  _clearSelected(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
     if (!this.props.disabled) {
       this.setState({
         selected: [],

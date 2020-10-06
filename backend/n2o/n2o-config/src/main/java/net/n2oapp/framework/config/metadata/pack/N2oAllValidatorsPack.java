@@ -15,7 +15,7 @@ import net.n2oapp.framework.config.metadata.validation.standard.page.PageValidat
 import net.n2oapp.framework.config.metadata.validation.standard.page.StandardPageValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.query.QueryValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.FormValidator;
-import net.n2oapp.framework.config.metadata.validation.standard.widget.ListFieldQueryValidation;
+import net.n2oapp.framework.config.metadata.validation.standard.widget.ListFieldQueryValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.TableValidator;
 import net.n2oapp.framework.config.metadata.validation.standard.widget.WidgetValidator;
 
@@ -27,7 +27,7 @@ public class N2oAllValidatorsPack implements MetadataPack<N2oApplicationBuilder>
     public void build(N2oApplicationBuilder b) {
         b.validators(new ObjectValidator(), new QueryValidator(), new PageValidator(),
                 new SimpleHeaderValidator(), new SimpleMenuValidator(), new WidgetValidator(),
-                new ListFieldQueryValidation(), new FieldSetValidator(), new FieldSetColumnValidator(),
+                new ListFieldQueryValidator(), new FieldSetValidator(), new FieldSetColumnValidator(),
                 new FieldSetRowValidator(), new FormValidator(), new TableValidator(),
                 new PageActionValidator(), new StandardPageValidator(), new InvokeActionValidator(),
                 new BasePageValidator());

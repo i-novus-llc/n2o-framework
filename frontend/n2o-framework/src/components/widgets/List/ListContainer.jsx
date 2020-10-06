@@ -207,12 +207,12 @@ export default compose(
       mapProps: props => {
         return {
           ...props,
-          onResolve: debounce(newModel => {
+          onResolve: newModel => {
             props.onResolve(newModel);
             if (props.selectedId != newModel.id) {
               props.dispatch(setTableSelectedId(props.widgetId, newModel.id));
             }
-          }, 100),
+          },
         };
       },
     },

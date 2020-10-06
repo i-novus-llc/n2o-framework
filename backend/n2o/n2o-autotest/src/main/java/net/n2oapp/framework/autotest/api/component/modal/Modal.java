@@ -15,7 +15,15 @@ public interface Modal extends Component {
 
     void shouldHaveTitle(String text);
 
+    void scrollUp();
+
+    void scrollDown();
+
     void close();
+
+    void shouldBeScrollable();
+
+    void shouldNotBeScrollable();
 
     interface ModalToolbar {
         Toolbar bottomLeft();

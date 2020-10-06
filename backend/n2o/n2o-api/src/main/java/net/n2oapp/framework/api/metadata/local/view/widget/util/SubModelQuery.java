@@ -19,9 +19,9 @@ public class SubModelQuery implements Compiled {
     private String valueFieldId;
     private String labelFieldId;
     private Boolean multi;
-    private List<Map<String, String>> options;
+    private List<Map<String, Object>> options;
 
-    public SubModelQuery(String subModel, String queryId, String valueFieldId, String labelFieldId, Boolean multi, List<Map<String, String>> options) {
+    public SubModelQuery(String subModel, String queryId, String valueFieldId, String labelFieldId, Boolean multi, List<Map<String, Object>> options) {
         this.subModel = subModel;
         this.queryId = queryId;
         this.valueFieldId = valueFieldId;

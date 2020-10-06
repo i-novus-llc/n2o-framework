@@ -10,7 +10,7 @@ import java.util.Map;
 
 
 /**
- * Клиентская модель поля для ввода текста с автоподбором
+ * Клиентская модель компонента ввода текста с автоподбором
  */
 @Getter
 @Setter
@@ -20,5 +20,9 @@ public class AutoComplete extends Control {
     @JsonProperty
     private String valueFieldId;
     @JsonProperty
+    private String placeholder;
+    @JsonProperty
     private List<Map<String, Object>> data;
+    @JsonProperty
+    private Boolean tags;
 }

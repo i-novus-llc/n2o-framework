@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
 
 import { storiesOf } from '@storybook/react';
-import StoryRouter from 'storybook-react-router';
 import fetchMock from 'fetch-mock';
 import { getStubData } from 'N2oStorybook/fetchMock';
 

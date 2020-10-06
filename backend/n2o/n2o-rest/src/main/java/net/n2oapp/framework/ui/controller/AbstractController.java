@@ -62,9 +62,10 @@ public abstract class AbstractController {
                 .get(actionCtx, queryData);
         CompiledObject.Operation operation = object.getOperations().get(actionCtx.getOperationId());
 
-        DataSet bodyData = convertToDataSet(body, actionCtx.getOperationMapping());
+        DataSet bodyData = convertToDataSet(body);
         putParams(headerParams, bodyData, actionCtx.getOperationMapping());
         putParams(queryParams, bodyData, actionCtx.getOperationMapping());
+        putParams(queryData, bodyData, actionCtx.getOperationMapping());
 
         ActionRequestInfo<DataSet> requestInfo = new ActionRequestInfo<>();
         requestInfo.setContext(actionCtx);
@@ -98,17 +99,20 @@ public abstract class AbstractController {
         }
     }
 
-    private DataSet convertToDataSet(Object body, Map<String, String> mapping) {
-        DataSet result = (body instanceof DataSet) ? result = (DataSet) body :
-                new DataSet((Map<? extends String, ?>) body);
-        if (mapping != null) {
+    private void putParams(DataSet params, DataSet data, Map<String, String> mapping) {
+        if (params != null && mapping != null) {
             for (Map.Entry<String, String> entry : mapping.entrySet()) {
-                if (!result.containsKey(entry.getValue()) || result.containsKey(entry.getKey())) {
-                    result.put(entry.getValue(), result.get(entry.getKey()));
-                }
+                Object value = params.get(entry.getKey());
+                if (value != null)
+                    data.put(entry.getValue(), value);
             }
         }
-        return result;
+    }
+
+    private DataSet convertToDataSet(Object body) {
+        if (body instanceof DataSet)
+            return (DataSet) body;
+        return new DataSet((Map<? extends String, ?>) body);
     }
 
     private void prepareSelectedId(QueryRequestInfo requestInfo) {

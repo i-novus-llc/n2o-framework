@@ -32,7 +32,7 @@ import NavItemContainer from './NavItemContainer';
  * @example
  * //каждый item состоит из id {string}, label {string}, type {string} ('text', 'type' или 'dropdown'),
  * //href {string}(для ссылок), linkType {string}(для ссылок; значения - 'outer' или 'inner')
- * //badge {string} (текст баджа), badgeColor {string} (цвет баджа), target {string} ('newWindow' или null)
+ * //badge {string} (текст баджа), badgeColor {string} (цвет баджа), target {string} ('_blank' или null)
  * //subItems {array} (массив из элементов дропдауна)
  *<SimpleHeader  items = { [
  *     {
@@ -40,7 +40,7 @@ import NavItemContainer from './NavItemContainer';
  *       label: 'link',
  *       href: '/test',
  *       type: 'link',
- *       target: 'newWindow',
+ *       target: '_blank',
  *     },
  *     {
  *       id: 'dropdown',
@@ -140,9 +140,16 @@ class SimpleHeader extends React.Component {
           dark={isInversed}
           expand="md"
         >
-          <NavbarBrand href={homePageUrl}>
-            <NavbarBrandContent brand={brand} brandImage={brandImage} />
-          </NavbarBrand>
+          {brandImage && (
+            <NavbarBrand className="n2o-brand" href={homePageUrl}>
+              <NavbarBrandContent brandImage={brandImage} />
+            </NavbarBrand>
+          )}
+          {brand && (
+            <a href={homePageUrl} className="navbar-brand">
+              {brand}
+            </a>
+          )}
           {!isEmpty(items) && <NavbarToggler onClick={this.toggle} />}
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="main-nav" navbar>

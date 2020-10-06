@@ -5,7 +5,7 @@ import net.n2oapp.framework.autotest.api.component.control.DateInterval;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.api.component.widget.table.FilterHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableFilterHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -58,9 +58,9 @@ public class FilterColumnAT extends AutoTestBase {
         headers.shouldHaveSize(4);
 
         StandardTableHeader header1 = headers.header(0);
-        FilterHeader header2 = headers.header(1, FilterHeader.class);
-        FilterHeader header3 = headers.header(2, FilterHeader.class);
-        FilterHeader header4 = headers.header(3, FilterHeader.class);
+        TableFilterHeader header2 = headers.header(1, TableFilterHeader.class);
+        TableFilterHeader header3 = headers.header(2, TableFilterHeader.class);
+        TableFilterHeader header4 = headers.header(3, TableFilterHeader.class);
         header1.shouldHaveTitle("id");
         header2.shouldHaveTitle("name");
         header3.shouldHaveTitle("type");
@@ -95,9 +95,6 @@ public class FilterColumnAT extends AutoTestBase {
         DateInterval header4Input = header4.filterControl(DateInterval.class);
         header4Input.beginVal("01.01.2019");
         header4Input.endVal("01.01.2021");
-        // закрытие / открытие фильтра, т.к. календарь закрывает кнопки
-        header4.openFilterDropdown();
-        header4.openFilterDropdown();
         header4.clickSearchButton();
         rows.shouldHaveSize(2);
         rows.row(0).cell(0).textShouldHave("2");

@@ -24,7 +24,7 @@ export function dataProviderResolver(state, dataProvider, query, options) {
     headersMapping,
     formMapping,
   } = dataProvider;
-  const { origin, pathname } = urlParse(url);
+  const { origin, pathname, query: queryFromUrl = {} } = urlParse(url);
 
   const pathParams = getParams(pathMapping, state);
   const queryParams = getParams(queryMapping, state);
@@ -34,10 +34,11 @@ export function dataProviderResolver(state, dataProvider, query, options) {
   let basePath = pathToRegexp.compile(pathname)(pathParams);
   let compiledUrl = basePath;
 
-  if (!isEmpty(queryParams) || !isEmpty(query)) {
+  if (!isEmpty(queryParams) || !isEmpty(query) || !isEmpty(queryFromUrl)) {
     compiledUrl = `${compiledUrl}?${queryString.stringify({
       ...queryParams,
       ...query,
+      ...queryString.parse(queryFromUrl),
     })}`;
   }
 

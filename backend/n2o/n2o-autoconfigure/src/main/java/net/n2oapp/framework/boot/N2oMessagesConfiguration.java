@@ -24,6 +24,8 @@ public class N2oMessagesConfiguration {
 
     @Value("${n2o.i18n.client.messages:client_messages}")
     private String clientBasenames;
+    @Value("${n2o.i18n.client.use-code-as-default-message:false}")
+    private boolean useCodeAsDefaultMessage;
     @Value("${spring.messages.encoding:UTF-8}")
     private Charset encoding;
     @Value("${spring.messages.cacheSeconds:-1}")
@@ -51,6 +53,7 @@ public class N2oMessagesConfiguration {
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.addBasenames(StringUtils.commaDelimitedListToStringArray(
                 StringUtils.trimAllWhitespace(clientBasenames)));
+        messageSource.setUseCodeAsDefaultMessage(useCodeAsDefaultMessage);
         return messageSource;
     }
 

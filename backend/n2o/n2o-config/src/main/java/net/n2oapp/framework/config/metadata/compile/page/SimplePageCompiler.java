@@ -43,7 +43,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         //todo когда появится object-id у simple-page необходимо его и id главного виджета добавить в PageScope
         pageScope.setPageId(page.getId());
         String pageName = p.cast(context.getPageName(), source.getName(), source.getWidget().getName());
-        boolean showTitle = p.cast(source.getShowTitle(), false);
+        boolean showTitle = p.cast(source.getShowTitle(), p.resolve(property("n2o.api.default.page.show_title"), Boolean.class), false);
         page.setPageProperty(initPageName(pageName, showTitle, context, p));
         page.setProperties(p.mapAttributes(source));
         page.setBreadcrumb(initBreadcrumb(pageName, context, p));
@@ -72,8 +72,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             object = p.getCompiled(new ObjectContext(objectId));
             page.setObject(object);
         }
-        if ((context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))
-                && compiledWidget.getToolbar() == null) {
+        if ((context.getSubmitOperationId() != null || SubmitActionType.copy.equals(context.getSubmitActionType()))) {
             MetaActions metaActions = new MetaActions();
             page.setToolbar(compileToolbar(context, p, metaActions, pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
             compiledWidget.getActions().putAll(metaActions);

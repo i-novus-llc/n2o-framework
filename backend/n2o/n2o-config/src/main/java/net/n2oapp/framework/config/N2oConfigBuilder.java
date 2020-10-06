@@ -8,11 +8,9 @@ import net.n2oapp.framework.api.config.AppConfig;
 import net.n2oapp.framework.api.config.ConfigBuilder;
 import net.n2oapp.framework.api.context.ContextProcessor;
 import net.n2oapp.framework.api.test.TestContextEngine;
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.env.PropertyResolver;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -81,13 +79,13 @@ public class N2oConfigBuilder<T extends AppConfig> implements ConfigBuilder<T> {
 
     @Override
     public ConfigBuilder<T> add(String property, Object value) {
-        appConfig.getProperties().put(property, value);
+        appConfig.setProperty(property, value);
         return this;
     }
 
     @Override
     public ConfigBuilder<T> addAll(Map<String, Object> values) {
-        appConfig.getProperties().putAll(values);
+        values.forEach(this::add);
         return this;
     }
 

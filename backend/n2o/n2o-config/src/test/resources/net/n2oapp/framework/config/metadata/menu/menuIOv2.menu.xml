@@ -6,5 +6,9 @@
     <sub-menu label="sub" icon="sub-icon">
         <page page-id="test2" label="test2"/>
         <a label="test3" href="/test3"/>
+        <sub-menu label="sub2">
+            <page page-id="test4" label="test4"/>
+            <a label="test5" href="/test5"/>
+        </sub-menu>
     </sub-menu>
 </nav>

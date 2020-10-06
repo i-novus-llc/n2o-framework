@@ -2,10 +2,10 @@
   top: auto;
   left: auto;
   width: 100%;
-  min-width: 38px;
-  //padding: 0 10px 0 10px;
-  height: 38px;
   max-height: $popup-height;
+  min-width: 38px;
+
+  border: 1px solid #cfd8dc;
   overflow: auto;
   & > ul {
     display: block;
@@ -124,9 +124,25 @@
 }
 
 .n2o-input-select {
-
   display: inline-block;
   position: relative;
+
+  &__toggle {
+    width: 100%;
+    padding: 0;
+    border: none;
+  }
+
+  &__menu {
+    max-width: 100%;
+
+    padding: 0;
+    margin: 0;
+
+    &--autosize {
+      max-width: none;
+    }
+  }
 
   & .n2o-inp {
     position: absolute;
@@ -146,7 +162,7 @@
     display: flex;
     flex-wrap: wrap;
 
-    width: 100%;
+    //width: 100%;
 
     z-index: 3;
 
@@ -252,9 +268,8 @@
     }
 
     & > i {
-      padding-right: 5px;
       display: flex;
-
+      padding-right: 5px;
     }
 
     & > img {
@@ -272,12 +287,18 @@
   }
 
   .n2o-input-control {
-    margin-left: auto;
-    align-items: center;
+    position: absolute;
+    right: 0;
+    top: 7px;
+
     display: flex;
-    cursor: $input-cursor;
-    //width: 40px;
+    align-items: center;
+    margin-left: auto;
     justify-content: center;
+
+    padding: 0 4px;
+
+    cursor: $input-cursor;
     z-index: 2;
     & > div {
       margin: $input-control-padding;
@@ -318,7 +339,6 @@
       display: flex;
       justify-content: start;
       text-align: center;
-      width: 30px;
       margin: 0;
       & > .adjust-huener.adjust-huener-inline {
         margin-left: 0;

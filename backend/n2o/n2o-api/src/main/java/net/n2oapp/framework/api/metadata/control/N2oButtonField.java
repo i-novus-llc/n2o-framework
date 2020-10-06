@@ -4,14 +4,14 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.aware.ModelAware;
+import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 
 @Getter
 @Setter
-public class N2oButtonField extends N2oField implements ModelAware {
-
+public class N2oButtonField extends N2oField implements ModelAware, WidgetIdAware {
     private String title;
     private String titleFieldId;
     private String icon;
@@ -34,5 +34,4 @@ public class N2oButtonField extends N2oField implements ModelAware {
     private String confirmOkLabel;
     private String confirmCancelLabel;
     private String tooltipPosition;
-
 }

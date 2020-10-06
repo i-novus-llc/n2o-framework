@@ -19,7 +19,8 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
 
     @Override
     public void brandNameShouldBe(String brandName) {
-        element().$(".navbar-brand").shouldHave(Condition.text(brandName));
+        element().$$(".navbar-brand").filterBy(Condition.not(Condition.cssClass("n2o-brand"))).get(0)
+                .shouldHave(Condition.text(brandName));
     }
 
     @Override

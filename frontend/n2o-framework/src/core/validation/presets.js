@@ -41,12 +41,10 @@ export function required(fieldId, values, options = {}) {
     return true;
   }
 
-  if (isArray(value)) {
-    return !isEmpty(value) && every(value, item => every(item, v => !isNil(v)));
+  if (isObject(value)) {
+    return !isEmpty(value);
   } else if (isString(value)) {
     return value !== '';
-  } else if (isObject(value)) {
-    return !isEmpty(value);
   } else {
     return (
       !isUndefined(values[fieldId]) &&
@@ -63,7 +61,7 @@ export function required(fieldId, values, options = {}) {
  * @param options
  * @returns {boolean}
  */
-export function condition(fieldId, values, options) {
+export function condition(fieldId, values, options = {}) {
   return evalExpression(options.expression, values);
 }
 

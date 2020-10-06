@@ -4,8 +4,8 @@ import net.n2oapp.framework.api.metadata.header.N2oSimpleHeader;
 import net.n2oapp.framework.api.metadata.persister.AbstractN2oMetadataPersister;
 import net.n2oapp.framework.api.metadata.menu.N2oSimpleMenu;
 import net.n2oapp.framework.config.metadata.compile.menu.SimpleMenuPersister;
-import org.jdom.Element;
-import org.jdom.Namespace;
+import org.jdom2.Element;
+import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.config.persister.util.PersisterJdomUtil.*;

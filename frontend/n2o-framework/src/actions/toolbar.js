@@ -6,6 +6,7 @@ import {
   CHANGE_BUTTON_SIZE,
   CHANGE_BUTTON_VISIBILITY,
   CHANGE_BUTTON_HINT,
+  CHANGE_BUTTON_MESSAGE,
   CHANGE_BUTTON_CLASS,
   CHANGE_BUTTON_STYLE,
   REGISTER_BUTTON,
@@ -157,6 +158,16 @@ export function changeButtonCount(key, buttonId, count) {
  */
 export function changeButtonHint(key, buttonId, hint) {
   return createActionHelper(CHANGE_BUTTON_HINT)({ key, buttonId, hint });
+}
+
+/**
+ * Экшен изменения message кнопки
+ * @param key
+ * @param buttonId
+ * @param message
+ */
+export function changeButtonMessage(key, buttonId, message) {
+  return createActionHelper(CHANGE_BUTTON_MESSAGE)({ key, buttonId, message });
 }
 
 /**

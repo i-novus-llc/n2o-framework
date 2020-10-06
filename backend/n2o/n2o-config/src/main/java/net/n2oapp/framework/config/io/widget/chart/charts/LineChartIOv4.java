@@ -4,7 +4,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oLineChart;
 import net.n2oapp.framework.api.metadata.global.view.widget.chart.N2oLineChartItem;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLineType;
-import org.jdom.Element;
+import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**

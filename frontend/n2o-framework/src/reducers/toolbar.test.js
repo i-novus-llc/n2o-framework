@@ -48,6 +48,7 @@ describe('Проверка toolbar reducer', () => {
           visible: true,
           key: 'buttonKey',
           loading: false,
+          message: null,
           size: null,
           title: null,
         },
