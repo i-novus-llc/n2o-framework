@@ -29,7 +29,7 @@ public class RatingCellCompiler extends AbstractCellCompiler<N2oRatingCell, N2oR
         cell.setMax(p.cast(source.getMax(), p.resolve(property("n2o.api.cell.rating.max"), Integer.class)));
         cell.setReadonly(p.cast(source.getReadonly(), p.resolve(property("n2o.api.cell.rating.readonly"), Boolean.class)));
         if (source.getAction() != null && !(source.getAction() instanceof N2oInvokeAction))
-            throw new N2oException("Rating cell support only invoke action");
+            throw new N2oException("Rating cell supports only invoke action");
         compileAction(cell, source, context, p);
         return cell;
     }

@@ -1,5 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <table xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0" object-id="test">
+    <actions>
+        <action id="testAction">
+            <invoke operation-id="test"/>
+        </action>
+    </actions>
     <columns>
         <column text-field-id="test">
             <rating max="10" half="true" show-tooltip="true" readonly="false" action-id="updateRating"/>
@@ -8,9 +13,12 @@
             <rating/>
         </column>
         <column text-field-id="test3">
-            <rating readonly="false" action-id="updateRating">
-                <invoke operation-id="delete"/>
+            <rating readonly="false">
+                <invoke operation-id="test"/>
             </rating>
+        </column>
+        <column text-field-id="test4">
+            <rating readonly="false" action-id="testAction"/>
         </column>
     </columns>
 </table>

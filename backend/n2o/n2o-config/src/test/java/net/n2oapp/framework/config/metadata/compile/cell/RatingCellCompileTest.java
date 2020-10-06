@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oRatingCell;
+import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.widget.table.cell.RatingCellElementIOv2;
@@ -12,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 /**
@@ -51,14 +53,14 @@ public class RatingCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getHalf(), is(false));
         assertThat(cell.getMax(), is(5));
         assertThat(cell.getShowTooltip(), is(false));
+        e
         assertThat(cell.getReadonly(), is(true));
 
         cell = (N2oRatingCell) table.getComponent().getCells().get(2);
-        assertThat(cell.getSrc(), is("RatingCell"));
-        assertThat(cell.getHalf(), is(false));
-        assertThat(cell.getMax(), is(5));
-        assertThat(cell.getShowTooltip(), is(false));
-        assertThat(cell.getReadonly(), is(false));
-        assertThat(cell.getActionId(), is("updateRating"));
+        assertThat(cell.getCompiledAction(), instanceOf(InvokeAction.class));
+
+        cell = (N2oRatingCell) table.getComponent().getCells().get(3);
+        assertThat(cell.getActionId(), is("testAction"));
+        assertThat(cell.getCompiledAction(), instanceOf(InvokeAction.class));
     }
 }
