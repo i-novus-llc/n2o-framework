@@ -9,6 +9,7 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -105,7 +106,7 @@ public class TableAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        TableWidget table = page.widgets().widget(0, TableWidget.class);
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         Paging paging = table.paging();
         paging.totalElementsShouldBe(8);
         paging.prevShouldNotExist();
@@ -122,7 +123,7 @@ public class TableAT extends AutoTestBase {
         paging.activePageShouldBe("1");
 
 
-        TableWidget table2 = page.widgets().widget(1, TableWidget.class);
+        TableWidget table2 = page.regions().region(1, SimpleRegion.class).content().widget(TableWidget.class);
         paging = table2.paging();
         paging.totalElementsShouldNotExist();
         paging.prevShouldExist();
