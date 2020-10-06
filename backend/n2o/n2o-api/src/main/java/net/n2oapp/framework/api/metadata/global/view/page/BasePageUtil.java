@@ -1,11 +1,11 @@
 package net.n2oapp.framework.api.metadata.global.view.page;
 
 import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.Itemable;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.Itemable;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.region.RegionItem;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
- * Утилита для работы с базовой страницей
+ * Утилитный класс для работы с базовой страницей
  */
 public class BasePageUtil {
 
@@ -35,16 +35,24 @@ public class BasePageUtil {
                 Itemable<RegionItem> region = (Itemable) r;
                 if (region.getItems() != null)
                     for (RegionItem regionItem : region.getItems())
-                        addWidgets(widgets, regionItem.getContent());
+                        widgets.addAll(getRegionWidgets(regionItem.getContent()));
             } else {
                 if (r.getContent() != null)
-                    addWidgets(widgets, r.getContent());
+                    widgets.addAll(getRegionWidgets(r.getContent()));
             }
         }
         return widgets;
     }
 
-    private static void addWidgets(List<Widget> widgets, List<Compiled> items) {
+    /**
+     * Получение списка виджетов региона с учетом вложенности.
+     * Регионы могут содержать, как виджеты, так и регионы, поэтому производится глубокий поиск.
+     *
+     * @param items Список элементов региона (вложенные регионы и виджеты)
+     * @return Список виджетов региона
+     */
+    private static List<Widget> getRegionWidgets(List<Compiled> items) {
+        List<Widget> widgets = new ArrayList<>();
         for (Compiled i : items)
             if (i instanceof Widget)
                 widgets.add((Widget) i);
@@ -52,9 +60,10 @@ public class BasePageUtil {
                 Itemable<RegionItem> region = ((Itemable) i);
                 if (region.getItems() != null)
                     for (RegionItem regionItem : region.getItems())
-                        addWidgets(widgets, regionItem.getContent());
+                        widgets.addAll(getRegionWidgets(regionItem.getContent()));
             } else if (i instanceof Region && ((Region) i).getContent() != null)
-                addWidgets(widgets, ((Region) i).getContent());
+                widgets.addAll(getRegionWidgets(((Region) i).getContent()));
+        return widgets;
     }
 
     /**
@@ -73,6 +82,14 @@ public class BasePageUtil {
         return widgets;
     }
 
+    /**
+     * Позволяет выполнять установленные операции над элементами региона (вложенными регионами и виджетами)
+     * в зависимости от типа элемента.
+     *
+     * @param items          Массив компонентов (регионов и виджетов)
+     * @param regionConsumer Действия, выполняемые над регионом
+     * @param widgetConsumer Действия, выполняемые над виджетом
+     */
     public static void resolveRegionItems(SourceComponent[] items, Consumer<N2oRegion> regionConsumer,
                                           Consumer<N2oWidget> widgetConsumer) {
         for (SourceComponent item : items)
