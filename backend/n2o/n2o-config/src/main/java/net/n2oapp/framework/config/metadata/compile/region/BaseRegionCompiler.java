@@ -3,8 +3,8 @@ package net.n2oapp.framework.config.metadata.compile.region;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.config.metadata.compile.BaseSourceCompiler;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
@@ -48,14 +48,12 @@ public abstract class BaseRegionCompiler<D extends Region, S extends N2oRegion> 
             return null;
 
         List<Compiled> content = new ArrayList<>();
-        for (SourceComponent item : items)
-            if (item instanceof N2oWidget)
+        BasePageUtil.resolveRegionItems(items,
+                item -> content.add(p.compile(item, context, p, index)),
                 // TODO - необходимо учесть случай, когда виджет вне страницы (PageScope == null)
-                pageWidgetsScope.getWidgets().keySet().stream()
-                        .filter(k -> k.endsWith(((N2oWidget) item).getId())).findFirst()
-                        .ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s)));
-            else if (item instanceof N2oRegion)
-                content.add(p.compile(item, context, p, index));
+                item -> pageWidgetsScope.getWidgets().keySet().stream()
+                        .filter(k -> k.endsWith((item).getId())).findFirst()
+                        .ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s))));
         return content;
     }
 }

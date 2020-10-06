@@ -1,11 +1,9 @@
 package net.n2oapp.framework.config.metadata.compile.region;
 
 import net.n2oapp.framework.api.metadata.Compiled;
-import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
@@ -79,13 +77,11 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
                 tab.setLabel(t.getName());
                 List<Compiled> content = new ArrayList<>();
                 if (t.getContent() != null)
-                    for (SourceComponent item : t.getContent())
-                        if (item instanceof N2oWidget)
-                            pageWidgetsScope.getWidgets().keySet().stream()
-                                    .filter(k -> k.endsWith(((N2oWidget) item).getId())).findFirst()
-                                    .ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s)));
-                        else if (item instanceof N2oRegion)
-                            content.add(p.compile(item, context, p, index));
+                    BasePageUtil.resolveRegionItems(t.getContent(),
+                            item -> content.add(p.compile(item, context, p, index)),
+                            item -> pageWidgetsScope.getWidgets().keySet().stream()
+                                    .filter(k -> k.endsWith(item.getId())).findFirst()
+                                    .ifPresent(s -> content.add(pageWidgetsScope.getWidgets().get(s))));
                 tab.setContent(content);
                 // opened only first tab
                 tab.setOpened(items.isEmpty());

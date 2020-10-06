@@ -34,12 +34,5 @@ public class PanelRegion extends Region {
     private Boolean fullScreen;
     @JsonProperty
     private Boolean header;
-
-    @Getter
-    @Setter
-    public static class Panel extends Item {
-        @JsonProperty
-        private String icon;
-    }
 }
 

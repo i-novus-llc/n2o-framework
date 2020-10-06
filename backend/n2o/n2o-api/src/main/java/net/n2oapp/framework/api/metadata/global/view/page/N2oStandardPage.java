@@ -22,7 +22,7 @@ public class N2oStandardPage extends N2oBasePage {
     @Override
     public List<N2oWidget> getContainers() {
         List<N2oWidget> containers = new ArrayList<>();
-        collectWidgets(containers, items);
+        containers.addAll(collectWidgets(items));
         return containers;
     }
 }
