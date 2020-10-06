@@ -94,7 +94,7 @@ describe('Проверка саги actionsImpl', () => {
         vip: false,
       },
     });
-    expect(dispatched[4].type).toBe(SUCCESS_INVOKE);
+    expect(dispatched[3].type).toBe(SUCCESS_INVOKE);
   });
 
   it('Проверка генератора handleFetchInvoke', () => {
