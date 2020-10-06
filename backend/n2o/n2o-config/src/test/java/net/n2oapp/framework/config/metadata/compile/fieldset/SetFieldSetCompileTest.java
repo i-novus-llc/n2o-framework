@@ -180,7 +180,7 @@ public class SetFieldSetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/fieldset/testFieldsetVisibility.object.xml"
         );
         pipeline.get(new PageContext("testFieldsetVisibility"));
-        ActionContext context = (ActionContext) builder.route("/testFieldsetVisibility/1/action", CompiledObject.class, null);
+        ActionContext context = (ActionContext) builder.route("/testFieldsetVisibility/action", CompiledObject.class, null);
 
         assertThat(context, notNullValue());
 

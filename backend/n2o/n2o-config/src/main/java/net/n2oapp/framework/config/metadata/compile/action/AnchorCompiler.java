@@ -2,10 +2,10 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.ModelAware;
 import net.n2oapp.framework.api.metadata.aware.WidgetIdAware;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAnchor;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция ссылки
@@ -38,7 +37,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
     @Override
     public LinkAction compile(N2oAnchor source, CompileContext<?, ?> context, CompileProcessor p) {
         LinkActionImpl linkAction = new LinkActionImpl();
-        source.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.action.link.src"), String.class)));
+        source.setSrc(p.cast(source.getSrc(), p.resolve(Placeholders.property("n2o.api.action.link.src"), String.class)));
         compileAction(linkAction, source, p);
         ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         String path = RouteUtil.absolute(source.getHref(), routeScope != null ? routeScope.getUrl() : null);
@@ -77,8 +76,7 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
                     clientWidgetId = pageScope.getGlobalWidgetId(widgetIdAware.getWidgetId());
                 }
             }
-            if (clientWidgetId != null && componentScope != null &&
-                    componentScope.unwrap(ModelAware.class) != null) {
+            if (clientWidgetId != null) {
                 ReduxModel model = getTargetWidgetModel(p, ReduxModel.RESOLVE);
                 if (source.getPathParams() != null) {
                     for (N2oAnchor.Param pathParam : source.getPathParams()) {
@@ -102,10 +100,4 @@ public class AnchorCompiler extends AbstractActionCompiler<LinkAction, N2oAnchor
         compiled.setPathMapping(pathMapping);
     }
 
-    private String getRef (String value) {
-        if (value != null && value.startsWith("{") && value.endsWith("}")) {
-            return value.substring(1, value.length() - 1);
-        } else
-            return null;
-    }
 }

@@ -8,6 +8,7 @@ import TreeWidget from './Tree/TreeWidget';
 import ListWidget from './List/ListWidget';
 import ChartWidget from './Chart/ChartWidget';
 import CalendarWidget from './Calendar/CalendarWidget';
+import TilesWidget from './Tiles/TilesWidget';
 
 export default {
   HtmlWidget,
@@ -20,4 +21,5 @@ export default {
   TreeWidget,
   ChartWidget,
   CalendarWidget,
+  TilesWidget,
 };

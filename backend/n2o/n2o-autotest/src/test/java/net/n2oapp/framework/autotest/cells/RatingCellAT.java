@@ -52,15 +52,15 @@ public class RatingCellAT extends AutoTestBase {
 
         rows.row(0).cell(col, RatingCell.class).maxShouldBe(10);
 //        rows.row(0).cell(col, RatingCell.class).checkedShouldBe(0); val:-1
-        rows.row(1).cell(col, RatingCell.class).checkedShouldBe(0);
-        rows.row(2).cell(col, RatingCell.class).checkedShouldBe(5);
+        rows.row(1).cell(col, RatingCell.class).valueShouldBe("0");
+        rows.row(2).cell(col, RatingCell.class).valueShouldBe("5");
 //        rows.row(3).cell(col, RatingCell.class).checkedShouldBe(10); val:15
 
-        rows.row(0).cell(col, RatingCell.class).check(2);
-        rows.row(0).cell(col, RatingCell.class).checkedShouldBe(2);
+        rows.row(0).cell(col, RatingCell.class).check("2");
+        rows.row(0).cell(col, RatingCell.class).valueShouldBe("2");
 
-        rows.row(0).cell(col, RatingCell.class).check(7);
-        rows.row(0).cell(col, RatingCell.class).checkedShouldBe(7);
+        rows.row(0).cell(col, RatingCell.class).check("7");
+        rows.row(0).cell(col, RatingCell.class).valueShouldBe("7");
     }
 
 }

@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.widget.table;
 
 import net.n2oapp.framework.autotest.api.component.cell.CheckboxCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -50,7 +51,7 @@ public class TableCheckboxesAT extends AutoTestBase {
         table.columns().headers().shouldHaveSize(3);
 
         TableWidget.Rows rows = table.columns().rows();
-        TableWidget.Paging paging = table.paging();
+        Paging paging = table.paging();
         rows.shouldHaveSize(10);
         paging.totalElementsShouldBe(12);
         paging.activePageShouldBe("1");

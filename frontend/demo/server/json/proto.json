@@ -376,9 +376,10 @@
   },
   "widgets": {
     "proto_clients": {
-      "src": "CalendarWidget",
+      "src": "TilesWidget",
+      "id": "tiles",
       "dataProvider": {
-        "url": "n2o/data/calendar",
+        "url": "n2o/data/tiles",
         "pathMapping": {},
         "queryMapping": {},
         "headersMapping": {}
@@ -491,35 +492,32 @@
         "filterPlace": "top",
         "validation": {}
       },
-      "calendar": {
-        "cell": {
-          "format": "date DD.MM.YYYY"
+      "colsSm": 2,
+      "colsMd": 3,
+      "colsLg": 4,
+      "tiles": [
+        {
+          "id": "tile1",
+          "className": "p-4",
+          "style": {},
+          "fieldKey": "url",
+          "src": "ImageCell"
         },
-        "height": "500px",
-        "date": "2020-06-10",
-        "defaultView": "week",
-        "views": [ "day", "week", "month", "agenda" ],
-        "titleFieldId": "name",
-        "tooltipFieldId": "tooltip",
-        "allDayFieldId": "allDay",
-        "startFieldId": "begin",
-        "endFieldId": "end",
-        "cellColorFieldId": "color",
-        "disabledFieldId": "disabled",
-        "markDaysOff": true,
-        "onSelectSlot": {},
-        "onSelectEvent": {},
-        "selectable": true,
-        "step": 60,
-        "timeslots": 3,
-        "formats": {},
-        "actionOnSelectEvent": {
-          "type": "n2o/calendar/CLICK",
-          "payload": {
-            "name": "proto_view"
-          }
+        {
+          "id": "tile2",
+          "className": "mt-4",
+          "style": {},
+          "fieldKey": "text",
+          "src": "TextCell"
+        },
+        {
+          "id": "tile3",
+          "className": "mt-4",
+          "style": {},
+          "fieldKey": "rating",
+          "src": "RatingCell"
         }
-      }
+      ]
     },
     "proto_contacts": {
       "src": "ListWidget",
@@ -893,41 +891,6 @@
             "label": "Клиенты",
             "opened": true,
             "widgetId": "proto_clients"
-          }
-        ]
-      }
-    ],
-    "right": [
-      {
-        "src": "PanelRegion",
-        "hasTabs": false,
-        "headerTitle": "Контакты",
-        "open": true,
-        "collapsible": true,
-        "fullScreen": false,
-        "panels": [
-          {
-            "id": "panel1",
-            "label": "Контакты",
-            "opened": true,
-            "widgetId": "proto_contacts"
-          }
-        ]
-      }
-    ],
-    "top": [
-      {
-        "src": "PanelRegion",
-        "hasTabs": false,
-        "headerTitle": "Карточка",
-        "open": true,
-        "collapsible": true,
-        "fullScreen": false,
-        "panels": [
-          {
-            "id": "panel1",
-            "opened": true,
-            "widgetId": "proto_form"
           }
         ]
       }

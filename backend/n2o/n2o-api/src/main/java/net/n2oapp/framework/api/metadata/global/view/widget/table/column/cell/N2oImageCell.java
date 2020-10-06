@@ -17,5 +17,4 @@ public class N2oImageCell extends N2oActionCell {
     @JsonProperty
     private ImageShape shape;
     private String title;
-
 }

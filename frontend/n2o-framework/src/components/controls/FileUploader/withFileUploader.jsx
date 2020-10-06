@@ -8,7 +8,7 @@ import every from 'lodash/every';
 import some from 'lodash/some';
 import get from 'lodash/get';
 import isFunction from 'lodash/isFunction';
-import { post, deleteFile } from './utils';
+import { post, deleteFile, everyIsValid } from './utils';
 import { id } from '../../../utils/id';
 import evalExpression, { parseExpression } from '../../../utils/evalExpression';
 
@@ -19,10 +19,13 @@ const FileUploaderControl = WrappedComponent => {
 
       this.state = {
         files: props.files || [],
+        imgFiles: [],
+        imgError: {},
       };
       this.requests = {};
 
       this.handleDrop = this.handleDrop.bind(this);
+      this.handleImagesDrop = this.handleImagesDrop.bind(this);
       this.handleRemove = this.handleRemove.bind(this);
       this.handleChange = this.handleChange.bind(this);
       this.startUpload = this.startUpload.bind(this);
@@ -119,6 +122,7 @@ const FileUploaderControl = WrappedComponent => {
       return {
         ...this.props,
         files: this.state.files,
+        imgFiles: this.state.imgFiles,
         uploading: this.state.uploading,
         requests: this.requests,
         multiple: this.props.multi,
@@ -126,10 +130,12 @@ const FileUploaderControl = WrappedComponent => {
         onFocus: () => {},
         onBlur: () => {},
         onDrop: this.handleDrop,
+        onImagesDrop: this.handleImagesDrop,
         onDragLeave: this.onDragLeave,
         onDragEnter: this.onDragEnter,
         onRemove: this.handleRemove,
         onStartUpload: this.onStartUpload,
+        imgError: this.state.imgError,
       };
     }
 
@@ -137,6 +143,7 @@ const FileUploaderControl = WrappedComponent => {
      * Загрузка файлов в state
      * @param files
      */
+
     handleDrop(files) {
       const { onChange, autoUpload, onBlur } = this.props;
       this.setState(
@@ -163,6 +170,30 @@ const FileUploaderControl = WrappedComponent => {
     }
 
     /**
+     * Загрузка изображений в state
+     * @param files
+     */
+    handleImagesDrop(files) {
+      if (everyIsValid(files)) {
+        this.setState({
+          imgError: {},
+        });
+
+        this.setState({
+          imgFiles: this.state.imgFiles.concat(files),
+        });
+
+        this.handleDrop(files);
+      } else {
+        this.setState({
+          imgError: {
+            message: 'You can only upload JPG/PNG/SVG file!',
+          },
+        });
+      }
+    }
+
+    /**
      * Удаление из стейта
      * @param index
      * @param id
@@ -179,6 +210,10 @@ const FileUploaderControl = WrappedComponent => {
         deleteRequest,
       } = this.props;
 
+      this.setState({
+        imgError: {},
+      });
+
       if (deleteUrl) {
         if (isFunction(deleteRequest)) {
           deleteRequest(id);
@@ -189,9 +224,12 @@ const FileUploaderControl = WrappedComponent => {
       }
 
       const newFiles = this.state.files.slice();
+      const newImgFiles = this.state.imgFiles.slice();
       newFiles.splice(index, 1);
+      newImgFiles.splice(index, 1);
       this.setState({
         files: [...newFiles],
+        imgFiles: [...newImgFiles],
       });
 
       if (value) {
@@ -224,7 +262,6 @@ const FileUploaderControl = WrappedComponent => {
         onStart,
         uploadRequest,
       } = this.props;
-
       const url = this.resolveUrl(uploadUrl);
 
       this.setState({
