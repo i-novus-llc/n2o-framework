@@ -6,7 +6,9 @@
                     max="10" half="true" show-tooltip="true" readonly="false" action-id="updateRating"/>
         </column>
         <column text-field-id="test2">
-            <rating/>
+            <rating>
+                <invoke operation-id="test"/>
+            </rating>
         </column>
     </columns>
 </table>

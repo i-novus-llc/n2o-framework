@@ -53,7 +53,6 @@ public class RatingCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getHalf(), is(false));
         assertThat(cell.getMax(), is(5));
         assertThat(cell.getShowTooltip(), is(false));
-        e
         assertThat(cell.getReadonly(), is(true));
 
         cell = (N2oRatingCell) table.getComponent().getCells().get(2);
