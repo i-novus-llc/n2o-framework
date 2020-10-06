@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.config.reader.MetadataReaderException;
 import net.n2oapp.framework.config.reader.tools.CounterReaderV1;
 import net.n2oapp.framework.config.reader.tools.PreFilterReaderV1Util;
-import net.n2oapp.framework.config.reader.tools.PropertiesReaderV1;
 import net.n2oapp.framework.config.reader.util.ReaderJdomUtil;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -44,14 +43,10 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
             readRegions(n2oPage, regions, regionsElem);
         }
         n2oPage.setItems(regions.toArray(new N2oRegion[regions.size()]));
-        n2oPage.setModalWidth(ReaderJdomUtil.getElementString(root, "modal-width"));
-        n2oPage.setMinModalWidth(ReaderJdomUtil.getElementString(root, "modal-min-width"));
-        n2oPage.setMaxModalWidth(ReaderJdomUtil.getElementString(root, "modal-max-width"));
         return n2oPage;
     }
 
     private void readRegions(N2oStandardPage n2oPage, List<N2oRegion> regions, Element regionsElem) {
-        n2oPage.setResultContainer(getAttributeString(regionsElem, "result-container"));
         List regionElements = regionsElem.getChildren();
         for (Object r : regionElements) {
             Element element = (Element) r;
@@ -60,10 +55,7 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
             String src = getAttributeString(element, "src");
             if (src != null)
                 region.setSrc(src);
-            region.setProperties(PropertiesReaderV1.getInstance().read(element, element.getNamespace()));
             region.setPlace(getAttributeString(element, "place"));
-            region.setWidth(getAttributeString(element, "width"));
-            region.setName(getAttributeString(element, "name"));
             List<N2oWidget> widgets = new ArrayList<>();
             for (Object c : widgetElements) {
                 N2oWidget wgt = readWidget((Element) c, readerFactory);
@@ -109,7 +101,6 @@ public class PageXmlReaderV1 extends AbstractFactoredReader<N2oStandardPage> {
     }
 
     private void readContainers(N2oStandardPage n2oPage, List<N2oRegion> regions, Element containers) {
-        n2oPage.setResultContainer(getAttributeString(containers, "result-container"));
         List containerElements = containers.getChildren();
         for (Object c : containerElements) {
             Element container = (Element) c;

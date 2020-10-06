@@ -34,7 +34,7 @@ public class N2oTopLeftRightPage extends N2oBasePage {
     }
 
     @Override
-    public List<N2oWidget> getContainers() {
+    public List<N2oWidget> getWidgets() {
         List<N2oWidget> containers = new ArrayList<>();
         containers.addAll(collectWidgets(top));
         containers.addAll(collectWidgets(left));

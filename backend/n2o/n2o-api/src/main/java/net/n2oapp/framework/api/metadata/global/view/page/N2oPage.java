@@ -25,16 +25,7 @@ public abstract class N2oPage extends N2oMetadata implements NameAware, Extensio
     private String modalSize;
     private Boolean showTitle;
     protected Map<N2oNamespace, Map<String, String>> extAttributes;
-    @Deprecated
-    private String resultContainer;
-    @Deprecated
-    private String filterContainer;
-    @Deprecated
-    private String modalWidth;
-    @Deprecated
-    private String minModalWidth;
-    @Deprecated
-    private String maxModalWidth;
+
 
     @Override
     public String getPostfix() {
@@ -44,9 +35,9 @@ public abstract class N2oPage extends N2oMetadata implements NameAware, Extensio
     /**
      * Получение списка виджетов на странице
      *
-     * @return список виджетов
+     * @return Список виджетов
      */
-    public abstract List<N2oWidget> getContainers();
+    public abstract List<N2oWidget> getWidgets();
 
     @Override
     public Class<? extends N2oMetadata> getSourceBaseClass() {

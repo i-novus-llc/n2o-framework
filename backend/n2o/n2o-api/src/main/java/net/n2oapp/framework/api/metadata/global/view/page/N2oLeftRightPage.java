@@ -22,7 +22,7 @@ public class N2oLeftRightPage extends N2oBasePage {
     private String rightWidth;
 
     @Override
-    public List<N2oWidget> getContainers() {
+    public List<N2oWidget> getWidgets() {
         List<N2oWidget> containers = new ArrayList<>();
         containers.addAll(collectWidgets(left));
         containers.addAll(collectWidgets(right));
