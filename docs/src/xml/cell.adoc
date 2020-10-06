@@ -533,12 +533,24 @@ link:#_Переключатель_switch[Переключатель цвета]
 |Предназначен только для чтения
 |true
 
+|action-id
+|Ссылка на действие
+|Ссылка на обработчик изменения рейтинга
+|
+
 |===
 
 Пример::
 [source,xml]
 ----
-<rating show-tooltip="true" half="true"/>
+<rating show-tooltip="true" half="true" action-id="update"/>
+----
+
+[source,xml]
+----
+<rating>
+  <invoke operation-id="update"/>
+</rating>
 ----
 
 === <tooltip-list>

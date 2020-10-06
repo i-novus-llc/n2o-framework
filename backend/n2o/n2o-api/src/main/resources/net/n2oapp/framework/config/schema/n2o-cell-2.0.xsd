@@ -474,6 +474,13 @@
                 <xs:annotation>
                     <xs:documentation>Ячейка с рейтингом.</xs:documentation>
                 </xs:annotation>
+                <xs:sequence>
+                    <xs:element name="invoke" type="acn:invokeActionDefinition" maxOccurs="1" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Обработчик изменения рейтинга.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
                 <xs:attribute name="show-tooltip" type="xs:boolean" use="optional" default="false">
                     <xs:annotation>
                         <xs:documentation>Показать подсказку.</xs:documentation>
@@ -491,11 +498,17 @@
                         <xs:documentation>Максимальное значение.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="readonly" type="xs:boolean" use="optional" default="true">
+                <xs:attribute name="readonly" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Предназначен только для чтения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ссылка на обработчик изменения рейтинга.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

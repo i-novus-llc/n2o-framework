@@ -1,7 +1,9 @@
 package net.n2oapp.framework.config.io.widget.table.cell;
 
+import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oRatingCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.config.io.action.ActionIOv1;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,8 @@ public class RatingCellElementIOv2 extends AbstractCellElementIOv2<N2oRatingCell
         p.attributeBoolean(e, "half", c::getHalf, c::setHalf);
         p.attributeInteger(e, "max", c::getMax, c::setMax);
         p.attributeBoolean(e, "readonly", c::getReadonly, c::setReadonly);
+        p.attribute(e, "action-id", c::getActionId, c::setActionId);
+        p.anyChild(e, null, c::getAction, c::setAction, p.anyOf(N2oAction.class), ActionIOv1.NAMESPACE);
     }
 
     @Override
