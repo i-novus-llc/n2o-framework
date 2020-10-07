@@ -593,7 +593,7 @@ public class DemoIntegrationAT {
 
         ProtoContacts modalProtoContacts = protoPage.createContact();
         modalProtoContacts.shouldHaveTitle("Контакты");
-        modalProtoContacts.selectContactType("Моб. телефон");
+        modalProtoContacts.selectContactType("Мобильный телефон");
         modalProtoContacts.getPhoneNumber().val("9999999999");
         modalProtoContacts.getDescription().val("рабочий телефон");
         modalProtoContacts.save();

@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="Горизонтальный делитель">
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0" name="${horizontal.divider}">
     <regions>
         <line place="single" id="firstTab" collapsible="true">
-            <table id="first" name="Клиенты" query-id="ProtoClient">
+            <table id="first" name="${clients}" query-id="ProtoClient">
                 <pagination/>
                 <columns>
                     <column text-field-id="name"/>
                     <column text-field-id="surname"/>
                 </columns>
             </table>
-            <table id="second" name="Клиенты" query-id="ProtoClient">
+            <table id="second" name="${clients}" query-id="ProtoClient">
                 <pagination/>
                 <columns>
                     <column text-field-id="name"/>
@@ -19,7 +19,7 @@
                     </column>
                 </columns>
             </table>
-            <table id="third" name="Клиенты" query-id="ProtoClient">
+            <table id="third" name="${clients}" query-id="ProtoClient">
                 <pagination/>
                 <columns>
                     <column text-field-id="name"/>
@@ -30,7 +30,6 @@
                 </columns>
             </table>
         </line>
-
     </regions>
 
 </page>
