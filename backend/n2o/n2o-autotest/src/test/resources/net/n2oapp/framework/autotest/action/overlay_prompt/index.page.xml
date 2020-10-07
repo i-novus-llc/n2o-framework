@@ -14,7 +14,7 @@
                 <show-modal page-id="modal" detail-field-id="id" unsaved-data-prompt-on-close="false"/>
             </button>
             <button label="Дровер с подтверждением">
-                <show-modal page-id="modal" detail-field-id="id"/>
+                <open-drawer page-id="modal" detail-field-id="id"/>
             </button>
             <button label="Дровер без подтверждения">
                 <open-drawer page-id="modal" detail-field-id="id" unsaved-data-prompt-on-close="false"/>
