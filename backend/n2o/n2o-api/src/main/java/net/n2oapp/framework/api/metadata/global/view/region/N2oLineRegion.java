@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Модель региона с горизонтальным делителем.
+ * Модель региона с горизонтальным делителем
  */
 @Getter
 @Setter

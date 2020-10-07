@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.tiles.Tile;
 import net.n2oapp.framework.autotest.api.component.widget.tiles.TilesWidget;
@@ -50,7 +51,7 @@ public class TilesAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/test.query.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        TilesWidget tiles = page.single().widget(TilesWidget.class);
+        TilesWidget tiles = page.widget(TilesWidget.class);
         tiles.shouldExists();
 
         Tile tile1 = tiles.tile(0);
@@ -92,7 +93,7 @@ public class TilesAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/tiles/paging/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        TilesWidget tiles = page.widgets().widget(0, TilesWidget.class);
+        TilesWidget tiles = page.regions().region(0, SimpleRegion.class).content().widget(TilesWidget.class);
         tiles.shouldExists();
 
         Paging paging = tiles.paging();
@@ -114,7 +115,7 @@ public class TilesAT extends AutoTestBase {
         tiles.tile(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
 
 
-        TilesWidget tiles2 = page.widgets().widget(1, TilesWidget.class);
+        TilesWidget tiles2 = page.regions().region(1, SimpleRegion.class).content().widget(TilesWidget.class);
         tiles2.shouldExists();
 
         paging = tiles2.paging();

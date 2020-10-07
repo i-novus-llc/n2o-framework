@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.region.PanelRegion;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
-import net.n2oapp.framework.api.metadata.meta.region.TabsRegion;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -51,11 +50,12 @@ public class PanelRegionCompileTest extends SourceCompileTestBase {
         assertThat(((PanelRegion) regions.get(0)).getIcon(), is("fa fa-plus"));
         assertThat(((PanelRegion) regions.get(0)).getColor(), is("danger"));
         assertThat(((PanelRegion) regions.get(0)).getOpen(), is(false));
-        assertThat(((PanelRegion) regions.get(0)).getHeader(), is(true));
+        assertThat(((PanelRegion) regions.get(0)).getHeader(), is(false));
 
         assertThat(((PanelRegion) regions.get(1)).getCollapsible(), is(true));
         assertThat(((PanelRegion) regions.get(1)).getOpen(), is(true));
         assertThat(((PanelRegion) regions.get(1)).getFullScreen(), is(false));
+        assertThat(((PanelRegion) regions.get(1)).getHeader(), is(true));
     }
 
     @Test

@@ -65,7 +65,7 @@ image::images/page_top_left_right.png[]
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
       name="Моя страница">
   <top>
     <panel>...</panel>
@@ -228,9 +228,6 @@ image::images/tabs.png[]
 |<tree>
 |TreeWidget
 |link:https://n2oapp.net/sandbox/new/manual/widget/tree[Дерево]
-
-|<chart>
-|График
 
 |===
 

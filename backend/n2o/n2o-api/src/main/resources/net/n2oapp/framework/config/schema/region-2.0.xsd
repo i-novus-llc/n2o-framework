@@ -176,7 +176,7 @@
                         <xs:documentation>Возможность раскрытия и сворачивания виджетов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="header" type="xs:boolean">
+                <xs:attribute name="header" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Наличие заголовка.</xs:documentation>
                     </xs:annotation>

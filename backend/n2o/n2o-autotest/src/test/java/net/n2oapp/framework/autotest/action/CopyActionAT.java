@@ -9,6 +9,8 @@ import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -51,8 +53,9 @@ public class CopyActionAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        TableWidget table = page.widgets().widget(TableWidget.class);
-        FormWidget form = page.widgets().widget(1, FormWidget.class);
+        RegionItems content = page.regions().region(0, SimpleRegion.class).content();
+        TableWidget table = content.widget(TableWidget.class);
+        FormWidget form = content.widget(1, FormWidget.class);
         InputText id = form.fields().field("id").control(InputText.class);
         InputText name = form.fields().field("name").control(InputText.class);
         StandardButton copyBtn = table.toolbar().bottomRight().button("Копирование");
@@ -77,7 +80,7 @@ public class CopyActionAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        FormWidget form = page.single().widget(FormWidget.class);
+        FormWidget form = page.widget(FormWidget.class);
 
         InputText id = form.fields().field("id").control(InputText.class);
         id.shouldBeEmpty();
@@ -89,7 +92,7 @@ public class CopyActionAT extends AutoTestBase {
         // копирование второй строки
         btn.click();
         Modal modal = N2oSelenide.modal();
-        TableWidget table = modal.content(SimplePage.class).single().widget(TableWidget.class);
+        TableWidget table = modal.content(SimplePage.class).widget(TableWidget.class);
         StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
 
         table.columns().rows().row(1).click();
@@ -117,7 +120,7 @@ public class CopyActionAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        FormWidget form = page.single().widget(FormWidget.class);
+        FormWidget form = page.widget(FormWidget.class);
         MultiFieldSet multiSet = form.fieldsets().fieldset(MultiFieldSet.class);
 
         StandardButton btn = form.toolbar().topLeft().button("Выбрать");
@@ -126,7 +129,7 @@ public class CopyActionAT extends AutoTestBase {
         // COPY-MODE=ADD
         btn.click();
         Modal modal = N2oSelenide.modal();
-        TableWidget table = modal.content(SimplePage.class).single().widget(TableWidget.class);
+        TableWidget table = modal.content(SimplePage.class).widget(TableWidget.class);
         StandardButton saveBtn = modal.toolbar().bottomRight().button("Сохранить");
 
         table.columns().rows().row(0).click();
@@ -174,7 +177,7 @@ public class CopyActionAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        StandardField field = page.single().widget(FormWidget.class).fields().field("Адрес");
+        StandardField field = page.widget(FormWidget.class).fields().field("Адрес");
         InputText address = field.control(InputText.class);
         address.shouldBeEmpty();
         StandardButton btn = field.toolbar().button("Ввести новый");
@@ -183,7 +186,7 @@ public class CopyActionAT extends AutoTestBase {
         // COPY-MODE=REPLACE
         btn.click();
         Modal modal = N2oSelenide.modal();
-        FormWidget modalForm = modal.content(SimplePage.class).single().widget(FormWidget.class);
+        FormWidget modalForm = modal.content(SimplePage.class).widget(FormWidget.class);
         InputText city = modalForm.fields().field("Город").control(InputText.class);
         InputText street = modalForm.fields().field("Улица").control(InputText.class);
         city.val("NY");
