@@ -12,7 +12,7 @@ import static net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil.co
 
 
 /**
- * "Исходная" модель стандартной страницы
+ * Исходная модель стандартной страницы
  */
 @Getter
 @Setter
@@ -20,9 +20,7 @@ public class N2oStandardPage extends N2oBasePage {
     private SourceComponent[] items;
 
     @Override
-    public List<N2oWidget> getContainers() {
-        List<N2oWidget> containers = new ArrayList<>();
-        collectWidgets(containers, items);
-        return containers;
+    public List<N2oWidget> getWidgets() {
+        return new ArrayList<>(collectWidgets(items));
     }
 }

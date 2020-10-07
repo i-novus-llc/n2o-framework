@@ -1,8 +1,8 @@
 package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
@@ -42,15 +42,13 @@ public class StandardPageCompiler extends BasePageCompiler<N2oStandardPage, Stan
         if (source.getItems() != null) {
             IndexScope index = new IndexScope();
             List<N2oWidget> widgets = new ArrayList<>();
-            for (SourceComponent item : source.getItems()) {
-                if (item instanceof N2oRegion) {
-                    if (!widgets.isEmpty())
-                        createRegion(p, context, regionMap, widgets, pageScope, pageRoutes, pageWidgetsScope, index);
-                    compileRegion(p, context, regionMap, (N2oRegion) item, pageScope, pageRoutes, pageWidgetsScope, index);
-                } else if (item instanceof N2oWidget) {
-                    widgets.add((N2oWidget) item);
-                }
-            }
+            BasePageUtil.resolveRegionItems(source.getItems(),
+                    item -> {
+                        if (!widgets.isEmpty())
+                            createRegion(p, context, regionMap, widgets, pageScope, pageRoutes, pageWidgetsScope, index);
+                        compileRegion(p, context, regionMap, item, pageScope, pageRoutes, pageWidgetsScope, index);
+                    },
+                    widgets::add);
             if (!widgets.isEmpty())
                 createRegion(p, context, regionMap, widgets, pageScope, pageRoutes, pageWidgetsScope, index);
         }

@@ -29,15 +29,4 @@ public abstract class Region implements Compiled, SrcAware, IdAware {
     public Map<String, Object> getJsonProperties() {
         return properties;
     }
-
-    @Getter
-    @Setter
-    public static class Item implements Compiled {
-        @JsonProperty
-        private String id = "item";
-        @JsonProperty
-        private String label;
-        @JsonProperty
-        private List<Compiled> content;
-    }
 }

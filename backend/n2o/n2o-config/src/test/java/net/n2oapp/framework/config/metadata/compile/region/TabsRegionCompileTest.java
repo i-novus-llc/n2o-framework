@@ -21,7 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Тестирование компиляции региона в виде вкладок
@@ -72,7 +73,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(0), instanceOf(TabsRegion.class));
         assertThat(regions.get(0).getId(), is("tab_0"));
         assertThat(regions.get(0).getSrc(), is("TabsRegion"));
-        List<? extends Region.Item> items = ((TabsRegion) regions.get(0)).getItems();
+        List<TabsRegion.Tab> items = ((TabsRegion) regions.get(0)).getItems();
         assertThat(items.size(), is(1));
         // tab1
         assertThat(items.get(0), instanceOf(TabsRegion.Tab.class));
@@ -85,7 +86,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(((Form) content.get(0)).getName(), is("form1"));
         // tab1 tabs
         assertThat(content.get(1), instanceOf(TabsRegion.class));
-        List<? extends Region.Item> tabsItems = ((TabsRegion) content.get(1)).getItems();
+        List<TabsRegion.Tab> tabsItems = ((TabsRegion) content.get(1)).getItems();
         assertThat(tabsItems.size(), is(1));
         // tab1 tabs tab2
         assertThat(tabsItems.get(0), instanceOf(TabsRegion.Tab.class));
@@ -126,7 +127,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(page.getRegions().size(), is(1));
         List<Region> regions = page.getRegions().get("single");
         assertThat(regions.size(), is(1));
-        List<? extends Region.Item> items = ((TabsRegion) regions.get(0)).getItems();
+        List<TabsRegion.Tab> items = ((TabsRegion) regions.get(0)).getItems();
 
         assertThat(items.size(), is(2));
         assertThat(items.get(0), instanceOf(TabsRegion.Tab.class));
