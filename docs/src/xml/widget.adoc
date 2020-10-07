@@ -639,7 +639,7 @@ link:#_Предустановленные_параметры_действия_pa
   <toolbar>...</toolbar>
   <columns>...</columns>
   <rows>...</rows>
-  <paging>...</paging>
+  <pagination>...</pagination>
 </table>
 ----
 
@@ -1197,7 +1197,8 @@ link:#__node[Дочерний узел]
 <?xml version='1.0' encoding='UTF-8'?>
 <list name="Мой список"
       query-id="myList">
-  ...
+  <content>...</content>
+  <pagination>...</pagination>
 </list>
 ----
 
@@ -1524,6 +1525,107 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 ----
 <format id="dayFormat" value="dd"/>
 ----
+
+=== <tiles>
+Виджет плитки.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|id
+|Строка
+|Идентификатор виджета
+|
+
+|cols-sm
+|1, 2
+|Количество колонок в мобильной версии
+|1
+
+|cols-md
+|1, 2, 3, 4, 6
+|Количество колонок в планшетах
+|2
+
+|cols-lg
+|1, 2, 3, 4, 6, 12
+|Количество колонок в десктопной версии
+|3
+
+|height
+|Число
+|Минимальная высота плитки.
+|
+
+|width
+|Число
+|Ширина плитки
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<tiles id="tiles_id" cols-lg="6">
+  <content>...</content>
+  <pagination>...</pagination>
+</tiles>
+----
+
+
+==== <content>
+Содержимое виджета плитки.
+
+Пример::
+[source,xml]
+----
+<content>
+  <block>...</block>
+  <block>...</block>
+</content>
+----
+
+Тело::
+Список блоков.
+
+==== <block>
+Блок.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|id
+|Строка
+|Идентификатор ресурса
+|
+
+|text-field-id
+|Строка
+|Поле выборки, отображаемое в блоке
+|
+
+|tooltip-field-id
+|Строка
+|Поле выборки, отображаемое при наведении на ячейку
+|
+
+|===
+
+Пример::
+[source,xml]
+----
+<block text-field-id="id" tooltip-field-id="tooltip">
+    <text/>
+</block>
+----
+
+Тело::
+link:#_Ячейки[Ячейка]
 
 === <widget>
 Настраиваемый виджет.

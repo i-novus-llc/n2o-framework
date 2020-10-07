@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.api.component.widget.calendar;
 
-import net.n2oapp.framework.autotest.api.component.widget.Widget;
+import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarAgendaView;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarDayView;
 import net.n2oapp.framework.autotest.api.component.widget.calendar.view.CalendarMonthView;
@@ -9,8 +9,8 @@ import net.n2oapp.framework.autotest.api.component.widget.calendar.view.Calendar
 /**
  * Виджет календарь для автотестирования
  */
-public interface CalendarWidget extends Widget {
-    CalendarToolbar toolbar();
+public interface CalendarWidget extends StandardWidget {
+    CalendarToolbar calendarToolbar();
 
     CalendarMonthView monthView();
 
