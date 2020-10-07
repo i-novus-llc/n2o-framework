@@ -46,7 +46,8 @@ public class RatingCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getMax(), is(10));
         assertThat(cell.getShowTooltip(), is(true));
         assertThat(cell.getReadonly(), is(false));
-        assertThat(cell.getActionId(), is("updateRating"));
+        assertThat(cell.getActionId(), is("testAction"));
+        assertThat(cell.getCompiledAction(), instanceOf(InvokeAction.class));
 
         cell = (N2oRatingCell) table.getComponent().getCells().get(1);
         assertThat(cell.getSrc(), is("RatingCell"));
@@ -56,10 +57,6 @@ public class RatingCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getReadonly(), is(true));
 
         cell = (N2oRatingCell) table.getComponent().getCells().get(2);
-        assertThat(cell.getCompiledAction(), instanceOf(InvokeAction.class));
-
-        cell = (N2oRatingCell) table.getComponent().getCells().get(3);
-        assertThat(cell.getActionId(), is("testAction"));
         assertThat(cell.getCompiledAction(), instanceOf(InvokeAction.class));
     }
 }

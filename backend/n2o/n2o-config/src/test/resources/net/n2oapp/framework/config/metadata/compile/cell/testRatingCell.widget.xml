@@ -7,7 +7,7 @@
     </actions>
     <columns>
         <column text-field-id="test">
-            <rating max="10" half="true" show-tooltip="true" readonly="false" action-id="updateRating"/>
+            <rating max="10" half="true" show-tooltip="true" readonly="false" action-id="testAction"/>
         </column>
         <column text-field-id="test2">
             <rating/>
@@ -16,9 +16,6 @@
             <rating readonly="false">
                 <invoke operation-id="test"/>
             </rating>
-        </column>
-        <column text-field-id="test4">
-            <rating readonly="false" action-id="testAction"/>
         </column>
     </columns>
 </table>

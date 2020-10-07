@@ -10,5 +10,8 @@
                 <invoke operation-id="test"/>
             </rating>
         </column>
+        <column text-field-id="test3">
+            <rating action-id="testAction"/>
+        </column>
     </columns>
 </table>

@@ -545,12 +545,12 @@ link:#_Переключатель_switch[Переключатель цвета]
 Пример::
 [source,xml]
 ----
-<rating show-tooltip="true" half="true" action-id="update"/>
+<rating show-tooltip="true" half="true"/>
 ----
 
 [source,xml]
 ----
-<rating>
+<rating readonly="false">
   <invoke operation-id="update"/>
 </rating>
 ----
