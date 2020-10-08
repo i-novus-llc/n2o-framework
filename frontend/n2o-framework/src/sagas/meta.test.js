@@ -151,10 +151,9 @@ describe('Сага для перехвата меты, сайд-эффектов
         },
       };
       await runSaga(fakeStore, redirectEffect, action);
-      expect(dispatched[0].type).toBe('n2o/overlays/DESTROY');
-      expect(dispatched[1].type).toBe('@@router/CALL_HISTORY_METHOD');
-      expect(dispatched[1].payload.method).toBe('push');
-      expect(dispatched[1].payload.args[0]).toBe('/n2o/data/1');
+      expect(dispatched[0].type).toBe('@@router/CALL_HISTORY_METHOD');
+      expect(dispatched[0].payload.method).toBe('push');
+      expect(dispatched[0].payload.args[0]).toBe('/n2o/data/1');
     });
   });
 
