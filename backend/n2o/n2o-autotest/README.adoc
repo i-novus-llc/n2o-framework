@@ -1,0 +1,109 @@
+= Документация по использованию автотестов в N2O
+
+== Описание
+Бибилиотека n2o-autotest использует  https://ru.selenide.org/documentation.html[Selenide]
+
+Требования к окружению:
+- jdk 11 версии и выше
+- браузер Google chrome
+
+== Запуск
+Запускать автотесты можно двумя способами:
+
+1) через IntelliJ IDEA (запуская класс автотеста как обычный unit test)
+
+2) через maven, запустив команду verify,
+но предварительно необходимо настроить https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
+
+== Использование
+Для написания автотестов в зависимости проекта необходимо добавить:
+[source,xml]
+----
+<dependency>
+    <groupId>net.n2oapp.framework</groupId>
+    <artifactId>n2o-autotest</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>io.qameta.allure</groupId>
+    <artifactId>allure-junit5</artifactId>
+    <version>2.13.3</version>
+    <scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>io.qameta.allure</groupId>
+    <artifactId>allure-selenide</artifactId>
+    <version>2.13.3</version>
+    <scope>test</scope>
+</dependency>
+----
+
+
+Страницы N2O ожно тестировать разными способами:
+
+==== Через api `n2o-autotest`, для этого необходимо:
+- написать свой класс, который будет наследником AutoTestBase, в котором уже есть настройки для Selenide.
+- в нем на стадии `@BeforeAll` вызвать `configureSelenide();`
+- на стадии `@BeforeEach` вызвать `super.setUp();`
+- переопределить метод `void configure(N2oApplicationBuilder builder)` где в builder добавить все необходимые pack
+- в методе теста в builder добавить необходимые файлы исходников
+Пример автотеста:
+[source,xml]
+----
+public class AlertAT extends AutoTestBase {
+
+    @BeforeAll
+    public static void beforeClass() {
+        configureSelenide();
+    }
+
+    @BeforeEach
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+    }
+
+    @Override
+    protected void configure(N2oApplicationBuilder builder) {
+        super.configure(builder);
+        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
+    }
+
+    @Test
+    public void testAlert() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/alert/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        ......
+        тест
+        ......
+
+    }
+}
+----
+
+Если функций описанных в библиотеке недостаточно всегда можно переключиться на "нативное" тестирование через Selenide,
+для этого у любого компонента получить SelenideElement, вызвав метод `element()`, и уже у него получить любой объект,
+используя селекторы .$ .$$
+
+
+==== Используя паттерн Page Object
+Для тестирования страниц в Selenide принято использовать https://selenide.gitbooks.io/user-guide/content/ru/pageobjects.html[PageObject подход].
+Он используется в `n2o-autotest`, но для своих страниц  и всех внутренних элементов можно описывать свои классы.
+В этом случае наследоваться от AutoTestBase не имеет смысла.
+
+
+== Кастомизация
+Если на вашей N2O странице встречаются кастомные компоненты, можно написать свою реализацию интерфейса для этого компонента.
+Обязательно добавьте свою реализацию в фабрику.
+[source,xml]
+----
+N2oSelenide.setFactory(new ComponentFactory()
+                .addCollections(MyRegions.class, MyWidgets.class)
+                .addComponents(MyRegion.class, MyLeftRightPage.class));
+----
+
+Если api компенента недостаточно, то вы можете его расширить написав свой интерфейс, сделав его наследником исходного.
