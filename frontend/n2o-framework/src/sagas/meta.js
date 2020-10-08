@@ -45,8 +45,8 @@ export function* redirectEffect(action) {
       queryMapping,
     });
     if (target === 'application') {
-      yield put(destroyOverlay());
       yield put(push(newUrl));
+      yield put(destroyOverlay());
     } else if (target === 'self') {
       window.location = newUrl;
     } else {
