@@ -528,12 +528,31 @@ link:#_Переключатель_switch[Переключатель цвета]
 |Максимальное значение
 |5
 
+|readonly
+|true false
+|Предназначен только для чтения
+|true
+
+|action-id
+|Ссылка на действие
+|Ссылка на обработчик изменения рейтинга
+|
+
 |===
+
+Тело:: link:#_Действия[Обработчик действия]
 
 Пример::
 [source,xml]
 ----
 <rating show-tooltip="true" half="true"/>
+----
+
+[source,xml]
+----
+<rating readonly="false">
+  <invoke operation-id="update"/>
+</rating>
 ----
 
 === <tooltip-list>

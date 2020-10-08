@@ -474,21 +474,38 @@
                 <xs:annotation>
                     <xs:documentation>Ячейка с рейтингом.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="show-tooltip" type="xs:boolean" use="optional" default="false">
+                <xs:sequence>
+                    <xs:element name="invoke" type="acn:invokeActionDefinition" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Обработчик изменения рейтинга.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="show-tooltip" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Показать подсказку.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="half" type="xs:boolean" use="optional" default="false">
+                <xs:attribute name="half" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
                             Использование в качестве значений помимо целых чисел также и половинок целых чисел.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="max" type="xs:integer" use="optional" default="5">
+                <xs:attribute name="max" type="xs:integer" default="5">
                     <xs:annotation>
                         <xs:documentation>Максимальное значение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="readonly" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Предназначен только для чтения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ссылка на обработчик изменения рейтинга.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
