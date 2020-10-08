@@ -20,6 +20,8 @@ import { id } from '../utils/id';
 import { CALL_ALERT_META } from '../constants/meta';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 
+import { destroyOverlay } from '../actions/overlays';
+
 export function* alertEffect(action) {
   try {
     const { alertKey = GLOBAL_KEY, messages, stacked } = action.meta.alert;
@@ -43,6 +45,7 @@ export function* redirectEffect(action) {
       queryMapping,
     });
     if (target === 'application') {
+      yield put(destroyOverlay());
       yield put(push(newUrl));
     } else if (target === 'self') {
       window.location = newUrl;
