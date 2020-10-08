@@ -2,11 +2,14 @@ package net.n2oapp.framework.api.metadata.global.view.region;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Модель региона в виде вкладок
@@ -22,9 +25,10 @@ public class N2oTabsRegion extends N2oRegion {
 
     @Getter
     @Setter
-    public static class Tab implements Source {
+    public static class Tab implements Source, ExtensionAttributesAware {
         private String name;
         private SourceComponent[] content;
+        private Map<N2oNamespace, Map<String, String>> extAttributes;
     }
 
     @Deprecated

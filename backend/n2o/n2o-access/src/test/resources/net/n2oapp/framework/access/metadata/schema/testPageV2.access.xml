@@ -13,7 +13,7 @@
     </permission>
     <permission id="test2">
         <object-access object-id="testObjectAccessTransformer"/>
-        <page-access page-id="testRegionAccessTransformer"/>
+        <page-access page-id="testPageV2AccessTransformer"/>
     </permission>
     <anonymous>
         <object-access object-id="testObjectAccessTransformer" operations="*"/>

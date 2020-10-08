@@ -28,6 +28,7 @@ public class TabsRegionIOv2 extends AbstractRegionIOv2<N2oTabsRegion> {
         p.attribute(e, "name", t::getName, t::setName);
         p.anyChildren(e, null, t::getContent, t::setContent, p.anyOf(SourceComponent.class),
                 WidgetIOv4.NAMESPACE, RegionIOv2.NAMESPACE);
+        p.anyAttributes(e, t::getExtAttributes, t::setExtAttributes);
     }
 
     @Override
