@@ -94,10 +94,9 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
         Security.SecurityObject secProps = getSecurityProperties(tabItems.get(0));
         assertThat(secProps.getAuthenticated(), is(true));
         assertThat(secProps.getRoles(), nullValue());
-        // tab with authenticated (from widget)
-        secProps = getSecurityProperties(tabItems.get(1));
-        assertThat(secProps.getAuthenticated(), is(true));
-        assertThat(secProps.getAnonymous(), is(false));
+        // if one of the child (region or widget) has no access attributes
+        // region will no have too
+        assertThat(tabItems.get(1).getProperties(), nullValue());
         // tab with authenticated and admin roles (from widgets)
         secProps = getSecurityProperties(tabItems.get(2));
         assertThat(secProps.getAuthenticated(), is(true));

@@ -374,7 +374,7 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
         security.setSecurityMap(new HashMap<>());
         for (Map.Entry<String, List<Security.SecurityObject>> securityEntry : securityObjects.entrySet()) {
             Security.SecurityObject securityObject = new Security.SecurityObject();
-            if (!securityEntry.getValue().isEmpty())
+            if (securityEntry.getValue().size() == sources.size())
                 mergeSecurityObjects(securityObject, securityEntry.getValue());
             if (!securityObject.isEmpty())
                 security.getSecurityMap().put(securityEntry.getKey(), securityObject);
