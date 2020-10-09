@@ -4,6 +4,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
+import net.n2oapp.framework.api.data.validation.ValidationDialog;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
@@ -48,6 +49,8 @@ public class Validator {
                 failInfo.setSeverity(v.getSeverity());
                 failInfo.setFieldId(v.isForField() ? v.getFieldId() : null);
                 failInfo.setMessage(message);
+                if (v instanceof ValidationDialog)
+                    failInfo.setDialog(((ValidationDialog) v).getDialog());
                 fails.add(failInfo);
                 afterFail(v);
             });
