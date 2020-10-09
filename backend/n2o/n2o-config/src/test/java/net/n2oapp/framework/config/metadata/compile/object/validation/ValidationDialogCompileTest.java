@@ -4,8 +4,13 @@ import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.data.validation.ValidationDialog;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oTestDataProvider;
+import net.n2oapp.framework.api.metadata.event.action.N2oCloseAction;
+import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
+import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.dataprovider.TestDataProviderIOv1;
@@ -20,8 +25,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование компиляции валидации с диалогом выбора
@@ -64,11 +68,14 @@ public class ValidationDialogCompileTest extends SourceCompileTestBase {
         assertThat(outParametersList.get(1).getId(), is("validation"));
         assertThat(outParametersList.get(1).getMapping(), is("name=='test'"));
 
-//        N2oToolbar toolbar = ((ValidationDialog) validations.get(0)).getToolbar();
-//        assertThat(toolbar.getItems().length, is(2));
-//        assertThat(((N2oButton) toolbar.getItems()[0]).getLabel(), is("Yes"));
-//        assertThat(((N2oButton) toolbar.getItems()[0]).getAction(), instanceOf(N2oInvokeAction.class));
-//        assertThat(((N2oButton) toolbar.getItems()[1]).getAction(), instanceOf(N2oCloseAction.class));
+        N2oDialog dialog = ((ValidationDialog) validations.get(0)).getDialog();
+        assertThat(dialog.getId(), is("dialog1"));
+        assertThat(dialog.getTitle(), is("message"));
+        N2oToolbar toolbar = dialog.getToolbar();
+        assertThat(toolbar.getItems().length, is(2));
+        assertThat(((N2oButton) toolbar.getItems()[0]).getLabel(), is("Yes"));
+        assertThat(((N2oButton) toolbar.getItems()[0]).getAction(), instanceOf(N2oInvokeAction.class));
+        assertThat(((N2oButton) toolbar.getItems()[1]).getAction(), instanceOf(N2oCloseAction.class));
 
 
         assertThat(validations.get(1).getId(), is("dialog2"));
