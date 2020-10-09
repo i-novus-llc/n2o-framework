@@ -104,7 +104,7 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
         assertThat(secProps.getRoles().size(), is(1));
         assertThat(secProps.getRoles().contains("admin"), is(true));
 
-        // tab with edit, create permissions (from two regions)
+        // tab with edit, create permissions (from two widgets)
         secProps = getSecurityProperties(tabItems.get(3));
         assertThat(secProps.getPermissions().size(), is(2));
         assertThat(secProps.getPermissions().containsAll(Arrays.asList("edit", "create")), is(true));
@@ -121,7 +121,7 @@ public class PageAccessTransformerTest extends SourceCompileTestBase {
         assertThat(secProps.getPermissions().size(), is(1));
         assertThat(secProps.getPermissions().contains("create"), is(true));
 
-        // line with admin role (one widget in region)
+        // line with admin role (from widget)
         secProps = getSecurityProperties(regions.get(3));
         assertThat(secProps.getRoles().size(), is(1));
         assertThat(secProps.getRoles().contains("admin"), is(true));
