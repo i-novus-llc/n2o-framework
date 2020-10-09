@@ -7,8 +7,10 @@ import {
   fork,
 } from 'redux-saga/effects';
 import { getFormValues } from 'redux-form';
+
 import isFunction from 'lodash/isFunction';
 import get from 'lodash/get';
+
 import merge from 'deepmerge';
 
 import { START_INVOKE } from '../constants/actionImpls';
@@ -30,6 +32,8 @@ import { PREFIXES } from '../constants/models';
 import { disablePage, enablePage } from '../actions/pages';
 import { successInvoke, failInvoke } from '../actions/actionImpl';
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
+
+import { setButtonDisabled, setButtonEnabled } from '../actions/toolbar';
 
 /**
  * @deprecated
@@ -133,18 +137,24 @@ export function* handleInvoke(apiProvider, action) {
     data,
     needResolve = true,
   } = action.payload;
+
+  const state = yield select();
+  const optimistic = get(dataProvider, 'optimistic', false);
+  const buttonIds = !optimistic ? Object.keys(state.toolbar[pageId]) : [];
+
   try {
     if (!dataProvider) {
       throw new Error('dataProvider is undefined');
     }
-
-    const optimistic = get(dataProvider, 'optimistic', false);
-
     if (pageId && !optimistic) {
       yield put(disablePage(pageId));
     }
     if (widgetId && !optimistic) {
       yield put(disableWidgetOnFetch(widgetId));
+
+      for (let index in buttonIds) {
+        yield put(setButtonDisabled(pageId, buttonIds[index]));
+      }
     }
     let model = data || {};
     if (modelLink) {
@@ -179,6 +189,10 @@ export function* handleInvoke(apiProvider, action) {
     }
     if (widgetId) {
       yield put(enableWidget(widgetId));
+
+      for (let index in buttonIds) {
+        yield put(setButtonEnabled(pageId, buttonIds[index]));
+      }
     }
   }
 }
