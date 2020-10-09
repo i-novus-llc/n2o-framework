@@ -21,8 +21,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.codeborne.selenide.Configuration.headless;
-
 /**
  * Автотест закрытия overlay окон с подтвержеденеим и без
  */
@@ -35,7 +33,6 @@ public class OverlayPromptAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
-        headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "false"));
     }
 
     @BeforeEach
@@ -69,7 +66,6 @@ public class OverlayPromptAT extends AutoTestBase {
         modalPage.shouldHaveTitle("Overlay окно");
         InputText nameControl = modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields()
                 .field("name").control(InputText.class);
-        nameControl.shouldExists();
         nameControl.shouldHaveValue("test1");
         nameControl.val("edited");
         nameControl.shouldHaveValue("edited");
@@ -82,15 +78,14 @@ public class OverlayPromptAT extends AutoTestBase {
         modalPage.shouldHaveTitle("Overlay окно");
         nameControl = modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields()
                 .field("name").control(InputText.class);
-        nameControl.shouldExists();
         nameControl.shouldHaveValue("test1");
         nameControl.val("edited");
         nameControl.shouldHaveValue("edited");
         modalPage.close();
-        Selenide.dismiss("Вы уверены?");
+        Selenide.dismiss();
         modalPage.shouldExists();
         modalPage.close();
-        Selenide.confirm("Вы уверены?");
+        Selenide.confirm();
         modalPage.shouldNotExists();
     }
 
@@ -109,7 +104,6 @@ public class OverlayPromptAT extends AutoTestBase {
         drawerPage.shouldHaveTitle("Overlay окно");
         InputText nameControl = drawerPage.content(SimplePage.class).single().widget(FormWidget.class).fields()
                 .field("name").control(InputText.class);
-        nameControl.shouldExists();
         nameControl.shouldHaveValue("test1");
         nameControl.val("edited");
         nameControl.shouldHaveValue("edited");
@@ -122,15 +116,14 @@ public class OverlayPromptAT extends AutoTestBase {
         drawerPage.shouldHaveTitle("Overlay окно");
         nameControl = drawerPage.content(SimplePage.class).single().widget(FormWidget.class).fields()
                 .field("name").control(InputText.class);
-        nameControl.shouldExists();
         nameControl.shouldHaveValue("test1");
         nameControl.val("edited");
         nameControl.shouldHaveValue("edited");
         drawerPage.close();
-        Selenide.dismiss("Вы уверены?");
+        Selenide.dismiss();
         drawerPage.shouldExists();
         drawerPage.close();
-        Selenide.confirm("Вы уверены?");
+        Selenide.confirm();
         drawerPage.shouldNotExists();
     }
 
