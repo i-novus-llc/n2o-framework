@@ -3,7 +3,6 @@ package net.n2oapp.framework.ui.controller.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
@@ -86,7 +85,7 @@ public class OperationController extends SetController {
                                                             ActionRequestInfo<DataSet> requestInfo,
                                                             ActionResponseInfo responseInfo) {
         SetDataResponse response = new SetDataResponse();
-        response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getSuccessAlertWidgetId(), responseInfo.getStackedMessages());
+        response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getSuccessAlertWidgetId(), responseInfo.isStackedMessages());
         response.setData(data);
         if (responseInfo.getDialog() != null)
             response.setDialog(compileDialog(responseInfo.getDialog(), requestInfo));

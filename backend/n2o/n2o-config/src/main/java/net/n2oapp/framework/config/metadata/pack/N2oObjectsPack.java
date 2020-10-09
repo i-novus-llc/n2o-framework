@@ -9,6 +9,7 @@ import net.n2oapp.framework.config.metadata.compile.object.N2oObjectCompiler;
 import net.n2oapp.framework.config.metadata.compile.validation.ConditionValidationCompiler;
 import net.n2oapp.framework.config.metadata.compile.validation.ConstraintValidationCompiler;
 import net.n2oapp.framework.config.metadata.compile.validation.MandatoryValidationCompiler;
+import net.n2oapp.framework.config.metadata.compile.validation.ValidationDialogCompiler;
 
 /**
  * Набор для сборки стандартных объектов
@@ -21,7 +22,8 @@ public class N2oObjectsPack implements MetadataPack<N2oApplicationBuilder> {
         b.compilers(new N2oObjectCompiler(),
                 new ConstraintValidationCompiler(),
                 new MandatoryValidationCompiler(),
-                new ConditionValidationCompiler());
+                new ConditionValidationCompiler(),
+                new ValidationDialogCompiler());
         b.packs(new N2oInvocationV2ReadersPack());
     }
 }

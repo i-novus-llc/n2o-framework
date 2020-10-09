@@ -91,7 +91,8 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyChildren(e, null, t::getInlineValidations, t::setInlineValidations, p.oneOf(N2oValidation.class)
                 .add("constraint", N2oConstraint.class, this::constraint)
                 .add("condition", N2oValidationCondition.class, this::condition)
-                .add("mandatory", N2oMandatory.class, this::mandatory));
+                .add("mandatory", N2oMandatory.class, this::mandatory)
+                .add("dialog", N2oValidationDialog.class, this::dialog));
     }
 
     private void inParam(Element e, N2oObject.Parameter t, IOProcessor p) {
