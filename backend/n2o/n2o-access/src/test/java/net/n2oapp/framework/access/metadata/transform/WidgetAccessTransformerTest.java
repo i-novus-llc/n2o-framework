@@ -41,10 +41,10 @@ public class WidgetAccessTransformerTest extends SourceCompileTestBase {
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testRegion");
 
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testRegion.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testRegionAccessTransformer.page.xml");
+                "net/n2oapp/framework/access/metadata/transform/testPageV2AccessTransformer.page.xml");
 
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testRegionAccessTransformer"));
+                .get(new PageContext("testPageV2AccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getProperties()
@@ -59,13 +59,13 @@ public class WidgetAccessTransformerTest extends SourceCompileTestBase {
 
     @Test
     public void testWidgetAccessV2() {
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testRegionV2");
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testPageV2");
 
-        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testRegionV2.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testRegionAccessTransformer.page.xml");
+        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testPageV2.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testPageV2AccessTransformer.page.xml");
 
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testRegionAccessTransformer"));
+                .get(new PageContext("testPageV2AccessTransformer"));
 
         Security.SecurityObject securityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
                 .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");

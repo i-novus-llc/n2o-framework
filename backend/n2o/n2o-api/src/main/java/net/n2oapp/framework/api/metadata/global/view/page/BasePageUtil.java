@@ -22,26 +22,14 @@ import java.util.stream.Collectors;
 public class BasePageUtil {
 
     /**
-     * Получение виджетов скомпилированной страницы
+     * Получение всех виджетов скомпилированной страницы
      *
      * @param page Клиентская модель стандартной страницы
      * @return Список виджетов
      */
     public static List<Widget> getCompiledWidgets(StandardPage page) {
-        List<Widget> widgets = new ArrayList<>();
         List<Region> regions = page.getRegions().values().stream().flatMap(Collection::stream).collect(Collectors.toList());
-        for (Region r : regions) {
-            if (r instanceof Itemable) {
-                Itemable<RegionItem> region = (Itemable) r;
-                if (region.getItems() != null)
-                    for (RegionItem regionItem : region.getItems())
-                        widgets.addAll(getRegionWidgets(regionItem.getContent()));
-            } else {
-                if (r.getContent() != null)
-                    widgets.addAll(getRegionWidgets(r.getContent()));
-            }
-        }
-        return widgets;
+        return new ArrayList<>(getRegionWidgets(regions));
     }
 
     /**
@@ -51,7 +39,7 @@ public class BasePageUtil {
      * @param items Список элементов региона (вложенные регионы и виджеты)
      * @return Список виджетов региона
      */
-    private static List<Widget> getRegionWidgets(List<Compiled> items) {
+    private static List<Widget> getRegionWidgets(List<? extends Compiled> items) {
         List<Widget> widgets = new ArrayList<>();
         for (Compiled i : items)
             if (i instanceof Widget)
