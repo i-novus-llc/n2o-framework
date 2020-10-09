@@ -19,7 +19,6 @@ import { insertDialog } from '../actions/overlays';
 import { id } from '../utils/id';
 import { CALL_ALERT_META } from '../constants/meta';
 import { dataProviderResolver } from '../core/dataProviderResolver';
-
 import { destroyOverlay } from '../actions/overlays';
 
 export function* alertEffect(action) {
