@@ -18,6 +18,7 @@ import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.toolbar.ToolbarCell;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
@@ -70,6 +71,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(0).getStyle().get("paddingTop"), is("0"));
         assertThat(table.getToolbar().get("topLeft").get(0).getButtons().get(1).getId(), is("subMenu1"));
+        assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getShowToggleIcon(), is(true));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getId(), is("testAction2"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("paddingTop"), is("0"));
@@ -130,7 +132,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
                 .get(new WidgetContext("testTable4SortableCompile"));
         assertThat(table.getId(), is("$testTable4SortableCompile"));
-        assertThat(table.getComponent().getHeaders().size(), is(5));
+        assertThat(table.getComponent().getHeaders().size(), is(6));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
 
         assertThat(headers.get(0).getId(), is("id"));
@@ -308,11 +310,21 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
                 .get(new WidgetContext("testTable4SortableCompile"));
         assertThat(table.getId(), is("$testTable4SortableCompile"));
-        assertThat(table.getComponent().getHeaders().size(), is(5));
+        assertThat(table.getComponent().getHeaders().size(), is(6));
         List<ColumnHeader> headers = table.getComponent().getHeaders();
 
         assertThat(headers.get(0).getWidth(), is("100"));
         assertThat(headers.get(1).getWidth(), nullValue());
+    }
+
+    @Test
+    public void testColumnsSubmenu() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTable4SortableCompile.widget.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
+                .get(new WidgetContext("testTable4SortableCompile"));
+        assertThat(table.getId(), is("$testTable4SortableCompile"));
+        assertThat(table.getComponent().getHeaders().size(), is(6));
+        assertThat(((Submenu)((ToolbarCell)table.getComponent().getCells().get(5)).getToolbar().get(0).getButtons().get(0)).getShowToggleIcon(), is(false));
     }
 
     @Test
