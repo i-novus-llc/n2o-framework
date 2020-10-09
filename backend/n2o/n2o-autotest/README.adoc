@@ -22,32 +22,30 @@
 <dependency>
     <groupId>net.n2oapp.framework</groupId>
     <artifactId>n2o-autotest</artifactId>
-</dependency>
-
-<dependency>
-    <groupId>io.qameta.allure</groupId>
-    <artifactId>allure-junit5</artifactId>
-    <version>2.13.3</version>
-    <scope>test</scope>
-</dependency>
-
-<dependency>
-    <groupId>io.qameta.allure</groupId>
-    <artifactId>allure-selenide</artifactId>
-    <version>2.13.3</version>
-    <scope>test</scope>
+    <version>${n2o.version}</version>
 </dependency>
 ----
 
 
-Страницы N2O ожно тестировать разными способами:
+Страницы N2O можно тестировать разными способами:
+
+==== Используя паттерн Page Object
+Для тестирования страниц в Selenide принято использовать https://selenide.gitbooks.io/user-guide/content/ru/pageobjects.html[PageObject подход].
+
+
+
+
+
+
 
 ==== Через api `n2o-autotest`, для этого необходимо:
-- написать свой класс, который будет наследником AutoTestBase, в котором уже есть настройки для Selenide.
-- в нем на стадии `@BeforeAll` вызвать `configureSelenide();`
-- на стадии `@BeforeEach` вызвать `super.setUp();`
-- переопределить метод `void configure(N2oApplicationBuilder builder)` где в builder добавить все необходимые pack
-- в методе теста в builder добавить необходимые файлы исходников
+<1> написать свой класс, который будет наследником AutoTestBase, в котором уже есть настройки для Selenide.
+<2> в нем на стадии `@BeforeAll` вызвать `configureSelenide();`
+<3> на стадии `@BeforeEach` вызвать `super.setUp();`
+<4> переопределить метод `void configure(N2oApplicationBuilder builder)` где в builder добавить все необходимые MetadataPack(это
+наборы сервисов для сборки определенных коллекций метаданных)
+<5> в методе теста в builder добавить необходимые файлы исходников
+
 Пример автотеста:
 [source,xml]
 ----
@@ -77,23 +75,20 @@ public class AlertAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        ......
-        тест
-        ......
-
+        ...
     }
 }
 ----
 
 Если функций описанных в библиотеке недостаточно всегда можно переключиться на "нативное" тестирование через Selenide,
 для этого у любого компонента получить SelenideElement, вызвав метод `element()`, и уже у него получить любой объект,
-используя селекторы .$ .$$
+используя селекторы `.$ .$$`. Пример:
+[source,xml]
+----
+Alert alert = page.single().widget(FormWidget.class).snippet(0, Alert.class);
+alert.element().$(".inner-message").should(Condition.exist);
+----
 
-
-==== Используя паттерн Page Object
-Для тестирования страниц в Selenide принято использовать https://selenide.gitbooks.io/user-guide/content/ru/pageobjects.html[PageObject подход].
-Он используется в `n2o-autotest`, но для своих страниц  и всех внутренних элементов можно описывать свои классы.
-В этом случае наследоваться от AutoTestBase не имеет смысла.
 
 
 == Кастомизация
