@@ -1,20 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import pull from 'lodash/pull';
-import isNil from 'lodash/isNil';
+
 import { compose, setDisplayName } from 'recompose';
 import withRegionContainer from '../withRegionContainer';
 import Tabs from './Tabs';
 import Tab from './Tab';
 import withWidgetProps from '../withWidgetProps';
-import { WIDGETS } from '../../../core/factory/factoryLevels';
 
-import Factory from '../../../core/factory/Factory';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 
 import RegionContent from '../RegionContent';
@@ -54,6 +53,7 @@ class TabRegion extends React.Component {
       find(tabs, ({ id: tabId }) => tabId === id),
       'widgetId'
     );
+
     const widgetProps = getWidgetProps(widgetId);
 
     if (lazy) {
@@ -85,7 +85,6 @@ class TabRegion extends React.Component {
   render() {
     const {
       tabs,
-      getWidget,
       getWidgetProps,
       getVisible,
       pageId,
@@ -93,6 +92,7 @@ class TabRegion extends React.Component {
       activeEntity,
       className,
     } = this.props;
+
     const { readyTabs, visibleTabs } = this.state;
     return (
       <Tabs
@@ -100,15 +100,13 @@ class TabRegion extends React.Component {
         activeId={activeEntity}
         onChangeActive={this.handleChangeActive}
       >
-        {tabs.map(tab => {
+        {map(tabs, tab => {
           const { security, content } = tab;
 
           const widgetProps = getWidgetProps(tab.widgetId);
-          const widgetMeta = getWidget(pageId, tab.widgetId);
           const dependencyVisible = getVisible(pageId, tab.widgetId);
           const widgetVisible = get(widgetProps, 'isVisible', true);
           const tabVisible = get(visibleTabs, tab.widgetId, true);
-          const tabHasContent = !isNil(content);
 
           const tabProps = {
             key: tab.id,
@@ -118,16 +116,17 @@ class TabRegion extends React.Component {
             active: tab.opened,
             visible: dependencyVisible && widgetVisible && tabVisible,
           };
+
           const tabEl = (
             <Tab {...tabProps}>
               {lazy ? (
                 readyTabs.includes(tab.id) && (
-                  <Factory id={tab.widgetId} level={WIDGETS} {...widgetMeta} />
+                  <RegionContent
+                    content={content}
+                    tabSubContentClass={'tab-sub-content'}
+                  />
                 )
               ) : (
-                <Factory id={tab.widgetId} level={WIDGETS} {...widgetMeta} />
-              )}
-              {tabHasContent && (
                 <RegionContent
                   content={content}
                   tabSubContentClass={'tab-sub-content'}
@@ -171,6 +170,10 @@ TabRegion.propTypes = {
    */
   tabs: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
+  /**
+   * контент Tab, (регион или виджет)
+   */
+  content: PropTypes.array,
   /**
    * ID странцы
    */
