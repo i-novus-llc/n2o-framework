@@ -10,6 +10,8 @@ import { getFormValues } from 'redux-form';
 
 import isFunction from 'lodash/isFunction';
 import get from 'lodash/get';
+import has from 'lodash/has';
+import keys from 'lodash/keys';
 
 import merge from 'deepmerge';
 
@@ -140,7 +142,8 @@ export function* handleInvoke(apiProvider, action) {
 
   const state = yield select();
   const optimistic = get(dataProvider, 'optimistic', false);
-  const buttonIds = !optimistic ? Object.keys(state.toolbar[pageId]) : [];
+  const buttonIds =
+    !optimistic && has(state, 'toolbar') ? keys(state.toolbar[pageId]) : [];
 
   try {
     if (!dataProvider) {
