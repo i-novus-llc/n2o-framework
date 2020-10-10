@@ -20,6 +20,7 @@ public class TabsRegionIOv2 extends AbstractRegionIOv2<N2oTabsRegion> {
         p.attributeBoolean(e, "lazy", r::getLazy, r::setLazy);
         p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
         p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
+        p.attributeBoolean(e, "hide-single-tab", r::getHideSingleTab, r::setHideSingleTab);
         p.children(e, null, "tab", r::getTabs, r::setTabs, N2oTabsRegion.Tab::new, this::tabs);
         p.anyAttributes(e, r::getExtAttributes, r::setExtAttributes);
     }

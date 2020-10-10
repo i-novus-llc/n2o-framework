@@ -42,6 +42,8 @@ public class TabsRegionCompiler extends BaseRegionCompiler<TabsRegion, N2oTabsRe
         region.setItems(initItems(source, indexScope, pageWidgetsScope, context, p));
         region.setAlwaysRefresh(source.getAlwaysRefresh() != null ? source.getAlwaysRefresh() : false);
         region.setLazy(p.cast(source.getLazy(), p.resolve(property("n2o.api.region.tabs.lazy"), Boolean.class)));
+        region.setHideSingleTab(p.cast(source.getHideSingleTab(),
+                p.resolve(property("n2o.api.region.tabs.hide_single_tab"), Boolean.class)));
         compileTabsRoute(source, region.getId(), p);
         return region;
     }

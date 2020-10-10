@@ -49,6 +49,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(tabs.getSrc(), is("TabsRegion"));
         assertThat(tabs.getAlwaysRefresh(), is(false));
         assertThat(tabs.getLazy(), is(true));
+        assertThat(tabs.getHideSingleTab(), is(false));
         List<TabsRegion.Tab> items = tabs.getItems();
         assertThat(items.size(), is(3));
         assertThat(items.get(0).getOpened(), is(true));
@@ -58,6 +59,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         tabs = (TabsRegion) page.getRegions().get("single").get(1);
         assertThat(tabs.getAlwaysRefresh(), is(true));
         assertThat(tabs.getLazy(), is(false));
+        assertThat(tabs.getHideSingleTab(), is(true));
     }
 
     @Test
