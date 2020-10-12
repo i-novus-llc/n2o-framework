@@ -1,22 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import map from 'lodash/map';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import pull from 'lodash/pull';
-
 import { compose, setDisplayName } from 'recompose';
-import withRegionContainer from '../withRegionContainer';
-import Tabs from './Tabs';
-import Tab from './Tab';
-import withWidgetProps from '../withWidgetProps';
 
 import SecurityCheck from '../../../core/auth/SecurityCheck';
 
+import withRegionContainer from '../withRegionContainer';
+import withWidgetProps from '../withWidgetProps';
 import RegionContent from '../RegionContent';
+
+import Tabs from './Tabs';
+import Tab from './Tab';
 
 /**
  * Регион Таб
@@ -104,9 +103,9 @@ class TabRegion extends React.Component {
           const { security, content } = tab;
 
           const widgetProps = getWidgetProps(tab.widgetId);
-          const dependencyVisible = getVisible(pageId, tab.widgetId);
+          const dependencyVisible = getVisible(pageId, tab.id);
           const widgetVisible = get(widgetProps, 'isVisible', true);
-          const tabVisible = get(visibleTabs, tab.widgetId, true);
+          const tabVisible = get(visibleTabs, tab.id, true);
 
           const tabProps = {
             key: tab.id,
@@ -116,7 +115,6 @@ class TabRegion extends React.Component {
             active: tab.opened,
             visible: dependencyVisible && widgetVisible && tabVisible,
           };
-
           const tabEl = (
             <Tab {...tabProps}>
               {lazy ? (
@@ -134,12 +132,11 @@ class TabRegion extends React.Component {
               )}
             </Tab>
           );
-
           const onPermissionsSet = permissions => {
             this.setState(prevState => ({
               visibleTabs: {
                 ...prevState.visibleTabs,
-                [tab.widgetId]: !!permissions,
+                [tab.id]: !!permissions,
               },
             }));
           };
