@@ -259,10 +259,18 @@
 
     <xs:complexType name="operationInParameterField">
         <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Входящий параметр операции.</xs:documentation>
+            </xs:annotation>
             <xs:extension base="operationOutParameterField">
                 <xs:attribute name="param" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Параметр содержащий url</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="validation-fail-key" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Код ошибки валидации с сервера.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -270,49 +278,52 @@
     </xs:complexType>
 
     <xs:complexType name="operationOutParameterField">
+        <xs:annotation>
+            <xs:documentation>Исходящий параметр операции.</xs:documentation>
+        </xs:annotation>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
-                <xs:documentation>Идентификатор</xs:documentation>
+                <xs:documentation>Идентификатор параметра.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="default-value" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Значение по умолчанию</xs:documentation>
+                <xs:documentation>Значение по умолчанию.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="domain" type="dmn:domainType" use="optional">
+        <xs:attribute name="domain" type="dmn:domainType">
             <xs:annotation>
-                <xs:documentation>Тип данных</xs:documentation>
+                <xs:documentation>Тип данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="normalize" type="xs:string" use="optional">
+        <xs:attribute name="normalize" type="xs:string">
             <xs:annotation>
-                <xs:documentation>SpEL выражение, применяемое к значению перед маппингом</xs:documentation>
+                <xs:documentation>SpEL выражение, применяемое к значению перед маппингом.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="mapper" type="mapperDefinition" use="optional">
+        <xs:attribute name="mapper" type="mapperDefinition">
             <xs:annotation>
-                <xs:documentation>Способ маппинга в параметры провайдера</xs:documentation>
+                <xs:documentation>Способ маппинга в параметры провайдера.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="mapping" type="xs:string" use="optional">
+        <xs:attribute name="mapping" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Маппинг значения в сущность или провайдер данных</xs:documentation>
+                <xs:documentation>Маппинг значения в сущность или провайдер данных.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="required" type="xs:boolean" use="optional">
+        <xs:attribute name="required" type="xs:boolean">
             <xs:annotation>
-                <xs:documentation>Обязательность поля</xs:documentation>
+                <xs:documentation>Обязательность поля.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="mapping-condition" type="xs:string" use="optional">
+        <xs:attribute name="mapping-condition" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Условие, при котором должен быть выполнен маппинг</xs:documentation>
+                <xs:documentation>Условие, при котором должен быть выполнен маппинг.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="entity-class" type="xs:string" use="optional">
+        <xs:attribute name="entity-class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Класс, которому соответствует параметр</xs:documentation>
+                <xs:documentation>Класс, которому соответствует параметр.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>
