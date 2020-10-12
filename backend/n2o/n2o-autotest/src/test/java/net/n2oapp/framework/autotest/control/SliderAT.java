@@ -42,7 +42,7 @@ public class SliderAT extends AutoTestBase {
 
     @Test
     public void testSlider() {
-        Slider slider = page.single().widget(FormWidget.class).fields().field("Slider1")
+        Slider slider = page.widget(FormWidget.class).fields().field("Slider1")
                 .control(Slider.class);
         slider.shouldExists();
 
@@ -55,7 +55,7 @@ public class SliderAT extends AutoTestBase {
 
     @Test
     public void testVerticalSlider() {
-        Slider slider = page.single().widget(FormWidget.class).fields().field("Slider2")
+        Slider slider = page.widget(FormWidget.class).fields().field("Slider2")
                 .control(Slider.class);
         slider.shouldExists();
 
@@ -68,7 +68,7 @@ public class SliderAT extends AutoTestBase {
 
     @Test
     public void testRangeModeSlider() {
-        Slider slider = page.single().widget(FormWidget.class).fields().field("Slider3")
+        Slider slider = page.widget(FormWidget.class).fields().field("Slider3")
                 .control(Slider.class);
         slider.shouldExists();
 

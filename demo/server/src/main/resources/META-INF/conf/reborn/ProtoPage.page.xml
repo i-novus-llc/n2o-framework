@@ -11,7 +11,7 @@
         </button>
     </toolbar>
     <left width="60%">
-        <panel place="left" header="true" collapsible="false" title="Данные клиента">
+        <panel place="left" collapsible="false" title="Данные клиента">
             <table id="clients" name="Клиенты" query-id="ProtoClient" size="10" selection="checkbox" route="/">
                 <actions>
                     <action id="update_birthday">

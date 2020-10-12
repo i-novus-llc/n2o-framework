@@ -33,7 +33,7 @@
 
 |page
 |Страница
-|http://n2oapp.net/framework/config/schema/page-2.0
+|http://n2oapp.net/framework/config/schema/page-3.0
 |N2oPage
 
 |widget
@@ -208,7 +208,7 @@ page.widget.name = 'Моя страница на groovy'
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
   xmlns:ext="http://myproject.net/config/schema/ext-props-1.0"
   ext:prop1="value1"
   ext:prop2="value2">

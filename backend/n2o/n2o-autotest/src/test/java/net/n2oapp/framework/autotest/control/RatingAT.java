@@ -43,7 +43,7 @@ public class RatingAT extends AutoTestBase {
 
     @Test
     public void testRating() {
-        Rating rating = page.single().widget(FormWidget.class).fields().field("Rating1")
+        Rating rating = page.widget(FormWidget.class).fields().field("Rating1")
                 .control(Rating.class);
         rating.shouldExists();
 
@@ -54,7 +54,7 @@ public class RatingAT extends AutoTestBase {
 
     @Test
     public void testRatingWithHalf() {
-        Rating rating = page.single().widget(FormWidget.class).fields().field("Rating2")
+        Rating rating = page.widget(FormWidget.class).fields().field("Rating2")
                 .control(Rating.class);
         rating.shouldExists();
 

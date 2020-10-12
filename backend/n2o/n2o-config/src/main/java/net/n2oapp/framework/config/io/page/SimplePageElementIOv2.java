@@ -50,6 +50,4 @@ public class SimplePageElementIOv2 implements NamespaceIO<N2oSimplePage> {
     public void setWidgetDefaultNamespace(String widgetDefaultNamespace) {
         this.widgetDefaultNamespace = Namespace.getNamespace(widgetDefaultNamespace);
     }
-
-
 }

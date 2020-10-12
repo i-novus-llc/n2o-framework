@@ -50,7 +50,7 @@ public class FilterColumnAT extends AutoTestBase {
 
     @Test
     public void testFilterColumn() {
-        TableWidget table = page.single().widget(TableWidget.class);
+        TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
 
         TableWidget.Rows rows = table.columns().rows();

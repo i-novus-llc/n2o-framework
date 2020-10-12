@@ -42,7 +42,7 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testAutoComplete() {
-        AutoComplete autoComplete = page.single().widget(FormWidget.class).fields().field("AutoComplete1")
+        AutoComplete autoComplete = page.widget(FormWidget.class).fields().field("AutoComplete1")
                 .control(AutoComplete.class);
         autoComplete.shouldExists();
 
@@ -62,7 +62,7 @@ public class AutoCompleteAT extends AutoTestBase {
 
     @Test
     public void testTags() {
-        AutoComplete autoComplete = page.single().widget(FormWidget.class).fields().field("AutoComplete2")
+        AutoComplete autoComplete = page.widget(FormWidget.class).fields().field("AutoComplete2")
                 .control(AutoComplete.class);
         autoComplete.shouldExists();
 
