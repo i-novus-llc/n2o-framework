@@ -171,7 +171,7 @@ class InputMask extends React.Component {
   componentDidUpdate(prevProps) {
     const { value } = this.props;
 
-    if (!isEqual(prevProps.value, value)) {
+    if (!isEqual(prevProps.value, value) && this._isValid(value)) {
       this.setState({ value });
     }
 
