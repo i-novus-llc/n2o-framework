@@ -9,7 +9,7 @@ i18n
   .use(intervalPlural)
   .init({
     resources,
-    lng: 'en',
+    lng: 'ru',
 
     keySeparator: false, // we do not use keys in form messages.welcome
 

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import pick from 'lodash/pick';
 import { compose, withContext, defaultProps, withProps } from 'recompose';
-import { IntlProvider, addLocaleData } from 'react-intl';
 import { withTranslation } from 'react-i18next';
 import './i18n';
 
@@ -20,15 +19,12 @@ import SecurityProvider from './core/auth/SecurityProvider';
 
 import Router from './components/core/Router';
 
-import ruLocaleData from 'react-intl/locale-data/ru';
 import Application from './components/core/Application';
 import { HeaderFooterTemplate } from './components/core/templates';
 import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb';
 import globalFnDate from './utils/globalFnDate';
 import configureErrorPages from './components/errors';
 import locales from './locales';
-
-addLocaleData(ruLocaleData);
 
 const { version } = packageJson;
 
@@ -74,15 +70,10 @@ class N2o extends Component {
             locales={locales}
             customLocales={customLocales}
             realTimeConfig={realTimeConfig}
-            render={({ locale, messages }) => (
-              <IntlProvider locale={locale} messages={messages}>
-                <FactoryProvider
-                  config={config}
-                  securityBlackList={['actions']}
-                >
-                  <Router embeddedRouting={embeddedRouting}>{children}</Router>
-                </FactoryProvider>
-              </IntlProvider>
+            render={() => (
+              <FactoryProvider config={config} securityBlackList={['actions']}>
+                <Router embeddedRouting={embeddedRouting}>{children}</Router>
+              </FactoryProvider>
             )}
           />
         </SecurityProvider>

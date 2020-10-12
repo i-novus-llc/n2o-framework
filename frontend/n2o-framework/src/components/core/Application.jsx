@@ -57,9 +57,11 @@ export default compose(
   withContext(
     {
       getFromConfig: PropTypes.func,
+      configLocale: PropTypes.string,
     },
     props => ({
       getFromConfig: key => get(props, key),
+      configLocale: props.locale,
     })
   ),
   getContext({
@@ -94,6 +96,7 @@ export default compose(
     },
     componentDidUpdate(prevProps) {
       const { locale, i18n } = this.props;
+      console.warn('props >', this.props);
       if (prevProps.locale !== locale) {
         i18n.changeLanguage(locale);
       }

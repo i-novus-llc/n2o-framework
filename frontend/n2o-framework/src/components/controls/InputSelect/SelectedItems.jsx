@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getContext } from 'recompose';
 import map from 'lodash/map';
 
 /**
@@ -21,6 +22,7 @@ function InputElements({
   lengthToGroup,
   onDeleteAll,
   setRef,
+  t,
 }) {
   const selectedItem = (id, title, callback) => (
     <span key={id} className="selected-item n2o-multiselect" title={title}>
@@ -39,7 +41,7 @@ function InputElements({
   const selectedList = () => {
     if (collapseSelected && selected.length > lengthToGroup) {
       const id = selected.length;
-      const title = `Выбрано ${selected.length}`;
+      const title = `${t('selected')} ${selected.length}`;
 
       return selectedItem(id, title, onDeleteAll);
     }
@@ -70,4 +72,4 @@ InputElements.propTypes = {
   disabled: PropTypes.bool,
 };
 
-export default InputElements;
+export default getContext({ t: PropTypes.func })(InputElements);

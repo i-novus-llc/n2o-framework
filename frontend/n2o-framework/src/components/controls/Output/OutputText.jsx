@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { getContext } from 'recompose';
 import isEqual from 'lodash/isEqual';
 import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
@@ -27,6 +28,7 @@ const TypesComponents = {
     showFullText,
     preLine,
     isOpen,
+    t,
   }) => (
     <Fragment>
       {icon && <Icon className="icon" name={icon} />}
@@ -34,7 +36,7 @@ const TypesComponents = {
         <Text text={value} format={format} preLine={preLine} />
         {expandable && (
           <a href="#" onClick={showFullText} className="details-label">
-            {isOpen ? 'Скрыть' : 'Подробнее'}
+            {isOpen ? t('hide') : t('details')}
           </a>
         )}
       </div>
@@ -184,4 +186,4 @@ OutPutText.defaultProps = {
   expandable: false,
 };
 
-export default OutPutText;
+export default getContext({ t: PropTypes.func })(OutPutText);

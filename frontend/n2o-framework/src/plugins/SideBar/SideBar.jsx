@@ -11,7 +11,7 @@ import {
   withState,
   lifecycle,
   withHandlers,
-  setDisplayName,
+  setDisplayName, getContext,
 } from 'recompose';
 
 /**
@@ -42,6 +42,7 @@ export function SideBar({
   onToggle,
   extra,
   homePageUrl,
+  t,
 }) {
   const renderItems = items =>
     map(items, (item, i) => (
@@ -99,7 +100,7 @@ export function SideBar({
               >
                 <i className="fa fa-angle-double-left" />
               </span>
-              {visible && <span>Скрыть</span>}
+              {visible && <span>{t('hide')}</span>}
             </span>
           </div>
         )}
@@ -162,6 +163,7 @@ SideBar.defaultProps = {
 };
 
 export default compose(
+  getContext({ t: PropTypes.func }),
   setDisplayName('Sidebar'),
   withState('visible', 'setVisible', ({ visible }) => visible),
   withHandlers({

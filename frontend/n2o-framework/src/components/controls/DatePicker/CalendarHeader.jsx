@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import 'moment/locale/ru';
+import 'moment/locale/en-gb';
+// import 'moment/locale/ru';
 import { getContext } from 'recompose';
 
 import { withLocale } from './utils';
@@ -27,6 +28,7 @@ class CalendarHeader extends React.Component {
   }
 
   renderHeaderValue(type = Calendar.BY_DAYS, displayesMonth, locale) {
+    console.warn('value >', displayesMonth, locale);
     if (type === Calendar.BY_DAYS) {
       return (
         <React.Fragment>
@@ -54,7 +56,7 @@ class CalendarHeader extends React.Component {
         </React.Fragment>
       );
     } else if (type === Calendar.BY_MONTHS) {
-      return displayesMonth.format('YYYY');
+      return withLocale(displayesMonth, locale).format('MMMM');
     } else if (type === Calendar.BY_YEARS) {
       const decadeStart = parseInt(+displayesMonth.format('YYYY') / 10) * 10;
       return (
@@ -77,7 +79,7 @@ class CalendarHeader extends React.Component {
             e.preventDefault();
           }}
         >
-          {this.props.t('chooseDate')}
+          {/*{this.props.t('chooseTime')}*/}
         </a>
       );
     }
@@ -173,4 +175,4 @@ CalendarHeader.propTypes = {
   calendarType: PropTypes.string,
 };
 
-export default getContext({ t: PropTypes.func })(CalendarHeader);
+export default CalendarHeader;

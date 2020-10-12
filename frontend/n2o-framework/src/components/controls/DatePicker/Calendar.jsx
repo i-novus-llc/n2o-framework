@@ -111,7 +111,7 @@ class Calendar extends React.Component {
         prevDecade={prevDecade}
         displayesMonth={displayesMonth}
         setValue={setValue}
-        locale={locale}
+        locale={'en'}
         calendarType={calendarType}
         changeCalendarType={changeCalendarType}
       />
@@ -616,7 +616,7 @@ Calendar.defaultProps = {
     hours: 0,
   },
   placement: 'bottom',
-  locale: 'ru',
+  locale: 'en',
   clock: true,
 };
 
@@ -637,4 +637,4 @@ Calendar.propTypes = {
   }),
 };
 
-export default getContext({ t: PropTypes.func })(Calendar);
+export default Calendar;

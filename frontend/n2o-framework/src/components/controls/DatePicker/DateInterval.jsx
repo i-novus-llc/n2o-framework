@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import defaults from 'lodash/defaults';
 import DateTimeControl from './DateTimeControl';
-import isNull from 'lodash/isNull';
+import { getContext, compose, withProps } from 'recompose';
 
 /**
  * Компонент для выбора временного интервала. Состоит 2 {@link DatePicker}
@@ -28,6 +28,7 @@ function DateInterval({
   defaultValue,
   onChange,
   onBlur,
+  config,
   ...rest
 }) {
   const newValue = defaults(value, defaultValue);

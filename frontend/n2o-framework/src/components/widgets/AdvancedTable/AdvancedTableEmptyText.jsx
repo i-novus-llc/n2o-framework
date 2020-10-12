@@ -1,13 +1,11 @@
 import React from 'react';
-import { getContext } from 'recompose';
-import PropTypes from 'prop-types';
 
 /**
  * Компонент отображения отсутствия данных
  * @returns {*}
  * @constructor
  */
-function AdvancedTableEmptyText({ t }) {
+function AdvancedTableEmptyText(t) {
   return (
     <span className="d-flex justify-content-center text-muted">
       {t('noData')}
@@ -15,4 +13,4 @@ function AdvancedTableEmptyText({ t }) {
   );
 }
 
-export default getContext({ t: PropTypes.func })(AdvancedTableEmptyText);
+export default AdvancedTableEmptyText;

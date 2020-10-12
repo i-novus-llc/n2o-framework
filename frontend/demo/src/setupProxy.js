@@ -1,10 +1,10 @@
 const proxy = require("http-proxy-middleware");
 
 module.exports = function(app) {
-  app.post('/n2o/locale', (req, res) => {
-    res.status(200);
-    res.send();
-  });
+  // app.post('/n2o/locale', (req, res) => {
+  //   res.status(200);
+  //   res.send();
+  // });
 
   app.get("/n2o/config", (req, res) => {
     res.send({
@@ -30,7 +30,8 @@ module.exports = function(app) {
           }
         ],
         extraItems: []
-      }
+      },
+      locale: 'en'
     });
   });
 

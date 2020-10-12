@@ -17,4 +17,16 @@ export default {
   uploadFile: 'Загрузить файл',
   save: 'Сохранить',
   rub: 'руб',
+  nothingFound: 'Ничего не найдено',
+  selected: 'Выбрано',
+  hide: 'Скрыть',
+  details: 'Подробнее',
+  pageNotFound: 'Страница не найдена',
+  accessDenied: 'Доступ запрещён',
+  innerAppError: 'Внутренняя ошибка приложения',
+  routerError:
+    'Нужно добавить {{page}} в компонент {{n2o}} или включить {{embeddedRouting}}.',
+  pagesNotConfigured: 'Страницы не настроены',
+  loading: 'Загрузка',
+  panelFullScreenHelp: 'ESC - выход из полноэкранного режима',
 };

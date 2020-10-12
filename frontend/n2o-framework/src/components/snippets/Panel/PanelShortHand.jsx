@@ -5,6 +5,7 @@ import {
   withHandlers,
   withState,
   defaultProps,
+  getContext,
   setDisplayName,
 } from 'recompose';
 import PropTypes from 'prop-types';
@@ -61,6 +62,7 @@ function PanelContainer({
   toggleCollapse,
   handleKeyPress,
   innerRef,
+  t,
 }) {
   const fullScreenIcon = fullScreenState ? 'fa-compress' : 'fa-expand';
 
@@ -75,6 +77,7 @@ function PanelContainer({
       isFullScreen={fullScreenState}
       onKeyPress={handleKeyPress}
       innerRef={innerRef}
+      t={t}
     >
       {header && (
         <Panel.Heading>
@@ -170,6 +173,7 @@ PanelContainer.propTypes = {
 
 export default compose(
   setDisplayName('Panel'),
+  getContext({ t: PropTypes.func }),
   defaultProps({
     open: true,
     collapsible: false,

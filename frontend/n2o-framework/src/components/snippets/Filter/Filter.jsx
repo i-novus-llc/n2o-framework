@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { getContext } from 'recompose';
 import cx from 'classnames';
 import Buttons from './Buttons';
 
@@ -33,11 +34,12 @@ class Filter extends React.Component {
 
   render() {
     const {
+      t,
       className,
       style,
       visible,
-      resetLabel,
-      searchLabel,
+      resetLabel = t('reset'),
+      searchLabel = t('search'),
       hideButtons,
       children,
     } = this.props;
@@ -94,9 +96,7 @@ Filter.defaultProps = {
   visible: true,
   style: {},
   className: '',
-  searchLabel: 'Найти',
-  resetLabel: 'Сбросить',
   hideButtons: false,
 };
 
-export default Filter;
+export default getContext({ t: PropTypes.func })(Filter);
