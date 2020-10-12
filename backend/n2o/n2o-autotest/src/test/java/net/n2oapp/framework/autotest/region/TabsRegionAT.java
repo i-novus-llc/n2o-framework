@@ -59,6 +59,15 @@ public class TabsRegionAT extends AutoTestBase {
         tabs.tab(0).shouldNotBeActive();
         tabs.tab(1).shouldNotBeActive();
         tabs.tab(2).shouldBeActive();
+
+        TabsRegion tabs2 = page.regions().region(1, TabsRegion.class);
+        // hiding single tab
+        tabs2.shouldHaveSize(0);
+
+        TabsRegion tabs3 = page.regions().region(2, TabsRegion.class);
+        tabs3.shouldHaveSize(1);
+        tabs3.tab(0).shouldHaveText("SingleTab");
+        tabs3.tab(0).content().widget(FormWidget.class).shouldExists();
     }
 
     @Test
