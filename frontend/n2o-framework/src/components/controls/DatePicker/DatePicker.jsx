@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { getContext } from 'recompose';
 
 import DateTimeControl from './DateTimeControl';
 
@@ -40,7 +41,7 @@ DatePicker.defaultProps = {
   onFocus: () => {},
   onBlur: () => {},
   dateFormat: 'DD/MM/YYYY',
-  locale: 'ru',
+  configLocale: 'ru',
   placeholder: '',
   disabled: false,
   className: '',
@@ -110,7 +111,7 @@ DatePicker.propTypes = {
   /**
    * Placeholder
    */
-  locale: PropTypes.oneOf(['en', 'ru']),
+  configLocale: PropTypes.oneOf(['en', 'ru']),
   /**
    * Автофокус на контроле
    */
@@ -121,4 +122,7 @@ DatePicker.propTypes = {
   openOnFocus: PropTypes.bool,
 };
 
-export default DatePicker;
+export default getContext({
+  t: PropTypes.func,
+  configLocale: PropTypes.string,
+})(DatePicker);

@@ -40,6 +40,7 @@ class PopUp extends React.PureComponent {
       time,
       isTimeSet,
       type,
+      t,
     } = this.props;
 
     let minDate = inputName => {
@@ -74,6 +75,7 @@ class PopUp extends React.PureComponent {
               min={min}
               locale={locale}
               dateFormat={dateFormat}
+              t={t}
             />
           );
         })}
@@ -95,11 +97,12 @@ PopUp.propTypes = {
   placement: PropTypes.string,
   max: PropTypes.instanceOf(moment),
   min: PropTypes.instanceOf(moment),
-  locale: PropTypes.oneOf(['en', 'ru']),
+  locale: PropTypes.string,
   time: PropTypes.shape({
     mins: PropTypes.number,
     hours: PropTypes.number,
   }),
+  t: PropTypes.func,
 };
 
 export default onClickOutside(PopUp);

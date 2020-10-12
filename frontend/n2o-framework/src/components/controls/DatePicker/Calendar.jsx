@@ -14,7 +14,6 @@ import {
   hasInsideMixMax,
 } from './utils';
 import { ControlType } from './DateTimeControl';
-import { getContext } from 'recompose';
 
 /**
  * @reactProps {date} value
@@ -90,7 +89,7 @@ class Calendar extends React.Component {
    */
   renderHeader() {
     const { displayesMonth, calendarType } = this.state;
-    const { locale } = this.props;
+    const { locale, t } = this.props;
     const {
       nextMonth,
       nextYear,
@@ -111,9 +110,10 @@ class Calendar extends React.Component {
         prevDecade={prevDecade}
         displayesMonth={displayesMonth}
         setValue={setValue}
-        locale={'en'}
+        locale={locale}
         calendarType={calendarType}
         changeCalendarType={changeCalendarType}
+        t={t}
       />
     );
   }
@@ -616,7 +616,7 @@ Calendar.defaultProps = {
     hours: 0,
   },
   placement: 'bottom',
-  locale: 'en',
+  locale: 'ru',
   clock: true,
 };
 
@@ -635,6 +635,7 @@ Calendar.propTypes = {
     mins: PropTypes.number,
     hours: PropTypes.number,
   }),
+  t: PropTypes.func,
 };
 
 export default Calendar;

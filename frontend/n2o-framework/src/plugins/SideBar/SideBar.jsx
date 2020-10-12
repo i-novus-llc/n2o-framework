@@ -11,7 +11,8 @@ import {
   withState,
   lifecycle,
   withHandlers,
-  setDisplayName, getContext,
+  setDisplayName,
+  getContext,
 } from 'recompose';
 
 /**
