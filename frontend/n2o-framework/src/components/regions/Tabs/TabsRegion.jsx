@@ -23,6 +23,7 @@ import Tab from './Tab';
  * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {string} pageId - идентификатор страницы
  * @reactProps {function} resolveVisibleDependency - резол видимости таба
+ * @reactProps {function} hideSingleTab - скрывать / не скрывать навигацию таба, если он единственный
  */
 class TabRegion extends React.Component {
   constructor(props) {
@@ -90,18 +91,20 @@ class TabRegion extends React.Component {
       lazy,
       activeEntity,
       className,
+      hideSingleTab,
     } = this.props;
 
     const { readyTabs, visibleTabs } = this.state;
+
     return (
       <Tabs
         className={className && className}
         activeId={activeEntity}
         onChangeActive={this.handleChangeActive}
+        hideSingleTab={hideSingleTab}
       >
         {map(tabs, tab => {
           const { security, content } = tab;
-
           const widgetProps = getWidgetProps(tab.widgetId);
           const dependencyVisible = getVisible(pageId, tab.id);
           const widgetVisible = get(widgetProps, 'isVisible', true);
@@ -188,6 +191,7 @@ TabRegion.defaultProps = {
   alwaysRefresh: false,
   lazy: false,
   mode: 'single',
+  hideSingleTab: false,
 };
 
 export { TabRegion };
