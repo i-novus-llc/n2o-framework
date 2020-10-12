@@ -17,6 +17,8 @@ public class TabsRegion extends Region implements Itemable<TabsRegion.Tab> {
     private Boolean alwaysRefresh;
     @JsonProperty
     private Boolean lazy;
+    @JsonProperty
+    private Boolean hideSingleTab;
 
     @JsonProperty("tabs")
     private List<Tab> items;

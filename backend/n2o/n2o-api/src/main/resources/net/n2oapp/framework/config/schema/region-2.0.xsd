@@ -112,6 +112,13 @@
                 <xs:documentation>Восстановление активных вкладок по URL.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="hide-single-tab" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Скрытие единственной доступной вкладки и отображение только ее содержимого.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
 
         <xs:anyAttribute>
             <xs:annotation>

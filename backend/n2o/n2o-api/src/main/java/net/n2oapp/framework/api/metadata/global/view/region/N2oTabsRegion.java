@@ -21,6 +21,7 @@ public class N2oTabsRegion extends N2oRegion {
     private Boolean lazy;
     private String activeParam;
     private Boolean routable;
+    private Boolean hideSingleTab;
     private Tab[] tabs;
 
     @Getter

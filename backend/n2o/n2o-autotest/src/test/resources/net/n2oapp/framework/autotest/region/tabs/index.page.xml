@@ -12,5 +12,25 @@
                 <form name="form3"/>
             </tab>
         </tabs>
+
+        <tabs hide-single-tab="true">
+            <tab name="SingleTab">
+                <form>
+                    <fields>
+                        <input-text id="field1"/>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
+
+        <tabs>
+            <tab name="SingleTab">
+                <form>
+                    <fields>
+                        <input-text id="field2"/>
+                    </fields>
+                </form>
+            </tab>
+        </tabs>
     </regions>
 </page>

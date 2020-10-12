@@ -632,6 +632,11 @@ http://n2oapp.net/framework/config/schema/region-2.0
 |Восстановление активных вкладок по URL
 |true
 
+|hide-single-tab
+|true false
+|Скрытие единственной доступной вкладки и отображение только ее содержимого
+|false
+
 |===
 
 Пример::
