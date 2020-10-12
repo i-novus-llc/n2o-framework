@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AceEditor from 'react-ace';
 import cx from 'classnames';
+import isUndefined from 'lodash/isUndefined';
 
 import 'brace/mode/java';
 import 'brace/mode/groovy';
@@ -59,6 +60,9 @@ class CodeEditor extends React.Component {
       autocomplete,
       className,
     } = this.props;
+
+    const currentMaxLines = !isUndefined(maxLines) ? maxLines : minLines;
+
     return (
       visible && (
         <div
@@ -75,7 +79,7 @@ class CodeEditor extends React.Component {
             showGutter={true}
             readOnly={disabled}
             minLines={minLines}
-            maxLines={maxLines}
+            maxLines={currentMaxLines}
             highlightActiveLine={true}
             value={this.state.value}
             enableBasicAutocompletion={autocomplete}
