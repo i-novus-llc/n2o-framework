@@ -24,7 +24,7 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
             widgets.forEach(p::bind);
 
         if (page.getModels() != null) {
-            page.getModels().values().removeIf(entry -> p.canResolveParam(entry.getFieldId()));
+            page.getModels().values().removeIf(modelLink -> p.canResolveParam(modelLink.getFieldId()));
         }
 
         if (page.getRoutes() != null) {
