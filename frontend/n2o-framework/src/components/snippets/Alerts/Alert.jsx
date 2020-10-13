@@ -173,6 +173,7 @@ Alert.defaultProps = {
   onDismiss: () => {},
   position: 'relative',
   animate: false,
+  t: () => {},
 };
 
 Alert.propTypes = {

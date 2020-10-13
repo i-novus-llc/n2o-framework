@@ -62,6 +62,10 @@ function InputElements({
   );
 }
 
+InputElements.defaultProps = {
+  t: () => {},
+};
+
 InputElements.propTypes = {
   selected: PropTypes.array,
   labelFieldId: PropTypes.string,

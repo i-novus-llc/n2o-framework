@@ -359,6 +359,7 @@ List.propTypes = {
 List.defaultProps = {
   onItemClick: () => {},
   onFetchMore: () => {},
+  t: () => {},
   hasSelect: false,
   data: [],
   rowClick: false,
@@ -368,5 +369,7 @@ List.defaultProps = {
   rows: {},
   authProvider: authProvider,
 };
+
+export { List };
 
 export default getContext({ t: PropTypes.func })(List);

@@ -171,6 +171,10 @@ PanelContainer.propTypes = {
   onVisibilityChange: PropTypes.func,
 };
 
+PanelContainer.defaultProps = {
+  t: () => {},
+};
+
 export default compose(
   setDisplayName('Panel'),
   getContext({ t: PropTypes.func }),

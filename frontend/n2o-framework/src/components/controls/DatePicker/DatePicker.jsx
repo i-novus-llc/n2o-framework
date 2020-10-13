@@ -40,6 +40,7 @@ DatePicker.defaultProps = {
   onChange: () => {},
   onFocus: () => {},
   onBlur: () => {},
+  t: () => {},
   dateFormat: 'DD/MM/YYYY',
   configLocale: 'ru',
   placeholder: '',

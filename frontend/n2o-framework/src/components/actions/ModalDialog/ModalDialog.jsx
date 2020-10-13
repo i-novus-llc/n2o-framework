@@ -103,4 +103,8 @@ ModalDialog.propTypes = {
   close: PropTypes.func.isRequired,
 };
 
+ModalDialog.defaultProps = {
+  t: () => {},
+};
+
 export default getContext({ t: PropTypes.func })(ModalDialog);

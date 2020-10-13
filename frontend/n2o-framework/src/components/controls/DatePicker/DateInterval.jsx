@@ -80,6 +80,7 @@ DateInterval.defaultProps = {
   onChange: () => {},
   onFocus: () => {},
   onBlur: () => {},
+  t: () => {},
   dateFormat: 'DD/MM/YYYY',
   placeholder: '',
   disabled: false,

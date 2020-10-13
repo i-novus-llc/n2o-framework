@@ -60,6 +60,10 @@ const AuthButton = ({ userLogout }) => (
   />
 );
 
+Login.defaultProps = {
+  t: () => {},
+};
+
 export default compose(
   getContext({ t: PropTypes.func }),
   connect(

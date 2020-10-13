@@ -830,6 +830,7 @@ AdvancedTable.defaultProps = {
   expandable: false,
   onFocus: () => {},
   onSetSelection: () => {},
+  t: () => {},
   autoFocus: false,
   rows: {},
 };

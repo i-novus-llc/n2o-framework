@@ -342,6 +342,7 @@ Pagination.defaultProps = {
   count: 1,
   size: 1,
   activePage: 1,
+  t: () => {},
 };
 
 export default getContext({ t: PropTypes.func })(Pagination);

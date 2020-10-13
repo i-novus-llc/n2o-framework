@@ -70,8 +70,9 @@ PopoverConfirm.defaultProps = {
   className: '',
   title: 'Вы уверены?',
   text: '',
-  onConfirm: function() {},
-  onCancel: function() {},
+  onConfirm: () => {},
+  onCancel: () => {},
+  t: () => {},
 };
 
 export default getContext({ t: PropTypes.func })(PopoverConfirm);

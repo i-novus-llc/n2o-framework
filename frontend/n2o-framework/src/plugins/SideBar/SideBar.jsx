@@ -161,6 +161,7 @@ SideBar.defaultProps = {
   controlled: false,
   brand: '',
   homePageUrl: '/',
+  t: () => {},
 };
 
 export default compose(

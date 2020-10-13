@@ -618,6 +618,7 @@ Calendar.defaultProps = {
   placement: 'bottom',
   locale: 'ru',
   clock: true,
+  t: () => {},
 };
 
 Calendar.propTypes = {

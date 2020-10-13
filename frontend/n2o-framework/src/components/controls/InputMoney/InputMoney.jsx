@@ -238,6 +238,9 @@ InputMoney.defaultProps = {
   allowNegative: false,
   allowLeadingZeroes: false,
   guide: false,
+  t: () => {},
 };
+
+export { InputMoney };
 
 export default getContext({ t: PropTypes.func })(InputMoney);

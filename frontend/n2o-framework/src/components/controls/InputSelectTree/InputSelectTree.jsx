@@ -455,6 +455,7 @@ InputSelectTree.defaultProps = {
   onOpen: () => {},
   onFocus: () => {},
   onBlur: () => {},
+  t: () => {},
 };
 
 InputSelectTree.propTypes = {

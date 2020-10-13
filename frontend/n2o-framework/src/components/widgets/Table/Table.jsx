@@ -377,11 +377,14 @@ Table.defaultProps = {
   onResolve: () => {},
   redux: true,
   onRowClickAction: () => {},
+  t: () => {},
 };
 
 Table.Header = TableHeader;
 Table.Body = TableBody;
 Table.Row = TableRow;
 Table.Cell = TableCell;
+
+export { Table };
 
 export default getContext({ t: PropTypes.func })(Table);

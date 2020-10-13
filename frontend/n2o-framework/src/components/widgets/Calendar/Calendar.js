@@ -176,6 +176,7 @@ Calendar.defaultProps = {
   endAccessor: 'end',
   events: [],
   configLocale: 'ru',
+  t: () => {},
 };
 
 export default getContext({

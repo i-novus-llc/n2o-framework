@@ -7,7 +7,7 @@ import React from 'react';
  */
 function AdvancedTableEmptyText(t) {
   return (
-    <span className="d-flex justify-content-center text-muted">
+    <span className="d-flex justify-content-center text-muted n2o-advanced-table__empty-text">
       {t('noData')}
     </span>
   );

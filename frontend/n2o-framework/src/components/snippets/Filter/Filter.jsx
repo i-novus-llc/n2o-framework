@@ -93,6 +93,7 @@ Filter.propTypes = {
 Filter.defaultProps = {
   onSearch: () => {},
   onReset: () => {},
+  t: () => {},
   visible: true,
   style: {},
   className: '',
