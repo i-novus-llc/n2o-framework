@@ -46,7 +46,7 @@ public class DatePickerAT extends AutoTestBase {
 
     @Test
     public void testDatePicker() {
-        DateInput date = page.single().widget(FormWidget.class).fields().field("Date1")
+        DateInput date = page.widget(FormWidget.class).fields().field("Date1")
                 .control(DateInput.class);
         date.shouldExists();
 
@@ -82,7 +82,7 @@ public class DatePickerAT extends AutoTestBase {
 
     @Test
     public void testDateTime() {
-        DateInput date = page.single().widget(FormWidget.class).fields().field("Date2")
+        DateInput date = page.widget(FormWidget.class).fields().field("Date2")
                 .control(DateInput.class);
         date.shouldExists();
 
@@ -100,7 +100,7 @@ public class DatePickerAT extends AutoTestBase {
         page = open(SimplePage.class);
         page.shouldExists();
 
-        Fields fields = page.single().widget(FormWidget.class).fields();
+        Fields fields = page.widget(FormWidget.class).fields();
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         String month = addLeadingZero(calendar.get(Calendar.MONTH) + 1);

@@ -6,6 +6,7 @@ import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Submenu;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
@@ -18,6 +19,8 @@ import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -60,9 +63,10 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObjectToolbar.getRoles().size(), is(1));
         assertThat(securityObjectToolbar.getRoles().contains("admin"), is(true));
 
-        securityObjectToolbar = ((Security) page.getWidgets().get("testToolbarAccessTransformer_test").getToolbar()
+        Widget widget = (Widget) page.getRegions().get("topLeft").get(0).getContent().get(0);
+        securityObjectToolbar = ((Security) widget.getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        securityObjectAction = ((Security) ((Action) page.getWidgets().get("testToolbarAccessTransformer_test").getActions()
+        securityObjectAction = ((Security) ((Action) widget.getActions()
                 .get("update")).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectToolbar.getPermissions().size(), is(1));
@@ -92,9 +96,10 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         assertThat(securityObjectToolbar.getRoles(), hasItem("admin"));
         assertThat(securityObjectToolbar.getAnonymous(), is(true));
 
-        securityObjectToolbar = ((Security) page.getWidgets().get("testToolbarAccessTransformer_test").getToolbar()
+        Widget widget = (Widget) page.getRegions().get("topLeft").get(0).getContent().get(0);
+        securityObjectToolbar = ((Security) widget.getToolbar()
                 .get("topLeft").get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
-        securityObjectAction = ((Security) ((Action) page.getWidgets().get("testToolbarAccessTransformer_test").getActions()
+        securityObjectAction = ((Security) ((Action) widget.getActions()
                 .get("update")).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
         assertThat(securityObjectAction.equals(securityObjectToolbar), is(true));
         assertThat(securityObjectAction.getAnonymous(), nullValue());
@@ -117,14 +122,16 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) pipeline.transform().get(new PageContext("testSubMenuAccess"));
 
         //permitAll в одном из menuItem делает доступным subMenu
-        AbstractButton subMenu1 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(0);
+        List<AbstractButton> buttons = ((Widget) page.getRegions().get("topRight").get(0).getContent().get(0))
+                .getToolbar().get("topLeft").get(0).getButtons();
+        AbstractButton subMenu1 = buttons.get(0);
         assertTrue(((Security) subMenu1.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermitAll());
 
-        AbstractButton subMenu2 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(1);
+        AbstractButton subMenu2 = buttons.get(1);
         assertTrue(((Security) subMenu2.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getAnonymous());
         assertTrue(((Security) subMenu2.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getAuthenticated());
 
-        AbstractButton subMenu3 = page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(2);
+        AbstractButton subMenu3 = buttons.get(2);
         assertTrue(((Security) subMenu2.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getAuthenticated());
         assertFalse(((Security) subMenu3.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getAnonymous());
         assertFalse(((Security) subMenu3.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getRoles().isEmpty());
@@ -132,7 +139,7 @@ public class ToolbarAccessTransformerTest extends SourceCompileTestBase {
         assertFalse(((Security) subMenu3.getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object").getPermissions().isEmpty());
 
         //Если одна из кнопок не имеет security, то subMenu тоже не будет иметь security
-        Submenu subMenu4 = (Submenu) page.getWidgets().get("testSubMenuAccess_test2").getToolbar().get("topLeft").get(0).getButtons().get(3);
+        Submenu subMenu4 = (Submenu) buttons.get(3);
         assertThat(subMenu4.getSubMenu().get(0).getProperties().get(SECURITY_PROP_NAME), notNullValue());
 //        assertThat(subMenu4.getSubMenu().get(1).getProperties().isEmpty(), is(true));
         assertThat(subMenu4.getProperties(), nullValue());

@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -42,7 +42,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
     public void testInputSelectDataProvider() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelect.page.xml")
                 .get(new PageContext("testInputSelect"));
-        Form form = (Form) page.getWidgets().get("testInputSelect_main");
+        Form form = (Form) page.getRegions().get("left").get(0).getContent().get(0);
 
         Models models = page.getModels();
         assertThat(((DefaultValues) ((List) models.get("resolve['testInputSelect_main'].testId").getValue()).get(0)).getValues().get("id"), is(1));
@@ -89,7 +89,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         CompiledQuery compiledQuery = routeAndGet("/selectFetch", CompiledQuery.class);
         assertThat(compiledQuery.getId(), is("testSelectFetch"));
 
-        Table table = (Table) page.getWidgets().get("testInputSelect_second");
+        Table table = (Table) page.getRegions().get("right").get(0).getContent().get(0);
         cdp = ((InputSelect) ((StandardField) table.getFilter().getFilterFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl()).getDataProvider();
         assertThat(cdp.getUrl(), is("n2o/data/test"));
@@ -98,5 +98,4 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
         assertThat(cdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
         assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
     }
-
 }

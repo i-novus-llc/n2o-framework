@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.meta.action.open_drawer.OpenDrawer;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -52,7 +53,8 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
-        LinkActionImpl action = (LinkActionImpl) page.getWidgets().get("test_detail").getActions().get("withParam");
+        LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
+                .getActions().get("withParam");
         assertThat(action.getUrl(), is("/test/master/:masterId/detail/:detailId/open1"));
         assertThat(action.getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getQueryMapping().isEmpty(), is(true));
@@ -68,7 +70,8 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
-        LinkActionImpl action = (LinkActionImpl) page.getWidgets().get("test_detail").getActions().get("withoutParam");
+        LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
+                .getActions().get("withoutParam");
         assertThat(action.getUrl(), is("/test/master/:masterId/detail/open2"));
         assertThat(action.getQueryMapping().get("test_detail_detailId"), notNullValue());
     }
@@ -82,7 +85,8 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRouteMasterDetail.page.xml")
                 .get(new PageContext("testOpenPageRouteMasterDetail", "/test"));
 
-        LinkActionImpl action = (LinkActionImpl) page.getWidgets().get("test_detail").getActions().get("withParamWithoutMasterDetail");
+        LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
+                .getActions().get("withParamWithoutMasterDetail");
         assertThat(action.getUrl(), is("/test/master/:masterId/detail/:detailId/open3"));
         assertThat(action.getPathMapping().get("detailId"), notNullValue());
         assertThat(action.getQueryMapping().isEmpty(), is(true));
@@ -99,8 +103,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
     public void masterWidgetWithPathAndQueryParam() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testMasterWidgetWithParams.page.xml")
                 .get(new PageContext("testMasterWidgetWithParams", "/test"));
-
-        OpenDrawer action = (OpenDrawer) ((ButtonField) ((Form) page.getWidgets().get("test_main"))
+        OpenDrawer action = (OpenDrawer) ((ButtonField) ((Form) page.getRegions().get("single").get(0).getContent().get(0))
                 .getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getAction();
 
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
@@ -122,7 +125,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testDependentWidgetWithParams.page.xml")
                 .get(new PageContext("testDependentWidgetWithParams", "/test"));
 
-        OpenDrawer action = (OpenDrawer) ((ButtonField) ((Form) page.getWidgets().get("test_dependent"))
+        OpenDrawer action = (OpenDrawer) ((ButtonField) ((Form) page.getRegions().get("single").get(0).getContent().get(1))
                 .getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getAction();
 
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();
@@ -144,7 +147,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testDependentWidgetsToolbarWithParams.page.xml")
                 .get(new PageContext("testDependentWidgetsToolbarWithParams", "/test"));
 
-        OpenDrawer action = (OpenDrawer) ((Form) page.getWidgets().get("test_dependent"))
+        OpenDrawer action = (OpenDrawer) ((Form) page.getRegions().get("single").get(0).getContent().get(1))
                 .getToolbar().get("topLeft").get(0).getButtons().get(0).getAction();
 
         Map<String, ModelLink> queryMapping = action.getPayload().getQueryMapping();

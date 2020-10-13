@@ -30,8 +30,8 @@ public class PageValidator implements SourceValidator<N2oPage>, SourceClassAware
         }
 
         PageScope scope = new PageScope();
-        scope.setWidgetIds(p.safeStreamOf(page.getContainers()).map(N2oMetadata::getId).collect(Collectors.toSet()));
-        p.safeStreamOf(page.getContainers()).forEach(widget -> p.validate(widget, scope));
+        scope.setWidgetIds(p.safeStreamOf(page.getWidgets()).map(N2oMetadata::getId).collect(Collectors.toSet()));
+        p.safeStreamOf(page.getWidgets()).forEach(widget -> p.validate(widget, scope));
         checkForExistsDependsOnWidget(page, scope, p);
     }
 
@@ -55,7 +55,7 @@ public class PageValidator implements SourceValidator<N2oPage>, SourceClassAware
      * @param p     Процессор валидации метаданных
      */
     private void checkForExistsDependsOnWidget(N2oPage page, PageScope scope, ValidateProcessor p) {
-        p.safeStreamOf(page.getContainers())
+        p.safeStreamOf(page.getWidgets())
                 .filter(w -> w.getDependsOn() != null)
                 .forEach(w -> {
                     if (!scope.getWidgetIds().contains(w.getDependsOn()))

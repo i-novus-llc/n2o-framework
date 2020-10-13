@@ -41,7 +41,7 @@ public class RadioGroupAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        RadioGroup radio = page.single().widget(FormWidget.class).fields().field("Radio1")
+        RadioGroup radio = page.widget(FormWidget.class).fields().field("Radio1")
                 .control(RadioGroup.class);
         radio.shouldExists();
 

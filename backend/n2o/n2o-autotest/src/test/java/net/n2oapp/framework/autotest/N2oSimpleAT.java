@@ -37,7 +37,6 @@ public class N2oSimpleAT extends AutoTestBase {
     public void test() {
         N2oSimplePage page = N2oSelenide.open("http://localhost:" + port, N2oSimplePage.class);
         page.shouldExists();
-        page.single().shouldHaveSize(1);
-        page.single().widget(N2oFormWidget.class).shouldExists();
+        page.widget(N2oFormWidget.class).shouldExists();
     }
 }

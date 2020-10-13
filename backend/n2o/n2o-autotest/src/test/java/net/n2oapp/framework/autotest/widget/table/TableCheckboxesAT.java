@@ -46,7 +46,7 @@ public class TableCheckboxesAT extends AutoTestBase {
 
     @Test
     public void testCheckboxes() {
-        TableWidget table = page.single().widget(TableWidget.class);
+        TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.columns().headers().shouldHaveSize(3);
 

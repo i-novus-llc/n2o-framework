@@ -19,10 +19,9 @@ import java.util.Map;
  * Базовое связывание данных на странице
  */
 public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D> {
-    public D bindPage(D page, BindProcessor p, Map<String, Widget> widgets) {
-        if (widgets != null) {
-            widgets.values().forEach(p::bind);
-        }
+    public D bindPage(D page, BindProcessor p, List<Widget> widgets) {
+        if (widgets != null)
+            widgets.forEach(p::bind);
 
         if (page.getModels() != null) {
             page.getModels().values().removeIf(entry -> p.canResolveParam(entry.getFieldId()));
@@ -91,10 +90,10 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         return page;
     }
 
-    private List<ModelLink> collectFilterLinks(Models models, Map<String, Widget> widgets) {
+    private List<ModelLink> collectFilterLinks(Models models, List<Widget> widgets) {
         List<ModelLink> links = new ArrayList<>();
         if (widgets != null) {
-            for (Widget w : widgets.values()) {
+            for (Widget w : widgets) {
                 if (w.getFilters() != null) {
                     for (Filter f : (List<Filter>) w.getFilters()) {
                         if (f.getRoutable() && f.getLink().getSubModelQuery() != null) {

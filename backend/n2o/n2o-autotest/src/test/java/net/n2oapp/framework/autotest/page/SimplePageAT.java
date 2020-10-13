@@ -38,13 +38,13 @@ public class SimplePageAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.breadcrumb().titleShouldHaveText("Простая страница");
         page.shouldExists();
-        StandardButton button = page.single().widget(N2oStandardWidget.class).toolbar().topLeft().button("Вперед");
+        StandardButton button = page.widget(N2oStandardWidget.class).toolbar().topLeft().button("Вперед");
         button.shouldBeDisabled();
 
-        button = page.single().widget(N2oStandardWidget.class).toolbar().topLeft().button("Кнопка с иконкой");
+        button = page.widget(N2oStandardWidget.class).toolbar().topLeft().button("Кнопка с иконкой");
         button.shouldHaveIcon("fa-plus");
 
-        button = page.single().widget(N2oStandardWidget.class).toolbar().topLeft().button("Опасная");
+        button = page.widget(N2oStandardWidget.class).toolbar().topLeft().button("Опасная");
         button.shouldHaveColor(Colors.DANGER);
     }
 }

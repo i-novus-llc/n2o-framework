@@ -128,13 +128,13 @@ public abstract class BaseWidgetReaderTest {
     }
 
     protected void assertRefWidget(N2oPage page) {
-        assert page.getContainers().size() == 3;
-        assert page.getContainers().get(0).getId().equals("form");
-        assert page.getContainers().get(1).getId().equals("table");
-        assert page.getContainers().get(2).getId().equals("tree");
-        assert page.getContainers().get(0).getRefId().equals("testFormReader");
-        assert page.getContainers().get(1).getRefId().equals("testTableReader");
-        assert page.getContainers().get(2).getRefId().equals("testTreeReader1");
+        assert page.getWidgets().size() == 3;
+        assert page.getWidgets().get(0).getId().equals("form");
+        assert page.getWidgets().get(1).getId().equals("table");
+        assert page.getWidgets().get(2).getId().equals("tree");
+        assert page.getWidgets().get(0).getRefId().equals("testFormReader");
+        assert page.getWidgets().get(1).getRefId().equals("testTableReader");
+        assert page.getWidgets().get(2).getRefId().equals("testTreeReader1");
     }
 
     protected void assertFieldSetAttribute(N2oForm form) {
