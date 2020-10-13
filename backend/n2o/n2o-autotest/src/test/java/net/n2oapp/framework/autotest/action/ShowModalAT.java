@@ -48,9 +48,9 @@ public class ShowModalAT extends AutoTestBase {
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("Модальное окно с фиксированной высотой");
 
-        Button openScrollableModal = page.single().widget(FormWidget.class).toolbar().topLeft().button("Открыть со скроллом");
+        Button openScrollableModal = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть со скроллом");
         openScrollableModal.shouldExists();
-        Button openSimpleModal = page.single().widget(FormWidget.class).toolbar().topLeft().button("Открыть без скролла");
+        Button openSimpleModal = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть без скролла");
         openSimpleModal.shouldExists();
 
         openScrollableModal.click();
@@ -58,7 +58,7 @@ public class ShowModalAT extends AutoTestBase {
         modalPage.shouldExists();
         modalPage.shouldHaveTitle("Модальное окно");
         modalPage.shouldBeScrollable();
-        Fields fields = modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        Fields fields = modalPage.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.shouldHaveSize(11);
         fields.field("id").control(InputText.class).shouldExists();
         modalPage.scrollDown();
@@ -71,7 +71,7 @@ public class ShowModalAT extends AutoTestBase {
         modalPage.shouldExists();
         modalPage.shouldHaveTitle("Модальное окно");
         modalPage.shouldNotBeScrollable();
-        fields = modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        fields = modalPage.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.shouldHaveSize(11);
         fields.field("id").control(InputText.class).shouldExists();
         fields.field("value9").control(InputText.class).shouldExists();

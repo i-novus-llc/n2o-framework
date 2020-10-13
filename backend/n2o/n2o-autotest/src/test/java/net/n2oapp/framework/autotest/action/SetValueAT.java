@@ -44,7 +44,7 @@ public class SetValueAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("set-value-tests");
         page.shouldExists();
 
-        Fields fields = page.single().widget(FormWidget.class).fields();
+        Fields fields = page.widget(FormWidget.class).fields();
         fields.field("calcResult").control(OutputText.class).shouldBeEmpty();
         fields.field("calc 55+66+77", ButtonField.class).click();
         fields.field("calcResult").control(OutputText.class).shouldHaveValue("198");

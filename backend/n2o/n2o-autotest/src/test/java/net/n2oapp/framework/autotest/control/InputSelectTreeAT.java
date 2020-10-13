@@ -42,7 +42,7 @@ public class InputSelectTreeAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        InputSelectTree inputSelectTree = page.single().widget(FormWidget.class).fields().field("InputSelectTree")
+        InputSelectTree inputSelectTree = page.widget(FormWidget.class).fields().field("InputSelectTree")
                 .control(InputSelectTree.class);
         inputSelectTree.shouldHavePlaceholder("SelectOption");
         inputSelectTree.shouldBeUnselected();
@@ -77,7 +77,7 @@ public class InputSelectTreeAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        InputSelectTree inputSelectTree = page.single().widget(FormWidget.class).fields().field("InputSelectTree")
+        InputSelectTree inputSelectTree = page.widget(FormWidget.class).fields().field("InputSelectTree")
                 .control(InputSelectTree.class);
 
         inputSelectTree.shouldBeUnselected();

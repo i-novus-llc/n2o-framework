@@ -41,7 +41,7 @@ public class CheckboxGroupAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        CheckboxGroup checkboxGroup = page.single().widget(FormWidget.class).fields().field("Checkboxes1")
+        CheckboxGroup checkboxGroup = page.widget(FormWidget.class).fields().field("Checkboxes1")
                 .control(CheckboxGroup.class);
         checkboxGroup.shouldExists();
 
