@@ -1,12 +1,12 @@
 package net.n2oapp.framework.autotest.widget.table;
 
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
-import net.n2oapp.framework.autotest.api.collection.Widgets;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
-import net.n2oapp.framework.autotest.api.component.widget.table.TableFilterHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableFilterHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
  */
 public class MultiColumnAT extends AutoTestBase {
 
-    private Widgets widgets;
+    private RegionItems content;
 
     @BeforeAll
     public static void beforeClass() {
@@ -39,7 +39,7 @@ public class MultiColumnAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/multi_column/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
-        widgets = page.place("single").region(0, SimpleRegion.class).content();
+        content = page.regions().region(0, SimpleRegion.class).content();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class MultiColumnAT extends AutoTestBase {
 
     @Test
     public void testMultiColumn() {
-        TableWidget table = widgets.widget(0, TableWidget.class);
+        TableWidget table = content.widget(0, TableWidget.class);
         table.shouldExists();
 
         TableWidget.Rows rows = table.columns().rows();
@@ -82,7 +82,7 @@ public class MultiColumnAT extends AutoTestBase {
 
     @Test
     public void testAdvancedMultiColumn() {
-        TableWidget table = widgets.widget(1, TableWidget.class);
+        TableWidget table = content.widget(1, TableWidget.class);
         table.shouldExists();
 
         TableWidget.Rows rows = table.columns().rows();

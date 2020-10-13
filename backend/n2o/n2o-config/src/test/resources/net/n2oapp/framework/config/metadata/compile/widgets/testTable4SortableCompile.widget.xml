@@ -8,6 +8,13 @@
         <column text-field-id="name" sorting-field-id="id"/>
         <column text-field-id="comments" />
         <column text-field-id="notInQuery" label="notInQueryLabel"/>
+        <column text-field-id="type">
+            <toolbar>
+                <sub-menu show-toggle-icon="false">
+                    <menu-item/>
+                </sub-menu>
+            </toolbar>
+        </column>
     </columns>
 
 </table>

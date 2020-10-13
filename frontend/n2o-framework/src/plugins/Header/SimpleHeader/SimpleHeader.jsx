@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { withRouter } from 'react-router-dom';
+
 import isEmpty from 'lodash/isEmpty';
 
 import PropTypes from 'prop-types';
@@ -272,4 +274,6 @@ SimpleHeader.defaultProps = {
   localeSelect: false,
 };
 
-export default SimpleHeader;
+const WithRouterSimpleHeader = withRouter(SimpleHeader);
+
+export default WithRouterSimpleHeader;
