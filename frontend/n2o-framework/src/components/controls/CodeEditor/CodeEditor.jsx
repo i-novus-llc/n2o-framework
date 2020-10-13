@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import AceEditor from 'react-ace';
 import cx from 'classnames';
-import isUndefined from 'lodash/isUndefined';
 
 import 'brace/mode/java';
 import 'brace/mode/groovy';
@@ -35,10 +34,10 @@ class CodeEditor extends React.Component {
     };
   }
 
-  onChange(value) {
+  onChange = value => {
     this.setState({ value });
     this.props.onChange(value);
-  }
+  };
 
   componentWillReceiveProps(props) {
     if (props.value && props.value !== this.state.value) {
@@ -60,9 +59,6 @@ class CodeEditor extends React.Component {
       autocomplete,
       className,
     } = this.props;
-
-    const currentMaxLines = !isUndefined(maxLines) ? maxLines : minLines;
-
     return (
       visible && (
         <div
@@ -73,13 +69,13 @@ class CodeEditor extends React.Component {
             mode={lang}
             theme="tomorrow"
             name={name}
-            onChange={this.onChange.bind(this)}
+            onChange={this.onChange}
             fontSize={14}
             showPrintMargin={true}
             showGutter={true}
             readOnly={disabled}
             minLines={minLines}
-            maxLines={currentMaxLines}
+            maxLines={maxLines}
             highlightActiveLine={true}
             value={this.state.value}
             enableBasicAutocompletion={autocomplete}
@@ -139,6 +135,7 @@ CodeEditor.defaultProps = {
   onChange: () => {},
   disabled: false,
   visible: true,
+  maxLines: 100,
 };
 
 export default CodeEditor;
