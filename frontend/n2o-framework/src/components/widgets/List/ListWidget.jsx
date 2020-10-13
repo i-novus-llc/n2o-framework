@@ -54,8 +54,6 @@ function ListWidget(
     hasMoreButton,
     maxHeight,
     fetchOnScroll,
-    prevText,
-    nextText,
     divider,
     hasSelect,
     rows,
@@ -79,18 +77,7 @@ function ListWidget(
       toolbar={toolbar}
       actions={actions}
       filter={prepareFilters()}
-      bottomLeft={
-        paging && (
-          <Pagination
-            prev={true}
-            next={true}
-            widgetId={widgetId}
-            withoutBody={true}
-            prevText={prevText}
-            nextText={nextText}
-          />
-        )
-      }
+      bottomLeft={paging && <Pagination widgetId={widgetId} {...paging} />}
       className={className}
       style={style}
     >
@@ -148,10 +135,14 @@ ListWidget.defaultProps = {
   style: {},
   filter: {},
   list: {},
-  paging: {},
+  paging: {
+    prevText: 'Назад',
+    nextText: 'Вперед',
+    withoutBody: true,
+    prev: true,
+    next: true,
+  },
   fetchOnScroll: false,
-  prevText: 'Назад',
-  nextText: 'Вперед',
   hasSelect: false,
 };
 ListWidget.contextTypes = {

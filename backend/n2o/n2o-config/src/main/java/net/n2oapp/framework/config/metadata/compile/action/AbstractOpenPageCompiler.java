@@ -196,22 +196,38 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setPathRouteMapping(pathMapping);
         queryMapping.putAll(initPreFilterParams(preFilters, pathMapping));
 
-        if (source.getQueryParams() != null) {
-            List<N2oParam> params = new ArrayList<>();
-            for (N2oParam param : source.getQueryParams()) {
-                params.add(new N2oParam(param.getName(), param.getValue(),
-                        p.cast(param.getRefWidgetId(), widgetScope == null ? null : widgetScope.getWidgetId()),
-                        p.cast(param.getRefModel(), actionDataModel),
-                        pageScope == null ? null : pageScope.getPageId()));
-            }
-            queryMapping.putAll(initParams(params, pathMapping));
-        }
+        initQueryMapping(source, p, actionDataModel, pathMapping, queryMapping, pageScope, widgetScope, componentScope);
         pageContext.setQueryRouteMapping(queryMapping);
 
         initPageRoute(compiled, route, pathMapping, queryMapping);
         initOtherPageRoute(p, context, route);
         p.addRoute(pageContext);
         return pageContext;
+    }
+
+    private void initQueryMapping(S source, CompileProcessor p, ReduxModel actionDataModel,
+                                  Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping,
+                                  PageScope pageScope, WidgetScope widgetScope, ComponentScope componentScope) {
+        if (source.getQueryParams() != null) {
+            List<N2oParam> params = new ArrayList<>();
+            for (N2oParam param : source.getQueryParams()) {
+                // widget id priority : queryParam widgetId
+                String widgetId = param.getRefWidgetId();
+                // or else button's widgetId
+                if (widgetId == null) {
+                    WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+                    if (widgetIdAware != null)
+                        widgetId = widgetIdAware.getWidgetId();
+                    // or else current widget's id
+                    if (widgetId == null && widgetScope != null)
+                        widgetId = widgetScope.getWidgetId();
+                }
+                params.add(new N2oParam(param.getName(), param.getValue(), widgetId,
+                        p.cast(param.getRefModel(), actionDataModel),
+                        pageScope == null ? null : pageScope.getPageId()));
+            }
+            queryMapping.putAll(initParams(params, pathMapping));
+        }
     }
 
     /**
@@ -241,8 +257,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                 actionModelLink.getWidgetId(),
                                 value.substring(1, value.length() - 1));
                         actionModelLink.setSubModelQuery(subModelQuery);
-                    }
-                    else actionModelLink = new ModelLink(value);
+                    } else actionModelLink = new ModelLink(value);
                 }
             }
             pathMapping.put(masterIdParam, actionModelLink);

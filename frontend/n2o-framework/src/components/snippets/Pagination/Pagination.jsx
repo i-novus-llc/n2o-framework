@@ -184,6 +184,7 @@ class Pagination extends React.Component {
       ...props
     } = this.props;
     const pages = Math.ceil(count / size, 10) || 1;
+    const lastPage = Math.ceil(count / size);
     return (
       <nav
         className="n2o-pagination"
@@ -228,9 +229,9 @@ class Pagination extends React.Component {
             )}
             {last && (
               <PaginationButton
-                eventKey={count}
+                eventKey={lastPage}
                 label="&raquo;"
-                disabled={activePage >= count}
+                disabled={lastPage === activePage}
                 onSelect={onSelect}
                 tabIndex={0}
               />
