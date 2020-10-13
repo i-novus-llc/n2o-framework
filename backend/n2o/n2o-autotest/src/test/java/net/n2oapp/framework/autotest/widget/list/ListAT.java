@@ -8,6 +8,7 @@ import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
@@ -51,7 +52,7 @@ public class ListAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        ListWidget listWidget = page.single().widget(ListWidget.class);
+        ListWidget listWidget = page.widget(ListWidget.class);
         listWidget.shouldHaveSize(10);
         listWidget.content(0).body(TextCell.class).textShouldHave("body1");
         listWidget.content(0).leftTop(ImageCell.class).srcShouldBe(getBaseUrl() + "/favicon.ico");
@@ -66,7 +67,7 @@ public class ListAT extends AutoTestBase {
         listWidget.content(0).click();
         SimplePage openPage = N2oSelenide.page(SimplePage.class);
         openPage.shouldExists();
-        FormWidget form = openPage.single().widget(FormWidget.class);
+        FormWidget form = openPage.widget(FormWidget.class);
         form.shouldExists();
         form.fields().field("body").control(InputText.class).shouldHaveValue("body1");
     }
@@ -78,7 +79,7 @@ public class ListAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        ListWidget list = page.widgets().widget(0, ListWidget.class);
+        ListWidget list = page.regions().region(0, SimpleRegion.class).content().widget(ListWidget.class);
         Paging paging = list.paging();
         paging.totalElementsShouldBe(8);
         paging.prevShouldNotExist();
@@ -95,7 +96,7 @@ public class ListAT extends AutoTestBase {
         paging.activePageShouldBe("1");
 
 
-        ListWidget list2 = page.widgets().widget(1, ListWidget.class);
+        ListWidget list2 = page.regions().region(1, SimpleRegion.class).content().widget(ListWidget.class);
         paging = list2.paging();
         paging.totalElementsShouldNotExist();
         paging.prevShouldExist();

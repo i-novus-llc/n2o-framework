@@ -43,7 +43,7 @@ public class InputSelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect")
+        InputSelect input = page.widget(FormWidget.class).fields().field("InputSelect")
                 .control(InputSelect.class);
         input.shouldExists();
 
@@ -58,7 +58,7 @@ public class InputSelectAT extends AutoTestBase {
         input.shouldHaveValue("Three");
         input.collapsePopUpOptions();
 
-        input = page.single().widget(FormWidget.class).fields().field("InputSelect1")
+        input = page.widget(FormWidget.class).fields().field("InputSelect1")
                 .control(InputSelect.class);
         input.itemShouldBeEnabled(true, "One");
         input.itemShouldBeEnabled(true, "Two");
@@ -72,7 +72,7 @@ public class InputSelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect2")
+        InputSelect input = page.widget(FormWidget.class).fields().field("InputSelect2")
                 .control(InputSelect.class);
         input.shouldExists();
 
@@ -87,7 +87,7 @@ public class InputSelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect")
+        InputSelect input = page.widget(FormWidget.class).fields().field("InputSelect")
                 .control(InputSelect.class);
         input.shouldExists();
 
@@ -114,7 +114,7 @@ public class InputSelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect")
+        InputSelect input = page.widget(FormWidget.class).fields().field("InputSelect")
                 .control(InputSelect.class);
         input.shouldExists();
 
@@ -135,7 +135,7 @@ public class InputSelectAT extends AutoTestBase {
         input.shouldBeEmpty();
 
         input.collapsePopUpOptions();
-        input = page.single().widget(FormWidget.class).fields().field("InputSelect3")
+        input = page.widget(FormWidget.class).fields().field("InputSelect3")
                 .control(InputSelect.class);
         input.itemShouldBeEnabled(true, "One");
         input.itemShouldBeEnabled(true, "Two");
@@ -150,7 +150,7 @@ public class InputSelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        InputSelect input = page.single().widget(FormWidget.class).fields().field("InputSelect1")
+        InputSelect input = page.widget(FormWidget.class).fields().field("InputSelect1")
                 .control(InputSelect.class);
         input.shouldExists();
 
@@ -168,7 +168,7 @@ public class InputSelectAT extends AutoTestBase {
         input.collapsePopUpOptions();
 
 
-        InputSelect input2 = page.single().widget(FormWidget.class).fields().field("InputSelect2")
+        InputSelect input2 = page.widget(FormWidget.class).fields().field("InputSelect2")
                 .control(InputSelect.class);
         input2.shouldExists();
 

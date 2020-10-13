@@ -48,7 +48,7 @@ public class TooltipListCellAT extends AutoTestBase {
 
     @Test
     public void testDefaultLabelFormat() {
-        TableWidget.Rows rows = page.place("single").region(0, SimpleRegion.class).content()
+        TableWidget.Rows rows = page.regions().region(0, SimpleRegion.class).content()
                 .widget(0, TableWidget.class).columns().rows();
 
         Page.Tooltip tooltip = page.tooltip();
@@ -84,9 +84,9 @@ public class TooltipListCellAT extends AutoTestBase {
 
     @Test
     public void testOtherLabelFormats() {
-        TableWidget.Rows rows0 = page.place("single").region(0, SimpleRegion.class).content()
+        TableWidget.Rows rows0 = page.regions().region(0, SimpleRegion.class).content()
                 .widget(0, TableWidget.class).columns().rows();
-        TableWidget.Rows rows = page.place("single").region(0, SimpleRegion.class).content()
+        TableWidget.Rows rows = page.regions().region(0, SimpleRegion.class).content()
                 .widget(1, TableWidget.class).columns().rows();
 
         Page.Tooltip tooltip = page.tooltip();
@@ -126,7 +126,7 @@ public class TooltipListCellAT extends AutoTestBase {
 
     @Test
     public void testWithoutLabel() {
-        TableWidget.Rows rows = page.place("single").region(0, SimpleRegion.class).content()
+        TableWidget.Rows rows = page.regions().region(0, SimpleRegion.class).content()
                 .widget(2, TableWidget.class).columns().rows();
 
         Page.Tooltip tooltip = page.tooltip();

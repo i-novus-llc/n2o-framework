@@ -14,27 +14,27 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="wgt:widgets">
-                <xs:attribute name="id" type="xs:string" use="optional">
+                <xs:attribute name="id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="place" type="xs:string" use="optional">
+                <xs:attribute name="place" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Местоположение региона на странице.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="src" type="xs:string" use="optional">
+                <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Реализация региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="class" type="xs:string" use="optional">
+                <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>CSS класс панели.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="style" type="xs:string" use="optional">
+                <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Стиль панели.</xs:documentation>
                     </xs:annotation>
@@ -85,7 +85,7 @@
                 <xs:annotation>
                     <xs:documentation>Регион с горизонтальным делителем.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="collapsible" type="xs:boolean" use="optional">
+                <xs:attribute name="collapsible" type="xs:boolean">
                     <xs:annotation>
                         <xs:documentation>Возможность раскрытия и сворачивания виджетов.</xs:documentation>
                     </xs:annotation>
@@ -100,37 +100,37 @@
                 <xs:annotation>
                     <xs:documentation>Регион в виде панелей.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="title" type="xs:string" use="optional">
+                <xs:attribute name="title" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Заголовок.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="collapsible" type="xs:boolean" use="optional">
+                <xs:attribute name="collapsible" type="xs:boolean">
                     <xs:annotation>
                         <xs:documentation>Возможность раскрытия и сворачивания виджетов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="header" type="xs:boolean" use="optional">
+                <xs:attribute name="header" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Наличие заголовка.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="icon" type="xs:string" use="optional">
+                <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Класс иконки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="color" type="xs:string" use="optional">
+                <xs:attribute name="color" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Стиль панели.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="open" type="xs:boolean" use="optional" default="true">
+                <xs:attribute name="open" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Раскрытие панели.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="footer-title" type="xs:string" use="optional">
+                <xs:attribute name="footer-title" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Заголовок для футера.</xs:documentation>
                     </xs:annotation>

@@ -41,7 +41,7 @@ public class CodeEditorAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        CodeEditor textEditor = page.single().widget(FormWidget.class).fields().field("CodeEditor")
+        CodeEditor textEditor = page.widget(FormWidget.class).fields().field("CodeEditor")
                 .control(CodeEditor.class);
         textEditor.shouldExists();
 

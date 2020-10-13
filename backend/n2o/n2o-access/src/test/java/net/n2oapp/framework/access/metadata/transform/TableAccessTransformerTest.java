@@ -2,9 +2,8 @@ package net.n2oapp.framework.access.metadata.transform;
 
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
-import net.n2oapp.framework.api.metadata.meta.widget.table.TableWidgetComponent;
+import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -45,8 +44,8 @@ public class TableAccessTransformerTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testTableAccessTransformer"));
 
-        Security.SecurityObject securityObject = ((Security)((TableWidgetComponent) page.getWidgets()
-                .get("testTableAccessTransformer_testTable").getComponent()).getRows().getProperties()
+        Security.SecurityObject securityObject = ((Security) (((Table) page.getRegions().get("single").get(0).getContent().get(0))
+                .getComponent()).getRows().getProperties()
                 .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
 
         assertThat(securityObject.getPermissions().size(), is(1));

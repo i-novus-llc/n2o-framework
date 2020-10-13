@@ -25,6 +25,7 @@ public class N2oSubmenu extends N2oComponent implements GroupItem {
     private String color;
     private N2oMenuItem[] menuItems;
     private String[] generate;
+    private Boolean showToggleIcon;
 
     @Override
     public List<N2oAction> getActions() {

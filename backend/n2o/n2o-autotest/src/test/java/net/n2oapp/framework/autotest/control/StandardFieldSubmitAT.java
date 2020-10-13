@@ -40,7 +40,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        fields = page.single().widget(FormWidget.class).fields();
+        fields = page.widget(FormWidget.class).fields();
         fields.shouldHaveSize(3);
     }
 

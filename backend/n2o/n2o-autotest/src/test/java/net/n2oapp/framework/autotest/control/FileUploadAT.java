@@ -115,7 +115,7 @@ public class FileUploadAT extends AutoTestBase {
     }
 
     private Fields getFields() {
-        return simplePage.single().widget(FormWidget.class).fields();
+        return simplePage.widget(FormWidget.class).fields();
     }
 
 }

@@ -4,6 +4,7 @@ import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -45,10 +46,10 @@ public class InvokeActionAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        FormWidget firstForm = page.widgets().widget(0, FormWidget.class);
+        FormWidget firstForm = page.regions().region(0, SimpleRegion.class).content().widget(0, FormWidget.class);
         InputText firstValue = firstForm.fields().field("value").control(InputText.class);
         firstValue.val("1");
-        FormWidget secondForm = page.widgets().widget(1, FormWidget.class);
+        FormWidget secondForm = page.regions().region(1, SimpleRegion.class).content().widget(0, FormWidget.class);
         InputText secondValue = secondForm.fields().field("value").control(InputText.class);
         InputText secondValue2 = secondForm.fields().field("value2").control(InputText.class);
         secondValue.val("2");

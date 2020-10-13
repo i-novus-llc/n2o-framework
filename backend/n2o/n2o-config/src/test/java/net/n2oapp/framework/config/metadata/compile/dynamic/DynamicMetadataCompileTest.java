@@ -56,9 +56,10 @@ public class DynamicMetadataCompileTest extends SourceCompileTestBase {
     public void testDynamicPage() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/dynamic/testDynamicObject.page.xml")
                 .get(new PageContext("testDynamicObject", "/test/route"));
-        assertThat(page.getWidgets().get("test_route_main"), instanceOf(Table.class));
-        assertThat(((Table)page.getWidgets().get("test_route_main")).getComponent().getCells().size(), is(1));
-        assertThat(((Table)page.getWidgets().get("test_route_main")).getComponent().getCells().get(0).getId(), is("id"));
+        Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
+        assertThat(table, instanceOf(Table.class));
+        assertThat(table.getComponent().getCells().size(), is(1));
+        assertThat(table.getComponent().getCells().get(0).getId(), is("id"));
         CompiledQuery query = routeAndGet("/test/route/main", CompiledQuery.class);
         assertThat(query.getId(), is("testDynamic?Dummy"));
         assertThat(((N2oSqlQuery) query.getLists()[0].getInvocation()).getQuery(), is("test select"));

@@ -6,14 +6,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * "Сырая" модель простой страницы (simple-page)
+ * Модель страницы с единственным виджетом
  */
 public class N2oSimplePage extends N2oPage {
 
     private N2oWidget widget;
 
     @Override
-    public List<N2oWidget> getContainers() {
+    public List<N2oWidget> getWidgets() {
         if (widget == null)
             return Collections.emptyList();
         return Collections.singletonList(widget);
