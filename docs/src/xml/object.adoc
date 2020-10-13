@@ -113,11 +113,6 @@ http://n2oapp.net/framework/config/schema/object-3.0
 |Обязательность поля
 |false
 
-|enabled
-|true false
-|Включение поля
-|true
-
 |===
 
 Пример::
