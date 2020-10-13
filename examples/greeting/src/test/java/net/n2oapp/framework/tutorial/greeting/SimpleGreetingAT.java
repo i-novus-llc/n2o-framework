@@ -1,9 +1,11 @@
-package net.n2oapp.framework.tutorial.helloworld;
+package net.n2oapp.framework.tutorial.greeting;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
-import net.n2oapp.framework.tutorial.helloworld.model.HelloPage;
+import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,11 +16,11 @@ import static com.codeborne.selenide.Configuration.browserSize;
 import static com.codeborne.selenide.Configuration.headless;
 
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class HelloWorldAT {
+public class SimpleGreetingAT {
     @LocalServerPort
     private int port;
 
-    private HelloPage helloPage;
+    private SimplePage page;
 
     /**
      * Задание настроек для Selenide
@@ -36,11 +38,14 @@ public class HelloWorldAT {
      */
     @BeforeEach
     public void openProtoPage() {
-        helloPage = Selenide.open("http://localhost:" + port, HelloPage.class);
+        page = N2oSelenide.open("http://localhost:" + port, SimplePage.class);
     }
 
     @Test
-    public void checkHelloText() {
-        helloPage.helloShouldHaveText("Привет Мир!");
+    public void greetingTest() {
+        InputText inputText = page.single().widget(FormWidget.class).fields().field("Имя").control(InputText.class);
+        inputText.val("Иван");
+        page.single().widget(FormWidget.class).toolbar().bottomLeft().button("Отправить").click();
+        page.alerts().alert(0).shouldHaveText("Привет, Иван");
     }
 }

@@ -4,7 +4,9 @@
 Бибилиотека n2o-autotest использует  https://ru.selenide.org/documentation.html[Selenide]
 
 Требования к окружению:
+
 - jdk 11 версии и выше
+
 - браузер Google chrome
 
 == Запуск
@@ -16,7 +18,7 @@
 но предварительно необходимо настроить https://maven.apache.org/surefire/maven-failsafe-plugin/[Maven Failsafe Plugin]
 
 == Использование
-Для написания автотестов в зависимости проекта необходимо добавить:
+Для написания автотестов необходимо добавить зависимость:
 [source,xml]
 ----
 <dependency>
@@ -26,79 +28,224 @@
 </dependency>
 ----
 
+Для тестирования страниц в Selenide принято использовать
+https://selenide.gitbooks.io/user-guide/content/ru/pageobjects.html[PageObject] подход.
+Рассмотрим пример тестирования вывода сообщения.
 
-Страницы N2O можно тестировать разными способами:
-
-==== Используя паттерн Page Object
-Для тестирования страниц в Selenide принято использовать https://selenide.gitbooks.io/user-guide/content/ru/pageobjects.html[PageObject подход].
-
-
-
-
-
-
-
-==== Через api `n2o-autotest`, для этого необходимо:
-<1> написать свой класс, который будет наследником AutoTestBase, в котором уже есть настройки для Selenide.
-<2> в нем на стадии `@BeforeAll` вызвать `configureSelenide();`
-<3> на стадии `@BeforeEach` вызвать `super.setUp();`
-<4> переопределить метод `void configure(N2oApplicationBuilder builder)` где в builder добавить все необходимые MetadataPack(это
-наборы сервисов для сборки определенных коллекций метаданных)
-<5> в методе теста в builder добавить необходимые файлы исходников
-
-Пример автотеста:
+index.page.xml:
 [source,xml]
 ----
-public class AlertAT extends AutoTestBase {
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+             name="Приветственное сообщение">
+    <form object-id="greeting">
+        <fields>
+            <hidden id="id" default-value="1"/>
+            <input-text id="name" label="Имя" placeholder="Введите своё имя"/>
+        </fields>
+        <toolbar place="bottomLeft">
+            <button label="Отправить">
+                <invoke operation-id="greeting"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>
+----
 
-    @BeforeAll
-    public static void beforeClass() {
-        configureSelenide();
+greeting.object.xml:
+[source,xml]
+----
+<?xml version='1.0' encoding='UTF-8'?>
+<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+    <operations>
+        <operation id="greeting"
+                   success-text="Привет, {name}">
+            <invocation>
+                <test operation="echo"/>
+            </invocation>
+            <in-parameters>
+                <param id="name"/>
+            </in-parameters>
+        </operation>
+    </operations>
+</object>
+----
+
+GreetingPage.java - класс описывающий страницу приложения, на основе `SimplePage`
+из библиотеки `n2o-autotest`. Это один из подходов расширения страницы:
+[source,java]
+----
+public class GreetingPage {
+
+    private final SimplePage simplePage;
+
+    public GreetingPage() {
+        simplePage = N2oSelenide.page(SimplePage.class);
     }
 
-    @BeforeEach
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
+    public void sendName(String name) {
+        InputText inputText = form().fields().field("Имя").control(InputText.class);
+        inputText.val(name);
+        form().toolbar().bottomLeft().button("Отправить").click();
     }
 
-    @Override
-    protected void configure(N2oApplicationBuilder builder) {
-        super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsPack());
+    public Alerts alerts() {
+        return simplePage.alerts();
     }
 
-    @Test
-    public void testAlert() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/alert/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        ...
+    private FormWidget form() {
+        return simplePage.single().widget(FormWidget.class);
     }
 }
 ----
 
-Если функций описанных в библиотеке недостаточно всегда можно переключиться на "нативное" тестирование через Selenide,
-для этого у любого компонента получить SelenideElement, вызвав метод `element()`, и уже у него получить любой объект,
+GreetingAT.java:
+[source,java]
+----
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class GreetingAT {
+    @LocalServerPort
+    private int port;
+
+    private GreetingPage page;
+
+    /**
+     * Задание настроек для Selenide
+     */
+    @BeforeAll
+    public static void configure() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
+        headless = false;
+        browserSize = "1920x1200";
+    }
+
+    /**
+     * Открытие страницы
+     */
+    @BeforeEach
+    public void openProtoPage() {
+        page = Selenide.open("http://localhost:" + port, GreetingPage.class);
+    }
+
+    @Test
+    public void checkHelloText() {
+        page.sendName("Иван");
+        page.alerts().alert(0).shouldHaveText("Привет, Иван");
+    }
+}
+----
+
+
+В автотестах можно использовать N2oSelenide из библиотеки `n2o-autotest` - это главный
+класс для старта автотестирования страниц N2O с набором статических методов:
+
+1) открытие страницы n2o:
+[source,java]
+----
+N2oSimplePage page = N2oSelenide.open("http://localhost:" + port, N2oSimplePage.class);
+----
+
+2) получение открытой страницы:
+[source,java]
+----
+N2oSimplePage page = N2oSelenide.page(N2oSimplePage.class);
+----
+
+3) получение открытого модального окна:
+[source,java]
+----
+N2oModal modal = N2oSelenide.modal(N2oModal.class);
+Modal defaultModal = N2oSelenide.modal();
+----
+
+4) получение открытого drawer:
+[source,java]
+----
+N2oDrawer drawer = N2oSelenide.drawer(N2oDrawer.class);
+Drawer defaultDrawer = N2oSelenide.drawer();
+----
+
+5) получение любого визуального компонента(Component) для автотестирования:
+[source,java]
+----
+N2oText text = N2oSelenide.component(form().fieldsets().fieldset(0).element().$(".n2o-text-field"), N2oText.class);
+----
+
+6) получение списка визуальных компонентов(Component):
+[source,java]
+----
+N2oSelenide.collection(element().$$(".n2o-standard-widget-layout"), Widgets.class);
+----
+
+7) задание собственной фабрики получения компонентов. Возможные случаи использования:
+на проекте есть дополнительный кастомный компонент, например своя ячейка,
+или на всем проекте заменен какой-то компонент, например везде используется
+расширенный input-text.
+[source,java]
+----
+N2oSelenide.setFactory(new ComponentFactory()
+                .addCollections(N2oWidgets.class)
+                .addComponents(CustomCell.class));
+----
+
+Используя этот класс, можно переписать автотест следующим образом
+[source,java]
+----
+@SpringBootTest(classes = Application.class, webEnvironment =
+                SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class SimpleGreetingAT {
+    @LocalServerPort
+    private int port;
+
+    private SimplePage page;
+
+    /**
+     * Задание настроек для Selenide
+     */
+    @BeforeAll
+    public static void configure() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
+        headless = false;
+        browserSize = "1920x1200";
+    }
+
+    /**
+     * Открытие страницы
+     */
+    @BeforeEach
+    public void openProtoPage() {
+        page = N2oSelenide.open("http://localhost:" + port, SimplePage.class);
+    }
+
+    @Test
+    public void greetingTest() {
+        InputText inputText = page.single().widget(FormWidget.class).fields()
+                                  .field("Имя").control(InputText.class);
+        inputText.val("Иван");
+        page.single().widget(FormWidget.class).toolbar().bottomLeft()
+                     .button("Отправить").click();
+        page.alerts().alert(0).shouldHaveText("Привет, Иван");
+    }
+}
+----
+
+== Кастомизация
+
+Если на вашем проекте встречаются кастомные компоненты, можно написать свою
+реализацию интерфейса для этого компонента, например `MyWidget` и получить его следующим образом
+[source,java]
+----
+N2oSelenide.component(page.single().elements().get(0), MyWidget.class);
+----
+
+Если функций описанных в библиотеке `n2o-autotest` недостаточно всегда можно переключиться
+на "нативное" тестирование через Selenide, для этого у любого компонента
+получить SelenideElement, вызвав метод `element()`, и уже у него получить любой объект,
 используя селекторы `.$ .$$`. Пример:
-[source,xml]
+[source,java]
 ----
 Alert alert = page.single().widget(FormWidget.class).snippet(0, Alert.class);
 alert.element().$(".inner-message").should(Condition.exist);
 ----
-
-
-
-== Кастомизация
-Если на вашей N2O странице встречаются кастомные компоненты, можно написать свою реализацию интерфейса для этого компонента.
-Обязательно добавьте свою реализацию в фабрику.
-[source,xml]
-----
-N2oSelenide.setFactory(new ComponentFactory()
-                .addCollections(MyRegions.class, MyWidgets.class)
-                .addComponents(MyRegion.class, MyLeftRightPage.class));
-----
-
-Если api компенента недостаточно, то вы можете его расширить написав свой интерфейс, сделав его наследником исходного.

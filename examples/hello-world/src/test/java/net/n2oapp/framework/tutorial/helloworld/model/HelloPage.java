@@ -1,9 +1,9 @@
 package net.n2oapp.framework.tutorial.helloworld.model;
 
-import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
 
 public class HelloPage {
 
@@ -18,7 +18,7 @@ public class HelloPage {
     }
 
     public void helloShouldHaveText(String helloString) {
-        form().fieldsets().fieldset(0).element().$(".n2o-text-field").shouldBe(Condition.text(helloString));
+        N2oSelenide.component(form().fieldsets().fieldset(0).element().$(".n2o-text-field"), N2oText.class)
+                .shouldHaveText(helloString);
     }
-
 }
