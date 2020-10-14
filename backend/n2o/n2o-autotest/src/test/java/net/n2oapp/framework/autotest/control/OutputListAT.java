@@ -48,7 +48,7 @@ public class OutputListAT extends AutoTestBase {
 
     @Test
     public void testOutputList() {
-        Fields fields = page.single().widget(FormWidget.class).fields();
+        Fields fields = page.widget(FormWidget.class).fields();
 
         OutputList outputList = fields.field("output1").control(OutputList.class);
         String separator = ",";

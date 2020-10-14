@@ -36,7 +36,7 @@ public class TilesCompileTest extends SourceCompileTestBase {
     public void testTiles() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTilesCompile.page.xml")
                 .get(new PageContext("testTilesCompile"));
-        Tiles tiles = (Tiles) page.getWidgets().get("testTilesCompile_tiles1");
+        Tiles tiles = (Tiles) page.getRegions().get("single").get(0).getContent().get(0);
 
         assertThat(tiles.getSrc(), is("TilesWidget"));
         assertThat(tiles.getColsSm(), is(2));
@@ -71,7 +71,7 @@ public class TilesCompileTest extends SourceCompileTestBase {
         assertThat(tiles.getPaging().getSize(), is(5));
         assertThat(tiles.getPaging().getSrc(), is("pagingSrc"));
 
-        tiles = (Tiles) page.getWidgets().get("testTilesCompile_tiles2");
+        tiles = (Tiles) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(tiles.getSrc(), is("TilesWidget"));
         assertThat(tiles.getColsSm(), is(1));
         assertThat(tiles.getColsMd(), is(2));

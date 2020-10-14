@@ -34,10 +34,10 @@ class CodeEditor extends React.Component {
     };
   }
 
-  onChange(value) {
+  onChange = value => {
     this.setState({ value });
     this.props.onChange(value);
-  }
+  };
 
   componentWillReceiveProps(props) {
     if (props.value && props.value !== this.state.value) {
@@ -69,7 +69,7 @@ class CodeEditor extends React.Component {
             mode={lang}
             theme="tomorrow"
             name={name}
-            onChange={this.onChange.bind(this)}
+            onChange={this.onChange}
             fontSize={14}
             showPrintMargin={true}
             showGutter={true}
@@ -135,6 +135,7 @@ CodeEditor.defaultProps = {
   onChange: () => {},
   disabled: false,
   visible: true,
+  maxLines: 100,
 };
 
 export default CodeEditor;

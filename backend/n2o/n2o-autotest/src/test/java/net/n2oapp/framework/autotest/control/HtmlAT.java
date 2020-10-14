@@ -44,7 +44,7 @@ public class HtmlAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Html html = page.single().widget(FormWidget.class).fields().field("Html")
+        Html html = page.widget(FormWidget.class).fields().field("Html")
                 .control(Html.class);
         html.shouldExists();
 

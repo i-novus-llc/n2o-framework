@@ -19,8 +19,6 @@ const { store } = makeStore();
 stories.add(
   'Метаданные',
   () => {
-    store.dispatch(metadataSuccess('Page', HtmlWidgetJson));
-
     return <NoneRegion {...NoneRegionsJson} pageId="Page" />;
   },
   {
