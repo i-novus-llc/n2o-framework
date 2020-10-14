@@ -1,19 +1,15 @@
 package net.n2oapp.framework.api.exception;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
 /**
  * Бизнес исключение
  */
-@Getter
-@Setter
 public class N2oUserException extends N2oException {
+    @Getter
     private List<ValidationMessage> messages;
-    private String validationFailKey;
-
 
     public N2oUserException(String userMessage) {
         super();
@@ -33,5 +29,4 @@ public class N2oUserException extends N2oException {
         setUserMessage(userMessage);
         setHttpStatus(400);
     }
-
 }
