@@ -2,16 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 import Button from 'reactstrap/lib/Button';
-import { getContext } from 'recompose';
 
-function Buttons({
-  t,
-  visible,
-  searchLabel = t('search'),
-  resetLabel = t('reset'),
-  onSearch,
-  onReset,
-}) {
+function Buttons({ visible, searchLabel, resetLabel, onSearch, onReset }) {
   return visible ? (
     <ButtonGroup>
       <Button color="primary" onClick={onSearch}>
@@ -38,4 +30,4 @@ Buttons.defaultProps = {
   visible: true,
 };
 
-export default getContext({ t: PropTypes.func })(Button);
+export default Buttons;
