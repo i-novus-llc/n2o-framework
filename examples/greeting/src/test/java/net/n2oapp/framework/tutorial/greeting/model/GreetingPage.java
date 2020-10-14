@@ -15,16 +15,14 @@ public class GreetingPage {
     }
 
     public void sendName(String name) {
-        InputText inputText = form().fields().field("Имя").control(InputText.class);
+        FormWidget formWidget = simplePage.single().widget(FormWidget.class);
+        InputText inputText = formWidget.fields().field("Имя").control(InputText.class);
         inputText.val(name);
-        form().toolbar().bottomLeft().button("Отправить").click();
+        formWidget.toolbar().bottomLeft().button("Отправить").click();
     }
 
-    public Alerts alerts() {
-        return simplePage.alerts();
+    public void greetingShouldHave(String text) {
+        simplePage.alerts().alert(0).shouldHaveText(text);
     }
 
-    private FormWidget form() {
-        return simplePage.single().widget(FormWidget.class);
-    }
 }

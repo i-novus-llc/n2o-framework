@@ -42,6 +42,6 @@ public class GreetingAT {
     @Test
     public void checkHelloText() {
         page.sendName("Иван");
-        page.alerts().alert(0).shouldHaveText("Привет, Иван");
+        page.greetingShouldHave("Привет, Иван");
     }
 }

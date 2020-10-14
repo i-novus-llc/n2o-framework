@@ -84,17 +84,14 @@ public class GreetingPage {
     }
 
     public void sendName(String name) {
-        InputText inputText = form().fields().field("Имя").control(InputText.class);
+        FormWidget formWidget = simplePage.single().widget(FormWidget.class);
+        InputText inputText = formWidget.fields().field("Имя").control(InputText.class);
         inputText.val(name);
-        form().toolbar().bottomLeft().button("Отправить").click();
+        formWidget.toolbar().bottomLeft().button("Отправить").click();
     }
 
-    public Alerts alerts() {
-        return simplePage.alerts();
-    }
-
-    private FormWidget form() {
-        return simplePage.single().widget(FormWidget.class);
+    public void greetingShouldHave(String text) {
+        simplePage.alerts().alert(0).shouldHaveText(text);
     }
 }
 ----
@@ -114,9 +111,9 @@ public class GreetingAT {
      */
     @BeforeAll
     public static void configure() {
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
-        headless = false;
+        //Включаем возможность запускать браузер в автономном режиме
+        headless = true;
         browserSize = "1920x1200";
     }
 
@@ -131,7 +128,7 @@ public class GreetingAT {
     @Test
     public void checkHelloText() {
         page.sendName("Иван");
-        page.alerts().alert(0).shouldHaveText("Привет, Иван");
+        page.greetingShouldHave("Привет, Иван");
     }
 }
 ----
@@ -169,7 +166,7 @@ Drawer defaultDrawer = N2oSelenide.drawer();
 5) получение любого визуального компонента(Component) для автотестирования:
 [source,java]
 ----
-N2oText text = N2oSelenide.component(form().fieldsets().fieldset(0).element().$(".n2o-text-field"), N2oText.class);
+N2oText text = N2oSelenide.component(page.element().$(".n2o-text-field"), N2oText.class);
 ----
 
 6) получение списка визуальных компонентов(Component):
@@ -200,24 +197,7 @@ public class SimpleGreetingAT {
 
     private SimplePage page;
 
-    /**
-     * Задание настроек для Selenide
-     */
-    @BeforeAll
-    public static void configure() {
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
-        headless = false;
-        browserSize = "1920x1200";
-    }
-
-    /**
-     * Открытие страницы
-     */
-    @BeforeEach
-    public void openProtoPage() {
-        page = N2oSelenide.open("http://localhost:" + port, SimplePage.class);
-    }
+    ...
 
     @Test
     public void greetingTest() {
