@@ -43,7 +43,7 @@ public class InputTextAT extends AutoTestBase {
 
     @Test
     public void testInputText() {
-        InputText input = page.single().widget(FormWidget.class).fields().field("InputText")
+        InputText input = page.widget(FormWidget.class).fields().field("InputText")
                 .control(InputText.class);
         input.shouldExists();
 
@@ -61,7 +61,7 @@ public class InputTextAT extends AutoTestBase {
 
     @Test
     public void testInputNumber() {
-        InputText input = page.single().widget(FormWidget.class).fields().field("InputNumber")
+        InputText input = page.widget(FormWidget.class).fields().field("InputNumber")
                 .control(InputText.class);
         input.shouldExists();
 
@@ -87,7 +87,7 @@ public class InputTextAT extends AutoTestBase {
 
     @Test
     public void testInputFloat() {
-        InputText input = page.single().widget(FormWidget.class).fields().field("InputFloat")
+        InputText input = page.widget(FormWidget.class).fields().field("InputFloat")
                 .control(InputText.class);
         input.shouldExists();
 

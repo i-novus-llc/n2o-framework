@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import every from 'lodash/every';
 import isUndefined from 'lodash/isUndefined';
+import isArray from 'lodash/isArray';
+import map from 'lodash/map';
+
 import { compose, setDisplayName } from 'recompose';
 import PanelShortHand from '../../snippets/Panel/PanelShortHand';
-import { WIDGETS } from '../../../core/factory/factoryLevels';
-import Factory from '../../../core/factory/Factory';
 import withRegionContainer from '../withRegionContainer';
 import withWidgetProps from '../withWidgetProps';
 import withSecurity from '../../../core/auth/withSecurity';
 import { SECURITY_CHECK } from '../../../core/auth/authTypes';
+import RegionContent from '../RegionContent';
 
 /**
  * Регион Панель
@@ -24,7 +27,7 @@ import { SECURITY_CHECK } from '../../../core/auth/authTypes';
  * @reactProps open (boolean) - флаг открытости панели
  * @reactProps hasTabs (boolean) - флаг наличия табов
  * @reactProps fullScreen (boolean) - флаг возможности открывать на полный экран
- * @reactProps {array} panels - массив панелей вида
+ * @reactProps {array} content - массив панелей вида
  * @reactProps {string} pageId - идентификатор страницы
  * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {object} user - пользователь !!! не используется
@@ -51,17 +54,9 @@ class PanelRegion extends React.Component {
     this.getPanelsWithAccess();
   }
 
-  getContent(panel) {
-    const { getWidget, pageId } = this.props;
-    return (
-      <Factory
-        level={WIDGETS}
-        id={panel.widgetId}
-        key={panel.widgetId}
-        {...getWidget(pageId, panel.widgetId)}
-        pageId={pageId}
-      />
-    );
+  getContent(meta) {
+    const content = isArray(meta) ? meta : [meta];
+    return <RegionContent content={content} />;
   }
 
   getTab(panel) {
@@ -95,9 +90,9 @@ class PanelRegion extends React.Component {
   }
 
   getPanelsWithAccess() {
-    const { panels } = this.props;
+    const { content } = this.props;
     this.setState({ tabs: [] }, async () => {
-      for (const panel of panels) {
+      for (const panel of content) {
         await this.checkPanel(panel);
       }
     });
@@ -108,17 +103,16 @@ class PanelRegion extends React.Component {
    */
   render() {
     const {
-      panels,
+      content,
       getWidgetProps,
       activeEntity,
       open,
       changeActiveEntity,
     } = this.props;
     const isInvisible = every(
-      panels,
+      content,
       item => getWidgetProps(item.widgetId).isVisible === false
     );
-
     return (
       <PanelShortHand
         tabs={this.state.tabs}
@@ -127,7 +121,7 @@ class PanelRegion extends React.Component {
         style={{ display: isInvisible && 'none' }}
         onVisibilityChange={changeActiveEntity}
       >
-        {panels.map(container => this.getContent(container))}
+        {map(content, meta => this.getContent(meta))}
       </PanelShortHand>
     );
   }
@@ -137,7 +131,7 @@ PanelRegion.propTypes = {
   /**
    * Список элементов
    */
-  panels: PropTypes.array.isRequired,
+  content: PropTypes.array.isRequired,
   /**
    * ID страницы
    */

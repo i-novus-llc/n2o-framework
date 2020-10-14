@@ -48,7 +48,7 @@ public class FieldToolbarAT extends AutoTestBase {
     public void testFieldToolbar() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        Fields fields = page.single().widget(FormWidget.class).fields();
+        Fields fields = page.widget(FormWidget.class).fields();
         Toolbar toolbar = fields.field("id").toolbar();
 
         toolbar.button("Ссылка").shouldBeDisabled();
@@ -76,20 +76,20 @@ public class FieldToolbarAT extends AutoTestBase {
         toolbar.button("Открыть модальное окно").click();
         Modal modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Другая страница");
-        modal.content(SimplePage.class).single().widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
+        modal.content(SimplePage.class).widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
         modal.close();
 
         toolbar.button("Открыть страницу").click();
 
         page.breadcrumb().titleShouldHaveText("Другая страница");
-        page.single().widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
+        page.widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
     }
 
     @Test
     public void testFieldToolbarSubmenu() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        Fields fields = page.single().widget(FormWidget.class).fields();
+        Fields fields = page.widget(FormWidget.class).fields();
 
         DropdownButton dropdownButton = fields.field("sub").toolbar().dropdown();
         dropdownButton.shouldHaveItems(4);
@@ -120,12 +120,12 @@ public class FieldToolbarAT extends AutoTestBase {
         dropdownButton.menuItem("Открыть модальное окно").click();
         Modal modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Другая страница");
-        modal.content(SimplePage.class).single().widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
+        modal.content(SimplePage.class).widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
         modal.close();
 
         dropdownButton.click();
         dropdownButton.menuItem("Открыть страницу").click();
         page.breadcrumb().titleShouldHaveText("Другая страница");
-        page.single().widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
+        page.widget(FormWidget.class).fields().field("С другой страницы").shouldExists();
     }
 }

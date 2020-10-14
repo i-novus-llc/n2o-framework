@@ -42,7 +42,7 @@ public class SelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Select input = page.single().widget(FormWidget.class).fields().field("Select1")
+        Select input = page.widget(FormWidget.class).fields().field("Select1")
                 .control(Select.class);
         input.shouldExists();
 
@@ -54,7 +54,7 @@ public class SelectAT extends AutoTestBase {
         input.clear();
         input.shouldBeEmpty();
 
-        input = page.single().widget(FormWidget.class).fields().field("Select2")
+        input = page.widget(FormWidget.class).fields().field("Select2")
                 .control(Select.class);
         input.shouldExists();
 
@@ -68,7 +68,7 @@ public class SelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Select input = page.single().widget(FormWidget.class).fields().field("Select1")
+        Select input = page.widget(FormWidget.class).fields().field("Select1")
                 .control(Select.class);
         input.shouldExists();
 
@@ -91,7 +91,7 @@ public class SelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Select input = page.single().widget(FormWidget.class).fields().field("Select1")
+        Select input = page.widget(FormWidget.class).fields().field("Select1")
                 .control(Select.class);
         input.shouldExists();
 
@@ -111,7 +111,7 @@ public class SelectAT extends AutoTestBase {
         input.shouldBeEmpty();
 
 
-        input = page.single().widget(FormWidget.class).fields().field("Select2")
+        input = page.widget(FormWidget.class).fields().field("Select2")
                 .control(Select.class);
         input.shouldExists();
 
@@ -133,7 +133,7 @@ public class SelectAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Select input = page.single().widget(FormWidget.class).fields().field("Select1")
+        Select input = page.widget(FormWidget.class).fields().field("Select1")
                 .control(Select.class);
         input.shouldExists();
 
@@ -149,7 +149,7 @@ public class SelectAT extends AutoTestBase {
         input.collapsePopUpOptions();
 
 
-        Select input2 = page.single().widget(FormWidget.class).fields().field("Select2")
+        Select input2 = page.widget(FormWidget.class).fields().field("Select2")
                 .control(Select.class);
         input2.shouldExists();
 

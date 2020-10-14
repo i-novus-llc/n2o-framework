@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget.chart;
 
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartType;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.PieChart;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -41,7 +42,7 @@ public class PieChartCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/chart/testPieChartCompile.page.xml")
                 .get(new PageContext("testPieChartCompile"));
 
-        PieChart pieChart1 = (PieChart) page.getWidgets().get("testPieChartCompile_pie1").getComponent();
+        PieChart pieChart1 = (PieChart) ((Chart) page.getRegions().get("single").get(0).getContent().get(0)).getComponent();
         assertThat(pieChart1.getSrc(), is("PieChart"));
         assertThat(pieChart1.getType(), is(ChartType.pie));
 
@@ -56,7 +57,7 @@ public class PieChartCompileTest extends SourceCompileTestBase {
         assertThat(pieChart1.getComponent().getColor(), is("#8884d8"));
         assertThat(pieChart1.getComponent().getHasLabel(), is(true));
 
-        PieChart pieChart2 = (PieChart) page.getWidgets().get("testPieChartCompile_pie2").getComponent();
+        PieChart pieChart2 = (PieChart) ((Chart) page.getRegions().get("single").get(0).getContent().get(1)).getComponent();
         assertThat(pieChart2.getComponent().getInnerRadius(), is(0));
         assertThat(pieChart2.getComponent().getStartAngle(), is(0));
         assertThat(pieChart2.getComponent().getEndAngle(), is(360));

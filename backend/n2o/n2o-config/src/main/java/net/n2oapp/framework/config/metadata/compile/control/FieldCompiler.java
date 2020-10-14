@@ -436,6 +436,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 if (StringUtils.isJs(defValue)) {
                     ModelLink defaultValue = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId());
                     defaultValue.setValue(defValue);
+                    defaultValue.setParam(source.getParam());
                     defaultValues.add(control.getId(), defaultValue);
                 } else {
                     SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
@@ -455,6 +456,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     }
                     modelLink.setValue(defValue);
                     modelLink.setSubModelQuery(subModelQuery);
+                    modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);
                 }
             }
