@@ -678,9 +678,8 @@ class AdvancedTable extends Component {
   getScroll() {
     const { scroll, columns } = this.props;
 
-    const noScroll = axis => isEqual(get(scroll, axis), 'false');
-    const noScrollX = noScroll('x');
-    const noScrollY = noScroll('y');
+    const noScrollX = scroll.x === 'false';
+    const noScrollY = scroll.y === 'false';
     const noTableScroll = noScrollX && noScrollY;
 
     if (isEmpty(this.props.data) || isEmpty(this.props.columns)) {
@@ -853,6 +852,7 @@ AdvancedTable.defaultProps = {
   onSetSelection: () => {},
   autoFocus: false,
   rows: {},
+  scroll: {},
 };
 
 export { AdvancedTable };
