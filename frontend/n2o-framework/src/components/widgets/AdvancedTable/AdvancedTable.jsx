@@ -721,22 +721,24 @@ class AdvancedTable extends Component {
         : pxWidth;
     };
 
-    return noTableScroll
-      ? { x: false, y: false }
-      : noScrollX
-      ? {
-          ...scroll,
-          x: false,
-        }
-      : noScrollY
-      ? {
-          y: false,
-          x: calcXScroll(),
-        }
-      : {
-          ...scroll,
-          x: calcXScroll(),
-        };
+    if (noTableScroll) {
+      return { x: false, y: false };
+    } else if (noScrollX) {
+      return {
+        ...scroll,
+        x: false,
+      };
+    } else if (noScrollY) {
+      return {
+        y: false,
+        x: calcXScroll(),
+      };
+    }
+
+    return {
+      ...scroll,
+      x: calcXScroll(),
+    };
   }
 
   render() {
