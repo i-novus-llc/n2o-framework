@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import { compose, getContext } from 'recompose';
 
 import SecurityCheck from './SecurityCheck';
 import { userLogin, userLogout as userLogoutAction } from '../../actions/auth';
@@ -25,11 +26,12 @@ class Login extends React.Component {
   }
 
   render() {
+    const { t, i18n } = this.props;
     return (
       <div>
         <input
           type="text"
-          placeholder="Логин"
+          placeholder={t('login')}
           value={this.state.username}
           onChange={this.handleChange}
         />{' '}
@@ -58,7 +60,12 @@ const AuthButton = ({ userLogout }) => (
   />
 );
 
+Login.defaultProps = {
+  t: () => {},
+};
+
 export default compose(
+  getContext({ t: PropTypes.func }),
   connect(
     null,
     { userLogout: userLogoutAction }

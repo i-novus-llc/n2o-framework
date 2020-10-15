@@ -44,7 +44,7 @@ export const ControlType = {
 class DateTimeControl extends React.Component {
   constructor(props) {
     super(props);
-    let { value, dateFormat, locale, timeFormat, dateDivider } = props;
+    let { value, dateFormat, configLocale, timeFormat, dateDivider } = props;
     this.format = buildDateFormat(dateFormat, timeFormat, dateDivider);
 
     this.defaultTime = mapToDefaultTime(
@@ -61,7 +61,7 @@ class DateTimeControl extends React.Component {
         value,
         defaultTime,
         this.props.outputFormat,
-        locale,
+        configLocale,
         DateTimeControl.defaultInputName
       ),
       isPopUpVisible: false,
@@ -89,7 +89,7 @@ class DateTimeControl extends React.Component {
    * Обработка новых пропсов
    */
   componentWillReceiveProps(props) {
-    let { value, dateFormat, locale, timeFormat, dateDivider } = props;
+    let { value, dateFormat, configLocale, timeFormat, dateDivider } = props;
     this.format = buildDateFormat(dateFormat, timeFormat, dateDivider);
 
     this.defaultTime = mapToDefaultTime(
@@ -105,7 +105,7 @@ class DateTimeControl extends React.Component {
         value,
         this.defaultTime,
         this.props.outputFormat,
-        locale,
+        configLocale,
         DateTimeControl.defaultInputName
       ),
     });
@@ -310,7 +310,7 @@ class DateTimeControl extends React.Component {
    * Рендер попапа
    */
   renderPopUp() {
-    const { max, min, locale, timeFormat } = this.props;
+    const { max, min, configLocale, timeFormat, t } = this.props;
     const { inputs, isPopUpVisible, placement } = this.state;
 
     return (
@@ -332,7 +332,8 @@ class DateTimeControl extends React.Component {
           max={this.parseRange(max)}
           min={this.parseRange(min)}
           date={this.props.date}
-          locale={locale}
+          locale={configLocale}
+          t={t}
         />
       )
     );
@@ -434,7 +435,7 @@ DateTimeControl.defaultProps = {
   dateDivider: ' ',
   dateFormat: 'DD.MM.YYYY',
   outputFormat: 'DD.MM.YYYY HH:mm:ss',
-  locale: 'ru',
+  configLocale: 'ru',
   autoFocus: false,
   openOnFocus: false,
   popupPlacement: 'bottom-start',
@@ -468,11 +469,12 @@ DateTimeControl.propTypes = {
   outputFormat: PropTypes.string,
   disabled: PropTypes.bool,
   placeholder: PropTypes.string,
-  locale: PropTypes.oneOf(['en', 'ru']),
+  configLocale: PropTypes.oneOf(['en', 'ru']),
   timeFormat: PropTypes.string,
   autoFocus: PropTypes.bool,
   openOnFocus: PropTypes.bool,
   popupPlacement: PropTypes.string,
+  t: PropTypes.func,
 };
 
 export default DateTimeControl;

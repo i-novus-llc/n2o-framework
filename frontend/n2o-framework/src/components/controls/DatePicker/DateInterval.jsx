@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import defaults from 'lodash/defaults';
+import { getContext } from 'recompose';
+
 import DateTimeControl from './DateTimeControl';
-import isNull from 'lodash/isNull';
 
 /**
  * Компонент для выбора временного интервала. Состоит 2 {@link DatePicker}
@@ -28,6 +29,7 @@ function DateInterval({
   defaultValue,
   onChange,
   onBlur,
+  config,
   ...rest
 }) {
   const newValue = defaults(value, defaultValue);
@@ -78,12 +80,13 @@ DateInterval.defaultProps = {
   onChange: () => {},
   onFocus: () => {},
   onBlur: () => {},
+  t: () => {},
   dateFormat: 'DD/MM/YYYY',
   placeholder: '',
   disabled: false,
   dateDivider: ' ',
   className: '',
-  locale: 'ru',
+  configLocale: 'ru',
   openOnFocus: false,
 };
 
@@ -151,11 +154,14 @@ DateInterval.propTypes = {
   /**
    * Локализация
    */
-  locale: PropTypes.oneOf(['en', 'ru']),
+  configLocale: PropTypes.oneOf(['en', 'ru']),
   /**
    * Флаг включения открытия при фокусе
    */
   openOnFocus: PropTypes.bool,
 };
 
-export default DateInterval;
+export default getContext({
+  t: PropTypes.func,
+  configLocale: PropTypes.string,
+})(DateInterval);

@@ -4,6 +4,7 @@ import InputMask from './InputMask/InputMask';
 import InputNumber from './InputNumber/InputNumber';
 import InputText from './InputText/InputText';
 import TextArea from './TextArea/TextArea';
+import '../../i18n';
 
 const setupMoney = propsOverride => {
   return mount(<InputMoney {...propsOverride} />);

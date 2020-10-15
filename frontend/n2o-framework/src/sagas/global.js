@@ -46,6 +46,11 @@ export function* getConfig(apiProvider, action) {
   }
 }
 
+/**
+ * Сага для изменения locale
+ * @param apiProvider
+ * @param action
+ */
 export function* changeLocale(apiProvider, action) {
   try {
     const locale = get(action, 'payload.locale');

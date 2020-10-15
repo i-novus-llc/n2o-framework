@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { compose, pure, setDisplayName } from 'recompose';
+import { compose, pure, setDisplayName, getContext } from 'recompose';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Table from 'rc-table';
@@ -731,6 +731,7 @@ class AdvancedTable extends Component {
       isActive,
       onFocus,
       rowSelection,
+      t,
     } = this.props;
 
     return (
@@ -760,7 +761,7 @@ class AdvancedTable extends Component {
             onExpand={onExpand}
             useFixedHeader={useFixedHeader}
             indentSize={20}
-            emptyText={AdvancedTableEmptyText}
+            emptyText={AdvancedTableEmptyText(t)}
             scroll={this.getScroll()}
           />
         </div>
@@ -829,12 +830,14 @@ AdvancedTable.defaultProps = {
   expandable: false,
   onFocus: () => {},
   onSetSelection: () => {},
+  t: () => {},
   autoFocus: false,
   rows: {},
 };
 
 export { AdvancedTable };
 export default compose(
+  getContext({ t: PropTypes.func }),
   setDisplayName('AdvancedTable'),
   pure,
   withAdvancedTableRef

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { storiesOf, forceReRender } from '@storybook/react';
 import { StateDecorator, Store } from '@sambego/storybook-state';
 import Pagination from './Pagination';

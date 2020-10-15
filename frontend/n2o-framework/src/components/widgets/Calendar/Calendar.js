@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import cn from 'classnames';
+import { getContext } from 'recompose';
 import { formatsMap, timeParser } from './utils';
-
-const localizer = momentLocalizer(moment);
 
 /**
  * Компонент Календарь
@@ -50,8 +49,31 @@ function Calendar({
   resources,
   onSelectEvent,
   onSelectSlot,
-  messages,
+  configLocale,
+  t,
 }) {
+  moment.locale(configLocale);
+
+  const localizer = momentLocalizer(moment);
+
+  const messages = {
+    month: t('calendarMonth'),
+    day: t('calendarDay'),
+    today: t('calendarToday'),
+    week: t('calendarWeek'),
+    agenda: t('calendarAgenda'),
+    next: t('calendarNext'),
+    previous: t('calendarPrevious'),
+    noEventsInRange: t('calendarNoEventsInRange'),
+    tomorrow: t('calendarTomorrow'),
+    work_week: t('calendarWorkweek'),
+    yesterday: t('calendarYesterday'),
+    event: t('calendarEvent'),
+    allDay: t('calendarAllDay'),
+    date: t('calendarDate'),
+    time: t('calendarTime'),
+  };
+
   return (
     <BigCalendar
       className={cn('calendar', className)}
@@ -153,23 +175,11 @@ Calendar.defaultProps = {
   startAccessor: 'start',
   endAccessor: 'end',
   events: [],
-  messages: {
-    month: 'Месяц',
-    day: 'День',
-    today: 'Сегодня',
-    week: 'Неделя',
-    agenda: 'Повестка дня',
-    next: 'Вперед',
-    previous: 'Назад',
-    noEventsInRange: 'На данном отрезке времени события отсутствуют',
-    tomorrow: 'Завтра',
-    work_week: 'Рабочая неделя',
-    yesterday: 'Вчера',
-    event: 'Событие',
-    allDay: 'Весь день',
-    date: 'Дата',
-    time: 'Время',
-  },
+  configLocale: 'ru',
+  t: () => {},
 };
 
-export default Calendar;
+export default getContext({
+  t: PropTypes.func,
+  configLocale: PropTypes.string,
+})(Calendar);

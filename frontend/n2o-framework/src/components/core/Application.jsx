@@ -22,9 +22,10 @@ import {
 import { globalSelector } from '../../selectors/global';
 import Spinner from '../snippets/Spinner/Spinner';
 
-numeral.locale('ru');
+function Application(props) {
+  const { ready, loading, render, ...config } = props;
+  numeral.locale(props.locale);
 
-function Application({ ready, loading, render, ...config }) {
   return (
     <Spinner type="cover" loading={loading}>
       {ready && render(config)}
@@ -57,9 +58,11 @@ export default compose(
   withContext(
     {
       getFromConfig: PropTypes.func,
+      configLocale: PropTypes.string,
     },
     props => ({
       getFromConfig: key => get(props, key),
+      configLocale: props.locale,
     })
   ),
   getContext({
@@ -93,8 +96,9 @@ export default compose(
       }
     },
     componentDidUpdate(prevProps) {
-      if (prevProps.locale !== this.props.locale) {
-        this.props.i18n.changeLanguage(this.props.locale);
+      const { locale, i18n } = this.props;
+      if (prevProps.locale !== locale) {
+        i18n.changeLanguage(locale);
       }
     },
   })

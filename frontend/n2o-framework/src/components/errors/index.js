@@ -1,29 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { getContext } from 'recompose';
 import ErrorPage from './ErrorPage';
 import DocumentTitle from '../core/DocumentTitle';
 
-const PAGE_NOT_FOUND = 'Страница не найдена';
-const ACCESS_DENIED = 'Доступ запрещён';
-const INNER_APPLICATION_ERROR = 'Внутренняя ошибка приложения';
-
-const NotFoundPage = () => (
-  <React.Fragment>
-    <DocumentTitle title={PAGE_NOT_FOUND} />
-    <ErrorPage status={404} error={PAGE_NOT_FOUND} />
-  </React.Fragment>
-);
-const ForbiddenPage = () => (
-  <React.Fragment>
-    <DocumentTitle title={ACCESS_DENIED} />
-    <ErrorPage status={403} error={ACCESS_DENIED} />
-  </React.Fragment>
-);
-const ServerErrorPage = () => (
-  <React.Fragment>
-    <DocumentTitle title={INNER_APPLICATION_ERROR} />
-    <ErrorPage status={500} error={INNER_APPLICATION_ERROR} />
-  </React.Fragment>
-);
+const NotFoundPage = () =>
+  getContext({ t: PropTypes.func })(
+    <React.Fragment>
+      <DocumentTitle title={this.props.t('pageNotFound')} />
+      <ErrorPage status={404} error={this.props.t('pageNotFound')} />
+    </React.Fragment>
+  );
+const ForbiddenPage = () =>
+  getContext({ t: PropTypes.func })(
+    <React.Fragment>
+      <DocumentTitle title={this.props.t('accessDenied')} />
+      <ErrorPage status={403} error={this.props.t('accessDenied')} />
+    </React.Fragment>
+  );
+const ServerErrorPage = () =>
+  getContext({ t: PropTypes.func })(
+    <React.Fragment>
+      <DocumentTitle title={this.props.t('innerAppError')} />
+      <ErrorPage status={500} error={this.props.t('innerAppError')} />
+    </React.Fragment>
+  );
 
 const createErrorPages = ({
   notFound = NotFoundPage,
