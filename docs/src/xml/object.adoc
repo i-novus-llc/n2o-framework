@@ -371,7 +371,7 @@ link:#__validations_3[Список валидаций]
 |before-operation, before-query, after-success-query, after-fail-query,
 after-success-operation, after-fail-operation
 |Момент срабатывания валидации на сервере
-|before-operation
+|before-operation при severity равном danger или warning, иначе - after-success-operation
 
 |message
 |Строка
@@ -531,7 +531,7 @@ JavaScript выражение
 |before-operation, before-query, after-success-query, after-fail-query,
 after-success-operation, after-fail-operation
 |Момент срабатывания валидации на сервере
-|before-operation
+|before-operation при severity равном danger или warning, иначе - after-success-operation
 
 |message
 |Строка
@@ -544,6 +544,11 @@ after-success-operation, after-fail-operation
 |Результат валидации
 |
 
+|size
+|sm lg
+|Размер окна диалога
+|lg
+
 |===
 
 Пример::
@@ -551,7 +556,7 @@ after-success-operation, after-fail-operation
 ----
 <validations>
   <dialog
-    id="checkName"
+    id="checkName" size="sm"
     message="Имя не Иван. Вы уверены, что хотите продолжить?"
     result="name == 'Ivan'">
     <invocation>...</invocation>

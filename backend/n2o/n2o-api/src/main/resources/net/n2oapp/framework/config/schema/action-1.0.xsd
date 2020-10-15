@@ -166,7 +166,7 @@
                         <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="modal-size" type="modalSize">
+                <xs:attribute name="modal-size" type="modalSize" default="lg">
                     <xs:annotation>
                         <xs:documentation>Размер модального окна.</xs:documentation>
                     </xs:annotation>
