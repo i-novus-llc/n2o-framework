@@ -38,6 +38,7 @@ import { defaultApiProvider, FETCH_PAGE_METADATA } from '../core/api';
 import fetchMock from 'fetch-mock';
 import { FETCH_END, FETCH_START } from '../constants/fetch';
 import { CHANGE_ROOT_PAGE } from '../constants/global';
+import { DESTROY } from '../constants/overlays';
 const delay = ms => new Promise(r => setTimeout(r, ms));
 const resolveModelsValue = {
   "resolve['page_main_create'].name": {
@@ -377,16 +378,17 @@ describe('Сага для для наблюдения за изменением 
       expect(dispatched[2].payload).toEqual({
         rootPageId: 'testPage',
       });
-      expect(dispatched[3].type).toBe(METADATA_SUCCESS);
-      expect(dispatched[3].payload).toEqual({
+      expect(dispatched[3].type).toBe(DESTROY);
+      expect(dispatched[4].type).toBe(METADATA_SUCCESS);
+      expect(dispatched[4].payload).toEqual({
         pageId: 'testPage',
         json: {
           id: 'testPage',
           widgets: {},
         },
       });
-      expect(dispatched[4].type).toBe(SET_STATUS);
-      expect(dispatched[4].payload).toEqual({
+      expect(dispatched[5].type).toBe(SET_STATUS);
+      expect(dispatched[5].payload).toEqual({
         pageId: 'testPage',
         status: 200,
       });

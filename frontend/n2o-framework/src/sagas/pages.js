@@ -39,6 +39,7 @@ import { MAP_URL, METADATA_REQUEST, RESET } from '../constants/pages';
 import { metadataFail, metadataSuccess, setStatus } from '../actions/pages';
 import { combineModels } from '../actions/models';
 import { changeRootPage } from '../actions/global';
+import { destroyOverlay } from '../actions/overlays';
 import { rootPageSelector } from '../selectors/global';
 import { makePageRoutesByIdSelector } from '../selectors/pages';
 import fetchSaga from './fetch.js';
@@ -48,7 +49,7 @@ import linkResolver from '../utils/linkResolver';
 
 /**
  *
-function autoDetectBasePath(pathPattern, pathname) {
+ function autoDetectBasePath(pathPattern, pathname) {
   const match = matchPath(pathname, {
     path: pathPattern,
     exact: false,
@@ -189,6 +190,7 @@ export function* getMetadata(apiProvider, action) {
     yield call(mappingUrlToRedux, metadata.routes);
     if (rootPage) {
       yield put(changeRootPage(metadata.id));
+      yield put(destroyOverlay());
     }
     yield fork(watcherDefaultModels, metadata.models);
     yield put(metadataSuccess(metadata.id, metadata));
