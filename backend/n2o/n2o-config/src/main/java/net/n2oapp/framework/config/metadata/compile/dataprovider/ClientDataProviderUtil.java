@@ -120,6 +120,7 @@ public class ClientDataProviderUtil {
             actionContext.setValidations(validationList == null ? null : validationList.get(actionContextData.getFailAlertWidgetId(),
                     initTargetWidgetModel(p, source.getTargetModel())));
             actionContext.setRedirect(actionContextData.getRedirect());
+            actionContext.setRefresh(actionContextData.getRefresh());
             actionContext.setParentWidgetId(actionContextData.getParentWidgetId());
             actionContext.setFailAlertWidgetId(actionContextData.getFailAlertWidgetId());
             actionContext.setMessagesForm(actionContextData.getMessagesForm());

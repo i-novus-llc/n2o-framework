@@ -7,10 +7,13 @@ import {
   fork,
 } from 'redux-saga/effects';
 import { getFormValues } from 'redux-form';
+
 import isFunction from 'lodash/isFunction';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import keys from 'lodash/keys';
+import isEqual from 'lodash/isEqual';
+
 import merge from 'deepmerge';
 
 import { START_INVOKE } from '../constants/actionImpls';
@@ -166,8 +169,9 @@ export function* handleInvoke(apiProvider, action) {
     const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId));
 
     if (
-      needResolve &&
-      (optimistic || (!meta.redirect && !meta.modalsToClose))
+      (needResolve &&
+        (optimistic || (!meta.redirect && !meta.modalsToClose))) ||
+      !isEqual(model, response.data)
     ) {
       yield put(
         setModel(modelPrefix, widgetId, optimistic ? model : response.data)
