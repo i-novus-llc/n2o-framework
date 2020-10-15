@@ -449,24 +449,25 @@
                 </xs:sequence>
                 <xs:attribute name="operation-id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Действие объекта, которое нужно выполнить над моделью виджета.
+                        <xs:documentation>
+                            Действие объекта, которое нужно выполнить над моделью виджета.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="close-on-success" type="xs:boolean" use="optional">
+                <xs:attribute name="close-on-success" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Закрыть окно после успешного выполнения действия</xs:documentation>
+                        <xs:documentation>Закрыть окно после успешного выполнения действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="route" type="xs:string" use="optional">
+                <xs:attribute name="route" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL для обращения к действию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="redirect-url" type="xs:string" use="optional">
+                <xs:attribute name="redirect-url" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>URL адрес, на который произойдет переход сразу после успешного выполнения
-                            действия..
+                        <xs:documentation>
+                            URL адрес, на который произойдет переход сразу после успешного выполнения действия.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
