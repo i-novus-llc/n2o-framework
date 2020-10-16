@@ -24,14 +24,24 @@ export function parseExpression(value) {
  * @returns {Function} - Функция, созданная из текста code
  */
 export function createContextFn(args, code) {
-  return new Function(args.join(','), `return ${code}`);
+  const joinedArgs = args.join(',');
+  const key = `${joinedArgs}|||${code}`;
+
+  if (!fooCache[key]) {
+    fooCache[key] = new Function(windowKeys, `return function (${joinedArgs}) { return ${code} }`)();
+  }
+
+  return fooCache[key];
 }
+
+const windowKeys = Object.keys(window).filter(v => !v.includes('-'));
+const fooCache = {};
 
 /**
  * Выполняет JS выражение
- * @param expression {String} - Выражение, которо нужно выполнить
+ * @param expression {String} - Выражение, которое нужно выполнить
  * @param context - {Object} - Аргемент вызова (бедет обогощен либами, типа lodash, moment и пр.)
- * @returns {*}
+ * @returns {*} - результат вычисления
  */
 export default function evalExpression(expression, context) {
   try {
