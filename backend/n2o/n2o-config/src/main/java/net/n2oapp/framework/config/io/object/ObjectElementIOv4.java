@@ -148,6 +148,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
     private void dialog(Element e, N2oValidationDialog t, IOProcessor p) {
         validation(e, t, p);
         p.attribute(e, "result", t::getResult, t::setResult);
+        p.attribute(e, "size", t::getSize, t::setSize);
         p.children(e, "in", "field", t::getInParameters, t::setInParameters, N2oObject.Parameter.class, this::inParam);
         p.children(e, "out", "field", t::getOutParameters, t::setOutParameters, N2oObject.Parameter.class, this::outParam);
         p.child(e, null, "toolbar", t::getToolbar, t::setToolbar, new ToolbarIO());

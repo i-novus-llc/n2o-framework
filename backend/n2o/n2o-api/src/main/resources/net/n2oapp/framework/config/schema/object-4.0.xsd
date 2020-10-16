@@ -3,7 +3,8 @@
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0"
            xmlns:tool="http://n2oapp.net/framework/config/schema/base/toolbar-base-1.0"
-           xmlns:dp="http://n2oapp.net/framework/config/schema/data-provider-1.0">
+           xmlns:dp="http://n2oapp.net/framework/config/schema/data-provider-1.0"
+           xmlns:act="http://n2oapp.net/framework/config/schema/action-1.0">
 
     <xs:element name="object" type="objectDefinition"/>
 
@@ -453,7 +454,7 @@
                 <xs:documentation>Уровень важности валидации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="server-moment" type="serverMomentDefinition" default="before-operation">
+        <xs:attribute name="server-moment" type="serverMomentDefinition">
             <xs:annotation>
                 <xs:documentation>Момент срабатывания валидации на сервере.</xs:documentation>
             </xs:annotation>
@@ -495,7 +496,7 @@
                 <xs:documentation>Идентификатор валидации.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="server-moment" type="serverMomentDefinition" default="before-operation">
+        <xs:attribute name="server-moment" type="serverMomentDefinition">
             <xs:annotation>
                 <xs:documentation>Момент срабатывания валидации на сервере.</xs:documentation>
             </xs:annotation>
@@ -508,6 +509,16 @@
         <xs:attribute name="result" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Результат валидации.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enabled" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Включение валидации.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="size" type="act:modalSize" default="lg">
+            <xs:annotation>
+                <xs:documentation>Размер окна диалога.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

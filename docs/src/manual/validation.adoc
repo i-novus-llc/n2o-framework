@@ -215,7 +215,8 @@
   </condition>
 </validations>
 ----
-По умолчанию `before-operation` .
+По умолчанию `before-operation` при severity равном `danger` или `warning`,
+иначе - `after-success-operation`
 
 ==== Отключение валидации
 Валидацию можно выключить полностью или при определенных условиях.
