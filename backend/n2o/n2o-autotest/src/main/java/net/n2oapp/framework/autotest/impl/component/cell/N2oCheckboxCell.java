@@ -46,4 +46,9 @@ public class N2oCheckboxCell extends N2oCell implements CheckboxCell {
         element().shouldBe(Condition.disabled);
     }
 
+    @Override
+    public void shouldNotExists() {
+        super.element().$(".n2o-checkbox").shouldNotBe(Condition.exist);
+    }
+
 }
