@@ -10,4 +10,13 @@
       top: calc(50% - 8px);
     }
   }
+
+  &__clear-icon {
+    color: gray;
+  }
+
+  &__clear-icon:hover {
+    cursor: pointer;
+    color: #0d151c;
+  }
 }
