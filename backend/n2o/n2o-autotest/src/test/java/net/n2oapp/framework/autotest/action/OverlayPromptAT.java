@@ -50,7 +50,6 @@ public class OverlayPromptAT extends AutoTestBase {
     public void modalPromptTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тест overlay окон");
         TableWidget table = page.widget(TableWidget.class);
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(1);
@@ -90,7 +89,6 @@ public class OverlayPromptAT extends AutoTestBase {
     public void drawerPromptTest() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        page.breadcrumb().titleShouldHaveText("Тест overlay окон");
         TableWidget table = page.widget(TableWidget.class);
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(1);
