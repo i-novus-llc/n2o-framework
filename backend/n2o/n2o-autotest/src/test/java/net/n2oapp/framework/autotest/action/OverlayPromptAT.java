@@ -10,7 +10,6 @@ import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
-import net.n2oapp.framework.autotest.run.AutoTestApplication;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -20,14 +19,10 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * Автотест закрытия overlay окон с подтверждением и без
  */
-@SpringBootTest(properties = {"n2o.engine.test.classpath=net/n2oapp/framework/autotest/action/overlay_prompt"},
-        classes = AutoTestApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OverlayPromptAT extends AutoTestBase {
 
     @BeforeAll
