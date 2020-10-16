@@ -1,5 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
+import { compose, getContext } from 'recompose';
+import { connect } from 'react-redux';
+import get from 'lodash/get';
+
 import {
   makePageDisabledByIdSelector,
   makePageLoadingByIdSelector,
@@ -7,9 +12,7 @@ import {
   makePageTitleByIdSelector,
 } from '../../selectors/pages';
 import { makeShowPromptByName } from '../../selectors/overlays';
-import { compose } from 'recompose';
-import { connect } from 'react-redux';
-import get from 'lodash/get';
+
 import withActions from './withActions';
 
 function withOverlayMethods(WrappedComponent) {
@@ -46,7 +49,7 @@ function withOverlayMethods(WrappedComponent) {
     }
 
     showPrompt() {
-      if (window.confirm(this.context.defaultPromptMessage)) {
+      if (window.confirm(this.props.defaultPromptMessage)) {
         this.closeOverlay(false);
       } else {
         this.closePrompt();
@@ -76,6 +79,7 @@ function withOverlayMethods(WrappedComponent) {
   });
 
   return compose(
+    getContext({ defaultPromptMessage: PropTypes.string }),
     connect(mapStateToProps),
     withActions
   )(OverlayMethods);
