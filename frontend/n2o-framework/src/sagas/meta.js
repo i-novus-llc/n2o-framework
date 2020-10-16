@@ -19,7 +19,7 @@ import { insertDialog } from '../actions/overlays';
 import { id } from '../utils/id';
 import { CALL_ALERT_META } from '../constants/meta';
 import { dataProviderResolver } from '../core/dataProviderResolver';
-import { destroyOverlay } from '../actions/overlays';
+import { destroyOverlays } from '../actions/overlays';
 
 export function* alertEffect(action) {
   try {
@@ -45,7 +45,7 @@ export function* redirectEffect(action) {
     });
     if (target === 'application') {
       yield put(push(newUrl));
-      yield put(destroyOverlay());
+      yield put(destroyOverlays());
     } else if (target === 'self') {
       window.location = newUrl;
     } else {
