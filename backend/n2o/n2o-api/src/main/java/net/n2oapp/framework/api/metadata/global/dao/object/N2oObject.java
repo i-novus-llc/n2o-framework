@@ -59,6 +59,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
         private N2oInvocation invocation;
         private Parameter[] inParameters;
         private Parameter[] outParameters;
+        private Parameter[] failOutParameters;
         private Validations validations;
         private Map<N2oNamespace, Map<String, String>> extAttributes;
 
