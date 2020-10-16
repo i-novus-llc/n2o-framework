@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.action;
 
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.button.Button;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
@@ -22,9 +23,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 /**
- * Автотест закрытия overlay окон с подтвержеденеим и без
+ * Автотест закрытия overlay окон с подтверждением и без
  */
-
 @SpringBootTest(properties = {"n2o.engine.test.classpath=net/n2oapp/framework/autotest/action/overlay_prompt"},
         classes = AutoTestApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -56,15 +56,17 @@ public class OverlayPromptAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("Тест overlay окон");
-        TableWidget.Rows rows = page.single().widget(TableWidget.class).columns().rows();
+        TableWidget table = page.widget(TableWidget.class);
+        TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(1);
         rows.shouldBeSelected(0);
 
-        Button openBtn = page.single().widget(FormWidget.class).toolbar().topLeft().button("Модалка без подтверждения");
+        Toolbar tableToolbar = table.toolbar().topLeft();
+        Button openBtn = tableToolbar.button("Модалка без подтверждения");
         openBtn.click();
         Modal modalPage = N2oSelenide.modal();
         modalPage.shouldHaveTitle("Overlay окно");
-        InputText nameControl = modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields()
+        InputText nameControl = modalPage.content(SimplePage.class).widget(FormWidget.class).fields()
                 .field("name").control(InputText.class);
         nameControl.shouldHaveValue("test1");
         nameControl.val("edited");
@@ -72,11 +74,11 @@ public class OverlayPromptAT extends AutoTestBase {
         modalPage.close();
         modalPage.shouldNotExists();
 
-        openBtn = page.single().widget(FormWidget.class).toolbar().topLeft().button("Модалка с подтверждением");
+        openBtn = tableToolbar.button("Модалка с подтверждением");
         openBtn.click();
         modalPage = N2oSelenide.modal();
         modalPage.shouldHaveTitle("Overlay окно");
-        nameControl = modalPage.content(SimplePage.class).single().widget(FormWidget.class).fields()
+        nameControl = modalPage.content(SimplePage.class).widget(FormWidget.class).fields()
                 .field("name").control(InputText.class);
         nameControl.shouldHaveValue("test1");
         nameControl.val("edited");
@@ -94,15 +96,17 @@ public class OverlayPromptAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("Тест overlay окон");
-        TableWidget.Rows rows = page.single().widget(TableWidget.class).columns().rows();
+        TableWidget table = page.widget(TableWidget.class);
+        TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(1);
         rows.shouldBeSelected(0);
 
-        Button openBtn = page.single().widget(FormWidget.class).toolbar().topLeft().button("Дровер без подтверждения");
+        Toolbar tableToolbar = table.toolbar().topLeft();
+        Button openBtn = tableToolbar.button("Дровер без подтверждения");
         openBtn.click();
         Drawer drawerPage = N2oSelenide.drawer();
         drawerPage.shouldHaveTitle("Overlay окно");
-        InputText nameControl = drawerPage.content(SimplePage.class).single().widget(FormWidget.class).fields()
+        InputText nameControl = drawerPage.content(SimplePage.class).widget(FormWidget.class).fields()
                 .field("name").control(InputText.class);
         nameControl.shouldHaveValue("test1");
         nameControl.val("edited");
@@ -110,11 +114,11 @@ public class OverlayPromptAT extends AutoTestBase {
         drawerPage.close();
         drawerPage.shouldNotExists();
 
-        openBtn = page.single().widget(FormWidget.class).toolbar().topLeft().button("Дровер с подтверждением");
+        openBtn = tableToolbar.button("Дровер с подтверждением");
         openBtn.click();
         drawerPage = N2oSelenide.drawer();
         drawerPage.shouldHaveTitle("Overlay окно");
-        nameControl = drawerPage.content(SimplePage.class).single().widget(FormWidget.class).fields()
+        nameControl = drawerPage.content(SimplePage.class).widget(FormWidget.class).fields()
                 .field("name").control(InputText.class);
         nameControl.shouldHaveValue("test1");
         nameControl.val("edited");
@@ -126,5 +130,4 @@ public class OverlayPromptAT extends AutoTestBase {
         Selenide.confirm();
         drawerPage.shouldNotExists();
     }
-
 }
