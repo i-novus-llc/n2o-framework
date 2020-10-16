@@ -122,10 +122,10 @@ public class N2oObject extends N2oMetadata implements NameAware {
     @Setter
     @NoArgsConstructor
     public static class Parameter extends InvocationParameter {
-
         private Type type;
         private Parameter[] childParams;
         private String param;
+        private String validationFailKey;
 
         public Parameter(Type type, String name, String mapping) {
             this(type);
