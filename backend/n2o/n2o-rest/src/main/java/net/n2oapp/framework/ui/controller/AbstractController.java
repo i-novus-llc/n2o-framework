@@ -75,6 +75,7 @@ public abstract class AbstractController {
         requestInfo.setObject(object);
         requestInfo.setOperation(operation);
         requestInfo.setRedirect(actionCtx.getRedirect());
+        requestInfo.setRefresh(actionCtx.getRefresh());
         requestInfo.setMessageOnSuccess(actionCtx.isMessageOnSuccess());
         requestInfo.setMessageOnFail(actionCtx.isMessageOnFail());
         requestInfo.setSuccessAlertWidgetId(actionCtx.getSuccessAlertWidgetId());
