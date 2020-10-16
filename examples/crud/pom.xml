@@ -17,7 +17,7 @@
     </parent>
 
     <properties>
-        <n2o.version>7.10.0-SNAPSHOT</n2o.version>
+        <n2o.version>7.11.0-SNAPSHOT</n2o.version>
     </properties>
 
     <dependencies>
@@ -38,6 +38,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.n2oapp.framework</groupId>
+            <artifactId>n2o-autotest</artifactId>
+            <version>${n2o.version}</version>
         </dependency>
 
     </dependencies>

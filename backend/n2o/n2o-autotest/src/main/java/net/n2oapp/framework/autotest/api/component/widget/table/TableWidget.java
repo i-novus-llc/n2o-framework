@@ -4,12 +4,13 @@ import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.collection.TableHeaders;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
 
 import java.util.List;
 
 /**
- * Виджет - таблица для автотестирования
+ * Виджет таблица для автотестирования
  */
 public interface TableWidget extends StandardWidget {
     Columns columns();
@@ -37,18 +38,6 @@ public interface TableWidget extends StandardWidget {
         void shouldBeVisible();
 
         void shouldBeInvisible();
-    }
-
-    interface Paging {
-        void activePageShouldBe(String number);
-
-        void selectPage(String number);
-
-        void pagingShouldHave(String number);
-
-        int totalElements();
-
-        void totalElementsShouldBe(int count);
     }
 
     interface Rows {

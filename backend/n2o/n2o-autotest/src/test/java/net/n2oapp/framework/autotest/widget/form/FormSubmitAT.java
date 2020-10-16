@@ -53,7 +53,7 @@ public class FormSubmitAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        Fields fields = page.single().widget(FormWidget.class).fields();
+        Fields fields = page.widget(FormWidget.class).fields();
         fields.shouldHaveSize(3);
 
         InputText inputText = fields.field("Имя").control(InputText.class);
@@ -114,7 +114,7 @@ public class FormSubmitAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        TableWidget table = page.single().widget(TableWidget.class);
+        TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.columns().rows().shouldHaveSize(3);
 
@@ -128,7 +128,7 @@ public class FormSubmitAT extends AutoTestBase {
         btn.click();
         Modal modal = N2oSelenide.modal();
 
-        FormWidget modalForm = modal.content(SimplePage.class).single().widget(FormWidget.class);
+        FormWidget modalForm = modal.content(SimplePage.class).widget(FormWidget.class);
         InputText name = modalForm.fields().field("Имя").control(InputText.class);
         InputText age = modalForm.fields().field("Возраст").control(InputText.class);
         name.shouldHaveValue("test2");

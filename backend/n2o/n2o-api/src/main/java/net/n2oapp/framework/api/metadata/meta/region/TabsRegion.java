@@ -3,6 +3,7 @@ package net.n2oapp.framework.api.metadata.meta.region;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.Itemable;
 
 import java.util.List;
 
@@ -11,24 +12,23 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class TabsRegion extends Region {
-    @JsonProperty
-    private List<Tab> tabs;
+public class TabsRegion extends Region implements Itemable<TabsRegion.Tab> {
     @JsonProperty
     private Boolean alwaysRefresh;
     @JsonProperty
     private Boolean lazy;
+    @JsonProperty
+    private Boolean hideSingleTab;
 
-    @Override
     @JsonProperty("tabs")
-    public List<? extends Item> getItems() {
-        return super.getItems();
-    }
+    private List<Tab> items;
 
     @Getter
     @Setter
-    public static class Tab extends Item {
+    public static class Tab extends RegionItem {
         @JsonProperty
         private String icon;
+        @JsonProperty
+        private Boolean opened;
     }
 }

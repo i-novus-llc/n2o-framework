@@ -67,8 +67,8 @@ $n2o-radio-border: none !default;
 $n2o-radio-margin: none !default;
 
 //ProgressBar
-$mini-height: 10px !default;
-$default-height: 20px !default;
+$small-height: 10px !default;
+$normal-height: 20px !default;
 $large-height: 34px !default;
 
 //InputSelect
@@ -265,6 +265,9 @@ $footer-height: 40px !default;
 //Toolbar
 $toolbar-margin: 5px 0 5px 0;
 
+//TextEditor
+$text-editor-border: 1px solid #F1F1F1;
+
 //Drawer
 $drawer-backdrop-bg: #000 !default;
 $drawer-content-bg: #fff !default;
@@ -276,3 +279,19 @@ $drawer-content-pd: 40px 0 40px 0 !default;
 $drawer-border: 1px solid #90a4ae !default;
 $drawer-icon-color: #333 !default;
 $drawer-animation: 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86) !default;
+
+//ImageUpload
+$primary: #163851;
+$image-uploader-border: 1px dashed #163851 !default;
+$image-uploader-card-border: 1px solid #d9d9d9!default;
+
+//Tiles
+$tiles-item-margin: 10px !default;
+$tiles-border: 1px solid #f0f0f0 !default;
+$tiles-hover-border: 1px solid transparent !default;
+$tiles-hover-shadow: 0 1px 2px -2px rgba(0,0,0,.16), 0 3px 6px 0 rgba(0,0,0,.12), 0 5px 12px 4px rgba(0,0,0,.09) !default;
+$tiles-cell-margin: 5px 0 !default;
+$tiles-item-padding: 5px !default;
+
+//TabsRegion
+$tabs-border : 1px solid #90a4ae;

@@ -4,11 +4,14 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
+import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
-import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.InvokeActionElementIOV1;
@@ -21,13 +24,16 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Map;
+
+import static net.n2oapp.properties.test.TestUtil.assertOnException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * Проверка копиляции invoke-action
+ * Проверка компиляции invoke-action
  */
-public class InvokeActionCompileTest  extends SourceCompileTestBase {
+public class InvokeActionCompileTest extends SourceCompileTestBase {
 
     @Override
     @Before
@@ -74,19 +80,54 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
 //        assertThat(menuItem0action.getOptions().getMeta().getSuccess().getModalsToClose(), is(1));
         ClientDataProvider dataProvider = menuItem0action.getPayload().getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
-        assertThat(dataProvider.getUrl(), is("n2o/data/w/:w_id/menuItem0"));
+        assertThat(dataProvider.getUrl(), is("n2o/data/w/menuItem0"));
         assertThat(dataProvider.getQueryMapping().size(), is(0));
-        assertThat(dataProvider.getPathMapping().size(), not(0));
-        assertThat(dataProvider.getPathMapping().get("w_id"), notNullValue());
         assertThat(dataProvider.getOptimistic(), is(true));
-        assertThat(route("/w/:w_id/menuItem0", CompiledObject.class), notNullValue());
+        assertThat(route("/w/menuItem0", CompiledObject.class), notNullValue());
+    }
+
+    @Test
+    public void method() {
+        Table table = (Table) compile("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionMethod.widget.xml")
+                .get(new WidgetContext("testInvokeActionMethod", "/w"));
+
+        InvokeAction testAction;
+        testAction = (InvokeAction) table.getActions().get("testDefault");
+        assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(testAction.getPayload().getModelLink(), is("models.filter['w']"));
+        assertThat(testAction.getPayload().getWidgetId(), is("w"));
+        assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.POST));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDefault"));
+        assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
+        assertThat(testAction.getPayload().getDataProvider().getPathMapping().size(), is(0));
+
+        testAction = (InvokeAction) table.getActions().get("testPut");
+        assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(testAction.getPayload().getModelLink(), is("models.resolve['w']"));
+        assertThat(testAction.getPayload().getWidgetId(), is("w"));
+        assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.PUT));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/:id"));
+        assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
+        Map<String, ModelLink> pathMapping = testAction.getPayload().getDataProvider().getPathMapping();
+        assertThat(pathMapping.size(), is(1));
+        assertThat(pathMapping.get("id").getBindLink(), is("models.resolve['w']"));
+        assertThat(pathMapping.get("id").getValue(), is("`id`"));
+
+        testAction = (InvokeAction) table.getActions().get("testDelete");
+        assertThat(testAction.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(testAction.getPayload().getModelLink(), is("models.resolve['w']"));
+        assertThat(testAction.getPayload().getWidgetId(), is("w"));
+        assertThat(testAction.getPayload().getDataProvider().getMethod(), is(RequestMethod.DELETE));
+        assertThat(testAction.getPayload().getDataProvider().getUrl(), is("n2o/data/w/testDelete"));
+        assertThat(testAction.getPayload().getDataProvider().getQueryMapping().size(), is(0));
+        assertThat(testAction.getPayload().getDataProvider().getPathMapping().size(), is(0));
     }
 
     @Test
     public void validations() {
         compile("net/n2oapp/framework/config/metadata/compile/action/testRegisterActionContext.widget.xml")
                 .get(new WidgetContext("testRegisterActionContext", "/"));
-        ActionContext context = (ActionContext) route("/:testRegisterActionContext_id/test", CompiledObject.class);
+        ActionContext context = (ActionContext) route("/:test", CompiledObject.class);
         assertThat(context, notNullValue());
         assertThat(context.getOperationId(), is("create"));
         assertThat(context.getValidations().size(), is(3));
@@ -111,10 +152,10 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         DataSet data = new DataSet().add("parent_id", 123);
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionBind.page.xml")
                 .get(new PageContext("testInvokeActionBind", "/p/:parent_id/create"), data);
-        InvokeAction a1 = (InvokeAction) page.getWidgets().get("p_create_w1").getActions().get("a1");
+        InvokeAction a1 = (InvokeAction) ((Widget) page.getRegions().get("left").get(0).getContent().get(0)).getActions().get("a1");
         assertThat(a1.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/w1/a1"));
-        InvokeAction a2 = (InvokeAction) page.getWidgets().get("p_create_w2").getActions().get("a2");
-        assertThat(a2.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/w2/:p_create_w2_id/a2"));
+        InvokeAction a2 = (InvokeAction) ((Widget) page.getRegions().get("right").get(0).getContent().get(0)).getActions().get("a2");
+        assertThat(a2.getPayload().getDataProvider().getUrl(), is("n2o/data/p/123/create/w2/a2"));
     }
 
     @Test
@@ -123,7 +164,7 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         PageContext context = new PageContext("testInvokeActionBind", "/p/:parent_id/create");
         StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionBind.page.xml")
                 .get(context, data);
-        InvokeAction a1 = (InvokeAction) page.getWidgets().get("p_create_w1").getActions().get("a1");
+        InvokeAction a1 = (InvokeAction) ((Widget) page.getRegions().get("left").get(0).getContent().get(0)).getActions().get("a1");
         assertThat(a1.getMeta().getSuccess().getRedirect().getPath(), is("/p/123"));
     }
 
@@ -145,9 +186,9 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
 
         // operationMapping should not contains form params from corresponding invoke
         // but could contains from other
-        ActionContext actionContext1 = (ActionContext) route("/w/test", CompiledObject.class);
+        ActionContext actionContext1 = (ActionContext) route("/w/123/create", CompiledObject.class);
         assertThat(actionContext1.getOperationMapping().containsKey("fpName1"), is(false));
-        ActionContext actionContext2 = (ActionContext) route("/w/:testInvokeActionParam_id/menuItem0", CompiledObject.class);
+        ActionContext actionContext2 = (ActionContext) route("/w/123/update", CompiledObject.class);
         assertThat(actionContext2.getOperationMapping().containsKey("fpGender.id"), is(false));
 
         //filter model
@@ -167,11 +208,54 @@ public class InvokeActionCompileTest  extends SourceCompileTestBase {
         ClientDataProvider provider2 = menuItem0action.getPayload().getDataProvider();
         assertThat(provider2.getSubmitForm(), is(false));
         assertThat(provider2.getFormMapping().size(), is(1));
-        assertThat(provider2.getPathMapping().size(), is(2));
+        assertThat(provider2.getPathMapping().size(), is(1));
         assertThat(provider2.getHeadersMapping().size(), is(1));
 
         assertThat(provider2.getFormMapping().get("fpGender.id").getValue(), is(1));
         assertThat(provider2.getPathMapping().get("ppName2").getValue(), is("ppValue2"));
         assertThat(provider2.getHeadersMapping().get("hpName2").getValue(), is("hpValue2"));
     }
+
+    @Test
+    public void RouteAndPathValidationTest() {
+        DataSet data = new DataSet().add("parent_id", 123);
+        StandardPage page = (StandardPage) bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/routeAndPath.page.xml")
+                .get(new PageContext("routeAndPath"), data);
+        InvokeAction action = (InvokeAction) ((Widget) page.getRegions().get("right").get(0).getContent().get(0)).getActions().get("b1");
+        assertThat(action.getPayload().getDataProvider().getUrl(), is("n2o/data/routeAndPath/w2/:main_id"));
+        assertThat(action.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(action.getPayload().getModelLink(), is("models.resolve['routeAndPath_w2']"));
+        assertThat(action.getPayload().getWidgetId(), is("routeAndPath_w2"));
+
+        action = (InvokeAction) ((Widget) page.getRegions().get("right").get(0).getContent().get(0)).getActions().get("b2");
+        assertThat(action.getPayload().getDataProvider().getUrl(), is("n2o/data/routeAndPath/w2/b2"));
+        assertThat(action.getType(), is("n2o/actionImpl/START_INVOKE"));
+        assertThat(action.getPayload().getModelLink(), is("models.resolve['routeAndPath_w2']"));
+        assertThat(action.getPayload().getWidgetId(), is("routeAndPath_w2"));
+    }
+
+    @Test
+    public void emptyRouteValidationTest() {
+        assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyRoute.page.xml")
+                        .get(new PageContext("emptyRoute"), null),
+                N2oException.class,
+                e -> assertThat(e.getMessage(), is("path-param \"main_id\" not used in route")));
+    }
+
+    @Test
+    public void emptyPathValidationTest() {
+        assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/emptyPath.page.xml")
+                        .get(new PageContext("emptyPath"), null),
+                N2oException.class,
+                e -> assertThat(e.getMessage(), is("path-param \"/:main_id\" for route \"main_id\" not set")));
+    }
+
+    @Test()
+    public void multiplyPathValidationTest() {
+        assertOnException(() -> bind("net/n2oapp/framework/config/metadata/compile/action/testInvokeActionValidation/multiplyPath.page.xml")
+                        .get(new PageContext("multiplyPath"), null),
+                N2oException.class,
+                e -> assertThat(e.getMessage(), is("route \"/:main_id\" not contains path-param \"t_id\"")));
+    }
+
 }

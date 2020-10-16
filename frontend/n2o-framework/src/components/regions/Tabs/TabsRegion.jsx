@@ -7,14 +7,15 @@ import find from 'lodash/find';
 import get from 'lodash/get';
 import pull from 'lodash/pull';
 import { compose, setDisplayName } from 'recompose';
+
+import SecurityCheck from '../../../core/auth/SecurityCheck';
+
 import withRegionContainer from '../withRegionContainer';
+import withWidgetProps from '../withWidgetProps';
+import RegionContent from '../RegionContent';
+
 import Tabs from './Tabs';
 import Tab from './Tab';
-import withWidgetProps from '../withWidgetProps';
-import { WIDGETS } from '../../../core/factory/factoryLevels';
-
-import Factory from '../../../core/factory/Factory';
-import SecurityCheck from '../../../core/auth/SecurityCheck';
 
 /**
  * Регион Таб
@@ -22,6 +23,7 @@ import SecurityCheck from '../../../core/auth/SecurityCheck';
  * @reactProps {function} getWidget - функция получения виджета
  * @reactProps {string} pageId - идентификатор страницы
  * @reactProps {function} resolveVisibleDependency - резол видимости таба
+ * @reactProps {function} hideSingleTab - скрывать / не скрывать навигацию таба, если он единственный
  */
 class TabRegion extends React.Component {
   constructor(props) {
@@ -51,6 +53,7 @@ class TabRegion extends React.Component {
       find(tabs, ({ id: tabId }) => tabId === id),
       'widgetId'
     );
+
     const widgetProps = getWidgetProps(widgetId);
 
     if (lazy) {
@@ -82,24 +85,30 @@ class TabRegion extends React.Component {
   render() {
     const {
       tabs,
-      getWidget,
       getWidgetProps,
       getVisible,
       pageId,
       lazy,
       activeEntity,
+      className,
+      hideSingleTab,
     } = this.props;
+
     const { readyTabs, visibleTabs } = this.state;
 
     return (
-      <Tabs activeId={activeEntity} onChangeActive={this.handleChangeActive}>
-        {tabs.map(tab => {
-          const { security } = tab;
+      <Tabs
+        className={className && className}
+        activeId={activeEntity}
+        onChangeActive={this.handleChangeActive}
+        hideSingleTab={hideSingleTab}
+      >
+        {map(tabs, tab => {
+          const { security, content } = tab;
           const widgetProps = getWidgetProps(tab.widgetId);
-          const widgetMeta = getWidget(pageId, tab.widgetId);
-          const dependencyVisible = getVisible(pageId, tab.widgetId);
+          const dependencyVisible = getVisible(pageId, tab.id);
           const widgetVisible = get(widgetProps, 'isVisible', true);
-          const tabVisible = get(visibleTabs, tab.widgetId, true);
+          const tabVisible = get(visibleTabs, tab.id, true);
 
           const tabProps = {
             key: tab.id,
@@ -109,24 +118,28 @@ class TabRegion extends React.Component {
             active: tab.opened,
             visible: dependencyVisible && widgetVisible && tabVisible,
           };
-
           const tabEl = (
             <Tab {...tabProps}>
               {lazy ? (
                 readyTabs.includes(tab.id) && (
-                  <Factory id={tab.widgetId} level={WIDGETS} {...widgetMeta} />
+                  <RegionContent
+                    content={content}
+                    tabSubContentClass={'tab-sub-content'}
+                  />
                 )
               ) : (
-                <Factory id={tab.widgetId} level={WIDGETS} {...widgetMeta} />
+                <RegionContent
+                  content={content}
+                  tabSubContentClass={'tab-sub-content'}
+                />
               )}
             </Tab>
           );
-
           const onPermissionsSet = permissions => {
             this.setState(prevState => ({
               visibleTabs: {
                 ...prevState.visibleTabs,
-                [tab.widgetId]: !!permissions,
+                [tab.id]: !!permissions,
               },
             }));
           };
@@ -158,6 +171,10 @@ TabRegion.propTypes = {
   tabs: PropTypes.array.isRequired,
   getWidget: PropTypes.func.isRequired,
   /**
+   * контент Tab, (регион или виджет)
+   */
+  content: PropTypes.array,
+  /**
    * ID странцы
    */
   pageId: PropTypes.string.isRequired,
@@ -174,6 +191,7 @@ TabRegion.defaultProps = {
   alwaysRefresh: false,
   lazy: false,
   mode: 'single',
+  hideSingleTab: false,
 };
 
 export { TabRegion };

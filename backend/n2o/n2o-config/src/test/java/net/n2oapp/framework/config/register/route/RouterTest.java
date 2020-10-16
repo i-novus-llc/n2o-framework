@@ -8,10 +8,12 @@ import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.pack.N2oOperationsPack;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
 import net.n2oapp.framework.config.selective.reader.ReaderFactoryByMap;
+import net.n2oapp.framework.config.test.SimplePropertyResolver;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.Properties;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -26,6 +28,7 @@ public class RouterTest {
     @Before
     public void setUp() {
         N2oEnvironment env = new N2oEnvironment();
+        env.setSystemProperties(new SimplePropertyResolver(new Properties()));
         env.setNamespacePersisterFactory(new PersisterFactoryByMap());
         env.setNamespaceReaderFactory(new ReaderFactoryByMap());
         builder = new N2oApplicationBuilder(env).packs(new N2oOperationsPack());
@@ -203,5 +206,46 @@ public class RouterTest {
         resQuery = router.get("/p/w/2/a", CompiledQuery.class, params);
         assertThat(resQuery, notNullValue());
         assertThat(resQuery.getSourceId(null), is("pwa2"));
+    }
+
+    @Test
+    public void get_root_header() {
+        N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
+        ((SimplePropertyResolver)env.getSystemProperties()).setProperty("n2o.header.id", "header");
+        MockBindPipeline pipeline = new MockBindPipeline(env);
+        N2oRouter router = new N2oRouter(env, pipeline);
+        pipeline.mock("header", (r, p) -> {
+            r.getRouteRegister().addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
+            r.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
+        });
+
+        CompileContext<Page, ?> res = router.get("/p/w", Page.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("pw"));
+
+        res = router.get("/", Page.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("p"));
+    }
+
+    @Test
+    public void get_root_homepage() {
+        N2oEnvironment env = (N2oEnvironment) builder.getEnvironment();
+        ((SimplePropertyResolver)env.getSystemProperties()).setProperty("n2o.header.id", "");
+        ((SimplePropertyResolver)env.getSystemProperties()).setProperty("n2o.header.homepage.id", "index");
+        MockBindPipeline pipeline = new MockBindPipeline(env);
+        N2oRouter router = new N2oRouter(env, pipeline);
+        pipeline.mock("index", (r, p) -> {
+            r.getRouteRegister().addRoute("/", new MockCompileContext<>("/", "p", null, Page.class));
+            r.getRouteRegister().addRoute("/p/w", new MockCompileContext<>("/p/w", "pw", null, Page.class));
+        });
+
+        CompileContext<Page, ?> res = router.get("/p/w", Page.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("pw"));
+
+        res = router.get("/", Page.class, null);
+        assertThat(res, notNullValue());
+        assertThat(res.getSourceId(null), is("p"));
     }
 }

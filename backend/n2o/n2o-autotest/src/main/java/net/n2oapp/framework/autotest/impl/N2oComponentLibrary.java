@@ -24,10 +24,7 @@ import net.n2oapp.framework.autotest.impl.component.page.N2oLeftRightPage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oStandardPage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oTopLeftRightPage;
-import net.n2oapp.framework.autotest.impl.component.region.N2oLineRegion;
-import net.n2oapp.framework.autotest.impl.component.region.N2oPanelRegion;
-import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
-import net.n2oapp.framework.autotest.impl.component.region.N2oTabsRegion;
+import net.n2oapp.framework.autotest.impl.component.region.*;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oAlert;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oStatus;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
@@ -40,6 +37,8 @@ import net.n2oapp.framework.autotest.impl.component.widget.calendar.view.*;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oStandardTableHeader;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableFilterHeader;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableWidget;
+import net.n2oapp.framework.autotest.impl.component.widget.tiles.N2oTile;
+import net.n2oapp.framework.autotest.impl.component.widget.tiles.N2oTilesWidget;
 
 import java.util.Arrays;
 import java.util.List;
@@ -58,6 +57,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oSimpleRegion.class, N2oPanelRegion.class, N2oLineRegion.class, N2oTabsRegion.class,
                 // widgets
                 N2oListWidget.class, N2oFormWidget.class,
+                N2oTilesWidget.class, N2oTile.class,
                 N2oTableWidget.class, N2oStandardTableHeader.class, N2oTableFilterHeader.class,
                 // widgets (calendar)
                 N2oCalendarWidget.class, N2oCalendarToolbar.class, N2oCalendarEvent.class,
@@ -75,6 +75,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oOutputText.class, N2oOutputList.class, N2oTextEditor.class, N2oCodeEditor.class, N2oHtml.class, N2oRating.class,
                 N2oSlider.class, N2oPills.class, N2oText.class, N2oAutoComplete.class, N2oProgress.class, N2oStatus.class, N2oAlert.class,
                 N2oInputMoney.class, N2oPasswordControl.class, N2oTextArea.class, N2oInputSelectTree.class, N2oFileUploadControl.class,
+                N2oImageUploadControl.class,
                 // cells
                 N2oTextCell.class, N2oLinkCell.class, N2oEditCell.class, N2oCheckboxCell.class, N2oToolbarCell.class,
                 N2oBadgeCell.class, N2oIconCell.class, N2oImageCell.class, N2oProgressBarCell.class, N2oRatingCell.class,
@@ -85,6 +86,6 @@ public class N2oComponentLibrary implements ComponentLibrary {
     @Override
     public List<Class<? extends ComponentsCollection>> collections() {
         return Arrays.asList(N2oCells.class, N2oControls.class, N2oFields.class, N2oRegions.class, N2oTableHeaders.class,
-                N2oToolbar.class, N2oWidgets.class, Menu.class, N2oFieldSets.class, N2oAlerts.class);
+                N2oToolbar.class, N2oWidgets.class, N2oRegionItems.class, Menu.class, N2oFieldSets.class, N2oAlerts.class);
     }
 }

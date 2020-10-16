@@ -33,6 +33,12 @@ public interface CompileContext<D extends Compiled, S> {
     String getRoute(BindProcessor p);
 
     /**
+     * Получить шаблон url
+     * @return Шаблон url
+     */
+    String getUrlPattern();
+
+    /**
      * Получить список описаний, как можно разрешить query параметры маршрута
      *
      * @return  список описаний параметров

@@ -139,7 +139,7 @@ public abstract class StringUtils {
      * @return true - javaScript выражение, false - не javaScript выражение
      */
     public static boolean isJs(Object s) {
-        return s instanceof String && jsPlaceHoldersResolver.isPlaceHolder(s);
+        return jsPlaceHoldersResolver.isPlaceHolder(s);
     }
 
     /**

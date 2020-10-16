@@ -141,7 +141,7 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         updateRepository(invocation.getFile(), modifiableData);
         updateFile(invocation.getFile());
 
-        return null;
+        return modifiableData;
     }
 
     private Object updateField(N2oTestDataProvider invocation,

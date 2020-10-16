@@ -121,9 +121,4 @@ describe('<PanelRegion />', () => {
       .simulate('click');
     expect(wrapper.find('div.panel-fullscreen').exists()).toBeTruthy();
   });
-
-  it('проверяет работу фабрики через создание таблицы', () => {
-    const { wrapper, props } = setup();
-    expect(wrapper.find('Wireframe').exists()).toBeTruthy();
-  });
 });

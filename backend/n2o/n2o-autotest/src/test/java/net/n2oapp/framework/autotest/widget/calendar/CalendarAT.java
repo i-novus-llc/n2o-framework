@@ -46,9 +46,9 @@ public class CalendarAT extends AutoTestBase {
 
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        calendar = page.single().widget(CalendarWidget.class);
+        calendar = page.widget(CalendarWidget.class);
         calendar.shouldExists();
-        toolbar = calendar.toolbar();
+        toolbar = calendar.calendarToolbar();
     }
 
     @Override
@@ -95,7 +95,7 @@ public class CalendarAT extends AutoTestBase {
         event2.click();
         Modal modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Просмотр события");
-        Fields fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        Fields fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
         DateInterval date = fields.field("Дата").control(DateInterval.class);
         date.beginShouldHaveValue("07.07.2020 13:00:00");
@@ -107,7 +107,7 @@ public class CalendarAT extends AutoTestBase {
         monthView.clickOnCell("15");
         modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Создание события");
-        fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         date = fields.field("Дата").control(DateInterval.class);
         date.beginShouldHaveValue("15.07.2020 00:00:00");
@@ -153,7 +153,7 @@ public class CalendarAT extends AutoTestBase {
         header2.clickAllDay();
         Modal modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Создание события");
-        Fields fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        Fields fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         DateInterval date = fields.field("Дата").control(DateInterval.class);
         date.beginShouldHaveValue("06.07.2020 00:00:00");
@@ -180,7 +180,7 @@ public class CalendarAT extends AutoTestBase {
         event2.click();
         modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Просмотр события");
-        fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
         date = fields.field("Дата").control(DateInterval.class);
         date.beginShouldHaveValue("07.07.2020 13:00:00");
@@ -196,7 +196,7 @@ public class CalendarAT extends AutoTestBase {
         allDayEvent.click();
         modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Просмотр события");
-        fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldHaveValue("All day event");
         date = fields.field("Дата").control(DateInterval.class);
         date.beginShouldHaveValue("07.07.2020 00:00:00");
@@ -208,7 +208,7 @@ public class CalendarAT extends AutoTestBase {
         dayView.clickCell(1, "4:30");
         modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Создание события");
-        fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         date = fields.field("Дата").control(DateInterval.class);
         date.beginShouldHaveValue("07.07.2020 04:30:00");
@@ -226,7 +226,7 @@ public class CalendarAT extends AutoTestBase {
 
         // УДАЛЕНИЕ события
         event3.click();
-        modal.content(SimplePage.class).single().widget(FormWidget.class).toolbar()
+        modal.content(SimplePage.class).widget(FormWidget.class).toolbar()
                 .topRight().button("Удалить").click();
         Selenide.sleep(500);
         modal.shouldNotExists();
@@ -284,7 +284,7 @@ public class CalendarAT extends AutoTestBase {
         header1.clickAllDay();
         Modal modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Создание события");
-        Fields fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        Fields fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         DateInterval date = fields.field("Дата").control(DateInterval.class);
         date.beginShouldHaveValue("09.07.2020 00:00:00");
@@ -296,7 +296,7 @@ public class CalendarAT extends AutoTestBase {
         weekView.clickCell(0, "09", "3:00");
         modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Создание события");
-        fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldBeEmpty();
         date = fields.field("Дата").control(DateInterval.class);
         date.beginShouldHaveValue("09.07.2020 03:00:00");
@@ -322,7 +322,7 @@ public class CalendarAT extends AutoTestBase {
         event2.click();
         modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Просмотр события");
-        fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldHaveValue("Событие2");
         date = fields.field("Дата").control(DateInterval.class);
         date.beginShouldHaveValue("07.07.2020 13:00:00");
@@ -338,7 +338,7 @@ public class CalendarAT extends AutoTestBase {
         allDayEvent.click();
         modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Просмотр события");
-        fields = modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        fields = modal.content(SimplePage.class).widget(FormWidget.class).fields();
         fields.field("Название события").control(InputText.class).shouldHaveValue("All day event");
         date = fields.field("Дата").control(DateInterval.class);
         date.beginShouldHaveValue("07.07.2020 00:00:00");

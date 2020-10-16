@@ -35,7 +35,7 @@ public class RatingCellAT extends AutoTestBase {
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
 
-        rows = simplePage.single().widget(TableWidget.class).columns().rows();
+        rows = simplePage.widget(TableWidget.class).columns().rows();
         rows.shouldHaveSize(4);
     }
 
@@ -52,15 +52,15 @@ public class RatingCellAT extends AutoTestBase {
 
         rows.row(0).cell(col, RatingCell.class).maxShouldBe(10);
 //        rows.row(0).cell(col, RatingCell.class).checkedShouldBe(0); val:-1
-        rows.row(1).cell(col, RatingCell.class).checkedShouldBe(0);
-        rows.row(2).cell(col, RatingCell.class).checkedShouldBe(5);
+        rows.row(1).cell(col, RatingCell.class).valueShouldBe("0");
+        rows.row(2).cell(col, RatingCell.class).valueShouldBe("5");
 //        rows.row(3).cell(col, RatingCell.class).checkedShouldBe(10); val:15
 
-        rows.row(0).cell(col, RatingCell.class).check(2);
-        rows.row(0).cell(col, RatingCell.class).checkedShouldBe(2);
+        rows.row(0).cell(col, RatingCell.class).check("2");
+        rows.row(0).cell(col, RatingCell.class).valueShouldBe("2");
 
-        rows.row(0).cell(col, RatingCell.class).check(7);
-        rows.row(0).cell(col, RatingCell.class).checkedShouldBe(7);
+        rows.row(0).cell(col, RatingCell.class).check("7");
+        rows.row(0).cell(col, RatingCell.class).valueShouldBe("7");
     }
 
 }

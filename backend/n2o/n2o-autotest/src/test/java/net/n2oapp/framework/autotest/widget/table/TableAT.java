@@ -3,10 +3,14 @@ package net.n2oapp.framework.autotest.widget.table;
 import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.api.component.button.DropdownButton;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
+import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -47,7 +51,7 @@ public class TableAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        TableWidget table = page.single().widget(TableWidget.class);
+        TableWidget table = page.widget(TableWidget.class);
         table.filters().shouldBeVisible();
         table.filters().toolbar().button("searchLabel").shouldBeEnabled();
         table.filters().toolbar().button("resetLabel").shouldBeEnabled();
@@ -81,7 +85,7 @@ public class TableAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        TableWidget table = page.single().widget(TableWidget.class);
+        TableWidget table = page.widget(TableWidget.class);
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(3);
 
@@ -93,5 +97,48 @@ public class TableAT extends AutoTestBase {
         button.shouldBeDisabled();
         button = rows.row(2).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
         button.shouldNotExists();
+    }
+
+    @Test
+    public void testPaging() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        Paging paging = table.paging();
+        paging.totalElementsShouldBe(8);
+        paging.prevShouldNotExist();
+        paging.nextShouldNotExist();
+        paging.firstShouldExist();
+        paging.lastShouldNotExist();
+
+        paging.activePageShouldBe("1");
+        table.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test1");
+        paging.selectPage("3");
+        paging.activePageShouldBe("3");
+        table.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test7");
+        paging.selectFirst();
+        paging.activePageShouldBe("1");
+
+
+        TableWidget table2 = page.regions().region(1, SimpleRegion.class).content().widget(TableWidget.class);
+        paging = table2.paging();
+        paging.totalElementsShouldNotExist();
+        paging.prevShouldExist();
+        paging.nextShouldExist();
+        paging.firstShouldNotExist();
+        paging.lastShouldExist();
+
+        paging.activePageShouldBe("1");
+        table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test1");
+        paging.selectNext();
+        paging.activePageShouldBe("2");
+        table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test4");
+        paging.selectPrev();
+        paging.activePageShouldBe("1");
+        paging.selectLast();
+        table2.columns().rows().row(0).cell(0, TextCell.class).textShouldHave("test7");
     }
 }

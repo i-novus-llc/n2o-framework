@@ -2,6 +2,8 @@ package net.n2oapp.framework.config.reader.page;
 
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oStandardPage;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.config.selective.reader.SelectiveStandardReader;
 import org.junit.Test;
 
@@ -11,33 +13,25 @@ import org.junit.Test;
 public class Page1ReaderTest {
 
     @Test
-    public void testPage1ReaderWithRegions() throws Exception{
+    public void testPage1ReaderWithRegions() {
         N2oStandardPage page = new SelectiveStandardReader().addReader(new PageXmlReaderV1()).addWidgetReaderV3().addFieldSet3Reader()
                 .readByPath("net/n2oapp/framework/config/reader/page/testPageElementReaderV1WithRegions.page.xml");
         assert page.getPostfix().equals("page");
         assert page.getName().equals("pageV1");
         assert page.getObjectId().equals("stub");
-        assert page.getModalWidth().equals("500px");
-        assert page.getMaxModalWidth().equals("1000px");
-        assert page.getMinModalWidth().equals("200px");
-        assert page.getResultContainer().equals("test");
-        assert page.getRegions()[0].getPlace().equals("single");
-        assert page.getRegions()[0].getSrc().equals("test");
-        assert page.getRegions()[0].getWidth().equals("200px");
-        assert page.getRegions()[0].getName().equals("test");
-        assert page.getRegions()[0].getSrc().equals("test");
-        assert page.getRegions()[0].getWidgets()[0].getId().equals("tabBottom");
-        assert page.getRegions()[0].getWidgets()[0].getDependencyCondition().equals("dependencyCondTest");
-        assert page.getRegions()[0].getWidgets()[0].getDependsOn().equals("depOnTest");
-        assert page.getRegions()[0].getWidgets()[0].getIcon().equals("iconTest");
-        assert page.getRegions()[0].getWidgets()[0].getOpened().equals(false);
-        assert page.getRegions()[0].getWidgets()[0].getRefreshDependentContainer().equals(false);
-        assert page.getRegions()[0].getWidgets()[0].getQueryId().equals("stub");
-        assert (page.getRegions()[0].getWidgets()[0].getPreFilters()[0]).getFieldId().equals("testField");
-        assert (page.getRegions()[0].getWidgets()[0].getPreFilters()[0]).getValue().equals("{refId}");
-        assert (page.getRegions()[0].getWidgets()[0].getPreFilters()[0]).getType().equals(FilterType.eq);
-        assert page.getRegions()[0].getWidgets()[0].getCounter().getPreFilters()[0].getFieldId().equals("filterFiled");
-        assert page.getRegions()[0].getWidgets()[0].getCounter().getPreFilters()[0].getValue().equals("true");
+        assert ((N2oRegion) page.getItems()[0]).getPlace().equals("single");
+        assert ((N2oRegion) page.getItems()[0]).getSrc().equals("test");
+        assert ((N2oRegion) page.getItems()[0]).getSrc().equals("test");
+        assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getId().equals("tabBottom");
+        assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getDependencyCondition().equals("dependencyCondTest");
+        assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getDependsOn().equals("depOnTest");
+        assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getIcon().equals("iconTest");
+        assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getRefreshDependentContainer().equals(false);
+        assert (((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getPreFilters()[0]).getFieldId().equals("testField");
+        assert (((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getPreFilters()[0]).getValue().equals("{refId}");
+        assert (((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getPreFilters()[0]).getType().equals(FilterType.eq);
+        assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getCounter().getPreFilters()[0].getFieldId().equals("filterFiled");
+        assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getCounter().getPreFilters()[0].getValue().equals("true");
     }
 
     @Test
@@ -47,24 +41,18 @@ public class Page1ReaderTest {
         assert page.getPostfix().equals("page");
         assert page.getName().equals("pageV1");
         assert page.getObjectId().equals("stub");
-        assert page.getModalWidth().equals("500px");
-        assert page.getMaxModalWidth().equals("1000px");
-        assert page.getMinModalWidth().equals("200px");
-        assert page.getResultContainer().equals("test");
-        assert page.getRegions()[0].getPlace().equals("bottom");
-        assert page.getContainers().get(0).getId().equals("tabBottom");
-        assert page.getContainers().get(0).getDependencyCondition().equals("dependencyCondTest");
-        assert page.getContainers().get(0).getDependsOn().equals("depOnTest");
-        assert page.getContainers().get(0).getIcon().equals("iconTest");
-        assert page.getContainers().get(0).getOpened().equals(false);
-        assert page.getContainers().get(0).getRefreshDependentContainer().equals(false);
-        assert (page.getContainers().get(0).getPreFilters()[0]).getFieldId().equals("testField");
-        assert (page.getContainers().get(0).getPreFilters()[0]).getValue().equals("name");
-        assert (page.getContainers().get(0).getPreFilters()[0]).getType().equals(FilterType.eq);
-        assert page.getRegions()[0].getWidgets()[0].getCounter().getPreFilters()[0].getFieldId().equals("filterFiled");
-        assert page.getRegions()[0].getWidgets()[0].getCounter().getPreFilters()[0].getValue().equals("true");
-        assert page.getContainers().get(0).getCounter().getPreFilters()[0].getFieldId().equals("filterFiled");
-        assert page.getContainers().get(0).getCounter().getPreFilters()[0].getValue().equals("true");
-
+        assert ((N2oRegion) page.getItems()[0]).getPlace().equals("bottom");
+        assert page.getWidgets().get(0).getId().equals("tabBottom");
+        assert page.getWidgets().get(0).getDependencyCondition().equals("dependencyCondTest");
+        assert page.getWidgets().get(0).getDependsOn().equals("depOnTest");
+        assert page.getWidgets().get(0).getIcon().equals("iconTest");
+        assert page.getWidgets().get(0).getRefreshDependentContainer().equals(false);
+        assert (page.getWidgets().get(0).getPreFilters()[0]).getFieldId().equals("testField");
+        assert (page.getWidgets().get(0).getPreFilters()[0]).getValue().equals("name");
+        assert (page.getWidgets().get(0).getPreFilters()[0]).getType().equals(FilterType.eq);
+        assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getCounter().getPreFilters()[0].getFieldId().equals("filterFiled");
+        assert ((N2oWidget) ((N2oRegion) page.getItems()[0]).getContent()[0]).getCounter().getPreFilters()[0].getValue().equals("true");
+        assert page.getWidgets().get(0).getCounter().getPreFilters()[0].getFieldId().equals("filterFiled");
+        assert page.getWidgets().get(0).getCounter().getPreFilters()[0].getValue().equals("true");
     }
 }

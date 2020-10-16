@@ -225,6 +225,7 @@ export default Field => {
           ? {
               ...get(model, parentName),
               index: parentIndex,
+              ...model,
             }
           : model,
       };
