@@ -129,7 +129,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                         }
                     }
                 resolveOperationInvocation(operation.getInvocation(), source);
-                addOperation(compileOperation, compiled);
+                compiled.getOperations().put(compileOperation.getId(), compileOperation);
                 initOperationValidations(operation, compileOperation, source, compiled, context, p);
             }
         }
@@ -309,20 +309,14 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     }
 
     private CompiledObject.Operation compileOperation(N2oObject.Operation operation, CompiledObject compiled, CompileProcessor processor) {
-        Map<String, N2oObject.Parameter> inParamMap = new LinkedHashMap<>();
-        if ((operation.getInParameters() != null) && (operation.getInParameters().length > 0))
-            for (N2oObject.Parameter parameter : operation.getInParameters())
-                addParameter(parameter, compiled, p -> {
-                    p.setRequired(castDefault(p.getRequired(), false));
-                    inParamMap.put(p.getId(), p);
-                });
-
-        Map<String, N2oObject.Parameter> outParamMap = new LinkedHashMap<>();
-        if (operation.getOutParameters() != null)
-            for (N2oObject.Parameter parameter : operation.getOutParameters())
-                addParameter(parameter, compiled, p -> outParamMap.put(p.getId(), p));
+        Map<String, N2oObject.Parameter> inParamMap = initOperationParameters(operation.getInParameters(), compiled,
+                p -> p.setRequired(castDefault(p.getRequired(), false)));
+        Map<String, N2oObject.Parameter> outParamMap = initOperationParameters(operation.getOutParameters(), compiled, null);
+        Map<String, N2oObject.Parameter> failOutParamMap = initOperationParameters(operation.getFailOutParameters(), compiled, null);
 
         CompiledObject.Operation compiledOperation = new CompiledObject.Operation(inParamMap, outParamMap);
+        compiledOperation.setFailOutParametersMap(failOutParamMap);
+
         initDefaultOperationProperties(compiledOperation, operation, processor);
         if (compiledOperation.getInParametersMap() != null)
             for (N2oObject.Parameter parameter : compiledOperation.getInParametersMap().values())
@@ -354,9 +348,17 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiledOperation.setFormSubmitLabel(operation.getFormSubmitLabel());
     }
 
-    private <T extends InvocationParameter> void addParameter(T parameter, CompiledObject compiled, Consumer<T> consumer) {
-        resolveDefaultParameter(parameter, compiled);
-        consumer.accept(parameter);
+    private Map<String, N2oObject.Parameter> initOperationParameters(N2oObject.Parameter[] parameters, CompiledObject compiled,
+                                                                     Consumer<N2oObject.Parameter> consumer) {
+        Map<String, N2oObject.Parameter> params = new LinkedHashMap<>();
+        if (parameters != null)
+            for (N2oObject.Parameter p : parameters) {
+                resolveDefaultParameter(p, compiled);
+                if (consumer != null)
+                    consumer.accept(p);
+                params.put(p.getId(), p);
+            }
+        return params;
     }
 
     private <T extends InvocationParameter> void resolveDefaultParameter(T parameter, CompiledObject compiled) {
@@ -415,9 +417,5 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         if (field != null)
             mapping = field.getMapping();
         return mapping;
-    }
-
-    private void addOperation(CompiledObject.Operation compiledOperation, CompiledObject compiled) {
-        compiled.getOperations().put(compiledOperation.getId(), compiledOperation);
     }
 }

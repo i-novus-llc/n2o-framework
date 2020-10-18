@@ -215,7 +215,11 @@
             <xs:element name="in" type="operationInParameterListDefinition" minOccurs="0"/>
             <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0"/>
             <xs:element name="validations" type="operationValidationListDefinition" minOccurs="0"/>
-            <xs:element name="fail-out" type="operationFailOutParameterDefinition" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="fail-out" type="operationOutParameterField" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Исходящий параметр ошибки операции.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
@@ -297,22 +301,6 @@
         <xs:sequence>
             <xs:element name="field" type="operationOutParameterField"/>
         </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="operationFailOutParameterDefinition">
-        <xs:annotation>
-            <xs:documentation>Исходящий параметр ошибки операции.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="id" use="required">
-            <xs:annotation>
-                <xs:documentation>Идентификатор параметра.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="mapping">
-            <xs:annotation>
-                <xs:documentation>Маппинг значения в сущность.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="operationInParameterField">

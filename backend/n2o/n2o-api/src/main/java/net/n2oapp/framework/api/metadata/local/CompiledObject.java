@@ -59,6 +59,7 @@ public class CompiledObject implements Compiled, IdAware {
         private Map<String, Object> properties;
         private Map<String, N2oObject.Parameter> inParametersMap;
         private Map<String, N2oObject.Parameter> outParametersMap;
+        private Map<String, N2oObject.Parameter> failOutParametersMap;
         private List<Validation> validationList;
         private Map<String, Validation> validationsMap;
         private Map<String, Validation> whiteListValidationsMap;

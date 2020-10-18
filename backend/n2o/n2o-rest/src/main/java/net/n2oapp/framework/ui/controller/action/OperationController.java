@@ -62,8 +62,8 @@ public class OperationController extends SetController {
             return constructSuccessSetDataResponse(data, requestInfo, responseInfo);
         } catch (N2oException e) {
             SetDataResponse response = constructFailSetDataResponse(e, requestInfo);
-            logger.error("Error response " + response.getStatus() + " " + e.getSeverity() + ": "
-                    + (e.getUserMessage() != null ? e.getUserMessage() : e.getMessage()), e);
+            logger.error(String.format("Error response %d %s: %s", response.getStatus(), e.getSeverity(),
+                    e.getUserMessage() != null ? e.getUserMessage() : e.getMessage()), e);
             return response;
         }
     }

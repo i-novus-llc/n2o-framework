@@ -40,10 +40,6 @@ public class N2oException extends RuntimeException {
      */
     private String field;
     /**
-     * Шаблон вёрстки технической информации
-     */
-    private String view;
-    /**
      * Данные сообщения
      */
     private Object data;

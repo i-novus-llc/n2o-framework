@@ -2,16 +2,15 @@ package net.n2oapp.framework.engine.data;
 
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.StringUtils;
+import net.n2oapp.criteria.dataset.DataSetMapper;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.OperationExceptionHandler;
-import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.engine.processor.N2oActionException;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +49,11 @@ public class N2oOperationProcessor {
                     outParameters
             );
         } catch (Exception e) {
+            if (!operation.getFailOutParametersMap().isEmpty()) {
+                Map<String, String> failOutParamsMapping = operation.getFailOutParametersMap().entrySet().stream()
+                        .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getMapping()));
+                inDataSet.putAll(DataSetMapper.extract(e, failOutParamsMapping));
+            }
             throw exceptionHandler.handle(operation, inDataSet, e);
         }
     }
@@ -69,7 +73,7 @@ public class N2oOperationProcessor {
                 .allMatch(inDataSet::containsKey);
         if (!allMatch) {
             throw new IllegalStateException(String.format("Action required fields[%s]",
-                    requiredFields.stream().collect(Collectors.joining(","))));
+                    String.join(",", requiredFields)));
         }
     }
 }

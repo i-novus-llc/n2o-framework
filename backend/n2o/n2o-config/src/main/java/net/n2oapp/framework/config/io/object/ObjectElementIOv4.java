@@ -82,7 +82,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
         p.children(e, "in", "field", t::getInParameters, t::setInParameters, N2oObject.Parameter.class, this::inParam);
         p.children(e, "out", "field", t::getOutParameters, t::setOutParameters, N2oObject.Parameter.class, this::outParam);
-        p.children(e, null, "fail-out", t::getFailOutParameters, t::setFailOutParameters, N2oObject.Parameter.class, this::failOutParam);
+        p.children(e, null, "fail-out", t::getFailOutParameters, t::setFailOutParameters, N2oObject.Parameter.class, this::outParam);
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
     }
 
@@ -112,11 +112,6 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "mapping-condition", t::getMappingCondition, t::setMappingCondition);
         p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
         p.children(e, null, "child-param", t::getChildParams, t::setChildParams, N2oObject.Parameter.class, this::outParam);
-    }
-
-    private void failOutParam(Element e, N2oObject.Parameter t, IOProcessor p) {
-        p.attribute(e, "id", t::getId, t::setId);
-        p.attribute(e, "mapping", t::getMapping, t::setMapping);
     }
 
     private void validation(Element e, N2oValidation t, IOProcessor p) {
