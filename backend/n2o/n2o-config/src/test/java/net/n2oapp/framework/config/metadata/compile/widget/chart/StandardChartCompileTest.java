@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget.chart;
 
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.chart.Chart;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.ChartLegendIconType;
 import net.n2oapp.framework.api.metadata.meta.widget.chart.LineChart;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -41,7 +42,7 @@ public class StandardChartCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/chart/testStandardChartCompile.page.xml")
                 .get(new PageContext("testStandardChartCompile"));
 
-        LineChart chart1 = (LineChart) page.getWidgets().get("testStandardChartCompile_chart1").getComponent();
+        LineChart chart1 = (LineChart) ((Chart) page.getRegions().get("single").get(0).getContent().get(0)).getComponent();
         assertThat(chart1.getXAxis().getFieldId(), is("xField"));
         assertThat(chart1.getXAxis().getPosition(), is("top"));
         assertThat(chart1.getXAxis().getHasLabel(), is(true));
@@ -54,7 +55,7 @@ public class StandardChartCompileTest extends SourceCompileTestBase {
         assertThat(chart1.getLegend().getIconType(), is(ChartLegendIconType.diamond));
         assertThat(chart1.getTooltip().getSeparator(), is(":"));
 
-        LineChart chart2 = (LineChart) page.getWidgets().get("testStandardChartCompile_chart2").getComponent();
+        LineChart chart2 = (LineChart) ((Chart) page.getRegions().get("single").get(0).getContent().get(1)).getComponent();
         assertThat(chart2.getXAxis().getPosition(), is("bottom"));
         assertThat(chart2.getXAxis().getHasLabel(), is(false));
         assertThat(chart2.getYAxis().getPosition(), is("left"));

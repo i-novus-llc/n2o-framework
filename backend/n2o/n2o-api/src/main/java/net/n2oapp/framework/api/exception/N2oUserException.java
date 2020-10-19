@@ -8,7 +8,6 @@ import java.util.List;
  * Бизнес исключение
  */
 public class N2oUserException extends N2oException {
-
     @Getter
     private List<ValidationMessage> messages;
 
@@ -30,5 +29,4 @@ public class N2oUserException extends N2oException {
         setUserMessage(userMessage);
         setHttpStatus(400);
     }
-
 }

@@ -69,6 +69,7 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
             button.setHint(sub.getDescription().trim());
         button.setIcon(sub.getIcon());
         button.setVisible(sub.getVisible());
+        button.setShowToggleIcon(p.cast(sub.getShowToggleIcon(), true));
         if (sub.getMenuItems() != null) {
             button.setSubMenu(Stream.of(sub.getMenuItems()).map(mi -> {
                 PerformButton menuItem = new PerformButton();

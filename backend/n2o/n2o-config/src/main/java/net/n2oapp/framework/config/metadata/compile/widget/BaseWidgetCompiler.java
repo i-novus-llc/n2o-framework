@@ -79,7 +79,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (getPropertyWidgetSrc() != null)
             defaultWidgetSrc = p.resolve(property(getPropertyWidgetSrc()), String.class);
         compiled.setSrc(p.cast(source.getSrc(), defaultWidgetSrc));
-        compiled.setOpened(source.getOpened());
         compiled.setIcon(source.getIcon());
         compiled.setUpload(p.cast(source.getUpload(), source.getQueryId() != null ? UploadType.query : UploadType.defaults));
         compileAutoFocus(source, compiled, p);

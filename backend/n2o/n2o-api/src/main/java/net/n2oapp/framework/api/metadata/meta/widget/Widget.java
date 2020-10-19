@@ -35,7 +35,6 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
      * Ссылка на идентификатор родительского виджета
      */
     private ModelLink masterLink;
-    private Boolean opened;
     private String name;
     @JsonProperty
     private String icon;
@@ -71,5 +70,4 @@ public abstract class Widget<T extends WidgetComponent> extends Component {
         return filters.stream().filter(f -> f.getFilterId().equals(filterId)).findFirst()
                 .orElseThrow(() -> new N2oException("Filter " + filterId + " not found"));
     }
-
 }

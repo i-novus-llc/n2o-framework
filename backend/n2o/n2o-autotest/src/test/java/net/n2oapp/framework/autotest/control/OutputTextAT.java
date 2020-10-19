@@ -44,7 +44,7 @@ public class OutputTextAT extends AutoTestBase {
 
     @Test
     public void testOutputText() {
-        OutputText output = page.single().widget(FormWidget.class).fields().field("Output1")
+        OutputText output = page.widget(FormWidget.class).fields().field("Output1")
                 .control(OutputText.class);
         output.shouldExists();
 
@@ -53,7 +53,7 @@ public class OutputTextAT extends AutoTestBase {
 
     @Test
     public void testOutputTextWithIcon() {
-        OutputText output = page.single().widget(FormWidget.class).fields().field("Output2")
+        OutputText output = page.widget(FormWidget.class).fields().field("Output2")
                 .control(OutputText.class);
         output.shouldExists();
 
@@ -63,7 +63,7 @@ public class OutputTextAT extends AutoTestBase {
 
     @Test
     public void testIconWithoutText() {
-        OutputText output = page.single().widget(FormWidget.class).fields().field("Output3")
+        OutputText output = page.widget(FormWidget.class).fields().field("Output3")
                 .control(OutputText.class);
         output.shouldExists();
 
@@ -77,7 +77,7 @@ public class OutputTextAT extends AutoTestBase {
         page = open(SimplePage.class);
         page.shouldExists();
 
-        Fields fields = page.single().widget(FormWidget.class).fields();
+        Fields fields = page.widget(FormWidget.class).fields();
 
         OutputText output1 = fields.field("moment").control(OutputText.class);
         output1.shouldHaveValue("06.02.2019");

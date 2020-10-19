@@ -3,8 +3,8 @@ package net.n2oapp.framework.config.metadata.compile.page;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
-import org.springframework.stereotype.Component;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +21,7 @@ public class SimplePageBinder extends PageBinder<SimplePage> {
                 grp.forEach(g -> {if (g.getButtons() != null) g.getButtons().forEach(p::bind);});
             }
         }
-        return bindPage(page, p, Collections.singletonMap(page.getWidget().getId(), page.getWidget()));
+        return bindPage(page, p, Collections.singletonList(page.getWidget()));
     }
 
     @Override
