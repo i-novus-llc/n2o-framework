@@ -59,7 +59,7 @@ public class HeaderAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("Хедер");
-        page.single().widget(FormWidget.class).shouldExists();
+        page.widget(FormWidget.class).shouldExists();
         page.breadcrumb().titleShouldHaveText("Главная страница");
 
         page.header().nav().shouldHaveSize(3);
@@ -98,7 +98,7 @@ public class HeaderAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.header().brandNameShouldBe("Хедер");
-        page.single().widget(FormWidget.class).shouldExists();
+        page.widget(FormWidget.class).shouldExists();
         page.breadcrumb().titleShouldHaveText("Главная страница");
 
         page.header().nav().shouldHaveSize(2);

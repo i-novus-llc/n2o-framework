@@ -308,10 +308,18 @@
             <xs:documentation>Входящий параметр операции.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Входящий параметр операции.</xs:documentation>
+            </xs:annotation>
             <xs:extension base="operationOutParameterField">
                 <xs:attribute name="param" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Параметр содержащий url.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="validation-fail-key" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Код ошибки валидации с сервера.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

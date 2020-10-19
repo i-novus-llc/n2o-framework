@@ -7,29 +7,33 @@ import {
   fork,
 } from 'redux-saga/effects';
 import { getFormValues } from 'redux-form';
+
 import isFunction from 'lodash/isFunction';
 import get from 'lodash/get';
+import has from 'lodash/has';
+import keys from 'lodash/keys';
+import isEqual from 'lodash/isEqual';
+
 import merge from 'deepmerge';
 
 import { START_INVOKE } from '../constants/actionImpls';
 import { CALL_ACTION_IMPL } from '../constants/toolbar';
-
 import {
   makeFormModelPrefixSelector,
   makeWidgetValidationSelector,
 } from '../selectors/widgets';
 import { getModelSelector } from '../selectors/models';
-
 import { validateField } from '../core/validation/createValidator';
 import actionResolver from '../core/factory/actionResolver';
-import fetchSaga from './fetch.js';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 import { FETCH_INVOKE_DATA } from '../core/api.js';
 import { setModel } from '../actions/models';
-import { PREFIXES } from '../constants/models';
 import { disablePage, enablePage } from '../actions/pages';
 import { successInvoke, failInvoke } from '../actions/actionImpl';
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
+import { setButtonDisabled, setButtonEnabled } from '../actions/toolbar';
+
+import fetchSaga from './fetch.js';
 
 /**
  * @deprecated
@@ -133,18 +137,25 @@ export function* handleInvoke(apiProvider, action) {
     data,
     needResolve = true,
   } = action.payload;
+
+  const state = yield select();
+  const optimistic = get(dataProvider, 'optimistic', false);
+  const buttonIds =
+    !optimistic && has(state, 'toolbar') ? keys(state.toolbar[pageId]) : [];
+
   try {
     if (!dataProvider) {
       throw new Error('dataProvider is undefined');
     }
-
-    const optimistic = get(dataProvider, 'optimistic', false);
-
     if (pageId && !optimistic) {
       yield put(disablePage(pageId));
     }
     if (widgetId && !optimistic) {
       yield put(disableWidgetOnFetch(widgetId));
+
+      for (let index = 0; index <= buttonIds.length - 1; index += 1) {
+        yield put(setButtonDisabled(pageId, buttonIds[index]));
+      }
     }
     let model = data || {};
     if (modelLink) {
@@ -158,8 +169,9 @@ export function* handleInvoke(apiProvider, action) {
     const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId));
 
     if (
-      needResolve &&
-      (optimistic || (!meta.redirect && !meta.modalsToClose))
+      (needResolve &&
+        (optimistic || (!meta.redirect && !meta.modalsToClose))) ||
+      !isEqual(model, response.data)
     ) {
       yield put(
         setModel(modelPrefix, widgetId, optimistic ? model : response.data)
@@ -179,6 +191,10 @@ export function* handleInvoke(apiProvider, action) {
     }
     if (widgetId) {
       yield put(enableWidget(widgetId));
+
+      for (let index = 0; index <= buttonIds.length - 1; index += 1) {
+        yield put(setButtonEnabled(pageId, buttonIds[index]));
+      }
     }
   }
 }

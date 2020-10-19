@@ -7,6 +7,7 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oFormParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 
 import java.io.Serializable;
@@ -38,6 +39,7 @@ public class N2oClientDataProvider implements Serializable {
         private String operationId;
         private String route;
         private RedirectSaga redirect;
+        private RefreshSaga refresh;
         private String parentWidgetId;
         private String failAlertWidgetId;
         private String successAlertWidgetId;

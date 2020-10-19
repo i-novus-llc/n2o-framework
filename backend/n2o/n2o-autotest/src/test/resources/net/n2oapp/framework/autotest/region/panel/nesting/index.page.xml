@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <panel>
+            <form name="form1">
+                <fields>
+                    <input-text id="field1"/>
+                </fields>
+            </form>
+            <region>
+                <form name="form2">
+                    <fields>
+                        <input-text id="field2"/>
+                    </fields>
+                </form>
+            </region>
+            <panel title="Panel">
+                <form name="panelForm"/>
+                <form name="panelForm2"/>
+            </panel>
+            <line name="Line">
+                <form name="lineForm"/>
+            </line>
+            <tabs>
+                <tab name="Tab1"/>
+                <tab name="Tab2"/>
+            </tabs>
+            <form name="form3">
+                <fields>
+                    <input-text id="field3"/>
+                </fields>
+            </form>
+        </panel>
+    </regions>
+</page>

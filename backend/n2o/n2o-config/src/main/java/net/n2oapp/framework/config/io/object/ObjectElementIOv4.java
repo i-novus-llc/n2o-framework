@@ -99,6 +99,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
     private void inParam(Element e, N2oObject.Parameter t, IOProcessor p) {
         outParam(e, t, p);
         p.attribute(e, "param", t::getParam, t::setParam);
+        p.attribute(e, "validation-fail-key", t::getValidationFailKey, t::setValidationFailKey);
     }
 
     private void outParam(Element e, N2oObject.Parameter t, IOProcessor p) {

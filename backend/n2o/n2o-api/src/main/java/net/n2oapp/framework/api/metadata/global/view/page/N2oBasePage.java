@@ -6,7 +6,7 @@ import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 
 /**
- * "Исходная" модель страницы
+ * Исходная модель страницы
  */
 @Getter
 @Setter

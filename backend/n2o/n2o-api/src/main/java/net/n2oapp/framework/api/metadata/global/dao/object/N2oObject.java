@@ -103,6 +103,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
     public static class Parameter extends InvocationParameter {
         private Parameter[] childParams;
         private String param;
+        private String validationFailKey;
 
         public Parameter(String name, String mapping) {
             this.setMapping(mapping);
