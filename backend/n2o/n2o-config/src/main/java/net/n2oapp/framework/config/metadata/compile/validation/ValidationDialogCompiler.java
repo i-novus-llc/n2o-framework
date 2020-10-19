@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.data.validation.ValidationDialog;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.event.action.N2oInvokeAction;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationDialog;
@@ -53,6 +54,10 @@ public class ValidationDialogCompiler extends BaseValidationCompiler<ValidationD
         validation.setInvocation(source.getN2oInvocation());
 
         N2oDialog n2oDialog = new N2oDialog(source.getId());
+        if (source.getToolbar() != null)
+            source.getToolbar().getAllActions().stream()
+                    .filter(act -> act instanceof N2oInvokeAction)
+                    .forEach(act -> ((N2oInvokeAction) act).setDoubleCloseOnSuccess(true));
         n2oDialog.setTitle(source.getMessage());
         n2oDialog.setToolbar(source.getToolbar());
         n2oDialog.setSize(source.getSize());
