@@ -119,8 +119,7 @@ public class OperationController extends SetController {
         DialogContext context = new DialogContext(route, n2oDialog.getId());
         context.setPathRouteMapping(requestInfo.getContext().getPathRouteMapping());
         context.setQueryRouteMapping(requestInfo.getContext().getQueryRouteMapping());
-        context.setParentWidgetId(((ActionContext) requestInfo.getContext()).getParentWidgetId());
-        context.setRefreshClientWidgetId(getDialogRefreshClientWidgetId((ActionContext) requestInfo.getContext(), route));
+        context.setParentWidgetId(getDialogParentWidgetId((ActionContext) requestInfo.getContext(), route));
         if (requestInfo.getObject() != null)
             context.setObjectId(requestInfo.getObject().getId());
         N2oPipelineSupport pipelineSupport = new N2oPipelineSupport(environment);
@@ -133,14 +132,13 @@ public class OperationController extends SetController {
     }
 
     /**
-     * Получение идентификатора виджета, который будет обновлен
-     * при успешном выполнении действия диалога
+     * Получение идентификатора родительского для диалога виджета
      *
      * @param context Контекст сборки объекта под конкретную операцию
      * @param route   Маршрут
-     * @return Идентификатор виджета, который будет обновлен
+     * @return Идентификатор родительского для диалога виджета
      */
-    private String getDialogRefreshClientWidgetId(ActionContext context, String route) {
+    private String getDialogParentWidgetId(ActionContext context, String route) {
         List<String> pathParams = RouteUtil.getPathParams(route);
         if (!pathParams.isEmpty() && context.getPathRouteMapping() != null) {
             ModelLink modelLink = context.getPathRouteMapping().get(pathParams.get(0));
