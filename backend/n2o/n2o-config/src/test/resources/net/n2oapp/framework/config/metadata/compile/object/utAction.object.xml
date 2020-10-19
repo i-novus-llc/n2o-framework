@@ -19,6 +19,7 @@
             <out>
                 <field id="out"/>
             </out>
+            <fail-out id="code" mapping="#this.getCode()"/>
         </operation>
         <operation id="delete">
             <invocation/>

@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraint;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -122,14 +122,14 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         List<Validation> result = new ArrayList<>();
         if (source.getN2oValidations() != null) {
             for (N2oValidation validation : source.getN2oValidations()) {
-                if (validation instanceof N2oConstraint) {
-                    N2oConstraint n2oConstraint = (N2oConstraint) validation;
-                    if (n2oConstraint.getInParameters() != null)
-                        for (N2oObject.Parameter parameter : n2oConstraint.getInParameters()) {
+                if (validation instanceof N2oInvocationValidation) {
+                    N2oInvocationValidation invocationValidation = (N2oInvocationValidation) validation;
+                    if (invocationValidation.getInParameters() != null)
+                        for (N2oObject.Parameter parameter : invocationValidation.getInParameters()) {
                             resolveDefaultParameter(parameter, compiled);
                             parameter.setRequired(p.cast(parameter.getRequired(), parameter.getDefaultValue() == null));
                         }
-                    prepareOperationInvocation(n2oConstraint.getN2oInvocation(), source);
+                    prepareOperationInvocation(invocationValidation.getN2oInvocation(), source);
                 }
                 result.add(p.compile(validation, context));
             }
@@ -219,8 +219,6 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      */
     private void initOperationValidations(N2oObject.Operation operation, CompiledObject.Operation compiledOperation,
                                           N2oObject source, CompiledObject compiled, C context, CompileProcessor p) {
-        List<Validation> validationList = new ArrayList<>();
-
         if (compiledOperation.getValidations() != null) {
             if (compiledOperation.getValidations().getActivate() == null
                     && compiledOperation.getValidations().getBlackList() == null
@@ -231,6 +229,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             if (compiledOperation.getValidations().getActivate() != null)
                 fillValidationsByActivate(operation, compiledOperation, source);
 
+            List<Validation> validationList = new ArrayList<>();
             List<Validation> whiteListValidationList = new ArrayList<>();
 
             if (compiledOperation.getValidations().getWhiteList() != null)
@@ -252,7 +251,12 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             compiledOperation.setWhiteListValidationsMap(initValidationsMap(whiteListValidationList));
         }
 
-        compiledOperation.setValidationList(getRequiredParamValidations(compiledOperation.getInParametersMap(), p));
+        List<Validation> requiredParamValidations = getRequiredParamValidations(compiledOperation.getInParametersMap(), p);
+        if (!requiredParamValidations.isEmpty()) {
+            if (compiledOperation.getValidationList() == null)
+                compiledOperation.setValidationList(new ArrayList<>());
+            compiledOperation.getValidationList().addAll(requiredParamValidations);
+        }
 
         if (context instanceof ActionContext && ((ActionContext) context).getValidations() != null) {
             if (compiledOperation.getValidationList() == null)
@@ -262,7 +266,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     }
 
     /**
-     * Заполнение white списка валидаций конкретной операции скомпилированного объекта.
+     * Получение списка white валидаций операции скомпилированного объекта
      * Полученный список white валидаций также производит дополнение списка всех валидаций операции
      * в переменной validationList
      *
@@ -270,7 +274,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
      * @param validationsMap Map валидаций скомпилированного объекта
      * @param validationList Список всех валидаций операции
      * @param activate       Тип активации валидаций
-     * @return
+     * @return Список white валидаций операции объекта
      */
     private List<Validation> getWhiteListValidations(String[] whiteList, Map<String, Validation> validationsMap,
                                                      List<Validation> validationList,
@@ -288,7 +292,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
     }
 
     /**
-     * Получение списка black валидаций операции объекта
+     * Получение списка black валидаций операции скомпилированного объекта
      *
      * @param blackList      Массив идентификаторов black валидаций операции скомпилированного объекта
      * @param validationsMap Map валидаций скомпилированного объекта
@@ -298,7 +302,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         Map<String, Validation> blackListValidationsMap = new HashMap<>(validationsMap);
         for (String name : blackList)
             blackListValidationsMap.remove(name.trim());
-        return (List<Validation>) blackListValidationsMap.values();
+        return new ArrayList<>(blackListValidationsMap.values());
     }
 
     /**
@@ -320,14 +324,14 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         for (N2oValidation n2oValidation : validations) {
             if ("false".equals(n2oValidation.getEnabled()))
                 continue;
-            if (n2oValidation instanceof N2oConstraint) {
-                N2oConstraint n2oConstraint = (N2oConstraint) n2oValidation;
-                if (n2oConstraint.getInParameters() != null)
-                    for (N2oObject.Parameter parameter : n2oConstraint.getInParameters()) {
+            if (n2oValidation instanceof N2oInvocationValidation) {
+                N2oInvocationValidation invocationValidation = (N2oInvocationValidation) n2oValidation;
+                if (invocationValidation.getInParameters() != null)
+                    for (N2oObject.Parameter parameter : invocationValidation.getInParameters()) {
                         resolveDefaultParameter(parameter, compiled);
                         parameter.setRequired(p.cast(parameter.getRequired(), parameter.getDefaultValue() == null));
                     }
-                prepareOperationInvocation(n2oConstraint.getN2oInvocation(), source);
+                prepareOperationInvocation(invocationValidation.getN2oInvocation(), source);
             }
             inlineValidations.add(p.compile(n2oValidation, context));
         }
