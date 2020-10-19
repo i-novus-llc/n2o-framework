@@ -7,6 +7,7 @@ public class NotFoundContextPlaceholderException extends N2oException {
 
     public NotFoundContextPlaceholderException(String placeHolder) {
         super("n2o.fieldNotFoundInContext");
+        setUserMessage("n2o.fieldNotFoundInContext");
         setData(placeHolder);
     }
 
