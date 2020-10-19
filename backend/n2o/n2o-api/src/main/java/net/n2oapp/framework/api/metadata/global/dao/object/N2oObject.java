@@ -78,6 +78,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
         @Getter
         @Setter
         public static class Validations implements Serializable {
+            @Deprecated
             private Activate activate;
             private String[] whiteList;
             private String[] blackList;
