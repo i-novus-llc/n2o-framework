@@ -7,7 +7,7 @@
     <fields>
         <field id="filterValue">
             <filters>
-                <eq filter-id="filterValue"/>
+                <eq filter-id="filterValue">filterValue:eq:filterValue</eq>
             </filters>
         </field>
 

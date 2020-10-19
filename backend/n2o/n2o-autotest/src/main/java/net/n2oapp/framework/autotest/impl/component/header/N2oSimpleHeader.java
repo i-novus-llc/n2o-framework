@@ -40,15 +40,15 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
 
     @Override
     public Search search() {
-        element().$(".navbar-collapse .n2o-search-bar").click();
+        element().$(".navbar-collapse .n2o-search-bar").should(Condition.exist).click();
         return N2oSelenide.collection(element().$$(".n2o-search-bar__popup_list .n2o-search-bar__popup_list__item-container")
                 , N2oSearch.class);
     }
 
     @Override
     public Search search(String val) {
-        element().$(".navbar-collapse .n2o-search-bar").click();
-        element().$(".navbar-collapse .n2o-search-bar__control .n2o-input-text").sendKeys(Keys.chord(Keys.CONTROL, "a"), val);
+        element().$(".navbar-collapse .n2o-search-bar").should(Condition.exist).click();
+        element().$(".navbar-collapse .n2o-search-bar__control .n2o-input-text").should(Condition.exist).sendKeys(Keys.chord(Keys.CONTROL, "a"), val);
         return N2oSelenide.collection(element().$$(".n2o-search-bar__popup_list .n2o-search-bar__popup_list__item-container")
                 , N2oSearch.class);
     }

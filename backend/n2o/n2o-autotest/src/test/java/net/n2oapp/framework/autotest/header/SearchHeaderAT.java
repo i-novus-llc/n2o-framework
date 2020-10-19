@@ -16,8 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static com.codeborne.selenide.Configuration.headless;
-
 /**
  * Автотест поиска в хедере
  */
@@ -29,14 +27,15 @@ public class SearchHeaderAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
-
     }
 
     @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
-//        headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "false")); //todo dell
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/search_bar/popupSearch.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/search_bar/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/search_bar/search.header.xml"));
     }
 
     @Override
@@ -47,10 +46,6 @@ public class SearchHeaderAT extends AutoTestBase {
 
     @Test
     public void searchHeaderTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/search_bar/popupSearch.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/search_bar/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/search_bar/search.header.xml"));
-
         String rootUrl = getBaseUrl();
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
