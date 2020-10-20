@@ -4,12 +4,10 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Menu;
-import net.n2oapp.framework.autotest.api.collection.Search;
+import net.n2oapp.framework.autotest.api.component.header.SearchBar;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.impl.collection.N2oMenu;
-import net.n2oapp.framework.autotest.impl.collection.N2oSearch;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
-import org.openqa.selenium.Keys;
 
 /**
  * Простой хедер для автотестирования
@@ -39,18 +37,8 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
     }
 
     @Override
-    public Search search() {
-        element().$(".navbar-collapse .n2o-search-bar").should(Condition.exist).click();
-        return N2oSelenide.collection(element().$$(".n2o-search-bar__popup_list .n2o-search-bar__popup_list__item-container")
-                , N2oSearch.class);
-    }
-
-    @Override
-    public Search search(String val) {
-        element().$(".navbar-collapse .n2o-search-bar").should(Condition.exist).click();
-        element().$(".navbar-collapse .n2o-search-bar__control .n2o-input-text").should(Condition.exist).sendKeys(Keys.chord(Keys.CONTROL, "a"), val);
-        return N2oSelenide.collection(element().$$(".n2o-search-bar__popup_list .n2o-search-bar__popup_list__item-container")
-                , N2oSearch.class);
+    public SearchBar search() {
+        return N2oSelenide.component(element().$(".navbar-collapse .n2o-search-bar"), N2oSearchBar.class);
     }
 
 }

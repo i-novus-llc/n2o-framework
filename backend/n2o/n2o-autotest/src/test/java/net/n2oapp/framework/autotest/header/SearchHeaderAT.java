@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.header;
 
-import net.n2oapp.framework.autotest.api.collection.Search;
+import net.n2oapp.framework.autotest.api.collection.SearchResult;
+import net.n2oapp.framework.autotest.api.component.header.SearchBar;
 import net.n2oapp.framework.autotest.api.component.header.SearchItem;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.run.AutoTestApplication;
@@ -49,7 +50,10 @@ public class SearchHeaderAT extends AutoTestBase {
         String rootUrl = getBaseUrl();
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
-        Search searchResult = page.header().search();
+        SearchBar searchBar = page.header().search();
+        searchBar.click();
+        searchBar.search();
+        SearchResult searchResult = searchBar.searchResult();
 
         searchResult.shouldHaveSize(4);
         searchResult.item(0, SearchItem.class).shouldHaveTitle("label1");
@@ -73,7 +77,8 @@ public class SearchHeaderAT extends AutoTestBase {
         searchResult.item(3, SearchItem.class).shouldHaveIcon("icon4");
 
 
-        searchResult = page.header().search("filterValue2");
+        searchBar.search("filterValue2");
+        searchResult = searchBar.searchResult();
         searchResult.shouldHaveSize(1);
         searchResult.item(0, SearchItem.class).shouldHaveTitle("label2");
         searchResult.item(0, SearchItem.class).shouldHaveDescription("description2");
