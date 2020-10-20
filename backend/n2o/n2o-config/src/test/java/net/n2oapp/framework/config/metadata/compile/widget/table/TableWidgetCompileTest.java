@@ -96,6 +96,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.checkbox));
         assertThat(table.getComponent().getFetchOnInit(), is(false));
         assertThat(table.getComponent().getAutoCheckboxOnSelect(), is(true));
+
+        assertThat(table.getDataProvider().getSize(), is(10));
     }
 
     @Test

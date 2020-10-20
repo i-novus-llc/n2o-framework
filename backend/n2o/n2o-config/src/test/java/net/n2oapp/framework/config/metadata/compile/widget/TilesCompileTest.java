@@ -28,13 +28,15 @@ public class TilesCompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oWidgetsPack(),
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oAllDataPack(), new N2oWidgetsPack(),
                 new N2oCellsPack(), new N2oCellsIOPack());
     }
 
     @Test
     public void testTiles() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTilesCompile.page.xml")
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testTilesCompile.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank.object.xml")
                 .get(new PageContext("testTilesCompile"));
         Tiles tiles = (Tiles) page.getRegions().get("single").get(0).getContent().get(0);
 
@@ -70,6 +72,8 @@ public class TilesCompileTest extends SourceCompileTestBase {
         assertThat(tiles.getPaging().getShowCountRecords(), is(false));
         assertThat(tiles.getPaging().getSize(), is(5));
         assertThat(tiles.getPaging().getSrc(), is("pagingSrc"));
+
+        assertThat(tiles.getDataProvider().getSize(), is(5));
 
         tiles = (Tiles) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(tiles.getSrc(), is("TilesWidget"));
