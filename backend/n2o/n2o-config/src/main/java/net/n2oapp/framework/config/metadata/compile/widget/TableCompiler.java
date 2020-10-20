@@ -106,6 +106,7 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
             component.setRowClick(compileRowClick(source, context, p, widgetScope, widgetRouteScope, object, widgetActions));
         }
         table.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.table.size"), Integer.class), p));
+        if (table.getDataProvider() != null) table.getDataProvider().setSize(table.getPaging().getSize());
         table.setChildren(p.cast(source.getChildren(),
                 p.resolve(property("n2o.api.widget.table.children.toggle"), N2oTable.ChildrenToggle.class))
         );
