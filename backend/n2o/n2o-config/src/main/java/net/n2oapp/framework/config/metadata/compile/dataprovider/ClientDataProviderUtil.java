@@ -27,7 +27,6 @@ import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.util.*;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
@@ -65,6 +64,7 @@ public class ClientDataProviderUtil {
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + p.cast(path, compiled.getUrl()));
         dataProvider.setQueryMapping(compileParams(compiled.getQueryParams(), p, targetModel, targetWidget));
         dataProvider.setQuickSearchParam(compiled.getQuickSearchParam());
+        dataProvider.setSize(compiled.getSize());
 
         return dataProvider;
     }
