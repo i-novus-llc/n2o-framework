@@ -18,6 +18,11 @@ public class DialogContext extends BaseCompileContext<Dialog, N2oDialog> {
     private String parentWidgetId;
 
     /**
+     * Идентификатор клиентского виджета
+     */
+    private String clientWidgetId;
+
+    /**
      * Идентификатор объекта, в котором находится операция
      */
     private String objectId;
