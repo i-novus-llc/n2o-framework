@@ -119,8 +119,6 @@ public class InvokeActionCompiler extends AbstractActionCompiler<InvokeAction, N
                 refreshWidgetId = pageScope == null ? source.getRefreshWidgetId() : pageScope.getGlobalWidgetId(source.getRefreshWidgetId());
             } else if ((closeOnSuccess) && (context instanceof PageContext) && ((PageContext) context).getRefreshClientWidgetId() != null)
                 refreshWidgetId = ((PageContext) context).getRefreshClientWidgetId();
-            else if (context instanceof DialogContext && ((DialogContext) context).getParentWidgetId() != null)
-                refreshWidgetId = ((DialogContext) context).getParentWidgetId();
             meta.getRefresh().getOptions().setWidgetId(refreshWidgetId);
         }
         if (redirect) {
