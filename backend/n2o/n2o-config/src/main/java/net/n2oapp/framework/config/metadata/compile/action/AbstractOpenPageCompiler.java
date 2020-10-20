@@ -96,9 +96,10 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     protected abstract PageContext constructContext(String pageId, String route);
 
     protected PageContext initPageContext(D compiled, S source, CompileContext<?, ?> context, CompileProcessor p) {
+        ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
+        validatePathAndRoute(source.getRoute(), source.getPathParams(), routeScope);
         String pageId = source.getPageId();
         ReduxModel actionDataModel = getTargetWidgetModel(p, ReduxModel.RESOLVE);
-        ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
         PageScope pageScope = p.getScope(PageScope.class);
         String route = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
         Map<String, ModelLink> pathMapping = new StrictMap<>();
@@ -358,5 +359,22 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             }
         }
         return null;
+    }
+
+    protected void validatePathAndRoute(String route, N2oParam[] pathParams, ParentRouteScope routeScope) {
+        List<String> routeParams = route == null ? null : RouteUtil.getParams(route);
+        if ((routeParams == null || routeParams.isEmpty()) && (pathParams == null || pathParams.length == 0)) return;
+
+        if (routeParams == null)
+            throw new N2oException(String.format("path-param \"%s\" not used in route", pathParams[0].getName()));
+        if (pathParams == null)
+            throw new N2oException(String.format("path-param \"%s\" for route \"%s\" not set", routeParams.get(0), route));
+
+        for (N2oParam pathParam : pathParams) {
+            if (!routeParams.contains(pathParam.getName()))
+                throw new N2oException(String.format("route \"%s\" not contains path-param \"%s\"", route, pathParam.getName()));
+            if (routeScope != null && routeScope.getUrl() != null && RouteUtil.getParams(routeScope.getUrl()).contains(pathParam.getName()))
+                throw new N2oException(String.format("param \"%s\" duplicate in parent url ", pathParam.getName()));
+        }
     }
 }

@@ -11,7 +11,9 @@
             <show-modal page-id="testShowModalCopyActionWithTwoWidgetPage"
                         route="/:id/update" submit-action-type="copy" copy-mode="replace"
                         target-model="edit" target-field-id="dictionary.id"
-                        target-widget-id="ignore_table" submit-label="Выбрать"/>
+                        target-widget-id="ignore_table" submit-label="Выбрать">
+                <path-param name="id" value="{id}"/>
+            </show-modal>
         </button>
     </toolbar>
 </page>

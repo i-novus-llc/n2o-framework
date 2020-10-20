@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -363,7 +364,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
     public void testMasterParam() {
         ReadCompileTerminalPipeline<ReadCompileBindTerminalPipeline> pipeline =
                 compile("net/n2oapp/framework/config/metadata/compile/action/testMasterParam.page.xml",
-                "net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterParam.page.xml");
+                        "net/n2oapp/framework/config/metadata/compile/action/testOpenPageMasterParam.page.xml");
 
         Page p1 = pipeline.get(new PageContext("testMasterParam", "/page"));
         assertThat(p1.getRoutes().findRouteByUrl("/page"), notNullValue());
@@ -478,5 +479,13 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         ModelLink link = page.getModels().get("resolve['page_master'].accountId");
         assertThat(link.getBindLink(), is("models.resolve['page_master'].accountId"));
         assertThat(link.getValue(), is(111));
+    }
+
+
+    @Test(expected = N2oException.class)
+    public void testPathParamValidation() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageWithExpectPathParam.page.xml")
+                .get(new PageContext("testOpenPageWithExpectPathParam", "/page"));
+
     }
 }
