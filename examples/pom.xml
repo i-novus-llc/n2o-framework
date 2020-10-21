@@ -20,7 +20,6 @@
         <module>fields-enabling</module>
         <module>buttons-visibility</module>
         <module>buttons-enabling</module>
-        <module>message</module>
         <module>modal-window</module>
         <module>open-page</module>
         <module>external-links</module>
