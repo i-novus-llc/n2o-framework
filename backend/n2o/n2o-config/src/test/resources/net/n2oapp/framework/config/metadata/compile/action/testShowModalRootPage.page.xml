@@ -13,7 +13,7 @@
                         <show-modal page-id="testShowModalPageSecondFlow" modal-size="lg" master-field-id="secondId"
                                     upload="query" master-param="id"
                                     detail-field-id="id" submit-operation-id="update" route="/:id/update"
-                                    unsaved-data-prompt-on-close="false"/>
+                                    unsaved-data-prompt-on-close="false">
                             <path-param name="id" value="{id}"/>
                         </show-modal>
                     </button>
