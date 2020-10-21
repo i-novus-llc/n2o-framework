@@ -15,7 +15,7 @@ public class CrudPage {
     }
 
     public TableWidget table() {
-        return simplePage.single().widget(TableWidget.class);
+        return simplePage.widget(TableWidget.class);
     }
 
     public CreatePage create() {

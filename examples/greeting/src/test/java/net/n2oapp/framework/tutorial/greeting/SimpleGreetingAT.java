@@ -43,9 +43,9 @@ public class SimpleGreetingAT {
 
     @Test
     public void greetingTest() {
-        InputText inputText = page.single().widget(FormWidget.class).fields().field("Имя").control(InputText.class);
+        InputText inputText = page.widget(FormWidget.class).fields().field("Имя").control(InputText.class);
         inputText.val("Иван");
-        page.single().widget(FormWidget.class).toolbar().bottomLeft().button("Отправить").click();
+        page.widget(FormWidget.class).toolbar().bottomLeft().button("Отправить").click();
         page.alerts().alert(0).shouldHaveText("Привет, Иван");
     }
 }
