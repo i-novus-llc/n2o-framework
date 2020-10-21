@@ -137,8 +137,8 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
 
         switch (method) {
             case GET:
-            case DELETE:
                 return exchange(query, method, headers, args);
+            case DELETE:
             case POST:
             case PUT:
             case PATCH:
