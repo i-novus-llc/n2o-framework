@@ -124,6 +124,5 @@ DatePicker.propTypes = {
 };
 
 export default getContext({
-  t: PropTypes.func,
   configLocale: PropTypes.string,
 })(DatePicker);

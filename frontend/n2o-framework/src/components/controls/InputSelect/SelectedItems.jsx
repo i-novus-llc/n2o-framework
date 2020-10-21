@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getContext } from 'recompose';
 import map from 'lodash/map';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Компонент выбранных элементов для {@Link InputSelectGroup}
@@ -22,8 +22,8 @@ function InputElements({
   lengthToGroup,
   onDeleteAll,
   setRef,
-  t,
 }) {
+  const { t } = useTranslation();
   const selectedItem = (id, title, callback) => (
     <span key={id} className="selected-item n2o-multiselect" title={title}>
       <span className="n2o-eclipse-content">{title}</span>
@@ -62,10 +62,6 @@ function InputElements({
   );
 }
 
-InputElements.defaultProps = {
-  t: () => {},
-};
-
 InputElements.propTypes = {
   selected: PropTypes.array,
   labelFieldId: PropTypes.string,
@@ -76,4 +72,4 @@ InputElements.propTypes = {
   disabled: PropTypes.bool,
 };
 
-export default getContext({ t: PropTypes.func })(InputElements);
+export default InputElements;

@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { getContext, defaultProps, compose } from 'recompose';
 import Dropzone from 'react-dropzone';
 import cn from 'classnames';
 import isEmpty from 'lodash/isEmpty';
@@ -87,4 +85,4 @@ FileUploader.defaultProps = {
   t: () => {},
 };
 
-export default getContext({ t: PropTypes.func })(FileUploader);
+export default FileUploader;

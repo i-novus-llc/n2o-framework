@@ -2,15 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 import Button from 'reactstrap/lib/Button';
+import { useTranslation } from 'react-i18next';
 
 function Buttons({ visible, searchLabel, resetLabel, onSearch, onReset }) {
+  const { t } = useTranslation();
   return visible ? (
     <ButtonGroup>
       <Button color="primary" onClick={onSearch}>
-        {searchLabel}
+        {searchLabel || t('search')}
       </Button>
       <Button color="secondary" onClick={onReset}>
-        {resetLabel}
+        {resetLabel || t('reset')}
       </Button>
     </ButtonGroup>
   ) : null;

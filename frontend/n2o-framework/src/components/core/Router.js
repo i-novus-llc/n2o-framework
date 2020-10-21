@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { pure } from 'recompose';
+import { useTranslation } from 'react-i18next';
+
 import history from '../../history';
+
 import Route from './Route';
 import Page from './Page';
 
@@ -18,7 +21,9 @@ const errorStyle = {
   textAlign: 'center',
 };
 
-function Router({ embeddedRouting, children, t }) {
+function Router({ embeddedRouting, children }) {
+  const { t } = useTranslation();
+
   if (!embeddedRouting && !React.Children.count(children)) {
     return (
       <div style={errorStyle}>

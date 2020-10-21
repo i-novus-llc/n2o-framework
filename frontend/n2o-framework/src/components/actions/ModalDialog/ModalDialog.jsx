@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getContext } from 'recompose';
+import { useTranslation } from 'react-i18next';
 import Button from 'reactstrap/lib/Button';
 import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 import Modal from 'reactstrap/lib/Modal';
@@ -40,8 +40,8 @@ function ModalDialog({
   visible,
   close,
   closeButton,
-  t,
 }) {
+  const { t } = useTranslation();
   return (
     <Modal isOpen={visible} size={size} toggle={close}>
       <ModalHeader toggle={closeButton ? close : null}>
@@ -103,8 +103,4 @@ ModalDialog.propTypes = {
   close: PropTypes.func.isRequired,
 };
 
-ModalDialog.defaultProps = {
-  t: () => {},
-};
-
-export default getContext({ t: PropTypes.func })(ModalDialog);
+export default ModalDialog;

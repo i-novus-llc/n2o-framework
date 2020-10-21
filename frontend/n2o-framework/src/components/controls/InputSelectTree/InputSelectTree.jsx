@@ -1,7 +1,6 @@
 import React from 'react';
 import TreeSelect from 'rc-tree-select';
 import { findDOMNode } from 'react-dom';
-
 import difference from 'lodash/difference';
 import filterF from 'lodash/filter';
 import every from 'lodash/every';
@@ -13,16 +12,18 @@ import forEach from 'lodash/forEach';
 import map from 'lodash/map';
 import memoize from 'lodash/memoize';
 import some from 'lodash/some';
+import cx from 'classnames';
+import PropTypes from 'prop-types';
+import { compose, withState, setDisplayName } from 'recompose';
+import { withTranslation } from 'react-i18next';
+
+import { visiblePartPopup, getCheckedStrategy } from './until';
+import TreeNode from './TreeSelectNode';
 
 import Icon from '../../snippets/Icon/Icon';
 import InlineSpinner from '../../snippets/Spinner/InlineSpinner';
 import CheckboxN2O from '../Checkbox/CheckboxN2O';
-import { compose, withState, setDisplayName, getContext } from 'recompose';
 import propsResolver from '../../../utils/propsResolver';
-import { visiblePartPopup, getCheckedStrategy } from './until';
-import TreeNode from './TreeSelectNode';
-import cx from 'classnames';
-import PropTypes from 'prop-types';
 
 /**
  * @param onOpen - callback функция вызываемая при открытии popup
@@ -589,7 +590,7 @@ InputSelectTree.propTypes = {
 export { TreeNode, InputSelectTree };
 
 export default compose(
-  getContext({ t: PropTypes.func }),
+  withTranslation(),
   setDisplayName('InputSelectTree'),
   withState('treeExpandedKeys', 'setTreeExpandedKeys', []),
   withState('dropdownExpanded', 'setDropdownExpanded', false),

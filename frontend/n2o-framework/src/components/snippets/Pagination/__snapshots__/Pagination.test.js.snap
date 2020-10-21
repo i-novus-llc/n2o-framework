@@ -9,7 +9,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
   size={10}
   stepIncrement={10}
 >
-  <getContext(Pagination)
+  <withI18nextTranslation(Pagination)
     activePage={1}
     count={151}
     maxButtons={4}
@@ -22,6 +22,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
       count={151}
       first={false}
       hideSinglePage={true}
+      i18n={Object {}}
       last={false}
       lazy={false}
       maxButtons={4}
@@ -34,6 +35,7 @@ exports[`<Pagination /> проверяет работы вызова callback п
       size={10}
       stepIncrement={10}
       t={[Function]}
+      tReady={false}
       withoutBody={false}
     >
       <nav
@@ -247,19 +249,20 @@ exports[`<Pagination /> проверяет работы вызова callback п
             }
           }
         >
-          undefined 151
+          paginationTotal 151
            
+          paginationInterval
         </span>
       </nav>
     </Pagination>
-  </getContext(Pagination)>
+  </withI18nextTranslation(Pagination)>
 </WrapperComp>
 `;
 
-exports[`<Pagination /> проверяет рендер с дефолтными настройками 1`] = `<getContext(Pagination) />`;
+exports[`<Pagination /> проверяет рендер с дефолтными настройками 1`] = `<withI18nextTranslation(Pagination) />`;
 
 exports[`<Pagination /> проверяет рендер с классическими настрйоками n2o 1`] = `
-<getContext(Pagination)
+<withI18nextTranslation(Pagination)
   activePage={1}
   count={151}
   maxButtons={4}
@@ -269,7 +272,7 @@ exports[`<Pagination /> проверяет рендер с классическ�
 `;
 
 exports[`<Pagination /> проверяет рендер с полным функционалом 1`] = `
-<getContext(Pagination)
+<withI18nextTranslation(Pagination)
   activePage={1}
   count={151}
   first={true}

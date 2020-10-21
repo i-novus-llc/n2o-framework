@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getContext } from 'recompose';
+import { withTranslation } from 'react-i18next';
 import cn from 'classnames';
 
 import isEqual from 'lodash/isEqual';
@@ -243,4 +243,4 @@ InputMoney.defaultProps = {
 
 export { InputMoney };
 
-export default getContext({ t: PropTypes.func })(InputMoney);
+export default withTranslation()(InputMoney);

@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import onClickOutside from 'react-onclickoutside';
+import { useTranslation } from 'react-i18next';
+
 import Calendar from './Calendar';
-import { parseDate } from './utils';
-import DateTimeControl from './DateTimeControl';
 
 /**
  * Компонент PopUp
@@ -23,65 +23,49 @@ import DateTimeControl from './DateTimeControl';
  * @reactProps {string} locale
  * @reactProps {object} time
  */
-class PopUp extends React.PureComponent {
-  handleClickOutside(e) {
-    console.log(e);
-  }
+function PopUp(props) {
+  const {
+    dateFormat,
+    markTimeAsSet,
+    timeFormat,
+    value,
+    max,
+    min,
+    locale,
+    time,
+    isTimeSet,
+    type,
+  } = props;
 
-  render() {
-    const {
-      dateFormat,
-      markTimeAsSet,
-      timeFormat,
-      value,
-      max,
-      min,
-      locale,
-      time,
-      isTimeSet,
-      type,
-      t,
-    } = this.props;
+  const { t } = useTranslation();
 
-    let minDate = inputName => {
-      if (
-        value[DateTimeControl.beginInputName] &&
-        inputName === DateTimeControl.endInputName
-      ) {
-        return parseDate(value[DateTimeControl.beginInputName], dateFormat);
-      }
-      return parseDate(min, dateFormat);
-    };
-
-    return (
-      <div className="d-inline-flex justify-content-end">
-        {Object.keys(value).map((input, i) => {
-          const { hasDefaultTime, ...timeObj } = time[input];
-          return (
-            <Calendar
-              key={i}
-              index={i}
-              values={value}
-              type={type}
-              time={timeObj}
-              markTimeAsSet={markTimeAsSet}
-              hasDefaultTime={hasDefaultTime || isTimeSet[input]}
-              inputName={input}
-              value={value[input]}
-              timeFormat={timeFormat}
-              select={this.props.select}
-              setVisibility={this.setVisibility}
-              max={max}
-              min={min}
-              locale={locale}
-              dateFormat={dateFormat}
-              t={t}
-            />
-          );
-        })}
-      </div>
-    );
-  }
+  return (
+    <div className="d-inline-flex justify-content-end">
+      {Object.keys(value).map((input, i) => {
+        const { hasDefaultTime, ...timeObj } = time[input];
+        return (
+          <Calendar
+            key={i}
+            index={i}
+            values={value}
+            type={type}
+            time={timeObj}
+            markTimeAsSet={markTimeAsSet}
+            hasDefaultTime={hasDefaultTime || isTimeSet[input]}
+            inputName={input}
+            value={value[input]}
+            timeFormat={timeFormat}
+            select={props.select}
+            max={max}
+            min={min}
+            locale={locale}
+            dateFormat={dateFormat}
+            t={t}
+          />
+        );
+      })}
+    </div>
+  );
 }
 
 PopUp.propTypes = {
@@ -102,7 +86,6 @@ PopUp.propTypes = {
     mins: PropTypes.number,
     hours: PropTypes.number,
   }),
-  t: PropTypes.func,
 };
 
 export default onClickOutside(PopUp);

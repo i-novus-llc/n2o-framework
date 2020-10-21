@@ -80,7 +80,6 @@ DateInterval.defaultProps = {
   onChange: () => {},
   onFocus: () => {},
   onBlur: () => {},
-  t: () => {},
   dateFormat: 'DD/MM/YYYY',
   placeholder: '',
   disabled: false,
@@ -162,6 +161,5 @@ DateInterval.propTypes = {
 };
 
 export default getContext({
-  t: PropTypes.func,
   configLocale: PropTypes.string,
 })(DateInterval);

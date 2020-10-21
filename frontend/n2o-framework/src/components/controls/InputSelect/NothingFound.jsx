@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { getContext } from 'recompose';
+import { useTranslation } from 'react-i18next';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
 
-export default getContext({ t: PropTypes.func })(({ t }) => (
-  <DropdownItem header>{t('nothingFound')}</DropdownItem>
-));
+export default () => {
+  const { t } = useTranslation();
+  return <DropdownItem header>{t('nothingFound')}</DropdownItem>;
+};

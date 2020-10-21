@@ -9,7 +9,6 @@ import {
   compose,
   withContext,
   lifecycle,
-  getContext,
   withHandlers,
 } from 'recompose';
 import numeral from 'numeral';
@@ -65,9 +64,6 @@ export default compose(
       configLocale: props.locale,
     })
   ),
-  getContext({
-    i18n: PropTypes.object,
-  }),
   withHandlers({
     addCustomLocales: ({ i18n, customLocales }) => () => {
       map(keys(customLocales), locale => {

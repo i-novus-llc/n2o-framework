@@ -636,7 +636,6 @@ Calendar.propTypes = {
     mins: PropTypes.number,
     hours: PropTypes.number,
   }),
-  t: PropTypes.func,
 };
 
 export default Calendar;

@@ -5,10 +5,6 @@ import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import PropTypes from 'prop-types';
 import { authProvider } from 'n2o-auth';
-import { getContext } from 'recompose';
-
-import ListItem from './ListItem';
-import ListMoreButton from './ListMoreButton';
 import {
   WindowScroller,
   AutoSizer,
@@ -16,6 +12,10 @@ import {
   CellMeasurerCache,
   List as Virtualizer,
 } from 'react-virtualized';
+
+import ListItem from './ListItem';
+import ListMoreButton from './ListMoreButton';
+
 import { getIndex } from '../Table/Table';
 import { SECURITY_CHECK } from '../../../core/auth/authTypes';
 
@@ -372,4 +372,4 @@ List.defaultProps = {
 
 export { List };
 
-export default getContext({ t: PropTypes.func })(List);
+export default List;

@@ -1,10 +1,9 @@
 import React from 'react';
-import InputMoney from '../controls/InputMoney/InputMoney';
+import { InputMoney } from './InputMoney/InputMoney';
 import InputMask from './InputMask/InputMask';
 import InputNumber from './InputNumber/InputNumber';
 import InputText from './InputText/InputText';
 import TextArea from './TextArea/TextArea';
-import '../../i18n';
 
 const setupMoney = propsOverride => {
   return mount(<InputMoney {...propsOverride} />);
