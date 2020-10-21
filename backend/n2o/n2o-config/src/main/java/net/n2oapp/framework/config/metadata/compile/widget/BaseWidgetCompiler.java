@@ -406,6 +406,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         QueryContext queryContext = new QueryContext(queryId, route, context.getUrlPattern());
         List<Validation> validations = validationList == null ? null : validationList.get(widget.getId(), ReduxModel.FILTER);
         if (context instanceof PageContext && ((PageContext) context).getSubmitOperationId() != null) {
+            if (object == null)
+                throw new N2oException("submit-operation is defined, but object-id isn't set in widget or query");
             CompiledObject.Operation operation = object.getOperations().get(((PageContext) context).getSubmitOperationId());
             if (operation.getValidationList() != null) {
                 if (validations == null) {
