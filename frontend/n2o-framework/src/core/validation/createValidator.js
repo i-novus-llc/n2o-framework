@@ -10,10 +10,18 @@ import get from 'lodash/get';
 import compact from 'lodash/compact';
 import map from 'lodash/map';
 import has from 'lodash/has';
-import { isPromise } from '../../tools/helpers';
-import * as presets from './presets';
-import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin';
+import getValues from 'lodash/values';
 import { batchActions } from 'redux-batched-actions';
+
+import { isPromise } from '../../tools/helpers';
+import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin';
+import {
+  isValidRangeModel,
+  isRequiredRangeModel,
+  modelHasRange,
+} from '../../utils/checkRangeModel';
+
+import * as presets from './presets';
 
 function findPriorityMessage(messages) {
   return (
@@ -160,6 +168,17 @@ export const validateField = (
     map(registeredFields, (field, key) => {
       if (!has(errors, key) && get(field, 'message', null)) {
         if (!field.validation || isEmpty(field.validation)) {
+          const model = get(state, 'models.resolve')[formName];
+          const modelId = get(model, 'id');
+          const modelValues = getValues(model);
+
+          if (
+            modelHasRange(modelValues) &&
+            isRequiredRangeModel(modelValues, modelId) &&
+            !isValidRangeModel(modelValues)
+          ) {
+            return;
+          }
           messagesAction.push(removeFieldMessage(formName, key));
         }
       }
