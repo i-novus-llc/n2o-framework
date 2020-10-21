@@ -1,4 +1,4 @@
-package net.n2oapp.framework.tutorial.embedded_page;
+package net.n2oapp.framework.tutorial.open_page;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

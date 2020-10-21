@@ -22,7 +22,7 @@
         <module>buttons-enabling</module>
         <module>message</module>
         <module>modal-window</module>
-        <module>embedded-page</module>
+        <module>open-page</module>
         <module>external-links</module>
         <module>master-detail</module>
         <module>crud</module>
@@ -32,5 +32,4 @@
         <module>customization</module>
         <module>greeting</module>
     </modules>
-
 </project>

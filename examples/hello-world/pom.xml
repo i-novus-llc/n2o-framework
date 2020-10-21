@@ -21,7 +21,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-spring-boot-starter</artifactId>
@@ -45,9 +44,7 @@
             <artifactId>n2o-autotest</artifactId>
             <version>${n2o.version}</version>
         </dependency>
-
     </dependencies>
-
 
     <build>
         <plugins>
@@ -60,5 +57,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
