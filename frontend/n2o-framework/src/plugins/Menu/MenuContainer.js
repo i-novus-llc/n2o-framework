@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getContext, compose, mapProps } from 'recompose';
-
 import isArray from 'lodash/isArray';
 import isEqual from 'lodash/isEqual';
 import uniqBy from 'lodash/uniqBy';
@@ -10,6 +9,7 @@ import filter from 'lodash/filter';
 import get from 'lodash/get';
 import toArray from 'lodash/toArray';
 import findIndex from 'lodash/findIndex';
+import { withRouter } from 'react-router-dom';
 
 import withSecurity from '../../core/auth/withSecurity';
 import { SECURITY_CHECK } from '../../core/auth/authTypes';
@@ -144,6 +144,7 @@ export default compose(
   getContext({
     getFromConfig: PropTypes.func,
   }),
+  withRouter,
   withSecurity,
   mapProps(({ getFromConfig, ...rest }) => ({
     ...rest,
