@@ -112,6 +112,10 @@ class InputMask extends React.Component {
    */
   _isValid = value => {
     const { preset, mask, guide } = this.props;
+
+    if (!value) {
+      return false;
+    }
     if (guide) {
       return value && this._indexOfFirstPlaceHolder(value) === -1;
     }
@@ -131,9 +135,15 @@ class InputMask extends React.Component {
 
   _onChange = e => {
     const { value } = e.target;
-    this.valid = this._isValid(value);
+
+    const isValid = this._isValid(value);
+
     this.setState({ value, guide: this.props.guide }, () => {
-      (this.valid || value === '') && this.props.onChange(value);
+      if (isValid) {
+        return this.props.onChange(value);
+      } else {
+        return this.props.onChange(null);
+      }
     });
   };
 
