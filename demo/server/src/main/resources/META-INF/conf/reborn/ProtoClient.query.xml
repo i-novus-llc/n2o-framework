@@ -43,6 +43,9 @@
                 <eq filter-id="id" mapping="['id']">i.id = :id</eq>
             </filters>
         </field>
+        <field id="url" domain="string">
+            <select mapping="'/#/' + ['id'] +'/surname'">i.id</select>
+        </field>
         <field id="surname" domain="string" name="Фамилия">
             <expression>i.surname</expression>
             <select mapping="['surname']">i.surname</select>
