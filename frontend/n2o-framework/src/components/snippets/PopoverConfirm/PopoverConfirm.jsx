@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { getContext } from 'recompose';
+import { useTranslation } from 'react-i18next';
 import Popover from 'reactstrap/lib/Popover';
 import PopoverHeader from 'reactstrap/lib/PopoverHeader';
 import PopoverBody from 'reactstrap/lib/PopoverBody';
@@ -19,8 +19,8 @@ import cx from 'classnames';
  */
 
 export function PopoverConfirm(props) {
+  const { t } = useTranslation();
   const {
-    t,
     className,
     title,
     text,
@@ -72,7 +72,6 @@ PopoverConfirm.defaultProps = {
   text: '',
   onConfirm: () => {},
   onCancel: () => {},
-  t: () => {},
 };
 
-export default getContext({ t: PropTypes.func })(PopoverConfirm);
+export default PopoverConfirm;

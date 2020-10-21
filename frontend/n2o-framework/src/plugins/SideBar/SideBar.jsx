@@ -4,16 +4,17 @@ import cn from 'classnames';
 import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 import get from 'lodash/get';
-import SidebarItemContainer from './SidebarItemContainer';
-import UserBox from '../../components/snippets/UserBox/UserBox';
 import {
   compose,
   withState,
   lifecycle,
   withHandlers,
   setDisplayName,
-  getContext,
 } from 'recompose';
+import { withTranslation } from 'react-i18next';
+
+import SidebarItemContainer from './SidebarItemContainer';
+import UserBox from '../../components/snippets/UserBox/UserBox';
 
 /**
  * Sidebar
@@ -28,6 +29,7 @@ import {
  * @param onToggle - переключение compressed
  * @param extra - екстра итемы
  * @param homePageUrl - url брэнда
+ * @param t - функция перевода
  * @returns {*}
  * @constructor
  */
@@ -165,7 +167,7 @@ SideBar.defaultProps = {
 };
 
 export default compose(
-  getContext({ t: PropTypes.func }),
+  withTranslation(),
   setDisplayName('Sidebar'),
   withState('visible', 'setVisible', ({ visible }) => visible),
   withHandlers({

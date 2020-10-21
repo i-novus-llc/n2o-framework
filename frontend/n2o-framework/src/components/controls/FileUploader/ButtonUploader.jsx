@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import cn from 'classnames';
+import { withTranslation } from 'react-i18next';
+import { compose } from 'recompose';
+
 import withFileUploader from './withFileUploader';
 import FileUploader from './FileUploader';
-import PropTypes from 'prop-types';
-import { getContext, compose } from 'recompose';
-import cn from 'classnames';
 
 function createButtonUploaderChildren(icon, label, children) {
   return (
@@ -158,5 +160,5 @@ ButtonUploader.propTypes = {
 
 export default compose(
   withFileUploader,
-  getContext({ t: PropTypes.func })
+  withTranslation()
 )(ButtonUploader);

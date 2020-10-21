@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose, getContext } from 'recompose';
+import { compose } from 'recompose';
+import { withTranslation } from 'react-i18next';
 
 import SecurityCheck from './SecurityCheck';
 import { userLogin, userLogout as userLogoutAction } from '../../actions/auth';
@@ -26,7 +26,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
       <div>
         <input
@@ -65,7 +65,7 @@ Login.defaultProps = {
 };
 
 export default compose(
-  getContext({ t: PropTypes.func }),
+  withTranslation(),
   connect(
     null,
     { userLogout: userLogoutAction }

@@ -4,6 +4,7 @@ import { Calendar as BigCalendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import cn from 'classnames';
 import { getContext } from 'recompose';
+import { useTranslation } from 'react-i18next';
 import { formatsMap, timeParser } from './utils';
 
 /**
@@ -50,8 +51,8 @@ function Calendar({
   onSelectEvent,
   onSelectSlot,
   configLocale,
-  t,
 }) {
+  const { t } = useTranslation();
   moment.locale(configLocale);
 
   const localizer = momentLocalizer(moment);
@@ -180,6 +181,5 @@ Calendar.defaultProps = {
 };
 
 export default getContext({
-  t: PropTypes.func,
   configLocale: PropTypes.string,
 })(Calendar);

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { getContext } from 'recompose';
+import { withTranslation } from 'react-i18next';
 
 class Page404 extends Component {
   render() {
@@ -11,4 +10,4 @@ class Page404 extends Component {
 Page404.propTypes = {};
 Page404.defaultProps = {};
 
-export default getContext({ t: PropTypes.func })(Page404);
+export default withTranslation()(Page404);

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import PaginationButton from './PaginationButton';
-import { getContext } from 'recompose';
+import { withTranslation } from 'react-i18next';
 
 /**
  * Компонент интерфейса разбивки по страницам
@@ -179,7 +179,6 @@ class Pagination extends React.Component {
       withoutBody,
       prevText,
       nextText,
-      i18n,
       t,
       ...props
     } = this.props;
@@ -345,4 +344,4 @@ Pagination.defaultProps = {
   t: () => {},
 };
 
-export default getContext({ t: PropTypes.func })(Pagination);
+export default withTranslation()(Pagination);

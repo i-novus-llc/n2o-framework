@@ -31,9 +31,7 @@ const setupCalendar = (propOverrides) => {
     propOverrides
   );
 
-  const wrapper = mount(
-    <Calendar {...props} />
-  );
+  const wrapper = mount(<Calendar {...props} />);
 
   return {
     props,

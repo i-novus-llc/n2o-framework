@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { getContext } from 'recompose';
+import { withTranslation } from 'react-i18next';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import isEqual from 'lodash/isEqual';
@@ -9,7 +9,7 @@ import pick from 'lodash/pick';
 import { HotKeys } from 'react-hotkeys/cjs';
 import cx from 'classnames';
 
-import propsResolver from '../../../utils/propsResolver';
+import withColumn from './withColumn';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 import TableRow from './TableRow';
@@ -19,7 +19,7 @@ import { widgetSetSort } from '../../../actions/widgets';
 import TextTableHeader from './headers/TextTableHeader';
 import TextCell from './cells/TextCell/TextCell';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
-import withColumn from './withColumn';
+import propsResolver from '../../../utils/propsResolver';
 
 export const getIndex = (datasource, selectedId) => {
   const index = findIndex(datasource, model => model.id == selectedId);
@@ -387,4 +387,4 @@ Table.Cell = TableCell;
 
 export { Table };
 
-export default getContext({ t: PropTypes.func })(Table);
+export default withTranslation()(Table);

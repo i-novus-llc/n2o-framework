@@ -3,11 +3,11 @@ import defaultTo from 'lodash/defaultTo';
 import isArray from 'lodash/isArray';
 import map from 'lodash/map';
 import PropTypes from 'prop-types';
-import { getContext } from 'recompose';
-import InlineSpinner from '../Spinner/InlineSpinner';
 import cx from 'classnames';
-import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover';
+import { withTranslation } from 'react-i18next';
 
+import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover';
+import InlineSpinner from '../Spinner/InlineSpinner';
 /**
  * Компонент сообщения-алерта
  * @reactProps {string} label - лейбл алерта
@@ -231,4 +231,4 @@ Alert.propTypes = {
   animate: PropTypes.bool,
 };
 
-export default getContext({ t: PropTypes.func })(Alert);
+export default withTranslation()(Alert);

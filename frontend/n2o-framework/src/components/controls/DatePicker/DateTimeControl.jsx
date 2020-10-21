@@ -8,6 +8,7 @@ import isNull from 'lodash/isNull';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Manager, Reference, Popper } from 'react-popper';
+
 import {
   parseDate,
   mapToValue,
@@ -310,7 +311,7 @@ class DateTimeControl extends React.Component {
    * Рендер попапа
    */
   renderPopUp() {
-    const { max, min, configLocale, timeFormat, t } = this.props;
+    const { max, min, configLocale, timeFormat } = this.props;
     const { inputs, isPopUpVisible, placement } = this.state;
 
     return (
@@ -333,7 +334,6 @@ class DateTimeControl extends React.Component {
           min={this.parseRange(min)}
           date={this.props.date}
           locale={configLocale}
-          t={t}
         />
       )
     );
@@ -474,7 +474,6 @@ DateTimeControl.propTypes = {
   autoFocus: PropTypes.bool,
   openOnFocus: PropTypes.bool,
   popupPlacement: PropTypes.string,
-  t: PropTypes.func,
 };
 
 export default DateTimeControl;
