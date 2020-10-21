@@ -52,7 +52,6 @@ public class SearchHeaderAT extends AutoTestBase {
         page.shouldExists();
         SearchBar searchBar = page.header().search();
         searchBar.click();
-        searchBar.search();
         SearchResult searchResult = searchBar.searchResult();
 
         searchResult.shouldHaveSize(4);

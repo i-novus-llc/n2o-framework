@@ -20,11 +20,6 @@ public class N2oSearchBar extends N2oComponent implements SearchBar {
     }
 
     @Override
-    public void search() {
-        element().$(".n2o-search-bar__control .n2o-input-text").should(Condition.exist).sendKeys(Keys.chord(Keys.CONTROL, "a"), "");
-    }
-
-    @Override
     public void search(String val) {
         element().$(".n2o-search-bar__control .n2o-input-text").should(Condition.exist).sendKeys(Keys.chord(Keys.CONTROL, "a"), val);
 

@@ -10,8 +10,6 @@ public interface SearchBar extends Component {
 
     void click();
 
-    void search();
-
     void search(String title);
 
     SearchResult searchResult();
