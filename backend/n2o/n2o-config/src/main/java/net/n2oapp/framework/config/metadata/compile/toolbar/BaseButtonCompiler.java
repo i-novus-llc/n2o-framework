@@ -181,7 +181,8 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
         if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE) &&
-                (componentScope == null || componentScope.unwrap(N2oCell.class) == null)) {
+                (componentScope == null || componentScope.unwrap(N2oCell.class) == null) &&
+                !p.cast(source.getEnableOnEmptyModel(), p.resolve("n2o.api.button.enable_on_empty_model", Boolean.class), false)) {
             Condition condition = new Condition();
             condition.setExpression("!_.isEmpty(this)");
             condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
