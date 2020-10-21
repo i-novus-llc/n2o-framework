@@ -43,7 +43,12 @@ function SearchBar({
           onChange={onChange}
           placeholder={placeholder}
         />
-        {iconClear && <i className="fa fa-times" onClick={onClear} />}
+        {iconClear && (
+          <i
+            className="n2o-search-bar__clear-icon fa fa-times"
+            onClick={onClear}
+          />
+        )}
         {isString(icon) ? <i className={icon} /> : icon}
       </div>
       {!!button && (

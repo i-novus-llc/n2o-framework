@@ -12,7 +12,9 @@
                 <open-page page-id="testOpenPageSimplePageAction2"
                            route="/:page_test_id/action2"
                            page-name="second"
-                           submit-operation-id="update" detail-field-id="id"/>
+                           submit-operation-id="update" detail-field-id="id">
+                    <path-param name="page_test_id" value="{id}"/>
+                </open-page>
             </button>
             <button id="masterDetail" model="resolve">
                 <open-page page-id="testOpenPageMasterDetail"
@@ -20,6 +22,7 @@
                            master-field-id="masterId"
                            detail-field-id="detailId"
                            master-param="detailId">
+                        <path-param name="page_test_id" value="{id}"/>
                         <query-param name="name" value="{name}" ref-model="filter"/>
                         <query-param name="secondName" value="test"/>
                         <query-param name="surname" value="{surname}" ref-model="filter"/>

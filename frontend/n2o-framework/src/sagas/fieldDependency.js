@@ -15,9 +15,10 @@ import some from 'lodash/some';
 import includes from 'lodash/includes';
 import get from 'lodash/get';
 import set from 'lodash/set';
+import isEqual from 'lodash/isEqual';
 import { actionTypes, change } from 'redux-form';
-import evalExpression from '../utils/evalExpression';
 
+import evalExpression from '../utils/evalExpression';
 import { makeFormByName } from '../selectors/formPlugin';
 import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
 import {
@@ -35,10 +36,10 @@ import {
   setLoading,
 } from '../actions/formPlugin';
 import { FETCH_VALUE } from '../core/api';
-import fetchSaga from './fetch';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 import { evalResultCheck } from '../utils/evalResultCheck';
-import { setModel } from '../actions/models';
+
+import fetchSaga from './fetch';
 
 let prevState = {};
 
@@ -83,6 +84,12 @@ export function* modify(
 ) {
   let _evalResult;
 
+  const prevValues = get(prevState, [formName, fieldName, type]);
+
+  if (prevValues && isEqual(prevValues, values)) {
+    return;
+  }
+
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
   }
@@ -101,9 +108,12 @@ export function* modify(
         : put(hideField(formName, fieldName));
       break;
     case 'setValue':
-      let newFormValues = Object.assign({}, values);
+      let newFormValues = { ...values };
 
       if (!isUndefined(_evalResult)) {
+        set(newFormValues, fieldName, _evalResult);
+        set(prevState, [formName, fieldName, type], newFormValues);
+
         yield put(
           change(formName, fieldName, {
             keepDirty: false,
