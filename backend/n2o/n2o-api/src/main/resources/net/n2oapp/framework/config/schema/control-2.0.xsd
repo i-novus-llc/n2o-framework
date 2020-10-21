@@ -1640,6 +1640,11 @@
                         <xs:documentation>Поле выборки, значение которого будет проставлено в модель поля ввода</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="size" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Размер выборки</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

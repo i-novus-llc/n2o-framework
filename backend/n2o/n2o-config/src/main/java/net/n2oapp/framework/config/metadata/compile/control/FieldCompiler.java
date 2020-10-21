@@ -172,6 +172,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
         }
         dataProvider.setUrl(route);
+        dataProvider.setSize(field.getSize());
 
         N2oPreFilter[] preFilters = field.getPreFilters();
         if (preFilters != null) {

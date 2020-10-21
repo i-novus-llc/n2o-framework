@@ -104,6 +104,7 @@ public abstract class N2oField extends N2oComponent implements IdAware {
         private String queryId;
         private String valueFieldId;
         private N2oPreFilter[] preFilters;
+        private Integer size;
     }
 
     @Getter

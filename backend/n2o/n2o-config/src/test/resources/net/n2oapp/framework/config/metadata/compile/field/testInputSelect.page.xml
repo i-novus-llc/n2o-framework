@@ -23,7 +23,7 @@
                     <input-select id="testId2" query-id="testSelect"/>
                     <input-select id="testFetch">
                         <dependencies>
-                            <fetch-value on="testId2" query-id="testSelectFetch">
+                            <fetch-value on="testId2" query-id="testSelectFetch" size="7">
                                 <pre-filters>
                                     <eq field-id="ref" value="{testId2}"/>
                                 </pre-filters>
