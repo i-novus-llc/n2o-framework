@@ -372,15 +372,8 @@
 Тело::
 Выражение, которое собирается в плейсхолдер `:params`.
 
-Пример::
-[source,xml]
-----
-<out>
-  <field id="gender*.id" domain="integer[]" mapping="genders"/>
-</out>
-----
 
-Свойства входящих параметров провайдера данных.
+==== Свойства входящих параметров провайдера данных.
 
 Атрибуты::
 [cols="2,1,4,4"]
@@ -404,4 +397,20 @@
 <in>
   <field id="gender*.id" domain="integer[]" mapping="genders" param="param"/>
 </in>
+----
+
+==== Свойства исходящих параметров провайдера данных.
+
+Пример::
+[source,xml]
+----
+<out>
+  <field id="gender*.id" domain="integer[]" mapping="genders"/>
+</out>
+----
+[source,xml]
+----
+<fail-out>
+  <fail-out id="message" mapping="#this.getMessage()"/>
+</fail-out>
 ----

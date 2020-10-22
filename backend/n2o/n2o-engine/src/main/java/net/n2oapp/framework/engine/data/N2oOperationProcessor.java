@@ -6,6 +6,7 @@ import net.n2oapp.criteria.dataset.DataSetMapper;
 import net.n2oapp.framework.api.data.InvocationProcessor;
 import net.n2oapp.framework.api.data.OperationExceptionHandler;
 import net.n2oapp.framework.api.metadata.global.dao.object.InvocationParameter;
+import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 
 import java.util.Collection;
@@ -49,15 +50,26 @@ public class N2oOperationProcessor {
                     outParameters
             );
         } catch (Exception e) {
-            if (!operation.getFailOutParametersMap().isEmpty()) {
-                Map<String, String> failOutParamsMapping = operation.getFailOutParametersMap().entrySet().stream()
-                        .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getMapping()));
-                inDataSet.putAll(DataSetMapper.extract(e, failOutParamsMapping));
-            }
+            inDataSet.putAll(getFailOutParameters(operation.getFailOutParametersMap(), e));
             throw exceptionHandler.handle(operation, inDataSet, e);
         }
     }
 
+    /**
+     * Получение данных исключения по fail-out параметрам
+     *
+     * @param failOutParameters Параметры операции в случае ошибки
+     * @param e                 Исключение
+     * @return Данные исключения по fail-out параметрам
+     */
+    private DataSet getFailOutParameters(Map<String, N2oObject.Parameter> failOutParameters, Exception e) {
+        if (failOutParameters.isEmpty())
+            return new DataSet();
+
+        Map<String, String> failOutParamsMapping = failOutParameters.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().getMapping()));
+        return DataSetMapper.extract(e, failOutParamsMapping);
+    }
 
     private void validateRequiredFields(Collection<? extends InvocationParameter> inParameters, DataSet inDataSet) {
         if (inParameters == null || inParameters.isEmpty()) {

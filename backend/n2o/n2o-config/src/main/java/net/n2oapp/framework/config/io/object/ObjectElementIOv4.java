@@ -82,7 +82,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
         p.children(e, "in", "field", t::getInParameters, t::setInParameters, N2oObject.Parameter.class, this::inParam);
         p.children(e, "out", "field", t::getOutParameters, t::setOutParameters, N2oObject.Parameter.class, this::outParam);
-        p.children(e, null, "fail-out", t::getFailOutParameters, t::setFailOutParameters, N2oObject.Parameter.class, this::outParam);
+        p.children(e, "fail-out", "field", t::getFailOutParameters, t::setFailOutParameters, N2oObject.Parameter.class, this::outParam);
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
     }
 

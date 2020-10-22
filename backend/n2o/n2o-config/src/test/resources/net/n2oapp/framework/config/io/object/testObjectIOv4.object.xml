@@ -40,8 +40,9 @@
                 <field id="id" mapping="mapping" default-value="val2" mapper="spel" normalize="norm"
                        domain="boolean[]"/>
             </out>
-            <fail-out id="code" mapping="#this.code"/>
-            <fail-out id="message" mapping="#this.message"/>
+            <fail-out>
+                <field id="message" mapping="#this.getMessage()"/>
+            </fail-out>
             <validations black-list="id2">
                 <condition id="id1" severity="danger" server-moment="after-success-operation"
                            field-id="field" message="message" on="f" src="/test">test</condition>
