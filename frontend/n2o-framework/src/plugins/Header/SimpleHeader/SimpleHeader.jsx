@@ -1,9 +1,5 @@
 import React from 'react';
-
-import { withRouter } from 'react-router-dom';
-
 import isEmpty from 'lodash/isEmpty';
-
 import PropTypes from 'prop-types';
 import Navbar from 'reactstrap/lib/Navbar';
 import Nav from 'reactstrap/lib/Nav';
@@ -266,6 +262,4 @@ SimpleHeader.defaultProps = {
   style: {},
 };
 
-const WithRouterSimpleHeader = withRouter(SimpleHeader);
-
-export default WithRouterSimpleHeader;
+export default SimpleHeader;
