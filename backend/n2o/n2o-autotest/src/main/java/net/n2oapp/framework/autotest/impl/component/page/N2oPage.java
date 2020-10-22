@@ -2,8 +2,8 @@ package net.n2oapp.framework.autotest.impl.component.page;
 
 import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.collection.Alerts;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
@@ -32,6 +32,11 @@ public class N2oPage extends N2oComponent implements Page {
     @Override
     public Dialog dialog(String title) {
         return new N2oDialog(element().$$(".modal-dialog").findBy(Condition.text(title)).parent());
+    }
+
+    @Override
+    public Popover popover(String title) {
+        return new N2oPopover(element().$$(".popover .popover-header").findBy(Condition.text(title)).parent());
     }
 
     @Override
@@ -134,6 +139,34 @@ public class N2oPage extends N2oComponent implements Page {
         }
     }
 
+    public static class N2oPopover implements Popover {
+        private final SelenideElement element;
+
+        public N2oPopover(SelenideElement element) {
+            this.element = element;
+        }
+
+        @Override
+        public void shouldBeVisible() {
+            element.isDisplayed();
+        }
+
+        @Override
+        public void shouldHaveText(String text) {
+            element.$(".popover-body").shouldHave(Condition.text(text));
+        }
+
+        @Override
+        public void click(String label) {
+            element.$$(".btn").findBy(Condition.text(label)).click();
+        }
+
+        @Override
+        public void shouldBeClosed(long timeOut) {
+            element.$(".popover-header .popover-body").waitWhile(Condition.exist, timeOut);
+        }
+    }
+
     public static class N2oTooltip implements Tooltip {
         private final SelenideElement element;
 
@@ -170,7 +203,7 @@ public class N2oPage extends N2oComponent implements Page {
 
         public UrlMatch(String regex) {
             super("urlMatch", true);
-            this.regex =regex;
+            this.regex = regex;
         }
 
         @Override
