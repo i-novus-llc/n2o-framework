@@ -27,7 +27,7 @@ public class CreatePage {
     }
 
     protected Fields getFields() {
-        return modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+        return modal.content(SimplePage.class).widget(FormWidget.class).fields();
     }
 
 }
