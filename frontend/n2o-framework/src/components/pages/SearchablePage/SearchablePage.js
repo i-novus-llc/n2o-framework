@@ -30,6 +30,7 @@ function SearchablePage({
   onSearch,
   searchBar = {},
   filterValue,
+  withToolbar = true,
 }) {
   return (
     <div
@@ -77,23 +78,25 @@ function SearchablePage({
         />
       </div>
       <PageRegions id={id} regions={regions} />
-      <div className="n2o-page-actions">
-        <Toolbar
-          className="ml-3"
-          entityKey={pageId}
-          toolbar={toolbar.bottomLeft}
-        />
-        <Toolbar
-          className="ml-3"
-          entityKey={pageId}
-          toolbar={toolbar.bottomCenter}
-        />
-        <Toolbar
-          className="ml-3"
-          entityKey={pageId}
-          toolbar={toolbar.bottomRight}
-        />
-      </div>
+      {withToolbar && (
+        <div className="n2o-page-actions">
+          <Toolbar
+            className="ml-3"
+            entityKey={pageId}
+            toolbar={toolbar.bottomLeft}
+          />
+          <Toolbar
+            className="ml-3"
+            entityKey={pageId}
+            toolbar={toolbar.bottomCenter}
+          />
+          <Toolbar
+            className="ml-3"
+            entityKey={pageId}
+            toolbar={toolbar.bottomRight}
+          />
+        </div>
+      )}
     </div>
   );
 }

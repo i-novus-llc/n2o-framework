@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Drawer from '../snippets/Drawer/Drawer';
-import { compose } from 'recompose';
-import Page from './Page';
+import get from 'lodash/get';
 import cn from 'classnames';
+import { compose } from 'recompose';
+
+import Drawer from '../snippets/Drawer/Drawer';
 import Spinner from '../snippets/Spinner/Spinner';
 import Toolbar from '../buttons/Toolbar';
+
 import withOverlayMethods from './withOverlayMethods';
+import Page from './Page';
 
 /**
  * Компонент, отображающий Drawer
@@ -59,6 +62,7 @@ function DrawerPage(props) {
 
   const showSpinner = !visible || loading || typeof loading === 'undefined';
   const classes = cn({ 'd-none': loading });
+  const withToolbar = get(props, 'metadata.src') !== 'SearchablePage';
 
   return (
     <div className="drawer-page-overlay">
@@ -105,6 +109,7 @@ function DrawerPage(props) {
                 pageMapping={pageMapping}
                 entityKey={entityKey}
                 needMetadata={true}
+                withToolbar={withToolbar}
               />
             ) : src ? (
               rest.renderFromSrc(src)
