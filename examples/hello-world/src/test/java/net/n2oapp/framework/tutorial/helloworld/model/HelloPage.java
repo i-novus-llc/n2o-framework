@@ -14,7 +14,7 @@ public class HelloPage {
     }
 
     public FormWidget form() {
-        return simplePage.single().widget(FormWidget.class);
+        return simplePage.widget(FormWidget.class);
     }
 
     public void helloShouldHaveText(String helloString) {
