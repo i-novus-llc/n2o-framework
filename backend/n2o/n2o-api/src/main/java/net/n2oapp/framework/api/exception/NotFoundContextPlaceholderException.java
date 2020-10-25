@@ -1,13 +1,12 @@
 package net.n2oapp.framework.api.exception;
 
 /**
- * Не найден обязательный конеткс тпользователя
+ * Исключение, бросаемое в случае отсутствия обязательного контекста пользователя
  */
 public class NotFoundContextPlaceholderException extends N2oUserException {
 
-    public NotFoundContextPlaceholderException(String placeHolder) {
+    public NotFoundContextPlaceholderException(String placeholder) {
         super("n2o.fieldNotFoundInContext", "n2o.fieldNotFoundInContext");
-        setData(placeHolder);
+        setData(placeholder);
     }
-
 }
