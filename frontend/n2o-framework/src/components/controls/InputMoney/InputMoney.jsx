@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 import cn from 'classnames';
 
 import isEqual from 'lodash/isEqual';
@@ -135,9 +136,10 @@ class InputMoney extends React.Component {
 
   getInputMoneyProps() {
     const {
+      t,
       value,
       className,
-      suffix,
+      suffix = t('rub'),
       prefix,
       includeThousandsSeparator,
       thousandsSeparatorSymbol,
@@ -227,7 +229,6 @@ InputMoney.propTypes = {
 InputMoney.defaultProps = {
   value: '',
   prefix: '',
-  suffix: ' руб.',
   includeThousandsSeparator: true,
   thousandsSeparatorSymbol: ' ',
   allowDecimal: true,
@@ -237,6 +238,9 @@ InputMoney.defaultProps = {
   allowNegative: false,
   allowLeadingZeroes: false,
   guide: false,
+  t: () => {},
 };
 
-export default InputMoney;
+export { InputMoney };
+
+export default withTranslation()(InputMoney);

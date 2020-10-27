@@ -3,7 +3,6 @@ import { mount } from 'enzyme';
 import configureMockStore from 'redux-mock-store';
 import InputSelectTreeContainer from './InputSelectTreeContainer';
 import { Provider } from 'react-redux';
-import { IntlProvider } from 'react-intl';
 
 const mockStore = configureMockStore();
 const store = mockStore({});
@@ -43,9 +42,7 @@ const setup = (propOverrides = {}) => {
 
   const wrapper = mount(
     <Provider store={store}>
-      <IntlProvider>
-        <InputSelectTreeContainer {...props} />
-      </IntlProvider>
+      <InputSelectTreeContainer {...props} />
     </Provider>
   );
 

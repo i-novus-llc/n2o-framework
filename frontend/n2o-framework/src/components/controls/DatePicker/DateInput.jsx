@@ -6,9 +6,9 @@ import isNaN from 'lodash/isNaN';
 import omit from 'lodash/omit';
 import isObject from 'lodash/isObject';
 import get from 'lodash/get';
+import MaskedInput from 'react-text-mask';
 
 import DateTimeControl from './DateTimeControl';
-import MaskedInput from 'react-text-mask';
 import { formatToMask, hasInsideMixMax } from './utils';
 
 const inputStyle = { flexGrow: 1 };

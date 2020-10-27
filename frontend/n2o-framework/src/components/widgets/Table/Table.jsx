@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { withTranslation } from 'react-i18next';
 import find from 'lodash/find';
 import findIndex from 'lodash/findIndex';
 import isEqual from 'lodash/isEqual';
@@ -9,7 +9,7 @@ import pick from 'lodash/pick';
 import { HotKeys } from 'react-hotkeys/cjs';
 import cx from 'classnames';
 
-import propsResolver from '../../../utils/propsResolver';
+import withColumn from './withColumn';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 import TableRow from './TableRow';
@@ -19,7 +19,7 @@ import { widgetSetSort } from '../../../actions/widgets';
 import TextTableHeader from './headers/TextTableHeader';
 import TextCell from './cells/TextCell/TextCell';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
-import withColumn from './withColumn';
+import propsResolver from '../../../utils/propsResolver';
 
 export const getIndex = (datasource, selectedId) => {
   const index = findIndex(datasource, model => model.id == selectedId);
@@ -250,6 +250,7 @@ class Table extends React.Component {
       widgetId,
       isActive,
       rowClick,
+      t,
     } = this.props;
 
     if (React.Children.count(children)) {
@@ -333,12 +334,7 @@ class Table extends React.Component {
                     colSpan={headers && headers.length}
                     style={{ textAlign: 'center' }}
                   >
-                    <span className="text-muted">
-                      <FormattedMessage
-                        id="table.notFound"
-                        defaultMessage="Нет данных для отображения"
-                      />
-                    </span>
+                    <span className="text-muted">{t('noData')}</span>
                   </TableCell>
                 </TableRow>
               )}
@@ -381,6 +377,7 @@ Table.defaultProps = {
   onResolve: () => {},
   redux: true,
   onRowClickAction: () => {},
+  t: () => {},
 };
 
 Table.Header = TableHeader;
@@ -388,5 +385,6 @@ Table.Body = TableBody;
 Table.Row = TableRow;
 Table.Cell = TableCell;
 
-//Table = pure(Table);
-export default Table;
+export { Table };
+
+export default withTranslation()(Table);

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import pick from 'lodash/pick';
 import { compose, withContext, defaultProps, withProps } from 'recompose';
-import { IntlProvider, addLocaleData } from 'react-intl';
+import { withTranslation } from 'react-i18next';
+import './i18n';
 
 import history from './history';
 import configureStore from './store';
@@ -18,14 +19,12 @@ import SecurityProvider from './core/auth/SecurityProvider';
 
 import Router from './components/core/Router';
 
-import ruLocaleData from 'react-intl/locale-data/ru';
 import Application from './components/core/Application';
 import { HeaderFooterTemplate } from './components/core/templates';
 import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb';
 import globalFnDate from './utils/globalFnDate';
 import configureErrorPages from './components/errors';
-
-addLocaleData(ruLocaleData);
+import locales from './locales';
 
 const { version } = packageJson;
 
@@ -52,7 +51,14 @@ class N2o extends Component {
   }
 
   render() {
-    const { security, realTimeConfig, embeddedRouting, children } = this.props;
+    const {
+      security,
+      realTimeConfig,
+      embeddedRouting,
+      children,
+      i18n,
+      locales: customLocales = {},
+    } = this.props;
 
     const config = this.generateConfig();
 
@@ -60,16 +66,14 @@ class N2o extends Component {
       <Provider store={this.store}>
         <SecurityProvider {...security}>
           <Application
+            i18n={i18n}
+            locales={locales}
+            customLocales={customLocales}
             realTimeConfig={realTimeConfig}
-            render={({ locale, messages }) => (
-              <IntlProvider locale={locale} messages={messages}>
-                <FactoryProvider
-                  config={config}
-                  securityBlackList={['actions']}
-                >
-                  <Router embeddedRouting={embeddedRouting}>{children}</Router>
-                </FactoryProvider>
-              </IntlProvider>
+            render={() => (
+              <FactoryProvider config={config} securityBlackList={['actions']}>
+                <Router embeddedRouting={embeddedRouting}>{children}</Router>
+              </FactoryProvider>
             )}
           />
         </SecurityProvider>
@@ -123,15 +127,17 @@ N2o.propTypes = {
     PropTypes.node,
   ]),
   version: PropTypes.string,
+  locales: PropTypes.object,
 };
 
 const EnhancedN2O = compose(
+  withTranslation(),
   defaultProps({
     defaultTemplate: HeaderFooterTemplate,
     defaultBreadcrumb: DefaultBreadcrumb,
     defaultPage: 'StandardPage',
-    defaultPromptMessage:
-      'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
+    // key from locale translation
+    defaultPromptMessage: 'defaultPromptMessage',
     defaultErrorPages: configureErrorPages(),
     formats: {
       dateFormat: 'YYYY-MM-DD',
@@ -145,9 +151,12 @@ const EnhancedN2O = compose(
     realTimeConfig: true,
     embeddedRouting: true,
     evalContext: {},
+    locales: {},
   }),
   withContext(
     {
+      t: PropTypes.func,
+      i18n: PropTypes.func,
       defaultTemplate: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.element,
@@ -170,6 +179,8 @@ const EnhancedN2O = compose(
       version: PropTypes.string,
     },
     props => ({
+      t: props.t,
+      i18n: props.i18n,
       defaultTemplate: props.defaultTemplate,
       defaultBreadcrumb: props.defaultBreadcrumb,
       defaultPromptMessage: props.defaultPromptMessage,

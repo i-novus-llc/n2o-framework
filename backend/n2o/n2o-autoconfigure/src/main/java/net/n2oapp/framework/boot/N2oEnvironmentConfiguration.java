@@ -35,7 +35,10 @@ import net.n2oapp.framework.config.io.IOProcessorImpl;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.CrudGenerator;
 import net.n2oapp.framework.config.persister.N2oMetadataPersisterFactory;
-import net.n2oapp.framework.config.reader.*;
+import net.n2oapp.framework.config.reader.GroovySourceReader;
+import net.n2oapp.framework.config.reader.N2oNamespaceReaderFactory;
+import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
+import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
@@ -45,6 +48,7 @@ import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -260,7 +264,6 @@ public class N2oEnvironmentConfiguration {
 
     @Configuration
     static class PipelineOperationConfiguration {
-
         @Bean
         @ConditionalOnMissingBean
         ReadOperation readOperation(MetadataRegister configRegister, SourceLoaderFactory readerFactory) {
@@ -281,12 +284,14 @@ public class N2oEnvironmentConfiguration {
 
         @Bean
         @ConditionalOnMissingBean
+        @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "false")
         SourceCacheOperation sourceCacheOperation(CacheManager cacheManager, MetadataRegister metadataRegister) {
             return new SourceCacheOperation(new SyncCacheTemplate(cacheManager), metadataRegister);
         }
 
         @Bean
         @ConditionalOnMissingBean
+        @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "false")
         CompileCacheOperation compileCacheOperation(CacheManager cacheManager) {
             return new CompileCacheOperation(new SyncCacheTemplate(cacheManager));
         }
