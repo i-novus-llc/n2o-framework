@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import map from 'lodash/map';
 
 import withWidgetProps from '../withWidgetProps';
 import { compose, pure, setDisplayName } from 'recompose';
@@ -16,7 +17,7 @@ import RegionContent from '../RegionContent';
 const NoneRegion = ({ content }) => {
   return (
     <div className="n2o-none-region">
-      {content.map(item => (
+      {map(content, item => (
         <RegionContent content={[item]} />
       ))}
     </div>
