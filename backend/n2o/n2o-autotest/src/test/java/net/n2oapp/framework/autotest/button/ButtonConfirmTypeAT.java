@@ -1,4 +1,4 @@
-package net.n2oapp.framework.autotest.control;
+package net.n2oapp.framework.autotest.button;
 
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
@@ -17,9 +17,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест для диалога подтверждения
+ * Автотест для подтверждения действия кнопки
  */
-public class PopoverAT extends AutoTestBase {
+public class ButtonConfirmTypeAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
@@ -36,8 +36,8 @@ public class PopoverAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oHeaderPack(), new N2oAllPagesPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/popover/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/control/popover/myObject.object.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/button/confirm_type/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/button/confirm_type/myObject.object.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
@@ -66,7 +66,7 @@ public class PopoverAT extends AutoTestBase {
         dialog.shouldBeVisible();
         dialog.shouldHaveText("confirm-text");
         dialog.click("Да");
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts().alert(0).shouldHaveText("success");
     }
 
     @Test
@@ -94,7 +94,35 @@ public class PopoverAT extends AutoTestBase {
         popover.shouldBeVisible();
         popover.shouldHaveText("confirm-text");
         popover.click("Да");
-        page.alerts().alert(0).shouldHaveText("Данные сохранены");
+        page.alerts().alert(0).shouldHaveText("success");
+    }
+
+    @Test
+    public void testCustomPopover() {
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FormWidget form = page.widget(FormWidget.class);
+        form.fields().shouldHaveSize(1);
+
+        StandardField input = form.fields().field("Наименование");
+        input.shouldExists();
+        input.control(InputText.class).val("testCustomPopover");
+
+        StandardButton button = form.toolbar().bottomLeft().button("CustomPopover");
+        button.shouldBeEnabled();
+
+        button.click();
+        Page.Popover popover = page.popover("burn");
+        popover.shouldBeVisible();
+        popover.shouldHaveText("Going to hell?");
+        popover.click("No no no");
+        page.alerts().alert(0).shouldNotExists();
+
+        button.click();
+        popover.shouldBeVisible();
+        popover.shouldHaveText("Going to hell?");
+        popover.click("Hell, yes");
+        page.alerts().alert(0).shouldHaveText("success");
     }
 
 }

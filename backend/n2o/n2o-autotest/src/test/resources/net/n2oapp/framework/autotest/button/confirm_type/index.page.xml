@@ -8,10 +8,14 @@
         <toolbar place="bottomLeft">
             <button label="popover" confirm="true" confirm-text="confirm-text"
                     confirm-type="popover">
-                <invoke operation-id="create"/>
+                <invoke operation-id="echo"/>
+            </button>
+            <button label="CustomPopover" confirm="true" confirm-text="Going to hell?"
+                    confirm-type="popover" confirm-cancel-label="No no no" confirm-ok-label="Hell, yes" confirm-title="burn">
+                <invoke operation-id="echo"/>
             </button>
             <button label="dialog" confirm="true" confirm-text="confirm-text">
-                <invoke operation-id="create"/>
+                <invoke operation-id="echo"/>
             </button>
         </toolbar>
     </form>
