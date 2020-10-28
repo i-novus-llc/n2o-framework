@@ -42,4 +42,6 @@ public class ShowModalPayload implements ActionPayload {
     private Map<String, Action> actions;
     @JsonProperty
     private List<Group> toolbar;
+    @JsonProperty
+    private Boolean prompt;
 }
