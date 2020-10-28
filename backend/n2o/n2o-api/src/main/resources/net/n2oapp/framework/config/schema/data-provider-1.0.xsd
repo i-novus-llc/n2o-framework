@@ -7,6 +7,7 @@
     <xs:element name="java" type="javaDefinition"/>
     <xs:element name="test" type="testDefinition"/>
     <xs:element name="mongodb" type="mongoDbDefinition"/>
+    <xs:element name="camunda" type="camundaDefinition"/>
 
     <xs:complexType name="sqlDefinition">
         <xs:annotation>
@@ -242,6 +243,28 @@
         </xs:attribute>
     </xs:complexType>
 
+    <xs:complexType name="camundaDefinition">
+        <xs:annotation>
+            <xs:documentation>Camunda провайдер данных.</xs:documentation>
+        </xs:annotation>
+
+        <xs:attribute name="operation">
+            <xs:simpleType>
+                <xs:annotation>
+                    <xs:documentation>Операция, выполняемая провайдером.</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="countTasks"/>
+                    <xs:enumeration value="findTasks"/>
+                    <xs:enumeration value="getTask"/>
+                    <xs:enumeration value="setTaskVariables"/>
+                    <xs:enumeration value="completeTask"/>
+                    <xs:enumeration value="startProcess"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:simpleType name="operationEnum">
         <xs:union memberTypes="xs:string">
             <xs:simpleType>
@@ -289,6 +312,7 @@
             <xs:enumeration value="PUT"/>
             <xs:enumeration value="DELETE"/>
             <xs:enumeration value="HEAD"/>
+            <xs:enumeration value="PATCH"/>
         </xs:restriction>
     </xs:simpleType>
 

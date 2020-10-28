@@ -18,9 +18,9 @@ public class AlertCompiler extends FieldCompiler<Alert, N2oAlert> {
     @Override
     public Alert compile(N2oAlert source, CompileContext<?, ?> context, CompileProcessor p) {
         Alert alert = new Alert();
-        alert.setText(source.getText().trim());
-        alert.setHeader(source.getHeader());
-        alert.setFooter(source.getFooter());
+        alert.setText(p.resolveJS(source.getText().trim()));
+        alert.setHeader(p.resolveJS(source.getHeader()));
+        alert.setFooter(p.resolveJS(source.getFooter()));
         alert.setColor(source.getColor());
         alert.setFade(p.cast(source.getFade(), p.resolve(property("n2o.api.control.alert.fade"), Boolean.class)));
         alert.setTag(source.getTag());

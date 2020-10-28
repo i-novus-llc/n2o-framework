@@ -70,7 +70,7 @@ const withColumn = WrappedComponent => {
       const cellEl = (
         <WrappedComponent
           disabled={columnDisabled}
-          {...propsResolver(this.getPassProps(), model)}
+          {...propsResolver(this.getPassProps(), model, ['toolbar'])}
         />
       );
       return (columnVisible || null) && isEmpty(security) ? (

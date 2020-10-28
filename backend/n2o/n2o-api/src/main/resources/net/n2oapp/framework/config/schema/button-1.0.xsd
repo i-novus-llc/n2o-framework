@@ -47,12 +47,12 @@
                         <xs:documentation>Цвет кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean" use="optional" default="true">
+                <xs:attribute name="visible" type="xs:string" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Видимость кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true">
+                <xs:attribute name="enabled" type="xs:string" use="optional" default="true">
                     <xs:annotation>
                         <xs:documentation>Доступность кнопки.</xs:documentation>
                     </xs:annotation>
@@ -67,7 +67,6 @@
                         <xs:documentation>Сделать кнопку круглой.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true"/>
                 <xs:attribute name="action-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Действие виджета, которое будет вызвано при нажатии на кнопку.</xs:documentation>
@@ -321,11 +320,6 @@
         <xs:attribute name="ref-model" type="reduxModel" use="optional">
             <xs:annotation>
                 <xs:documentation>Модель виджета, по полю которого будет фильтрация.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="on" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Поля, от которых зависит условие.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
     </xs:complexType>

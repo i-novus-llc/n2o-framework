@@ -11,7 +11,7 @@ services:
           memory: 1024M
       placement:
         constraints:
-          - node.labels.dc == hetzner
+          - node.role == worker
   docs:
     image: "${DOCKER_REGISTRY}/n2o/docs:${TAG}"
     ports:
@@ -22,7 +22,7 @@ services:
           memory: 256M
       placement:
         constraints:
-          - node.labels.dc == hetzner
+          - node.role == worker
   storybook:
     image: "${DOCKER_REGISTRY}/n2o/storybook:${TAG}"
     ports:
@@ -33,4 +33,4 @@ services:
           memory: 256M
       placement:
         constraints:
-          - node.labels.dc == hetzner
+          - node.role == worker

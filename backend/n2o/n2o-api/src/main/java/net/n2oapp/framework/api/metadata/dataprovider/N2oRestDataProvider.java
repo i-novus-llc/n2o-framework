@@ -21,7 +21,7 @@ public class N2oRestDataProvider extends AbstractDataProvider implements N2oMapI
     private Integer proxyPort;
 
     public enum Method {
-        GET, PUT, POST, REMOVE, HEAD, DELETE
+        GET, PUT, POST, REMOVE, HEAD, DELETE, PATCH
     }
 
 }

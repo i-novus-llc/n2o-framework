@@ -32,8 +32,8 @@ public class DatePickerCompiler extends StandardFieldCompiler<DatePicker, N2oDat
         datePicker.setOutputFormat(domain.getJsFormat());
         datePicker.setDateFormat(p.cast(source.getDateFormat(), p.resolve(property("n2o.api.control.datetime.format"), String.class)));
         datePicker.setTimeFormat(source.getTimeFormat());
-        datePicker.setMin(source.getMin());
-        datePicker.setMax(source.getMax());
+        datePicker.setMin(p.resolveJS(source.getMin()));
+        datePicker.setMax(p.resolveJS(source.getMax()));
         datePicker.setUtc(p.cast(source.getUtc(), p.resolve(property("n2o.api.control.datetime.utc"), Boolean.class)));
         return compileStandardField(datePicker, source, context, p);
     }

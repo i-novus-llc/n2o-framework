@@ -202,11 +202,6 @@ link:#_Действия[Обработчик действия]
 |Модель виджета, по полю которого будет фильтрация
 |
 
-|on
-|Строка
-|Поля, от которых зависит условие доступности
-|Вычисляется по условию
-
 |message
 |Строка
 |Сообщение о причине недоступности
@@ -222,7 +217,7 @@ Java Script выражение
 [source,xml]
 ----
 <dependencies>
-  <enabling on="type">type.id == 1</enabling>
+  <enabling ref-widget-id="main" ref-model="resolve">type.id == 1</enabling>
   <!-- Поле доступно, если type.id равен 1 -->
 </dependencies>
 ----
@@ -245,11 +240,6 @@ Java Script выражение
 |Модель виджета, по полю которого будет фильтрация
 |
 
-|on
-|Строка
-|Поля, от которых зависит условие доступности
-|Вычисляется по условию
-
 |===
 
 Тело::
@@ -259,7 +249,7 @@ Java Script выражение
 [source,xml]
 ----
 <dependencies>
-  <visibility on="type">type.id == 1</visibility>
+  <visibility ref-widget-id="main" ref-model="resolve">type.id == 1</visibility>
   <!-- Поле видимо, если type.id равен 1 -->
 </dependencies>
 ----

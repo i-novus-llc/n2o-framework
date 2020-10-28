@@ -77,15 +77,6 @@ class AutoComplete extends React.Component {
         state.value = isArray(value) ? value : value ? [value] : [];
         state.input = value && !tags ? value : '';
       }
-
-      if (
-        prevState.input !== this.state.input &&
-        some(options, o => includes(o[valueFieldId], this.state.input)) &&
-        !this.state.isExpanded
-      ) {
-        this._setIsExpanded(true);
-      }
-
       if (!isEmpty(state)) this.setState(state);
     }
   };
