@@ -34,6 +34,9 @@ function SearchBar({
   iconClear,
   onClear,
 }) {
+  const hasInnerValue = innerValue !== undefined && innerValue !== '';
+  const isIconClear = iconClear && hasInnerValue;
+
   return (
     <div className={cn('n2o-search-bar', className)}>
       <div className="n2o-search-bar__control">
@@ -43,7 +46,7 @@ function SearchBar({
           onChange={onChange}
           placeholder={placeholder}
         />
-        {iconClear && (
+        {isIconClear && (
           <i
             className="n2o-search-bar__clear-icon fa fa-times"
             onClick={onClear}
