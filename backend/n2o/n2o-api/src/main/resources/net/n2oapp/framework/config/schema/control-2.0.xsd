@@ -72,6 +72,7 @@
             <xs:element name="search-buttons" type="controlSearchButtonsDefinition" minOccurs="0"/>
             <xs:element name="html" type="controlHtml" minOccurs="0"/>
             <xs:element name="field" type="fieldCustom" minOccurs="0"/>
+            <xs:element name="text" type="controlText" minOccurs="0"/>
             <xs:element name="image" type="imageDefinition" minOccurs="0"/>
             <xs:element name="slider" type="controlSliderDefinition" minOccurs="0"/>
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
