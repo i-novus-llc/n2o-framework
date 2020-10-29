@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose, pure, setDisplayName } from 'recompose';
 import map from 'lodash/map';
 
 import withWidgetProps from '../withWidgetProps';
-import { compose, pure, setDisplayName } from 'recompose';
-
 import RegionContent from '../RegionContent';
 
 /**

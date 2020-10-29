@@ -79,7 +79,14 @@ class Tabs extends React.Component {
    * @return {XML}
    */
   render() {
-    const { className, navClassName, children, hideSingleTab } = this.props;
+    const {
+      className,
+      navClassName,
+      children,
+      hideSingleTab,
+      dependencyVisible,
+    } = this.props;
+
     const { activeId } = this.state;
 
     const tabNavItems = React.Children.map(children, child => {
@@ -88,12 +95,14 @@ class Tabs extends React.Component {
       const hasSingleVisibleTab =
         children.filter(child => child.props.visible).length === 1;
 
-      if (hasSingleVisibleTab && hideSingleTab) {
+      if (
+        (hasSingleVisibleTab && hideSingleTab) ||
+        !dependencyVisible ||
+        !visible
+      ) {
         return null;
       }
-      if (!visible) {
-        return null;
-      }
+
       return (
         <TabNavItem
           id={id}
