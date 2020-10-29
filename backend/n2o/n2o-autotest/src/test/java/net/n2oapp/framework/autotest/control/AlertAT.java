@@ -3,7 +3,6 @@ package net.n2oapp.framework.autotest.control;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
-import net.n2oapp.framework.autotest.api.component.snippet.Text;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -43,7 +42,7 @@ public class AlertAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Alert alert = page.single().widget(FormWidget.class).snippet(0, Alert.class);
+        Alert alert = page.widget(FormWidget.class).snippet(0, Alert.class);
         alert.shouldExists();
 
         alert.shouldHaveText("Read this message!");

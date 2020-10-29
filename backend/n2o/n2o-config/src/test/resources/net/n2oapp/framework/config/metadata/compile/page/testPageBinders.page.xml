@@ -22,6 +22,7 @@
                             <input-text id="endTest" default-value="156"/>
                         </end>
                     </interval-field>
+                    <input-text id="type" param="param_type" default-value="55"/>
                 </fields>
             </form>
         </region>

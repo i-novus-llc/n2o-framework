@@ -91,11 +91,10 @@ Filter.propTypes = {
 Filter.defaultProps = {
   onSearch: () => {},
   onReset: () => {},
+  t: () => {},
   visible: true,
   style: {},
   className: '',
-  searchLabel: 'Найти',
-  resetLabel: 'Сбросить',
   hideButtons: false,
 };
 

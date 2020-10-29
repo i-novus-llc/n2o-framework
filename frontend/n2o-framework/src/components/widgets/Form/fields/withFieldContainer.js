@@ -225,6 +225,7 @@ export default Field => {
           ? {
               ...get(model, parentName),
               index: parentIndex,
+              ...model,
             }
           : model,
       };
@@ -248,6 +249,10 @@ export default Field => {
     ),
     withProps(props => ({
       ref: props.setReRenderRef,
+      disabled:
+        isBoolean(props.enabled) && !props.disabled
+          ? !props.enabled
+          : props.disabled,
     })),
     pure
   )(FieldContainer);

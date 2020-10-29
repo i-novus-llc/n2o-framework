@@ -11,4 +11,8 @@ public interface CheckboxCell extends Cell {
     void shouldBeChecked();
 
     void shouldBeUnchecked();
+
+    void shouldBeEnabled();
+
+    void shouldBeDisabled();
 }

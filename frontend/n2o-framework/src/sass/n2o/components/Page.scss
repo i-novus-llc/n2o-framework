@@ -74,3 +74,18 @@
 .n2o-disabled-page {
   pointer-events: none;
 }
+
+@media screen and (max-width: 1279px) {
+  .n2o-page {
+    &__left-right-layout {
+      flex-wrap: wrap;
+
+      & .n2o-page__left, & .n2o-page__right {
+        width: 100%!important;
+      }
+      & .n2o-page__right {
+        margin-left: 0!important;
+      }
+    }
+  }
+}

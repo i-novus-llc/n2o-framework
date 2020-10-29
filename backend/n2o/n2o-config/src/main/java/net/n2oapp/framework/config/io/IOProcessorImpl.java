@@ -813,7 +813,11 @@ public final class IOProcessorImpl implements IOProcessor {
             for (Object o : element.getAttributes()) {
                 Attribute attribute = (Attribute) o;
                 if (attribute.getNamespace().equals(namespace)) {
-                    map.put(attribute.getName(), attribute.getValue());
+                    if (attribute.getValue() instanceof String){
+                        map.put(attribute.getName(), process(attribute.getValue()));
+                    } else {
+                        map.put(attribute.getName(), attribute.getValue());
+                    }
                 }
             }
         } else {

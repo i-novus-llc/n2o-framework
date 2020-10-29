@@ -21,7 +21,7 @@
             </invocation>
             <in>
                 <field id="id" mapping="mapping" default-value="val1" mapper="groovy" normalize="norm" domain="string"/>
-                <field id="testSet" param="param">
+                <field id="testSet" param="param" validation-fail-key="update.person.id">
                 </field>
             </in>
             <out>

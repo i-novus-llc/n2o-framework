@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Compiled;
 
-import java.io.Serializable;
-
 /**
  * Базовая клиентская модель компонента виджета
  */

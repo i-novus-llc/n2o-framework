@@ -43,7 +43,7 @@ public class DateIntervalAT extends AutoTestBase {
 
     @Test
     public void testDateInterval() {
-        DateInterval dateInterval = page.single().widget(FormWidget.class).fields().field("DateInterval1")
+        DateInterval dateInterval = page.widget(FormWidget.class).fields().field("DateInterval1")
                 .control(DateInterval.class);
         dateInterval.shouldExists();
 
@@ -87,7 +87,7 @@ public class DateIntervalAT extends AutoTestBase {
 
     @Test
     public void testDateTimeInterval() {
-        DateInterval dateInterval = page.single().widget(FormWidget.class).fields().field("DateInterval2")
+        DateInterval dateInterval = page.widget(FormWidget.class).fields().field("DateInterval2")
                 .control(DateInterval.class);
         dateInterval.shouldExists();
 
@@ -105,7 +105,7 @@ public class DateIntervalAT extends AutoTestBase {
 
     @Test
     public void testDateIntervalMaxMin() {
-        DateInterval dateInterval = page.single().widget(FormWidget.class).fields().field("DateInterval3")
+        DateInterval dateInterval = page.widget(FormWidget.class).fields().field("DateInterval3")
                 .control(DateInterval.class);
         dateInterval.shouldExists();
 

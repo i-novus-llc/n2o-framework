@@ -46,6 +46,13 @@
   }
 }
 
+@media (max-width: 1024px) {
+  .navbar-expand-md .navbar-nav .nav-link {
+    padding-right: 0.5rem !important;
+    padding-left: 0.5rem !important;
+  }
+}
+
 .navbar, .navbar-expand-lg, .navbar-dark, .navbar-search > input, button {
   border-radius: 0
 }

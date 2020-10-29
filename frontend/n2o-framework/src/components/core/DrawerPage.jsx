@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Drawer from '../snippets/Drawer/Drawer';
-import { compose } from 'recompose';
-import Page from './Page';
+import get from 'lodash/get';
 import cn from 'classnames';
+import { compose } from 'recompose';
+
+import Drawer from '../snippets/Drawer/Drawer';
 import Spinner from '../snippets/Spinner/Spinner';
 import Toolbar from '../buttons/Toolbar';
+
 import withOverlayMethods from './withOverlayMethods';
+import Page from './Page';
 
 /**
  * Компонент, отображающий Drawer
@@ -49,6 +52,7 @@ function DrawerPage(props) {
     level,
     backdropClosable,
     animation,
+    prompt,
     ...rest
   } = props;
 
@@ -59,6 +63,7 @@ function DrawerPage(props) {
 
   const showSpinner = !visible || loading || typeof loading === 'undefined';
   const classes = cn({ 'd-none': loading });
+  const withToolbar = get(props, 'metadata.src') !== 'SearchablePage';
 
   return (
     <div className="drawer-page-overlay">
@@ -71,8 +76,8 @@ function DrawerPage(props) {
       >
         <Drawer
           visible={!loading && visible !== false}
-          onHandleClick={() => rest.closeOverlay(true)}
-          onClose={() => rest.closeOverlay(true)}
+          onHandleClick={() => rest.closeOverlay(prompt)}
+          onClose={() => rest.closeOverlay(prompt)}
           title={headerTitle}
           backdrop={backdrop}
           width={width}
@@ -105,6 +110,7 @@ function DrawerPage(props) {
                 pageMapping={pageMapping}
                 entityKey={entityKey}
                 needMetadata={true}
+                withToolbar={withToolbar}
               />
             ) : src ? (
               rest.renderFromSrc(src)

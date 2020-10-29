@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.UpdateModelPayload;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SearchablePage;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -48,16 +49,17 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
 
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("table_name");
         assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getPrefix(), is("filter"));
-        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getKey(), is("table"));
-        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getField(), is("name"));
-        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getValue(), is(":table_name"));
+        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getPrefix(), is("filter"));
+        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getKey(), is("table"));
+        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getField(), is("name"));
+        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getValue(), is(":table_name"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
         assertThat(query.getOnSet().getBindLink(), is("models.filter['table']"));
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
         assertThat(((ModelLink) query.getOnSet()).getWidgetId(), is("table"));
 
-        BindLink bindLink = page.getWidgets().get("testSearchablePage_table").getDataProvider().getQueryMapping().get("name");
+        BindLink bindLink = ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+                .getDataProvider().getQueryMapping().get("name");
         assertThat(bindLink.getValue(), is("`name`"));
         assertThat(bindLink.getBindLink(), is("models.filter['table']"));
     }
@@ -71,16 +73,17 @@ public class SearchablePageCompileTest extends SourceCompileTestBase {
         assertThat(page.getSrc(), is("SearchablePage"));
         PageRoutes.Query query = page.getRoutes().getQueryMapping().get("name");
         assertThat(query.getOnGet().getType(), is("n2o/models/UPDATE"));
-        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getPrefix(), is("filter"));
-        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getKey(), is("table"));
-        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getField(), is("name"));
-        assertThat(((UpdateModelPayload)query.getOnGet().getPayload()).getValue(), is(":name"));
+        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getPrefix(), is("filter"));
+        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getKey(), is("table"));
+        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getField(), is("name"));
+        assertThat(((UpdateModelPayload) query.getOnGet().getPayload()).getValue(), is(":name"));
         assertThat(query.getOnSet().getValue(), is("`name`"));
         assertThat(query.getOnSet().getBindLink(), is("models.filter['table']"));
         assertThat(((ModelLink) query.getOnSet()).getModel(), is(ReduxModel.FILTER));
         assertThat(((ModelLink) query.getOnSet()).getWidgetId(), is("table"));
 
-        BindLink bindLink = page.getWidgets().get("testSearchablePage2_table").getDataProvider().getQueryMapping().get("name");
+        BindLink bindLink = ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+                .getDataProvider().getQueryMapping().get("name");
         assertThat(bindLink.getValue(), is("`name`"));
         assertThat(bindLink.getBindLink(), is("models.filter['table']"));
     }

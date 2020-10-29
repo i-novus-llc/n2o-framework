@@ -2,7 +2,9 @@ package net.n2oapp.framework.ui.controller;
 
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
+import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.rest.ControllerFactory;
 import net.n2oapp.framework.api.rest.GetDataResponse;
@@ -48,6 +50,7 @@ public class DataController extends AbstractController {
         ActionResponseInfo responseInfo = new ActionResponseInfo();
         SetDataResponse result = controllerFactory.execute(requestInfo, responseInfo);
         resolveRedirect(requestInfo, result);
+        resolveRefresh(requestInfo, result);
         return result;
     }
 
@@ -68,6 +71,17 @@ public class DataController extends AbstractController {
             resolvedRedirect.setQueryMapping(redirect.getQueryMapping());
             resolvedRedirect.setPath(redirectUrl);
             response.addRedirect(resolvedRedirect);
+        }
+    }
+
+    private void resolveRefresh(ActionRequestInfo requestInfo, SetDataResponse response) {
+        if (requestInfo.getRefresh() != null) {
+            RefreshSaga resolvedRefresh = new RefreshSaga();
+            resolvedRefresh.setType(requestInfo.getRefresh().getType());
+            resolvedRefresh.getOptions().setWidgetId(requestInfo.getRefresh().getOptions().getWidgetId());
+
+            if (response.getMeta() == null) response.setMeta(new MetaSaga());
+            response.getMeta().setRefresh(resolvedRefresh);
         }
     }
 }

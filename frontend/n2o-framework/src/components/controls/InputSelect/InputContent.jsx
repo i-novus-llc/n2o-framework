@@ -1,15 +1,14 @@
 import React from 'react';
-
 import find from 'lodash/find';
 import reduce from 'lodash/reduce';
 import split from 'lodash/split';
 import isEqual from 'lodash/isEqual';
 import assign from 'lodash/assign';
-
 import cn from 'classnames';
 import PropTypes from 'prop-types';
-import SelectedItems from './SelectedItems';
 import ReactDOM from 'react-dom';
+
+import SelectedItems from './SelectedItems';
 import { getNextId, getPrevId, getFirstNotDisabledId } from './utils';
 
 const textLengthStyle = {
@@ -341,7 +340,7 @@ class InputContent extends React.Component {
     const INPUT_STYLE = {
       paddingLeft: selectedPadding ? selectedPadding : undefined,
     };
-    console.warn('value ------>', this.state.paddingLeft);
+
     return (
       <React.Fragment>
         <span style={textLengthStyle} ref={this.setTextRef}>

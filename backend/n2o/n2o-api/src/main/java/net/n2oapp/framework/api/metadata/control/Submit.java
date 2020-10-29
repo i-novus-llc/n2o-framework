@@ -16,4 +16,5 @@ public class Submit implements Source {
     private N2oParam[] pathParams;
     private N2oParam[] headerParams;
     private N2oFormParam[] formParams;
+    private Boolean refreshOnSuccess;
 }
