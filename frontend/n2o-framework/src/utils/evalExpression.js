@@ -28,7 +28,10 @@ export function createContextFn(args, code) {
   const key = `${joinedArgs}|||${code}`;
 
   if (!fooCache[key]) {
-    fooCache[key] = new Function(windowKeys, `return function (${joinedArgs}) { return ${code} }`)();
+    fooCache[key] = new Function(
+      windowKeys,
+      `return function (${joinedArgs}) { return ${code} }`
+    )();
   }
 
   return fooCache[key];
