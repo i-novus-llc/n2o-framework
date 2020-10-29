@@ -6,6 +6,8 @@ import map from 'lodash/map';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import pull from 'lodash/pull';
+import every from 'lodash/every';
+import some from 'lodash/some';
 import { compose, setDisplayName } from 'recompose';
 
 import SecurityCheck from '../../../core/auth/SecurityCheck';
@@ -82,17 +84,18 @@ class TabRegion extends React.Component {
     );
   }
 
+  tabVisible(tab) {
+    const { getWidgetProps } = this.props;
+    const content = get(tab, 'content');
+    return every(content, meta => get(getWidgetProps(meta.id), 'isVisible'));
+  }
+
+  regionVisible(tabs) {
+    return some(tabs, tab => this.tabVisible(tab));
+  }
+
   render() {
-    const {
-      tabs,
-      getWidgetProps,
-      getVisible,
-      pageId,
-      lazy,
-      activeEntity,
-      className,
-      hideSingleTab,
-    } = this.props;
+    const { tabs, lazy, activeEntity, className, hideSingleTab } = this.props;
 
     const { readyTabs, visibleTabs } = this.state;
 
@@ -102,21 +105,18 @@ class TabRegion extends React.Component {
         activeId={activeEntity}
         onChangeActive={this.handleChangeActive}
         hideSingleTab={hideSingleTab}
+        dependencyVisible={this.regionVisible(tabs)}
       >
         {map(tabs, tab => {
           const { security, content } = tab;
-          const widgetProps = getWidgetProps(tab.widgetId);
-          const dependencyVisible = getVisible(pageId, tab.id);
-          const widgetVisible = get(widgetProps, 'isVisible', true);
           const tabVisible = get(visibleTabs, tab.id, true);
-
           const tabProps = {
             key: tab.id,
             id: tab.id,
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
-            visible: dependencyVisible && widgetVisible && tabVisible,
+            visible: tabVisible,
           };
           const tabEl = (
             <Tab {...tabProps}>
