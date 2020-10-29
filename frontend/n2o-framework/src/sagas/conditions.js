@@ -8,13 +8,11 @@ import {
 } from 'redux-saga/effects';
 import map from 'lodash/map';
 import reduce from 'lodash/reduce';
-import first from 'lodash/first';
 import forOwn from 'lodash/forOwn';
 import get from 'lodash/get';
 import set from 'lodash/set';
 import isEmpty from 'lodash/isEmpty';
 import keys from 'lodash/keys';
-import isUndefined from 'lodash/isUndefined';
 import find from 'lodash/find';
 
 import evalExpression from '../utils/evalExpression';
