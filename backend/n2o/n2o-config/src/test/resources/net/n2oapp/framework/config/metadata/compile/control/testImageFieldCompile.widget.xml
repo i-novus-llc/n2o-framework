@@ -1,0 +1,10 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <image id="testId" src="testSrc" depends-on="name,type" label="testLabel"
+               url="testUrl" data="testData" title="testTitle" description="testDescription"
+               text-position="testPosition"/>
+
+        <image id="testId2"/>
+
+    </fields>
+</form>
