@@ -5,9 +5,6 @@
             <invocation>
                 <test operation="echo"/>
             </invocation>
-            <in-parameters>
-                <param id="name"/>
-            </in-parameters>
         </operation>
     </operations>
 </object>

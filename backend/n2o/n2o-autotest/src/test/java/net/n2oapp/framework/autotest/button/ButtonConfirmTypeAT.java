@@ -1,11 +1,10 @@
 package net.n2oapp.framework.autotest.button;
 
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
-import net.n2oapp.framework.autotest.api.component.control.InputText;
-import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -21,6 +20,9 @@ import org.junit.jupiter.api.Test;
  */
 public class ButtonConfirmTypeAT extends AutoTestBase {
 
+    private SimplePage page;
+    private StandardWidget.WidgetToolbar toolbar;
+
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -30,6 +32,9 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        page = open(SimplePage.class);
+        page.shouldExists();
+        toolbar = page.widget(FormWidget.class).toolbar();
     }
 
     @Override
@@ -43,16 +48,7 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
 
     @Test
     public void testDialog() {
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        FormWidget form = page.widget(FormWidget.class);
-        form.fields().shouldHaveSize(1);
-
-        StandardField input = form.fields().field("Наименование");
-        input.shouldExists();
-        input.control(InputText.class).val("testDialog");
-
-        StandardButton button = form.toolbar().bottomLeft().button("dialog");
+        StandardButton button = toolbar.bottomLeft().button("dialog");
         button.shouldBeEnabled();
 
         button.click();
@@ -71,16 +67,7 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
 
     @Test
     public void testPopover() {
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        FormWidget form = page.widget(FormWidget.class);
-        form.fields().shouldHaveSize(1);
-
-        StandardField input = form.fields().field("Наименование");
-        input.shouldExists();
-        input.control(InputText.class).val("testPopover");
-
-        StandardButton button = form.toolbar().bottomLeft().button("popover");
+        StandardButton button = toolbar.bottomLeft().button("popover");
         button.shouldBeEnabled();
 
         button.click();
@@ -99,16 +86,7 @@ public class ButtonConfirmTypeAT extends AutoTestBase {
 
     @Test
     public void testCustomPopover() {
-        SimplePage page = open(SimplePage.class);
-        page.shouldExists();
-        FormWidget form = page.widget(FormWidget.class);
-        form.fields().shouldHaveSize(1);
-
-        StandardField input = form.fields().field("Наименование");
-        input.shouldExists();
-        input.control(InputText.class).val("testCustomPopover");
-
-        StandardButton button = form.toolbar().bottomLeft().button("CustomPopover");
+        StandardButton button = toolbar.bottomLeft().button("CustomPopover");
         button.shouldBeEnabled();
 
         button.click();

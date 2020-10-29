@@ -3,7 +3,6 @@
     <form object-id="myObject">
         <fields>
             <hidden id="id" default-value="1"/>
-            <input-text id="name" label="Наименование"/>
         </fields>
         <toolbar place="bottomLeft">
             <button label="popover" confirm="true" confirm-text="confirm-text"
