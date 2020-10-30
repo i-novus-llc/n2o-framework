@@ -353,12 +353,12 @@
           "payload": {
             "prefix": "filter",
             "key": "proto_contacts",
-            "field": "individual.id",
-            "value": ":contacts_individual_id"
+            "field": "individualId",
+            "value": ":contacts_individualId"
           }
         },
         "set": {
-          "bindLink": "models.filter['proto_contacts'].individual.id"
+          "bindLink": "models.filter['proto_contacts'].individualId"
         }
       },
       "contacts_value": {
@@ -1033,7 +1033,7 @@
             "bindLink": "models.filter['proto_contacts'].individualId"
           },
           "individual_id": {
-            "bindLink": "models.filter['proto_contacts'].individual.id"
+            "bindLink": "models.filter['proto_contacts'].individualId"
           },
           "value": {
             "bindLink": "models.filter['proto_contacts'].value"

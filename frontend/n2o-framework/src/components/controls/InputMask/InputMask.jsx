@@ -6,6 +6,7 @@ import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import { compose } from 'recompose';
+
 import withRightPlaceholder from '../withRightPlaceholder';
 
 /**
@@ -43,22 +44,13 @@ class InputMask extends React.Component {
       Б: /[А-Яа-я]/,
       ...props.dictionary,
     };
-    this.mask = this.mask.bind(this);
-    this.preset = this.preset.bind(this);
-    this._indexOfFirstPlaceHolder = this._indexOfFirstPlaceHolder.bind(this);
-    this._indexOfLastPlaceholder = this._indexOfLastPlaceholder.bind(this);
-    this._isValid = this._isValid.bind(this);
-    this._mapToArray = this._mapToArray.bind(this);
-    this._onChange = this._onChange.bind(this);
-    this._onBlur = this._onBlur.bind(this);
-    this._onFocus = this._onFocus.bind(this);
   }
 
   /**
    * преобразует маску-функцию, маску-строку в массив-маску (с regexp вместо символов) при помощи _mapToArray
    * @returns (number) возвращает массив-маску
    */
-  mask() {
+  mask = () => {
     const { mask } = this.props;
     if (Array.isArray(mask)) {
       return mask;
@@ -66,13 +58,13 @@ class InputMask extends React.Component {
       return mask();
     }
     return this._mapToArray(mask);
-  }
+  };
 
   /**
    * возвращает маку для пресета
    * @returns (number) возвращает массив-маску для пресета-аргумента
    */
-  preset(preset) {
+  preset = preset => {
     const { presetConfig } = this.props;
     switch (preset) {
       case 'phone':
@@ -88,20 +80,20 @@ class InputMask extends React.Component {
       case 'card':
         return this._mapToArray('9999 9999 9999 9999');
     }
-  }
+  };
   /**
    * возвращает индекс первого символа маски, который еще не заполнен
    * @returns (number) индекс первого символа маски, который еще не заполнен
    */
-  _indexOfFirstPlaceHolder(value = '') {
+  _indexOfFirstPlaceHolder = (value = '') => {
     return value.toString().indexOf(this.props.placeholderChar);
-  }
+  };
 
   /**
    * возвращает индекс последнего символа маски, который еще не заполнен
    * @returns (number) индекс последнего символа маски, который еще не заполнен
    */
-  _indexOfLastPlaceholder(mask) {
+  _indexOfLastPlaceholder = mask => {
     if (typeof mask === 'function') {
       return mask()
         .map(item => item instanceof RegExp)
@@ -114,38 +106,48 @@ class InputMask extends React.Component {
       return mask.map(item => item instanceof RegExp).lastIndexOf(true);
     }
     return -1;
-  }
+  };
   /**
    * проверка на валидность (соответсвие маске)
    */
-  _isValid(value) {
+  _isValid = value => {
     const { preset, mask, guide } = this.props;
+
+    if (!value) {
+      return false;
+    }
     if (guide) {
       return value && this._indexOfFirstPlaceHolder(value) === -1;
     }
     return (
       value.length > this._indexOfLastPlaceholder(this.preset(preset) || mask)
     );
-  }
+  };
 
   /**
    * преобразование строки маски в массив ( уже  с регулярными выражениями)
    */
-  _mapToArray(mask) {
+  _mapToArray = mask => {
     return mask.split('').map(char => {
       return this.dict[char] ? this.dict[char] : char;
     });
-  }
+  };
 
-  _onChange(e) {
+  _onChange = e => {
     const { value } = e.target;
-    this.valid = this._isValid(value);
-    this.setState({ value, guide: this.props.guide }, () => {
-      (this.valid || value === '') && this.props.onChange(value);
-    });
-  }
 
-  _onBlur(e) {
+    const isValid = this._isValid(value);
+
+    this.setState({ value, guide: this.props.guide }, () => {
+      if (isValid) {
+        return this.props.onChange(value);
+      } else {
+        return this.props.onChange(null);
+      }
+    });
+  };
+
+  _onBlur = e => {
     const { resetOnNotValid, onBlur } = this.props;
     const { value } = e.nativeEvent.target;
     this.valid = this._isValid(value);
@@ -156,14 +158,14 @@ class InputMask extends React.Component {
         this.props.onChange(newValue)
       );
     }
-  }
+  };
 
-  _onFocus() {
+  _onFocus = () => {
     this.valid = this._isValid(this.state.value);
     if (!this.valid) {
       this.setState({ guide: this.props.guide });
     }
-  }
+  };
 
   /**
    * обработка новых пропсов
@@ -171,7 +173,7 @@ class InputMask extends React.Component {
   componentDidUpdate(prevProps) {
     const { value } = this.props;
 
-    if (!isEqual(prevProps.value, value)) {
+    if (!isEqual(prevProps.value, value) && this._isValid(value)) {
       this.setState({ value });
     }
 
@@ -204,11 +206,11 @@ class InputMask extends React.Component {
         placeholderChar={placeholderChar}
         placeholder={placeholder}
         guide={this.state.guide}
-        mask={mask || this.mask.bind(this)}
+        mask={mask || this.mask}
         value={this.state.value}
-        onBlur={this._onBlur.bind(this)}
-        onChange={this._onChange.bind(this)}
-        onFocus={this._onFocus.bind(this)}
+        onBlur={this._onBlur}
+        onChange={this._onChange}
+        onFocus={this._onFocus}
         keepCharPositions={this.props.keepCharPositions}
         render={(ref, props) => {
           return (

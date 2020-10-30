@@ -17,6 +17,7 @@ import net.n2oapp.framework.api.metadata.meta.control.Field;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
@@ -184,6 +185,8 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(context.isMessageOnSuccess(), is(false));
         assertThat(context.getSuccessAlertWidgetId(), is("form"));
         assertThat(context.getFailAlertWidgetId(), is("form"));
+        assertThat(context.getRefresh().getType(), is(RefreshSaga.Type.widget));
+        assertThat(context.getRefresh().getOptions().getWidgetId(), is("test"));
 
         ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));

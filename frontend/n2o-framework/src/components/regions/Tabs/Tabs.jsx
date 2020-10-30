@@ -9,7 +9,6 @@ import isEmpty from 'lodash/isEmpty';
 import TabNav from './TabNav';
 import TabNavItem from './TabNavItem';
 import TabContent from './TabContent';
-import Tab from './Tab';
 
 /**
  * Компонент контейнера табов
@@ -17,6 +16,7 @@ import Tab from './Tab';
  * @reactProps {string} navClassName - css-класс для нава
  * @reactProps {function} onChangeActive
  * @reactProps {node} children - элемент потомок компонента Tabs
+ * @reactProps {function} hideSingleTab - скрывать / не скрывать навигацию таба, если он единственный
  * @example
  * <Tabs>
  * {
@@ -79,13 +79,30 @@ class Tabs extends React.Component {
    * @return {XML}
    */
   render() {
-    const { className, navClassName, children } = this.props;
+    const {
+      className,
+      navClassName,
+      children,
+      hideSingleTab,
+      dependencyVisible,
+    } = this.props;
+
     const { activeId } = this.state;
+
     const tabNavItems = React.Children.map(children, child => {
       const { id, title, icon, disabled, visible } = child.props;
-      if (!visible) {
+
+      const hasSingleVisibleTab =
+        children.filter(child => child.props.visible).length === 1;
+
+      if (
+        (hasSingleVisibleTab && hideSingleTab) ||
+        !dependencyVisible ||
+        !visible
+      ) {
         return null;
       }
+
       return (
         <TabNavItem
           id={id}

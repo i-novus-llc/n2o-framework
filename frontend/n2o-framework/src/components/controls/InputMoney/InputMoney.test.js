@@ -1,5 +1,5 @@
 import React from 'react';
-import InputMoney from './InputMoney';
+import { InputMoney } from './InputMoney';
 
 const setup = propsOverride => {
   return shallow(<InputMoney {...propsOverride} />);

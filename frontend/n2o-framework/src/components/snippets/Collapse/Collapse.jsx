@@ -79,6 +79,7 @@ Collapse.defaultProps = {
   accordion: false,
   dataKey: 'items',
   collapsible: true,
+  isVisible: true,
 };
 
 export { Panel };

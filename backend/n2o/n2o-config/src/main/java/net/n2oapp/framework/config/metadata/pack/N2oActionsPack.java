@@ -5,7 +5,6 @@ import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.action.*;
 import net.n2oapp.framework.config.metadata.compile.action.*;
 import net.n2oapp.framework.config.reader.event.*;
-import net.n2oapp.framework.config.metadata.compile.action.OpenPageCompiler;
 
 public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
@@ -43,6 +42,7 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ShowModalBinder(),
                 new OpenDrawerBinder(),
                 new PerformButtonBinder(),
+                new ButtonFieldBinder(),
                 new SubMenuBinder());
     }
 }

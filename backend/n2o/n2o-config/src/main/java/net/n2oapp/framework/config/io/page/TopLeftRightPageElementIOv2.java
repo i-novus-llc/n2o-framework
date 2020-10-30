@@ -1,8 +1,9 @@
 package net.n2oapp.framework.config.io.page;
 
+import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oTopLeftRightPage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.config.io.widget.WidgetIOv4;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * Чтение\запись страницы c тремя регионами
+ * Чтение\запись страницы c тремя регионами версии 2.0
  */
 @Component
 public class TopLeftRightPageElementIOv2 extends BasePageElementIOv2<N2oTopLeftRightPage> {
@@ -24,9 +25,10 @@ public class TopLeftRightPageElementIOv2 extends BasePageElementIOv2<N2oTopLeftR
         region(e, "right", m::getRight, m::setRight, m.getRightOptions(), p);
     }
 
-    private void region(Element e, String name, Supplier<N2oRegion[]> regionsGetter, Consumer<N2oRegion[]> regionsSetter,
+    private void region(Element e, String name, Supplier<SourceComponent[]> regionsGetter, Consumer<SourceComponent[]> regionsSetter,
                         N2oTopLeftRightPage.RegionOptions regionsOptions, IOProcessor p) {
-        p.anyChildren(e, name, regionsGetter, regionsSetter, p.anyOf(N2oRegion.class), getRegionDefaultNamespace());
+        p.anyChildren(e, name, regionsGetter, regionsSetter, p.anyOf(SourceComponent.class),
+                getRegionDefaultNamespace(), WidgetIOv4.NAMESPACE);
         p.childAttribute(e, name, "width", regionsOptions::getWidth, regionsOptions::setWidth);
         p.childAttributeBoolean(e, name, "fixed", regionsOptions::getFixed, regionsOptions::setFixed);
         p.childAttributeInteger(e, name, "offset", regionsOptions::getOffset, regionsOptions::setOffset);

@@ -3,12 +3,8 @@ import { compose, pure, setDisplayName } from 'recompose';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Table from 'rc-table';
-import AdvancedTableExpandIcon from './AdvancedTableExpandIcon';
-import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import { HotKeys } from 'react-hotkeys/cjs';
 import cx from 'classnames';
-import propsResolver from '../../../utils/propsResolver';
-import SecurityCheck from '../../../core/auth/SecurityCheck';
 import find from 'lodash/find';
 import some from 'lodash/some';
 import isEqual from 'lodash/isEqual';
@@ -25,12 +21,18 @@ import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import includes from 'lodash/includes';
 import isNumber from 'lodash/isNumber';
+
+import propsResolver from '../../../utils/propsResolver';
+import SecurityCheck from '../../../core/auth/SecurityCheck';
+import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
+import RadioN2O from '../../controls/Radio/RadioN2O';
+
+import AdvancedTableExpandIcon from './AdvancedTableExpandIcon';
+import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableRowWithAction from './AdvancedTableRowWithAction';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
-import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
-import RadioN2O from '../../controls/Radio/RadioN2O';
 import AdvancedTableCell from './AdvancedTableCell';
 import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
 import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
@@ -676,12 +678,19 @@ class AdvancedTable extends Component {
   }
 
   getScroll() {
+    const { scroll, columns } = this.props;
+
+    const noScrollX = scroll.x === 'false';
+    const noScrollY = scroll.y === 'false';
+    const noTableScroll = noScrollX && noScrollY;
+
     if (isEmpty(this.props.data) || isEmpty(this.props.columns)) {
       return this.props.scroll;
     }
 
-    if (some(this.state.columns, col => col.fixed)) return this.props.scroll;
-    const { scroll, columns } = this.props;
+    if (some(this.state.columns, col => col.fixed)) {
+      return this.props.scroll;
+    }
 
     const calcXScroll = () => {
       const getWidth = (
@@ -713,6 +722,20 @@ class AdvancedTable extends Component {
         : pxWidth;
     };
 
+    if (noTableScroll) {
+      return { x: false, y: false };
+    } else if (noScrollX) {
+      return {
+        ...scroll,
+        x: false,
+      };
+    } else if (noScrollY) {
+      return {
+        y: false,
+        x: calcXScroll(),
+      };
+    }
+
     return {
       ...scroll,
       x: calcXScroll(),
@@ -731,6 +754,7 @@ class AdvancedTable extends Component {
       isActive,
       onFocus,
       rowSelection,
+      t,
     } = this.props;
 
     return (
@@ -760,7 +784,7 @@ class AdvancedTable extends Component {
             onExpand={onExpand}
             useFixedHeader={useFixedHeader}
             indentSize={20}
-            emptyText={AdvancedTableEmptyText}
+            emptyText={AdvancedTableEmptyText(t)}
             scroll={this.getScroll()}
           />
         </div>
@@ -829,8 +853,10 @@ AdvancedTable.defaultProps = {
   expandable: false,
   onFocus: () => {},
   onSetSelection: () => {},
+  t: () => {},
   autoFocus: false,
   rows: {},
+  scroll: {},
 };
 
 export { AdvancedTable };

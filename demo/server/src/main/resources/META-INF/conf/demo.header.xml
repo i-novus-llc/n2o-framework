@@ -10,7 +10,7 @@
             advanced-url="/search"
             advanced-param="q"/>
     <nav>
-        <page page-id="ProtoPage" route="/proto" label="Контакты"/>
+        <page page-id="ProtoPage" route="/proto" label="${contacts}"/>
         <!--<page page-id="ProtoTabs" route="/tabs"/>-->
         <!--<page page-id="ProtoLine" route="/line"/>-->
         <!--<page page-id="CustomFieldset" route="/custom/route/fieldset"/>-->

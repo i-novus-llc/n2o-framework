@@ -351,7 +351,9 @@ public abstract class BaseAccessTransformer<D extends Compiled, C extends Compil
     }
 
     protected void merge(PropertiesAware destination, List<? extends PropertiesAware> sources) {
-        if (destination == null || sources == null) return;
+        if (destination == null || sources == null ||
+                (destination.getProperties() != null && destination.getProperties().get(SECURITY_PROP_NAME) != null))
+            return;
         Map<String, List<Security.SecurityObject>> securityObjects = new HashMap<>();
         for (PropertiesAware source : sources) {
             if (source.getProperties() != null && source.getProperties().containsKey(SECURITY_PROP_NAME)) {

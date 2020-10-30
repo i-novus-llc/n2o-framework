@@ -40,6 +40,8 @@ function SearchBar({
   onKeyDown,
   onFocus,
   placeholder,
+  iconClear,
+  onClear,
   menu,
   dropdownOpen,
   toggleDropdown,
@@ -49,7 +51,10 @@ function SearchBar({
   labelFieldId,
   urlFieldId,
 }) {
+  const hasInnerValue = innerValue !== undefined && innerValue !== '';
+  const isIconClear = iconClear && hasInnerValue;
   SearchBar.handleClickOutside = () => toggleDropdown('false');
+
   return (
     <div className={cn('n2o-search-bar', className)}>
       <div className="n2o-search-bar__control">
@@ -64,6 +69,12 @@ function SearchBar({
               batchActions([toggleDropdown('true'), onFocus && onFocus()])
             }
           />
+          {isIconClear && (
+            <i
+              className="n2o-search-bar__clear-icon fa fa-times"
+              onClick={onClear}
+            />
+          )}
           {isString(icon) ? <i className={icon} /> : icon}
         </div>
         {isEmpty(menu) ? (
@@ -151,6 +162,7 @@ SearchBar.defaultProps = {
   button: false,
   icon: 'fa fa-search',
   directionIconsInPopUp: 'left',
+  iconClear: true,
   onSearch: () => {},
 };
 
@@ -190,6 +202,10 @@ const enhance = compose(
     },
     onBlur: ({ setInnerValue }) => value => {
       setInnerValue('');
+    },
+    onClear: ({ setInnerValue, onSearch }) => () => {
+      setInnerValue('');
+      onSearch('');
     },
   }),
   lifecycle({

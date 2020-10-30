@@ -4,8 +4,8 @@ import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.api.metadata.header.CompiledHeader;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
@@ -79,11 +79,16 @@ public class SecurityExtAttributeMapperTest extends SourceCompileTestBase {
         Security security = new Security();
         security.setSecurityMap(securityObjectMap);
         assertThat(page.getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) page.getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
-        assertThat(page.getRegions().get("single").get(0).getItems().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) page.getRegions().get("single").get(0).getItems().get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
-        assertThat(page.getToolbar().get("bottomRight").get(0).getButtons().get(0).getProperties().get(SECURITY_PROP_NAME), is(security));
-        assertThat(((Security) page.getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(((Security) page.getRegions().get("single").get(0).getProperties().get(SECURITY_PROP_NAME))
+                .getSecurityMap().get("custom"), is(securityObject));
+        assertThat(((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+                .getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+                .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
+        assertThat(page.getToolbar().get("bottomRight").get(0).getButtons().get(0)
+                .getProperties().get(SECURITY_PROP_NAME), is(security));
+        assertThat(((Security) page.getRegions().get("single").get(0)
+                .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("custom"), is(securityObject));
     }
 
     @Test

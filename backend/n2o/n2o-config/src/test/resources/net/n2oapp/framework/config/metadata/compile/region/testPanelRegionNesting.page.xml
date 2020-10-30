@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <regions>
+        <panel collapsible="false" title="Panel1">
+            <form name="form1"/>
+            <panel collapsible="true">
+                <form name="form2" route="/form2"/>
+                <panel>
+                    <form name="form3"/>
+                </panel>
+            </panel>
+            <form name="form4"/>
+        </panel>
+        <panel>
+            <table name="table1"/>
+            <table name="table2"/>
+        </panel>
+        <panel footer-title="footer" icon="fa fa-plus" routable="false"
+               active-param="param" open="false" header="true" color="danger"/>
+    </regions>
+</page>

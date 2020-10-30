@@ -33,8 +33,10 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.List;
+import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -76,13 +78,14 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
 
-        Table table = (Table) rootPage.getWidgets().get("p_main");
+        Table table = (Table) rootPage.getRegions().get("left").get(0).getContent().get(0);
         ShowModalPayload payload = ((ShowModal) table.getActions().get("create")).getPayload();
         //create
         assertThat(payload.getPageUrl(), is("/p/create"));
         assertThat(payload.getSize(), is("sm"));
         assertThat(payload.getScrollable(), is(true));
         assertThat(payload.getPageId(), is("p_create"));
+        assertThat(payload.getPrompt(), is(true));
 
 //        assertThat(payload.getActions().size(), is(2));
 //        assertThat(payload.getActions().containsKey("submit"), is(true));
@@ -148,13 +151,14 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
 
-        Table table = (Table) rootPage.getWidgets().get("p_main");
+        Table table = (Table) rootPage.getRegions().get("left").get(0).getContent().get(0);
         ShowModalPayload payload = ((ShowModal) table.getActions().get("update")).getPayload();
 
         //update
         assertThat(payload.getPageUrl(), is("/p/:id/update"));
 //        assertThat(payload.getTitle(), is("Модальное окно"));
         assertThat(payload.getSize(), is("lg"));
+        assertThat(payload.getPrompt(), is(false));
 
         PageContext modalContext = (PageContext) route("/p/123/update", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPageSecondFlow"));
@@ -240,7 +244,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         CloseAction close = (CloseAction) showModal.getActions().get("close");
         assertThat(close.getMeta().getRedirect(), nullValue());
         assertThat(close.getMeta().getRefresh(), nullValue());
-        Widget modalWidget = showModal.getWidgets().get("p_updateFocus_main");
+        Widget modalWidget = (Widget) showModal.getRegions().get("left").get(0).getContent().get(0);
         assertThat(modalWidget.getDataProvider().getPathMapping().size(), is(0));
         assertThat(modalWidget.getDataProvider().getQueryMapping().size(), is(0));
     }
@@ -259,7 +263,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         CloseAction close = (CloseAction) showModal.getActions().get("close");
         assertThat(close.getMeta().getRedirect(), nullValue());
         assertThat(close.getMeta().getRefresh(), nullValue());
-        Widget modalWidget = showModal.getWidgets().get("p_updateByPathParams_main");
+        Widget modalWidget = (Widget) showModal.getRegions().get("left").get(0).getContent().get(0);
         assertThat(modalWidget.getDataProvider().getPathMapping().size(), is(0));
         assertThat(modalWidget.getDataProvider().getQueryMapping().size(), is(0));
     }
@@ -374,7 +378,8 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         PageContext pageContext = new PageContext("testShowModalRootPage", "/p");
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testShowModalRootPage.page.xml")
                 .get(pageContext);
-        ShowModal showModal = (ShowModal) rootPage.getWidgets().get("p_main").getActions().get("updateEditWithPrefilters");
+        ShowModal showModal = (ShowModal) ((Widget) rootPage.getRegions().get("left").get(0).getContent().get(0))
+                .getActions().get("updateEditWithPrefilters");
         assertThat(showModal.getPayload().getQueryMapping().get("id").getBindLink(), is("models.edit['p_main']"));
 
         Page showModalPage = routeAndGet("/p/updateEditWithPrefilters", Page.class);
@@ -427,7 +432,6 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.get(0).getId(), is("submit"));
         assertThat(buttons.get(0).getAction(), is(submit));
-        assertThat(buttons.get(0).getLabel(), is("Сохранить"));
     }
 
     @Test
