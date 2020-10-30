@@ -637,6 +637,21 @@ http://n2oapp.net/framework/config/schema/region-2.0
 |Скрытие единственной доступной вкладки и отображение только ее содержимого
 |false
 
+|fixed
+|true false
+|Фиксация вкладки
+|true
+
+|scrollbar
+|true false
+|Скрытие scrollbar, который появляется при фиксировании высоты
+|false
+
+|height
+|px
+|Фиксированная высота контента вкладок
+|200px
+
 |===
 
 Пример::
