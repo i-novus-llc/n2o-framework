@@ -9,7 +9,9 @@ export const UNKNOWN_GROUP_FIELD_ID = '';
 
 export const inArray = (array = [], item = {}) => {
   return array.some(arrayItem =>
-    isString(item) ? arrayItem === item : (arrayItem.id && item.id && arrayItem.id === item.id)
+    isString(item)
+      ? arrayItem === item
+      : arrayItem.id && item.id && arrayItem.id === item.id
   );
 };
 
