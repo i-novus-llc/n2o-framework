@@ -5,7 +5,6 @@
             <input-select id="id1" required="true"/>
             <input-select id="id2">
                 <validations>
-                    <condition id="sd" severity="danger" message="sd"
                     <mandatory id="id2Required" severity="danger" server-moment="before-operation" />
                 </validations>
             </input-select>
