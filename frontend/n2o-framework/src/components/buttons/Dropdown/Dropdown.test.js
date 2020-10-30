@@ -37,7 +37,7 @@ describe('<Dropdown />', () => {
       color: 'color',
       outline: 'outline',
       visible: 'visible',
-      disabled: 'disabled',
+      disabled: false,
       count: 'count',
       subMenu: [
         {
@@ -50,7 +50,7 @@ describe('<Dropdown />', () => {
           color: 'color',
           outline: 'outline',
           visible: 'visible',
-          disabled: 'disabled',
+          disabled: false,
           count: 'count',
         },
       ],
