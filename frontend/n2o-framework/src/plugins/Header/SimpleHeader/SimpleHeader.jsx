@@ -5,7 +5,6 @@ import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import map from 'lodash/map';
 import get from 'lodash/get';
-import map from 'lodash/map';
 
 import PropTypes from 'prop-types';
 import Navbar from 'reactstrap/lib/Navbar';
