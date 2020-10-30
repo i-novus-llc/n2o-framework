@@ -21,7 +21,7 @@
   "dependencies": {
     "crypto-pro": "^2.0.5",
     "lodash": "^4.17.15",
-    "n2o-framework": "^7.9.0",
+    "n2o-framework": "^7.10.0",
     "query-string": "^6.9.0",
     "reactstrap": "^8.1.1",
     "recompose": "^0.30.0"

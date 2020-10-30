@@ -20,7 +20,7 @@
 		"test:watch": "nwb test-react --server"
 	},
 	"dependencies": {
-		"n2o-framework": "^7.9.0",
+		"n2o-framework": "^7.10.0",
 		"net": "^1.0.2",
 		"react-redux": "5.1.2",
 		"reactstrap": "^8.0.0",
