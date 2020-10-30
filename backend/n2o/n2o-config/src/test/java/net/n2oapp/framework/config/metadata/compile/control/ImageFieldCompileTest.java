@@ -1,15 +1,19 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.meta.control.*;
+import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
+import net.n2oapp.framework.api.metadata.meta.control.ImageField;
+import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
-import net.n2oapp.framework.config.metadata.pack.*;
+import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -40,7 +44,8 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getData(), is("testData"));
         assertThat(field.getTitle(), is("testTitle"));
         assertThat(field.getDescription(), is("testDescription"));
-        assertThat(field.getTextPosition(), is("testPosition"));
+        assertThat(field.getTextPosition(), is(ImageField.Position.top));
+        assertThat(field.getWidth(), is("500px"));
 
         ControlDependency dependency = field.getDependencies().get(0);
         assertThat(dependency.getType(), is(ValidationType.reRender));
@@ -49,8 +54,9 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
 
         field = (ImageField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("testId2"));
-        assertThat(field.getSrc(), is("ImageField"));
-        assertThat(field.getTextPosition(), is("right"));
+        assertThat(field.getSrc(), is("Image"));
+        assertThat(field.getTextPosition(), is(ImageField.Position.right));
+        assertThat(field.getWidth(), is("300px"));
     }
 
 }

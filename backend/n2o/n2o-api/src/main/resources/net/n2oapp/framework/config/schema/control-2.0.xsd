@@ -893,9 +893,22 @@
                         <xs:documentation>Подзаголовок.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="text-position" type="xs:string" default="right">
+                <xs:attribute name="text-position" default="right">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>Расположение текста относительно картинки.</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="left"/>
+                            <xs:enumeration value="right"/>
+                            <xs:enumeration value="top"/>
+                            <xs:enumeration value="bottom"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="width" type="xs:string" default="300px">
                     <xs:annotation>
-                        <xs:documentation>Расположение текста относительно картинки.</xs:documentation>
+                        <xs:documentation>Ширина картинки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

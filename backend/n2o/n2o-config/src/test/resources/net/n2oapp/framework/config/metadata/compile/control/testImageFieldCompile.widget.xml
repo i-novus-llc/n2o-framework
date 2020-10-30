@@ -2,9 +2,7 @@
     <fields>
         <image id="testId" src="testSrc" depends-on="name,type" label="testLabel"
                url="testUrl" data="testData" title="testTitle" description="testDescription"
-               text-position="testPosition"/>
-
+               text-position="top" width="500px"/>
         <image id="testId2"/>
-
     </fields>
 </form>

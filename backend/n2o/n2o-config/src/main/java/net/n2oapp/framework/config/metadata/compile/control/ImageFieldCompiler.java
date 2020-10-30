@@ -28,7 +28,8 @@ public class ImageFieldCompiler extends FieldCompiler<ImageField, N2oImageField>
         imageField.setData(p.resolveJS(source.getData()));
         imageField.setTitle(p.resolveJS(source.getTitle()));
         imageField.setDescription(p.resolveJS(source.getDescription()));
-        imageField.setTextPosition(p.cast(source.getTextPosition(), p.resolve(property("n2o.api.field.image_field.text_position"), String.class)));
+        imageField.setTextPosition(p.cast(source.getTextPosition(), p.resolve(property("n2o.api.field.image_field.text_position"), ImageField.Position.class)));
+        imageField.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.field.image_field.width"), String.class)));
         return imageField;
     }
 
