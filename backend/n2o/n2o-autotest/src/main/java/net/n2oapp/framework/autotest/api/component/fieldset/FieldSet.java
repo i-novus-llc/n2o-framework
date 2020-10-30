@@ -7,4 +7,7 @@ import net.n2oapp.framework.autotest.api.component.Component;
  */
 public interface FieldSet extends Component {
     void shouldBeEmpty();
+
+    void shouldHaveLabel(String label);
+
 }

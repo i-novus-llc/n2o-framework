@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import cn from 'classnames';
-
 import isEqual from 'lodash/isEqual';
 import forOwn from 'lodash/forOwn';
 import isEmpty from 'lodash/isEmpty';
@@ -11,6 +10,9 @@ import replace from 'lodash/replace';
 import includes from 'lodash/includes';
 import isNaN from 'lodash/isNaN';
 import last from 'lodash/last';
+import toNumber from 'lodash/toNumber';
+import isNil from 'lodash/isNil';
+
 import InputMask from '../InputMask/InputMask';
 
 const ReplaceableChar = {
@@ -126,8 +128,11 @@ class InputMoney extends React.Component {
 
   onChange(value) {
     const { onChange, allowNegative } = this.props;
+
+    if (isNaN(toNumber(value))) return;
+
     const convertedValue =
-      allowNegative && value === '-'
+      (allowNegative && value === '-') || isNil(value)
         ? value
         : parseFloat(this.convertToFloat(value));
     onChange && onChange(!isNaN(convertedValue) ? convertedValue : null);
