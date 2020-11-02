@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Исходная модель NumberPicker
+ * Исходная модель компонента ввода чисел "плюс-минус"
  */
 @Getter
 @Setter

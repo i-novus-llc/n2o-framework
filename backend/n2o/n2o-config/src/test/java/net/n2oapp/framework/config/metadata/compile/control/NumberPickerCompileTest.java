@@ -15,7 +15,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Тестирование компиляции компонента ввода NumberPicker
+ * Тестирование компиляции компонента ввода чисел "плюс-минус"
  */
 public class NumberPickerCompileTest extends SourceCompileTestBase {
     @Override
@@ -41,7 +41,6 @@ public class NumberPickerCompileTest extends SourceCompileTestBase {
         assertThat(numberPicker.getMin(), is(1));
         assertThat(numberPicker.getMax(), is(10));
         assertThat(numberPicker.getStep(), is(2));
-//        assertThat(numberPicker.(), is(4)); //todo def value
 
         numberPicker = (NumberPicker) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(numberPicker.getSrc(), is("NumberPicker"));

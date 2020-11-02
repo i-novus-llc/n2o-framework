@@ -7,7 +7,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтения/записи компонента NumberPicker
+ * Тестирование чтения/записи компонента ввода чисел "плюс-минус"
  */
 public class NumberPickerIOv2Test extends N2oStandardControlReaderTestBase {
 

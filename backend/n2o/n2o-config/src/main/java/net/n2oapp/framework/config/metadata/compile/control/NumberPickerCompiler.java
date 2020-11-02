@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция NumberPicker
+ * Компиляция компонента ввода чисел "плюс-минус"
  */
 @Component
 public class NumberPickerCompiler extends FieldCompiler<NumberPicker, N2oNumberPicker> {
@@ -28,7 +28,7 @@ public class NumberPickerCompiler extends FieldCompiler<NumberPicker, N2oNumberP
         numberPicker.setMax(source.getMax());
         numberPicker.setStep(p.cast(source.getStep(),
                 p.resolve(property("n2o.api.control.number_picker.step"), Integer.class)));
-        //todo default-value
+        compileDefaultValues(numberPicker, source, p);
         return numberPicker;
     }
 
