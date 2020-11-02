@@ -52,7 +52,6 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(tabs.getHideSingleTab(), is(false));
         assertThat(tabs.getFixed(), is(true));
         assertThat(tabs.getScrollbar(), is(false));
-        assertThat(tabs.getHeight(), is("200px"));
         List<TabsRegion.Tab> items = tabs.getItems();
         assertThat(items.size(), is(3));
         assertThat(items.get(0).getOpened(), is(true));

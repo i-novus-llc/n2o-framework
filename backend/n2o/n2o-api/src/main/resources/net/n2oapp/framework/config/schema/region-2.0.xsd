@@ -129,14 +129,14 @@
         <xs:attribute name="scrollbar" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>
-                    Скрытие scrollbar, который появляется при фиксировании высоты.
+                    Скрытие полосы прокрутки, который появляется при фиксировании высоты.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="height" type="xs:string" default="200px">
+        <xs:attribute name="height" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Фиксированная высота контента вкладок.
+                    Фиксированная высота содержимого вкладок.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
