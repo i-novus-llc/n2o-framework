@@ -1,22 +1,20 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-      name="Связь Master Detail" src="LeftRightPage">
-    <regions>
-        <region place="left">
-            <table id="master" query-id="test">
-                <columns>
-                    <column text-field-id="id"/>
-                    <column text-field-id="name"/>
-                </columns>
-            </table>
-        </region>
-        <region place="right">
-            <form query-id="test" depends-on="master" detail-field-id="id">
-                <fields>
-                    <input-text id="id" enabled="false"/>
-                    <input-text id="name" enabled="false"/>
-                </fields>
-            </form>
-        </region>
-    </regions>
-</page>
+<left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
+                 name="Связь Master Detail">
+    <left>
+        <table id="master" query-id="test">
+            <columns>
+                <column text-field-id="id" label="ID"/>
+                <column text-field-id="name" label="Имя"/>
+            </columns>
+        </table>
+    </left>
+    <right>
+        <form query-id="test" depends-on="master" master-param="id">
+            <fields>
+                <input-text id="id" label="ID" enabled="false"/>
+                <input-text id="name" label="Имя" enabled="false"/>
+            </fields>
+        </form>
+    </right>
+</left-right-page>
