@@ -12,4 +12,6 @@ public class N2oClearAction extends N2oAbstractAction implements N2oAction {
 
     private String[] model;
 
+    private Boolean closeOnSuccess;
+
 }
