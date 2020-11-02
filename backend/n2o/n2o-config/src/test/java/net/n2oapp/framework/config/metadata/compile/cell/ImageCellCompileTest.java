@@ -47,11 +47,15 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getShape(), is(ImageShape.rounded));
         assertThat(cell.getWidth(), is(20));
         assertThat(cell.getProperties().size(), is(1));
-        assertThat(cell.getProperties().get("width"), is(30));
+        assertThat(cell.getTitle(), is("testTitle"));
+        assertThat(cell.getDescription(), is("testDescription"));
+        assertThat(cell.getData(), is("testData"));
+        assertThat(cell.getTextPosition(), is(N2oImageCell.Position.left));
 
         assertThat(cell.getCompiledAction(), instanceOf(LinkActionImpl.class));
 
         cell = (N2oImageCell) table.getComponent().getCells().get(1);
         assertThat(cell.getWidth(), nullValue());
+        assertThat(cell.getTextPosition(), is(N2oImageCell.Position.bottom));
     }
 }
