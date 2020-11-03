@@ -296,7 +296,7 @@ link:#_Действия[Обработчик действия]
 |text-position
 |top, left, right, bottom
 |Расположение текста относительно картинки
-|bottom
+|right
 
 |===
 

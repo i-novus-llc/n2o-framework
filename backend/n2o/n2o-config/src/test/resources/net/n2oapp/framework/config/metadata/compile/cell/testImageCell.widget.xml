@@ -3,8 +3,8 @@
        xmlns:test="http://n2oapp.net/framework/config/schema/test">
     <columns>
         <column text-field-id="test">
-            <image url="/test" width="20" shape="rounded" test:width="30" title="testTitle" text-position="left"
-                   data="testData" description="testDescription">
+            <image url="{image}" width="20" shape="rounded" test:width="30" title="{Title}" text-position="left"
+                   data="data:image/jpeg;base64{image}" description="{Description}">
                 <close/>
             </image>
         </column>

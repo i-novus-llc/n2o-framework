@@ -354,7 +354,7 @@
                         <xs:documentation>Ссылка на изображение в БД в байтах.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="text-position" default="bottom">
+                <xs:attribute name="text-position" default="right">
                     <xs:simpleType>
                         <xs:annotation>
                             <xs:documentation>Расположение текста относительно картинки.</xs:documentation>
