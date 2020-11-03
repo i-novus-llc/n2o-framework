@@ -632,9 +632,9 @@
                         <xs:documentation>Название модели.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="close-on-success" type="xs:boolean">
+                <xs:attribute name="close-on-success" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Закрыть модальное окно или drawer.</xs:documentation>
+                        <xs:documentation>Закрыть окно после успешного выполнения действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
