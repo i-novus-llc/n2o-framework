@@ -41,10 +41,10 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getId(), is("testId"));
         assertThat(field.getSrc(), is("testSrc"));
         assertThat(field.getLabel(), is("testLabel"));
-        assertThat(field.getUrl(), is("testUrl"));
-        assertThat(field.getData(), is("testData"));
-        assertThat(field.getTitle(), is("testTitle"));
-        assertThat(field.getDescription(), is("testDescription"));
+        assertThat(field.getUrl(), is("`Url`"));
+        assertThat(field.getData(), is("`'data:image/jpeg;base64'+image`"));
+        assertThat(field.getTitle(), is("`title`"));
+        assertThat(field.getDescription(), is("`Description`"));
         assertThat(field.getTextPosition(), is(TextPosition.top));
         assertThat(field.getWidth(), is("500px"));
 

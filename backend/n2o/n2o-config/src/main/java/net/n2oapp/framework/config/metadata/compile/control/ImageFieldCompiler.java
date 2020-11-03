@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oImageField;
 import net.n2oapp.framework.api.metadata.meta.control.ImageField;
+import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
@@ -28,7 +29,7 @@ public class ImageFieldCompiler extends FieldCompiler<ImageField, N2oImageField>
         imageField.setData(p.resolveJS(source.getData()));
         imageField.setTitle(p.resolveJS(source.getTitle()));
         imageField.setDescription(p.resolveJS(source.getDescription()));
-        imageField.setTextPosition(p.cast(source.getTextPosition(), p.resolve(property("n2o.api.field.image_field.text_position"), ImageField.Position.class)));
+        imageField.setTextPosition(p.cast(source.getTextPosition(), p.resolve(property("n2o.api.field.image_field.text_position"), TextPosition.class)));
         imageField.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.field.image_field.width"), String.class)));
         return imageField;
     }
