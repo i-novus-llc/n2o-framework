@@ -946,4 +946,75 @@ public class TestDataProviderEngineTest {
         assertThat(result.get(0).get("name"), is("test10"));
         assertThat(result.get(0).get("type"), is("10"));
     }
+
+    @Test
+    public void testDeleteAllOperation() throws IOException {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        //Добавление новых данных
+        FileWriter fileWriter = new FileWriter(testFile);
+        fileWriter.write("[" +
+                "{\"id\":9, \"name\":\"test9\", \"type\":\"9\"}," +
+                "{\"id\":8, \"name\":\"test8\", \"type\":\"8\"}," +
+                "{\"id\":1, \"name\":\"test1\", \"type\":\"1\"}" +
+                "]");
+        fileWriter.close();
+
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile(testFile.getName());
+        //Удаление нескольких строк данных
+        provider.setOperation(deleteAll);
+
+        Map<String, Object> inParamsForDelete = new LinkedHashMap<>();
+        inParamsForDelete.put("ids", Arrays.asList(1L, 8L));
+
+        engine.invoke(provider, inParamsForDelete);
+
+        //Проверка, что после delete, json файл содержит ожидаемые данные
+        ObjectMapper objectMapper = new ObjectMapper();
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        CollectionType collectionType = typeFactory.constructCollectionType(
+                List.class, HashMap.class);
+        List<Map> result = objectMapper.readValue(testFile, collectionType);
+
+        assertThat(result.size(), is(1));
+    }
+
+    @Test
+    public void testUpdateAllOnFile() throws IOException {
+        TestDataProviderEngine engine = new TestDataProviderEngine();
+        engine.setResourceLoader(new DefaultResourceLoader());
+        engine.setPathOnDisk(testFolder.getRoot() + "/");
+        //Добавление новых данных
+        FileWriter fileWriter = new FileWriter(testFile);
+        fileWriter.write("[" +
+                "{\"id\":9, \"name\":\"test9\", \"type\":\"9\"}," +
+                "{\"id\":8, \"name\":\"test8\", \"type\":\"8\"}," +
+                "{\"id\":1, \"name\":\"test1\", \"type\":\"1\"}" +
+                "]");
+        fileWriter.close();
+        N2oTestDataProvider provider = new N2oTestDataProvider();
+        provider.setFile(testFile.getName());
+        //Обновление данных
+        provider.setOperation(updateAll);
+
+        Map<String, Object> inParamsForUpdate = new LinkedHashMap<>();
+        inParamsForUpdate.put("ids", Arrays.asList(1, 8));
+        inParamsForUpdate.put("name", "new test");
+        engine.invoke(provider, inParamsForUpdate);
+        //Проверка, что после update, json файл содержит ожидаемые данные
+        ObjectMapper objectMapper = new ObjectMapper();
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
+        CollectionType collectionType = typeFactory.constructCollectionType(
+                List.class, HashMap.class);
+        List<Map> result = objectMapper.readValue(testFile, collectionType);
+        assertThat(result.size(), is(3));
+        assertThat(result.get(0).get("id"), is(9));
+        assertThat(result.get(0).get("name"), is("test9"));
+        assertThat(result.get(1).get("id"), is(8));
+        assertThat(result.get(1).get("name"), is("new test"));
+        assertThat(result.get(2).get("id"), is(1));
+        assertThat(result.get(2).get("name"), is("new test"));
+    }
 }

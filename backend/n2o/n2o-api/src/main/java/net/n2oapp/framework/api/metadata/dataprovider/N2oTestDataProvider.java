@@ -15,6 +15,7 @@ public class N2oTestDataProvider extends AbstractDataProvider implements N2oMapI
     private String file;
     private Operation operation;
     private String primaryKey = "id";
+    private String primaryKeys = "ids";
     private PrimaryKeyType primaryKeyType = integer;
 
     public enum Operation {
@@ -22,8 +23,10 @@ public class N2oTestDataProvider extends AbstractDataProvider implements N2oMapI
         findOne,
         create,
         update,
+        updateAll,
         updateField,
         delete,
+        deleteAll,
         count,
         echo
     }
