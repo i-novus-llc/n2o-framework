@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.ImageField;
+import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -44,7 +45,7 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getData(), is("testData"));
         assertThat(field.getTitle(), is("testTitle"));
         assertThat(field.getDescription(), is("testDescription"));
-        assertThat(field.getTextPosition(), is(ImageField.Position.top));
+        assertThat(field.getTextPosition(), is(TextPosition.top));
         assertThat(field.getWidth(), is("500px"));
 
         ControlDependency dependency = field.getDependencies().get(0);
@@ -55,7 +56,7 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         field = (ImageField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("testId2"));
         assertThat(field.getSrc(), is("Image"));
-        assertThat(field.getTextPosition(), is(ImageField.Position.right));
+        assertThat(field.getTextPosition(), is(TextPosition.right));
         assertThat(field.getWidth(), is("300px"));
     }
 

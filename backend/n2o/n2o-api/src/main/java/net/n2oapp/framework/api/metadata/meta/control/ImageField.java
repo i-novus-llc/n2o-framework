@@ -19,11 +19,7 @@ public class ImageField extends Field {
     @JsonProperty
     private String description;
     @JsonProperty
-    private Position textPosition;
+    private TextPosition textPosition;
     @JsonProperty
     private String width;
-
-    public enum Position {
-        top, left, right, bottom
-    }
 }

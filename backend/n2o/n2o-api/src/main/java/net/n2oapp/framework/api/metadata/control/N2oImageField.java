@@ -2,7 +2,7 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.meta.control.ImageField;
+import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 
 /**
  * Исходная модель поля Image с заголовком и подзаголовком
@@ -15,7 +15,7 @@ public class N2oImageField extends N2oField {
     private String data;
     private String title;
     private String description;
-    private ImageField.Position textPosition;
+    private TextPosition textPosition;
     private String width;
 
 }
