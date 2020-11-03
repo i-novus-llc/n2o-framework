@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import DrawerRC from 'rc-drawer';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import cn from 'classnames';
 
 /**
  * Drawer
@@ -20,6 +20,7 @@ import cx from 'classnames';
  * @reactProps {string|node} title - заголовок
  * @reactProps {string|node} footer - "подвал"
  * @reactProps {string|node} children - основная часть контента
+ * @reactProps {boolean} fixedFooter - флаг фиксирования футера
  * @example
  */
 
@@ -39,28 +40,50 @@ function Drawer(props) {
     height,
     title,
     footer,
+    fixedFooter,
     children,
   } = props;
+  const [paddingBottom, setPaddingBottom] = useState(0);
+  const footerRef = useRef(null);
+
+  useEffect(() => {
+    if (footerRef.current) {
+      setPaddingBottom(footerRef.current.clientHeight);
+    }
+  }, [visible, setPaddingBottom]);
+
   return (
-    <React.Fragment>
-      <DrawerRC
-        className={cx('n2o-drawer', animation && 'drawer-animation', className)}
-        open={visible}
-        width={width}
-        height={height}
-        placement={placement}
-        onClose={onClose}
-        showMask={backdrop}
-        level={level}
-        maskClosable={backdropClosable}
-        onHandleClick={onHandleClick}
-        handler={closable}
+    <DrawerRC
+      className={cn('n2o-drawer', animation && 'drawer-animation', className)}
+      open={visible}
+      width={width}
+      height={height}
+      placement={placement}
+      onClose={onClose}
+      showMask={backdrop}
+      level={level}
+      maskClosable={backdropClosable}
+      onHandleClick={onHandleClick}
+      handler={closable}
+    >
+      <div
+        className="n2o-drawer-content-wrapper"
+        style={fixedFooter ? { paddingBottom } : {}}
       >
-        <div className="drawer-title">{title}</div>
-        <div className="drawer-children">{children}</div>
-        <div className="drawer-footer">{footer}</div>
-      </DrawerRC>
-    </React.Fragment>
+        <div className="n2o-drawer-children-wrapper">
+          <div className="drawer-title">{title}</div>
+          <div className="drawer-children">{children}</div>
+          <div
+            className={cn('drawer-footer', {
+              'drawer-footer--fixed': fixedFooter,
+            })}
+            ref={footerRef}
+          >
+            {footer}
+          </div>
+        </div>
+      </div>
+    </DrawerRC>
   );
 }
 
@@ -116,12 +139,17 @@ Drawer.propTypes = {
    * Основная часть компонента
    */
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  /**
+   * Флаг фиксирования футера
+   */
+  fixedFooter: PropTypes.bool,
 };
 
 Drawer.defaultProps = {
   animation: true,
   backdropClosable: true,
   level: false,
+  fixedFooter: false,
 };
 
 export default Drawer;
