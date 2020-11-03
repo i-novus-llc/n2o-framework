@@ -14,7 +14,7 @@ import getValues from 'lodash/values';
 import { batchActions } from 'redux-batched-actions';
 
 import { isPromise } from '../../tools/helpers';
-import { addFieldMessage, removeFieldMessage } from '../../actions/formPlugin';
+import { addFieldMessage } from '../../actions/formPlugin';
 import {
   isValidRangeModel,
   isRequiredRangeModel,
@@ -179,7 +179,6 @@ export const validateField = (
           ) {
             return;
           }
-          messagesAction.push(removeFieldMessage(formName, key));
         }
       }
     });
