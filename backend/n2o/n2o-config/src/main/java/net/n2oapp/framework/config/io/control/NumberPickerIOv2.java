@@ -6,7 +6,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись компонента ввода чисел "плюс-минус"
+ * Чтение/запись компонента выбора числа из диапазона
  */
 @Component
 public class NumberPickerIOv2 extends FieldIOv2<N2oNumberPicker> {

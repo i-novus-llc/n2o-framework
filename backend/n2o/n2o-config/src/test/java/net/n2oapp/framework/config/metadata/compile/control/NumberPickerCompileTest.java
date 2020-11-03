@@ -15,7 +15,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Тестирование компиляции компонента ввода чисел "плюс-минус"
+ * Тестирование компиляции компонента выбора числа из диапазона
  */
 public class NumberPickerCompileTest extends SourceCompileTestBase {
     @Override

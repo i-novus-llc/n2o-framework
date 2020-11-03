@@ -814,7 +814,7 @@
 
     <xs:complexType name="numberPickerFieldDefinition">
         <xs:annotation>
-            <xs:documentation>Компонент ввода чисел "плюс-минус".</xs:documentation>
+            <xs:documentation>Компонент выбора числа из диапазона.</xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
