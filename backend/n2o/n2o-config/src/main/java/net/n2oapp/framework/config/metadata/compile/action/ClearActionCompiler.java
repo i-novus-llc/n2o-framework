@@ -9,8 +9,6 @@ import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
 import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
