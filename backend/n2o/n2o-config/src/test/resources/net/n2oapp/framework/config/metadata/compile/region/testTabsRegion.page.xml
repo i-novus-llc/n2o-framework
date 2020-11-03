@@ -13,7 +13,7 @@
             </tab>
         </tabs>
         <tabs active-param="param1" always-refresh="true" lazy="false" hide-single-tab="true"
-              fixed="false" height="300px" scrollbar="true"/>
+              fixed="true" height="300px" scrollbar="true"/>
         <tabs id="tabId" active-param="param2"/>
     </regions>
 </page>
