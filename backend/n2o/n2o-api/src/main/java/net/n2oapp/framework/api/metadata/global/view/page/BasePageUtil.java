@@ -34,11 +34,11 @@ public class BasePageUtil {
     }
 
     /**
-     * Получение списка виджетов региона с учетом вложенности.
+     * Получение списка виджетов скомпилированного региона с учетом вложенности.
      * Регионы могут содержать, как виджеты, так и регионы, поэтому производится глубокий поиск.
      *
      * @param items Список элементов региона (вложенные регионы и виджеты)
-     * @return Список виджетов региона
+     * @return Список виджетов скомпилированного региона
      */
     private static List<Widget> getRegionWidgets(List<? extends Compiled> items) {
         List<Widget> widgets = new ArrayList<>();
@@ -99,10 +99,10 @@ public class BasePageUtil {
      * Позволяет выполнять установленные операции над элементами региона (вложенными регионами и виджетами)
      * в зависимости от типа элемента.
      *
-     * @param items          Массив компонентов (регионов и виджетов)
-     * @param regionConsumer Действия, выполняемые над регионом
-     * @param tabsRegionConsumer Действия, выполняемые над регионом со вкладками
-     * @param widgetConsumer Действия, выполняемые над виджетом
+     * @param items              Массив компонентов (регионов и виджетов)
+     * @param regionConsumer     Действия, выполняемые над регионом
+     * @param tabsRegionConsumer Действия, выполняемые над регионом с вкладками
+     * @param widgetConsumer     Действия, выполняемые над виджетом
      */
     public static void resolveRegionItems(SourceComponent[] items, Consumer<N2oRegion> regionConsumer,
                                           Consumer<N2oTabsRegion> tabsRegionConsumer,
