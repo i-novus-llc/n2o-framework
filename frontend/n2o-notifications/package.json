@@ -35,7 +35,7 @@
 		"chai": "^4.2.0",
 		"enzyme": "^3.9.0",
 		"enzyme-adapter-react-16": "^1.13.0",
-		"mocha": "^6.2.2",
+		"mocha": "^8.2.0",
 		"nwb": "0.25.0",
 		"react": "^16.8.6",
 		"react-dom": "^16.8.6"
