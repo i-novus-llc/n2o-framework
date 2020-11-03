@@ -129,7 +129,7 @@
         <xs:attribute name="scrollbar" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>
-                    Скрытие полосы прокрутки, который появляется при фиксировании высоты.
+                    Скрытие полосы прокрутки, которая появляется при фиксировании высоты.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
