@@ -813,6 +813,9 @@
     </xs:complexType>
 
     <xs:complexType name="numberPickerFieldDefinition">
+        <xs:annotation>
+            <xs:documentation>Компонент ввода чисел "плюс-минус".</xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="min" type="xs:integer">
@@ -825,7 +828,7 @@
                         <xs:documentation>Максимальное значение.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="step" type="xs:integer">
+                <xs:attribute name="step" type="xs:integer" default="1">
                     <xs:annotation>
                         <xs:documentation>Шаг изменения значения.</xs:documentation>
                     </xs:annotation>
