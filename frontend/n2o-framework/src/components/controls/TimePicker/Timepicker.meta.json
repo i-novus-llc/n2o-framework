@@ -1,0 +1,6 @@
+{
+  "prefix": "До:",
+  "mode": ["hours","minutes"],
+  "format":"digit",
+  "defaultValue":"12:12:12"
+}
