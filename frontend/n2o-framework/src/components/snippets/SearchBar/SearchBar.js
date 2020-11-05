@@ -151,8 +151,8 @@ const enhance = compose(
       }
     },
     onClear: ({ setInnerValue, onSearch }) => () => {
-      setInnerValue('');
-      onSearch('');
+      setInnerValue(null);
+      onSearch(null);
     },
   }),
   lifecycle({
