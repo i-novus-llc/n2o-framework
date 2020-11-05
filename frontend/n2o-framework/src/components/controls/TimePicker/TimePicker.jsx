@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import isArray from 'lodash/isArray';
+import each from 'lodash/each';
 import isEqual from 'lodash/isEqual';
 import TimePicker from 'rc-time-picker';
 
@@ -25,67 +26,53 @@ export class TimePickerControl extends Component {
   }
 
   renderTime = mode => {
-    if (
-      isArray(mode) &&
-      mode.length === 3 &&
-      mode[0] === 'hours' &&
-      mode[1] === 'minutes' &&
-      mode[2] === 'seconds'
-    ) {
-      return {
-        showHour: true,
-        showMinute: true,
-        showSecond: true,
+    let config;
+    each(mode, () => {
+      config = {
+        showHour: mode[0] === 'hours' ? true : false,
+        showMinute:
+          (mode.length === 2 || mode.length === 3 || mode.length === 1) &&
+          (mode[0] === 'minutes' ||
+            mode[1] === 'minutes' ||
+            mode[2] === 'minutes')
+            ? true
+            : false,
+        showSecond:
+          (mode.length === 2 || mode.length == 3 || mode.length === 1) &&
+          (mode[0] === 'seconds' ||
+            mode[1] === 'seconds' ||
+            mode[2] === 'seconds')
+            ? true
+            : false,
       };
-    } else if (
-      isArray(mode) &&
-      mode.length === 2 &&
-      mode[0] === 'hours' &&
-      mode[1] === 'minutes'
-    ) {
-      return {
-        showHour: true,
-        showMinute: true,
-        showSecond: false,
-      };
-    } else if (isArray(mode) && mode.length === 1) {
-      if (mode[0] === 'hours') {
-        return {
-          showHour: true,
-          showMinute: false,
-          showSecond: false,
-        };
-      } else {
-        return {
-          showHour: false,
-          showMinute: true,
-          showSecond: false,
-        };
-      }
-    } else {
-      return {
-        showHour: true,
-        showMinute: true,
-        showSecond: true,
-      };
-    }
+    });
+    return config;
   };
 
   onChange = value => {
-    const newValue = moment(value, 'HH:mm:ss');
-    this.setState({ value: newValue.format(this.props.dataFormat) });
+    const newValueObj = moment(value);
+    const newValue = newValueObj.format(this.props.dataFormat);
+    this.setState({ value: newValue }, () => this.props.onChange(newValue));
   };
 
-  formatView = format => {
+  formatView = (format, use12Hours) => {
     if (format === 'digit') {
-      return 'HH:mm:ss';
+      return use12Hours ? 'hh:mm:ss A' : 'hh:mm:ss';
     } else {
       if (this.props.locale === 'ru') {
-        return 'HH [ч] mm [мин] ss [сек]';
+        return use12Hours
+          ? 'hh [ч] mm [мин] ss [сек] A'
+          : 'hh [ч] mm [мин] ss [сек]';
       } else {
-        return 'HH [h] mm [min] ss [sec]';
+        return use12Hours
+          ? 'hh [h] mm [min] ss [sec] A'
+          : 'hh [ч] mm [мин] ss [сек]';
       }
     }
+  };
+
+  onClose = () => {
+    this.props.onClose(this.state.value);
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -99,19 +86,32 @@ export class TimePickerControl extends Component {
   };
 
   render() {
-    const { prefix, mode, format } = this.props;
+    const {
+      prefix,
+      mode,
+      format,
+      use12Hours,
+      placeholder,
+      enable,
+    } = this.props;
     const { value } = this.state;
+
     return (
       <div className="time-wrapper">
         {prefix && prefix !== '' ? (
           <span className="time-prefix">{prefix}</span>
         ) : null}
         <TimePicker
+          locale="ru"
+          disabled={!enable}
+          onClose={this.onClose}
+          placeholder={placeholder}
           defaultValue={
-            value === '' || !value ? moment() : moment(value, 'HH:mm:ss')
+            value === '' || !value ? '' : moment(value, 'hh:mm:ss A')
           }
+          use12Hours={use12Hours}
           onChange={this.onChange}
-          format={this.formatView(format)}
+          format={this.formatView(format, use12Hours)}
           {...this.renderTime(mode)}
         />
       </div>
@@ -140,12 +140,35 @@ TimePickerControl.propTypes = {
    * Дефолтное значение
    */
   defaultValue: PropTypes.string,
+  /**
+   * onChange
+   */
+  onChange: PropTypes.func,
+  /**
+   * Локализация
+   */
+
+  locale: PropTypes.string,
+  /**
+   * Формат времени 12/24 часа
+   */
+  use12Hours: PropTypes.bool,
+  /**
+   * Плэйсхолдер
+   */
+  placeholder: PropTypes.string,
+  /**
+   * On/Off
+   */
+  enable: PropTypes.bool,
 };
 
 TimePickerControl.defaultProps = {
   value: '',
   mode: ['hours', 'minutes', 'seconds'],
   format: '"hh:mm:ss"',
+  onChange: () => {},
+  onClose: () => {},
 };
 
 export default TimePickerControl;

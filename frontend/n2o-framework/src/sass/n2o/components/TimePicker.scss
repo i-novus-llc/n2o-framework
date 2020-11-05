@@ -43,12 +43,13 @@
   background-clip: padding-box;
   border: 1px solid #ccc;
   line-height: 1.5;
-  margin-top: 33px;
+  margin-top: 35px;
   width: max-content;
   right: -7px;
 }
 
 input.rc-time-picker-panel-input {
+  font-size: 15px;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -73,6 +74,7 @@ input.rc-time-picker-panel-input {
   border: 1px solid #b4acac;
   border-radius: 3px;
   position: relative;
+  padding-right: 9px;
   .time-prefix {
     color: #aeaeae;
     padding-left: 7px;
@@ -83,8 +85,24 @@ input.rc-time-picker-input {
   border: none;
   border-radius: 6px;
   padding: 7px;
+  outline: none;
 }
-
+.rc-time-picker-clear {
+  outline: none;
+  .rc-time-picker-clear-icon {
+    &:after {
+      content: 'x';
+      font-size: 12px;
+      font-style: normal;
+      cursor: pointer;
+      color: #aaa;
+      display: inline-block;
+      line-height: 1;
+      -webkit-transition: color 0.3s ease;
+      transition: color 0.3s ease;
+    }
+  }
+}
 
 .valtime {
   position: absolute;
@@ -108,4 +126,3 @@ input.rc-time-picker-input {
     }
   }
 }
-
