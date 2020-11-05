@@ -5,6 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
+import classNames from 'classnames';
 
 import TabNav from './TabNav';
 import TabNavItem from './TabNavItem';
@@ -14,9 +15,13 @@ import TabContent from './TabContent';
  * Компонент контейнера табов
  * @reactProps {string} className - css-класс
  * @reactProps {string} navClassName - css-класс для нава
+ * @reactProps {string} height - кастом высота контента таба
+ * @reactProps {string} title - title табов
  * @reactProps {function} onChangeActive
- * @reactProps {node} children - элемент потомок компонента Tabs
  * @reactProps {function} hideSingleTab - скрывать / не скрывать навигацию таба, если он единственный
+ * @reactProps {node} children - элемент потомок компонента Tabs
+ * @reactProps {boolean} fixed - зафиксировать табы (default = false)
+ * @reactProps {boolean} scrollbar - спрятать scrollbar (default = true)
  * @example
  * <Tabs>
  * {
@@ -76,7 +81,7 @@ class Tabs extends React.Component {
 
   /**
    * Базовый рендер
-   * @return {XML}
+   * @return {JSX.Element}
    */
   render() {
     const {
@@ -85,9 +90,15 @@ class Tabs extends React.Component {
       children,
       hideSingleTab,
       dependencyVisible,
+      fixed,
+      scrollbar,
+      height,
+      title,
     } = this.props;
 
     const { activeId } = this.state;
+
+    const tabContentStyle = height ? { height } : {};
 
     const tabNavItems = React.Children.map(children, child => {
       const { id, title, icon, disabled, visible } = child.props;
@@ -114,13 +125,39 @@ class Tabs extends React.Component {
         />
       );
     });
-    const style = { marginBottom: 2 };
+
     return (
-      <div className={className} style={style}>
+      <div
+        className={classNames('n2o-nav-tabs-container', {
+          [className]: className,
+        })}
+      >
         {!isEmpty(tabNavItems) && (
-          <TabNav className={navClassName}>{tabNavItems}</TabNav>
+          <div
+            className={classNames('n2o-nav-tabs', {
+              'n2o-nav-tabs_tabs-fixed': fixed,
+            })}
+          >
+            {title && <h5 className="n2o-nav-tabs__title">{title}</h5>}
+            <TabNav
+              className={classNames('n2o-nav-tabs__tabs-list', {
+                navClassName: navClassName,
+              })}
+            >
+              {tabNavItems}
+            </TabNav>
+          </div>
         )}
-        <TabContent>
+        <TabContent
+          className={classNames({
+            'tab-content_fixed': fixed,
+            'tab-content_fixed tabs-with-title':
+              (title && fixed) || (title && height),
+            'tab-content_height-fixed': height,
+            'tab-content_no-scrollbar': scrollbar === false,
+          })}
+          style={tabContentStyle}
+        >
           {React.Children.map(children, child =>
             React.cloneElement(child, {
               active: activeId === child.props.id,
@@ -146,10 +183,28 @@ Tabs.propTypes = {
    */
   onChangeActive: PropTypes.func,
   children: PropTypes.node,
+  /**
+   * флаг фиксации табов
+   */
+  fixed: PropTypes.bool,
+  /**
+   * спрятать/не прятать scrollbar
+   */
+  scrollbar: PropTypes.bool,
+  /**
+   * кастомная высота контента
+   */
+  height: PropTypes.string,
+  /**
+   * title табов
+   */
+  title: PropTypes.string,
 };
 
 Tabs.defaultProps = {
   onChangeActive: () => {},
+  fixed: false,
+  scrollbar: false,
 };
 
 export default Tabs;

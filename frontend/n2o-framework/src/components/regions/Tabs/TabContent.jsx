@@ -9,27 +9,22 @@ import cx from 'classnames';
  * @reactProps {string} className - css-класс
  * @reactProps {boolean} activeId
  * @reactProps {node} children - элемет потомок компонента TabContent
+ * @reactProps {object} style - элемет стили элемента
  */
-class TabContent extends React.Component {
-  /**
-   * Базовый рендер
-   */
-  render() {
-    const { className, children, ...props } = this.props;
-    return (
-      <div className={cx('tab-content', className)}>
-        {React.Children.map(children, child =>
-          React.cloneElement(child, props)
-        )}
-      </div>
-    );
-  }
+function TabContent(props) {
+  const { className, children, style, ...rest } = props;
+  return (
+    <div className={cx('tab-content', className)} style={style}>
+      {React.Children.map(children, child => React.cloneElement(child, rest))}
+    </div>
+  );
 }
 
 TabContent.propTypes = {
   className: PropTypes.string,
   activeId: PropTypes.bool,
   children: PropTypes.node,
+  style: PropTypes.object,
 };
 
 export default TabContent;

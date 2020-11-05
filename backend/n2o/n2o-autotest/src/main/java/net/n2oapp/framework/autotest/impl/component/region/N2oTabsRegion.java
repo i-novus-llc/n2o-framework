@@ -2,14 +2,10 @@ package net.n2oapp.framework.autotest.impl.component.region;
 
 import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.collection.Widgets;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
-import net.n2oapp.framework.autotest.impl.collection.N2oWidgets;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import org.openqa.selenium.WebElement;
-
-import static net.n2oapp.framework.autotest.N2oSelenide.collection;
 
 /**
  * Регион в виде вкладок для автотестирования
@@ -42,7 +38,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
             ElementsCollection tabs = element().parent().$$(".nav-item");
             while (!tabs.get(index).is(Condition.text(element().getText()))) index++;
 
-            SelenideElement elm = element().parent().parent().$$(".tab-pane").get(index)
+            SelenideElement elm = element().parent().parent().parent().$$(".tab-pane").get(index)
                     .shouldBe(Condition.cssClass("active"));
 
             ElementsCollection nestingElements = elm.$$(".tab-pane.active .tab-pane.active > div > div");
