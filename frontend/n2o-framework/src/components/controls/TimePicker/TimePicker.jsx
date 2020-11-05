@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import isArray from 'lodash/isArray';
+import isEqual from 'lodash/isEqual';
 import TimePicker from 'rc-time-picker';
 
 /**
@@ -9,7 +10,7 @@ import TimePicker from 'rc-time-picker';
  * @reactProps {string } prefix - префикс
  * @reactProps {array} mode - режим отображения списка выбора, может быть "hours,minutes,seconds" or "hours,minutes" or "hours" or "minutes", по умолчанию "hours,minutes,seconds"
  * @reactProps {string} dataFormat - формат данных в модели, по умолчанию "hh:mm:ss"
- * @reactProps {string} format - формат отображения времени, может быть digit(значит "00:00:00") or symbols(значит "15 мин"), по умолчанию symbols
+ * @reactProps {string} format - формат отобsражения времени, может быть digit(значит "00:00:00") or symbols(значит "15 мин"), по умолчанию symbols
  * @reactProps {string} defaultValue - значение по умолчанию
  */
 
@@ -19,7 +20,7 @@ export class TimePickerControl extends Component {
     this.state = {
       value: props.defaultValue,
       mode: props.mode,
-      open: false,
+      format: props.dataFormat,
     };
   }
 
@@ -71,91 +72,80 @@ export class TimePickerControl extends Component {
   };
 
   onChange = value => {
-    this.setState({ value });
+    const newValue = moment(value, 'HH:mm:ss');
+    this.setState({ value: newValue.format(this.props.dataFormat) });
   };
-
-  onOpen = () => {
-    this.setState({ open: true });
-  };
-
-  onClose = () => {
-    this.setState({ open: false });
-  };
-
-  prefixTime = mode =>
-    mode.length === 3 ? (
-      <div className="valtime">
-        <span>часы</span>
-        <span>мин</span>
-        <span>сек</span>
-      </div>
-    ) : mode.length === 2 ? (
-      <div className="valtime">
-        <span>часы</span>
-        <span>мин</span>
-      </div>
-    ) : mode.length === 1 && mode[0] === 'hours' ? (
-      <div className="valtime">
-        <span>часы</span>
-      </div>
-    ) : mode.length === 1 && mode[0] === 'minutes' ? (
-      <div className="valtime">
-        <span>мин</span>
-      </div>
-    ) : (
-      <div className="valtime">
-        <span>часы</span>
-        <span>мин</span>
-        <span>сек</span>
-      </div>
-    );
 
   formatView = format => {
     if (format === 'digit') {
-      return 'hh:mm:ss';
+      return 'HH:mm:ss';
     } else {
-      return moment.utc().format('hh [hrs]:mm [mins]');
+      if (this.props.locale === 'ru') {
+        return 'HH [ч] mm [мин] ss [сек]';
+      } else {
+        return 'HH [h] mm [min] ss [sec]';
+      }
+    }
+  };
+
+  componentDidUpdate = (prevProps, prevState) => {
+    const { value, mode } = this.state;
+    if (!isEqual(prevState.value, value)) {
+      this.setState({ value });
+    }
+    if (!isEqual(prevState.mode, mode)) {
+      this.setState({ mode });
     }
   };
 
   render() {
-    console.log(this.props, 'this');
     const { prefix, mode, format } = this.props;
-    const { open } = this.state;
+    const { value } = this.state;
     return (
       <div className="time-wrapper">
         {prefix && prefix !== '' ? (
           <span className="time-prefix">{prefix}</span>
         ) : null}
         <TimePicker
-          onOpen={this.onOpen}
-          onClose={this.onClose}
-          showSecond={false}
-          value={moment(this.state.value, 'hh:mm:ss')}
+          defaultValue={
+            value === '' || !value ? moment() : moment(value, 'HH:mm:ss')
+          }
           onChange={this.onChange}
           format={this.formatView(format)}
           {...this.renderTime(mode)}
         />
-        {open && this.prefixTime(mode)}
       </div>
     );
   }
 }
 
 TimePickerControl.propTypes = {
+  /**
+   * Префикс
+   */
   prefix: PropTypes.string,
+  /**
+   * Режим отображения попапа времени
+   */
   mode: PropTypes.array,
+  /**
+   * Формат времени для модели
+   */
   dataFormat: PropTypes.string,
+  /**
+   * Формат врмени для отображения
+   */
   format: PropTypes.string,
+  /**
+   * Дефолтное значение
+   */
   defaultValue: PropTypes.string,
 };
 
 TimePickerControl.defaultProps = {
-  prefix: '',
+  value: '',
   mode: ['hours', 'minutes', 'seconds'],
-  dataFormat: '"hh:mm:ss"',
-  format: 'digit',
-  defaultValue: '12:23:12',
+  format: '"hh:mm:ss"',
 };
 
 export default TimePickerControl;

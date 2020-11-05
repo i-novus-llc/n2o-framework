@@ -1,6 +1,8 @@
 {
   "prefix": "До:",
-  "mode": ["hours","minutes"],
-  "format":"digit",
-  "defaultValue":"12:12:12"
+  "mode": ["hours", "minutes"],
+  "format":"symbols",
+  "dataFormat":"HH:mm",
+  "defaultValue":"",
+  "locale":"ru"
 }
