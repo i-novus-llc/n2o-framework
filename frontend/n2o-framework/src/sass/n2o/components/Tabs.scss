@@ -10,3 +10,35 @@
     border-right: $tabs-border;
   }
 }
+
+.n2o-nav-tabs-container {
+  margin-bottom: 2px;
+
+  .n2o-nav-tabs_tabs-fixed {
+    position: fixed;
+    width: 100%;
+    background-color: #fff;
+    z-index: 100;
+  }
+
+  .tab-content_fixed {
+    padding-top: 55px;
+  }
+
+  .tab-content_fixed.tabs-with-title {
+    padding-top: 75px;
+  }
+
+  .tab-content_height-fixed {
+    overflow: scroll;
+  }
+
+  .tab-content_no-scrollbar::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for Chrome, Safari and Opera */
+  }
+
+  .tab-content_no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}
