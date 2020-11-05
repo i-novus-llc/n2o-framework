@@ -28,10 +28,6 @@ public class Cards extends Widget {
         @JsonProperty
         private String id;
         @JsonProperty
-        private String className;
-        @JsonProperty
-        private String style;
-        @JsonProperty
         private Integer col; //size
         @JsonProperty
         private N2oCell[] content;

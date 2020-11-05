@@ -4,11 +4,9 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCards;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
-import net.n2oapp.framework.api.metadata.meta.widget.Tiles;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.IndexScope;
 import net.n2oapp.framework.config.metadata.compile.PageRoutesScope;
@@ -53,26 +51,31 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         MetaActions widgetActions = new MetaActions();
         compileToolbarAndAction(cards, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
 
-        List<Cards.Card> card = new ArrayList<>(source.getContent().length);
-        for (N2oCards.Col col : source.getContent())
-            card.add(compileCol(col, context, p, object, widgetScope, widgetActions));
-        cards.setCards((Cards.Card[]) card.toArray());
+        cards.setCards(compileCols(source.getContent(), context, p, object, widgetScope, widgetActions));
         cards.setAlign(source.getAlign());
         cards.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.cards.size"), Integer.class), p));
         return cards;
     }
 
-    private Cards.Card compileCol(N2oCards.Col source, CompileContext<?, ?> context, CompileProcessor p,
-                                  Object... scopes) {
-//        card.setClassName(source.getBlocks().getClass());
-        Cards.Card card = new Cards.Card();
-        List<N2oCell> cells = new ArrayList<>(source.getBlocks().length);
-        for (N2oCards.Block block : source.getBlocks()) {
-            Cards.Card compiled = p.compile(block.getComponent(), context, p, new IndexScope(), new ComponentScope(source), scopes);
-            compiled.setCol(source.getSize());
+    private Cards.Card[] compileCols(N2oCards.Col[] source, CompileContext<?, ?> context, CompileProcessor p,
+                                     CompiledObject object, WidgetScope widgetScope, MetaActions widgetActions) {
+        List<Cards.Card> cards = new ArrayList<>(source.length);
+        for (N2oCards.Col col : source) {
+            Cards.Card card = new Cards.Card();
+            card.setCol(col.getSize());
+            card.setContent(compileBlock(col.getBlocks(), context, p, object, widgetScope, widgetActions));
+            cards.add(card);
+        }
+        return cards.stream().toArray(Cards.Card[]::new);
+    }
+
+    private N2oCell[] compileBlock(N2oCards.Block[] source, CompileContext<?, ?> context, CompileProcessor p,
+                                   Object... scopes) {
+        List<N2oCell> cells = new ArrayList<>(source.length);
+        for (N2oCards.Block block : source) {
+            block.setId(p.cast(block.getId(), block.getTextFieldId()));
             cells.add(p.compile(block.getComponent(), context, p, new IndexScope(), new ComponentScope(block), scopes));
         }
-        card.setContent((N2oCell[]) cells.toArray());
-        return card;
+        return cells.stream().toArray(N2oCell[]::new);
     }
 }
