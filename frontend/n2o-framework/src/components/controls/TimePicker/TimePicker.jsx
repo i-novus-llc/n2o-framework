@@ -92,7 +92,7 @@ export class TimePickerControl extends Component {
       format,
       use12Hours,
       placeholder,
-      enable,
+      disabled,
     } = this.props;
     const { value } = this.state;
 
@@ -103,7 +103,7 @@ export class TimePickerControl extends Component {
         ) : null}
         <TimePicker
           locale="ru"
-          disabled={!enable}
+          disabled={disabled}
           onClose={this.onClose}
           placeholder={placeholder}
           defaultValue={

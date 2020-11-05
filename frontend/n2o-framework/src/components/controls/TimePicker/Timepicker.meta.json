@@ -7,5 +7,5 @@
   "locale":"ru",
   "use12Hours":false,
   "placeholder":"Укажите время",
-  "enable":true
+  "disabled":true
 }
