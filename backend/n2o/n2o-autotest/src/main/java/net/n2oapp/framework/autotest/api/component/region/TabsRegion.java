@@ -18,7 +18,9 @@ public interface TabsRegion extends Region {
 
         void click();
 
-        void shouldHaveText(String text);
+        void shouldHaveTitle(String text);
+
+        void shouldNotHaveTitle();
 
         void shouldBeActive();
 
