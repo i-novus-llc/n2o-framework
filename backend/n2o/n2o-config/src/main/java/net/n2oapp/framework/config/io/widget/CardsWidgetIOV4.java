@@ -9,7 +9,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение\запись виджета Плитки
+ * Чтение\запись виджета Карточки
  */
 @Component
 public class CardsWidgetIOV4 extends AbstractListWidgetElementIOv4<N2oCards> {
