@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.io.widget;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oCards;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oTiles;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
@@ -17,7 +16,7 @@ public class CardsWidgetIOV4 extends AbstractListWidgetElementIOv4<N2oCards> {
 
     @Override
     public String getElementName() {
-        return "tiles";
+        return "cards";
     }
 
     @Override
@@ -28,14 +27,13 @@ public class CardsWidgetIOV4 extends AbstractListWidgetElementIOv4<N2oCards> {
     @Override
     public void io(Element e, N2oCards t, IOProcessor p) {
         super.io(e, t, p);
-//        p.attributeEnum(e, "align", t::getAlign, t::setAlign, Cards.Position.class);
-        p.attributeArray(e, "align", ",", t::getAlign, t::setAlign, Cards.Position.class);
+        p.attributeEnum(e, "align", t::getAlign, t::setAlign, Cards.Position.class);
         p.children(e, "content", "col", t::getContent, t::setContent, N2oCards.Col::new, this::col);
     }
 
     private void col(Element e, N2oCards.Col col, IOProcessor p) {
         p.attributeInteger(e, "size", col::getSize, col::setSize);
-        p.children(e, "content", "block", col::getBlocks, col::setBlocks, N2oCards.Block::new, this::block);
+        p.children(e, null, "block", col::getBlocks, col::setBlocks, N2oCards.Block::new, this::block);
     }
 
     private void block(Element e, N2oCards.Block b, IOProcessor p) {
@@ -44,4 +42,5 @@ public class CardsWidgetIOV4 extends AbstractListWidgetElementIOv4<N2oCards> {
         p.attribute(e, "tooltip-field-id", b::getTooltipFieldId, b::setTooltipFieldId);
         p.anyChild(e, null, b::getComponent, b::setComponent, p.anyOf(N2oCell.class), CellIOv2.NAMESPACE);
     }
+
 }

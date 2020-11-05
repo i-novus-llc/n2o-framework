@@ -14,7 +14,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.Cards;
 @Setter
 public class N2oCards extends N2oAbstractListWidget {
 
-    private Cards.Position[] align;
+    private Cards.Position align;
     private N2oPagination pagination;
     private Col[] content;
 

@@ -1,0 +1,23 @@
+<cards xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0"
+       src="Cards"
+       align="center">
+    <content>
+        <col size="6">
+            <block text-field-id="" tooltip-field-id="" id="">
+                <text/>
+            </block>
+            <block>
+                <image/>
+            </block>
+        </col>
+        <col>
+            <block text-field-id="" tooltip-field-id="" id="">
+                <text/>
+            </block>
+            <block>
+                <image/>
+            </block>
+        </col>
+    </content>
+    <pagination/>
+</cards>
