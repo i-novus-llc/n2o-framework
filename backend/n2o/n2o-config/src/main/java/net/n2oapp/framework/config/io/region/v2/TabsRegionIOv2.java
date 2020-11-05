@@ -21,6 +21,9 @@ public class TabsRegionIOv2 extends AbstractRegionIOv2<N2oTabsRegion> {
         p.attribute(e, "active-param", r::getActiveParam, r::setActiveParam);
         p.attributeBoolean(e, "routable", r::getRoutable, r::setRoutable);
         p.attributeBoolean(e, "hide-single-tab", r::getHideSingleTab, r::setHideSingleTab);
+        p.attributeBoolean(e, "fixed", r::getFixed, r::setFixed);
+        p.attributeBoolean(e, "scrollbar", r::getScrollbar, r::setScrollbar);
+        p.attribute(e, "height", r::getHeight, r::setHeight);
         p.children(e, null, "tab", r::getTabs, r::setTabs, N2oTabsRegion.Tab::new, this::tabs);
         p.anyAttributes(e, r::getExtAttributes, r::setExtAttributes);
     }
