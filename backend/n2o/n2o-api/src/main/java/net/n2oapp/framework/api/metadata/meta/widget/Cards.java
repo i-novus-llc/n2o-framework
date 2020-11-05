@@ -16,7 +16,7 @@ import net.n2oapp.framework.api.metadata.meta.widget.table.Pagination;
 public class Cards extends Widget {
 
     @JsonProperty
-    private Position[] align;
+    private Position align;
     @JsonProperty
     private Pagination paging;
     @JsonProperty
