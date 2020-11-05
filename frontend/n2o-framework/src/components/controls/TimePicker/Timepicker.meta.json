@@ -1,11 +1,10 @@
 {
   "prefix": "До:",
-  "mode": ["hours","minutes", "seconds"],
-  "format":"digi2t",
-  "dataFormat":"hh:mm",
-  "defaultValue":"12:12:12",
-  "locale":"ru",
-  "use12Hours":false,
-  "placeholder":"Укажите время",
-  "disabled":true
+  "mode": ["hours", "minutes", "seconds"],
+  "format": "symbols",
+  "dataFormat": "HH:mm:ss",
+  "defaultValue": "00:20:00",
+  "locale": "ru",
+  "placeholder": "Укажите время",
+  "disabled": false
 }

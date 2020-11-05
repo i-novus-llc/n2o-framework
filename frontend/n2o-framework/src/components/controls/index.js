@@ -29,6 +29,7 @@ import CodeViewer from './CodeViewer/CodeViewer';
 import ProgressControl from './ProgressControl/ProgressControl';
 import ImageUploader from './ImageUploader/ImageUploader';
 import OutputList from './OutputList/OutputList';
+import TimePicker from './TimePicker/TimePicker';
 
 export default {
   InputText: InputText,
@@ -62,4 +63,5 @@ export default {
   ProgressControl: ProgressControl,
   ImageUploader: ImageUploader,
   OutputList: OutputList,
+  TimePicker: TimePicker,
 };

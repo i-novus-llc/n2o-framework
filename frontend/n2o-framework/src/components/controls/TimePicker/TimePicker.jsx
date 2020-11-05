@@ -1,10 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import isArray from 'lodash/isArray';
-import each from 'lodash/each';
+import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
+import pick from 'lodash/pick';
+import values from 'lodash/values';
+import join from 'lodash/join';
+import map from 'lodash/map';
+import defaultTo from 'lodash/defaultTo';
 import TimePicker from 'rc-time-picker';
+
+const reference = {
+  hours: {
+    format: 'HH',
+    en: '[h]',
+    ru: '[ч]',
+  },
+  minutes: {
+    format: 'mm',
+    en: '[min]',
+    ru: '[мин]',
+  },
+  seconds: {
+    format: 'ss',
+    en: '[sec]',
+    ru: '[сек]',
+  },
+};
 
 /**
  * Компонент TimePicker
@@ -14,60 +36,41 @@ import TimePicker from 'rc-time-picker';
  * @reactProps {string} format - формат отобsражения времени, может быть digit(значит "00:00:00") or symbols(значит "15 мин"), по умолчанию symbols
  * @reactProps {string} defaultValue - значение по умолчанию
  */
-
 export class TimePickerControl extends Component {
   constructor(props) {
     super(props);
     this.state = {
       value: props.defaultValue,
-      mode: props.mode,
-      format: props.dataFormat,
     };
   }
 
-  renderTime = mode => {
-    let config;
-    each(mode, () => {
-      config = {
-        showHour: mode[0] === 'hours' ? true : false,
-        showMinute:
-          (mode.length === 2 || mode.length === 3 || mode.length === 1) &&
-          (mode[0] === 'minutes' ||
-            mode[1] === 'minutes' ||
-            mode[2] === 'minutes')
-            ? true
-            : false,
-        showSecond:
-          (mode.length === 2 || mode.length == 3 || mode.length === 1) &&
-          (mode[0] === 'seconds' ||
-            mode[1] === 'seconds' ||
-            mode[2] === 'seconds')
-            ? true
-            : false,
-      };
-    });
-    return config;
+  getTimeConfig = () => {
+    const { mode } = this.props;
+    return {
+      showHour: includes(mode, 'hours'),
+      showMinute: includes(mode, 'minutes'),
+      showSecond: includes(mode, 'seconds'),
+    };
   };
 
   onChange = value => {
-    const newValueObj = moment(value);
-    const newValue = newValueObj.format(this.props.dataFormat);
+    const newValue = moment(value).format(this.props.dataFormat);
     this.setState({ value: newValue }, () => this.props.onChange(newValue));
   };
 
-  formatView = (format, use12Hours) => {
+  formatView = () => {
+    const { format } = this.props;
     if (format === 'digit') {
-      return use12Hours ? 'hh:mm:ss A' : 'hh:mm:ss';
-    } else {
-      if (this.props.locale === 'ru') {
-        return use12Hours
-          ? 'hh [ч] mm [мин] ss [сек] A'
-          : 'hh [ч] mm [мин] ss [сек]';
-      } else {
-        return use12Hours
-          ? 'hh [h] mm [min] ss [sec] A'
-          : 'hh [ч] mm [мин] ss [сек]';
-      }
+      return this.props.dataFormat;
+    }
+    if (format === 'symbols') {
+      return join(
+        map(
+          values(pick(reference, this.props.mode)),
+          i => `${i.format} ${i[this.props.locale]}`
+        ),
+        ' '
+      );
     }
   };
 
@@ -75,44 +78,27 @@ export class TimePickerControl extends Component {
     this.props.onClose(this.state.value);
   };
 
-  componentDidUpdate = (prevProps, prevState) => {
-    const { value, mode } = this.state;
-    if (!isEqual(prevState.value, value)) {
-      this.setState({ value });
-    }
-    if (!isEqual(prevState.mode, mode)) {
-      this.setState({ mode });
-    }
-  };
-
   render() {
-    const {
-      prefix,
-      mode,
-      format,
-      use12Hours,
-      placeholder,
-      disabled,
-    } = this.props;
+    const { prefix, placeholder, disabled, locale, dataFormat } = this.props;
     const { value } = this.state;
+    const format = this.formatView();
+    const timeConfig = this.getTimeConfig();
+    const readyValue = value ? moment(value, dataFormat) : null;
 
     return (
       <div className="time-wrapper">
-        {prefix && prefix !== '' ? (
-          <span className="time-prefix">{prefix}</span>
-        ) : null}
+        {prefix ? <span className="time-prefix">{prefix}</span> : null}
         <TimePicker
-          locale="ru"
+          locale={locale}
           disabled={disabled}
-          onClose={this.onClose}
           placeholder={placeholder}
-          defaultValue={
-            value === '' || !value ? '' : moment(value, 'hh:mm:ss A')
-          }
-          use12Hours={use12Hours}
+          format={format}
+          value={readyValue}
           onChange={this.onChange}
-          format={this.formatView(format, use12Hours)}
-          {...this.renderTime(mode)}
+          onClose={this.onClose}
+          {...timeConfig}
+          allowEmpty={false}
+          inputIcon={<span>2</span>}
         />
       </div>
     );
@@ -121,11 +107,15 @@ export class TimePickerControl extends Component {
 
 TimePickerControl.propTypes = {
   /**
+   * Значение компонента
+   */
+  value: PropTypes.string,
+  /**
    * Префикс
    */
   prefix: PropTypes.string,
   /**
-   * Режим отображения попапа времени
+   * Режим отображения попапа времени ["hours", "minutes", "seconds"]
    */
   mode: PropTypes.array,
   /**
@@ -133,9 +123,9 @@ TimePickerControl.propTypes = {
    */
   dataFormat: PropTypes.string,
   /**
-   * Формат врмени для отображения
+   * Формат врмени для отображения "digit" || "symbols"
    */
-  format: PropTypes.string,
+  format: PropTypes.oneOf(['digit', 'symbols']),
   /**
    * Дефолтное значение
    */
@@ -147,12 +137,7 @@ TimePickerControl.propTypes = {
   /**
    * Локализация
    */
-
   locale: PropTypes.string,
-  /**
-   * Формат времени 12/24 часа
-   */
-  use12Hours: PropTypes.bool,
   /**
    * Плэйсхолдер
    */
@@ -164,9 +149,10 @@ TimePickerControl.propTypes = {
 };
 
 TimePickerControl.defaultProps = {
-  value: '',
   mode: ['hours', 'minutes', 'seconds'],
-  format: '"hh:mm:ss"',
+  format: 'symbols',
+  dataFormat: 'HH:mm:ss',
+  locale: 'ru',
   onChange: () => {},
   onClose: () => {},
 };
