@@ -1,18 +1,84 @@
-.rc-time-picker-panel-select {
-  font-size: 12px;
-  border-width: 0 1px;
-  width: 72px;
-  max-height: 144px;
-  overflow-y: auto;
-  position: relative;
-  text-align: center;
+.time-wrapper {
+  width: 250px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #d9d9d9;
+  border-radius: 9px;
+  padding: 11px;
+  margin: 5px 0;
 
-  ul {
-    list-style: none;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  .rc-time-picker {
     width: 100%;
+    position: relative;
+  }
+
+  .rc-time-picker-panel-input {
+    display: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .rc-time-picker-panel-input-wrap {
+    padding: 0;
+  }
+
+  .rc-time-picker-input {
+    outline: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    color: black;
+  }
+
+  .time-prefix {
+    margin-right: 8px;
+    font-size: 13px;
+    color: darkgrey;
+  }
+
+  .rc-time-picker-panel {
+    margin-left: 13px;
+  }
+
+  .rc-time-picker-panel-input-wrap {
+    display: none;
+  }
+
+  .rc-time-picker-panel-select-option-selected {
+    padding: 0;
+    text-align: center;
+  }
+
+  .suffix-icon {
+    border: 5px solid transparent;
+    border-top: 5px solid black;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    top: 12px;
+  }
+}
+
+.rc-time-picker-panel-inner {
+  display: inline-block;
+  position: relative;
+  outline: none;
+  list-style: none;
+  font-size: 12px;
+  text-align: left;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 5px #ccc;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  line-height: 1.5;
+  margin-top: 48px;
+  position: absolute;
+  right: -12px;
+}
+
+.rc-time-picker-panel-select {
+  ul {
     li {
       cursor: context-menu;
       &.rc-time-picker-panel-select-option-selected {
@@ -25,104 +91,46 @@
 
 .rc-time-picker-panel {
   z-index: 1070;
-  width: 200px;
+  width: 170px;
   position: absolute;
   box-sizing: border-box;
-  margin-top: 67px;
 }
 
-.rc-time-picker-panel-inner {
-  position: absolute;
-  outline: none;
-  list-style: none;
+.rc-time-picker-panel-select {
+  &:first-child {
+    border-left: 0;
+    margin-left: 0;
+  }
+}
+
+.rc-time-picker-panel-select {
+  float: left;
   font-size: 12px;
+  border: 1px solid #e9e9e9;
+  border-width: 0 1px;
+  margin-left: -1px;
+  box-sizing: border-box;
+  width: 56px;
+  max-height: 144px;
+  overflow-y: auto;
+  position: relative;
+}
+.rc-time-picker-panel-select li {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 16px;
+  width: 100%;
+  height: 24px;
+  line-height: 24px;
   text-align: left;
-  background-color: #fff;
-  border-radius: 4px;
-  box-shadow: 0 1px 5px #ccc;
-  background-clip: padding-box;
-  border: 1px solid #ccc;
-  line-height: 1.5;
-  margin-top: 35px;
-  width: max-content;
-  right: -7px;
+  cursor: pointer;
+  user-select: none;
 }
 
-input.rc-time-picker-panel-input {
-  font-size: 15px;
+.rc-time-picker-panel-select ul {
+  list-style: none;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
   width: 100%;
-  cursor: auto;
-  line-height: 1.5;
-  outline: 0;
-  border: 1px solid transparent;
-}
-
-.rc-time-picker-panel-input-wrap {
-  width: 100%;
-  display: none;
-}
-
-.rc-time-picker-panel-combobox {
-  display: flex;
-  justify-content: space-between;
-}
-
-.time-wrapper {
-  width: 100%;
-  border: 1px solid #b4acac;
-  border-radius: 3px;
-  position: relative;
-  padding-right: 9px;
-  .time-prefix {
-    color: #aeaeae;
-    padding-left: 7px;
-  }
-}
-
-input.rc-time-picker-input {
-  border: none;
-  border-radius: 6px;
-  padding: 7px;
-  outline: none;
-}
-.rc-time-picker-clear {
-  outline: none;
-  .rc-time-picker-clear-icon {
-    &:after {
-      content: 'x';
-      font-size: 12px;
-      font-style: normal;
-      cursor: pointer;
-      color: #aaa;
-      display: inline-block;
-      line-height: 1;
-      -webkit-transition: color 0.3s ease;
-      transition: color 0.3s ease;
-    }
-  }
-}
-
-.valtime {
-  position: absolute;
-  right: 0;
-  z-index: 10000;
-  color: white;
-  display: flex;
-  font-size: 12px;
-  margin-top: 5px;
-  span {
-    width: 73px;
-    text-align: center;
-    background: white;
-    color: black;
-    border: 1px solid #ccc;
-    &:first-child {
-      border-top-left-radius: 3px;
-    }
-    &:last-child {
-      border-top-right-radius: 3px;
-    }
-  }
 }

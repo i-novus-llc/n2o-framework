@@ -96,9 +96,10 @@ export class TimePickerControl extends Component {
           value={readyValue}
           onChange={this.onChange}
           onClose={this.onClose}
+          placement={'bottomRight'}
           {...timeConfig}
           allowEmpty={false}
-          inputIcon={<span>2</span>}
+          inputIcon={<span className="suffix-icon" />}
         />
       </div>
     );
