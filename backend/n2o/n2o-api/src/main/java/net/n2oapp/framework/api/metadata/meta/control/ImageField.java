@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель Image с заголовком и подзаголовком
+ * Клиентская модель компонента вывода изображения
  */
 @Getter
 @Setter

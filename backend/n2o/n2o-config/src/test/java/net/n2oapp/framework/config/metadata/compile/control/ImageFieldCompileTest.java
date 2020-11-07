@@ -18,7 +18,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Тестирование компиляции Image с заголовком и подзаголовком
+ * Тестирование компиляции компонента вывода изображения
  */
 public class ImageFieldCompileTest extends SourceCompileTestBase {
     @Override

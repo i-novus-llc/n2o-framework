@@ -1,7 +1,7 @@
 package net.n2oapp.framework.api.metadata.meta.control;
 
 /**
- * Enum для стандартных позиций текста: top, left, right, bottom
+ * Виды позиций текста относительно элемента
  */
 public enum TextPosition {
     top, left, right, bottom

@@ -7,7 +7,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение запись поля Image с заголовком и подзаголовком
+ * Чтение/запись компонента вывода изображения
  */
 @Component
 public class ImageFieldIOv2 extends FieldIOv2<N2oImageField> {
@@ -32,5 +32,4 @@ public class ImageFieldIOv2 extends FieldIOv2<N2oImageField> {
     public String getElementName() {
         return "image";
     }
-
 }

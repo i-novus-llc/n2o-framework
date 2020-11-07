@@ -7,7 +7,7 @@ import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
 /**
- * Тестирование чтения/записи компонента Image с заголовком и подзаголовком
+ * Тестирование чтения/записи компонента вывода изображения
  */
 public class N2oImageFieldIOv2Test extends N2oStandardControlReaderTestBase {
 
@@ -17,5 +17,4 @@ public class N2oImageFieldIOv2Test extends N2oStandardControlReaderTestBase {
         tester.ios(new ImageFieldIOv2(), new FormElementIOV4());
         assert tester.check("net/n2oapp/framework/config/io/control/v2/testImageField.widget.xml");
     }
-
 }

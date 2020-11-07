@@ -872,6 +872,9 @@
 
     <xs:complexType name="imageDefinition">
         <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Компонент вывода изображения.</xs:documentation>
+            </xs:annotation>
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="url" type="xs:string">
                     <xs:annotation>

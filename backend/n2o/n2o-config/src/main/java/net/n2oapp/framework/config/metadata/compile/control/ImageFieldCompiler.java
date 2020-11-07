@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
- * Компиляция Image с заголовком и подзаголовком
+ * Компиляция компонента вывода изображения
  */
 @Component
 public class ImageFieldCompiler extends FieldCompiler<ImageField, N2oImageField> {
@@ -29,7 +29,8 @@ public class ImageFieldCompiler extends FieldCompiler<ImageField, N2oImageField>
         imageField.setData(p.resolveJS(source.getData()));
         imageField.setTitle(p.resolveJS(source.getTitle()));
         imageField.setDescription(p.resolveJS(source.getDescription()));
-        imageField.setTextPosition(p.cast(source.getTextPosition(), p.resolve(property("n2o.api.field.image_field.text_position"), TextPosition.class)));
+        imageField.setTextPosition(p.cast(source.getTextPosition(),
+                p.resolve(property("n2o.api.field.image_field.text_position"), TextPosition.class)));
         imageField.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.field.image_field.width"), String.class)));
         return imageField;
     }
@@ -38,5 +39,4 @@ public class ImageFieldCompiler extends FieldCompiler<ImageField, N2oImageField>
     protected String getSrcProperty() {
         return "n2o.api.field.image_field.src";
     }
-
 }
