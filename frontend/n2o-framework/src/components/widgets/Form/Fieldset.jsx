@@ -216,6 +216,7 @@ class Fieldset extends React.Component {
       ...rest
     } = this.props;
     this.fields = [];
+    const enabled = !disabled;
     if (React.Children.count(children)) {
       return <ElementType>{children}</ElementType>;
     }
@@ -227,6 +228,7 @@ class Fieldset extends React.Component {
     return (
       <div className={classes} style={style}>
         <ElementType
+          enabled={enabled}
           {...rest}
           render={(rows, props = { parentName, parentIndex }) => {
             this.fields = this.calculateAllFields(rows);
