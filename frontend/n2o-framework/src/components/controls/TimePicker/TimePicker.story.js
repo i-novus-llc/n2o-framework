@@ -19,7 +19,22 @@ stories.addDecorator(StateDecorator(store));
 
 stories
   .add('Таймпикер', () => {
-    return <TimePicker />;
+    return (
+      <div>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => store.set({ valueDefault: '10:20:30' })}
+        >
+          Установить значение 10:20:30
+        </button>
+        <hr />
+        <TimePicker
+          value={store.get('valueDefault')}
+          onChange={value => store.set({ valueDefault: value })}
+        />
+      </div>
+    );
   })
   .add(
     'Метаданные',
@@ -252,4 +267,24 @@ stories
         </Row>
       </>
     );
+  })
+  .add('noZero', () => {
+    return <TimePicker noZero />;
+  })
+  .add('locale', () => {
+    return (
+      <div>
+        <code>ru</code>
+        <TimePicker locale="ru" />
+        <hr />
+        <code>en</code>
+        <TimePicker locale="en" />
+      </div>
+    );
+  })
+  .add('disabled', () => {
+    return <TimePicker disabled />;
+  })
+  .add('defaultValue', () => {
+    return <TimePicker defaultValue="10:20:30" />;
   });

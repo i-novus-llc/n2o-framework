@@ -1,6 +1,6 @@
 import React from 'react';
 import TimePicker from './TimePicker';
-import sinon from 'sinon';
+
 const setup = propOverrides => {
   const props = Object.assign(
     {
@@ -17,242 +17,144 @@ const setup = propOverrides => {
   };
 };
 
-it('проверка значений digit hh:mm:ss "mode": ["hours", "minutes", "seconds"]', () => {
-  const { wrapper } = setup({
-    format: 'digit',
-    mode: ['hours', 'minutes', 'seconds'],
-    dataFormat: 'hh:mm:ss',
-    defaultValue: '01:20:00',
+describe('<TimePicker />', () => {
+  it('проверка дефолтного рендера и проверка открытия popup', () => {
+    const { wrapper } = setup();
+    expect(wrapper.find('.n2o-pop-up')).toHaveLength(0);
+    wrapper.setState({ open: true });
+    expect(wrapper.find('.n2o-pop-up')).toHaveLength(1);
+    expect(wrapper).toMatchSnapshot();
   });
-  const input = wrapper.find('.rc-time-picker-input');
-  input.simulate('click');
-  expect(wrapper.find('.rc-time-picker-panel-select').length).toBe(3);
-  expect(wrapper.state().value).toBe('01:20:00');
-  expect(
-    wrapper
-      .find('input')
-      .first()
-      .props().value
-  ).toBe('01:20:00');
-  expect(wrapper).toMatchSnapshot();
-});
 
-it('проверка значений digit hh:mm:ss "mode": ["minutes", "seconds"]', () => {
-  const { wrapper } = setup({
-    format: 'digit',
-    mode: ['minutes', 'seconds'],
-    dataFormat: 'hh:mm:ss',
-    defaultValue: '01:20:00',
+  it('проверка установки значения', () => {
+    const { wrapper } = setup({
+      value: '10:20:30',
+    });
+    expect(
+      wrapper
+        .find('.n2o-input-text')
+        .first()
+        .getDOMNode().value
+    ).toBe('10 ч 20 мин 30 сек');
   });
-  const input = wrapper.find('.rc-time-picker-input');
-  input.simulate('click');
-  expect(wrapper.find('.rc-time-picker-panel-select').length).toBe(2);
-  expect(wrapper.state().value).toBe('01:20:00');
-  expect(
-    wrapper
-      .find('input')
-      .first()
-      .props().value
-  ).toBe('01:20:00');
-  expect(wrapper).toMatchSnapshot();
-});
 
-it('проверка значений digit hh:ss "mode": ["hours", "seconds"]', () => {
-  const { wrapper } = setup({
-    format: 'digit',
-    mode: ['hours', 'seconds'],
-    dataFormat: 'HH:ss',
-    defaultValue: '12:20',
+  it('проверка значений - format=digit', () => {
+    const { wrapper } = setup({
+      format: 'digit',
+      defaultValue: '10:20:30',
+      mode: ['hours', 'minutes', 'seconds'],
+      dataFormat: 'HH:mm:ss',
+    });
+    const input = wrapper.find('.n2o-input-text');
+    input.first().simulate('click');
+    expect(wrapper.state().hours).toBe(10);
+    expect(wrapper.state().minutes).toBe(20);
+    expect(wrapper.state().seconds).toBe(30);
+    expect(wrapper.instance().getValue()).toBe('10:20:30');
+    expect(wrapper.find('.n2o-time-picker__panel').length).toBe(3);
+    wrapper.setProps({
+      mode: ['minutes', 'seconds'],
+      dataFormat: 'HH:mm:ss',
+    });
+    expect(wrapper.instance().getValue()).toBe('10:20:30');
+    expect(wrapper.find('.n2o-time-picker__panel').length).toBe(2);
+    wrapper.setProps({
+      mode: ['minutes'],
+      dataFormat: 'HH:mm:ss',
+    });
+    expect(wrapper.instance().getValue()).toBe('10:20:30');
+    expect(wrapper.find('.n2o-time-picker__panel').length).toBe(1);
+    wrapper.setProps({
+      mode: ['hours', 'seconds'],
+      dataFormat: 'HH:ss',
+    });
+    expect(wrapper.instance().getValue()).toBe('10:30');
+    expect(wrapper.find('.n2o-time-picker__panel').length).toBe(2);
+    wrapper.setProps({
+      mode: ['seconds'],
+      dataFormat: 'ss',
+    });
+    expect(wrapper.instance().getValue()).toBe('30');
+    expect(wrapper.find('.n2o-time-picker__panel').length).toBe(1);
+    wrapper.setProps({
+      mode: ['minutes'],
+      dataFormat: 'mm:ss',
+    });
+    expect(wrapper.instance().getValue()).toBe('20:30');
+    expect(wrapper.find('.n2o-time-picker__panel').length).toBe(1);
   });
-  const input = wrapper.find('.rc-time-picker-input');
-  input.simulate('click');
-  expect(wrapper.find('.rc-time-picker-panel-select').length).toBe(2);
-  expect(wrapper.state().value).toBe('12:20');
-  expect(
-    wrapper
-      .find('input')
-      .first()
-      .props().value
-  ).toBe('12:20');
-  expect(wrapper).toMatchSnapshot();
-});
 
-it('проверка значений digit hh:mm:ss "mode": ["minutes"]', () => {
-  const { wrapper } = setup({
-    format: 'digit',
-    mode: ['minutes'],
-    dataFormat: 'hh:mm:ss',
-    defaultValue: '01:20:00',
+  it('проверка значений - format=symbols', () => {
+    const { wrapper } = setup({
+      format: 'symbols',
+      defaultValue: '10:20:30',
+      mode: ['hours', 'minutes', 'seconds'],
+      dataFormat: 'HH:mm:ss',
+    });
+    const input = wrapper.find('.n2o-input-text');
+    input.first().simulate('click');
+    expect(wrapper.state().hours).toBe(10);
+    expect(wrapper.state().minutes).toBe(20);
+    expect(wrapper.state().seconds).toBe(30);
+    expect(wrapper.instance().getValue()).toBe('10 ч 20 мин 30 сек');
+    expect(wrapper.find('.n2o-time-picker__panel').length).toBe(3);
+    wrapper.setProps({
+      mode: ['minutes', 'seconds'],
+      dataFormat: 'HH:mm:ss',
+    });
+    expect(wrapper.instance().getValue()).toBe('20 мин 30 сек');
+    expect(wrapper.find('.n2o-time-picker__panel').length).toBe(2);
+    wrapper.setProps({
+      mode: ['minutes'],
+      dataFormat: 'HH:mm:ss',
+    });
+    expect(wrapper.instance().getValue()).toBe('20 мин');
+    expect(wrapper.find('.n2o-time-picker__panel').length).toBe(1);
+    wrapper.setProps({
+      mode: ['hours', 'seconds'],
+      dataFormat: 'HH:ss',
+    });
+    expect(wrapper.instance().getValue()).toBe('10 ч 30 сек');
+    expect(wrapper.find('.n2o-time-picker__panel').length).toBe(2);
+    wrapper.setProps({
+      mode: ['seconds'],
+      dataFormat: 'ss',
+    });
+    expect(wrapper.instance().getValue()).toBe('30 сек');
+    expect(wrapper.find('.n2o-time-picker__panel').length).toBe(1);
+    wrapper.setProps({
+      mode: ['minutes'],
+      dataFormat: 'mm:ss',
+    });
+    expect(wrapper.instance().getValue()).toBe('20 мин');
+    expect(wrapper.find('.n2o-time-picker__panel').length).toBe(1);
   });
-  const input = wrapper.find('.rc-time-picker-input');
-  input.simulate('click');
-  expect(wrapper.find('.rc-time-picker-panel-select').length).toBe(1);
-  expect(wrapper.state().value).toBe('01:20:00');
-  expect(
-    wrapper
-      .find('input')
-      .first()
-      .props().value
-  ).toBe('01:20:00');
-  expect(wrapper).toMatchSnapshot();
-});
 
-it('проверка значений digit ss "mode": ["seconds"]', () => {
-  const { wrapper } = setup({
-    format: 'digit',
-    mode: ['seconds'],
-    dataFormat: 'ss',
-    defaultValue: '10',
-  });
-  const input = wrapper.find('.rc-time-picker-input');
-  input.simulate('click');
-  expect(wrapper.find('.rc-time-picker-panel-select').length).toBe(1);
-  expect(wrapper.state().value).toBe('10');
-  expect(
+  it('проверка установки значения из popup', () => {
+    const { wrapper } = setup();
+    const input = wrapper.find('.n2o-input-text');
+    input.first().simulate('click');
     wrapper
-      .find('input')
+      .find('.n2o-time-picker__panel')
       .first()
-      .props().value
-  ).toBe('10');
-  expect(wrapper).toMatchSnapshot();
-});
-
-it('проверка значений digit mm:ss "mode": ["minutes"]', () => {
-  const { wrapper } = setup({
-    format: 'digit',
-    mode: ['seconds'],
-    dataFormat: 'mm:ss',
-    defaultValue: '10:20',
-  });
-  const input = wrapper.find('.rc-time-picker-input');
-  input.simulate('click');
-  expect(wrapper.find('.rc-time-picker-panel-select').length).toBe(1);
-  expect(wrapper.state().value).toBe('10:20');
-  expect(
+      .find('.n2o-time-picker__panel__item')
+      .at(10)
+      .simulate('mousedown');
     wrapper
-      .find('input')
-      .first()
-      .props().value
-  ).toBe('10:20');
-  expect(wrapper).toMatchSnapshot();
-});
-
-it('проверка значений symbols hh:mm:ss "mode": ["hours", "minutes", "seconds"]', () => {
-  const { wrapper } = setup({
-    format: 'symbols',
-    mode: ['hours', 'minutes', 'seconds'],
-    dataFormat: 'HH:mm:ss',
-    defaultValue: '10:20:30',
-  });
-  const input = wrapper.find('.rc-time-picker-input');
-  input.simulate('click');
-  expect(wrapper.find('.rc-time-picker-panel-select').length).toBe(3);
-  expect(wrapper.state().value).toBe('10:20:30');
-  expect(
+      .find('.n2o-time-picker__panel')
+      .at(1)
+      .find('.n2o-time-picker__panel__item')
+      .at(20)
+      .simulate('mousedown');
     wrapper
-      .find('input')
-      .first()
-      .props().value
-  ).toBe('10 ч 20 мин 30 сек');
-  expect(wrapper).toMatchSnapshot();
-});
-
-it('проверка значений symbols hh:mm:ss "mode": ["minutes", "seconds"]', () => {
-  const { wrapper } = setup({
-    format: 'symbols',
-    mode: ['minutes', 'seconds'],
-    dataFormat: 'HH:mm:ss',
-    defaultValue: '10:20:30',
+      .find('.n2o-time-picker__panel')
+      .last()
+      .find('.n2o-time-picker__panel__item')
+      .at(30)
+      .simulate('mousedown');
+    expect(wrapper.state().hours).toBe(10);
+    expect(wrapper.state().minutes).toBe(20);
+    expect(wrapper.state().seconds).toBe(30);
+    expect(wrapper.instance().getValue()).toBe('10 ч 20 мин 30 сек');
   });
-  const input = wrapper.find('.rc-time-picker-input');
-  input.simulate('click');
-  expect(wrapper.find('.rc-time-picker-panel-select').length).toBe(2);
-  expect(wrapper.state().value).toBe('10:20:30');
-  expect(
-    wrapper
-      .find('input')
-      .first()
-      .props().value
-  ).toBe('20 мин 30 сек');
-  expect(wrapper).toMatchSnapshot();
-});
-
-it('проверка значений symbols hh:mm:ss "mode": ["minutes"]', () => {
-  const { wrapper } = setup({
-    format: 'symbols',
-    mode: ['minutes'],
-    dataFormat: 'HH:mm:ss',
-    defaultValue: '10:20:10',
-  });
-  const input = wrapper.find('.rc-time-picker-input');
-  input.simulate('click');
-  expect(wrapper.find('.rc-time-picker-panel-select').length).toBe(1);
-  expect(wrapper.state().value).toBe('10:20:10');
-  expect(
-    wrapper
-      .find('input')
-      .first()
-      .props().value
-  ).toBe('20 мин');
-  expect(wrapper).toMatchSnapshot();
-});
-
-it('проверка значений symbols hh:mm:ss "mode": ["hours", "seconds"]', () => {
-  const { wrapper } = setup({
-    format: 'symbols',
-    mode: ['hours', 'seconds'],
-    dataFormat: 'HH:ss',
-    defaultValue: '10:20',
-  });
-  const input = wrapper.find('.rc-time-picker-input');
-  input.simulate('click');
-  expect(wrapper.find('.rc-time-picker-panel-select').length).toBe(2);
-  expect(wrapper.state().value).toBe('10:20');
-  expect(
-    wrapper
-      .find('input')
-      .first()
-      .props().value
-  ).toBe('10 ч 20 сек');
-  expect(wrapper).toMatchSnapshot();
-});
-
-it('проверка значений symbols hh:mm:ss "mode": ["seconds"]', () => {
-  const { wrapper } = setup({
-    format: 'symbols',
-    mode: ['seconds'],
-    dataFormat: 'ss',
-    defaultValue: '10',
-  });
-  const input = wrapper.find('.rc-time-picker-input');
-  input.simulate('click');
-  expect(wrapper.find('.rc-time-picker-panel-select').length).toBe(1);
-  expect(wrapper.state().value).toBe('10');
-  expect(
-    wrapper
-      .find('input')
-      .first()
-      .props().value
-  ).toBe('10 сек');
-  expect(wrapper).toMatchSnapshot();
-});
-
-it('проверка значений symbols mm:ss "mode": ["minutes"]', () => {
-  const { wrapper } = setup({
-    format: 'symbols',
-    mode: ['minutes'],
-    dataFormat: 'mm:ss',
-    defaultValue: '10:20',
-  });
-  const input = wrapper.find('.rc-time-picker-input');
-  input.simulate('click');
-  expect(wrapper.find('.rc-time-picker-panel-select').length).toBe(1);
-  expect(wrapper.state().value).toBe('10:20');
-  expect(
-    wrapper
-      .find('input')
-      .first()
-      .props().value
-  ).toBe('10 мин');
-  expect(wrapper).toMatchSnapshot();
 });

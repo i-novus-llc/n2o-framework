@@ -135,7 +135,7 @@
     "redux-saga": "^1.0.5",
     "redux-thunk": "2.2.0",
     "reselect": "3.0.1",
-    "scroll-into-view-if-needed": "2.2.16",
+    "scroll-into-view-if-needed": "^2.2.26",
     "text-mask-addons": "3.7.1",
     "url-parse": "^1.4.7",
     "whatwg-fetch": "2.0.3",

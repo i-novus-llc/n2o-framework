@@ -2,46 +2,88 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import includes from 'lodash/includes';
-import isEqual from 'lodash/isEqual';
+import defaultTo from 'lodash/defaultTo';
 import pick from 'lodash/pick';
+import keys from 'lodash/keys';
 import values from 'lodash/values';
 import join from 'lodash/join';
 import map from 'lodash/map';
-import defaultTo from 'lodash/defaultTo';
+import get from 'lodash/get';
+import each from 'lodash/each';
+import split from 'lodash/split';
 import TimePicker from 'rc-time-picker';
+import cn from 'classnames';
+import { Row, Col, Container, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Manager, Reference, Popper } from 'react-popper';
+import scrollIntoView from 'scroll-into-view-if-needed';
+import InputText from '../InputText/InputText';
+import InputIcon from '../../snippets/InputIcon/InputIcon';
+import { MODIFIERS } from '../DatePicker/utils';
+
+const HOURS = 'hours';
+const MINUTES = 'minutes';
+const SECONDS = 'seconds';
 
 const reference = {
-  hours: {
+  [HOURS]: {
     format: 'HH',
-    en: '[h]',
-    ru: '[ч]',
+    en: 'h_hours',
+    ru: 'ч_часы',
+    values: 24,
   },
-  minutes: {
+  [MINUTES]: {
     format: 'mm',
-    en: '[min]',
-    ru: '[мин]',
+    en: 'min_minutes',
+    ru: 'мин_минуты',
+    values: 60,
   },
-  seconds: {
+  [SECONDS]: {
     format: 'ss',
-    en: '[sec]',
-    ru: '[сек]',
+    en: 'sec_seconds',
+    ru: 'сек_секунды',
+    values: 60,
   },
 };
 
 /**
  * Компонент TimePicker
- * @reactProps {string } prefix - префикс
- * @reactProps {array} mode - режим отображения списка выбора, может быть "hours,minutes,seconds" or "hours,minutes" or "hours" or "minutes", по умолчанию "hours,minutes,seconds"
- * @reactProps {string} dataFormat - формат данных в модели, по умолчанию "hh:mm:ss"
- * @reactProps {string} format - формат отобsражения времени, может быть digit(значит "00:00:00") or symbols(значит "15 мин"), по умолчанию symbols
- * @reactProps {string} defaultValue - значение по умолчанию
  */
 export class TimePickerControl extends Component {
   constructor(props) {
     super(props);
+    this._value = moment(props.value || props.defaultValue, props.dataFormat);
     this.state = {
-      value: props.defaultValue,
+      open: false,
+      [HOURS]: this._value.hours(),
+      [MINUTES]: this._value.minutes(),
+      [SECONDS]: this._value.seconds(),
     };
+    this[`${HOURS}Ref`] = React.createRef();
+    this[`${MINUTES}Ref`] = React.createRef();
+    this[`${SECONDS}Ref`] = React.createRef();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const hasChangeVisible = this.state.open !== prevState.open;
+
+    if (prevProps.value !== this.props.value) {
+      this._value = moment(this.props.value, this.props.dataFormat);
+      this.setState({
+        [HOURS]: this._value.hours(),
+        [MINUTES]: this._value.minutes(),
+        [SECONDS]: this._value.seconds(),
+      });
+    }
+
+    each([HOURS, MINUTES, SECONDS], mode => {
+      this[`${mode}Ref`] &&
+        this[`${mode}Ref`].current &&
+        scrollIntoView(this[`${mode}Ref`].current, {
+          behavior: hasChangeVisible ? 'auto' : 'smooth',
+          block: 'start',
+          boundary: this[`${mode}Ref`].current.parentElement,
+        });
+    });
   }
 
   getTimeConfig = () => {
@@ -53,54 +95,192 @@ export class TimePickerControl extends Component {
     };
   };
 
-  onChange = value => {
-    const newValue = moment(value).format(this.props.dataFormat);
-    this.setState({ value: newValue }, () => this.props.onChange(newValue));
+  toTime = value => {
+    return value < 10 && !this.props.noZero ? '0' + value : value;
   };
 
-  formatView = () => {
-    const { format } = this.props;
+  getLocaleText = (mode, index) => {
+    const { locale } = this.props;
+    const localesArr = split(get(reference, `[${mode}][${locale}]`, ''), '_');
+    return localesArr[index];
+  };
+
+  getTime = format => {
+    return this._value.isValid() ? this._value.format(format) : '';
+  };
+
+  getValue = () => {
+    const { format, dataFormat } = this.props;
     if (format === 'digit') {
-      return this.props.dataFormat;
+      return this.getTime(dataFormat);
     }
     if (format === 'symbols') {
-      return join(
-        map(
-          values(pick(reference, this.props.mode)),
-          i => `${i.format} ${i[this.props.locale]}`
-        ),
-        ' '
+      return this.getTime(
+        join(
+          map(
+            keys(pick(reference, this.props.mode)),
+            mode => `${reference[mode].format} [${this.getLocaleText(mode, 0)}]`
+          ),
+          ' '
+        )
       );
     }
   };
 
-  onClose = () => {
-    this.props.onClose(this.state.value);
+  handleOpen = () => {
+    if (this.props.disabled) return;
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    if (this.props.disabled) return;
+    this.setState({ open: false });
+  };
+
+  handleToggle = () => {
+    if (this.props.disabled) return;
+    this.setState(state => ({ ...state, open: !state.open }));
+  };
+
+  handleChangeValue = (mode, value) => e => {
+    e.preventDefault();
+
+    const prevState = {
+      [HOURS]: this.state[HOURS] || 0,
+      [MINUTES]: this.state[MINUTES] || 0,
+      [SECONDS]: this.state[SECONDS] || 0,
+    };
+
+    if (!this._value.isValid()) {
+      this._value = moment();
+      this._value.set(prevState);
+    }
+    this._value.set(mode, value);
+
+    this.setState(
+      {
+        ...prevState,
+        [mode]: value,
+      },
+      () => {
+        this.props.onChange(this.getTime(this.props.dataFormat));
+      }
+    );
+  };
+
+  handlePrevent = e => {
+    e.preventDefault();
+  };
+
+  renderPrefix = () => {
+    return this.props.prefix ? (
+      <span className="time-prefix">{this.props.prefix}</span>
+    ) : null;
+  };
+
+  renderPanelItems = mode => {
+    const countersArray = new Array(get(reference, `[${mode}].values`, []));
+    return map(countersArray, (val, index) => (
+      <a
+        key={index}
+        ref={index === this.state[mode] ? this[`${mode}Ref`] : null}
+        href="#"
+        className={cn('dropdown-item n2o-time-picker__panel__item', {
+          active: index === this.state[mode],
+        })}
+        onMouseDown={this.handleChangeValue(mode, index)}
+        onClick={this.handlePrevent}
+      >
+        {this.toTime(index)}
+      </a>
+    ));
   };
 
   render() {
-    const { prefix, placeholder, disabled, locale, dataFormat } = this.props;
-    const { value } = this.state;
-    const format = this.formatView();
+    const { placeholder, disabled } = this.props;
+    const { open } = this.state;
     const timeConfig = this.getTimeConfig();
-    const readyValue = value ? moment(value, dataFormat) : null;
+    const readyValue = this.getValue();
+    const prefixCmp = this.renderPrefix();
 
     return (
-      <div className="time-wrapper">
-        {prefix ? <span className="time-prefix">{prefix}</span> : null}
-        <TimePicker
-          locale={locale}
-          disabled={disabled}
-          placeholder={placeholder}
-          format={format}
-          value={readyValue}
-          onChange={this.onChange}
-          onClose={this.onClose}
-          placement={'bottomRight'}
-          {...timeConfig}
-          allowEmpty={false}
-          inputIcon={<span className="suffix-icon" />}
-        />
+      <div className="n2o-time-picker">
+        <Manager>
+          <Reference>
+            {({ ref }) => (
+              <InputText
+                inputRef={ref}
+                prefix={prefixCmp}
+                suffix={
+                  <InputIcon clickable hoverable onClick={this.handleToggle}>
+                    <span
+                      className="fa fa-chevron-down"
+                      style={{
+                        transition: 'transform 150ms linear',
+                        transform: open ? 'rotate(-180deg)' : 'rotate(0deg)',
+                      }}
+                    />
+                  </InputIcon>
+                }
+                readOnly
+                placeholder={placeholder}
+                disabled={disabled}
+                value={readyValue}
+                onClick={this.handleOpen}
+                onBlur={this.handleClose}
+              />
+            )}
+          </Reference>
+          {open ? (
+            <Popper
+              placement="bottom-end"
+              strategy="fixed"
+              modifiers={MODIFIERS}
+            >
+              {({ ref, style, placement }) => (
+                <div
+                  ref={ref}
+                  style={style}
+                  data-placement={placement}
+                  className="n2o-pop-up"
+                >
+                  <Row noGutters>
+                    {timeConfig.showHour ? (
+                      <Col>
+                        <div className="n2o-time-picker__header">
+                          {this.getLocaleText(HOURS, 1)}
+                        </div>
+                        <div className="n2o-time-picker__panel">
+                          {this.renderPanelItems(HOURS)}
+                        </div>
+                      </Col>
+                    ) : null}
+                    {timeConfig.showMinute ? (
+                      <Col>
+                        <div className="n2o-time-picker__header">
+                          {this.getLocaleText(MINUTES, 1)}
+                        </div>
+                        <div className="n2o-time-picker__panel">
+                          {this.renderPanelItems(MINUTES)}
+                        </div>
+                      </Col>
+                    ) : null}
+                    {timeConfig.showSecond ? (
+                      <Col>
+                        <div className="n2o-time-picker__header last">
+                          {this.getLocaleText(SECONDS, 1)}
+                        </div>
+                        <div className="n2o-time-picker__panel">
+                          {this.renderPanelItems(SECONDS)}
+                        </div>
+                      </Col>
+                    ) : null}
+                  </Row>
+                </div>
+              )}
+            </Popper>
+          ) : null}
+        </Manager>
       </div>
     );
   }
@@ -138,7 +318,7 @@ TimePickerControl.propTypes = {
   /**
    * Локализация
    */
-  locale: PropTypes.string,
+  locale: PropTypes.oneOf(['ru', 'en']),
   /**
    * Плэйсхолдер
    */
@@ -146,7 +326,11 @@ TimePickerControl.propTypes = {
   /**
    * On/Off
    */
-  enable: PropTypes.bool,
+  disabled: PropTypes.bool,
+  /**
+   * Нет нулей перед во времени. Пример - 5 минут, а не 05 минут.
+   */
+  noZero: PropTypes.bool,
 };
 
 TimePickerControl.defaultProps = {
@@ -155,7 +339,6 @@ TimePickerControl.defaultProps = {
   dataFormat: 'HH:mm:ss',
   locale: 'ru',
   onChange: () => {},
-  onClose: () => {},
 };
 
 export default TimePickerControl;
