@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <region>
+            <form object-id="testButtonFieldBinder">
+                <fields>
+                    <hidden id="id" default-value="1"/>
+                    <field id="name">
+                        <controls>
+                            <button label="Кнопка в контроле">
+                                <invoke operation-id="greeting" route="/greeting">
+                                </invoke>
+                            </button>
+                        </controls>
+                    </field>
+                    <button label="Кнопка в поле">
+                        <invoke operation-id="greeting" route="/greeting">
+                        </invoke>
+                    </button>
+                </fields>
+            </form>
+            <table object-id="testButtonFieldBinder" >
+                <columns>
+                    <column text-field-id="name" >
+                        <toolbar>
+                            <button label="Кнопка в ячейке">
+                                <invoke operation-id="greeting" route="/greeting">
+                                </invoke>
+                            </button>
+                        </toolbar>
+                    </column>
+                </columns>
+            </table>
+        </region>
+    </regions>
+
+</page>
