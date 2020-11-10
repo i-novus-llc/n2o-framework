@@ -52,7 +52,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         compileToolbarAndAction(cards, source, context, p, widgetScope, widgetRoute, widgetActions, object, null);
 
         cards.setCards(compileCols(source.getContent(), context, p, object, widgetScope, widgetActions));
-        cards.setAlign(source.getAlign());
+        cards.setAlign(p.cast(source.getAlign(), p.resolve(property("n2o.api.widget.cards.align"), Cards.Position.class)));
         cards.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.cards.size"), Integer.class), p));
         return cards;
     }
@@ -66,7 +66,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
             card.setContent(compileBlock(col.getBlocks(), context, p, object, widgetScope, widgetActions));
             cards.add(card);
         }
-        return cards.stream().toArray(Cards.Card[]::new);
+        return cards.toArray(new Cards.Card[0]);
     }
 
     private N2oCell[] compileBlock(N2oCards.Block[] source, CompileContext<?, ?> context, CompileProcessor p,
@@ -76,6 +76,6 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
             block.setId(p.cast(block.getId(), block.getTextFieldId()));
             cells.add(p.compile(block.getComponent(), context, p, new IndexScope(), new ComponentScope(block), scopes));
         }
-        return cells.stream().toArray(N2oCell[]::new);
+        return cells.toArray(new N2oCell[0]);
     }
 }
