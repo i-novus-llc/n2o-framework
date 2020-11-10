@@ -44,10 +44,10 @@ function* switchTab() {
   const getWidgetsIds = content =>
     reduce(content, (acc, meta) => acc.concat(meta.id), []);
 
-  const activeEntityWidgetIds = reduce(
+  const activeEntityWidgetsIds = reduce(
     tabsRegions,
-    (acc, tabRegion) => {
-      const { tabs, activeEntity } = tabRegion;
+    (acc, tabsRegion) => {
+      const { tabs, activeEntity } = tabsRegion;
 
       const activeTab = first(filter(tabs, tab => tab.id === activeEntity));
       const activeContent = get(activeTab, 'content');
@@ -59,8 +59,8 @@ function* switchTab() {
     []
   );
 
-  for (let index = 0; index <= activeEntityWidgetIds.length - 1; index += 1) {
-    const { widgetsIds } = activeEntityWidgetIds[index];
+  for (let index = 0; index <= activeEntityWidgetsIds.length - 1; index += 1) {
+    const { widgetsIds } = activeEntityWidgetsIds[index];
 
     const atLeastOneVisibleWidget = some(
       widgetsIds,
