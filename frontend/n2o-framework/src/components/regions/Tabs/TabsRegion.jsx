@@ -6,7 +6,6 @@ import map from 'lodash/map';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import pull from 'lodash/pull';
-import every from 'lodash/every';
 import some from 'lodash/some';
 import { compose, setDisplayName } from 'recompose';
 
@@ -32,7 +31,7 @@ class TabRegion extends React.Component {
     super(props);
     this.state = {
       readyTabs: this.findReadyTabs(),
-      visibleTabs: {},
+      permissionsVisibleTabs: {},
     };
     this.handleChangeActive = this.handleChangeActive.bind(this);
   }
@@ -87,7 +86,8 @@ class TabRegion extends React.Component {
   tabVisible(tab) {
     const { getWidgetProps } = this.props;
     const content = get(tab, 'content');
-    return every(content, meta => get(getWidgetProps(meta.id), 'isVisible'));
+
+    return some(content, meta => get(getWidgetProps(meta.id), 'isVisible'));
   }
 
   regionVisible(tabs) {
@@ -97,7 +97,7 @@ class TabRegion extends React.Component {
   render() {
     const { tabs, lazy, activeEntity, className, hideSingleTab } = this.props;
 
-    const { readyTabs, visibleTabs } = this.state;
+    const { readyTabs, permissionsVisibleTabs } = this.state;
 
     return (
       <Tabs
@@ -109,14 +109,15 @@ class TabRegion extends React.Component {
       >
         {map(tabs, tab => {
           const { security, content } = tab;
-          const tabVisible = get(visibleTabs, tab.id, true);
+          const permissionVisible = get(permissionsVisibleTabs, tab.id, true);
+          const visible = permissionVisible && this.tabVisible(tab);
           const tabProps = {
             key: tab.id,
             id: tab.id,
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
-            visible: tabVisible,
+            visible: visible,
           };
           const tabEl = (
             <Tab {...tabProps}>

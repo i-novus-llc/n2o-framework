@@ -42,6 +42,17 @@ class Tabs extends React.Component {
     this.handleChangeActive = this.handleChangeActive.bind(this);
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.activeId !== this.props.activeId) {
+      this.setState(
+        {
+          activeId: this.props.activeId,
+        },
+        e => this.handleChangeActive(e, this.state.activeId)
+      );
+    }
+  }
+
   /**
    * установка активного таба
    * @param e
