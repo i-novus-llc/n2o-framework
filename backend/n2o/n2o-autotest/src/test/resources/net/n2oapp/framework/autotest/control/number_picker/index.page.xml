@@ -2,8 +2,8 @@
              name="Поле ввода числа из диапазона">
 <form>
     <fields>
-        <number-picker id="numberPicker" min="1" max="10" step="2" default-value="4"/>
-        <number-picker id="defaultPicker"/>
+        <number-picker id="number1" label="defaultPicker"/>
+        <number-picker id="number2" label="limitedPicker" min="1" max="10" step="2" default-value="4"/>
     </fields>
 </form>
 </simple-page>

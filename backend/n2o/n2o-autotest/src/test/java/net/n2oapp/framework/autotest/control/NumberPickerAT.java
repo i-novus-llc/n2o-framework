@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
-import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.control.NumberPicker;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -21,8 +21,6 @@ public class NumberPickerAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
-//        headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "false"));
-
     }
 
     @BeforeEach
@@ -45,20 +43,12 @@ public class NumberPickerAT extends AutoTestBase {
 
     @Test
     public void testNumberPicker() {
-        InputText input = page.widget(FormWidget.class).fields().field("numberPicker")
-                .control(InputText.class);
-//        input.shouldExists();
+        NumberPicker input = page.widget(FormWidget.class).fields().field("numberPicker").control(NumberPicker.class);
+        input.shouldExists();
 //
-//        input.shouldHavePlaceholder("Введите текст");
 //        input.shouldBeEmpty();
-//        input.val("test-value");
-//        input.shouldHaveValue("test-value");
-//        // превышение указанной длины
-//        input.val("test1test2test3");
-//        input.shouldHaveValue("test1test2");
-//        // проверка меры измерения
-//        input.shouldHaveMeasure();
-//        input.measureShouldHaveText("шт.");
+        input.val("15");
+        input.shouldHaveValue("15");
     }
 
 }
