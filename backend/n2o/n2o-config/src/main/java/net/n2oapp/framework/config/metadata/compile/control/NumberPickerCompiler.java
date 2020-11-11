@@ -29,6 +29,7 @@ public class NumberPickerCompiler extends FieldCompiler<NumberPicker, N2oNumberP
         numberPicker.setStep(p.cast(source.getStep(),
                 p.resolve(property("n2o.api.control.number_picker.step"), Integer.class)));
         compileDefaultValues(numberPicker, source, p);
+        source.setDomain("integer");
         return numberPicker;
     }
 
