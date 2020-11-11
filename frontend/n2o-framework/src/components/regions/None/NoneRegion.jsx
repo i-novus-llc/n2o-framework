@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { compose, pure, setDisplayName } from 'recompose';
+import map from 'lodash/map';
 
 import Factory from '../../../core/factory/Factory';
 import { WIDGETS } from '../../../core/factory/factoryLevels';
 import withWidgetProps from '../withWidgetProps';
-import { compose, pure, setDisplayName } from 'recompose';
-
 /**
  * Регион None (простой див)
  * @reactProps {array} items - массив из объектов, которые описывают виджет{id}
@@ -16,7 +16,7 @@ import { compose, pure, setDisplayName } from 'recompose';
 const NoneRegion = ({ items, getWidget, pageId }) => {
   return (
     <div style={{ paddingBottom: 2, paddingTop: 2 }}>
-      {items.map(item => (
+      {map(items, item => (
         <Factory
           level={WIDGETS}
           key={item.widgetId}
