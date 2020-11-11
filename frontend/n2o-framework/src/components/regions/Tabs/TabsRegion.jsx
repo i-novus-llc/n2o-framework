@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import filter from 'lodash/filter';
 import map from 'lodash/map';
 import find from 'lodash/find';
 import get from 'lodash/get';
@@ -73,25 +72,19 @@ class TabRegion extends React.Component {
   }
 
   findReadyTabs() {
-    return filter(
-      map(this.props.tabs, tab => {
-        if (tab.opened) {
-          return tab.id;
-        }
-      }),
-      item => item
-    );
+    return map(this.props.tabs, tab => {
+      return tab.id;
+    });
   }
 
   tabVisible(tab) {
     const { getWidgetProps } = this.props;
     const content = get(tab, 'content');
 
-    return some(
-      content,
-      meta =>
-        get(getWidgetProps(meta.id), 'isVisible') || meta.src === 'TabsRegion'
-    );
+    return some(content, meta => {
+      const widgetProps = getWidgetProps(meta.id);
+      return get(widgetProps, 'isVisible') || meta.src === 'TabsRegion';
+    });
   }
 
   regionVisible(tabs) {
