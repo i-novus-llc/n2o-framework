@@ -1,0 +1,15 @@
+<form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
+    <fields>
+        <field id="testField1">
+            <controls>
+                <time-picker id="test1" src="testSrc" prefix="from: " format="digit" mode="hours,minutes"
+                             data-format="hh:mm" default-value="01:02"/>
+            </controls>
+        </field>
+        <field id="testField2">
+            <controls>
+                <time-picker id="test2"/>
+            </controls>
+        </field>
+    </fields>
+</form>
