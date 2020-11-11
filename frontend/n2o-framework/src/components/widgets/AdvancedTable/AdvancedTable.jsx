@@ -18,9 +18,6 @@ import findIndex from 'lodash/findIndex';
 import values from 'lodash/values';
 import eq from 'lodash/eq';
 import get from 'lodash/get';
-import reduce from 'lodash/reduce';
-import includes from 'lodash/includes';
-import isNumber from 'lodash/isNumber';
 
 import propsResolver from '../../../utils/propsResolver';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
@@ -57,6 +54,7 @@ const rowSelectionType = {
 /**
  * Компонент Таблица
  * @reactProps {boolean} hasFocus - флаг наличия фокуса
+ * @reactProps {boolean} textWrap - флаг на запрет/разрешение переноса текста в cell
  * @reactProps {string} className - класс таблицы
  * @reactProps {Array.<Object>} columns - настройки колонок
  * @reactProps {Array.<Object>} data - данные
@@ -65,6 +63,8 @@ const rowSelectionType = {
  * @reactProps {object} hotKeys - настройка hot keys
  * @reactProps {any} expandedComponent - кастомный компонент подстроки
  * @reactProps {string} children - флаг раскрыт ли список дочерних записей (приходит из props children, expand - открыт)
+ * @reactProps {string} width - кастомная ширина таблицы
+ * @reactProps {string} height - кастомная высота таблицы
  */
 class AdvancedTable extends Component {
   constructor(props) {
@@ -291,6 +291,12 @@ class AdvancedTable extends Component {
   }
 
   setTableRef(el) {
+    const { height } = this.props;
+
+    if (height) {
+      el.bodyTable.style.height = height;
+    }
+
     this.table = el;
   }
 
@@ -666,6 +672,7 @@ class AdvancedTable extends Component {
         record,
         editable: col.editable && record.editable,
         hasSpan: col.hasSpan,
+        textWrap: col.textWrap,
       }),
     }));
     if (!!rowSelection) {
@@ -678,68 +685,9 @@ class AdvancedTable extends Component {
   }
 
   getScroll() {
-    const { scroll, columns } = this.props;
+    const { height } = this.props;
 
-    const noScrollX = scroll.x === 'false';
-    const noScrollY = scroll.y === 'false';
-    const noTableScroll = noScrollX && noScrollY;
-
-    if (isEmpty(this.props.data) || isEmpty(this.props.columns)) {
-      return this.props.scroll;
-    }
-
-    if (some(this.state.columns, col => col.fixed)) {
-      return this.props.scroll;
-    }
-
-    const calcXScroll = () => {
-      const getWidth = (
-        separator,
-        startValue,
-        defaultWidth,
-        tryParse = false
-      ) =>
-        reduce(
-          columns,
-          (result, value) => {
-            if (value.width) {
-              return includes(value.width, separator) ||
-                (tryParse && isNumber(value.width))
-                ? result + parseInt(value.width)
-                : result;
-            } else {
-              return result + defaultWidth;
-            }
-          },
-          startValue
-        );
-
-      const pxWidth = getWidth('px', 5, 100, true);
-      const percentWidth = getWidth('%', 0, 0);
-
-      return percentWidth !== 0
-        ? `calc(${percentWidth}%${pxWidth > 5 ? ` + ${pxWidth}px` : ''})`
-        : pxWidth;
-    };
-
-    if (noTableScroll) {
-      return { x: false, y: false };
-    } else if (noScrollX) {
-      return {
-        ...scroll,
-        x: false,
-      };
-    } else if (noScrollY) {
-      return {
-        y: false,
-        x: calcXScroll(),
-      };
-    }
-
-    return {
-      ...scroll,
-      x: calcXScroll(),
-    };
+    return { x: false, y: Boolean(height) };
   }
 
   render() {
@@ -755,7 +703,10 @@ class AdvancedTable extends Component {
       onFocus,
       rowSelection,
       t,
+      width,
     } = this.props;
+
+    const style = width ? { width } : {};
 
     return (
       <HotKeys
@@ -764,6 +715,7 @@ class AdvancedTable extends Component {
       >
         <div onFocus={!isActive ? onFocus : undefined}>
           <Table
+            style={style}
             ref={this.setTableRef}
             prefixCls={'n2o-advanced-table'}
             className={cx('n2o-table table table-hover', className, {
@@ -842,6 +794,14 @@ AdvancedTable.propTypes = {
    * Конфиг для SecurityCheck
    */
   rows: PropTypes.object,
+  /**
+   * Кастом ширина таблицы
+   */
+  width: PropTypes.string,
+  /**
+   * Кастом высота таблицы
+   */
+  height: PropTypes.string,
 };
 
 AdvancedTable.defaultProps = {
