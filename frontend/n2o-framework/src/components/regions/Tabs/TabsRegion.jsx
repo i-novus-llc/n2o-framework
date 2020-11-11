@@ -72,9 +72,7 @@ class TabRegion extends React.Component {
   }
 
   findReadyTabs() {
-    return map(this.props.tabs, tab => {
-      return tab.id;
-    });
+    return map(this.props.tabs, tab => tab.id);
   }
 
   tabVisible(tab) {

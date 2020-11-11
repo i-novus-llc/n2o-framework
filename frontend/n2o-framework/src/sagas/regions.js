@@ -52,9 +52,11 @@ function* switchTab() {
       const activeTab = first(filter(tabs, tab => tab.id === activeEntity));
       const activeContent = get(activeTab, 'content');
 
-      return acc.concat({
+      acc.push({
         widgetsIds: getWidgetsIds(activeContent),
       });
+
+      return acc;
     },
     []
   );
@@ -78,6 +80,7 @@ function* switchTab() {
       }
     }
   }
+  mapUrl();
 }
 
 export default [takeEvery(MAP_URL, mapUrl), takeEvery(DATA_SUCCESS, switchTab)];
