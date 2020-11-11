@@ -87,7 +87,11 @@ class TabRegion extends React.Component {
     const { getWidgetProps } = this.props;
     const content = get(tab, 'content');
 
-    return some(content, meta => get(getWidgetProps(meta.id), 'isVisible'));
+    return some(
+      content,
+      meta =>
+        get(getWidgetProps(meta.id), 'isVisible') || meta.src === 'TabsRegion'
+    );
   }
 
   regionVisible(tabs) {
