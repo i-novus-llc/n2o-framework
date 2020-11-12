@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
-
+import classNames from 'classnames';
 import { batchActions } from 'redux-batched-actions';
-
 import isString from 'lodash/isString';
 import isEmpty from 'lodash/isEmpty';
 import Button from 'reactstrap/lib/Button';
@@ -17,6 +15,7 @@ import {
 import onClickOutsideHOC from 'react-onclickoutside';
 
 import InputText from '../../controls/InputText/InputText';
+
 import SearchBarPopUp from './SearchBarPopUp';
 import SearchBarEmptyMenu from './SearchBarEmptyMenu';
 
@@ -50,13 +49,14 @@ function SearchBar({
   iconFieldId,
   labelFieldId,
   urlFieldId,
+  onItemClick,
 }) {
   const hasInnerValue = innerValue !== undefined && innerValue !== '';
   const isIconClear = iconClear && hasInnerValue;
   SearchBar.handleClickOutside = () => toggleDropdown('false');
 
   return (
-    <div className={cn('n2o-search-bar', className)}>
+    <div className={classNames('n2o-search-bar', className)}>
       <div className="n2o-search-bar__control">
         <div>
           <InputText
@@ -88,13 +88,14 @@ function SearchBar({
             iconFieldId={iconFieldId}
             labelFieldId={labelFieldId}
             urlFieldId={urlFieldId}
+            onItemClick={onItemClick}
           />
         )}
       </div>
       {!!button && (
         <Button {...button} onClick={onClick}>
           {button.label}
-          {button.icon && <i className={cn('ml-2', button.icon)} />}
+          {button.icon && <i className={classNames('ml-2', button.icon)} />}
         </Button>
       )}
     </div>
@@ -180,6 +181,7 @@ const enhance = compose(
     'setInnerValue',
     ({ value, initialValue }) => initialValue || value
   ),
+  withState('dropdownOpen', 'toggleDropdown', 'false'),
   withHandlers({
     onClick: ({ innerValue, onSearch }) => () => onSearch(innerValue),
     onKeyDown: ({ innerValue, trigger, onSearch }) => ({ keyCode }) => {
@@ -207,6 +209,9 @@ const enhance = compose(
       setInnerValue('');
       onSearch('');
     },
+    onItemClick: ({ toggleDropdown }) => () => {
+      toggleDropdown(false);
+    },
   }),
   lifecycle({
     componentDidUpdate(prevProps) {
@@ -216,8 +221,7 @@ const enhance = compose(
         setInnerValue(value);
       }
     },
-  }),
-  withState('dropdownOpen', 'toggleDropdown', 'false')
+  })
 );
 
 export { SearchBar };

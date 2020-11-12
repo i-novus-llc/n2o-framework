@@ -1,14 +1,11 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import get from 'lodash/get';
-
-import cn from 'classnames';
-
+import classNames from 'classnames';
 import DropdownMenu from 'reactstrap/lib/DropdownMenu';
 import DropdownItem from 'reactstrap/lib/DropdownItem';
 
 import { RenderLink, renderDivider, itemInSearchBarClassName } from './utils';
-import PropTypes from 'prop-types';
 
 function SearchBarPopUpList({
   labelFieldId,
@@ -30,14 +27,18 @@ function SearchBarPopUpList({
 
         return (
           <div
-            className={cn('n2o-search-bar__popup_list__item-container', {
-              disabled: disabled,
-            })}
+            className={classNames(
+              'n2o-search-bar__popup_list__item-container',
+              {
+                disabled: disabled,
+              }
+            )}
             key={id}
           >
             <DropdownItem
               className={itemInSearchBarClassName(directionIconsInPopUp)}
               disabled={disabled}
+              onClick={props.onItemClick}
             >
               <RenderLink
                 description={description}
