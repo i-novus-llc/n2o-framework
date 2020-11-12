@@ -2,23 +2,20 @@ import React from 'react';
 import { withResizeDetector } from 'react-resize-detector';
 import classNames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import isEqual from 'lodash/isEqual';
+import isUndefined from 'lodash/isUndefined';
 import map from 'lodash/map';
 import get from 'lodash/get';
-
 import PropTypes from 'prop-types';
 import Navbar from 'reactstrap/lib/Navbar';
 import Nav from 'reactstrap/lib/Nav';
-
 import NavbarBrand from 'reactstrap/lib/NavbarBrand';
 import NavbarToggler from 'reactstrap/lib/NavbarToggler';
 import Collapse from 'reactstrap/lib/Collapse';
 
+import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer';
+
 import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
-
-import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer';
-import isUndefined from 'lodash/isUndefined';
 
 /**
  * Хедер-плагин
