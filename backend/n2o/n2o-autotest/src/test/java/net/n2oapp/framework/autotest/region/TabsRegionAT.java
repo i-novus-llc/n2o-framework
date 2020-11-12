@@ -46,8 +46,8 @@ public class TabsRegionAT extends AutoTestBase {
         tabs.tab(0).shouldBeActive();
         tabs.tab(1).shouldNotBeActive();
         tabs.tab(2).shouldNotBeActive();
-        tabs.tab(0).shouldHaveTitle("Tab1");
-        tabs.tab(1).shouldHaveTitle("Tab2");
+        tabs.tab(0).shouldHaveName("Tab1");
+        tabs.tab(1).shouldHaveName("Tab2");
         tabs.tab(2).shouldNotHaveTitle();
 
         tabs.tab(1).click();
@@ -66,7 +66,7 @@ public class TabsRegionAT extends AutoTestBase {
 
         TabsRegion tabs3 = page.regions().region(2, TabsRegion.class);
         tabs3.shouldHaveSize(1);
-        tabs3.tab(0).shouldHaveTitle("SingleTab");
+        tabs3.tab(0).shouldHaveName("SingleTab");
         tabs3.tab(0).content().widget(FormWidget.class).shouldExists();
     }
 
@@ -94,7 +94,7 @@ public class TabsRegionAT extends AutoTestBase {
         TabsRegion tabs = content.region(4, TabsRegion.class);
         tabs.shouldExists();
         tabs.shouldHaveSize(2);
-        tabs.tab(1).shouldHaveTitle("Tab2");
+        tabs.tab(1).shouldHaveName("Tab2");
 
         content.widget(5, FormWidget.class).fields().field("field3").shouldExists();
 
