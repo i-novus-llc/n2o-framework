@@ -26,8 +26,12 @@
                 <form name="lineForm"/>
             </line>
             <tabs>
-                <tab name="Tab1"/>
-                <tab name="Tab2"/>
+                <tab name="Tab1">
+                    <form/>
+                </tab>
+                <tab name="Tab2">
+                    <form/>
+                </tab>
             </tabs>
             <form name="form4">
                 <fields>

@@ -32,30 +32,23 @@ import TabContent from './TabContent';
  */
 
 class Tabs extends React.Component {
-  constructor(props) {
-    super(props);
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { activeId, onChangeActive } = this.props;
 
-    this.state = {
-      activeId: this.defaultOpenedId,
-    };
-
-    this.handleChangeActive = this.handleChangeActive.bind(this);
+    if (prevProps.activeId !== activeId) {
+      onChangeActive(activeId, prevProps.activeId);
+    }
   }
 
   /**
    * установка активного таба
-   * @param e
+   * @param event
    * @param id
+   * @param prevId
    */
-  handleChangeActive(e, id) {
-    const prevId = this.state.activeId;
-    this.setState(
-      {
-        activeId: id,
-      },
-      () => this.props.onChangeActive(id, prevId)
-    );
-  }
+  handleChangeActive = (event, id, prevId) => {
+    this.props.onChangeActive(id, prevId);
+  };
 
   /**
    * getter для айдишника активного таба
@@ -87,7 +80,7 @@ class Tabs extends React.Component {
       dependencyVisible,
     } = this.props;
 
-    const { activeId } = this.state;
+    const activeId = this.defaultOpenedId;
 
     const tabNavItems = React.Children.map(children, child => {
       const { id, title, icon, disabled, visible } = child.props;
