@@ -37,12 +37,6 @@ function ImageField(props) {
   const isEmptyModel = isEmpty(model);
 
   const defaultImageProps = {
-    src: data ? data : url,
-    title: title,
-    description: description,
-  };
-
-  const propsForResolve = {
     url: url,
     data: data,
     title: title,
@@ -51,7 +45,7 @@ function ImageField(props) {
 
   const resolveProps = isEmptyModel
     ? defaultImageProps
-    : propsResolver(propsForResolve, model);
+    : propsResolver(defaultImageProps, model);
 
   return (
     <Image
