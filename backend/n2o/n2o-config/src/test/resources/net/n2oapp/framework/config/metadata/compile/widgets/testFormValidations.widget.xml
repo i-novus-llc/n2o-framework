@@ -17,5 +17,31 @@
                 <requiring on="testField3">testField3 == 'test'</requiring>
             </dependencies>
         </input-text>
+        <interval-field id="testInterval">
+            <begin>
+                <masked-input id="testIntervalBegin"
+                              mask="99:99" placeholder="--:--">
+                    <validations>
+                        <condition id="testIntervalBeginCheck" severity="danger"
+                                   message="Некорректное время">
+                            <![CDATA[
+                                    typeof testIntervalBegin == 'undefined'
+                                ]]>
+                        </condition>
+                    </validations>
+                </masked-input>
+            </begin>
+            <end>
+                <masked-input id="testIntervalEnd" no-label="true" mask="99:99" placeholder="--:--">
+                    <validations>
+                        <condition id="testIntervalEndCheck" severity="danger" message="Некорректное время">
+                            <![CDATA[
+                                    typeof testIntervalEnd == 'undefined'
+                                ]]>
+                        </condition>
+                    </validations>
+                </masked-input>
+            </end>
+        </interval-field>
     </fields>
 </form>
