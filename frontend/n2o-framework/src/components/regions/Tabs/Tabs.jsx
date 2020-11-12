@@ -33,9 +33,10 @@ import TabContent from './TabContent';
 
 class Tabs extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.activeId !== this.props.activeId) {
-      return event =>
-        this.handleChangeActive(event, this.props.activeId, prevProps.activeId);
+    const { activeId, onChangeActive } = this.props;
+
+    if (prevProps.activeId !== activeId) {
+      onChangeActive(activeId, prevProps.activeId);
     }
   }
 
