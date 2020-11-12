@@ -152,7 +152,7 @@ export function RangeField({
                 {...beginControl}
                 {...props}
                 className={cx(beginControl && beginControl.className, {
-                  [validationClass]: touched,
+                  [validationClass]: touched && (!end || !begin),
                 })}
               />
               <Measure value={measure} />
@@ -172,7 +172,7 @@ export function RangeField({
                 {...endControl}
                 {...props}
                 className={cx(endControl && endControl.className, {
-                  [validationClass]: touched,
+                  [validationClass]: touched && (!end || !begin),
                 })}
               />
               <Measure value={measure} />
@@ -186,7 +186,7 @@ export function RangeField({
       <div
         className={cx('n2o-validation-message', validationMap[validationClass])}
       >
-        {touched && message && message.text}
+       {(!end || !begin) && touched && message && message.text}
       </div>
     </div>
   ) : null;
