@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.widget;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.util.BindUtil;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,12 @@ public class StandardFieldBinder implements BaseMetadataBinder<StandardField<?>>
     @Override
     public StandardField<?> bind(StandardField<?> compiled, BindProcessor p) {
         BindUtil.bindDataProvider(compiled.getDataProvider(), p);
+        if (compiled.getToolbar() != null) {
+            for (Group grp : compiled.getToolbar()) {
+                if (grp.getButtons() != null)
+                    grp.getButtons().forEach(p::bind);
+            }
+        }
         return compiled;
     }
 }
