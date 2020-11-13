@@ -71,7 +71,7 @@ public class CustomRegionAT extends AutoTestBase {
         TabsRegion tabs = content.region(3, TabsRegion.class);
         tabs.shouldExists();
         tabs.shouldHaveSize(2);
-        tabs.tab(1).shouldHaveTitle("Tab2");
+        tabs.tab(1).shouldHaveName("Tab2");
 
         content.widget(4, FormWidget.class).fields().field("field4").shouldExists();
     }
