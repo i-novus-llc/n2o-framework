@@ -4,6 +4,7 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.cell.ToolbarCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.ButtonField;
+import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -53,22 +54,40 @@ public class ButtonBindingAT extends AutoTestBase {
     }
 
     @Test
-    public void testDialog() {
+    public void testButtons() {
         FormWidget form = page.widget(FormWidget.class);
-        form.fields().field("Put name").control(InputText.class).val("Ivan");
+        StandardField field = form.fields().field("Put name");
+        field.shouldExists();
+        field.control(InputText.class).val("Ivan");
         StandardButton button = form.toolbar().bottomLeft().button("Press");
+        button.shouldExists();
         button.click();
 
-        StandardPage newPage = page(StandardPage.class);
-        N2oSimpleRegion region = newPage.regions().region(0, N2oSimpleRegion.class);
+        StandardPage openPage = page(StandardPage.class);
+        openPage.shouldExists();
+        N2oSimpleRegion region = openPage.regions().region(0, N2oSimpleRegion.class);
         FormWidget widget1 = region.content().widget(0, FormWidget.class);
-        widget1.fields().field("Кнопка в поле", ButtonField.class).click();
-        page.alerts().alert(0).shouldHaveText("Hello, Ivan");
-        widget1.fields().field("Кнопка в контроле", ButtonField.class).click();
-        page.alerts().alert(0).shouldHaveText("Hello, Ivan");
+        ButtonField buttonField = widget1.fields().field("Кнопка в поле", ButtonField.class);
+        buttonField.shouldExists();
+        buttonField.click();
+        openPage.alerts().alert(0).shouldHaveText("Hello, Ivan");
+
+        ButtonField controlButton = widget1.fields().field("Кнопка в контроле", ButtonField.class);
+        controlButton.shouldExists();
+        controlButton.click();
+        openPage.alerts().alert(0).shouldHaveText("Hello, Ivan");
+
+        StandardField fieldWithButton = widget1.fields().field("Кнопка в тулбаре поля", StandardField.class);
+        StandardButton fieldToolbarButton = fieldWithButton.toolbar().button("Кнопка в тулбаре поля");
+        fieldToolbarButton.shouldExists();
+        fieldToolbarButton.click();
+        openPage.alerts().alert(0).shouldHaveText("Hello, Ivan");
+
         TableWidget widget2 = region.content().widget(1, TableWidget.class);
         ToolbarCell toolbarCell = widget2.columns().rows().row(0).cell(0, ToolbarCell.class);
-        toolbarCell.toolbar().button("Кнопка в ячейке").click();
-        page.alerts().alert(0).shouldHaveText("Hello, Ivan");
+        StandardButton toolbarCellButton = toolbarCell.toolbar().button("Кнопка в ячейке");
+        toolbarCellButton.shouldExists();
+        toolbarCellButton.click();
+        openPage.alerts().alert(0).shouldHaveText("Hello, Ivan");
     }
 }

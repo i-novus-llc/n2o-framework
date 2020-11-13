@@ -8,15 +8,20 @@
                     <field id="name">
                         <controls>
                             <button label="Кнопка в контроле">
-                                <invoke operation-id="greeting" route="/greeting">
-                                </invoke>
+                                <invoke operation-id="greeting" route="/greeting"/>
                             </button>
                         </controls>
                     </field>
                     <button label="Кнопка в поле">
-                        <invoke operation-id="greeting" route="/greeting">
-                        </invoke>
+                        <invoke operation-id="greeting" route="/greeting"/>
                     </button>
+                    <input-text id="name1" label="Кнопка в тулбаре">
+                        <toolbar>
+                            <button>
+                                <invoke operation-id="greeting" route="/greeting"/>
+                            </button>
+                        </toolbar>
+                    </input-text>
                 </fields>
             </form>
             <table object-id="testButtonFieldBinder" >
