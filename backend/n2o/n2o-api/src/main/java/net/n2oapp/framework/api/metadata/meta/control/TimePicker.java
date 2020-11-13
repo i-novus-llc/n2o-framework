@@ -11,15 +11,11 @@ import lombok.Setter;
 @Setter
 public class TimePicker extends Control {
     @JsonProperty
-    private String src;
-    @JsonProperty
-    private String defaultValue;
-    @JsonProperty
     private String prefix;
     @JsonProperty
     private String[] mode;
     @JsonProperty
     private String format;
     @JsonProperty
-    private String dataFormat;
+    private String timeFormat;
 }

@@ -1112,9 +1112,9 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 |Режим отображения списка выбора
 |hours,minutes,seconds
 
-|data-format
+|time-format
 |hh:mm:ss; hh:mm; hh; mm
-|Формат данных в модели
+|Формат времени в модели
 |hh:mm:ss
 
 |format
@@ -1132,7 +1132,7 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 Пример::
 [source,xml]
 ----
-<time-picker id="test1" src="testSrc" prefix="from: " format="digit" mode="hours,minutes" data-format="hh:mm" default-value="01:02"/>
+<time-picker id="test1" src="testSrc" prefix="from: " format="digit" mode="hours,minutes" time-format="hh:mm" default-value="01:02"/>
 ----
 
 === <file-upload>

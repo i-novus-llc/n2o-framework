@@ -1,6 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
-import net.n2oapp.framework.api.metadata.meta.control.CustomField;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.control.TimePicker;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -37,7 +37,7 @@ public class TimePickerCompileTest extends SourceCompileTestBase {
     public void testTimePicker() {
         Form form = (Form) compile("net/n2oapp/framework/config/metadata/compile/control/testTimePicker.widget.xml")
                 .get(new WidgetContext("testTimePicker"));
-        TimePicker timePicker = (TimePicker) ((CustomField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl();
+        TimePicker timePicker = (TimePicker) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl();
 
         assertThat(timePicker.getId(), is("test1"));
         assertThat(timePicker.getSrc(), is("testSrc"));
@@ -46,10 +46,9 @@ public class TimePickerCompileTest extends SourceCompileTestBase {
         assertThat(timePicker.getMode().length, is(2));
         assertThat(timePicker.getMode()[0], is("hours"));
         assertThat(timePicker.getMode()[1], is("minutes"));
-        assertThat(timePicker.getDataFormat(), is("hh:mm"));
-        assertThat(timePicker.getDefaultValue(), is("01:02"));
+        assertThat(timePicker.getTimeFormat(), is("hh:mm"));
 
-        timePicker = (TimePicker) ((CustomField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0)).getControl();
+        timePicker = (TimePicker) ((StandardField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0)).getControl();
 
         assertThat(timePicker.getId(), is("test2"));
         assertThat(timePicker.getSrc(), is("TimePicker"));
@@ -59,8 +58,7 @@ public class TimePickerCompileTest extends SourceCompileTestBase {
         assertThat(timePicker.getMode()[0], is("hours"));
         assertThat(timePicker.getMode()[1], is("minutes"));
         assertThat(timePicker.getMode()[2], is("seconds"));
-        assertThat(timePicker.getDataFormat(), is("hh:mm:ss"));
-        assertThat(timePicker.getDefaultValue(), is(nullValue()));
+        assertThat(timePicker.getTimeFormat(), is("hh:mm:ss"));
     }
 
 }

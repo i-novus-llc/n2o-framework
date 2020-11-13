@@ -843,10 +843,10 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
-                <xs:attribute name="data-format" default="hh:mm:ss">
+                <xs:attribute name="time-format" default="hh:mm:ss">
                     <xs:annotation>
                         <xs:documentation>
-                            Формат данных в модели.
+                            Формат времени в модели.
                         </xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>

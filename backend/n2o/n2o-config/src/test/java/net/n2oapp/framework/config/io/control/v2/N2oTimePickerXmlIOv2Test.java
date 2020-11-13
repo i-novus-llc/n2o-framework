@@ -8,6 +8,9 @@ import net.n2oapp.framework.config.reader.control.N2oStandardControlReaderTestBa
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
+/**
+ * Тестирование чтения/записи компонента компонента ввода времени
+ */
 public class N2oTimePickerXmlIOv2Test extends N2oStandardControlReaderTestBase {
 
     @Test

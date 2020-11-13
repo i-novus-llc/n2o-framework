@@ -3,7 +3,7 @@
         <field id="testId" src="src">
             <controls>
                 <time-picker id="testId" src="timePicker"
-                             prefix="From: " data-format="hh:mm" format="digit"
+                             prefix="From: " time-format="hh:mm" format="digit"
                              default-value="00:00:00" mode="hours,minutes"/>
             </controls>
         </field>
