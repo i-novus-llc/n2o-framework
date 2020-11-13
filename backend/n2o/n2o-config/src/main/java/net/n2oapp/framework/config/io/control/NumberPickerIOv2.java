@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.control;
 
 import net.n2oapp.framework.api.metadata.control.N2oNumberPicker;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
+import net.n2oapp.framework.config.io.control.plain.PlainFieldIOv2;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Чтение/запись компонента выбора числа из диапазона
  */
 @Component
-public class NumberPickerIOv2 extends FieldIOv2<N2oNumberPicker> {
+public class NumberPickerIOv2 extends PlainFieldIOv2<N2oNumberPicker> {
 
     @Override
     public void io(Element e, N2oNumberPicker m, IOProcessor p) {
