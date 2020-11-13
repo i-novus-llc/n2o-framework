@@ -55,7 +55,7 @@ public class ButtonBindingAT extends AutoTestBase {
 
     @Test
     public void testButtons() {
-        FormWidget form = page.widget(FormWidget.class);
+        FormWidget form = page.single().widget(FormWidget.class);
         StandardField field = form.fields().field("Put name");
         field.shouldExists();
         field.control(InputText.class).val("Ivan");
@@ -65,8 +65,7 @@ public class ButtonBindingAT extends AutoTestBase {
 
         StandardPage openPage = page(StandardPage.class);
         openPage.shouldExists();
-        N2oSimpleRegion region = openPage.regions().region(0, N2oSimpleRegion.class);
-        FormWidget widget1 = region.content().widget(0, FormWidget.class);
+        FormWidget widget1 = openPage.widgets().widget(0, FormWidget.class);
         ButtonField buttonField = widget1.fields().field("Кнопка в поле", ButtonField.class);
         buttonField.shouldExists();
         buttonField.click();
@@ -83,7 +82,7 @@ public class ButtonBindingAT extends AutoTestBase {
         fieldToolbarButton.click();
         openPage.alerts().alert(0).shouldHaveText("Hello, Ivan");
 
-        TableWidget widget2 = region.content().widget(1, TableWidget.class);
+        TableWidget widget2 = openPage.widgets().widget(1, TableWidget.class);
         ToolbarCell toolbarCell = widget2.columns().rows().row(0).cell(0, ToolbarCell.class);
         StandardButton toolbarCellButton = toolbarCell.toolbar().button("Кнопка в ячейке");
         toolbarCellButton.shouldExists();

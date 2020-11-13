@@ -46,6 +46,7 @@ public class N2oActionsPack implements MetadataPack<N2oApplicationBuilder> {
                 new OpenDrawerBinder(),
                 new PerformButtonBinder(),
                 new CustomFieldBinder(),
+                new ButtonFieldBinder(),
                 new ToolbarCellBinder(),
                 new SubMenuBinder());
     }

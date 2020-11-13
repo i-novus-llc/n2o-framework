@@ -67,10 +67,10 @@ public class ButtonFieldBinderTest extends SourceCompileTestBase {
                 is("n2o/data/p/w/1/form/greeting"));
         ButtonField field1 = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(2).getCols().get(0).getFields().get(0);
         assertThat(((InvokeAction)field1.getAction()).getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
-        Table table = (Table) page.getWidgets().get("p_w_form_w2");
         InvokeAction invokeAction = (InvokeAction) form.getComponent().getFieldsets().get(0).getRows().get(3).getCols().get(0)
                 .getFields().get(0).getToolbar()[0].getButtons().get(0).getAction();
         assertThat(invokeAction.getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/greeting"));
+        Table table = (Table) page.getWidgets().get("p_w_form_w2");
         assertThat(((InvokeAction)((ToolbarCell)table.getComponent().getCells().get(0)).getToolbar().get(0).getButtons().get(0).getAction())
                         .getPayload().getDataProvider().getUrl(), is("n2o/data/p/w/1/form/w2/greeting"));
     }
