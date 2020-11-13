@@ -18,7 +18,6 @@ public class NumberPickerIOv2 extends PlainFieldIOv2<N2oNumberPicker> {
         p.attributeInteger(e, "min", m::getMin, m::setMin);
         p.attributeInteger(e, "max", m::getMax, m::setMax);
         p.attributeInteger(e, "step", m::getStep, m::setStep);
-        p.attribute(e, "default-value", m::getDefaultValue, m::setDefaultValue);
     }
 
     @Override

@@ -10,9 +10,7 @@ import net.n2oapp.framework.api.metadata.control.plain.N2oPlainField;
 @Getter
 @Setter
 public class N2oNumberPicker extends N2oPlainField {
-
     private Integer max;
     private Integer min;
     private Integer step;
-
 }

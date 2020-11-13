@@ -36,14 +36,16 @@ public class NumberPickerCompileTest extends SourceCompileTestBase {
     public void testNumberPicker() {
         Form form = (Form) compile("net/n2oapp/framework/config/mapping/testNumberPicker.widget.xml")
                 .get(new WidgetContext("testNumberPicker"));
-        NumberPicker numberPicker = ((StandardField<NumberPicker>) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0)).getControl();
+        NumberPicker numberPicker = (NumberPicker) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+                .get(0).getCols().get(0).getFields().get(0)).getControl();
 
         assertThat(numberPicker.getSrc(), is("testSrc"));
         assertThat(numberPicker.getMin(), is(1));
         assertThat(numberPicker.getMax(), is(10));
         assertThat(numberPicker.getStep(), is(2));
 
-        numberPicker = ((StandardField<NumberPicker>) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0)).getControl();
+        numberPicker = (NumberPicker) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+                .get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(numberPicker.getSrc(), is("NumberPicker"));
         assertThat(numberPicker.getStep(), is(1));
     }
