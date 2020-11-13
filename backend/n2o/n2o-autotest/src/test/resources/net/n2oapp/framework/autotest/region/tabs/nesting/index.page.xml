@@ -27,7 +27,9 @@
                         <form name="tab1Form"/>
                         <form name="tab1Form2"/>
                     </tab>
-                    <tab name="Tab2"/>
+                    <tab name="Tab2">
+                        <form name="tab2Form"/>
+                    </tab>
                 </tabs>
                 <form name="form3">
                     <fields>
@@ -37,7 +39,7 @@
             </tab>
 
             <tab name="Tab2">
-
+                <form/>
             </tab>
         </tabs>
     </regions>
