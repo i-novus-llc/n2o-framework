@@ -1132,7 +1132,7 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 Пример::
 [source,xml]
 ----
-<time-picker id="test1" src="testSrc" prefix="from: " format="digit" mode="hours,minutes" time-format="hh:mm" default-value="01:02"/>
+<time-picker id="test1" prefix="from: " format="digit" mode="hours,minutes" time-format="hh:mm"/>
 ----
 
 === <file-upload>
