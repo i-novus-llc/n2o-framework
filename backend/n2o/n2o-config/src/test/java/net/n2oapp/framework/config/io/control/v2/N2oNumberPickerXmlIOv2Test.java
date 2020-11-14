@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * Тестирование чтения/записи компонента выбора числа из диапазона
  */
-public class NumberPickerIOv2Test extends N2oStandardControlReaderTestBase {
+public class N2oNumberPickerXmlIOv2Test extends N2oStandardControlReaderTestBase {
 
     @Test
     public void test() {
