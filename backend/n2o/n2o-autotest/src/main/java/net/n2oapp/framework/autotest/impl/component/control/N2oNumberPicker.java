@@ -12,15 +12,12 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
 
     @Override
     public void shouldBeEmpty() {
-        SelenideElement elm = inputElement();
-        if (elm.exists()) inputElement().shouldBe(Condition.empty);
-        else cellInputElement().shouldBe(Condition.empty);
+        inputElement().shouldBe(Condition.empty);
     }
 
     @Override
     public String val() {
-        SelenideElement elm = inputElement();
-        return elm.exists() ? elm.val() : cellInputElement().text();
+        return inputElement().val();
     }
 
     @Override
@@ -37,11 +34,8 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
 
     @Override
     public void shouldHaveValue(String value) {
-        SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ?
+        inputElement().shouldHave(value == null || value.isEmpty() ?
                 Condition.empty : Condition.value(value));
-        else cellInputElement().shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.text(value));
     }
 
     @Override
@@ -51,16 +45,27 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
 
     @Override
     public void clickMinusStepButton() {
-        element().parent().$$(".n2o-number-picker__button .fa-minus").get(1).click();
+        element().parent().$$(".n2o-number-picker__button .fa-minus").get(0).click();
+    }
+
+    @Override
+    public void minShouldBe(String val) {
+        inputElement().shouldBe(Condition.attribute("min", val));
+    }
+
+    @Override
+    public void maxShouldBe(String val) {
+        inputElement().shouldBe(Condition.attribute("max", val));
+    }
+
+    @Override
+    public void stepShouldBe(String val) {
+        inputElement().shouldBe(Condition.attribute("step", val));
     }
 
     private SelenideElement inputElement() {
         element().shouldBe(Condition.exist);
-        return element().parent().$(".n2o-input-number");
-    }
-
-    private SelenideElement cellInputElement() {
-        return element().$(".n2o-editable-cell .n2o-editable-cell-text");
+        return element().parent().$(".n2o-number-picker__input");
     }
 
 }

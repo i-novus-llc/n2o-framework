@@ -10,8 +10,14 @@ public interface NumberPicker extends Control {
 
     void clear();
 
+    void clickMinusStepButton();
+
     void clickPlusStepButton();
 
-    void clickMinusStepButton();
+    void minShouldBe(String val);
+
+    void maxShouldBe(String val);
+
+    void stepShouldBe(String val);
 
 }

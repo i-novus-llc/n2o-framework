@@ -43,12 +43,45 @@ public class NumberPickerAT extends AutoTestBase {
 
     @Test
     public void testNumberPicker() {
-        NumberPicker input = page.widget(FormWidget.class).fields().field("numberPicker").control(NumberPicker.class);
-        input.shouldExists();
-//
-//        input.shouldBeEmpty();
-        input.val("15");
-        input.shouldHaveValue("15");
+        NumberPicker numberPicker = page.widget(FormWidget.class).fields().field("limitedPicker").control(NumberPicker.class);
+        numberPicker.shouldExists();
+        numberPicker.shouldBeEnabled();
+        numberPicker.minShouldBe("1");
+        numberPicker.maxShouldBe("6");
+        numberPicker.stepShouldBe("2");
+
+        numberPicker.shouldHaveValue("4");
+        numberPicker.clickPlusStepButton();
+        numberPicker.shouldHaveValue("6");
+        numberPicker.clickPlusStepButton();
+        numberPicker.shouldHaveValue("6");
+        numberPicker.clickMinusStepButton();
+        numberPicker.shouldHaveValue("4");
+        numberPicker.val("2");
+        numberPicker.shouldHaveValue("2");
+        numberPicker.clickMinusStepButton();
+        numberPicker.shouldHaveValue("1");
+        numberPicker.clickPlusStepButton();
+        numberPicker.shouldHaveValue("3");
+        numberPicker.clickPlusStepButton();
+        numberPicker.shouldHaveValue("5");
+        numberPicker.clickPlusStepButton();
+        numberPicker.shouldHaveValue("6");
+
+        numberPicker = page.widget(FormWidget.class).fields().field("defaultPicker").control(NumberPicker.class);
+        numberPicker.shouldExists();
+        numberPicker.shouldBeEnabled();
+        numberPicker.minShouldBe("1");
+        numberPicker.maxShouldBe("100");
+        numberPicker.stepShouldBe("1");
+
+        numberPicker.shouldHaveValue("1");
+        numberPicker.clickPlusStepButton();
+        numberPicker.shouldHaveValue("2");
+        numberPicker.clickPlusStepButton();
+        numberPicker.shouldHaveValue("3");
+        numberPicker.clickMinusStepButton();
+        numberPicker.shouldHaveValue("2");
     }
 
 }
