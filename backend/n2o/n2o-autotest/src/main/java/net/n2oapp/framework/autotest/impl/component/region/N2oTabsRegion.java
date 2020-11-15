@@ -2,14 +2,10 @@ package net.n2oapp.framework.autotest.impl.component.region;
 
 import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.collection.Widgets;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
-import net.n2oapp.framework.autotest.impl.collection.N2oWidgets;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import org.openqa.selenium.WebElement;
-
-import static net.n2oapp.framework.autotest.N2oSelenide.collection;
 
 /**
  * Регион в виде вкладок для автотестирования
@@ -62,8 +58,13 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         }
 
         @Override
-        public void shouldHaveText(String text) {
+        public void shouldHaveName(String text) {
             element().shouldHave(Condition.text(text));
+        }
+
+        @Override
+        public void shouldNotHaveTitle() {
+            element().shouldHave(Condition.exactText(""));
         }
 
         @Override

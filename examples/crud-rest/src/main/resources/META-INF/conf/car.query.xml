@@ -20,9 +20,6 @@
         <field id="name" domain="string">
             <select/>
             <sorting>sortingColumn=name&amp;sortingOrder=:direction</sorting>
-            <filters>
-                <eq filter-id="name"/>
-            </filters>
         </field>
 
         <field id="price" domain="long">
@@ -33,6 +30,5 @@
                 <less filter-id="maxPrice">maxPrice={maxPrice}</less>
             </filters>
         </field>
-
     </fields>
 </query>

@@ -9,13 +9,11 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class NumberPicker extends Field {
-
+public class NumberPicker extends Control {
     @JsonProperty
     private Integer max;
     @JsonProperty
     private Integer min;
     @JsonProperty
     private Integer step;
-
 }

@@ -1,4 +1,3 @@
---CREATE TABLE IF NOT EXISTS producers (id int PRIMARY KEY, name char(50));
 CREATE TABLE IF NOT EXISTS cars (
   id int auto_increment PRIMARY KEY,
   name CHAR(50),

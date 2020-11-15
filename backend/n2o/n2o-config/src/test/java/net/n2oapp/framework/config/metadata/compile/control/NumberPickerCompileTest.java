@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.meta.control.NumberPicker;
+import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
@@ -35,14 +36,16 @@ public class NumberPickerCompileTest extends SourceCompileTestBase {
     public void testNumberPicker() {
         Form form = (Form) compile("net/n2oapp/framework/config/mapping/testNumberPicker.widget.xml")
                 .get(new WidgetContext("testNumberPicker"));
-        NumberPicker numberPicker = (NumberPicker) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        NumberPicker numberPicker = (NumberPicker) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+                .get(0).getCols().get(0).getFields().get(0)).getControl();
 
         assertThat(numberPicker.getSrc(), is("testSrc"));
         assertThat(numberPicker.getMin(), is(1));
         assertThat(numberPicker.getMax(), is(10));
         assertThat(numberPicker.getStep(), is(2));
 
-        numberPicker = (NumberPicker) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+        numberPicker = (NumberPicker) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
+                .get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(numberPicker.getSrc(), is("NumberPicker"));
         assertThat(numberPicker.getStep(), is(1));
     }
