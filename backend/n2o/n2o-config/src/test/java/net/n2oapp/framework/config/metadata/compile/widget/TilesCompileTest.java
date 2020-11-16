@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.widget;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oAbstractCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oTextCell;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -11,8 +12,7 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -48,6 +48,7 @@ public class TilesCompileTest extends SourceCompileTestBase {
         Tiles.Tile tile = tiles.getTile().get(0);
         assertThat(tile.getId(), is("test1"));
         assertThat(tile.getComponent().getSrc(), is("cell1"));
+        assertThat(((N2oAbstractCell)tile.getComponent()).getHideOnBlur(), is(true));
 
         tile = tiles.getTile().get(1);
         assertThat(tile.getId(), is("id2"));
@@ -56,6 +57,7 @@ public class TilesCompileTest extends SourceCompileTestBase {
         assertThat(tile.getComponent().getId(), is("id2"));
         assertThat(((N2oTextCell) tile.getComponent()).getFieldKey(), is("test2"));
         assertThat(((N2oTextCell) tile.getComponent()).getTooltipFieldId(), is("tooltip"));
+        assertThat(((N2oAbstractCell)tile.getComponent()).getHideOnBlur(), nullValue());
 
         tile = tiles.getTile().get(2);
         assertThat(tile.getId(), is("test3"));
