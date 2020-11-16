@@ -35,6 +35,7 @@ public class ListWidgetElementIOv4 extends AbstractListWidgetElementIOv4<N2oList
     public void element(Element e, N2oListWidget.ContentElement m, IOProcessor p) {
         p.attribute(e, "text-field-id", m::getTextFieldId, m::setTextFieldId);
         p.anyChild(e, null, m::getCell, m::setCell, p.anyOf(N2oCell.class), cellDefaultNamespace);
+        p.attributeBoolean(e, "hide-on-blur", m::getHideOnBlur, m::setHideOnBlur);
     }
 
     @Override

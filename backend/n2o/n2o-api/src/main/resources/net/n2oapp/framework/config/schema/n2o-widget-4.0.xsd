@@ -268,6 +268,11 @@
         <xs:complexContent>
             <xs:extension base="cell:cells">
                 <xs:attribute name="text-field-id" type="xs:string"/>
+                <xs:attribute name="hide-on-blur" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Скрытие ячейки при наведении на элемент.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -369,9 +374,9 @@
                 <xs:documentation>Поле выборки, отображаемое в столбце.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="hide-on-blur" type="xs:boolean">
+        <xs:attribute name="hide-on-blur" type="xs:boolean" default="false">
             <xs:annotation>
-                <xs:documentation>Скрывание/появление по ховеру на строке.</xs:documentation>
+                <xs:documentation>Скрытие ячейки при наведении на строку.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="tooltip-field-id" type="xs:string">
@@ -879,6 +884,11 @@
         <xs:attribute name="tooltip-field-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="hide-on-blur" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>Скрытие ячейки при наведении на строку.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:complexContent>
