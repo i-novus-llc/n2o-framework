@@ -9,6 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModalPayload;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -66,5 +67,9 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
                 p.resolve(property("n2o.api.action.show_modal.scrollable"), Boolean.class)));
         payload.setCloseButton(true);
         payload.setPrompt(pageContext.getUnsavedDataPromptOnClose());
+        payload.setHasHeader(p.cast(source.getHasHeader(), p.resolve(property("n2o.api.action.show_modal.has_header"), Boolean.class)));
+        payload.setClassName(source.getClassName());
+        payload.setBackdrop(source.getBackdrop());
+        payload.setStyle(StylesResolver.resolveStyles(source.getStyle()));
     }
 }

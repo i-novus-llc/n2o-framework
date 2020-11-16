@@ -7,7 +7,8 @@
                         <show-modal page-id="testShowModalPage" modal-size="sm"
                                     scrollable="true" detail-field-id="id"
                                     upload="defaults" refresh-widget-id="second" type="drawer"
-                                    submit-operation-id="create" submit-model="edit" route="/create"/>
+                                    submit-operation-id="create" submit-model="edit" route="/create"
+                                    has-header="false" class="n2o-custom-modal-dialog" backdrop="'static'" style="background:red"/>
                     </button>
                     <button id="update" model="resolve">
                         <show-modal page-id="testShowModalPageSecondFlow" modal-size="lg" master-field-id="secondId"

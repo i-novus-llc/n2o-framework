@@ -44,4 +44,12 @@ public class ShowModalPayload implements ActionPayload {
     private List<Group> toolbar;
     @JsonProperty
     private Boolean prompt;
+    @JsonProperty
+    private Boolean hasHeader;
+    @JsonProperty
+    private String className;
+    @JsonProperty
+    private String backdrop;
+    @JsonProperty
+    private Map<String, String> style;
 }

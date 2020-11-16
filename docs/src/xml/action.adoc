@@ -267,6 +267,26 @@ link:#_Параметры_запроса[Параметры действия]
 |Тип слияния
 |merge
 
+|has-header
+|true false
+|Отображать хедер
+|true
+
+|class
+|https://getbootstrap.com/docs/4.0/components/modal/#examples[CSS класс]
+|Класс модального окна
+|
+
+|backdrop
+|false/true/'static'
+|Наличие фона модального окна
+|
+
+|style
+|CSS свойство
+|Стиль окна
+|
+
 |===
 
 Пример::
