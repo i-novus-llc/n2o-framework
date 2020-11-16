@@ -6,7 +6,7 @@
        fetch-on-init="true" table-size="lg" scroll-x="300" scroll-y="300" children="expand"
        checkboxes="true" check-on-select="false">
 <columns>
-        <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left">
+        <column text-field-id="buttons" label="buttonsTest" resizable="true" fixed="left" hide-on-blur="true">
             <toolbar generate="update,delete" src="test">
                 <sub-menu style="margin-left:10px;width:300px" show-toggle-icon="false">
                     <menu-item style="margin-left:10px;width:300px">

@@ -83,6 +83,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
                 is("`test == 1 ? 'css1' : test == 2 ? 'css2' : 'css3'`"));
         assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getFormat(),
                 is("password"));
+        assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getHideOnBlur(),
+                is(true));
         assertThat(table.getActions().containsKey("but"), is(true));
         assertThat(table.getComponent().getRowClass(), is("red"));
         QueryContext queryContext = (QueryContext) route("/testTable4Compile", CompiledQuery.class);
