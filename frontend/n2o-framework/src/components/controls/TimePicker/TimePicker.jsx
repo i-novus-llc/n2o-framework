@@ -11,7 +11,6 @@ import map from 'lodash/map';
 import get from 'lodash/get';
 import each from 'lodash/each';
 import split from 'lodash/split';
-import TimePicker from 'rc-time-picker';
 import cn from 'classnames';
 import { Row, Col, Container, DropdownMenu, DropdownItem } from 'reactstrap';
 import { Manager, Reference, Popper } from 'react-popper';
@@ -51,7 +50,7 @@ const reference = {
 export class TimePickerControl extends Component {
   constructor(props) {
     super(props);
-    this._value = moment(props.value || props.defaultValue, props.dataFormat);
+    this._value = moment(props.value || props.defaultValue, props.timeFormat);
     this.state = {
       open: false,
       [HOURS]: this._value.hours(),
@@ -67,7 +66,7 @@ export class TimePickerControl extends Component {
     const hasChangeVisible = this.state.open !== prevState.open;
 
     if (prevProps.value !== this.props.value) {
-      this._value = moment(this.props.value, this.props.dataFormat);
+      this._value = moment(this.props.value, this.props.timeFormat);
       this.setState({
         [HOURS]: this._value.hours(),
         [MINUTES]: this._value.minutes(),
@@ -110,9 +109,9 @@ export class TimePickerControl extends Component {
   };
 
   getValue = () => {
-    const { format, dataFormat } = this.props;
+    const { format, timeFormat } = this.props;
     if (format === 'digit') {
-      return this.getTime(dataFormat);
+      return this.getTime(timeFormat);
     }
     if (format === 'symbols') {
       return this.getTime(
@@ -163,7 +162,7 @@ export class TimePickerControl extends Component {
         [mode]: value,
       },
       () => {
-        this.props.onChange(this.getTime(this.props.dataFormat));
+        this.props.onChange(this.getTime(this.props.timeFormat));
       }
     );
   };
@@ -302,7 +301,7 @@ TimePickerControl.propTypes = {
   /**
    * Формат времени для модели
    */
-  dataFormat: PropTypes.string,
+  timeFormat: PropTypes.string,
   /**
    * Формат врмени для отображения "digit" || "symbols"
    */
@@ -336,7 +335,7 @@ TimePickerControl.propTypes = {
 TimePickerControl.defaultProps = {
   mode: ['hours', 'minutes', 'seconds'],
   format: 'symbols',
-  dataFormat: 'HH:mm:ss',
+  timeFormat: 'HH:mm:ss',
   locale: 'ru',
   onChange: () => {},
 };
