@@ -66,6 +66,7 @@ public class ListWidgetCompiler extends BaseListWidgetCompiler<ListWidget, N2oLi
         Map<String, N2oAbstractCell> list = new HashMap<>();
         for (N2oListWidget.ContentElement element : source.getContent()) {
             element.setId(element.getTextFieldId());
+            element.setHideOnBlur(element.getHideOnBlur());
             list.put(element.getPlace(), p.compile(p.cast(element.getCell(), new N2oTextCell()), context, new ComponentScope(element), actions, widgetScope,
                     widgetRoute,
                     widgetActions,
