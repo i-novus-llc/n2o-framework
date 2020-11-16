@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { compose } from 'recompose';
+import isFunction from 'lodash/isFunction';
 import withRightPlaceholder from '../withRightPlaceholder';
 import Input from '../Input/Input';
 
@@ -31,40 +32,29 @@ class InputText extends React.Component {
     };
 
     this.inputRef = React.createRef();
-
-    this.onChange = this.onChange.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-    this.onFocus = this.onFocus.bind(this);
   }
-  /**
-   * Рендер
-   */
-  onChange(e) {
+
+  onChange = e => {
     const { onChange } = this.props;
-    if (typeof onChange !== 'undefined') {
-      onChange(e.target.value);
-    }
-  }
 
-  onBlur(e) {
+    if (isFunction(onChange)) onChange(e.target.value);
+  };
+
+  onBlur = e => {
     const { onBlur } = this.props;
     this.setState(() => ({
       focused: false,
     }));
-    if (typeof onBlur !== 'undefined') {
-      onBlur(e);
-    }
-  }
+    if (isFunction(onBlur)) onBlur(e);
+  };
 
-  onFocus(e) {
+  onFocus = e => {
     const { onFocus } = this.props;
     this.setState(() => ({
       focused: true,
     }));
-    if (typeof onFocus !== 'undefined') {
-      onFocus(e);
-    }
-  }
+    if (isFunction(onFocus)) onFocus(e);
+  };
 
   handleClickAffix = () => {
     this.inputRef.current.focus();
@@ -97,7 +87,7 @@ class InputText extends React.Component {
       type: 'text',
       autoFocus,
       maxLength: length,
-      value: value == null ? '' : value,
+      value: value === null ? '' : value,
       placeholder,
       disabled,
       readOnly,
