@@ -278,7 +278,7 @@ link:#_Параметры_запроса[Параметры действия]
 |
 
 |backdrop
-|false/true/static
+|false true static
 |Наличие фона модального окна
 |true
 
