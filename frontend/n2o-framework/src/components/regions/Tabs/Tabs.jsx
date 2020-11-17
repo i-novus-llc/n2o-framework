@@ -3,8 +3,15 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
+import some from 'lodash/some';
+import isEqual from 'lodash/isEqual';
+import map from 'lodash/map';
+import filter from 'lodash/filter';
+import first from 'lodash/first';
+import get from 'lodash/get';
 
 import TabNav from './TabNav';
 import TabNavItem from './TabNavItem';
@@ -32,30 +39,37 @@ import TabContent from './TabContent';
  */
 
 class Tabs extends React.Component {
-  constructor(props) {
-    super(props);
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { onChangeActive, children } = this.props;
 
-    this.state = {
-      activeId: this.defaultOpenedId,
+    const activeTabVisibility = (children, activeId) => {
+      const entity = first(filter(children, child => child.key === activeId));
+
+      return get(entity, 'props.visible');
     };
 
-    this.handleChangeActive = this.handleChangeActive.bind(this);
+    const isActiveTabVisibilityHasChange =
+      activeTabVisibility(children, prevProps.activeId) !==
+      activeTabVisibility(prevProps.children, prevProps.activeId);
+
+    const firstVisibleTab = first(
+      filter(children, child => child.props.visible)
+    );
+
+    if (isActiveTabVisibilityHasChange) {
+      onChangeActive(firstVisibleTab.key, prevProps.activeId);
+    }
   }
 
   /**
    * установка активного таба
-   * @param e
+   * @param event
    * @param id
+   * @param prevId
    */
-  handleChangeActive(e, id) {
-    const prevId = this.state.activeId;
-    this.setState(
-      {
-        activeId: id,
-      },
-      () => this.props.onChangeActive(id, prevId)
-    );
-  }
+  handleChangeActive = (event, id, prevId) => {
+    this.props.onChangeActive(id, prevId);
+  };
 
   /**
    * getter для айдишника активного таба
@@ -87,7 +101,7 @@ class Tabs extends React.Component {
       dependencyVisible,
     } = this.props;
 
-    const { activeId } = this.state;
+    const activeId = this.defaultOpenedId;
 
     const tabNavItems = React.Children.map(children, child => {
       const { id, title, icon, disabled, visible } = child.props;
@@ -115,18 +129,25 @@ class Tabs extends React.Component {
       );
     });
     const style = { marginBottom: 2 };
+
     return (
       <div className={className} style={style}>
         {!isEmpty(tabNavItems) && (
           <TabNav className={navClassName}>{tabNavItems}</TabNav>
         )}
-        <TabContent>
-          {React.Children.map(children, child =>
-            React.cloneElement(child, {
-              active: activeId === child.props.id,
-            })
-          )}
-        </TabContent>
+        <div
+          className={classNames('n2o-tab-content__container', {
+            visible: dependencyVisible,
+          })}
+        >
+          <TabContent>
+            {React.Children.map(children, child =>
+              React.cloneElement(child, {
+                active: activeId === child.props.id,
+              })
+            )}
+          </TabContent>
+        </div>
       </div>
     );
   }

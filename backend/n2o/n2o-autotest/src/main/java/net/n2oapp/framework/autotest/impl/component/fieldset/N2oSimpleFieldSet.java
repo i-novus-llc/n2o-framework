@@ -18,10 +18,4 @@ public class N2oSimpleFieldSet extends N2oFieldSet implements SimpleFieldSet {
     public void shouldBeEmpty() {
         element().shouldBe(Condition.empty);
     }
-
-    @Override
-    public void shouldHaveLabel(String s) {
-        element().$(".n2o-fieldset__label").shouldHave(Condition.text(s));
-    }
-
 }

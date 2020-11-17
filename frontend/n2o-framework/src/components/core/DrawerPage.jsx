@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import cn from 'classnames';
-import { compose } from 'recompose';
+import { compose, withProps } from 'recompose';
 
 import Drawer from '../snippets/Drawer/Drawer';
 import Spinner from '../snippets/Spinner/Spinner';
@@ -53,6 +53,7 @@ function DrawerPage(props) {
     backdropClosable,
     animation,
     prompt,
+    closeOverlay,
     fixedFooter,
     ...rest
   } = props;
@@ -77,8 +78,8 @@ function DrawerPage(props) {
       >
         <Drawer
           visible={!loading && visible !== false}
-          onHandleClick={() => rest.closeOverlay(prompt)}
-          onClose={() => rest.closeOverlay(prompt)}
+          onHandleClick={closeOverlay}
+          onClose={closeOverlay}
           title={headerTitle}
           backdrop={backdrop}
           width={width}
@@ -113,6 +114,8 @@ function DrawerPage(props) {
                 entityKey={entityKey}
                 needMetadata={true}
                 withToolbar={withToolbar}
+                initSearchValue={''}
+                isDrawerPage={true}
               />
             ) : src ? (
               rest.renderFromSrc(src)
@@ -141,4 +144,9 @@ DrawerPage.contextTypes = {
   defaultPromptMessage: PropTypes.string,
 };
 
-export default compose(withOverlayMethods)(DrawerPage);
+export default compose(
+  withOverlayMethods,
+  withProps(props => ({
+    closeOverlay: () => props.closeOverlay(props.prompt),
+  }))
+)(DrawerPage);

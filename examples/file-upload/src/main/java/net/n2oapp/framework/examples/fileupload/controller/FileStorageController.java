@@ -16,10 +16,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class FileStorageController {
-
     private Path path;
 
-    private Map<String, FileModel> storage = new HashMap<>();
+    private Map<Integer, FileModel> storage = new HashMap<>();
     private int id = 0;
 
     public FileStorageController() throws IOException {
@@ -32,7 +31,7 @@ public class FileStorageController {
         return storage.values().stream().filter(FileModel::isStored).collect(Collectors.toList());
     }
 
-    public void delete(String id) {
+    public void delete(Integer id) {
         if (id != null) {
             FileModel model = storage.remove(id);
             if (model != null) {
@@ -47,9 +46,9 @@ public class FileStorageController {
     }
 
     @SuppressWarnings("unused")
-    public void submit(List<String> ids) {
+    public void submit(List<Integer> ids) {
         if (ids != null) {
-            for (String id : ids) {
+            for (Integer id : ids) {
                 FileModel model = storage.get(id);
                 if (model != null) {
                     model.setStored(true);
@@ -68,8 +67,8 @@ public class FileStorageController {
             targetLocation.toFile().deleteOnExit();
 
             String uri = ServletUriComponentsBuilder.fromPath(fileName).toUriString();
-            FileModel model = new FileModel("" + (++id), fileName, uri);
-            storage.put("" + id, model);
+            FileModel model = new FileModel(++id, fileName, uri);
+            storage.put(id, model);
 
             return model;
         } catch (IOException e) {
@@ -91,5 +90,4 @@ public class FileStorageController {
         }
         return null;
     }
-
 }

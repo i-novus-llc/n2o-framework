@@ -27,11 +27,6 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     }
 
     @Override
-    public void shouldHaveLabel(String s) {
-        element().parent().$(".n2o-fieldset__label").shouldHave(Condition.text(s));
-    }
-
-    @Override
     public MultiFieldSetItem item(int index) {
         return component(element().$$(".n2o-multi-fieldset__item").get(index), MultiFieldSetItem.class);
     }
