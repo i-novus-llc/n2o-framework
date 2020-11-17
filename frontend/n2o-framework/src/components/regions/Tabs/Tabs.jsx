@@ -3,8 +3,15 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
+import some from 'lodash/some';
+import isEqual from 'lodash/isEqual';
+import map from 'lodash/map';
+import filter from 'lodash/filter';
+import first from 'lodash/first';
+import get from 'lodash/get';
 
 import TabNav from './TabNav';
 import TabNavItem from './TabNavItem';
@@ -33,10 +40,24 @@ import TabContent from './TabContent';
 
 class Tabs extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { activeId, onChangeActive } = this.props;
+    const { onChangeActive, children } = this.props;
 
-    if (prevProps.activeId !== activeId) {
-      onChangeActive(activeId, prevProps.activeId);
+    const activeTabVisibility = (children, activeId) => {
+      const entity = first(filter(children, child => child.key === activeId));
+
+      return get(entity, 'props.visible');
+    };
+
+    const isActiveTabVisibilityHasChange =
+      activeTabVisibility(children, prevProps.activeId) !==
+      activeTabVisibility(prevProps.children, prevProps.activeId);
+
+    const firstVisibleTab = first(
+      filter(children, child => child.props.visible)
+    );
+
+    if (isActiveTabVisibilityHasChange) {
+      onChangeActive(firstVisibleTab.key, prevProps.activeId);
     }
   }
 
@@ -108,18 +129,25 @@ class Tabs extends React.Component {
       );
     });
     const style = { marginBottom: 2 };
+
     return (
       <div className={className} style={style}>
         {!isEmpty(tabNavItems) && (
           <TabNav className={navClassName}>{tabNavItems}</TabNav>
         )}
-        <TabContent>
-          {React.Children.map(children, child =>
-            React.cloneElement(child, {
-              active: activeId === child.props.id,
-            })
-          )}
-        </TabContent>
+        <div
+          className={classNames('n2o-tab-content__container', {
+            visible: dependencyVisible,
+          })}
+        >
+          <TabContent>
+            {React.Children.map(children, child =>
+              React.cloneElement(child, {
+                active: activeId === child.props.id,
+              })
+            )}
+          </TabContent>
+        </div>
       </div>
     );
   }
