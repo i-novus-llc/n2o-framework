@@ -5,7 +5,6 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
-import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -85,23 +84,6 @@ public class MultiFieldSetAT extends AutoTestBase {
         // проверяем, что значения не копируются в поля второго элемента
         name2.shouldBeEmpty();
         age2.shouldBeEmpty();
-    }
-
-    @Test
-    public void testLabel() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/label/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-
-        page = open(SimplePage.class);
-        page.shouldExists();
-
-        MultiFieldSet fieldset1 = page.widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
-        fieldset1.shouldExists();
-        fieldset1.shouldHaveLabel("testMultiSetLabel");
-
-        SimpleFieldSet fieldset2 = page.widget(FormWidget.class).fieldsets().fieldset(1, SimpleFieldSet.class);
-        fieldset2.shouldExists();
-        fieldset2.shouldHaveLabel("testSetLabel");
     }
 
     @Test

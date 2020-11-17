@@ -214,7 +214,6 @@ class Fieldset extends React.Component {
       parentName,
       parentIndex,
       disabled,
-      label,
       ...rest
     } = this.props;
 
@@ -230,9 +229,7 @@ class Fieldset extends React.Component {
 
     return (
       <div className={classes} style={style}>
-        {label && <h4 className="n2o-fieldset__label">{label}</h4>}
         <ElementType
-          label={label}
           {...rest}
           render={(rows, props = { parentName, parentIndex }) => {
             this.fields = this.calculateAllFields(rows);
