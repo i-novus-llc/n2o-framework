@@ -58,6 +58,8 @@ public class OpenDrawerAT extends AutoTestBase {
         drawerPage.placementShouldBe(Drawer.Placement.left);
         drawerPage.widthShouldBe("500");
         drawerPage.heightShouldBe("500");
+        drawerPage.shouldHaveFooter();
+        drawerPage.footerShouldBeFixed();
         SimplePage pg = drawerPage.content(SimplePage.class);
         pg.shouldExists();
         pg.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("22");
@@ -72,6 +74,8 @@ public class OpenDrawerAT extends AutoTestBase {
         drawerPage.placementShouldBe(Drawer.Placement.top);
         drawerPage.widthShouldBe("300");
         drawerPage.heightShouldBe("300");
+        drawerPage.shouldHaveFooter();
+        drawerPage.footerShouldNotBeFixed();
         pg.shouldExists();
         pg.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("33");
         pg.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test300");
