@@ -20,6 +20,12 @@ public interface Drawer extends Component {
 
     void close();
 
+    void shouldHaveFooter();
+
+    void footerShouldBeFixed();
+
+    void footerShouldNotBeFixed();
+
     enum Placement {
         left, top, bottom, right
     }
