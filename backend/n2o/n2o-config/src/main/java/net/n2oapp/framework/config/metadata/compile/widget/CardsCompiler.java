@@ -62,7 +62,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         List<Cards.Card> cards = new ArrayList<>(source.length);
         for (N2oCards.Col col : source) {
             Cards.Card card = new Cards.Card();
-            card.setCol(col.getSize());
+            card.setSize(col.getSize());
             card.setContent(compileBlock(col.getBlocks(), context, p, object, widgetScope, widgetActions));
             cards.add(card);
         }

@@ -7,6 +7,8 @@ import net.n2oapp.framework.api.metadata.global.view.widget.table.column.Abstrac
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
 import net.n2oapp.framework.api.metadata.meta.widget.Cards;
 
+import java.io.Serializable;
+
 /**
  * Исходная модель виджета карточки
  */
@@ -20,7 +22,7 @@ public class N2oCards extends N2oAbstractListWidget {
 
     @Getter
     @Setter
-    public static class Col {
+    public static class Col implements Serializable {
         private Integer size;
         private Block[] blocks;
     }
