@@ -3,6 +3,9 @@
  */
 import { createSelector } from 'reselect';
 import has from 'lodash/has';
+import get from 'lodash/get';
+
+import { findDeep } from '../utils/findDeep';
 
 /*
  Базовые селекторы
@@ -52,7 +55,9 @@ const makePageWidgetsByIdSelector = pageId =>
   createSelector(
     makePageMetadataByIdSelector(pageId),
     (metadata = {}) => {
-      return has(metadata, 'widget') ? metadata.widget : metadata.widgets;
+      return has(metadata, 'widget')
+        ? metadata.widget
+        : get(findDeep(metadata, 'src', 'FormWidget'), '[0]');
     }
   );
 
@@ -98,7 +103,7 @@ const makeWidgetMetadataSelector = (pageId, widgetId) =>
   createSelector(
     makePageMetadataByIdSelector(pageId),
     pageState => {
-      return pageState && pageState.widgets[widgetId];
+      return pageState && pageState.widget[widgetId];
     }
   );
 
