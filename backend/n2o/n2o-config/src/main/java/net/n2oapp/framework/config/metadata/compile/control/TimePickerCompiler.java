@@ -25,15 +25,15 @@ public class TimePickerCompiler extends StandardFieldCompiler<TimePicker, N2oTim
     public StandardField<TimePicker> compile(N2oTimePicker source, CompileContext<?, ?> context, CompileProcessor p) {
         TimePicker timePicker = new TimePicker();
         timePicker.setPrefix(source.getPrefix());
-        timePicker.setMode(p.cast(source.getMode(), p.resolve(property("n2o.api.control.time-picker.mode"), String.class).split(",")));
-        timePicker.setTimeFormat(p.cast(source.getTimeFormat(), p.resolve(property("n2o.api.control.time-picker.time-format"), String.class)));
-        timePicker.setFormat(p.cast(source.getFormat(), p.resolve(property("n2o.api.control.time-picker.format"), String.class)));
+        timePicker.setMode(p.cast(source.getMode(), p.resolve(property("n2o.api.control.time_picker.mode"), String.class).split(",")));
+        timePicker.setTimeFormat(p.cast(source.getTimeFormat(), p.resolve(property("n2o.api.control.time_picker.time-format"), String.class)));
+        timePicker.setFormat(p.cast(source.getFormat(), p.resolve(property("n2o.api.control.time_picker.format"), String.class)));
         return compileStandardField(timePicker, source, context, p);
     }
 
 
     @Override
     protected String getControlSrcProperty() {
-        return "n2o.api.control.time-picker.src";
+        return "n2o.api.control.time_picker.src";
     }
 }
