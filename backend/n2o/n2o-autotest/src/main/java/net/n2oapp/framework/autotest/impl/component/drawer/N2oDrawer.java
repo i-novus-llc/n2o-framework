@@ -70,20 +70,4 @@ public class N2oDrawer extends N2oComponent implements Drawer {
             return attr == null ? "" : attr;
         }
     }
-
-    @Override
-    public void shouldHaveFooter() {
-        element().$(".drawer-footer").shouldBe(Condition.exist);
-    }
-
-    @Override
-    public void footerShouldBeFixed() {
-        element().$(".drawer-footer").shouldBe(Condition.cssClass("drawer-footer--fixed"));
-    }
-
-    @Override
-    public void footerShouldNotBeFixed() {
-        element().$(".drawer-footer").shouldNotBe(Condition.cssClass("drawer-footer--fixed"));
-
-    }
 }
