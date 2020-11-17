@@ -48,6 +48,12 @@ function NumberPicker(props) {
   }
 
   useEffect(() => {
+    if (isNil(value) || value === '') {
+      onChange(defaultValue);
+    }
+  }, [value, onChange, defaultValue]);
+
+  useEffect(() => {
     if (value < min) {
       onChange(min);
     } else if (value > max) {
@@ -56,10 +62,15 @@ function NumberPicker(props) {
   }, [value, max, min, onChange]);
 
   const handlerChange = step => {
+    const nextValue = value + step;
     if (isNil(value) || value === '') {
       onChange(defaultValue);
-    } else if (value => min && value <= max) {
-      onChange(value + step);
+    } else if (min <= nextValue && nextValue <= max) {
+      onChange(nextValue);
+    } else if (nextValue < min) {
+      onChange(min);
+    } else if (nextValue > max) {
+      onChange(max);
     }
   };
 
@@ -96,7 +107,7 @@ function NumberPicker(props) {
 NumberPicker.defaultProps = {
   visible: true,
   style: {},
-  min: 1,
+  min: 0,
   max: 100,
   step: 1,
   disabled: false,
