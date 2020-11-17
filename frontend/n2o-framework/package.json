@@ -1,6 +1,6 @@
 {
   "name": "n2o-framework",
-  "version": "7.11.2",
+  "version": "7.11.3",
   "description": "N2O React",
   "jsnext:main": "es/index.js",
   "main": "lib/index.js",
