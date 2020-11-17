@@ -5,24 +5,30 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oPagination;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
+import net.n2oapp.framework.api.metadata.meta.widget.Cards;
 
 /**
- * Исходная модель виджета Плитки
+ * Исходная модель виджета карточки
  */
 @Getter
 @Setter
-public class N2oTiles extends N2oAbstractListWidget {
-    private Integer colsSm;
-    private Integer colsMd;
-    private Integer colsLg;
-    private Integer height;
-    private Integer width;
+public class N2oCards extends N2oAbstractListWidget {
+
+    private Cards.Position align;
     private N2oPagination pagination;
-    private Block[] content;
+    private Col[] content;
+
+    @Getter
+    @Setter
+    public static class Col {
+        private Integer size;
+        private Block[] blocks;
+    }
 
     @Getter
     @Setter
     public static class Block extends AbstractColumn {
         private N2oCell component;
     }
+
 }
