@@ -11,7 +11,7 @@
                         copy-model="edit" copy-widget-id="table" copy-field-id="test"
                         submit-action-type="copy" target-model="resolve" target-widget-id="table"
                         target-field-id="test" copy-mode="replace"
-                        has-header="false" class="n2o-custom-modal-dialog" backdrop="'static'" style="background : red">
+                        has-header="false" class="n2o-custom-modal-dialog" backdrop="static" style="background : red">
             </show-modal>
         </action>
     </actions>

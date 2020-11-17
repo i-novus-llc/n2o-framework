@@ -128,7 +128,7 @@
                 </xs:attribute>
                 <xs:attribute name="has-header" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Отображать хедер.
+                        <xs:documentation>Наличие хедера.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -144,18 +144,18 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="backdrop">
+                <xs:attribute name="backdrop" default="true">
                     <xs:simpleType>
                         <xs:annotation>
                             <xs:documentation>Наличие фона модального окна.
-                                Возможные значения: false/true/'static'(означает что фона нет, но клик на область пустую
+                                Возможные значения: false/true/static (означает что фона нет, но клик на область пустую
                                 не закрывает модальное окно).
                             </xs:documentation>
                         </xs:annotation>
                         <xs:restriction base="xs:string">
                             <xs:enumeration value="true"/>
                             <xs:enumeration value="false"/>
-                            <xs:enumeration value="'static'"/>
+                            <xs:enumeration value="static"/>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
