@@ -82,7 +82,7 @@ public class LineRegionAT extends AutoTestBase {
         TabsRegion tabs = content.region(4, TabsRegion.class);
         tabs.shouldExists();
         tabs.shouldHaveSize(2);
-        tabs.tab(1).shouldHaveTitle("Tab2");
+        tabs.tab(1).shouldHaveName("Tab2");
 
         content.widget(5, FormWidget.class).fields().field("field3").shouldExists();
 

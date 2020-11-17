@@ -1,3 +1,11 @@
+.n2o-tab-content__container {
+  display: none;
+}
+
+.n2o-tab-content__container.visible {
+  display: initial;
+}
+
 .tab-content {
   padding: 15px;
 }

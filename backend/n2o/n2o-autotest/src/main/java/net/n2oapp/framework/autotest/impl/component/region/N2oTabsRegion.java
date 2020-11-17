@@ -58,7 +58,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         }
 
         @Override
-        public void shouldHaveTitle(String text) {
+        public void shouldHaveName(String text) {
             element().shouldHave(Condition.text(text));
         }
 
