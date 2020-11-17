@@ -15,18 +15,6 @@
                    description="описание"
                    text-position="left"
             />
-            <image id="image3"
-                   url="https://i-novus.ru/assets/3c502870/images/logo.png"
-                   title="Заголовок"
-                   description="описание"
-                   text-position="top"
-            />
-            <image id="image4"
-                   url="https://i-novus.ru/assets/3c502870/images/logo.png"
-                   title="Заголовок"
-                   description="описание"
-                   text-position="bottom"
-            />
         </fields>
     </form>
 </simple-page>

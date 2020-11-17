@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.snippet;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.TextPosition;
 import net.n2oapp.framework.autotest.api.component.snippet.Image;
 
 /**
@@ -23,13 +24,13 @@ public class N2oImage extends N2oSnippet implements Image {
     }
 
     @Override
-    public void shouldBeSize(int size) {
+    public void shouldHaveWidth(int size) {
         element().$(".n2o-image__image-container").should(Condition.attribute("style", "width: " + size + "px; height: " + size + "px;"));
     }
 
     @Override
-    public void shouldBeAlign(String align) {
-        element().$(".n2o-image__content").should(Condition.cssClass(align));
+    public void shouldHaveTextPosition(TextPosition align) {
+        element().$(".n2o-image__content").should(Condition.cssClass(align.name()));
     }
 
     @Override
