@@ -21,8 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тестирование компиляции региона в виде вкладок
@@ -50,7 +49,7 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(tabs.getAlwaysRefresh(), is(false));
         assertThat(tabs.getLazy(), is(true));
         assertThat(tabs.getHideSingleTab(), is(false));
-        assertThat(tabs.getFixed(), is(false));
+        assertThat(tabs.getMaxHeight(), is(nullValue()));
         assertThat(tabs.getScrollbar(), is(false));
         List<TabsRegion.Tab> items = tabs.getItems();
         assertThat(items.size(), is(3));
@@ -62,9 +61,8 @@ public class TabsRegionCompileTest extends SourceCompileTestBase {
         assertThat(tabs.getAlwaysRefresh(), is(true));
         assertThat(tabs.getLazy(), is(false));
         assertThat(tabs.getHideSingleTab(), is(true));
-        assertThat(tabs.getFixed(), is(true));
         assertThat(tabs.getScrollbar(), is(true));
-        assertThat(tabs.getHeight(), is("300px"));
+        assertThat(tabs.getMaxHeight(), is("300px"));
     }
 
     @Test

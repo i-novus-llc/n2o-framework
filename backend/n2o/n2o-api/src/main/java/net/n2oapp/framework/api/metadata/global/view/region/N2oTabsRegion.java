@@ -22,9 +22,8 @@ public class N2oTabsRegion extends N2oRegion {
     private String activeParam;
     private Boolean routable;
     private Boolean hideSingleTab;
-    private Boolean fixed;
+    private String maxHeight;
     private Boolean scrollbar;
-    private String height;
     private Tab[] tabs;
 
     @Getter
