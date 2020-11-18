@@ -71,17 +71,17 @@ public class NumberPickerAT extends AutoTestBase {
         numberPicker = page.widget(FormWidget.class).fields().field("defaultPicker").control(NumberPicker.class);
         numberPicker.shouldExists();
         numberPicker.shouldBeEnabled();
-        numberPicker.minShouldBe("1");
+        numberPicker.minShouldBe("0");
         numberPicker.maxShouldBe("100");
         numberPicker.stepShouldBe("1");
 
+        numberPicker.shouldHaveValue("0");
+        numberPicker.clickPlusStepButton();
         numberPicker.shouldHaveValue("1");
         numberPicker.clickPlusStepButton();
         numberPicker.shouldHaveValue("2");
-        numberPicker.clickPlusStepButton();
-        numberPicker.shouldHaveValue("3");
         numberPicker.clickMinusStepButton();
-        numberPicker.shouldHaveValue("2");
+        numberPicker.shouldHaveValue("1");
     }
 
 }
