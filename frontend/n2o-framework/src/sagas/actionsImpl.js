@@ -99,9 +99,10 @@ export function* handleAction(factories, action) {
  * @param dataProvider
  * @param model
  * @param apiProvider
+ * @param action
  * @returns {IterableIterator<*>}
  */
-export function* fetchInvoke(dataProvider, model, apiProvider) {
+export function* fetchInvoke(dataProvider, model, apiProvider, action) {
   const state = yield select();
   const multi = get(state, 'models.multi');
   const submitForm = get(dataProvider, 'submitForm', true);
@@ -133,7 +134,9 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
       headers: headersParams,
       model: submitForm ? modelRequest : formParamsRequest,
     },
-    apiProvider
+    apiProvider,
+    action,
+    state
   );
   return response;
 }
@@ -180,8 +183,8 @@ export function* handleInvoke(apiProvider, action) {
       model = yield select(getModelSelector(modelLink));
     }
     const response = optimistic
-      ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
-      : yield call(fetchInvoke, dataProvider, model, apiProvider);
+      ? yield fork(fetchInvoke, dataProvider, model, apiProvider, action)
+      : yield call(fetchInvoke, dataProvider, model, apiProvider, action);
 
     const meta = merge(action.meta.success || {}, response.meta || {});
     const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId));
