@@ -6,9 +6,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
-import some from 'lodash/some';
-import isEqual from 'lodash/isEqual';
-import map from 'lodash/map';
 import filter from 'lodash/filter';
 import first from 'lodash/first';
 import get from 'lodash/get';
@@ -21,12 +18,11 @@ import TabContent from './TabContent';
  * Компонент контейнера табов
  * @reactProps {string} className - css-класс
  * @reactProps {string} navClassName - css-класс для нава
- * @reactProps {string} height - кастом высота контента таба
+ * @reactProps {string} maxHeight - кастом max-высота контента таба, фиксация табов
  * @reactProps {string} title - title табов
  * @reactProps {function} onChangeActive
  * @reactProps {function} hideSingleTab - скрывать / не скрывать навигацию таба, если он единственный
  * @reactProps {node} children - элемент потомок компонента Tabs
- * @reactProps {boolean} fixed - зафиксировать табы (default = false)
  * @reactProps {boolean} scrollbar - спрятать scrollbar (default = true)
  * @example
  * <Tabs>
@@ -94,7 +90,7 @@ class Tabs extends React.Component {
 
   /**
    * Базовый рендер
-   * @return {XML}
+   * @return {JSX.Element}
    */
   render() {
     const {
@@ -103,15 +99,14 @@ class Tabs extends React.Component {
       children,
       hideSingleTab,
       dependencyVisible,
-      fixed,
       scrollbar,
-      height,
+      maxHeight,
       title,
     } = this.props;
 
     const activeId = this.defaultOpenedId;
 
-    const tabContentStyle = height ? { height } : {};
+    const tabContentStyle = maxHeight ? { maxHeight } : {};
 
     const tabNavItems = React.Children.map(children, child => {
       const { id, title, icon, disabled, visible } = child.props;
@@ -138,18 +133,18 @@ class Tabs extends React.Component {
         />
       );
     });
-    const style = { marginBottom: 2 };
 
     return (
       <div
         className={classNames('n2o-nav-tabs-container', {
           [className]: className,
+          fixed: maxHeight,
         })}
       >
         {!isEmpty(tabNavItems) && (
           <div
             className={classNames('n2o-nav-tabs', {
-              'n2o-nav-tabs_tabs-fixed': fixed,
+              'n2o-nav-tabs_tabs-fixed': maxHeight,
             })}
           >
             {title && <h5 className="n2o-nav-tabs__title">{title}</h5>}
@@ -165,14 +160,15 @@ class Tabs extends React.Component {
         <div
           className={classNames('n2o-tab-content__container', {
             visible: dependencyVisible,
+            fixed: maxHeight,
           })}
         >
           <TabContent
             className={classNames({
-              'tab-content_fixed': fixed,
+              'tab-content_fixed': maxHeight,
               'tab-content_fixed tabs-with-title':
-                (title && fixed) || (title && height),
-              'tab-content_height-fixed': height,
+                (title && maxHeight) || (title && maxHeight),
+              'tab-content_height-fixed': maxHeight,
               'tab-content_no-scrollbar': scrollbar === false,
             })}
             style={tabContentStyle}
@@ -204,15 +200,11 @@ Tabs.propTypes = {
   onChangeActive: PropTypes.func,
   children: PropTypes.node,
   /**
-   * флаг фиксации табов
-   */
-  fixed: PropTypes.bool,
-  /**
    * спрятать/не прятать scrollbar
    */
   scrollbar: PropTypes.bool,
   /**
-   * кастомная высота контента
+   * кастомная max-высота контента. фиксация табов
    */
   height: PropTypes.string,
   /**
@@ -223,7 +215,6 @@ Tabs.propTypes = {
 
 Tabs.defaultProps = {
   onChangeActive: () => {},
-  fixed: false,
   scrollbar: false,
 };
 

@@ -110,8 +110,7 @@ class TabRegion extends React.Component {
       activeEntity,
       className,
       hideSingleTab,
-      fixed,
-      height,
+      maxHeight,
       scrollbar,
       title,
     } = this.props;
@@ -130,8 +129,7 @@ class TabRegion extends React.Component {
           onChangeActive={this.handleChangeActive}
           hideSingleTab={hideSingleTab}
           dependencyVisible={this.regionVisible(tabs)}
-          fixed={fixed}
-          height={height}
+          maxHeight={maxHeight}
           scrollbar={scrollbar}
           title={title}
         >
