@@ -16,11 +16,6 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
     }
 
     @Override
-    public String val() {
-        return inputElement().val();
-    }
-
-    @Override
     public void val(String value) {
         inputElement().click();
         inputElement().sendKeys(Keys.chord(Keys.CONTROL, "a"), value);
@@ -40,12 +35,28 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
 
     @Override
     public void clickPlusStepButton() {
-        element().parent().$$(".n2o-number-picker__button .fa-plus").get(0).click();
+        plusButton().click();
+    }
+
+    public void minusStepButtonShouldBeEnabled() {
+        minusButton().parent().shouldBe(Condition.enabled);
+    }
+
+    public void minusStepButtonShouldBeDisabled() {
+        minusButton().parent().shouldBe(Condition.disabled);
     }
 
     @Override
     public void clickMinusStepButton() {
         element().parent().$$(".n2o-number-picker__button .fa-minus").get(0).click();
+    }
+
+    public void plusStepButtonShouldBeEnabled() {
+        plusButton().parent().shouldBe(Condition.enabled);
+    }
+
+    public void plusStepButtonShouldBeDisabled() {
+        plusButton().parent().shouldBe(Condition.disabled);
     }
 
     @Override
@@ -68,4 +79,11 @@ public class N2oNumberPicker extends N2oControl implements NumberPicker {
         return element().parent().$(".n2o-number-picker__input");
     }
 
+    private SelenideElement minusButton() {
+        return element().parent().$(".n2o-number-picker__button .fa-minus");
+    }
+
+    private SelenideElement plusButton() {
+        return element().parent().$(".n2o-number-picker__button .fa-plus");
+    }
 }

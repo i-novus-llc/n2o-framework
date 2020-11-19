@@ -47,6 +47,8 @@ public class NumberPickerCompileTest extends SourceCompileTestBase {
         numberPicker = (NumberPicker) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(1).getCols().get(0).getFields().get(0)).getControl();
         assertThat(numberPicker.getSrc(), is("NumberPicker"));
+        assertThat(numberPicker.getMin(), is(0));
+        assertThat(numberPicker.getMax(), is(100));
         assertThat(numberPicker.getStep(), is(1));
     }
 }

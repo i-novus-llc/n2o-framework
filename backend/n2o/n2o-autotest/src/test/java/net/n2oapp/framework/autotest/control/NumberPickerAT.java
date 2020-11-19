@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.control;
 
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.NumberPicker;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -43,45 +44,35 @@ public class NumberPickerAT extends AutoTestBase {
 
     @Test
     public void testNumberPicker() {
-        NumberPicker numberPicker = page.widget(FormWidget.class).fields().field("limitedPicker").control(NumberPicker.class);
+        Fields fields = page.widget(FormWidget.class).fields();
+        NumberPicker numberPicker = fields.field("limitedPicker").control(NumberPicker.class);
         numberPicker.shouldExists();
         numberPicker.shouldBeEnabled();
-        numberPicker.minShouldBe("1");
-        numberPicker.maxShouldBe("6");
+        numberPicker.minShouldBe("-3");
+        numberPicker.maxShouldBe("3");
         numberPicker.stepShouldBe("2");
-
-        numberPicker.shouldHaveValue("4");
-        numberPicker.clickPlusStepButton();
-        numberPicker.shouldHaveValue("6");
-        numberPicker.clickPlusStepButton();
-        numberPicker.shouldHaveValue("6");
-        numberPicker.clickMinusStepButton();
-        numberPicker.shouldHaveValue("4");
-        numberPicker.val("2");
+        numberPicker.minusStepButtonShouldBeEnabled();
+        numberPicker.plusStepButtonShouldBeEnabled();
         numberPicker.shouldHaveValue("2");
-        numberPicker.clickMinusStepButton();
-        numberPicker.shouldHaveValue("1");
         numberPicker.clickPlusStepButton();
+        // limit by max value
         numberPicker.shouldHaveValue("3");
-        numberPicker.clickPlusStepButton();
-        numberPicker.shouldHaveValue("5");
-        numberPicker.clickPlusStepButton();
-        numberPicker.shouldHaveValue("6");
-
-        numberPicker = page.widget(FormWidget.class).fields().field("defaultPicker").control(NumberPicker.class);
-        numberPicker.shouldExists();
-        numberPicker.shouldBeEnabled();
-        numberPicker.minShouldBe("0");
-        numberPicker.maxShouldBe("100");
-        numberPicker.stepShouldBe("1");
-
-        numberPicker.shouldHaveValue("0");
-        numberPicker.clickPlusStepButton();
-        numberPicker.shouldHaveValue("1");
-        numberPicker.clickPlusStepButton();
-        numberPicker.shouldHaveValue("2");
+        numberPicker.minusStepButtonShouldBeEnabled();
+        numberPicker.plusStepButtonShouldBeDisabled();
         numberPicker.clickMinusStepButton();
         numberPicker.shouldHaveValue("1");
+        numberPicker.clickMinusStepButton();
+        numberPicker.shouldHaveValue("-1");
+        numberPicker.val("-2");
+        numberPicker.shouldHaveValue("-2");
+        numberPicker.clickMinusStepButton();
+        // limit by min value
+        numberPicker.shouldHaveValue("-3");
+        numberPicker.minusStepButtonShouldBeDisabled();
+        numberPicker.plusStepButtonShouldBeEnabled();
+        numberPicker.clickPlusStepButton();
+        numberPicker.shouldHaveValue("-1");
+        numberPicker.minusStepButtonShouldBeEnabled();
+        //TODO - проверить условия выхода за границу при вводе
     }
-
 }

@@ -818,12 +818,12 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="min" type="xs:integer">
+                <xs:attribute name="min" type="xs:integer" default="0">
                     <xs:annotation>
                         <xs:documentation>Минимальное значение.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="max" type="xs:integer">
+                <xs:attribute name="max" type="xs:integer" default="100">
                     <xs:annotation>
                         <xs:documentation>Максимальное значение.</xs:documentation>
                     </xs:annotation>
