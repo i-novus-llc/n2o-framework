@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест компонента Image с заголовком и подзаголовком
+ * Автотест компонента вывода изображения
  */
 public class ImageFieldAT extends AutoTestBase {
 
@@ -49,7 +49,7 @@ public class ImageFieldAT extends AutoTestBase {
         image.shouldHaveTitle("Заголовок");
         image.shouldHaveDescription("описание");
         image.shouldHaveUrl("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAlCAMAAAADS4u8AAAAnFBMVEX////ZbFrptDj////ptDj///9YuKvZbFrptDj///9YuKvZbFrptDj///9YuKvptDj////ZbFr////ptDj///9YuKvZbFrptDj///9YuKvptDj////ZbFrptDj///9YuKvptDj///9YuKvZbFrptDj///9YuKvZbFr///9YuKvptDj///9YuKvZbFrptDj///9YuKvZbFrptDj///90gGlOAAAAMHRSTlMAEBAQICAwMDAwQEBAQFBQUGBgcHCAgICAkJCQoKCgsLCwwMDAwNDQ0ODg4PDw8PDEXJ+/AAAA+UlEQVQYGc3B61aCQBSA0U/ICtGki4ZhGKmlYXI57/9uzbgwRqHF/KnV3hBl0rTxUHrL4mjeg1BaZX3gvajNIZN2D+AXph7ygxD8wuSTSrs7uCoMnxBIq40LzIvaFAiSdVPsok2XR7f8B7O8026CNsttTFB2uY0tSm4HZZvbeEO5yW0M0AaL1y6LS36TOzJQcYaKw6lIToRoT+XBysEQyZkQeCwrKwyZnEmBfXl0QU0agPLbkFoqZxLgo6zsHWqBnMo8YFxW7jGN4rUh9tCun1fKy5i/0B91cTlwY+kWoUViI0QRKymK2EFJxUaCEoiFzEPz4nWXuI/yBYSItStrEp20AAAAAElFTkSuQmCC");
-        image.shouldHaveWidth(80);
+        image.shouldHaveWidth(40);
         image.shouldHaveTextPosition(TextPosition.RIGHT);
 
         image = page.widget(FormWidget.class).snippet(1, Image.class);
@@ -57,8 +57,7 @@ public class ImageFieldAT extends AutoTestBase {
         image.shouldHaveTitle("Заголовок");
         image.shouldHaveDescription("описание");
         image.shouldHaveUrl("https://i-novus.ru/assets/3c502870/images/logo.png");
-        image.shouldHaveWidth(300);
-        image.shouldHaveTextPosition(TextPosition.LEFT);
+        image.shouldHaveTextPosition(TextPosition.BOTTOM);
     }
 
 }

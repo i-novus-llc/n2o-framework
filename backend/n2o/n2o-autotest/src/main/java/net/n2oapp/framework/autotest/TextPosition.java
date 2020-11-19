@@ -8,8 +8,4 @@ public enum TextPosition {
     RIGHT,
     TOP,
     BOTTOM;
-
-    public String name(String prefix) {
-        return prefix + name().toLowerCase();
-    }
 }

@@ -909,7 +909,7 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
-                <xs:attribute name="width" type="xs:string" default="300px">
+                <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Ширина картинки.</xs:documentation>
                     </xs:annotation>

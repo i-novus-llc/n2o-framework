@@ -5,7 +5,7 @@ import net.n2oapp.framework.autotest.TextPosition;
 import net.n2oapp.framework.autotest.api.component.snippet.Image;
 
 /**
- * Компонент image для автотестирования
+ * Компонент вывода изображения для автотестирования
  */
 public class N2oImage extends N2oSnippet implements Image {
     @Override
@@ -25,12 +25,13 @@ public class N2oImage extends N2oSnippet implements Image {
 
     @Override
     public void shouldHaveWidth(int size) {
-        element().$(".n2o-image__image-container").should(Condition.attribute("style", "width: " + size + "px; height: " + size + "px;"));
+        element().$(".n2o-image__image-container").should(
+                Condition.attributeMatching("style", ".*width: " + size + "px; height: " + size + "px;.*"));
     }
 
     @Override
-    public void shouldHaveTextPosition(TextPosition align) {
-        element().$(".n2o-image__content").should(Condition.cssClass(align.name("")));
+    public void shouldHaveTextPosition(TextPosition position) {
+        element().$(".n2o-image__content").should(Condition.cssClass(position.name().toLowerCase()));
     }
 
     @Override
