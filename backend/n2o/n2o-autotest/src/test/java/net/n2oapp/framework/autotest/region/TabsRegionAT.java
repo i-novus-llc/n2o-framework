@@ -111,4 +111,27 @@ public class TabsRegionAT extends AutoTestBase {
         line.shouldBeCollapsed();
         tabs.tab(1).shouldBeActive();
     }
+
+    @Test
+    public void testFixedContent() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/fixed/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TabsRegion tabs = page.regions().region(0, TabsRegion.class);
+        tabs.shouldHaveSize(1);
+        tabs.shouldDontHaveContentMaxHeight();
+        tabs.shouldDontHaveScrollbar();
+
+        tabs = page.regions().region(1, TabsRegion.class);
+        tabs.shouldHaveSize(1);
+        tabs.shouldHaveContentMaxHeight(100);
+        tabs.shouldDontHaveScrollbar();
+
+        tabs = page.regions().region(1, TabsRegion.class);
+        tabs.shouldHaveSize(1);
+        tabs.shouldHaveContentMaxHeight(100);
+        tabs.shouldHaveScrollbar();
+    }
+
 }

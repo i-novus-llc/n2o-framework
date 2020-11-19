@@ -13,6 +13,14 @@ public interface TabsRegion extends Region {
 
     void shouldHaveSize(int size);
 
+    void shouldHaveContentMaxHeight(int height);
+
+    void shouldDontHaveContentMaxHeight();
+
+    void shouldHaveScrollbar();
+
+    void shouldDontHaveScrollbar();
+
     interface TabItem extends Component {
         RegionItems content();
 

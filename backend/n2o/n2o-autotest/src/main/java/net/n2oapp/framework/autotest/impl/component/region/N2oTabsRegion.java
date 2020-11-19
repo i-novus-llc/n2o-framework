@@ -22,6 +22,35 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
     }
 
     @Override
+    public void shouldHaveContentMaxHeight(int height) {
+        getTabsContainer().shouldBe(Condition.cssClass("fixed"));
+        getTabsPanel().shouldBe(Condition.cssClass("n2o-nav-tabs_tabs-fixed"));
+        getTabsContent()
+                .shouldBe(Condition.cssClass("tab-content_fixed"))
+                .shouldBe(Condition.cssClass("tab-content_height-fixed"))
+                .shouldBe(Condition.attribute("style", "max-height: " + height + "px;"));
+    }
+
+    @Override
+    public void shouldDontHaveContentMaxHeight() {
+        getTabsContainer().shouldNotBe(Condition.cssClass("fixed"));
+        getTabsPanel().shouldNotBe(Condition.cssClass("n2o-nav-tabs_tabs-fixed"));
+        getTabsContent()
+                .shouldNotBe(Condition.cssClass("tab-content_fixed"))
+                .shouldNotBe(Condition.cssClass("tab-content_height-fixed"));
+    }
+
+    @Override
+    public void shouldHaveScrollbar() {
+        getTabsContent().shouldBe(Condition.cssClass("tab-content_no-scrollbar"));
+    }
+
+    @Override
+    public void shouldDontHaveScrollbar() {
+        getTabsContent().shouldBe(Condition.cssClass("tab-content_no-scrollbar"));
+    }
+
+    @Override
     public TabItem tab(Condition by) {
         return new N2oTabItem(element().$$(".nav-item").findBy(by));
     }
@@ -76,5 +105,19 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         public void shouldNotBeActive() {
             element().$(".nav-link").shouldNotHave(Condition.cssClass("active"));
         }
+
     }
+
+    private SelenideElement getTabsPanel() {
+        return element().$(".n2o-nav-tabs");
+    }
+
+    private SelenideElement getTabsContainer() {
+        return element().$(".n2o-tab-content__container");
+    }
+
+    private SelenideElement getTabsContent() {
+        return element().$(".tab-content");
+    }
+
 }
