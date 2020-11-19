@@ -638,7 +638,7 @@ http://n2oapp.net/framework/config/schema/region-2.0
 |false
 
 |max-height
-|строка
+|Строка
 |Максимальная высота содержимого вкладок
 |
 
