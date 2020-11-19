@@ -269,7 +269,7 @@ link:#_Параметры_запроса[Параметры действия]
 
 |has-header
 |true false
-|Отображать хедер
+|Наличие хедера
 |true
 
 |class
@@ -278,9 +278,9 @@ link:#_Параметры_запроса[Параметры действия]
 |
 
 |backdrop
-|false/true/'static'
+|false true static
 |Наличие фона модального окна
-|
+|true
 
 |style
 |CSS свойство

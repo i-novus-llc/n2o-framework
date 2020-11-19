@@ -88,7 +88,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(payload.getPrompt(), is(true));
 
         assertThat(payload.getHasHeader(), is(false));
-        assertThat(payload.getBackdrop(), is("'static'"));
+        assertThat(payload.getBackdrop(), is("static"));
         assertThat(payload.getClassName(), is("n2o-custom-modal-dialog"));
         assertThat(payload.getStyle().get("background"), is("red"));
 
@@ -165,6 +165,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(payload.getSize(), is("lg"));
         assertThat(payload.getPrompt(), is(false));
         assertThat(payload.getHasHeader(), is(true));
+        assertThat(payload.getBackdrop(), is("true"));
 
         PageContext modalContext = (PageContext) route("/p/123/update", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPageSecondFlow"));
