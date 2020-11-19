@@ -42,7 +42,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
 
     @Override
     public void shouldHaveScrollbar() {
-        getTabsContent().shouldBe(Condition.cssClass("tab-content_no-scrollbar"));
+        getTabsContent().shouldNotBe(Condition.cssClass("tab-content_no-scrollbar"));
     }
 
     @Override

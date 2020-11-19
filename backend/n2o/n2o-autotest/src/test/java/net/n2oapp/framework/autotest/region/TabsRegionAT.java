@@ -128,7 +128,7 @@ public class TabsRegionAT extends AutoTestBase {
         tabs.shouldHaveContentMaxHeight(100);
         tabs.shouldDontHaveScrollbar();
 
-        tabs = page.regions().region(1, TabsRegion.class);
+        tabs = page.regions().region(2, TabsRegion.class);
         tabs.shouldHaveSize(1);
         tabs.shouldHaveContentMaxHeight(100);
         tabs.shouldHaveScrollbar();
