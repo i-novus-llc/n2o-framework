@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.region;
 
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.*;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -120,18 +121,17 @@ public class TabsRegionAT extends AutoTestBase {
 
         TabsRegion tabs = page.regions().region(0, TabsRegion.class);
         tabs.shouldHaveSize(1);
-        tabs.shouldDontHaveContentMaxHeight();
-        tabs.shouldDontHaveScrollbar();
+        tabs.shouldHaveMaxHeight(200);
+        tabs.shouldHaveScrollbar();
+        TabsRegion.TabItem tab = tabs.tab(0);
+        tab.scrollDown();
+        Fields fields = tab.content().widget(FormWidget.class).fields();
+        fields.field("input3").shouldExists();
+        tab.scrollUp();
+        fields.field("input1").shouldExists();
 
         tabs = page.regions().region(1, TabsRegion.class);
         tabs.shouldHaveSize(1);
-        tabs.shouldHaveContentMaxHeight(100);
-        tabs.shouldDontHaveScrollbar();
-
-        tabs = page.regions().region(2, TabsRegion.class);
-        tabs.shouldHaveSize(1);
-        tabs.shouldHaveContentMaxHeight(100);
-        tabs.shouldHaveScrollbar();
+        tabs.shouldNotHaveScrollbar();
     }
-
 }

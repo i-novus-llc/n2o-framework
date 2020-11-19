@@ -22,32 +22,18 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
     }
 
     @Override
-    public void shouldHaveContentMaxHeight(int height) {
-        getTabsContainer().shouldBe(Condition.cssClass("fixed"));
-        getTabsPanel().shouldBe(Condition.cssClass("n2o-nav-tabs_tabs-fixed"));
-        getTabsContent()
-                .shouldBe(Condition.cssClass("tab-content_fixed"))
-                .shouldBe(Condition.cssClass("tab-content_height-fixed"))
-                .shouldBe(Condition.attribute("style", "max-height: " + height + "px;"));
-    }
-
-    @Override
-    public void shouldDontHaveContentMaxHeight() {
-        getTabsContainer().shouldNotBe(Condition.cssClass("fixed"));
-        getTabsPanel().shouldNotBe(Condition.cssClass("n2o-nav-tabs_tabs-fixed"));
-        getTabsContent()
-                .shouldNotBe(Condition.cssClass("tab-content_fixed"))
-                .shouldNotBe(Condition.cssClass("tab-content_height-fixed"));
+    public void shouldHaveMaxHeight(int height) {
+        getTabsContent().shouldBe(Condition.attributeMatching("style", ".*max-height: " + height + "px;.*"));
     }
 
     @Override
     public void shouldHaveScrollbar() {
-        getTabsContent().shouldNotBe(Condition.cssClass("tab-content_no-scrollbar"));
+        getTabsContent().shouldNotHave(Condition.cssClass("tab-content_no-scrollbar"));
     }
 
     @Override
-    public void shouldDontHaveScrollbar() {
-        getTabsContent().shouldBe(Condition.cssClass("tab-content_no-scrollbar"));
+    public void shouldNotHaveScrollbar() {
+        getTabsContent().shouldHave(Condition.cssClass("tab-content_no-scrollbar"));
     }
 
     @Override
@@ -106,18 +92,18 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
             element().$(".nav-link").shouldNotHave(Condition.cssClass("active"));
         }
 
-    }
+        @Override
+        public void scrollUp() {
+            Selenide.executeJavaScript("document.querySelector('.tab-content_fixed').scrollTop = 0");
+        }
 
-    private SelenideElement getTabsPanel() {
-        return element().$(".n2o-nav-tabs");
-    }
-
-    private SelenideElement getTabsContainer() {
-        return element().$(".n2o-tab-content__container");
+        @Override
+        public void scrollDown() {
+            Selenide.executeJavaScript("document.querySelector('.tab-content_fixed').scrollTop = document.querySelector('.tab-content_fixed').scrollHeight");
+        }
     }
 
     private SelenideElement getTabsContent() {
         return element().$(".tab-content");
     }
-
 }
