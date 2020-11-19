@@ -18,7 +18,7 @@ const state = {
   pages: {
     _: {
       metadata: {
-        widgets: {
+        widget: {
           widgetId: {
             metadata: 'widget metadata',
           },
@@ -74,7 +74,7 @@ describe('Проверка селекторов pages', () => {
   });
   it('makeWidgetMetadataSelector должен вернуть metadata виджета по id', () => {
     expect(makeWidgetMetadataSelector('_', 'widgetId')(state)).toEqual(
-      state.pages._.metadata.widgets.widgetId
+      state.pages._.metadata.widget.widgetId
     );
   });
   it('makePageActionsByIdSelector должен вернуть actions по id', () => {
@@ -102,7 +102,7 @@ describe('Проверка селекторов pages', () => {
   });
   it('makePageWidgetsByIdSelector должен вернуть widgets по id', () => {
     expect(makePageWidgetsByIdSelector('_')(state)).toEqual(
-      state.pages._.metadata.widgets
+      state.pages._.metadata.widget
     );
   });
   it('makePageStatusByIdSelector должен вернуть status по id', () => {
