@@ -119,24 +119,17 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="fixed" type="xs:boolean" default="false">
+        <xs:attribute name="max-height" type="xs:string">
             <xs:annotation>
                 <xs:documentation>
-                    Фиксация вкладки.
+                    Максимальная высота содержимого вкладок.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="scrollbar" type="xs:boolean" default="false">
             <xs:annotation>
                 <xs:documentation>
-                    Скрытие полосы прокрутки, которая появляется при фиксировании высоты.
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="height" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Фиксированная высота содержимого вкладок.
+                    Отображение полосы прокрутки.
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
