@@ -181,10 +181,12 @@ class Fieldset extends React.Component {
       modelPrefix,
       disabled,
       autoSubmit,
+      activeModel,
     } = this.props;
 
     return (
       <FieldsetRow
+        activeModel={activeModel}
         key={rowId}
         row={row}
         rowId={rowId}
