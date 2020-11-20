@@ -3,12 +3,12 @@
        align="bottom">
     <content>
         <col size="6">
-            <block text-field-id="tfid" tooltip-field-id="" id="id">
+            <block text-field-id="tfid" tooltip-field-id="testId" id="id">
                 <text/>
             </block>
         </col>
         <col>
-            <block text-field-id="tfid2" tooltip-field-id="" id="id2">
+            <block text-field-id="tfid2" id="id2">
                 <text/>
             </block>
             <block text-field-id="tfid3">

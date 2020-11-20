@@ -3,7 +3,7 @@
     <regions>
         <region>
             <cards
-                    src="Cards"
+                    src="CardsTest"
                     align="center"
                     size="5">
                 <content>

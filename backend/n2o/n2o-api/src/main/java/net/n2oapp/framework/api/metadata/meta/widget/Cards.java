@@ -27,8 +27,8 @@ public class Cards extends Widget {
     public static class Card implements IdAware, Compiled {
         @JsonProperty
         private String id;
-        @JsonProperty
-        private Integer col; //size
+        @JsonProperty("col")
+        private Integer size;
         @JsonProperty
         private N2oCell[] content;
     }
