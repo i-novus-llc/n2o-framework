@@ -56,10 +56,10 @@ public class LineFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(((LineFieldSet)fields.get(0)).getExpand(), is(true));
 
         assertThat(fields.get(1).getSrc(), is("testLine"));
-        assertThat(((LineFieldSet)fields.get(0)).getLabel(), is("test"));
-        assertThat(((LineFieldSet)fields.get(0)).getCollapsible(), is(false));
-        assertThat(((LineFieldSet)fields.get(0)).getHasSeparator(), is(false));
-        assertThat(((LineFieldSet)fields.get(0)).getExpand(), is(false));
+        assertThat(((LineFieldSet)fields.get(1)).getLabel(), is("test"));
+        assertThat(((LineFieldSet)fields.get(1)).getCollapsible(), is(false));
+        assertThat(((LineFieldSet)fields.get(1)).getHasSeparator(), is(false));
+        assertThat(((LineFieldSet)fields.get(1)).getExpand(), is(false));
     }
 
 }
