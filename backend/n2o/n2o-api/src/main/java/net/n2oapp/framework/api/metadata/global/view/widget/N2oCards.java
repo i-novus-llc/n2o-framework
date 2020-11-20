@@ -15,7 +15,6 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class N2oCards extends N2oAbstractListWidget {
-
     private Cards.Position align;
     private N2oPagination pagination;
     private Col[] content;
@@ -32,5 +31,4 @@ public class N2oCards extends N2oAbstractListWidget {
     public static class Block extends AbstractColumn {
         private N2oCell component;
     }
-
 }

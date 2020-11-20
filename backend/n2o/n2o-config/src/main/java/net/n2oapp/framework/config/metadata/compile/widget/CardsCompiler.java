@@ -57,7 +57,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
         return cards;
     }
 
-    private Cards.Card[] compileCols(N2oCards.Col[] source, CompileContext<?, ?> context, CompileProcessor p,
+    private List<Cards.Card> compileCols(N2oCards.Col[] source, CompileContext<?, ?> context, CompileProcessor p,
                                      CompiledObject object, WidgetScope widgetScope, MetaActions widgetActions) {
         List<Cards.Card> cards = new ArrayList<>(source.length);
         for (N2oCards.Col col : source) {
@@ -66,16 +66,16 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
             card.setContent(compileBlock(col.getBlocks(), context, p, object, widgetScope, widgetActions));
             cards.add(card);
         }
-        return cards.toArray(new Cards.Card[0]);
+        return cards;
     }
 
-    private N2oCell[] compileBlock(N2oCards.Block[] source, CompileContext<?, ?> context, CompileProcessor p,
+    private List<N2oCell> compileBlock(N2oCards.Block[] source, CompileContext<?, ?> context, CompileProcessor p,
                                    Object... scopes) {
         List<N2oCell> cells = new ArrayList<>(source.length);
         for (N2oCards.Block block : source) {
             block.setId(p.cast(block.getId(), block.getTextFieldId()));
             cells.add(p.compile(block.getComponent(), context, p, new IndexScope(), new ComponentScope(block), scopes));
         }
-        return cells.toArray(new N2oCell[0]);
+        return cells;
     }
 }

@@ -39,29 +39,29 @@ public class CardsCompileTest extends SourceCompileTestBase {
         Cards cards = (Cards) page.getRegions().get("single").get(0).getContent().get(0);
         assertThat(cards.getSrc(), is("CardsTest"));
         assertThat(cards.getAlign(), is(Cards.Position.center));
-        assertThat(cards.getCards().length, is(2));
+        assertThat(cards.getCards().size(), is(2));
 
-        Cards.Card card = cards.getCards()[0];
+        Cards.Card card = cards.getCards().get(0);
         assertThat(card.getSize(), is(6));
-        assertThat(card.getContent().length, is(2));
+        assertThat(card.getContent().size(), is(2));
 
-        N2oCell cell = card.getContent()[0];
+        N2oCell cell = card.getContent().get(0);
         assertThat(cell, instanceOf(N2oTextCell.class));
         assertThat(cell.getSrc(), is("TextCell"));
         assertThat(cell.getId(), is("11"));
         assertThat(((N2oTextCell) cell).getFieldKey(), is("test1"));
         assertThat(((N2oTextCell) cell).getTooltipFieldId(), is("tooltip"));
 
-        cell = card.getContent()[1];
+        cell = card.getContent().get(1);
         assertThat(cell, instanceOf(N2oImageCell.class));
         assertThat(cell.getSrc(), is("cell12"));
         assertThat(cell.getId(), is("12"));
 
-        card = cards.getCards()[1];
+        card = cards.getCards().get(1);
         assertThat(card.getSize(), is(nullValue()));
-        assertThat(card.getContent().length, is(1));
+        assertThat(card.getContent().size(), is(1));
 
-        cell = card.getContent()[0];
+        cell = card.getContent().get(0);
         assertThat(cell, instanceOf(N2oTextCell.class));
         assertThat(cell.getSrc(), is("TextCell"));
 
@@ -78,13 +78,13 @@ public class CardsCompileTest extends SourceCompileTestBase {
         cards = (Cards) page.getRegions().get("single").get(0).getContent().get(1);
         assertThat(cards.getSrc(), is("Cards"));
         assertThat(cards.getAlign(), is(Cards.Position.top));
-        assertThat(cards.getCards().length, is(1));
+        assertThat(cards.getCards().size(), is(1));
 
-        card = cards.getCards()[0];
+        card = cards.getCards().get(0);
         assertThat(card.getSize(), is(nullValue()));
-        assertThat(card.getContent().length, is(1));
+        assertThat(card.getContent().size(), is(1));
 
-        cell = card.getContent()[0];
+        cell = card.getContent().get(0);
         assertThat(cell, instanceOf(N2oImageCell.class));
         assertThat(cell.getSrc(), is("ImageCell"));
         assertThat(cell.getId(), is("31"));
@@ -97,5 +97,4 @@ public class CardsCompileTest extends SourceCompileTestBase {
         assertThat(cards.getPaging().getShowCountRecords(), is(true));
         assertThat(cards.getPaging().getSize(), is(10));
     }
-
 }
