@@ -56,7 +56,7 @@ function Drawer(props) {
         onHandleClick={onHandleClick}
         handler={closable}
       >
-        <div className="drawer-title">{title}</div>
+        {title && <div className="drawer-title">{title}</div>}
         <div className="drawer-children">{children}</div>
         <div className="drawer-footer">{footer}</div>
       </DrawerRC>

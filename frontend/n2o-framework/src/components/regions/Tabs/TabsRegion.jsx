@@ -104,7 +104,16 @@ class TabRegion extends React.Component {
   }
 
   render() {
-    const { tabs, lazy, activeEntity, className, hideSingleTab } = this.props;
+    const {
+      tabs,
+      lazy,
+      activeEntity,
+      className,
+      hideSingleTab,
+      maxHeight,
+      scrollbar,
+      title,
+    } = this.props;
 
     const { readyTabs, permissionsVisibleTabs } = this.state;
 
@@ -120,6 +129,9 @@ class TabRegion extends React.Component {
           onChangeActive={this.handleChangeActive}
           hideSingleTab={hideSingleTab}
           dependencyVisible={this.regionVisible(tabs)}
+          maxHeight={maxHeight}
+          scrollbar={scrollbar}
+          title={title}
         >
           {map(tabs, tab => {
             const { security, content } = tab;
