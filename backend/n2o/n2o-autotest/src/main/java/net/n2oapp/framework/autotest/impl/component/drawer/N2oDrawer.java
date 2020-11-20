@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.impl.component.drawer;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Driver;
+import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
 import net.n2oapp.framework.autotest.api.component.page.Page;
@@ -69,5 +70,25 @@ public class N2oDrawer extends N2oComponent implements Drawer {
             String attr = element.getAttribute("style");
             return attr == null ? "" : attr;
         }
+    }
+
+    @Override
+    public void shouldHaveFooter() {
+        element().$(".drawer-footer").shouldBe(Condition.exist);
+    }
+
+    @Override
+    public void footerShouldBeFixed() {
+        getFooter().shouldBe(Condition.cssClass("drawer-footer--fixed"));
+    }
+
+    @Override
+    public void footerShouldNotBeFixed() {
+        getFooter().shouldNotBe(Condition.cssClass("drawer-footer--fixed"));
+
+    }
+
+    private SelenideElement getFooter() {
+        return element().$(".drawer-footer");
     }
 }
