@@ -113,6 +113,7 @@ function DrawerPage(props) {
                 needMetadata={true}
                 withToolbar={withToolbar}
                 initSearchValue={''}
+                isDrawerPage={true}
               />
             ) : src ? (
               rest.renderFromSrc(src)
