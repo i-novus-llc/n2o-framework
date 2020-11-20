@@ -26,7 +26,7 @@ public class LineFieldSetCompiler extends AbstractFieldSetCompiler<LineFieldSet,
         compileFieldSet(fieldSet, source, context, p);
 
         fieldSet.setCollapsible(p.cast(source.getCollapsible(), p.resolve("n2o.api.fieldset.line.collapsible", Boolean.class)));
-        fieldSet.setHasSeparator(p.cast(source.getCollapsible(), p.resolve("n2o.api.fieldset.line.has_separator", Boolean.class)));
+        fieldSet.setHasSeparator(p.cast(source.getHasSeparator(), p.resolve("n2o.api.fieldset.line.has_separator", Boolean.class)));
         fieldSet.setExpand(p.cast(source.getExpand(), p.resolve("n2o.api.fieldset.line.expand", Boolean.class)));
         fieldSet.setLabel(source.getLabel());
         fieldSet.setSrc(p.cast(fieldSet.getSrc(), p.resolve(property("n2o.api.fieldset.line.src"), String.class)));
