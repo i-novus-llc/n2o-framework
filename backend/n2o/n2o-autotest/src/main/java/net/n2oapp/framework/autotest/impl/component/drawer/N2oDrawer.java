@@ -2,17 +2,27 @@ package net.n2oapp.framework.autotest.impl.component.drawer;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Driver;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
 import net.n2oapp.framework.autotest.api.component.page.Page;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import org.openqa.selenium.WebElement;
 
+/**
+ * Окно drawer для автотестирования
+ */
 public class N2oDrawer extends N2oComponent implements Drawer {
     @Override
     public <T extends Page> T content(Class<T> pageClass) {
         return N2oSelenide.component(element().$(".drawer-content .n2o-page-body"), pageClass);
+    }
+
+    @Override
+    public DrawerToolbar toolbar() {
+        return new N2oDrawerToolbar();
     }
 
     @Override
@@ -73,11 +83,6 @@ public class N2oDrawer extends N2oComponent implements Drawer {
     }
 
     @Override
-    public void shouldHaveFooter() {
-        element().$(".drawer-footer").shouldBe(Condition.exist);
-    }
-
-    @Override
     public void footerShouldBeFixed() {
         getFooter().shouldBe(Condition.cssClass("drawer-footer--fixed"));
     }
@@ -85,7 +90,30 @@ public class N2oDrawer extends N2oComponent implements Drawer {
     @Override
     public void footerShouldNotBeFixed() {
         getFooter().shouldNotBe(Condition.cssClass("drawer-footer--fixed"));
+    }
 
+    @Override
+    public void scrollUp() {
+        Selenide.executeJavaScript("document.querySelector('.n2o-drawer-children-wrapper').scrollTop = 0");
+    }
+
+    @Override
+    public void scrollDown() {
+        Selenide.executeJavaScript("document.querySelector('.n2o-drawer-children-wrapper').scrollTop = " +
+                "document.querySelector('.n2o-drawer-children-wrapper').scrollHeight");
+    }
+
+    public class N2oDrawerToolbar implements DrawerToolbar {
+
+        @Override
+        public Toolbar bottomLeft() {
+            return N2oSelenide.collection(element().$$(".drawer-footer .n2o-modal-actions").first().$$(".btn"), Toolbar.class);
+        }
+
+        @Override
+        public Toolbar bottomRight() {
+            return N2oSelenide.collection(element().$$(".drawer-footer .n2o-modal-actions").last().$$(".btn"), Toolbar.class);
+        }
     }
 
     private SelenideElement getFooter() {

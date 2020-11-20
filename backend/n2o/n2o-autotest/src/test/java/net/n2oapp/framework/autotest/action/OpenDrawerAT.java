@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
@@ -17,6 +18,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Автотест для действия открытия drawer окна
+ */
 public class OpenDrawerAT extends AutoTestBase {
 
     @BeforeAll
@@ -56,14 +60,16 @@ public class OpenDrawerAT extends AutoTestBase {
         Drawer drawerPage = N2oSelenide.drawer();
         drawerPage.shouldHaveTitle("drawer-page");
         drawerPage.placementShouldBe(Drawer.Placement.left);
-        drawerPage.widthShouldBe("500");
-        drawerPage.heightShouldBe("500");
-        drawerPage.shouldHaveFooter();
-        drawerPage.footerShouldBeFixed();
+        drawerPage.widthShouldBe("250");
+        drawerPage.heightShouldBe("250");
+        drawerPage.footerShouldNotBeFixed();
         SimplePage pg = drawerPage.content(SimplePage.class);
         pg.shouldExists();
-        pg.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("22");
-        pg.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test200");
+        Fields fields = pg.widget(FormWidget.class).fields();
+        fields.field("id").control(InputText.class).shouldHaveValue("22");
+        drawerPage.scrollDown();
+        fields.field("name").control(InputText.class).shouldHaveValue("test200");
+        drawerPage.toolbar().bottomRight().button("Button").shouldExists();
         drawerPage.close();
         drawerPage.shouldNotExists();
 
@@ -74,11 +80,11 @@ public class OpenDrawerAT extends AutoTestBase {
         drawerPage.placementShouldBe(Drawer.Placement.top);
         drawerPage.widthShouldBe("300");
         drawerPage.heightShouldBe("300");
-        drawerPage.shouldHaveFooter();
-        drawerPage.footerShouldNotBeFixed();
+        drawerPage.footerShouldBeFixed();
         pg.shouldExists();
-        pg.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("33");
-        pg.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test300");
+        fields.field("id").control(InputText.class).shouldHaveValue("33");
+        drawerPage.scrollDown();
+        fields.field("name").control(InputText.class).shouldHaveValue("test300");
         drawerPage.close();
         drawerPage.shouldNotExists();
 
@@ -88,8 +94,8 @@ public class OpenDrawerAT extends AutoTestBase {
         drawerPage.shouldHaveTitle("drawer-page");
         drawerPage.placementShouldBe(Drawer.Placement.right);
         pg.shouldExists();
-        pg.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("44");
-        pg.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test400");
+        fields.field("id").control(InputText.class).shouldHaveValue("44");
+        fields.field("name").control(InputText.class).shouldHaveValue("test400");
         drawerPage.close();
         drawerPage.shouldNotExists();
 
@@ -99,8 +105,8 @@ public class OpenDrawerAT extends AutoTestBase {
         drawerPage.shouldHaveTitle("drawer-page");
         drawerPage.placementShouldBe(Drawer.Placement.bottom);
         pg.shouldExists();
-        pg.widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("11");
-        pg.widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test100");
+        fields.field("id").control(InputText.class).shouldHaveValue("11");
+        fields.field("name").control(InputText.class).shouldHaveValue("test100");
 
     }
 }
