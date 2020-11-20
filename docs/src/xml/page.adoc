@@ -685,11 +685,11 @@ http://n2oapp.net/framework/config/schema/region-2.0
 Регион с горизонтальным делителем.
 
 Атрибуты::
-[cols="2,1,4"]
+[cols="2,1,4,2"]
 |===
-|Наименование|Тип|Описание
+|Наименование|Тип|Описание|Значение по умолчанию
 
-|name
+|label
 |Строка
 |Наименование вкладки
 |
@@ -699,9 +699,14 @@ http://n2oapp.net/framework/config/schema/region-2.0
 |Возможность раскрытия и сворачивания содержимого региона
 |true
 
-|open
+|has-separator
 |true false
-|Раскрытие региона
+|Отображение горизонтального разделителя
+|true
+
+|expand
+|true false
+|Начальное состояние региона
 |true
 
 |===
@@ -709,7 +714,7 @@ http://n2oapp.net/framework/config/schema/region-2.0
 Пример::
 [source,xml]
 ----
-<line collapsible="true" name="Line1">
+<line collapsible="true" label="Line1">
   <table/>
   <panel/>
   <form/>

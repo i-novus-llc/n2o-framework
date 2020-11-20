@@ -137,7 +137,7 @@
                 </xs:attribute>
                 <xs:attribute name="expand" type="xs:boolean" use="optional" default="true">
                     <xs:annotation>
-                        <xs:documentation>Начально состояние филдсета.</xs:documentation>
+                        <xs:documentation>Начальное состояние филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="label" type="xs:string" use="optional">

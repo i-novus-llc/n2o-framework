@@ -8,6 +8,8 @@ import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 /**
  * Компиляция региона с горизонтальным делителем
  */
@@ -32,9 +34,9 @@ public class LineRegionCompiler extends BaseRegionCompiler<LineRegion, N2oLineRe
         PageWidgetsScope pageWidgetsScope = p.getScope(PageWidgetsScope.class);
         region.setContent(initContent(source.getContent(), indexScope, pageWidgetsScope, context, p));
         region.setLabel(source.getLabel());
-        region.setCollapsible(p.cast(source.getCollapsible(), p.resolve("n2o.api.region.line.collapsible", Boolean.class)));
-        region.setHasSeparator(p.cast(source.getHasSeparator(), p.resolve("n2o.api.region.line.has_separator", Boolean.class)));
-        region.setExpand(p.cast(source.getExpand(), p.resolve("n2o.api.region.line.expand", Boolean.class)));
+        region.setCollapsible(p.cast(source.getCollapsible(), p.resolve(property("n2o.api.region.line.collapsible"), Boolean.class)));
+        region.setHasSeparator(p.cast(source.getHasSeparator(), p.resolve(property("n2o.api.region.line.has_separator"), Boolean.class)));
+        region.setExpand(p.cast(source.getExpand(), p.resolve(property("n2o.api.region.line.expand"), Boolean.class)));
         return region;
     }
 
