@@ -598,7 +598,7 @@ public class DemoIntegrationAT {
         modalProtoContacts.getDescription().val("рабочий телефон");
         modalProtoContacts.save();
 
-        protoPage.shouldDialogClosed("Контакты", 8000);
+        protoPage.shouldDialogClosed("Контакты", 10000);
         protoPage.shouldBeClientsPage();
         protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
         protoPage.contactsAlertTextShouldBe("Данные сохранены");
