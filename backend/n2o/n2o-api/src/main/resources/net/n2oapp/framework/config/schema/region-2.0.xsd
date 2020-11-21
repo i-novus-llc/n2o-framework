@@ -167,7 +167,7 @@
                 <xs:annotation>
                     <xs:documentation>Регион с горизонтальным делителем.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="name">
+                <xs:attribute name="label">
                     <xs:annotation>
                         <xs:documentation>Наименование региона.</xs:documentation>
                     </xs:annotation>
@@ -177,9 +177,14 @@
                         <xs:documentation>Возможность раскрытия и сворачивания виджетов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="open" type="xs:boolean" default="true">
+                <xs:attribute name="has-separator" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Раскрытие региона.</xs:documentation>
+                        <xs:documentation>Отображение горизонтального разделителя.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="expand" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Начальное состояние региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

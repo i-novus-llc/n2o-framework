@@ -18,7 +18,7 @@
                 <form name="panelForm"/>
                 <form name="panelForm2"/>
             </panel>
-            <line name="Line">
+            <line label="Line">
                 <form name="lineForm"/>
             </line>
             <tabs>
