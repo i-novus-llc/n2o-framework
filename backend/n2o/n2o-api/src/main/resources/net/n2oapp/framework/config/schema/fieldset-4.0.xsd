@@ -125,24 +125,19 @@
                 <xs:annotation>
                     <xs:documentation>Филдсет с горизонтальной линией.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="collapsible" type="xs:boolean" use="optional" default="true">
+                <xs:attribute name="collapsible" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Возможность раскрытия и сворачивания филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="has-separator" type="xs:boolean" use="optional" default="true">
+                <xs:attribute name="has-separator" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Отображение горизонтального разделителя.</xs:documentation>
+                        <xs:documentation>Отображение горизонтального делителя.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="expand" type="xs:boolean" use="optional" default="true">
+                <xs:attribute name="expand" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Начальное состояние филдсета.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="label" type="xs:string" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>Загаловок филдсета.</xs:documentation>
+                        <xs:documentation>Исходное раскрытие филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

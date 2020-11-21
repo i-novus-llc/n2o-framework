@@ -44,7 +44,7 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |Место расположения филдсета
 |
 
-|title
+|label
 |Строка
 |Заголовок филдсета
 |
@@ -235,12 +235,12 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 
 |has-separator
 |true false
-|Отображение горизонтального разделителя
+|Наличие горизонтального делителя
 |true
 
 |expand
 |true false
-|Начальное состояние филдсета
+|Исходное раскрытие филдсета
 |true
 
 |===
@@ -248,36 +248,9 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 Пример::
 [source,xml]
 ----
-<line title="Общие данные" collapsible="true">
+<line label="Общие данные" collapsible="true">
   ...
 </line>
-----
-
-=== <checkbox-line>
-Филдсет с горизонтальной линией и чекбоксом.
-
-[NOTE]
-Если чекбокс выделен, филдсет виден и валидируется. Если чекбокс снят, филдсет не виден и не валидируется.
-
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|checkbox-field-id
-|Идентификатор
-|Поле, отвечающее за выделение и снятие чекбокса
-|Генерируется автоматически по идентификатору филдсета
-
-|===
-
-Пример::
-[source,xml]
-----
-<checkbox-line title="Дополнительные данные"
-  checkbox-field-id="additional">
-  ...
-</checkbox-line>
 ----
 
 === <multi-set>
@@ -322,7 +295,6 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |true false
 |Возможность копирования филдсета в новый (вместе с данными)
 |false
-
 
 |===
 

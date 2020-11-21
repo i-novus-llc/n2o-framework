@@ -4,7 +4,7 @@
         <line label="Line1">
             <form name="form1"/>
         </line>
-        <line label="Line2" open="false">
+        <line label="Line2" expand="false">
             <form name="form2"/>
         </line>
         <line collapsible="false">
