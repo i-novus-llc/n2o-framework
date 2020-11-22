@@ -13,9 +13,9 @@ public class LineFieldSet extends FieldSet {
     @JsonProperty
     private Boolean collapsible;
     @JsonProperty
-    private Boolean expand;
+    private Boolean hasSeparator;
     @JsonProperty
-    private final Boolean hasArrow = true;
+    private Boolean expand;
     @JsonProperty
     private final String type = "line";
 }

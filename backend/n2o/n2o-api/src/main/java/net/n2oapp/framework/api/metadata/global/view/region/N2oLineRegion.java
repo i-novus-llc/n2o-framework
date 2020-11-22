@@ -9,9 +9,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oLineRegion extends N2oRegion {
-    private String name;
+    private String label;
     private Boolean collapsible;
-    private Boolean open;
+    private Boolean hasSeparator;
+    private Boolean expand;
 
     @Override
     public String getAlias() {
