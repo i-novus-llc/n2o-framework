@@ -78,6 +78,10 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(action.getPayload().getMode(), is(CopyMode.replace));
         assertThat(action.getMeta().getModalsToClose(), is(1));
+
+        action = (CopyAction) page.getActions().get("menuItem0");
+        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
+        assertThat(action.getPayload().getTarget().getKey(), is("page_form"));
     }
 
     @Test
