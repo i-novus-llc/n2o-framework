@@ -55,7 +55,7 @@ export class InputNumber extends React.Component {
         !isNil(value) && !isNaN(toNumber(value)) && value !== ''
           ? toNumber(value)
           : null
-      )
+      ),
     };
     this.onChange = this.onChange.bind(this);
     this.onPaste = this.onPaste.bind(this);
