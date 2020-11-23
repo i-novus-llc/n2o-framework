@@ -73,6 +73,16 @@ public class NumberPickerAT extends AutoTestBase {
         numberPicker.clickPlusStepButton();
         numberPicker.shouldHaveValue("-1");
         numberPicker.minusStepButtonShouldBeEnabled();
-        //TODO - проверить условия выхода за границу при вводе
+
+        //check input
+        numberPicker.clear();
+        // default min value
+        numberPicker.shouldHaveValue("-3");
+        numberPicker.val("10");
+        // if more than max then set max value
+        numberPicker.shouldHaveValue("3");
+        numberPicker.val("-10");
+        // if less than min then set min value
+        numberPicker.shouldHaveValue("-3");
     }
 }
