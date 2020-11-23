@@ -5,10 +5,10 @@
             <tiles id="tiles1" cols-sm="2" cols-md="3" cols-lg="6"
                    size="5" height="450" width="300">
                 <content>
-                    <block text-field-id="test1" hide-on-blur="true">
+                    <block text-field-id="test1">
                         <cell src="cell1"/>
                     </block>
-                    <block id="id2" text-field-id="test2" tooltip-field-id="tooltip">
+                    <block id="id2" text-field-id="test2" tooltip-field-id="tooltip" hide-on-blur="true">
                         <text/>
                     </block>
                     <block text-field-id="test3">

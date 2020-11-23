@@ -268,7 +268,7 @@
         <xs:complexContent>
             <xs:extension base="cell:cells">
                 <xs:attribute name="text-field-id" type="xs:string"/>
-                <xs:attribute name="hide-on-blur" type="xs:string">
+                <xs:attribute name="hide-on-blur" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Скрытие ячейки при наведении на элемент.</xs:documentation>
                     </xs:annotation>

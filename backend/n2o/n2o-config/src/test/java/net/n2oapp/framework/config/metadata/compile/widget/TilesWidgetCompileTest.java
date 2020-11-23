@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * Тестирование компиляции виджета Плитки
  */
-public class TilesCompileTest extends SourceCompileTestBase {
+public class TilesWidgetCompileTest extends SourceCompileTestBase {
     @Override
     @Before
     public void setUp() throws Exception {
@@ -48,7 +48,6 @@ public class TilesCompileTest extends SourceCompileTestBase {
         Tiles.Tile tile = tiles.getTile().get(0);
         assertThat(tile.getId(), is("test1"));
         assertThat(tile.getComponent().getSrc(), is("cell1"));
-        assertThat(((N2oAbstractCell)tile.getComponent()).getHideOnBlur(), is(true));
 
         tile = tiles.getTile().get(1);
         assertThat(tile.getId(), is("id2"));
@@ -57,7 +56,7 @@ public class TilesCompileTest extends SourceCompileTestBase {
         assertThat(tile.getComponent().getId(), is("id2"));
         assertThat(((N2oTextCell) tile.getComponent()).getFieldKey(), is("test2"));
         assertThat(((N2oTextCell) tile.getComponent()).getTooltipFieldId(), is("tooltip"));
-        assertThat(((N2oAbstractCell)tile.getComponent()).getHideOnBlur(), nullValue());
+        assertThat(((N2oAbstractCell)tile.getComponent()).getHideOnBlur(), is(true));
 
         tile = tiles.getTile().get(2);
         assertThat(tile.getId(), is("test3"));
