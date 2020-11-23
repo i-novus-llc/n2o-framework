@@ -55,9 +55,7 @@ export class InputNumber extends React.Component {
         !isNil(value) && !isNaN(toNumber(value)) && value !== ''
           ? toNumber(value)
           : null
-      ),
-      mode:
-        props.mode === inputMode.PICKER ? inputMode.PICKER : inputMode.DEFAULT,
+      )
     };
     this.onChange = this.onChange.bind(this);
     this.onPaste = this.onPaste.bind(this);
@@ -111,7 +109,7 @@ export class InputNumber extends React.Component {
 
     if (matchesWhiteList(nextValue) || this.pasted) {
       this.setState({ value: this.resolveValue(value) }, () => {
-        if (!isNaN(toNumber(value)) || this.state.mode === inputMode.PICKER) {
+        if (!isNaN(toNumber(value)) || this.props.mode === inputMode.PICKER) {
           this.props.onChange(this.resolveValue(nextValue));
         }
       });
@@ -148,7 +146,7 @@ export class InputNumber extends React.Component {
   onBlur() {
     const { max, min, onBlur } = this.props;
 
-    if (this.state.value === '-' && this.state.mode !== inputMode.PICKER) {
+    if (this.state.value === '-' && this.props.mode !== inputMode.PICKER) {
       return;
     }
 
@@ -256,6 +254,7 @@ InputNumber.defaultProps = {
   onChange: val => {},
   onBlur: val => {},
   onFocus: val => {},
+  mode: 'default',
 };
 
 InputNumber.propTypes = {
@@ -307,6 +306,10 @@ InputNumber.propTypes = {
    * Количество знаков после запятой
    */
   precision: PropTypes.number,
+  /**
+   * Режим использования компонента
+   */
+  mode: PropTypes.oneOf('default', 'picker'),
 };
 
 export default compose(withRightPlaceholder)(InputNumber);
