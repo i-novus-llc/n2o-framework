@@ -4,6 +4,7 @@ import TextField from './TextField/TextField';
 import RangeField from './RangeField/RangeField';
 import AlertField from './AlertField/AlertField';
 import ButtonField from './ButtonField/ButtonField';
+import ImageField from './ImageField/ImageField';
 
 export default {
   StandardField: StandardField,
@@ -12,4 +13,5 @@ export default {
   RangeField: RangeField,
   AlertField: AlertField,
   ButtonField: ButtonField,
+  ImageField: ImageField,
 };

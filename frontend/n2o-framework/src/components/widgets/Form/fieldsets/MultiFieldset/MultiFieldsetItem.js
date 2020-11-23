@@ -49,9 +49,7 @@ export function MultiFieldsetItem({
                   <i className="fa fa-copy" />
                 </Button>
               )}
-              {needRemoveButton &&
-              index > +!canRemoveFirstItem - 1 &&
-              enabled && (
+              {needRemoveButton && index > +!canRemoveFirstItem - 1 && enabled && (
                 <Button
                   className="n2o-multi-fieldset__remove"
                   color="link"
