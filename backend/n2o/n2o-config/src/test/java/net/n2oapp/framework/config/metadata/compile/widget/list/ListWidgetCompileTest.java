@@ -49,6 +49,7 @@ public class ListWidgetCompileTest extends SourceCompileTestBase {
 
         assertThat(listWidget.getId(), is("$testListWidgetCompile"));
         assertThat(listWidget.getList().get("leftTop").getSrc(), is("TextCell"));
+        assertThat(listWidget.getList().get("leftTop").getHideOnBlur(), is(true));
 
         assertThat(listWidget.getList().get("header").getSrc(), is("ProgressBarCell"));
         assertThat(((N2oProgressBarCell) listWidget.getList().get("header")).getColor(), is("test"));

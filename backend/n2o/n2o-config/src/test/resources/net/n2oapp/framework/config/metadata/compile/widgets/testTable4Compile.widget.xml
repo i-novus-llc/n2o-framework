@@ -30,7 +30,7 @@
         <in field-id="name" values="{nameValues}" />
     </pre-filters>
     <columns>
-        <column text-field-id="id">
+        <column text-field-id="id" hide-on-blur="true">
             <text format="password" style="margin-left:10px">
                 <switch value-field-id="test">
                     <case value="1">css1</case>
