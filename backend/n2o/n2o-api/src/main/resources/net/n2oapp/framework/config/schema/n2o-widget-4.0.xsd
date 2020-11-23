@@ -888,7 +888,7 @@
         </xs:attribute>
         <xs:attribute name="hide-on-blur" type="xs:boolean" default="false">
             <xs:annotation>
-                <xs:documentation>Скрытие ячейки при наведении на строку.</xs:documentation>
+                <xs:documentation>Скрытие ячейки при наведении на блок.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:complexContent>

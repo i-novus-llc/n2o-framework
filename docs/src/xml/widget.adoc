@@ -1619,6 +1619,11 @@ eventTimeRangeStartFormat eventTimeRangeEndFormat
 |Поле выборки, отображаемое при наведении на ячейку
 |
 
+|hide-on-blur
+|true false
+|Скрытие ячейки при наведении на блок
+|false
+
 |===
 
 Пример::
