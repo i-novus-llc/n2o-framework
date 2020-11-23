@@ -49,7 +49,6 @@ function NumberPicker(props) {
   }
 
   const onBlur = useCallback(() => {
-    console.warn('v >', value)
     if (value < min) {
       onChange(min);
     } else if (value > max) {
