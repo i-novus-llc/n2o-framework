@@ -3,12 +3,8 @@ import { compose, pure, setDisplayName } from 'recompose';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Table from 'rc-table';
-import AdvancedTableExpandIcon from './AdvancedTableExpandIcon';
-import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import { HotKeys } from 'react-hotkeys/cjs';
 import cx from 'classnames';
-import propsResolver from '../../../utils/propsResolver';
-import SecurityCheck from '../../../core/auth/SecurityCheck';
 import find from 'lodash/find';
 import some from 'lodash/some';
 import isEqual from 'lodash/isEqual';
@@ -25,16 +21,23 @@ import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import includes from 'lodash/includes';
 import isNumber from 'lodash/isNumber';
-import AdvancedTableRow from './AdvancedTableRow';
-import AdvancedTableRowWithAction from './AdvancedTableRowWithAction';
-import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
-import AdvancedTableEmptyText from './AdvancedTableEmptyText';
+
+import propsResolver from '../../../utils/propsResolver';
+import SecurityCheck from '../../../core/auth/SecurityCheck';
+
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import RadioN2O from '../../controls/Radio/RadioN2O';
+
 import AdvancedTableCell from './AdvancedTableCell';
 import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
 import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
 import withAdvancedTableRef from './withAdvancedTableRef';
+import AdvancedTableExpandIcon from './AdvancedTableExpandIcon';
+import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
+import AdvancedTableRow from './AdvancedTableRow';
+import AdvancedTableRowWithAction from './AdvancedTableRowWithAction';
+import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
+import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 
 export const getIndex = (data, selectedId) => {
   const index = findIndex(data, model => model.id == selectedId);
@@ -125,16 +128,16 @@ class AdvancedTable extends Component {
   }
 
   componentDidMount() {
-    const { rowClick, columns } = this.props;
+    const { rowClick, columns, rowSelection, autoFocus } = this.props;
     const {
       isAnyTableFocused,
       isActive,
       focusIndex,
       selectIndex,
       data,
-      autoFocus,
       children,
     } = this.state;
+
     if (!isAnyTableFocused && isActive && !rowClick && autoFocus) {
       this.setSelectAndFocus(
         get(data[selectIndex], 'id'),
@@ -165,11 +168,12 @@ class AdvancedTable extends Component {
       multi,
       rowSelection,
     } = this.props;
+
     const { checked, children } = this.state;
 
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
       const id = selectedId || data[0].id;
-      if (isAnyTableFocused && !isActive) {
+      if (isAnyTableFocused && !isActive && autoFocus) {
         this.setNewSelectIndex(id);
       } else if (autoFocus) {
         this.setSelectAndFocus(id, id);
@@ -202,11 +206,9 @@ class AdvancedTable extends Component {
           columns: this.mapColumns(columns),
         };
       }
-      if (
-        !isEqual(prevProps.selectedId, selectedId) &&
-        rowSelection !== rowSelectionType.RADIO
-      ) {
+      if (!isEqual(prevProps.selectedId, selectedId) && autoFocus) {
         this.setNewSelectIndex(selectedId);
+        this.setNewFocusIndex(selectedId);
       }
       this.setState({ ...state });
     }
