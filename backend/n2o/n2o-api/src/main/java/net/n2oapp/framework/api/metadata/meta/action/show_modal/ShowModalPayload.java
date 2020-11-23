@@ -49,7 +49,7 @@ public class ShowModalPayload implements ActionPayload {
     @JsonProperty
     private String className;
     @JsonProperty
-    private String backdrop;
+    private Object backdrop;
     @JsonProperty
     private Map<String, String> style;
 }

@@ -33,10 +33,8 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.List;
-import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -165,7 +163,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(payload.getSize(), is("lg"));
         assertThat(payload.getPrompt(), is(false));
         assertThat(payload.getHasHeader(), is(true));
-        assertThat(payload.getBackdrop(), is("true"));
+        assertThat(payload.getBackdrop(), is(true));
 
         PageContext modalContext = (PageContext) route("/p/123/update", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPageSecondFlow"));

@@ -69,7 +69,8 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
         payload.setPrompt(pageContext.getUnsavedDataPromptOnClose());
         payload.setHasHeader(p.cast(source.getHasHeader(), p.resolve(property("n2o.api.action.show_modal.has_header"), Boolean.class)));
         payload.setClassName(source.getClassName());
-        payload.setBackdrop(p.cast(source.getBackdrop(), p.resolve(property("n2o.api.action.show_modal.backdrop"), String.class)));
+        String backdrop = p.cast(source.getBackdrop(), p.resolve(property("n2o.api.action.show_modal.backdrop"), String.class));
+        payload.setBackdrop("true".equals(backdrop) || "false".equals(backdrop) ? Boolean.valueOf(backdrop) : backdrop);
         payload.setStyle(StylesResolver.resolveStyles(source.getStyle()));
     }
 }
