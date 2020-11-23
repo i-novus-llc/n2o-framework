@@ -659,6 +659,11 @@
                         <xs:documentation>Модель, в которую будут скопированы данные.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="target-page-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор целевой страницы (по умолчанию текущая).</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="target-widget-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор целевого виджета (по умолчанию текущий).</xs:documentation>
