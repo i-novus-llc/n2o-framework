@@ -1,7 +1,6 @@
 package net.n2oapp.framework.autotest.widget.table;
 
-import net.n2oapp.framework.autotest.api.component.page.StandardPage;
-import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -42,11 +41,11 @@ public class ChildrenColumnAT extends AutoTestBase {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/children_column/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/children_column/test.query.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-        StandardPage page = open(StandardPage.class);
+        SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("Children column");
 
-        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        TableWidget table = page.widget(TableWidget.class);
         table.shouldExists();
         table.paging().totalElementsShouldBe(4);
         table.columns().rows().shouldHaveSize(10);
@@ -54,13 +53,33 @@ public class ChildrenColumnAT extends AutoTestBase {
         table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "11", "12", "13", "2", "21", "22", "23", "3", "4"));
         table.columns().rows().columnShouldHaveTexts(1, Arrays.asList("test1", "name11", "name12", "name13", "test2", "name21", "name22", "name23", "test3", "test4"));
 
-        table = page.regions().region(1, SimpleRegion.class).content().widget(TableWidget.class);
-        table.shouldExists();
-        table.paging().totalElementsShouldBe(4);
-        table.columns().rows().shouldHaveSize(4);
+        for (int i = 0; i < 10; i++) {
+            if (i == 0 || i == 4) {
+                table.columns().rows().row(i).cell(0).shouldBeExpandable();
+            } else {
+                table.columns().rows().row(i).cell(0).shouldNotBeExpandable();
+            }
+        }
 
-        table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "2", "3", "4"));
-        table.columns().rows().columnShouldHaveTexts(1, Arrays.asList("test1", "test2", "test3", "test4"));
+        table.columns().rows().row(0).cell(0).shouldBeExpanded();
+        table.columns().rows().row(4).cell(0).shouldBeExpanded();
+
+        table.columns().rows().row(0).cell(0).clickExpand();
+        table.columns().rows().row(0).cell(0).shouldNotBeExpanded();
+        table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "", "", "", "2", "21", "22", "23", "3", "4"));
+
+        table.columns().rows().row(4).cell(0).shouldBeExpanded();
+        table.columns().rows().row(4).cell(0).clickExpand();
+        table.columns().rows().row(4).cell(0).shouldNotBeExpanded();
+        table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "", "", "", "2", "", "", "", "3", "4"));
+
+        table.columns().rows().row(0).cell(0).clickExpand();
+        table.columns().rows().row(0).cell(0).shouldBeExpanded();
+
+        table.columns().rows().row(4).cell(0).clickExpand();
+        table.columns().rows().row(4).cell(0).shouldBeExpanded();
+
+        table.columns().rows().columnShouldHaveTexts(0, Arrays.asList("1", "11", "12", "13", "2", "21", "22", "23", "3", "4"));
     }
 
 }
