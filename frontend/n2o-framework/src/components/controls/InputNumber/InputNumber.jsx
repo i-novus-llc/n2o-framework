@@ -254,7 +254,7 @@ InputNumber.defaultProps = {
   onChange: val => {},
   onBlur: val => {},
   onFocus: val => {},
-  mode: 'default',
+  mode: inputMode.DEFAULT,
 };
 
 InputNumber.propTypes = {
@@ -309,7 +309,7 @@ InputNumber.propTypes = {
   /**
    * Режим использования компонента
    */
-  mode: PropTypes.oneOf('default', 'picker'),
+  mode: PropTypes.oneOf(inputMode.DEFAULT, inputMode.PICKER),
 };
 
 export default compose(withRightPlaceholder)(InputNumber);
