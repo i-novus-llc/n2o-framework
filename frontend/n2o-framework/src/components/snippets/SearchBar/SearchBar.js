@@ -31,7 +31,12 @@ function SearchBar({
   onChange,
   onKeyDown,
   placeholder,
+  iconClear,
+  onClear,
 }) {
+  const hasInnerValue = innerValue !== undefined && innerValue !== '';
+  const isIconClear = iconClear && hasInnerValue;
+
   return (
     <div className={cn('n2o-search-bar', className)}>
       <div className="n2o-search-bar__control">
@@ -41,6 +46,12 @@ function SearchBar({
           onChange={onChange}
           placeholder={placeholder}
         />
+        {isIconClear && (
+          <i
+            className="n2o-search-bar__clear-icon fa fa-times"
+            onClick={onClear}
+          />
+        )}
         {isString(icon) ? <i className={icon} /> : icon}
       </div>
       {!!button && (
@@ -105,6 +116,7 @@ SearchBar.defaultProps = {
   trigger: SearchTrigger.CHANGE,
   button: false,
   icon: 'fa fa-search',
+  iconClear: true,
   onSearch: () => {},
 };
 
@@ -137,6 +149,10 @@ const enhance = compose(
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => onSearch(value), throttleDelay);
       }
+    },
+    onClear: ({ setInnerValue, onSearch }) => () => {
+      setInnerValue(null);
+      onSearch(null);
     },
   }),
   lifecycle({

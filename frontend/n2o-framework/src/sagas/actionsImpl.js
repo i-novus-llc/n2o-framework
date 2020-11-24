@@ -9,27 +9,36 @@ import {
 import { getFormValues } from 'redux-form';
 import isFunction from 'lodash/isFunction';
 import get from 'lodash/get';
+import has from 'lodash/has';
+import keys from 'lodash/keys';
+import isEqual from 'lodash/isEqual';
 import merge from 'deepmerge';
+import values from 'lodash/values';
+import map from 'lodash/map';
+import assign from 'lodash/assign';
+import isObject from 'lodash/isObject';
+import every from 'lodash/every';
+import concat from 'lodash/concat';
+import isEmpty from 'lodash/isEmpty';
 
 import { START_INVOKE } from '../constants/actionImpls';
 import { CALL_ACTION_IMPL } from '../constants/toolbar';
-
 import {
   makeFormModelPrefixSelector,
   makeWidgetValidationSelector,
 } from '../selectors/widgets';
 import { getModelSelector } from '../selectors/models';
-
 import { validateField } from '../core/validation/createValidator';
 import actionResolver from '../core/factory/actionResolver';
-import fetchSaga from './fetch.js';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 import { FETCH_INVOKE_DATA } from '../core/api.js';
 import { setModel } from '../actions/models';
-import { PREFIXES } from '../constants/models';
 import { disablePage, enablePage } from '../actions/pages';
 import { successInvoke, failInvoke } from '../actions/actionImpl';
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
+import { setButtonDisabled, setButtonEnabled } from '../actions/toolbar';
+
+import fetchSaga from './fetch.js';
 
 /**
  * @deprecated
@@ -90,16 +99,30 @@ export function* handleAction(factories, action) {
  * @param dataProvider
  * @param model
  * @param apiProvider
+ * @param action
  * @returns {IterableIterator<*>}
  */
-export function* fetchInvoke(dataProvider, model, apiProvider) {
+export function* fetchInvoke(dataProvider, model, apiProvider, action) {
   const state = yield select();
+  const multi = get(state, 'models.multi');
   const submitForm = get(dataProvider, 'submitForm', true);
   const {
     basePath: path,
     formParams,
     headersParams,
   } = yield dataProviderResolver(state, dataProvider);
+
+  const isMultiModel =
+    every(values(model), modelElement => isObject(modelElement)) &&
+    !isEmpty(multi);
+
+  const modelRequest = isMultiModel
+    ? map(values(model), modelElement => {
+        return { ...modelElement, ...formParams };
+      })
+    : assign({}, model, formParams);
+
+  const formParamsRequest = isMultiModel ? [formParams] : formParams;
 
   const response = yield call(
     fetchSaga,
@@ -109,9 +132,11 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
       baseQuery: {},
       baseMethod: dataProvider.method,
       headers: headersParams,
-      model: submitForm ? Object.assign({}, model, formParams) : formParams,
+      model: submitForm ? modelRequest : formParamsRequest,
     },
-    apiProvider
+    apiProvider,
+    action,
+    state
   );
   return response;
 }
@@ -133,33 +158,41 @@ export function* handleInvoke(apiProvider, action) {
     data,
     needResolve = true,
   } = action.payload;
+
+  const state = yield select();
+  const optimistic = get(dataProvider, 'optimistic', false);
+  const buttonIds =
+    !optimistic && has(state, 'toolbar') ? keys(state.toolbar[pageId]) : [];
+
   try {
     if (!dataProvider) {
       throw new Error('dataProvider is undefined');
     }
-
-    const optimistic = get(dataProvider, 'optimistic', false);
-
     if (pageId && !optimistic) {
       yield put(disablePage(pageId));
     }
     if (widgetId && !optimistic) {
       yield put(disableWidgetOnFetch(widgetId));
+
+      for (let index = 0; index <= buttonIds.length - 1; index += 1) {
+        yield put(setButtonDisabled(pageId, buttonIds[index]));
+      }
     }
     let model = data || {};
     if (modelLink) {
       model = yield select(getModelSelector(modelLink));
     }
     const response = optimistic
-      ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
-      : yield call(fetchInvoke, dataProvider, model, apiProvider);
+      ? yield fork(fetchInvoke, dataProvider, model, apiProvider, action)
+      : yield call(fetchInvoke, dataProvider, model, apiProvider, action);
 
     const meta = merge(action.meta.success || {}, response.meta || {});
     const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId));
 
     if (
-      needResolve &&
-      (optimistic || (!meta.redirect && !meta.modalsToClose))
+      (needResolve &&
+        (optimistic || (!meta.redirect && !meta.modalsToClose))) ||
+      !isEqual(model, response.data)
     ) {
       yield put(
         setModel(modelPrefix, widgetId, optimistic ? model : response.data)
@@ -179,6 +212,10 @@ export function* handleInvoke(apiProvider, action) {
     }
     if (widgetId) {
       yield put(enableWidget(widgetId));
+
+      for (let index = 0; index <= buttonIds.length - 1; index += 1) {
+        yield put(setButtonEnabled(pageId, buttonIds[index]));
+      }
     }
   }
 }

@@ -1,4 +1,7 @@
 import React from 'react';
+import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
 import { compose, setDisplayName } from 'recompose';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
@@ -6,13 +9,11 @@ import onClickOutside from 'react-onclickoutside';
 import cx from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 
+import Alert from '../../snippets/Alerts/Alert';
+
 import InputSelectGroup from './InputSelectGroup';
 import PopupList from './PopupList';
 import InputContent from './InputContent';
-import find from 'lodash/find';
-import isEqual from 'lodash/isEqual';
-import isEmpty from 'lodash/isEmpty';
-import Alert from '../../snippets/Alerts/Alert';
 
 /**
  * InputSelect
@@ -144,6 +145,7 @@ class InputSelect extends React.Component {
       labelFieldId,
       options,
     } = this.props;
+
     const findValue = find(value, [labelFieldId, input]);
 
     const conditionForAddingAnObject = (resetOnBlur, input, options, value) => {

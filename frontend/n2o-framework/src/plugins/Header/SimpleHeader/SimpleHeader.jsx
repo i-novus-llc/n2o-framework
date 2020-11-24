@@ -1,7 +1,5 @@
 import React from 'react';
-
 import isEmpty from 'lodash/isEmpty';
-
 import PropTypes from 'prop-types';
 import Navbar from 'reactstrap/lib/Navbar';
 import Nav from 'reactstrap/lib/Nav';
