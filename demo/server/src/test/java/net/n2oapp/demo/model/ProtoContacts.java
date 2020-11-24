@@ -27,7 +27,7 @@ public class ProtoContacts extends BaseSimplePage {
     }
 
     public MaskedInputControl getPhoneNumber() {
-        return getFields().field("Номер телефона").control(MaskedInputControl.class);
+        return getFields().field("Моб. телефон").control(MaskedInputControl.class);
     }
 
     public InputText getDescription() {

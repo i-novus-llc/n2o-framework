@@ -119,6 +119,20 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="max-height" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Максимальная высота содержимого вкладок.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="scrollbar" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Отображение полосы прокрутки.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
 
         <xs:anyAttribute>
             <xs:annotation>

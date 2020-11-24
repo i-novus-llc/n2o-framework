@@ -40,34 +40,45 @@ const config = {
   },
   evalContext: functions,
   realTimeConfig: true,
-  embeddedRouting: true
+  embeddedRouting: true,
+  locales: {
+    ru: {
+      // тут могут быть переводы, которые добавятся к базовым
+    },
+    en: {
+      // there may be translations that will be added to the basic ones
+    },
+    fr: {
+      // il peut y avoir des traductions qui seront ajoutées aux traductions de base
+    }
+  }
 };
 
 class App extends Component {
   render() {
     return (
-        <N2O {...createFactoryConfig(config)}>
-          {/* 1 полный кастом */}
-          <Route path="/custom/v1" exact component={DashboardV2} />
-          {/* 2 обертка, без метаданных */}
-          <Route
-            path="/custom/v2"
-            exact
-            render={routeProps => {
-              return <Page {...routeProps} page={Select} rootPage />;
-            }}
-          />
-          {/* 3 обертка, метаданные */}
-          <Route
-            path="/custom/v3"
-            exact
-            render={routeProps => (
-              <Page {...routeProps} page={Select} needMetadata rootPage />
-            )}
-          />
-          {/* 5 */}
-          {/*<Route path="custom/:id" component={Page} render={Page} page={"DefaultPage" || "MyPage"} needMetadata={true || false} />*/}
-        </N2O>
+      <N2O {...createFactoryConfig(config)}>
+        {/* 1 полный кастом */}
+        <Route path="/custom/v1" exact component={DashboardV2} />
+        {/* 2 обертка, без метаданных */}
+        <Route
+          path="/custom/v2"
+          exact
+          render={routeProps => {
+            return <Page {...routeProps} page={Select} rootPage />;
+          }}
+        />
+        {/* 3 обертка, метаданные */}
+        <Route
+          path="/custom/v3"
+          exact
+          render={routeProps => (
+            <Page {...routeProps} page={Select} needMetadata rootPage />
+          )}
+        />
+        {/* 5 */}
+        {/*<Route path="custom/:id" component={Page} render={Page} page={"DefaultPage" || "MyPage"} needMetadata={true || false} />*/}
+      </N2O>
     );
   }
 }

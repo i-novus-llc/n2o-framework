@@ -282,7 +282,7 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
 
     @Override
     public BindLink resolveLink(BindLink link) {
-        if (link == null || link.getBindLink() == null || context == null || context.getQueryRouteMapping() == null)
+        if (link == null || context == null)
             return link;
         Optional<String> res = Optional.empty();
         if (context.getQueryRouteMapping() != null) {

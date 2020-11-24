@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
-import Alert from './Alert';
 import PropTypes from 'prop-types';
+
+import Alert from './Alert';
 
 /**
  * Компонент обертка для Alert

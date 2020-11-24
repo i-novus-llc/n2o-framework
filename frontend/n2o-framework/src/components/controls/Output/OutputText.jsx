@@ -4,17 +4,18 @@ import isNumber from 'lodash/isNumber';
 import isString from 'lodash/isString';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { withTranslation } from 'react-i18next';
 import Text from '../../snippets/Typography/Text/Text';
 import Icon from '../../snippets/Icon/Icon';
 
 const TypesComponents = {
   icon: ({ icon }) => <Icon className="icon" name={icon} />,
-  text: ({ value, format, expandable, showFullText, preLine, isOpen }) => (
+  text: ({ value, format, expandable, showFullText, preLine, isOpen, t }) => (
     <div className="text">
       <Text text={value} format={format} preLine={preLine} />
       {expandable && (
         <a href="#" onClick={showFullText} className="details-label">
-          {isOpen ? 'Скрыть' : 'Подробнее'}
+          {isOpen ? t('hide') : t('details')}
         </a>
       )}
     </div>
@@ -27,6 +28,7 @@ const TypesComponents = {
     showFullText,
     preLine,
     isOpen,
+    t,
   }) => (
     <Fragment>
       {icon && <Icon className="icon" name={icon} />}
@@ -34,7 +36,7 @@ const TypesComponents = {
         <Text text={value} format={format} preLine={preLine} />
         {expandable && (
           <a href="#" onClick={showFullText} className="details-label">
-            {isOpen ? 'Скрыть' : 'Подробнее'}
+            {isOpen ? t('hide') : t('details')}
           </a>
         )}
       </div>
@@ -184,4 +186,4 @@ OutPutText.defaultProps = {
   expandable: false,
 };
 
-export default OutPutText;
+export default withTranslation()(OutPutText);

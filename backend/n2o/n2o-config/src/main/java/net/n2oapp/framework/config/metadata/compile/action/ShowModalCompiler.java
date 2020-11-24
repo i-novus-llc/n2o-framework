@@ -34,8 +34,8 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
         showModal.setOperationId(source.getOperationId());
         showModal.setPageId(source.getPageId());
         compileAction(showModal, source, p);
-        initPageContext(showModal, source, context, p);
-        compilePayload(showModal, source, context, p);
+        PageContext pageContext = initPageContext(showModal, source, context, p);
+        compilePayload(showModal, source, pageContext, p);
         return showModal;
     }
 
@@ -59,11 +59,12 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
         payload.setQueryMapping(queryMapping);
     }
 
-    private void compilePayload(ShowModal showModal, N2oShowModal source, CompileContext<?, ?> context, CompileProcessor p) {
+    private void compilePayload(ShowModal showModal, N2oShowModal source, PageContext pageContext, CompileProcessor p) {
         ShowModalPayload payload = showModal.getPayload();
         payload.setSize(source.getModalSize());
         payload.setScrollable(p.cast(source.getScrollable(),
                 p.resolve(property("n2o.api.action.show_modal.scrollable"), Boolean.class)));
         payload.setCloseButton(true);
+        payload.setPrompt(pageContext.getUnsavedDataPromptOnClose());
     }
 }

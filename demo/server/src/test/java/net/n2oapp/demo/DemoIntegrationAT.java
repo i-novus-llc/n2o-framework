@@ -30,7 +30,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes = DemoApplication.class,
+@SpringBootTest(classes = DemoApplication.class, properties = { "n2o.i18n.enabled=false",  "n2o.i18n.default-locale=ru" },
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DemoIntegrationAT {
@@ -593,12 +593,12 @@ public class DemoIntegrationAT {
 
         ProtoContacts modalProtoContacts = protoPage.createContact();
         modalProtoContacts.shouldHaveTitle("Контакты");
-        modalProtoContacts.selectContactType("Моб. телефон");
+        modalProtoContacts.selectContactType("Мобильный телефон");
         modalProtoContacts.getPhoneNumber().val("9999999999");
         modalProtoContacts.getDescription().val("рабочий телефон");
         modalProtoContacts.save();
 
-        protoPage.shouldDialogClosed("Контакты", 8000);
+        protoPage.shouldDialogClosed("Контакты", 10000);
         protoPage.shouldBeClientsPage();
         protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
         protoPage.contactsAlertTextShouldBe("Данные сохранены");

@@ -162,7 +162,7 @@ describe('TableContainer', () => {
     expect(
       wrapper
         .find('WidgetContainer')
-        .find('lifecycle(withHandlers(Table))')
+        .find('lifecycle(withHandlers(withI18nextTranslation(Table)))')
         .exists()
     ).toBe(true);
   });

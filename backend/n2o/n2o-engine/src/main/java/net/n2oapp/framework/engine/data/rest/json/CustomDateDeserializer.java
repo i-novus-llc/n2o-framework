@@ -36,7 +36,7 @@ public class CustomDateDeserializer extends StdDeserializer<Object> {
         if (patterns == null || exclude(jsonparser.getCurrentName()))
             return defaultDeserializer.deserialize(jsonparser, context);
         try {
-            return DateUtils.parseDate(jsonString, patterns);
+            return DateUtils.parseDateStrictly(jsonString, patterns);
         } catch (ParseException e) {
             return defaultDeserializer.deserialize(jsonparser, context);
         }

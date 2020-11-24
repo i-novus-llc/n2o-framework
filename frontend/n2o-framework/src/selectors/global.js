@@ -89,3 +89,8 @@ export const getLocation = createSelector(
   routerSelector,
   router => router.location
 );
+
+export const getLocales = createSelector(
+  globalSelector,
+  global => global.locales || {}
+);
