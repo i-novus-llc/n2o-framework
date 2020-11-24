@@ -7,6 +7,9 @@ import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 
+/**
+ * Страница редактирования/создания Crud для автотестирования
+ */
 public class CreatePage {
     protected final Modal modal;
 
@@ -29,5 +32,4 @@ public class CreatePage {
     protected Fields getFields() {
         return modal.content(SimplePage.class).widget(FormWidget.class).fields();
     }
-
 }

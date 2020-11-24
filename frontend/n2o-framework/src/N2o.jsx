@@ -42,7 +42,7 @@ class N2o extends Component {
 
     window._n2oEvalContext = props.evalContext;
 
-    this.store = configureStore({}, history, config);
+    this.store = configureStore(props.initialState, history, config);
     globalFnDate.addFormat(props.formats);
   }
 
@@ -128,6 +128,7 @@ N2o.propTypes = {
   ]),
   version: PropTypes.string,
   locales: PropTypes.object,
+  initialState: PropTypes.object,
 };
 
 const EnhancedN2O = compose(
@@ -152,6 +153,7 @@ const EnhancedN2O = compose(
     embeddedRouting: true,
     evalContext: {},
     locales: {},
+    initialState: {},
   }),
   withContext(
     {

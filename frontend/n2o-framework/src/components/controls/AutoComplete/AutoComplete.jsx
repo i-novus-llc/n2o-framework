@@ -74,7 +74,7 @@ class AutoComplete extends React.Component {
       }
 
       if (prevProps.value !== value) {
-        state.value = isArray(value) ? value : value ? [value] : [];
+        state.value = isArray(value) ? value : value ? [] : [];
         state.input = value && !tags ? value : '';
       }
       if (!isEmpty(state)) this.setState(state);
@@ -167,12 +167,7 @@ class AutoComplete extends React.Component {
     };
 
     if (!isEqual(this.state.input, input)) {
-      const getSelected = prevState =>
-        tags
-          ? prevState.value
-          : some(options || data, option => option[valueFieldId] === input)
-          ? [input]
-          : [];
+      const getSelected = prevState => (tags ? prevState.value : []);
 
       this.setState(
         prevState => ({ input, value: getSelected(prevState) }),
@@ -207,8 +202,11 @@ class AutoComplete extends React.Component {
         if (isString(value)) {
           this.forceUpdate();
         }
-
-        onChange(this.state.value);
+        if (tags) {
+          onChange(this.state.value);
+        } else {
+          onChange(this.state.input);
+        }
       }
     );
   };

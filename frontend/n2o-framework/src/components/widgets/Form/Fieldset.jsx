@@ -9,7 +9,6 @@ import { compose, mapProps } from 'recompose';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-
 import {
   showFields,
   hideFields,
@@ -19,7 +18,6 @@ import {
 import propsResolver from '../../../utils/propsResolver';
 import withObserveDependency from '../../../core/dependencies/withObserveDependency';
 import { makeGetResolveModelSelector } from '../../../selectors/models';
-
 import FieldsetRow from './FieldsetRow';
 
 const config = {
@@ -39,7 +37,6 @@ const config = {
  * @reactProps {array} rows - ряды, которые содержит филдсет. Они содержат колонки, которые содержат либо поля, либо филдсеты(филдсет рекрсивный).
  * @reactProps {string} className - класс компонента Fieldset
  * @reactProps {string} labelPosition - позиция лейбела относительно контрола: top-left, top-right, left, right.
- * @reactProps {string} label - заголовок филдсета
  * @reactProps {array} labelWidth - ширина лейбела - Либо число, либо 'min' - займет минимальное возможное пространство, либо default - 100px
  * @reactProps {array} labelAlignment - выравнивание текста внутри лейбла
  * @reactProps {number} defaultCol
@@ -184,10 +181,12 @@ class Fieldset extends React.Component {
       modelPrefix,
       disabled,
       autoSubmit,
+      activeModel,
     } = this.props;
 
     return (
       <FieldsetRow
+        activeModel={activeModel}
         key={rowId}
         row={row}
         rowId={rowId}
@@ -214,12 +213,10 @@ class Fieldset extends React.Component {
       parentName,
       parentIndex,
       disabled,
-      label,
       ...rest
     } = this.props;
-
     this.fields = [];
-
+    const enabled = !disabled;
     if (React.Children.count(children)) {
       return <ElementType>{children}</ElementType>;
     }
@@ -230,9 +227,8 @@ class Fieldset extends React.Component {
 
     return (
       <div className={classes} style={style}>
-        {label && <h4 className="n2o-fieldset__label">{label}</h4>}
         <ElementType
-          label={label}
+          enabled={enabled}
           {...rest}
           render={(rows, props = { parentName, parentIndex }) => {
             this.fields = this.calculateAllFields(rows);
@@ -247,7 +243,6 @@ class Fieldset extends React.Component {
 Fieldset.propTypes = {
   rows: PropTypes.array,
   className: PropTypes.string,
-  label: PropTypes.string,
   labelPosition: PropTypes.string,
   labelWidth: PropTypes.array,
   labelAlignment: PropTypes.array,
