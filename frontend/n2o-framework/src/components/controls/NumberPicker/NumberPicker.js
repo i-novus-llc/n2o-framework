@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import isNil from 'lodash/isNil';
+import isNaN from 'lodash/isNaN';
 
 import InputNumber from '../InputNumber/InputNumber';
 
@@ -47,19 +48,15 @@ function NumberPicker(props) {
     defaultValue = max;
   }
 
-  useEffect(() => {
-    if (isNil(value) || value === '') {
-      onChange(defaultValue);
-    }
-  }, [value, onChange, defaultValue]);
-
-  useEffect(() => {
+  const onBlur = useCallback(() => {
     if (value < min) {
       onChange(min);
     } else if (value > max) {
       onChange(max);
+    } else if (isNil(value) || value === '' || isNaN(parseInt(value))) {
+      onChange(defaultValue);
     }
-  }, [value, max, min, onChange]);
+  }, [min, max, value, onChange, defaultValue]);
 
   const handlerChange = step => {
     const nextValue = value + step;
@@ -92,6 +89,8 @@ function NumberPicker(props) {
           onChange={onChange}
           showButtons={false}
           disabled={disabled}
+          onBlur={onBlur}
+          mode="picker"
         />
         <NumberPickerButton
           disabled={disabled || value >= max}
