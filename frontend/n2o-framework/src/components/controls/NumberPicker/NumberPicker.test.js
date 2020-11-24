@@ -30,7 +30,7 @@ describe('<NumberPicker />', () => {
       .find('.n2o-number-picker__button')
       .first()
       .simulate('click');
-    expect(onChange.calledOnce).toBe(true);
+    expect(onChange.calledTwice).toBe(true);
   });
   it('нажатие на минус вызывает onChange', () => {
     const onChange = sinon.spy();
@@ -43,7 +43,7 @@ describe('<NumberPicker />', () => {
       .find('.n2o-number-picker__button')
       .last()
       .simulate('click');
-    expect(onChange.calledOnce).toBe(true);
+    expect(onChange.calledTwice).toBe(true);
   });
   it('не срабатывает onChange при disabled', () => {
     const onChange = sinon.spy();
@@ -56,6 +56,6 @@ describe('<NumberPicker />', () => {
 
     button.first().simulate('click');
     button.last().simulate('click');
-    expect(onChange.notCalled).toBe(true);
+    expect(onChange.calledOnce).toBe(true);
   });
 });

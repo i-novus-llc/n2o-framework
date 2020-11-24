@@ -48,6 +48,10 @@ function NumberPicker(props) {
     defaultValue = max;
   }
 
+  useEffect(() => {
+    onChange(defaultValue);
+  }, []);
+
   const onBlur = useCallback(() => {
     if (value < min) {
       onChange(min);
