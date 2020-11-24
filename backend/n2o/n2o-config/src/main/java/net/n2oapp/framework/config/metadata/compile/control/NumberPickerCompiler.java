@@ -24,8 +24,10 @@ public class NumberPickerCompiler extends StandardFieldCompiler<NumberPicker, N2
     @Override
     public StandardField<NumberPicker> compile(N2oNumberPicker source, CompileContext<?, ?> context, CompileProcessor p) {
         NumberPicker numberPicker = new NumberPicker();
-        numberPicker.setMin(source.getMin());
-        numberPicker.setMax(source.getMax());
+        numberPicker.setMin(p.cast(source.getMin(),
+                p.resolve(property("n2o.api.control.number_picker.min"), Integer.class)));
+        numberPicker.setMax(p.cast(source.getMax(),
+                p.resolve(property("n2o.api.control.number_picker.max"), Integer.class)));
         numberPicker.setStep(p.cast(source.getStep(),
                 p.resolve(property("n2o.api.control.number_picker.step"), Integer.class)));
         source.setDomain("integer");
