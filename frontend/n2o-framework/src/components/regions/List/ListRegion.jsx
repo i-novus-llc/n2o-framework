@@ -35,12 +35,13 @@ class ListRegion extends React.Component {
   renderList = props => {
     const { label, content, isVisible, hasSeparator } = this.props;
 
-    const key = props.open ? 'open' : 'close';
+    const key = props.expand ? 'open' : 'close';
 
     return (
       <Panel
-        key={key}
         {...props}
+        panelKey={key}
+        key={key}
         header={<span className="n2o-list-region__collapse-name">{label}</span>}
         style={{ display: isVisible === false ? 'none' : '' }}
         className={classNames({ line: hasSeparator })}
@@ -61,14 +62,13 @@ class ListRegion extends React.Component {
       'type',
       'forceRender',
       'collapsible',
-      'open',
+      'expand',
     ]);
     const isVisible = every(content, meta => {
       return get(getWidgetProps(meta.id), 'datasource') === undefined
         ? true
         : get(getWidgetProps(meta.id), 'isVisible');
     });
-    const defaultActiveKey = expand ? 'open' : '';
 
     return (
       <div
@@ -76,7 +76,7 @@ class ListRegion extends React.Component {
         style={{ display: !isVisible && 'none' }}
       >
         <Collapse
-          defaultActiveKey={defaultActiveKey}
+          defaultActiveKey={'open'}
           onChange={this.handleChange}
           collapsible={collapsible}
           className="n2o-list-region__collapse"
