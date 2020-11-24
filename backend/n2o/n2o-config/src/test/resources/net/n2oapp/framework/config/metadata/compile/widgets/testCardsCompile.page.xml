@@ -4,7 +4,8 @@
         <region>
             <cards
                     src="CardsTest"
-                    align="center"
+                    vertical-align="center"
+                    height="400px"
                     size="5">
                 <content>
                     <col size="6">

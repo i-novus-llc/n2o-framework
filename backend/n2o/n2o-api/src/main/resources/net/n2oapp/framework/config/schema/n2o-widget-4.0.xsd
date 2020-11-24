@@ -894,11 +894,11 @@
                 <xs:annotation>
                     <xs:documentation>Виджет карточки.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="align" default="top">
+                <xs:attribute name="vertical-align" default="top">
                     <xs:simpleType>
                         <xs:annotation>
                             <xs:documentation>
-                                Выравнивание карточек.
+                                Выравнивание по вертикали содержимого колонок.
                                 Возможные значения (center, top, bottom).
                             </xs:documentation>
                         </xs:annotation>
@@ -908,6 +908,11 @@
                             <xs:enumeration value="bottom"/>
                         </xs:restriction>
                     </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Высота карточки.</xs:documentation>
+                    </xs:annotation>
                 </xs:attribute>
                 <xs:element name="pagination" type="paginationDefinition">
                     <xs:annotation>
