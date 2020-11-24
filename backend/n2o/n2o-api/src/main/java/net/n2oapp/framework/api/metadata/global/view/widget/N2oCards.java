@@ -15,7 +15,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class N2oCards extends N2oAbstractListWidget {
-    private Cards.Position align;
+    private Cards.Position verticalAlign;
+    private String height;
     private N2oPagination pagination;
     private Col[] content;
 

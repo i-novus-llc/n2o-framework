@@ -1640,17 +1640,22 @@ link:#_Ячейки[Ячейка]
 |Идентификатор виджета
 |
 
-|align
-|center, top, bottom
-|Выравнивание содержимого
+|vertical-align
+|center top bottom
+|Выравнивание по вертикали содержимого колонок
 |top
+
+|height
+|Строка
+|Высота карточек
+|
 
 |===
 
 Пример::
 [source,xml]
 ----
-<cards id="cards_id" align="center">
+<cards id="cards_id" vertical-align="center" height="400px">
   <content>...</content>
   <pagination>...</pagination>
 </tiles>

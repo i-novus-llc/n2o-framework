@@ -17,7 +17,9 @@ import java.util.List;
 @Setter
 public class Cards extends Widget {
     @JsonProperty
-    private Position align;
+    private Position verticalAlign;
+    @JsonProperty
+    private String height;
     @JsonProperty
     private Pagination paging;
     @JsonProperty
