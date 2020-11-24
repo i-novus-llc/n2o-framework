@@ -3,7 +3,7 @@ package net.n2oapp.framework.autotest.page;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.impl.component.widget.N2oStandardWidget;
+import net.n2oapp.framework.autotest.api.component.widget.StandardWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllPagesPack;
@@ -38,13 +38,13 @@ public class SimplePageAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.breadcrumb().titleShouldHaveText("Простая страница");
         page.shouldExists();
-        StandardButton button = page.widget(N2oStandardWidget.class).toolbar().topLeft().button("Вперед");
+        StandardButton button = page.widget(StandardWidget.class).toolbar().topLeft().button("Вперед");
         button.shouldBeDisabled();
 
-        button = page.widget(N2oStandardWidget.class).toolbar().topLeft().button("Кнопка с иконкой");
+        button = page.widget(StandardWidget.class).toolbar().topLeft().button("Кнопка с иконкой");
         button.shouldHaveIcon("fa-plus");
 
-        button = page.widget(N2oStandardWidget.class).toolbar().topLeft().button("Опасная");
+        button = page.widget(StandardWidget.class).toolbar().topLeft().button("Опасная");
         button.shouldHaveColor(Colors.DANGER);
     }
 }
