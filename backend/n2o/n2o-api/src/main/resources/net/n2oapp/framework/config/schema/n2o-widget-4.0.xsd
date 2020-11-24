@@ -911,7 +911,7 @@
                 </xs:attribute>
                 <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Высота карточки.</xs:documentation>
+                        <xs:documentation>Высота карточек.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:element name="pagination" type="paginationDefinition">
