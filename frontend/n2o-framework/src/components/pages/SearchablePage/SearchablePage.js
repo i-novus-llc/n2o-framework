@@ -31,6 +31,7 @@ function SearchablePage({
   searchBar = {},
   filterValue,
   withToolbar = true,
+  initSearchValue,
 }) {
   return (
     <div
@@ -58,6 +59,7 @@ function SearchablePage({
           initialValue={filterValue}
           className={cn('ml-auto', searchBar.className)}
           onSearch={onSearch}
+          initSearchValue={initSearchValue}
         />
       </div>
       <div className="n2o-page-actions">
@@ -114,16 +116,45 @@ const enhance = compose(
     searchBar: get(props, 'metadata.searchBar', {}),
     toolbar: get(props, 'metadata.toolbar', {}),
   })),
+  withProps(props => {
+    const isDrawerPage = get(props, 'isDrawerPage');
+    const pageId = get(props, 'metadata.id');
+    const rootPageId = get(props, 'rootPageId');
+    const searchWidgetId = get(props, 'metadata.searchWidgetId');
+
+    const compileSearchWidgetId = pageId + rootPageId + searchWidgetId;
+
+    const currentSearchWidgetId = isDrawerPage
+      ? compileSearchWidgetId
+      : searchWidgetId;
+
+    return {
+      searchWidgetId: currentSearchWidgetId,
+      metadataSearchWidgetId: searchWidgetId,
+      searchModelPrefix: get(props, 'metadata.searchModelPrefix'),
+      isDrawerPage: isDrawerPage,
+      searchModelKey: get(props, 'metadata.searchModelKey'),
+      searchBar: get(props, 'metadata.searchBar', {}),
+      toolbar: get(props, 'metadata.toolbar', {}),
+    };
+  }),
   withHandlers({
     onSearch: ({
       dispatch,
       searchWidgetId,
+      metadataSearchWidgetId,
       searchModelPrefix,
       searchModelKey,
     }) => value => {
       dispatch(
         batchActions([
           updateModel(searchModelPrefix, searchWidgetId, searchModelKey, value),
+          updateModel(
+            searchModelPrefix,
+            metadataSearchWidgetId,
+            searchModelKey,
+            value
+          ),
           dataRequestWidget(searchWidgetId),
         ])
       );
