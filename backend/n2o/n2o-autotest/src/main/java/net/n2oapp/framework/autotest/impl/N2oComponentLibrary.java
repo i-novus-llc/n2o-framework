@@ -26,6 +26,7 @@ import net.n2oapp.framework.autotest.impl.component.page.N2oStandardPage;
 import net.n2oapp.framework.autotest.impl.component.page.N2oTopLeftRightPage;
 import net.n2oapp.framework.autotest.impl.component.region.*;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oAlert;
+import net.n2oapp.framework.autotest.impl.component.snippet.N2oImage;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oStatus;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
 import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
@@ -68,7 +69,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 // buttons
                 N2oDropdownButton.class, N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
                 // fields
-                N2oStandardField.class, N2oIntervalField.class, N2oButtonField.class,
+                N2oStandardField.class, N2oIntervalField.class, N2oButtonField.class, N2oImage.class,
                 // controls
                 N2oInputText.class, N2oInputSelect.class, N2oCheckbox.class, N2oSelect.class, N2oDateInterval.class,
                 N2oDateInput.class, N2oCheckboxGroup.class, N2oRadioGroup.class, N2oMaskedInputControl.class,

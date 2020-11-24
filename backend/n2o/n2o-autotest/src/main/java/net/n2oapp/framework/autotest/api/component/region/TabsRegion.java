@@ -13,6 +13,12 @@ public interface TabsRegion extends Region {
 
     void shouldHaveSize(int size);
 
+    void shouldHaveMaxHeight(int height);
+
+    void shouldHaveScrollbar();
+
+    void shouldNotHaveScrollbar();
+
     interface TabItem extends Component {
         RegionItems content();
 
@@ -25,5 +31,9 @@ public interface TabsRegion extends Region {
         void shouldBeActive();
 
         void shouldNotBeActive();
+
+        void scrollUp();
+
+        void scrollDown();
     }
 }

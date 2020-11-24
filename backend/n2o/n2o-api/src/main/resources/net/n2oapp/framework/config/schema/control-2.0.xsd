@@ -34,6 +34,7 @@
     <xs:element name="slider" type="controlSliderDefinition"/>
     <xs:element name="html" type="controlHtml"/>
     <xs:element name="field" type="fieldCustom"/>
+    <xs:element name="image" type="imageDefinition"/>
     <xs:element name="text" type="controlText"/>
     <xs:element name="rating" type="controlRating"/>
     <xs:element name="alert" type="controlAlertDefinition"/>
@@ -73,6 +74,7 @@
             <xs:element name="html" type="controlHtml" minOccurs="0"/>
             <xs:element name="field" type="fieldCustom" minOccurs="0"/>
             <xs:element name="text" type="controlText" minOccurs="0"/>
+            <xs:element name="image" type="imageDefinition" minOccurs="0"/>
             <xs:element name="slider" type="controlSliderDefinition" minOccurs="0"/>
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
             <xs:element name="alert" type="controlAlertDefinition" minOccurs="0"/>
@@ -891,6 +893,54 @@
                     </xs:element>
                 </xs:sequence>
                 <xs:anyAttribute namespace="##other"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="imageDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Компонент вывода изображения.</xs:documentation>
+            </xs:annotation>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="url" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>URL адрес изображения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="data" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ссылка на изображение в БД в байтах.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="description" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Подзаголовок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text-position" default="right">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>Расположение текста относительно картинки.</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="left"/>
+                            <xs:enumeration value="right"/>
+                            <xs:enumeration value="top"/>
+                            <xs:enumeration value="bottom"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="width" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ширина картинки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
