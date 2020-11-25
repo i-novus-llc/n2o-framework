@@ -42,9 +42,11 @@ function NumberPicker(props) {
 
   let defaultValue = 0;
 
-  if (!isNil(min)) {
+  if (!isNil(value) && value !== '') {
+    defaultValue = value;
+  } else if (!isNil(min) && min !== '') {
     defaultValue = min;
-  } else if (!isNil(max)) {
+  } else if (!isNil(max) && max !== '') {
     defaultValue = max;
   }
 
