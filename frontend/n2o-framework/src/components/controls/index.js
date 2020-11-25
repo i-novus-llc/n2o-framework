@@ -64,6 +64,6 @@ export default {
   ProgressControl: ProgressControl,
   ImageUploader: ImageUploader,
   OutputList: OutputList,
-s  NumberPicker: NumberPicker,
+  NumberPicker: NumberPicker,
   TimePicker: TimePicker,
 };
