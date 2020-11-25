@@ -13,9 +13,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
-import net.n2oapp.framework.api.metadata.meta.control.Field;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
@@ -60,7 +58,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsV2IOPack(),
                 new N2oAllDataPack(), new N2oActionsPack());
-        builder.compilers(new InputTextCompiler());
+        builder.compilers(new InputTextCompiler(), new DatePickerCompiler());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/mapping/testCell.object.xml"));
     }
 
@@ -266,4 +264,19 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmitWithoutRoute_form']"));
     }
 
+    @Test
+    public void testExtraProperties() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldExtProps.page.xml")
+                .get(new PageContext("testStandardFieldExtProps"));
+        Field field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        assertThat(field.getId(), is("dateTime"));
+        assertThat(field.getSrc(), is("StandardField"));
+        assertThat(field.getProperties(), nullValue());
+        assertThat(field, instanceOf(StandardField.class));
+        Control control = ((StandardField)field).getControl();
+        assertThat(control , instanceOf(DatePicker.class));
+        assertThat(control.getSrc() , is("RoundedDatePickerControl"));
+        assertThat(control.getProperties() , notNullValue());
+        assertThat(control.getProperties().get("prefix") , is("extPrefix"));
+    }
 }
