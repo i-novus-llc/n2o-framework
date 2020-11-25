@@ -5,6 +5,9 @@ import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.impl.component.snippet.N2oText;
 
+/**
+ * Страница Hello для автотестирования
+ */
 public class HelloPage {
 
     private final SimplePage simplePage;
@@ -14,7 +17,7 @@ public class HelloPage {
     }
 
     public FormWidget form() {
-        return simplePage.single().widget(FormWidget.class);
+        return simplePage.widget(FormWidget.class);
     }
 
     public void helloShouldHaveText(String helloString) {

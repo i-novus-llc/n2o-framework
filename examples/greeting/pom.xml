@@ -18,11 +18,10 @@
     </parent>
 
     <properties>
-        <n2o.version>7.11.0-SNAPSHOT</n2o.version>
+        <n2o.version>7.11.0</n2o.version>
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>net.n2oapp.framework</groupId>
             <artifactId>n2o-spring-boot-starter</artifactId>
@@ -46,9 +45,7 @@
             <artifactId>n2o-autotest</artifactId>
             <version>${n2o.version}</version>
         </dependency>
-
     </dependencies>
-
 
     <build>
         <plugins>
@@ -61,6 +58,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

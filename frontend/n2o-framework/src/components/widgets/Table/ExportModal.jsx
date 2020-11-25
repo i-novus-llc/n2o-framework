@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { getContext } from 'recompose';
 
 import SelectContainer from '../../controls/Select/SelectContainer';
 import RadioGroupContainer from '../../controls/RadioGroup/RadioGroupContainer';
@@ -42,18 +42,8 @@ class ExportModal extends React.Component {
       ...props.code,
     };
     this.size = {
-      all: (
-        <FormattedMessage
-          id="exportTable.downloadAll"
-          defaultMessage="Загрузить всё"
-        />
-      ),
-      current: (
-        <FormattedMessage
-          id="exportTable.downloadCurrent"
-          defaultMessage="Текущая страница"
-        />
-      ),
+      all: props.t('downloadAll'),
+      current: props.t('currentPage'),
     };
     this.defaults = {
       type: 'csv',
@@ -127,4 +117,4 @@ ExportModal.propTypes = {
   code: PropTypes.string,
 };
 
-export default ExportModal;
+export default getContext({ t: PropTypes.func })(ExportModal);

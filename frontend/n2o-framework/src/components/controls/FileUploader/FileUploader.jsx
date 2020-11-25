@@ -27,6 +27,7 @@ class FileUploader extends React.Component {
       onStartUpload,
       uploaderClass,
       saveBtnStyle,
+      t,
     } = this.props;
     const showControl = multiple || (!multiple && isEmpty(files));
 
@@ -70,7 +71,7 @@ class FileUploader extends React.Component {
                 style={saveBtnStyle}
                 onClick={onStartUpload}
               >
-                Сохранить
+                {t('save')}
               </Button>
             )}
           </div>
@@ -79,5 +80,9 @@ class FileUploader extends React.Component {
     );
   }
 }
+
+FileUploader.defaultProps = {
+  t: () => {},
+};
 
 export default FileUploader;

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
 import { connect } from 'react-redux';
 import {
   makeWidgetVisibleSelector,
@@ -7,6 +8,12 @@ import {
   makeWidgetIsInitSelector,
 } from '../selectors/widgets';
 import { registerDependency } from '../actions/dependency';
+
+export const InitMetadataContext = React.createContext({
+  metadata: {
+    visible: true,
+  },
+});
 
 /**
  * НОС - создает зависимость
@@ -30,15 +37,20 @@ const dependency = WrappedComponent => {
      */
     render() {
       const { isVisible, isEnabled } = this.props;
+      const initMetadata = {
+        metadata: { visible: get(this.props, 'visible', true) },
+      };
       const style = { display: !isVisible ? 'none' : 'block' };
       return (
-        <div style={style}>
-          <WrappedComponent
-            {...this.props}
-            disabled={!isEnabled}
-            visible={isVisible}
-          />
-        </div>
+        <InitMetadataContext.Provider value={initMetadata}>
+          <div style={style}>
+            <WrappedComponent
+              {...this.props}
+              disabled={!isEnabled}
+              visible={isVisible}
+            />
+          </div>
+        </InitMetadataContext.Provider>
       );
     }
   }

@@ -488,4 +488,29 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageWithExpectPathParam", "/page"));
 
     }
+
+
+    @Test
+    public void testBinding() {
+        compile("net/n2oapp/framework/config/metadata/compile/action/testBindOpenPage.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/action/testBindOpenPage.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/action/testBindOpenPageShow.page.xml")
+                .get(new PageContext("testBindOpenPage", "/page"));
+        PageContext context = (PageContext) route("/page/show", Page.class);
+        DataSet data = new DataSet();
+        data.put("name", "test");
+        SimplePage openPage = (SimplePage) read().compile().bind().get(context, data);
+        assertThat(openPage.getWidget().getDataProvider().getUrl(), is("n2o/data/page/show"));
+        assertThat(openPage.getWidget().getDataProvider().getQueryMapping().size(), is(1));
+        assertThat(openPage.getWidget().getDataProvider().getQueryMapping().get("name").isConst(), is(true));
+
+        compile("net/n2oapp/framework/config/metadata/compile/action/testBindOpenPageShow.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/action/testBindOpenPage.query.xml")
+                .get(new PageContext("testBindOpenPageShow", "/testBind"));
+        context = (PageContext) route("/testBind", Page.class);
+        openPage = (SimplePage) read().compile().bind().get(context, data);
+        assertThat(openPage.getWidget().getDataProvider().getUrl(), is("n2o/data/testBind"));
+        assertThat(openPage.getWidget().getDataProvider().getQueryMapping().size(), is(1));
+        assertThat(openPage.getWidget().getDataProvider().getQueryMapping().get("name").getValue(), is("test"));
+    }
 }

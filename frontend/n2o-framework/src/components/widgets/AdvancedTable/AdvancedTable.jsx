@@ -3,12 +3,8 @@ import { compose, pure, setDisplayName } from 'recompose';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Table from 'rc-table';
-import AdvancedTableExpandIcon from './AdvancedTableExpandIcon';
-import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import { HotKeys } from 'react-hotkeys/cjs';
 import cx from 'classnames';
-import propsResolver from '../../../utils/propsResolver';
-import SecurityCheck from '../../../core/auth/SecurityCheck';
 import find from 'lodash/find';
 import some from 'lodash/some';
 import isEqual from 'lodash/isEqual';
@@ -25,19 +21,25 @@ import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import includes from 'lodash/includes';
 import isNumber from 'lodash/isNumber';
+
+import propsResolver from '../../../utils/propsResolver';
+import SecurityCheck from '../../../core/auth/SecurityCheck';
+import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
+import RadioN2O from '../../controls/Radio/RadioN2O';
+
+import AdvancedTableExpandIcon from './AdvancedTableExpandIcon';
+import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableRowWithAction from './AdvancedTableRowWithAction';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
-import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
-import RadioN2O from '../../controls/Radio/RadioN2O';
 import AdvancedTableCell from './AdvancedTableCell';
 import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
 import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
 import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
-  const index = findIndex(data, model => model.id == selectedId);
+  const index = findIndex(data, model => model.id === selectedId);
   return index >= 0 ? index : 0;
 };
 
@@ -164,8 +166,9 @@ class AdvancedTable extends Component {
       columns,
       multi,
       rowSelection,
+      resolveModel,
     } = this.props;
-    const { checked, children } = this.state;
+    const { children } = this.state;
 
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
       const id = selectedId || data[0].id;
@@ -211,7 +214,7 @@ class AdvancedTable extends Component {
       this.setState({ ...state });
     }
     if (
-      !isEqual(prevState.checked, checked) &&
+      !isEqual(prevState.checked, this.state.checked) &&
       rowSelection === rowSelectionType.CHECKBOX
     ) {
       const selectAllCheckbox = ReactDom.findDOMNode(
@@ -220,8 +223,8 @@ class AdvancedTable extends Component {
 
       let all = false;
 
-      const isSomeOneChecked = some(checked, i => i);
-      const isAllChecked = every(checked, i => i);
+      const isSomeOneChecked = some(this.state.checked, i => i);
+      const isAllChecked = every(this.state.checked, i => i);
       if (isAllChecked) {
         all = true;
       }
@@ -229,6 +232,13 @@ class AdvancedTable extends Component {
       selectAllCheckbox.checked = isAllChecked;
 
       this.setState({ checkedAll: all });
+    }
+    if (
+      resolveModel &&
+      rowSelection === rowSelectionType.RADIO &&
+      !isEqual(resolveModel, prevProps.resolveModel)
+    ) {
+      this.setState({ checked: { [resolveModel.id]: true } });
     }
   }
 
@@ -752,6 +762,7 @@ class AdvancedTable extends Component {
       isActive,
       onFocus,
       rowSelection,
+      t,
     } = this.props;
 
     return (
@@ -781,7 +792,7 @@ class AdvancedTable extends Component {
             onExpand={onExpand}
             useFixedHeader={useFixedHeader}
             indentSize={20}
-            emptyText={AdvancedTableEmptyText}
+            emptyText={AdvancedTableEmptyText(t)}
             scroll={this.getScroll()}
           />
         </div>
@@ -850,6 +861,7 @@ AdvancedTable.defaultProps = {
   expandable: false,
   onFocus: () => {},
   onSetSelection: () => {},
+  t: () => {},
   autoFocus: false,
   rows: {},
   scroll: {},

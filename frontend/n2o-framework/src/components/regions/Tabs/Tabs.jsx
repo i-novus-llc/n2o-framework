@@ -3,8 +3,12 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
+import filter from 'lodash/filter';
+import first from 'lodash/first';
+import get from 'lodash/get';
 
 import TabNav from './TabNav';
 import TabNavItem from './TabNavItem';
@@ -14,9 +18,12 @@ import TabContent from './TabContent';
  * Компонент контейнера табов
  * @reactProps {string} className - css-класс
  * @reactProps {string} navClassName - css-класс для нава
+ * @reactProps {string} maxHeight - кастом max-высота контента таба, фиксация табов
+ * @reactProps {string} title - title табов
  * @reactProps {function} onChangeActive
- * @reactProps {node} children - элемент потомок компонента Tabs
  * @reactProps {function} hideSingleTab - скрывать / не скрывать навигацию таба, если он единственный
+ * @reactProps {node} children - элемент потомок компонента Tabs
+ * @reactProps {boolean} scrollbar - спрятать scrollbar (default = true)
  * @example
  * <Tabs>
  * {
@@ -32,30 +39,37 @@ import TabContent from './TabContent';
  */
 
 class Tabs extends React.Component {
-  constructor(props) {
-    super(props);
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { onChangeActive, children } = this.props;
 
-    this.state = {
-      activeId: this.defaultOpenedId,
+    const activeTabVisibility = (children, activeId) => {
+      const entity = first(filter(children, child => child.key === activeId));
+
+      return get(entity, 'props.visible');
     };
 
-    this.handleChangeActive = this.handleChangeActive.bind(this);
+    const isActiveTabVisibilityHasChange =
+      activeTabVisibility(children, prevProps.activeId) !==
+      activeTabVisibility(prevProps.children, prevProps.activeId);
+
+    const firstVisibleTab = first(
+      filter(children, child => child.props.visible)
+    );
+
+    if (isActiveTabVisibilityHasChange) {
+      onChangeActive(firstVisibleTab.key, prevProps.activeId);
+    }
   }
 
   /**
    * установка активного таба
-   * @param e
+   * @param event
    * @param id
+   * @param prevId
    */
-  handleChangeActive(e, id) {
-    const prevId = this.state.activeId;
-    this.setState(
-      {
-        activeId: id,
-      },
-      () => this.props.onChangeActive(id, prevId)
-    );
-  }
+  handleChangeActive = (event, id, prevId) => {
+    this.props.onChangeActive(id, prevId);
+  };
 
   /**
    * getter для айдишника активного таба
@@ -76,11 +90,23 @@ class Tabs extends React.Component {
 
   /**
    * Базовый рендер
-   * @return {XML}
+   * @return {JSX.Element}
    */
   render() {
-    const { className, navClassName, children, hideSingleTab } = this.props;
-    const { activeId } = this.state;
+    const {
+      className,
+      navClassName,
+      children,
+      hideSingleTab,
+      dependencyVisible,
+      scrollbar,
+      maxHeight,
+      title,
+    } = this.props;
+
+    const activeId = this.defaultOpenedId;
+
+    const tabContentStyle = maxHeight ? { maxHeight } : {};
 
     const tabNavItems = React.Children.map(children, child => {
       const { id, title, icon, disabled, visible } = child.props;
@@ -88,12 +114,14 @@ class Tabs extends React.Component {
       const hasSingleVisibleTab =
         children.filter(child => child.props.visible).length === 1;
 
-      if (hasSingleVisibleTab && hideSingleTab) {
+      if (
+        (hasSingleVisibleTab && hideSingleTab) ||
+        !dependencyVisible ||
+        !visible
+      ) {
         return null;
       }
-      if (!visible) {
-        return null;
-      }
+
       return (
         <TabNavItem
           id={id}
@@ -105,19 +133,53 @@ class Tabs extends React.Component {
         />
       );
     });
-    const style = { marginBottom: 2 };
+
     return (
-      <div className={className} style={style}>
+      <div
+        className={classNames('n2o-nav-tabs-container', {
+          [className]: className,
+          fixed: maxHeight,
+        })}
+      >
         {!isEmpty(tabNavItems) && (
-          <TabNav className={navClassName}>{tabNavItems}</TabNav>
+          <div
+            className={classNames('n2o-nav-tabs', {
+              'n2o-nav-tabs_tabs-fixed': maxHeight,
+            })}
+          >
+            {title && <h5 className="n2o-nav-tabs__title">{title}</h5>}
+            <TabNav
+              className={classNames('n2o-nav-tabs__tabs-list', {
+                navClassName: navClassName,
+              })}
+            >
+              {tabNavItems}
+            </TabNav>
+          </div>
         )}
-        <TabContent>
-          {React.Children.map(children, child =>
-            React.cloneElement(child, {
-              active: activeId === child.props.id,
-            })
-          )}
-        </TabContent>
+        <div
+          className={classNames('n2o-tab-content__container', {
+            visible: dependencyVisible,
+            fixed: maxHeight,
+          })}
+        >
+          <TabContent
+            className={classNames({
+              'tab-content_fixed': maxHeight,
+              'tab-content_fixed tabs-with-title':
+                (title && maxHeight) || (title && maxHeight),
+              'tab-content_height-fixed': maxHeight,
+              'tab-content_no-scrollbar': scrollbar === false,
+            })}
+            style={tabContentStyle}
+          >
+            {React.Children.map(children, child =>
+              React.cloneElement(child, {
+                active: activeId === child.props.id,
+              })
+            )}
+          </TabContent>
+        </div>
       </div>
     );
   }
@@ -137,10 +199,23 @@ Tabs.propTypes = {
    */
   onChangeActive: PropTypes.func,
   children: PropTypes.node,
+  /**
+   * спрятать/не прятать scrollbar
+   */
+  scrollbar: PropTypes.bool,
+  /**
+   * кастомная max-высота контента. фиксация табов
+   */
+  height: PropTypes.string,
+  /**
+   * title табов
+   */
+  title: PropTypes.string,
 };
 
 Tabs.defaultProps = {
   onChangeActive: () => {},
+  scrollbar: false,
 };
 
 export default Tabs;

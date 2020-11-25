@@ -6,6 +6,9 @@ import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 
+/**
+ * Стартовая страница Crud для автотестирования
+ */
 public class CrudPage {
 
     private final SimplePage simplePage;
@@ -15,7 +18,7 @@ public class CrudPage {
     }
 
     public TableWidget table() {
-        return simplePage.single().widget(TableWidget.class);
+        return simplePage.widget(TableWidget.class);
     }
 
     public CreatePage create() {

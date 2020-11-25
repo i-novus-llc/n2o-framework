@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget.form;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
@@ -115,6 +116,11 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         validations = form.getComponent().getValidation().get("testField3");
         assertThat(((MandatoryValidation) validations.get(0)).getEnablingExpression(), is("(testField2 == 'test') && (testField3 == 'test')"));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
+
+        validations = form.getComponent().getValidation().get("testInterval");
+        assertThat(validations.size(), is(2));
+        assertThat(((ConditionValidation)validations.get(0)).getExpression(), is("typeof testIntervalBegin == 'undefined'"));
+
     }
 
     @Test
