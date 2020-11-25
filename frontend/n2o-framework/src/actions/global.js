@@ -5,6 +5,7 @@ import {
   REQUEST_CONFIG_FAIL,
   CHANGE_ROOT_PAGE,
   SET_READY,
+  REGISTER_LOCALES,
 } from '../constants/global';
 import createActionHelper from './createActionHelper';
 
@@ -68,5 +69,11 @@ export function requestConfigFail(alert) {
 export function changeRootPage(rootPageId) {
   return createActionHelper(CHANGE_ROOT_PAGE)({
     rootPageId,
+  });
+}
+
+export function registerLocales(locales) {
+  return createActionHelper(REGISTER_LOCALES)({
+    locales,
   });
 }

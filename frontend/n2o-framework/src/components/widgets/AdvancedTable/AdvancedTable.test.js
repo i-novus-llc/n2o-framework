@@ -1,8 +1,8 @@
 import React from 'react';
 import sinon from 'sinon';
-import AdvancedTable from './AdvancedTable';
-
 import set from 'lodash/set';
+
+import AdvancedTable from './AdvancedTable';
 
 const columns = [
   {
@@ -91,7 +91,7 @@ describe('<AdvancedTable/>', () => {
   it('отрисовывается empty message', () => {
     const wrapper = setup({ data: [] });
 
-    expect(wrapper.find('FormattedMessage').exists()).toBe(true);
+    expect(wrapper.find('.n2o-advanced-table__empty-text').exists()).toBe(true);
   });
 
   describe('тесты rowClick', () => {

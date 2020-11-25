@@ -7,15 +7,14 @@
         </java>
     </list>
 
-
     <fields>
         <field id="id">
             <select/>
         </field>
-        <field id="fileName" domain="string">
+        <field id="fileName">
             <select/>
         </field>
-        <field id="url" domain="string">
+        <field id="url">
             <select/>
         </field>
     </fields>

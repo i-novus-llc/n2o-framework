@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import isNull from 'lodash/isNull';
 import moment from 'moment';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
 
 import Day from './Day';
 import CalendarHeader from './CalendarHeader';
@@ -90,7 +89,7 @@ class Calendar extends React.Component {
    */
   renderHeader() {
     const { displayesMonth, calendarType } = this.state;
-    const { locale } = this.props;
+    const { locale, t } = this.props;
     const {
       nextMonth,
       nextYear,
@@ -114,6 +113,7 @@ class Calendar extends React.Component {
         locale={locale}
         calendarType={calendarType}
         changeCalendarType={changeCalendarType}
+        t={t}
       />
     );
   }
@@ -364,20 +364,13 @@ class Calendar extends React.Component {
   }
 
   renderTime() {
-    const { value, hasDefaultTime, timeFormat } = this.props;
+    const { value, hasDefaultTime, timeFormat, t } = this.props;
 
-    return hasDefaultTime ? (
-      value ? (
-        value.format(timeFormat)
-      ) : (
-        '00:00:00'
-      )
-    ) : (
-      <FormattedMessage
-        id="Datepicker.time-choose"
-        defaultMessage="Выберите время"
-      />
-    );
+    return hasDefaultTime
+      ? value
+        ? value.format(timeFormat)
+        : '00:00:00'
+      : t('chooseTime');
   }
 
   objFromTime(date) {
@@ -625,6 +618,7 @@ Calendar.defaultProps = {
   placement: 'bottom',
   locale: 'ru',
   clock: true,
+  t: () => {},
 };
 
 Calendar.propTypes = {

@@ -1,5 +1,9 @@
 import React from 'react';
+import { withResizeDetector } from 'react-resize-detector';
+import classNames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
+import map from 'lodash/map';
 import PropTypes from 'prop-types';
 import Navbar from 'reactstrap/lib/Navbar';
 import Nav from 'reactstrap/lib/Nav';
@@ -96,6 +100,14 @@ class SimpleHeader extends React.Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { width } = this.props;
+
+    if (width !== prevProps.width && width >= 992) {
+      this.setState({ isOpen: false });
+    }
+  }
+
   render() {
     const {
       color,
@@ -113,7 +125,7 @@ class SimpleHeader extends React.Component {
     const isInversed = color === 'inverse';
     const navColor = isInversed ? 'primary' : 'light';
     const mapItems = (items, options) =>
-      items.map((item, i) => (
+      map(items, (item, i) => (
         <NavItemContainer
           key={i}
           item={item}
@@ -136,7 +148,7 @@ class SimpleHeader extends React.Component {
           color={navColor}
           light={!isInversed}
           dark={isInversed}
-          expand="md"
+          expand="lg"
         >
           {brandImage && (
             <NavbarBrand className="n2o-brand" href={homePageUrl}>
@@ -149,7 +161,13 @@ class SimpleHeader extends React.Component {
             </a>
           )}
           {!isEmpty(items) && <NavbarToggler onClick={this.toggle} />}
-          <Collapse isOpen={this.state.isOpen} navbar>
+          <Collapse
+            isOpen={this.state.isOpen}
+            className={classNames({
+              'n2o-navbar-collapse-open': this.state.isOpen,
+            })}
+            navbar
+          >
             <Nav className="main-nav" navbar>
               {navItems}
             </Nav>
@@ -248,6 +266,10 @@ SimpleHeader.propTypes = {
    * Стили
    */
   style: PropTypes.object,
+  /**
+   * Включение показа контрола смены локализации
+   */
+  localeSelect: PropTypes.bool,
 };
 
 SimpleHeader.defaultProps = {
@@ -260,6 +282,11 @@ SimpleHeader.defaultProps = {
   extraItems: [],
   search: false,
   style: {},
+  localeSelect: false,
 };
 
-export default SimpleHeader;
+export default withResizeDetector(SimpleHeader, {
+  handleHeight: false,
+  refreshMode: 'debounce',
+  refreshRate: 100,
+});

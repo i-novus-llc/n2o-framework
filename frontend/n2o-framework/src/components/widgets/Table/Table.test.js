@@ -1,7 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
 
-import Table from './Table';
+import { Table } from './Table';
 import TextTableHeader from './headers/TextTableHeader';
 import TextCell from './cells/TextCell/TextCell';
 import TableRow from './TableRow';

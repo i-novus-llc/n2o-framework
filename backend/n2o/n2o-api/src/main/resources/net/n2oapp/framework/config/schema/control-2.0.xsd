@@ -42,6 +42,7 @@
     <xs:element name="status" type="controlStatusDefinition"/>
     <xs:element name="button" type="btn:buttonDefinition"/>
     <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
+    <xs:element name="time-picker" type="controlTimePickerDefinition"/>
 
     <xs:complexType name="controls">
         <xs:sequence>
@@ -80,6 +81,7 @@
             <xs:element name="status" type="controlStatusDefinition" minOccurs="0"/>
             <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
             <xs:element name="interval-field" type="controlRangeFieldDefinition" minOccurs="0"/>
+            <xs:element name="time-picker" type="controlTimePickerDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -806,6 +808,70 @@
                     <xs:element name="begin" type="controls" minOccurs="1" maxOccurs="1"/>
                     <xs:element name="end" type="controls" minOccurs="1" maxOccurs="1"/>
                 </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="controlTimePickerDefinition">
+        <xs:annotation>
+            <xs:documentation>
+                Компонент ввода времени.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="prefix" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Префикс.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="mode" default="hours,minutes,seconds">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Режим отображения списка выбора.
+                            Может быть "hours,minutes,seconds" или "hours,minutes" или "hours" или "minutes".
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="hours,minutes,seconds"/>
+                            <xs:enumeration value="hours,minutes"/>
+                            <xs:enumeration value="hours"/>
+                            <xs:enumeration value="minutes"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="time-format" default="hh:mm:ss">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Формат времени в модели.
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="hh:mm:ss"/>
+                            <xs:enumeration value="hh:mm"/>
+                            <xs:enumeration value="hh"/>
+                            <xs:enumeration value="mm"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="format" default="symbols">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Формат отображения времени.
+                            Может быть digit ("00:00:00") или symbols ("15 мин").
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="symbols"/>
+                            <xs:enumeration value="digit"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

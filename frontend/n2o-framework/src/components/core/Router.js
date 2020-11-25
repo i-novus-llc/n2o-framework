@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { pure } from 'recompose';
+import { useTranslation } from 'react-i18next';
+
 import history from '../../history';
+
 import Route from './Route';
 import Page from './Page';
 
@@ -19,13 +22,18 @@ const errorStyle = {
 };
 
 function Router({ embeddedRouting, children }) {
+  const { t } = useTranslation();
+
   if (!embeddedRouting && !React.Children.count(children)) {
     return (
       <div style={errorStyle}>
-        <p>&#9888; Страницы не настроены.</p>
+        <p>&#9888; {t('pagesNotConfigured')}.</p>
         <p>
-          Нужно добавить <code>&lt;Page&gt;</code> в компонент
-          <code>&lt;N2O&gt;</code> или включить <code>embeddedRouting</code>.
+          {t('routerError', {
+            page: <code>&lt;Page&gt;</code>,
+            n2o: <code>&lt;N2O&gt;</code>,
+            embeddedRouting: <code>embeddedRouting</code>,
+          })}
         </p>
       </div>
     );

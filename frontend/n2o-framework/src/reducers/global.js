@@ -6,13 +6,14 @@ import {
   REQUEST_CONFIG_FAIL,
   CHANGE_ROOT_PAGE,
   SET_READY,
+  REGISTER_LOCALES,
 } from '../constants/global';
 
 const defaultState = {
   ready: false,
   loading: false,
   error: null,
-  locale: 'ru_RU',
+  locale: 'ru',
   messages: {},
   menu: {},
   rootPageId: null,
@@ -45,6 +46,10 @@ export default handleActions(
     [CHANGE_ROOT_PAGE]: (state, action) => ({
       ...state,
       rootPageId: action.payload.rootPageId,
+    }),
+    [REGISTER_LOCALES]: (state, action) => ({
+      ...state,
+      locales: action.payload.locales,
     }),
   },
   defaultState

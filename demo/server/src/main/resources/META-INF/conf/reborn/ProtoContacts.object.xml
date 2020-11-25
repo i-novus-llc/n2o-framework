@@ -1,12 +1,12 @@
 <object xmlns="http://n2oapp.net/framework/config/schema/object-3.0" name="Контакты">
     <fields>
         <field id="id" domain="integer" mapping="['id']"/>
-        <reference id="individual" object-id="ProtoClient" name="Клиент" required="true" mapping="['indiv_id']"/>
-        <reference id="type" name="Тип контакта">
+        <reference id="individual" object-id="ProtoClient" name="${client}" required="true" mapping="['indiv_id']"/>
+        <reference id="type" name="${contact.type}">
             <field id="id" domain="integer" mapping="['type_id']"/>
             <field id="name" domain="string"/>
         </reference>
-        <field id="value" domain="string" name="Номер" mapping="['value']"/>
+        <field id="value" domain="string" name="${number}" mapping="['value']"/>
     </fields>
     <operations>
         <operation id="create">
@@ -15,7 +15,7 @@
             </invocation>
             <in-parameters>
                 <param id="type.id" mapping="['type_id']"/>
-                <param id="individual.id"  mapping="['indiv_id']"/>
+                <param id="individualId"  mapping="['indiv_id']"/>
                 <param id="phone" mapping-condition="type.id == 2" mapping="['value']"/>
                 <param id="email" mapping-condition="type.id == 4" mapping="['value']"/>
             </in-parameters>
@@ -30,7 +30,7 @@
             <in-parameters>
                 <param id="id" mapping="['id']"/>
                 <param id="type.id" mapping="['type_id']"/>
-                <param id="individual.id"  mapping="['indiv_id']"/>
+                <param id="individualId"  mapping="['indiv_id']"/>
                 <param id="phone" mapping-condition="type.id == 2" mapping="['value']"/>
                 <param id="email" mapping-condition="type.id == 4" mapping="['value']"/>
             </in-parameters>

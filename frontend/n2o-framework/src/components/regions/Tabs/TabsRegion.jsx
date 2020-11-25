@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import filter from 'lodash/filter';
 import map from 'lodash/map';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import pull from 'lodash/pull';
+import some from 'lodash/some';
 import { compose, setDisplayName } from 'recompose';
 
 import SecurityCheck from '../../../core/auth/SecurityCheck';
@@ -30,7 +30,7 @@ class TabRegion extends React.Component {
     super(props);
     this.state = {
       readyTabs: this.findReadyTabs(),
-      visibleTabs: {},
+      permissionsVisibleTabs: {},
     };
     this.handleChangeActive = this.handleChangeActive.bind(this);
   }
@@ -72,29 +72,27 @@ class TabRegion extends React.Component {
   }
 
   findReadyTabs() {
-    return filter(
-      map(this.props.tabs, tab => {
-        if (tab.opened) {
-          return tab.id;
-        }
-      }),
-      item => item
-    );
+    return map(this.props.tabs, tab => tab.id);
+  }
+
+  tabVisible(tab) {
+    const { getWidgetProps } = this.props;
+    const content = get(tab, 'content');
+
+    return some(content, meta => {
+      const widgetProps = getWidgetProps(meta.id);
+      return get(widgetProps, 'isVisible') || meta.src === 'TabsRegion';
+    });
+  }
+
+  regionVisible(tabs) {
+    return some(tabs, tab => this.tabVisible(tab));
   }
 
   render() {
-    const {
-      tabs,
-      getWidgetProps,
-      getVisible,
-      pageId,
-      lazy,
-      activeEntity,
-      className,
-      hideSingleTab,
-    } = this.props;
+    const { tabs, lazy, activeEntity, className, hideSingleTab } = this.props;
 
-    const { readyTabs, visibleTabs } = this.state;
+    const { readyTabs, permissionsVisibleTabs } = this.state;
 
     return (
       <Tabs
@@ -102,21 +100,19 @@ class TabRegion extends React.Component {
         activeId={activeEntity}
         onChangeActive={this.handleChangeActive}
         hideSingleTab={hideSingleTab}
+        dependencyVisible={this.regionVisible(tabs)}
       >
         {map(tabs, tab => {
           const { security, content } = tab;
-          const widgetProps = getWidgetProps(tab.widgetId);
-          const dependencyVisible = getVisible(pageId, tab.id);
-          const widgetVisible = get(widgetProps, 'isVisible', true);
-          const tabVisible = get(visibleTabs, tab.id, true);
-
+          const permissionVisible = get(permissionsVisibleTabs, tab.id, true);
+          const visible = permissionVisible && this.tabVisible(tab);
           const tabProps = {
             key: tab.id,
             id: tab.id,
             title: tab.label || tab.widgetId,
             icon: tab.icon,
             active: tab.opened,
-            visible: dependencyVisible && widgetVisible && tabVisible,
+            visible: visible,
           };
           const tabEl = (
             <Tab {...tabProps}>

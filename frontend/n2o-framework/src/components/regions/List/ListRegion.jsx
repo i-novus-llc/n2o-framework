@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { compose, setDisplayName } from 'recompose';
-
 import pick from 'lodash/pick';
+import every from 'lodash/every';
+import get from 'lodash/get';
 
 import Collapse, { Panel } from '../../snippets/Collapse/Collapse';
 import withWidgetProps from '../withWidgetProps';
@@ -48,7 +48,7 @@ class ListRegion extends React.Component {
    * Рендер
    */
   render() {
-    const { collapsible, name } = this.props;
+    const { collapsible, name, content, getWidgetProps } = this.props;
 
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
     const panelProps = pick(this.props, [
@@ -57,8 +57,16 @@ class ListRegion extends React.Component {
       'collapsible',
       'open',
     ]);
+    const isVisible = every(content, meta => {
+      return get(getWidgetProps(meta.id), 'datasource') === undefined
+        ? true
+        : get(getWidgetProps(meta.id), 'isVisible');
+    });
     return (
-      <div className="n2o-list-region">
+      <div
+        className="n2o-list-region"
+        style={{ display: !isVisible && 'none' }}
+      >
         <Collapse
           defaultActiveKey={'open'}
           onChange={this.handleChange}
