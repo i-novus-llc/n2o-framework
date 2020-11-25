@@ -187,7 +187,7 @@ export function RangeField({
       <div
         className={cx('n2o-validation-message', validationMap[validationClass])}
       >
-       {(!end || !begin) && touched && message && message.text}
+        {(!end || !begin) && touched && message && message.text}
       </div>
     </div>
   ) : null;

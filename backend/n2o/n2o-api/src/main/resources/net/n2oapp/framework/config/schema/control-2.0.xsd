@@ -34,6 +34,7 @@
     <xs:element name="slider" type="controlSliderDefinition"/>
     <xs:element name="html" type="controlHtml"/>
     <xs:element name="field" type="fieldCustom"/>
+    <xs:element name="image" type="imageDefinition"/>
     <xs:element name="text" type="controlText"/>
     <xs:element name="rating" type="controlRating"/>
     <xs:element name="alert" type="controlAlertDefinition"/>
@@ -42,6 +43,7 @@
     <xs:element name="status" type="controlStatusDefinition"/>
     <xs:element name="button" type="btn:buttonDefinition"/>
     <xs:element name="interval-field" type="controlRangeFieldDefinition"/>
+    <xs:element name="number-picker" type="numberPickerFieldDefinition"/>
     <xs:element name="time-picker" type="controlTimePickerDefinition"/>
 
     <xs:complexType name="controls">
@@ -73,6 +75,7 @@
             <xs:element name="html" type="controlHtml" minOccurs="0"/>
             <xs:element name="field" type="fieldCustom" minOccurs="0"/>
             <xs:element name="text" type="controlText" minOccurs="0"/>
+            <xs:element name="image" type="imageDefinition" minOccurs="0"/>
             <xs:element name="slider" type="controlSliderDefinition" minOccurs="0"/>
             <xs:element name="rating" type="controlRating" minOccurs="0"/>
             <xs:element name="alert" type="controlAlertDefinition" minOccurs="0"/>
@@ -81,6 +84,7 @@
             <xs:element name="status" type="controlStatusDefinition" minOccurs="0"/>
             <xs:element name="button" type="btn:buttonDefinition" minOccurs="0"/>
             <xs:element name="interval-field" type="controlRangeFieldDefinition" minOccurs="0"/>
+            <xs:element name="number-picker" type="numberPickerFieldDefinition" minOccurs="0"/>
             <xs:element name="time-picker" type="controlTimePickerDefinition" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
@@ -812,6 +816,31 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="numberPickerFieldDefinition">
+        <xs:annotation>
+            <xs:documentation>Компонент выбора числа из диапазона.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="min" type="xs:integer" default="0">
+                    <xs:annotation>
+                        <xs:documentation>Минимальное значение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max" type="xs:integer" default="100">
+                    <xs:annotation>
+                        <xs:documentation>Максимальное значение.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="step" type="xs:integer" default="1">
+                    <xs:annotation>
+                        <xs:documentation>Шаг изменения значения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="controlTimePickerDefinition">
         <xs:annotation>
             <xs:documentation>
@@ -822,9 +851,7 @@
             <xs:extension base="controlSimpleFieldDefinition">
                 <xs:attribute name="prefix" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>
-                            Префикс.
-                        </xs:documentation>
+                        <xs:documentation>Префикс.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="mode" default="hours,minutes,seconds">
@@ -845,9 +872,7 @@
                 </xs:attribute>
                 <xs:attribute name="time-format" default="hh:mm:ss">
                     <xs:annotation>
-                        <xs:documentation>
-                            Формат времени в модели.
-                        </xs:documentation>
+                        <xs:documentation>Формат времени в модели.</xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
@@ -930,6 +955,54 @@
                     </xs:element>
                 </xs:sequence>
                 <xs:anyAttribute namespace="##other"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="imageDefinition">
+        <xs:complexContent>
+            <xs:annotation>
+                <xs:documentation>Компонент вывода изображения.</xs:documentation>
+            </xs:annotation>
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="url" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>URL адрес изображения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="data" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ссылка на изображение в БД в байтах.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="description" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Подзаголовок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text-position" default="right">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>Расположение текста относительно картинки.</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="left"/>
+                            <xs:enumeration value="right"/>
+                            <xs:enumeration value="top"/>
+                            <xs:enumeration value="bottom"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="width" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ширина картинки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
