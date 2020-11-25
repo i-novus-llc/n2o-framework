@@ -8,7 +8,7 @@ import net.n2oapp.framework.autotest.api.component.fieldset.LineFieldSet;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 /**
- * Клиентская модель филдсета с горизонтальной линией
+ * Филдсет с горизонтальным делителем для автотестирования
  */
 public class N2oLineFieldSet extends N2oComponent implements LineFieldSet {
 
