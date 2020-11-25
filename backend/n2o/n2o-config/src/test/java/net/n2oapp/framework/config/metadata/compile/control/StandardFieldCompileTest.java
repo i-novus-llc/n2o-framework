@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
@@ -58,7 +59,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsV2IOPack(),
                 new N2oAllDataPack(), new N2oActionsPack());
-        builder.compilers(new InputTextCompiler(), new DatePickerCompiler());
+        builder.compilers(new InputTextCompiler(), new DatePickerCompiler(), new CustomFieldCompiler());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/mapping/testCell.object.xml"));
     }
 
@@ -277,6 +278,21 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(control , instanceOf(DatePicker.class));
         assertThat(control.getSrc() , is("RoundedDatePickerControl"));
         assertThat(control.getProperties() , notNullValue());
+        assertThat(control.getProperties().size() , is(2));
         assertThat(control.getProperties().get("prefix") , is("extPrefix"));
+
+        field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+        assertThat(field.getId(), is("customField"));
+        assertThat(field.getProperties(), notNullValue());
+        assertThat(field.getProperties().size(), is(2));
+        assertThat(field.getProperties().get("attr"), is("extAttr"));
+        assertThat(field.getProperties().get("anonymous"), is(false));
+
+        Component component = ((CustomField) field).getControl();
+
+        assertThat(component.getProperties(), notNullValue());
+        assertThat(component.getProperties().size(), is(2));
+        assertThat(component.getProperties().get("attr2"), is("extAttr2"));
+        assertThat(component.getProperties().get("roles"), is("admin"));
     }
 }
