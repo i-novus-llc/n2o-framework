@@ -29,12 +29,14 @@ CollapseFieldSet.propTypes = {
   label: PropTypes.string,
   expand: PropTypes.bool,
   hasArrow: PropTypes.bool,
+  hasSeparator: PropTypes.bool,
   render: PropTypes.func,
 };
 
 CollapseFieldSet.defaultProps = {
   rows: [],
   hasArrow: true,
+  hasSeparator: true,
 };
 
 export default CollapseFieldSet;

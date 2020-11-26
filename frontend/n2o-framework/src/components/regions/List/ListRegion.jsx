@@ -40,7 +40,6 @@ class ListRegion extends React.Component {
     return (
       <Panel
         {...props}
-        panelKey={key}
         key={key}
         header={<span className="n2o-list-region__collapse-name">{label}</span>}
         style={{ display: isVisible === false ? 'none' : '' }}
