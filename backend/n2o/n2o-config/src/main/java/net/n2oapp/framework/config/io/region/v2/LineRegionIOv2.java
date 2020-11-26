@@ -13,9 +13,10 @@ public class LineRegionIOv2 extends BaseRegionIOv2<N2oLineRegion> {
     @Override
     public void io(Element e, N2oLineRegion r, IOProcessor p) {
         super.io(e, r, p);
-        p.attribute(e, "name", r::getName, r::setName);
+        p.attribute(e, "label", r::getLabel, r::setLabel);
         p.attributeBoolean(e, "collapsible", r::getCollapsible, r::setCollapsible);
-        p.attributeBoolean(e, "open", r::getOpen, r::setOpen);
+        p.attributeBoolean(e, "has-separator", r::getHasSeparator, r::setHasSeparator);
+        p.attributeBoolean(e, "expand", r::getExpand, r::setExpand);
     }
 
     @Override
