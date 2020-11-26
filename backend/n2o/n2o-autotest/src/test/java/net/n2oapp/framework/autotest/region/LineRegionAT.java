@@ -40,6 +40,7 @@ public class LineRegionAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
+        // expanded
         LineRegion line1 = page.regions().region(0, LineRegion.class);
         line1.shouldHaveLabel("Line1");
         line1.shouldBeCollapsible();
@@ -49,6 +50,7 @@ public class LineRegionAT extends AutoTestBase {
         line1.expandContent();
         line1.shouldBeExpanded();
 
+        // collapsed
         LineRegion line2 = page.regions().region(1, LineRegion.class);
         line2.shouldHaveLabel("Line2");
         line2.shouldBeCollapsed();

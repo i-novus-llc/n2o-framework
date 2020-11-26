@@ -45,8 +45,10 @@ public class LineFieldSetAT extends AutoTestBase {
     @Test
     public void testLineFieldSet() {
         FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
+        // empty fieldset
         fieldsets.fieldset(LineFieldSet.class).shouldBeEmpty();
 
+        // expanded
         LineFieldSet fieldset = fieldsets.fieldset(1, LineFieldSet.class);
         fieldset.fields().shouldHaveSize(2);
         fieldset.shouldBeCollapsible();
@@ -57,11 +59,13 @@ public class LineFieldSetAT extends AutoTestBase {
         fieldset.expandContent();
         fieldset.shouldBeExpanded();
 
+        // collapsed
         fieldset = fieldsets.fieldset(2, LineFieldSet.class);
         fieldset.shouldBeCollapsed();
         fieldset.shouldBeCollapsible();
         fieldset.shouldHaveLabel("Line3");
 
+        // not collapsible fieldset
         fieldset = fieldsets.fieldset(3, LineFieldSet.class);
         fieldset.shouldNotBeCollapsible();
         fieldset.shouldHaveLabel("Line4");

@@ -4,10 +4,10 @@
         <line label="Line1">
             <form name="form1"/>
         </line>
-        <line label="Line2" expand="false" has-separator="false">
+        <line label="Line2" expand="false">
             <form name="form2"/>
         </line>
-        <line collapsible="false" has-separator="false">
+        <line collapsible="false">
             <form name="form3">
                 <fields>
                     <input-text id="field" label="field"/>
