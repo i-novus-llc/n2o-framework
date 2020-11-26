@@ -50,7 +50,8 @@ public class StandardFieldAccessTransformerTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
                 .get(new PageContext("testStandardFieldAccessTransformer"));
 
-        List<FieldSet.Row> rows = ((Form) page.getRegions().get("single").get(0).getContent().get(0)).getComponent().getFieldsets().get(0).getRows();
+        List<FieldSet.Row> rows = ((Form) page.getWidgets().get("testStandardFieldAccessTransformer_panel1"))
+                .getComponent().getFieldsets().get(0).getRows();
 
         StandardField field = (StandardField) rows.get(0).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("field1"));
