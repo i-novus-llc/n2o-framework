@@ -29,7 +29,8 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         clearAction.getPayload().setPrefixes(p.cast(source.getModel(), new String[]{ReduxModel.EDIT.getId()}));
         clearAction.getPayload().setKey(initTargetWidget(source, context, p));
         if (Boolean.TRUE.equals(source.getCloseOnSuccess())) {
-            if (clearAction.getMeta() == null) clearAction.setMeta(new MetaSaga());
+            if (clearAction.getMeta() == null)
+                clearAction.setMeta(new MetaSaga());
             clearAction.getMeta().setModalsToClose(1);
         }
         return clearAction;
