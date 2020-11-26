@@ -100,6 +100,34 @@ public class TableAT extends AutoTestBase {
     }
 
     @Test
+    public void testHideOnBlur() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.widget(TableWidget.class);
+        TableWidget.Rows rows = table.columns().rows();
+        rows.shouldHaveSize(3);
+
+        StandardButton button = rows.row(0).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
+        button.shouldNotExists();
+        rows.row(0).hover();
+        button.shouldBeEnabled();
+        button.click();
+        page.alerts().alert(0).shouldHaveText("echo");
+
+        button = rows.row(1).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
+        button.shouldNotExists();
+        rows.row(1).hover();
+        button.shouldExists();
+        button.shouldBeDisabled();
+        button = rows.row(2).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
+        button.shouldNotExists();
+    }
+
+    @Test
     public void testPaging() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/test.query.xml"));
