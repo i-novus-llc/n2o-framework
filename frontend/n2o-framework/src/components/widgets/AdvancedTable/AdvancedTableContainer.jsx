@@ -366,6 +366,7 @@ const enhance = compose(
           className: props.className,
           rows: props.rows,
           dispatch: props.dispatch,
+          resolveModel: props.resolveModel,
         };
       },
     },
