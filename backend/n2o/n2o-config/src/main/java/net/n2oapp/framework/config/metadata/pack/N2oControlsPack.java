@@ -43,7 +43,8 @@ public class N2oControlsPack implements MetadataPack<N2oApplicationBuilder> {
                 new ProgressCompiler(),
                 new StatusFieldCompiler(),
                 new IntervalFieldCompiler<>(),
-                new ImageFieldCompiler()
+                new ImageFieldCompiler(),
+                new NumberPickerCompiler()
         );
     }
 }

@@ -21,6 +21,7 @@ public class OpenDrawerElementIOV1 extends AbstractOpenPageElementIOV1<N2oOpenDr
         p.attribute(e,"height", od::getHeight, od::setHeight);
         p.attribute(e,"placement", od::getPlacement, od::setPlacement);
         p.attribute(e,"level", od::getLevel, od::setLevel);
+        p.attributeBoolean(e,"fixed-footer", od::getFixedFooter, od::setFixedFooter);
     }
 
     @Override

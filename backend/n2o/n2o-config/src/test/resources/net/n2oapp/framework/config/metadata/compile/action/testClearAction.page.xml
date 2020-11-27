@@ -3,7 +3,7 @@
     <table>
         <actions>
             <action id="test" >
-                <clear model="edit,resolve"/>
+                <clear model="edit,resolve" close-on-success="true"/>
             </action>
         </actions>
         <toolbar>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+             name="close-with-clear-test">
+    <form>
+        <toolbar>
+            <button label="openModal" model="edit">
+                <show-modal page-id="modal"/>
+            </button>
+            <button label="openDrawer" model="edit">
+                <open-drawer page-id="modal"/>
+            </button>
+        </toolbar>
+    </form>
+</simple-page>
