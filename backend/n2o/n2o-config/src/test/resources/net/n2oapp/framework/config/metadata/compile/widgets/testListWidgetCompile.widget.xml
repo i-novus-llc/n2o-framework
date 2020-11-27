@@ -7,7 +7,7 @@
     </toolbar>
     <content>
 
-        <left-top text-field-id="test" hide-on-blur="true"/>
+        <left-top text-field-id="test"/>
 
         <header text-field-id="test">
             <progress color="test"/>

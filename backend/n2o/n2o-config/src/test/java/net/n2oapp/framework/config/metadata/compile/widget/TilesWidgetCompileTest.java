@@ -56,7 +56,6 @@ public class TilesWidgetCompileTest extends SourceCompileTestBase {
         assertThat(tile.getComponent().getId(), is("id2"));
         assertThat(((N2oTextCell) tile.getComponent()).getFieldKey(), is("test2"));
         assertThat(((N2oTextCell) tile.getComponent()).getTooltipFieldId(), is("tooltip"));
-        assertThat(((N2oAbstractCell)tile.getComponent()).getHideOnBlur(), is(true));
 
         tile = tiles.getTile().get(2);
         assertThat(tile.getId(), is("test3"));

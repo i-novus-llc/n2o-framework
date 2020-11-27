@@ -7,7 +7,7 @@
         <left-bottom text-field-id="test2">
             <image url="testUrl2"/>
         </left-bottom>
-        <header hide-on-blur="true">
+        <header>
             <list label-field-id="test" color="color"/>
         </header>
         <sub-header>
