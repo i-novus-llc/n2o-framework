@@ -2,8 +2,8 @@ import React from 'react';
 import { compose } from 'recompose';
 import PropTypes from 'prop-types';
 
-import dependency from '../../../core/dependency';
 import CalendarContainer from './CalendarContainer';
+import dependency from '../../../core/dependency';
 import StandardWidget from '../StandardWidget';
 import Fieldsets from '../Form/fieldsets';
 

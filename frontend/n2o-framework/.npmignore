@@ -9,6 +9,7 @@ public/sitemap.xml
 # Node.js and NPM
 node_modules
 npm-debug.log
+yarn-error.log
 
 # Firebase
 firebase-debug.log

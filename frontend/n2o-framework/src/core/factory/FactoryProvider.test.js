@@ -1,7 +1,6 @@
 import React from 'react';
 import FactoryProvider from './FactoryProvider';
 import { mount } from 'enzyme/build';
-import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import createFactoryConfig from './createFactoryConfig';
 import createMockStore from 'redux-mock-store';
@@ -12,13 +11,11 @@ import NotFoundFactory from './NotFoundFactory';
 const store = createMockStore()({});
 
 const wrapper = mount(
-  <IntlProvider locale="ru" messages={{}}>
-    <Provider store={store}>
-      <FactoryProvider config={createFactoryConfig({})}>
-        <div>test</div>
-      </FactoryProvider>
-    </Provider>
-  </IntlProvider>
+  <Provider store={store}>
+    <FactoryProvider config={createFactoryConfig({})}>
+      <div>test</div>
+    </FactoryProvider>
+  </Provider>
 );
 
 describe('Проверка FactoryProvider', () => {

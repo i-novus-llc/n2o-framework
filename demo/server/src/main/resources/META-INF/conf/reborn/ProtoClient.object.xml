@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <object xmlns="http://n2oapp.net/framework/config/schema/object-3.0"
         table-name="pim_individual"
-        name="Клиент">
+        name="${client}">
     <fields>
         <field id="id" domain="integer"/>
         <field id="surname" domain="string"/>
@@ -12,7 +12,7 @@
     </fields>
 
     <operations>
-        <operation id="create" name="Создать" success-text="Клиент '{surname}' создан" fail-text="Не удалось создать клиента '{surname}'">
+        <operation id="create" name="${create}" success-text="${client} '{surname}' ${created}" fail-text="${client.create.failed} '{surname}'">
             <invocation>
                 <sql>
                     insert into pim_individual (surname, name, patr_name, birth_dt, gender_id, vip, nationality_id) values (:surname,:name, :patrName, :birthday, :genderId, :vip, :nationalityId);
@@ -32,7 +32,7 @@
             </out-parameters>
         </operation>
 
-        <operation id="update" name="Изменить" submit-label="Сохранить" success-text="Успешно обновлены данные клиента с фамилией {surname}">
+        <operation id="update" name="${update}" submit-label="${save}" success-text="${client.save.success} {surname}">
             <invocation>
                 <sql data-source="jdbc/test">
                     update pim_individual set surname = :surname, name = :name, patr_name = :patrName, birth_dt = :birthday, gender_id = :genderId, nationality_id = :nationalityId, vip = :vip where id = :id;
@@ -49,8 +49,8 @@
                 <param id="id" mapping="['id']"/>
             </in-parameters>
         </operation>
-        <operation id="delete" name="Удалить" confirm-text="Вы уверены, что хотите удалить клиента {surname} {name}?" confirm="true"
-                   success-text="Клиент {surname} удален" fail-text="Не удалось удалить клиента '{surname}'">
+        <operation id="delete" name="${delete}" confirm-text="${client.delete.confirm} {surname} {name}?" confirm="true"
+                   success-text="${client} {surname} ${deleted}" fail-text="${client.delete.failed} '{surname}'">
             <invocation>
                 <sql data-source="jdbc/test">
                     <!--delete from pim_indiv_code where indiv_id = :id;-->
@@ -77,7 +77,7 @@
             </in-parameters>
         </operation>
 
-        <operation id="toggleStatusVip" name="Смена статуса VIP">
+        <operation id="toggleStatusVip" name="${change.vip.status}">
             <invocation>
                 <sql data-source="jdbc/test">
                     update pim_individual set vip = NOT :vip where id = :id
@@ -91,12 +91,12 @@
     </operations>
 
     <validations>
-        <condition id="checkSurname" severity="warning" message="Женские фамилии чаще всего заканчиваются на 'а'" on="gender,surname">
+        <condition id="checkSurname" severity="warning" message="${female.name.validation}" on="gender,surname">
             <![CDATA[
                 (typeof gender == 'undefined') || (gender.id != 2) || (surname == '') ||(surname == null) || (surname.trim().charAt(surname.trim().length - 1) == 'а')
             ]]>
         </condition>
-        <condition id="checkIvanov" severity="danger" server-moment="before-operation" message="Нельзя изменять данные клиента с фамилией 'Иванов'">surname != 'Иванов'</condition>
+        <condition id="checkIvanov" severity="danger" server-moment="before-operation" message="${ivanov.surname.validation}">surname != 'Иванов'</condition>
         <!--<condition id="checkAge" level="error">-->
         <!--<message>Возрастная группа не соответствует дате рождения</message>-->
         <!--<expression on="birthday,ageGroup"><![CDATA[-->
@@ -107,7 +107,7 @@
         <!--</expression>-->
         <!--</condition>-->
         <constraint id="checkUniqueName" severity="warning" result="[0][0][0] == 0"
-                    message="Клиент с таким именем и фамилией уже существует в системе">
+                    message="${unique.name.validation}">
             <invocation>
                 <sql data-source="jdbc/test">
                     select count(1) from pim_individual
@@ -122,8 +122,8 @@
                 <param name="id" mapping="['id']"/>
             </in-parameters>
         </constraint>
-        <condition id="errorValid" severity="danger" message="Ошибка валидации">errorValid == null</condition>
-        <condition id="warningValid" severity="danger" message="Предупреждение валидации">warningValid == null</condition>
+        <condition id="errorValid" severity="danger" message="${validation.error}">errorValid == null</condition>
+        <condition id="warningValid" severity="danger" message="${validation.warning}">warningValid == null</condition>
     </validations>
 
 </object>

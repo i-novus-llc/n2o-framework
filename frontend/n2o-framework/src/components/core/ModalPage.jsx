@@ -50,6 +50,7 @@ function ModalPage(props) {
     close,
     disabled,
     scrollable,
+    prompt,
     ...rest
   } = props;
 
@@ -66,7 +67,7 @@ function ModalPage(props) {
       <Spinner type="cover" loading={showSpinner} color="light" transparent>
         <Modal
           isOpen={visible}
-          toggle={() => rest.closeOverlay(true)}
+          toggle={() => rest.closeOverlay(prompt)}
           size={size}
           backdrop={false}
           style={style}
@@ -74,7 +75,7 @@ function ModalPage(props) {
         >
           <ModalHeader
             className={classes}
-            toggle={() => rest.closeOverlay(true)}
+            toggle={() => rest.closeOverlay(prompt)}
           >
             {headerTitle}
           </ModalHeader>

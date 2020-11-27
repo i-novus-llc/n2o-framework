@@ -35,6 +35,7 @@ function Panel({
   onKeyPress,
   children,
   innerRef,
+  t,
 }) {
   const panelClass = cx('n2o-panel-region', className, 'text-dark', {
     'panel-fullscreen': isFullScreen,
@@ -54,7 +55,7 @@ function Panel({
     >
       {children}
       <div className="panel-fullscreen-help">
-        <span>ESC - выход из полноэкранного режима</span>
+        <span>{t('panelFullScreenHelp')}</span>
       </div>
     </Card>
   );

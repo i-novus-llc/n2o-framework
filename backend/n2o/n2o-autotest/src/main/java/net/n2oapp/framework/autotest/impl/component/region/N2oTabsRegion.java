@@ -2,14 +2,10 @@ package net.n2oapp.framework.autotest.impl.component.region;
 
 import com.codeborne.selenide.*;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.collection.Widgets;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.TabsRegion;
-import net.n2oapp.framework.autotest.impl.collection.N2oWidgets;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 import org.openqa.selenium.WebElement;
-
-import static net.n2oapp.framework.autotest.N2oSelenide.collection;
 
 /**
  * Регион в виде вкладок для автотестирования
@@ -23,6 +19,21 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
     @Override
     public void shouldHaveSize(int size) {
         element().$$(".nav-item").shouldHaveSize(size);
+    }
+
+    @Override
+    public void shouldHaveMaxHeight(int height) {
+        getTabsContent().shouldBe(Condition.attributeMatching("style", ".*max-height: " + height + "px;.*"));
+    }
+
+    @Override
+    public void shouldHaveScrollbar() {
+        getTabsContent().shouldNotHave(Condition.cssClass("tab-content_no-scrollbar"));
+    }
+
+    @Override
+    public void shouldNotHaveScrollbar() {
+        getTabsContent().shouldHave(Condition.cssClass("tab-content_no-scrollbar"));
     }
 
     @Override
@@ -42,7 +53,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
             ElementsCollection tabs = element().parent().$$(".nav-item");
             while (!tabs.get(index).is(Condition.text(element().getText()))) index++;
 
-            SelenideElement elm = element().parent().parent().$$(".tab-pane").get(index)
+            SelenideElement elm = element().parent().parent().parent().$$(".tab-pane").get(index)
                     .shouldBe(Condition.cssClass("active"));
 
             ElementsCollection nestingElements = elm.$$(".tab-pane.active .tab-pane.active > div > div");
@@ -62,8 +73,13 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         }
 
         @Override
-        public void shouldHaveText(String text) {
+        public void shouldHaveName(String text) {
             element().shouldHave(Condition.text(text));
+        }
+
+        @Override
+        public void shouldNotHaveTitle() {
+            element().shouldHave(Condition.exactText(""));
         }
 
         @Override
@@ -75,5 +91,19 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         public void shouldNotBeActive() {
             element().$(".nav-link").shouldNotHave(Condition.cssClass("active"));
         }
+
+        @Override
+        public void scrollUp() {
+            Selenide.executeJavaScript("document.querySelector('.tab-content_fixed').scrollTop = 0");
+        }
+
+        @Override
+        public void scrollDown() {
+            Selenide.executeJavaScript("document.querySelector('.tab-content_fixed').scrollTop = document.querySelector('.tab-content_fixed').scrollHeight");
+        }
+    }
+
+    private SelenideElement getTabsContent() {
+        return element().$(".tab-content");
     }
 }

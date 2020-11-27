@@ -18,6 +18,8 @@ public interface Page extends Component {
 
     Dialog dialog(String title);
 
+    Popover popover(String title);
+
     Tooltip tooltip();
 
     Alerts alerts();
@@ -57,6 +59,16 @@ public interface Page extends Component {
         void shouldBeClosed(long timeOut);
     }
 
+    interface Popover {
+        void shouldBeVisible();
+
+        void shouldHaveText(String text);
+
+        void click(String label);
+
+        void shouldBeClosed(long timeOut);
+    }
+
     interface Tooltip {
         void shouldBeExist();
 
@@ -66,4 +78,5 @@ public interface Page extends Component {
 
         void shouldHaveText(String... text);
     }
+
 }

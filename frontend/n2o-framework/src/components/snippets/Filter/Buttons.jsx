@@ -2,22 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 import Button from 'reactstrap/lib/Button';
-import { FormattedMessage } from 'react-intl';
+import { useTranslation } from 'react-i18next';
 
-export default function Buttons({
-  visible,
-  searchLabel,
-  resetLabel,
-  onSearch,
-  onReset,
-}) {
+function Buttons({ visible, searchLabel, resetLabel, onSearch, onReset }) {
+  const { t } = useTranslation();
   return visible ? (
     <ButtonGroup>
       <Button color="primary" onClick={onSearch}>
-        <FormattedMessage id="Filter.search" defaultMessage={searchLabel} />
+        {searchLabel || t('search')}
       </Button>
       <Button color="secondary" onClick={onReset}>
-        <FormattedMessage id="Filter.reset" defaultMessage={resetLabel} />
+        {resetLabel || t('reset')}
       </Button>
     </ButtonGroup>
   ) : null;
@@ -34,7 +29,7 @@ Buttons.propTypes = {
 Buttons.defaultProps = {
   onSearch: () => {},
   onReset: () => {},
-  searchLabel: 'Найти',
-  resetLabel: 'Сбросить',
   visible: true,
 };
+
+export default Buttons;

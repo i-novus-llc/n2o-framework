@@ -2,5 +2,6 @@
   "user": {
     "username": "#{username}",
     "testProperty": "${testProp}"
-  }
+  },
+  "locale": "${n2o.i18n.default-locale}"
 }

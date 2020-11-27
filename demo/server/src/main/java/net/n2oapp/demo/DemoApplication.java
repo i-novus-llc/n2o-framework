@@ -1,6 +1,7 @@
 package net.n2oapp.demo;
 
 import net.n2oapp.framework.boot.N2oFrameworkAutoConfiguration;
+import net.n2oapp.framework.boot.N2oMessagesConfiguration;
 import net.n2oapp.framework.boot.sql.jdbc.RoutingDataSourceAutoConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,7 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //@EnableRoutingDataSource
 @Configuration
 @Import({
-        MessageSourceAutoConfiguration.class,
+//        MessageSourceAutoConfiguration.class,
 //        JndiDataSourceAutoConfiguration.class,
         EmbeddedDataSourceConfiguration.class,
         DataSourceAutoConfiguration.class,

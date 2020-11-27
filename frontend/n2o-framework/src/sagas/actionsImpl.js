@@ -7,14 +7,19 @@ import {
   fork,
 } from 'redux-saga/effects';
 import { getFormValues } from 'redux-form';
-
 import isFunction from 'lodash/isFunction';
 import get from 'lodash/get';
 import has from 'lodash/has';
 import keys from 'lodash/keys';
 import isEqual from 'lodash/isEqual';
-
 import merge from 'deepmerge';
+import values from 'lodash/values';
+import map from 'lodash/map';
+import assign from 'lodash/assign';
+import isObject from 'lodash/isObject';
+import every from 'lodash/every';
+import concat from 'lodash/concat';
+import isEmpty from 'lodash/isEmpty';
 
 import { START_INVOKE } from '../constants/actionImpls';
 import { CALL_ACTION_IMPL } from '../constants/toolbar';
@@ -94,16 +99,30 @@ export function* handleAction(factories, action) {
  * @param dataProvider
  * @param model
  * @param apiProvider
+ * @param action
  * @returns {IterableIterator<*>}
  */
-export function* fetchInvoke(dataProvider, model, apiProvider) {
+export function* fetchInvoke(dataProvider, model, apiProvider, action) {
   const state = yield select();
+  const multi = get(state, 'models.multi');
   const submitForm = get(dataProvider, 'submitForm', true);
   const {
     basePath: path,
     formParams,
     headersParams,
   } = yield dataProviderResolver(state, dataProvider);
+
+  const isMultiModel =
+    every(values(model), modelElement => isObject(modelElement)) &&
+    !isEmpty(multi);
+
+  const modelRequest = isMultiModel
+    ? map(values(model), modelElement => {
+        return { ...modelElement, ...formParams };
+      })
+    : assign({}, model, formParams);
+
+  const formParamsRequest = isMultiModel ? [formParams] : formParams;
 
   const response = yield call(
     fetchSaga,
@@ -113,9 +132,11 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
       baseQuery: {},
       baseMethod: dataProvider.method,
       headers: headersParams,
-      model: submitForm ? Object.assign({}, model, formParams) : formParams,
+      model: submitForm ? modelRequest : formParamsRequest,
     },
-    apiProvider
+    apiProvider,
+    action,
+    state
   );
   return response;
 }
@@ -162,8 +183,8 @@ export function* handleInvoke(apiProvider, action) {
       model = yield select(getModelSelector(modelLink));
     }
     const response = optimistic
-      ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
-      : yield call(fetchInvoke, dataProvider, model, apiProvider);
+      ? yield fork(fetchInvoke, dataProvider, model, apiProvider, action)
+      : yield call(fetchInvoke, dataProvider, model, apiProvider, action);
 
     const meta = merge(action.meta.success || {}, response.meta || {});
     const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId));

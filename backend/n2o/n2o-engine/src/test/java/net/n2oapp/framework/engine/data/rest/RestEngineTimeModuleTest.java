@@ -60,10 +60,40 @@ public class RestEngineTimeModuleTest {
         Assert.assertEquals(String.class, res.get("ignore").getClass());
     }
 
+    @Test
+    public void testParseDateStrictly() throws Exception {
+        Map<String, String> map = new HashMap<>();
+        map.put("phone", "8-800-3007300");
+
+        map.put("validDate1", "2100-11-30");
+        map.put("validDate2", "1-1-1");
+        map.put("validDate3", "1945-02-02");
+
+        map.put("invalidDate1", "1980-11-31");
+        map.put("invalidDate2", "2050-13-15");
+        map.put("invalidDate3", "2020-00-15");
+
+        Map res = createObjectMapper().readValue(new ObjectMapper().writeValueAsString(map), Map.class);
+
+        Assert.assertEquals("8-800-3007300", res.get("phone"));
+        Assert.assertEquals(String.class, res.get("phone").getClass());
+
+        Assert.assertEquals(Date.class, res.get("validDate1").getClass());
+        Assert.assertEquals(Date.class, res.get("validDate2").getClass());
+        Assert.assertEquals(Date.class, res.get("validDate3").getClass());
+
+        Assert.assertEquals(String.class, res.get("invalidDate1").getClass());
+        Assert.assertEquals("1980-11-31", res.get("invalidDate1"));
+        Assert.assertEquals(String.class, res.get("invalidDate2").getClass());
+        Assert.assertEquals("2050-13-15", res.get("invalidDate2"));
+        Assert.assertEquals(String.class, res.get("invalidDate3").getClass());
+        Assert.assertEquals("2020-00-15", res.get("invalidDate3"));
+    }
+
     private ObjectMapper createObjectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"));
-        String[] patterns = {"dd.MM.yyyy HH:mm", "dd.MM.yyyy", "dd.MM.yyyy HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss"};
+        String[] patterns = {"dd.MM.yyyy HH:mm", "dd.MM.yyyy", "dd.MM.yyyy HH:mm:ss", "yyyy-MM-dd'T'HH:mm:ss", "yyyy-MM-dd"};
         String[] exclusions = {"ignore"};
         RestEngineTimeModule module = new RestEngineTimeModule(patterns, exclusions);
         objectMapper.registerModules(module);

@@ -2,7 +2,6 @@ import React from 'react';
 import Factory from './Factory';
 import InputTextJson from '../../components/controls/InputText/InputText.meta';
 import InputText from '../../components/controls/InputText/InputText';
-import { IntlProvider } from 'react-intl';
 import mockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import FactoryProvider from './FactoryProvider';
@@ -11,13 +10,11 @@ import createFactoryConfig from './createFactoryConfig';
 const setup = props => {
   const store = mockStore()({});
   return mount(
-    <IntlProvider locale="ru" messages={{}}>
-      <Provider store={store}>
-        <FactoryProvider config={createFactoryConfig({})}>
-          <Factory {...props} />
-        </FactoryProvider>
-      </Provider>
-    </IntlProvider>
+    <Provider store={store}>
+      <FactoryProvider config={createFactoryConfig({})}>
+        <Factory {...props} />
+      </FactoryProvider>
+    </Provider>
   );
 };
 

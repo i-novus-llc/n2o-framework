@@ -33,8 +33,10 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.List;
+import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -83,6 +85,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(payload.getSize(), is("sm"));
         assertThat(payload.getScrollable(), is(true));
         assertThat(payload.getPageId(), is("p_create"));
+        assertThat(payload.getPrompt(), is(true));
 
 //        assertThat(payload.getActions().size(), is(2));
 //        assertThat(payload.getActions().containsKey("submit"), is(true));
@@ -155,6 +158,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(payload.getPageUrl(), is("/p/:id/update"));
 //        assertThat(payload.getTitle(), is("Модальное окно"));
         assertThat(payload.getSize(), is("lg"));
+        assertThat(payload.getPrompt(), is(false));
 
         PageContext modalContext = (PageContext) route("/p/123/update", Page.class);
         assertThat(modalContext.getSourceId(null), is("testShowModalPageSecondFlow"));
@@ -428,7 +432,6 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         List<AbstractButton> buttons = modalPage.getToolbar().get("bottomRight").get(0).getButtons();
         assertThat(buttons.get(0).getId(), is("submit"));
         assertThat(buttons.get(0).getAction(), is(submit));
-        assertThat(buttons.get(0).getLabel(), is("Сохранить"));
     }
 
     @Test
