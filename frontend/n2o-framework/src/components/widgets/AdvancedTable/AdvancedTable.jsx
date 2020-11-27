@@ -685,12 +685,19 @@ class AdvancedTable extends Component {
   }
 
   getScroll() {
+    const { scroll, columns } = this.props;
+
+    const noScrollX = scroll.x === 'false';
+    const noScrollY = scroll.y === 'false';
+    const noTableScroll = noScrollX && noScrollY;
+
     if (isEmpty(this.props.data) || isEmpty(this.props.columns)) {
       return this.props.scroll;
     }
 
-    if (some(this.state.columns, col => col.fixed)) return this.props.scroll;
-    const { scroll, columns } = this.props;
+    if (some(this.state.columns, col => col.fixed)) {
+      return this.props.scroll;
+    }
 
     const calcXScroll = () => {
       const getWidth = (
@@ -721,6 +728,20 @@ class AdvancedTable extends Component {
         ? `calc(${percentWidth}%${pxWidth > 5 ? ` + ${pxWidth}px` : ''})`
         : pxWidth;
     };
+
+    if (noTableScroll) {
+      return { x: false, y: false };
+    } else if (noScrollX) {
+      return {
+        ...scroll,
+        x: false,
+      };
+    } else if (noScrollY) {
+      return {
+        y: false,
+        x: calcXScroll(),
+      };
+    }
 
     return {
       ...scroll,
@@ -840,6 +861,7 @@ AdvancedTable.defaultProps = {
   onSetSelection: () => {},
   autoFocus: false,
   rows: {},
+  scroll: {},
 };
 
 export { AdvancedTable };
