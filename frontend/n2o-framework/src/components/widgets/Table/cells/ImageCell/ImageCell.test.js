@@ -13,9 +13,11 @@ const defaultProps = {
   className: 'testtest',
   style: {
     color: 'red',
+    height: 30,
+    width: 30,
   },
   title: 'top title',
-  shape: imageShapes.THUMBNAIL,
+  shape: imageShapes.SQUARE,
 };
 
 const setupImageCell = propsOverride => {
@@ -43,7 +45,7 @@ const defaultPropsWithTooltip = {
     color: 'red',
   },
   title: 'top title',
-  shape: imageShapes.THUMBNAIL,
+  shape: imageShapes.SQUARE,
 };
 
 const setupImageCellWithTooltip = propsOverride => {
@@ -61,12 +63,7 @@ const setupImageCellWithTooltip = propsOverride => {
 describe('<ImageCell />', () => {
   it('проверяет создание тайтла', () => {
     const { wrapper, props } = setupImageCell();
-    expect(
-      wrapper
-        .find('span')
-        .first()
-        .prop('title')
-    ).toEqual(props.title);
+    expect(wrapper.find('.n2o-image__info_label').text()).toEqual(props.title);
   });
 
   it('проверяет путь до картинки', () => {
@@ -77,7 +74,7 @@ describe('<ImageCell />', () => {
 
   it('проверяет форму изображения', () => {
     const { wrapper } = setupImageCell();
-    expect(wrapper.find('img').props().className).toEqual('img-thumbnail');
+    expect(wrapper.find('img').props().className).toEqual('n2o-image__image');
   });
 
   it('проверяет задание класса', () => {
@@ -91,7 +88,7 @@ describe('<ImageCell />', () => {
 
     expect(
       wrapper
-        .find(`.${props.className}`)
+        .find('.n2o-image__image-container')
         .getElements()
         .pop().props.style
     ).toEqual(props.style);
