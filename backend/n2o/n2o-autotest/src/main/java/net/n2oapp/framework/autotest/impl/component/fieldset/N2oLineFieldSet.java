@@ -1,33 +1,43 @@
-package net.n2oapp.framework.autotest.impl.component.region;
+package net.n2oapp.framework.autotest.impl.component.fieldset;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
-import net.n2oapp.framework.autotest.api.component.region.LineRegion;
-import net.n2oapp.framework.autotest.api.component.region.RegionItems;
+import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.fieldset.LineFieldSet;
+import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 /**
- * Регион с горизонтальным делителем для автотестирования
+ * Филдсет с горизонтальным делителем для автотестирования
  */
-public class N2oLineRegion extends N2oRegion implements LineRegion {
+public class N2oLineFieldSet extends N2oComponent implements LineFieldSet {
+
     @Override
-    public RegionItems content() {
-        return N2oSelenide.collection(firstLevelElements(".rc-collapse-content-box", "div > div"), RegionItems.class);
+    public Fields fields() {
+        return N2oSelenide.collection(element().$$(".n2o-form-group"), Fields.class);
+    }
+
+    @Override
+    public void shouldBeEmpty() {
+        content().shouldHave(Condition.empty);
     }
 
     @Override
     public void shouldBeCollapsible() {
-        header().shouldNotHave(Condition.cssClass("n2o-disabled"));
+        header().shouldBe(Condition.exist);
     }
 
     @Override
     public void shouldNotBeCollapsible() {
-        header().shouldHave(Condition.cssClass("n2o-disabled"));
+        header().shouldNot(Condition.exist);
     }
 
     @Override
     public void shouldHaveLabel(String title) {
-        header().$(".n2o-panel-header-text").shouldHave(Condition.text(title));
+        SelenideElement elm = header().exists() ?
+                header().$(".n2o-panel-header-text") :
+                element().$(".title-fieldset-text");
+        elm.shouldHave(Condition.text(title));
     }
 
     @Override
@@ -52,7 +62,6 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
         item().shouldNotBe(expandedContentCondition());
     }
 
-
     private SelenideElement header() {
         return element().$(".n2o-panel-header");
     }
@@ -63,5 +72,9 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
 
     private Condition expandedContentCondition() {
         return Condition.cssClass("rc-collapse-item-active");
+    }
+
+    private SelenideElement content() {
+        return element().$(".rc-collapse-content-box");
     }
 }
