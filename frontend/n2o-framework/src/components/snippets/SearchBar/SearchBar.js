@@ -156,6 +156,14 @@ const enhance = compose(
     },
   }),
   lifecycle({
+    componentDidMount() {
+      const { initSearchValue, setInnerValue, onSearch } = this.props;
+
+      if (initSearchValue !== undefined) {
+        setInnerValue(initSearchValue);
+        onSearch('');
+      }
+    },
     componentDidUpdate(prevProps) {
       const { value, setInnerValue } = this.props;
 
