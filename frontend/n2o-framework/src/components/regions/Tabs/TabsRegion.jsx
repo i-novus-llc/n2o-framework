@@ -27,7 +27,7 @@ class TabRegion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      readyTabs: this.findReadyTabs(),
+      readyTabs: [this.props.activeEntity],
       visibleTabs: {},
     };
     this.handleChangeActive = this.handleChangeActive.bind(this);
@@ -174,6 +174,7 @@ TabRegion.defaultProps = {
   alwaysRefresh: false,
   lazy: false,
   mode: 'single',
+  fetchOnInit: true,
 };
 
 export { TabRegion };
