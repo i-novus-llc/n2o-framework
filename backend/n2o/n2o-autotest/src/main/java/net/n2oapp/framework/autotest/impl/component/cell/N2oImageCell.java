@@ -22,31 +22,36 @@ public class N2oImageCell extends N2oCell implements ImageCell {
 
     @Override
     public void widthShouldBe(int width) {
-        img().shouldHave(Condition.attributeMatching("style", ".*max-width: "  + width + "px.*"));
+        img().parent().shouldHave(Condition.attributeMatching(
+                "style", ".*width: " + width + "px; height: " + width + "px.*"));
     }
 
     @Override
     public void shapeShouldBe(ImageShape shape) {
         switch (shape) {
             case circle:
-                img().parent().shouldHave(circleShapeCondition());
+                imgShouldHaveCircleShape();
                 break;
             case rounded:
-                img().shouldHave(roundedShapeCondition());
+                imgShouldHaveRoundedShape();
                 break;
             case polaroid:
-                img().parent().shouldNotHave(circleShapeCondition());
-                img().shouldNotHave(roundedShapeCondition());
+                imgShouldHavePolaroidShape();
                 break;
         }
     }
 
-    private Condition circleShapeCondition() {
-        return Condition.attributeMatching("style", ".*clip-path: circle.*");
+    private void imgShouldHaveCircleShape() {
+        img().parent().shouldHave(Condition.cssClass("circle"));
     }
 
-    private Condition roundedShapeCondition() {
-        return Condition.cssClass("rounded");
+    private void imgShouldHaveRoundedShape() {
+        img().parent().shouldHave(Condition.cssClass("rounded"));
+    }
+
+    private void imgShouldHavePolaroidShape() {
+        img().parent().shouldNotHave(Condition.cssClass("circle"));
+        img().parent().shouldNotHave(Condition.cssClass("rounded"));
     }
 
     private SelenideElement img() {
