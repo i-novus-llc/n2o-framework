@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest;
 
-import net.n2oapp.framework.autotest.impl.component.page.N2oSimplePage;
-import net.n2oapp.framework.autotest.impl.component.widget.N2oFormWidget;
+import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
@@ -35,8 +35,8 @@ public class N2oSimpleAT extends AutoTestBase {
 
     @Test
     public void test() {
-        N2oSimplePage page = N2oSelenide.open("http://localhost:" + port, N2oSimplePage.class);
+        SimplePage page = N2oSelenide.open("http://localhost:" + port, SimplePage.class);
         page.shouldExists();
-        page.widget(N2oFormWidget.class).shouldExists();
+        page.widget(FormWidget.class).shouldExists();
     }
 }

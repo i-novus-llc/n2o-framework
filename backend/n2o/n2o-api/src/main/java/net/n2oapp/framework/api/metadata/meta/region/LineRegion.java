@@ -11,9 +11,11 @@ import lombok.Setter;
 @Setter
 public class LineRegion extends Region {
     @JsonProperty
-    private String name;
+    private String label;
     @JsonProperty
     private Boolean collapsible;
     @JsonProperty
-    private Boolean open;
+    private Boolean hasSeparator;
+    @JsonProperty
+    private Boolean expand;
 }
