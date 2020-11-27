@@ -101,7 +101,7 @@ public class TableAT extends AutoTestBase {
 
     @Test
     public void testHideOnBlur() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/index.page.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.object.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.query.xml"));
         SimplePage page = open(SimplePage.class);

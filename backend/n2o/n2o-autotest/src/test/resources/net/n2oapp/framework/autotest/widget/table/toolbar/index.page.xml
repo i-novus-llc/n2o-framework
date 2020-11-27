@@ -1,13 +1,11 @@
 <simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
-    <table query-id="test" object-id="test">
+    <table query-id="test">
         <columns>
             <column text-field-id="id"/>
             <column text-field-id="name"/>
-            <column text-field-id="options" hide-on-blur="true">
+            <column text-field-id="options">
                 <toolbar>
-                    <button label="Кнопка" visible="{name != 'test3'}" enabled="{name != 'test2'}">
-                        <invoke operation-id="greeting"/>
-                    </button>
+                    <button label="Кнопка" visible="{name != 'test3'}" enabled="{name != 'test2'}"/>
                 </toolbar>
             </column>
         </columns>
