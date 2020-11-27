@@ -15,4 +15,6 @@ public interface Cells extends ComponentsCollection {
     <T extends Cell> T cell(Condition findBy, Class<T> componentClass);
 
     void click();
+
+    void hover();
 }
