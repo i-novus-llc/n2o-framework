@@ -23,4 +23,9 @@
             <table id="table2"/>
         </region>
     </regions>
+    <toolbar>
+        <button widget-id="table1">
+            <copy target-page-id="page" target-widget-id="form"/>
+        </button>
+    </toolbar>
 </page>
