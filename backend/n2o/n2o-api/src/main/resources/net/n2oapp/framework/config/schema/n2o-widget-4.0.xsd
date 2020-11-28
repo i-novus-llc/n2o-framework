@@ -522,21 +522,21 @@
                 <xs:attribute name="default-values-query-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
-                            Выборка значений по умолчанию. Её результат сливается со значениями
-                            по умолчанию заданными в полях.
+                            Выборка значений по умолчанию.
+                            Её результат сливается со значениями по умолчанию, заданными в полях.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="mode" type="formMode">
+                <xs:attribute name="mode" type="formMode" default="one-model">
                     <xs:annotation>
                         <xs:documentation>
                             Режим формы. Может быть одно или двух модельный(количество моделей на клиенте).
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="unsaved-data-prompt" type="xs:boolean">
+                <xs:attribute name="unsaved-data-prompt" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Предупреждение о несохраненных данных.</xs:documentation>
+                        <xs:documentation>Показать предупреждение о наличии несохраненных данных.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
