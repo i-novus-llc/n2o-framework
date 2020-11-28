@@ -8,16 +8,22 @@
         </columns>
         <toolbar>
             <button label="Модалка с подтверждением">
-                <show-modal page-id="modal" detail-field-id="id"/>
+                <show-modal page-id="page" detail-field-id="id"/>
             </button>
             <button label="Модалка без подтверждения">
-                <show-modal page-id="modal" detail-field-id="id" unsaved-data-prompt-on-close="false"/>
+                <show-modal page-id="page" detail-field-id="id" unsaved-data-prompt-on-close="false"/>
             </button>
             <button label="Дровер с подтверждением">
-                <open-drawer page-id="modal" detail-field-id="id"/>
+                <open-drawer page-id="page" detail-field-id="id"/>
             </button>
             <button label="Дровер без подтверждения">
-                <open-drawer page-id="modal" detail-field-id="id" unsaved-data-prompt-on-close="false"/>
+                <open-drawer page-id="page" detail-field-id="id" unsaved-data-prompt-on-close="false"/>
+            </button>
+            <button label="OpenPage с подтверждением">
+                <open-page page-id="pageWithPrompt" detail-field-id="id"/>
+            </button>
+            <button label="OpenPage без подтверждения">
+                <open-page page-id="page" detail-field-id="id" unsaved-data-prompt-on-close="false"/>
             </button>
         </toolbar>
     </table>
