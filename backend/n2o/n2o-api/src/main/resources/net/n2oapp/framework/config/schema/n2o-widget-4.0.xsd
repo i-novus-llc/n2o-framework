@@ -529,7 +529,7 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="unsaved-data-prompt" type="xs:boolean" default="true">
+                <xs:attribute name="unsaved-data-prompt" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>Показать предупреждение о наличии несохраненных данных.</xs:documentation>
                     </xs:annotation>
