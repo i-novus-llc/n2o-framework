@@ -66,7 +66,7 @@ public class CustomRegionAT extends AutoTestBase {
 
         LineRegion line = content.region(2, LineRegion.class);
         line.shouldExists();
-        line.shouldHaveTitle("Line");
+        line.shouldHaveLabel("Line");
 
         TabsRegion tabs = content.region(3, TabsRegion.class);
         tabs.shouldExists();

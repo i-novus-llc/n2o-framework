@@ -1,0 +1,10 @@
+{
+  "visible": true,
+  "disabled": false,
+  "value": 1,
+  "max": 100,
+  "min": 0,
+  "step": 1,
+  "className": "n2o",
+  "style": {}
+}

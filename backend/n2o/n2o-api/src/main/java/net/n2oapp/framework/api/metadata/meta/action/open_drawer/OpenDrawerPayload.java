@@ -52,4 +52,6 @@ public class OpenDrawerPayload implements ActionPayload {
     private Boolean backdropClosable;
     @JsonProperty
     private Boolean prompt;
+    @JsonProperty
+    private Boolean fixedFooter;
 }
