@@ -13,6 +13,7 @@ import net.n2oapp.framework.autotest.impl.component.drawer.N2oDrawer;
 import net.n2oapp.framework.autotest.impl.component.field.N2oButtonField;
 import net.n2oapp.framework.autotest.impl.component.field.N2oIntervalField;
 import net.n2oapp.framework.autotest.impl.component.field.N2oStandardField;
+import net.n2oapp.framework.autotest.impl.component.fieldset.N2oLineFieldSet;
 import net.n2oapp.framework.autotest.impl.component.fieldset.N2oMultiFieldSet;
 import net.n2oapp.framework.autotest.impl.component.fieldset.N2oMultiFieldSetItem;
 import net.n2oapp.framework.autotest.impl.component.fieldset.N2oSimpleFieldSet;
@@ -65,7 +66,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oCalendarMonthView.class, N2oCalendarAgendaView.class, N2oCalendarDayView.class, N2oCalendarWeekView.class,
                 N2oCalendarDayViewHeader.class, N2oCalendarWeekViewHeader.class,
                 // fieldsets
-                N2oSimpleFieldSet.class, N2oMultiFieldSet.class, N2oMultiFieldSetItem.class,
+                N2oSimpleFieldSet.class, N2oLineFieldSet.class, N2oMultiFieldSet.class, N2oMultiFieldSetItem.class,
                 // buttons
                 N2oDropdownButton.class, N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
                 // fields
@@ -76,7 +77,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oOutputText.class, N2oOutputList.class, N2oTextEditor.class, N2oCodeEditor.class, N2oHtml.class, N2oRating.class,
                 N2oSlider.class, N2oPills.class, N2oText.class, N2oAutoComplete.class, N2oProgress.class, N2oStatus.class, N2oAlert.class,
                 N2oInputMoney.class, N2oPasswordControl.class, N2oTextArea.class, N2oInputSelectTree.class, N2oFileUploadControl.class,
-                N2oImageUploadControl.class,
+                N2oImageUploadControl.class, N2oNumberPicker.class,
                 // cells
                 N2oTextCell.class, N2oLinkCell.class, N2oEditCell.class, N2oCheckboxCell.class, N2oToolbarCell.class,
                 N2oBadgeCell.class, N2oIconCell.class, N2oImageCell.class, N2oProgressBarCell.class, N2oRatingCell.class,

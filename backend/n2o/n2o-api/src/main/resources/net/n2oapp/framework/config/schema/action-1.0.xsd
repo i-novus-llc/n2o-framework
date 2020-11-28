@@ -344,6 +344,11 @@
                         <xs:documentation>Включение закрытия по клику на маску(backdrop)</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="fixed-footer" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Фиксирование footer внизу drawer</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="submit-action-type" type="submitActionType" default="invoke">
                     <xs:annotation>
                         <xs:documentation>Действие при нажатии кнопки "Сохранить".</xs:documentation>
@@ -694,6 +699,11 @@
                 <xs:attribute name="model" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Название модели.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="close-on-success" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Закрыть окно после успешного выполнения действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

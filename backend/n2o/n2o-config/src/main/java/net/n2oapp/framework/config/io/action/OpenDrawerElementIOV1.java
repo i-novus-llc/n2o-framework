@@ -24,6 +24,7 @@ public class OpenDrawerElementIOV1 extends AbstractOpenPageElementIOV1<N2oOpenDr
         p.attribute(e,"height", od::getHeight, od::setHeight);
         p.attribute(e,"placement", od::getPlacement, od::setPlacement);
         p.attribute(e,"level", od::getLevel, od::setLevel);
+        p.attributeBoolean(e,"fixed-footer", od::getFixedFooter, od::setFixedFooter);
         p.attributeEnum(e, "submit-action-type", od::getSubmitActionType, od::setSubmitActionType, SubmitActionType.class);
         p.attributeEnum(e, "copy-model", od::getCopyModel, od::setCopyModel, ReduxModel.class);
         p.attribute(e, "copy-widget-id", od::getCopyWidgetId, od::setCopyWidgetId);

@@ -7,9 +7,9 @@ import net.n2oapp.framework.autotest.api.component.field.ButtonField;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
-import net.n2oapp.framework.autotest.impl.component.region.N2oSimpleRegion;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -65,7 +65,7 @@ public class ButtonBindingAT extends AutoTestBase {
 
         StandardPage openPage = page(StandardPage.class);
         openPage.shouldExists();
-        N2oSimpleRegion region = openPage.regions().region(0, N2oSimpleRegion.class);
+        SimpleRegion region = openPage.regions().region(0, SimpleRegion.class);
         FormWidget widget1 = region.content().widget(0, FormWidget.class);
         ButtonField buttonField = widget1.fields().field("Кнопка в поле", ButtonField.class);
         buttonField.shouldExists();
