@@ -23,6 +23,9 @@ const HOURS = 'hours';
 const MINUTES = 'minutes';
 const SECONDS = 'seconds';
 
+const DIGIT = 'digit';
+const SYMBOLS = 'symbols';
+
 const reference = {
   [HOURS]: {
     format: 'HH',
@@ -113,10 +116,10 @@ export class TimePickerControl extends Component {
   getValue = () => {
     const { format, timeFormat } = this.props;
 
-    if (format === 'digit') {
+    if (format === DIGIT) {
       return this.getTime(timeFormat);
     }
-    if (format === 'symbols') {
+    if (format === SYMBOLS) {
       return this.getTime(
         join(
           map(
