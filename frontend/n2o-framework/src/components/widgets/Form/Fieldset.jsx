@@ -184,10 +184,12 @@ class Fieldset extends React.Component {
       modelPrefix,
       disabled,
       autoSubmit,
+      activeModel,
     } = this.props;
 
     return (
       <FieldsetRow
+        activeModel={activeModel}
         key={rowId}
         row={row}
         rowId={rowId}
@@ -220,6 +222,7 @@ class Fieldset extends React.Component {
     } = this.props;
 
     this.fields = [];
+    const enabled = !disabled;
 
     if (React.Children.count(children)) {
       return <ElementType>{children}</ElementType>;
@@ -234,6 +237,7 @@ class Fieldset extends React.Component {
         {label && <h4 className="n2o-fieldset__label">{label}</h4>}
         <ElementType
           childrenLabel={childrenLabel}
+          enabled={enabled}
           {...rest}
           render={(rows, props = { parentName, parentIndex }) => {
             this.fields = this.calculateAllFields(rows);

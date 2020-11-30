@@ -27,6 +27,7 @@ function MultiFieldset({
   canRemoveFirstItem,
   render,
   rows,
+  enabled,
   ...rest
 }) {
   return (
@@ -36,6 +37,7 @@ function MultiFieldset({
         {...rest}
         parentName={name}
         render={render}
+        enabled={enabled}
         rows={rows}
         childrenLabel={childrenLabel}
         needAddButton={needAddButton}

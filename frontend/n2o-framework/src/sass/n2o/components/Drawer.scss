@@ -40,13 +40,7 @@
   &-content-wrapper {
     position: fixed;
     background: $drawer-content-bg;
-    padding: $drawer-content-pd;
     min-width: 100px;
-  }
-  &-content {
-    overflow: auto;
-    z-index: 1;
-    position: relative;
   }
   &-children {
     padding: 16px;
@@ -58,6 +52,14 @@
   &-footer {
     padding: 16px;
     border-top: $drawer-border;
+
+    &--fixed {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      border-top: none;
+      background: $drawer-content-bg;
+    }
   }
   &-right {
     width: 0;
@@ -192,6 +194,16 @@
 
 .n2o-modal-actions {
   padding: 10px 0 0 8px;
+}
+
+.n2o-drawer-children-wrapper {
+  overflow: auto;
+  height: 100%;
+}
+
+.n2o-drawer-content-wrapper {
+  padding: $drawer-content-pd;
+  height: 100%;
 }
 
 @keyframes rcDrawerFadeIn {

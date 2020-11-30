@@ -3,9 +3,15 @@
       name="Вкладки">
     <regions>
         <tabs>
-            <tab name="Один"/>
-            <tab name="Два"/>
-            <tab name="Три"/>
+            <tab name="Один">
+                <form/>
+            </tab>
+            <tab name="Два">
+                <form/>
+            </tab>
+            <tab name="Три">
+                <form/>
+            </tab>
         </tabs>
     </regions>
 </page>

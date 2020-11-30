@@ -22,6 +22,7 @@ public class AccessTransformersPack implements MetadataPack<N2oApplicationBuilde
                 new OpenPageAccessTransformer(),
                 new ShowModalAccessTransformer(),
                 new TableAccessTransformer(),
-                new ListWidgetAccessTransformer());
+                new ListWidgetAccessTransformer(),
+                new StandardFieldAccessTransformer());
     }
 }
