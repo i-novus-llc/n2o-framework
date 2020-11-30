@@ -75,18 +75,19 @@ export class TimePickerControl extends Component {
     }
 
     each([HOURS, MINUTES, SECONDS], mode => {
-      this[`${mode}Ref`] &&
-        this[`${mode}Ref`].current &&
+      if (this[`${mode}Ref`] && this[`${mode}Ref`].current) {
         scrollIntoView(this[`${mode}Ref`].current, {
           behavior: hasChangeVisible ? 'auto' : 'smooth',
           block: 'start',
           boundary: this[`${mode}Ref`].current.parentElement,
         });
+      }
     });
   }
 
   getTimeConfig = () => {
     const { mode } = this.props;
+
     return {
       showHour: includes(mode, 'hours'),
       showMinute: includes(mode, 'minutes'),
@@ -101,6 +102,7 @@ export class TimePickerControl extends Component {
   getLocaleText = (mode, index) => {
     const { locale } = this.props;
     const localesArr = split(get(reference, `[${mode}][${locale}]`, ''), '_');
+
     return localesArr[index];
   };
 
@@ -110,6 +112,7 @@ export class TimePickerControl extends Component {
 
   getValue = () => {
     const { format, timeFormat } = this.props;
+
     if (format === 'digit') {
       return this.getTime(timeFormat);
     }
@@ -179,6 +182,7 @@ export class TimePickerControl extends Component {
 
   renderPanelItems = mode => {
     const countersArray = new Array(get(reference, `[${mode}].values`, []));
+
     return map(countersArray, (val, index) => (
       <a
         key={index}

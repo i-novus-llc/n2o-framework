@@ -8,13 +8,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
   &.hoverable {
     opacity: 0.5;
+
     &:hover {
       background-color: $icon-tree-hover-color;
       opacity: 1;
     }
   }
+  
   &.clickable:hover {
     cursor: pointer;
   }
