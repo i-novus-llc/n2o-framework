@@ -4,7 +4,7 @@
 
     <cards query-id="test" src="CardsWidget" height="250px">
         <content>
-            <col size="3">
+            <col size="5">
                 <block text-field-id="text">
                     <text/>
                 </block>

@@ -14,8 +14,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Configuration.headless;
-
 /**
  * Автотест для виджета CardsWidget
  */
@@ -24,7 +22,6 @@ public class CardsAT extends AutoTestBase {
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
-        headless = false;
     }
 
     @BeforeEach
@@ -57,6 +54,7 @@ public class CardsAT extends AutoTestBase {
         card.shouldExists();
 
         card.columns().shouldHaveSize(1);
+        card.columns().column(0).shouldHaveWidth(5);
 
         TextCell textCell = card.columns().column(0).blocks().cell(0, TextCell.class);
         textCell.textShouldHave("Hamburg");
@@ -73,6 +71,7 @@ public class CardsAT extends AutoTestBase {
         card.shouldExists();
 
         card.columns().shouldHaveSize(1);
+        card.columns().column(0).shouldHaveWidth(5);
 
         textCell = card.columns().column(0).blocks().cell(0, TextCell.class);
         textCell.textShouldHave("Paris");
@@ -101,6 +100,8 @@ public class CardsAT extends AutoTestBase {
         card.shouldExists();
 
         card.columns().shouldHaveSize(2);
+        card.columns().column(0).shouldHaveWidth(3);
+        card.columns().column(1).shouldHaveWidth(2);
 
         TextCell textCell = card.columns().column(0).blocks().cell(0, TextCell.class);
         textCell.textShouldHave("Hamburg");
@@ -128,6 +129,8 @@ public class CardsAT extends AutoTestBase {
         card.shouldExists();
 
         card.columns().shouldHaveSize(2);
+        card.columns().column(0).shouldHaveWidth(3);
+        card.columns().column(1).shouldHaveWidth(2);
 
         textCell = card.columns().column(0).blocks().cell(0, TextCell.class);
         textCell.textShouldHave("Paris");

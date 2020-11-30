@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.widget.cards;
 
+import com.codeborne.selenide.Condition;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Cells;
 import net.n2oapp.framework.autotest.api.component.widget.cards.Card;
@@ -33,5 +34,9 @@ public class N2oCard extends N2oComponent implements Card {
             return N2oSelenide.collection(element().$$(".n2o-cards__item > span, .n2o-cards__item > div"), Cells.class);
         }
 
+        @Override
+        public void shouldHaveWidth(int size) {
+            element().shouldHave(Condition.cssClass("col-" + size));
+        }
     }
 }

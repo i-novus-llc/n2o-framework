@@ -17,5 +17,7 @@ public interface Card extends Component {
 
     interface Column extends Component {
         Cells blocks();
+
+        void shouldHaveWidth(int size);
     }
 }
