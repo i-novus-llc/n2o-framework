@@ -42,7 +42,8 @@ public class MultiFieldSetCompileTest extends SourceCompileTestBase {
         List<FieldSet> fields = form.getComponent().getFieldsets();
 
         assertThat(fields.get(0).getSrc(), is("MultiFieldset"));
-        assertThat(((MultiFieldSet) fields.get(0)).getLabel(), is("`'Участник '+index`"));
+        assertThat(((MultiFieldSet) fields.get(0)).getLabel(), is("Заголовок"));
+        assertThat(((MultiFieldSet) fields.get(0)).getChildrenLabel(), is("`'Участник '+index`"));
         assertThat(((MultiFieldSet) fields.get(0)).getName(), is("members"));
         assertThat(((MultiFieldSet) fields.get(0)).getAddButtonLabel(), is("Добавить участника"));
         assertThat(((MultiFieldSet) fields.get(0)).getRemoveAllButtonLabel(), is("Удалить всех участников"));
@@ -53,7 +54,7 @@ public class MultiFieldSetCompileTest extends SourceCompileTestBase {
         assertThat(((MultiFieldSet) fields.get(0)).getNeedCopyButton(), is(true));
 
         assertThat(fields.get(1).getSrc(), is("MultiFieldset"));
-        assertThat(((MultiFieldSet) fields.get(1)).getLabel(), is("`members[index].name`"));
+        assertThat(((MultiFieldSet) fields.get(1)).getChildrenLabel(), is("`members[index].name`"));
         assertThat(((MultiFieldSet) fields.get(1)).getCanRemoveFirstItem(), is(false));
         assertThat(((MultiFieldSet) fields.get(1)).getNeedAddButton(), is(true));
         assertThat(((MultiFieldSet) fields.get(1)).getNeedRemoveButton(), is(true));
