@@ -31,6 +31,7 @@ function SearchablePage({
   searchBar = {},
   filterValue,
   withToolbar = true,
+  initSearchValue,
 }) {
   return (
     <div
@@ -58,6 +59,7 @@ function SearchablePage({
           initialValue={filterValue}
           className={cn('ml-auto', searchBar.className)}
           onSearch={onSearch}
+          initSearchValue={initSearchValue}
         />
       </div>
       <div className="n2o-page-actions">
