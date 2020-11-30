@@ -35,8 +35,8 @@ public class N2oImageCell extends N2oCell implements ImageCell {
             case rounded:
                 imgShouldHaveRoundedShape();
                 break;
-            case polaroid:
-                imgShouldHavePolaroidShape();
+            case square:
+                imgShouldHaveSquareShape();
                 break;
         }
     }
@@ -49,7 +49,7 @@ public class N2oImageCell extends N2oCell implements ImageCell {
         img().parent().shouldHave(Condition.cssClass("rounded"));
     }
 
-    private void imgShouldHavePolaroidShape() {
+    private void imgShouldHaveSquareShape() {
         img().parent().shouldNotHave(Condition.cssClass("circle"));
         img().parent().shouldNotHave(Condition.cssClass("rounded"));
     }

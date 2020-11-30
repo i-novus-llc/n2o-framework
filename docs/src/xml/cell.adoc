@@ -279,9 +279,9 @@ link:#_Действия[Обработчик действия]
 |
 
 |shape
-|circle, rounded, polaroid
+|square, circle, rounded
 |Форма картинки
-|
+|square
 
 |title
 |Строка

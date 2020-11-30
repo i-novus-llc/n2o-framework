@@ -334,7 +334,7 @@
                         <xs:documentation>Действие, которое выполнится при клике по иконке.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="shape" type="shapeType">
+                <xs:attribute name="shape" type="shapeType" default="square">
                     <xs:annotation>
                         <xs:documentation>Форма изображения.</xs:documentation>
                     </xs:annotation>
@@ -791,9 +791,9 @@
             <xs:documentation>Тип формы изображения.</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
+            <xs:enumeration value="square"/>
             <xs:enumeration value="circle"/>
             <xs:enumeration value="rounded"/>
-            <xs:enumeration value="polaroid"/>
         </xs:restriction>
     </xs:simpleType>
 
