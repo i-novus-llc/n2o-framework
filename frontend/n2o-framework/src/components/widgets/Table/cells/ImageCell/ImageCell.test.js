@@ -6,6 +6,7 @@ import configureMockStore from 'redux-mock-store';
 
 const defaultProps = {
   id: 'url',
+  fieldKey: 'url',
   model: {
     url:
       'https://beebom-redkapmedia.netdna-ssl.com/wp-content/uploads/2016/01/Reverse-Image-Search-Engines-Apps-And-Its-Uses-2016.jpg',
@@ -33,7 +34,7 @@ const setupImageCell = propsOverride => {
 };
 
 const defaultPropsWithTooltip = {
-  id: 'url',
+  fieldKey: 'url',
   tooltipFieldId: 'tooltip',
   model: {
     url:
@@ -68,7 +69,6 @@ describe('<ImageCell />', () => {
 
   it('проверяет путь до картинки', () => {
     const { wrapper, props } = setupImageCell();
-
     expect(wrapper.find('img').props().src).toEqual(props.model[props.id]);
   });
 
