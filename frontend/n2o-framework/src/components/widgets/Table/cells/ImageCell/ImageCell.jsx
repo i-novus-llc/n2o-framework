@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, setDisplayName, withHandlers } from 'recompose';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
+
+import propsResolver from '../../../../../utils/propsResolver';
 
 import withCell from '../../withCell';
 import withTooltip from '../../withTooltip';
@@ -37,17 +40,31 @@ function ImageCell(props) {
     description,
     textPosition,
     width = 30,
+    data,
   } = props;
 
   const setCursor = action => {
     return action ? { cursor: 'pointer' } : null;
   };
 
+  const url = get(model, fieldKey);
+  const isEmptyModel = isEmpty(model);
+
+  const defaultImageProps = {
+    url: url,
+    data: data,
+    title: title,
+    description: description,
+  };
+
+  const resolveProps = isEmptyModel
+    ? defaultImageProps
+    : propsResolver(defaultImageProps, model);
+
   return (
     <Image
       id={id}
       visible={visible}
-      src={get(model, fieldKey || id)}
       title={title}
       description={description}
       onClick={onClick}
@@ -56,6 +73,8 @@ function ImageCell(props) {
       className={className}
       textPosition={textPosition}
       width={width}
+      {...resolveProps}
+      src={resolveProps.data || resolveProps.url}
     />
   );
 }
