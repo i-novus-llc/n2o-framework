@@ -1,6 +1,9 @@
 package net.n2oapp.framework.autotest.widget.cards;
 
+import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.cell.*;
+import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.cards.Card;
 import net.n2oapp.framework.autotest.api.component.widget.cards.CardsWidget;
@@ -40,7 +43,8 @@ public class CardsAT extends AutoTestBase {
 
     @Test
     public void testCardsOne(){
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/index.page.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/cards/page1/modal.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("CardsWidget1");
@@ -55,6 +59,7 @@ public class CardsAT extends AutoTestBase {
 
         card.columns().shouldHaveSize(1);
         card.columns().column(0).shouldHaveWidth(5);
+        card.columns().column(0).blocks().shouldHaveSize(4);
 
         TextCell textCell = card.columns().column(0).blocks().cell(0, TextCell.class);
         textCell.textShouldHave("Hamburg");
@@ -63,15 +68,25 @@ public class CardsAT extends AutoTestBase {
         imageCell.shouldExists();
         imageCell.imageShouldBe(getBaseUrl() +"/images/hamburg-3846525__340.jpg");
 
-
         BadgeCell badgeCell = card.columns().column(0).blocks().cell(2, BadgeCell.class);
         badgeCell.textShouldHave("Germany");
+
+        ToolbarCell toolbarCell = card.columns().column(0).blocks().cell(3, ToolbarCell.class);
+        toolbarCell.toolbar().button("Info").shouldHaveColor(Colors.SUCCESS);
+        toolbarCell.toolbar().button("Info").click();
+
+        Modal modal = N2oSelenide.modal();
+        modal.shouldExists();
+        modal.shouldHaveTitle("ModalPage");
+        modal.close();
+        modal.shouldNotExists();
 
         card = cardsWidget.card(1);
         card.shouldExists();
 
         card.columns().shouldHaveSize(1);
         card.columns().column(0).shouldHaveWidth(5);
+        card.columns().column(0).blocks().shouldHaveSize(4);
 
         textCell = card.columns().column(0).blocks().cell(0, TextCell.class);
         textCell.textShouldHave("Paris");
@@ -82,6 +97,9 @@ public class CardsAT extends AutoTestBase {
 
         badgeCell = card.columns().column(0).blocks().cell(2, BadgeCell.class);
         badgeCell.textShouldHave("France");
+
+        toolbarCell = card.columns().column(0).blocks().cell(3, ToolbarCell.class);
+        toolbarCell.toolbar().button("Info").shouldHaveColor(Colors.SUCCESS);
     }
 
     @Test
@@ -101,7 +119,9 @@ public class CardsAT extends AutoTestBase {
 
         card.columns().shouldHaveSize(2);
         card.columns().column(0).shouldHaveWidth(3);
+        card.columns().column(0).blocks().shouldHaveSize(2);
         card.columns().column(1).shouldHaveWidth(2);
+        card.columns().column(1).blocks().shouldHaveSize(5);
 
         TextCell textCell = card.columns().column(0).blocks().cell(0, TextCell.class);
         textCell.textShouldHave("Hamburg");
@@ -130,7 +150,9 @@ public class CardsAT extends AutoTestBase {
 
         card.columns().shouldHaveSize(2);
         card.columns().column(0).shouldHaveWidth(3);
+        card.columns().column(0).blocks().shouldHaveSize(2);
         card.columns().column(1).shouldHaveWidth(2);
+        card.columns().column(1).blocks().shouldHaveSize(5);
 
         textCell = card.columns().column(0).blocks().cell(0, TextCell.class);
         textCell.textShouldHave("Paris");

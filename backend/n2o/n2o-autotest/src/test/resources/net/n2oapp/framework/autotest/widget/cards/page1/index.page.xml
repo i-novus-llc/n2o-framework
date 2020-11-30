@@ -14,6 +14,13 @@
                 <block text-field-id="badge">
                     <badge color="info"/>
                 </block>
+                <block text-field-id="action">
+                    <toolbar>
+                        <button label="Info" color="success">
+                            <show-modal page-id="modal" master-param="id"/>
+                        </button>
+                    </toolbar>
+                </block>
             </col>
         </content>
         <pagination/>
