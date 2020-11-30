@@ -16,7 +16,7 @@ import MultiFieldsetItem from './MultiFieldsetItem';
 
 function MultiFieldset({
   name,
-  label,
+  childrenLabel,
   fields,
   addButtonLabel,
   removeButtonLabel,
@@ -37,7 +37,7 @@ function MultiFieldset({
         parentName={name}
         render={render}
         rows={rows}
-        label={label}
+        childrenLabel={childrenLabel}
         needAddButton={needAddButton}
         needRemoveButton={needRemoveButton}
         needCopyButton={needCopyButton}
@@ -100,15 +100,15 @@ export const enhance = compose(
 
       dispatch(change(form, name, newValue));
     },
-    resolvePlaceholder: ({ label }) => index => {
+    resolvePlaceholder: ({ childrenLabel }) => index => {
       const context = { index };
-      const expression = parseExpression(label);
+      const expression = parseExpression(childrenLabel);
 
       if (expression) {
         return evalExpression(expression, context);
       }
 
-      return label;
+      return childrenLabel;
     },
   })
 );
