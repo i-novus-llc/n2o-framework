@@ -1,7 +1,11 @@
 package net.n2oapp.framework.autotest.fieldset;
 
+import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.api.collection.FieldSets;
-import net.n2oapp.framework.autotest.api.component.fieldset.LineFieldSet;
+import net.n2oapp.framework.autotest.api.collection.Fields;
+import net.n2oapp.framework.autotest.api.component.control.InputText;
+import net.n2oapp.framework.autotest.api.component.field.StandardField;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -13,9 +17,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест для филдсета с горизонтальным делителем
+ * Автотест для простого филдсета
  */
-public class LineFieldSetAT extends AutoTestBase {
+public class SimpleFieldSetAT extends AutoTestBase {
 
     private SimplePage page;
 
@@ -29,7 +33,7 @@ public class LineFieldSetAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/list/index.page.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
         page = open(SimplePage.class);
         page.shouldExists();
@@ -43,33 +47,21 @@ public class LineFieldSetAT extends AutoTestBase {
     }
 
     @Test
-    public void testLineFieldSet() {
+    public void testFieldSet() {
         FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
-        // empty fieldset with empty label
-        LineFieldSet fieldset = fieldsets.fieldset(LineFieldSet.class);
-        fieldset.shouldBeEmpty();
+        fieldsets.shouldHaveSize(2);
+        SimpleFieldSet fieldset = fieldsets.fieldset(SimpleFieldSet.class);
         fieldset.shouldNotHaveLabel();
+        Fields fields = fieldset.fields();
+        fields.shouldHaveSize(1);
+        fields.field("field1").shouldHaveLabelLocation(FieldSet.LabelPosition.TOP_LEFT);
 
-        // expanded
-        fieldset = fieldsets.fieldset(1, LineFieldSet.class);
-        fieldset.fields().shouldHaveSize(2);
-        fieldset.shouldBeCollapsible();
-        fieldset.shouldBeExpanded();
-        fieldset.shouldHaveLabel("Line2");
-        fieldset.collapseContent();
-        fieldset.shouldBeCollapsed();
-        fieldset.expandContent();
-        fieldset.shouldBeExpanded();
-
-        // collapsed
-        fieldset = fieldsets.fieldset(2, LineFieldSet.class);
-        fieldset.shouldBeCollapsed();
-        fieldset.shouldBeCollapsible();
-        fieldset.shouldHaveLabel("Line3");
-
-        // not collapsible fieldset
-        fieldset = fieldsets.fieldset(3, LineFieldSet.class);
-        fieldset.shouldNotBeCollapsible();
-        fieldset.shouldHaveLabel("Line4");
+        fieldset = fieldsets.fieldset(1, SimpleFieldSet.class);
+        fieldset.shouldHaveLabel("Заголовок");
+        fields = fieldset.fields();
+        fields.shouldHaveSize(2);
+        StandardField field2 = fields.field("field2");
+        field2.shouldHaveLabelLocation(FieldSet.LabelPosition.LEFT);
+        field2.control(InputText.class).shouldBeDisabled();
     }
 }

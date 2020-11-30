@@ -5,12 +5,11 @@ import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.fieldset.LineFieldSet;
-import net.n2oapp.framework.autotest.impl.component.N2oComponent;
 
 /**
  * Филдсет с горизонтальным делителем для автотестирования
  */
-public class N2oLineFieldSet extends N2oComponent implements LineFieldSet {
+public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
 
     @Override
     public Fields fields() {
@@ -33,11 +32,16 @@ public class N2oLineFieldSet extends N2oComponent implements LineFieldSet {
     }
 
     @Override
-    public void shouldHaveLabel(String title) {
+    public void shouldHaveLabel(String label) {
         SelenideElement elm = header().exists() ?
                 header().$(".n2o-panel-header-text") :
                 element().$(".title-fieldset-text");
-        elm.shouldHave(Condition.text(title));
+        elm.shouldHave(Condition.text(label));
+    }
+
+    @Override
+    public void shouldNotHaveLabel() {
+        // TODO
     }
 
     @Override
