@@ -14,6 +14,7 @@ public class MultiFieldsetElementIOv4 extends FieldsetElementIOv4<N2oMultiFieldS
     @Override
     public void io(Element e, N2oMultiFieldSet fs, IOProcessor p) {
         super.io(e, fs, p);
+        p.attribute(e, "children-label", fs::getChildrenLabel, fs::setChildrenLabel);
         p.attribute(e, "add-label", fs::getAddButtonLabel, fs::setAddButtonLabel);
         p.attribute(e, "remove-all-label", fs::getRemoveAllButtonLabel, fs::setRemoveAllButtonLabel);
         p.attributeBoolean(e, "can-remove-first", fs::getCanRemoveFirst, fs::setCanRemoveFirst);

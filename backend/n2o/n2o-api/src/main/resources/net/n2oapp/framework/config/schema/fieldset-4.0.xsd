@@ -150,6 +150,14 @@
                 <xs:annotation>
                     <xs:documentation>Филдсет с динамическим числом полей.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="children-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок дочерних элементов.
+                            С помощью `{index}` можно управлять нумерацией.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="add-label" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Заголовок кнопки добавления.</xs:documentation>
