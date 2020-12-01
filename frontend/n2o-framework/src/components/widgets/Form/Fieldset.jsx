@@ -217,12 +217,14 @@ class Fieldset extends React.Component {
       parentIndex,
       disabled,
       label,
-      title,
+      childrenLabel,
       ...rest
     } = this.props;
 
     this.fields = [];
     const enabled = !disabled;
+    const blackList = ['LineFieldset'];
+    const needLabel = !blackList.includes(this.props.component.name) && label;
 
     if (React.Children.count(children)) {
       return <ElementType>{children}</ElementType>;
@@ -234,10 +236,11 @@ class Fieldset extends React.Component {
 
     return (
       <div className={classes} style={style}>
-        {title && <h4 className="n2o-fieldset__label">{title}</h4>}
+        {needLabel && <h4 className="n2o-fieldset__label">{label}</h4>}
         <ElementType
-          label={label}
+          childrenLabel={childrenLabel}
           enabled={enabled}
+          label={label}
           {...rest}
           render={(rows, props = { parentName, parentIndex }) => {
             this.fields = this.calculateAllFields(rows);
@@ -253,6 +256,7 @@ Fieldset.propTypes = {
   rows: PropTypes.array,
   className: PropTypes.string,
   label: PropTypes.string,
+  childrenLabel: PropTypes.string,
   labelPosition: PropTypes.string,
   labelWidth: PropTypes.array,
   labelAlignment: PropTypes.array,

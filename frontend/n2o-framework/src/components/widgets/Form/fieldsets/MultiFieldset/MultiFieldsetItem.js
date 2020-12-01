@@ -8,7 +8,7 @@ export function MultiFieldsetItem({
   fields,
   render,
   rows,
-  label,
+  childrenLabel,
   parentName,
   addButtonLabel,
   removeAllButtonLabel,
@@ -29,7 +29,7 @@ export function MultiFieldsetItem({
       {map(fields, (field, index) => (
         <div className="n2o-multi-fieldset__container">
           <div className="n2o-multi-fieldset__item">
-            {label && (
+            {childrenLabel && (
               <div className="n2o-multi-fieldset__label">
                 {resolvePlaceholder(index)}
               </div>
@@ -88,7 +88,7 @@ MultiFieldsetItem.propTypes = {
   fields: PropTypes.object,
   render: PropTypes.func,
   rows: PropTypes.array,
-  label: PropTypes.string,
+  childrenLabel: PropTypes.string,
   addButtonLabel: PropTypes.string,
   removeButtonLabel: PropTypes.string,
   removeAllButtonLabel: PropTypes.string,
@@ -104,7 +104,7 @@ const defaultComponentProps = {
   render: () => {},
   rows: [],
   fields: [],
-  label: null,
+  childrenLabel: null,
   addButtonLabel: 'Добавить',
   removeAllButtonLabel: 'Удалить все',
   needAddButton: true,
