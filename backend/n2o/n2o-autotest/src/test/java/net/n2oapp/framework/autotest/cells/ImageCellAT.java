@@ -29,6 +29,8 @@ public class ImageCellAT extends AutoTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Override
@@ -41,7 +43,6 @@ public class ImageCellAT extends AutoTestBase {
     @Test
     public void imageCellTest() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
@@ -58,9 +59,8 @@ public class ImageCellAT extends AutoTestBase {
 
     @Test
     public void imageCellWithTitleTest() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image_cell/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/image_cell/test.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/title/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/image/title/test.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
@@ -81,5 +81,4 @@ public class ImageCellAT extends AutoTestBase {
         cell.shouldHaveTitle("Заголовок2");
         cell.shouldHaveDescription("Описание2");
     }
-
 }
