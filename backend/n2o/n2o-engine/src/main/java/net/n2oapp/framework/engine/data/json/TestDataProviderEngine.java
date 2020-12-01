@@ -74,14 +74,14 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
                 return findOne(inParams, data);
             case update:
                 return update(invocation, inParams, data);
-            case updateAll:
-                return updateAll(invocation, inParams, data);
+            case updateMany:
+                return updateMany(invocation, inParams, data);
             case updateField:
                 return updateField(invocation, inParams, data);
             case delete:
                 return delete(invocation, inParams, data);
-            case deleteAll:
-                return deleteAll(invocation, inParams, data);
+            case deleteMany:
+                return deleteMany(invocation, inParams, data);
             case count:
                 return repository.get(invocation.getFile()).size();
             case echo:
@@ -148,12 +148,12 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         return modifiableData;
     }
 
-    private Object updateAll(N2oTestDataProvider invocation,
-                             Map<String, Object> inParams,
-                             List<DataSet> data) {
+    private Object updateMany(N2oTestDataProvider invocation,
+                              Map<String, Object> inParams,
+                              List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList<>(data);
         if (inParams.get(invocation.getPrimaryKeys()) == null)
-            throw new N2oException("Ids is required for operation \"updateAll\"");
+            throw new N2oException("Ids is required for operation \"updateMany\"");
         List<DataSet> elements = modifiableData.stream()
                 .filter(buildListPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(),
                         invocation.getPrimaryKeys(), inParams))
@@ -162,9 +162,9 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         fields.remove(invocation.getPrimaryKeys());
         for (DataSet element : elements) {
             updateElement(element, fields.entrySet());
-            updateRepository(invocation.getFile(), modifiableData);
-            updateFile(invocation.getFile());
         }
+        updateRepository(invocation.getFile(), modifiableData);
+        updateFile(invocation.getFile());
         return modifiableData;
     }
 
@@ -210,12 +210,12 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
         return null;
     }
 
-    private Object deleteAll(N2oTestDataProvider invocation,
-                             Map<String, Object> inParams,
-                             List<DataSet> data) {
+    private Object deleteMany(N2oTestDataProvider invocation,
+                              Map<String, Object> inParams,
+                              List<DataSet> data) {
         List<DataSet> modifiableData = new ArrayList(data);
         if (inParams.get(invocation.getPrimaryKeys()) == null)
-            throw new N2oException("Ids is required for operation \"deleteAll\"");
+            throw new N2oException("Ids is required for operation \"deleteMany\"");
         modifiableData.removeIf(buildListPredicate(invocation.getPrimaryKeyType(), invocation.getPrimaryKey(),
                 invocation.getPrimaryKeys(), inParams));
         updateRepository(invocation.getFile(), modifiableData);
@@ -233,11 +233,11 @@ public class TestDataProviderEngine implements MapInvocationEngine<N2oTestDataPr
 
     private static Predicate<DataSet> buildListPredicate(PrimaryKeyType primaryKeyType, String primaryKeyFieldId, String primaryKeysFieldId, Map<String, Object> data) {
         if (integer.equals(primaryKeyType)) {
-            List<Long> list = (List<Long>) ((List) data.get(primaryKeysFieldId)).stream()
-                    .map(o -> ((Number) o).longValue()).collect(Collectors.toList());
+            Set<Long> list = (Set<Long>) ((List) data.get(primaryKeysFieldId)).stream()
+                    .map(o -> ((Number) o).longValue()).collect(Collectors.toSet());
             return obj -> list.contains(((Number) obj.get(primaryKeyFieldId)).longValue());
         } else {
-            return obj -> ((List<Long>) data.get(primaryKeysFieldId)).contains(((Number) obj.get(primaryKeyFieldId)).longValue());
+            return obj -> ((List<String>) data.get(primaryKeysFieldId)).contains((obj.get(primaryKeyFieldId)));
         }
     }
 
