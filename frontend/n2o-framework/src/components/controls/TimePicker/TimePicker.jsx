@@ -312,7 +312,7 @@ TimePickerControl.propTypes = {
   /**
    * Формат врмени для отображения "digit" || "symbols"
    */
-  format: PropTypes.oneOf(['digit', 'symbols']),
+  format: PropTypes.oneOf([DIGIT, SYMBOLS]),
   /**
    * Дефолтное значение
    */
