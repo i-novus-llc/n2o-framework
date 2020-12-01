@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
-import net.n2oapp.framework.autotest.TextPosition;
+import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 
 /**
  * Ячейка таблицы с изображением для автотестирования

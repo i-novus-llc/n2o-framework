@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.cells;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
-import net.n2oapp.framework.autotest.TextPosition;
+import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -74,7 +74,7 @@ public class ImageCellAT extends AutoTestBase {
         cell.widthShouldBe(40);
         cell.shouldHaveTitle("Заголовок1");
         cell.shouldHaveDescription("Описание1");
-        cell.shouldHaveTextPosition(TextPosition.LEFT);
+        cell.shouldHaveTextPosition(TextPosition.left);
 
         cell = rows.row(1).cell(0, ImageCell.class);
         cell.imageShouldBe("https://i-novus.ru/assets/3c502870/images/logo.png");
