@@ -13,6 +13,9 @@
             <line label="Line4" collapsible="false">
                 <input-text id="field4"/>
             </line>
+            <line collapsible="false">
+                <input-text id="field5"/>
+            </line>
         </fields>
     </form>
 </simple-page>

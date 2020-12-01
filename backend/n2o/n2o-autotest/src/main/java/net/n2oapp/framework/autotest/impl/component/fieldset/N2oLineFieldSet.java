@@ -41,7 +41,10 @@ public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
 
     @Override
     public void shouldNotHaveLabel() {
-        // TODO
+        if (header().exists())
+            header().$(".n2o-panel-header-text").shouldHave(Condition.empty);
+        else
+            element().$(".title-fieldset-text").shouldNotBe(Condition.exist);
     }
 
     @Override
