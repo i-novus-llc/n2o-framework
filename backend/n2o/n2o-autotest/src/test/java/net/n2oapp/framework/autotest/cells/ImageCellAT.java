@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.cells;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.autotest.TextPosition;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -29,15 +30,7 @@ public class ImageCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
-
-        SimplePage simplePage = open(SimplePage.class);
-        simplePage.shouldExists();
-
-        rows = simplePage.widget(TableWidget.class).columns().rows();
-        rows.shouldHaveSize(4);
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Override
@@ -47,12 +40,45 @@ public class ImageCellAT extends AutoTestBase {
                 new N2oCellsPack(), new N2oAllDataPack());
     }
 
-
     @Test
     public void imageCellTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        rows = simplePage.widget(TableWidget.class).columns().rows();
+        rows.shouldHaveSize(4);
+
         ImageCell cell = rows.row(0).cell(0, ImageCell.class);
         cell.imageShouldBe(getBaseUrl() + "/favicon.ico");
         cell.widthShouldBe(15);
         cell.shapeShouldBe(ImageShape.circle);
+    }
+
+    @Test
+    public void imageCellWithTitleTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/title/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/image/title/test.query.xml"));
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        rows = simplePage.widget(TableWidget.class).columns().rows();
+        rows.shouldHaveSize(2);
+
+        ImageCell cell = rows.row(0).cell(0, ImageCell.class);
+        cell.shouldExists();
+        cell.imageShouldBe("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAlCAMAAAADS4u8AAAAnFBMVEX////ZbFrptDj////ptDj///9YuKvZbFrptDj///9YuKvZbFrptDj///9YuKvptDj////ZbFr////ptDj///9YuKvZbFrptDj///9YuKvptDj////ZbFrptDj///9YuKvptDj///9YuKvZbFrptDj///9YuKvZbFr///9YuKvptDj///9YuKvZbFrptDj///9YuKvZbFrptDj///90gGlOAAAAMHRSTlMAEBAQICAwMDAwQEBAQFBQUGBgcHCAgICAkJCQoKCgsLCwwMDAwNDQ0ODg4PDw8PDEXJ+/AAAA+UlEQVQYGc3B61aCQBSA0U/ICtGki4ZhGKmlYXI57/9uzbgwRqHF/KnV3hBl0rTxUHrL4mjeg1BaZX3gvajNIZN2D+AXph7ygxD8wuSTSrs7uCoMnxBIq40LzIvaFAiSdVPsok2XR7f8B7O8026CNsttTFB2uY0tSm4HZZvbeEO5yW0M0AaL1y6LS36TOzJQcYaKw6lIToRoT+XBysEQyZkQeCwrKwyZnEmBfXl0QU0agPLbkFoqZxLgo6zsHWqBnMo8YFxW7jGN4rUh9tCun1fKy5i/0B91cTlwY+kWoUViI0QRKymK2EFJxUaCEoiFzEPz4nWXuI/yBYSItStrEp20AAAAAElFTkSuQmCC");
+        cell.widthShouldBe(40);
+        cell.shouldHaveTitle("Заголовок1");
+        cell.shouldHaveDescription("Описание1");
+        cell.shouldHaveTextPosition(TextPosition.LEFT);
+
+        cell = rows.row(1).cell(0, ImageCell.class);
+        cell.imageShouldBe("https://i-novus.ru/assets/3c502870/images/logo.png");
+        cell.shouldHaveTitle("Заголовок2");
+        cell.shouldHaveDescription("Описание2");
     }
 }
