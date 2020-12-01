@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import DrawerRC from 'rc-drawer';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 /**
  * Drawer
@@ -9,6 +9,7 @@ import cn from 'classnames';
  * @reactProps {boolean} visible - состояние Drawer
  * @reactProps {boolean} backdropClosable - закрытие Drawer по клику на backdrop
  * @reactProps {boolean} closable - отобразить/скрыть крестик
+ * @reactProps {boolean} keyboard - разрешить/запретить закрытие Drawer по клавише Esc
  * @reactProps {string} placement - позиция Drawer
  * @reactProps {function} onClose - функция закрытия по клику
  * @reactProps {function} onHandleClick - функция закрытия по клику на крестик
@@ -27,7 +28,6 @@ import cn from 'classnames';
 function Drawer(props) {
   const {
     className,
-    closable,
     backdropClosable,
     visible,
     placement,
@@ -42,7 +42,10 @@ function Drawer(props) {
     footer,
     fixedFooter,
     children,
+    keyboard,
+    closable,
   } = props;
+
   const [paddingBottom, setPaddingBottom] = useState(0);
   const footerRef = useRef(null);
 
@@ -54,7 +57,10 @@ function Drawer(props) {
 
   return (
     <DrawerRC
-      className={cn('n2o-drawer', animation && 'drawer-animation', className)}
+      className={classNames('n2o-drawer', className, {
+        'without-close-button': closable === false,
+        'drawer-animation': animation,
+      })}
       open={visible}
       width={width}
       height={height}
@@ -64,7 +70,7 @@ function Drawer(props) {
       level={level}
       maskClosable={backdropClosable}
       onHandleClick={onHandleClick}
-      handler={closable}
+      keyboard={keyboard}
     >
       <div
         className="n2o-drawer-content-wrapper"
@@ -74,7 +80,7 @@ function Drawer(props) {
           {title && <div className="drawer-title">{title}</div>}
           <div className="drawer-children">{children}</div>
           <div
-            className={cn('drawer-footer', {
+            className={classNames('drawer-footer', {
               'drawer-footer--fixed': fixedFooter,
             })}
             ref={footerRef}
@@ -101,6 +107,10 @@ Drawer.propTypes = {
    * Видимость модального окна
    */
   visible: PropTypes.bool,
+  /**
+   * разрешить/запретить закрытие Drawer по клавише Esc
+   */
+  keyboard: PropTypes.bool,
   /**
    * Позиция компонента
    */
@@ -150,6 +160,8 @@ Drawer.defaultProps = {
   backdropClosable: true,
   level: false,
   fixedFooter: false,
+  closable: true,
+  keyboard: true,
 };
 
 export default Drawer;

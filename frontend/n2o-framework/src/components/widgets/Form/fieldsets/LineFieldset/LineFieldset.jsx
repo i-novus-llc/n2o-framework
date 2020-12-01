@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import CollapseFieldset from '../CollapseFieldset/CollapseFieldSet';
 import TitleFieldset from '../TitleFieldset/TitleFieldset';
 import evalExpression, {
@@ -22,6 +23,7 @@ class LineFieldset extends React.Component {
       label: this.props.label,
       expand: this.props.expand,
       className: this.props.className,
+      hasSeparator: this.props.hasSeparator,
     };
   }
 
@@ -31,6 +33,7 @@ class LineFieldset extends React.Component {
       rows: this.props.rows,
       title: this.props.label,
       className: this.props.className,
+      hasSeparator: this.props.hasSeparator,
     };
   }
 
@@ -65,6 +68,7 @@ class LineFieldset extends React.Component {
 
 LineFieldset.defaultProps = {
   visible: true,
+  hasSeparator: true,
 };
 
 LineFieldset.propTypes = {
@@ -75,6 +79,7 @@ LineFieldset.propTypes = {
   type: PropTypes.string,
   expand: PropTypes.bool,
   className: PropTypes.string,
+  hasSeparator: PropTypes.bool,
 };
 
 export default LineFieldset;

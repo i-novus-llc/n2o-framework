@@ -55,6 +55,8 @@ function DrawerPage(props) {
     prompt,
     closeOverlay,
     fixedFooter,
+    keyboard,
+    closable,
     ...rest
   } = props;
 
@@ -89,6 +91,8 @@ function DrawerPage(props) {
           backdropClosable={backdropClosable}
           animation={animation}
           fixedFooter={fixedFooter}
+          keyboard={keyboard}
+          closable={closable}
           footer={
             !!toolbar ? (
               <div
@@ -138,6 +142,8 @@ DrawerPage.propTypes = {
   close: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   fixedFooter: PropTypes.bool,
+  keyboard: PropTypes.bool,
+  closable: PropTypes.bool,
 };
 
 DrawerPage.contextTypes = {

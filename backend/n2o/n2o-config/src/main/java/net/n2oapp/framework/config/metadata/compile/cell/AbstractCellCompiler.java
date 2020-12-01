@@ -31,6 +31,7 @@ public abstract class AbstractCellCompiler<D extends N2oAbstractCell, S extends 
             compiled.setId(column.getId());
             compiled.setFieldKey(column.getTextFieldId());
             compiled.setTooltipFieldId(column.getTooltipFieldId());
+            compiled.setHideOnBlur(column.getHideOnBlur());
         }
         compiled.setSrc(p.cast(source.getSrc(), p.resolve(defaultSrc, String.class)));
         compiled.setCssClass(p.resolveJS(source.getCssClass()));
