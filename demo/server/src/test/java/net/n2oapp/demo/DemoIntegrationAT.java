@@ -56,6 +56,12 @@ public class DemoIntegrationAT {
         protoPage.shouldBeClientsPage();
     }
 
+    @AfterEach
+    public void afterEach() {
+        Selenide.clearBrowserLocalStorage();
+        Selenide.clearBrowserCookies();
+    }
+
     /**
      * Проверка отдачи статики
      */
