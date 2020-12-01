@@ -19,6 +19,10 @@ public class TabsRegion extends Region implements Itemable<TabsRegion.Tab> {
     private Boolean lazy;
     @JsonProperty
     private Boolean hideSingleTab;
+    @JsonProperty
+    private String maxHeight;
+    @JsonProperty
+    private Boolean scrollbar;
 
     @JsonProperty("tabs")
     private List<Tab> items;
