@@ -30,6 +30,7 @@ import ProgressControl from './ProgressControl/ProgressControl';
 import ImageUploader from './ImageUploader/ImageUploader';
 import OutputList from './OutputList/OutputList';
 import NumberPicker from './NumberPicker/NumberPicker';
+import TimePicker from './TimePicker/TimePicker';
 
 export default {
   InputText: InputText,
@@ -64,4 +65,5 @@ export default {
   ImageUploader: ImageUploader,
   OutputList: OutputList,
   NumberPicker: NumberPicker,
+  TimePicker: TimePicker,
 };
