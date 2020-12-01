@@ -60,7 +60,6 @@ public class DemoIntegrationAT {
     public void afterEach() {
         Selenide.clearBrowserLocalStorage();
         Selenide.clearBrowserCookies();
-        Selenide.localStorage().clear();
     }
 
     /**
