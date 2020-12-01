@@ -62,8 +62,8 @@ public class OperationController extends SetController {
             return constructSuccessSetDataResponse(data, requestInfo, responseInfo);
         } catch (N2oException e) {
             SetDataResponse response = constructFailSetDataResponse(e, requestInfo);
-            logger.error("Error response " + response.getStatus() + " " + e.getSeverity() + ": "
-                    + (e.getUserMessage() != null ? e.getUserMessage() : e.getMessage()), e);
+            logger.error(String.format("Error response %d %s: %s", response.getStatus(), e.getSeverity(),
+                    e.getUserMessage() != null ? e.getUserMessage() : e.getMessage()), e);
             return response;
         }
     }
@@ -120,7 +120,7 @@ public class OperationController extends SetController {
         context.setPathRouteMapping(requestInfo.getContext().getPathRouteMapping());
         context.setQueryRouteMapping(requestInfo.getContext().getQueryRouteMapping());
         context.setParentWidgetId(((ActionContext) requestInfo.getContext()).getParentWidgetId());
-        context.setRefreshClientWidgetId(getDialogRefreshClientWidgetId((ActionContext) requestInfo.getContext(), route));
+        context.setClientWidgetId(getDialogClientWidgetId((ActionContext) requestInfo.getContext(), route));
         if (requestInfo.getObject() != null)
             context.setObjectId(requestInfo.getObject().getId());
         N2oPipelineSupport pipelineSupport = new N2oPipelineSupport(environment);
@@ -133,14 +133,13 @@ public class OperationController extends SetController {
     }
 
     /**
-     * Получение идентификатора виджета, который будет обновлен
-     * при успешном выполнении действия диалога
+     * Получение идентификатора клиентского для диалога виджета
      *
      * @param context Контекст сборки объекта под конкретную операцию
      * @param route   Маршрут
-     * @return Идентификатор виджета, который будет обновлен
+     * @return Идентификатор клиентского для диалога виджета
      */
-    private String getDialogRefreshClientWidgetId(ActionContext context, String route) {
+    private String getDialogClientWidgetId(ActionContext context, String route) {
         List<String> pathParams = RouteUtil.getPathParams(route);
         if (!pathParams.isEmpty() && context.getPathRouteMapping() != null) {
             ModelLink modelLink = context.getPathRouteMapping().get(pathParams.get(0));

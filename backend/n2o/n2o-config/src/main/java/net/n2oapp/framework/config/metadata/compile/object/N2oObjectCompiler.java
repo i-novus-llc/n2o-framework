@@ -13,7 +13,7 @@ import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
 import net.n2oapp.framework.api.metadata.global.dao.object.N2oObject;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraint;
+import net.n2oapp.framework.api.metadata.global.dao.validation.N2oInvocationValidation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -25,6 +25,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.local.util.CompileUtil.castDefault;
 
@@ -66,6 +68,12 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         return compiled;
     }
 
+    /**
+     * Инициализация полей объекта
+     *
+     * @param objectFields Массив полей объекта
+     * @param compiled     Скомпилированный объект
+     */
     private void initObjectFields(AbstractParameter[] objectFields, CompiledObject compiled) {
         if (objectFields != null) {
             for (AbstractParameter field : objectFields) {
@@ -77,6 +85,12 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         }
     }
 
+    /**
+     * Инициализация ссылочного поля объекта
+     *
+     * @param field    Ссылочное поле
+     * @param compiled Скомпилированный объект
+     */
     private void initRefField(ObjectReferenceField field, CompiledObject compiled) {
         ObjectScalarField[] referenceFields = field.getFields();
         if (referenceFields == null) {
@@ -91,22 +105,31 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         if (compiled.getObjectReferenceFieldsMap() == null)
             compiled.setObjectReferenceFieldsMap(new HashMap<>());
         if (field.getId().contains("."))
-            field.setId(field.getId().substring(field.getId().indexOf(".") + 1, field.getId().length() - 1));
+            field.setId(field.getId().substring(field.getId().indexOf('.') + 1, field.getId().length() - 1));
         compiled.getObjectReferenceFieldsMap().put(field.getId(), field);
     }
 
+    /**
+     * Инициализация валидаций объекта
+     *
+     * @param source   Исходная модель объекта
+     * @param compiled Скомпилированный объект
+     * @param context  Контекст сборки объекта
+     * @param p        Процессор сборки метаданных
+     * @return Список валидаций объекта
+     */
     private List<Validation> initValidations(N2oObject source, CompiledObject compiled, C context, CompileProcessor p) {
         List<Validation> result = new ArrayList<>();
         if (source.getN2oValidations() != null) {
             for (N2oValidation validation : source.getN2oValidations()) {
-                if (validation instanceof N2oConstraint) {
-                    N2oConstraint n2oConstraint = (N2oConstraint) validation;
-                    if (n2oConstraint.getInParameters() != null)
-                        for (N2oObject.Parameter parameter : n2oConstraint.getInParameters()) {
+                if (validation instanceof N2oInvocationValidation) {
+                    N2oInvocationValidation invocationValidation = (N2oInvocationValidation) validation;
+                    if (invocationValidation.getInParameters() != null)
+                        for (N2oObject.Parameter parameter : invocationValidation.getInParameters()) {
                             resolveDefaultParameter(parameter, compiled);
                             parameter.setRequired(p.cast(parameter.getRequired(), parameter.getDefaultValue() == null));
                         }
-                    resolveOperationInvocation(n2oConstraint.getN2oInvocation(), source);
+                    prepareOperationInvocation(invocationValidation.getN2oInvocation(), source);
                 }
                 result.add(p.compile(validation, context));
             }
@@ -114,6 +137,14 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         return result;
     }
 
+    /**
+     * Инициализация Map операций объекта
+     *
+     * @param source   Исходная модель объекта
+     * @param compiled Скомпилированный объект
+     * @param context  Контекст сборки объекта
+     * @param p        Процессор сборки метаданных
+     */
     private void initOperationsMap(N2oObject source, CompiledObject compiled, C context, CompileProcessor p) {
         if (source.getOperations() != null) {
             for (N2oObject.Operation operation : source.getOperations()) {
@@ -128,14 +159,20 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                                 initRefFieldChildParams(parameter, ((ObjectReferenceField) compiledParameter), p);
                         }
                     }
-                resolveOperationInvocation(operation.getInvocation(), source);
-                addOperation(compileOperation, compiled);
+                prepareOperationInvocation(operation.getInvocation(), source);
+                compiled.getOperations().put(compileOperation.getId(), compileOperation);
                 initOperationValidations(operation, compileOperation, source, compiled, context, p);
             }
         }
     }
 
-    private void resolveOperationInvocation(N2oInvocation invocation, N2oObject source) {
+    /**
+     * Подготовка провайдера данных операции исходного объекта
+     *
+     * @param invocation Исходная модель провайдера данных
+     * @param source     Исходная модель объекта
+     */
+    private void prepareOperationInvocation(N2oInvocation invocation, N2oObject source) {
         if (invocation instanceof N2oJavaDataProvider) {
             N2oJavaDataProvider javaDataProvider = (N2oJavaDataProvider) invocation;
             if (javaDataProvider.getClassName() == null)
@@ -147,6 +184,13 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         }
     }
 
+    /**
+     * Инициализация дочерних полей ссылочного поля объекта
+     *
+     * @param parameter         Параметр исходной модели объекта
+     * @param compiledParameter Параметр скомпилированного объекта
+     * @param p                 Процессор сборки метаданных
+     */
     private void initRefFieldChildParams(N2oObject.Parameter parameter, ObjectReferenceField compiledParameter, CompileProcessor p) {
         List<N2oObject.Parameter> childParams = new ArrayList<>();
         for (ObjectScalarField field : compiledParameter.getObjectReferenceFields()) {
@@ -163,11 +207,18 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         parameter.setChildParams(childParams.toArray(new N2oObject.Parameter[0]));
     }
 
+    /**
+     * Инициализация валидаций операции объекта
+     *
+     * @param operation         Операция исходной модели объекта
+     * @param compiledOperation Операция скомпилированного объекта
+     * @param source            Исходная модель объекта
+     * @param compiled          Скомпилированный объект
+     * @param context           Контекст сборки объекта
+     * @param p                 Процессор сборки метаданных
+     */
     private void initOperationValidations(N2oObject.Operation operation, CompiledObject.Operation compiledOperation,
                                           N2oObject source, CompiledObject compiled, C context, CompileProcessor p) {
-        List<Validation> validationList = new ArrayList<>();
-        List<Validation> whiteListValidationList = new ArrayList<>();
-
         if (compiledOperation.getValidations() != null) {
             if (compiledOperation.getValidations().getActivate() == null
                     && compiledOperation.getValidations().getBlackList() == null
@@ -176,13 +227,17 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             else if (compiledOperation.getValidations().getBlackList() != null && compiledOperation.getValidations().getWhiteList() != null)
                 throw new N2oException("Whitelist is incompatible with blacklist");
             if (compiledOperation.getValidations().getActivate() != null)
-                resolveActivate(operation, compiledOperation, source);
+                fillValidationsByActivate(operation, compiledOperation, source);
+
+            List<Validation> validationList = new ArrayList<>();
+            List<Validation> whiteListValidationList = new ArrayList<>();
 
             if (compiledOperation.getValidations().getWhiteList() != null)
-                fillByWhiteListValidations(compiledOperation.getValidations().getWhiteList(), compiled.getValidationsMap(), validationList,
-                        compiledOperation.getValidations().getActivate(), whiteListValidationList);
+                whiteListValidationList = getWhiteListValidations(compiledOperation.getValidations().getWhiteList(),
+                        compiled.getValidationsMap(), validationList, compiledOperation.getValidations().getActivate());
             else if (compiledOperation.getValidations().getBlackList() != null)
-                fillByBlackListValidations(compiledOperation.getValidations().getBlackList(), compiled.getValidationsMap(), validationList);
+                validationList.addAll(getBlackListValidations(
+                        compiledOperation.getValidations().getBlackList(), compiled.getValidationsMap()));
 
             List<Validation> inlineValidations = getInlineValidations(
                     compiledOperation.getValidations().getInlineValidations(), source, compiled, context, p);
@@ -196,7 +251,12 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             compiledOperation.setWhiteListValidationsMap(initValidationsMap(whiteListValidationList));
         }
 
-        initRequiredParamValidations(compiledOperation, p);
+        List<Validation> requiredParamValidations = getRequiredParamValidations(compiledOperation.getInParametersMap(), p);
+        if (!requiredParamValidations.isEmpty()) {
+            if (compiledOperation.getValidationList() == null)
+                compiledOperation.setValidationList(new ArrayList<>());
+            compiledOperation.getValidationList().addAll(requiredParamValidations);
+        }
 
         if (context instanceof ActionContext && ((ActionContext) context).getValidations() != null) {
             if (compiledOperation.getValidationList() == null)
@@ -205,25 +265,56 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         }
     }
 
-    private void fillByWhiteListValidations(String[] whiteList, Map<String, Validation> validationsMap, List<Validation> validationList,
-                                            N2oObject.Operation.Validations.Activate activate, List<Validation> whiteListValidationList) {
+    /**
+     * Получение списка white валидаций операции скомпилированного объекта
+     * Полученный список white валидаций также производит дополнение списка всех валидаций операции
+     * в переменной validationList
+     *
+     * @param whiteList      Массив идентификаторов white валидаций операции скомпилированного объекта
+     * @param validationsMap Map валидаций скомпилированного объекта
+     * @param validationList Список всех валидаций операции
+     * @param activate       Тип активации валидаций
+     * @return Список white валидаций операции объекта
+     */
+    private List<Validation> getWhiteListValidations(String[] whiteList, Map<String, Validation> validationsMap,
+                                                     List<Validation> validationList,
+                                                     N2oObject.Operation.Validations.Activate activate) {
+        List<Validation> whiteListValidations = new ArrayList<>();
         for (String name : whiteList) {
             Validation validation = validationsMap.get(name.trim());
             if (!Boolean.FALSE.equals(validation.getEnabled())) {
                 validationList.add(validation);
                 if (activate != N2oObject.Operation.Validations.Activate.all)
-                    whiteListValidationList.add(validation);
+                    whiteListValidations.add(validation);
             }
         }
+        return whiteListValidations;
     }
 
-    private void fillByBlackListValidations(String[] blackList, Map<String, Validation> validationsMap, List<Validation> validationList) {
+    /**
+     * Получение списка black валидаций операции скомпилированного объекта
+     *
+     * @param blackList      Массив идентификаторов black валидаций операции скомпилированного объекта
+     * @param validationsMap Map валидаций скомпилированного объекта
+     * @return Список black валидаций операции объекта
+     */
+    private List<Validation> getBlackListValidations(String[] blackList, Map<String, Validation> validationsMap) {
         Map<String, Validation> blackListValidationsMap = new HashMap<>(validationsMap);
         for (String name : blackList)
             blackListValidationsMap.remove(name.trim());
-        validationList.addAll(blackListValidationsMap.values());
+        return new ArrayList<>(blackListValidationsMap.values());
     }
 
+    /**
+     * Получение списка скомпилированных инлайн валидаций операции
+     *
+     * @param validations Массив инлайн валидаций операции
+     * @param source      Исходная модель объекта
+     * @param compiled    Скомпилированный объект
+     * @param context     Контекст сборки объекта
+     * @param p           Процессор сборки метаданных
+     * @return Список скомпилированных инлайн валидаций операции
+     */
     private List<Validation> getInlineValidations(N2oValidation[] validations, N2oObject source, CompiledObject compiled,
                                                   C context, CompileProcessor p) {
         if (validations == null)
@@ -233,23 +324,29 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         for (N2oValidation n2oValidation : validations) {
             if ("false".equals(n2oValidation.getEnabled()))
                 continue;
-            if (n2oValidation instanceof N2oConstraint) {
-                N2oConstraint n2oConstraint = (N2oConstraint) n2oValidation;
-                if (n2oConstraint.getInParameters() != null)
-                    for (N2oObject.Parameter parameter : n2oConstraint.getInParameters()) {
+            if (n2oValidation instanceof N2oInvocationValidation) {
+                N2oInvocationValidation invocationValidation = (N2oInvocationValidation) n2oValidation;
+                if (invocationValidation.getInParameters() != null)
+                    for (N2oObject.Parameter parameter : invocationValidation.getInParameters()) {
                         resolveDefaultParameter(parameter, compiled);
                         parameter.setRequired(p.cast(parameter.getRequired(), parameter.getDefaultValue() == null));
                     }
-                resolveOperationInvocation(n2oConstraint.getN2oInvocation(), source);
+                prepareOperationInvocation(invocationValidation.getN2oInvocation(), source);
             }
             inlineValidations.add(p.compile(n2oValidation, context));
         }
         return inlineValidations;
     }
 
-    private void initRequiredParamValidations(CompiledObject.Operation compiledOperation, CompileProcessor p) {
+    /**
+     * Получение списка валидаций обязательности входящих полей скомпилированного объекта
+     * @param inParamsMap Map входящих полей скомпилированного объекта
+     * @param p Процессор сборки метаданных
+     * @return Список валидаций обязательности входящих полей скомпилированного объекта
+     */
+    private List<Validation> getRequiredParamValidations(Map<String, N2oObject.Parameter> inParamsMap, CompileProcessor p) {
         List<Validation> requiredParamValidations = new ArrayList<>();
-        for (N2oObject.Parameter parameter : compiledOperation.getInParametersMap().values()) {
+        for (N2oObject.Parameter parameter : inParamsMap.values()) {
             if (parameter.getRequired() != null && parameter.getRequired()) {
                 MandatoryValidation validation = new MandatoryValidation(parameter.getId(),
                         p.getMessage("n2o.required.field"), parameter.getId());
@@ -257,14 +354,15 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
                 requiredParamValidations.add(validation);
             }
         }
-
-        if (!requiredParamValidations.isEmpty()) {
-            if (compiledOperation.getValidationList() == null)
-                compiledOperation.setValidationList(new ArrayList<>());
-            compiledOperation.getValidationList().addAll(requiredParamValidations);
-        }
+        return requiredParamValidations;
     }
 
+    /**
+     * Слияние двух списков валидаций. В случае совпадения приоритетней считается валидация контрола
+     *
+     * @param operationValidations Валидации операции объекта
+     * @param controlValidations   Валидации контрола
+     */
     private void mergeValidations(List<Validation> operationValidations, List<Validation> controlValidations) {
         for (Validation cv : controlValidations) {
             operationValidations.removeIf(validation -> validation.getId().equals(cv.getId()));
@@ -272,7 +370,15 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         }
     }
 
-    private void resolveActivate(N2oObject.Operation operation, CompiledObject.Operation compiledOperation, N2oObject source) {
+    /**
+     * Заполнение white или black списка валидаций операции скомпилированного объекта
+     * согласно типу активации его валидаций
+     *
+     * @param operation         Операция исходной модели объекта
+     * @param compiledOperation Операция скомпилированного объекта
+     * @param source            Исходная модель объекта
+     */
+    private void fillValidationsByActivate(N2oObject.Operation operation, CompiledObject.Operation compiledOperation, N2oObject source) {
         switch (compiledOperation.getValidations().getActivate()) {
             case all:
                 if (compiledOperation.getValidations().getWhiteList() == null &&
@@ -300,30 +406,35 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         }
     }
 
+    /**
+     * Формирование Мap валидаций по списку валидаций,
+     * где ключом является идентификатор валидации
+     *
+     * @param validations Список валидаций
+     * @return Map валидаций
+     */
     private static Map<String, Validation> initValidationsMap(List<Validation> validations) {
-        Map<String, Validation> res = new HashMap<>();
-        for (Validation validation : validations) {
-            res.put(validation.getId(), validation);
-        }
-        return res;
+        return validations.stream().collect(Collectors.toMap(Validation::getId, Function.identity()));
     }
 
+    /**
+     * Компиляция операции объекта
+     *
+     * @param operation Операция исходного объекта
+     * @param compiled  Скомпилированный объект
+     * @param processor Процессор сборки метаданных
+     * @return Операция скомпилированного объекта
+     */
     private CompiledObject.Operation compileOperation(N2oObject.Operation operation, CompiledObject compiled, CompileProcessor processor) {
-        Map<String, N2oObject.Parameter> inParamMap = new LinkedHashMap<>();
-        if ((operation.getInParameters() != null) && (operation.getInParameters().length > 0))
-            for (N2oObject.Parameter parameter : operation.getInParameters())
-                addParameter(parameter, compiled, p -> {
-                    p.setRequired(castDefault(p.getRequired(), false));
-                    inParamMap.put(p.getId(), p);
-                });
-
-        Map<String, N2oObject.Parameter> outParamMap = new LinkedHashMap<>();
-        if (operation.getOutParameters() != null)
-            for (N2oObject.Parameter parameter : operation.getOutParameters())
-                addParameter(parameter, compiled, p -> outParamMap.put(p.getId(), p));
+        Map<String, N2oObject.Parameter> inParamMap = prepareOperationParameters(operation.getInParameters(), compiled,
+                p -> p.setRequired(castDefault(p.getRequired(), false)));
+        Map<String, N2oObject.Parameter> outParamMap = prepareOperationParameters(operation.getOutParameters(), compiled, null);
+        Map<String, N2oObject.Parameter> failOutParamMap = prepareOperationParameters(operation.getFailOutParameters(), compiled, null);
 
         CompiledObject.Operation compiledOperation = new CompiledObject.Operation(inParamMap, outParamMap);
-        initDefaultOperationProperties(compiledOperation, operation, processor);
+        compiledOperation.setFailOutParametersMap(failOutParamMap);
+
+        compileOperationProperties(operation, compiledOperation, processor);
         if (compiledOperation.getInParametersMap() != null)
             for (N2oObject.Parameter parameter : compiledOperation.getInParametersMap().values())
                 resolveDefaultParameter(parameter, compiled);
@@ -332,7 +443,14 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         return compiledOperation;
     }
 
-    private void initDefaultOperationProperties(CompiledObject.Operation compiledOperation, N2oObject.Operation operation, CompileProcessor p) {
+    /**
+     * Компиляция свойств операции объекта
+     *
+     * @param operation         Операция исходной модели объекта
+     * @param compiledOperation Операция скомпилированного объекта
+     * @param p                 Процессор сборки метаданных
+     */
+    private void compileOperationProperties(N2oObject.Operation operation, CompiledObject.Operation compiledOperation, CompileProcessor p) {
         compiledOperation.setId(operation.getId());
         compiledOperation.setDescription(operation.getDescription());
         compiledOperation.setName(operation.getName());
@@ -340,7 +458,7 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiledOperation.setConfirmationText(castDefault(operation.getConfirmationText(),
                 p.getMessage("n2o.confirm.text")));
         compiledOperation.setBulkConfirmationText(castDefault(operation.getBulkConfirmationText(),
-                p.getMessage("n2o.confirmationGroup")));
+                p.getMessage("n2o.confirm.group")));
         compiledOperation.setSuccessText(castDefault(operation.getSuccessText(),
                 p.getMessage("n2o.success")));
         compiledOperation.setFailText(operation.getFailText());
@@ -354,11 +472,34 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         compiledOperation.setFormSubmitLabel(operation.getFormSubmitLabel());
     }
 
-    private <T extends InvocationParameter> void addParameter(T parameter, CompiledObject compiled, Consumer<T> consumer) {
-        resolveDefaultParameter(parameter, compiled);
-        consumer.accept(parameter);
+    /**
+     * Выполнение подготовительных действий над параметрами (in, out или fail-out) операции объекта
+     * и сборка их в map
+     *
+     * @param parameters Параметры операции исходной модели объекта
+     * @param compiled   Скомпилированный объект
+     * @param consumer   Действия, выполняемые над параметром
+     * @return Map параметров операции исходной модели объекта
+     */
+    private Map<String, N2oObject.Parameter> prepareOperationParameters(N2oObject.Parameter[] parameters, CompiledObject compiled,
+                                                                        Consumer<N2oObject.Parameter> consumer) {
+        Map<String, N2oObject.Parameter> params = new LinkedHashMap<>();
+        if (parameters != null)
+            for (N2oObject.Parameter p : parameters) {
+                resolveDefaultParameter(p, compiled);
+                if (consumer != null)
+                    consumer.accept(p);
+                params.put(p.getId(), p);
+            }
+        return params;
     }
 
+    /**
+     * Присвоение значений по умолчанию полям параметра, если они не были заданы
+     *
+     * @param parameter Параметр вызова
+     * @param compiled  Скомпилированный объект
+     */
     private <T extends InvocationParameter> void resolveDefaultParameter(T parameter, CompiledObject compiled) {
         AbstractParameter field = compiled.getObjectFieldsMap().get(parameter.getId());
         if (parameter.getDomain() == null)
@@ -375,6 +516,12 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
             parameter.setMapper(resolveDefaultMapper(field));
     }
 
+    /**
+     * Получение значения по умолчанию для типа данных
+     *
+     * @param field Поле объекта
+     * @return Значение по умолчанию для типа данных
+     */
     private String resolveDefaultDomain(AbstractParameter field) {
         String domain = null;
         if (field instanceof ObjectScalarField && ((ObjectScalarField) field).getDomain() != null)
@@ -382,6 +529,12 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         return domain;
     }
 
+    /**
+     * Получение значения по умолчанию для свойства обязательности
+     *
+     * @param field Поле объекта
+     * @return Значение по умолчанию для свойства обязательности
+     */
     private Boolean resolveDefaultRequired(AbstractParameter field) {
         Boolean required = null;
         if (field != null)
@@ -389,6 +542,12 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         return required;
     }
 
+    /**
+     * Получение значения по умолчанию
+     *
+     * @param field Поле объекта
+     * @return Значение по умолчанию
+     */
     private String resolveDefaultValue(AbstractParameter field) {
         String defaultValue = null;
         if (field instanceof ObjectScalarField && ((ObjectScalarField) field).getDefaultValue() != null)
@@ -396,6 +555,12 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         return defaultValue;
     }
 
+    /**
+     * Получение значения по умолчанию для нормализации
+     *
+     * @param field Поле объекта
+     * @return Значение по умолчанию для нормализации
+     */
     private String resolveDefaultNormalize(AbstractParameter field) {
         String normalizer = null;
         if (field instanceof ObjectScalarField && ((ObjectScalarField) field).getNormalize() != null)
@@ -403,6 +568,12 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         return normalizer;
     }
 
+    /**
+     * Получение значения по умолчанию для способа маппинга
+     *
+     * @param field Поле объекта
+     * @return Значение по умолчанию для способа маппинга
+     */
     private MapperType resolveDefaultMapper(AbstractParameter field) {
         MapperType mapper = null;
         if (field instanceof ObjectScalarField && ((ObjectScalarField) field).getMapperType() != null)
@@ -410,14 +581,16 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
         return mapper;
     }
 
+    /**
+     * Получение значения по умолчанию для маппинга
+     *
+     * @param field Поле объекта
+     * @return Значение по умолчанию для маппинга
+     */
     private String resolveDefaultMapping(AbstractParameter field) {
         String mapping = null;
         if (field != null)
             mapping = field.getMapping();
         return mapping;
-    }
-
-    private void addOperation(CompiledObject.Operation compiledOperation, CompiledObject compiled) {
-        compiled.getOperations().put(compiledOperation.getId(), compiledOperation);
     }
 }

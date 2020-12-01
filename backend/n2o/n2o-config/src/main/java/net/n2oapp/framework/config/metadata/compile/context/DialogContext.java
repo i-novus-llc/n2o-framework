@@ -18,9 +18,9 @@ public class DialogContext extends BaseCompileContext<Dialog, N2oDialog> {
     private String parentWidgetId;
 
     /**
-     * Идентификатор виджета, который нужно обновить при успешном действии
+     * Идентификатор клиентского виджета
      */
-    private String refreshClientWidgetId;
+    private String clientWidgetId;
 
     /**
      * Идентификатор объекта, в котором находится операция

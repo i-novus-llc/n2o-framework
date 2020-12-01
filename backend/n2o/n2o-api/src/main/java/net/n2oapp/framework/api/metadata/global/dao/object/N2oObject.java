@@ -59,6 +59,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
         private N2oInvocation invocation;
         private Parameter[] inParameters;
         private Parameter[] outParameters;
+        private Parameter[] failOutParameters;
         private Validations validations;
         private Map<N2oNamespace, Map<String, String>> extAttributes;
 
@@ -77,6 +78,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
         @Getter
         @Setter
         public static class Validations implements Serializable {
+            @Deprecated
             private Activate activate;
             private String[] whiteList;
             private String[] blackList;

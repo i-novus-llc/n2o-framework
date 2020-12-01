@@ -214,7 +214,12 @@
             <xs:element name="invocation" type="operationInvocationDefinition"/>
             <xs:element name="in" type="operationInParameterListDefinition" minOccurs="0"/>
             <xs:element name="out" type="operationOutParameterListDefinition" minOccurs="0"/>
-            <xs:element name="validations" type="operationValidationListDefinition" minOccurs="0"/>
+            <xs:element name="fail-out" type="operationFailOutParameterListDefinition" minOccurs="0"/>
+            <xs:element name="validations" type="operationValidationListDefinition" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Исходящий параметр ошибки операции.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="required">
             <xs:annotation>
@@ -292,6 +297,15 @@
     <xs:complexType name="operationOutParameterListDefinition">
         <xs:annotation>
             <xs:documentation>Исходящие параметры операции.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="field" type="operationOutParameterField"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="operationFailOutParameterListDefinition">
+        <xs:annotation>
+            <xs:documentation>Исходящие параметры в случае ошибки операции.</xs:documentation>
         </xs:annotation>
         <xs:sequence>
             <xs:element name="field" type="operationOutParameterField"/>

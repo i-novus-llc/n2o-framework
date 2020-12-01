@@ -36,9 +36,8 @@ public class ValidationDialog extends Validation {
         else {
             Map<String, String> outMapping = new LinkedHashMap<>();
             if (outParametersList != null)
-                for (InvocationParameter parameter : outParametersList) {
+                for (InvocationParameter parameter : outParametersList)
                     outMapping.put(parameter.getId(), parameter.getMapping());
-            }
             result = DataSetMapper.extract(dataSet, outMapping);
         }
 

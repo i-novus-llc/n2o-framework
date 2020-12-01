@@ -300,6 +300,9 @@ http://n2oapp.net/framework/config/schema/object-4.0
       <field id="id" mapping="id" required="true"/>
       <field id="name" mapping="name"/>
     </in>
+    <fail-out>
+      <field id="message" mapping="#this.getMessage()"/>
+    </fail-out>
     <validations white-list="checkUniqueName"/>
   </operation>
 </operations>
@@ -319,6 +322,12 @@ link:#_Провайдеры_данных[Провайдер данных]
 
 ===== <out>
 Исходящие параметры операции.
+
+Тело::
+Список link:#_Параметр_провайдера_данных_field[параметров]
+
+===== <fail-out>
+Исходящие параметры в случае ошибки операции.
 
 Тело::
 Список link:#_Параметр_провайдера_данных_field[параметров]
