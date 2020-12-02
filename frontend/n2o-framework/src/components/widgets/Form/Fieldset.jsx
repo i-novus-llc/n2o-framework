@@ -39,7 +39,8 @@ const config = {
  * @reactProps {array} rows - ряды, которые содержит филдсет. Они содержат колонки, которые содержат либо поля, либо филдсеты(филдсет рекрсивный).
  * @reactProps {string} className - класс компонента Fieldset
  * @reactProps {string} labelPosition - позиция лейбела относительно контрола: top-left, top-right, left, right.
- * @reactProps {string} title - заголовок филдсета
+ * @reactProps {string} label - заголовок филдсета
+ * @reactProps {string} childrenLabel - заголовоки дочерних элементов  филдсета
  * @reactProps {array} labelWidth - ширина лейбела - Либо число, либо 'min' - займет минимальное возможное пространство, либо default - 100px
  * @reactProps {array} labelAlignment - выравнивание текста внутри лейбла
  * @reactProps {number} defaultCol
