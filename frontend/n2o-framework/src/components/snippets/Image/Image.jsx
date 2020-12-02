@@ -23,15 +23,18 @@ function Image({
   width,
   shape,
   visible,
+  style: propsStyle,
+  onClick,
+  className,
 }) {
-  const style = width ? { width, height: [width] } : {};
+  const style = width ? { width, height: width } : {};
 
   if (!visible) {
     return;
   }
 
   return (
-    <div id={id} className="n2o-image">
+    <div id={id} className={classNames('n2o-image', className)}>
       <div
         className={classNames('n2o-image__content', {
           [textPosition]: textPosition,
@@ -41,9 +44,14 @@ function Image({
           className={classNames('n2o-image__image-container', {
             [shape]: shape,
           })}
-          style={style}
+          style={{ ...style, ...propsStyle }}
         >
-          <img className="n2o-image__image" src={src} alt="image error" />
+          <img
+            className="n2o-image__image"
+            src={src}
+            onClick={onClick}
+            alt="image error"
+          />
         </section>
         <section className="n2o-image__info">
           {title && <h4 className="n2o-image__info_label">{title}</h4>}
@@ -65,6 +73,8 @@ Image.propTypes = {
   textPosition: PropTypes.oneOf(['top', 'left', 'bottom', 'right']),
   shape: PropTypes.oneOf(['square', 'circle', 'rounded']),
   visible: PropTypes.bool,
+  className: PropTypes.string,
+  style: PropTypes.object,
 };
 
 Image.defaultProps = {
@@ -72,6 +82,7 @@ Image.defaultProps = {
   textPosition: 'right',
   shape: 'rounded',
   visible: true,
+  style: {},
 };
 
 export default Image;
