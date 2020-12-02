@@ -142,8 +142,7 @@ export class TimePickerControl extends Component {
     this.setState({ open: false });
   };
 
-  handleToggle = e => {
-    e.stopPropagation();
+  handleToggle = () => {
     if (this.props.disabled) return;
     this.setState(state => ({ ...state, open: !state.open }));
   };
