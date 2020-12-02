@@ -215,3 +215,9 @@
     opacity: 0.3;
   }
 }
+
+.without-close-button {
+  .drawer-handle {
+    display: none;
+  }
+}

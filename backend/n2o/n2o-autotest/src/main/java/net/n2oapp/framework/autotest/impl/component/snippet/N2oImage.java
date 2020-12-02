@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.snippet;
 
 import com.codeborne.selenide.Condition;
-import net.n2oapp.framework.autotest.TextPosition;
+import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import net.n2oapp.framework.autotest.api.component.snippet.Image;
 
 /**
@@ -31,7 +31,7 @@ public class N2oImage extends N2oSnippet implements Image {
 
     @Override
     public void shouldHaveTextPosition(TextPosition position) {
-        element().$(".n2o-image__content").should(Condition.cssClass(position.name().toLowerCase()));
+        element().$(".n2o-image__content").should(Condition.cssClass(position.name()));
     }
 
     @Override
