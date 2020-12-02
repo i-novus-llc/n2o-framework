@@ -17,6 +17,11 @@ public class N2oModal extends N2oComponent implements Modal {
     }
 
     @Override
+    public void shouldNotHaveHeader() {
+        element().$(".modal-header").shouldNotBe(Condition.exist);
+    }
+
+    @Override
     public ModalToolbar toolbar() {
         return new N2oModalToolbar();
     }
@@ -44,6 +49,16 @@ public class N2oModal extends N2oComponent implements Modal {
     @Override
     public void shouldNotBeScrollable() {
         element().$(".modal-dialog-scrollable .modal-body").shouldNot(Condition.exist);
+    }
+
+    @Override
+    public void shouldHaveCssClass(String cssClass) {
+        element().parent().shouldBe(Condition.cssClass(cssClass));
+    }
+
+    @Override
+    public void shouldHaveStyle(String style) {
+        element().parent().shouldBe(Condition.attribute("style", style + ";"));
     }
 
     @Override
