@@ -77,7 +77,7 @@ public class CardsCompileTest extends SourceCompileTestBase {
 
         //второй виджет карточек
         cards = (Cards) page.getRegions().get("single").get(0).getContent().get(1);
-        assertThat(cards.getSrc(), is("Cards"));
+        assertThat(cards.getSrc(), is("CardsWidget"));
         assertThat(cards.getVerticalAlign(), is(Cards.Position.top));
         assertThat(cards.getCards().size(), is(1));
 
