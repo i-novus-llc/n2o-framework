@@ -64,9 +64,12 @@
   }
 
   .n2o-image__image-container {
-    overflow: hidden;
     height: 80px;
     width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 
     .n2o-image__image {
       width: 100%;
