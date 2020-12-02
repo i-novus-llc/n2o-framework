@@ -13,6 +13,7 @@ import net.n2oapp.framework.autotest.impl.component.drawer.N2oDrawer;
 import net.n2oapp.framework.autotest.impl.component.field.N2oButtonField;
 import net.n2oapp.framework.autotest.impl.component.field.N2oIntervalField;
 import net.n2oapp.framework.autotest.impl.component.field.N2oStandardField;
+import net.n2oapp.framework.autotest.impl.component.fieldset.N2oLineFieldSet;
 import net.n2oapp.framework.autotest.impl.component.fieldset.N2oMultiFieldSet;
 import net.n2oapp.framework.autotest.impl.component.fieldset.N2oMultiFieldSetItem;
 import net.n2oapp.framework.autotest.impl.component.fieldset.N2oSimpleFieldSet;
@@ -65,7 +66,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oCalendarMonthView.class, N2oCalendarAgendaView.class, N2oCalendarDayView.class, N2oCalendarWeekView.class,
                 N2oCalendarDayViewHeader.class, N2oCalendarWeekViewHeader.class,
                 // fieldsets
-                N2oSimpleFieldSet.class, N2oMultiFieldSet.class, N2oMultiFieldSetItem.class,
+                N2oSimpleFieldSet.class, N2oLineFieldSet.class, N2oMultiFieldSet.class, N2oMultiFieldSetItem.class,
                 // buttons
                 N2oDropdownButton.class, N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
                 // fields

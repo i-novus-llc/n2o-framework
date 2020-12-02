@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import find from 'lodash/find';
 import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import filter from 'lodash/filter';
 import first from 'lodash/first';
 import get from 'lodash/get';
@@ -40,24 +41,26 @@ import TabContent from './TabContent';
 
 class Tabs extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const { onChangeActive, children } = this.props;
+    const { onChangeActive, children, activeId } = this.props;
 
-    const activeTabVisibility = (children, activeId) => {
-      const entity = first(filter(children, child => child.key === activeId));
+    const getActiveEntityVisibility = children => {
+      const activeEntityMeta = first(
+        filter(children, child => get(child, 'props.id') === activeId)
+      );
 
-      return get(entity, 'props.visible');
+      return get(activeEntityMeta, 'props.visible');
     };
 
-    const isActiveTabVisibilityHasChange =
-      activeTabVisibility(children, prevProps.activeId) !==
-      activeTabVisibility(prevProps.children, prevProps.activeId);
+    const activeEntityVisibilityChanged =
+      getActiveEntityVisibility(children) !==
+      getActiveEntityVisibility(prevProps.children);
 
     const firstVisibleTab = first(
       filter(children, child => child.props.visible)
     );
 
-    if (isActiveTabVisibilityHasChange) {
-      onChangeActive(firstVisibleTab.key, prevProps.activeId);
+    if (activeEntityVisibilityChanged && !getActiveEntityVisibility(children)) {
+      onChangeActive(get(firstVisibleTab, 'key'), prevProps.activeId);
     }
   }
 

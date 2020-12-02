@@ -6,8 +6,8 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oClearAction;
 import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
+import net.n2oapp.framework.api.metadata.meta.saga.MetaSaga;
 import org.springframework.stereotype.Component;
-
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -15,7 +15,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.pr
  * Сборка действия очистки модели
  */
 @Component
-public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2oClearAction>{
+public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2oClearAction> {
     @Override
     public Class<? extends Source> getSourceClass() {
         return N2oClearAction.class;
@@ -28,6 +28,11 @@ public class ClearActionCompiler extends AbstractActionCompiler<ClearAction, N2o
         clearAction.setType(p.resolve(property("n2o.api.action.clear.type"), String.class));
         clearAction.getPayload().setPrefixes(p.cast(source.getModel(), new String[]{ReduxModel.EDIT.getId()}));
         clearAction.getPayload().setKey(initTargetWidget(source, context, p));
+        if (Boolean.TRUE.equals(source.getCloseOnSuccess())) {
+            if (clearAction.getMeta() == null)
+                clearAction.setMeta(new MetaSaga());
+            clearAction.getMeta().setModalsToClose(1);
+        }
         return clearAction;
     }
 }

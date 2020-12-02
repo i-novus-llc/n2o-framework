@@ -46,13 +46,15 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.size(), is(2));
 
         assertThat(((LineRegion) regions.get(0)).getSrc(), is("ListRegion"));
-        assertThat(((LineRegion) regions.get(0)).getName(), is("Line1"));
+        assertThat(((LineRegion) regions.get(0)).getLabel(), is("Line1"));
         assertThat(((LineRegion) regions.get(0)).getCollapsible(), is(false));
-        assertThat(((LineRegion) regions.get(0)).getOpen(), is(false));
+        assertThat(((LineRegion) regions.get(0)).getExpand(), is(false));
+        assertThat(((LineRegion) regions.get(0)).getHasSeparator(), is(false));
 
-        assertThat(((LineRegion) regions.get(1)).getName(), nullValue());
+        assertThat(((LineRegion) regions.get(1)).getLabel(), nullValue());
         assertThat(((LineRegion) regions.get(1)).getCollapsible(), is(true));
-        assertThat(((LineRegion) regions.get(1)).getOpen(), is(true));
+        assertThat(((LineRegion) regions.get(1)).getExpand(), is(true));
+        assertThat(((LineRegion) regions.get(1)).getHasSeparator(), is(true));
 
     }
 
@@ -68,7 +70,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         // LINE1
         assertThat(regions.get(0), instanceOf(LineRegion.class));
         assertThat(regions.get(0).getId(), is("line_0"));
-        assertThat(((LineRegion) regions.get(0)).getName(), is("Line1"));
+        assertThat(((LineRegion) regions.get(0)).getLabel(), is("Line1"));
         assertThat(((LineRegion) regions.get(0)).getCollapsible(), is(false));
         List<Compiled> content = regions.get(0).getContent();
         assertThat(content.size(), is(3));
@@ -138,7 +140,7 @@ public class LineRegionCompileTest extends SourceCompileTestBase {
         assertThat(regions.get(0), instanceOf(LineRegion.class));
         assertThat(regions.get(0).getId(), is("line_0"));
         assertThat(regions.get(0).getSrc(), is("ListRegion"));
-        assertThat(((LineRegion) regions.get(0)).getName(), is("form1"));
+        assertThat(((LineRegion) regions.get(0)).getLabel(), is("form1"));
         assertThat(regions.get(0).getContent().size(), is(2));
         assertThat(regions.get(0).getContent().get(0), instanceOf(Form.class));
         assertThat(((Form) (regions.get(0).getContent().get(0))).getName(), is("form1"));

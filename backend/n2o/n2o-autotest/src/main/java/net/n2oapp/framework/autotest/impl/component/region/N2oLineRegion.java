@@ -26,7 +26,7 @@ public class N2oLineRegion extends N2oRegion implements LineRegion {
     }
 
     @Override
-    public void shouldHaveTitle(String title) {
+    public void shouldHaveLabel(String title) {
         header().$(".n2o-panel-header-text").shouldHave(Condition.text(title));
     }
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
+import cn from 'classnames';
+
 import getElementType from '../../../tools/getElementType';
 
 /**
@@ -31,6 +33,7 @@ class TableCell extends React.Component {
       colSpan,
       children,
       model,
+      hideOnBlur,
     } = this.props;
     const ElementType = getElementType(TableCell, this.props);
     if (React.Children.count(children)) {
@@ -47,7 +50,11 @@ class TableCell extends React.Component {
     }
 
     return (
-      <ElementType className={className} colSpan={colSpan} style={style}>
+      <ElementType
+        className={cn(className, { 'hide-on-blur': hideOnBlur })}
+        colSpan={colSpan}
+        style={style}
+      >
         {component &&
           React.createElement(component, {
             ...this.getPassProps(),
@@ -68,10 +75,12 @@ TableCell.propTypes = {
   as: PropTypes.string,
   model: PropTypes.object,
   colSpan: PropTypes.number,
+  hideOnBlur: PropTypes.bool,
 };
 
 TableCell.defaultProps = {
   as: 'td',
+  hideOnBlur: false,
 };
 
 export default TableCell;
