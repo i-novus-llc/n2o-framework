@@ -145,6 +145,10 @@ const enhance = compose(
     }) => value => {
       setInnerValue(value);
 
+      if (value === '') {
+        onSearch(null);
+      }
+
       if (trigger === SearchTrigger.CHANGE) {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => onSearch(value), throttleDelay);
