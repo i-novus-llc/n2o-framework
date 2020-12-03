@@ -24,22 +24,26 @@ import isNumber from 'lodash/isNumber';
 
 import propsResolver from '../../../utils/propsResolver';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
+
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import RadioN2O from '../../controls/Radio/RadioN2O';
 
+import AdvancedTableCell from './AdvancedTableCell';
+import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
+import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
+import withAdvancedTableRef from './withAdvancedTableRef';
 import AdvancedTableExpandIcon from './AdvancedTableExpandIcon';
 import AdvancedTableExpandedRenderer from './AdvancedTableExpandedRenderer';
 import AdvancedTableRow from './AdvancedTableRow';
 import AdvancedTableRowWithAction from './AdvancedTableRowWithAction';
 import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
-import AdvancedTableCell from './AdvancedTableCell';
-import AdvancedTableHeaderRow from './AdvancedTableHeaderRow';
-import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
-import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
-  const index = findIndex(data, model => model.id === selectedId);
+  const index = findIndex(
+    data,
+    model => Number(model.id) === Number(selectedId)
+  );
   return index >= 0 ? index : 0;
 };
 
@@ -169,7 +173,7 @@ class AdvancedTable extends Component {
       resolveModel,
     } = this.props;
 
-    const { children } = this.state;
+    const { checked, children } = this.state;
 
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
       const id = selectedId || data[0].id;
@@ -213,7 +217,7 @@ class AdvancedTable extends Component {
       this.setState({ ...state });
     }
     if (
-      !isEqual(prevState.checked, this.state.checked) &&
+      !isEqual(prevState.checked, checked) &&
       rowSelection === rowSelectionType.CHECKBOX
     ) {
       const selectAllCheckbox = ReactDom.findDOMNode(
@@ -222,8 +226,9 @@ class AdvancedTable extends Component {
 
       let all = false;
 
-      const isSomeOneChecked = some(this.state.checked, i => i);
-      const isAllChecked = every(this.state.checked, i => i);
+      const isSomeOneChecked = some(checked, i => i);
+      const isAllChecked = every(checked, i => i);
+
       if (isAllChecked) {
         all = true;
       }
@@ -232,10 +237,12 @@ class AdvancedTable extends Component {
 
       this.setState({ checkedAll: all });
     }
+
     if (
       resolveModel &&
       rowSelection === rowSelectionType.RADIO &&
-      !isEqual(resolveModel, prevProps.resolveModel)
+      !isEqual(resolveModel, prevProps.resolveModel) &&
+      autoFocus
     ) {
       this.setState({ checked: { [resolveModel.id]: true } });
     }
