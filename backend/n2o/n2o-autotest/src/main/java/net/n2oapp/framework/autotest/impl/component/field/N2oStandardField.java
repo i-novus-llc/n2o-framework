@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.impl.component.field;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
 import net.n2oapp.framework.autotest.api.component.control.Control;
@@ -40,6 +41,11 @@ public class N2oStandardField extends N2oField implements StandardField {
     @Override
     public void labelShouldHave(Condition condition) {
         element().$("label").shouldHave(condition);
+    }
+
+    @Override
+    public void shouldHaveLabelLocation(FieldSet.LabelPosition position) {
+        element().shouldHave(Condition.cssClass("label-" + position.getId()));
     }
 
     @Override
