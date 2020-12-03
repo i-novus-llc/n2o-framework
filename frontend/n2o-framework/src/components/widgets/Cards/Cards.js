@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 import map from 'lodash/map';
 import get from 'lodash/get';
-import TilesCell from '../Tiles/TilesCell';
+import CardsCell from './CardsCell';
 
 /**
  * Cards
@@ -42,7 +42,7 @@ function Cards(props) {
   );
 
   const renderCell = (cell, dataItem, index) => (
-    <TilesCell
+    <CardsCell
       className={cn('n2o-cards__cell', cell.className)}
       index={index}
       widgetId={id}
