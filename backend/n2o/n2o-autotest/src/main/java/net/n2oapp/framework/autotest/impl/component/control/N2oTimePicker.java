@@ -5,6 +5,9 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.api.component.control.TimePicker;
 
+/**
+ * Компонент ввода времени для автотестирования
+ */
 public class N2oTimePicker extends N2oControl implements TimePicker {
 
     @Override
