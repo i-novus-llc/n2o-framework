@@ -206,14 +206,22 @@ const enhance = compose(
       setInnerValue('');
     },
     onClear: ({ setInnerValue, onSearch }) => () => {
-      setInnerValue('');
-      onSearch('');
+      setInnerValue(null);
+      onSearch(null);
     },
     onItemClick: ({ toggleDropdown }) => () => {
       toggleDropdown(false);
     },
   }),
   lifecycle({
+    componentDidMount() {
+      const { initSearchValue, setInnerValue, onSearch } = this.props;
+
+      if (initSearchValue !== undefined) {
+        setInnerValue(initSearchValue);
+        onSearch('');
+      }
+    },
     componentDidUpdate(prevProps) {
       const { value, setInnerValue } = this.props;
 

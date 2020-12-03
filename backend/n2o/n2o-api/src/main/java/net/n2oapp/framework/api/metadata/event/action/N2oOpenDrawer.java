@@ -17,4 +17,5 @@ public class N2oOpenDrawer extends N2oAbstractPageAction {
     private String placement;
     private String level;
     private Boolean backdropClosable;
+    private Boolean fixedFooter;
 }

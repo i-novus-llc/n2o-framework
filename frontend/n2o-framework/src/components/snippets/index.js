@@ -11,6 +11,7 @@ import PopoverConfirm from './PopoverConfirm/PopoverConfirm';
 import SearchBarContainer from './SearchBar/SearchBarContainer';
 import Drawer from './Drawer/Drawer';
 import StatusText from './StatusText/StatusText';
+import Image from './Image/Image';
 
 export default {
   Alert,
@@ -26,4 +27,5 @@ export default {
   SearchBar: SearchBarContainer,
   Drawer,
   StatusText,
+  Image,
 };

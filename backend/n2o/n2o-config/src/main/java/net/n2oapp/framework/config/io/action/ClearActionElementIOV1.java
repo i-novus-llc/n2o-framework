@@ -15,6 +15,7 @@ public class ClearActionElementIOV1 extends AbstractActionElementIOV1<N2oClearAc
     public void io(Element e, N2oClearAction a, IOProcessor p) {
         super.io(e, a, p);
         p.attributeArray(e, "model", ",", a::getModel, a::setModel);
+        p.attributeBoolean(e, "close-on-success", a::getCloseOnSuccess, a::setCloseOnSuccess);
     }
 
     @Override

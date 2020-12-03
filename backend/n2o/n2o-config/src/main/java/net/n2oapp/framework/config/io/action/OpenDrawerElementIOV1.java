@@ -1,6 +1,9 @@
 package net.n2oapp.framework.config.io.action;
 
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oOpenDrawer;
+import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.CopyMode;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
@@ -21,6 +24,15 @@ public class OpenDrawerElementIOV1 extends AbstractOpenPageElementIOV1<N2oOpenDr
         p.attribute(e,"height", od::getHeight, od::setHeight);
         p.attribute(e,"placement", od::getPlacement, od::setPlacement);
         p.attribute(e,"level", od::getLevel, od::setLevel);
+        p.attributeBoolean(e,"fixed-footer", od::getFixedFooter, od::setFixedFooter);
+        p.attributeEnum(e, "submit-action-type", od::getSubmitActionType, od::setSubmitActionType, SubmitActionType.class);
+        p.attributeEnum(e, "copy-model", od::getCopyModel, od::setCopyModel, ReduxModel.class);
+        p.attribute(e, "copy-widget-id", od::getCopyWidgetId, od::setCopyWidgetId);
+        p.attribute(e, "copy-field-id", od::getCopyFieldId, od::setCopyFieldId);
+        p.attributeEnum(e, "target-model", od::getTargetModel, od::setTargetModel, ReduxModel.class);
+        p.attribute(e, "target-widget-id", od::getTargetWidgetId, od::setTargetWidgetId);
+        p.attribute(e, "target-field-id", od::getTargetFieldId, od::setTargetFieldId);
+        p.attributeEnum(e, "copy-mode", od::getCopyMode, od::setCopyMode, CopyMode.class);
     }
 
     @Override

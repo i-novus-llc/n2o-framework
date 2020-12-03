@@ -56,6 +56,12 @@ public class DemoIntegrationAT {
         protoPage.shouldBeClientsPage();
     }
 
+    @AfterEach
+    public void afterEach() {
+        Selenide.clearBrowserLocalStorage();
+        Selenide.clearBrowserCookies();
+    }
+
     /**
      * Проверка отдачи статики
      */
@@ -598,7 +604,7 @@ public class DemoIntegrationAT {
         modalProtoContacts.getDescription().val("рабочий телефон");
         modalProtoContacts.save();
 
-        protoPage.shouldDialogClosed("Контакты", 8000);
+        protoPage.shouldDialogClosed("Контакты", 10000);
         protoPage.shouldBeClientsPage();
         protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
         protoPage.contactsAlertTextShouldBe("Данные сохранены");

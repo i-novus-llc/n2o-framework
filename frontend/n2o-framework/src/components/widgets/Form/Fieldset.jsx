@@ -40,6 +40,7 @@ const config = {
  * @reactProps {string} className - класс компонента Fieldset
  * @reactProps {string} labelPosition - позиция лейбела относительно контрола: top-left, top-right, left, right.
  * @reactProps {string} label - заголовок филдсета
+ * @reactProps {string} childrenLabel - заголовоки дочерних элементов  филдсета
  * @reactProps {array} labelWidth - ширина лейбела - Либо число, либо 'min' - займет минимальное возможное пространство, либо default - 100px
  * @reactProps {array} labelAlignment - выравнивание текста внутри лейбла
  * @reactProps {number} defaultCol
@@ -184,10 +185,12 @@ class Fieldset extends React.Component {
       modelPrefix,
       disabled,
       autoSubmit,
+      activeModel,
     } = this.props;
 
     return (
       <FieldsetRow
+        activeModel={activeModel}
         key={rowId}
         row={row}
         rowId={rowId}
@@ -215,10 +218,14 @@ class Fieldset extends React.Component {
       parentIndex,
       disabled,
       label,
+      childrenLabel,
       ...rest
     } = this.props;
 
     this.fields = [];
+    const enabled = !disabled;
+    const blackList = ['LineFieldset'];
+    const needLabel = !blackList.includes(this.props.component.name) && label;
 
     if (React.Children.count(children)) {
       return <ElementType>{children}</ElementType>;
@@ -230,8 +237,10 @@ class Fieldset extends React.Component {
 
     return (
       <div className={classes} style={style}>
-        {label && <h4 className="n2o-fieldset__label">{label}</h4>}
+        {needLabel && <h4 className="n2o-fieldset__label">{label}</h4>}
         <ElementType
+          childrenLabel={childrenLabel}
+          enabled={enabled}
           label={label}
           {...rest}
           render={(rows, props = { parentName, parentIndex }) => {
@@ -248,6 +257,7 @@ Fieldset.propTypes = {
   rows: PropTypes.array,
   className: PropTypes.string,
   label: PropTypes.string,
+  childrenLabel: PropTypes.string,
   labelPosition: PropTypes.string,
   labelWidth: PropTypes.array,
   labelAlignment: PropTypes.array,

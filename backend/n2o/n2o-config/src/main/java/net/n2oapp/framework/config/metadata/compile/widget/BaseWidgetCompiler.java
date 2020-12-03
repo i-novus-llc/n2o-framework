@@ -664,9 +664,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                         ReduxModel model = p.cast(preFilter.getRefModel(), ReduxModel.RESOLVE);
                         ModelLink link = new ModelLink(model, widgetId);
                         link.setValue(prefilterValue);
+                        link.setParam(filter.getParam());
                         filter.setLink(link);
-                    } else {
+                    } else{
                         ModelLink link = new ModelLink(prefilterValue);
+                        link.setParam(filter.getParam());
                         filter.setLink(link);
                     }
                     filters.add(filter);
