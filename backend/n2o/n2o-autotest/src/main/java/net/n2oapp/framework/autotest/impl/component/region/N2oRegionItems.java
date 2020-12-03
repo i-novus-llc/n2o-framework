@@ -13,12 +13,12 @@ import static net.n2oapp.framework.autotest.N2oSelenide.component;
 public class N2oRegionItems extends N2oComponentsCollection implements RegionItems {
     @Override
     public <T extends Widget> T widget(int index, Class<T> componentClass) {
-        return component(elements().get(index).$(".n2o-standard-widget-layout"), componentClass);
+        return component(elements().get(index), componentClass);
     }
 
     @Override
     public <T extends Widget> T widget(Class<T> componentClass) {
-        return component(elements().first().$(".n2o-standard-widget-layout"), componentClass);
+        return component(elements().first(), componentClass);
     }
 
     @Override

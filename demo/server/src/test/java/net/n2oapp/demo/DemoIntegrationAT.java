@@ -247,7 +247,7 @@ public class DemoIntegrationAT {
         modalClientCard.patronymic().val("Игнатиевичя");
         modalClientCard.save();
 
-        protoPage.shouldDialogClosed("Карточка клиента:", 4000);
+        protoPage.shouldDialogClosed("Карточка клиента:");
         protoPage.shouldBeClientsPage();
         protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
         protoPage.tableAlertTextShouldBe("Успешно обновлены данные клиента с фамилией Александринкин");
@@ -369,7 +369,7 @@ public class DemoIntegrationAT {
         modalClientCard.getVIP().setChecked(true);
         modalClientCard.save();
 
-        protoPage.shouldDialogClosed("Карточка клиента", 4000);
+        protoPage.shouldDialogClosed("Карточка клиента");
 
         ProtoClient clientCard = protoPage.getProtoClient();
         clientCard.shouldHaveTitle("Карточка клиента");
@@ -422,7 +422,7 @@ public class DemoIntegrationAT {
         modalClientCard.patronymic().val("Юрьевич");
         modalClientCard.save();
 
-        protoPage.shouldDialogClosed("Карточка клиента:", 4000);
+        protoPage.shouldDialogClosed("Карточка клиента:");
         protoPage.shouldBeClientsPage();
         protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
         protoPage.tableAlertTextShouldBe("Успешно обновлены данные клиента с фамилией Жуков");
@@ -462,7 +462,7 @@ public class DemoIntegrationAT {
         modalClientCard.patronymic().val("Петровна");
         modalClientCard.save();
 
-        protoPage.shouldDialogClosed("Клиент - Изменение", 4000);
+        protoPage.shouldDialogClosed("Клиент - Изменение");
         protoPage.shouldBeClientsPage();
         protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
         protoPage.tableAlertTextShouldBe("Успешно обновлены данные клиента с фамилией Иванова");
@@ -508,7 +508,7 @@ public class DemoIntegrationAT {
 
         modalClientCard.close();
 
-        protoPage.shouldDialogClosed("Просмотр клиента", 4000);
+        protoPage.shouldDialogClosed("Просмотр клиента");
         protoPage.shouldBeClientsPage();
         protoPage.tableShouldSelectedRow(1);
     }
@@ -632,7 +632,7 @@ public class DemoIntegrationAT {
         modalProtoContacts.getPhoneNumber().shouldHaveValue("+7 (888) 888-88-88");
         modalProtoContacts.save();
 
-        protoPage.shouldDialogClosed("Контакты", 8000);
+        protoPage.shouldDialogClosed("Контакты", 10000);
         protoPage.shouldBeClientsPage();
         protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
         protoPage.contactsAlertTextShouldBe("Данные сохранены");

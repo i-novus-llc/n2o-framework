@@ -81,6 +81,7 @@ public class TabsRegionAT extends AutoTestBase {
         content.widget(0, FormWidget.class).fields().field("field1").shouldExists();
 
         SimpleRegion custom = content.region(1, SimpleRegion.class);
+        custom.shouldExists();
         custom.content().widget(FormWidget.class).fields().field("field2").shouldExists();
 
         PanelRegion panel = content.region(2, PanelRegion.class);
