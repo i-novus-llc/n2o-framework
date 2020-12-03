@@ -221,7 +221,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         boolean disableOnEmptyModel = p.cast(source.getDisableOnEmptyModel(),
                 p.resolve(property("n2o.api.button.disable_on_empty_model"), Boolean.class));
         
-        if (source.getModel() == null || ReduxModel.RESOLVE.equals(source.getModel()) && parentIsNotCell && disableOnEmptyModel) {
+        if ((source.getModel() == null || ReduxModel.RESOLVE.equals(source.getModel())) && parentIsNotCell && disableOnEmptyModel) {
             Condition condition = new Condition();
             condition.setExpression("!_.isEmpty(this)");
             condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
