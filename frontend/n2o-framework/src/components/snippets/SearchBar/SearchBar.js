@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
+import classNames from 'classnames';
 import isString from 'lodash/isString';
 import Button from 'reactstrap/lib/Button';
 import {
@@ -38,8 +38,8 @@ function SearchBar({
   const isIconClear = iconClear && hasInnerValue;
 
   return (
-    <div className={cn('n2o-search-bar', className)}>
-      <div className="n2o-search-bar__control">
+    <div className={classNames('n2o-search-bar', className)}>
+      <span className="n2o-search-bar__control">
         <InputText
           onKeyDown={onKeyDown}
           value={innerValue}
@@ -53,11 +53,11 @@ function SearchBar({
           />
         )}
         {isString(icon) ? <i className={icon} /> : icon}
-      </div>
+      </span>
       {!!button && (
         <Button {...button} onClick={onClick}>
           {button.label}
-          {button.icon && <i className={cn('ml-2', button.icon)} />}
+          {button.icon && <i className={classNames('ml-2', button.icon)} />}
         </Button>
       )}
     </div>
