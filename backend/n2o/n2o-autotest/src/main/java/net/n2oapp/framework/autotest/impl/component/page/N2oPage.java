@@ -135,7 +135,8 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void shouldBeClosed(long timeOut) {
-            element.$(".modal-header .modal-title").waitWhile(Condition.exist, timeOut);
+            if (element.$(".modal-header .modal-title").exists())
+                element.$(".modal-header .modal-title").waitWhile(Condition.exist, timeOut);
         }
     }
 
@@ -163,7 +164,8 @@ public class N2oPage extends N2oComponent implements Page {
 
         @Override
         public void shouldBeClosed(long timeOut) {
-            element.$(".popover-header .popover-body").waitWhile(Condition.exist, timeOut);
+            if (element.$(".popover-header .popover-body").exists())
+                element.$(".popover-header .popover-body").waitWhile(Condition.exist, timeOut);
         }
     }
 
