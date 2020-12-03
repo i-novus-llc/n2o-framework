@@ -5,6 +5,9 @@ import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.modal.Modal;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
+import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
+import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.cards.Card;
 import net.n2oapp.framework.autotest.api.component.widget.cards.CardsWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -175,6 +178,56 @@ public class CardsAT extends AutoTestBase {
 
         checkboxCell = card.columns().column(1).blocks().cell(4, CheckboxCell.class);
         checkboxCell.shouldBeUnchecked();
+    }
+
+    @Test
+    public void testPagination() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/cards/paging/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/cards/paging/test.query.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+        CardsWidget cards = page.regions().region(0, SimpleRegion.class).content().widget(CardsWidget.class);
+        cards.shouldExists();
+
+        Paging paging = cards.paging();
+        paging.totalElementsShouldBe(8);
+        paging.prevShouldNotExist();
+        paging.nextShouldNotExist();
+        paging.firstShouldExist();
+        paging.lastShouldNotExist();
+
+        paging.activePageShouldBe("1");
+        cards.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
+        cards.shouldHaveItems(3);
+        paging.selectPage("3");
+        paging.activePageShouldBe("3");
+        cards.shouldHaveItems(2);
+        cards.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test7");
+        paging.selectFirst();
+        paging.activePageShouldBe("1");
+        cards.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
+
+
+        CardsWidget cards2 = page.regions().region(1, SimpleRegion.class).content().widget(CardsWidget.class);
+        cards2.shouldExists();
+
+        paging = cards2.paging();
+        paging.totalElementsShouldNotExist();
+        paging.prevShouldExist();
+        paging.nextShouldExist();
+        paging.firstShouldNotExist();
+        paging.lastShouldExist();
+
+        paging.activePageShouldBe("1");
+        cards2.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test1");
+        paging.selectNext();
+        paging.activePageShouldBe("2");
+        cards2.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test4");
+        paging.selectPrev();
+        paging.activePageShouldBe("1");
+        paging.selectLast();
+        cards2.shouldHaveItems(2);
+        cards2.card(0).columns().column(0).blocks().cell(0, TextCell.class).textShouldHave("test7");
     }
 
 }
