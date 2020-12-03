@@ -58,7 +58,7 @@ public class TimePickerCompileTest extends SourceCompileTestBase {
         assertThat(timePicker.getMode()[0], is("hours"));
         assertThat(timePicker.getMode()[1], is("minutes"));
         assertThat(timePicker.getMode()[2], is("seconds"));
-        assertThat(timePicker.getTimeFormat(), is("hh:mm:ss"));
+        assertThat(timePicker.getTimeFormat(), is("HH:mm:ss"));
     }
 
 }

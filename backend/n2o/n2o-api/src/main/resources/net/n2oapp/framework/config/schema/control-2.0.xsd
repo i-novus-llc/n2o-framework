@@ -870,18 +870,10 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
-                <xs:attribute name="time-format" default="hh:mm:ss">
+                <xs:attribute name="time-format" type="xs:string" default="HH:mm:ss">
                     <xs:annotation>
-                        <xs:documentation>Формат времени в модели.</xs:documentation>
+                        <xs:documentation>Формат времени.</xs:documentation>
                     </xs:annotation>
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="hh:mm:ss"/>
-                            <xs:enumeration value="hh:mm"/>
-                            <xs:enumeration value="hh"/>
-                            <xs:enumeration value="mm"/>
-                        </xs:restriction>
-                    </xs:simpleType>
                 </xs:attribute>
                 <xs:attribute name="format" default="symbols">
                     <xs:annotation>

@@ -1192,9 +1192,9 @@ link:#_Предустановленная_фильтрация_pre_filters[Пр�
 |hours,minutes,seconds
 
 |time-format
-|hh:mm:ss; hh:mm; hh; mm
-|Формат времени в модели
-|hh:mm:ss
+|Строка
+|Формат времени
+|HH:mm:ss
 
 |format
 |digit symbols
