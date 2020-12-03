@@ -12,8 +12,9 @@ public class N2oTableMerger extends N2oWidgetMerger<N2oTable> {
     @Override
     public N2oTable merge(N2oTable source, N2oTable override) {
         setIfNotNull(source::setSelection, override::getSelection);
-        setIfNotNull(source::setScrollX, override::getScrollX);
-        setIfNotNull(source::setScrollY, override::getScrollY);
+        setIfNotNull(source::setWidth, override::getWidth);
+        setIfNotNull(source::setHeight, override::getHeight);
+        setIfNotNull(source::setTextWrap, override::getTextWrap);
         setIfNotNull(source::setTableSize, override::getTableSize);
         setIfNotNull(source::setChildren, override::getChildren);
         setIfNotNull(source::setPagination, override::getPagination);
