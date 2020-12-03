@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.action;
 
-import com.codeborne.selenide.ClickOptions;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.button.Button;
@@ -104,8 +103,7 @@ public class ShowModalAT extends AutoTestBase {
         modalPage.shouldHaveCssClass("text-danger");
         modalPage.shouldHaveStyle("background: red");
         modalPage.content(SimplePage.class).widget(FormWidget.class).fields().shouldHaveSize(1);
-        //click to page, test backdrop="static"
-        modalPage.element().click(ClickOptions.usingDefaultMethod().offsetY(100));
+        modalPage.clickBackdrop();
         modalPage.shouldExists();
         modalPage.close();
         modalPage.shouldNotExists();
@@ -117,8 +115,7 @@ public class ShowModalAT extends AutoTestBase {
         modalPage.shouldHaveCssClass("text-warning");
         modalPage.shouldHaveStyle("background: green");
         modalPage.content(SimplePage.class).widget(FormWidget.class).fields().shouldHaveSize(1);
-        //click to page, test backdrop="true"
-        modalPage.element().click(ClickOptions.usingDefaultMethod().offsetY(100));
+        modalPage.clickBackdrop();
         modalPage.shouldNotExists();
     }
 

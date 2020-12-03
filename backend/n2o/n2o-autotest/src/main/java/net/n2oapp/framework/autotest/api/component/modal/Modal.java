@@ -31,6 +31,8 @@ public interface Modal extends Component {
 
     void shouldHaveStyle(String style);
 
+    void clickBackdrop();
+
     interface ModalToolbar {
         Toolbar bottomLeft();
 

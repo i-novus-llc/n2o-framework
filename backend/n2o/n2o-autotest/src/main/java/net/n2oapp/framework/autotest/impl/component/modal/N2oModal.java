@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.modal;
 
+import com.codeborne.selenide.ClickOptions;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
@@ -59,6 +60,12 @@ public class N2oModal extends N2oComponent implements Modal {
     @Override
     public void shouldHaveStyle(String style) {
         element().parent().shouldBe(Condition.attribute("style", style + ";"));
+    }
+
+    @Override
+    public void clickBackdrop() {
+        int heightOffset = element().getSize().getHeight() / 2 + 50;
+        element().click(ClickOptions.usingDefaultMethod().offsetY(heightOffset));
     }
 
     @Override
