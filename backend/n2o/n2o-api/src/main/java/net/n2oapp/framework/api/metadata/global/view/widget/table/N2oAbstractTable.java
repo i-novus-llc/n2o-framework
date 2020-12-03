@@ -16,8 +16,9 @@ public abstract class N2oAbstractTable extends N2oAbstractListWidget {
     private Boolean autoSelect;
     private RowSelectionEnum selection;
     private Size tableSize;
-    private String scrollX;
-    private String scrollY;
+    private String width;
+    private String height;
+    private Boolean textWrap;
     private Boolean checkboxes;
     private Boolean checkOnSelect;
     private String cssClass;
