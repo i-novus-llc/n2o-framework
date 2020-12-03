@@ -36,7 +36,7 @@ import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
 import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
-  const index = findIndex(data, model => model.id == selectedId);
+  const index = findIndex(data, model => model.id === selectedId);
   return index >= 0 ? index : 0;
 };
 
@@ -166,8 +166,9 @@ class AdvancedTable extends Component {
       columns,
       multi,
       rowSelection,
+      resolveModel,
     } = this.props;
-    const { checked, children } = this.state;
+    const { children } = this.state;
 
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
       const id = selectedId || data[0].id;
@@ -213,7 +214,7 @@ class AdvancedTable extends Component {
       this.setState({ ...state });
     }
     if (
-      !isEqual(prevState.checked, checked) &&
+      !isEqual(prevState.checked, this.state.checked) &&
       rowSelection === rowSelectionType.CHECKBOX
     ) {
       const selectAllCheckbox = ReactDom.findDOMNode(
@@ -222,8 +223,8 @@ class AdvancedTable extends Component {
 
       let all = false;
 
-      const isSomeOneChecked = some(checked, i => i);
-      const isAllChecked = every(checked, i => i);
+      const isSomeOneChecked = some(this.state.checked, i => i);
+      const isAllChecked = every(this.state.checked, i => i);
       if (isAllChecked) {
         all = true;
       }
@@ -231,6 +232,13 @@ class AdvancedTable extends Component {
       selectAllCheckbox.checked = isAllChecked;
 
       this.setState({ checkedAll: all });
+    }
+    if (
+      resolveModel &&
+      rowSelection === rowSelectionType.RADIO &&
+      !isEqual(resolveModel, prevProps.resolveModel)
+    ) {
+      this.setState({ checked: { [resolveModel.id]: true } });
     }
   }
 

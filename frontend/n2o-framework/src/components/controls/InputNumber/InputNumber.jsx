@@ -21,6 +21,11 @@ import {
   getPrecision,
 } from './utils';
 
+const inputMode = {
+  DEFAULT: 'default',
+  PICKER: 'picker',
+};
+
 /**
  * Компонент - инпут для ввода чисел с возможностью увеличения/уменьшения значения на шаг
  * @reactProps {number} value - начальное значение
@@ -104,7 +109,7 @@ export class InputNumber extends React.Component {
 
     if (matchesWhiteList(nextValue) || this.pasted) {
       this.setState({ value: this.resolveValue(value) }, () => {
-        if (!isNaN(toNumber(value))) {
+        if (!isNaN(toNumber(value)) || this.props.mode === inputMode.PICKER) {
           this.props.onChange(this.resolveValue(nextValue));
         }
       });
@@ -141,7 +146,7 @@ export class InputNumber extends React.Component {
   onBlur() {
     const { max, min, onBlur } = this.props;
 
-    if (this.state.value === '-') {
+    if (this.state.value === '-' && this.props.mode !== inputMode.PICKER) {
       return;
     }
 
@@ -249,6 +254,7 @@ InputNumber.defaultProps = {
   onChange: val => {},
   onBlur: val => {},
   onFocus: val => {},
+  mode: inputMode.DEFAULT,
 };
 
 InputNumber.propTypes = {
@@ -300,6 +306,10 @@ InputNumber.propTypes = {
    * Количество знаков после запятой
    */
   precision: PropTypes.number,
+  /**
+   * Режим использования компонента
+   */
+  mode: PropTypes.oneOf(inputMode.DEFAULT, inputMode.PICKER),
 };
 
 export default compose(withRightPlaceholder)(InputNumber);

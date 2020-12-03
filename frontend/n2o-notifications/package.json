@@ -1,54 +1,53 @@
 {
-	"name": "n2o-notifications",
-	"version": "7.11.0",
-	"description": "n2o-notifications React component",
-	"main": "lib/index.js",
-	"module": "es/index.js",
-	"files": [
-		"css",
-		"es",
-		"lib",
-		"umd"
-	],
-	"scripts": {
-		"build": "nwb build-react-component --no-demo",
-		"clean": "nwb clean-module && nwb clean-demo",
-		"prepublishOnly": "yarn run build",
-		"start": "nwb serve-react-demo",
-		"test": "nwb test-react",
-		"test:coverage": "nwb test-react --coverage",
-		"test:watch": "nwb test-react --server"
-	},
-	"dependencies": {
-		"n2o-framework": "^7.11.0",
-		"net": "^1.0.2",
-		"react-redux": "5.1.2",
-		"reactstrap": "^8.0.0",
-		"redux": "3.7.2",
-		"redux-actions": "2.6.5",
-		"redux-saga": "^1.0.5",
-		"reselect": "3.0.1",
-		"sockjs-client": "^1.3.0",
-		"stompjs": "^2.3.3"
-	},
-	"devDependencies": {
-		"chai": "^4.2.0",
-		"enzyme": "^3.9.0",
-		"enzyme-adapter-react-16": "^1.13.0",
-		"mocha": "^6.2.2",
-		"nwb": "0.25.0",
-		"react": "^16.8.6",
-		"react-dom": "^16.8.6"
-	},
-	"peerDependencies": {
-		"n2o-framework": "^7.11.0"
-	},
-	"author": "",
-	"homepage": "",
-	"license": "Apache-2.0",
-	"repository": "",
-	"keywords": [
-		"react-component"
-	],
-	"gitHead": "44106c26d9d0ba92df03cb5fa590ec5ae3daabcd"
+  "name": "n2o-notifications",
+  "version": "7.12.0",
+  "description": "n2o-notifications React component",
+  "author": "",
+  "homepage": "",
+  "license": "Apache-2.0",
+  "repository": "",
+  "keywords": [
+    "react-component"
+  ],
+  "gitHead": "44106c26d9d0ba92df03cb5fa590ec5ae3daabcd",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "css",
+    "es",
+    "lib",
+    "umd"
+  ],
+  "scripts": {
+    "build": "nwb build-react-component --no-demo",
+    "clean": "nwb clean-module && nwb clean-demo",
+    "prepublishOnly": "yarn run build",
+    "start": "nwb serve-react-demo",
+    "test": "nwb test-react",
+    "test:coverage": "nwb test-react --coverage",
+    "test:watch": "nwb test-react --server"
+  },
+  "dependencies": {
+    "n2o-framework": "7.12.0",
+    "net": "^1.0.2",
+    "sockjs-client": "^1.3.0",
+    "stompjs": "^2.3.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.13.0",
+    "mocha": "^6.2.2",
+    "nwb": "0.25.0"
+  },
+  "peerDependencies": {
+    "react-redux": "*",
+    "reactstrap": "*",
+    "redux": "*",
+    "redux-actions": "*",
+    "redux-saga": "*",
+    "reselect": "*",
+    "react": "*",
+    "react-dom": "*"
+  }
 }

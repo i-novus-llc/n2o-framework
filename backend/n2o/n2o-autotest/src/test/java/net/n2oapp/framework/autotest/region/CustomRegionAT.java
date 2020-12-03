@@ -66,12 +66,12 @@ public class CustomRegionAT extends AutoTestBase {
 
         LineRegion line = content.region(2, LineRegion.class);
         line.shouldExists();
-        line.shouldHaveTitle("Line");
+        line.shouldHaveLabel("Line");
 
         TabsRegion tabs = content.region(3, TabsRegion.class);
         tabs.shouldExists();
         tabs.shouldHaveSize(2);
-        tabs.tab(1).shouldHaveTitle("Tab2");
+        tabs.tab(1).shouldHaveName("Tab2");
 
         content.widget(4, FormWidget.class).fields().field("field4").shouldExists();
     }

@@ -89,12 +89,12 @@ public class PanelRegionAT extends AutoTestBase {
 
         LineRegion line = content.region(3, LineRegion.class);
         line.shouldExists();
-        line.shouldHaveTitle("Line");
+        line.shouldHaveLabel("Line");
 
         TabsRegion tabs = content.region(4, TabsRegion.class);
         tabs.shouldExists();
         tabs.shouldHaveSize(2);
-        tabs.tab(1).shouldHaveTitle("Tab2");
+        tabs.tab(1).shouldHaveName("Tab2");
 
         content.widget(5, FormWidget.class).fields().field("field3").shouldExists();
 

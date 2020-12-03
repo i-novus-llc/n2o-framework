@@ -119,6 +119,20 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="max-height" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>
+                    Максимальная высота содержимого вкладок.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="scrollbar" type="xs:boolean" default="false">
+            <xs:annotation>
+                <xs:documentation>
+                    Отображение полосы прокрутки.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
 
         <xs:anyAttribute>
             <xs:annotation>
@@ -153,19 +167,24 @@
                 <xs:annotation>
                     <xs:documentation>Регион с горизонтальным делителем.</xs:documentation>
                 </xs:annotation>
-                <xs:attribute name="name">
+                <xs:attribute name="label">
                     <xs:annotation>
-                        <xs:documentation>Наименование региона.</xs:documentation>
+                        <xs:documentation>Заголовок региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="collapsible" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Возможность раскрытия и сворачивания виджетов.</xs:documentation>
+                        <xs:documentation>Возможность раскрытия и сворачивания региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="open" type="xs:boolean" default="true">
+                <xs:attribute name="has-separator" type="xs:boolean" default="true">
                     <xs:annotation>
-                        <xs:documentation>Раскрытие региона.</xs:documentation>
+                        <xs:documentation>Отображение горизонтального делителя.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="expand" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Исходное раскрытие региона.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

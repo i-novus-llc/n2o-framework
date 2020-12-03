@@ -334,10 +334,38 @@
                         <xs:documentation>Действие, которое выполнится при клике по иконке.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="shape" type="shapeType">
+                <xs:attribute name="shape" type="shapeType" default="square">
                     <xs:annotation>
                         <xs:documentation>Форма изображения.</xs:documentation>
                     </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="title" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Заголовок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="description" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Подзаголовок.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="data" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ссылка на изображение в БД в байтах.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text-position" default="right">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>Расположение текста относительно картинки.</xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="left"/>
+                            <xs:enumeration value="right"/>
+                            <xs:enumeration value="top"/>
+                            <xs:enumeration value="bottom"/>
+                        </xs:restriction>
+                    </xs:simpleType>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
@@ -763,9 +791,9 @@
             <xs:documentation>Тип формы изображения.</xs:documentation>
         </xs:annotation>
         <xs:restriction base="xs:string">
+            <xs:enumeration value="square"/>
             <xs:enumeration value="circle"/>
             <xs:enumeration value="rounded"/>
-            <xs:enumeration value="polaroid"/>
         </xs:restriction>
     </xs:simpleType>
 

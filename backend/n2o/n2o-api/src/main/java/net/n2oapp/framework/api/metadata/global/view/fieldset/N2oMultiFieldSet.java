@@ -9,6 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oMultiFieldSet extends N2oFieldSet {
+    private String childrenLabel;
     private String addButtonLabel;
     private String removeAllButtonLabel;
     private Boolean canRemoveFirst;

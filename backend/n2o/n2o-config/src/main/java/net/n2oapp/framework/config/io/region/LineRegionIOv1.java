@@ -15,7 +15,7 @@ public class LineRegionIOv1 extends BaseRegionIOv1<N2oLineRegion> {
         super.io(e, r, p);
         // define region title by first widget name
         if (!e.getChildren().isEmpty())
-            p.read(e.getChildren().get(0), r, (w, reg) -> reg.setName(
+            p.read(e.getChildren().get(0), r, (w, reg) -> reg.setLabel(
                     w.getAttribute("name") != null ? w.getAttribute("name").getValue() : null));
         p.attributeBoolean(e, "collapsible", r::getCollapsible, r::setCollapsible);
     }

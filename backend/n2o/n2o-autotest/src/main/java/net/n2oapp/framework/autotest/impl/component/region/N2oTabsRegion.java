@@ -22,6 +22,21 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
     }
 
     @Override
+    public void shouldHaveMaxHeight(int height) {
+        getTabsContent().shouldBe(Condition.attributeMatching("style", ".*max-height: " + height + "px;.*"));
+    }
+
+    @Override
+    public void shouldHaveScrollbar() {
+        getTabsContent().shouldNotHave(Condition.cssClass("tab-content_no-scrollbar"));
+    }
+
+    @Override
+    public void shouldNotHaveScrollbar() {
+        getTabsContent().shouldHave(Condition.cssClass("tab-content_no-scrollbar"));
+    }
+
+    @Override
     public TabItem tab(Condition by) {
         return new N2oTabItem(element().$$(".nav-item").findBy(by));
     }
@@ -38,7 +53,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
             ElementsCollection tabs = element().parent().$$(".nav-item");
             while (!tabs.get(index).is(Condition.text(element().getText()))) index++;
 
-            SelenideElement elm = element().parent().parent().$$(".tab-pane").get(index)
+            SelenideElement elm = element().parent().parent().parent().$$(".tab-pane").get(index)
                     .shouldBe(Condition.cssClass("active"));
 
             ElementsCollection nestingElements = elm.$$(".tab-pane.active .tab-pane.active > div > div");
@@ -58,7 +73,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         }
 
         @Override
-        public void shouldHaveTitle(String text) {
+        public void shouldHaveName(String text) {
             element().shouldHave(Condition.text(text));
         }
 
@@ -76,5 +91,19 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
         public void shouldNotBeActive() {
             element().$(".nav-link").shouldNotHave(Condition.cssClass("active"));
         }
+
+        @Override
+        public void scrollUp() {
+            Selenide.executeJavaScript("document.querySelector('.tab-content_fixed').scrollTop = 0");
+        }
+
+        @Override
+        public void scrollDown() {
+            Selenide.executeJavaScript("document.querySelector('.tab-content_fixed').scrollTop = document.querySelector('.tab-content_fixed').scrollHeight");
+        }
+    }
+
+    private SelenideElement getTabsContent() {
+        return element().$(".tab-content");
     }
 }

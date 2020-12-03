@@ -3,7 +3,7 @@
     <form query-id="test">
         <fields>
             <multi-set id="members" can-remove-first="true"
-                       can-copy="true" can-add="false" label="Участник {(index + 1)}">
+                       can-copy="true" can-add="false" children-label="Участник {(index + 1)}">
                 <row>
                     <input-text id="name" label="1.2.({(index + 1)}) name"/>
                     <input-text id="age" label="1.2.({(index + 1)}) age"/>

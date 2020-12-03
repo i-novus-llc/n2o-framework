@@ -40,8 +40,9 @@ public class LineRegionAT extends AutoTestBase {
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
+        // expanded
         LineRegion line1 = page.regions().region(0, LineRegion.class);
-        line1.shouldHaveTitle("Line1");
+        line1.shouldHaveLabel("Line1");
         line1.shouldBeCollapsible();
         line1.shouldBeExpanded();
         line1.collapseContent();
@@ -49,8 +50,9 @@ public class LineRegionAT extends AutoTestBase {
         line1.expandContent();
         line1.shouldBeExpanded();
 
+        // collapsed
         LineRegion line2 = page.regions().region(1, LineRegion.class);
-        line2.shouldHaveTitle("Line2");
+        line2.shouldHaveLabel("Line2");
         line2.shouldBeCollapsed();
 
         // not collapsible line
@@ -77,12 +79,12 @@ public class LineRegionAT extends AutoTestBase {
 
         LineRegion line = content.region(3, LineRegion.class);
         line.shouldExists();
-        line.shouldHaveTitle("Line");
+        line.shouldHaveLabel("Line");
 
         TabsRegion tabs = content.region(4, TabsRegion.class);
         tabs.shouldExists();
         tabs.shouldHaveSize(2);
-        tabs.tab(1).shouldHaveTitle("Tab2");
+        tabs.tab(1).shouldHaveName("Tab2");
 
         content.widget(5, FormWidget.class).fields().field("field3").shouldExists();
 
