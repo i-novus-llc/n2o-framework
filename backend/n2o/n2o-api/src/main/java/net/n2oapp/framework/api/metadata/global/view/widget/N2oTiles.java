@@ -2,7 +2,6 @@ package net.n2oapp.framework.api.metadata.global.view.widget;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.N2oPagination;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
@@ -23,7 +22,7 @@ public class N2oTiles extends N2oAbstractListWidget {
 
     @Getter
     @Setter
-    public static class Block extends AbstractColumn implements IdAware {
+    public static class Block extends AbstractColumn {
         private N2oCell component;
     }
 }
