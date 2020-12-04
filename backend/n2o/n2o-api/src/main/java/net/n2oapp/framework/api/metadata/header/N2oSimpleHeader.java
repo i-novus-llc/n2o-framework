@@ -26,4 +26,5 @@ public class N2oSimpleHeader extends N2oHeader {
     private String loginUrl;
     private String logoutUrl;
     private String registrationUrl;
+    private N2oSearchBar searchBar;
 }

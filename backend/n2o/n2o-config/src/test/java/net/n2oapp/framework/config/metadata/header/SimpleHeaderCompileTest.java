@@ -4,11 +4,13 @@ import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.header.CompiledHeader;
 import net.n2oapp.framework.api.metadata.header.HeaderItem;
 import net.n2oapp.framework.api.metadata.header.SimpleMenu;
+import net.n2oapp.framework.api.metadata.header.SearchBar;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
 import net.n2oapp.framework.config.metadata.pack.N2oHeaderPack;
 import net.n2oapp.framework.config.metadata.pack.N2oPagesPack;
 import net.n2oapp.framework.config.metadata.pack.N2oRegionsPack;
+import net.n2oapp.framework.config.metadata.pack.N2oQueriesPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +18,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Тестирование компиляции простого хедера
@@ -31,7 +34,7 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         builder.getEnvironment().getContextProcessor().set("username", "test");
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oHeaderPack());
+        builder.packs(new N2oPagesPack(), new N2oRegionsPack(), new N2oHeaderPack(), new N2oQueriesPack());
     }
 
     @Test
@@ -153,5 +156,29 @@ public class SimpleHeaderCompileTest extends SourceCompileTestBase {
                 .bind().get(new HeaderContext("headerWithMenu"), null);
 
         assertThat(header.getExtraItems().get(0).getLabel(), is("test"));
+    }
+
+    @Test
+    public void searchBarTest() {
+        CompiledHeader header = (CompiledHeader) compile("net/n2oapp/framework/config/metadata/menu/pageWithoutLabel.page.xml",
+                "net/n2oapp/framework/config/metadata/header/testPage.page.xml",
+                "net/n2oapp/framework/config/metadata/header/headerWithSearch.header.xml",
+                "net/n2oapp/framework/config/metadata/header/search.query.xml")
+                .bind().get(new HeaderContext("headerWithSearch"), null);
+        SearchBar searchBar = header.getSearch();
+        assertThat(searchBar, notNullValue());
+        assertThat("urlId", is(searchBar.getUrlFieldId()));
+        assertThat("labelId", is(searchBar.getLabelFieldId()));
+        assertThat("iconId", is(searchBar.getIconFieldId()));
+        assertThat("descriptionId", is(searchBar.getDescrFieldId()));
+
+        assertThat(searchBar.getSearchPageLocation(), notNullValue());
+        assertThat("advancedUrl", is(searchBar.getSearchPageLocation().getUrl()));
+        assertThat("param", is(searchBar.getSearchPageLocation().getSearchQueryName()));
+        assertThat(SearchBar.LinkType.inner, is(searchBar.getSearchPageLocation().getLinkType()));
+
+        assertThat(searchBar.getDataProvider(), notNullValue());
+        assertThat("n2o/data/search", is(searchBar.getDataProvider().getUrl()));
+        assertThat("filterId", is(searchBar.getDataProvider().getQuickSearchParam()));
     }
 }

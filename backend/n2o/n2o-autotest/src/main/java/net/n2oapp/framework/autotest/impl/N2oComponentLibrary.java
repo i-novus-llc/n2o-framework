@@ -19,6 +19,7 @@ import net.n2oapp.framework.autotest.impl.component.fieldset.N2oMultiFieldSetIte
 import net.n2oapp.framework.autotest.impl.component.fieldset.N2oSimpleFieldSet;
 import net.n2oapp.framework.autotest.impl.component.header.N2oAnchorMenuItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oDropdownMenuItem;
+import net.n2oapp.framework.autotest.impl.component.header.N2oSearchItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
 import net.n2oapp.framework.autotest.impl.component.page.N2oLeftRightPage;
@@ -71,7 +72,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 // fieldsets
                 N2oSimpleFieldSet.class, N2oLineFieldSet.class, N2oMultiFieldSet.class, N2oMultiFieldSetItem.class,
                 // buttons
-                N2oDropdownButton.class, N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
+                N2oDropdownButton.class, N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class, N2oSearchItem.class,
                 // fields
                 N2oStandardField.class, N2oIntervalField.class, N2oButtonField.class, N2oImage.class,
                 // controls
