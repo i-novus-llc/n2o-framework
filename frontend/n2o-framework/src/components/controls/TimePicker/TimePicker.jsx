@@ -2,22 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import includes from 'lodash/includes';
-import defaultTo from 'lodash/defaultTo';
 import pick from 'lodash/pick';
 import keys from 'lodash/keys';
-import values from 'lodash/values';
 import join from 'lodash/join';
 import map from 'lodash/map';
 import get from 'lodash/get';
 import each from 'lodash/each';
 import split from 'lodash/split';
 import cn from 'classnames';
-import { Row, Col, Container, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { Manager, Reference, Popper } from 'react-popper';
 import scrollIntoView from 'scroll-into-view-if-needed';
+
 import InputText from '../InputText/InputText';
 import InputIcon from '../../snippets/InputIcon/InputIcon';
 import { MODIFIERS } from '../DatePicker/utils';
+import { findDOMNode } from 'react-dom';
+import every from 'lodash/every';
 
 const HOURS = 'hours';
 const MINUTES = 'minutes';
@@ -63,6 +64,14 @@ export class TimePickerControl extends Component {
     this[`${HOURS}Ref`] = React.createRef();
     this[`${MINUTES}Ref`] = React.createRef();
     this[`${SECONDS}Ref`] = React.createRef();
+    this.controlRef = React.createRef();
+  }
+
+  componentDidMount() {
+    if (typeof window !== 'undefined') {
+      document.addEventListener('mousedown', this.onClickOutside);
+      document.addEventListener('touchstart', this.onClickOutside);
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -87,6 +96,26 @@ export class TimePickerControl extends Component {
       }
     });
   }
+
+  componentWillUnmount() {
+    if (typeof window !== 'undefined') {
+      document.removeEventListener('mousedown', this.onClickOutside);
+      document.removeEventListener('touchstart', this.onClickOutside);
+    }
+  }
+
+  onClickOutside = e => {
+    if (this.state.open) {
+      const controlEl = findDOMNode(this.controlRef.current);
+
+      if (
+        e.target.className.includes('n2o-pop-up') ||
+        !controlEl.contains(e.target)
+      ) {
+        this.handleClose();
+      }
+    }
+  };
 
   getTimeConfig = () => {
     const { mode } = this.props;
@@ -142,7 +171,7 @@ export class TimePickerControl extends Component {
     this.setState({ open: false });
   };
 
-  handleToggle = () => {
+  handleToggle = e => {
     if (this.props.disabled) return;
     this.setState(state => ({ ...state, open: !state.open }));
   };
@@ -210,12 +239,13 @@ export class TimePickerControl extends Component {
     const prefixCmp = this.renderPrefix();
 
     return (
-      <div className="n2o-time-picker">
+      <div className="n2o-time-picker" ref={this.controlRef}>
         <Manager>
           <Reference>
             {({ ref }) => (
               <InputText
                 inputRef={ref}
+                className="n2o-time-picker__input"
                 prefix={prefixCmp}
                 suffix={
                   <InputIcon clickable hoverable onClick={this.handleToggle}>
@@ -233,7 +263,6 @@ export class TimePickerControl extends Component {
                 disabled={disabled}
                 value={readyValue}
                 onClick={this.handleOpen}
-                onBlur={this.handleClose}
               />
             )}
           </Reference>
