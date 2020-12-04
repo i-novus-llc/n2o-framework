@@ -8,3 +8,11 @@
   background: rgba(0,0,0,0.5);
   z-index: 200;
 }
+
+.modal-page-overlay--border-bottom-none {
+  border-bottom: none;
+}
+
+.modal-page-overlay--border-top-none {
+  border-top: none;
+}
