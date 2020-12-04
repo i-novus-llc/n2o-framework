@@ -63,10 +63,8 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
         Condition condition = buttons.get(2).getConditions().get(ValidationType.visible).get(0);
         assertThat(condition.getModelLink(), is("models.resolve['testButtonDependency_table']"));
         assertThat(condition.getExpression(), is("property1"));
+        // if disable-on-empty-model = true, should not have contains enabled !_.isEmpty(this) condition
         condition = buttons.get(2).getConditions().get(ValidationType.enabled).get(0);
-        assertThat(condition.getModelLink(), is("models.resolve['testButtonDependency_table']"));
-        assertThat(condition.getExpression(), is("!_.isEmpty(this)"));
-        condition = buttons.get(2).getConditions().get(ValidationType.enabled).get(1);
         assertThat(condition.getModelLink(), is("models.resolve['testButtonDependency_table']"));
         assertThat(condition.getExpression(), is("property2"));
         condition = buttons.get(3).getConditions().get(ValidationType.visible).get(0);
