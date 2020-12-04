@@ -31,11 +31,12 @@ import createActionHelper from './createActionHelper';
  * Регистрация виджета в хранилище
  * @param widgetId - уникальный индефикатор виджета
  * @param initProps - стартовые свойства
+ * @param preInit - отлючасть ли тег isInit
  * @example
  * dispatch(registerWidget("Page.Widget", {isVisible: false}))
  */
-export function registerWidget(widgetId, initProps) {
-  return createActionHelper(REGISTER)({ widgetId, initProps });
+export function registerWidget(widgetId, initProps, preInit) {
+  return createActionHelper(REGISTER)({ widgetId, initProps, preInit });
 }
 
 /**
