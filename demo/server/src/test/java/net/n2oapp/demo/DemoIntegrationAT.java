@@ -25,6 +25,7 @@ import java.util.List;
 
 import static com.codeborne.selenide.Configuration.browserSize;
 import static com.codeborne.selenide.Configuration.headless;
+import static com.codeborne.selenide.Configuration.timeout;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -48,18 +49,13 @@ public class DemoIntegrationAT {
 
         headless = true;
         browserSize = "1920x1200";
+        timeout = 10000;
     }
 
     @BeforeEach
     public void openProtoPage() {
         protoPage = Selenide.open("http://localhost:" + port, ProtoPage.class);
         protoPage.shouldBeClientsPage();
-    }
-
-    @AfterEach
-    public void afterEach() {
-        Selenide.clearBrowserLocalStorage();
-        Selenide.clearBrowserCookies();
     }
 
     /**
@@ -604,7 +600,7 @@ public class DemoIntegrationAT {
         modalProtoContacts.getDescription().val("рабочий телефон");
         modalProtoContacts.save();
 
-        protoPage.shouldDialogClosed("Контакты", 10000);
+        protoPage.shouldDialogClosed("Контакты", 20000);
         protoPage.shouldBeClientsPage();
         protoPage.contactsAlertColorShouldBe(Colors.SUCCESS);
         protoPage.contactsAlertTextShouldBe("Данные сохранены");
