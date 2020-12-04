@@ -370,6 +370,8 @@ const enhance = compose(
           className: props.className,
           rows: props.rows,
           dispatch: props.dispatch,
+          width: props.width,
+          height: props.height,
           t: props.t,
           resolveModel: props.resolveModel,
         };
