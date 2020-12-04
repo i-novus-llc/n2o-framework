@@ -53,19 +53,9 @@ public class N2oModal extends N2oComponent implements Modal {
     }
 
     @Override
-    public void shouldHaveCssClass(String cssClass) {
-        element().parent().shouldBe(Condition.cssClass(cssClass));
-    }
-
-    @Override
-    public void shouldHaveStyle(String style) {
-        element().parent().shouldBe(Condition.attribute("style", style + ";"));
-    }
-
-    @Override
     public void clickBackdrop() {
-        int heightOffset = element().getSize().getHeight() / 2 + 50;
-        element().click(ClickOptions.usingDefaultMethod().offsetY(heightOffset));
+        int widthOffset = element().getSize().getWidth() / 2 + 10;
+        element().click(ClickOptions.usingDefaultMethod().offsetX(widthOffset));
     }
 
     @Override

@@ -4,16 +4,10 @@
     <form>
         <toolbar>
             <button label="Открыть с хедером" model="filter">
-                <show-modal page-id="test" detail-field-id="id" scrollable="true"
-                            backdrop="static"
-                            class="text-danger"
-                            style="background: red"/>
+                <show-modal page-id="test" backdrop="static"/>
             </button>
             <button label="Открыть без хедера" model="filter">
-                <show-modal page-id="test" detail-field-id="id"
-                            has-header="false"
-                            class="text-warning"
-                            style="background: green"/>
+                <show-modal page-id="test" has-header="false"/>
             </button>
         </toolbar>
     </form>

@@ -100,8 +100,6 @@ public class ShowModalAT extends AutoTestBase {
         Modal modalPage = N2oSelenide.modal();
         modalPage.shouldExists();
         modalPage.shouldHaveTitle("Модальное окно");
-        modalPage.shouldHaveCssClass("text-danger");
-        modalPage.shouldHaveStyle("background: red");
         modalPage.content(SimplePage.class).widget(FormWidget.class).fields().shouldHaveSize(1);
         modalPage.clickBackdrop();
         modalPage.shouldExists();
@@ -112,11 +110,8 @@ public class ShowModalAT extends AutoTestBase {
         modalPage = N2oSelenide.modal();
         modalPage.shouldExists();
         modalPage.shouldNotHaveHeader();
-        modalPage.shouldHaveCssClass("text-warning");
-        modalPage.shouldHaveStyle("background: green");
         modalPage.content(SimplePage.class).widget(FormWidget.class).fields().shouldHaveSize(1);
         modalPage.clickBackdrop();
         modalPage.shouldNotExists();
     }
-
 }

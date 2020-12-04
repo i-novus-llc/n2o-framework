@@ -27,10 +27,6 @@ public interface Modal extends Component {
 
     void shouldNotBeScrollable();
 
-    void shouldHaveCssClass(String cssClass);
-
-    void shouldHaveStyle(String style);
-
     void clickBackdrop();
 
     interface ModalToolbar {
