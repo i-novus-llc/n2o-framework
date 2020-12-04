@@ -162,18 +162,18 @@ public class DemoIntegrationAT {
     public void testTableSorting() {
         protoPage.getSurnameHeader().shouldNotBeSorted();
         protoPage.getSurnameHeader().click();
-        assertThat(isSorted(protoPage.getSurnameColumn(), true), is(true));
         protoPage.getSurnameHeader().shouldBeSortedByAsc();
+        assertThat(isSorted(protoPage.getSurnameColumn(), true), is(true));
 
         protoPage.getSurnameHeader().click();
-        assertThat(isSorted(protoPage.getSurnameColumn(), false), is(true));
         protoPage.getSurnameHeader().shouldBeSortedByDesc();
+        assertThat(isSorted(protoPage.getSurnameColumn(), false), is(true));
 
         protoPage.getSurnameHeader().click();
+        protoPage.getSurnameHeader().shouldNotBeSorted();
         List<String> list = protoPage.getSurnameColumn();
         assertThat(isSorted(list, true), is(false));
         assertThat(isSorted(list, false), is(false));
-        protoPage.getSurnameHeader().shouldNotBeSorted();
     }
 
     /**
@@ -378,8 +378,6 @@ public class DemoIntegrationAT {
         clientCard.close();
 
         protoPage.shouldBeClientsPage();
-        protoPage.tableAlertColorShouldBe(Colors.SUCCESS);
-        protoPage.tableAlertTextShouldBe("Клиент 'Иванов' создан");
         protoPage.tableShouldSelectedRow(0);
         protoPage.tableCellShouldHaveText(0, 1, "Иванов");
         protoPage.tableCellShouldHaveText(0, 2, "Алексей");
