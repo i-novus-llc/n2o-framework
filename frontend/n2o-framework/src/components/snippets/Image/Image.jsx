@@ -27,7 +27,7 @@ function Image({
   onClick,
   className,
 }) {
-  const style = width ? { width, height: width } : {};
+  const style = width ? { maxWidth: width } : {};
 
   if (!visible) {
     return;

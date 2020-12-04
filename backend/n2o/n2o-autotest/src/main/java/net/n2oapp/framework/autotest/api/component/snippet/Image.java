@@ -13,7 +13,7 @@ public interface Image extends Snippet {
 
     void shouldHaveUrl(String url);
 
-    void shouldHaveWidth(int size);
+    void shouldHaveWidth(int width);
 
     void shouldHaveTextPosition(TextPosition position);
 }
