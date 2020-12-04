@@ -36,6 +36,8 @@ import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarE
 import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarToolbar;
 import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.calendar.view.*;
+import net.n2oapp.framework.autotest.impl.component.widget.cards.N2oCard;
+import net.n2oapp.framework.autotest.impl.component.widget.cards.N2oCardsWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oStandardTableHeader;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableFilterHeader;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableWidget;
@@ -61,6 +63,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oListWidget.class, N2oFormWidget.class,
                 N2oTilesWidget.class, N2oTile.class,
                 N2oTableWidget.class, N2oStandardTableHeader.class, N2oTableFilterHeader.class,
+                N2oCardsWidget.class, N2oCard.class,
                 // widgets (calendar)
                 N2oCalendarWidget.class, N2oCalendarToolbar.class, N2oCalendarEvent.class,
                 N2oCalendarMonthView.class, N2oCalendarAgendaView.class, N2oCalendarDayView.class, N2oCalendarWeekView.class,
