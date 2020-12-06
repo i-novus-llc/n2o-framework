@@ -163,7 +163,6 @@ ModalPage.defaultProps = {
 };
 
 ModalPage.contextTypes = {
-  defaultPromptMessage: PropTypes.string,
   resolveProps: PropTypes.func,
   scrollable: false,
 };
