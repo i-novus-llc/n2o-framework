@@ -5,7 +5,6 @@ import {
   withHandlers,
   withState,
   defaultProps,
-  getContext,
   setDisplayName,
 } from 'recompose';
 import PropTypes from 'prop-types';
