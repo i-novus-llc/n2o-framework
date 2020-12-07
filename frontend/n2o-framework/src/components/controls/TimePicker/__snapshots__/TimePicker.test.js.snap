@@ -20,8 +20,8 @@ exports[`<TimePicker /> проверка дефолтного рендера и 
     <Manager>
       <Reference>
         <Component
+          className="n2o-time-picker__input"
           inputRef={[Function]}
-          onBlur={[Function]}
           onClick={[Function]}
           prefix={null}
           readOnly={true}
@@ -49,10 +49,9 @@ exports[`<TimePicker /> проверка дефолтного рендера и 
           >
             <InputText
               autoFocus={false}
-              className=""
+              className="n2o-time-picker__input"
               disabled={false}
               inputRef={[Function]}
-              onBlur={[Function]}
               onChange={[Function]}
               onClick={[Function]}
               prefix={null}
@@ -77,7 +76,7 @@ exports[`<TimePicker /> проверка дефолтного рендера и 
               value=""
             >
               <div
-                className="form-control n2o-input-text__affix-wrapper"
+                className="form-control n2o-input-text__affix-wrapper n2o-time-picker__input"
               >
                 <pure(Input)
                   autoFocus={false}
