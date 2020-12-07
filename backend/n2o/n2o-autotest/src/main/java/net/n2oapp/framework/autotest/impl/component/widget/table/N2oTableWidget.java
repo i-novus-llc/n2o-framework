@@ -117,7 +117,7 @@ public class N2oTableWidget extends N2oStandardWidget implements TableWidget {
 
         @Override
         public List<String> columnTexts(int index) {
-            return element().$$(".n2o-table-row td:nth-child(" + (++index) + ")").texts();
+            return element().should(Condition.exist).$$(".n2o-table-row td:nth-child(" + (++index) + ")").texts();
         }
     }
 }
