@@ -146,10 +146,6 @@ DrawerPage.propTypes = {
   closable: PropTypes.bool,
 };
 
-DrawerPage.contextTypes = {
-  defaultPromptMessage: PropTypes.string,
-};
-
 export default compose(
   withOverlayMethods,
   withProps(props => ({
