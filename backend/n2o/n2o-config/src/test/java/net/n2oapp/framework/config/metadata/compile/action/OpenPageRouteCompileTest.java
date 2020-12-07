@@ -41,7 +41,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oAllDataPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoute.query.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoute.page.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoutePage.page.xml"));
     }
 
     /**
@@ -181,5 +181,92 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(1));
         assertThat(pathMapping.get("version").getBindLink(), is("models.resolve['test_main'].version"));
+    }
+
+
+    /**
+     * Тест формирования url с route
+     */
+    @Test
+    public void testRouteWithoutParams() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoute.page.xml")
+                .get(new PageContext("testOpenPageRoute", "/test"));
+
+        LinkActionImpl routeWithResolveModel = (LinkActionImpl) page.getActions().get("routeWithoutParams");
+        assertThat(routeWithResolveModel.getUrl(), is("/test/update"));
+        assertThat(routeWithResolveModel.getPathMapping().isEmpty(), is(true));
+        assertThat(routeWithResolveModel.getQueryMapping().isEmpty(), is(true));
+
+        LinkActionImpl routeWithFilterModel = (LinkActionImpl) page.getActions().get("routeWithoutParamsWithFilterModel");
+        assertThat(routeWithFilterModel.getUrl(), is("/test/update"));
+        assertThat(routeWithFilterModel.getPathMapping().isEmpty(), is(true));
+        assertThat(routeWithFilterModel.getQueryMapping().isEmpty(), is(true));
+
+        LinkActionImpl routeWithMasterParam = (LinkActionImpl) page.getActions().get("routeWithMasterParam");
+        assertThat(routeWithMasterParam.getUrl(), is("/test/update"));
+        assertThat(routeWithMasterParam.getPathMapping().isEmpty(), is(true));
+        assertThat(routeWithMasterParam.getQueryMapping().isEmpty(), is(true));
+
+        LinkActionImpl routeWithDetailFieldId = (LinkActionImpl) page.getActions().get("routeWithDetailFieldId");
+        assertThat(routeWithDetailFieldId.getUrl(), is("/test/update"));
+        assertThat(routeWithDetailFieldId.getPathMapping().isEmpty(), is(true));
+        assertThat(routeWithDetailFieldId.getQueryMapping().isEmpty(), is(true));
+    }
+
+    /**
+     * Тест формирования url без route, c master-param
+     */
+    @Test
+    public void testWithoutRouteWithMasterParam() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoute.page.xml")
+                .get(new PageContext("testOpenPageRoute", "/test"));
+
+        LinkActionImpl actionWithResolveModel = (LinkActionImpl) page.getActions().get("withoutRouteWithMasterParam");
+        assertThat(actionWithResolveModel.getUrl(), is("/test/withoutRouteWithMasterParam"));
+        assertThat(actionWithResolveModel.getPathMapping().isEmpty(), is(true));
+        assertThat(actionWithResolveModel.getQueryMapping().containsKey("id"), is(true));
+
+        LinkActionImpl actionWithFilterModel = (LinkActionImpl) page.getActions().get("withoutRouteWithMasterParamWithFilterModel");
+        assertThat(actionWithFilterModel.getUrl(), is("/test/withoutRouteWithMasterParamWithFilterModel"));
+        assertThat(actionWithFilterModel.getPathMapping().isEmpty(), is(true));
+        assertThat(actionWithFilterModel.getQueryMapping().isEmpty(), is(true));
+    }
+
+    /**
+     * Тест формирования url без route и master-param, но с detail-field-id
+     */
+    @Test
+    public void testWithoutRouteWithDetailFieldId() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoute.page.xml")
+                .get(new PageContext("testOpenPageRoute", "/test"));
+
+        LinkActionImpl actionWithResolveModel = (LinkActionImpl) page.getActions().get("withoutRouteWithDetailFieldId");
+        assertThat(actionWithResolveModel.getUrl(), is("/test/withoutRouteWithDetailFieldId"));
+        assertThat(actionWithResolveModel.getPathMapping().isEmpty(), is(true));
+        assertThat(actionWithResolveModel.getQueryMapping().containsKey("id"), is(true));
+
+        LinkActionImpl actionWithFilterModel = (LinkActionImpl) page.getActions().get("withoutRouteWithDetailFieldIdWithFilterModel");
+        assertThat(actionWithFilterModel.getUrl(), is("/test/withoutRouteWithDetailFieldIdWithFilterModel"));
+        assertThat(actionWithFilterModel.getPathMapping().isEmpty(), is(true));
+        assertThat(actionWithFilterModel.getQueryMapping().isEmpty(), is(true));
+    }
+
+    /**
+     * Тест формирования url без route, master-param, и detail-field-id
+     */
+    @Test
+    public void testWithoutRouteAndAllParams() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoute.page.xml")
+                .get(new PageContext("testOpenPageRoute", "/test"));
+
+        LinkActionImpl actionWithResolveModel = (LinkActionImpl) page.getActions().get("withoutAll");
+        assertThat(actionWithResolveModel.getUrl(), is("/test/withoutAll"));
+        assertThat(actionWithResolveModel.getPathMapping().isEmpty(), is(true));
+        assertThat(actionWithResolveModel.getQueryMapping().isEmpty(), is(true));
+
+        LinkActionImpl actionWithFilterModel = (LinkActionImpl) page.getActions().get("withoutAllWithFilterModel");
+        assertThat(actionWithFilterModel.getUrl(), is("/test/withoutAllWithFilterModel"));
+        assertThat(actionWithFilterModel.getPathMapping().isEmpty(), is(true));
+        assertThat(actionWithFilterModel.getQueryMapping().isEmpty(), is(true));
     }
 }
