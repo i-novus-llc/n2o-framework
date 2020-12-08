@@ -700,6 +700,10 @@ InputNumber
 |<slider>
 |Slider
 |link:https://n2oapp.net/sandbox/new/manual/fields/slider[Компонент ползунок]
+
+|<time-picker>
+|TimePicker
+|link:https://n2oapp.net/sandbox/new/manual/fields/time_picker[Компонент ввода времени]
 |===
 
 Описание других видов полей можно посмотреть link:docs/xml/index.html#_Поля_ввода[здесь].

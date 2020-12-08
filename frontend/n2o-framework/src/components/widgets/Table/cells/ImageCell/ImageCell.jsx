@@ -39,7 +39,7 @@ function ImageCell(props) {
     visible,
     description,
     textPosition,
-    width = 30,
+    width,
     data,
   } = props;
 

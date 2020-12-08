@@ -45,6 +45,7 @@ public abstract class AbstractMenuItemIO<T extends AbstractMenuItem> implements 
         p.attribute(e, "confirm-title", mi::getConfirmTitle, mi::setConfirmTitle);
         p.attribute(e, "confirm-ok-label", mi::getConfirmOkLabel, mi::setConfirmOkLabel);
         p.attribute(e, "confirm-cancel-label", mi::getConfirmCancelLabel, mi::setConfirmCancelLabel);
+        p.attributeBoolean(e, "disable-on-empty-model", mi::getDisableOnEmptyModel, mi::setDisableOnEmptyModel);
         p.anyChildren(e, "dependencies", mi::getDependencies, mi::setDependencies, p.oneOf(AbstractMenuItem.Dependency.class)
                 .add("enabling", AbstractMenuItem.EnablingDependency.class, this::enablingDependency)
                 .add("visibility", AbstractMenuItem.VisibilityDependency.class, this::dependency));

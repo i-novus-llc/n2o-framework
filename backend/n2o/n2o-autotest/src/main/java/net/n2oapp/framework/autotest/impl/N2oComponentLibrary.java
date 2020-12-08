@@ -19,6 +19,7 @@ import net.n2oapp.framework.autotest.impl.component.fieldset.N2oMultiFieldSetIte
 import net.n2oapp.framework.autotest.impl.component.fieldset.N2oSimpleFieldSet;
 import net.n2oapp.framework.autotest.impl.component.header.N2oAnchorMenuItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oDropdownMenuItem;
+import net.n2oapp.framework.autotest.impl.component.header.N2oSearchItem;
 import net.n2oapp.framework.autotest.impl.component.header.N2oSimpleHeader;
 import net.n2oapp.framework.autotest.impl.component.modal.N2oModal;
 import net.n2oapp.framework.autotest.impl.component.page.N2oLeftRightPage;
@@ -36,6 +37,8 @@ import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarE
 import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarToolbar;
 import net.n2oapp.framework.autotest.impl.component.widget.calendar.N2oCalendarWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.calendar.view.*;
+import net.n2oapp.framework.autotest.impl.component.widget.cards.N2oCard;
+import net.n2oapp.framework.autotest.impl.component.widget.cards.N2oCardsWidget;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oStandardTableHeader;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableFilterHeader;
 import net.n2oapp.framework.autotest.impl.component.widget.table.N2oTableWidget;
@@ -61,6 +64,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oListWidget.class, N2oFormWidget.class,
                 N2oTilesWidget.class, N2oTile.class,
                 N2oTableWidget.class, N2oStandardTableHeader.class, N2oTableFilterHeader.class,
+                N2oCardsWidget.class, N2oCard.class,
                 // widgets (calendar)
                 N2oCalendarWidget.class, N2oCalendarToolbar.class, N2oCalendarEvent.class,
                 N2oCalendarMonthView.class, N2oCalendarAgendaView.class, N2oCalendarDayView.class, N2oCalendarWeekView.class,
@@ -68,7 +72,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 // fieldsets
                 N2oSimpleFieldSet.class, N2oLineFieldSet.class, N2oMultiFieldSet.class, N2oMultiFieldSetItem.class,
                 // buttons
-                N2oDropdownButton.class, N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class,
+                N2oDropdownButton.class, N2oStandardButton.class, N2oDropdownMenuItem.class, N2oAnchorMenuItem.class, N2oSearchItem.class,
                 // fields
                 N2oStandardField.class, N2oIntervalField.class, N2oButtonField.class, N2oImage.class,
                 // controls
@@ -77,7 +81,7 @@ public class N2oComponentLibrary implements ComponentLibrary {
                 N2oOutputText.class, N2oOutputList.class, N2oTextEditor.class, N2oCodeEditor.class, N2oHtml.class, N2oRating.class,
                 N2oSlider.class, N2oPills.class, N2oText.class, N2oAutoComplete.class, N2oProgress.class, N2oStatus.class, N2oAlert.class,
                 N2oInputMoney.class, N2oPasswordControl.class, N2oTextArea.class, N2oInputSelectTree.class, N2oFileUploadControl.class,
-                N2oImageUploadControl.class, N2oNumberPicker.class,
+                N2oImageUploadControl.class, N2oNumberPicker.class, N2oTimePicker.class,
                 // cells
                 N2oTextCell.class, N2oLinkCell.class, N2oEditCell.class, N2oCheckboxCell.class, N2oToolbarCell.class,
                 N2oBadgeCell.class, N2oIconCell.class, N2oImageCell.class, N2oProgressBarCell.class, N2oRatingCell.class,

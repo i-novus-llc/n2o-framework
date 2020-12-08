@@ -154,6 +154,11 @@
                         <xs:documentation>Кнопка с иконкой или без.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="disable-on-empty-model" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Недоступность кнопки при пустой модели.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Реализация действия.</xs:documentation>
