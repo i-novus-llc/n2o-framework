@@ -4,10 +4,10 @@
     <form>
         <toolbar>
             <button label="Открыть с хедером" model="filter">
-                <show-modal page-id="test" backdrop="static"/>
+                <show-modal page-id="test"/>
             </button>
             <button label="Открыть без хедера" model="filter">
-                <show-modal page-id="test" has-header="false"/>
+                <show-modal page-id="test" has-header="false" backdrop="true"/>
             </button>
         </toolbar>
     </form>
