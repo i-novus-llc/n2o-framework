@@ -33,10 +33,8 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.List;
-import java.util.Locale;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -205,7 +203,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         data.put("id", 222);
         modalPage = (SimplePage) read().compile().bind().get(modalContext, data);
         ShowModal showModal = (ShowModal) modalPage.getWidget().getActions().get("menuItem0");
-        assertThat(showModal.getPayload().getPageUrl(), is("/p/222/update/:p_update_main_id/menuItem0"));
+        assertThat(showModal.getPayload().getPageUrl(), is("/p/222/update/menuItem0"));
         assertThat(modalPage.getWidget().getDataProvider().getUrl(), is("n2o/data/p/222/update"));
 //        submit = (InvokeAction) modalPage.getWidget().getActions().get("submit");
 //        assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("p_main_id")));// :p_main_id заменяется на этапе биндинга
@@ -327,7 +325,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(modalPage.getBreadcrumb(), nullValue());
         Widget modalWidget = modalPage.getWidget();
         List<Filter> filters = modalWidget.getFilters();
-        assertThat(filters.get(2).getParam(), is("p_main_id"));
+        assertThat(filters.get(2).getParam(), is("id"));
         assertThat(filters.get(2).getFilterId(), is("id"));
         assertThat(filters.get(2).getRoutable(), is(false));
         assertThat(filters.get(2).getLink().getBindLink(), is("models.resolve['p_main']"));
@@ -343,7 +341,7 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(filters.get(1).getLink().getBindLink(), is("models.filter['p_second']"));
         assertThat(filters.get(1).getLink().getValue(), is("`name`"));
 
-        assertThat(modalWidget.getDataProvider().getPathMapping().get("p_main_id").getBindLink(), is("models.resolve['p_main'].id"));
+        assertThat(modalWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main'].id"));
         assertThat(modalWidget.getDataProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
         assertThat(modalWidget.getDataProvider().getQueryMapping().get("name").getValue(), is("`name`"));
 
@@ -359,14 +357,14 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         InvokeAction submit = (InvokeAction) modalPage.getWidget().getActions().get("submit");
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), is(1));
-        assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:p_main_id/updateWithPrefilters/submit"));
-        ActionContext submitContext = (ActionContext) route("/p/:p_main_id/updateWithPrefilters/submit", CompiledObject.class);
+        assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/submit"));
+        ActionContext submitContext = (ActionContext) route("/p/:id/updateWithPrefilters/submit", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
         assertThat(submitContext.getOperationId(), is("update"));
         assertThat(submitContext.getOperationId(), is("update"));
 
         DataSet data = new DataSet();
-        data.put("p_main_id", 222);
+        data.put("id", 222);
         modalPage = (SimplePage) read().compile().bind().get(modalContext, data);
         assertThat(modalPage.getWidget().getDataProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters"));
         submit = (InvokeAction) modalPage.getWidget().getActions().get("submit");

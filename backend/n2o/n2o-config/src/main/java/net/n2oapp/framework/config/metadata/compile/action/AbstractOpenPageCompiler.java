@@ -144,7 +144,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (currentClientWidgetId == null)
             currentClientWidgetId = actionModelLink.getWidgetId();
 
-        String actionRoute = source.getRoute() == null ? normalize(source.getId()) : source.getRoute();
+        String actionRoute = initActionRoute(source, actionModelLink);
         String masterIdParam = initMasterLink(source.getPathParams(), actionRoute, pathMapping, actionModelLink);
         addPathMappings(source, pathMapping, widgetScope, pageScope, actionDataModel, p);
         String parentRoute = normalize(route);
@@ -196,7 +196,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         List<N2oPreFilter> preFilters = initPreFilters(source, masterIdParam, p);
         pageContext.setPreFilters(preFilters);
         pageContext.setPathRouteMapping(pathMapping);
-        if (source.getRoute() == null)
+        // при наличии route или при filter модели не добавляем queryMapping
+        if (source.getRoute() == null && !ReduxModel.FILTER.equals(actionDataModel))
             queryMapping.putAll(initPreFilterParams(preFilters, pathMapping));
         initQueryMapping(source, p, actionDataModel, pathMapping, queryMapping, pageScope, widgetScope, componentScope);
         pageContext.setQueryRouteMapping(queryMapping);
@@ -214,7 +215,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             return;
 
         List<N2oParam> queryParams = source.getQueryParams() != null ?
-                Arrays.asList(source.getQueryParams()) :
+                new ArrayList<>(Arrays.asList(source.getQueryParams())) :
                 new ArrayList<>();
 
         // Deprecated, будет убрана в будущем
@@ -284,6 +285,26 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pathMapping.put(masterIdParam, actionModelLink);
         }
         return masterIdParam;
+    }
+
+    /**
+     * Добавление идентификатора текущего виджета в параметры маршрута.
+     * Если текущий виджет и виджет из модели действия совпадают и модель resolve, то добавляем.
+     *
+     * @param source          Действие
+     * @param actionModelLink Ссылка на модель действия
+     * @return Маршрут с добавкой идентификатора или без
+     */
+    private String initActionRoute(S source, ModelLink actionModelLink) {
+        String actionRoute = source.getRoute();
+        if (actionRoute == null) {
+            actionRoute = normalize(source.getId());
+            if (StringUtils.hasLink(source.getPageId()) && actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
+                String masterIdParam = actionModelLink.getWidgetId() + "_id";
+                actionRoute = normalize(colon(masterIdParam)) + actionRoute;
+            }
+        }
+        return actionRoute;
     }
 
     /**

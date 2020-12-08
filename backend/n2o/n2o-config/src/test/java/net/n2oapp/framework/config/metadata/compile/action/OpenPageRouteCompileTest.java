@@ -22,8 +22,7 @@ import org.junit.Test;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тест формирования маршрутов при открытии страницы
@@ -73,7 +72,7 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(1))
                 .getActions().get("withoutParam");
         assertThat(action.getUrl(), is("/test/master/:masterId/detail/open2"));
-        assertThat(action.getQueryMapping().get("test_detail_detailId"), notNullValue());
+        assertThat(action.getQueryMapping().isEmpty(), is(true));
     }
 
     /**
