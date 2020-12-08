@@ -277,19 +277,36 @@
                         <xs:documentation>Объект стилей.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="backdrop" default="true">
+                <xs:attribute name="backdrop" default="static">
                     <xs:simpleType>
                         <xs:annotation>
                             <xs:documentation>
                                 Наличие фона модального окна.
-                                Возможные значения: false/true/static (означает что фона нет, но клик на область пустую
-                                не закрывает модальное окно).
+                                Возможные значения: false, true, static.
                             </xs:documentation>
                         </xs:annotation>
                         <xs:restriction base="xs:string">
-                            <xs:enumeration value="true"/>
-                            <xs:enumeration value="false"/>
-                            <xs:enumeration value="static"/>
+                            <xs:enumeration value="false">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Прозрачный фон, клик по фону не закрывает модальное окно.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="true">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Темный фон, клик по фону закрывает модальное окно.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="static">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Темный фон, клик по фону не закрывает модальное окно.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:attribute>
