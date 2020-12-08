@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import includes from 'lodash/includes';
@@ -17,8 +18,6 @@ import scrollIntoView from 'scroll-into-view-if-needed';
 import InputText from '../InputText/InputText';
 import InputIcon from '../../snippets/InputIcon/InputIcon';
 import { MODIFIERS } from '../DatePicker/utils';
-import { findDOMNode } from 'react-dom';
-import every from 'lodash/every';
 
 const HOURS = 'hours';
 const MINUTES = 'minutes';
@@ -262,7 +261,7 @@ export class TimePickerControl extends Component {
                 placeholder={placeholder}
                 disabled={disabled}
                 value={readyValue}
-                onClick={this.handleOpen}
+                onClick={this.handleToggle}
               />
             )}
           </Reference>
