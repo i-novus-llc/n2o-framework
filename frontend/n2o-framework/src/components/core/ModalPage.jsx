@@ -65,56 +65,54 @@ function ModalPage(props) {
   const classes = cn({ 'd-none': loading });
 
   return (
-    <div className="modal-page-overlay">
-      <Spinner type="cover" loading={showSpinner} color="light" transparent>
-        <Modal
-          isOpen={visible}
-          toggle={() => rest.closeOverlay(prompt)}
-          size={size}
-          style={style}
-          scrollable={scrollable}
-          className={className}
-          backdrop={backdrop}
-        >
-          {hasHeader && (
-            <ModalHeader
-              className={classes}
-              toggle={() => rest.closeOverlay(prompt)}
+    <Spinner type="cover" loading={showSpinner} color="light" transparent>
+      <Modal
+        isOpen={visible}
+        toggle={() => rest.closeOverlay(prompt)}
+        size={size}
+        style={style}
+        scrollable={scrollable}
+        className={className}
+        backdrop={backdrop}
+      >
+        {hasHeader && (
+          <ModalHeader
+            className={classes}
+            toggle={() => rest.closeOverlay(prompt)}
+          >
+            {headerTitle}
+          </ModalHeader>
+        )}
+
+        <ModalBody className={classes}>
+          {pageUrl ? (
+            <Page
+              pageUrl={pageUrl}
+              pageId={pageId}
+              pageMapping={pageMapping}
+              entityKey={entityKey}
+              needMetadata={true}
+            />
+          ) : src ? (
+            rest.renderFromSrc(src)
+          ) : null}
+        </ModalBody>
+
+        {toolbar && (
+          <ModalFooter className={classes}>
+            <div
+              className={cn('n2o-modal-actions', {
+                'n2o-disabled': disabled,
+              })}
             >
-              {headerTitle}
-            </ModalHeader>
-          )}
-
-          <ModalBody className={classes}>
-            {pageUrl ? (
-              <Page
-                pageUrl={pageUrl}
-                pageId={pageId}
-                pageMapping={pageMapping}
-                entityKey={entityKey}
-                needMetadata={true}
-              />
-            ) : src ? (
-              rest.renderFromSrc(src)
-            ) : null}
-          </ModalBody>
-
-          {toolbar && (
-            <ModalFooter className={classes}>
-              <div
-                className={cn('n2o-modal-actions', {
-                  'n2o-disabled': disabled,
-                })}
-              >
-                <Toolbar toolbar={toolbar.bottomLeft} entityKey={entityKey} />
-                <Toolbar toolbar={toolbar.bottomCenter} entityKey={entityKey} />
-                <Toolbar toolbar={toolbar.bottomRight} entityKey={entityKey} />
-              </div>
-            </ModalFooter>
-          )}
-        </Modal>
-      </Spinner>
-    </div>
+              <Toolbar toolbar={toolbar.bottomLeft} entityKey={entityKey} />
+              <Toolbar toolbar={toolbar.bottomCenter} entityKey={entityKey} />
+              <Toolbar toolbar={toolbar.bottomRight} entityKey={entityKey} />
+            </div>
+          </ModalFooter>
+        )}
+      </Modal>
+    </Spinner>
   );
 }
 
@@ -185,7 +183,7 @@ ModalPage.defaultProps = {
   headerTitle: 'Модальное окно',
   disabled: false,
   hasHeader: false,
-  backdrop: true,
+  backdrop: 'static',
 };
 
 ModalPage.contextTypes = {
