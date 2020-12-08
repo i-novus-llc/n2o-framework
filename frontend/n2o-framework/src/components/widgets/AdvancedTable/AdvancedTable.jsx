@@ -167,8 +167,9 @@ class AdvancedTable extends Component {
       multi,
       rowSelection,
       resolveModel,
+      onSetSelection,
     } = this.props;
-    const { children } = this.state;
+    const { checked, children } = this.state;
 
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
       const id = selectedId || data[0].id;
@@ -214,7 +215,7 @@ class AdvancedTable extends Component {
       this.setState({ ...state });
     }
     if (
-      !isEqual(prevState.checked, this.state.checked) &&
+      !isEqual(prevState.checked, checked) &&
       rowSelection === rowSelectionType.CHECKBOX
     ) {
       const selectAllCheckbox = ReactDom.findDOMNode(
@@ -223,8 +224,8 @@ class AdvancedTable extends Component {
 
       let all = false;
 
-      const isSomeOneChecked = some(this.state.checked, i => i);
-      const isAllChecked = every(this.state.checked, i => i);
+      const isSomeOneChecked = some(checked, i => i);
+      const isAllChecked = every(checked, i => i);
       if (isAllChecked) {
         all = true;
       }
