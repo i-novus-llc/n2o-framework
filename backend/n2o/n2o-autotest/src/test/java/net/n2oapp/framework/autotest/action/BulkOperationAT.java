@@ -23,7 +23,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Автотест для действия открытия модального окна
+ * Автотест для групповых операций изменения и удаления
  */
 public class BulkOperationAT extends AutoTestBase {
 
@@ -85,14 +85,14 @@ public class BulkOperationAT extends AutoTestBase {
         StandardButton saveButton = modalPage.toolbar().bottomRight().button("Сохранить");
         saveButton.shouldExists();
         saveButton.click();
-
+        modalPage.shouldNotExists();
         name1.textShouldHave("new name");
         name2.textShouldHave("new name");
 
         Button deleteManyButton = table.toolbar().topLeft().button("Удалить выбранные");
         deleteManyButton.shouldExists();
         deleteManyButton.click();
-
+        table.columns().rows().shouldHaveSize(2);
     }
 
 }
