@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getContext } from 'recompose';
+import Row from 'reactstrap/lib/Row';
+import Col from 'reactstrap/lib/Col';
+import { withTranslation } from 'react-i18next';
 
 import SelectContainer from '../../controls/Select/SelectContainer';
 import RadioGroupContainer from '../../controls/RadioGroup/RadioGroupContainer';
 import ReduxForm from '../Form/ReduxForm';
 import Fieldset from '../Form/Fieldset';
-
-import Row from 'reactstrap/lib/Row';
-import Col from 'reactstrap/lib/Col';
 
 /**
  * Имя формы экспорта таблицы
@@ -117,4 +116,4 @@ ExportModal.propTypes = {
   code: PropTypes.string,
 };
 
-export default getContext({ t: PropTypes.func })(ExportModal);
+export default withTranslation()(ExportModal);

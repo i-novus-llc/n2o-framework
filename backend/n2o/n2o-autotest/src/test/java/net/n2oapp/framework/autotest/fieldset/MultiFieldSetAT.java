@@ -52,12 +52,14 @@ public class MultiFieldSetAT extends AutoTestBase {
         // 1.проверка, что при can-add="false" (нельзя добавить элемент)
         MultiFieldSet fieldset1 = page.widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
         fieldset1.shouldExists();
+        fieldset1.shouldNotHaveLabel();
         fieldset1.shouldBeEmpty();
         fieldset1.addButtonShouldNotBeExist();
 
         // 2.стандартный случай
         MultiFieldSet fieldset2 = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
         fieldset2.shouldExists();
+        fieldset2.shouldHaveLabel("Заголовок");
         fieldset2.addButtonShouldBeExist();
         fieldset2.addButtonShouldHaveLabel("Добавить участника");
         fieldset2.clickAddButton();

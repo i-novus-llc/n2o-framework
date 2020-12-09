@@ -47,7 +47,7 @@ public abstract class AbstractMenuItem extends ActionComponent implements Extens
     private String confirmCancelLabel;
     private String tooltipPosition;
     private Dependency[] dependencies;
-
+    private Boolean disableOnEmptyModel;
 
     @Getter
     @Setter

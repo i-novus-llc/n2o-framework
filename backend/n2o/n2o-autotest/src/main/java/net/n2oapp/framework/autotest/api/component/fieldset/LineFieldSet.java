@@ -12,8 +12,6 @@ public interface LineFieldSet extends FieldSet {
 
     void shouldNotBeCollapsible();
 
-    void shouldHaveLabel(String title);
-
     void expandContent();
 
     void collapseContent();

@@ -8,7 +8,7 @@ import Text from './Typography/Text/Text';
 import Paragraph from './Typography/Paragraph/Paragraph';
 import Spinner from './Spinner/Spinner';
 import PopoverConfirm from './PopoverConfirm/PopoverConfirm';
-import SearchBar from './SearchBar/SearchBar';
+import SearchBarContainer from './SearchBar/SearchBarContainer';
 import Drawer from './Drawer/Drawer';
 import StatusText from './StatusText/StatusText';
 import Image from './Image/Image';
@@ -24,7 +24,7 @@ export default {
   Paragraph,
   Spinner,
   PopoverConfirm,
-  SearchBar,
+  SearchBar: SearchBarContainer,
   Drawer,
   StatusText,
   Image,
