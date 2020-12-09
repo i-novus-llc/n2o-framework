@@ -7,7 +7,7 @@
             </invocation>
             <in-parameters>
                 <param id="ids"  mapping="['ids']"/>
-                <param id="new_name"  mapping="['ids']"/>
+                <param id="new_name"  mapping="['name']"/>
             </in-parameters>
         </operation>
         <operation id="deleteMany">
