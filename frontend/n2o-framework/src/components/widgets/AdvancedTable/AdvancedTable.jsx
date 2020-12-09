@@ -303,6 +303,7 @@ class AdvancedTable extends Component {
 
     if (height) {
       el.bodyTable.style.height = height;
+      el.bodyTable.style.overflow = 'auto';
     }
 
     this.table = el;
@@ -666,7 +667,7 @@ class AdvancedTable extends Component {
   }
 
   mapColumns(columns = []) {
-    const { rowSelection, filters } = this.props;
+    const { rowSelection, filters, textWrap } = this.props;
     let newColumns = columns;
     newColumns = map(newColumns, (col, columnIndex) => ({
       ...col,
@@ -680,7 +681,7 @@ class AdvancedTable extends Component {
         record,
         editable: col.editable && record.editable,
         hasSpan: col.hasSpan,
-        textWrap: col.textWrap,
+        textWrap: textWrap,
       }),
     }));
     if (!!rowSelection) {
@@ -693,9 +694,7 @@ class AdvancedTable extends Component {
   }
 
   getScroll() {
-    const { height } = this.props;
-
-    return { x: false, y: Boolean(height) };
+    return { x: false, y: false };
   }
 
   render() {
@@ -712,6 +711,7 @@ class AdvancedTable extends Component {
       rowSelection,
       t,
       width,
+      height,
     } = this.props;
 
     const style = width ? { width } : {};
@@ -730,6 +730,8 @@ class AdvancedTable extends Component {
               'has-focus': hasFocus,
               [`table-${tableSize}`]: tableSize,
               'table-bordered': bordered,
+              'has-static-height': height,
+              'has-static-width': width,
             })}
             columns={this.state.columns}
             data={this.state.data}
