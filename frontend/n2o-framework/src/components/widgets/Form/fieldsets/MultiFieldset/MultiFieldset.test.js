@@ -42,6 +42,7 @@ const fieldsets = [
     needCopyButton: true,
     name: 'members',
     label: "`'Элемент ' + index`",
+    childrenLabel: "`'Элемент ' + index`",
     rows: [
       {
         cols: [
@@ -50,7 +51,7 @@ const fieldsets = [
               {
                 src: 'StandardField',
                 id: 'surname',
-                label: 'Фамилия',
+                childrenLabel: 'Фамилия',
                 dependency: [
                   {
                     type: 'enabled',
@@ -71,7 +72,7 @@ const fieldsets = [
               {
                 src: 'StandardField',
                 id: 'name',
-                label: 'Имя:',
+                childrenLabel: 'Имя:',
                 dependency: [],
                 control: {
                   src: 'InputText',
@@ -129,7 +130,6 @@ describe('<MultiFieldset />', () => {
 
   it('отрисовывается правильный label', () => {
     const wrapper = setup();
-
     expect(wrapper.find('.n2o-multi-fieldset__label').length).toBe(2);
     expect(
       wrapper

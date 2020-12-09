@@ -24,6 +24,7 @@ import isNumber from 'lodash/isNumber';
 
 import propsResolver from '../../../utils/propsResolver';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
+
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import RadioN2O from '../../controls/Radio/RadioN2O';
 
@@ -39,7 +40,10 @@ import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
 import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
-  const index = findIndex(data, model => model.id === selectedId);
+  const index = findIndex(
+    data,
+    model => Number(model.id) === Number(selectedId)
+  );
   return index >= 0 ? index : 0;
 };
 
@@ -169,6 +173,7 @@ class AdvancedTable extends Component {
       resolveModel,
       onSetSelection,
     } = this.props;
+
     const { checked, children } = this.state;
 
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
@@ -237,7 +242,8 @@ class AdvancedTable extends Component {
     if (
       resolveModel &&
       rowSelection === rowSelectionType.RADIO &&
-      !isEqual(resolveModel, prevProps.resolveModel)
+      !isEqual(resolveModel, prevProps.resolveModel) &&
+      autoFocus
     ) {
       this.setState({ checked: { [resolveModel.id]: true } });
     }

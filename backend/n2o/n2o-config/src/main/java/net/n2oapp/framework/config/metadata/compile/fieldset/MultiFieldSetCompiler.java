@@ -19,17 +19,22 @@ public class MultiFieldSetCompiler extends AbstractFieldSetCompiler<MultiFieldSe
     public MultiFieldSet compile(N2oMultiFieldSet source, CompileContext<?, ?> context, CompileProcessor p) {
         MultiFieldSet fieldSet = new MultiFieldSet();
         compileFieldSet(fieldSet, source, context, p);
-        fieldSet.setLabel(p.resolveJS(source.getLabel()));
-        fieldSet.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.fieldset.multi_set.src"), String.class)));
+        fieldSet.setChildrenLabel(p.resolveJS(source.getChildrenLabel()));
+        fieldSet.setSrc(p.cast(source.getSrc(),
+                p.resolve(property("n2o.api.fieldset.multi_set.src"), String.class)));
         fieldSet.setName(source.getId());
         fieldSet.setAddButtonLabel(source.getAddButtonLabel());
         fieldSet.setRemoveAllButtonLabel(source.getRemoveAllButtonLabel());
-        fieldSet.setCanRemoveFirstItem(p.cast(source.getCanRemoveFirst(), p.resolve(property("n2o.api.fieldset.multi-set.can_remove_first_item"), Boolean.class)));
-        fieldSet.setNeedAddButton(p.cast(source.getCanAdd(), p.resolve(property("n2o.api.fieldset.multi-set.can_add"), Boolean.class)));
-        fieldSet.setNeedRemoveButton(p.cast(source.getCanRemove(), p.resolve(property("n2o.api.fieldset.multi-set.can_remove"), Boolean.class)));
-        fieldSet.setNeedCopyButton(p.cast(source.getCanCopy(), p.resolve(property("n2o.api.fieldset.multi-set.can_copy"), Boolean.class)));
-        fieldSet.setNeedRemoveAllButton(p.cast(source.getCanRemoveAll(), p.resolve(property("n2o.api.fieldset.multi-set.can_remove_all"), Boolean.class)));
-
+        fieldSet.setCanRemoveFirstItem(p.cast(source.getCanRemoveFirst(),
+                p.resolve(property("n2o.api.fieldset.multi-set.can_remove_first_item"), Boolean.class)));
+        fieldSet.setNeedAddButton(p.cast(source.getCanAdd(),
+                p.resolve(property("n2o.api.fieldset.multi-set.can_add"), Boolean.class)));
+        fieldSet.setNeedRemoveButton(p.cast(source.getCanRemove(),
+                p.resolve(property("n2o.api.fieldset.multi-set.can_remove"), Boolean.class)));
+        fieldSet.setNeedCopyButton(p.cast(source.getCanCopy(),
+                p.resolve(property("n2o.api.fieldset.multi-set.can_copy"), Boolean.class)));
+        fieldSet.setNeedRemoveAllButton(p.cast(source.getCanRemoveAll(),
+                p.resolve(property("n2o.api.fieldset.multi-set.can_remove_all"), Boolean.class)));
         return fieldSet;
     }
 

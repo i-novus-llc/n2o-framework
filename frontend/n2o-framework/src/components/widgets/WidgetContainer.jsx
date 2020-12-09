@@ -10,6 +10,7 @@ import pick from 'lodash/pick';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isFunction from 'lodash/isFunction';
+import has from 'lodash/has';
 import cx from 'classnames';
 import { batchActions } from 'redux-batched-actions';
 import { callActionImpl } from '../../actions/toolbar';
@@ -105,8 +106,10 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           dataProviderFromState,
           dataProvider,
         } = this.props;
+        const hasVisibleDeps = has(this.context, 'metadata.dependency.visible');
+
         if (
-          fetchOnInit &&
+          (hasVisibleDeps || fetchOnInit) &&
           visible &&
           (isEqual(dataProvider, dataProviderFromState) ||
             !dataProviderFromState ||

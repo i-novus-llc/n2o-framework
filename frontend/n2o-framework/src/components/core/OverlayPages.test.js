@@ -5,36 +5,62 @@ import { OverlayPages } from './OverlayPages';
 import mockStore from 'redux-mock-store';
 
 const setup = propsOverride => {
-  const props = {
-    overlays: [
-      {
-        pageId: 'test',
-        name: 'test',
-        visible: true,
-        mode: 'modal',
-      },
-    ],
-  };
-
   return mount(
     <Provider
       store={mockStore()({ pages: { test: {} }, overlays: [{ name: 'test' }] })}
     >
-      <OverlayPages {...props} {...propsOverride} />
+      <OverlayPages {...propsOverride} />
     </Provider>
   );
 };
 
 describe('<OverlayPages />', () => {
-  it('компонент должен отрисоваться', () => {
-    const wrapper = setup();
+  it('Мод modal', () => {
+    const wrapper = setup({
+      overlays: [
+        {
+          pageId: 'test',
+          name: 'test',
+          visible: true,
+          mode: 'modal',
+        },
+      ],
+    });
 
     expect(wrapper.find('.n2o-overlay-pages').exists()).toBeTruthy();
   });
+});
 
-  it('должен отрисоваться modalPage', () => {
-    const wrapper = setup();
+describe('<OverlayPages />', () => {
+  it('Мод dialog', () => {
+    const wrapper = setup({
+      overlays: [
+        {
+          pageId: 'test',
+          name: 'test',
+          visible: true,
+          mode: 'dialog',
+        },
+      ],
+    });
 
-    expect(wrapper.find('ModalPage').exists()).toBeTruthy();
+    expect(wrapper.find('.n2o-overlay-pages').exists()).toBeTruthy();
+  });
+});
+
+describe('<OverlayPages />', () => {
+  it('Мод drawer', () => {
+    const wrapper = setup({
+      overlays: [
+        {
+          pageId: 'test',
+          name: 'test',
+          visible: true,
+          mode: 'drawer',
+        },
+      ],
+    });
+
+    expect(wrapper.find('.n2o-overlay-pages').exists()).toBeTruthy();
   });
 });

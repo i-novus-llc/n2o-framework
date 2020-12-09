@@ -40,64 +40,64 @@
                     <xs:element name="row" type="rowDefinition" minOccurs="0"/>
                     <xs:element name="col" type="colDefinition" minOccurs="0"/>
                 </xs:sequence>
-                <xs:attribute name="id" type="xs:string" use="optional">
+                <xs:attribute name="id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="ref-id" type="xs:string" use="optional">
+                <xs:attribute name="ref-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Ссылка на файл филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="src" type="xs:string" use="optional">
+                <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Стиль филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="class" type="xs:string" use="optional">
+                <xs:attribute name="class" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Местоположение региона на странице.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="style" type="xs:string" use="optional">
+                <xs:attribute name="style" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Стиль филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="label" type="xs:string" use="optional">
+                <xs:attribute name="label" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Заголовок филдсета.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="field-label-location" type="locationType" use="optional">
+                <xs:attribute name="field-label-location" type="locationType">
                     <xs:annotation>
                         <xs:documentation>Расположение лейблов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="field-label-align" type="alignType" use="optional">
+                <xs:attribute name="field-label-align" type="alignType">
                     <xs:annotation>
                         <xs:documentation>Выравнивание лейблов.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="field-label-width" type="xs:integer" use="optional">
+                <xs:attribute name="field-label-width" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>Ширина лейблов в пикселях.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="visible" type="xs:boolean" use="optional">
+                <xs:attribute name="visible" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Условие видимости.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="enabled" type="xs:boolean" use="optional">
+                <xs:attribute name="enabled" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Условие доступности.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="depends-on" type="xs:string" use="optional">
+                <xs:attribute name="depends-on" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Список полей, от которых зависит филдсет/</xs:documentation>
+                        <xs:documentation>Список полей, от которых зависит филдсет.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:anyAttribute>
@@ -150,6 +150,14 @@
                 <xs:annotation>
                     <xs:documentation>Филдсет с динамическим числом полей.</xs:documentation>
                 </xs:annotation>
+                <xs:attribute name="children-label" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Заголовок дочерних элементов.
+                            С помощью {index} можно управлять нумерацией.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="add-label" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Заголовок кнопки добавления.</xs:documentation>

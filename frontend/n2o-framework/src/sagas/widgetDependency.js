@@ -14,12 +14,13 @@ import includes from 'lodash/includes';
 import some from 'lodash/some';
 import isEmpty from 'lodash/isEmpty';
 import forOwn from 'lodash/forOwn';
+import sortBy from 'lodash/sortBy';
 import {
   REGISTER_DEPENDENCY,
   UPDATE_WIDGET_DEPENDENCY,
 } from '../constants/dependency';
 import { CLEAR, COPY, SET } from '../constants/models';
-import { DEPENDENCY_TYPES } from '../core/dependencyTypes';
+import { DEPENDENCY_TYPES, DEPENDENCY_ORDER } from '../core/dependencyTypes';
 import {
   dataRequestWidget,
   showWidget,
@@ -189,10 +190,14 @@ export function* resolveWidgetDependency(
   state,
   widgetsDependencies
 ) {
-  const dependenciesKeys = keys(widgetsDependencies);
+  const dependenciesKeys = sortBy(keys(widgetsDependencies), item => {
+    return DEPENDENCY_ORDER.indexOf(item);
+  });
   for (let i = 0; i < dependenciesKeys.length; i++) {
     const { dependency, widgetId } = widgetsDependencies[dependenciesKeys[i]];
-    const widgetDependenciesKeys = keys(dependency);
+    const widgetDependenciesKeys = sortBy(keys(dependency), item => {
+      return DEPENDENCY_ORDER.indexOf(item);
+    });
     for (let j = 0; j < widgetDependenciesKeys.length; j++) {
       const prevIsVisible = makeWidgetVisibleSelector(widgetId)(prevState);
       const isVisible = yield select(makeWidgetVisibleSelector(widgetId));
@@ -235,7 +240,7 @@ export function* resolveDependency(
 ) {
   switch (dependencyType) {
     case DEPENDENCY_TYPES.fetch: {
-      if (prevIsVisible !== false && isVisible) {
+      if (isVisible) {
         yield call(resolveFetchDependency, widgetId);
       }
       break;
