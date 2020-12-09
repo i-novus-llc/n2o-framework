@@ -18,10 +18,6 @@
         </field>
         <field id="name">
             <select/>
-            <filters>
-                <eq filter-id="name_eq"/>
-                <like filter-id="name"/>
-            </filters>
         </field>
     </fields>
 </query>

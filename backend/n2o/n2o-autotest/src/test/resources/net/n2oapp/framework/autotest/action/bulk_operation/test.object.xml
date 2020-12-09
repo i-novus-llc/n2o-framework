@@ -10,7 +10,7 @@
                 <param id="new_name"  mapping="['name']"/>
             </in-parameters>
         </operation>
-        <operation id="deleteMany">
+        <operation id="deleteMany" confirm="false">
             <invocation>
                 <test file="net/n2oapp/framework/autotest/action/bulk_operation/test.json" operation="deleteMany"/>
             </invocation>
