@@ -147,7 +147,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             currentClientWidgetId = actionModelLink.getWidgetId();
 
         String actionRoute = initActionRoute(source, actionModelLink);
-        String masterIdParam = initMasterLink(source.getPathParams(), actionRoute, pathMapping, actionModelLink);
+        String masterIdParam = initMasterLink(source.getPathParams(), actionRoute, pathMapping, actionModelLink, p);
         addPathMappings(source, pathMapping, widgetScope, pageScope, actionDataModel, p);
         String parentRoute = normalize(route);
         List<String> pathParams = RouteUtil.getPathParams(actionRoute);
@@ -263,22 +263,21 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * @param actionModelLink Модель данных действия
      * @return Наименование параметра ссылки
      */
-    private String initMasterLink(N2oParam[] pathParams, String actionRoute, Map<String, ModelLink> pathMapping, ModelLink actionModelLink) {
-        List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
-        String masterIdParam = null;
-        if (!actionRouteParams.isEmpty()) {
-            masterIdParam = actionRouteParams.get(0);
-
+    private String initMasterLink(N2oParam[] pathParams, String actionRoute, Map<String, ModelLink> pathMapping,
+                                  ModelLink actionModelLink, CompileProcessor p) {
+        String masterIdParam = getMasterIdParam(actionRoute);
+        if (masterIdParam != null) {
             if (pathParams != null) {
-                String finalMasterIdParam = masterIdParam;
-                Optional<N2oParam> pathParam = Arrays.stream(pathParams)
-                        .filter(p -> finalMasterIdParam.equals(p.getName())).findFirst();
-                if (pathParam.isPresent()) {
-                    String value = pathParam.get().getValue();
+                Optional<N2oParam> param = Arrays.stream(pathParams)
+                        .filter(pp -> masterIdParam.equals(pp.getName())).findFirst();
+                if (param.isPresent()) {
+                    N2oParam pathParam = param.get();
+                    String value = pathParam.getValue();
                     if (StringUtils.isLink(value)) {
                         SubModelQuery subModelQuery = actionModelLink.getSubModelQuery();
-                        actionModelLink = new ModelLink(actionModelLink.getModel(),
-                                actionModelLink.getWidgetId(),
+                        actionModelLink = new ModelLink(
+                                p.cast(pathParam.getRefModel(), actionModelLink.getModel()),
+                                p.cast(pathParam.getRefWidgetId(), actionModelLink.getWidgetId()),
                                 value.substring(1, value.length() - 1));
                         actionModelLink.setSubModelQuery(subModelQuery);
                     } else actionModelLink = new ModelLink(value);
@@ -287,6 +286,16 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pathMapping.put(masterIdParam, actionModelLink);
         }
         return masterIdParam;
+    }
+
+    /**
+     * Получение мастер параметра
+     * @param actionRoute Маршрут действия
+     * @return Мастер параметр
+     */
+    private String getMasterIdParam(String actionRoute) {
+        List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
+        return actionRouteParams.isEmpty() ? null : actionRouteParams.get(0);
     }
 
     /**
@@ -317,8 +326,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String actionRoute = source.getRoute();
         if (actionRoute == null) {
             actionRoute = normalize(source.getId());
+            // генерация маршрута для динамической страницы с моделью resolve
             boolean isDynamicPage = hasRefs(source.getPageId()) || isDynamic(source.getPageId());
-            // динамическая страница с моделью resolve
             if (isDynamicPage && actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
                 String masterIdParam = actionModelLink.getWidgetId() + "_id";
                 actionRoute = normalize(colon(masterIdParam)) + actionRoute;

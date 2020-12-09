@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.action.open_drawer.OpenDrawer;
+import net.n2oapp.framework.api.metadata.meta.action.show_modal.ShowModal;
 import net.n2oapp.framework.api.metadata.meta.control.ButtonField;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -22,7 +23,8 @@ import org.junit.Test;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
  * Тест формирования маршрутов при открытии страницы
@@ -180,6 +182,30 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
         assertThat(pathMapping.size(), is(1));
         assertThat(pathMapping.get("version").getBindLink(), is("models.resolve['test_main'].version"));
+    }
+
+    /**
+     * Тест открытия страницы с path параметрами и проверка дефолтных и заданных значений мастер параметра.
+     * Если не заданы, то виджет и модель берутся из кнопки
+     */
+    @Test
+    public void testMasterParamWithDefaultAndDefinedAttributes() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testMasterParam.page.xml")
+                .get(new PageContext("testMasterParam", "/test"));
+
+        // with itself model and widget-id
+        ShowModal action = (ShowModal) ((Form) page.getRegions().get("single").get(0).getContent().get(1))
+                .getToolbar().get("topLeft").get(0).getButtons().get(0).getAction();
+        Map<String, ModelLink> pathMapping = action.getPayload().getPathMapping();
+        assertThat(pathMapping.size(), is(1));
+        assertThat(pathMapping.get("id").getBindLink(), is("models.resolve['master'].clientId"));
+
+        // with default (from button) model and widget-id
+        action = (ShowModal) ((Form) page.getRegions().get("single").get(0).getContent().get(2))
+                .getToolbar().get("topLeft").get(0).getButtons().get(0).getAction();
+        pathMapping = action.getPayload().getPathMapping();
+        assertThat(pathMapping.size(), is(1));
+        assertThat(pathMapping.get("id").getBindLink(), is("models.filter['test_dependent2'].clientId"));
     }
 
 
