@@ -34,6 +34,8 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
+import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
@@ -315,7 +317,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String actionRoute = source.getRoute();
         if (actionRoute == null) {
             actionRoute = normalize(source.getId());
-            boolean isDynamicPage = StringUtils.hasLink(source.getPageId()) || source.getPageId().contains("?");
+            boolean isDynamicPage = hasRefs(source.getPageId()) || isDynamic(source.getPageId());
             // динамическая страница с моделью resolve
             if (isDynamicPage && actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
                 String masterIdParam = actionModelLink.getWidgetId() + "_id";
