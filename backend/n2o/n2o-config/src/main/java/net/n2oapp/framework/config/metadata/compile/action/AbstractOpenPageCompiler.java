@@ -288,26 +288,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     }
 
     /**
-     * Добавление идентификатора текущего виджета в параметры маршрута.
-     * Если текущий виджет и виджет из модели действия совпадают и модель resolve, то добавляем.
-     *
-     * @param source          Действие
-     * @param actionModelLink Ссылка на модель действия
-     * @return Маршрут с добавкой идентификатора или без
-     */
-    private String initActionRoute(S source, ModelLink actionModelLink) {
-        String actionRoute = source.getRoute();
-        if (actionRoute == null) {
-            actionRoute = normalize(source.getId());
-            if (StringUtils.hasLink(source.getPageId()) && actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
-                String masterIdParam = actionModelLink.getWidgetId() + "_id";
-                actionRoute = normalize(colon(masterIdParam)) + actionRoute;
-            }
-        }
-        return actionRoute;
-    }
-
-    /**
      * Добавление path-param в pathMapping
      */
     private void addPathMappings(S source, Map<String, ModelLink> pathMapping, WidgetScope widgetScope,
@@ -322,6 +302,27 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             }
             pathMapping.putAll(initParams(params, pathMapping));
         }
+    }
+
+    /**
+     * Построение маршрута действия
+     *
+     * @param source          Действие
+     * @param actionModelLink Ссылка на модель действия
+     * @return Маршрут действия
+     */
+    private String initActionRoute(S source, ModelLink actionModelLink) {
+        String actionRoute = source.getRoute();
+        if (actionRoute == null) {
+            actionRoute = normalize(source.getId());
+            boolean isDynamicPage = StringUtils.hasLink(source.getPageId()) || source.getPageId().contains("?");
+            // динамическая страница с моделью resolve
+            if (isDynamicPage && actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
+                String masterIdParam = actionModelLink.getWidgetId() + "_id";
+                actionRoute = normalize(colon(masterIdParam)) + actionRoute;
+            }
+        }
+        return actionRoute;
     }
 
     protected abstract void initPageRoute(D compiled, String route,
