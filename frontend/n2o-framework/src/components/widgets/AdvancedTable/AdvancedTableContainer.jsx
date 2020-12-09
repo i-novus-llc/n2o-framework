@@ -63,7 +63,7 @@ class AdvancedTableContainer extends React.Component {
       datasource: prevDatasource,
       onResolve,
     } = prevProps;
-    const { hasSelect, datasource, selectedId } = this.props;
+    const { hasSelect, datasource, selectedId, autoFocus } = this.props;
 
     if (!isEqual(prevProps.datasource, this.props.datasource)) {
       this.setState({
@@ -81,7 +81,11 @@ class AdvancedTableContainer extends React.Component {
         !isEqualCollectionItemsById(prevDatasource, datasource, selectedId))
     ) {
       const selectedModel = find(datasource, model => model.id == selectedId);
-      const resolveModel = selectedModel || datasource[0];
+
+      const resolveModel = autoFocus
+        ? selectedModel || datasource[0]
+        : selectedModel || {};
+
       onResolve(resolveModel);
     }
   }

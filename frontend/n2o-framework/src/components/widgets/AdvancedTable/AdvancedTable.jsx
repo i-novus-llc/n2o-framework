@@ -40,10 +40,7 @@ import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 import AdvancedTableEmptyText from './AdvancedTableEmptyText';
 
 export const getIndex = (data, selectedId) => {
-  const index = findIndex(
-    data,
-    model => Number(model.id) === Number(selectedId)
-  );
+  const index = findIndex(data, model => model.id == selectedId);
   return index >= 0 ? index : 0;
 };
 
