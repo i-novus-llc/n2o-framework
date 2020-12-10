@@ -220,7 +220,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                 new ArrayList<>(Arrays.asList(source.getQueryParams())) :
                 new ArrayList<>();
 
-        // Deprecated, будет убрана в будущем
+        // Deprecated, будет убрано в будущем
         if (ReduxModel.RESOLVE.equals(actionDataModel) && source.getRoute() == null) {
             Consumer<String> addParamConsumer = s -> {
                 N2oParam masterParam = new N2oParam();
