@@ -320,15 +320,20 @@
                         <xs:documentation>Размер строк таблицы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="scroll-x" type="xs:string">
+                <xs:attribute name="width" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Ширина таблицы, после которой появится горизонтальный скрол.
+                        <xs:documentation>Максимальная ширина таблицы.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="scroll-y" type="xs:string">
+                <xs:attribute name="height" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>Высота таблицы, после которой появится вертикальный скрол.</xs:documentation>
+                        <xs:documentation>Максимальная высота таблицы.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="text-wrap" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Перенос текста в ячейке.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="checkboxes" type="xs:boolean" default="false">
