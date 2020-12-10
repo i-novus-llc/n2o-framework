@@ -224,8 +224,8 @@ class Fieldset extends React.Component {
 
     this.fields = [];
     const enabled = !disabled;
-    const blackList = ['LineFieldset'];
-    const needLabel = !blackList.includes(this.props.component.name) && label;
+    const blackList = ['line'];
+    const needLabel = !blackList.includes(this.props.type) && label;
 
     if (React.Children.count(children)) {
       return <ElementType>{children}</ElementType>;

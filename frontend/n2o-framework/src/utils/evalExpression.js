@@ -48,7 +48,8 @@ const fooCache = {};
  */
 export default function evalExpression(expression, context) {
   try {
-    const contextFinal = isObject(context) ? context : {};
+    const contextFinal =
+      isObject(context) && !Array.isArray(context) ? context : {};
     const vars = { ...window._n2oEvalContext, ...contextFinal };
     const fn = createContextFn(Object.keys(vars), expression);
 

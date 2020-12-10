@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { compose } from 'recompose';
+import isFunction from 'lodash/isFunction';
 import withRightPlaceholder from '../withRightPlaceholder';
 import Input from '../Input/Input';
 
@@ -26,17 +27,44 @@ class InputText extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onChange = this.onChange.bind(this);
+    this.state = {
+      focused: false,
+    };
+
+    this.inputRef = React.createRef();
   }
-  /**
-   * Рендер
-   */
-  onChange(e) {
+
+  onChange = e => {
     const { onChange } = this.props;
-    if (typeof onChange !== 'undefined') {
+
+    if (isFunction(onChange)) {
       onChange(e.target.value);
     }
-  }
+  };
+
+  onBlur = e => {
+    const { onBlur } = this.props;
+    this.setState(() => ({
+      focused: false,
+    }));
+    if (isFunction(onBlur)) {
+      onBlur(e);
+    }
+  };
+
+  onFocus = e => {
+    const { onFocus } = this.props;
+    this.setState(() => ({
+      focused: true,
+    }));
+    if (isFunction(onFocus)) {
+      onFocus(e);
+    }
+  };
+
+  handleClickAffix = () => {
+    this.inputRef.current.focus();
+  };
 
   render() {
     const {
@@ -49,27 +77,81 @@ class InputText extends React.Component {
       onFocus,
       onBlur,
       onKeyDown,
+      onClick,
       autoFocus,
       className,
       style,
+      prefix,
+      suffix,
+      readOnly,
     } = this.props;
+    const { focused } = this.state;
+
+    const hasAffix = !!prefix || !!suffix;
+
+    const inputProps = {
+      type: 'text',
+      autoFocus,
+      maxLength: length,
+      value: value === null ? '' : value,
+      placeholder,
+      disabled,
+      readOnly,
+      onPaste,
+      onKeyDown,
+      onClick,
+      onChange: this.onChange,
+    };
+
+    if (hasAffix) {
+      return (
+        <div
+          ref={inputRef}
+          className={cn(
+            'form-control n2o-input-text__affix-wrapper',
+            className,
+            {
+              focused,
+              disabled,
+            }
+          )}
+          style={style}
+        >
+          {prefix ? (
+            <span
+              className={cn('n2o-input-text__prefix')}
+              onClick={this.handleClickAffix}
+            >
+              {prefix}
+            </span>
+          ) : null}
+          <Input
+            {...inputProps}
+            inputRef={this.inputRef}
+            className="n2o-input-text"
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+          />
+          {suffix ? (
+            <span
+              className={cn('n2o-input-text__suffix')}
+              onClick={this.handleClickAffix}
+            >
+              {suffix}
+            </span>
+          ) : null}
+        </div>
+      );
+    }
 
     return (
       <Input
-        type="text"
+        {...inputProps}
         className={cn('form-control n2o-input-text', className)}
-        inputRef={inputRef}
         style={style}
-        autoFocus={autoFocus}
-        maxLength={length}
-        value={value == null ? '' : value}
-        placeholder={placeholder}
-        disabled={disabled}
-        onPaste={onPaste}
         onFocus={onFocus}
         onBlur={onBlur}
-        onKeyDown={onKeyDown}
-        onChange={this.onChange}
+        inputRef={inputRef}
       />
     );
   }
@@ -101,6 +183,10 @@ InputText.propTypes = {
    */
   onKeyDown: PropTypes.func,
   /**
+   * Callback на нажатие кнопки
+   */
+  onClick: PropTypes.func,
+  /**
    * Класс
    */
   className: PropTypes.string,
@@ -128,6 +214,18 @@ InputText.propTypes = {
    * Функция получения ref
    */
   inputRef: PropTypes.any,
+  /**
+   * prefix
+   */
+  prefix: PropTypes.node,
+  /**
+   * suffix
+   */
+  suffix: PropTypes.node,
+  /**
+   * readOnly
+   */
+  readOnly: PropTypes.bool,
 };
 
 InputText.defaultProps = {

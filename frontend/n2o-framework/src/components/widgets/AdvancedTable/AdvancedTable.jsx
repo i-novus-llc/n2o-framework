@@ -171,6 +171,7 @@ class AdvancedTable extends Component {
       multi,
       rowSelection,
       resolveModel,
+      onSetSelection,
     } = this.props;
 
     const { checked, children } = this.state;
