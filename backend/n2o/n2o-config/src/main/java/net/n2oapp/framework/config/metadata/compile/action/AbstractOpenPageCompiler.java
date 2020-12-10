@@ -228,10 +228,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                 masterParam.setValue(Placeholders.ref(s));
                 queryParams.add(masterParam);
             };
-            if (source.getMasterParam() != null)
-                addParamConsumer.accept(source.getMasterParam());
             if (source.getDetailFieldId() != null)
                 addParamConsumer.accept(source.getDetailFieldId());
+            if (source.getMasterParam() != null &&
+                    (source.getDetailFieldId() == null || !source.getDetailFieldId().equals(source.getMasterParam())))
+                addParamConsumer.accept(source.getMasterParam());
         }
 
         List<N2oParam> resultParams = new ArrayList<>();

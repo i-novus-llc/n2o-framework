@@ -11,40 +11,48 @@
     </regions>
     <toolbar>
         <!-- с route -->
-        <button id="routeWithoutParams">
+        <button id="btn1">
             <open-page page-id="testOpenPageRoutePage" route="/update"/>
         </button>
-        <button id="routeWithoutParamsWithFilterModel" model="filter">
+        <button id="btn2" model="filter">
             <open-page page-id="testOpenPageRoutePage" route="/update"/>
         </button>
-        <button id="routeWithMasterParam">
+        <button id="btn3">
             <open-page page-id="testOpenPageRoutePage" route="/update" master-param="id"/>
         </button>
-        <button id="routeWithDetailFieldId" model="filter">
+        <button id="btn4" model="filter">
             <open-page page-id="testOpenPageRoutePage" route="/update" detail-field-id="id"/>
         </button>
 
         <!-- без route с master-param -->
-        <button id="withoutRouteWithMasterParam">
+        <button id="btn5">
             <open-page page-id="testOpenPageRoutePage" master-param="id"/>
         </button>
-        <button id="withoutRouteWithMasterParamWithFilterModel" model="filter">
+        <button id="btn6" model="filter">
             <open-page page-id="testOpenPageRoutePage" master-param="id"/>
         </button>
 
         <!-- без route с detail-field-id -->
-        <button id="withoutRouteWithDetailFieldId">
+        <button id="btn7">
             <open-page page-id="testOpenPageRoutePage" detail-field-id="id"/>
         </button>
-        <button id="withoutRouteWithDetailFieldIdWithFilterModel" model="filter">
+        <button id="btn8" model="filter">
             <open-page page-id="testOpenPageRoutePage" detail-field-id="id"/>
         </button>
 
+        <!-- без route с detail-field-id и master-param -->
+        <button id="btn9">
+            <open-page page-id="testOpenPageRoutePage" detail-field-id="id" master-param="id"/>
+        </button>
+        <button id="btn10" model="filter">
+            <open-page page-id="testOpenPageRoutePage" detail-field-id="id" master-param="id"/>
+        </button>
+
         <!-- без route, detail-field-id, master-param -->
-        <button id="withoutAll">
+        <button id="btn11">
             <open-page page-id="testOpenPageRoutePage"/>
         </button>
-        <button id="withoutAllWithFilterModel" model="filter">
+        <button id="btn12" model="filter">
             <open-page page-id="testOpenPageRoutePage"/>
         </button>
     </toolbar>
