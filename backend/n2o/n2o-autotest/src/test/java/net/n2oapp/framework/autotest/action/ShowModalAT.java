@@ -38,12 +38,15 @@ public class ShowModalAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack(), new N2oAllDataPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/modal_scrollable/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/modal_scrollable/test.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/modal/scrollable/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/modal/scrollable/test.page.xml"));
     }
 
     @Test
     public void scrollableModalTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/scrollable/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/modal/scrollable/test.page.xml"));
+
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
         page.breadcrumb().titleShouldHaveText("Модальное окно с фиксированной высотой");
@@ -79,4 +82,36 @@ public class ShowModalAT extends AutoTestBase {
         page.shouldExists();
     }
 
+    @Test
+    public void customizeModalTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/modal/customize/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/modal/customize/test.page.xml"));
+
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        page.breadcrumb().titleShouldHaveText("Настраиваемое модальное окно");
+
+        Button openModalWithHeader = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть с хедером");
+        openModalWithHeader.shouldExists();
+        Button openModalWithoutHeader = page.widget(FormWidget.class).toolbar().topLeft().button("Открыть без хедера");
+        openModalWithoutHeader.shouldExists();
+
+        openModalWithHeader.click();
+        Modal modalPage = N2oSelenide.modal();
+        modalPage.shouldExists();
+        modalPage.shouldHaveTitle("Модальное окно");
+        modalPage.content(SimplePage.class).widget(FormWidget.class).fields().shouldHaveSize(1);
+        modalPage.clickBackdrop();
+        modalPage.shouldExists();
+        modalPage.close();
+        modalPage.shouldNotExists();
+
+        openModalWithoutHeader.click();
+        modalPage = N2oSelenide.modal();
+        modalPage.shouldExists();
+        modalPage.shouldNotHaveHeader();
+        modalPage.content(SimplePage.class).widget(FormWidget.class).fields().shouldHaveSize(1);
+        modalPage.clickBackdrop();
+        modalPage.shouldNotExists();
+    }
 }

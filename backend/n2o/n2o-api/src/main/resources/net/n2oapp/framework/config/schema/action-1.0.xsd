@@ -262,6 +262,54 @@
                         <xs:documentation>Тип слияния.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="has-header" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Наличие хедера.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Класс модального окна.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Объект стилей.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="backdrop" default="static">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>
+                                Наличие фона модального окна.
+                                Возможные значения: false, true, static.
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="false">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Прозрачный фон, клик по фону не закрывает модальное окно.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="true">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Темный фон, клик по фону закрывает модальное окно.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="static">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Темный фон, клик по фону не закрывает модальное окно.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>

@@ -6,6 +6,19 @@
   }
 }
 
+.n2o-number-picker__button .fa {
+  opacity: 0.6;
+  transition-duration: .2s;
+}
+
+.n2o-number-picker__button:hover .fa {
+  opacity: 1;
+}
+
+.n2o-number-picker__button:disabled .fa {
+  opacity: 1;
+}
+
 .n2o-number-picker__input {
   border: none;
   text-align: center;

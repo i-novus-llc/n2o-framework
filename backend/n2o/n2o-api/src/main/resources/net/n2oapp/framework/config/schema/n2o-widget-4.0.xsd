@@ -16,6 +16,7 @@
     <xs:element name="widget" type="customReferenceDefinition"/>
     <xs:element name="html" type="htmlReferenceDefinition"/>
     <xs:element name="tiles" type="tilesReferenceDefinition"/>
+    <xs:element name="cards" type="cardsReferenceDefinition"/>
 
     <xs:complexType name="widgets" abstract="true">
         <xs:sequence>
@@ -28,6 +29,8 @@
             <xs:element name="widget" type="customReferenceDefinition" minOccurs="0"/>
             <xs:element name="html" type="htmlReferenceDefinition" minOccurs="0"/>
             <xs:element name="tiles" type="tilesReferenceDefinition" minOccurs="0"/>
+            <xs:element name="cards" type="cardsReferenceDefinition" minOccurs="0"/>
+
             <xs:any namespace="##other">
                 <xs:annotation>
                     <xs:documentation>Подключаемый через библиотеку виджет.</xs:documentation>
@@ -877,6 +880,95 @@
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="text-field-id" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отображаемое в блоке.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="tooltip-field-id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Поле выборки, отображаемое при наведении на ячейку.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:complexContent>
+            <xs:extension base="cell:cells">
+                <xs:annotation>
+                    <xs:documentation>Ячейка с содержимым блока.</xs:documentation>
+                </xs:annotation>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="cardsReferenceDefinition">
+        <xs:complexContent>
+            <xs:extension base="widgetDefinition">
+                <xs:annotation>
+                    <xs:documentation>Виджет карточки.</xs:documentation>
+                </xs:annotation>
+                <xs:attribute name="vertical-align" default="top">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>
+                                Выравнивание по вертикали содержимого колонок.
+                                Возможные значения (center, top, bottom).
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="center"/>
+                            <xs:enumeration value="top"/>
+                            <xs:enumeration value="bottom"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="height" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Высота карточек.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:element name="pagination" type="paginationDefinition">
+                    <xs:annotation>
+                        <xs:documentation>Паджинация таблицы.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="content">
+                    <xs:complexType>
+                        <xs:annotation>
+                            <xs:documentation>
+                                Содержимое виджета: список колонок (карточек).
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:sequence>
+                            <xs:element name="col" type="cardsColDefinition"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="cardsColDefinition">
+        <xs:annotation>
+            <xs:documentation>Колонка.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="size" type="xs:integer">
+            <xs:annotation>
+                <xs:documentation>Ширина колонки по бутстрапу.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:sequence>
+            <xs:element name="block" type="cardsBlockDefinition"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="cardsBlockDefinition">
+        <xs:annotation>
+            <xs:documentation>Блок.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="id" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Идентификатор блока.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="text-field-id" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Поле выборки, отображаемое в блоке.</xs:documentation>
             </xs:annotation>

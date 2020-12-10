@@ -22,7 +22,7 @@
                     </sub-menu>
 
                     <button id="btn1" visible="false" enabled="false"/>
-                    <button id="btn2" visible="{property1}" enabled="{property2}"/>
+                    <button id="btn2" visible="{property1}" enabled="{property2}" disable-on-empty-model="false"/>
                     <button id="btn3">
                         <close/>
                         <dependencies>
