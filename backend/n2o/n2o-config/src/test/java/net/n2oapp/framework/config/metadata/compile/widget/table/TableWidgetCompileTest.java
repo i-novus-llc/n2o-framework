@@ -96,6 +96,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.checkbox));
         assertThat(table.getComponent().getFetchOnInit(), is(false));
         assertThat(table.getComponent().getAutoCheckboxOnSelect(), is(true));
+        assertThat(table.getComponent().getHeight(), is("200px"));
+        assertThat(table.getComponent().getWidth(), is("400px"));
+        assertThat(table.getComponent().getTextWrap(), is(false));
     }
 
     @Test
@@ -161,6 +164,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(context.getSortingMap().get("comments"), is("comments"));
 
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.radio));
+        assertThat(table.getComponent().getTextWrap(), is(true));
     }
 
     @Test
