@@ -3,7 +3,6 @@ package net.n2oapp.framework.ui.controller.action;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.StringUtils;
-import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
@@ -109,7 +108,7 @@ public class OperationController extends SetController {
         DialogContext context = new DialogContext(route, n2oDialog.getId());
         context.setPathRouteMapping(requestInfo.getContext().getPathRouteMapping());
         context.setQueryRouteMapping(requestInfo.getContext().getQueryRouteMapping());
-        context.setParentWidgetId(((ActionContext)requestInfo.getContext()).getParentWidgetId());
+        context.setParentWidgetId(((ActionContext)requestInfo.getContext()).getSuccessAlertWidgetId());
         context.setObjectId(requestInfo.getObject() != null ? requestInfo.getObject().getId() : null);
         N2oPipelineSupport pipelineSupport = new N2oPipelineSupport(environment);
         Dialog dialog = environment.getCompilePipelineFunction()
