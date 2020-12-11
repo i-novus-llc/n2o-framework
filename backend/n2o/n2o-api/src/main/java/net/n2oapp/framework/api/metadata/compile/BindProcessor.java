@@ -124,9 +124,8 @@ public interface BindProcessor {
      * Попытаться разрешить вложенные модели ссылки
      *
      * @param link  ссылка на значение
-     * @param links исходный список ссылок
      */
-    void resolveSubModels(ModelLink link, List<ModelLink> links);
+    void resolveSubModels(ModelLink link);
 
     /**
      * Получить локализованное сообщение по коду и аргументам
