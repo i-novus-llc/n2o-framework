@@ -39,9 +39,16 @@ public class MaskedInputCompileTest extends SourceCompileTestBase {
         StandardField field = (StandardField) form.getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
 
         MaskedInput input = (MaskedInput) field.getControl();
+        assertThat(input.getId(), is("test"));
         assertThat(input.getSrc(), is("InputMask"));
         assertThat(input.getMask(), is("mask"));
         assertThat(input.getPlaceholder(), is("0"));
         assertThat(input.getMeasure(), is("cm"));
+        assertThat(input.getClearOnBlur(), is(false));
+
+        field = (StandardField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+        input = (MaskedInput) field.getControl();
+        assertThat(input.getId(), is("testDrfault"));
+        assertThat(input.getClearOnBlur(), is(true));
     }
 }

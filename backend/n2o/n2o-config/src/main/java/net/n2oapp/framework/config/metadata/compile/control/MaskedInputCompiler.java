@@ -9,6 +9,8 @@ import net.n2oapp.framework.api.metadata.meta.control.MaskedInput;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+
 
 /**
  * Компиляция поля с маской для ввода текста
@@ -27,13 +29,14 @@ public class MaskedInputCompiler extends StandardFieldCompiler<MaskedInput, N2oM
     }
 
     @Override
-    public StandardField<MaskedInput> compile(N2oMaskedInput source, CompileContext<?,?> context, CompileProcessor p) {
+    public StandardField<MaskedInput> compile(N2oMaskedInput source, CompileContext<?, ?> context, CompileProcessor p) {
         source.setDomain(p.cast(source.getDomain(), Domain.STRING.getName()));
         MaskedInput maskedInput = new MaskedInput();
         maskedInput.setPlaceholder(p.resolveJS(source.getPlaceholder()));
         maskedInput.setMask(p.resolveJS(source.getMask()));
         maskedInput.setMeasure(source.getMeasure());
         maskedInput.setClassName(source.getCssClass());
+        maskedInput.setClearOnBlur(p.cast(source.getClearOnBlur(), p.resolve(property("n2o.api.control.maskedinput.clear-on-blur"), Boolean.class)));
         return compileStandardField(maskedInput, source, context, p);
     }
 }
