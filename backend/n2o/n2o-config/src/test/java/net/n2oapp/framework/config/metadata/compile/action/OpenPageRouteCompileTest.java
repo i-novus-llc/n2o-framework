@@ -185,13 +185,13 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
     }
 
     /**
-     * Тест открытия страницы с path параметрами и проверка дефолтных и заданных значений мастер параметра.
+     * Тест открытия страницы с path параметрами и проверка дефолтных и заданных значений.
      * Если не заданы, то виджет и модель берутся из кнопки
      */
     @Test
-    public void testMasterParamWithDefaultAndDefinedAttributes() {
-        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testMasterParam.page.xml")
-                .get(new PageContext("testMasterParam", "/test"));
+    public void testPathParamWithDefaultAndDefinedAttributes() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testPathParamAttributes.page.xml")
+                .get(new PageContext("testPathParamAttributes", "/test"));
 
         // with itself model and widget-id
         ShowModal action = (ShowModal) ((Form) page.getRegions().get("single").get(0).getContent().get(1))
@@ -207,7 +207,6 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         assertThat(pathMapping.size(), is(1));
         assertThat(pathMapping.get("id").getBindLink(), is("models.filter['test_dependent2'].clientId"));
     }
-
 
     /**
      * Тест формирования url с route

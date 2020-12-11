@@ -20,6 +20,7 @@
                 <toolbar>
                     <button id="create" model="filter">
                         <show-modal page-id="testOpenPageRoutePage" route="/:id/create">
+                            <!-- widget-id и model не заданы - берутся из кнопки-->
                             <path-param name="id" value="{clientId}"/>
                         </show-modal>
                     </button>

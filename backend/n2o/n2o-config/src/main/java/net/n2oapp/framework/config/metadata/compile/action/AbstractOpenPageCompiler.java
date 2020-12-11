@@ -237,22 +237,35 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         List<N2oParam> resultParams = new ArrayList<>();
         for (N2oParam param : queryParams) {
-            // widget id priority : queryParam widgetId
-            String widgetId = param.getRefWidgetId();
-            // or else button's widgetId
-            if (widgetId == null) {
-                WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-                if (widgetIdAware != null)
-                    widgetId = widgetIdAware.getWidgetId();
-                // or else current widget's id
-                if (widgetId == null && widgetScope != null)
-                    widgetId = widgetScope.getWidgetId();
-            }
+            String widgetId = getParamWidgetId(param, componentScope, widgetScope);
             resultParams.add(new N2oParam(param.getName(), param.getValue(), widgetId,
                     p.cast(param.getRefModel(), actionDataModel),
                     pageScope == null ? null : pageScope.getPageId()));
         }
         queryMapping.putAll(initParams(resultParams, pathMapping));
+    }
+
+    /**
+     * Получение идентификатора виджета для параметра действия
+     *
+     * @param param          Параметр
+     * @param componentScope Информация о родительском компоненте
+     * @param widgetScope    Информация о текущем виджете
+     * @return Идентификатор виджета для параметра действия
+     */
+    private String getParamWidgetId(N2oParam param, ComponentScope componentScope, WidgetScope widgetScope) {
+        // widget id priority : param widgetId
+        String widgetId = param.getRefWidgetId();
+        // or else button's widgetId
+        if (widgetId == null) {
+            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+            if (widgetIdAware != null)
+                widgetId = widgetIdAware.getWidgetId();
+            // or else current widget's id
+            if (widgetId == null && widgetScope != null)
+                widgetId = widgetScope.getWidgetId();
+        }
+        return widgetId;
     }
 
     /**
@@ -266,11 +279,14 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      */
     private String initMasterLink(N2oParam[] pathParams, String actionRoute, Map<String, ModelLink> pathMapping,
                                   ModelLink actionModelLink, CompileProcessor p) {
-        String masterIdParam = getMasterIdParam(actionRoute);
-        if (masterIdParam != null) {
+        List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
+        String masterIdParam = null;
+        if (!actionRouteParams.isEmpty()) {
+            masterIdParam = actionRouteParams.get(0);
             if (pathParams != null) {
+                String finalMasterIdParam = masterIdParam;
                 Optional<N2oParam> param = Arrays.stream(pathParams)
-                        .filter(pp -> masterIdParam.equals(pp.getName())).findFirst();
+                        .filter(pp -> finalMasterIdParam.equals(pp.getName())).findFirst();
                 if (param.isPresent()) {
                     N2oParam pathParam = param.get();
                     String value = pathParam.getValue();
@@ -287,16 +303,6 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             pathMapping.put(masterIdParam, actionModelLink);
         }
         return masterIdParam;
-    }
-
-    /**
-     * Получение мастер параметра
-     * @param actionRoute Маршрут действия
-     * @return Мастер параметр
-     */
-    private String getMasterIdParam(String actionRoute) {
-        List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
-        return actionRouteParams.isEmpty() ? null : actionRouteParams.get(0);
     }
 
     /**
