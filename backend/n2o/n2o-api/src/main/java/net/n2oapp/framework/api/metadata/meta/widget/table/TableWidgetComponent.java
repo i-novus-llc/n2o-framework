@@ -28,7 +28,11 @@ public class TableWidgetComponent extends WidgetComponent {
     @JsonProperty
     private Boolean hasSelect = true;
     @JsonProperty
-    private Scroll scroll;
+    private String  width;
+    @JsonProperty
+    private String height;
+    @JsonProperty
+    private Boolean textWrap;
     @JsonProperty
     private String tableSize;
     @JsonProperty

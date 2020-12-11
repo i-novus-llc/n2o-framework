@@ -1,6 +1,7 @@
 import React from 'react';
 import { storiesOf, forceReRender } from '@storybook/react';
 import { StateDecorator, Store } from '@sambego/storybook-state';
+import { Row, Col, Button, Input } from 'reactstrap';
 
 import { page } from 'N2oStorybook/fetchMock';
 import { ShowModalTitle, ShowModal } from 'N2oStorybook/json';
@@ -15,6 +16,8 @@ import { ModalWindow } from './ModalPage';
 
 const store = new Store({
   visible: true,
+  className: 'n2o-custom-modal-dialog',
+  hasHeader: true,
 });
 
 store.subscribe(forceReRender);
@@ -36,6 +39,7 @@ stories
   .add('Компонент', () => {
     return (
       <ModalWindow
+        backdrop={true}
         loading={false}
         title={'Заголовок компонента'}
         src={'OutputText'}
@@ -174,4 +178,119 @@ stories
       },
     };
     return <Factory level={WIDGETS} {...props} id="Page_Form" />;
+  })
+  .add('Кастомный css класс', () => {
+    return (
+      <div>
+        <Input
+          placeholder="Enter class name"
+          onChange={e => {
+            store.set({ className: e.target.value });
+          }}
+        />
+        <br />
+        <Button
+          onClick={() => {
+            store.set({ visible: true });
+          }}
+        >
+          Open window
+        </Button>
+        <ModalWindow
+          hasHeader={true}
+          visible={store.get('visible')}
+          close={() => {
+            store.set({ visible: false });
+          }}
+          className={store.get('className')}
+        />
+      </div>
+    );
+  })
+  .add('Смена фона окна', () => {
+    return (
+      <Row>
+        <Col md={4}>
+          <code>"backdrop" : "true"</code>
+          <div>
+            <Button
+              onClick={() => {
+                store.set({ visible: true });
+                store.set({ backdrop: true });
+              }}
+            >
+              Open
+            </Button>
+          </div>
+        </Col>
+        <Col md={4}>
+          <code>"backdrop" : "false"</code>
+          <div>
+            <Button
+              onClick={() => {
+                store.set({ visible: true });
+                store.set({ backdrop: false });
+              }}
+            >
+              Open
+            </Button>
+          </div>
+        </Col>
+        <Col md={4}>
+          <code>"backdrop" : "static"</code>
+          <div>
+            <Button
+              onClick={() => {
+                store.set({ visible: true });
+                store.set({ backdrop: 'static' });
+              }}
+            >
+              Open
+            </Button>
+          </div>
+        </Col>
+        <ModalWindow
+          hasHeader={true}
+          backdrop={store.get('backdrop')}
+          visible={store.get('visible')}
+          close={() => store.set({ visible: false })}
+        />
+      </Row>
+    );
+  })
+  .add('Отображение хедара on/off', () => {
+    return (
+      <div>
+        <div>
+          <Input
+            onChange={e => {
+              store.set({
+                hasHeader: e.target.value === 'false' ? false : true,
+              });
+            }}
+            type="select"
+          >
+            <option value="true">Header On</option>
+            <option value="false">Header Off</option>
+          </Input>
+          <br />
+          <Button
+            onClick={() => {
+              store.set({
+                visible: true,
+              });
+            }}
+          >
+            Open window
+          </Button>
+        </div>
+        <ModalWindow
+          backdrop={true}
+          headerTitle="Header title"
+          hasHeader={store.get('hasHeader')}
+          visible={store.get('visible')}
+          close={() => store.set({ visible: false })}
+        />
+      </div>
+    );
   });

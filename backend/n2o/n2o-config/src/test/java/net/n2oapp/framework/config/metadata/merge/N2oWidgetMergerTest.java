@@ -86,8 +86,9 @@ public class N2oWidgetMergerTest extends SourceMergerTestBase {
                 "net/n2oapp/framework/config/metadata/local/merger/widget/childTableMerger.widget.xml")
                 .get("parentTableMerger", N2oTable.class);
         assertThat(table.getSelection(), is(RowSelectionEnum.checkbox));
-        assertThat(table.getScrollX(), is("100px"));
-        assertThat(table.getScrollY(), is("200px"));
+        assertThat(table.getHeight(), is("100px"));
+        assertThat(table.getWidth(), is("200px"));
+        assertThat(table.getTextWrap(), is(true));
         assertThat(table.getTableSize(), is(Size.lg));
         assertThat(table.getChildren(), is(N2oTable.ChildrenToggle.expand));
 

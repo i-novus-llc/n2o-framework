@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+             name="CardsWidget1">
+
+    <cards query-id="test" src="CardsWidget" height="250px">
+        <content>
+            <col size="5">
+                <block text-field-id="text">
+                    <text/>
+                </block>
+                <block text-field-id="image">
+                    <image/>
+                </block>
+                <block text-field-id="badge">
+                    <badge color="info"/>
+                </block>
+                <block text-field-id="action">
+                    <toolbar>
+                        <button label="Info" color="success">
+                            <show-modal page-id="modal" master-param="id"/>
+                        </button>
+                    </toolbar>
+                </block>
+            </col>
+        </content>
+        <pagination/>
+    </cards>
+
+</simple-page>

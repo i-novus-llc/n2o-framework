@@ -18,8 +18,8 @@ import map from 'lodash/map';
 import assign from 'lodash/assign';
 import isObject from 'lodash/isObject';
 import every from 'lodash/every';
-import concat from 'lodash/concat';
 import isEmpty from 'lodash/isEmpty';
+import some from 'lodash/some';
 
 import { START_INVOKE } from '../constants/actionImpls';
 import { CALL_ACTION_IMPL } from '../constants/toolbar';
@@ -99,11 +99,22 @@ export function* handleAction(factories, action) {
  * @param dataProvider
  * @param model
  * @param apiProvider
+ * @param action
  * @returns {IterableIterator<*>}
  */
-export function* fetchInvoke(dataProvider, model, apiProvider) {
+export function* fetchInvoke(dataProvider, model, apiProvider, action) {
   const state = yield select();
+
   const multi = get(state, 'models.multi');
+  const rootPageId = get(state, 'global.rootPageId');
+  const modelId = get(state, `pages.${rootPageId}.metadata.widget.id`);
+  const multiModel = get(state, `models.multi.${modelId}`);
+  const widget = get(state, `widgets.${action.payload.widgetId}`);
+
+  const hasMultiModel = some(values(multi), model => !isEmpty(model));
+
+  const needResolve = get(widget, 'modelPrefix') === 'resolve';
+
   const submitForm = get(dataProvider, 'submitForm', true);
   const {
     basePath: path,
@@ -112,15 +123,25 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
   } = yield dataProviderResolver(state, dataProvider);
 
   const isMultiModel =
-    every(values(model), modelElement => isObject(modelElement)) &&
-    !isEmpty(multi);
+    !isEmpty(multi) &&
+    every(values(multiModel), modelElement => isObject(modelElement));
 
-  const modelRequest = isMultiModel
-    ? map(values(model), modelElement => {
+  const createModelRequest = () => {
+    if (isMultiModel && hasMultiModel) {
+      const ids = Object.values(multiModel).map(i => i.id);
+
+      if (needResolve) {
+        return { ...model, ids };
+      }
+      return map(values(multiModel), modelElement => {
         return { ...modelElement, ...formParams };
-      })
-    : assign({}, model, formParams);
+      });
+    } else {
+      return assign({}, model, formParams);
+    }
+  };
 
+  const modelRequest = createModelRequest();
   const formParamsRequest = isMultiModel ? [formParams] : formParams;
 
   const response = yield call(
@@ -133,7 +154,9 @@ export function* fetchInvoke(dataProvider, model, apiProvider) {
       headers: headersParams,
       model: submitForm ? modelRequest : formParamsRequest,
     },
-    apiProvider
+    apiProvider,
+    action,
+    state
   );
   return response;
 }
@@ -180,8 +203,8 @@ export function* handleInvoke(apiProvider, action) {
       model = yield select(getModelSelector(modelLink));
     }
     const response = optimistic
-      ? yield fork(fetchInvoke, dataProvider, model, apiProvider)
-      : yield call(fetchInvoke, dataProvider, model, apiProvider);
+      ? yield fork(fetchInvoke, dataProvider, model, apiProvider, action)
+      : yield call(fetchInvoke, dataProvider, model, apiProvider, action);
 
     const meta = merge(action.meta.success || {}, response.meta || {});
     const modelPrefix = yield select(makeFormModelPrefixSelector(widgetId));

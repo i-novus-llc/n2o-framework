@@ -18,12 +18,10 @@ import findIndex from 'lodash/findIndex';
 import values from 'lodash/values';
 import eq from 'lodash/eq';
 import get from 'lodash/get';
-import reduce from 'lodash/reduce';
-import includes from 'lodash/includes';
-import isNumber from 'lodash/isNumber';
 
 import propsResolver from '../../../utils/propsResolver';
 import SecurityCheck from '../../../core/auth/SecurityCheck';
+
 import CheckboxN2O from '../../controls/Checkbox/CheckboxN2O';
 import RadioN2O from '../../controls/Radio/RadioN2O';
 
@@ -39,7 +37,10 @@ import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
 import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
-  const index = findIndex(data, model => model.id == selectedId);
+  const index = findIndex(
+    data,
+    model => Number(model.id) === Number(selectedId)
+  );
   return index >= 0 ? index : 0;
 };
 
@@ -57,6 +58,7 @@ const rowSelectionType = {
 /**
  * Компонент Таблица
  * @reactProps {boolean} hasFocus - флаг наличия фокуса
+ * @reactProps {boolean} textWrap - флаг на запрет/разрешение переноса текста в cell
  * @reactProps {string} className - класс таблицы
  * @reactProps {Array.<Object>} columns - настройки колонок
  * @reactProps {Array.<Object>} data - данные
@@ -65,6 +67,8 @@ const rowSelectionType = {
  * @reactProps {object} hotKeys - настройка hot keys
  * @reactProps {any} expandedComponent - кастомный компонент подстроки
  * @reactProps {string} children - флаг раскрыт ли список дочерних записей (приходит из props children, expand - открыт)
+ * @reactProps {string} width - кастомная ширина таблицы
+ * @reactProps {string} height - кастомная высота таблицы
  */
 class AdvancedTable extends Component {
   constructor(props) {
@@ -166,7 +170,10 @@ class AdvancedTable extends Component {
       columns,
       multi,
       rowSelection,
+      resolveModel,
+      onSetSelection,
     } = this.props;
+
     const { checked, children } = this.state;
 
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
@@ -232,6 +239,14 @@ class AdvancedTable extends Component {
 
       this.setState({ checkedAll: all });
     }
+    if (
+      resolveModel &&
+      rowSelection === rowSelectionType.RADIO &&
+      !isEqual(resolveModel, prevProps.resolveModel) &&
+      autoFocus
+    ) {
+      this.setState({ checked: { [resolveModel.id]: true } });
+    }
   }
 
   renderTableRow(props) {
@@ -291,6 +306,13 @@ class AdvancedTable extends Component {
   }
 
   setTableRef(el) {
+    const { height } = this.props;
+
+    if (height) {
+      el.bodyTable.style.height = height;
+      el.bodyTable.style.overflow = 'auto';
+    }
+
     this.table = el;
   }
 
@@ -652,7 +674,7 @@ class AdvancedTable extends Component {
   }
 
   mapColumns(columns = []) {
-    const { rowSelection, filters } = this.props;
+    const { rowSelection, filters, textWrap } = this.props;
     let newColumns = columns;
     newColumns = map(newColumns, (col, columnIndex) => ({
       ...col,
@@ -666,6 +688,7 @@ class AdvancedTable extends Component {
         record,
         editable: col.editable && record.editable,
         hasSpan: col.hasSpan,
+        textWrap: textWrap,
       }),
     }));
     if (!!rowSelection) {
@@ -678,68 +701,7 @@ class AdvancedTable extends Component {
   }
 
   getScroll() {
-    const { scroll, columns } = this.props;
-
-    const noScrollX = scroll.x === 'false';
-    const noScrollY = scroll.y === 'false';
-    const noTableScroll = noScrollX && noScrollY;
-
-    if (isEmpty(this.props.data) || isEmpty(this.props.columns)) {
-      return this.props.scroll;
-    }
-
-    if (some(this.state.columns, col => col.fixed)) {
-      return this.props.scroll;
-    }
-
-    const calcXScroll = () => {
-      const getWidth = (
-        separator,
-        startValue,
-        defaultWidth,
-        tryParse = false
-      ) =>
-        reduce(
-          columns,
-          (result, value) => {
-            if (value.width) {
-              return includes(value.width, separator) ||
-                (tryParse && isNumber(value.width))
-                ? result + parseInt(value.width)
-                : result;
-            } else {
-              return result + defaultWidth;
-            }
-          },
-          startValue
-        );
-
-      const pxWidth = getWidth('px', 5, 100, true);
-      const percentWidth = getWidth('%', 0, 0);
-
-      return percentWidth !== 0
-        ? `calc(${percentWidth}%${pxWidth > 5 ? ` + ${pxWidth}px` : ''})`
-        : pxWidth;
-    };
-
-    if (noTableScroll) {
-      return { x: false, y: false };
-    } else if (noScrollX) {
-      return {
-        ...scroll,
-        x: false,
-      };
-    } else if (noScrollY) {
-      return {
-        y: false,
-        x: calcXScroll(),
-      };
-    }
-
-    return {
-      ...scroll,
-      x: calcXScroll(),
-    };
+    return { x: false, y: false };
   }
 
   render() {
@@ -755,7 +717,11 @@ class AdvancedTable extends Component {
       onFocus,
       rowSelection,
       t,
+      width,
+      height,
     } = this.props;
+
+    const style = width ? { width } : {};
 
     return (
       <HotKeys
@@ -764,12 +730,15 @@ class AdvancedTable extends Component {
       >
         <div onFocus={!isActive ? onFocus : undefined}>
           <Table
+            style={style}
             ref={this.setTableRef}
             prefixCls={'n2o-advanced-table'}
             className={cx('n2o-table table table-hover', className, {
               'has-focus': hasFocus,
               [`table-${tableSize}`]: tableSize,
               'table-bordered': bordered,
+              'has-static-height': height,
+              'has-static-width': width,
             })}
             columns={this.state.columns}
             data={this.state.data}
@@ -842,6 +811,14 @@ AdvancedTable.propTypes = {
    * Конфиг для SecurityCheck
    */
   rows: PropTypes.object,
+  /**
+   * Кастом ширина таблицы
+   */
+  width: PropTypes.string,
+  /**
+   * Кастом высота таблицы
+   */
+  height: PropTypes.string,
 };
 
 AdvancedTable.defaultProps = {

@@ -38,12 +38,20 @@ class Form extends React.Component {
    * Рендер филдсетов
    */
   renderFieldsets() {
-    const { fieldsets, autoFocus, form, modelPrefix, autoSubmit } = this.props;
+    const {
+      fieldsets,
+      autoFocus,
+      form,
+      modelPrefix,
+      autoSubmit,
+      activeModel,
+    } = this.props;
     const autoFocusId = autoFocus && getAutoFocusId(flatFields(fieldsets, []));
 
     return fieldsets.map((set, i) => {
       return (
         <Fieldset
+          activeModel={activeModel}
           key={i}
           component={set.component}
           autoFocusId={autoFocusId}

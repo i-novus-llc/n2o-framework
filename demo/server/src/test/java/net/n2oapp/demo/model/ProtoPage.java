@@ -211,6 +211,10 @@ public class ProtoPage {
         leftRightPage.dialog(title).shouldBeClosed(timeOut);
     }
 
+    public void shouldDialogClosed(String title) {
+        shouldDialogClosed(title, 5000);
+    }
+
     public void acceptDialog(String title) {
         leftRightPage.dialog(title).click("Да");
     }

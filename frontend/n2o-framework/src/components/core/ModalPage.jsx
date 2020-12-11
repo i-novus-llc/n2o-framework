@@ -4,21 +4,19 @@ import Modal from 'reactstrap/lib/Modal';
 import ModalHeader from 'reactstrap/lib/ModalHeader';
 import ModalBody from 'reactstrap/lib/ModalBody';
 import ModalFooter from 'reactstrap/lib/ModalFooter';
-import { compose } from 'recompose';
 import Page from './Page';
 import cn from 'classnames';
 import Toolbar from '../buttons/Toolbar';
 import Spinner from '../snippets/Spinner/Spinner';
+import { compose } from 'recompose';
 import withOverlayMethods from './withOverlayMethods';
-
-const style = { zIndex: 10 };
-
 /**
  * Компонент, отображающий модальное окно
  * @reactProps {string} pageId - id пейджа
  * @reactProps {string} name - имя модалки
  * @reactProps {boolean} visible - отображается модалка или нет
  * @reactProps {string} size - размер('sm' или 'lg')
+ * @reactProps {string | bool} backdrop -  наличие фона модального окна  false/true/'static'
  * @reactProps {string} headerTitle - заголовок в хэдере
  * @reactProps {boolean} closeButton - Есть кнопка закрытия или нет
  * @reactProps {object} actions - объект экшнов
@@ -51,6 +49,10 @@ function ModalPage(props) {
     disabled,
     scrollable,
     prompt,
+    className,
+    backdrop,
+    style,
+    hasHeader,
     ...rest
   } = props;
 
@@ -63,51 +65,54 @@ function ModalPage(props) {
   const classes = cn({ 'd-none': loading });
 
   return (
-    <div className="modal-page-overlay">
-      <Spinner type="cover" loading={showSpinner} color="light" transparent>
-        <Modal
-          isOpen={visible}
-          toggle={() => rest.closeOverlay(prompt)}
-          size={size}
-          backdrop={false}
-          style={style}
-          scrollable={scrollable}
-        >
+    <Spinner type="cover" loading={showSpinner} color="light" transparent>
+      <Modal
+        isOpen={visible}
+        toggle={() => rest.closeOverlay(prompt)}
+        size={size}
+        style={style}
+        scrollable={scrollable}
+        className={className}
+        backdrop={backdrop}
+      >
+        {hasHeader && (
           <ModalHeader
             className={classes}
             toggle={() => rest.closeOverlay(prompt)}
           >
             {headerTitle}
           </ModalHeader>
-          <ModalBody className={classes}>
-            {pageUrl ? (
-              <Page
-                pageUrl={pageUrl}
-                pageId={pageId}
-                pageMapping={pageMapping}
-                entityKey={entityKey}
-                needMetadata={true}
-              />
-            ) : src ? (
-              rest.renderFromSrc(src)
-            ) : null}
-          </ModalBody>
-          {toolbar && (
-            <ModalFooter className={classes}>
-              <div
-                className={cn('n2o-modal-actions', {
-                  'n2o-disabled': disabled,
-                })}
-              >
-                <Toolbar toolbar={toolbar.bottomLeft} entityKey={entityKey} />
-                <Toolbar toolbar={toolbar.bottomCenter} entityKey={entityKey} />
-                <Toolbar toolbar={toolbar.bottomRight} entityKey={entityKey} />
-              </div>
-            </ModalFooter>
-          )}
-        </Modal>
-      </Spinner>
-    </div>
+        )}
+
+        <ModalBody className={classes}>
+          {pageUrl ? (
+            <Page
+              pageUrl={pageUrl}
+              pageId={pageId}
+              pageMapping={pageMapping}
+              entityKey={entityKey}
+              needMetadata={true}
+            />
+          ) : src ? (
+            rest.renderFromSrc(src)
+          ) : null}
+        </ModalBody>
+
+        {toolbar && (
+          <ModalFooter className={classes}>
+            <div
+              className={cn('n2o-modal-actions', {
+                'n2o-disabled': disabled,
+              })}
+            >
+              <Toolbar toolbar={toolbar.bottomLeft} entityKey={entityKey} />
+              <Toolbar toolbar={toolbar.bottomCenter} entityKey={entityKey} />
+              <Toolbar toolbar={toolbar.bottomRight} entityKey={entityKey} />
+            </div>
+          </ModalFooter>
+        )}
+      </Modal>
+    </Spinner>
   );
 }
 
@@ -155,15 +160,33 @@ ModalPage.propTypes = {
    * Флаг активности
    */
   disabled: PropTypes.bool,
+  /**
+   * Класс модального окна
+   */
+  className: PropTypes.string,
+  /**
+   * Объект стилей
+   */
+  style: PropTypes.object,
+  /**
+   * Значение для отоборажения хедера
+   */
+  hasHeader: PropTypes.bool,
+  /**
+   * Фон модального окна
+   */
+  backdrop: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['static'])]),
 };
 
 ModalPage.defaultProps = {
   size: 'lg',
+  headerTitle: 'Модальное окно',
   disabled: false,
+  hasHeader: false,
+  backdrop: 'static',
 };
 
 ModalPage.contextTypes = {
-  defaultPromptMessage: PropTypes.string,
   resolveProps: PropTypes.func,
   scrollable: false,
 };

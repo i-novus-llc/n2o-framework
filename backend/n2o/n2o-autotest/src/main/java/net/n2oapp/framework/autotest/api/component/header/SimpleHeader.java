@@ -14,4 +14,6 @@ public interface SimpleHeader extends Component {
 
     Menu extra();
 
+    SearchBar search();
+
 }

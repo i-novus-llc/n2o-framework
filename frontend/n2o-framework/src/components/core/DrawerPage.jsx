@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import cn from 'classnames';
-import { compose } from 'recompose';
+import { compose, withProps } from 'recompose';
 
 import Drawer from '../snippets/Drawer/Drawer';
 import Spinner from '../snippets/Spinner/Spinner';
@@ -53,6 +53,10 @@ function DrawerPage(props) {
     backdropClosable,
     animation,
     prompt,
+    closeOverlay,
+    fixedFooter,
+    keyboard,
+    closable,
     ...rest
   } = props;
 
@@ -76,8 +80,8 @@ function DrawerPage(props) {
       >
         <Drawer
           visible={!loading && visible !== false}
-          onHandleClick={() => rest.closeOverlay(prompt)}
-          onClose={() => rest.closeOverlay(prompt)}
+          onHandleClick={closeOverlay}
+          onClose={closeOverlay}
           title={headerTitle}
           backdrop={backdrop}
           width={width}
@@ -86,6 +90,9 @@ function DrawerPage(props) {
           level={level}
           backdropClosable={backdropClosable}
           animation={animation}
+          fixedFooter={fixedFooter}
+          keyboard={keyboard}
+          closable={closable}
           footer={
             !!toolbar ? (
               <div
@@ -111,6 +118,8 @@ function DrawerPage(props) {
                 entityKey={entityKey}
                 needMetadata={true}
                 withToolbar={withToolbar}
+                initSearchValue={''}
+                isDrawerPage={true}
               />
             ) : src ? (
               rest.renderFromSrc(src)
@@ -132,10 +141,14 @@ DrawerPage.propTypes = {
   props: PropTypes.object,
   close: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  fixedFooter: PropTypes.bool,
+  keyboard: PropTypes.bool,
+  closable: PropTypes.bool,
 };
 
-DrawerPage.contextTypes = {
-  defaultPromptMessage: PropTypes.string,
-};
-
-export default compose(withOverlayMethods)(DrawerPage);
+export default compose(
+  withOverlayMethods,
+  withProps(props => ({
+    closeOverlay: () => props.closeOverlay(props.prompt),
+  }))
+)(DrawerPage);

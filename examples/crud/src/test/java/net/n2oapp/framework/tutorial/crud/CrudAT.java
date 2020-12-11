@@ -76,5 +76,4 @@ public class CrudAT {
         crudPage.tableCellShouldHaveText(0,0,"1");
         crudPage.tableCellShouldHaveText(0,1,"test1");
     }
-
 }

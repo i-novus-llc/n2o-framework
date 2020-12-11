@@ -11,7 +11,6 @@ const setup = propsOverride => {
 
   return mount(<SearchBar {...props} {...propsOverride} />);
 };
-
 describe('<SearchBar />', () => {
   it('компонент должен отрисоваться', () => {
     const wrapper = setup();

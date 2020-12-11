@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
-import { compose, getContext } from 'recompose';
+import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import get from 'lodash/get';
+import { withTranslation } from 'react-i18next';
 
 import {
   makePageDisabledByIdSelector,
@@ -49,7 +49,7 @@ function withOverlayMethods(WrappedComponent) {
     }
 
     showPrompt() {
-      if (window.confirm(this.props.defaultPromptMessage)) {
+      if (window.confirm(this.props.t('defaultPromptMessage'))) {
         this.closeOverlay(false);
       } else {
         this.closePrompt();
@@ -79,7 +79,7 @@ function withOverlayMethods(WrappedComponent) {
   });
 
   return compose(
-    getContext({ defaultPromptMessage: PropTypes.string }),
+    withTranslation(),
     connect(mapStateToProps),
     withActions
   )(OverlayMethods);

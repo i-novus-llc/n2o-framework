@@ -31,11 +31,11 @@ public class SimpleHeaderCompiler implements BaseSourceCompiler<CompiledHeader, 
         header.setCollapsed(p.resolve(property("n2o.header.collapsed"), Boolean.class));
         header.setClassName(source.getCssClass());
         header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
-        header.setSearch(false);
         initWelcomePage(source, p);
         header.setHomePageUrl(source.getHomePageUrl());
         header.setItems(source.getMenu() != null ? p.compile(source.getMenu(), context) : new SimpleMenu());
         header.setExtraItems(source.getExtraMenu() != null ? p.compile(source.getExtraMenu(), context) : new SimpleMenu());
+        header.setSearch(source.getSearchBar() != null ? p.compile(source.getSearchBar(), context) : null);
         return header;
     }
 

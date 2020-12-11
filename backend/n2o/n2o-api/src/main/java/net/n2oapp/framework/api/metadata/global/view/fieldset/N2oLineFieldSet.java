@@ -10,5 +10,6 @@ import lombok.Setter;
 @Setter
 public class N2oLineFieldSet extends N2oFieldSet {
     private Boolean collapsible;
+    private Boolean hasSeparator;
     private Boolean expand;
 }

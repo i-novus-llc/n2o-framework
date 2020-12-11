@@ -1,6 +1,6 @@
 {
   "name": "n2o-framework",
-  "version": "7.9.0",
+  "version": "7.13.0",
   "description": "N2O React",
   "jsnext:main": "es/index.js",
   "main": "lib/index.js",
@@ -104,9 +104,11 @@
     "rc-switch": "~1.8.0",
     "rc-table": "6.4.3",
     "rc-tree-select": "2.3.1",
+    "react": "16.14.0",
     "react-ace": "5.9.0",
     "react-big-calendar": "0.24.6",
     "react-copy-to-clipboard": "^5.0.1",
+    "react-dom": "16.14.0",
     "react-draft-wysiwyg": "1.13.1",
     "react-dropzone": "7.0.1",
     "react-helmet": "5.2.0",
@@ -114,6 +116,7 @@
     "react-i18next": "11.7.3",
     "react-onclickoutside": "6.7.1",
     "react-popper": "^2.1.0",
+    "react-popper-tooltip": "2.8.0",
     "react-redux": "5.0.6",
     "react-resizable": "1.7.5",
     "react-resize-detector": "^5.2.0",
@@ -136,7 +139,7 @@
     "redux-saga": "^1.0.5",
     "redux-thunk": "2.2.0",
     "reselect": "3.0.1",
-    "scroll-into-view-if-needed": "2.2.16",
+    "scroll-into-view-if-needed": "^2.2.26",
     "text-mask-addons": "3.7.1",
     "url-parse": "^1.4.7",
     "whatwg-fetch": "2.0.3",
@@ -207,11 +210,6 @@
     "stylelint-config-standard": "^16.0.0",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6"
-  },
-  "peerDependencies": {
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-router-dom": "4.3.1"
   },
   "stylelint": {
     "extends": "stylelint-config-standard",

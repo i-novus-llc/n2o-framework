@@ -10,5 +10,5 @@ public interface LineRegion extends Region, Сollapsible {
 
     void shouldNotBeCollapsible();
 
-    void shouldHaveTitle(String title);
+    void shouldHaveLabel(String title);
 }

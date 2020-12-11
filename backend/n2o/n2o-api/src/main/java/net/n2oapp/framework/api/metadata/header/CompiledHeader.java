@@ -31,11 +31,11 @@ public class CompiledHeader extends Header {
     @JsonProperty
     private Map<String, String> style;
     @JsonProperty
-    private Boolean search;
-    @JsonProperty
     private SimpleMenu items;
     @JsonProperty
     private SimpleMenu extraItems;
+    @JsonProperty
+    private SearchBar search;
     @JsonProperty
     private String src;
 }
