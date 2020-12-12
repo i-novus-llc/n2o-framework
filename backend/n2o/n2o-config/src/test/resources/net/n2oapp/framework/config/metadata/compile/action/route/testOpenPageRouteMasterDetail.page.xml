@@ -16,18 +16,18 @@
                 <toolbar>
                     <button id="withParam" model="resolve">
                         <!-- Есть параметр в пути -->
-                        <open-page page-id="testOpenPageRoute" detail-field-id="detailId"
+                        <open-page page-id="testOpenPageRoutePage" detail-field-id="detailId"
                                    route="/:detailId/open1">
                             <path-param name="detailId" value="{id}"/>
                         </open-page>
                     </button>
                     <button id="withoutParam" model="resolve">
-                        <open-page page-id="testOpenPageRoute" detail-field-id="detailId"
+                        <open-page page-id="testOpenPageRoutePage" detail-field-id="detailId"
                                    route="/open2"/><!-- Нет параметра в пути -->
                     </button>
                     <button id="withParamWithoutMasterDetail" model="resolve">
                         <!-- Есть параметр в пути, но нет detail-field-id -->
-                        <open-page page-id="testOpenPageRoute"
+                        <open-page page-id="testOpenPageRoutePage"
                                    route="/:detailId/open3">
                             <path-param name="detailId" value="{id}"/>
                         </open-page>

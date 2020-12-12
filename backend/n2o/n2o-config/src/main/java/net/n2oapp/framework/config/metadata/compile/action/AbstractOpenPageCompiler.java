@@ -31,8 +31,11 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
+import static net.n2oapp.framework.api.DynamicUtil.isDynamic;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.global.dao.N2oQuery.Field.PK;
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
@@ -143,8 +146,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (currentClientWidgetId == null)
             currentClientWidgetId = actionModelLink.getWidgetId();
 
-        String actionRoute = initActionRoute(source, actionModelLink, p);
-        String masterIdParam = initMasterLink(source.getPathParams(), actionRoute, pathMapping, actionModelLink);
+        String actionRoute = initActionRoute(source, actionModelLink);
+        String masterIdParam = initMasterLink(source.getPathParams(), actionRoute, pathMapping, actionModelLink, p);
         addPathMappings(source, pathMapping, widgetScope, pageScope, actionDataModel, p);
         String parentRoute = normalize(route);
         List<String> pathParams = RouteUtil.getPathParams(actionRoute);
@@ -195,8 +198,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         List<N2oPreFilter> preFilters = initPreFilters(source, masterIdParam, p);
         pageContext.setPreFilters(preFilters);
         pageContext.setPathRouteMapping(pathMapping);
-        queryMapping.putAll(initPreFilterParams(preFilters, pathMapping));
-
+        // при наличии route или при filter модели не добавляем queryMapping
+        if (source.getRoute() == null && !ReduxModel.FILTER.equals(actionDataModel))
+            queryMapping.putAll(initPreFilterParams(preFilters, pathMapping));
         initQueryMapping(source, p, actionDataModel, pathMapping, queryMapping, pageScope, widgetScope, componentScope);
         pageContext.setQueryRouteMapping(queryMapping);
 
@@ -209,26 +213,59 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     private void initQueryMapping(S source, CompileProcessor p, ReduxModel actionDataModel,
                                   Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping,
                                   PageScope pageScope, WidgetScope widgetScope, ComponentScope componentScope) {
-        if (source.getQueryParams() != null) {
-            List<N2oParam> params = new ArrayList<>();
-            for (N2oParam param : source.getQueryParams()) {
-                // widget id priority : queryParam widgetId
-                String widgetId = param.getRefWidgetId();
-                // or else button's widgetId
-                if (widgetId == null) {
-                    WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-                    if (widgetIdAware != null)
-                        widgetId = widgetIdAware.getWidgetId();
-                    // or else current widget's id
-                    if (widgetId == null && widgetScope != null)
-                        widgetId = widgetScope.getWidgetId();
-                }
-                params.add(new N2oParam(param.getName(), param.getValue(), widgetId,
-                        p.cast(param.getRefModel(), actionDataModel),
-                        pageScope == null ? null : pageScope.getPageId()));
-            }
-            queryMapping.putAll(initParams(params, pathMapping));
+        if (source.getQueryParams() == null && source.getMasterParam() == null && source.getDetailFieldId() == null)
+            return;
+
+        List<N2oParam> queryParams = source.getQueryParams() != null ?
+                new ArrayList<>(Arrays.asList(source.getQueryParams())) :
+                new ArrayList<>();
+
+        // Deprecated, будет убрано в будущем
+        if (ReduxModel.RESOLVE.equals(actionDataModel) && source.getRoute() == null) {
+            Consumer<String> addParamConsumer = s -> {
+                N2oParam masterParam = new N2oParam();
+                masterParam.setName(s);
+                masterParam.setValue(Placeholders.ref(s));
+                queryParams.add(masterParam);
+            };
+            if (source.getDetailFieldId() != null)
+                addParamConsumer.accept(source.getDetailFieldId());
+            if (source.getMasterParam() != null &&
+                    (source.getDetailFieldId() == null || !source.getDetailFieldId().equals(source.getMasterParam())))
+                addParamConsumer.accept(source.getMasterParam());
         }
+
+        List<N2oParam> resultParams = new ArrayList<>();
+        for (N2oParam param : queryParams) {
+            String widgetId = getParamWidgetId(param, componentScope, widgetScope);
+            resultParams.add(new N2oParam(param.getName(), param.getValue(), widgetId,
+                    p.cast(param.getRefModel(), actionDataModel),
+                    pageScope == null ? null : pageScope.getPageId()));
+        }
+        queryMapping.putAll(initParams(resultParams, pathMapping));
+    }
+
+    /**
+     * Получение идентификатора виджета для параметра действия
+     *
+     * @param param          Параметр
+     * @param componentScope Информация о родительском компоненте
+     * @param widgetScope    Информация о текущем виджете
+     * @return Идентификатор виджета для параметра действия
+     */
+    private String getParamWidgetId(N2oParam param, ComponentScope componentScope, WidgetScope widgetScope) {
+        // widget id priority : param widgetId
+        String widgetId = param.getRefWidgetId();
+        // or else button's widgetId
+        if (widgetId == null) {
+            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+            if (widgetIdAware != null)
+                widgetId = widgetIdAware.getWidgetId();
+            // or else current widget's id
+            if (widgetId == null && widgetScope != null)
+                widgetId = widgetScope.getWidgetId();
+        }
+        return widgetId;
     }
 
     /**
@@ -240,22 +277,24 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * @param actionModelLink Модель данных действия
      * @return Наименование параметра ссылки
      */
-    private String initMasterLink(N2oParam[] pathParams, String actionRoute, Map<String, ModelLink> pathMapping, ModelLink actionModelLink) {
+    private String initMasterLink(N2oParam[] pathParams, String actionRoute, Map<String, ModelLink> pathMapping,
+                                  ModelLink actionModelLink, CompileProcessor p) {
         List<String> actionRouteParams = RouteUtil.getParams(actionRoute);
         String masterIdParam = null;
         if (!actionRouteParams.isEmpty()) {
             masterIdParam = actionRouteParams.get(0);
-
             if (pathParams != null) {
                 String finalMasterIdParam = masterIdParam;
-                Optional<N2oParam> pathParam = Arrays.stream(pathParams)
-                        .filter(p -> finalMasterIdParam.equals(p.getName())).findFirst();
-                if (pathParam.isPresent()) {
-                    String value = pathParam.get().getValue();
+                Optional<N2oParam> param = Arrays.stream(pathParams)
+                        .filter(pp -> finalMasterIdParam.equals(pp.getName())).findFirst();
+                if (param.isPresent()) {
+                    N2oParam pathParam = param.get();
+                    String value = pathParam.getValue();
                     if (StringUtils.isLink(value)) {
                         SubModelQuery subModelQuery = actionModelLink.getSubModelQuery();
-                        actionModelLink = new ModelLink(actionModelLink.getModel(),
-                                actionModelLink.getWidgetId(),
+                        actionModelLink = new ModelLink(
+                                p.cast(pathParam.getRefModel(), actionModelLink.getModel()),
+                                p.cast(pathParam.getRefWidgetId(), actionModelLink.getWidgetId()),
                                 value.substring(1, value.length() - 1));
                         actionModelLink.setSubModelQuery(subModelQuery);
                     } else actionModelLink = new ModelLink(value);
@@ -283,22 +322,21 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         }
     }
 
-
     /**
-     * Добавление идентификатора текущего виджета в параметры маршрута.
-     * Если текущий виджет и виджет из модели действия совпадают и модель resolve, то добавляем.
+     * Построение маршрута действия
      *
      * @param source          Действие
      * @param actionModelLink Ссылка на модель действия
-     * @return Маршрут с добавкой идентификатора или без
+     * @return Маршрут действия
      */
-    private String initActionRoute(S source, ModelLink actionModelLink, CompileProcessor p) {
+    private String initActionRoute(S source, ModelLink actionModelLink) {
         String actionRoute = source.getRoute();
         if (actionRoute == null) {
             actionRoute = normalize(source.getId());
-            if (actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
-                String masterIdParam = (source.getMasterFieldId() == null || PK.equalsIgnoreCase(source.getMasterFieldId())) ?
-                        (p.cast(source.getMasterParam(), actionModelLink.getWidgetId() + "_id")) : PK;
+            // генерация маршрута для динамической страницы с моделью resolve
+            boolean isDynamicPage = hasRefs(source.getPageId()) || isDynamic(source.getPageId());
+            if (isDynamicPage && actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
+                String masterIdParam = actionModelLink.getWidgetId() + "_id";
                 actionRoute = normalize(colon(masterIdParam)) + actionRoute;
             }
         }

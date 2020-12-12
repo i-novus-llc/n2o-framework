@@ -24,6 +24,7 @@ public abstract class N2oAbstractPageAction extends N2oAbstractAction {
     @Deprecated
     private String detailFieldId;
     private String objectId;
+    @Deprecated
     private String masterParam;
     //on close
     private Boolean refreshOnClose;
