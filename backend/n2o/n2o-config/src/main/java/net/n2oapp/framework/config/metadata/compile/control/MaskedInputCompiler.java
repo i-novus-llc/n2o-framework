@@ -36,7 +36,7 @@ public class MaskedInputCompiler extends StandardFieldCompiler<MaskedInput, N2oM
         maskedInput.setMask(p.resolveJS(source.getMask()));
         maskedInput.setMeasure(source.getMeasure());
         maskedInput.setClassName(source.getCssClass());
-        maskedInput.setClearOnBlur(p.cast(source.getClearOnBlur(), p.resolve(property("n2o.api.control.masked_input.clear-on-blur"), Boolean.class)));
+        maskedInput.setClearOnBlur(p.cast(source.getClearOnBlur(), p.resolve(property("n2o.api.control.masked_input.clear_on_blur"), Boolean.class)));
         return compileStandardField(maskedInput, source, context, p);
     }
 }
