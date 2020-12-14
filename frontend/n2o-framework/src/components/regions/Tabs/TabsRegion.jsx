@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
+import each from 'lodash/each';
 import map from 'lodash/map';
 import find from 'lodash/find';
 import get from 'lodash/get';
@@ -27,7 +28,7 @@ class TabRegion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      readyTabs: [this.props.activeEntity],
+      readyTabs: [],
       visibleTabs: {},
     };
     this.handleChangeActive = this.handleChangeActive.bind(this);
@@ -35,6 +36,27 @@ class TabRegion extends React.Component {
 
   componentWillUnmount() {
     this.props.changeActiveEntity(null);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { tabs, activeEntity } = this.props;
+    let tab;
+
+    if (isEmpty(prevState.readyTabs) && !isEmpty(tabs) && !activeEntity) {
+      each(tabs, item => {
+        if (item.opened) {
+          tab = item.id;
+        }
+      });
+
+      if (tab) {
+        this.setState({ ...prevState, readyTabs: [tab] });
+      } else {
+        this.setState({ ...prevState, readyTabs: [tabs[0].id] });
+      }
+    } else if (isEmpty(prevState.readyTabs) && !isEmpty(tabs) && activeEntity) {
+      this.setState({ ...prevState, readyTabs: [activeEntity] });
+    }
   }
 
   handleChangeActive(id, prevId) {
