@@ -64,24 +64,19 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |Ширина лейблов в пикселях
 |default
 
-|visibility-condition
+|visible
 |Выражение
 |Условие видимости
 |
 
-|visibility-condition-on
-|Поля через запятую
-|Поля, при изменении которых срабатывает условие видимости
-|
-
-|enabling-condition
+|enabled
 |Выражение
 |Условие доступности
 |
 
-|enabling-condition-on
-|Поля через запятую
-|Поля, при изменении которых срабатывает условие доступности
+|depends-on
+|Строка
+|Список полей, от которых зависит филдсет
 |
 
 |===
