@@ -31,6 +31,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
@@ -221,11 +222,17 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         List<N2oParam> resultParams = new ArrayList<>();
         for (N2oParam param : source.getQueryParams()) {
             String widgetId = p.cast(param.getRefWidgetId(), parentComponentWidgetId, currentWidgetId);
-            resultParams.add(new N2oParam(param.getName(), param.getValue(), widgetId,
+            N2oParam queryParam = new N2oParam(param.getName(), param.getValue(), widgetId,
                     p.cast(param.getRefModel(), actionDataModel),
-                    pageScope == null ? null : pageScope.getPageId()));
+                    pageScope == null ? null : pageScope.getPageId());
+            resultParams.add(queryParam);
         }
-        queryMapping.putAll(initParams(resultParams, pathMapping));
+        queryMapping.putAll(initParams(resultParams, pathMapping, param -> {
+            ModelLink link = Redux.linkParam(param);
+            if (widgetScope != null)
+                link.setSubModelQuery(new SubModelQuery(widgetScope.getQueryId()));
+            return link;
+        }));
     }
 
     /**
@@ -278,7 +285,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                         p.cast(param.getRefModel(), actionDataModel),
                         pageScope == null ? null : pageScope.getPageId()));
             }
-            pathMapping.putAll(initParams(params, pathMapping));
+            pathMapping.putAll(initParams(params, pathMapping, Redux::linkParam));
         }
     }
 
@@ -327,11 +334,21 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                         .collect(Collectors.toMap(N2oPreFilter::getParam, Redux::linkParam));
     }
 
+    /**
+     * Инициализация map моделей по имени параметра из списка параметров.
+     *
+     * @param params            Список параметров
+     * @param pathParams        Map моделей по имени параметра
+     *                          Используется для фильтрации параметров, не входящих в данную map
+     * @param linkParamFunction Функция формирования модели для переданного параметра
+     * @return Map моделей по имени параметра
+     */
     private Map<String, ModelLink> initParams(List<N2oParam> params,
-                                              Map<String, ModelLink> pathParams) {
+                                              Map<String, ModelLink> pathParams,
+                                              Function<N2oParam, ModelLink> linkParamFunction) {
         return params == null ? null :
                 params.stream().filter(f -> f.getName() != null && !pathParams.keySet().contains(f.getName()))
-                        .collect(Collectors.toMap(N2oParam::getName, Redux::linkParam));
+                        .collect(Collectors.toMap(N2oParam::getName, linkParamFunction));
     }
 
     private String createGlobalParam(String param, CompileProcessor p) {
