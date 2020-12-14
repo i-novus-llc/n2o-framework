@@ -31,7 +31,6 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
@@ -213,59 +212,20 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     private void initQueryMapping(S source, CompileProcessor p, ReduxModel actionDataModel,
                                   Map<String, ModelLink> pathMapping, Map<String, ModelLink> queryMapping,
                                   PageScope pageScope, WidgetScope widgetScope, ComponentScope componentScope) {
-        if (source.getQueryParams() == null && source.getMasterParam() == null && source.getDetailFieldId() == null)
-            return;
+        if (source.getQueryParams() == null || source.getQueryParams().length == 0) return;
 
-        List<N2oParam> queryParams = source.getQueryParams() != null ?
-                new ArrayList<>(Arrays.asList(source.getQueryParams())) :
-                new ArrayList<>();
-
-        // Deprecated, будет убрано в будущем
-        if (ReduxModel.RESOLVE.equals(actionDataModel) && source.getRoute() == null) {
-            Consumer<String> addParamConsumer = s -> {
-                N2oParam masterParam = new N2oParam();
-                masterParam.setName(s);
-                masterParam.setValue(Placeholders.ref(s));
-                queryParams.add(masterParam);
-            };
-            if (source.getDetailFieldId() != null)
-                addParamConsumer.accept(source.getDetailFieldId());
-            if (source.getMasterParam() != null &&
-                    (source.getDetailFieldId() == null || !source.getDetailFieldId().equals(source.getMasterParam())))
-                addParamConsumer.accept(source.getMasterParam());
-        }
+        WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
+        String parentComponentWidgetId = widgetIdAware != null ? widgetIdAware.getWidgetId() : null;
+        String currentWidgetId = widgetScope != null ? widgetScope.getWidgetId() : null;
 
         List<N2oParam> resultParams = new ArrayList<>();
-        for (N2oParam param : queryParams) {
-            String widgetId = getParamWidgetId(param, componentScope, widgetScope);
+        for (N2oParam param : source.getQueryParams()) {
+            String widgetId = p.cast(param.getRefWidgetId(), parentComponentWidgetId, currentWidgetId);
             resultParams.add(new N2oParam(param.getName(), param.getValue(), widgetId,
                     p.cast(param.getRefModel(), actionDataModel),
                     pageScope == null ? null : pageScope.getPageId()));
         }
         queryMapping.putAll(initParams(resultParams, pathMapping));
-    }
-
-    /**
-     * Получение идентификатора виджета для параметра действия
-     *
-     * @param param          Параметр
-     * @param componentScope Информация о родительском компоненте
-     * @param widgetScope    Информация о текущем виджете
-     * @return Идентификатор виджета для параметра действия
-     */
-    private String getParamWidgetId(N2oParam param, ComponentScope componentScope, WidgetScope widgetScope) {
-        // widget id priority : param widgetId
-        String widgetId = param.getRefWidgetId();
-        // or else button's widgetId
-        if (widgetId == null) {
-            WidgetIdAware widgetIdAware = componentScope.unwrap(WidgetIdAware.class);
-            if (widgetIdAware != null)
-                widgetId = widgetIdAware.getWidgetId();
-            // or else current widget's id
-            if (widgetId == null && widgetScope != null)
-                widgetId = widgetScope.getWidgetId();
-        }
-        return widgetId;
     }
 
     /**

@@ -381,14 +381,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         Map<String, ModelLink> queryMapping = showModal.getPayload().getQueryMapping();
 
         assertThat(pathMapping.size(), is(0));
-        assertThat(queryMapping.size(), is(1));
-
-        ModelLink queryModelLink = queryMapping.get("sName");
-
-        assertThat(queryModelLink.getFieldId(), is("sName"));
-        assertThat(queryModelLink.getParam(), nullValue());
-        assertThat(queryModelLink.getValue(), is("`sName`"));
-        assertThat(queryModelLink.getBindLink(), is("models.resolve['testOpenPageMasterParam_form']"));
+        assertThat(queryMapping.size(), is(0));
     }
 
     @Test
