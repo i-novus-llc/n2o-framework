@@ -9,12 +9,20 @@ exports[`<Pagination /> проверяет работы вызова callback п
   size={10}
   stepIncrement={10}
 >
-  <IntlProvider>
+  <withI18nextTranslation(Pagination)
+    activePage={1}
+    count={151}
+    maxButtons={4}
+    onSelect={[MockFunction]}
+    size={10}
+    stepIncrement={10}
+  >
     <Pagination
       activePage={1}
       count={151}
       first={false}
       hideSinglePage={true}
+      i18n={Object {}}
       last={false}
       lazy={false}
       maxButtons={4}
@@ -26,6 +34,8 @@ exports[`<Pagination /> проверяет работы вызова callback п
       showCountRecords={true}
       size={10}
       stepIncrement={10}
+      t={[Function]}
+      tReady={false}
       withoutBody={false}
     >
       <nav
@@ -239,87 +249,38 @@ exports[`<Pagination /> проверяет работы вызова callback п
             }
           }
         >
-          Всего 151
+          paginationTotal 151
            
-          <FormattedPlural
-            few="записи"
-            one="запись"
-            other="записей"
-            style="cardinal"
-            value={151}
-          >
-            <span>
-              записей
-            </span>
-          </FormattedPlural>
+          paginationInterval
         </span>
       </nav>
     </Pagination>
-  </IntlProvider>
+  </withI18nextTranslation(Pagination)>
 </WrapperComp>
 `;
 
-exports[`<Pagination /> проверяет рендер с дефолтными настройками 1`] = `
-<IntlProvider>
-  <Pagination
-    activePage={1}
-    count={1}
-    first={false}
-    hideSinglePage={true}
-    last={false}
-    lazy={false}
-    maxButtons={4}
-    next={false}
-    nextText={null}
-    prev={false}
-    prevText={null}
-    showCountRecords={true}
-    size={1}
-    withoutBody={false}
-  />
-</IntlProvider>
-`;
+exports[`<Pagination /> проверяет рендер с дефолтными настройками 1`] = `<withI18nextTranslation(Pagination) />`;
 
 exports[`<Pagination /> проверяет рендер с классическими настрйоками n2o 1`] = `
-<IntlProvider>
-  <Pagination
-    activePage={1}
-    count={151}
-    first={false}
-    hideSinglePage={true}
-    last={false}
-    lazy={false}
-    maxButtons={4}
-    next={false}
-    nextText={null}
-    prev={false}
-    prevText={null}
-    showCountRecords={true}
-    size={10}
-    stepIncrement={10}
-    withoutBody={false}
-  />
-</IntlProvider>
+<withI18nextTranslation(Pagination)
+  activePage={1}
+  count={151}
+  maxButtons={4}
+  size={10}
+  stepIncrement={10}
+/>
 `;
 
 exports[`<Pagination /> проверяет рендер с полным функционалом 1`] = `
-<IntlProvider>
-  <Pagination
-    activePage={1}
-    count={151}
-    first={true}
-    hideSinglePage={true}
-    last={true}
-    lazy={false}
-    maxButtons={4}
-    next={true}
-    nextText={null}
-    prev={true}
-    prevText={null}
-    showCountRecords={true}
-    size={10}
-    stepIncrement={10}
-    withoutBody={false}
-  />
-</IntlProvider>
+<withI18nextTranslation(Pagination)
+  activePage={1}
+  count={151}
+  first={true}
+  last={true}
+  maxButtons={4}
+  next={true}
+  prev={true}
+  size={10}
+  stepIncrement={10}
+/>
 `;

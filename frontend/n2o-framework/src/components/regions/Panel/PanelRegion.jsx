@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import every from 'lodash/every';
 import isUndefined from 'lodash/isUndefined';
 import isArray from 'lodash/isArray';
 import map from 'lodash/map';
-
 import { compose, setDisplayName } from 'recompose';
+
 import PanelShortHand from '../../snippets/Panel/PanelShortHand';
 import withRegionContainer from '../withRegionContainer';
 import withWidgetProps from '../withWidgetProps';
@@ -111,7 +110,7 @@ class PanelRegion extends React.Component {
     } = this.props;
     const isInvisible = every(
       content,
-      item => getWidgetProps(item.widgetId).isVisible === false
+      item => getWidgetProps(item.id).isVisible === false
     );
     return (
       <PanelShortHand

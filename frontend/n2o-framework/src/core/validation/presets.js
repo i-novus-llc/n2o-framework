@@ -11,8 +11,10 @@ import isArray from 'lodash/isArray';
 import every from 'lodash/every';
 import isNil from 'lodash/isNil';
 import get from 'lodash/get';
+
 import evalExpression from '../../utils/evalExpression';
 import fetchSaga from '../../sagas/fetch.js';
+
 import { FETCH_VALIDATE } from '../api.js';
 
 /**
@@ -47,9 +49,9 @@ export function required(fieldId, values, options = {}) {
     return value !== '';
   } else {
     return (
-      !isUndefined(values[fieldId]) &&
-      !isNull(values[fieldId]) &&
-      !isNaN(values[fieldId])
+      !isUndefined(get(values, fieldId)) &&
+      !isNull(get(values, fieldId)) &&
+      !isNaN(get(values, fieldId))
     );
   }
 }

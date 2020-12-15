@@ -87,6 +87,7 @@ class Input extends React.Component {
       inputRef,
       onChange,
       autoFocus,
+      readOnly,
       value,
       onFocus,
       onBlur,
@@ -113,6 +114,7 @@ class Input extends React.Component {
         onClick={onClick}
         onKeyDown={onKeyDown}
         placeholder={placeholder}
+        readOnly={readOnly}
         {...restProps}
         onChange={this.handleChange}
       />
@@ -129,6 +131,7 @@ Input.propTypes = {
   name: PropTypes.string,
   type: PropTypes.string,
   disabled: PropTypes.bool,
+  readOnly: PropTypes.bool,
   autoFocus: PropTypes.bool,
   value: PropTypes.any,
   onFocus: PropTypes.func,

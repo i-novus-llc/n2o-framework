@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.impl.component.modal;
 
+import com.codeborne.selenide.ClickOptions;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
@@ -14,6 +15,11 @@ public class N2oModal extends N2oComponent implements Modal {
     public void shouldHaveTitle(String text) {
         element().$(".modal-header .modal-title")
                 .shouldHave(Condition.text(text));
+    }
+
+    @Override
+    public void shouldNotHaveHeader() {
+        element().$(".modal-header").shouldNotBe(Condition.exist);
     }
 
     @Override
@@ -44,6 +50,12 @@ public class N2oModal extends N2oComponent implements Modal {
     @Override
     public void shouldNotBeScrollable() {
         element().$(".modal-dialog-scrollable .modal-body").shouldNot(Condition.exist);
+    }
+
+    @Override
+    public void clickBackdrop() {
+        int widthOffset = element().getSize().getWidth() / 2 + 10;
+        element().click(ClickOptions.usingDefaultMethod().offsetX(widthOffset));
     }
 
     @Override

@@ -1,11 +1,8 @@
 import React from 'react';
 import Pagination from './Pagination';
-import { IntlProvider } from 'react-intl';
 
 const WrapperComp = props => (
-  <IntlProvider>
-    <Pagination {...props} />
-  </IntlProvider>
+  <Pagination {...props} />
 );
 
 const setup = (propOverrides, method) => {

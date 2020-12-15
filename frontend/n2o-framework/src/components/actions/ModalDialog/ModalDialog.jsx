@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import Button from 'reactstrap/lib/Button';
 import ButtonGroup from 'reactstrap/lib/ButtonGroup';
 import Modal from 'reactstrap/lib/Modal';
 import ModalHeader from 'reactstrap/lib/ModalHeader';
 import ModalBody from 'reactstrap/lib/ModalBody';
 import ModalFooter from 'reactstrap/lib/ModalFooter';
-import { FormattedMessage } from 'react-intl';
 
 /**
  * Диалог подтверждения действие
@@ -41,33 +41,19 @@ function ModalDialog({
   close,
   closeButton,
 }) {
+  const { t } = useTranslation();
   return (
     <Modal isOpen={visible} size={size} toggle={close}>
       <ModalHeader toggle={closeButton ? close : null}>
-        {title || (
-          <FormattedMessage
-            id="dialog.title"
-            defaultMessage="Подтвердите действие"
-          />
-        )}
+        {title || t('dialogTitle')}
       </ModalHeader>
-      <ModalBody>
-        {text || (
-          <FormattedMessage id="dialog.text" defaultMessage="Вы уверены?" />
-        )}
-      </ModalBody>
+      <ModalBody>{text || t('dialogText')}</ModalBody>
       <ModalFooter>
         <ButtonGroup>
           <Button onClick={onConfirm} color="primary">
-            {okLabel || (
-              <FormattedMessage id="dialog.confirm" defaultMessage="Да" />
-            )}
+            {okLabel || t('confirm')}
           </Button>
-          <Button onClick={onDeny}>
-            {cancelLabel || (
-              <FormattedMessage id="dialog.deny" defaultMessage="Нет" />
-            )}
-          </Button>
+          <Button onClick={onDeny}>{cancelLabel || t('deny')}</Button>
         </ButtonGroup>
       </ModalFooter>
     </Modal>

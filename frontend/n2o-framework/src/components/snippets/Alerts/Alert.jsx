@@ -3,10 +3,11 @@ import defaultTo from 'lodash/defaultTo';
 import isArray from 'lodash/isArray';
 import map from 'lodash/map';
 import PropTypes from 'prop-types';
-import InlineSpinner from '../Spinner/InlineSpinner';
 import cx from 'classnames';
-import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover';
+import { withTranslation } from 'react-i18next';
 
+import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover';
+import InlineSpinner from '../Spinner/InlineSpinner';
 /**
  * Компонент сообщения-алерта
  * @reactProps {string} label - лейбл алерта
@@ -58,7 +59,7 @@ class Alert extends React.Component {
   }
 
   renderLoaderAlert() {
-    const { severity, className, style, text, animate } = this.props;
+    const { severity, className, style, text, animate, t } = this.props;
 
     return (
       <div
@@ -70,7 +71,7 @@ class Alert extends React.Component {
       >
         <div className="n2o-alert-body-container">
           <InlineSpinner />
-          {text || 'Загрузка...'}
+          {text || `${t('loading')}...`}
         </div>
       </div>
     );
@@ -102,6 +103,7 @@ class Alert extends React.Component {
       onDismiss,
       help,
       animate,
+      t,
     } = this.props;
 
     const { detailsVisible } = this.state;
@@ -133,7 +135,7 @@ class Alert extends React.Component {
                 className="alert-link details-label"
                 onClick={this.toggleDetails}
               >
-                {detailsVisible ? 'Скрыть' : 'Подробнее'}
+                {detailsVisible ? t('hide') : t('details')}
               </a>
             )}
             {detailsVisible && (
@@ -171,6 +173,7 @@ Alert.defaultProps = {
   onDismiss: () => {},
   position: 'relative',
   animate: false,
+  t: () => {},
 };
 
 Alert.propTypes = {
@@ -228,4 +231,4 @@ Alert.propTypes = {
   animate: PropTypes.bool,
 };
 
-export default Alert;
+export default withTranslation()(Alert);

@@ -13,6 +13,8 @@ public class MultiFieldSet extends FieldSet {
     @JsonProperty
     private String name;
     @JsonProperty
+    private String childrenLabel;
+    @JsonProperty
     private String addButtonLabel;
     @JsonProperty
     private String removeAllButtonLabel;

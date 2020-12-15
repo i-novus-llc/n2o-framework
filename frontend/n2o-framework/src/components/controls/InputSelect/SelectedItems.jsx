@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import map from 'lodash/map';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Компонент выбранных элементов для {@Link InputSelectGroup}
@@ -22,6 +23,7 @@ function InputElements({
   onDeleteAll,
   setRef,
 }) {
+  const { t } = useTranslation();
   const selectedItem = (id, title, callback) => (
     <span key={id} className="selected-item n2o-multiselect" title={title}>
       <span className="n2o-eclipse-content">{title}</span>
@@ -39,7 +41,7 @@ function InputElements({
   const selectedList = () => {
     if (collapseSelected && selected.length > lengthToGroup) {
       const id = selected.length;
-      const title = `Выбрано ${selected.length}`;
+      const title = `${t('selected')} ${selected.length}`;
 
       return selectedItem(id, title, onDeleteAll);
     }

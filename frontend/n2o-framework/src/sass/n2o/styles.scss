@@ -22,6 +22,7 @@
 @import "controls/Select";
 @import "controls/CheckboxAlternative";
 @import "controls/Radio";
+@import "components/Image";
 @import "components/Alert";
 @import "components/Dropdown";
 @import "controls/CheckboxButton";
@@ -76,8 +77,16 @@
 @import "components/ImageUploader";
 @import "controls/ProgressControl";
 @import "components/OutputList";
+@import "components/SearchBarPopUp";
 @import "components/Tiles";
 @import "components/SimplePage";
 @import "components/Tabs";
 @import "components/ListRegion";
 @import "components/NoneRegion";
+@import "components/TabsRegion";
+@import "controls/NumberPicker";
+@import "components/CardsWidget";
+@import "components/Fieldset";
+@import "components/TimePicker";
+@import "controls/InputText";
+@import "components/InputIcon";

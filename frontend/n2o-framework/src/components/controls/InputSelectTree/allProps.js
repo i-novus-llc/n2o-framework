@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
-import { intlShape } from 'react-intl';
 
 export const defaultProps = {
   children: null,
-  intl: intlShape.isRequired,
   hasChildrenFieldId: 'hasChildren',
   disabled: false,
   loading: false,
@@ -20,7 +18,6 @@ export const defaultProps = {
   multiSelect: false,
   closePopupOnSelect: false,
   data: [],
-  notFoundContent: 'Ничего не найдено',
   searchPlaceholder: '',
   transitionName: 'slide-up',
   choiceTransitionName: 'zoom',

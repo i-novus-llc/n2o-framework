@@ -112,9 +112,11 @@ class InputMask extends React.Component {
    */
   _isValid = value => {
     const { preset, mask, guide } = this.props;
+
     if (guide) {
       return value && this._indexOfFirstPlaceHolder(value) === -1;
     }
+
     return (
       value.length > this._indexOfLastPlaceholder(this.preset(preset) || mask)
     );
@@ -131,7 +133,9 @@ class InputMask extends React.Component {
 
   _onChange = e => {
     const { value } = e.target;
+
     this.valid = this._isValid(value);
+
     this.setState({ value, guide: this.props.guide }, () => {
       (this.valid || value === '') && this.props.onChange(value);
     });
@@ -161,10 +165,16 @@ class InputMask extends React.Component {
    * обработка новых пропсов
    */
   componentDidUpdate(prevProps) {
-    const { value } = this.props;
+    const { value: valueFromState } = this.state;
+    const { value: valueFromProps } = this.props;
 
-    if (!isEqual(prevProps.value, value) && this._isValid(value)) {
-      this.setState({ value });
+    if (
+      !isEqual(prevProps.value, valueFromProps) &&
+      !isEqual(valueFromProps, valueFromState)
+    ) {
+      this.setState({
+        value: this._isValid(valueFromProps) ? valueFromProps : '',
+      });
     }
 
     this.dict = { ...this.dict, ...this.props.dictionary };

@@ -119,6 +119,7 @@ public class OperationController extends SetController {
         DialogContext context = new DialogContext(route, n2oDialog.getId());
         context.setPathRouteMapping(requestInfo.getContext().getPathRouteMapping());
         context.setQueryRouteMapping(requestInfo.getContext().getQueryRouteMapping());
+        context.setObjectId(requestInfo.getObject() != null ? requestInfo.getObject().getId() : null);
         context.setParentWidgetId(((ActionContext) requestInfo.getContext()).getParentWidgetId());
         context.setClientWidgetId(getDialogClientWidgetId((ActionContext) requestInfo.getContext(), route));
         if (requestInfo.getObject() != null)
