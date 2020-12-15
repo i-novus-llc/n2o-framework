@@ -58,9 +58,12 @@ public class InputTextCompileTest extends SourceCompileTestBase {
         assertThat(inputText1.getStep(), is("1"));
         assertThat(inputText1.getMeasure(), is("cm"));
         assertThat(((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
+        assertThat(((InputText)((StandardField) rows.get(2).getCols().get(0).getFields().get(0)).getControl()).getPrecision(), is(2));
         assertThat(((StandardField) rows.get(3).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
         assertThat(((StandardField) rows.get(4).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
         assertThat(((StandardField) rows.get(5).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputText"));
+        assertThat(((StandardField) rows.get(6).getCols().get(0).getFields().get(0)).getControl().getSrc(), is("InputNumber"));
+        assertThat(((InputText)((StandardField) rows.get(6).getCols().get(0).getFields().get(0)).getControl()).getPrecision(), is(8));
 
         assertThat(rows.get(0).getCols().get(0).getFields().get(0).getHelp(), is("testHelp"));
         assertThat(rows.get(1).getCols().get(0).getFields().get(0).getHelp(), nullValue());
