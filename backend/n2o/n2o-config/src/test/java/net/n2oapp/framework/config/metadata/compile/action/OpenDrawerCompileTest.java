@@ -151,8 +151,8 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(filters.get(0).getLink().getBindLink(), is("models.resolve['p_main']"));
         assertThat(filters.get(0).getLink().getValue(), is("`secondId`"));
         assertThat(drawerWidget.getDataProvider().getQueryMapping().size(), is(0));
-        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main'].id"));
-        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getValue(), nullValue());
+        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
+        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(drawerWidget.getUpload(), is(UploadType.query));
 
         DataSet data = new DataSet();
@@ -276,7 +276,8 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(filters.get(1).getLink().getBindLink(), is("models.filter['p_second']"));
         assertThat(filters.get(1).getLink().getValue(), is("`name`"));
 
-        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main'].id"));
+        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
+        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(drawerWidget.getDataProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
         assertThat(drawerWidget.getDataProvider().getQueryMapping().get("name").getValue(), is("`name`"));
 
