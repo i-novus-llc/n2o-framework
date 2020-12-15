@@ -51,7 +51,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * Проверка копиляции open-page
+ * Проверка компиляции open-page
  */
 public class OpenPageCompileTest extends SourceCompileTestBase {
     @Override

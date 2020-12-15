@@ -209,7 +209,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         pageContext.setPreFilters(preFilters);
         pageContext.setPathRouteMapping(pathMapping);
         // при наличии route или при filter модели не добавляем queryMapping
-        if (source.getRoute() != null || ReduxModel.FILTER.equals(actionDataModel))
+        if (source.getRoute() == null && !ReduxModel.FILTER.equals(actionDataModel))
             queryMapping.putAll(initPreFilterParams(preFilters, pathMapping));
         initQueryMapping(source.getQueryParams(), actionDataModel, pathMapping, queryMapping, pageScope, paramDefaultWidgetId, p);
         pageContext.setQueryRouteMapping(queryMapping);
