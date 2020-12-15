@@ -340,8 +340,9 @@ public class N2oObjectCompiler<C extends ObjectContext> implements BaseSourceCom
 
     /**
      * Получение списка валидаций обязательности входящих полей скомпилированного объекта
+     *
      * @param inParamsMap Map входящих полей скомпилированного объекта
-     * @param p Процессор сборки метаданных
+     * @param p           Процессор сборки метаданных
      * @return Список валидаций обязательности входящих полей скомпилированного объекта
      */
     private List<Validation> getRequiredParamValidations(Map<String, N2oObject.Parameter> inParamsMap, CompileProcessor p) {

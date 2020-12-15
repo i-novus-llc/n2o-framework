@@ -411,6 +411,6 @@
 [source,xml]
 ----
 <fail-out>
-  <fail-out id="message" mapping="#this.getMessage()"/>
+  <field id="message" mapping="#this.getMessage()"/>
 </fail-out>
 ----

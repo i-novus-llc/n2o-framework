@@ -15,7 +15,9 @@
                 <field id="name" param="name"/>
                 <field id="age" param="age"/>
             </in>
-            <fail-out id="errorMessage" mapping="#this.getMessage()"/>
+            <fail-out>
+                <field id="errorMessage" mapping="#this.getMessage()"/>
+            </fail-out>
             <validations white-list="nameCheck,ageCheck"/>
         </operation>
     </operations>
