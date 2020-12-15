@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Хранилище RouteInfo
@@ -18,27 +16,33 @@ import java.util.concurrent.ConcurrentSkipListMap;
 public class N2oRouteRegister implements RouteRegister {
     private static final Logger logger = LoggerFactory.getLogger(N2oRouteRegister.class);
 
-    private final SortedMap<RouteInfoKey, CompileContext> register = new ConcurrentSkipListMap<>();
+    private final RouteRepository<RouteInfoKey, CompileContext> repository;
+
+    public N2oRouteRegister(RouteRepository<RouteInfoKey, CompileContext> repository) {
+        this.repository = repository;
+    }
 
     @Override
     public void addRoute(String urlPattern, CompileContext<? extends Compiled, ?> context) {
         RouteInfoKey key = new RouteInfoKey(urlPattern, context.getCompiledClass());
         if (!key.getUrlMatching().startsWith("/"))
             throw new IncorrectRouteException(key.getUrlMatching());
-        if (register.containsKey(key) && !register.get(key).equals(context))
+        CompileContext registeredContext = repository.get(key);
+        if (registeredContext == null) {
+            repository.put(key, context);
+        } else if (!registeredContext.equals(context))
             throw new RouteAlreadyExistsException(urlPattern, context.getCompiledClass());
-        register.put(key, context);
 
         logger.info(String.format("Register route: '%s' to [%s]", context, urlPattern));
     }
 
     @Override
     public Iterator<Map.Entry<RouteInfoKey, CompileContext>> iterator() {
-        return register.entrySet().iterator();
+        return repository.iterator();
     }
 
     @Override
     public void clear(String startUrlMatching) {
-        register.keySet().removeIf(s -> s.getUrlMatching().startsWith(startUrlMatching));
+        repository.clear(s -> s.getUrlMatching().startsWith(startUrlMatching));
     }
 }

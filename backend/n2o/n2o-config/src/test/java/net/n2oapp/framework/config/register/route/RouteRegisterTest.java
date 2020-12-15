@@ -26,7 +26,7 @@ public class RouteRegisterTest {
 
     @Test
     public void testAddRoute() throws Exception {
-        N2oRouteRegister register = new N2oRouteRegister();
+        N2oRouteRegister register = getRegister();
         register.addRoute("/p/w", new MockCompileContext<>("/p/w", "pW", null, Page.class));
         register.addRoute("/p/w/c/b", new MockCompileContext<>("/p/w/c/b", "pWcB", null, Page.class));
         register.addRoute("/p/w/c", new MockCompileContext<>("/p/w/c", "pWc", null, Page.class));
@@ -40,11 +40,11 @@ public class RouteRegisterTest {
 
     @Test
     public void testRootRoute() {
-        N2oRouteRegister register = new N2oRouteRegister();
+        N2oRouteRegister register = getRegister();
         register.addRoute("/", new MockCompileContext<>("/", "p1", null, Page.class));
         Map.Entry<RouteInfoKey, CompileContext> info = register.iterator().next();
         assertEquals("/", info.getKey().getUrlMatching());
-        register = new N2oRouteRegister();
+        register = getRegister();
         register.addRoute("/:id", new MockCompileContext<>("/:id", "p1", null, Page.class));
         info = register.iterator().next();
         assertEquals("/*", info.getKey().getUrlMatching());
@@ -52,7 +52,7 @@ public class RouteRegisterTest {
 
     @Test
     public void testAddRouteConflict() throws Exception {
-        N2oRouteRegister register = new N2oRouteRegister();
+        N2oRouteRegister register = getRegister();
         register.addRoute("/a/:1", new MockCompileContext<>("/a/:1", "1", null, Page.class));
         try {
             register.addRoute("/a/:1", new MockCompileContext<>("/a/:1", "2", null, Page.class));
@@ -64,7 +64,7 @@ public class RouteRegisterTest {
 
     @Test
     public void testClear() throws Exception {
-        N2oRouteRegister register = new N2oRouteRegister();
+        N2oRouteRegister register = getRegister();
         register.addRoute("/p/w", new MockCompileContext<>("/p/w", "pW", null, Page.class));
         register.addRoute("/p/w/c/b", new MockCompileContext<>("/p/w/c/b", "pWcB", null, Page.class));
         register.addRoute("/p/w/c", new MockCompileContext<>("/p/w/c", "pWc", null, Page.class));
@@ -75,5 +75,9 @@ public class RouteRegisterTest {
             Map.Entry<RouteInfoKey, CompileContext> info = iter.next();
             assertEquals(sortedUrl[i], info.getKey().getUrlMatching());
         }
+    }
+
+    private N2oRouteRegister getRegister() {
+        return new N2oRouteRegister(new MapRouteRepository<>());
     }
 }
