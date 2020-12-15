@@ -117,8 +117,10 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
-        assertThat(((LinkActionImpl) page.getWidget().getActions().get("id2")).getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
-        assertThat(((LinkActionImpl) page.getWidget().getActions().get("id2")).getQueryMapping().size(), is(0));
+        LinkActionImpl action = (LinkActionImpl) page.getWidget().getActions().get("id2");
+        assertThat(action.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(action.getPathMapping().get("page_test_id").getValue(), is("`id`"));
+        assertThat(action.getQueryMapping().size(), is(0));
 
         PageContext context = (PageContext) route("/page/widget/123/action2", Page.class);
         assertThat(context.getPreFilters().size(), is(1));
@@ -233,7 +235,8 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
 
         LinkActionImpl linkAction = (LinkActionImpl) page.getWidget().getActions().get("masterDetail");
-        assertThat(linkAction.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
+        assertThat(linkAction.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(linkAction.getPathMapping().get("page_test_id").getValue(), is("`id`"));
         assertThat(linkAction.getQueryMapping().get("name").getBindLink(), is("models.filter['page_test']"));
         assertThat(linkAction.getQueryMapping().get("secondName").getBindLink(), nullValue());
 
@@ -451,12 +454,12 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         PerformButton btn1 = (PerformButton) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("btn1");
         assertThat(btn1.getPathMapping().size(), is(1));
         assertThat(btn1.getPathMapping().get("client_id").getBindLink(), nullValue());
-        assertThat(btn1.getPathMapping().get("client_id").getValue(), is("123"));
+        assertThat(btn1.getPathMapping().get("client_id").getValue(), is(123));
 
         PerformButton btn2 = (PerformButton) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("btn2");
         assertThat(btn2.getPathMapping().size(), is(1));
-        assertThat(btn2.getPathMapping().get("account_id").getBindLink(), is("models.resolve['page_master'].accountId"));
-        assertThat(btn2.getPathMapping().get("account_id").getValue(), nullValue());
+        assertThat(btn2.getPathMapping().get("account_id").getBindLink(), is("models.resolve['page_master']"));
+        assertThat(btn2.getPathMapping().get("account_id").getValue(), is("`accountId`"));
         ModelLink link = page.getModels().get("resolve['page_master'].accountId");
         assertThat(link.getBindLink(), is("models.resolve['page_master'].accountId"));
         assertThat(link.getValue(), is(111));
