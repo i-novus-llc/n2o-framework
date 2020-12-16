@@ -101,7 +101,7 @@ public class ObjectV3CompileTest extends SourceCompileTestBase {
         assertThat(v1.getMessage(), is("test"));
         assertThat(((N2oSqlDataProvider) ((ConstraintValidation) v2).getInvocation()).getQuery(), is("select 1"));
         assertThat(v2.getMessage(), is("test"));
-        assertThat(((ConstraintValidation) v2).getInParameterList().size(), is(1));
+        assertThat(((ConstraintValidation) v2).getInParametersList().size(), is(1));
         assertThat(((ConstraintValidation) v2).getOutParametersList().size(), is(2));
         assertThat(v3.getId(), is("v3"));
         assertThat(((MandatoryValidation) v3).getMandatoryExpression(), is("a==b"));
@@ -116,7 +116,7 @@ public class ObjectV3CompileTest extends SourceCompileTestBase {
         assertThat(object.getObjectFieldsMap().size(), is(7));
         assertThat(object.getObjectReferenceFieldsMap().size(), is(5));
         N2oObject.Parameter operationInParam = object.getOperations().get("test").getInParametersMap().get("test");
-        InvocationParameter validationInParam = ((ConstraintValidation) object.getValidationsMap().get("id1")).getInParameterList().get(0);
+        InvocationParameter validationInParam = ((ConstraintValidation) object.getValidationsMap().get("id1")).getInParametersList().get(0);
         assertThat(operationInParam.getId(), is("test"));
         assertThat(operationInParam.getDomain(), is("string"));
         assertThat(operationInParam.getMapping(), is("birth_date"));

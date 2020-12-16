@@ -29,7 +29,7 @@ public class ResponseTimeProcessing extends N2oModule {
     }
 
     @Override
-    public void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet, N2oException exception) {
+    public void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
         setResponseTime(requestInfo, responseInfo);
     }
 
