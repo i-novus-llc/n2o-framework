@@ -64,7 +64,8 @@ public class CloseActionCompiler extends AbstractActionCompiler<AbstractAction, 
 
     private MetaSaga initMeta(CloseAction closeAction, N2oCloseAction source, CompileContext<?, ?> context, CompileProcessor p) {
         MetaSaga meta = new MetaSaga();
-        boolean refresh = p.cast(source.getRefreshOnClose(), false);
+        boolean refresh = p.cast(Boolean.TRUE.equals(source.getRefreshOnClose())
+                || Boolean.TRUE.equals(source.getRefresh()), false);
         boolean redirect = source.getRedirectUrl() != null;
         if (!redirect && (context instanceof ModalPageContext))
             meta.setModalsToClose(1);
