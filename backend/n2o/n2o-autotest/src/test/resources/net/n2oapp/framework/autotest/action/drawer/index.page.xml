@@ -8,16 +8,24 @@
         </columns>
         <toolbar>
             <button label="openLeft">
-                <open-drawer page-id="drawer" detail-field-id="id" placement="left" width="250" height="250"/>
+                <open-drawer page-id="drawer" placement="left" width="250" height="250" route="/:id/drawer">
+                    <path-param name="id" value="{id}"/>
+                </open-drawer>
             </button>
             <button label="openTop">
-                <open-drawer page-id="drawer" detail-field-id="id" placement="top" width="300" height="300" fixed-footer="true"/>
+                <open-drawer page-id="drawer" placement="top" width="300" height="300" fixed-footer="true" route="/:id/drawer">
+                    <path-param name="id" value="{id}"/>
+                </open-drawer>
             </button>
             <button label="openRight">
-                <open-drawer page-id="drawer" detail-field-id="id" placement="right" backdrop="false"/>
+                <open-drawer page-id="drawer" placement="right" backdrop="false" route="/:id/drawer">
+                    <path-param name="id" value="{id}"/>
+                </open-drawer>
             </button>
             <button label="openBottom">
-                <open-drawer page-id="drawer" detail-field-id="id" placement="bottom" closable="false"/>
+                <open-drawer page-id="drawer" placement="bottom" closable="false" route="/:id/drawer">
+                    <path-param name="id" value="{id}"/>
+                </open-drawer>
             </button>
         </toolbar>
     </table>

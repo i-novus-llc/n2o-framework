@@ -33,7 +33,9 @@
         </content>
         <rows>
             <click>
-                <open-page page-id="form" detail-field-id="id" master-field-id="id"/>
+                <open-page page-id="form" route="/:id/open">
+                    <path-param name="id" value="{id}"/>
+                </open-page>
             </click>
         </rows>
     </list>

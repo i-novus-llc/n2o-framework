@@ -4,10 +4,14 @@
     <form>
         <toolbar>
             <button label="Открыть со скроллом" model="filter">
-                <show-modal page-id="test" detail-field-id="id" scrollable="true"/>
+                <show-modal page-id="test" scrollable="true" route="/:id/modal">
+                    <path-param name="id" value="{id}"/>
+                </show-modal>
             </button>
             <button label="Открыть без скролла" model="filter">
-                <show-modal page-id="test" detail-field-id="id"/>
+                <show-modal page-id="test" route="/:id/modal">
+                    <path-param name="id" value="{id}"/>
+                </show-modal>
             </button>
         </toolbar>
     </form>
