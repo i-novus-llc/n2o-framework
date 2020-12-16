@@ -153,7 +153,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (currentClientWidgetId == null)
             currentClientWidgetId = actionModelLink.getWidgetId();
 
-        String actionRoute = initActionRoute(source, actionModelLink);
+        String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
 
         String actionModelWidgetId = p.cast(parentComponentWidgetId, currentWidgetId);
         initPathMapping(source.getPathParams(), actionDataModel, pathMapping, pageScope, actionModelWidgetId, p);
@@ -289,9 +289,10 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      *
      * @param source          Действие
      * @param actionModelLink Ссылка на модель действия
+     * @param pathMapping     Map моделей параметров пути
      * @return Маршрут действия
      */
-    private String initActionRoute(S source, ModelLink actionModelLink) {
+    private String initActionRoute(S source, ModelLink actionModelLink, Map<String, ModelLink> pathMapping) {
         String actionRoute = source.getRoute();
         if (actionRoute == null) {
             actionRoute = normalize(source.getId());
@@ -299,7 +300,9 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
             boolean isDynamicPage = hasRefs(source.getPageId()) || isDynamic(source.getPageId());
             if (isDynamicPage && actionModelLink != null && ReduxModel.RESOLVE.equals(actionModelLink.getModel())) {
                 String masterIdParam = actionModelLink.getWidgetId() + "_id";
-                actionRoute = normalize(colon(masterIdParam)) + actionRoute;
+                String dynamicPageActionRoute = normalize(colon(masterIdParam)) + actionRoute;
+                pathMapping.put(masterIdParam, actionModelLink);
+                return dynamicPageActionRoute;
             }
         }
         return actionRoute;
