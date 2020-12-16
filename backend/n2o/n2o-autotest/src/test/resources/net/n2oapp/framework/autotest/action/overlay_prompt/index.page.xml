@@ -13,7 +13,7 @@
                 </show-modal>
             </button>
             <button label="Модалка без подтверждения">
-                <show-modal page-id="page" unsaved-data-prompt-on-close="false" route="/:id/modal">
+                <show-modal page-id="page" unsaved-data-prompt-on-close="false" route="/:id/modal2">
                     <path-param name="id" value="{id}"/>
                 </show-modal>
             </button>
@@ -23,7 +23,7 @@
                 </open-drawer>
             </button>
             <button label="Дровер без подтверждения">
-                <open-drawer page-id="page"  unsaved-data-prompt-on-close="false" route="/:id/drawer">
+                <open-drawer page-id="page"  unsaved-data-prompt-on-close="false" route="/:id/drawer2">
                     <path-param name="id" value="{id}"/>
                 </open-drawer>
             </button>
@@ -33,9 +33,9 @@
                 </open-page>
             </button>
             <button label="OpenPage без подтверждения">
-                <open-page page-id="page" unsaved-data-prompt-on-close="false" route="/:id/open">
+                <open-page page-id="page" unsaved-data-prompt-on-close="false" route="/:id/open2">
                     <path-param name="id" value="{id}"/>
-                </open-page>l>
+                </open-page>
             </button>
         </toolbar>
     </table>
