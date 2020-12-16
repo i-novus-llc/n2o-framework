@@ -14,6 +14,7 @@ public class N2oInputText extends N2oPlainField {
     private String min;
     private String step;
     private String measure;
+    private Integer precision;
 
     public N2oInputText() {
     }

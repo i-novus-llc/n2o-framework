@@ -25,4 +25,6 @@ public class InputText extends Control {
     private String measure;
     @JsonProperty
     private Boolean showButtons;
+    @JsonProperty
+    private Integer precision;
 }
