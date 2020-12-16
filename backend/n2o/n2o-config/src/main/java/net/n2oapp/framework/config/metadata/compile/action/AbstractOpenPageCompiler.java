@@ -155,8 +155,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
 
         String actionRoute = initActionRoute(source, actionModelLink);
 
-        String paramDefaultWidgetId = p.cast(parentComponentWidgetId, currentWidgetId);
-        initPathMapping(source.getPathParams(), actionDataModel, pathMapping, pageScope, paramDefaultWidgetId, p);
+        String actionModelWidgetId = p.cast(parentComponentWidgetId, currentWidgetId);
+        initPathMapping(source.getPathParams(), actionDataModel, pathMapping, pageScope, actionModelWidgetId, p);
 
         String parentRoute = normalize(route);
         List<String> pathParams = RouteUtil.getPathParams(actionRoute);
@@ -211,7 +211,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         // при наличии route или при filter модели не добавляем queryMapping
         if (source.getRoute() == null && !ReduxModel.FILTER.equals(actionDataModel))
             queryMapping.putAll(initPreFilterParams(preFilters, pathMapping));
-        initQueryMapping(source.getQueryParams(), actionDataModel, pathMapping, queryMapping, pageScope, paramDefaultWidgetId, p);
+        initQueryMapping(source.getQueryParams(), actionDataModel, pathMapping, queryMapping, pageScope, actionModelWidgetId, p);
         pageContext.setQueryRouteMapping(queryMapping);
 
         initPageRoute(compiled, route, pathMapping, queryMapping);
@@ -224,59 +224,59 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     /**
      * Добавление параметров пути в pathMapping
      *
-     * @param params               Список входящих параметров пути
-     * @param actionDataModel      Ссылка на модель действия
-     * @param pathMapping          Map моделей параметров пути
-     *                             В нее будут добавлены модели построенных параметров пути
-     * @param pageScope            Информация о странице
-     * @param paramDefaultWidgetId Идентификатор виджета, который будет использоваться по умолчанию,
-     *                             в случае, если в параметре не задан виджет
-     * @param p                    Процессор сборки метаданных
+     * @param params                  Список входящих параметров пути
+     * @param actionDataModel         Ссылка на модель действия
+     * @param pathMapping             Map моделей параметров пути
+     *                                В нее будут добавлены модели построенных параметров пути
+     * @param pageScope               Информация о странице
+     * @param defaultParamRefWidgetId Идентификатор виджета, который будет использоваться по умолчанию,
+     *                                в случае, если в параметре не задан виджет
+     * @param p                       Процессор сборки метаданных
      */
     private void initPathMapping(N2oParam[] params, ReduxModel actionDataModel, Map<String, ModelLink> pathMapping,
-                                 PageScope pageScope, String paramDefaultWidgetId, CompileProcessor p) {
+                                 PageScope pageScope, String defaultParamRefWidgetId, CompileProcessor p) {
         if (params == null || params.length == 0) return;
-        List<N2oParam> resultParams = prepareParams(params, actionDataModel, pageScope, paramDefaultWidgetId, p);
+        List<N2oParam> resultParams = prepareParams(params, actionDataModel, pageScope, defaultParamRefWidgetId, p);
         pathMapping.putAll(initParams(resultParams, pathMapping));
     }
 
     /**
      * Добавление параметров запроса в queryMapping
      *
-     * @param params               Список входящих параметров запроса
-     * @param actionDataModel      Ссылка на модель действия
-     * @param pathMapping          Map моделей параметров пути
-     * @param queryMapping         Map моделей параметров запроса.
-     *                             В нее будут добавлены модели построенных параметров запроса
-     * @param pageScope            Информация о странице
-     * @param paramDefaultWidgetId Идентификатор виджета, который будет использоваться по умолчанию,
-     *                             в случае, если в параметре не задан виджет
-     * @param p                    Процессор сборки метаданных
+     * @param params                  Список входящих параметров запроса
+     * @param actionDataModel         Ссылка на модель действия
+     * @param pathMapping             Map моделей параметров пути
+     * @param queryMapping            Map моделей параметров запроса.
+     *                                В нее будут добавлены модели построенных параметров запроса
+     * @param pageScope               Информация о странице
+     * @param defaultParamRefWidgetId Идентификатор виджета, который будет использоваться по умолчанию,
+     *                                в случае, если в параметре не задан виджет
+     * @param p                       Процессор сборки метаданных
      */
     private void initQueryMapping(N2oParam[] params, ReduxModel actionDataModel, Map<String, ModelLink> pathMapping,
                                   Map<String, ModelLink> queryMapping, PageScope pageScope,
-                                  String paramDefaultWidgetId, CompileProcessor p) {
+                                  String defaultParamRefWidgetId, CompileProcessor p) {
         if (params == null || params.length == 0) return;
-        List<N2oParam> resultParams = prepareParams(params, actionDataModel, pageScope, paramDefaultWidgetId, p);
+        List<N2oParam> resultParams = prepareParams(params, actionDataModel, pageScope, defaultParamRefWidgetId, p);
         queryMapping.putAll(initParams(resultParams, pathMapping));
     }
 
     /**
      * Подготовка параметров
      *
-     * @param params               Список входящих параметров
-     * @param actionDataModel      Ссылка на модель действия
-     * @param pageScope            Информация о странице
-     * @param paramDefaultWidgetId Идентификатор виджета, который будет использоваться по умолчанию,
-     *                             в случае, если в параметре не задан виджет
-     * @param p                    Процессор сборки метаданных
+     * @param params                  Список входящих параметров
+     * @param actionDataModel         Ссылка на модель действия
+     * @param pageScope               Информация о странице
+     * @param defaultParamRefWidgetId Идентификатор виджета, который будет использоваться по умолчанию,
+     *                                в случае, если в параметре не задан виджет
+     * @param p                       Процессор сборки метаданных
      * @return Список преобразованных параметров
      */
     private List<N2oParam> prepareParams(N2oParam[] params, ReduxModel actionDataModel,
-                                         PageScope pageScope, String paramDefaultWidgetId, CompileProcessor p) {
+                                         PageScope pageScope, String defaultParamRefWidgetId, CompileProcessor p) {
         List<N2oParam> resultParams = new ArrayList<>();
         for (N2oParam param : params) {
-            String widgetId = p.cast(param.getRefWidgetId(), paramDefaultWidgetId);
+            String widgetId = p.cast(param.getRefWidgetId(), defaultParamRefWidgetId);
             resultParams.add(new N2oParam(param.getName(), param.getValue(), widgetId,
                     p.cast(param.getRefModel(), actionDataModel),
                     pageScope == null ? null : pageScope.getPageId()));
