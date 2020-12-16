@@ -119,17 +119,11 @@ const enhance = compose(
   withProps(props => {
     const isDrawerPage = get(props, 'isDrawerPage');
     const pageId = get(props, 'metadata.id');
-    const rootPageId = get(props, 'rootPageId');
     const searchWidgetId = get(props, 'metadata.searchWidgetId');
-
-    const compileSearchWidgetId = pageId + rootPageId + searchWidgetId;
-
-    const currentSearchWidgetId = isDrawerPage
-      ? compileSearchWidgetId
-      : searchWidgetId;
+    const compileSearchWidgetId = pageId + '_' + searchWidgetId;
 
     return {
-      searchWidgetId: currentSearchWidgetId,
+      searchWidgetId: compileSearchWidgetId,
       metadataSearchWidgetId: searchWidgetId,
       searchModelPrefix: get(props, 'metadata.searchModelPrefix'),
       isDrawerPage: isDrawerPage,
@@ -156,6 +150,7 @@ const enhance = compose(
             value
           ),
           dataRequestWidget(searchWidgetId),
+          dataRequestWidget(metadataSearchWidgetId),
         ])
       );
     },
