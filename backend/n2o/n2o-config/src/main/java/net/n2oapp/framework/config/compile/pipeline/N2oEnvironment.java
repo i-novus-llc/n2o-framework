@@ -22,7 +22,7 @@ import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
-import net.n2oapp.framework.config.register.route.MapRouteRepository;
+import net.n2oapp.framework.config.register.route.StubRouteRepository;
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
 import net.n2oapp.framework.config.selective.persister.PersisterFactoryByMap;
@@ -70,7 +70,7 @@ public class N2oEnvironment implements MetadataEnvironment {
 
     public N2oEnvironment() {
         this.metadataRegister = new N2oMetadataRegister();
-        this.routeRegister = new N2oRouteRegister(new MapRouteRepository<>());
+        this.routeRegister = new N2oRouteRegister(new StubRouteRepository());
         this.sourceTypeRegister = new N2oSourceTypeRegister();
 
         this.messageSource = new MessageSourceAccessor(new ResourceBundleMessageSource());

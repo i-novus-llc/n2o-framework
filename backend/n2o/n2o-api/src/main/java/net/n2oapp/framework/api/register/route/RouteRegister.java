@@ -3,12 +3,12 @@ package net.n2oapp.framework.api.register.route;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 
-import java.util.function.BiPredicate;
+import java.util.Map;
 
 /**
  * Реестр URL адресов метаданных
  */
-public interface RouteRegister {
+public interface RouteRegister extends Iterable<Map.Entry<RouteInfoKey, CompileContext>> {
 
     /**
      * Регистрация URL адреса метаданной
@@ -25,10 +25,5 @@ public interface RouteRegister {
      */
     void clear(String startPattern);
 
-    /**
-     * Поиск контекста по фильтру
-     * @param filter
-     * @return
-     */
-    CompileContext find(BiPredicate<RouteInfoKey, CompileContext> filter);
+    boolean updateFromRepository();
 }
