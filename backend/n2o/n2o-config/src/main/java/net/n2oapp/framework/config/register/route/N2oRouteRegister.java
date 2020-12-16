@@ -7,8 +7,7 @@ import net.n2oapp.framework.api.register.route.RouteRegister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Iterator;
-import java.util.Map;
+import java.util.function.BiPredicate;
 
 /**
  * Хранилище RouteInfo
@@ -37,8 +36,8 @@ public class N2oRouteRegister implements RouteRegister {
     }
 
     @Override
-    public Iterator<Map.Entry<RouteInfoKey, CompileContext>> iterator() {
-        return repository.iterator();
+    public CompileContext find(BiPredicate<RouteInfoKey, CompileContext> filter) {
+        return repository.find(filter);
     }
 
     @Override

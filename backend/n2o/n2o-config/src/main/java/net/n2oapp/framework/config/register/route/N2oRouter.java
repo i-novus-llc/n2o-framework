@@ -70,13 +70,7 @@ public class N2oRouter implements MetadataRouter {
      */
     @SuppressWarnings("unchecked")
     private <D extends Compiled> CompileContext<D, ?> findRoute(String url, Class<D> compiledClass) {
-        for (Map.Entry<RouteInfoKey, CompileContext> routeEntry : environment.getRouteRegister()) {
-            if (matchInfo(routeEntry.getKey(), url) &&
-                    compiledClass.isAssignableFrom(routeEntry.getValue().getCompiledClass())) {
-                return routeEntry.getValue();
-            }
-        }
-        return null;
+        return environment.getRouteRegister().find((k, v) -> matchInfo(k, url) && compiledClass.isAssignableFrom(v.getCompiledClass()));
     }
 
     /**

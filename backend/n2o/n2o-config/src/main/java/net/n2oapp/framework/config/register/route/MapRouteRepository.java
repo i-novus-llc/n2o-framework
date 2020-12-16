@@ -1,10 +1,10 @@
 package net.n2oapp.framework.config.register.route;
 
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 
 public class MapRouteRepository<K extends Comparable, V> implements RouteRepository<K, V> {
@@ -22,8 +22,10 @@ public class MapRouteRepository<K extends Comparable, V> implements RouteReposit
     }
 
     @Override
-    public Iterator<Map.Entry<K, V>> iterator() {
-        return register.entrySet().iterator();
+    public V find(BiPredicate<? super K, ? super V> filter) {
+        return register.entrySet().stream()
+                .filter(e -> filter.test(e.getKey(), e.getValue()))
+                .findFirst().map(Map.Entry::getValue).orElse(null);
     }
 
     @Override
