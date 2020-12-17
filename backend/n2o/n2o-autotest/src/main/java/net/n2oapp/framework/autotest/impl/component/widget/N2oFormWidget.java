@@ -11,8 +11,7 @@ import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 public class N2oFormWidget extends N2oStandardWidget implements FormWidget {
     @Override
     public Fields fields() {
-        return N2oSelenide.collection(element().$$(".n2o-fieldset .n2o-form-group," +
-                ".n2o-text-field,.n2o-alert-field,.n2o-status-text,.n2o-image"), Fields.class);
+        return N2oSelenide.collection(element().$$(".n2o-fieldset .n2o-form-group,.n2o-snippet"), Fields.class);
     }
 
     @Override
