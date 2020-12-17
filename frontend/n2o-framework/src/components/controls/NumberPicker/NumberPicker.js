@@ -42,7 +42,9 @@ function NumberPicker(props) {
 
   let defaultValue = 0;
 
-  if (!isNil(value) && value !== '') {
+  if (value === '-') {
+    defaultValue = min || 0;
+  } else if (!isNil(value) && value !== '') {
     defaultValue = value;
   } else if (!isNil(min) && min !== '') {
     defaultValue = min;
@@ -65,7 +67,7 @@ function NumberPicker(props) {
   }, [min, max, value, onChange, defaultValue]);
 
   const handlerChange = step => {
-    const nextValue = value + step;
+    const nextValue = Number(value) + step;
     if (isNil(value) || value === '') {
       onChange(defaultValue);
     } else if (min <= nextValue && nextValue <= max) {
