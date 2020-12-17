@@ -75,6 +75,9 @@ public class NumberPickerAT extends AutoTestBase {
         numberPicker.minusStepButtonShouldBeEnabled();
 
         //check input
+        // only minus
+        numberPicker.val("-");
+        numberPicker.shouldHaveValue("-3");
         numberPicker.clear();
         // default min value
         numberPicker.shouldHaveValue("-3");
