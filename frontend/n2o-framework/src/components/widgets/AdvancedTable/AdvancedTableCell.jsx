@@ -3,17 +3,18 @@ import pure from 'recompose/pure';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import some from 'lodash/some';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 /**
  * Компонент обертка Cell
  * @param children - вставляемый компонент
  * @param hasSpan - флаг возможности colSpan/rowSpan в этой колонке
  * @param record - модель строки
+ * @param textWrap - флаг на запрет/разрешение переноса текста в cell (default = true)
  * @returns {*}
  * @constructor
  */
-function AdvancedTableCell({ children, hasSpan, record }) {
+function AdvancedTableCell({ children, hasSpan, record, textWrap }) {
   const { span } = record;
   let colSpan = 1;
   let rowSpan = 1;
@@ -32,11 +33,17 @@ function AdvancedTableCell({ children, hasSpan, record }) {
 
   return (
     <td
-      className={cn({ 'd-none': !needRender })}
+      className={classNames({ 'd-none': !needRender })}
       colSpan={colSpan}
       rowSpan={rowSpan}
     >
-      <div className="n2o-advanced-table-cell-expand">{children}</div>
+      <div
+        className={classNames('n2o-advanced-table-cell-expand', {
+          'text-no-wrap': textWrap === false,
+        })}
+      >
+        {children}
+      </div>
     </td>
   );
 }
@@ -50,6 +57,7 @@ AdvancedTableCell.propTypes = {
 AdvancedTableCell.defaultProps = {
   hasSpan: false,
   record: {},
+  textWrap: true,
 };
 
 export default pure(AdvancedTableCell);

@@ -12,13 +12,10 @@ import net.n2oapp.framework.api.metadata.control.N2oFieldCondition;
 import net.n2oapp.framework.api.metadata.control.ValidationReference;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
- * Валидация
+ * Клиентская модель валидации
  */
 @Getter
 @Setter
@@ -80,24 +77,15 @@ public abstract class Validation implements Compiled {
         return fieldId != null;
     }
 
-//    public void setForField(boolean forField) {
-//        this.forField = forField;
-//    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Validation)) return false;
-
-        Validation that = (Validation) o;
-
-        return id != null ? id.equals(that.id) : that.id == null;
+        return Objects.equals(id, ((Validation) o).id);
     }
 
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
-
-
 }

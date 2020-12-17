@@ -10,6 +10,7 @@ import pick from 'lodash/pick';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import isFunction from 'lodash/isFunction';
+import has from 'lodash/has';
 import cx from 'classnames';
 import { batchActions } from 'redux-batched-actions';
 import { callActionImpl } from '../../actions/toolbar';
@@ -34,6 +35,7 @@ import {
 } from '../../selectors/widgets';
 import { removeAlerts } from '../../actions/alerts';
 import Spinner from '../snippets/Spinner/Spinner';
+import { InitMetadataContext } from '../../core/dependency';
 
 const s = {};
 
@@ -85,10 +87,10 @@ const createWidgetContainer = (initialConfig, widgetType) => {
    */
   return WrappedComponent => {
     class WidgetContainer extends React.Component {
-      constructor(props) {
-        super(props);
+      constructor(props, context) {
+        super(props, context);
 
-        this.initIfNeeded();
+        this.initIfNeeded(context.metadata);
         this.onFocus = this.onFocus.bind(this);
         this.onFetch = this.onFetch.bind(this);
         this.onResolve = this.onResolve.bind(this);
@@ -104,8 +106,10 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           dataProviderFromState,
           dataProvider,
         } = this.props;
+        const hasVisibleDeps = has(this.context, 'metadata.dependency.visible');
+
         if (
-          fetchOnInit &&
+          (hasVisibleDeps || fetchOnInit) &&
           visible &&
           (isEqual(dataProvider, dataProviderFromState) ||
             !dataProviderFromState ||
@@ -199,7 +203,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       /**
        * Диспатч экшена регистрации виджета
        */
-      initIfNeeded() {
+      initIfNeeded(initMetadata) {
         const {
           dispatch,
           isInit,
@@ -213,6 +217,8 @@ const createWidgetContainer = (initialConfig, widgetType) => {
           modelPrefix,
         } = this.props;
 
+        const { visible: defaultVisible } = initMetadata;
+
         if (!isInit || !this.isEqualRegisteredWidgetWithProps()) {
           dispatch(
             registerWidget(widgetId, {
@@ -224,6 +230,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
               dataProvider,
               validation,
               modelPrefix,
+              isVisible: defaultVisible,
             })
           );
         }
@@ -304,9 +311,7 @@ const createWidgetContainer = (initialConfig, widgetType) => {
       placeholder: false,
     };
 
-    WidgetContainer.contextTypes = {
-      store: PropTypes.object,
-    };
+    WidgetContainer.contextType = InitMetadataContext;
 
     const mapStateToProps = (state, props) => {
       return {

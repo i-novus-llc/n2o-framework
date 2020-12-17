@@ -35,8 +35,8 @@ public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2o
         showModal.setPageId(source.getPageId());
 
         compileAction(showModal, source, p);
-        initPageContext(showModal, source, context, p);
-        compilePayload(showModal, source, context, p);
+        PageContext pageContext = initPageContext(showModal, source, context, p);
+        compilePayload(showModal, source, pageContext, p);
         return showModal;
     }
 
@@ -60,14 +60,19 @@ public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2o
         payload.setQueryMapping(queryMapping);
     }
 
-    private void compilePayload(OpenDrawer showModal, N2oOpenDrawer source, CompileContext<?, ?> context, CompileProcessor p) {
+    private void compilePayload(OpenDrawer showModal, N2oOpenDrawer source, PageContext pageContext, CompileProcessor p) {
         OpenDrawerPayload payload = showModal.getPayload();
-        payload.setBackdrop(source.getBackdrop());
-        payload.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.action.open_drawer.width"), String.class)));
+        payload.setBackdrop(p.cast(source.getBackdrop(),
+                p.resolve(property("n2o.api.action.open_drawer.backdrop"), Boolean.class)));
+        payload.setWidth(p.cast(source.getWidth(),
+                p.resolve(property("n2o.api.action.open_drawer.width"), String.class)));
         payload.setHeight(source.getHeight());
-        payload.setPlacement(p.cast(source.getPlacement(), p.resolve(property("n2o.api.action.open_drawer.placement"), String.class)));
+        payload.setPlacement(p.cast(source.getPlacement(),
+                p.resolve(property("n2o.api.action.open_drawer.placement"), String.class)));
         payload.setLevel(source.getLevel());
         payload.setBackdropClosable(p.cast(source.getBackdropClosable(), true));
         payload.setClosable(p.cast(source.getClosable(), true));
+        payload.setPrompt(pageContext.getUnsavedDataPromptOnClose());
+        payload.setFixedFooter(p.cast(source.getFixedFooter(), p.resolve(property("n2o.api.action.open_drawer.fixed_footer"), Boolean.class)));
     }
 }

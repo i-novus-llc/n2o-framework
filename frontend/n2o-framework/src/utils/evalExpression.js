@@ -1,5 +1,6 @@
 import isObject from 'lodash/isObject';
 
+import functions from './functions';
 import warning from './warning';
 
 /**
@@ -28,7 +29,10 @@ export function createContextFn(args, code) {
   const key = `${joinedArgs}|||${code}`;
 
   if (!fooCache[key]) {
-    fooCache[key] = new Function(windowKeys, `return function (${joinedArgs}) { return ${code} }`)();
+    fooCache[key] = new Function(
+      windowKeys,
+      `return function (${joinedArgs}) { return (${code}) }`
+    )();
   }
 
   return fooCache[key];
@@ -45,8 +49,9 @@ const fooCache = {};
  */
 export default function evalExpression(expression, context) {
   try {
-    const contextFinal = isObject(context) ? context : {};
-    const vars = { ...window._n2oEvalContext, ...contextFinal };
+    const contextFinal =
+      isObject(context) && !Array.isArray(context) ? context : {};
+    const vars = { ...functions, ...window._n2oEvalContext, ...contextFinal };
     const fn = createContextFn(Object.keys(vars), expression);
 
     return fn.apply(context || {}, Object.values(vars));

@@ -1,5 +1,6 @@
 package net.n2oapp.framework.autotest.region;
 
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.*;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
@@ -31,8 +32,7 @@ public class TabsRegionAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Test
@@ -46,9 +46,9 @@ public class TabsRegionAT extends AutoTestBase {
         tabs.tab(0).shouldBeActive();
         tabs.tab(1).shouldNotBeActive();
         tabs.tab(2).shouldNotBeActive();
-        tabs.tab(0).shouldHaveText("Tab1");
-        tabs.tab(1).shouldHaveText("Tab2");
-        tabs.tab(2).shouldHaveText("");
+        tabs.tab(0).shouldHaveName("Tab1");
+        tabs.tab(1).shouldHaveName("Tab2");
+        tabs.tab(2).shouldNotHaveTitle();
 
         tabs.tab(1).click();
         tabs.tab(0).shouldNotBeActive();
@@ -66,7 +66,7 @@ public class TabsRegionAT extends AutoTestBase {
 
         TabsRegion tabs3 = page.regions().region(2, TabsRegion.class);
         tabs3.shouldHaveSize(1);
-        tabs3.tab(0).shouldHaveText("SingleTab");
+        tabs3.tab(0).shouldHaveName("SingleTab");
         tabs3.tab(0).content().widget(FormWidget.class).shouldExists();
     }
 
@@ -81,6 +81,7 @@ public class TabsRegionAT extends AutoTestBase {
         content.widget(0, FormWidget.class).fields().field("field1").shouldExists();
 
         SimpleRegion custom = content.region(1, SimpleRegion.class);
+        custom.shouldExists();
         custom.content().widget(FormWidget.class).fields().field("field2").shouldExists();
 
         PanelRegion panel = content.region(2, PanelRegion.class);
@@ -89,12 +90,12 @@ public class TabsRegionAT extends AutoTestBase {
 
         LineRegion line = content.region(3, LineRegion.class);
         line.shouldExists();
-        line.shouldHaveTitle("Line");
+        line.shouldHaveLabel("Line");
 
         TabsRegion tabs = content.region(4, TabsRegion.class);
         tabs.shouldExists();
         tabs.shouldHaveSize(2);
-        tabs.tab(1).shouldHaveText("Tab2");
+        tabs.tab(1).shouldHaveName("Tab2");
 
         content.widget(5, FormWidget.class).fields().field("field3").shouldExists();
 
@@ -111,5 +112,27 @@ public class TabsRegionAT extends AutoTestBase {
         panel.shouldBeCollapsed();
         line.shouldBeCollapsed();
         tabs.tab(1).shouldBeActive();
+    }
+
+    @Test
+    public void testFixedContent() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/region/tabs/fixed/index.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        TabsRegion tabs = page.regions().region(0, TabsRegion.class);
+        tabs.shouldHaveSize(1);
+        tabs.shouldHaveMaxHeight(200);
+        tabs.shouldHaveScrollbar();
+        TabsRegion.TabItem tab = tabs.tab(0);
+        tab.scrollDown();
+        Fields fields = tab.content().widget(FormWidget.class).fields();
+        fields.field("input3").shouldExists();
+        tab.scrollUp();
+        fields.field("input1").shouldExists();
+
+        tabs = page.regions().region(1, TabsRegion.class);
+        tabs.shouldHaveSize(1);
+        tabs.shouldNotHaveScrollbar();
     }
 }

@@ -2,10 +2,8 @@ package net.n2oapp.framework.config.metadata.compile.page;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oSearchablePage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SearchablePage;
@@ -17,7 +15,6 @@ import net.n2oapp.framework.config.metadata.compile.widget.PageWidgetsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SearchBarScope;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,24 +58,9 @@ public class SearchablePageCompiler extends BasePageCompiler<N2oSearchablePage, 
     @Override
     protected void initRegions(N2oSearchablePage source, SearchablePage page, CompileProcessor p, PageContext context,
                                PageScope pageScope, PageRoutes pageRoutes, PageWidgetsScope pageWidgetsScope) {
-        Map<String, List<Region>> regionMap = new HashMap<>();
-        if (source.getItems() != null) {
-            IndexScope index = new IndexScope();
-            for (SourceComponent item : source.getItems()) {
-                if (item instanceof N2oRegion) {
-                    Region region = p.compile(item, context, index, pageScope, pageWidgetsScope);
-                    String place = p.cast(((N2oRegion) item).getPlace(), "single");
-                    if (regionMap.get(place) != null) {
-                        regionMap.get(place).add(region);
-                    } else {
-                        List<Region> regionList = new ArrayList<>();
-                        regionList.add(region);
-                        regionMap.put(place, regionList);
-                    }
-                }
-            }
-            page.setRegions(regionMap);
-        }
+        Map<String, List<Region>> regions = new HashMap<>();
+        initRegions(source.getItems(), regions, "single", context, p, pageScope, pageRoutes, pageWidgetsScope, new IndexScope());
+        page.setRegions(regions);
     }
 
     private void compileSearchBarRoute(SearchablePage page, String param) {

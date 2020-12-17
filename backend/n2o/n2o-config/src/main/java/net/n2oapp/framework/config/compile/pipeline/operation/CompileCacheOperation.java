@@ -70,7 +70,11 @@ public class CompileCacheOperation<S> extends MetadataChangeListener implements 
     }
 
 
-    private String getKey(CompileContext<?, ?> context, BindProcessor p) {
+    protected String getKey(CompileContext<?, ?> context, BindProcessor p) {
         return context.getCompiledId(p) + "." + context.getCompiledClass().getSimpleName();
+    }
+
+    protected CacheTemplate getCacheTemplate() {
+        return cacheTemplate;
     }
 }

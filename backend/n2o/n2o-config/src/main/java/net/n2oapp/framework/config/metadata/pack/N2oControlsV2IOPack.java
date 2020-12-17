@@ -51,6 +51,9 @@ public class N2oControlsV2IOPack implements MetadataPack<N2oApplicationBuilder> 
                 new SubmenuIO(),
                 new ButtonFieldIOv2(),
                 new RatingIOv2(),
-                new IntervalFieldIOv2());
+                new IntervalFieldIOv2(),
+                new ImageFieldIOv2(),
+                new NumberPickerIOv2(),
+                new TimePickerIOv2());
     }
 }

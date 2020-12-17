@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import Popover from 'reactstrap/lib/Popover';
 import PopoverHeader from 'reactstrap/lib/PopoverHeader';
 import PopoverBody from 'reactstrap/lib/PopoverBody';
@@ -18,12 +19,13 @@ import cx from 'classnames';
  */
 
 export function PopoverConfirm(props) {
+  const { t } = useTranslation();
   const {
     className,
     title,
     text,
-    okLabel,
-    cancelLabel,
+    okLabel = t('confirm'),
+    cancelLabel = t('deny'),
     target,
     onDeny,
     onConfirm,
@@ -68,10 +70,8 @@ PopoverConfirm.defaultProps = {
   className: '',
   title: 'Вы уверены?',
   text: '',
-  okLabel: 'Да',
-  cancelLabel: 'Нет',
-  onConfirm: function() {},
-  onCancel: function() {},
+  onConfirm: () => {},
+  onCancel: () => {},
 };
 
 export default PopoverConfirm;

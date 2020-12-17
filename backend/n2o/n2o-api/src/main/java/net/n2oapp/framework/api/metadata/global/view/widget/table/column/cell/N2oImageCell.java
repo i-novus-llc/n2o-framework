@@ -16,5 +16,16 @@ public class N2oImageCell extends N2oActionCell {
     private String url;
     @JsonProperty
     private ImageShape shape;
+    @JsonProperty
     private String title;
+    @JsonProperty
+    private String data;
+    @JsonProperty
+    private String description;
+    @JsonProperty
+    private Position textPosition;
+
+    public enum Position {
+        top, left, right, bottom
+    }
 }

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { compose } from 'recompose';
-import { makeWidgetPageSelector } from '../../../selectors/widgets';
+import { withTranslation } from 'react-i18next';
+import { createStructuredSelector } from 'reselect';
 import map from 'lodash/map';
 import forOwn from 'lodash/forOwn';
 import isEmpty from 'lodash/isEmpty';
@@ -11,14 +12,16 @@ import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import get from 'lodash/get';
 import find from 'lodash/find';
-import widgetContainer from '../WidgetContainer';
+
 import List from './List';
+
+import widgetContainer from '../WidgetContainer';
 import withColumn from '../Table/withColumn';
 import TableCell from '../Table/TableCell';
 import { withWidgetHandlers } from '../AdvancedTable/AdvancedTableContainer';
 import { withContainerLiveCycle } from '../Table/TableContainer';
-import { createStructuredSelector } from 'reselect';
 import { setTableSelectedId } from '../../../actions/widgets';
+import { makeWidgetPageSelector } from '../../../selectors/widgets';
 
 const ReduxCell = withColumn(TableCell);
 
@@ -140,6 +143,7 @@ class ListContainer extends React.Component {
       hasSelect,
       selectedId,
       rows,
+      t,
     } = this.props;
 
     return {
@@ -155,6 +159,7 @@ class ListContainer extends React.Component {
       hasSelect,
       selectedId,
       rows,
+      t,
     };
   }
   render() {
@@ -202,6 +207,7 @@ const mapStateToProps = createStructuredSelector({
 });
 
 export default compose(
+  withTranslation(),
   widgetContainer(
     {
       mapProps: props => {

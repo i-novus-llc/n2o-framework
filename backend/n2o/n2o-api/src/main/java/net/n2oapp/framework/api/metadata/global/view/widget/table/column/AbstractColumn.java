@@ -29,6 +29,7 @@ public abstract class AbstractColumn implements IdAware, Source {
     private DirectionType sortingDirection;
     private ColumnFixedPosition fixed;
     private ColumnVisibility[] columnVisibilities;
+    private Boolean hideOnBlur;
 
     @Getter
     @Setter

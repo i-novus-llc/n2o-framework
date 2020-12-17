@@ -26,7 +26,7 @@ public class PageActionValidator implements SourceValidator<N2oAbstractPageActio
                 "Действие открытия страницы: " + source.getId() +
                         " ссылается на несуществующую страницу: " + source.getPageId());
         if (source.getSubmitOperationId() != null && source.getObjectId() != null) {
-            N2oObject object = p.getOrNull(source.getObjectId(), N2oObject.class);
+            N2oObject object = p.getOrThrow(source.getObjectId(), N2oObject.class);
             p.safeStreamOf(object.getOperations()).
                     filter(operation -> source.getSubmitOperationId().equals(operation.getId())).
                     findFirst().orElseThrow(() -> new N2oMetadataValidationException("Действие открытия страницы: " + source.getId() +

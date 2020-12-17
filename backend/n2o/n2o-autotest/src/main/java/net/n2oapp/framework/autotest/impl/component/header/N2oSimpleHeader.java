@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Menu;
+import net.n2oapp.framework.autotest.api.component.header.SearchBar;
 import net.n2oapp.framework.autotest.api.component.header.SimpleHeader;
 import net.n2oapp.framework.autotest.impl.collection.N2oMenu;
 import net.n2oapp.framework.autotest.impl.component.N2oComponent;
@@ -33,6 +34,11 @@ public class N2oSimpleHeader extends N2oComponent implements SimpleHeader {
     public Menu extra() {
         return N2oSelenide.collection(element().$$(".navbar-collapse .navbar-nav").get(1).$$("ul > li")
                 , N2oMenu.class);
+    }
+
+    @Override
+    public SearchBar search() {
+        return N2oSelenide.component(element().$(".navbar-collapse .n2o-search-bar"), N2oSearchBar.class);
     }
 
 }

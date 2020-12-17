@@ -3,7 +3,7 @@
       id="fieldset" src="test" class="test" label="label" ref-id="test"
       field-label-align="left" field-label-location="top"
       field-label-width="30" visible="true" enabled="true" depends-on="test"
-      collapsible="true" expand="true" style="margin-left:10px;width:300px">
+      collapsible="true" expand="true" style="margin-left:10px;width:300px" has-separator="false">
     <row class="test1" style="margin-left:10px;width:300px">
         <col class="test1" style="margin-left:10px;width:300px" visible="{a==b}">
             <input-text id="test" />

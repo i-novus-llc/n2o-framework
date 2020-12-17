@@ -39,3 +39,19 @@ describe.skip('Тесты ModalPage', function() {
     expect(wrapper.find('.n2o-spinner-container').exists()).toBeFalsy();
   });
 });
+
+it('Отображается ли окно', () => {
+  const wrapper = setup({
+    visible: true,
+  });
+  expect(wrapper.find('.modal-content').length).toBe(1);
+});
+
+it('Отображается ли hasHeader', () => {
+  const wrapper = setup({
+    visible: true,
+    hasHeader: true,
+  });
+
+  expect(wrapper.find('.modal-title').length).toBe(1);
+});

@@ -4,6 +4,10 @@ import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
 import isBoolean from 'lodash/isBoolean';
 import evalExpression, { parseExpression } from './evalExpression';
+import isObject from 'lodash/isObject';
+import isEmpty from 'lodash/isEmpty';
+import values from 'lodash/values';
+import some from 'lodash/some';
 
 /**
  * Получение значения по ссылке и выражению.
@@ -13,17 +17,32 @@ import evalExpression, { parseExpression } from './evalExpression';
  * @returns {*}
  */
 export default function linkResolver(state, { link, value }) {
+  const multi = get(state, 'models.multi');
+  const hasMultiModel = some(values(multi), model => !isEmpty(model));
+
   if (!link && isNil(value)) return;
 
   if (isBoolean(value)) return value;
   if (isNumber(value)) return value;
+
   const context = get(state, link);
+
   if (isUndefined(value) && link) return context;
 
   const json = JSON.stringify(value);
   const str = JSON.parse(json, (k, val) => {
+    const isMulti =
+      context && values(context).every(elem => isObject(elem)) && hasMultiModel;
     const parsedValue = parseExpression(val);
-    return parsedValue ? evalExpression(parsedValue, context) : val;
+    if (parsedValue) {
+      if (isMulti) {
+        return evalExpression(parsedValue, Object.values(context));
+      }
+      return evalExpression(parsedValue, context);
+    } else {
+      return val;
+    }
   });
+
   return str;
 }

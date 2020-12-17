@@ -1,45 +1,37 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0" name="Автомобили">
-
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
     <operations>
-        <operation id="create"
-                   success-text="Автомобиль добавлен в базу">
+        <operation id="create" success-text="Автомобиль добавлен в базу">
             <invocation>
                 <sql>INSERT INTO cars (id, name, price) VALUES (null, :name, :price);</sql>
             </invocation>
-
-            <in-parameters>
-                <param id="name" mapping="['name']"/>
-                <param id="price" mapping="['price']"/>
-            </in-parameters>
-            <out-parameters>
-                <param id="id" mapping="[0]"/>
-            </out-parameters>
+            <in>
+                <field id="name"/>
+                <field id="price"/>
+            </in>
+            <out>
+                <field id="id" mapping="[0]"/>
+            </out>
         </operation>
 
-        <operation id="update"
-                   success-text="Данные об автомобиле изменены">
+        <operation id="update" success-text="Данные об автомобиле изменены">
             <invocation>
                 <sql>UPDATE cars SET name = :name, price = :price WHERE id = :id</sql>
             </invocation>
-
-            <in-parameters>
-                <param id="id" mapping="['id']"/>
-                <param id="name" mapping="['name']"/>
-                <param id="price" mapping="['price']"/>
-            </in-parameters>
+            <in>
+                <field id="id"/>
+                <field id="name"/>
+                <field id="price"/>
+            </in>
         </operation>
 
-        <operation id="delete"
-                   success-text="Данные об автомобиле удалены">
+        <operation id="delete" success-text="Данные об автомобиле удалены">
             <invocation>
                 <sql>DELETE FROM cars WHERE id = :id</sql>
             </invocation>
-
-            <in-parameters>
-                <param id="id" mapping="['id']"/>
-            </in-parameters>
+            <in>
+                <field id="id"/>
+            </in>
         </operation>
     </operations>
-
 </object>

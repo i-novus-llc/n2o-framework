@@ -35,7 +35,7 @@ public class N2oValidationModule extends N2oModule {
     }
 
     @Override
-    public void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet, N2oException exception) {
+    public void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
         List<FailInfo> fails = processor.validate(buildInfo(requestInfo, dataSet), afterFailOperation);
         prepareResponse(fails, responseInfo);
     }

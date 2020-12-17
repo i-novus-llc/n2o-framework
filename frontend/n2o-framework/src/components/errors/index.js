@@ -1,29 +1,37 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
 import ErrorPage from './ErrorPage';
 import DocumentTitle from '../core/DocumentTitle';
 
-const PAGE_NOT_FOUND = 'Страница не найдена';
-const ACCESS_DENIED = 'Доступ запрещён';
-const INNER_APPLICATION_ERROR = 'Внутренняя ошибка приложения';
+const NotFoundPage = () => {
+  const { t } = useTranslation();
+  return (
+    <React.Fragment>
+      <DocumentTitle title={t('pageNotFound')} />
+      <ErrorPage status={404} error={t('pageNotFound')} />
+    </React.Fragment>
+  );
+};
+const ForbiddenPage = () => {
+  const { t } = useTranslation();
+  return (
+    <React.Fragment>
+      <DocumentTitle title={t('accessDenied')} />
+      <ErrorPage status={403} error={t('accessDenied')} />
+    </React.Fragment>
+  );
+};
 
-const NotFoundPage = () => (
-  <React.Fragment>
-    <DocumentTitle title={PAGE_NOT_FOUND} />
-    <ErrorPage status={404} error={PAGE_NOT_FOUND} />
-  </React.Fragment>
-);
-const ForbiddenPage = () => (
-  <React.Fragment>
-    <DocumentTitle title={ACCESS_DENIED} />
-    <ErrorPage status={403} error={ACCESS_DENIED} />
-  </React.Fragment>
-);
-const ServerErrorPage = () => (
-  <React.Fragment>
-    <DocumentTitle title={INNER_APPLICATION_ERROR} />
-    <ErrorPage status={500} error={INNER_APPLICATION_ERROR} />
-  </React.Fragment>
-);
+const ServerErrorPage = () => {
+  const { t } = useTranslation();
+  return (
+    <React.Fragment>
+      <DocumentTitle title={t('innerAppError')} />
+      <ErrorPage status={500} error={t('innerAppError')} />
+    </React.Fragment>
+  );
+};
 
 const createErrorPages = ({
   notFound = NotFoundPage,
