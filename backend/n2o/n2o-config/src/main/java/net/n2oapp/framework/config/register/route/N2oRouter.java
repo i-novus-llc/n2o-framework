@@ -38,21 +38,15 @@ public class N2oRouter implements MetadataRouter {
      * @return результат поиска
      */
     public <D extends Compiled> CompileContext<D, ?> get(String url, Class<D> compiledClass, Map<String, String[]> params) {
-        CompileContext<D, ?> result = findRoute(url, compiledClass, params);
-
-        if (result == null && environment.getRouteRegister().updateFromRepository())
-            result = findRoute(url, compiledClass, params);
-
-        if (result == null) throw new RouteNotFoundException(url);
-
-        return result;
-    }
-
-    private  <D extends Compiled> CompileContext<D, ?> findRoute(String url, Class<D> compiledClass, Map<String, String[]> params) {
         url = url != null ? url : ROOT_ROUTE;
         CompileContext<D, ?> result = findRoute(url, compiledClass);
         if (result != null)
             return result;
+
+        if (environment.getRouteRegister().synchronize()) {
+            result = findRoute(url, compiledClass);
+            if (result != null) return result;
+        }
 
         tryToFindShallow(url, compiledClass, params);
         result = findRoute(url, compiledClass);
@@ -65,8 +59,10 @@ public class N2oRouter implements MetadataRouter {
             tryToFindShallow(url, compiledClass, params);
             result = findRoute(url, compiledClass);
         }
+        if (result != null)
+            return result;
 
-        return result;
+        throw new RouteNotFoundException(url);
     }
 
     /**

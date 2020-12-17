@@ -25,5 +25,5 @@ public interface RouteRegister extends Iterable<Map.Entry<RouteInfoKey, CompileC
      */
     void clear(String startPattern);
 
-    boolean updateFromRepository();
+    boolean synchronize();
 }

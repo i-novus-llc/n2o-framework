@@ -44,7 +44,7 @@ import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
-import net.n2oapp.framework.config.register.route.RouteRepository;
+import net.n2oapp.framework.config.register.ConfigRepository;
 import net.n2oapp.framework.config.register.route.StubRouteRepository;
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
@@ -90,7 +90,7 @@ public class N2oEnvironmentConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public RouteRegister routeRegister(Optional<RouteRepository<RouteInfoKey, CompileContext>> repository) {
+    public RouteRegister routeRegister(Optional<ConfigRepository<RouteInfoKey, CompileContext>> repository) {
         return new N2oRouteRegister(repository.orElse(new StubRouteRepository()));
     }
 
