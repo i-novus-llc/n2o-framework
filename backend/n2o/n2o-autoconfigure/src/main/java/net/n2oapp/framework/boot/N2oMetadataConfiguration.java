@@ -9,12 +9,10 @@ import net.n2oapp.framework.api.pack.MetadataPack;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.config.ConfigStarter;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.persister.MetadataPersister;
 import net.n2oapp.framework.config.reader.*;
 import net.n2oapp.framework.config.reader.util.N2oJdomTextProcessing;
-import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.route.N2oRouter;
 import net.n2oapp.framework.config.register.scanner.XmlInfoScanner;
 import net.n2oapp.framework.config.register.storage.PathUtil;
@@ -93,7 +91,7 @@ public class N2oMetadataConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public MetadataRouter n2oRouter(N2oRouteRegister routeRegister, MetadataEnvironment env) {
+    public MetadataRouter n2oRouter(MetadataEnvironment env) {
         return new N2oRouter(env, N2oPipelineSupport.readPipeline(env)
                 .read().transform().validate().cache().copy().compile().transform());
     }

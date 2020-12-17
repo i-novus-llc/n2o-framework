@@ -186,8 +186,8 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(filters.get(0).getLink().getBindLink(), is("models.resolve['p_main']"));
         assertThat(filters.get(0).getLink().getValue(), is("`secondId`"));
         assertThat(modalWidget.getDataProvider().getQueryMapping().size(), is(0));
-        assertThat(modalWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main'].id"));
-        assertThat(modalWidget.getDataProvider().getPathMapping().get("id").getValue(), nullValue());
+        assertThat(modalWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
+        assertThat(modalWidget.getDataProvider().getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(modalWidget.getUpload(), is(UploadType.query));
 //        List<AbstractButton> buttons = modalPage.getWidget().getToolbar().get("bottomRight").get(0).getButtons();
 //        assertThat(buttons.size(), is(2));
@@ -348,7 +348,8 @@ public class ShowModalCompileTest extends SourceCompileTestBase {
         assertThat(filters.get(1).getLink().getBindLink(), is("models.filter['p_second']"));
         assertThat(filters.get(1).getLink().getValue(), is("`name`"));
 
-        assertThat(modalWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main'].id"));
+        assertThat(modalWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
+        assertThat(modalWidget.getDataProvider().getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(modalWidget.getDataProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
         assertThat(modalWidget.getDataProvider().getQueryMapping().get("name").getValue(), is("`name`"));
 

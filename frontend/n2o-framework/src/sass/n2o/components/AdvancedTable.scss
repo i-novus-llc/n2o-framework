@@ -166,6 +166,9 @@
     }
   }
 
+  .n2o-advanced-table-cell-expand.text-no-wrap {
+    min-width: max-content;
+  }
 
   &-expand {
     position: relative;
