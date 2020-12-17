@@ -51,7 +51,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 /**
- * Проверка копиляции open-page
+ * Проверка компиляции open-page
  */
 public class OpenPageCompileTest extends SourceCompileTestBase {
     @Override
@@ -117,8 +117,10 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenPageSimplePage.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/stub/utBlank.page.xml")
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
-        assertThat(((LinkActionImpl) page.getWidget().getActions().get("id2")).getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
-        assertThat(((LinkActionImpl) page.getWidget().getActions().get("id2")).getQueryMapping().size(), is(0));
+        LinkActionImpl action = (LinkActionImpl) page.getWidget().getActions().get("id2");
+        assertThat(action.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(action.getPathMapping().get("page_test_id").getValue(), is("`id`"));
+        assertThat(action.getQueryMapping().size(), is(0));
 
         PageContext context = (PageContext) route("/page/widget/123/action2", Page.class);
         assertThat(context.getPreFilters().size(), is(1));
@@ -205,7 +207,6 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(updatePage.getBreadcrumb().get(2).getPath(), nullValue());
 
         HashMap<String, String[]> params = new HashMap<>();
-        data.put("detailId", "12");
         data.put("name", "ivan");
         data.put("secondName", "ivanov");
         Page masterDetailPage = routeAndGet("/page/123/view/widget/456/masterDetail", Page.class, params);
@@ -225,7 +226,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(level3Page.getBreadcrumb().get(1).getLabel(), is("first"));
         assertThat(level3Page.getBreadcrumb().get(1).getPath(), is("/page/123/view/widget/456"));
         assertThat(level3Page.getBreadcrumb().get(2).getLabel(), is("second"));
-        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?surname=:surname&name=:name&detailId=:detailId&secondName=test"));
+        assertThat(level3Page.getBreadcrumb().get(2).getPath(), is("/page/123/view/widget/456/masterDetail?surname=:surname&name=:name&secondName=test"));
     }
 
     @Test
@@ -234,9 +235,8 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
                 .get(new PageContext("testOpenPageSimplePage", "/page"));
 
         LinkActionImpl linkAction = (LinkActionImpl) page.getWidget().getActions().get("masterDetail");
-        assertThat(linkAction.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
-        assertThat(linkAction.getQueryMapping().get("detailId").getBindLink(), is("models.resolve['page_test']"));
-        assertThat(linkAction.getQueryMapping().get("detailId").getValue(), is("`masterId`"));
+        assertThat(linkAction.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test']"));
+        assertThat(linkAction.getPathMapping().get("page_test_id").getValue(), is("`id`"));
         assertThat(linkAction.getQueryMapping().get("name").getBindLink(), is("models.filter['page_test']"));
         assertThat(linkAction.getQueryMapping().get("secondName").getBindLink(), nullValue());
 
@@ -245,8 +245,6 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().get(0).getRefPageId(), is("page"));
         assertThat(context.getPreFilters().get(0).getRefWidgetId(), is("test"));
         assertThat(context.getPreFilters().get(0).getRefModel(), is(ReduxModel.RESOLVE));
-        assertThat(context.getPreFilters().get(0).getParam(), is("detailId"));
-        assertThat(context.getPreFilters().get(0).getFieldId(), is("detailId"));
         assertThat(context.getPreFilters().get(0).getValue(), is("{masterId}"));
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));
 
@@ -290,7 +288,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
                 .getPayload()).getValue(), is(":page_widget_masterDetail_main_id"));
 
         PageContext detailContext = (PageContext) route("/page/widget/gender/masterDetail", Page.class);
-        assertThat(detailContext.getQueryRouteMapping().size(), is(4));
+        assertThat(detailContext.getQueryRouteMapping().size(), is(3));
         DataSet data = new DataSet();
         data.put("detailId", 222);
         data.put("name", "testName");
@@ -300,7 +298,6 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(detailPage.getRoutes().findRouteByUrl("/page/widget/:page_test_id/masterDetail"), notNullValue());
         Widget detailPageWidget = (Widget) detailPage.getRegions().get("single").get(0).getContent().get(0);
         Map<String, ModelLink> queryMapping = detailPageWidget.getDataProvider().getQueryMapping();
-        assertThat(queryMapping.get("detailId").getValue(), is(222));
         assertThat(queryMapping.get("name").getValue(), is("testName"));
         assertThat(queryMapping.get("surname").getValue(), is("Ivanov"));
         filter = (Filter) detailPageWidget.getFilters().get(0);
@@ -370,10 +367,10 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(p1.getRoutes().findRouteByUrl("/page"), notNullValue());
         assertThat(p1.getRoutes().findRouteByUrl("/page/master"), notNullValue());
         assertThat(p1.getRoutes().findRouteByUrl("/page/master/:page_master_id"), notNullValue());
-        assertThat(p1.getRoutes().findRouteByUrl("/page/master/:sid/menuItem0"), notNullValue());
+        assertThat(p1.getRoutes().findRouteByUrl("/page/master/menuItem0"), notNullValue());
         assertThat(p1.getRoutes().findRouteByUrl("/page/master/:sid/detail"), notNullValue());
         assertThat(p1.getRoutes().findRouteByUrl("/page/master/:sid/detail/:page_detail_id"), notNullValue());
-        assertThat(p1.getRoutes().findRouteByUrl("/page/master/:sid/detail/:sid/menuItem0"), notNullValue());
+        assertThat(p1.getRoutes().findRouteByUrl("/page/master/:sid/detail/menuItem0"), notNullValue());
 
         StandardPage p2 = (StandardPage) pipeline.get(new PageContext("testOpenPageMasterParam"));
         assertThat(((Form) p2.getRegions().get("right").get(0).getContent().get(0))
@@ -382,25 +379,12 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(p2.getRoutes().findRouteByUrl("/testOpenPageMasterParam/detail2/:testOpenPageMasterParam_modalDetail_id"), notNullValue());
 
         ShowModal showModal = (ShowModal) ((Form) p2.getRegions().get("left").get(0).getContent().get(0)).getActions().get("byName");
-        assertThat(showModal.getPayload().getPageUrl(), is("/testOpenPageMasterParam/:id/byName"));
+        assertThat(showModal.getPayload().getPageUrl(), is("/testOpenPageMasterParam/byName"));
         Map<String, ModelLink> pathMapping = showModal.getPayload().getPathMapping();
         Map<String, ModelLink> queryMapping = showModal.getPayload().getQueryMapping();
 
-        assertThat(pathMapping.size(), is(1));
-        assertThat(queryMapping.size(), is(1));
-
-        ModelLink pathModelLink = pathMapping.get("id");
-        ModelLink queryModelLink = queryMapping.get("sName");
-
-        assertThat(pathModelLink.getFieldId(), is("id"));
-        assertThat(pathModelLink.getParam(), nullValue());
-        assertThat(pathModelLink.getValue(), nullValue());
-        assertThat(pathModelLink.getBindLink(), is("models.resolve['testOpenPageMasterParam_form'].id"));
-
-        assertThat(queryModelLink.getFieldId(), is("name"));
-        assertThat(queryModelLink.getParam(), nullValue());
-        assertThat(queryModelLink.getValue(), is("`name`"));
-        assertThat(queryModelLink.getBindLink(), is("models.resolve['testOpenPageMasterParam_form']"));
+        assertThat(pathMapping.size(), is(0));
+        assertThat(queryMapping.size(), is(0));
     }
 
     @Test
@@ -470,12 +454,12 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         PerformButton btn1 = (PerformButton) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("btn1");
         assertThat(btn1.getPathMapping().size(), is(1));
         assertThat(btn1.getPathMapping().get("client_id").getBindLink(), nullValue());
-        assertThat(btn1.getPathMapping().get("client_id").getValue(), is("123"));
+        assertThat(btn1.getPathMapping().get("client_id").getValue(), is(123));
 
         PerformButton btn2 = (PerformButton) ((Widget) page.getRegions().get("single").get(0).getContent().get(0)).getToolbar().getButton("btn2");
         assertThat(btn2.getPathMapping().size(), is(1));
-        assertThat(btn2.getPathMapping().get("account_id").getBindLink(), is("models.resolve['page_master'].accountId"));
-        assertThat(btn2.getPathMapping().get("account_id").getValue(), nullValue());
+        assertThat(btn2.getPathMapping().get("account_id").getBindLink(), is("models.resolve['page_master']"));
+        assertThat(btn2.getPathMapping().get("account_id").getValue(), is("`accountId`"));
         ModelLink link = page.getModels().get("resolve['page_master'].accountId");
         assertThat(link.getBindLink(), is("models.resolve['page_master'].accountId"));
         assertThat(link.getValue(), is(111));

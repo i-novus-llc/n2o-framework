@@ -5,7 +5,7 @@
     <form object-id="testShowModal" query-id="testShowModal">
         <toolbar>
             <button label="show-modal">
-                <open-drawer page-id="testShowModalPage" upload="query" detail-field-id="id"/>
+                <open-drawer page-id="testShowModalPage" upload="query"/>
             </button>
         </toolbar>
     </form>

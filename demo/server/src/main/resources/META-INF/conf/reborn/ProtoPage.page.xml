@@ -22,14 +22,18 @@
                 <columns>
                     <column text-field-id="surname">
                         <link>
-                            <open-page page-id="ProtoClient" submit-operation-id="update" detail-field-id="id"
-                                       page-name="${clients.card}: {id}"/>
+                            <open-page page-id="ProtoClient" submit-operation-id="update"
+                                       page-name="${clients.card}: {id}" route="/:id/surname">
+                                <path-param name="id" value="{id}"/>
+                            </open-page>
                         </link>
                     </column>
                     <column text-field-id="name">
                         <link>
-                            <show-modal page-id="ProtoClient" submit-operation-id="update" detail-field-id="id"
-                                        page-name="${clients.card}: {id}"/>
+                            <show-modal page-id="ProtoClient" submit-operation-id="update"
+                                        page-name="${clients.card}: {id}" route="/:id/name">
+                                <path-param name="id" value="{id}"/>
+                            </show-modal>
                         </link>
                     </column>
                     <column text-field-id="patrName">
@@ -84,7 +88,9 @@
                     </button>
                     <button id="update_client" label="${update}" description="${update}" icon="fa fa-pencil">
                         <show-modal page-id="ProtoClient" submit-operation-id="update" focus-after-submit="true"
-                                    detail-field-id="id" page-name="${clients.card}: {id}"/>
+                                    page-name="${clients.card}: {id}" route="/:id/update_client">
+                            <path-param name="id" value="{id}"/>
+                        </show-modal>
                     </button>
                     <button id="delete" label="${delete}" description="${delete}" icon="fa fa-trash" type="text">
                         <invoke operation-id="delete"/>
@@ -95,12 +101,16 @@
                             visibility-condition="name!='Мария'"
                             description="${button.update2.description}">
                         <open-page page-id="ProtoClient" submit-operation-id="update" focus-after-submit="true"
-                                   detail-field-id="id" page-name="${clients.card}: {id}"/>
+                                   page-name="${clients.card}: {id}" route="/:id/update2">
+                            <path-param name="id" value="{id}"/>
+                        </open-page>
                     </button>
                     <button id="view" label="${view}" color="info" icon="fa fa-book"
                             enabling-condition="name!='Анна'" tooltip-position="right"
                             description="${button.view.description}">
-                        <show-modal page-id="ProtoClientView" detail-field-id="id"/>
+                        <show-modal page-id="ProtoClientView" route="/:id/view">
+                            <path-param name="id" value="{id}"/>
+                        </show-modal>
                     </button>
                 </toolbar>
                 <toolbar place="bottomRight" generate="tableSettings"/>
