@@ -29,7 +29,7 @@ stories
         value: 1234,
         guide: false,
         keepCharPosition: true,
-        resetOnNotValid: true,
+        clearOnBlur: true,
       };
 
       return <InputMask {...props} />;
@@ -49,7 +49,7 @@ stories
           value={1234}
           guide={false}
           keepCharPosition={true}
-          resetOnNotValid={true}
+          clearOnBlur={true}
        />
       ~~~
       `,
@@ -67,7 +67,7 @@ stories
         placeholderChar: InputMaskJson.placeholderChar,
         guide: InputMaskJson.guide,
         keepCharPosition: InputMaskJson.keepCharPositions,
-        resetOnNotValid: InputMaskJson.resetOnNotValid,
+        clearOnBlur: InputMaskJson.clearOnBlur,
       };
 
       return props;
@@ -122,7 +122,7 @@ stories
             preset={'card'}
             guide={true}
             keepCharPositions={false}
-            resetOnNotValid={false}
+            clearOnBlur={false}
             placeholder="C шаблоном значения"
           />
           <br />
@@ -130,7 +130,7 @@ stories
             preset={'card'}
             guide={false}
             keepCharPositions={true}
-            resetOnNotValid={false}
+            clearOnBlur={false}
             placeholder="Сохранять положение символа"
           />
           <br />
@@ -138,7 +138,7 @@ stories
             preset={'card'}
             guide={false}
             keepCharPositions={false}
-            resetOnNotValid={true}
+            clearOnBlur={true}
             placeholder="Сброс при невалидных"
           />
         </React.Fragment>
@@ -155,21 +155,21 @@ stories
           preset={'card'}
           guide={true}
           keepCharPositions={false}
-          resetOnNotValid={false}
+          clearOnBlur={false}
           placeholder="C шаблоном значения"
         />
         <InputMask
           preset={'card'}
           guide={false}
           keepCharPositions={true}
-          resetOnNotValid={false}
+          clearOnBlur={false}
           placeholder="Сохранять положение символа"
         />
         <InputMask
           preset={'card'}
           guide={false}
           keepCharPositions={false}
-          resetOnNotValid={true}
+          clearOnBlur={true}
           placeholder="Сброс при невалидных"
         />
       ~~~
