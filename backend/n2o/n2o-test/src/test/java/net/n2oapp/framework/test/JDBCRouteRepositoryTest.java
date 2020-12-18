@@ -19,7 +19,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.Matchers.*;
 
-@SpringBootTest(properties = {"n2o.route.store-type=jdbc", "n2o.route.table-name=route_repository",
+@SpringBootTest(properties = {"n2o.route.store-type=jdbc", "n2o.route.create-table=true",
+        "n2o.route.table-name=route_repository",
         "spring.datasource.driver-class-name=org.h2.Driver",
         "spring.datasource.url=jdbc:h2:mem:test",
         "spring.datasource.username=sa",

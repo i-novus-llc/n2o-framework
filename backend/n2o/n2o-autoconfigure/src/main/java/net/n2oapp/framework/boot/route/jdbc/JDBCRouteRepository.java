@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.SerializationUtils;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.*;
@@ -27,6 +28,8 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
 
     @Value("${n2o.route.table-name:route_repository}")
     private String tableName;
+    @Value("${n2o.route.create-table:false}")
+    private Boolean createTable;
 
     @Value("${spring.datasource.url}")
     private String jdbcUrl;
@@ -59,7 +62,7 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
                 statement.close();
                 logger.info(String.format("Inserted route: '%s' to [%s]", value, key.getUrlMatching()));
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -88,7 +91,7 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
                 statement.close();
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -106,9 +109,10 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
                 CompileContext context = (CompileContext) SerializationUtils.deserialize(resultSet.getBytes(3));
                 result.put(key, context);
             }
+            statement.close();
             logger.info(String.format("Returned %s routes.", result.size()));
             return result;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return new HashMap<>();
@@ -122,10 +126,26 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
             ResultSet resultSet = statement.getResultSet();
 
             if (resultSet.next()) return resultSet.getInt(1);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    @PostConstruct
+    public void createTable() {
+        if (!createTable) return;
+
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS " + tableName + " (id uuid PRIMARY KEY, url char(255), class char(255), context binary)";
+
+        try (Connection connection = getNewConnection()) {
+            PreparedStatement statement = connection.prepareStatement(createTableSQL);
+            statement.executeUpdate();
+            statement.close();
+            logger.info(String.format("Created table %s.", tableName));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private String getRecordID(Connection connection, String url, String className) throws SQLException {

@@ -19,4 +19,3 @@ CREATE TABLE IF NOT EXISTS pim_indiv_doc_detail (id int PRIMARY KEY auto_increme
 CREATE TABLE IF NOT EXISTS pim_indiv_contact (id int PRIMARY KEY  auto_increment, indiv_id int, type_id int, value char(255));
 CREATE TABLE IF NOT EXISTS pim_party_contact_type (id int PRIMARY KEY auto_increment, name char(255));
 CREATE TABLE IF NOT EXISTS check_paging (id int PRIMARY KEY auto_increment, VAL char(10));
-CREATE TABLE IF NOT EXISTS route_repository (id uuid PRIMARY KEY, url char(255), class char(255), context binary);
