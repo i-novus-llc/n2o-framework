@@ -43,24 +43,29 @@ public class InputTextCompiler extends StandardFieldCompiler<InputText, N2oInput
         if (source.getStep() != null && source.getStep().replace(",", "").replace(".", "").replace("0", "").isEmpty()) {
             inputText.setShowButtons(false);
         }
-        if (null != source.getRefModel()) {
-            PageScope pageScope = p.getScope(PageScope.class);
-            WidgetScope widgetScope = p.getScope(WidgetScope.class);
-            String currentWidgetId = widgetScope.getClientWidgetId();
-            ModelLink writeModelLink = new ModelLink(ReduxModel.valueOf(source.getRefModel().toUpperCase()),
-                    currentWidgetId, source.getId());
-            ModelLink readModelLink;
-            if ("parent".equalsIgnoreCase(source.getRefPage())) {
-                String parentPageId = ((PageContext) context).getParentClientPageId();
-                readModelLink = new ModelLink(ReduxModel.valueOf(source.getRefModel().toUpperCase()),
-                        CompileUtil.generateWidgetId(parentPageId, source.getRefWidgetId()));
-            } else {
-                readModelLink = new ModelLink(ReduxModel.valueOf(source.getRefModel().toUpperCase()),
-                        currentWidgetId);
-            }
-            readModelLink.setValue(p.resolveJS(source.getDefaultValue()));
-            pageScope.addModelLinks(writeModelLink, readModelLink);
+        String refModel = source.getRefModel() == null || source.getRefModel().trim().isEmpty() ? "resolve" : source.getRefModel();
+        PageScope pageScope = p.getScope(PageScope.class);
+        WidgetScope widgetScope = p.getScope(WidgetScope.class);
+        String currentWidgetId = widgetScope.getClientWidgetId();
+        ModelLink writeModelLink = new ModelLink(ReduxModel.valueOf(refModel.toUpperCase()),
+                currentWidgetId, source.getId());
+        ModelLink readModelLink;
+        if ("parent".equalsIgnoreCase(source.getRefPage())) {
+            String parentPageId = ((PageContext) context).getParentClientPageId();
+            String parentClientWidgetId = ((PageContext) context).getParentClientWidgetId();
+            readModelLink = new ModelLink(ReduxModel.valueOf(refModel.toUpperCase()),
+                    source.getRefWidgetId() == null || source.getRefWidgetId().trim().isEmpty() ?
+                            CompileUtil.generateWidgetId(parentPageId, parentClientWidgetId) :
+                            CompileUtil.generateWidgetId(parentPageId, source.getRefWidgetId())
+            );
+        } else {
+            readModelLink = new ModelLink(ReduxModel.valueOf(refModel.toUpperCase()),
+                    source.getRefWidgetId() == null || source.getRefWidgetId().trim().isEmpty() ?
+                            currentWidgetId :
+                            source.getRefWidgetId());
         }
+        readModelLink.setValue(p.resolveJS(source.getDefaultValue()));
+        pageScope.addModelLinks(writeModelLink, readModelLink);
         return compileStandardField(inputText, source, context, p);
     }
 
