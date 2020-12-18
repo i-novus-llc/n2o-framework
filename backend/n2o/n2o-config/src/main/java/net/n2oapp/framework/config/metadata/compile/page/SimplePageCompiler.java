@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -26,6 +27,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -79,6 +81,13 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             MetaActions metaActions = new MetaActions();
             page.setToolbar(compileToolbar(context, p, metaActions, pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
             compiledWidget.getActions().putAll(metaActions);
+        }
+        Map<ModelLink, ModelLink> modelLinks = pageScope.getModelLinks();
+        if (null != modelLinks) {
+//            page.getModels().clear(); //todo
+            for (Map.Entry<ModelLink, ModelLink> m : modelLinks.entrySet()) {
+                page.getModels().add(m.getKey().getModel(), m.getKey().getWidgetId(), m.getKey().getFieldId(), m.getValue());
+            }
         }
         return page;
     }
