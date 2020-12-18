@@ -56,7 +56,7 @@ public class ImageFieldAT extends AutoTestBase {
         image.shouldExists();
         image.shouldHaveTitle("Заголовок");
         image.shouldHaveDescription("описание");
-        image.shouldHaveUrl("https://i-novus.ru/assets/3c502870/images/logo.png");
+        image.shouldHaveUrl(getBaseUrl() + "/images/hamburg-3846525__340.jpg");
         image.shouldHaveTextPosition(TextPosition.bottom);
     }
 

@@ -10,12 +10,12 @@ import net.n2oapp.framework.autotest.api.component.snippet.Image;
 public class N2oImage extends N2oSnippet implements Image {
     @Override
     public void shouldHaveTitle(String text) {
-        element().$(".n2o-image__content .n2o-image__info .n2o-image__info_label").shouldHave(Condition.text(text));
+        element().$(".n2o-image__info .n2o-image__info_label").shouldHave(Condition.text(text));
     }
 
     @Override
     public void shouldHaveDescription(String text) {
-        element().$(".n2o-image__content .n2o-image__info .n2o-image__info_description").shouldHave(Condition.text(text));
+        element().$(".n2o-image__info .n2o-image__info_description").shouldHave(Condition.text(text));
     }
 
     @Override
@@ -25,13 +25,13 @@ public class N2oImage extends N2oSnippet implements Image {
 
     @Override
     public void shouldHaveWidth(int width) {
-        element().$(".n2o-image__image-container").should(
+        element().$(".n2o-image__image").should(
                 Condition.attributeMatching("style", ".*max-width: " + width + "px;.*"));
     }
 
     @Override
     public void shouldHaveTextPosition(TextPosition position) {
-        element().$(".n2o-image__content").should(Condition.cssClass(position.name()));
+        element().should(Condition.cssClass(position.name()));
     }
 
     @Override

@@ -1,6 +1,7 @@
 {
   "id": "url",
   "className": "n2o",
+  "fieldKey": "url",
   "style": {
     "color": "red"
   },

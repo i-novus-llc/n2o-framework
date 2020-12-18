@@ -77,7 +77,7 @@ public class ImageCellAT extends AutoTestBase {
         cell.shouldHaveTextPosition(TextPosition.left);
 
         cell = rows.row(1).cell(0, ImageCell.class);
-        cell.imageShouldBe("https://i-novus.ru/assets/3c502870/images/logo.png");
+        cell.imageShouldBe(getBaseUrl() + "/images/hamburg-3846525__340.jpg");
         cell.shouldHaveTitle("Заголовок2");
         cell.shouldHaveDescription("Описание2");
     }
