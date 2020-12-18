@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.*;
         "spring.datasource.username=sa",
         "spring.datasource.password=sa"})
 @EnableAutoConfiguration(exclude = N2oSqlAutoConfiguration.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class JDBCRouteRepositoryTest {
 
     @Autowired
