@@ -19,7 +19,7 @@ import org.springframework.context.support.MessageSourceAccessor;
         N2oEngineConfiguration.class,
         N2oMetadataConfiguration.class})
 @SpringBootApplication(exclude = N2oFrameworkAutoConfiguration.class)
-@ComponentScan("net/n2oapp/framework/autotest/")
+@ComponentScan("net/n2oapp/framework/autotest")
 public class AutoTestApplication {
     public static void main(String[] args) {
         SpringApplication.run(AutoTestApplication.class, args);
