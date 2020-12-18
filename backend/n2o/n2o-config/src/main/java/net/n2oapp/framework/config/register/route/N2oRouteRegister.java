@@ -51,12 +51,18 @@ public class N2oRouteRegister implements RouteRegister {
     @Override
     public void clear(String startUrlMatching) {
         register.keySet().removeIf(s -> s.getUrlMatching().startsWith(startUrlMatching));
+        repository.clear(s -> s.getUrlMatching().startsWith(startUrlMatching));
     }
 
     @Override
     public boolean synchronize() {
+        Map<RouteInfoKey, CompileContext> stored = repository.getAll();
+        for (Map.Entry<RouteInfoKey, CompileContext> entry : register.entrySet()) {
+            if (!stored.containsKey(entry.getKey())) repository.save(entry.getKey(), entry.getValue());
+        }
+
         boolean result = false;
-        for (Map.Entry<RouteInfoKey, CompileContext> entry : repository.getAll().entrySet()) {
+        for (Map.Entry<RouteInfoKey, CompileContext> entry : stored.entrySet()) {
             register.put(entry.getKey(), entry.getValue());
             if (!register.containsKey(entry.getKey())) {
                 result = true;

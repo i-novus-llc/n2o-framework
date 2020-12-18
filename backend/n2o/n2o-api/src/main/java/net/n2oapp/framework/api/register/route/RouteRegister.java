@@ -25,5 +25,11 @@ public interface RouteRegister extends Iterable<Map.Entry<RouteInfoKey, CompileC
      */
     void clear(String startPattern);
 
-    boolean synchronize();
+    /**
+     * Синхронизация с репозиторием
+     * @return true если появились новые данные
+     */
+    default boolean synchronize() {
+        return false;
+    }
 }
