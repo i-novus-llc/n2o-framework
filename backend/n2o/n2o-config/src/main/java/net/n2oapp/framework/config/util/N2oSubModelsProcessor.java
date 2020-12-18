@@ -6,6 +6,7 @@ import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.aware.MetadataEnvironmentAware;
@@ -29,9 +30,11 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
 
     private QueryProcessor queryProcessor;
     private MetadataEnvironment environment;
+    private DomainProcessor domainProcessor;
 
-    public N2oSubModelsProcessor(QueryProcessor queryProcessor) {
+    public N2oSubModelsProcessor(QueryProcessor queryProcessor, DomainProcessor domainProcessor) {
         this.queryProcessor = queryProcessor;
+        this.domainProcessor = domainProcessor;
     }
 
     @Override
@@ -89,9 +92,9 @@ public class N2oSubModelsProcessor implements SubModelsProcessor, MetadataEnviro
         for (Map<String, Object> subModel : subModels) {
             if (subModel.get(labelFieldId) != null || subModel.get(valueFieldId) == null)
                 return;
-            Object value = subModel.get(valueFieldId);
-            if (StringUtils.isDynamicValue(value))
+            if (StringUtils.isDynamicValue(subModel.get(valueFieldId)))
                 continue;
+            Object value = domainProcessor.deserialize(subModel.get(valueFieldId));
             subModelQuery.getOptions().forEach(option -> {
                 if (value.equals(option.get(valueFieldId)) && option.get(labelFieldId) != null) {
                     subModel.put(labelFieldId, option.get(labelFieldId));

@@ -4,6 +4,7 @@ import net.n2oapp.criteria.api.CollectionPage;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
@@ -36,7 +37,7 @@ public class N2oSubModelsProcessorTest {
         when(environment.getReadCompileBindTerminalPipelineFunction()).thenReturn(pipelineFunction);
         when(environment.getReadCompileBindTerminalPipelineFunction().apply(any())).thenReturn(pipeline);
         when(environment.getReadCompileBindTerminalPipelineFunction().apply(any()).get(any(), any())).thenReturn(new TestCompiledQuery("someQuery"));
-        this.processor = new N2oSubModelsProcessor(queryProcessor);
+        this.processor = new N2oSubModelsProcessor(queryProcessor, new DomainProcessor());
         this.processor.setEnvironment(environment);
     }
 
@@ -111,11 +112,11 @@ public class N2oSubModelsProcessorTest {
 
         //компонент с <options>
         Map<String, Object> optionsMap = new HashMap<>();
-        optionsMap.put("id", "1");
+        optionsMap.put("id", 1);
         optionsMap.put("name", "test");
         List<Map<String, Object>> options = Collections.singletonList(optionsMap);
         subModelQuery = new SubModelQuery("gender", null, "id", "name", true, options);
-        dataSet = new DataSet("gender[0].id", "1");
+        dataSet = new DataSet("gender[0].id", 1);
         processor.executeSubModels(Collections.singletonList(subModelQuery), dataSet);
         assert "test".equals(((Map) ((List) dataSet.get("gender")).get(0)).get("name"));
 

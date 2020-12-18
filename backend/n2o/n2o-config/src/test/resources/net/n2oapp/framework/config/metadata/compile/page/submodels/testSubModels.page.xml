@@ -18,8 +18,14 @@
             <table query-id="testModel" id="w1">
                 <columns></columns>
                 <filters>
-                    <input-select id="testSingleUrl" query-id="testSubModel" label-field-id="name" type="single"/>
-                    <input-select id="testMultiUrl" query-id="testSubModel" label-field-id="name" type="multi"/>
+                    <input-select id="testSingleOptions" label-field-id="name" type="single" param="singleOptionParam">
+                        <options>
+                            <option id="1" name="testOp1"/>
+                            <option id="2" name="testOp2"/>
+                        </options>
+                    </input-select>
+                    <input-select id="testSingleUrl" query-id="testSubModel" label-field-id="name" type="single" param="singleParam"/>
+                    <input-select id="testMultiUrl" query-id="testSubModel" label-field-id="name" type="multi" param="multiParam"/>
                 </filters>
             </table>
         </region>
@@ -35,5 +41,19 @@
                 </fields>
             </form>
         </region>
+       <!-- <region place="single">
+            <form query-id="testModel" id="w3" upload="defaults">
+                <fields>
+                    <input-select id="testSingleOptionsForm" label-field-id="name" type="single">
+                        <options>
+                            <option id="1" name="testOp1"/>
+                            <option id="2" name="testOp2"/>
+                        </options>
+                    </input-select>
+                    <input-select id="testSingleUrlForm" query-id="testSubModel" label-field-id="name" type="single" param="singleFormParam"/>
+                    <input-select id="testMultiUrlForm" query-id="testSubModel" label-field-id="name" type="multi" param="multiFormParam"/>
+                </fields>
+            </form>
+        </region>-->
     </regions>
 </page>

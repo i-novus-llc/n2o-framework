@@ -25,9 +25,6 @@ public class WidgetBinder implements BaseMetadataBinder<Widget> {
             }
         }
         BindUtil.bindDataProvider(widget.getDataProvider(), p);
-        if (widget.getFilters() != null) {
-            ((List<Filter>) widget.getFilters()).forEach(f -> f.setLink((ModelLink) p.resolveLink(f.getLink())));
-        }
         return widget;
     }
 

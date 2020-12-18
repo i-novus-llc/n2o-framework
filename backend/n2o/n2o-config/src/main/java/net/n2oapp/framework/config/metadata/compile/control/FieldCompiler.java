@@ -210,7 +210,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             filters.forEach(f -> {
                 Filter filter = new Filter();
                 filter.setFilterId(f.getFilterField());
-                filter.setParam(widgetScope.getWidgetId() + "_" + f.getParam());
+                filter.setParam(p.cast(source.getParam(),widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
@@ -459,6 +459,12 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);
                 }
+            } else {
+                SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
+                ModelLink modelLink = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId(), control.getId());
+                modelLink.setSubModelQuery(subModelQuery);
+                modelLink.setParam(source.getParam());
+                defaultValues.add(control.getId(), modelLink);
             }
         }
     }
@@ -490,6 +496,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), control.getId(),
                         colon(source.getParam()));
                 paramScope.addQueryMapping(source.getParam(), onGet, onSet);
+                if (modelsScope.hasModels())
+                    modelsScope.add(control.getId(), onSet);
             }
         }
     }
