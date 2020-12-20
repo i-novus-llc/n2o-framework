@@ -32,7 +32,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.DynamicUtil.hasRefs;
@@ -158,7 +157,8 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         String actionRoute = initActionRoute(source, actionModelLink, pathMapping);
 
         String actionModelWidgetId = p.cast(parentComponentWidgetId, currentWidgetId);
-        initPathMapping(source.getPathParams(), actionDataModel, pathMapping, pageScope, actionModelWidgetId, p);
+        initPathMapping(source.getPathParams(), actionDataModel, pathMapping, currentWidgetQueryId,
+                pageScope, actionModelWidgetId, p);
 
         String parentRoute = normalize(route);
         List<String> pathParams = RouteUtil.getPathParams(actionRoute);
@@ -237,10 +237,11 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * @param p                       Процессор сборки метаданных
      */
     private void initPathMapping(N2oParam[] params, ReduxModel actionDataModel, Map<String, ModelLink> pathMapping,
-                                 PageScope pageScope, String defaultParamRefWidgetId, CompileProcessor p) {
+                                 String currentWidgetQueryId, PageScope pageScope,
+                                 String defaultParamRefWidgetId, CompileProcessor p) {
         if (params == null || params.length == 0) return;
         List<N2oParam> resultParams = prepareParams(params, actionDataModel, pageScope, defaultParamRefWidgetId, p);
-        pathMapping.putAll(initParams(resultParams, pathMapping, Redux::linkParam));
+        pathMapping.putAll(initParams(resultParams, pathMapping, currentWidgetQueryId));
     }
 
     /**
@@ -262,13 +263,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
                                   PageScope pageScope, String defaultParamRefWidgetId, CompileProcessor p) {
         if (params == null || params.length == 0) return;
         List<N2oParam> resultParams = prepareParams(params, actionDataModel, pageScope, defaultParamRefWidgetId, p);
-        queryMapping.putAll(initParams(resultParams, pathMapping, param -> {
-            ModelLink link = Redux.linkParam(param);
-            if (currentWidgetQueryId != null)
-                link.setSubModelQuery(new SubModelQuery(currentWidgetQueryId));
-            return link;
-        }));
-
+        queryMapping.putAll(initParams(resultParams, pathMapping, currentWidgetQueryId));
     }
 
     /**
@@ -345,18 +340,24 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     /**
      * Инициализация map моделей по имени параметра из списка параметров.
      *
-     * @param params            Список параметров
-     * @param pathParams        Map моделей по имени параметра
-     *                          Используется для фильтрации параметров, не входящих в данную map
-     * @param linkParamFunction Функция формирования модели для переданного параметра
+     * @param params               Список параметров
+     * @param pathParams           Map моделей по имени параметра
+     *                             Используется для фильтрации параметров, не входящих в данную map
+     * @param currentWidgetQueryId Идентификатор модели запроса для текущего виджета
      * @return Map моделей по имени параметра
      */
     private Map<String, ModelLink> initParams(List<N2oParam> params,
                                               Map<String, ModelLink> pathParams,
-                                              Function<N2oParam, ModelLink> linkParamFunction) {
+                                              String currentWidgetQueryId) {
         return params == null ? null :
                 params.stream().filter(f -> f.getName() != null && !pathParams.containsKey(f.getName()))
-                        .collect(Collectors.toMap(N2oParam::getName, linkParamFunction));
+                        .collect(Collectors.toMap(N2oParam::getName, param -> {
+                                    ModelLink link = Redux.linkParam(param);
+                                    if (currentWidgetQueryId != null)
+                                        link.setSubModelQuery(new SubModelQuery(currentWidgetQueryId));
+                                    return link;
+                                }
+                        ));
     }
 
     private String createGlobalParam(String param, CompileProcessor p) {
