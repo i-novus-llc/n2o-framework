@@ -13,7 +13,7 @@
                 </a>
             </button>
             <button id="id3">
-                <a href="../../../test3"/>
+                <a href="../../test3"/>
             </button>
 
         </toolbar>
