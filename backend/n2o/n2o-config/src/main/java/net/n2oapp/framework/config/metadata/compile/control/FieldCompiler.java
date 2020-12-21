@@ -30,11 +30,14 @@ import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
 import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentCompiler;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetVisibilityScope;
+import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.*;
+import net.n2oapp.framework.config.util.CompileUtil;
 import net.n2oapp.framework.config.util.ControlFilterUtil;
 
 import java.util.*;
@@ -493,4 +496,35 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             }
         }
     }
+
+    protected void initRefAttributes(S source, CompileContext<?, ?> context, CompileProcessor p) {
+        PageScope pageScope = p.getScope(PageScope.class);
+        String currentWidgetId = p.getScope(WidgetScope.class).getClientWidgetId();
+        ModelLink writeModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
+                currentWidgetId, source.getId());
+        ModelLink readModelLink;
+        switch (p.cast(source.getRefPage(), N2oField.Page.THIS )) {
+            case PARENT:
+                if (context instanceof PageContext) {
+                    readModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
+                            source.getRefWidgetId() == null ?
+                                    ((PageContext) context).getParentClientWidgetId() :
+                                    CompileUtil.generateWidgetId(((PageContext) context).getParentClientPageId(), source.getRefWidgetId())
+                    );
+                    readModelLink.setValue(p.resolveJS(source.getDefaultValue()));
+                    pageScope.addModelLinks(writeModelLink, readModelLink);
+                }
+                break;
+
+            case THIS:
+                readModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
+                        source.getRefWidgetId() == null ?
+                                currentWidgetId :
+                                CompileUtil.generateWidgetId(pageScope.getPageId(), source.getRefWidgetId()));
+                readModelLink.setValue(p.resolveJS(source.getDefaultValue()));
+                pageScope.addModelLinks(writeModelLink, readModelLink);
+                break;
+        }
+    }
+
 }
