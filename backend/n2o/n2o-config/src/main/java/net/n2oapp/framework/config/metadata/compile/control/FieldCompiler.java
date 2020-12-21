@@ -500,29 +500,29 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
     protected void initRefAttributes(S source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         String currentWidgetId = p.getScope(WidgetScope.class).getClientWidgetId();
-        ModelLink writeModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
+        ModelLink keyModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
                 currentWidgetId, source.getId());
-        ModelLink readModelLink;
+        ModelLink valueModelLink;
         switch (p.cast(source.getRefPage(), N2oField.Page.THIS )) {
             case PARENT:
                 if (context instanceof PageContext) {
-                    readModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
+                    valueModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
                             source.getRefWidgetId() == null ?
                                     ((PageContext) context).getParentClientWidgetId() :
                                     CompileUtil.generateWidgetId(((PageContext) context).getParentClientPageId(), source.getRefWidgetId())
                     );
-                    readModelLink.setValue(p.resolveJS(source.getDefaultValue()));
-                    pageScope.addModelLinks(writeModelLink, readModelLink);
+                    valueModelLink.setValue(p.resolveJS(source.getDefaultValue()));
+                    pageScope.addModelLinks(keyModelLink, valueModelLink);
                 }
                 break;
 
             case THIS:
-                readModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
+                valueModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE),
                         source.getRefWidgetId() == null ?
                                 currentWidgetId :
                                 CompileUtil.generateWidgetId(pageScope.getPageId(), source.getRefWidgetId()));
-                readModelLink.setValue(p.resolveJS(source.getDefaultValue()));
-                pageScope.addModelLinks(writeModelLink, readModelLink);
+                valueModelLink.setValue(p.resolveJS(source.getDefaultValue()));
+                pageScope.addModelLinks(keyModelLink, valueModelLink);
                 break;
         }
     }
