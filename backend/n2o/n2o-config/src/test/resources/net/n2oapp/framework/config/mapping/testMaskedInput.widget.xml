@@ -1,6 +1,6 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
         <masked-input id="test" mask="mask" placeholder="0" measure="cm" clear-on-blur="false"/>
-        <masked-input id="testDrfault" mask="testMask"/>
+        <masked-input id="testDefault" mask="testMask"/>
     </fields>
 </form>
