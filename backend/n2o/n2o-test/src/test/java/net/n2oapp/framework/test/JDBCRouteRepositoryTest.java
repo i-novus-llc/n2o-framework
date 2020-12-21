@@ -19,8 +19,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import static org.hamcrest.Matchers.*;
 
-@SpringBootTest(properties = {"n2o.route.store-type=jdbc", "n2o.route.create-table=true",
-        "n2o.route.table-name=route_repository",
+@SpringBootTest(properties = {"n2o.config.register.store-type=jdbc", "n2o.config.register.jdbc.create-table=true",
+        "n2o.config.register.jdbc.table-name=route_repository",
         "spring.datasource.driver-class-name=org.h2.Driver",
         "spring.datasource.url=jdbc:h2:mem:test",
         "spring.datasource.username=sa",
@@ -65,6 +65,10 @@ public class JDBCRouteRepositoryTest {
         String testUrl = testRoute.getKey().getUrlMatching();
         Class<? extends Compiled> testClass = testRoute.getKey().getCompiledClass();
 
+        routeRegister.addRoute(testUrl, testRoute.getValue()); //повторное добавление ч.з. routeRegister
+        assertThat(getRouterSize(routeRegister), equalTo(routeSize));
+        assertThat(repository.getRecordCount(), equalTo(routeSize));
+
         repository.clear(f -> f.getUrlMatching().equals(testUrl) && f.getCompiledClass().equals(testClass));
         assertThat(repository.getRecordCount(), equalTo(routeSize - 1));
 
@@ -93,6 +97,16 @@ public class JDBCRouteRepositoryTest {
         assertThat(repository.getRecordCount(), equalTo(routeSize));
         assertThat(getRouterSize(routeRegister), equalTo(routeSize - 1));
         routeRegister.synchronize(); //добавление из repository
+        assertThat(repository.getRecordCount(), equalTo(routeSize));
+        assertThat(getRouterSize(routeRegister), equalTo(routeSize));
+
+        routeRegister.clear(testUrl); //удаление из routeRegister и repository
+        assertThat(repository.getRecordCount(), equalTo(routeSize - 1));
+        assertThat(getRouterSize(routeRegister), equalTo(routeSize - 1));
+        repository.save(testRoute.getKey(), testRoute.getValue()); //добавление в репозиторий
+        assertThat(repository.getRecordCount(), equalTo(routeSize));
+        assertThat(getRouterSize(routeRegister), equalTo(routeSize - 1));
+        routeRegister.addRoute(testUrl, testRoute.getValue()); //добавление в роутер
         assertThat(repository.getRecordCount(), equalTo(routeSize));
         assertThat(getRouterSize(routeRegister), equalTo(routeSize));
     }

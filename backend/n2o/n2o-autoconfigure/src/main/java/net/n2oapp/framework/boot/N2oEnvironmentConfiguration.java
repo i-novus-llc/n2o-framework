@@ -97,7 +97,7 @@ public class N2oEnvironmentConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(name = "n2o.route.store-type", havingValue = "jdbc")
+    @ConditionalOnProperty(name = "n2o.config.register.store-type", havingValue = "jdbc")
     public ConfigRepository<RouteInfoKey, CompileContext> jdbcRouteRepository() {
         return new JDBCRouteRepository();
     }
