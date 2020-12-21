@@ -85,7 +85,7 @@ public class ScriptProcessor {
      * Преобразование выражения в самовызывающуюся js функцию.
      * Примеры.
      * "if (gender.id = 1) return 'М'; else return 'Ж';" -> "(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"
-     * "gender.id == 1" -> "(function(){return gender.id == 1;})()"
+     * "gender.id == 1" -> "gender.id == 1"
      * "function(){if (gender.id = 1) return 'М'; else return 'Ж';}" -> "(function(){if (gender.id = 1) return 'М'; else return 'Ж';})()"
      * "(function(){ return '123'; })()" -> "(function(){ return '123'; })()"
      *
