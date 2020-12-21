@@ -24,10 +24,12 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.reader.SourceLoaderFactory;
 import net.n2oapp.framework.api.register.*;
+import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
 import net.n2oapp.framework.api.script.ScriptProcessor;
+import net.n2oapp.framework.boot.route.jdbc.JDBCRouteRepository;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineOperationFactory;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
@@ -43,6 +45,8 @@ import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
+import net.n2oapp.framework.config.register.ConfigRepository;
+import net.n2oapp.framework.config.register.route.StubRouteRepository;
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
@@ -87,8 +91,15 @@ public class N2oEnvironmentConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public RouteRegister routeRegister() {
-        return new N2oRouteRegister();
+    public RouteRegister routeRegister(Optional<ConfigRepository<RouteInfoKey, CompileContext>> repository) {
+        return new N2oRouteRegister(repository.orElse(new StubRouteRepository()));
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(name = "n2o.config.register.store-type", havingValue = "jdbc")
+    public ConfigRepository<RouteInfoKey, CompileContext> jdbcRouteRepository() {
+        return new JDBCRouteRepository();
     }
 
     @Bean
