@@ -612,6 +612,11 @@
                         <xs:documentation>Единица измерения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="clear-on-blur" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Стирать ли значение при смене фокуса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
