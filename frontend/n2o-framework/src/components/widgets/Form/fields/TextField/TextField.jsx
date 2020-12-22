@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import parseFormatter from '../../../../../utils/parseFormatter';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 /**
  * Компонент поле текст
@@ -16,7 +16,9 @@ function TextField({ text, visible, format, className, style }) {
   return (
     visible && (
       <div
-        className={cn('n2o-text-field', { [className]: className })}
+        className={classNames('n2o-text-field n2o-snippet', {
+          [className]: className,
+        })}
         style={style}
       >
         {format ? parseFormatter(text, format) : text}

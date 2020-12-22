@@ -1,7 +1,7 @@
 = Документация по использованию автотестов в N2O
 
 == Описание
-Бибилиотека n2o-autotest использует  https://ru.selenide.org/documentation.html[Selenide]
+Библиотека n2o-autotest использует  https://ru.selenide.org/documentation.html[Selenide]
 
 Требования к окружению:
 
@@ -84,7 +84,7 @@ public class GreetingPage {
     }
 
     public void sendName(String name) {
-        FormWidget formWidget = simplePage.single().widget(FormWidget.class);
+        FormWidget formWidget = simplePage.widget(FormWidget.class);
         InputText inputText = formWidget.fields().field("Имя").control(InputText.class);
         inputText.val(name);
         formWidget.toolbar().bottomLeft().button("Отправить").click();
@@ -201,10 +201,10 @@ public class SimpleGreetingAT {
 
     @Test
     public void greetingTest() {
-        InputText inputText = page.single().widget(FormWidget.class).fields()
+        InputText inputText = page.widget(FormWidget.class).fields()
                                   .field("Имя").control(InputText.class);
         inputText.val("Иван");
-        page.single().widget(FormWidget.class).toolbar().bottomLeft()
+        page.widget(FormWidget.class).toolbar().bottomLeft()
                      .button("Отправить").click();
         page.alerts().alert(0).shouldHaveText("Привет, Иван");
     }
@@ -217,7 +217,7 @@ public class SimpleGreetingAT {
 реализацию интерфейса для этого компонента, например `MyWidget` и получить его следующим образом
 [source,java]
 ----
-N2oSelenide.component(page.single().elements().get(0), MyWidget.class);
+N2oSelenide.component(page.element().$(".n2o-standard-widget-layout"), MyWidget.class);
 ----
 
 Если функций описанных в библиотеке `n2o-autotest` недостаточно всегда можно переключиться
@@ -226,6 +226,6 @@ N2oSelenide.component(page.single().elements().get(0), MyWidget.class);
 используя селекторы `.$ .$$`. Пример:
 [source,java]
 ----
-Alert alert = page.single().widget(FormWidget.class).snippet(0, Alert.class);
+Alert alert = page.widget(FormWidget.class).fields().field(Alert.class);
 alert.element().$(".inner-message").should(Condition.exist);
 ----
