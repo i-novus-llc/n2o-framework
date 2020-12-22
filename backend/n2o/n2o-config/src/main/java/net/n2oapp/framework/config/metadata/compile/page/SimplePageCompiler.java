@@ -82,13 +82,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             page.setToolbar(compileToolbar(context, p, metaActions, pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
             compiledWidget.getActions().putAll(metaActions);
         }
-        Map<ModelLink, ModelLink> modelLinks = pageScope.getModelLinks();
-        if (null != modelLinks) {
-//            page.getModels().clear(); //todo
-            for (Map.Entry<ModelLink, ModelLink> m : modelLinks.entrySet()) {
-                page.getModels().add(m.getKey().getModel(), m.getKey().getWidgetId(), m.getKey().getFieldId(), m.getValue());
-            }
-        }
+        mergeModels(page, pageScope);
         return page;
     }
 
