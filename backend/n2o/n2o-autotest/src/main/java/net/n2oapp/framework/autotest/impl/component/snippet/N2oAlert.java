@@ -1,12 +1,11 @@
 package net.n2oapp.framework.autotest.impl.component.snippet;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.autotest.Colors;
 import net.n2oapp.framework.autotest.api.component.snippet.Alert;
 
 /**
- * Стандартная реализация компонента предупреждения для автотестирования
+ * Компонент предупреждения для автотестирования
  */
 public class N2oAlert extends N2oSnippet implements Alert {
     @Override
