@@ -49,15 +49,15 @@ public class FieldModelsCompileTest extends SourceCompileTestBase {
 
 //        assertThat(models.size(), is(4));
         //parent
-        assertThat(models.get("filter['modalPage_info'].parentFull").getBindLink(), is("models.filter['testForm']"));
-        assertThat(models.get("filter['modalPage_info'].parentFull").getValue(), is("`testValue`"));
+        assertThat(models.get("resolve['modalPage_info'].parentFull").getBindLink(), is("models.filter['testForm']"));
+        assertThat(models.get("resolve['modalPage_info'].parentFull").getValue(), is("`testValue`"));
 
         assertThat(models.get("resolve['modalPage_info'].parentDefaults").getBindLink(), is("models.resolve['form']"));
-        assertThat(models.get("resolve['modalPage_info'].parentDefaults").getValue(), is(nullValue()));
+        assertThat(models.get("resolve['modalPage_info'].parentDefaults").getValue(), is("`testValue`"));
 
         //this
-        assertThat(models.get("filter['modalPage_info'].thisFull").getBindLink(), is("models.filter['modalPage_testForm']"));
-        assertThat(models.get("filter['modalPage_info'].thisFull").getValue(), is("`testValue`"));
+        assertThat(models.get("resolve['modalPage_info'].thisFull").getBindLink(), is("models.filter['modalPage_testForm']"));
+        assertThat(models.get("resolve['modalPage_info'].thisFull").getValue(), is("`testValue`"));
 
         assertThat(models.get("resolve['modalPage_info'].thisDefaults").getBindLink(), is("models.resolve['modalPage_info']"));
         assertThat(models.get("resolve['modalPage_info'].thisDefaults").getValue(), is("`testValue`"));

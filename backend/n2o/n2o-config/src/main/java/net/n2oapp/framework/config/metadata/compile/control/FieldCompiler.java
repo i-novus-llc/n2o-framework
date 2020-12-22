@@ -499,10 +499,9 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
 
     protected void initRefAttributes(S source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
-        if (pageScope == null) return;
+        if (pageScope == null || !StringUtils.isLink(source.getDefaultValue())) return;
         String currentWidgetId = p.getScope(WidgetScope.class).getClientWidgetId();
-        ModelLink keyModelLink = new ModelLink(p.cast(source.getRefModel(), ReduxModel.RESOLVE), //Нужно использовать текущую модель виджета, получать из скоупа.
-                currentWidgetId, source.getId());
+        ModelLink keyModelLink = new ModelLink(p.getScope(ModelsScope.class).getModel(), currentWidgetId, source.getId());
         ModelLink valueModelLink;
         switch (p.cast(source.getRefPage(), N2oField.Page.THIS)) {
             case PARENT:
