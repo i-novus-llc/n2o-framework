@@ -5,7 +5,7 @@
 
 === Расположение
 
-Файлы конфигураций распологаются в папке проекта или в папке модуля.
+Файлы конфигураций располагаются в папке проекта или в папке модуля.
 По умолчанию `/src/main/resources/META-INF/conf`.
 
 Любой файл из этой папки может быть переопределен одноименным файлом в папке расширений.
@@ -43,7 +43,7 @@
 
 |object
 |Объект
-|http://n2oapp.net/framework/config/schema/object-2.0
+|http://n2oapp.net/framework/config/schema/object-4.0
 |N2oObject
 
 |query
@@ -85,7 +85,7 @@
 [source,xml]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
-<object xmlns="http://n2oapp.net/framework/config/schema/object-3.0">
+<object xmlns="http://n2oapp.net/framework/config/schema/object-4.0">
   ...
 </object>
 ----
