@@ -3,7 +3,7 @@
     <table query-id="testTable">
         <columns>
             <column text-field-id="rating">
-                <rating max="10" showTooltip="true"/>
+                <rating max="10" showTooltip="true" readonly="false"/>
             </column>
         </columns>
     </table>

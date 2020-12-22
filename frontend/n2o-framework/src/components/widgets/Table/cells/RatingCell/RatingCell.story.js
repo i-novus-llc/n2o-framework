@@ -30,14 +30,9 @@ const metadata = {
     },
     paging: {},
     table: {
-      size: 10,
       fetchOnInit: true,
       hasSelect: true,
-      className: 'n2o',
-      colorFieldId: '',
-      style: {},
       hasFocus: true,
-      autoFocus: false,
       cells: [
         {
           src: 'TextCell',
@@ -82,7 +77,7 @@ stories.addDecorator(withPage(metadata)).add('Компонент', () => {
 
   fetchMock
     .restore()
-    .get('begin:n2o/data', getStub)
+    .get('*', getStub)
     .post('begin:n2o/data', postStub);
 
   return (

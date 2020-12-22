@@ -29,7 +29,7 @@
                     <progress/>
                 </block>
                 <block text-field-id="rating">
-                    <rating half="true"/>
+                    <rating half="true" readonly="false"/>
                 </block>
                 <block text-field-id="checkbox">
                     <checkbox/>
