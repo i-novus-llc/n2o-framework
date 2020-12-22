@@ -131,7 +131,7 @@ class AdvancedTable extends Component {
   }
 
   componentDidMount() {
-    const { rowClick, columns } = this.props;
+    const { rowClick, columns, rowSelection, setSelectionType } = this.props;
     const {
       isAnyTableFocused,
       isActive,
@@ -157,6 +157,10 @@ class AdvancedTable extends Component {
     });
 
     this._dataStorage = this.getModelsFromData(data);
+
+    if (rowSelection) {
+      setSelectionType(rowSelection);
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -171,7 +175,6 @@ class AdvancedTable extends Component {
       multi,
       rowSelection,
       resolveModel,
-      onSetSelection,
     } = this.props;
 
     const { checked, children } = this.state;
@@ -483,10 +486,10 @@ class AdvancedTable extends Component {
     const newChecked = {};
     let newMulti = multi || [];
     if (!status) {
-      forOwn(data, v => delete newMulti[v.id]);
+      forOwn(data, ({ id }) => delete newMulti[id]);
     } else {
-      forOwn(data, v => {
-        newMulti = { ...newMulti, ...{ [v.id]: v } };
+      forOwn(data, value => {
+        newMulti = { ...newMulti, ...{ [value.id]: value } };
       });
     }
     onSetSelection(newMulti);
@@ -515,10 +518,10 @@ class AdvancedTable extends Component {
         [index]: !checked[index],
       };
       let item = null;
-      forOwn(checkedState, (v, k) => {
-        if (v) {
+      forOwn(checkedState, (value, key) => {
+        if (value) {
           item =
-            find(data, i => get(i, 'id').toString() === k.toString()) || {};
+            find(data, i => get(i, 'id').toString() === key.toString()) || {};
           const itemId = get(item, 'id');
           if (itemId) newMulti = { ...newMulti, ...{ [itemId]: item } };
         }
@@ -598,7 +601,8 @@ class AdvancedTable extends Component {
   }
 
   createSelectionColumn(columns, rowSelection) {
-    const isSomeFixed = some(columns, c => c.fixed);
+    const isSomeFixed = some(columns, column => column.fixed);
+
     return {
       title:
         rowSelection === rowSelectionType.CHECKBOX ? (
@@ -830,6 +834,7 @@ AdvancedTable.defaultProps = {
   expandable: false,
   onFocus: () => {},
   onSetSelection: () => {},
+  setSelectionType: () => {},
   t: () => {},
   autoFocus: false,
   rows: {},
