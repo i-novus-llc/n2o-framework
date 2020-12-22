@@ -22,6 +22,10 @@ public class N2oRouteRegister implements RouteRegister {
     private final SortedMap<RouteInfoKey, CompileContext> register = new ConcurrentSkipListMap<>();
     private final ConfigRepository<RouteInfoKey, CompileContext> repository;
 
+    public N2oRouteRegister() {
+        this.repository = new StubRouteRepository();
+    }
+
     public N2oRouteRegister(ConfigRepository<RouteInfoKey, CompileContext> repository) {
         this.repository = repository;
     }

@@ -53,17 +53,15 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
     @Override
     public void clear(Predicate<? super RouteInfoKey> filter) {
         final String selectSQL = "SELECT id, url, class FROM " + tableName;
-        final String deleteSQL = "DELETE FROM " + tableName + " WHERE id in (?)";
+        final String deleteSQL = "DELETE FROM " + tableName + " WHERE id in ";
 
-        StringBuilder deleteList = new StringBuilder();
+        String deleteList = jdbcTemplate.queryForList(selectSQL).stream()
+                .filter(f -> filter.test(getKey(f)))
+                .map(a -> "'" + a.get("id") + "'")
+                .reduce((a, b) -> a + "," + b).orElseGet(String::new);
 
-        jdbcTemplate.queryForList(selectSQL).forEach(row -> {
-            if (filter.test(getKey(row))) deleteList.append(row.get("id")).append(",");
-        });
-
-        if (deleteList.length() > 1) {
-            deleteList.setLength(deleteList.length() - 1);
-            jdbcTemplate.update(deleteSQL, deleteList.toString());
+        if (!deleteList.isEmpty()) {
+            jdbcTemplate.update(deleteSQL + "(" + deleteList + ")");
         }
     }
 
@@ -88,12 +86,6 @@ public class JDBCRouteRepository implements ConfigRepository<RouteInfoKey, Compi
             jdbcTemplate.execute(createTableSQL);
             logger.info(String.format("Created table %s.", tableName));
         }
-    }
-
-    public Integer getRecordCount() {
-        String selectSQL = "SELECT count(id) FROM " + tableName;
-
-        return jdbcTemplate.queryForObject(selectSQL, Integer.class);
     }
 
     private RouteInfoKey getKey(Map<String, Object> map) {

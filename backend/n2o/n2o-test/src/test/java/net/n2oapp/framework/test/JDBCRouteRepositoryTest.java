@@ -10,6 +10,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.Iterator;
@@ -35,6 +36,9 @@ public class JDBCRouteRepositoryTest {
     @Autowired
     RouteRegister routeRegister;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @Test
     public void testRepositorySynchronize() {
         assertThat(repository, notNullValue());
@@ -46,7 +50,7 @@ public class JDBCRouteRepositoryTest {
         routeRegister.synchronize();
 
         assertThat(routeSize, greaterThan(0));
-        assertThat(repository.getRecordCount(), equalTo(routeSize));
+        assertThat(getRecordCount(), equalTo(routeSize));
         Map<RouteInfoKey, CompileContext> result = repository.getAll();
         assertThat(result.size(), equalTo(routeSize));
 
@@ -67,48 +71,54 @@ public class JDBCRouteRepositoryTest {
 
         routeRegister.addRoute(testUrl, testRoute.getValue()); //повторное добавление ч.з. routeRegister
         assertThat(getRouterSize(routeRegister), equalTo(routeSize));
-        assertThat(repository.getRecordCount(), equalTo(routeSize));
+        assertThat(getRecordCount(), equalTo(routeSize));
 
         repository.clear(f -> f.getUrlMatching().equals(testUrl) && f.getCompiledClass().equals(testClass));
-        assertThat(repository.getRecordCount(), equalTo(routeSize - 1));
+        assertThat(getRecordCount(), equalTo(routeSize - 1));
 
         routeRegister.synchronize();    //синхронизация из routeRegister
-        assertThat(repository.getRecordCount(), equalTo(routeSize));
+        assertThat(getRecordCount(), equalTo(routeSize));
 
         routeRegister.clear(testUrl);   //удаление из routeRegister и repository
-        assertThat(repository.getRecordCount(), equalTo(routeSize - 1));
+        assertThat(getRecordCount(), equalTo(routeSize - 1));
         assertThat(getRouterSize(routeRegister), equalTo(routeSize - 1));
         routeRegister.synchronize();
-        assertThat(repository.getRecordCount(), equalTo(routeSize - 1));
+        assertThat(getRecordCount(), equalTo(routeSize - 1));
         assertThat(getRouterSize(routeRegister), equalTo(routeSize - 1));
 
         routeRegister.addRoute(testUrl, testRoute.getValue()); //добавление из routeRegister
         assertThat(getRouterSize(routeRegister), equalTo(routeSize));
-        assertThat(repository.getRecordCount(), equalTo(routeSize));
+        assertThat(getRecordCount(), equalTo(routeSize));
 
         routeRegister.clear(testUrl); //удаление из routeRegister и repository
-        assertThat(repository.getRecordCount(), equalTo(routeSize - 1));
+        assertThat(getRecordCount(), equalTo(routeSize - 1));
         assertThat(getRouterSize(routeRegister), equalTo(routeSize - 1));
         routeRegister.synchronize();
-        assertThat(repository.getRecordCount(), equalTo(routeSize - 1));
+        assertThat(getRecordCount(), equalTo(routeSize - 1));
         assertThat(getRouterSize(routeRegister), equalTo(routeSize - 1));
 
         repository.save(testRoute.getKey(), testRoute.getValue());
-        assertThat(repository.getRecordCount(), equalTo(routeSize));
+        assertThat(getRecordCount(), equalTo(routeSize));
         assertThat(getRouterSize(routeRegister), equalTo(routeSize - 1));
         routeRegister.synchronize(); //добавление из repository
-        assertThat(repository.getRecordCount(), equalTo(routeSize));
+        assertThat(getRecordCount(), equalTo(routeSize));
         assertThat(getRouterSize(routeRegister), equalTo(routeSize));
 
         routeRegister.clear(testUrl); //удаление из routeRegister и repository
-        assertThat(repository.getRecordCount(), equalTo(routeSize - 1));
+        assertThat(getRecordCount(), equalTo(routeSize - 1));
         assertThat(getRouterSize(routeRegister), equalTo(routeSize - 1));
         repository.save(testRoute.getKey(), testRoute.getValue()); //добавление в репозиторий
-        assertThat(repository.getRecordCount(), equalTo(routeSize));
+        assertThat(getRecordCount(), equalTo(routeSize));
         assertThat(getRouterSize(routeRegister), equalTo(routeSize - 1));
         routeRegister.addRoute(testUrl, testRoute.getValue()); //добавление в роутер
-        assertThat(repository.getRecordCount(), equalTo(routeSize));
+        assertThat(getRecordCount(), equalTo(routeSize));
         assertThat(getRouterSize(routeRegister), equalTo(routeSize));
+    }
+
+    private Integer getRecordCount() {
+        String selectSQL = "SELECT count(id) FROM route_repository";
+
+        return jdbcTemplate.queryForObject(selectSQL, Integer.class);
     }
 
     private int getRouterSize(Iterable iterable) {
