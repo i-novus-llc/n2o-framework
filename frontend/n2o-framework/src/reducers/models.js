@@ -40,6 +40,7 @@ const modelState = {
   multi: {},
   resolve: {},
   edit: {},
+  selectionType: {},
 };
 
 /**
