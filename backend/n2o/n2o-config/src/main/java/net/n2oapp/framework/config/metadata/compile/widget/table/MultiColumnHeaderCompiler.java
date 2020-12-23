@@ -6,9 +6,12 @@ import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.AbstractColumn;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.N2oMultiColumn;
 import net.n2oapp.framework.api.metadata.meta.widget.table.ColumnHeader;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция заголовка мульти-столбца таблицы
@@ -23,6 +26,9 @@ public class MultiColumnHeaderCompiler extends AbstractHeaderCompiler<N2oMultiCo
     @Override
     public ColumnHeader compile(N2oMultiColumn source, CompileContext<?, ?> context, CompileProcessor p) {
         ColumnHeader header = new ColumnHeader();
+        header.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.widget.column.src"), String.class)));
+        header.setCssClass(source.getCssClass());
+        header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         header.setLabel(source.getLabelName());
         header.setMultiHeader(true);
         header.setChildren(new ArrayList<>());

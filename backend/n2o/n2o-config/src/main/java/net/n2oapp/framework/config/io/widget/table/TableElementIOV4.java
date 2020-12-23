@@ -55,6 +55,9 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
 
     private void abstractColumn(Element e, AbstractColumn c, IOProcessor p) {
         p.attribute(e, "id", c::getId, c::setId);
+        p.attribute(e, "src", c::getSrc, c::setSrc);
+        p.attribute(e, "class", c::getCssClass, c::setCssClass);
+        p.attribute(e, "style", c::getStyle, c::setStyle);
         p.attribute(e, "text-field-id", c::getTextFieldId, c::setTextFieldId);
         p.attribute(e, "tooltip-field-id", c::getTooltipFieldId, c::setTooltipFieldId);
         p.attribute(e, "visible", c::getVisible, c::setVisible);
@@ -97,6 +100,9 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
 
     private void multiColumn(Element e, N2oMultiColumn c, IOProcessor p) {
         p.attribute(e, "label", c::getLabelName, c::setLabelName);
+        p.attribute(e, "src", c::getSrc, c::setSrc);
+        p.attribute(e, "class", c::getCssClass, c::setCssClass);
+        p.attribute(e, "style", c::getStyle, c::setStyle);
         p.anyChildren(e, null, c::getChildren, c::setChildren, columns(p));
     }
 }
