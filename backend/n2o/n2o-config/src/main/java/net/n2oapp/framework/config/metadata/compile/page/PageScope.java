@@ -26,7 +26,7 @@ public class PageScope implements Serializable {
         return CompileUtil.generateWidgetId(pageId, localWidgetId);
     }
 
-    public void addModelLinks(ModelLink key, ModelLink val) {
+    public void addModelLink(ModelLink key, ModelLink val) {
         if (modelLinks == null) {
             modelLinks = new HashMap<>();
         }

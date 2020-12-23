@@ -512,7 +512,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                                     CompileUtil.generateWidgetId(((PageContext) context).getParentClientPageId(), source.getRefWidgetId())
                     );
                     valueModelLink.setValue(p.resolveJS(source.getDefaultValue()));
-                    pageScope.addModelLinks(keyModelLink, valueModelLink);
+                    pageScope.addModelLink(keyModelLink, valueModelLink);
                 }
                 break;
 
@@ -522,7 +522,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                                 currentWidgetId :
                                 pageScope.getGlobalWidgetId(source.getRefWidgetId()));
                 valueModelLink.setValue(p.resolveJS(source.getDefaultValue()));
-                pageScope.addModelLinks(keyModelLink, valueModelLink);
+                pageScope.addModelLink(keyModelLink, valueModelLink);
                 break;
         }
     }
