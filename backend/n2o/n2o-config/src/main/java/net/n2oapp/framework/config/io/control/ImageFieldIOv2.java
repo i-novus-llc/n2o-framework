@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.io.control;
 
 import net.n2oapp.framework.api.metadata.control.N2oImageField;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import org.jdom2.Element;
@@ -21,6 +22,14 @@ public class ImageFieldIOv2 extends FieldIOv2<N2oImageField> {
         p.attribute(e, "description", m::getDescription, m::setDescription);
         p.attributeEnum(e, "text-position", m::getTextPosition, m::setTextPosition, TextPosition.class);
         p.attribute(e, "width", m::getWidth, m::setWidth);
+        p.children(e, "statuses", "status", m::getStatuses, m::setStatuses, ImageStatusElement::new, this::statuses);
+    }
+
+    private void statuses(Element e, ImageStatusElement c, IOProcessor p) {
+        p.attribute(e, "src", c::getSrc, c::setSrc);
+        p.attribute(e, "field-id", c::getFieldId, c::setFieldId);
+        p.attribute(e, "icon", c::getIcon, c::setIcon);
+        p.attributeEnum(e, "place", c::getPlace, c::setPlace, ImageStatusElement.Place.class);
     }
 
     @Override

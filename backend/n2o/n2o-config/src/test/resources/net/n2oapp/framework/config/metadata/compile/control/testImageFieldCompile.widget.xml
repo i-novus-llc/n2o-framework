@@ -2,7 +2,17 @@
     <fields>
         <image id="testId" src="testSrc" depends-on="name,type" label="testLabel"
                url="{Url}" data="data:image/jpeg;base64{image}" title="{title}" description="{Description}"
-               text-position="top" width="500px"/>
+               text-position="top" width="500px">
+            <statuses>
+                <status
+                        src="testSrc"
+                        field-id="status1"
+                        icon="{icon1}"
+                        place="topRight"
+                />
+                <status field-id="id"/>
+            </statuses>
+        </image>
         <image id="testId2"/>
     </fields>
 </form>
