@@ -131,7 +131,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(context.getPreFilters().get(0).getType(), is(FilterType.eq));
         assertThat(context.getParentModelLink().getFieldId(), is("id"));
         assertThat(context.getParentModelLink().getWidgetId(), is("page_test"));
-        assertThat(context.getParentModelLink().getSubModelQuery().getQueryId(), is("testShowModal"));
+        assertThat(context.getParentModelLink().getSubModelQuery(), nullValue());
 
         SimplePage openPage = (SimplePage) read().compile().get(context);
         assertThat(openPage.getId(), is("page_widget_action2"));

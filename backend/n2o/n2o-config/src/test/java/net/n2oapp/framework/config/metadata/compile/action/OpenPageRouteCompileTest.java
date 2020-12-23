@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
+import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
@@ -22,11 +23,11 @@ import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Тест формирования маршрутов при открытии страницы
@@ -326,5 +327,38 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         assertThat(actionWithFilterModel.getUrl(), is("/test/btn12"));
         assertThat(actionWithFilterModel.getPathMapping().isEmpty(), is(true));
         assertThat(actionWithFilterModel.getQueryMapping().isEmpty(), is(true));
+    }
+
+    /**
+     * Проверка формирования сабмоделей в path и query параметрах
+     */
+    @Test
+    public void testParamsSubModelFormation() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testParamsSubModel.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/action/testRefbook.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/stub/utBlank2.query.xml")
+                .get(new PageContext("testParamsSubModel", "/test"));
+        List<AbstractButton> buttons = ((Widget) page.getRegions().get("single").get(0).getContent().get(3)).getToolbar()
+                .get("topLeft").get(0).getButtons();
+
+        LinkActionImpl action = (LinkActionImpl) buttons.get(0).getAction();
+        assertThat(action.getPathMapping().size(), is(2));
+        assertThat(action.getQueryMapping().size(), is(2));
+        assertThat(action.getPathMapping().get("param1").getSubModelQuery().getQueryId(), is("testOpenPageRoute"));
+        assertThat(action.getPathMapping().get("param3").getSubModelQuery(), nullValue());
+        assertThat(action.getQueryMapping().get("param2").getSubModelQuery().getQueryId(), is("testOpenPageRoute"));
+        assertThat(action.getQueryMapping().get("param4").getSubModelQuery(), nullValue());
+
+        action = (LinkActionImpl) buttons.get(1).getAction();
+        assertThat(action.getPathMapping().size(), is(1));
+        assertThat(action.getQueryMapping().size(), is(1));
+        assertThat(action.getPathMapping().get("param5").getSubModelQuery().getQueryId(), is("testRefbook"));
+        assertThat(action.getQueryMapping().get("param6").getSubModelQuery().getQueryId(), is("testRefbook"));
+
+        action = (LinkActionImpl) buttons.get(2).getAction();
+        assertThat(action.getPathMapping().size(), is(1));
+        assertThat(action.getQueryMapping().size(), is(1));
+        assertThat(action.getPathMapping().get("param7").getSubModelQuery().getQueryId(), is("utBlank2"));
+        assertThat(action.getQueryMapping().get("param8").getSubModelQuery().getQueryId(), is("utBlank2"));
     }
 }

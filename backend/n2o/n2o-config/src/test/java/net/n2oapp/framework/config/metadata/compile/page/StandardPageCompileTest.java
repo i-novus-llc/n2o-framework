@@ -99,14 +99,14 @@ public class StandardPageCompileTest extends SourceCompileTestBase {
         assertThat(page.getRoutes().getList().get(0).getPath(), is("/page"));
         assertThat(page.getRoutes().getList().get(1).getPath(), is("/page/master"));
         assertThat(page.getRoutes().getList().get(2).getPath(), is("/page/master/:page_master_id"));
-        assertThat(page.getRoutes().getList().get(3).getPath(), is("/page/master/:master_id/detail"));
-        assertThat(page.getRoutes().getList().get(4).getPath(), is("/page/master/:master_id/detail/:page_detail_id"));
-        assertThat(page.getRoutes().getList().get(5).getPath(), is("/page/master/:master_id/detail/:page_detail_id/detail4"));
-        assertThat(page.getRoutes().getList().get(6).getPath(), is("/page/master/:master_id/detail/:page_detail_id/detail4/:page_detail4_id"));
-        assertThat(page.getRoutes().getList().get(7).getPath(), is("/page/master/:master_id/detail/form"));
-        assertThat(page.getRoutes().getList().get(8).getPath(), is("/page/master/:master_id/detail/form/:page_detail5_id"));//todo у формы нет selectedId
-        assertThat(page.getRoutes().getList().get(9).getPath(), is("/page/master/:page_master_id/detail2"));
-        assertThat(page.getRoutes().getList().get(10).getPath(), is("/page/master/:page_master_id/detail2/:page_detail2_id"));
+        assertThat(page.getRoutes().getList().get(3).getPath(), is("/page/master/:page_master_id/detail2"));
+        assertThat(page.getRoutes().getList().get(4).getPath(), is("/page/master/:page_master_id/detail2/:page_detail2_id"));
+        assertThat(page.getRoutes().getList().get(5).getPath(), is("/page/master/:master_id/detail"));
+        assertThat(page.getRoutes().getList().get(6).getPath(), is("/page/master/:master_id/detail/:page_detail_id"));
+        assertThat(page.getRoutes().getList().get(7).getPath(), is("/page/master/:master_id/detail/:page_detail_id/detail4"));
+        assertThat(page.getRoutes().getList().get(8).getPath(), is("/page/master/:master_id/detail/:page_detail_id/detail4/:page_detail4_id"));
+        assertThat(page.getRoutes().getList().get(9).getPath(), is("/page/master/:master_id/detail/form"));
+        assertThat(page.getRoutes().getList().get(10).getPath(), is("/page/master/:master_id/detail/form/:page_detail5_id"));//todo у формы нет selectedId
         assertThat(page.getRoutes().getPathMapping().size(), is(6));
         assertThat(page.getRoutes().getPathMapping().get("page_master_id").getType(), is("n2o/widgets/CHANGE_SELECTED_ID"));
         assertThat(((SelectedWidgetPayload) page.getRoutes().getPathMapping().get("page_master_id").getPayload()).getWidgetId(), is("page_master"));
