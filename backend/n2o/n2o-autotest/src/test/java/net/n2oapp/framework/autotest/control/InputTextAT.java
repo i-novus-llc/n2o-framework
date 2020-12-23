@@ -114,6 +114,9 @@ public class InputTextAT extends AutoTestBase {
         input.shouldExists();
         input.shouldHaveValue("1.3333");
         input.shouldNotHaveValue("1.33333");
+        input.val("9.99999999");
+        input.shouldHaveValue("9.9999");
+        input.shouldNotHaveValue("9.99999999");
     }
 
 }
