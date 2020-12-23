@@ -84,11 +84,9 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
         component.setClassName(source.getCssClass());
         component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
-        if (source.getScrollX() != null || source.getScrollY() != null) {
-            component.setScroll(new Scroll());
-            component.getScroll().setX(source.getScrollX());
-            component.getScroll().setY(source.getScrollY());
-        }
+        component.setWidth(source.getWidth());
+        component.setHeight(source.getHeight());
+        component.setTextWrap(p.cast(source.getTextWrap(), p.resolve(property("n2o.api.widget.table.text_wrap"), Boolean.class)));
         if (source.getRows() != null) {
             component.setRows(new Rows());
             if (source.getRows().getRowClass() != null) {

@@ -46,9 +46,9 @@ public abstract class BaseSimplePage {
 
     protected Fields getFields() {
         if (simplePage != null)
-            return simplePage.single().widget(FormWidget.class).fields();
+            return simplePage.widget(FormWidget.class).fields();
         else
-            return modal.content(SimplePage.class).single().widget(FormWidget.class).fields();
+            return modal.content(SimplePage.class).widget(FormWidget.class).fields();
     }
 
 }

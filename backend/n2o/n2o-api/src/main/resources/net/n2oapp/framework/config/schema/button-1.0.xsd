@@ -11,7 +11,7 @@
             <xs:extension base="acn:actions">
                 <xs:sequence>
                     <xs:element name="dependencies" type="buttonDependenciesDefinition" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="copy" type="buttonCopyDefinition" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="copy" type="acn:copyDefinition" minOccurs="0" maxOccurs="1"/>
                 </xs:sequence>
                 <xs:attribute name="id" type="xs:string" use="optional">
                     <xs:annotation>
@@ -154,6 +154,11 @@
                         <xs:documentation>Кнопка с иконкой или без.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="disable-on-empty-model" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Недоступность кнопки при пустой модели.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="src" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Реализация действия.</xs:documentation>
@@ -200,6 +205,11 @@
         <xs:attribute name="generate" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Генерация стандартных кнопок.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="show-toggle-icon" type="xs:boolean" default="true">
+            <xs:annotation>
+                <xs:documentation>Показывать иконку переключателя.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="src" type="xs:string">
@@ -254,46 +264,6 @@
                 </xs:annotation>
             </xs:extension>
         </xs:complexContent>
-    </xs:complexType>
-
-    <xs:complexType name="buttonCopyDefinition">
-        <xs:attribute name="source-model" type="acn:reduxModel" default="resolve">
-            <xs:annotation>
-                <xs:documentation>Модель, которая будет скопирована.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="source-widget-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор виджета источника (по умолчанию текущий).</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="source-field-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор копируемого поля источника (по умолчанию вся модель).</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="target-model" type="acn:reduxModel" default="resolve">
-            <xs:annotation>
-                <xs:documentation>Модель, в которую будут скопированы данные.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="target-widget-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>Идентификатор целевого виджета (по умолчанию текущий).</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="target-field-id" type="xs:string">
-            <xs:annotation>
-                <xs:documentation>
-                    Идентификатор поля целевого виджета, в которое будут скопированы данные (по умолчанию вся модель).
-                </xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
-        <xs:attribute name="mode" type="acn:copyModeType" default="merge">
-            <xs:annotation>
-                <xs:documentation>Тип слияния данных.</xs:documentation>
-            </xs:annotation>
-        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="buttonDependenciesDefinition">

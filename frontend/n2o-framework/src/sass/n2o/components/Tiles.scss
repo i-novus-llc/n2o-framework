@@ -31,11 +31,16 @@
         margin: 0;
       }
     }
+    img {
+       max-width: 100%;
+    }
   }
   &__cell {
     display: flex;
     justify-content: center;
     margin: $tiles-cell-margin;
+    overflow-wrap: anywhere;
+    
     img {
       max-width: 100%;
     }

@@ -9,7 +9,6 @@ import net.n2oapp.framework.autotest.api.component.cell.*;
 import net.n2oapp.framework.autotest.api.component.control.*;
 import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
-import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
 import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
@@ -212,6 +211,10 @@ public class ProtoPage {
         leftRightPage.dialog(title).shouldBeClosed(timeOut);
     }
 
+    public void shouldDialogClosed(String title) {
+        shouldDialogClosed(title, 5000);
+    }
+
     public void acceptDialog(String title) {
         leftRightPage.dialog(title).click("Да");
     }
@@ -276,7 +279,7 @@ public class ProtoPage {
     }
 
     private TableWidget getTable() {
-        return leftRightPage.left().region(0, SimpleRegion.class).content().widget(TableWidget.class);
+        return leftRightPage.left().region(0, PanelRegion.class).content().widget(TableWidget.class);
     }
 
     private <T extends Cell> T getTableCell(int row, int col, Class<T> componentClass) {

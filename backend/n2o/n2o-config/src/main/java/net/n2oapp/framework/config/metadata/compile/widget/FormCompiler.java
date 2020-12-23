@@ -6,6 +6,7 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.control.Submit;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
@@ -17,6 +18,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
@@ -46,7 +48,8 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
     @Override
     public Form compile(N2oForm source, CompileContext<?, ?> context, CompileProcessor p) {
         Form form = new Form();
-        form.getComponent().setPrompt(source.getPrompt());
+        form.getComponent().setPrompt(p.cast(source.getPrompt(),
+                p.resolve(Placeholders.property("n2o.api.widget.form.unsaved_data_prompt"), Boolean.class)));
         CompiledQuery query = getQuery(source, p);
         CompiledObject object = getObject(source, p);
         compileWidget(form, source, context, p, object);
@@ -78,11 +81,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         compileDataProviderAndRoutes(form, source, context, p, validationList, widgetRoute, subModelsScope, copiedFieldScope, object);
         addParamRoutes(paramScope, p);
         compileToolbarAndAction(form, source, context, p, widgetScope, widgetRoute, widgetActions, object, validationList);
-        if (source.getMode() != null && source.getMode().equals(FormMode.TWO_MODELS)) {
-            form.getComponent().setModelPrefix("edit");
-        } else {
-            form.getComponent().setModelPrefix("resolve");
-        }
+        form.getComponent().setModelPrefix(FormMode.TWO_MODELS.equals(source.getMode()) ? "edit" : "resolve");
         form.setFormDataProvider(initDataProvider(source, object, context, p));
         return form;
     }
@@ -116,6 +115,11 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         actionContextData.setFailAlertWidgetId(source.getId());
         actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
         actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
+        if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
+            actionContextData.setRefresh(new RefreshSaga());
+            actionContextData.getRefresh().setType(RefreshSaga.Type.widget);
+            actionContextData.getRefresh().getOptions().setWidgetId(source.getId());
+        }
         dataProvider.setActionContextData(actionContextData);
 
         return ClientDataProviderUtil.compile(dataProvider, context, p);

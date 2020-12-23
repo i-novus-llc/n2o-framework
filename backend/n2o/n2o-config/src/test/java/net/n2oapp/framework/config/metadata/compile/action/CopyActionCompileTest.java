@@ -46,7 +46,7 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testCopyAction.page.xml")
                 .get(new ModalPageContext("testCopyAction", "/modal"));
 
-        Table table = (Table) page.getWidgets().get("modal_table1");
+        Table table = (Table) page.getRegions().get("single").get(0).getContent().get(0);
 
         CopyAction action = (CopyAction) table.getActions().get("test");
         assertThat(action.getType(), is("n2o/models/COPY"));
@@ -78,6 +78,10 @@ public class CopyActionCompileTest extends SourceCompileTestBase {
         assertThat(action.getPayload().getTarget().getField(), is("dictionary.id"));
         assertThat(action.getPayload().getMode(), is(CopyMode.replace));
         assertThat(action.getMeta().getModalsToClose(), is(1));
+
+        action = (CopyAction) page.getActions().get("menuItem0");
+        assertThat(action.getPayload().getSource().getKey(), is("modal_table1"));
+        assertThat(action.getPayload().getTarget().getKey(), is("page_form"));
     }
 
     @Test

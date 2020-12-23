@@ -1,6 +1,9 @@
 package net.n2oapp.framework.config.io.toolbar;
 
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.GroupItem;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oGroup;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ToolbarItem;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.TypedElementIO;
 import org.jdom2.Element;

@@ -5,7 +5,7 @@
             <multi-set id="members1" can-remove="false">
                 <input-text id="name"/>
             </multi-set>
-            <multi-set id="members2" label="Участник {(index + 1)}">
+            <multi-set id="members2" children-label="Участник {(index + 1)}">
                 <input-text id="name"/>
             </multi-set>
             <multi-set id="members3" remove-all-label="Удалить всех участников" can-remove-all="true">

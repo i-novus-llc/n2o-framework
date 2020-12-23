@@ -62,6 +62,7 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
         String query = invocation.getQuery();
         if (query == null)
             throw new N2oException("query mustn't be null");
+        query = query.trim();
         final HttpMethod method = invocation.getMethod() == null ? HttpMethod.GET : HttpMethod.resolve(invocation.getMethod().name());
         Map<String, Object> args = new HashMap<>();
         data.forEach(args::put);
@@ -137,8 +138,8 @@ public class SpringRestDataProviderEngine implements MapInvocationEngine<N2oRest
 
         switch (method) {
             case GET:
-            case DELETE:
                 return exchange(query, method, headers, args);
+            case DELETE:
             case POST:
             case PUT:
             case PATCH:

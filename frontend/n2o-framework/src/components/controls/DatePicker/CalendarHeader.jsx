@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import 'moment/locale/ru';
-import { FormattedMessage } from 'react-intl';
 
 import { withLocale } from './utils';
 import Calendar from './Calendar';
@@ -54,7 +53,7 @@ class CalendarHeader extends React.Component {
         </React.Fragment>
       );
     } else if (type === Calendar.BY_MONTHS) {
-      return displayesMonth.format('YYYY');
+      return withLocale(displayesMonth, locale).format('MMMM');
     } else if (type === Calendar.BY_YEARS) {
       const decadeStart = parseInt(+displayesMonth.format('YYYY') / 10) * 10;
       return (
@@ -77,10 +76,7 @@ class CalendarHeader extends React.Component {
             e.preventDefault();
           }}
         >
-          <FormattedMessage
-            id="Datepicker.time-choose"
-            defaultMessage={'Выберите время'}
-          />
+          {this.props.t('chooseTime')}
         </a>
       );
     }

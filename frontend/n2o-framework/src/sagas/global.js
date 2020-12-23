@@ -1,5 +1,6 @@
 import { call, put, takeEvery, select } from 'redux-saga/effects';
 import { CHANGE_LOCALE, REQUEST_CONFIG } from '../constants/global';
+import get from 'lodash/get';
 import {
   requestConfigSuccess,
   requestConfigFail,
@@ -8,7 +9,10 @@ import {
 import { userLogin } from '../actions/auth';
 import { localeSelector } from '../selectors/global';
 import fetchSaga from './fetch';
-import { FETCH_APP_CONFIG } from '../core/api';
+import {
+  FETCH_APP_CONFIG,
+  CHANGE_LOCALE as CHANGE_LOCALE_API,
+} from '../core/api';
 
 /**
  * Сага для вызова настроек приложения
@@ -43,9 +47,27 @@ export function* getConfig(apiProvider, action) {
 }
 
 /**
+ * Сага для изменения locale
+ * @param apiProvider
+ * @param action
+ */
+export function* changeLocale(apiProvider, action) {
+  try {
+    const locale = get(action, 'payload.locale');
+    yield call(fetchSaga, CHANGE_LOCALE_API, locale, apiProvider);
+    window.location.reload();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/**
  * Сайд-эффекты для global редюсера
  * @ignore
  */
 export default apiProvider => {
-  return [takeEvery([REQUEST_CONFIG, CHANGE_LOCALE], getConfig, apiProvider)];
+  return [
+    takeEvery(REQUEST_CONFIG, getConfig, apiProvider),
+    takeEvery(CHANGE_LOCALE, changeLocale, apiProvider),
+  ];
 };

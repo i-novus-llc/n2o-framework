@@ -27,6 +27,10 @@ public class ShowModalElementIOV1 extends AbstractOpenPageElementIOV1<N2oShowMod
         p.attribute(e, "target-widget-id", sm::getTargetWidgetId, sm::setTargetWidgetId);
         p.attribute(e, "target-field-id", sm::getTargetFieldId, sm::setTargetFieldId);
         p.attributeEnum(e, "copy-mode", sm::getCopyMode, sm::setCopyMode, CopyMode.class);
+        p.attributeBoolean(e, "has-header", sm::getHasHeader, sm::setHasHeader);
+        p.attribute(e, "class", sm::getClassName, sm::setClassName);
+        p.attribute(e, "backdrop", sm::getBackdrop, sm::setBackdrop);
+        p.attribute(e, "style", sm::getStyle, sm::setStyle);
     }
 
     @Override

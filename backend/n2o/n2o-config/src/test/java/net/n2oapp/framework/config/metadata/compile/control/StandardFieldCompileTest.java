@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.data.validation.ConstraintValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.exception.SeverityType;
+import net.n2oapp.framework.api.metadata.Component;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oSqlDataProvider;
 import net.n2oapp.framework.api.metadata.global.dao.object.MapperType;
@@ -13,10 +14,9 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
-import net.n2oapp.framework.api.metadata.meta.control.Field;
-import net.n2oapp.framework.api.metadata.meta.control.StandardField;
-import net.n2oapp.framework.api.metadata.meta.control.ValidationType;
+import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.Group;
@@ -59,7 +59,7 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(), new N2oControlsV2IOPack(),
                 new N2oAllDataPack(), new N2oActionsPack());
-        builder.compilers(new InputTextCompiler());
+        builder.compilers(new InputTextCompiler(), new DatePickerCompiler(), new CustomFieldCompiler());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/mapping/testCell.object.xml"));
     }
 
@@ -144,12 +144,12 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(validation.getRequiredFields().contains("param"), is(true));
         assertThat(validation.getInvocation(), instanceOf(N2oSqlDataProvider.class));
         assertThat(((N2oSqlDataProvider) validation.getInvocation()).getQuery(), is("select * from table"));
-        assertThat(validation.getInParameterList().size(), is(1));
-        assertThat(validation.getInParameterList().get(0).getDomain(), is("boolean"));
-        assertThat(validation.getInParameterList().get(0).getRequired(), is(true));
-        assertThat(validation.getInParameterList().get(0).getMapper(), is(MapperType.dataset));
-        assertThat(validation.getInParameterList().get(0).getMapping(), is("mapping"));
-        assertThat(validation.getInParameterList().get(0).getNormalize(), is("normalize"));
+        assertThat(validation.getInParametersList().size(), is(1));
+        assertThat(validation.getInParametersList().get(0).getDomain(), is("boolean"));
+        assertThat(validation.getInParametersList().get(0).getRequired(), is(true));
+        assertThat(validation.getInParametersList().get(0).getMapper(), is(MapperType.dataset));
+        assertThat(validation.getInParametersList().get(0).getMapping(), is("mapping"));
+        assertThat(validation.getInParametersList().get(0).getNormalize(), is("normalize"));
 
         ConditionValidation validation2 = (ConditionValidation) clientValidations.get(1);
         assertThat(validation2.getId(), is("val2"));
@@ -184,6 +184,8 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(context.isMessageOnSuccess(), is(false));
         assertThat(context.getSuccessAlertWidgetId(), is("form"));
         assertThat(context.getFailAlertWidgetId(), is("form"));
+        assertThat(context.getRefresh().getType(), is(RefreshSaga.Type.widget));
+        assertThat(context.getRefresh().getOptions().getWidgetId(), is("test"));
 
         ClientDataProvider dataProvider = ((StandardField) field).getDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));
@@ -263,4 +265,34 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(link.getBindLink(), is("models.filter['testStandardFieldSubmitWithoutRoute_form']"));
     }
 
+    @Test
+    public void testExtraProperties() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/mapping/testStandardFieldExtProps.page.xml")
+                .get(new PageContext("testStandardFieldExtProps"));
+        Field field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(0).getCols().get(0).getFields().get(0);
+        assertThat(field.getId(), is("dateTime"));
+        assertThat(field.getSrc(), is("StandardField"));
+        assertThat(field.getProperties(), nullValue());
+        assertThat(field, instanceOf(StandardField.class));
+        Control control = ((StandardField)field).getControl();
+        assertThat(control , instanceOf(DatePicker.class));
+        assertThat(control.getSrc() , is("RoundedDatePickerControl"));
+        assertThat(control.getProperties() , notNullValue());
+        assertThat(control.getProperties().size() , is(2));
+        assertThat(control.getProperties().get("prefix") , is("extPrefix"));
+
+        field = ((Form) page.getWidget()).getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
+        assertThat(field.getId(), is("customField"));
+        assertThat(field.getProperties(), notNullValue());
+        assertThat(field.getProperties().size(), is(2));
+        assertThat(field.getProperties().get("attr"), is("extAttr"));
+        assertThat(field.getProperties().get("anonymous"), is(false));
+
+        Component component = ((CustomField) field).getControl();
+
+        assertThat(component.getProperties(), notNullValue());
+        assertThat(component.getProperties().size(), is(2));
+        assertThat(component.getProperties().get("attr2"), is("extAttr2"));
+        assertThat(component.getProperties().get("roles"), is("admin"));
+    }
 }

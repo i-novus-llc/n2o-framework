@@ -6,6 +6,7 @@ import configureMockStore from 'redux-mock-store';
 
 const defaultProps = {
   id: 'url',
+  fieldKey: 'url',
   model: {
     url:
       'https://beebom-redkapmedia.netdna-ssl.com/wp-content/uploads/2016/01/Reverse-Image-Search-Engines-Apps-And-Its-Uses-2016.jpg',
@@ -13,9 +14,11 @@ const defaultProps = {
   className: 'testtest',
   style: {
     color: 'red',
+    height: 30,
+    width: 30,
   },
   title: 'top title',
-  shape: imageShapes.THUMBNAIL,
+  shape: imageShapes.SQUARE,
 };
 
 const setupImageCell = propsOverride => {
@@ -31,7 +34,7 @@ const setupImageCell = propsOverride => {
 };
 
 const defaultPropsWithTooltip = {
-  id: 'url',
+  fieldKey: 'url',
   tooltipFieldId: 'tooltip',
   model: {
     url:
@@ -43,7 +46,7 @@ const defaultPropsWithTooltip = {
     color: 'red',
   },
   title: 'top title',
-  shape: imageShapes.THUMBNAIL,
+  shape: imageShapes.SQUARE,
 };
 
 const setupImageCellWithTooltip = propsOverride => {
@@ -61,23 +64,17 @@ const setupImageCellWithTooltip = propsOverride => {
 describe('<ImageCell />', () => {
   it('проверяет создание тайтла', () => {
     const { wrapper, props } = setupImageCell();
-    expect(
-      wrapper
-        .find('span')
-        .first()
-        .prop('title')
-    ).toEqual(props.title);
+    expect(wrapper.find('.n2o-image__info_label').text()).toEqual(props.title);
   });
 
   it('проверяет путь до картинки', () => {
     const { wrapper, props } = setupImageCell();
-
     expect(wrapper.find('img').props().src).toEqual(props.model[props.id]);
   });
 
   it('проверяет форму изображения', () => {
     const { wrapper } = setupImageCell();
-    expect(wrapper.find('img').props().className).toEqual('img-thumbnail');
+    expect(wrapper.find('img').props().className).toEqual('n2o-image__image');
   });
 
   it('проверяет задание класса', () => {
@@ -91,7 +88,7 @@ describe('<ImageCell />', () => {
 
     expect(
       wrapper
-        .find(`.${props.className}`)
+        .find('.n2o-image__image-container')
         .getElements()
         .pop().props.style
     ).toEqual(props.style);

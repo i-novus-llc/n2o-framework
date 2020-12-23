@@ -1,5 +1,4 @@
 import React from 'react';
-import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import Panel from '../../snippets/Panel/Panel';
@@ -43,13 +42,11 @@ const setup = propOverrides => {
   );
 
   const wrapper = mount(
-    <IntlProvider locale="ru" messages={{}}>
-      <Provider store={store}>
-        <FactoryProvider config={createFactoryConfig({})}>
-          <PanelRegion {...props} />
-        </FactoryProvider>
-      </Provider>
-    </IntlProvider>
+    <Provider store={store}>
+      <FactoryProvider config={createFactoryConfig({})}>
+        <PanelRegion {...props} />
+      </FactoryProvider>
+    </Provider>
   );
 
   return {
@@ -120,10 +117,5 @@ describe('<PanelRegion />', () => {
       .children()
       .simulate('click');
     expect(wrapper.find('div.panel-fullscreen').exists()).toBeTruthy();
-  });
-
-  it('проверяет работу фабрики через создание таблицы', () => {
-    const { wrapper, props } = setup();
-    expect(wrapper.find('Wireframe').exists()).toBeTruthy();
   });
 });

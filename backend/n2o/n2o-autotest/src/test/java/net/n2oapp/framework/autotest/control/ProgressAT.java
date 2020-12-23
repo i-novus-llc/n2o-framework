@@ -46,7 +46,7 @@ public class ProgressAT extends AutoTestBase {
 
     @Test
     public void testProgress() {
-        Progress progress = page.single().widget(FormWidget.class).fields().field("Progress")
+        Progress progress = page.widget(FormWidget.class).fields().field("Progress")
                 .control(Progress.class);
         progress.shouldExists();
 

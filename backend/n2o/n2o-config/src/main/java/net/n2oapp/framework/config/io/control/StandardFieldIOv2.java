@@ -70,7 +70,6 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
     private void validation(Element e, N2oValidation t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
         p.attributeEnum(e, "severity", t::getSeverity, t::setSeverity, SeverityType.class);
-        p.attributeEnum(e, "client-moment", t::getClientMoment, t::setClientMoment, N2oValidation.ClientMoment.class);
         p.attributeEnum(e, "server-moment", t::getServerMoment, t::setServerMoment, N2oValidation.ServerMoment.class);
         p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attribute(e, "message", t::getMessage, t::setMessage);
@@ -82,6 +81,7 @@ public abstract class StandardFieldIOv2<T extends N2oStandardField> extends Fiel
         p.attribute(e, "operation-id", t::getOperationId, t::setOperationId);
         p.attributeBoolean(e, "message-on-success", t::getMessageOnSuccess, t::setMessageOnSuccess);
         p.attributeBoolean(e, "message-on-fail", t::getMessageOnFail, t::setMessageOnFail);
+        p.attributeBoolean(e, "refresh-on-success", t::getRefreshOnSuccess, t::setRefreshOnSuccess);
         p.attribute(e, "route", t::getRoute, t::setRoute);
         p.children(e, null, "path-param", t::getPathParams, t::setPathParams, N2oParam.class, this::submitParam);
         p.children(e, null, "header-param", t::getHeaderParams, t::setHeaderParams, N2oParam.class, this::submitParam);

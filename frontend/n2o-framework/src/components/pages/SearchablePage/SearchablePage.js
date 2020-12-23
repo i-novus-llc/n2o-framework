@@ -30,6 +30,8 @@ function SearchablePage({
   onSearch,
   searchBar = {},
   filterValue,
+  withToolbar = true,
+  initSearchValue,
 }) {
   return (
     <div
@@ -57,6 +59,7 @@ function SearchablePage({
           initialValue={filterValue}
           className={cn('ml-auto', searchBar.className)}
           onSearch={onSearch}
+          initSearchValue={initSearchValue}
         />
       </div>
       <div className="n2o-page-actions">
@@ -77,23 +80,25 @@ function SearchablePage({
         />
       </div>
       <PageRegions id={id} regions={regions} />
-      <div className="n2o-page-actions">
-        <Toolbar
-          className="ml-3"
-          entityKey={pageId}
-          toolbar={toolbar.bottomLeft}
-        />
-        <Toolbar
-          className="ml-3"
-          entityKey={pageId}
-          toolbar={toolbar.bottomCenter}
-        />
-        <Toolbar
-          className="ml-3"
-          entityKey={pageId}
-          toolbar={toolbar.bottomRight}
-        />
-      </div>
+      {withToolbar && (
+        <div className="n2o-page-actions">
+          <Toolbar
+            className="ml-3"
+            entityKey={pageId}
+            toolbar={toolbar.bottomLeft}
+          />
+          <Toolbar
+            className="ml-3"
+            entityKey={pageId}
+            toolbar={toolbar.bottomCenter}
+          />
+          <Toolbar
+            className="ml-3"
+            entityKey={pageId}
+            toolbar={toolbar.bottomRight}
+          />
+        </div>
+      )}
     </div>
   );
 }
@@ -104,24 +109,40 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const enhance = compose(
-  withProps(props => ({
-    searchWidgetId: get(props, 'metadata.searchWidgetId'),
-    searchModelPrefix: get(props, 'metadata.searchModelPrefix'),
-    searchModelKey: get(props, 'metadata.searchModelKey'),
-    searchBar: get(props, 'metadata.searchBar', {}),
-    toolbar: get(props, 'metadata.toolbar', {}),
-  })),
+  withProps(props => {
+    const isDrawerPage = get(props, 'isDrawerPage');
+    const pageId = get(props, 'metadata.id');
+    const searchWidgetId = get(props, 'metadata.searchWidgetId');
+    const compileSearchWidgetId = pageId + '_' + searchWidgetId;
+
+    return {
+      searchWidgetId: compileSearchWidgetId,
+      metadataSearchWidgetId: searchWidgetId,
+      searchModelPrefix: get(props, 'metadata.searchModelPrefix'),
+      isDrawerPage: isDrawerPage,
+      searchModelKey: get(props, 'metadata.searchModelKey'),
+      searchBar: get(props, 'metadata.searchBar', {}),
+      toolbar: get(props, 'metadata.toolbar', {}),
+    };
+  }),
   withHandlers({
     onSearch: ({
       dispatch,
       searchWidgetId,
+      metadataSearchWidgetId,
       searchModelPrefix,
       searchModelKey,
     }) => value => {
       dispatch(
         batchActions([
-          updateModel(searchModelPrefix, searchWidgetId, searchModelKey, value),
+          updateModel(
+            searchModelPrefix,
+            metadataSearchWidgetId,
+            searchModelKey,
+            value
+          ),
           dataRequestWidget(searchWidgetId),
+          dataRequestWidget(metadataSearchWidgetId),
         ])
       );
     },

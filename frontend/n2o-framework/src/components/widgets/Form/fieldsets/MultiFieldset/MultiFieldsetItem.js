@@ -8,7 +8,7 @@ export function MultiFieldsetItem({
   fields,
   render,
   rows,
-  label,
+  childrenLabel,
   parentName,
   addButtonLabel,
   removeAllButtonLabel,
@@ -22,13 +22,14 @@ export function MultiFieldsetItem({
   onRemoveField,
   onRemoveAll,
   onCopyField,
+  enabled,
 }) {
   return (
     <React.Fragment>
       {map(fields, (field, index) => (
         <div className="n2o-multi-fieldset__container">
           <div className="n2o-multi-fieldset__item">
-            {label && (
+            {childrenLabel && (
               <div className="n2o-multi-fieldset__label">
                 {resolvePlaceholder(index)}
               </div>
@@ -38,7 +39,7 @@ export function MultiFieldsetItem({
               parentIndex: index,
             })}
             <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--inner">
-              {needCopyButton && (
+              {needCopyButton && enabled && (
                 <Button
                   className="n2o-multi-fieldset__copy"
                   color="link"
@@ -48,7 +49,7 @@ export function MultiFieldsetItem({
                   <i className="fa fa-copy" />
                 </Button>
               )}
-              {needRemoveButton && index > +!canRemoveFirstItem - 1 && (
+              {needRemoveButton && index > +!canRemoveFirstItem - 1 && enabled && (
                 <Button
                   className="n2o-multi-fieldset__remove"
                   color="link"
@@ -63,13 +64,13 @@ export function MultiFieldsetItem({
         </div>
       ))}
       <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--common">
-        {needAddButton && (
+        {needAddButton && enabled && (
           <Button className="n2o-multi-fieldset__add" onClick={onAddField}>
             <i className="fa fa-plus mr-1" />
             {addButtonLabel}
           </Button>
         )}
-        {!isEmpty(fields) && needRemoveAllButton && (
+        {!isEmpty(fields) && needRemoveAllButton && enabled && (
           <Button
             className="n2o-multi-fieldset__remove-all"
             onClick={onRemoveAll}
@@ -87,7 +88,7 @@ MultiFieldsetItem.propTypes = {
   fields: PropTypes.object,
   render: PropTypes.func,
   rows: PropTypes.array,
-  label: PropTypes.string,
+  childrenLabel: PropTypes.string,
   addButtonLabel: PropTypes.string,
   removeButtonLabel: PropTypes.string,
   removeAllButtonLabel: PropTypes.string,
@@ -103,7 +104,7 @@ const defaultComponentProps = {
   render: () => {},
   rows: [],
   fields: [],
-  label: null,
+  childrenLabel: null,
   addButtonLabel: 'Добавить',
   removeAllButtonLabel: 'Удалить все',
   needAddButton: true,

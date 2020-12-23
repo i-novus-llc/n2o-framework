@@ -7,7 +7,6 @@
            xmlns:dmn="http://n2oapp.net/framework/config/schema/base/domain-base-1.0"
            xmlns:menu="http://n2oapp.net/framework/config/schema/n2o-event-1.0"
            xmlns:query_3_0="http://n2oapp.net/framework/config/schema/query-3.0"
-           xmlns:act="http://n2oapp.net/framework/config/schema/base/action-base-1.0"
            xml:base="fs:fieldSetDefinition">
 
 

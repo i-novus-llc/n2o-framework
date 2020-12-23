@@ -79,7 +79,6 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         if (getPropertyWidgetSrc() != null)
             defaultWidgetSrc = p.resolve(property(getPropertyWidgetSrc()), String.class);
         compiled.setSrc(p.cast(source.getSrc(), defaultWidgetSrc));
-        compiled.setOpened(source.getOpened());
         compiled.setIcon(source.getIcon());
         compiled.setUpload(p.cast(source.getUpload(), source.getQueryId() != null ? UploadType.query : UploadType.defaults));
         compileAutoFocus(source, compiled, p);
@@ -407,6 +406,8 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
         QueryContext queryContext = new QueryContext(queryId, route, context.getUrlPattern());
         List<Validation> validations = validationList == null ? null : validationList.get(widget.getId(), ReduxModel.FILTER);
         if (context instanceof PageContext && ((PageContext) context).getSubmitOperationId() != null) {
+            if (object == null)
+                throw new N2oException("submit-operation is defined, but object-id isn't set in widget or query");
             CompiledObject.Operation operation = object.getOperations().get(((PageContext) context).getSubmitOperationId());
             if (operation.getValidationList() != null) {
                 if (validations == null) {
@@ -663,9 +664,11 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                         ReduxModel model = p.cast(preFilter.getRefModel(), ReduxModel.RESOLVE);
                         ModelLink link = new ModelLink(model, widgetId);
                         link.setValue(prefilterValue);
+                        link.setParam(filter.getParam());
                         filter.setLink(link);
-                    } else {
+                    } else{
                         ModelLink link = new ModelLink(prefilterValue);
+                        link.setParam(filter.getParam());
                         filter.setLink(link);
                     }
                     filters.add(filter);

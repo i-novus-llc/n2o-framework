@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.control.DefaultValues;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
-import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -53,6 +52,7 @@ public class PageBinderTest extends SourceCompileTestBase {
         assertThat(((DefaultValues) page.getModels().get("resolve['testPageBinders_main'].birthday").getValue()).getValues().get("end"), is("11.11.2018"));
         assertThat(page.getModels().get("resolve['testPageBinders_main'].intervalTest.end").getValue(), is(156));
         assertThat(page.getModels().get("resolve['testPageBinders_main'].intervalTest.begin") == null, is(true));
+        assertThat(page.getModels().get("resolve['testPageBinders_main'].type").getParam(), is("param_type"));
     }
 
     /**
@@ -68,8 +68,9 @@ public class PageBinderTest extends SourceCompileTestBase {
         modelLink.setValue("`name`");
         context.setPathRouteMapping(Collections.singletonMap("name_param", modelLink));
         Page page = bind("net/n2oapp/framework/config/metadata/compile/page/testPageBinders.page.xml")
-                .get(context, new DataSet().add("name_param", "Joe"));
+                .get(context, new DataSet().add("name_param", "Joe").add("param_type","22"));
         assertThat(page.getPageProperty().getTitle(), is("Hello, Joe"));
+        assertThat(page.getModels().get("resolve['testPageBinders_main'].type") == null, is(true));
     }
 
     /**

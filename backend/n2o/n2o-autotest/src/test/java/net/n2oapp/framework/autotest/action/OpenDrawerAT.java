@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
+import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.cell.TextCell;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
@@ -17,6 +18,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Автотест для действия открытия drawer окна
+ */
 public class OpenDrawerAT extends AutoTestBase {
 
     @BeforeAll
@@ -46,57 +50,63 @@ public class OpenDrawerAT extends AutoTestBase {
         page.breadcrumb().titleShouldHaveText("drawer-tests");
         page.shouldExists();
 
-        TableWidget.Rows rows = page.single().widget(TableWidget.class).columns().rows();
+        TableWidget.Rows rows = page.widget(TableWidget.class).columns().rows();
         rows.shouldHaveSize(4);
 
         rows.shouldBeSelected(0);
         rows.row(1).cell(0, TextCell.class).element().click();
         rows.shouldBeSelected(1);
-        page.single().widget(TableWidget.class).toolbar().topLeft().button("openLeft").click();
+        page.widget(TableWidget.class).toolbar().topLeft().button("openLeft").click();
         Drawer drawerPage = N2oSelenide.drawer();
         drawerPage.shouldHaveTitle("drawer-page");
         drawerPage.placementShouldBe(Drawer.Placement.left);
-        drawerPage.widthShouldBe("500");
-        drawerPage.heightShouldBe("500");
+        drawerPage.widthShouldBe("250");
+        drawerPage.heightShouldBe("250");
+        drawerPage.footerShouldNotBeFixed();
         SimplePage pg = drawerPage.content(SimplePage.class);
         pg.shouldExists();
-        pg.single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("22");
-        pg.single().widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test200");
+        Fields fields = pg.widget(FormWidget.class).fields();
+        fields.field("id").control(InputText.class).shouldHaveValue("22");
+        drawerPage.scrollDown();
+        fields.field("name").control(InputText.class).shouldHaveValue("test200");
+        drawerPage.toolbar().bottomRight().button("Button").shouldExists();
         drawerPage.close();
         drawerPage.shouldNotExists();
 
         rows.row(2).cell(0, TextCell.class).element().click();
         rows.shouldBeSelected(2);
-        page.single().widget(TableWidget.class).toolbar().topLeft().button("openTop").click();
+        page.widget(TableWidget.class).toolbar().topLeft().button("openTop").click();
         drawerPage.shouldHaveTitle("drawer-page");
         drawerPage.placementShouldBe(Drawer.Placement.top);
         drawerPage.widthShouldBe("300");
         drawerPage.heightShouldBe("300");
+        drawerPage.footerShouldBeFixed();
         pg.shouldExists();
-        pg.single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("33");
-        pg.single().widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test300");
+        fields.field("id").control(InputText.class).shouldHaveValue("33");
+        drawerPage.scrollDown();
+        fields.field("name").control(InputText.class).shouldHaveValue("test300");
         drawerPage.close();
         drawerPage.shouldNotExists();
 
         rows.row(3).cell(0, TextCell.class).element().click();
         rows.shouldBeSelected(3);
-        page.single().widget(TableWidget.class).toolbar().topLeft().button("openRight").click();
+        page.widget(TableWidget.class).toolbar().topLeft().button("openRight").click();
         drawerPage.shouldHaveTitle("drawer-page");
         drawerPage.placementShouldBe(Drawer.Placement.right);
         pg.shouldExists();
-        pg.single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("44");
-        pg.single().widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test400");
+        fields.field("id").control(InputText.class).shouldHaveValue("44");
+        fields.field("name").control(InputText.class).shouldHaveValue("test400");
         drawerPage.close();
         drawerPage.shouldNotExists();
 
         rows.row(0).cell(0, TextCell.class).element().click();
         rows.shouldBeSelected(0);
-        page.single().widget(TableWidget.class).toolbar().topLeft().button("openBottom").click();
+        page.widget(TableWidget.class).toolbar().topLeft().button("openBottom").click();
         drawerPage.shouldHaveTitle("drawer-page");
         drawerPage.placementShouldBe(Drawer.Placement.bottom);
         pg.shouldExists();
-        pg.single().widget(FormWidget.class).fields().field("id").control(InputText.class).shouldHaveValue("11");
-        pg.single().widget(FormWidget.class).fields().field("name").control(InputText.class).shouldHaveValue("test100");
+        fields.field("id").control(InputText.class).shouldHaveValue("11");
+        fields.field("name").control(InputText.class).shouldHaveValue("test100");
 
     }
 }

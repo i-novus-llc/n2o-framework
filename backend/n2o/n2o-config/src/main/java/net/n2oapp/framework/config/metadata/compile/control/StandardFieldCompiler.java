@@ -12,6 +12,7 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.control.Control;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.fieldset.FieldSetScope;
@@ -35,6 +36,8 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         compileFilters(source, p);
         compileCopied(source, p);
         compileControl(control, source, p, field);
+        control.setProperties(field.getProperties());
+        field.setProperties(null);//для StandardField properties должны попасть в control, а не field
         field.setControl(control);
         field.setDataProvider(initDataProvider(source, context, p));
         return field;
@@ -100,6 +103,11 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         }
         actionContextData.setMessageOnFail(p.cast(submit.getMessageOnFail(), false));
         actionContextData.setOperation(compiledObject.getOperations().get(submit.getOperationId()));
+        if (Boolean.TRUE.equals(submit.getRefreshOnSuccess())) {
+            actionContextData.setRefresh(new RefreshSaga());
+            actionContextData.getRefresh().setType(RefreshSaga.Type.widget);
+            actionContextData.getRefresh().getOptions().setWidgetId(source.getId());
+        }
         dataProvider.setActionContextData(actionContextData);
         return ClientDataProviderUtil.compile(dataProvider, context, p);
     }

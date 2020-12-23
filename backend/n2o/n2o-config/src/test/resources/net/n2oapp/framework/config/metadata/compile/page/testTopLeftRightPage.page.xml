@@ -1,14 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+<top-left-right-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0"
                      name="testPage"
                      route="/testRoute"
                      object-id="utObjectField"
                      scroll-top-button="true">
     <top width="100%" fixed="true" offset="100">
+        <form/>
+        <table/>
         <panel/>
         <tabs/>
     </top>
     <left width="70%">
+        <form/>
+        <table/>
         <line>
             <html name="test2"/>
         </line>
@@ -17,5 +21,7 @@
         <panel/>
         <tabs/>
         <region/>
+        <form/>
+        <table/>
     </right>
 </top-left-right-page>

@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
-      name="Список справочников" route="/refbooks">
+      name="${refbooks.list}" route="/refbooks">
     <regions>
         <panel place="single" header="false" collapsible="false">
-            <table id="main" name="Справочники" query-id="refbooks">
+            <table id="main" name="${refbooks}" query-id="refbooks">
                 <pagination/>
                 <columns>
                     <column text-field-id="name"/>
@@ -19,10 +19,10 @@
                     </row>
                 </filters>
                 <toolbar>
-                    <button id="viewPage" label="Просмотр на странице">
+                    <button id="viewPage" label="${view.on.page}">
                         <open-page page-id="{refbooks_main_id}" detail-field-id="pageName"/>
                     </button>
-                    <button id="viewModal" label="Просмотр в модальном окне">
+                    <button id="viewModal" label="${view.on.modal}">
                         <show-modal page-id="{refbooks_main_id}" detail-field-id="pageName"/>
                     </button>
                 </toolbar>

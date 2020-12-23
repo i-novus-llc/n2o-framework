@@ -29,6 +29,9 @@ import java.util.HashMap;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
+/**
+ * Компиляция страницы с единственным виджетом
+ */
 @Component
 public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> {
 
@@ -49,7 +52,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
         page.setBreadcrumb(initBreadcrumb(pageName, context, p));
         N2oWidget widget = source.getWidget();
         widget.setId(p.cast(widget.getId(), MAIN_WIDGET_ID));
-        widget.setRoute(p.cast(widget.getRoute(), "/"));
+        widget.setRoute(p.cast(widget.getRoute(), "/" + ("/".equals(pageRoute) ? widget.getId() : "")));
         PageRoutes routes = initRoute(pageRoute);
         initPreFilters(context, widget);
         Models models = new Models();

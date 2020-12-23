@@ -15,6 +15,6 @@ public class TilesWidgetXmlIOV4Test {
         tester.ios(new TilesWidgetIOV4())
                 .addPack(new N2oCellsIOPack());
 
-        assert tester.check("net/n2oapp/framework/config/io/widget/TilesWidgetIOV4.widget.xml");
+        assert tester.check("net/n2oapp/framework/config/io/widget/tiles/testTilesWidgetIOV4.widget.xml");
     }
 }
