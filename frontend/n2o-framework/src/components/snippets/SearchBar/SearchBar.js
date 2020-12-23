@@ -28,6 +28,7 @@ function SearchBar({
   icon,
   button,
   onClick,
+  onBlur,
   onChange,
   onKeyDown,
   placeholder,
@@ -45,6 +46,7 @@ function SearchBar({
           value={innerValue}
           onChange={onChange}
           placeholder={placeholder}
+          onBlur={onBlur}
         />
         {isIconClear && (
           <i
@@ -146,6 +148,7 @@ const enhance = compose(
       setInnerValue(value);
 
       if (value === '') {
+        setInnerValue(null);
         onSearch(null);
       }
 
@@ -153,6 +156,10 @@ const enhance = compose(
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => onSearch(value), throttleDelay);
       }
+    },
+    onBlur: ({ setInnerValue, onSearch }) => value => {
+      setInnerValue('');
+      onSearch(null);
     },
     onClear: ({ setInnerValue, onSearch }) => () => {
       setInnerValue(null);
