@@ -1,7 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile;
 
 import net.n2oapp.criteria.dataset.DataSet;
-import net.n2oapp.framework.api.metadata.meta.BindLink;
 import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.util.SubModelsProcessor;
 
@@ -26,8 +25,9 @@ public class DataModel {
 
     /**
      * Добавить все ссылки на данные в модель данных
+     *
      * @param links Ссылки привязанные к ключам
-     * @param data Данные привязанные к ключам
+     * @param data  Данные привязанные к ключам
      */
     public void addAll(Map<String, ModelLink> links, DataSet data) {
         if (links == null || data == null)
@@ -39,7 +39,8 @@ public class DataModel {
 
     /**
      * Добавить ссылку на данные в модель данных
-     * @param link Ссылка
+     *
+     * @param link  Ссылка
      * @param value Значение
      * @return Предыдущее значение по ссылке
      */
@@ -49,6 +50,8 @@ public class DataModel {
             return null;
         String fieldId = link.getFieldId();
         if (fieldId != null) {
+            if (widgetLink.getSubModelQuery() != null)
+                addSubModelToStoreKey(widgetLink);
             DataSet data = store.get(widgetLink);
             if (data == null)
                 data = new DataSet();
@@ -63,7 +66,19 @@ public class DataModel {
     }
 
     /**
+     * Добавление сабмодели в ссылку (ключ) хранилища, если она отсутствовала
+     *
+     * @param link Ссылка
+     */
+    private void addSubModelToStoreKey(ModelLink link) {
+        ModelLink storeKey = store.keySet().stream().filter(k -> k.equals(link)).findFirst().orElse(null);
+        if (storeKey != null && storeKey.getSubModelQuery() == null)
+            storeKey.setSubModelQuery(link.getSubModelQuery());
+    }
+
+    /**
      * Получить значение поля по ссылке на поле
+     *
      * @param link Ссылка
      * @return Значение поля
      */
@@ -84,7 +99,8 @@ public class DataModel {
 
     /**
      * Получить значение поля по ссылке на модель и полю
-     * @param link Ссылка на модель
+     *
+     * @param link  Ссылка на модель
      * @param field Поле
      * @return Значение поля
      */
@@ -97,6 +113,7 @@ public class DataModel {
 
     /**
      * Получить данные модели по ссылке на модель
+     *
      * @param link Ссылка на модель
      * @return Данные модели
      */
@@ -112,7 +129,8 @@ public class DataModel {
     /**
      * Получить функцию данных модели по ссылке на модель и процессору вложенных моделей.
      * В случае отсутствия данных в модели запускается попытка получения вложенных моделей из процессора
-     * @param link Ссылка на модель
+     *
+     * @param link      Ссылка на модель
      * @param processor Процессор вложенных моделей
      * @return Функция данных модели
      */
