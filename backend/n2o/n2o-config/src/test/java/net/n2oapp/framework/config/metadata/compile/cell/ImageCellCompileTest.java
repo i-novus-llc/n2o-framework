@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.widget.table.Table;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -51,6 +52,15 @@ public class ImageCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getDescription(), is("`Description`"));
         assertThat(cell.getData(), is("`'data:image/jpeg;base64'+image`"));
         assertThat(cell.getTextPosition(), is(N2oImageCell.Position.left));
+        assertThat(cell.getStatuses().length, is(2));
+        assertThat(cell.getStatuses()[0].getSrc(), is("testSrc"));
+        assertThat(cell.getStatuses()[0].getFieldId(), is("status1"));
+        assertThat(cell.getStatuses()[0].getIcon(), is("`icon1`"));
+        assertThat(cell.getStatuses()[0].getPlace(), is(ImageStatusElement.Place.topRight));
+        assertThat(cell.getStatuses()[1].getFieldId(), is("id"));
+        assertThat(cell.getStatuses()[1].getSrc(), is("Status"));
+        assertThat(cell.getStatuses()[1].getIcon(), is(nullValue()));
+        assertThat(cell.getStatuses()[1].getPlace(), is(ImageStatusElement.Place.topLeft));
 
         assertThat(cell.getCompiledAction(), instanceOf(LinkActionImpl.class));
 

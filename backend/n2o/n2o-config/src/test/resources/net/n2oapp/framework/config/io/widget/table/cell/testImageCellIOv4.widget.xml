@@ -5,7 +5,17 @@
             <image src="srcTest" class="class" style="margin-left:10px;width:300px" visible="false"
                    action-id="update" url="/test/" width="100" shape="rounded" title="testTitle" text-position="left"
                    data="testData" description="testDescription">
-                <close/>
+                <action>
+                    <close/>
+                </action>
+                <statuses>
+                    <status
+                            src="testSrc"
+                            field-id="status"
+                            icon="{icon}"
+                            place="topLeft"
+                    />
+                </statuses>
             </image>
         </column>
         <column text-field-id="test2">
