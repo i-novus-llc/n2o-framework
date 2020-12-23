@@ -106,4 +106,14 @@ public class InputTextAT extends AutoTestBase {
         input.clickMinusStepButton();
         input.shouldHaveValue("-9.9");
     }
+
+    @Test
+    public void testInputNumericPrecision() {
+        InputText input = page.widget(FormWidget.class).fields().field("Дробная часть длины 4")
+                .control(InputText.class);
+        input.shouldExists();
+        input.shouldHaveValue("1.3333");
+        input.shouldNotHaveValue("1.33333");
+    }
+
 }

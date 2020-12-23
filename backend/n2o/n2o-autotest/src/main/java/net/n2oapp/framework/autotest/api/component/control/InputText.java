@@ -19,4 +19,6 @@ public interface InputText extends Control {
     void shouldHaveMeasure();
 
     void measureShouldHaveText(String text);
+
+    void shouldNotHaveValue(String value);
 }
