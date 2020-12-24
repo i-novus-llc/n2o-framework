@@ -144,12 +144,12 @@ public class StandardFieldCompileTest extends SourceCompileTestBase {
         assertThat(validation.getRequiredFields().contains("param"), is(true));
         assertThat(validation.getInvocation(), instanceOf(N2oSqlDataProvider.class));
         assertThat(((N2oSqlDataProvider) validation.getInvocation()).getQuery(), is("select * from table"));
-        assertThat(validation.getInParameterList().size(), is(1));
-        assertThat(validation.getInParameterList().get(0).getDomain(), is("boolean"));
-        assertThat(validation.getInParameterList().get(0).getRequired(), is(true));
-        assertThat(validation.getInParameterList().get(0).getMapper(), is(MapperType.dataset));
-        assertThat(validation.getInParameterList().get(0).getMapping(), is("mapping"));
-        assertThat(validation.getInParameterList().get(0).getNormalize(), is("normalize"));
+        assertThat(validation.getInParametersList().size(), is(1));
+        assertThat(validation.getInParametersList().get(0).getDomain(), is("boolean"));
+        assertThat(validation.getInParametersList().get(0).getRequired(), is(true));
+        assertThat(validation.getInParametersList().get(0).getMapper(), is(MapperType.dataset));
+        assertThat(validation.getInParametersList().get(0).getMapping(), is("mapping"));
+        assertThat(validation.getInParametersList().get(0).getNormalize(), is("normalize"));
 
         ConditionValidation validation2 = (ConditionValidation) clientValidations.get(1);
         assertThat(validation2.getId(), is("val2"));

@@ -56,7 +56,7 @@
                     </xs:attribute>
                 </xs:complexType>
             </xs:element>
-            <xs:element name="toolbar" type="tool:widgetToolbarDefinition" minOccurs="0"/>
+            <xs:element name="toolbar" type="tool:toolbarDefinition" minOccurs="0"/>
             <xs:element name="pre-filters" type="preFiltersDefinition" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string">

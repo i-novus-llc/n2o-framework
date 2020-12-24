@@ -62,7 +62,8 @@ public class ShowModalCompiler extends AbstractOpenPageCompiler<ShowModal, N2oSh
 
     private void compilePayload(ShowModal showModal, N2oShowModal source, PageContext pageContext, CompileProcessor p) {
         ShowModalPayload payload = showModal.getPayload();
-        payload.setSize(source.getModalSize());
+        payload.setSize(p.cast(source.getModalSize(),
+                p.resolve(property("n2o.api.action.show_modal.size"), String.class)));
         payload.setScrollable(p.cast(source.getScrollable(),
                 p.resolve(property("n2o.api.action.show_modal.scrollable"), Boolean.class)));
         payload.setCloseButton(true);

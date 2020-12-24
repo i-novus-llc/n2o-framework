@@ -7,9 +7,9 @@ import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.global.aware.IdAware;
-import net.n2oapp.framework.api.metadata.global.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 
 import java.util.ArrayList;
