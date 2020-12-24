@@ -126,6 +126,7 @@
 .n2o-input-select {
   display: inline-block;
   position: relative;
+  white-space: nowrap;
 
   &__toggle {
     width: 100%;
@@ -195,6 +196,10 @@
     & .n2o-input-clear {
       visibility: visible !important;
     }
+
+    .n2o-input-control {
+      background-color: #fff;
+    }
   }
 
   .n2o-input-container {
@@ -229,6 +234,7 @@
       align-items: center;
       flex: 1;
       min-width: 10px;
+      overflow: hidden;
     }
 
 
@@ -256,7 +262,6 @@
     padding: 2px 4px 2px 6px;
     justify-content: center;
     align-items: center;
-    //padding-left: 5px;
 
     & > button {
       font-size: inherit;
@@ -274,10 +279,6 @@
       display: flex
     }
 
-    //& ~ input {
-    //  padding-left: $selected-item-margin-x !important;
-    //}
-
     max-width: $selected-item-width;
     margin: $selected-item-margin-y $selected-item-margin-x;
   }
@@ -285,17 +286,19 @@
   .n2o-input-control {
     position: absolute;
     right: 0;
-    top: 7px;
+    top: 0;
+    height: 100%;
 
     display: flex;
     align-items: center;
     margin-left: auto;
     justify-content: center;
 
-    padding: 0 4px;
+    padding: 0 10px;
 
     cursor: $input-cursor;
     z-index: 2;
+
     & > div {
       margin: $input-control-padding;
 
@@ -309,9 +312,6 @@
       & > i:hover {
         background-color: $icon-tree-hover-color;
       }
-
-
-
     }
 
     & > .n2o-input-clear {
@@ -324,7 +324,7 @@
       }
     }
 
-    & > .isExpanded{
+    & > .isExpanded {
       & > i {
         transform: rotate(180deg);
         transition: all  $tree-animation-speed linear;
@@ -342,6 +342,16 @@
     }
   }
 
+  .n2o-input-select:hover {
+    .n2o-input-control {
+      background-color: #fff;
+    }
+  }
+
+  .n2o-input-control:hover {
+    background-color: #fff;
+  }
+
   .n2o-input-items > input {
     display: flex;
     flex: 1 0 10px;
@@ -357,5 +367,4 @@
     background: transparent;
     text-overflow: ellipsis;
   }
-
 }
