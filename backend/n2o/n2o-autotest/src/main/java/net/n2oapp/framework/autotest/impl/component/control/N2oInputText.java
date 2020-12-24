@@ -45,6 +45,15 @@ public class N2oInputText extends N2oControl implements InputText {
     }
 
     @Override
+    public void shouldNotHaveValue(String value) {
+        SelenideElement elm = inputElement();
+        if (elm.exists()) elm.shouldNotHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.value(value));
+        else cellInputElement().shouldNotHave(value == null || value.isEmpty() ?
+                Condition.empty : Condition.text(value));
+    }
+
+    @Override
     public void shouldHavePlaceholder(String placeholder) {
         Condition condition = Condition.attribute("placeholder", placeholder);
 
