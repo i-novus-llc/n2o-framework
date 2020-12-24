@@ -279,9 +279,24 @@ link:#_Действия[Обработчик действия]
 |
 
 |shape
-|circle, rounded, polaroid
+|square, circle, rounded
 |Форма картинки
+|square
+
+|title
+|Строка
+|Заголовок
 |
+
+|description
+|Строка
+|Подзаголовок
+|
+
+|text-position
+|top, left, right, bottom
+|Расположение текста относительно картинки
+|right
 
 |===
 

@@ -56,8 +56,8 @@
             </tab>
         </tabs>
 
-        <line name="accessed with authenticated create permissions or admin role">
-            <line name="accessed with create permission">
+        <line label="accessed with authenticated create permissions or admin role">
+            <line label="accessed with create permission">
                 <form sec:permissions="create">
                     <fields>
                         <input-text id="field9"/>
@@ -71,7 +71,7 @@
             </form>
         </line>
 
-        <line name="accessed with admin role">
+        <line label="accessed with admin role">
             <form sec:roles="admin">
                 <fields>
                     <input-text id="field11"/>

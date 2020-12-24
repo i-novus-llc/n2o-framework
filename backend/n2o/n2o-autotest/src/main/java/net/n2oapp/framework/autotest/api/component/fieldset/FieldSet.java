@@ -10,4 +10,5 @@ public interface FieldSet extends Component {
 
     void shouldHaveLabel(String label);
 
+    void shouldNotHaveLabel();
 }

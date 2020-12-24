@@ -7,7 +7,7 @@ import net.n2oapp.framework.api.metadata.Compiled;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 
 /**
- * Диалог подтверждения действия
+ * Клиентская модель диалога подтверждения действия
  */
 @Getter
 @Setter

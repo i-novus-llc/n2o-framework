@@ -81,8 +81,8 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getHeaders().size(), is(2));
         assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getCssClass(),
                 is("`test == 1 ? 'css1' : test == 2 ? 'css2' : 'css3'`"));
-        assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getFormat(),
-                is("password"));
+        assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getFormat(), is("password"));
+        assertThat(((N2oTextCell) table.getComponent().getCells().get(0)).getHideOnBlur(), is(true));
         assertThat(table.getActions().containsKey("but"), is(true));
         assertThat(table.getComponent().getRowClass(), is("red"));
         QueryContext queryContext = (QueryContext) route("/testTable4Compile", CompiledQuery.class);
@@ -96,6 +96,9 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.checkbox));
         assertThat(table.getComponent().getFetchOnInit(), is(false));
         assertThat(table.getComponent().getAutoCheckboxOnSelect(), is(true));
+        assertThat(table.getComponent().getHeight(), is("200px"));
+        assertThat(table.getComponent().getWidth(), is("400px"));
+        assertThat(table.getComponent().getTextWrap(), is(false));
     }
 
     @Test
@@ -161,6 +164,7 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(context.getSortingMap().get("comments"), is("comments"));
 
         assertThat(table.getComponent().getRowSelection(), is(RowSelectionEnum.radio));
+        assertThat(table.getComponent().getTextWrap(), is(true));
     }
 
     @Test

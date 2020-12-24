@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
-import net.n2oapp.framework.api.user.UserContext;
 
 /**
  * Обработка вызовов действий и выборок N2O
@@ -28,10 +27,8 @@ public interface DataProcessing {
      * @param requestInfo  - информация о запросе
      * @param responseInfo - информация об ответе на запрос
      * @param dataSet      - входной набор данных
-     * @param exception    - ошибка при выполнение запроса
      */
-    void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet,
-                                   N2oException exception);
+    void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet);
 
     /**
      * @param requestInfo  - информация о запросе

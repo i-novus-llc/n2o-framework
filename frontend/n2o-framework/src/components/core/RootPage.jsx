@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose, defaultProps, getContext, withProps } from 'recompose';
+import { compose, defaultProps, getContext } from 'recompose';
 import { createStructuredSelector } from 'reselect';
 
 import Page from './Page';

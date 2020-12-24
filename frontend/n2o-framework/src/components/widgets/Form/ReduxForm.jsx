@@ -2,9 +2,11 @@ import React from 'react';
 import { compose } from 'recompose';
 import { Prompt } from 'react-router-dom';
 import { reduxForm } from 'redux-form';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+
 import Form from './Form';
 import ReduxField from './ReduxField';
-import PropTypes from 'prop-types';
 
 /**
  *
@@ -13,20 +15,17 @@ import PropTypes from 'prop-types';
  * @returns {*}
  * @constructor
  */
-function ReduxForm(props, context) {
+function ReduxForm(props) {
+  const { t } = useTranslation();
   return (
     <React.Fragment>
       {props.prompt && (
-        <Prompt when={props.dirty} message={context.defaultPromptMessage} />
+        <Prompt when={props.dirty} message={t('defaultPromptMessage')} />
       )}
       <Form {...props} />
     </React.Fragment>
   );
 }
-
-ReduxForm.contextTypes = {
-  defaultPromptMessage: PropTypes.string,
-};
 
 ReduxForm.propTypes = {
   prompt: PropTypes.bool,

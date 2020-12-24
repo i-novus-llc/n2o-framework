@@ -5,9 +5,10 @@ import cx from 'classnames';
 import isInteger from 'lodash/isInteger';
 import eq from 'lodash/eq';
 import round from 'lodash/round';
-import { id } from '../../../utils/id';
 
 import { mapToNum } from './utils';
+
+import { id } from '../../../utils/id';
 
 class SnippetRating extends Component {
   constructor(props) {
@@ -20,12 +21,6 @@ class SnippetRating extends Component {
     this.renderStars = this.renderStars.bind(this);
     this.renderNullStar = this.renderNullStar.bind(this);
     this.renderTooltip = this.renderTooltip.bind(this);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.value !== this.props.value) {
-      this.setState({ value: this.props.value });
-    }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -56,6 +51,7 @@ class SnippetRating extends Component {
 
   renderNullStar() {
     const { value } = this.state;
+    const { readonly } = this.props;
     return (
       <Fragment>
         <input
@@ -64,7 +60,7 @@ class SnippetRating extends Component {
           id={`rating-0-${this.id}`}
           value="0"
           type="radio"
-          onClick={this.onChangeAndSetState}
+          onClick={readonly ? null : this.onChangeAndSetState}
           checked={eq(0, value)}
         />
         <label className="rating__label" htmlFor={`rating-0-${this.id}`}>
@@ -76,6 +72,7 @@ class SnippetRating extends Component {
 
   renderStars(index) {
     const { value } = this.state;
+    const { readonly } = this.props;
     return (
       <Fragment>
         <label
@@ -92,12 +89,12 @@ class SnippetRating extends Component {
           />
         </label>
         <input
-          className="rating__input"
+          className={readonly ? 'rating__input--readonly' : 'rating__input'}
           name={`rating-${index}-${this.id}`}
           id={`rating-${index}-${this.id}`}
           value={index}
           type="radio"
-          onClick={this.onChangeAndSetState}
+          onClick={readonly ? null : this.onChangeAndSetState}
           checked={eq(+index, +value)}
         />
       </Fragment>
@@ -105,7 +102,7 @@ class SnippetRating extends Component {
   }
 
   render() {
-    const { max, half } = this.props;
+    const { max, half, readonly } = this.props;
 
     const options = {
       increment: half ? 0.5 : 1,
@@ -115,7 +112,10 @@ class SnippetRating extends Component {
 
     return (
       <div className="n2o-rating-stars">
-        <div className="rating-group" id={this.id}>
+        <div
+          className={readonly ? 'rating-group--readonly' : 'rating-group'}
+          id={this.id}
+        >
           {this.renderNullStar()}
           {mapToNum(max, this.renderStars, options)}
         </div>
@@ -146,6 +146,10 @@ SnippetRating.propTypes = {
    * Callback на изменение
    */
   onChange: PropTypes.func,
+  /**
+   * Флаг только для чтения
+   */
+  readonly: PropTypes.bool,
 };
 
 SnippetRating.defaultProps = {
@@ -153,6 +157,7 @@ SnippetRating.defaultProps = {
   half: false,
   rating: 0,
   showTooltip: false,
+  readonly: false,
   onChange: () => {},
 };
 

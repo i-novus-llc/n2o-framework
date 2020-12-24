@@ -50,6 +50,10 @@ link:../xml/#_Объект_object[Подробнее об объектах]
       <!--Выходные данные-->
       <field id="id"/>
   </out>
+  <fail-out>
+      <!--Выходные данные в случае ошибки операции-->
+      <field id="message" mapping="#this.getMessage()"/>
+  </fail-out>
   <validations>...</validations><!--Валидации операций-->
 </operation>
 ----

@@ -2,10 +2,20 @@ package net.n2oapp.framework.config.metadata.compile.action;
 
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum DefaultActions {
     create(false, false, true, "n2o.create", true, "Insert", "fa fa-plus", "n2o.save", "n2o.page.creating", UploadType.defaults),
     update(true, true, "n2o.update", true, null, "fa fa-pencil", "n2o.save", "n2o.page.updating", UploadType.query),
     delete(true, false, "n2o.delete", false, "Delete", "fa fa-trash");
+
+    private static final Map<String, DefaultActions> actionsByNameMap = new HashMap<>();
+
+    static {
+        for (DefaultActions da : DefaultActions.values())
+            actionsByNameMap.put(da.name(), da);
+    }
 
     private boolean context;
     private boolean defaultAction;
@@ -52,6 +62,10 @@ public enum DefaultActions {
         this.modal = modal;
         this.hotKey = hotKey;
         this.icon = icon;
+    }
+
+    public static DefaultActions get(String name) {
+        return actionsByNameMap.get(name);
     }
 
     public String getIcon() {

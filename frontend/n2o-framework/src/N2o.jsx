@@ -42,7 +42,7 @@ class N2o extends Component {
 
     window._n2oEvalContext = props.evalContext;
 
-    this.store = configureStore({}, history, config);
+    this.store = configureStore(props.initialState, history, config);
     globalFnDate.addFormat(props.formats);
   }
 
@@ -94,7 +94,6 @@ N2o.propTypes = {
     PropTypes.element,
     PropTypes.node,
   ]),
-  defaultPromptMessage: PropTypes.string,
   formats: PropTypes.shape({
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
@@ -128,6 +127,7 @@ N2o.propTypes = {
   ]),
   version: PropTypes.string,
   locales: PropTypes.object,
+  initialState: PropTypes.object,
 };
 
 const EnhancedN2O = compose(
@@ -136,8 +136,6 @@ const EnhancedN2O = compose(
     defaultTemplate: HeaderFooterTemplate,
     defaultBreadcrumb: DefaultBreadcrumb,
     defaultPage: 'StandardPage',
-    // key from locale translation
-    defaultPromptMessage: 'defaultPromptMessage',
     defaultErrorPages: configureErrorPages(),
     formats: {
       dateFormat: 'YYYY-MM-DD',
@@ -152,11 +150,10 @@ const EnhancedN2O = compose(
     embeddedRouting: true,
     evalContext: {},
     locales: {},
+    initialState: {},
   }),
   withContext(
     {
-      t: PropTypes.func,
-      i18n: PropTypes.func,
       defaultTemplate: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.element,
@@ -172,18 +169,14 @@ const EnhancedN2O = compose(
         PropTypes.element,
         PropTypes.node,
       ]),
-      defaultPromptMessage: PropTypes.string,
       defaultErrorPages: PropTypes.arrayOf(
         PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func])
       ),
       version: PropTypes.string,
     },
     props => ({
-      t: props.t,
-      i18n: props.i18n,
       defaultTemplate: props.defaultTemplate,
       defaultBreadcrumb: props.defaultBreadcrumb,
-      defaultPromptMessage: props.defaultPromptMessage,
       defaultPage: props.defaultPage,
       defaultErrorPages: props.defaultErrorPages,
       version: version,

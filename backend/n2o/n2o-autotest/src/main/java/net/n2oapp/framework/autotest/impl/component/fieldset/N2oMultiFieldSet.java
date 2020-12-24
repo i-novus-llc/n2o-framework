@@ -17,6 +17,16 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     }
 
     @Override
+    public void shouldHaveLabel(String label) {
+        label().shouldHave(Condition.text(label));
+    }
+
+    @Override
+    public void shouldNotHaveLabel() {
+        label().shouldNot(Condition.exist);
+    }
+
+    @Override
     public void shouldHaveItems(int count) {
         element().$$(".n2o-multi-fieldset__item").shouldHaveSize(count);
     }
@@ -24,11 +34,6 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     @Override
     public void shouldBeEmpty() {
         shouldHaveItems(0);
-    }
-
-    @Override
-    public void shouldHaveLabel(String s) {
-        element().parent().$(".n2o-fieldset__label").shouldHave(Condition.text(s));
     }
 
     @Override
@@ -74,6 +79,10 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     @Override
     public void clickRemoveAllButton() {
         removeAllButton().click();
+    }
+
+    private SelenideElement label() {
+        return element().parent().$(".n2o-fieldset__label");
     }
 
     private SelenideElement addButton() {
