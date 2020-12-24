@@ -17,6 +17,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Проверка разрешения сабмоделей в фильтрах таблицы
+ */
 public class ResolveTableFilterSubModelsAT extends AutoTestBase {
 
     @BeforeAll

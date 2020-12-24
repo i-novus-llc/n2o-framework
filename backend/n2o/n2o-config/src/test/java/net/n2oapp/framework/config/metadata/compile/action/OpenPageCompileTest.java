@@ -447,7 +447,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate.begin").getValue(), is("2022-02-14T00:00:00"));
         assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate.end").getValue(), is("2022-03-20T00:00:00"));
         assertThat(((DefaultValues) openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate")
-                .getValue()).getValues().get("begin"), is("2019-02-14T00:00:00"));
+                .getValue()).getValues().get("begin"), is("2019-02-16T00:00:00"));
 
         context = (PageContext) route("/page/widget/defaultValueQuery", Page.class);
         openPage = (SimplePage) read().compile().get(context);

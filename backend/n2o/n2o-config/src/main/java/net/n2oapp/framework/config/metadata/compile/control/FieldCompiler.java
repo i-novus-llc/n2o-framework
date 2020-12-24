@@ -459,12 +459,6 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                     modelLink.setParam(source.getParam());
                     defaultValues.add(control.getId(), modelLink);
                 }
-            } else {
-                SubModelQuery subModelQuery = findSubModelQuery(control.getId(), p);
-                ModelLink modelLink = new ModelLink(defaultValues.getModel(), defaultValues.getWidgetId(), control.getId());
-                modelLink.setSubModelQuery(subModelQuery);
-                modelLink.setParam(source.getParam());
-                defaultValues.add(control.getId(), modelLink);
             }
         }
     }

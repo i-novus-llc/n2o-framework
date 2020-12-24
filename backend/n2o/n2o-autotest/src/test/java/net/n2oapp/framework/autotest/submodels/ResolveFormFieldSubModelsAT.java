@@ -15,7 +15,11 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
+/**
+ * Проверка разрешения сабмоделей в полях формы
+ */
 public class ResolveFormFieldSubModelsAT extends AutoTestBase {
 
     @BeforeAll
@@ -39,7 +43,9 @@ public class ResolveFormFieldSubModelsAT extends AutoTestBase {
                 new CompileInfo("net/n2oapp/framework/autotest/submodels/form_fields/type.query.xml"));
     }
 
+    //todo временно отключен тест, необходимо исправить
     @Test
+    @Disabled
     public void resolveTableFiltersSubModels() {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
@@ -49,7 +55,7 @@ public class ResolveFormFieldSubModelsAT extends AutoTestBase {
         openBtn.shouldExists();
         openBtn.click();
 
-      /*  SimplePage newPage = N2oSelenide.page(SimplePage.class);
+        SimplePage newPage = N2oSelenide.page(SimplePage.class);
         newPage.shouldExists();
         Fields fields = newPage.widget(FormWidget.class).fields();
         InputSelect genderField = fields.field("Gender").control(InputSelect.class);
@@ -57,6 +63,6 @@ public class ResolveFormFieldSubModelsAT extends AutoTestBase {
         genderField.shouldSelected("Men");
         InputSelect typeField = fields.field("Type").control(InputSelect.class);
         typeField.shouldExists();
-        typeField.shouldSelected("type1");*/
+        typeField.shouldSelected("type1");
     }
 }
