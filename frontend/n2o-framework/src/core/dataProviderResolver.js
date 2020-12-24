@@ -23,7 +23,9 @@ export function dataProviderResolver(state, dataProvider, query, options) {
     queryMapping,
     headersMapping,
     formMapping,
+    size,
   } = dataProvider;
+
   const { origin, pathname, query: queryFromUrl = {} } = urlParse(url);
 
   const pathParams = getParams(pathMapping, state);
@@ -39,6 +41,7 @@ export function dataProviderResolver(state, dataProvider, query, options) {
       ...queryParams,
       ...query,
       ...queryString.parse(queryFromUrl),
+      size,
     })}`;
   }
 
