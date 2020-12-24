@@ -45,7 +45,7 @@ public class ColumnHeader implements IdAware, Compiled {
     private Control filterControl;
     @JsonProperty
     private Boolean multiHeader;
-    @JsonProperty
+    @JsonProperty("className")
     private String cssClass;
     @JsonProperty
     private Map<String, String> style;
