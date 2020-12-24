@@ -42,7 +42,7 @@ public class AlertAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Alert alert = page.widget(FormWidget.class).snippet(0, Alert.class);
+        Alert alert = page.widget(FormWidget.class).fields().field(Alert.class);
         alert.shouldExists();
 
         alert.shouldHaveText("Read this message!");

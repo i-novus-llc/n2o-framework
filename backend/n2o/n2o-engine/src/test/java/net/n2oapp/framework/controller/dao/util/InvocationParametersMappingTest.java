@@ -24,12 +24,12 @@ public class InvocationParametersMappingTest {
     @Test
     public void testExtractMapping() {
         Map<String, InvocationParameter> parameters = new LinkedHashMap<>();
-        parameters.put("a", new N2oObject.Parameter(N2oObject.Parameter.Type.in, "a", "x"));
+        parameters.put("a", new N2oObject.Parameter("a", "x"));
         Map<String, String> mapping = InvocationParametersMapping.extractMapping(parameters.values());
         assertThat(mapping.get("a"), is("x"));
 
         parameters = new LinkedHashMap<>();
-        parameters.put("a", new N2oObject.Parameter(N2oObject.Parameter.Type.in, "a", null));
+        parameters.put("a", new N2oObject.Parameter("a", null));
         mapping = InvocationParametersMapping.extractMapping(parameters.values());
         assertThat(mapping.containsKey("a"), is(true));
         assertThat(mapping.get("a"), is(nullValue()));

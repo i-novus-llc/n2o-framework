@@ -6,7 +6,6 @@ import net.n2oapp.framework.api.bean.BeansOrderException;
 import net.n2oapp.framework.api.bean.BeansSorting;
 import net.n2oapp.framework.api.bean.LocatedBeanPack;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.global.aware.OriginAware;
 import net.n2oapp.framework.api.processing.N2oModule;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
@@ -30,51 +29,50 @@ public abstract class DataProcessingStack {
     private volatile List<N2oModule> stack;
 
     public void processAction(final ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, final DataSet dataSet) {
-        process(requestInfo.getOperation(), module -> {
+        process(module -> {
             logger.debug("Processing in data-set in '{}' module", module.getId());
             module.processAction(requestInfo, responseInfo, dataSet);
         });
     }
 
 
-    public void processActionError(final ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, final DataSet dataSet,
-                                   final N2oException exception) {
-        process(requestInfo.getOperation(), module -> {
+    public void processActionError(final ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, final DataSet dataSet) {
+        process(module -> {
             logger.debug("Processing action error in '{}' module", module.getId());
-            module.processActionError(requestInfo, responseInfo, dataSet, exception);
+            module.processActionError(requestInfo, responseInfo, dataSet);
         });
     }
 
     public void processActionResult(final ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, final DataSet dataSet) {
-        process(requestInfo.getOperation(), module -> {
+        process(module -> {
             logger.debug("Processing out data-set in '{}' module", module.getId());
             module.processActionResult(requestInfo, responseInfo, dataSet);
         });
     }
 
     public void processQuery(final QueryRequestInfo requestInfo, QueryResponseInfo responseInfo) {
-        process(requestInfo.getQuery(), module -> {
+        process(module -> {
             logger.debug("Processing query in '{}' module", module.getId());
             module.processQuery(requestInfo, responseInfo);
         });
     }
 
     public void processQueryError(final QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, final N2oException exception) {
-        process(requestInfo.getQuery(), module -> {
+        process(module -> {
             logger.debug("Processing query error in '{}' module", module.getId());
             module.processQueryError(requestInfo, responseInfo, exception);
         });
     }
 
     public void processQueryResult(final QueryRequestInfo requestInfo, QueryResponseInfo responseInfo, final CollectionPage<DataSet> page) {
-        process(requestInfo.getQuery(), module -> {
+        process(module -> {
             logger.debug("Processing query-result in '{}' module", module.getId());
             module.processQueryResult(requestInfo, responseInfo, page);
         });
     }
 
 
-    private void process(OriginAware originAware, final DataProcessingCallback callback) {
+    private void process(final DataProcessingCallback callback) {
         if (stack == null)
             initStack();
         for (final N2oModule module : stack) {

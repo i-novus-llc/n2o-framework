@@ -46,7 +46,7 @@ describe('<IconCell />', () => {
     expect(
       wrapper.find('.icon-cell-container.icon-cell-container__text-left').html()
     ).toEqual(
-      `<div class="icon-cell-container icon-cell-container__text-left"><i class="n2o-icon fa fa-minus"></i><div class="n2o-cell-text"><span class="">text</span></div></div>`
+      `<div class="icon-cell-container icon-cell-container__text-left"><i class="n2o-icon fa fa-minus"></i><div class="n2o-cell-text"><span class="n2o-snippet">text</span></div></div>`
     );
   });
 

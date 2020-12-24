@@ -20,4 +20,5 @@ export const PREFIXES = {
   edit: 'edit',
   read: 'read',
   datasource: 'datasource',
+  selectionType: 'selectionType',
 };

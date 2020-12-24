@@ -1,5 +1,7 @@
 package net.n2oapp.framework.api.ui;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
@@ -9,8 +11,9 @@ import java.util.*;
 /**
  * Объект ответа на запрос за данными
  */
+@Getter
+@Setter
 public class ResponseInfo  {
-
     private N2oDialog dialog;
     private List<ResponseMessage> messageList;
     private Map<String, Object> attributes;
@@ -29,10 +32,6 @@ public class ResponseInfo  {
         attributes.put(name, value);
     }
 
-    public void setDialog(N2oDialog dialog) {
-        this.dialog = dialog;
-    }
-
     public List<ResponseMessage> getMessageList() {
         return messageList != null ? messageList : Collections.emptyList();
     }
@@ -43,26 +42,5 @@ public class ResponseInfo  {
             String msg = StringUtils.resolveLinks(m.getText(), dataset);
             m.setText(msg);
         });
-    }
-
-
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, Object> attributes) {
-        this.attributes = attributes;
-    }
-
-    public boolean getStackedMessages() {
-        return stackedMessages;
-    }
-
-    public void setStackedMessages(boolean stackedMessages) {
-        this.stackedMessages = stackedMessages;
-    }
-
-    public N2oDialog getDialog() {
-        return dialog;
     }
 }

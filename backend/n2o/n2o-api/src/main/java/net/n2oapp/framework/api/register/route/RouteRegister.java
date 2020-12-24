@@ -24,4 +24,12 @@ public interface RouteRegister extends Iterable<Map.Entry<RouteInfoKey, CompileC
      * @param startPattern URL начального адреса
      */
     void clear(String startPattern);
+
+    /**
+     * Синхронизация с репозиторием
+     * @return true если появились новые данные
+     */
+    default boolean synchronize() {
+        return false;
+    }
 }

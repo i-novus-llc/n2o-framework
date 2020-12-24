@@ -165,7 +165,7 @@ export default function withActionButton(options = {}) {
       };
 
       render() {
-        const { confirm, hint, message } = this.props;
+        const { confirm, hint, message, toolbar } = this.props;
         const { confirmVisible } = this.state;
 
         const confirmMode = get(confirm, 'mode');
@@ -199,6 +199,7 @@ export default function withActionButton(options = {}) {
               visible={visible}
               onClick={this.handleClick}
               id={this.generatedButtonId}
+              toolbar={toolbar}
             />
             {confirmMode === ConfirmMode.POPOVER ? (
               <PopoverConfirm
@@ -237,6 +238,7 @@ export default function withActionButton(options = {}) {
         makeWidgetValidationSelector(ownProps.validatedWidgetId)(state),
       formValues: (state, ownProps) =>
         getFormValues(ownProps.validatedWidgetId)(state),
+      toolbar: state => state.toolbar,
     });
 
     function mapDispatchToProps(dispatch) {
