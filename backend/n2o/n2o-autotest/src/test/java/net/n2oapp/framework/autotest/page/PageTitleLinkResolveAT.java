@@ -40,14 +40,14 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/test.query.xml"));
     }
 
     @Test
     public void testPathParam() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/title/page.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/page/title/test.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/path_params/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/path_params/page.page.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
@@ -68,8 +68,6 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         SimplePage open = N2oSelenide.page(SimplePage.class);
         open.shouldExists();
         open.breadcrumb().titleShouldHaveText("Page name=test3 type=type2");
-        InputText pageField = open.widget(FormWidget.class).fields().field("name").control(InputText.class);
-        pageField.shouldHaveValue("test3");
         open.breadcrumb().clickLink("Start page");
 
         page.breadcrumb().titleShouldHaveText("Start page");
@@ -78,9 +76,6 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         // test title in modal
         Modal modal = N2oSelenide.modal();
         modal.shouldHaveTitle("Page name=test3 type=type2");
-        InputText modalField = modal.content(SimplePage.class).widget(FormWidget.class)
-                .fields().field("name").control(InputText.class);
-        modalField.shouldHaveValue("test3");
         modal.close();
         modal.shouldNotExists();
 
@@ -91,7 +86,6 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         formToolbar.button("Open page from master").click();
         open.shouldExists();
         open.breadcrumb().titleShouldHaveText("Page name=test2 type=type1");
-        pageField.shouldHaveValue("test2");
         open.breadcrumb().clickLink("Start page");
 
         // test title in modal (opened from dependent widget)
@@ -99,7 +93,63 @@ public class PageTitleLinkResolveAT extends AutoTestBase {
         formToolbar.button("Modal from detail").click();
         modal.shouldExists();
         modal.shouldHaveTitle("Page name=test2 type=type1");
-        modalField.shouldHaveValue("test2");
+        modal.close();
+        modal.shouldNotExists();
+    }
+
+    @Test
+    public void testQueryParams() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/page/title/query_params/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/page/title/query_params/page.page.xml"));
+        StandardPage page = open(StandardPage.class);
+        page.shouldExists();
+
+        RegionItems content = page.regions().region(0, SimpleRegion.class).content();
+        TableWidget table = content.widget(TableWidget.class);
+        table.shouldExists();
+        FormWidget form = content.widget(1, FormWidget.class);
+        form.shouldExists();
+
+        table.columns().rows().row(2).click();
+        InputText name = form.fields().field("name").control(InputText.class);
+        name.shouldHaveValue("test3");
+
+        Toolbar tableToolbar = table.toolbar().topLeft();
+        tableToolbar.button("Open page").click();
+
+        // test title in open page
+        SimplePage open = N2oSelenide.page(SimplePage.class);
+        open.shouldExists();
+        open.breadcrumb().titleShouldHaveText("Page id=3 name=test3 type=type2");
+        open.breadcrumb().clickLink("Start page");
+
+        page.breadcrumb().titleShouldHaveText("Start page");
+        // lost query parameter after returning from open page
+        table.columns().rows().row(2).click();
+        tableToolbar.button("Modal").click();
+
+        // test title in modal
+        Modal modal = N2oSelenide.modal();
+        modal.shouldHaveTitle("Page id=3 name=test3 type=type2");
+        modal.close();
+        modal.shouldNotExists();
+
+        // test title in open page (opened in dependent widget with master widget-id)
+        table.columns().rows().row(1).click();
+        name.shouldHaveValue("test2");
+        Toolbar formToolbar = form.toolbar().bottomLeft();
+        formToolbar.button("Open page from master").click();
+        open.shouldExists();
+        open.breadcrumb().titleShouldHaveText("Page id=2 name=test2 type=type1");
+        open.breadcrumb().clickLink("Start page");
+
+        // test title in modal (opened from dependent widget)
+        page.breadcrumb().titleShouldHaveText("Start page");
+        // lost query parameter after returning from open page
+        table.columns().rows().row(1).click();
+        formToolbar.button("Modal from detail").click();
+        modal.shouldExists();
+        modal.shouldHaveTitle("Page id=2 name=test2 type=type1");
         modal.close();
         modal.shouldNotExists();
     }

@@ -17,7 +17,7 @@
         <field id="name">
             <select/>
             <filters>
-                <like filter-id="name"/>
+                <eq filter-id="name"/>
             </filters>
         </field>
         <field id="type">
