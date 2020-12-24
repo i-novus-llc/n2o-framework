@@ -29,7 +29,6 @@ import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
 import net.n2oapp.framework.api.script.ScriptProcessor;
-import net.n2oapp.framework.boot.route.jdbc.JDBCRouteRepository;
 import net.n2oapp.framework.config.compile.pipeline.N2oEnvironment;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineOperationFactory;
 import net.n2oapp.framework.config.compile.pipeline.operation.*;
@@ -93,13 +92,6 @@ public class N2oEnvironmentConfiguration {
     @ConditionalOnMissingBean
     public RouteRegister routeRegister(Optional<ConfigRepository<RouteInfoKey, CompileContext>> repository) {
         return new N2oRouteRegister(repository.orElse(new StubRouteRepository()));
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(name = "n2o.config.register.store-type", havingValue = "jdbc")
-    public ConfigRepository<RouteInfoKey, CompileContext> jdbcRouteRepository() {
-        return new JDBCRouteRepository();
     }
 
     @Bean
