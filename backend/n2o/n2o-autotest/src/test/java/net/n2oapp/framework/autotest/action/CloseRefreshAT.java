@@ -38,11 +38,11 @@ public class CloseRefreshAT extends AutoTestBase {
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oHeaderPack(), new N2oAllDataPack());
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/CloseRefresh/index.page.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/CloseRefresh/modal.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/CloseRefresh/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/CloseRefresh/test.object.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/modal.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/refresh/test.object.xml"));
     }
 
     @Test
@@ -53,38 +53,42 @@ public class CloseRefreshAT extends AutoTestBase {
 
         TableWidget.Rows rows = page.widget(TableWidget.class).columns().rows();
         rows.shouldHaveSize(4);
-        rows.shouldBeSelected(0);
-        rows.row(0).cell(1).textShouldHave("test1");
+        rows.row(1).click();
+        rows.shouldBeSelected(1);
+        rows.row(1).cell(1).textShouldHave("test2");
 
-        StandardButton open = page.widget(TableWidget.class).toolbar().topLeft().button("Открыть");
-        open.click();
+        StandardButton openBtn = page.widget(TableWidget.class).toolbar().topLeft().button("Open");
+        openBtn.click();
         Modal modalPage = N2oSelenide.modal();
-        modalPage.shouldHaveTitle("Модальное окно");
+        modalPage.shouldExists();
 
-        StandardButton update = modalPage.content(SimplePage.class).widget(FormWidget.class).toolbar().bottomLeft().button("Update");
-        StandardButton close = modalPage.content(SimplePage.class).widget(FormWidget.class).toolbar().bottomLeft().button("Close");
-        InputText inputText = modalPage.content(SimplePage.class).widget(FormWidget.class).fields().field("name").control(InputText.class);
+        FormWidget modalForm = modalPage.content(SimplePage.class).widget(FormWidget.class);
+        StandardButton updateBtn = modalForm.toolbar().bottomLeft().button("Update");
+        StandardButton closeBtn = modalForm.toolbar().bottomLeft().button("Close");
+        InputText inputText = modalForm.fields().field("name").control(InputText.class);
 
-        inputText.shouldHaveValue("test1");
+        inputText.shouldHaveValue("test2");
         inputText.val("change1");
         inputText.shouldHaveValue("change1");
-        update.click();
+        updateBtn.click();
         page.alerts().alert(0).shouldHaveText("Данные сохранены");
-        close.click();
+        closeBtn.click();
 
-        rows.row(0).cell(1).textShouldHave("change1");
-        rows.shouldBeSelected(0);
-        open.click();
+        rows.shouldBeSelected(1);
+        rows.row(1).cell(1).textShouldHave("change1");
+
+        // refresh after close modal (by click on close icon) does not occur
+        openBtn.click();
         modalPage.shouldExists();
         inputText.shouldHaveValue("change1");
         inputText.val("change2");
         inputText.shouldHaveValue("change2");
-        update.click();
+        updateBtn.click();
         page.alerts().alert(0).shouldHaveText("Данные сохранены");
         modalPage.close();
-        rows.row(0).cell(1).textShouldHave("change1");
-        Selenide.refresh();
-        rows.row(0).cell(1).textShouldHave("change2");
-    }
 
+        rows.row(1).cell(1).textShouldHave("change1");
+        Selenide.refresh();
+        rows.row(1).cell(1).textShouldHave("change2");
+    }
 }

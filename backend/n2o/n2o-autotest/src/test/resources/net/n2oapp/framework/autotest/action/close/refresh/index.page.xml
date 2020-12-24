@@ -7,10 +7,10 @@
             <column text-field-id="name"/>
         </columns>
         <toolbar>
-            <button label="Открыть">
-                <show-modal page-id="modal" 
-                detail-field-id="id" 
-                refresh-on-close="true"/>
+            <button label="Open">
+                <show-modal page-id="modal" refresh-on-close="true" route="/:id/modal">
+                    <path-param name="id" value="{id}"/>
+                </show-modal>
             </button>
         </toolbar>
     </table>

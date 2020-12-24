@@ -3,7 +3,8 @@
     <operations>
         <operation id="update">
             <invocation>
-                <test file="net/n2oapp/framework/autotest/action/CloseRefresh/test.json" operation="update"/>
+                <test file="net/n2oapp/framework/autotest/action/close/refresh/test.json"
+                      operation="update"/>
             </invocation>
             <in>
                 <field id="id"/>
@@ -11,5 +12,4 @@
             </in>
         </operation>
     </operations>
-
 </object>
