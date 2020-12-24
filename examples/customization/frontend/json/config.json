@@ -139,5 +139,6 @@
   "messages": {},
   "user": {
     "username": null
-  }
+  },
+  "locale": "${n2o.i18n.default-locale}"
 }

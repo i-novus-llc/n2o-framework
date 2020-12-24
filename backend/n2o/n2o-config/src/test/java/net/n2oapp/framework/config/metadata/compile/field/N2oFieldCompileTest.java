@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.field;
 
 import net.n2oapp.framework.api.metadata.meta.action.invoke.InvokeAction;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.meta.widget.form.FormWidgetComponent;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.AbstractButton;
 import net.n2oapp.framework.api.metadata.meta.widget.toolbar.PerformButton;
@@ -44,7 +45,8 @@ public class N2oFieldCompileTest extends SourceCompileTestBase {
     public void testFieldToolbar() {
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/field/testFieldToolbarCompile.page.xml")
                 .get(new PageContext("testFieldToolbarCompile"));
-        List<AbstractButton> toolbar = ((FormWidgetComponent) page.getWidgets().get("testFieldToolbarCompile_testForm").getComponent()).getFieldsets().get(0).getRows()
+        List<AbstractButton> toolbar = ((FormWidgetComponent) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+                .getComponent()).getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0).getToolbar()[0].getButtons();
         assertThat(toolbar.size(), is(2));
         assertThat(toolbar.get(0), instanceOf(PerformButton.class));

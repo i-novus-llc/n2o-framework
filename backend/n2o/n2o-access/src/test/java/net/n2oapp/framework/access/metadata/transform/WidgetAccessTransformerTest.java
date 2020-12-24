@@ -3,8 +3,8 @@ package net.n2oapp.framework.access.metadata.transform;
 import net.n2oapp.framework.access.integration.metadata.transform.WidgetAccessTransformer;
 import net.n2oapp.framework.access.metadata.Security;
 import net.n2oapp.framework.access.metadata.pack.AccessSchemaPack;
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -19,7 +19,6 @@ import org.junit.Test;
 import static net.n2oapp.framework.access.metadata.Security.SECURITY_PROP_NAME;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 
 public class WidgetAccessTransformerTest extends SourceCompileTestBase {
     @Override
@@ -42,13 +41,13 @@ public class WidgetAccessTransformerTest extends SourceCompileTestBase {
         ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testRegion");
 
         ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testRegion.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testRegionAccessTransformer.page.xml");
+                "net/n2oapp/framework/access/metadata/transform/testPageV2AccessTransformer.page.xml");
 
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testRegionAccessTransformer"));
+                .get(new PageContext("testPageV2AccessTransformer"));
 
-        Security.SecurityObject securityObject = ((Security) page.getWidgets()
-                .get("testRegionAccessTransformer_testTable").getProperties()
+        Security.SecurityObject securityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+                .getProperties()
                 .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
 
         assertThat(securityObject.getPermissions().size(), is(2));
@@ -60,17 +59,16 @@ public class WidgetAccessTransformerTest extends SourceCompileTestBase {
 
     @Test
     public void testWidgetAccessV2() {
-        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testRegionV2");
+        ((SimplePropertyResolver) builder.getEnvironment().getSystemProperties()).setProperty("n2o.access.schema.id", "testPageV2");
 
-        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testRegionV2.access.xml",
-                "net/n2oapp/framework/access/metadata/transform/testRegionAccessTransformer.page.xml");
+        ReadCompileTerminalPipeline pipeline = compile("net/n2oapp/framework/access/metadata/schema/testPageV2.access.xml",
+                "net/n2oapp/framework/access/metadata/transform/testPageV2AccessTransformer.page.xml");
 
         StandardPage page = (StandardPage) ((ReadCompileTerminalPipeline) pipeline.transform())
-                .get(new PageContext("testRegionAccessTransformer"));
+                .get(new PageContext("testPageV2AccessTransformer"));
 
-        Security.SecurityObject securityObject = ((Security) page.getWidgets()
-                .get("testRegionAccessTransformer_testTable").getProperties()
-                .get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
+        Security.SecurityObject securityObject = ((Security) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+                .getProperties().get(SECURITY_PROP_NAME)).getSecurityMap().get("object");
 
         assertThat(securityObject.getPermissions().size(), is(2));
         assertThat(securityObject.getPermissions().contains("permission"), is(true));

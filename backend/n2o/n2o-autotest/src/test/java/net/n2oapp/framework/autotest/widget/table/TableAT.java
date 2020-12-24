@@ -9,6 +9,7 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
+import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.Paging;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -50,7 +51,7 @@ public class TableAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        TableWidget table = page.single().widget(TableWidget.class);
+        TableWidget table = page.widget(TableWidget.class);
         table.filters().shouldBeVisible();
         table.filters().toolbar().button("searchLabel").shouldBeEnabled();
         table.filters().toolbar().button("resetLabel").shouldBeEnabled();
@@ -84,7 +85,7 @@ public class TableAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        TableWidget table = page.single().widget(TableWidget.class);
+        TableWidget table = page.widget(TableWidget.class);
         TableWidget.Rows rows = table.columns().rows();
         rows.shouldHaveSize(3);
 
@@ -99,13 +100,41 @@ public class TableAT extends AutoTestBase {
     }
 
     @Test
+    public void testHideOnBlur() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/hide_on_blur/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.object.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/widget/table/toolbar/test.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+
+        TableWidget table = page.widget(TableWidget.class);
+        TableWidget.Rows rows = table.columns().rows();
+        rows.shouldHaveSize(3);
+
+        StandardButton button = rows.row(0).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
+        button.shouldNotExists();
+        rows.row(0).hover();
+        button.shouldBeEnabled();
+        button.click();
+        page.alerts().alert(0).shouldHaveText("echo");
+
+        button = rows.row(1).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
+        button.shouldNotExists();
+        rows.row(1).hover();
+        button.shouldExists();
+        button.shouldBeDisabled();
+        button = rows.row(2).cell(2, ToolbarCell.class).toolbar().button("Кнопка");
+        button.shouldNotExists();
+    }
+
+    @Test
     public void testPaging() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/widget/table/paging/test.query.xml"));
         StandardPage page = open(StandardPage.class);
         page.shouldExists();
 
-        TableWidget table = page.widgets().widget(0, TableWidget.class);
+        TableWidget table = page.regions().region(0, SimpleRegion.class).content().widget(TableWidget.class);
         Paging paging = table.paging();
         paging.totalElementsShouldBe(8);
         paging.prevShouldNotExist();
@@ -122,7 +151,7 @@ public class TableAT extends AutoTestBase {
         paging.activePageShouldBe("1");
 
 
-        TableWidget table2 = page.widgets().widget(1, TableWidget.class);
+        TableWidget table2 = page.regions().region(1, SimpleRegion.class).content().widget(TableWidget.class);
         paging = table2.paging();
         paging.totalElementsShouldNotExist();
         paging.prevShouldExist();

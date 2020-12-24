@@ -30,7 +30,7 @@ public class AutoTestBase extends N2oTestBase {
     public static void configureSelenide() {
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
         System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips=''");
-        headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "true"));;
+        headless = Boolean.parseBoolean(System.getProperty("selenide.headless", "true"));
     }
 
     @Override

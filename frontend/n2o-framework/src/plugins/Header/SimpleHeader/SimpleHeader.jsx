@@ -1,17 +1,18 @@
 import React from 'react';
-
+import { withResizeDetector } from 'react-resize-detector';
+import classNames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-
+import isUndefined from 'lodash/isUndefined';
+import map from 'lodash/map';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import Navbar from 'reactstrap/lib/Navbar';
 import Nav from 'reactstrap/lib/Nav';
-import NavItem from 'reactstrap/lib/NavItem';
-import InputGroup from 'reactstrap/lib/InputGroup';
-import InputGroupAddon from 'reactstrap/lib/InputGroupAddon';
-import Input from 'reactstrap/lib/Input';
 import NavbarBrand from 'reactstrap/lib/NavbarBrand';
 import NavbarToggler from 'reactstrap/lib/NavbarToggler';
 import Collapse from 'reactstrap/lib/Collapse';
+
+import SearchBarContainer from '../../../components/snippets/SearchBar/SearchBarContainer';
 
 import NavbarBrandContent from './NavbarBrandContent';
 import NavItemContainer from './NavItemContainer';
@@ -98,6 +99,14 @@ class SimpleHeader extends React.Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { width } = this.props;
+
+    if (width !== prevProps.width && width >= 992) {
+      this.setState({ isOpen: false });
+    }
+  }
+
   render() {
     const {
       color,
@@ -112,10 +121,16 @@ class SimpleHeader extends React.Component {
       search,
       homePageUrl,
     } = this.props;
+
     const isInversed = color === 'inverse';
     const navColor = isInversed ? 'primary' : 'light';
+
+    const trigger = !isUndefined(get(search, 'dataProvider'))
+      ? 'CHANGE'
+      : 'ENTER';
+
     const mapItems = (items, options) =>
-      items.map((item, i) => (
+      map(items, (item, i) => (
         <NavItemContainer
           key={i}
           item={item}
@@ -126,7 +141,6 @@ class SimpleHeader extends React.Component {
 
     const navItems = mapItems(items);
     const extraNavItems = mapItems(extraItems, { right: true });
-
     return (
       <div
         style={style}
@@ -138,7 +152,7 @@ class SimpleHeader extends React.Component {
           color={navColor}
           light={!isInversed}
           dark={isInversed}
-          expand="md"
+          expand="lg"
         >
           {brandImage && (
             <NavbarBrand className="n2o-brand" href={homePageUrl}>
@@ -151,23 +165,20 @@ class SimpleHeader extends React.Component {
             </a>
           )}
           {!isEmpty(items) && <NavbarToggler onClick={this.toggle} />}
-          <Collapse isOpen={this.state.isOpen} navbar>
+          <Collapse
+            isOpen={this.state.isOpen}
+            className={classNames({
+              'n2o-navbar-collapse-open': this.state.isOpen,
+            })}
+            navbar
+          >
             <Nav className="main-nav" navbar>
               {navItems}
             </Nav>
             <Nav className="ml-auto main-nav-extra" navbar>
               {extraNavItems}
               {search && (
-                <NavItem>
-                  <InputGroup>
-                    <Input placeholder="Поиск" />
-                    <InputGroupAddon addonType="append">
-                      <span className="input-group-text">
-                        <i className="fa fa-search" aria-hidden="true" />
-                      </span>
-                    </InputGroupAddon>
-                  </InputGroup>
-                </NavItem>
+                <SearchBarContainer trigger={trigger} {...this.props.search} />
               )}
             </Nav>
           </Collapse>
@@ -250,6 +261,10 @@ SimpleHeader.propTypes = {
    * Стили
    */
   style: PropTypes.object,
+  /**
+   * Включение показа контрола смены локализации
+   */
+  localeSelect: PropTypes.bool,
 };
 
 SimpleHeader.defaultProps = {
@@ -262,6 +277,12 @@ SimpleHeader.defaultProps = {
   extraItems: [],
   search: false,
   style: {},
+  localeSelect: false,
+  list: [],
 };
 
-export default SimpleHeader;
+export default withResizeDetector(SimpleHeader, {
+  handleHeight: false,
+  refreshMode: 'debounce',
+  refreshRate: 100,
+});

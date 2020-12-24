@@ -2,6 +2,14 @@ package net.n2oapp.framework.api.metadata.global.view.region;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.N2oNamespace;
+import net.n2oapp.framework.api.metadata.Source;
+import net.n2oapp.framework.api.metadata.SourceComponent;
+import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
+
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Модель региона в виде вкладок
@@ -9,11 +17,43 @@ import lombok.Setter;
 @Getter
 @Setter
 public class N2oTabsRegion extends N2oRegion {
-
     private Boolean alwaysRefresh;
     private Boolean lazy;
     private String activeParam;
     private Boolean routable;
+    private Boolean hideSingleTab;
+    private String maxHeight;
+    private Boolean scrollbar;
+    private Tab[] tabs;
+
+    @Getter
+    @Setter
+    public static class Tab implements Source, ExtensionAttributesAware {
+        private String name;
+        private SourceComponent[] content;
+        private Map<N2oNamespace, Map<String, String>> extAttributes;
+    }
+
+    @Deprecated
+    public void setWidgets(N2oWidget[] widgets) {
+        if (widgets != null) {
+            Tab[] tabs = new Tab[widgets.length];
+            for (int i = 0; i < widgets.length; i++) {
+                Tab tab = new Tab();
+                tab.setName(widgets[i].getName());
+                tab.setContent(new SourceComponent[]{widgets[i]});
+                tabs[i] = tab;
+            }
+            this.tabs = tabs;
+        }
+    }
+
+    @Deprecated
+    public N2oWidget[] getWidgets() {
+        if (tabs != null)
+            return Arrays.stream(tabs).map(t -> t.getContent()[0]).toArray(N2oWidget[]::new);
+        return null;
+    }
 
     @Override
     public String getAlias() {

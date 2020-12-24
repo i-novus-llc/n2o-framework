@@ -4,7 +4,6 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.exception.N2oException;
-import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.rest.ControllerTypeAware;
 import net.n2oapp.framework.api.rest.SetDataResponse;
 import net.n2oapp.framework.api.ui.ActionRequestInfo;
@@ -34,23 +33,23 @@ public abstract class SetController implements ControllerTypeAware {
     @SuppressWarnings("unchecked")
     protected DataSet handleActionRequest(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo) {
         DataSet inDataSet = requestInfo.getData();
-        CompiledObject.Operation operation = requestInfo.getOperation();
         dataProcessingStack.processAction(requestInfo, responseInfo, inDataSet);
+        DataSet resDataSet;
         try {
-            DataSet resDataSet = actionProcessor.invoke(
-                    operation,
+            resDataSet = actionProcessor.invoke(
+                    requestInfo.getOperation(),
                     inDataSet,
                     requestInfo.getInParametersMap().values(),
                     requestInfo.getOutParametersMap().values());
-            dataProcessingStack.processActionResult(requestInfo, responseInfo, resDataSet);
-            responseInfo.prepare(inDataSet);
-            return resDataSet;
         } catch (N2oException e) {
-            dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet, e);
+            dataProcessingStack.processActionError(requestInfo, responseInfo, inDataSet);
             responseInfo.prepare(inDataSet);
             throw e;
         } catch (Exception exception) {
             throw new N2oException(exception, requestInfo.getFailAlertWidgetId());
         }
+        dataProcessingStack.processActionResult(requestInfo, responseInfo, resDataSet);
+        responseInfo.prepare(inDataSet);
+        return resDataSet;
     }
 }

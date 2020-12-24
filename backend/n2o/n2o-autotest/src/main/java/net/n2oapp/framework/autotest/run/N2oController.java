@@ -98,12 +98,22 @@ public class N2oController {
     }
 
     @PostMapping({"/n2o/data/**", "/n2o/data/", "/n2o/data"})
-    public ResponseEntity<SetDataResponse> setData(@RequestBody Map<? extends String, ?> body, HttpServletRequest request) {
+    public ResponseEntity<SetDataResponse> setData(@RequestBody Object body, HttpServletRequest request) {
         String path = getPath(request, "/n2o/data");
         DataController dataController = new DataController(createControllerFactory(builder.getEnvironment()), builder.getEnvironment());
 
-        SetDataResponse dataResponse = dataController.setData(path, request.getParameterMap(), getHeaders(request), new DataSet(body), null);
+        SetDataResponse dataResponse = dataController.setData(path, request.getParameterMap(), getHeaders(request), getBody(body), null);
         return ResponseEntity.status(dataResponse.getStatus()).body(dataResponse);
+    }
+
+    private DataSet getBody(Object body) {
+        if (body instanceof Map)
+            return new DataSet((Map<? extends String, ?>) body);
+        else {
+            DataSet dataSet = new DataSet("$list", body);
+            dataSet.put("$count", body != null ? ((List)body).size() : 0);
+            return dataSet;
+        }
     }
 
     public void setUp(N2oApplicationBuilder builder) {

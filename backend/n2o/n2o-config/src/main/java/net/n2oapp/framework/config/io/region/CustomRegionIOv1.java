@@ -6,7 +6,7 @@ import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
 /**
- * Чтение/запись кастомного региона
+ * Чтение\запись кастомного региона версии 1.0
  */
 @Component
 public class CustomRegionIOv1 extends BaseRegionIOv1<N2oCustomRegion>  {

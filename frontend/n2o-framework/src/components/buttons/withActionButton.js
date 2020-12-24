@@ -7,7 +7,7 @@ import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 import omit from 'lodash/omit';
 import get from 'lodash/get';
 import isNil from 'lodash/isNil';
-
+import { getFormValues } from 'redux-form';
 import isUndefined from 'lodash/isUndefined';
 
 import { registerButton } from '../../actions/toolbar';
@@ -18,10 +18,8 @@ import {
   isVisibleSelector,
   countSelector,
 } from '../../selectors/toolbar';
-import { getFormValues } from 'redux-form';
 import { makeWidgetValidationSelector } from '../../selectors/widgets';
 import { validateField } from '../../core/validation/createValidator';
-
 import ModalDialog from '../actions/ModalDialog/ModalDialog';
 import { id } from '../../utils/id';
 import linkResolver from '../../utils/linkResolver';
@@ -60,12 +58,7 @@ export default function withActionButton(options = {}) {
           isInit,
           entityKey,
           id,
-          initialProps: {
-            visible = true,
-            disabled = false,
-            count,
-            conditions,
-          } = {},
+          initialProps: { visible = true, disabled, count, conditions } = {},
           registerButton,
         } = this.props;
         !isInit &&
@@ -172,12 +165,18 @@ export default function withActionButton(options = {}) {
       };
 
       render() {
-        const { confirm, hint, disabled, message } = this.props;
+        const { confirm, hint, message, toolbar } = this.props;
         const { confirmVisible } = this.state;
+
         const confirmMode = get(confirm, 'mode');
+
         const visible = !isNil(this.props.visible)
           ? this.props.visible
           : this.props.visibleFromState;
+
+        const disabled = !isNil(this.props.disabled)
+          ? this.props.disabled
+          : this.props.disabledFromState;
 
         const currentMessage = disabled ? message || hint : hint;
         return (
@@ -196,9 +195,11 @@ export default function withActionButton(options = {}) {
                 'validationConfig',
                 'formValues',
               ])}
+              disabled={disabled}
               visible={visible}
               onClick={this.handleClick}
               id={this.generatedButtonId}
+              toolbar={toolbar}
             />
             {confirmMode === ConfirmMode.POPOVER ? (
               <PopoverConfirm
@@ -227,7 +228,7 @@ export default function withActionButton(options = {}) {
         isInitSelector(ownProps.entityKey, ownProps.id)(state),
       visibleFromState: (state, ownProps) =>
         isVisibleSelector(ownProps.entityKey, ownProps.id)(state),
-      disabled: (state, ownProps) =>
+      disabledFromState: (state, ownProps) =>
         isDisabledSelector(ownProps.entityKey, ownProps.id)(state),
       message: (state, ownProps) =>
         messageSelector(ownProps.entityKey, ownProps.id)(state),
@@ -237,6 +238,7 @@ export default function withActionButton(options = {}) {
         makeWidgetValidationSelector(ownProps.validatedWidgetId)(state),
       formValues: (state, ownProps) =>
         getFormValues(ownProps.validatedWidgetId)(state),
+      toolbar: state => state.toolbar,
     });
 
     function mapDispatchToProps(dispatch) {
@@ -257,10 +259,6 @@ export default function withActionButton(options = {}) {
       hint: PropTypes.string,
       className: PropTypes.string,
       style: PropTypes.object,
-    };
-
-    ButtonContainer.defaultProps = {
-      disabled: false,
     };
 
     ButtonContainer.contextTypes = {

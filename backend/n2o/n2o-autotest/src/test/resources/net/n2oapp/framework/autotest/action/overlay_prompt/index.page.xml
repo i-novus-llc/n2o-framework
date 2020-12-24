@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0"
+             name="Тест overlay окон">
+    <table query-id="test">
+        <columns>
+            <column text-field-id="id"/>
+            <column text-field-id="name"/>
+        </columns>
+        <toolbar>
+            <button label="Модалка с подтверждением">
+                <show-modal page-id="page" detail-field-id="id"/>
+            </button>
+            <button label="Модалка без подтверждения">
+                <show-modal page-id="page" detail-field-id="id" unsaved-data-prompt-on-close="false"/>
+            </button>
+            <button label="Дровер с подтверждением">
+                <open-drawer page-id="page" detail-field-id="id"/>
+            </button>
+            <button label="Дровер без подтверждения">
+                <open-drawer page-id="page" detail-field-id="id" unsaved-data-prompt-on-close="false"/>
+            </button>
+            <button label="OpenPage с подтверждением">
+                <open-page page-id="pageWithPrompt" detail-field-id="id"/>
+            </button>
+            <button label="OpenPage без подтверждения">
+                <open-page page-id="page" detail-field-id="id" unsaved-data-prompt-on-close="false"/>
+            </button>
+        </toolbar>
+    </table>
+</simple-page>

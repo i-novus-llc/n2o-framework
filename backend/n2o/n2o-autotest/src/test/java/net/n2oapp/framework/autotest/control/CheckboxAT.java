@@ -42,7 +42,7 @@ public class CheckboxAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        Checkbox checkbox = page.single().widget(FormWidget.class).fields().field("Checkbox1")
+        Checkbox checkbox = page.widget(FormWidget.class).fields().field("Checkbox1")
                 .control(Checkbox.class);
         checkbox.shouldExists();
 
@@ -51,7 +51,7 @@ public class CheckboxAT extends AutoTestBase {
         checkbox.shouldBeEmpty();
 
 
-        checkbox = page.single().widget(FormWidget.class).fields().field("Checkbox2")
+        checkbox = page.widget(FormWidget.class).fields().field("Checkbox2")
                 .control(Checkbox.class);
         checkbox.shouldExists();
 

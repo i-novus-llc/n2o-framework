@@ -1,4 +1,12 @@
-import { put, select, takeEvery, take, fork, cancel } from 'redux-saga/effects';
+import {
+  put,
+  select,
+  takeEvery,
+  take,
+  fork,
+  cancel,
+  all,
+} from 'redux-saga/effects';
 import { push, LOCATION_CHANGE } from 'connected-react-router';
 import isArray from 'lodash/isArray';
 import map from 'lodash/map';
@@ -6,6 +14,7 @@ import get from 'lodash/get';
 import toPairs from 'lodash/toPairs';
 import flow from 'lodash/flow';
 import keys from 'lodash/keys';
+import has from 'lodash/has';
 import { reset, touch } from 'redux-form';
 import { batchActions } from 'redux-batched-actions';
 
@@ -19,6 +28,7 @@ import { insertDialog } from '../actions/overlays';
 import { id } from '../utils/id';
 import { CALL_ALERT_META } from '../constants/meta';
 import { dataProviderResolver } from '../core/dataProviderResolver';
+import { destroyOverlays } from '../actions/overlays';
 
 export function* alertEffect(action) {
   try {
@@ -36,14 +46,18 @@ export function* alertEffect(action) {
 export function* redirectEffect(action) {
   try {
     const { path, pathMapping, queryMapping, target } = action.meta.redirect;
+
     const state = yield select();
+
     const { url: newUrl } = dataProviderResolver(state, {
       url: path,
       pathMapping,
       queryMapping,
     });
+
     if (target === 'application') {
       yield put(push(newUrl));
+      yield put(destroyOverlays());
     } else if (target === 'self') {
       window.location = newUrl;
     } else {
@@ -54,10 +68,24 @@ export function* redirectEffect(action) {
   }
 }
 
-function* fetchFlow(options) {
+function* fetchFlow(options, action) {
+  const state = yield select();
+
+  const rootPageId = get(state, 'global.rootPageId');
+  const meta = get(action, 'meta');
+  const redirectPath = get(action, 'meta.redirect.path');
+
   while (true) {
     yield take([LOCATION_CHANGE]);
-    return yield put(dataRequestWidget(options.widgetId, options.options));
+
+    if (has(meta, 'alert')) {
+      return yield put(dataRequestWidget(options.widgetId, options.options));
+    }
+
+    return yield all([
+      put(metadataRequest(rootPageId, rootPageId, redirectPath)),
+      put(dataRequestWidget(options.widgetId, options.options)),
+    ]);
   }
 }
 
@@ -75,7 +103,8 @@ export function* refreshEffect(action) {
           if (lastTask) {
             yield cancel(lastTask);
           }
-          lastTask = yield fork(fetchFlow, options);
+
+          lastTask = yield fork(fetchFlow, options, action);
         } else {
           yield put(
             dataRequestWidget(options.widgetId, {

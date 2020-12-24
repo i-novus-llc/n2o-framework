@@ -56,7 +56,7 @@ class AutoComplete extends React.Component {
     const { value, options, tags, valueFieldId } = this.props;
     const compareListProps = ['options', 'value'];
     const compareListState = ['input'];
-
+    const { input } = this.state;
     if (
       !isEqual(
         pick(prevProps, compareListProps),
@@ -74,7 +74,7 @@ class AutoComplete extends React.Component {
       }
 
       if (prevProps.value !== value) {
-        state.value = isArray(value) ? value : value ? [value] : [];
+        state.value = isArray(value) ? value : value ? [] : [];
         state.input = value && !tags ? value : '';
       }
       if (!isEmpty(state)) this.setState(state);
@@ -160,9 +160,14 @@ class AutoComplete extends React.Component {
   };
 
   onChange = input => {
-    const { onInput, tags, options, data, valueFieldId } = this.props;
+    const { onInput, tags, options, data, valueFieldId, onChange } = this.props;
     const onSetNewInputValue = input => {
       onInput(input);
+      if (!tags && input === '') {
+        onChange([]);
+      } else if (!tags) {
+        onChange([input]);
+      }
       this._handleDataSearch(input);
     };
 
@@ -172,8 +177,7 @@ class AutoComplete extends React.Component {
           ? prevState.value
           : some(options || data, option => option[valueFieldId] === input)
           ? [input]
-          : [];
-
+          : [input];
       this.setState(
         prevState => ({ input, value: getSelected(prevState) }),
         () => onSetNewInputValue(input)
@@ -207,8 +211,11 @@ class AutoComplete extends React.Component {
         if (isString(value)) {
           this.forceUpdate();
         }
-
-        onChange(this.state.value);
+        if (tags) {
+          onChange(this.state.value);
+        } else {
+          onChange(this.state.input);
+        }
       }
     );
   };
@@ -309,6 +316,7 @@ class AutoComplete extends React.Component {
               >
                 <InputContent
                   tags={true}
+                  mode="autocomplete"
                   multiSelect={tags}
                   options={filteredOptions}
                   setRef={this.setInputRef(ref)}
@@ -341,7 +349,7 @@ class AutoComplete extends React.Component {
               </InputSelectGroup>
             )}
           </Reference>
-          {isExpanded && (
+          {isExpanded && !isEmpty(filteredOptions) && (
             <Popper
               placement="bottom-start"
               modifiers={MODIFIERS}

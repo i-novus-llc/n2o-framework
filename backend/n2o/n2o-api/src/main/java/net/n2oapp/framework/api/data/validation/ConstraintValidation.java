@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Клиентская модель Constraint валидации
+ * Клиентская модель валидации ограничений полей
  */
 @Getter
 @Setter
@@ -24,37 +24,35 @@ import java.util.stream.Collectors;
 public class ConstraintValidation extends Validation {
     private Set<String> requiredFields;
     private N2oInvocation invocation;
-    private List<InvocationParameter> inParameterList;
+    private List<InvocationParameter> inParametersList;
     private List<InvocationParameter> outParametersList;
 
     public ConstraintValidation(ConstraintValidation validation) {
         super(validation);
         this.requiredFields = validation.getRequiredFields();
         this.invocation = validation.getInvocation();
-        this.inParameterList = validation.getInParameterList();
+        this.inParametersList = validation.getInParametersList();
         this.outParametersList = validation.getOutParametersList();
     }
 
-    public void setInParameterList(List<InvocationParameter> inParameterList) {
-        this.requiredFields = inParameterList.stream()
+    public void setInParametersList(List<InvocationParameter> inParametersList) {
+        this.requiredFields = inParametersList.stream()
                 .filter(p -> p.getRequired() != null && p.getRequired())
                 .map(InvocationParameter::getId)
                 .collect(Collectors.toSet());
-        this.inParameterList = inParameterList;
+        this.inParametersList = inParametersList;
     }
 
     @Override
     public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
-        dataSet = DomainProcessor.getInstance().doDomainConversation(dataSet, getInParameterList());
-        DataSet result = serviceProvider.invoke(getInvocation(), dataSet, getInParameterList(), getOutParametersList());
-        if (result.get(CompiledObject.VALIDATION_RESULT_PARAM) == null || !(boolean) result.get(CompiledObject.VALIDATION_RESULT_PARAM)) {
+        dataSet = DomainProcessor.getInstance().doDomainConversation(dataSet, getInParametersList());
+        DataSet result = serviceProvider.invoke(getInvocation(), dataSet, getInParametersList(), getOutParametersList());
+        if (result.get(CompiledObject.VALIDATION_RESULT_PARAM) == null || !(boolean) result.get(CompiledObject.VALIDATION_RESULT_PARAM))
             callback.onFail(StringUtils.resolveLinks(getMessage(), result));
-        }
     }
 
     @Override
     public String getType() {
         return "constraint";
     }
-
 }

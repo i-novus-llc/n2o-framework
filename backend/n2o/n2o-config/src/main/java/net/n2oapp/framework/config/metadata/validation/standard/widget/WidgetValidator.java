@@ -29,18 +29,18 @@ public class WidgetValidator implements SourceValidator<N2oWidget>, SourceClassA
         if (n2oWidget.getQueryId() != null) {
             p.checkForExists(n2oWidget.getQueryId(), N2oQuery.class,
                     "Виджет \'" + n2oWidget.getId() + "\' ссылается на несуществующую выборку \'" + n2oWidget.getQueryId() + "\'");
-            query = p.getOrNull(n2oWidget.getQueryId(), N2oQuery.class);
+            query = p.getOrThrow(n2oWidget.getQueryId(), N2oQuery.class);
         }
         if (n2oWidget.getDefaultValuesQueryId() != null) {
             p.checkForExists(n2oWidget.getDefaultValuesQueryId(), N2oQuery.class,
                     "Виджет \'" + n2oWidget.getId() + "\' ссылается на несуществующую выборку \'" + n2oWidget.getDefaultValuesQueryId() + "\'");
-            query = p.getOrNull(n2oWidget.getDefaultValuesQueryId(), N2oQuery.class);
+            query = p.getOrThrow(n2oWidget.getDefaultValuesQueryId(), N2oQuery.class);
         }
         N2oObject object = null;
         if (n2oWidget.getObjectId() != null) {
             p.checkForExists(n2oWidget.getObjectId(), N2oObject.class,
                     "Виджет \'" + n2oWidget.getId() + "\' ссылается на несуществующий объект \'" + n2oWidget.getObjectId() + "\'");
-            object = p.getOrNull(n2oWidget.getObjectId(), N2oObject.class);
+            object = p.getOrThrow(n2oWidget.getObjectId(), N2oObject.class);
         }
         if (n2oWidget.getToolbars() != null) {
             List<AbstractMenuItem> menuItems = new ArrayList<>();

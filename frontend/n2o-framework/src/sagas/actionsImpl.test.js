@@ -140,9 +140,16 @@ describe('Проверка саги actionsImpl', () => {
     api.default = jest.fn(() =>
       Promise.resolve({ response: 'response from server' })
     );
-    const promise = await runSaga(fakeStore, fetchInvoke, dataProvider, {
-      id: 12345,
-    }).toPromise();
+    const promise = await runSaga(
+      fakeStore,
+      fetchInvoke,
+      dataProvider,
+      {
+        id: 12345,
+      },
+      {},
+      { payload: 1 }
+    ).toPromise();
     const result = await Promise.resolve(promise);
     expect(result).toEqual({
       response: 'response from server',

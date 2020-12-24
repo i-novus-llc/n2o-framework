@@ -13,9 +13,14 @@ import net.n2oapp.framework.api.metadata.meta.page.Dialog;
 public class DialogContext extends BaseCompileContext<Dialog, N2oDialog> {
 
     /**
-     * Клиентский идентификатор виджета откуда вызывается действие
+     * Идентификатор родительского виджета, откуда вызывается действие
      */
     private String parentWidgetId;
+
+    /**
+     * Идентификатор клиентского виджета
+     */
+    private String clientWidgetId;
 
     /**
      * Идентификатор объекта, в котором находится операция

@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class ActionContext extends ObjectContext {
     private String successAlertWidgetId;
     private String messagesForm;
     private RedirectSaga redirect;
+    private RefreshSaga refresh;
     private boolean messageOnSuccess = true;
     private boolean messageOnFail = true;
     /**
@@ -37,5 +39,4 @@ public class ActionContext extends ObjectContext {
         super(objectId, route);
         this.operationId = operationId;
     }
-
 }

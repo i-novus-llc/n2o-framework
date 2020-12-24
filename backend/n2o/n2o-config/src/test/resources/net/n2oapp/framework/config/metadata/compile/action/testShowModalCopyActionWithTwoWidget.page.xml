@@ -8,7 +8,9 @@
                         <show-modal page-id="testShowModalCopyActionWithTwoWidgetPage"
                                     route="/:id/update" submit-action-type="copy" copy-mode="replace"
                                     copy-model="multi" copy-widget-id="table2" copy-field-id="id"
-                                    target-model="multi" target-field-id="dictionary.id"/>
+                                    target-model="multi" target-field-id="dictionary.id">
+                            <path-param name="id" value="{id}"/>
+                        </show-modal>
                     </button>
                 </toolbar>
             </table>

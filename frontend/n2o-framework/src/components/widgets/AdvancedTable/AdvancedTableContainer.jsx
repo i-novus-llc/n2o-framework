@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, withHandlers, getContext } from 'recompose';
 import isEqual from 'lodash/isEqual';
@@ -12,7 +13,12 @@ import map from 'lodash/map';
 import set from 'lodash/set';
 import get from 'lodash/get';
 import isUndefined from 'lodash/isUndefined';
+import { replace } from 'connected-react-router';
+import { withTranslation } from 'react-i18next';
+
 import AdvancedTable from './AdvancedTable';
+import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
+
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
 import { TABLE } from '../widgetTypes';
@@ -20,16 +26,13 @@ import columnHOC from '../Table/withColumn';
 import TableCell from '../Table/TableCell';
 import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
-import PropTypes from 'prop-types';
 import {
   makeGetFilterModelSelector,
   makeGetModelByPrefixSelector,
 } from '../../../selectors/models';
 import { getContainerColumns } from '../../../selectors/columns';
 import evalExpression from '../../../utils/evalExpression';
-import { replace } from 'connected-react-router';
 import { dataProviderResolver } from '../../../core/dataProviderResolver';
-import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
@@ -316,6 +319,7 @@ export const withWidgetHandlers = compose(
 );
 
 const enhance = compose(
+  withTranslation(),
   widgetContainer(
     {
       mapProps: props => {
@@ -345,6 +349,11 @@ const enhance = compose(
           onSetSelection: model => {
             props.dispatch(setModel(PREFIXES.multi, props.widgetId, model));
           },
+          setSelectionType: type => {
+            props.dispatch(
+              setModel(PREFIXES.selectionType, props.widgetId, type)
+            );
+          },
           onSetFilter: filters => {
             props.dispatch(setModel(PREFIXES.filter, props.widgetId, filters));
           },
@@ -366,6 +375,11 @@ const enhance = compose(
           className: props.className,
           rows: props.rows,
           dispatch: props.dispatch,
+          width: props.width,
+          height: props.height,
+          textWrap: props.textWrap,
+          t: props.t,
+          resolveModel: props.resolveModel,
         };
       },
     },

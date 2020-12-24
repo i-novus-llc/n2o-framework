@@ -6,48 +6,32 @@ import lombok.Setter;
 import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.N2oMetadata;
-import net.n2oapp.framework.api.metadata.global.aware.IdAware;
-import net.n2oapp.framework.api.metadata.global.aware.NameAware;
 import net.n2oapp.framework.api.metadata.global.dao.invocation.model.N2oInvocation;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 
 /**
- * User: iryabov
- * Date: 05.02.13
- * Time: 16:51
+ * Исходная модель объекта
  */
 @Getter
 @Setter
 public class N2oObject extends N2oMetadata implements NameAware {
-
-    public static final String ERROR_OBJECT_ID = "error";
-
-
     private String name;
-    private String parent;
-    private Operation[] operations;
-    private N2oValidation[] n2oValidations;
-    private AbstractParameter[] objectFields;
     private String tableName;
     private String entityClass;
     private String appName;
     private String moduleName;
     private String serviceClass;
     private String serviceName;
-
-    @Override
-    public void setId(String id) {
-        super.setId(id);
-        //todo убрать после того, как в Action пропадет objectId
-        if (operations != null)
-            for (Operation operation : operations) {
-                operation.setObjectId(id);
-            }
-    }
+    private Operation[] operations;
+    private N2oValidation[] n2oValidations;
+    private AbstractParameter[] objectFields;
 
     @Override
     public final String getPostfix() {
@@ -62,10 +46,6 @@ public class N2oObject extends N2oMetadata implements NameAware {
     @Getter
     @Setter
     public static class Operation implements Source, IdAware, ExtensionAttributesAware {
-        //нужно конфигуратору. Подлежит избавлению.
-        @Deprecated
-        private String objectId;
-
         private String id;
         private String name;
         private String formSubmitLabel;
@@ -79,6 +59,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
         private N2oInvocation invocation;
         private Parameter[] inParameters;
         private Parameter[] outParameters;
+        private Parameter[] failOutParameters;
         private Validations validations;
         private Map<N2oNamespace, Map<String, String>> extAttributes;
 
@@ -86,10 +67,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-
-            Operation operation = (Operation) o;
-
-            return id != null ? id.equals(operation.id) : operation.id == null;
+            return Objects.equals(id, ((Operation) o).id);
         }
 
         @Override
@@ -100,6 +78,7 @@ public class N2oObject extends N2oMetadata implements NameAware {
         @Getter
         @Setter
         public static class Validations implements Serializable {
+            @Deprecated
             private Activate activate;
             private String[] whiteList;
             private String[] blackList;
@@ -122,39 +101,21 @@ public class N2oObject extends N2oMetadata implements NameAware {
     @Setter
     @NoArgsConstructor
     public static class Parameter extends InvocationParameter {
-
-        private Type type;
         private Parameter[] childParams;
         private String param;
+        private String validationFailKey;
 
-        public Parameter(Type type, String name, String mapping) {
-            this(type);
+        public Parameter(String name, String mapping) {
             this.setMapping(mapping);
             this.setId(name);
         }
 
-        public Parameter(Type type) {
-            this.type = type;
-        }
-
-        public Parameter(Parameter srcParam) {
-            setType(srcParam.getType());
-            setDomain(srcParam.getDomain());
-            setMapping(srcParam.getMapping());
-            setId(srcParam.getId());
-            setDefaultValue(srcParam.getDefaultValue());
-            setNormalize(srcParam.getNormalize());
-            setMappingCondition(srcParam.getMappingCondition());
-            setEntityClass(srcParam.getEntityClass());
-            setChildParams(srcParam.getChildParams());
-            setNullIgnore(srcParam.getNullIgnore());
-            setPluralityType(srcParam.getPluralityType());
-            setDefaultValue(srcParam.getDefaultValue());
-            setParam(srcParam.getParam());
-        }
-
-        public enum Type {
-            in, out
+        public Parameter(Parameter parameter) {
+            super(parameter);
+            setChildParams(parameter.getChildParams());
+            setNullIgnore(parameter.getNullIgnore());
+            setPluralityType(parameter.getPluralityType());
+            setParam(parameter.getParam());
         }
     }
 }

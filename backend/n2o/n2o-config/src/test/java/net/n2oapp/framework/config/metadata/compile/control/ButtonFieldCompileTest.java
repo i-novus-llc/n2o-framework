@@ -44,16 +44,15 @@ public class ButtonFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getIcon(), nullValue());
         assertThat(field.getColor(), is("danger"));
 
-        assertThat(field.getUrl(), Matchers.is("/test2/:param1/:param2?param3=:param3"));
-        assertThat(field.getTarget(), Matchers.is(Target.application));
-        assertThat(field.getPathMapping().size(), Matchers.is(2));
-        assertThat(field.getPathMapping().get("param1").getBindLink(), Matchers.is("models.resolve['$testButtonFieldCompile']"));
-        assertThat(field.getPathMapping().get("param1").getValue(), Matchers.is("`field1`"));
-        assertThat(field.getPathMapping().get("param2").getBindLink(), Matchers.is("models.resolve['$testButtonFieldCompile']"));
-        assertThat(field.getPathMapping().get("param2").getValue(), Matchers.is("`field2`"));
-        assertThat(field.getQueryMapping().size(), Matchers.is(1));
-        assertThat(field.getQueryMapping().get("param3").getBindLink(), Matchers.is("models.resolve['$testButtonFieldCompile']"));
-        assertThat(field.getQueryMapping().get("param3").getValue(), Matchers.is("`field3`"));
+        assertThat(field.getUrl(), is("/test2/:param1/:param2?param3=:param3"));
+        assertThat(field.getTarget(), is(Target.application));
+        assertThat(field.getPathMapping().size(), is(2));
+        assertThat(field.getPathMapping().get("param1").getBindLink(), is("models.resolve['$testButtonFieldCompile']"));
+        assertThat(field.getPathMapping().get("param1").getValue(), is("`field1`"));
+        assertThat(field.getPathMapping().get("param2").getValue(), is("1"));
+        assertThat(field.getQueryMapping().size(), is(1));
+        assertThat(field.getQueryMapping().get("param3").getBindLink(), is("models.resolve['$testButtonFieldCompile']"));
+        assertThat(field.getQueryMapping().get("param3").getValue(), is("`field3`"));
 
         field = (ButtonField) form.getComponent().getFieldsets().get(0).getRows().get(1).getCols().get(0).getFields().get(0);
         assertThat(field.getId(), is("btn2"));

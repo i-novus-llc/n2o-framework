@@ -50,14 +50,16 @@ public class MultiFieldSetAT extends AutoTestBase {
         page.shouldExists();
 
         // 1.проверка, что при can-add="false" (нельзя добавить элемент)
-        MultiFieldSet fieldset1 = page.single().widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
+        MultiFieldSet fieldset1 = page.widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
         fieldset1.shouldExists();
+        fieldset1.shouldNotHaveLabel();
         fieldset1.shouldBeEmpty();
         fieldset1.addButtonShouldNotBeExist();
 
         // 2.стандартный случай
-        MultiFieldSet fieldset2 = page.single().widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+        MultiFieldSet fieldset2 = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
         fieldset2.shouldExists();
+        fieldset2.shouldHaveLabel("Заголовок");
         fieldset2.addButtonShouldBeExist();
         fieldset2.addButtonShouldHaveLabel("Добавить участника");
         fieldset2.clickAddButton();
@@ -95,7 +97,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         page.shouldExists();
 
         // 1.проверка при can-remove="false" (кнопок удаления нет)
-        MultiFieldSet fieldset1 = page.single().widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
+        MultiFieldSet fieldset1 = page.widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
         fieldset1.clickAddButton();
         fieldset1.clickAddButton();
         fieldset1.removeAllButtonShouldNotBeExist();
@@ -105,7 +107,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         item2.removeButtonShouldNotExists();
 
         // 2.стандартный случай
-        MultiFieldSet fieldset2 = page.single().widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+        MultiFieldSet fieldset2 = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
         fieldset2.clickAddButton();
         fieldset2.clickAddButton();
         fieldset2.clickAddButton();
@@ -133,7 +135,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         name2.shouldHaveValue("CCC");
 
         // 3.проверка при can-remove-all="true" (удаление всех элементов кроме первого)
-        MultiFieldSet fieldset3 = page.single().widget(FormWidget.class).fieldsets().fieldset(2, MultiFieldSet.class);
+        MultiFieldSet fieldset3 = page.widget(FormWidget.class).fieldsets().fieldset(2, MultiFieldSet.class);
         fieldset3.clickAddButton();
         fieldset3.clickAddButton();
         fieldset3.clickAddButton();
@@ -149,7 +151,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         name1.shouldHaveValue("AAA");
 
         // 4.проверка при can-remove-all="true" can-remove-first="true" (удаление всех элементов)
-        MultiFieldSet fieldset4 = page.single().widget(FormWidget.class).fieldsets().fieldset(3, MultiFieldSet.class);
+        MultiFieldSet fieldset4 = page.widget(FormWidget.class).fieldsets().fieldset(3, MultiFieldSet.class);
         fieldset4.clickAddButton();
         fieldset4.clickAddButton();
         fieldset4.clickAddButton();
@@ -167,7 +169,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         page.shouldExists();
 
         // 1.стандартный случай (нет кнопки копирования)
-        MultiFieldSet fieldset1 = page.single().widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
+        MultiFieldSet fieldset1 = page.widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
         fieldset1.clickAddButton();
         fieldset1.clickAddButton();
         MultiFieldSetItem item1 = fieldset1.item(0);
@@ -176,7 +178,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         item2.copyButtonShouldNotExists();
 
         // 2.копирование включено
-        MultiFieldSet fieldset2 = page.single().widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+        MultiFieldSet fieldset2 = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
         fieldset2.clickAddButton();
         fieldset2.clickAddButton();
         fieldset2.shouldHaveItems(2);
@@ -209,7 +211,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         page = open(SimplePage.class);
         page.shouldExists();
 
-        MultiFieldSet fieldset1 = page.single().widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
+        MultiFieldSet fieldset1 = page.widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
         fieldset1.clickAddButton();
         MultiFieldSetItem item = fieldset1.item(0);
         item.fields().shouldHaveSize(1);
@@ -258,7 +260,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         page = open(SimplePage.class);
         page.shouldExists();
 
-        MultiFieldSet fieldset = page.single().widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
+        MultiFieldSet fieldset = page.widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
         // проверяем наличие и значения полей
         fieldset.shouldHaveItems(2);
         MultiFieldSetItem item1 = fieldset.item(0);
@@ -301,7 +303,7 @@ public class MultiFieldSetAT extends AutoTestBase {
         page = open(SimplePage.class);
         page.shouldExists();
 
-        MultiFieldSet fieldset1 = page.single().widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
+        MultiFieldSet fieldset1 = page.widget(FormWidget.class).fieldsets().fieldset(MultiFieldSet.class);
         fieldset1.clickAddButton();
         fieldset1.clickAddButton();
         MultiFieldSetItem item1 = fieldset1.item(0);
@@ -336,10 +338,10 @@ public class MultiFieldSetAT extends AutoTestBase {
         page.shouldExists();
 
         // поле вне мульти филдсета
-        StandardField name = page.single().widget(FormWidget.class).fields().field("name");
+        StandardField name = page.widget(FormWidget.class).fields().field("name");
         InputText nameInput = name.control(InputText.class);
 
-        MultiFieldSet fieldset1 = page.single().widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
+        MultiFieldSet fieldset1 = page.widget(FormWidget.class).fieldsets().fieldset(1, MultiFieldSet.class);
         fieldset1.shouldExists();
         fieldset1.clickAddButton();
         MultiFieldSetItem item1 = fieldset1.item(0);

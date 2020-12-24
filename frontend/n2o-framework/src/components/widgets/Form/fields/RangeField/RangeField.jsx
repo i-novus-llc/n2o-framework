@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose, withHandlers, mapProps } from 'recompose';
 import get from 'lodash/get';
+import cx from 'classnames';
+
 import Control from '../StandardField/Control';
 import Measure from '../StandardField/Measure';
 import Label from '../StandardField/Label';
 import FieldActions from '../StandardField/FieldActions';
 import InlineSpinner from '../../../../snippets/Spinner/InlineSpinner';
 import Description from '../StandardField/Description';
-import cx from 'classnames';
 import { FieldActionsPropTypes } from '../StandardField/FieldPropTypes';
 
 /**
@@ -152,7 +153,7 @@ export function RangeField({
                 {...beginControl}
                 {...props}
                 className={cx(beginControl && beginControl.className, {
-                  [validationClass]: touched,
+                  [validationClass]: touched && (!end || !begin),
                 })}
               />
               <Measure value={measure} />
@@ -172,7 +173,7 @@ export function RangeField({
                 {...endControl}
                 {...props}
                 className={cx(endControl && endControl.className, {
-                  [validationClass]: touched,
+                  [validationClass]: touched && (!end || !begin),
                 })}
               />
               <Measure value={measure} />
@@ -186,7 +187,7 @@ export function RangeField({
       <div
         className={cx('n2o-validation-message', validationMap[validationClass])}
       >
-        {touched && message && message.text}
+        {(!end || !begin) && touched && message && message.text}
       </div>
     </div>
   ) : null;
@@ -229,6 +230,8 @@ RangeField.defaultProps = {
   divider: false,
 };
 
+const isValid = period => period !== '';
+
 export default compose(
   mapProps(props => ({
     ...props,
@@ -237,8 +240,9 @@ export default compose(
   })),
   withHandlers({
     onBeginValueChange: ({ end, onChange }) => begin =>
-      onChange({ begin, end }),
-    onEndValueChange: ({ begin, onChange }) => end => onChange({ begin, end }),
+      isValid(begin) && onChange({ begin, end }),
+    onEndValueChange: ({ begin, onChange }) => end =>
+      isValid(end) && onChange({ begin, end }),
     onBlur: ({ onBlur }) => () => onBlur(),
   })
 )(RangeField);

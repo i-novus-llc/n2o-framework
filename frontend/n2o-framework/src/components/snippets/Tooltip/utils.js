@@ -29,6 +29,17 @@ export const arrowClassName = theme =>
 //триггер tooltip отображает label
 export function RenderTooltipTrigger(props) {
   const { getTriggerProps, triggerRef, labelDashed, label, hint } = props;
+
+  const exceptionsList = [
+    'MapProps',
+    'WithState',
+    'ProgressBarCell',
+    'ImageCell',
+    'EditableCell',
+  ];
+
+  const triggerException = exceptionsList.includes(label.type.name);
+
   if (isUndefined(hint)) {
     return label;
   }
@@ -40,10 +51,7 @@ export function RenderTooltipTrigger(props) {
     }),
   };
 
-  return label.type.name === 'MapProps' ||
-    label.type.name === 'ProgressBarCell' ||
-    label.type.name === 'WithState' ||
-    label.type.name === 'EditableCell' ? (
+  return triggerException ? (
     <div {...bodyProps}>{label}</div>
   ) : (
     <span {...bodyProps}>{label}</span>

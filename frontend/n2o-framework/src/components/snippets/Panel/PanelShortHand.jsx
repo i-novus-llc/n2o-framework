@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 import isFunction from 'lodash/isFunction';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 import Panel from './Panel';
 import panelStyles from './panelStyles';
@@ -62,6 +63,7 @@ function PanelContainer({
   handleKeyPress,
   innerRef,
 }) {
+  const { t } = useTranslation();
   const fullScreenIcon = fullScreenState ? 'fa-compress' : 'fa-expand';
 
   return (
@@ -75,6 +77,7 @@ function PanelContainer({
       isFullScreen={fullScreenState}
       onKeyPress={handleKeyPress}
       innerRef={innerRef}
+      t={t}
     >
       {header && (
         <Panel.Heading>

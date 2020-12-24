@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil.getCompiledWidgets;
+
 /**
  * Связывание данных на обычной странице
  */
@@ -26,7 +28,7 @@ public class StandardPageBinder extends PageBinder<StandardPage> {
             }
         }
 
-        return bindPage(page, p, page.getWidgets());
+        return bindPage(page, p, getCompiledWidgets(page));
     }
 
     @Override

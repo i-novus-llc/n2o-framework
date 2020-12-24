@@ -40,7 +40,7 @@ public class TextEditorAT extends AutoTestBase {
         SimplePage page = open(SimplePage.class);
         page.shouldExists();
 
-        TextEditor textEditor = page.single().widget(FormWidget.class).fields().field("TextEditor")
+        TextEditor textEditor = page.widget(FormWidget.class).fields().field("TextEditor")
                 .control(TextEditor.class);
         textEditor.shouldExists();
 
