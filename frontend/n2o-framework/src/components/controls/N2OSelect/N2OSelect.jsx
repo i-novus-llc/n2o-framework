@@ -435,6 +435,7 @@ class N2OSelect extends React.Component {
               hasCheckboxes={this.state.hasCheckboxes}
               onRemoveItem={this._removeSelectedItem}
               format={format}
+              loading={loading}
             />
           </React.Fragment>
         </Popup>

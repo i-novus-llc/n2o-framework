@@ -44,13 +44,13 @@ public class StatusAT extends AutoTestBase {
 
     @Test
     public void testStatus() {
-        Status status1 = page.widget(FormWidget.class).snippet(0, Status.class);
+        Status status1 = page.widget(FormWidget.class).fields().field(Status.class);
         status1.shouldExists();
         status1.shouldHaveText("Заявка принята");
         status1.textShouldHaveRightPosition();
         status1.shouldHaveColor(Colors.SUCCESS);
 
-        Status status2 = page.widget(FormWidget.class).snippet(1, Status.class);
+        Status status2 = page.widget(FormWidget.class).fields().field(1, Status.class);
         status2.shouldExists();
         status2.shouldHaveText("Заявка отклонена");
         status2.textShouldHaveLeftPosition();
