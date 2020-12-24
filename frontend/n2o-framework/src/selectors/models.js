@@ -34,6 +34,15 @@ const filterSelector = state => {
 };
 
 /**
+ * Селектор получения selectionTypes моделей
+ * @param state
+ */
+
+const selectionTypeSelector = state => {
+  return state.models[PREFIXES.selectionType] || {};
+};
+
+/**
  * Селектор получения модели по линку
  * @param modelLink
  */
@@ -116,4 +125,5 @@ export {
   makeGetFilterModelSelector,
   getModelSelector,
   getModelsByDependency,
+  selectionTypeSelector,
 };

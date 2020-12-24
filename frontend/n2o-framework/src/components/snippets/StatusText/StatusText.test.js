@@ -26,7 +26,7 @@ describe('Тесты StatusText', () => {
   it('Отрисовывается верный html', () => {
     const wrapper = setup();
     expect(wrapper.html()).toEqual(
-      '<div class="n2o-status-text custom n2o-status-text__right"><span class="n2o-status-text_icon__left bg-info"></span><p class="n2o-status-text_text">text</p></div>'
+      '<div class="n2o-status-text n2o-snippet custom n2o-status-text__right"><span class="n2o-status-text_icon__left bg-info"></span><p class="n2o-status-text_text">text</p></div>'
     );
   });
 });

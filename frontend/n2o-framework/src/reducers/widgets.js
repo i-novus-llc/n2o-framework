@@ -186,7 +186,10 @@ export default function widgets(state = {}, action) {
           currentState,
           action.payload.initProps,
           smartState,
-          { isInit: !action.payload.preInit, type: action.payload.initProps.type }
+          {
+            isInit: !action.payload.preInit,
+            type: action.payload.initProps.type,
+          }
         ),
       };
       break;

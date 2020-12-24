@@ -43,6 +43,11 @@ public class N2oRouter implements MetadataRouter {
         if (result != null)
             return result;
 
+        if (environment.getRouteRegister().synchronize()) {
+            result = findRoute(url, compiledClass);
+            if (result != null) return result;
+        }
+
         tryToFindShallow(url, compiledClass, params);
         result = findRoute(url, compiledClass);
         if (result != null)
