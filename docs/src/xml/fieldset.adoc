@@ -44,7 +44,7 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |Место расположения филдсета
 |
 
-|title
+|label
 |Строка
 |Заголовок филдсета
 |
@@ -64,24 +64,19 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |Ширина лейблов в пикселях
 |default
 
-|visibility-condition
+|visible
 |Выражение
 |Условие видимости
 |
 
-|visibility-condition-on
-|Поля через запятую
-|Поля, при изменении которых срабатывает условие видимости
-|
-
-|enabling-condition
+|enabled
 |Выражение
 |Условие доступности
 |
 
-|enabling-condition-on
-|Поля через запятую
-|Поля, при изменении которых срабатывает условие доступности
+|depends-on
+|Строка
+|Список полей, от которых зависит филдсет
 |
 
 |===
@@ -233,41 +228,24 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |Возможность раскрытия и сворачивания филдсета
 |true
 
+|has-separator
+|true false
+|Наличие горизонтального делителя
+|true
+
+|expand
+|true false
+|Исходное раскрытие филдсета
+|true
+
 |===
 
 Пример::
 [source,xml]
 ----
-<line title="Общие данные" collapsible="true">
+<line label="Общие данные" collapsible="true">
   ...
 </line>
-----
-
-=== <checkbox-line>
-Филдсет с горизонтальной линией и чекбоксом.
-
-[NOTE]
-Если чекбокс выделен, филдсет виден и валидируется. Если чекбокс снят, филдсет не виден и не валидируется.
-
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|checkbox-field-id
-|Идентификатор
-|Поле, отвечающее за выделение и снятие чекбокса
-|Генерируется автоматически по идентификатору филдсета
-
-|===
-
-Пример::
-[source,xml]
-----
-<checkbox-line title="Дополнительные данные"
-  checkbox-field-id="additional">
-  ...
-</checkbox-line>
 ----
 
 === <multi-set>
@@ -277,6 +255,11 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 [cols="2,1,4,4"]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
+
+|children-label
+|Строка
+|Заголовок дочерних элементов. С помощью `{index}` можно управлять нумерацией.
+|
 
 |add-label
 |Строка
@@ -312,7 +295,6 @@ http://n2oapp.net/framework/config/schema/fieldset-4.0
 |true false
 |Возможность копирования филдсета в новый (вместе с данными)
 |false
-
 
 |===
 

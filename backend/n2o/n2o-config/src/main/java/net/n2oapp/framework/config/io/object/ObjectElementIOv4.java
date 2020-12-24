@@ -9,13 +9,11 @@ import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectListField
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectReferenceField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectScalarField;
 import net.n2oapp.framework.api.metadata.global.dao.object.field.ObjectSetField;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oConstraint;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oMandatory;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
-import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidationCondition;
+import net.n2oapp.framework.api.metadata.global.dao.validation.*;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.dataprovider.DataProviderIOv1;
+import net.n2oapp.framework.config.io.toolbar.ToolbarIO;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -45,7 +43,9 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyChildren(e, "validations", t::getN2oValidations, t::setN2oValidations, p.oneOf(N2oValidation.class)
                 .add("constraint", N2oConstraint.class, this::constraint)
                 .add("condition", N2oValidationCondition.class, this::condition)
-                .add("mandatory", N2oMandatory.class, this::mandatory));
+                .add("mandatory", N2oMandatory.class, this::mandatory)
+                .add("dialog", N2oValidationDialog.class, this::dialog));
+        p.attribute(e, "entity-class", t::getEntityClass, t::setEntityClass);
     }
 
     private void abstractParameter(Element e, AbstractParameter t, IOProcessor p) {
@@ -82,6 +82,7 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyChild(e, "invocation", t::getInvocation, t::setInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
         p.children(e, "in", "field", t::getInParameters, t::setInParameters, N2oObject.Parameter.class, this::inParam);
         p.children(e, "out", "field", t::getOutParameters, t::setOutParameters, N2oObject.Parameter.class, this::outParam);
+        p.children(e, "fail-out", "field", t::getFailOutParameters, t::setFailOutParameters, N2oObject.Parameter.class, this::outParam);
         p.child(e, null, "validations", t::getValidations, t::setValidations, N2oObject.Operation.Validations.class, this::operationInlineValidations);
     }
 
@@ -91,12 +92,14 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.anyChildren(e, null, t::getInlineValidations, t::setInlineValidations, p.oneOf(N2oValidation.class)
                 .add("constraint", N2oConstraint.class, this::constraint)
                 .add("condition", N2oValidationCondition.class, this::condition)
-                .add("mandatory", N2oMandatory.class, this::mandatory));
+                .add("mandatory", N2oMandatory.class, this::mandatory)
+                .add("dialog", N2oValidationDialog.class, this::dialog));
     }
 
     private void inParam(Element e, N2oObject.Parameter t, IOProcessor p) {
         outParam(e, t, p);
         p.attribute(e, "param", t::getParam, t::setParam);
+        p.attribute(e, "validation-fail-key", t::getValidationFailKey, t::setValidationFailKey);
     }
 
     private void outParam(Element e, N2oObject.Parameter t, IOProcessor p) {
@@ -115,7 +118,6 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
     private void validation(Element e, N2oValidation t, IOProcessor p) {
         p.attribute(e, "id", t::getId, t::setId);
         p.attributeEnum(e, "severity", t::getSeverity, t::setSeverity, SeverityType.class);
-        p.attributeEnum(e, "client-moment", t::getClientMoment, t::setClientMoment, N2oValidation.ClientMoment.class);
         p.attributeEnum(e, "server-moment", t::getServerMoment, t::setServerMoment, N2oValidation.ServerMoment.class);
         p.attribute(e, "field-id", t::getFieldId, t::setFieldId);
         p.attribute(e, "message", t::getMessage, t::setMessage);
@@ -123,12 +125,16 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.attribute(e, "side", t::getSide, t::setSide);
     }
 
-    private void constraint(Element e, N2oConstraint t, IOProcessor p) {
+    private void invocationValidation(Element e, N2oInvocationValidation t, IOProcessor p) {
         validation(e, t, p);
-        p.attribute(e, "result", t::getResult, t::setResult);
         p.children(e, "in", "field", t::getInParameters, t::setInParameters, N2oObject.Parameter.class, this::inParam);
         p.children(e, "out", "field", t::getOutParameters, t::setOutParameters, N2oObject.Parameter.class, this::outParam);
         p.anyChild(e, "invocation", t::getN2oInvocation, t::setN2oInvocation, p.anyOf(N2oInvocation.class), defaultNamespace);
+    }
+
+    private void constraint(Element e, N2oConstraint t, IOProcessor p) {
+        invocationValidation(e, t, p);
+        p.attribute(e, "result", t::getResult, t::setResult);
     }
 
     private void condition(Element e, N2oValidationCondition t, IOProcessor p) {
@@ -143,6 +149,13 @@ public class ObjectElementIOv4 implements NamespaceIO<N2oObject> {
         p.text(e, t::getExpression, t::setExpression);
         p.attribute(e, "on", t::getExpressionOn, t::setExpressionOn);
         p.attribute(e, "src", t::getSrc, t::setSrc);
+    }
+
+    private void dialog(Element e, N2oValidationDialog t, IOProcessor p) {
+        invocationValidation(e, t, p);
+        p.attribute(e, "result", t::getResult, t::setResult);
+        p.attribute(e, "size", t::getSize, t::setSize);
+        p.child(e, null, "toolbar", t::getToolbar, t::setToolbar, new ToolbarIO());
     }
 
     @Override

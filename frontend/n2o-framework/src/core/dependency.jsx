@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
+import has from 'lodash/has';
 import { connect } from 'react-redux';
 import {
   makeWidgetVisibleSelector,
@@ -7,6 +9,13 @@ import {
   makeWidgetIsInitSelector,
 } from '../selectors/widgets';
 import { registerDependency } from '../actions/dependency';
+import { registerWidget } from '../actions/widgets';
+
+export const InitMetadataContext = React.createContext({
+  metadata: {
+    visible: true,
+  },
+});
 
 /**
  * НОС - создает зависимость
@@ -21,8 +30,29 @@ const dependency = WrappedComponent => {
     }
 
     initIfNeeded(props) {
-      const { registerDependency, dependency, isInit } = props;
-      !isInit && registerDependency(dependency);
+      const {
+        registerDependency,
+        preInitWidget,
+        dependency,
+        isInit,
+        id: widgetId,
+        pageId,
+        dataProvider,
+        modelPrefix,
+      } = props;
+      const hasVisibleDeps = has(this.props, 'dependency.visible');
+      const defaultVisible = get(this.props, 'visible', true);
+
+      if (!isInit) {
+        preInitWidget({
+          widgetId,
+          pageId,
+          dataProvider,
+          modelPrefix,
+          isVisible: hasVisibleDeps ? false : defaultVisible,
+        });
+        registerDependency(dependency);
+      }
     }
 
     /**
@@ -30,15 +60,24 @@ const dependency = WrappedComponent => {
      */
     render() {
       const { isVisible, isEnabled } = this.props;
-      const style = { display: !isVisible ? 'none' : 'block' };
+
+      const initMetadata = {
+        metadata: {
+          visible: get(this.props, 'visible', true),
+          dependency: get(this.props, 'dependency'),
+        },
+      };
+
       return (
-        <div style={style}>
-          <WrappedComponent
-            {...this.props}
-            disabled={!isEnabled}
-            visible={isVisible}
-          />
-        </div>
+        <InitMetadataContext.Provider value={initMetadata}>
+          {isVisible ? (
+            <WrappedComponent
+              {...this.props}
+              disabled={!isEnabled}
+              visible={isVisible}
+            />
+          ) : null}
+        </InitMetadataContext.Provider>
       );
     }
   }
@@ -48,12 +87,6 @@ const dependency = WrappedComponent => {
     isVisible: PropTypes.bool,
     isEnabled: PropTypes.bool,
     models: PropTypes.object,
-  };
-
-  UniversalDependency.defaultProps = {
-    isInit: false,
-    isVisible: true,
-    isEnabled: true,
   };
 
   const mapStateToProps = (state, props) => {
@@ -70,6 +103,8 @@ const dependency = WrappedComponent => {
     return {
       registerDependency: dependency =>
         dispatch(registerDependency(widgetId, dependency)),
+      preInitWidget: options =>
+        dispatch(registerWidget(widgetId, options, true)),
     };
   };
 

@@ -3,6 +3,7 @@ import { storiesOf, forceReRender } from '@storybook/react';
 import { StateDecorator, Store } from '@sambego/storybook-state';
 import withForm from 'N2oStorybook/decorators/withForm';
 import Input from './InputText';
+import InputIcon from '../../snippets/InputIcon/InputIcon';
 import InputJson from './InputText.meta.json';
 import Factory from '../../../core/factory/Factory';
 
@@ -29,6 +30,7 @@ stories
     'Компонент',
     () => (
       <Input
+        disabled
         value={store.get('value')}
         onChange={value => store.set({ value })}
       />
@@ -57,4 +59,16 @@ stories
 
       return props;
     })
-  );
+  )
+  .add('Префикс / суффикс', () => (
+    <Input
+      prefix={<span className="fa fa-dollar" />}
+      suffix={
+        <InputIcon clickable hoverable>
+          <span className="fa fa-remove" />
+        </InputIcon>
+      }
+      value={store.get('value')}
+      onChange={value => store.set({ value })}
+    />
+  ));

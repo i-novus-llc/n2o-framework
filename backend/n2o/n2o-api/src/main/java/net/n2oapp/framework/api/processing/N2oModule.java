@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.ui.ActionRequestInfo;
 import net.n2oapp.framework.api.ui.ActionResponseInfo;
 import net.n2oapp.framework.api.ui.QueryRequestInfo;
 import net.n2oapp.framework.api.ui.QueryResponseInfo;
-import net.n2oapp.framework.api.user.UserContext;
 
 /**
  * Абстрактная реализация обработки вызовов действий и выборок N2O
@@ -85,7 +84,7 @@ public abstract class N2oModule implements DataProcessing, LocatedBean {
     }
 
     @Override
-    public void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet, N2oException exception) {
+    public void processActionError(ActionRequestInfo<DataSet> requestInfo, ActionResponseInfo responseInfo, DataSet dataSet) {
 
     }
 

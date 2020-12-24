@@ -1,6 +1,5 @@
 package net.n2oapp.framework.config.metadata.compile.action;
 
-import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.action.clear.ClearAction;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -12,7 +11,6 @@ import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
 import org.junit.Before;
 import org.junit.Test;
-
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -42,6 +40,7 @@ public class ClearActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getPayload().getKey(), is("p_w_a_main"));
         assertThat(testAction.getPayload().getPrefixes()[0], is("edit"));
         assertThat(testAction.getPayload().getPrefixes()[1], is("resolve"));
+        assertThat(testAction.getMeta().getModalsToClose(), is(1));
     }
 
 }

@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
-import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oCell;
@@ -33,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
 
 /**
  * Компиляция ToolbarItem
@@ -134,9 +133,9 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         confirm.setCancelLabel(p.cast(source.getConfirmCancelLabel(), p.getMessage("n2o.confirm.default.cancelLabel")));
         if (StringUtils.hasLink(confirm.getText())) {
             Set<String> links = StringUtils.collectLinks(confirm.getText());
-            String text = Placeholders.js("'" + confirm.getText() + "'");
+            String text = js("'" + confirm.getText() + "'");
             for (String link : links) {
-                text = text.replace(Placeholders.ref(link), "' + this." + link + " + '");
+                text = text.replace(ref(link), "' + this." + link + " + '");
             }
             confirm.setText(text);
         }
@@ -180,13 +179,11 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             enabledConditions.addAll(compileConditions(source.getEnablingConditions(), source.getModel(), widgetId));
 
         ComponentScope componentScope = p.getScope(ComponentScope.class);
-        if (source.getModel() == null || source.getModel().equals(ReduxModel.RESOLVE) &&
-                (componentScope == null || componentScope.unwrap(N2oCell.class) == null)) {
-            Condition condition = new Condition();
-            condition.setExpression("!_.isEmpty(this)");
-            condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
-            enabledConditions.add(condition);
-        }
+
+        Condition emptyModelCondition = enabledByEmptyModelCondition(source, widgetId, componentScope, p);
+        if (emptyModelCondition != null)
+            enabledConditions.add(emptyModelCondition);
+
         if (!enabledConditions.isEmpty()) {
             button.getConditions().put(ValidationType.enabled, enabledConditions);
         }
@@ -199,15 +196,38 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             button.setEnabled(p.resolveJS(source.getEnabled()));
         } else {
             if (StringUtils.isLink(source.getVisible()))
-                compileLinkCondition(button, widgetId, ValidationType.visible, source.getVisible());
+                compileLinkCondition(button, widgetId, ValidationType.visible, source.getVisible(), source.getModel());
             else
                 button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
 
             if (StringUtils.isLink(source.getEnabled()))
-                compileLinkCondition(button, widgetId, ValidationType.enabled, source.getEnabled());
+                compileLinkCondition(button, widgetId, ValidationType.enabled, source.getEnabled(), source.getModel());
             else
                 button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
         }
+    }
+
+    /**
+     * Получение условия доступности кнопки при пустой модели
+     *
+     * @param source         Абстрактная модель пункта меню
+     * @param widgetId       Идентификатор виджета, к которому относится кнопка
+     * @param componentScope Родительский компонент
+     * @param p              Процессор сборки метаданных
+     * @return Условие доступности кнопки при пустой модели
+     */
+    private Condition enabledByEmptyModelCondition(AbstractMenuItem source, String widgetId, ComponentScope componentScope, CompileProcessor p) {
+        boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
+        boolean disableOnEmptyModel = p.cast(source.getDisableOnEmptyModel(),
+                p.resolve(property("n2o.api.button.disable_on_empty_model"), Boolean.class));
+        
+        if ((source.getModel() == null || ReduxModel.RESOLVE.equals(source.getModel())) && parentIsNotCell && disableOnEmptyModel) {
+            Condition condition = new Condition();
+            condition.setExpression("!_.isEmpty(this)");
+            condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
+            return condition;
+        }
+        return null;
     }
 
     private List<Condition> compileConditions(N2oButtonCondition[] conditions, ReduxModel model, String widgetId) {
@@ -221,10 +241,11 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         return result;
     }
 
-    private void compileLinkCondition(MenuItem button, String widgetId, ValidationType type, String linkCondition) {
+    private void compileLinkCondition(MenuItem button, String widgetId, ValidationType type,
+                                      String linkCondition, ReduxModel model) {
         Condition condition = new Condition();
         condition.setExpression(linkCondition.substring(1, linkCondition.length() - 1));
-        condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
+        condition.setModelLink(new ModelLink(model, widgetId).getBindLink());
         if (!button.getConditions().containsKey(type))
             button.getConditions().put(type, new ArrayList<>());
         button.getConditions().get(type).add(condition);

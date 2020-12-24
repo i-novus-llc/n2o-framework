@@ -7,10 +7,9 @@ import has from 'lodash/has';
 import defaultTo from 'lodash/defaultTo';
 import { closeOverlay, hidePrompt } from '../../actions/overlays';
 import { overlaysSelector } from '../../selectors/overlays';
-
-import ModalPage from './ModalPage';
 import DrawerPage from './DrawerPage';
 import PageDialog from './PageDialog';
+import ModalPage from './ModalPage';
 
 const ModalMode = {
   MODAL: 'modal',

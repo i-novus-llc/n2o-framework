@@ -48,13 +48,19 @@ public class ContextProcessorTest {
         assert processor.resolve("#{name?}").equals("oleg");
         assert processor.resolve("#{name}").equals("oleg");
         assert processor.resolve("#{name!}").equals("oleg");
-        assertOnException(() -> processor.resolve("#{surname!}"), NotFoundContextPlaceholderException.class);
+        assertOnException(() -> processor.resolve("#{surname!}"), NotFoundContextPlaceholderException.class, e -> {
+            assert "n2o.fieldNotFoundInContext".equals(e.getUserMessage());
+            assert "surname".equals(e.getData());
+        });
         assert processor.resolve("#{surname}") == null;
         assert processor.resolve("#{surname?}") == null;
         assert processor.resolve("#{surname?none}").equals("none");
         assert processor.resolve(Arrays.asList(1, 2, "#{three}")).equals(Arrays.asList(1, 2, 3));
 
-        assertOnException(() -> processor.resolve("#{empty!}"), NotFoundContextPlaceholderException.class);
+        assertOnException(() -> processor.resolve("#{empty!}"), NotFoundContextPlaceholderException.class, e -> {
+            assert "n2o.fieldNotFoundInContext".equals(e.getUserMessage());
+            assert "empty".equals(e.getData());
+        });
         assert processor.resolve("#{empty?val}").equals("val");
     }
 

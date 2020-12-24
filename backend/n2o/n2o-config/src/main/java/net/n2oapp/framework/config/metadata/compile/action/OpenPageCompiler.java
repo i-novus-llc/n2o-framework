@@ -5,7 +5,7 @@ import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.N2oOpenPage;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.meta.*;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.action.LinkAction;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;

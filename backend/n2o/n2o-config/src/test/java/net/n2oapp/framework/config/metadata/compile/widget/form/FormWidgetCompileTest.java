@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.metadata.compile.widget.form;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
@@ -13,21 +14,16 @@ import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.fieldset.FieldSet;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
-import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.api.metadata.meta.widget.RequestMethod;
 import net.n2oapp.framework.api.metadata.meta.widget.form.Form;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.io.page.SimplePageElementIOv2;
-import net.n2oapp.framework.config.io.widget.form.FormElementIOV4;
-import net.n2oapp.framework.config.io.widget.table.TableElementIOV4;
-import net.n2oapp.framework.config.io.widget.table.cell.ToolbarCellElementIOv2;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.context.WidgetContext;
 import net.n2oapp.framework.config.metadata.compile.page.SimplePageCompiler;
-import net.n2oapp.framework.config.metadata.compile.toolbar.ToolbarCompiler;
-import net.n2oapp.framework.config.metadata.compile.widget.FormCompiler;
 import net.n2oapp.framework.config.metadata.pack.*;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -120,6 +116,11 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         validations = form.getComponent().getValidation().get("testField3");
         assertThat(((MandatoryValidation) validations.get(0)).getEnablingExpression(), is("(testField2 == 'test') && (testField3 == 'test')"));
         assertThat(validations.get(0).getMoment(), is(N2oValidation.ServerMoment.beforeOperation));
+
+        validations = form.getComponent().getValidation().get("testInterval");
+        assertThat(validations.size(), is(2));
+        assertThat(((ConditionValidation)validations.get(0)).getExpression(), is("typeof testIntervalBegin == 'undefined'"));
+
     }
 
     @Test
@@ -152,6 +153,8 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(context.isMessageOnSuccess(), is(false));
         assertThat(context.getSuccessAlertWidgetId(), is("form"));
         assertThat(context.getFailAlertWidgetId(), is("form"));
+        assertThat(context.getRefresh().getType(), is(RefreshSaga.Type.widget));
+        assertThat(context.getRefresh().getOptions().getWidgetId(), is("form"));
 
         ClientDataProvider dataProvider = form.getFormDataProvider();
         assertThat(dataProvider.getMethod(), is(RequestMethod.POST));

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.MessageSourceAccessor;
 
@@ -18,6 +19,7 @@ import org.springframework.context.support.MessageSourceAccessor;
         N2oEngineConfiguration.class,
         N2oMetadataConfiguration.class})
 @SpringBootApplication(exclude = N2oFrameworkAutoConfiguration.class)
+@ComponentScan("net/n2oapp/framework/autotest")
 public class AutoTestApplication {
     public static void main(String[] args) {
         SpringApplication.run(AutoTestApplication.class, args);

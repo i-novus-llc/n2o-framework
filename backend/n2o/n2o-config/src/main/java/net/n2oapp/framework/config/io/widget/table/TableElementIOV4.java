@@ -41,8 +41,9 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         super.io(e, t, p);
         p.attributeEnum(e, "selection", t::getSelection, t::setSelection, RowSelectionEnum.class);
         p.attributeEnum(e, "table-size", t::getTableSize, t::setTableSize, Size.class);
-        p.attribute(e, "scroll-x", t::getScrollX, t::setScrollX);
-        p.attribute(e, "scroll-y", t::getScrollY, t::setScrollY);
+        p.attribute(e, "width", t::getWidth, t::setWidth);
+        p.attribute(e, "height", t::getHeight, t::setHeight);
+        p.attributeBoolean(e, "text-wrap", t::getTextWrap, t::setTextWrap);
         p.attributeBoolean(e, "checkboxes", t::getCheckboxes, t::setCheckboxes);
         p.attributeBoolean(e, "check-on-select", t::getCheckOnSelect, t::setCheckOnSelect);
         p.anyChildren(e, "columns", t::getColumns, t::setColumns, columns(p));
@@ -67,6 +68,7 @@ public class TableElementIOV4 extends AbstractListWidgetElementIOv4<N2oTable> {
         p.attributeEnum(e, "fixed", c::getFixed, c::setFixed, ColumnFixedPosition.class);
         p.anyChildren(e, "dependencies", c::getColumnVisibilities, c::setColumnVisibilities, p.oneOf(AbstractColumn.ColumnVisibility.class)
                 .add("visibility", AbstractColumn.ColumnVisibility.class, this::dependency));
+        p.attributeBoolean(e, "hide-on-blur", c::getHideOnBlur, c::setHideOnBlur);
     }
 
     private void dependency(Element e, AbstractColumn.ColumnVisibility t, IOProcessor p) {

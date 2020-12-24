@@ -29,4 +29,9 @@ public class N2oCells extends N2oComponentsCollection implements Cells {
     public void click() {
         elements().get(0).parent().click();
     }
+
+    @Override
+    public void hover() {
+        elements().get(0).parent().hover();
+    }
 }

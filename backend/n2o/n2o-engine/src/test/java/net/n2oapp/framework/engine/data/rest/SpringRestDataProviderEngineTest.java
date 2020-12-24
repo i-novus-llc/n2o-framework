@@ -303,4 +303,17 @@ public class SpringRestDataProviderEngineTest {
         actionEngine.invoke(dataProvider, request);
         assertThat(restClient.getQuery(), is("http://localhost:8080/test/path?f1=%20&f2=%D1%8B&f3=%22&f4=%7Babc%7D"));
     }
+
+    @Test
+    public void testUntrimmedUrl() {
+        TestRestTemplate restClient = new TestRestTemplate("");
+        ObjectMapper objectMapper = new ObjectMapper();
+        SpringRestDataProviderEngine actionEngine = new SpringRestDataProviderEngine(restClient, objectMapper);
+
+        N2oRestDataProvider dataProvider = new N2oRestDataProvider();
+        dataProvider.setQuery("\n" + "            http://www.example.org\n" + "        ");
+
+        actionEngine.invoke(dataProvider, new HashMap<>());
+        assertThat(restClient.getQuery(), is("http://www.example.org"));
+    }
 }

@@ -8,6 +8,8 @@ import net.n2oapp.framework.api.metadata.pipeline.ReadCompileTerminalPipeline;
 import net.n2oapp.framework.api.register.route.MetadataRouter;
 import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.config.metadata.compile.N2oCompileProcessor;
+import net.n2oapp.framework.config.metadata.compile.context.HeaderContext;
+import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
@@ -36,10 +38,15 @@ public class N2oRouter implements MetadataRouter {
      * @return результат поиска
      */
     public <D extends Compiled> CompileContext<D, ?> get(String url, Class<D> compiledClass, Map<String, String[]> params) {
-        url = url != null ? url : "/";
+        url = url != null ? url : ROOT_ROUTE;
         CompileContext<D, ?> result = findRoute(url, compiledClass);
         if (result != null)
             return result;
+
+        if (environment.getRouteRegister().synchronize()) {
+            result = findRoute(url, compiledClass);
+            if (result != null) return result;
+        }
 
         tryToFindShallow(url, compiledClass, params);
         result = findRoute(url, compiledClass);
@@ -125,6 +132,22 @@ public class N2oRouter implements MetadataRouter {
             if (result != null) {
                 pipeline.get(result, new N2oCompileProcessor(environment, result, result.getParams(url, params))); //warm up
             }
+        } else {
+            warmUpRootRoutes();
+        }
+    }
+
+    /**
+     * Прогрев сборки хедера и регистрация корневых маршрутов
+     */
+    private void warmUpRootRoutes() {
+        String headerId = environment.getSystemProperties().getProperty("n2o.header.id", String.class);
+        String welcomePageId = environment.getSystemProperties().getProperty("n2o.header.homepage.id", String.class);
+        // необходимо чтобы зарегистрировать рутовые страницы в RouteRegister
+        if (headerId != null && !headerId.isEmpty()) {
+            pipeline.get(new HeaderContext(headerId));
+        } else if (welcomePageId != null && !welcomePageId.isEmpty()) {
+            pipeline.get(new PageContext(welcomePageId, "/"));
         }
     }
 

@@ -5,8 +5,10 @@ import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.event.action.SubmitActionType;
 import net.n2oapp.framework.api.metadata.global.view.ActionsBar;
+import net.n2oapp.framework.api.metadata.global.view.page.BasePageUtil;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oBasePage;
+import net.n2oapp.framework.api.metadata.global.view.region.N2oCustomRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.global.view.region.N2oTabsRegion;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
@@ -18,6 +20,7 @@ import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.action.Action;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
+import net.n2oapp.framework.api.metadata.meta.region.Region;
 import net.n2oapp.framework.api.metadata.meta.toolbar.Toolbar;
 import net.n2oapp.framework.api.metadata.meta.widget.Widget;
 import net.n2oapp.framework.config.metadata.compile.*;
@@ -116,6 +119,77 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
                             addWidgets(tab.getContent(), result, ids, ((N2oTabsRegion) item).getAlias());
             } else if (item instanceof N2oRegion && ((N2oRegion) item).getContent() != null)
                 addWidgets(((N2oRegion) item).getContent(), result, ids, ((N2oRegion) item).getAlias());
+        }
+    }
+
+    /**
+     * Инициализация всех регионов страницы и добавление их в контейнер со всеми регионами страницы
+     *
+     * @param pageItems    Элементы страницы (регионы/виджеты)
+     * @param regionMap    Контейнер для хранения всех регионов страницы по их позициям на странице.
+     * @param defaultPlace Позиция регионов по умолчанию
+     * @param context      Контекст страницы
+     * @param p            Процессор сборки метаданных
+     * @param scopes       Массив scope c информацией для сборки
+     */
+    protected void initRegions(SourceComponent[] pageItems, Map<String, List<Region>> regionMap, String defaultPlace,
+                               PageContext context, CompileProcessor p, Object... scopes) {
+        if (pageItems == null) return;
+
+        List<N2oWidget> widgets = new ArrayList<>();
+        BasePageUtil.resolveRegionItems(pageItems,
+                item -> {
+                    if (!widgets.isEmpty())
+                        createCustomRegion(widgets, regionMap, defaultPlace, context, p, scopes);
+                    createRegion(item, regionMap, defaultPlace, context, p, scopes);
+                },
+                widgets::add);
+        if (!widgets.isEmpty())
+            createCustomRegion(widgets, regionMap, defaultPlace, context, p, scopes);
+    }
+
+    /**
+     * Компиляция простого региона, который будет оборачивать один или несколько подряд идущих виджетов
+     * вне регионов, и добавление его в контейнер со всеми регионами страницы
+     *
+     * @param widgets      Список виджетов
+     * @param regionMap    Контейнер для хранения всех регионов страницы по их позициям на странице.
+     * @param defaultPlace Позиция региона по умолчанию
+     * @param context      Контекст страницы
+     * @param p            Процессор сборки метаданных
+     * @param scopes       Массив scope c информацией для сборки
+     */
+    private void createCustomRegion(List<N2oWidget> widgets, Map<String, List<Region>> regionMap, String defaultPlace,
+                                    PageContext context, CompileProcessor p, Object... scopes) {
+        N2oRegion n2oRegion = new N2oCustomRegion();
+        N2oWidget[] content = new N2oWidget[widgets.size()];
+        widgets.toArray(content);
+        n2oRegion.setContent(content);
+        createRegion(n2oRegion, regionMap, defaultPlace, context, p, scopes);
+        widgets.clear();
+    }
+
+    /**
+     * Компиляция региона и добавление его в контейнер со всеми регионами страницы
+     *
+     * @param n2oRegion    Исходная модель региона
+     * @param regionMap    Контейнер для хранения всех регионов страницы по их позициям на странице.
+     *                     Скомпилированный регион будет добавлен в контейнер
+     * @param defaultPlace Позиция региона по умолчанию
+     * @param context      Контекст страницы
+     * @param p            Процессор сборки метаданных
+     * @param scopes       Массив scope c информацией для сборки
+     */
+    private void createRegion(N2oRegion n2oRegion, Map<String, List<Region>> regionMap, String defaultPlace,
+                              PageContext context, CompileProcessor p, Object... scopes) {
+        Region region = p.compile(n2oRegion, context, scopes);
+        String place = p.cast(n2oRegion.getPlace(), defaultPlace);
+        if (regionMap.get(place) != null) {
+            regionMap.get(place).add(region);
+        } else {
+            List<Region> regionList = new ArrayList<>();
+            regionList.add(region);
+            regionMap.put(place, regionList);
         }
     }
 

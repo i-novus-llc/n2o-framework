@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ObjectContext;
 import net.n2oapp.framework.config.metadata.pack.N2oDataProvidersPack;
-import net.n2oapp.framework.config.metadata.pack.N2oInvocationV2ReadersPack;
 import net.n2oapp.framework.config.metadata.pack.N2oObjectsPack;
 import net.n2oapp.framework.config.selective.CompileInfo;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
@@ -31,7 +30,7 @@ public class ObjectV4CompileTest extends SourceCompileTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oInvocationV2ReadersPack(), new N2oObjectsPack(), new N2oDataProvidersPack())
+        builder.packs(new N2oObjectsPack(), new N2oDataProvidersPack())
                 .sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/object/testObjectRefFields.object.xml"));
     }
 

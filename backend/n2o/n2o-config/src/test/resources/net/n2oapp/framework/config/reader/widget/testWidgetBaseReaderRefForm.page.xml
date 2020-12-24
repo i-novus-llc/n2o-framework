@@ -4,7 +4,7 @@
     <object-id>blank</object-id>
     <layout>n2o/layout/single</layout>
     <regions>
-        <region place="single">
+        <region place="single" type="list">
             <container id="form">
                 <wgt:form ref-id="testFormReader" style="n2o-style"/>
             </container>

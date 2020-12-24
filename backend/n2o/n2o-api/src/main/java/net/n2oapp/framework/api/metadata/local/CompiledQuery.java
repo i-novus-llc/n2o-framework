@@ -4,10 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.data.validation.Validation;
-import net.n2oapp.framework.api.metadata.CompiledMetadata;
-import net.n2oapp.framework.api.metadata.SourceMetadata;
+import net.n2oapp.framework.api.metadata.Compiled;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.aware.PropertiesAware;
-import net.n2oapp.framework.api.metadata.global.aware.OriginAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
@@ -21,7 +20,7 @@ import java.util.*;
  */
 @Getter
 @Setter
-public class CompiledQuery implements CompiledMetadata, OriginAware, PropertiesAware {
+public class CompiledQuery implements Compiled, IdAware, PropertiesAware {
     private N2oQuery.Selection[] lists;
     private N2oQuery.Selection[] uniques;
     private N2oQuery.Selection[] counts;
@@ -70,18 +69,12 @@ public class CompiledQuery implements CompiledMetadata, OriginAware, PropertiesA
         return filterFieldsMap.get(filterId);
     }
 
-    @Override
-    public boolean isReal() {
-        return this.object != null;
-    }
-
     public String getFilterFieldId(String fieldId, FilterType type) {
         return filtersMap.get(fieldId) == null ? null : filtersMap.get(fieldId).get(type).getFilterField();
     }
 
-    @Override
-    public Class<? extends SourceMetadata> getSourceClass() {
-        return N2oQuery.class;
+    public Map<String, Object> getFieldsDefaultValues() {
+        return Collections.emptyMap();//todo
     }
 
     public static class FilterEntry implements Map.Entry<String, FilterType>, Serializable {

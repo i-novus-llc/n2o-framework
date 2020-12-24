@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Компиляция Constraint валидации
+ * Компиляция валидации ограничений полей
  */
 @Component
 public class ConstraintValidationCompiler extends BaseValidationCompiler<ConstraintValidation, N2oConstraint> {
@@ -31,25 +31,26 @@ public class ConstraintValidationCompiler extends BaseValidationCompiler<Constra
         compileValidation(validation, source, context, p);
         validation.setId(source.getId());
         validation.setSeverity(source.getSeverity());
-        validation.setMessage(source.getMessage());
+
         //in
         List<InvocationParameter> inParams = new ArrayList<>();
         if (source.getInParameters() != null)
-            for (N2oObject.Parameter parameter : source.getInParameters()) {
+            for (N2oObject.Parameter parameter : source.getInParameters())
                 inParams.add(new InvocationParameter(parameter));
-            }
-        validation.setInParameterList(inParams);
+        validation.setInParametersList(inParams);
+
         //out
         List<InvocationParameter> outParams = new ArrayList<>();
         if (source.getOutParameters() != null)
-            for (N2oObject.Parameter parameter : source.getOutParameters()) {
+            for (N2oObject.Parameter parameter : source.getOutParameters())
                 outParams.add(new InvocationParameter(parameter));
-            }
         InvocationParameter resultParam = new InvocationParameter();
+
         resultParam.setId(CompiledObject.VALIDATION_RESULT_PARAM);
         resultParam.setMapping(source.getResult());
         resultParam.setMapper(p.cast(source.getMapper(), MapperType.spel));
         outParams.add(resultParam);
+
         validation.setOutParametersList(outParams);
         validation.setInvocation(source.getN2oInvocation());
         return validation;

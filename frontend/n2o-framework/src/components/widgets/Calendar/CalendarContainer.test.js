@@ -1,9 +1,9 @@
 import React from 'react';
-import configureStore from '../../../store';
 import { Provider } from 'react-redux';
 import CalendarContainer from './CalendarContainer';
-import { WIDGETS } from '../../../core/factory/factoryLevels';
 import metadata from './CalendarWidget.meta';
+import { WIDGETS } from '../../../core/factory/factoryLevels';
+import configureStore from '../../../store';
 import history from '../../../history';
 
 const store = configureStore({}, history, {});

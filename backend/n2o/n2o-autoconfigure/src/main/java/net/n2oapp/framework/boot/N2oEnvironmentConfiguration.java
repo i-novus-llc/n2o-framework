@@ -24,6 +24,7 @@ import net.n2oapp.framework.api.metadata.validate.SourceValidatorFactory;
 import net.n2oapp.framework.api.reader.SourceLoader;
 import net.n2oapp.framework.api.reader.SourceLoaderFactory;
 import net.n2oapp.framework.api.register.*;
+import net.n2oapp.framework.api.register.route.RouteInfoKey;
 import net.n2oapp.framework.api.register.route.RouteRegister;
 import net.n2oapp.framework.api.register.scan.MetadataScanner;
 import net.n2oapp.framework.api.register.scan.MetadataScannerFactory;
@@ -35,16 +36,22 @@ import net.n2oapp.framework.config.io.IOProcessorImpl;
 import net.n2oapp.framework.config.metadata.compile.*;
 import net.n2oapp.framework.config.metadata.compile.toolbar.CrudGenerator;
 import net.n2oapp.framework.config.persister.N2oMetadataPersisterFactory;
-import net.n2oapp.framework.config.reader.*;
+import net.n2oapp.framework.config.reader.GroovySourceReader;
+import net.n2oapp.framework.config.reader.N2oNamespaceReaderFactory;
+import net.n2oapp.framework.config.reader.N2oSourceLoaderFactory;
+import net.n2oapp.framework.config.reader.XmlMetadataLoader;
 import net.n2oapp.framework.config.register.N2oMetadataRegister;
 import net.n2oapp.framework.config.register.N2oSourceTypeRegister;
 import net.n2oapp.framework.config.register.dynamic.JavaSourceLoader;
 import net.n2oapp.framework.config.register.dynamic.N2oDynamicMetadataProviderFactory;
+import net.n2oapp.framework.config.register.ConfigRepository;
+import net.n2oapp.framework.config.register.route.StubRouteRepository;
 import net.n2oapp.framework.config.register.route.N2oRouteRegister;
 import net.n2oapp.framework.config.register.scan.N2oMetadataScannerFactory;
 import net.n2oapp.framework.config.validate.N2oSourceValidatorFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -83,8 +90,8 @@ public class N2oEnvironmentConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public RouteRegister routeRegister() {
-        return new N2oRouteRegister();
+    public RouteRegister routeRegister(Optional<ConfigRepository<RouteInfoKey, CompileContext>> repository) {
+        return new N2oRouteRegister(repository.orElse(new StubRouteRepository()));
     }
 
     @Bean
@@ -260,7 +267,6 @@ public class N2oEnvironmentConfiguration {
 
     @Configuration
     static class PipelineOperationConfiguration {
-
         @Bean
         @ConditionalOnMissingBean
         ReadOperation readOperation(MetadataRegister configRegister, SourceLoaderFactory readerFactory) {
@@ -281,12 +287,14 @@ public class N2oEnvironmentConfiguration {
 
         @Bean
         @ConditionalOnMissingBean
+        @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "false")
         SourceCacheOperation sourceCacheOperation(CacheManager cacheManager, MetadataRegister metadataRegister) {
             return new SourceCacheOperation(new SyncCacheTemplate(cacheManager), metadataRegister);
         }
 
         @Bean
         @ConditionalOnMissingBean
+        @ConditionalOnProperty(value = "n2o.i18n.enabled", havingValue = "false")
         CompileCacheOperation compileCacheOperation(CacheManager cacheManager) {
             return new CompileCacheOperation(new SyncCacheTemplate(cacheManager));
         }

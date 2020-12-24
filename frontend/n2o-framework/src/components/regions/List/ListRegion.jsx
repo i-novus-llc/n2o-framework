@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { compose, setDisplayName } from 'recompose';
-
+import classNames from 'classnames';
 import pick from 'lodash/pick';
+import every from 'lodash/every';
+import get from 'lodash/get';
 
 import Collapse, { Panel } from '../../snippets/Collapse/Collapse';
 import withWidgetProps from '../withWidgetProps';
@@ -12,6 +13,8 @@ import RegionContent from '../RegionContent';
 /**
  * Регион Лист
  * @reactProps {array} content - массив из объектов, которые описывают виджет{id, name, opened, pageId, fetchOnInit, widget}
+ * @reactProps {bool} expand - флаг открыт ли при загрузке (default = true)
+ * @reactProps {bool} hasSeparator - есть ли разделительная линия (default = true)
  * @reactProps {string} pageId - идентификатор страницы
  * @reactProps {function} getWidget - функция получения виджета
  */
@@ -30,14 +33,17 @@ class ListRegion extends React.Component {
   }
 
   renderList = props => {
-    const { name, content, isVisible } = this.props;
-    const key = props.open ? 'open' : 'close';
+    const { label, content, isVisible, hasSeparator } = this.props;
+
+    const key = props.expand ? 'open' : 'close';
+
     return (
       <Panel
-        key={key}
         {...props}
-        header={<span className="n2o-list-region__collapse-name">{name}</span>}
+        key={key}
+        header={<span className="n2o-list-region__collapse-name">{label}</span>}
         style={{ display: isVisible === false ? 'none' : '' }}
+        className={classNames({ line: hasSeparator })}
       >
         <RegionContent content={content} />
       </Panel>
@@ -48,17 +54,26 @@ class ListRegion extends React.Component {
    * Рендер
    */
   render() {
-    const { collapsible, name } = this.props;
+    const { collapsible, expand, content, getWidgetProps } = this.props;
 
     const collapseProps = pick(this.props, 'destroyInactivePanel', 'accordion');
     const panelProps = pick(this.props, [
       'type',
       'forceRender',
       'collapsible',
-      'open',
+      'expand',
     ]);
+    const isVisible = every(content, meta => {
+      return get(getWidgetProps(meta.id), 'datasource') === undefined
+        ? true
+        : get(getWidgetProps(meta.id), 'isVisible');
+    });
+
     return (
-      <div className="n2o-list-region">
+      <div
+        className="n2o-list-region"
+        style={{ display: !isVisible && 'none' }}
+      >
         <Collapse
           defaultActiveKey={'open'}
           onChange={this.handleChange}
@@ -93,6 +108,8 @@ ListRegion.propTypes = {
 
 ListRegion.defaultProps = {
   collapsible: true,
+  hasSeparator: true,
+  expand: true,
 };
 
 export { ListRegion };
