@@ -28,7 +28,7 @@ public class ColumnHeader implements IdAware, Compiled {
     @JsonProperty
     private String icon;
     @JsonProperty
-    private String src = "TextTableHeader";
+    private String src;
     @JsonProperty
     private Boolean sortable;
     @JsonProperty
@@ -45,6 +45,10 @@ public class ColumnHeader implements IdAware, Compiled {
     private Control filterControl;
     @JsonProperty
     private Boolean multiHeader;
+    @JsonProperty("className")
+    private String cssClass;
+    @JsonProperty
+    private Map<String, String> style;
     @JsonProperty
     private List<ColumnHeader> children;
     @JsonProperty
