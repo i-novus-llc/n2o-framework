@@ -8,6 +8,8 @@
                         default-value="0" min="-10" max="10" step="0.5"/>
             <input-text id="input4" label="Дробная часть длины 4" domain="numeric"
                         precision="4" default-value="1.3333333333"/>
+            <input-text id="input5" label="integer" domain="integer"
+                        default-value="5"/>
         </fields>
     </form>
 </simple-page>

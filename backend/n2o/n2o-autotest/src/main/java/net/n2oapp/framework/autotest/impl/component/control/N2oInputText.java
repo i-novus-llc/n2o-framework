@@ -39,18 +39,9 @@ public class N2oInputText extends N2oControl implements InputText {
     public void shouldHaveValue(String value) {
         SelenideElement elm = inputElement();
         if (elm.exists()) elm.shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.value(value));
+                Condition.empty : Condition.exactValue(value));
         else cellInputElement().shouldHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.text(value));
-    }
-
-    @Override
-    public void shouldNotHaveValue(String value) {
-        SelenideElement elm = inputElement();
-        if (elm.exists()) elm.shouldNotHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.value(value));
-        else cellInputElement().shouldNotHave(value == null || value.isEmpty() ?
-                Condition.empty : Condition.text(value));
+                Condition.empty : Condition.selectedText(value));
     }
 
     @Override
