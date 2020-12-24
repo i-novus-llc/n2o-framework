@@ -5,8 +5,12 @@
             <action id="test">
                 <close unsaved-data-prompt="true"/>
             </action>
+            <action id="closeRefresh">
+                <close unsaved-data-prompt="true" refresh="true"/>
+            </action>
         </actions>
         <toolbar>
+            <button id="testCloseRefresh" action-id="closeRefresh"/>
             <button id="test" action-id="test"/>
             <button id="open">
                 <open-page page-id="testOpenPageCloseAction" route="/b/c/"/>
