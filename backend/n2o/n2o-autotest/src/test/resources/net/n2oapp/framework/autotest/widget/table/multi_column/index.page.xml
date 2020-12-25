@@ -5,8 +5,8 @@
             <table id="table1" query-id="test">
                 <columns>
                     <column text-field-id="id" label="ID"/>
-                    <multi-column label="Info">
-                        <column text-field-id="firstName" label="FirstName"/>
+                    <multi-column label="Info" style="color: red">
+                        <column text-field-id="firstName" label="FirstName" style="color: green"/>
                         <column text-field-id="lastName" label="LastName"/>
                     </multi-column>
                     <column text-field-id="birthday" label="Birthday"/>
@@ -16,9 +16,9 @@
             <table id="table2" query-id="test">
                 <columns>
                     <column text-field-id="id" label="ID"/>
-                    <multi-column label="Info">
+                    <multi-column label="Info" class="font-italic">
                         <multi-column label="Name">
-                            <column text-field-id="firstName" label="FirstName"/>
+                            <column text-field-id="firstName" label="FirstName" class="font-italic"/>
                             <column text-field-id="lastName" label="LastName"/>
                         </multi-column>
                         <filter-column text-field-id="phone" label="Phone">

@@ -15,4 +15,8 @@ public interface StandardTableHeader extends TableHeader {
     void shouldBeSortedByAsc();
 
     void shouldBeSortedByDesc();
+
+    void shouldHaveStyle(String style);
+
+    void shouldHaveCssClass(String cssClass);
 }
