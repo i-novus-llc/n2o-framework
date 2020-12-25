@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Автотест для обновления после закрытия модального окна
  */
-public class CloseRefreshAT extends AutoTestBase {
+public class CloseWithRefreshAT extends AutoTestBase {
 
     @BeforeAll
     public static void beforeClass() {
