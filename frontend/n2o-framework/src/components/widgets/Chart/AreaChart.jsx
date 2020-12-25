@@ -19,6 +19,7 @@ import {
   XAxisTypes,
   YAxisTypes,
 } from './chartPropsTypes';
+import { parseData } from './utils';
 
 /**
  * График "Зоны"
@@ -152,7 +153,7 @@ function AreaChart({
       <XAxis {...xaxis} />
       <YAxis {...yaxis} />
       <Tooltip {...tooltip} />
-      {map(areas, area => (
+      {map(parseData(areas), area => (
         <Area {...area} />
       ))}
     </Chart>

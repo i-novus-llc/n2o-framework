@@ -19,6 +19,7 @@ import {
   XAxisTypes,
   YAxisTypes,
 } from './chartPropsTypes';
+import { parseData } from './utils';
 
 /**
  * График "Гистограмы"
@@ -164,7 +165,7 @@ function BarChart({
       <YAxis />
       <Tooltip {...tooltip} />
       <Legend {...legend} />
-      {map(bars, bar => (
+      {map(parseData(bars), bar => (
         <Bar {...bar} />
       ))}
     </Chart>

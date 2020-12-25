@@ -19,6 +19,7 @@ import {
   XAxisTypes,
   YAxisTypes,
 } from './chartPropsTypes';
+import { parseData } from './utils';
 
 /**
  * График "Линии"
@@ -146,7 +147,7 @@ function LineChart({
       <CartesianGrid {...cartesianGrid} />
       <Tooltip {...tooltip} />
       <Legend {...legend} />
-      {map(lines, line => (
+      {map(parseData(lines), line => (
         <Line {...line} />
       ))}
     </Chart>
