@@ -5,14 +5,15 @@ import PropTypes from 'prop-types';
 import onClickOutside from 'react-onclickoutside';
 import cx from 'classnames';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
+import find from 'lodash/find';
+import isEqual from 'lodash/isEqual';
+import isEmpty from 'lodash/isEmpty';
+
+import Alert from '../../snippets/Alerts/Alert';
 
 import InputSelectGroup from './InputSelectGroup';
 import PopupList from './PopupList';
 import InputContent from './InputContent';
-import find from 'lodash/find';
-import isEqual from 'lodash/isEqual';
-import isEmpty from 'lodash/isEmpty';
-import Alert from '../../snippets/Alerts/Alert';
 
 /**
  * InputSelect
@@ -508,6 +509,7 @@ class InputSelect extends React.Component {
       alerts,
       autoFocus,
       popupAutoSize,
+      maxTagTextLength,
     } = this.props;
 
     const inputSelectStyle = { width: '100%', cursor: 'text', ...style };
@@ -574,6 +576,7 @@ class InputSelect extends React.Component {
                 setSelectedListRef={this.setSelectedListRef}
                 _textarea={this._textarea}
                 _selectedList={this._selectedList}
+                maxTagTextLength={maxTagTextLength}
               />
             </InputSelectGroup>
           </DropdownToggle>
@@ -757,6 +760,10 @@ InputSelect.propTypes = {
    * Флаг авто размера попапа
    */
   popupAutoSize: PropTypes.bool,
+  /**
+   * Максимальная длина текста в тэге, до усечения
+   */
+  maxTagTextLength: PropTypes.number,
 };
 
 InputSelect.defaultProps = {
