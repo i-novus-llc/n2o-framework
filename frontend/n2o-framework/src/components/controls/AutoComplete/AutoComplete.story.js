@@ -13,15 +13,15 @@ const form = withForm({ src: 'AutoComplete' });
 const options = [
   {
     id: 1,
-    name: 'a',
-  },
-  {
-    id: 2,
     name: 'ab',
   },
   {
-    id: 3,
+    id: 2,
     name: 'abc',
+  },
+  {
+    id: 3,
+    name: 'abcd',
   },
 ];
 
@@ -118,12 +118,23 @@ stories
     'Мод tags',
     () => {
       return (
-        <AutoComplete
-          tags={true}
-          valueFieldId="name"
-          labelFieldId="name"
-          options={options}
-        />
+        <>
+          <AutoComplete
+            tags={true}
+            valueFieldId="name"
+            labelFieldId="name"
+            options={options}
+            style={{ marginBottom: '25px' }}
+          />
+          <span>maxTagTextLength = 2</span>
+          <AutoComplete
+            tags={true}
+            valueFieldId="name"
+            labelFieldId="name"
+            options={options}
+            maxTagTextLength={2}
+          />
+        </>
       );
     },
     {
