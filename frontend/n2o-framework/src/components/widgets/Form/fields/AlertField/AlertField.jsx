@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import classNames from 'classnames';
 
 import Alert from 'reactstrap/lib/Alert';
 
@@ -35,7 +35,7 @@ const AlertField = ({
   return visible ? (
     <Alert
       isOpen={visible}
-      className={cx('n2o-alert-field', className)}
+      className={classNames('n2o-alert-field n2o-snippet', className)}
       {...rest}
       style={style}
     >

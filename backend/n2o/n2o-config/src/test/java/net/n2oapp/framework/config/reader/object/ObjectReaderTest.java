@@ -33,7 +33,6 @@ public class ObjectReaderTest {
                 .readByPath("net/n2oapp/framework/config/io/object/testObjectReader.object.xml");
 
         assert object.getName().equals("test");
-        assert object.getParent().equals("test");
 
         assert object.getObjectFields().length == 2;
         ObjectScalarField field = (ObjectScalarField) object.getObjectFields()[0];

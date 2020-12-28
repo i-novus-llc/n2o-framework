@@ -1,7 +1,6 @@
 package net.n2oapp.framework.api.metadata.reader;
 
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 
 
 /**

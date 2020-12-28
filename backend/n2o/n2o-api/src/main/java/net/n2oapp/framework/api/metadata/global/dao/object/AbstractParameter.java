@@ -3,12 +3,10 @@ package net.n2oapp.framework.api.metadata.global.dao.object;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.global.aware.IdAware;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
 
 /**
- * User: operhod
- * Date: 15.01.14
- * Time: 10:13
+ * Абстрактный параметр объекта
  */
 @Getter
 @Setter

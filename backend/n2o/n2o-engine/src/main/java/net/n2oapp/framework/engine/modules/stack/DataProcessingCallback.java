@@ -8,5 +8,5 @@ import net.n2oapp.framework.api.processing.N2oModule;
  * Time: 17:34
  */
 public interface DataProcessingCallback {
-    public void process(N2oModule module);
+    void process(N2oModule module);
 }

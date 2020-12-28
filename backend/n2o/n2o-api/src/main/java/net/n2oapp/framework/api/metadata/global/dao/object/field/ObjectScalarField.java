@@ -16,7 +16,6 @@ public class ObjectScalarField extends AbstractParameter {
     private String normalize;
     private MapperType mapperType;
 
-
     public ObjectScalarField() {
     }
 

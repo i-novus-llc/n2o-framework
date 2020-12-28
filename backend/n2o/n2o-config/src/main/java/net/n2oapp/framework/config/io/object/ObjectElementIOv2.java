@@ -23,7 +23,6 @@ public class ObjectElementIOv2 implements NamespaceIO<N2oObject> {
     @Override
     public void io(Element e, N2oObject t, IOProcessor p) {
         p.element(e, "name", t::getName, t::setName);
-        p.element(e, "parent", t::getParent, t::setParent);
         p.element(e, "table-name", t::getTableName, t::setTableName);
         p.element(e, "entity-class", t::getEntityClass, t::setEntityClass);
         p.element(e, "app-name", t::getAppName, t::setAppName);
@@ -96,13 +95,11 @@ public class ObjectElementIOv2 implements NamespaceIO<N2oObject> {
 
     private void invParameter(Element e, N2oObject.Parameter t, IOProcessor p) {
 //        abstractParameter(e, t, p); todo нельзя использовать из-за конфликта между id и name
-        t.setType(N2oObject.Parameter.Type.in);
         parameter(e, t, p);
     }
 
     private void outParameter(Element e, N2oObject.Parameter t, IOProcessor p) {
 //        abstractParameter(e, t, p); todo нельзя использовать из-за конфликта между id и name
-        t.setType(N2oObject.Parameter.Type.out);
         parameter(e, t, p);
     }
 
