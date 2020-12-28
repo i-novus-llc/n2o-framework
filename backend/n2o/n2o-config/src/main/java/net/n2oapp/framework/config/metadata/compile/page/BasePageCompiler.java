@@ -345,7 +345,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         source.setToolbars(n2oToolbars);
     }
 
-    private List<N2oWidget> getSourceIndependents(Collection<N2oWidget> sourceWidgets) {
+    private List<N2oWidget> getSourceIndependents(List<N2oWidget> sourceWidgets) {
         List<N2oWidget> independents = new ArrayList<>();
         for (N2oWidget widget : sourceWidgets) {
             if (widget.getDependsOn() == null)
@@ -354,7 +354,7 @@ public abstract class BasePageCompiler<S extends N2oBasePage, D extends Standard
         return independents;
     }
 
-    private List<N2oWidget> getDetails(String widgetId, Collection<N2oWidget> widgets) {
+    private List<N2oWidget> getDetails(String widgetId, List<N2oWidget> widgets) {
         List<N2oWidget> details = new ArrayList<>();
         for (N2oWidget widget : widgets) {
             if (widget.getDependsOn() != null && widget.getDependsOn().equals(widgetId))
