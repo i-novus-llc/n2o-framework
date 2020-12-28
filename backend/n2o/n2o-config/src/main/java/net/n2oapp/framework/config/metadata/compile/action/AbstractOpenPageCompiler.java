@@ -12,7 +12,6 @@ import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
-import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.local.util.StrictMap;
 import net.n2oapp.framework.api.metadata.local.view.widget.util.SubModelQuery;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
@@ -26,7 +25,6 @@ import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
 import net.n2oapp.framework.config.metadata.compile.page.PageScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
-import net.n2oapp.framework.config.metadata.compile.widget.PageSourceWidgetsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
 import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
@@ -142,13 +140,13 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (widgetIdAware != null && widgetIdAware.getWidgetId() != null)
             parentComponentWidgetId = widgetIdAware.getWidgetId();
 
+        // виджет для текущей модели берется либо из родителя, либо текущий
         String actionModelWidgetId = p.cast(parentComponentWidgetId, currentWidgetId);
 
-        PageSourceWidgetsScope sourceWidgetsScope = p.getScope(PageSourceWidgetsScope.class);
-        Map<String, N2oWidget> sourceWidgets = null;
-        if (sourceWidgetsScope != null && !CollectionUtils.isEmpty(sourceWidgetsScope.getWidgets()))
-            sourceWidgets = sourceWidgetsScope.getWidgets();
-        initPathMapping(source.getPathParams(), actionDataModel, pathMapping, pageScope, actionModelWidgetId, sourceWidgets, p);
+        Map<String, String> queryIdByWidgetIds = null;
+        if (pageScope != null && !CollectionUtils.isEmpty(pageScope.getQueryIdByWidgetIds()))
+            queryIdByWidgetIds = pageScope.getQueryIdByWidgetIds();
+        initPathMapping(source.getPathParams(), actionDataModel, pathMapping, pageScope, actionModelWidgetId, queryIdByWidgetIds, p);
 
         String parentRoute = normalize(route);
         List<String> pathParams = RouteUtil.getPathParams(actionRoute);
@@ -203,7 +201,7 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
         if (source.getRoute() == null && !ReduxModel.FILTER.equals(actionDataModel))
             queryMapping.putAll(initPreFilterParams(preFilters, pathMapping));
         initQueryMapping(source.getQueryParams(), actionDataModel, pathMapping, queryMapping, pageScope,
-                actionModelWidgetId, sourceWidgets, p);
+                actionModelWidgetId, queryIdByWidgetIds, p);
         pageContext.setQueryRouteMapping(queryMapping);
 
         initPageRoute(compiled, route, pathMapping, queryMapping);
@@ -247,16 +245,16 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * @param pageScope               Информация о странице
      * @param defaultParamRefWidgetId Идентификатор виджета, который будет использоваться по умолчанию,
      *                                в случае, если в параметре не задан виджет
-     * @param sourceWidgets           Map исходных моделей виджетов страницы по идентификатору
+     * @param queryIdByWidgetIds      Map идентификатора выборки по идентификатору виджета
      * @param p                       Процессор сборки метаданных
      */
     private void initPathMapping(N2oParam[] params, ReduxModel actionDataModel, Map<String, ModelLink> pathMapping,
-                                 PageScope pageScope, String defaultParamRefWidgetId, Map<String, N2oWidget> sourceWidgets,
+                                 PageScope pageScope, String defaultParamRefWidgetId, Map<String, String> queryIdByWidgetIds,
                                  CompileProcessor p) {
         if (params == null || params.length == 0) return;
 
         List<N2oParam> resultParams = prepareParams(params, actionDataModel, pageScope, defaultParamRefWidgetId, p);
-        pathMapping.putAll(initParams(resultParams, pathMapping, sourceWidgets));
+        pathMapping.putAll(initParams(resultParams, pathMapping, queryIdByWidgetIds));
     }
 
     /**
@@ -270,15 +268,15 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
      * @param pageScope               Информация о странице
      * @param defaultParamRefWidgetId Идентификатор виджета, который будет использоваться по умолчанию,
      *                                в случае, если в параметре не задан виджет
-     * @param sourceWidgets           Map исходных моделей виджетов страницы по идентификатору
+     * @param queryIdByWidgetIds      Map идентификатора выборки по идентификатору виджета
      * @param p                       Процессор сборки метаданных
      */
     private void initQueryMapping(N2oParam[] params, ReduxModel actionDataModel, Map<String, ModelLink> pathMapping,
                                   Map<String, ModelLink> queryMapping, PageScope pageScope,
-                                  String defaultParamRefWidgetId, Map<String, N2oWidget> sourceWidgets, CompileProcessor p) {
+                                  String defaultParamRefWidgetId, Map<String, String> queryIdByWidgetIds, CompileProcessor p) {
         if (params == null || params.length == 0) return;
         List<N2oParam> resultParams = prepareParams(params, actionDataModel, pageScope, defaultParamRefWidgetId, p);
-        queryMapping.putAll(initParams(resultParams, pathMapping, sourceWidgets));
+        queryMapping.putAll(initParams(resultParams, pathMapping, queryIdByWidgetIds));
     }
 
     /**
@@ -307,24 +305,23 @@ public abstract class AbstractOpenPageCompiler<D extends Action, S extends N2oAb
     /**
      * Инициализация map моделей по имени параметра из списка параметров.
      *
-     * @param params        Список параметров
-     * @param pathParams    Map моделей по имени параметра
-     *                      Используется для фильтрации параметров, не входящих в данную map
-     * @param sourceWidgets Map исходных моделей виджетов страницы по идентификатору
+     * @param params             Список параметров
+     * @param pathParams         Map моделей по имени параметра
+     *                           Используется для фильтрации параметров, не входящих в данную map
+     * @param queryIdByWidgetIds Map идентификатора выборки по идентификатору виджета
      * @return Map моделей по имени параметра
      */
     private Map<String, ModelLink> initParams(List<N2oParam> params,
                                               Map<String, ModelLink> pathParams,
-                                              Map<String, N2oWidget> sourceWidgets) {
+                                              Map<String, String> queryIdByWidgetIds) {
         return params == null ? null :
                 params.stream().filter(f -> f.getName() != null && !pathParams.containsKey(f.getName()))
                         .collect(Collectors.toMap(N2oParam::getName, param -> {
                             String widgetId = param.getRefWidgetId();
                             ModelLink link = Redux.linkParam(param);
-                            if (ReduxModel.RESOLVE.equals(link.getModel()) && sourceWidgets != null &&
-                                    sourceWidgets.get(widgetId) != null &&
-                                    sourceWidgets.get(widgetId).getQueryId() != null)
-                                link.setSubModelQuery(new SubModelQuery(sourceWidgets.get(widgetId).getQueryId()));
+                            if (ReduxModel.RESOLVE.equals(link.getModel()) && queryIdByWidgetIds != null &&
+                                    queryIdByWidgetIds.get(widgetId) != null)
+                                link.setSubModelQuery(new SubModelQuery(queryIdByWidgetIds.get(widgetId)));
                             return link;
                         }));
     }

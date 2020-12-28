@@ -5,6 +5,7 @@ import lombok.Setter;
 import net.n2oapp.framework.config.util.CompileUtil;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -17,6 +18,7 @@ public class PageScope implements Serializable {
     private String objectId;
     private String resultWidgetId;
     private Set<String> widgetIds;
+    private Map<String, String> queryIdByWidgetIds;
 
     public String getGlobalWidgetId(String localWidgetId) {
         return CompileUtil.generateWidgetId(pageId, localWidgetId);
