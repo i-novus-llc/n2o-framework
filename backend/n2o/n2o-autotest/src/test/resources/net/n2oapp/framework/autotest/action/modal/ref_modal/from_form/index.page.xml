@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-3.0" route="/"
+      name="Прокидывание модели на форму в модальное окно">
+    <regions>
+        <line label="Передача параметров из формы">
+            <form id="form">
+                <fields>
+                    <input-text id="address" label="Адрес (собирается из того, что ввели в модальном окне)">
+                        <toolbar>
+                            <button model="filter" class="fa fa-plus">
+                                <show-modal page-id="modal"
+                                            submit-action-type="copy"
+                                            submit-label="Сохранить"
+                                            copy-mode="replace"
+                                            route="/modalPage"
+                                >
+                                </show-modal>
+                            </button>
+                        </toolbar>
+                        <dependencies>
+                            <set-value on="city">
+                                var address = "";
+                                if (typeof city != 'undefined')
+                                address += city;
+                                if (typeof street != 'undefined') {
+                                if (address.length !== 0)
+                                address += ", ";
+                                address += street;
+                                }
+                                if (typeof house != 'undefined') {
+                                if (address.length !== 0)
+                                address += ", ";
+                                address += house;
+                                }
+                                return address;
+                            </set-value>
+                        </dependencies>
+                    </input-text>
+                    <input-text id="city" label="Город (значение должно копироваться в модальное окно и обратно)"
+                                default-value="Казань"/>
+                </fields>
+            </form>
+            <form id="form2" name="Вторая форма">
+                <fields>
+                    <input-text id="street" label="Улица (значение должно копироваться в модальное окно, но не обратно)"
+                                default-value="Качалова"/>
+                </fields>
+            </form>
+        </line>
+    </regions>
+</page>
