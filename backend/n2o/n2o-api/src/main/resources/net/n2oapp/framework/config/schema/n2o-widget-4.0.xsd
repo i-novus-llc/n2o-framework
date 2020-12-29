@@ -372,7 +372,7 @@
                 <xs:documentation>Идентификатор столбца.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="src" type="xs:string" default="TextTableHeader">
+        <xs:attribute name="src" type="xs:string">
             <xs:annotation>
                 <xs:documentation>Реализация столбца таблицы (React компонент).</xs:documentation>
             </xs:annotation>
@@ -439,12 +439,12 @@
         </xs:attribute>
         <xs:attribute name="class" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Css класс заголовка у столбца таблицы.</xs:documentation>
+                <xs:documentation>Css класс заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:attribute name="style" type="xs:string">
             <xs:annotation>
-                <xs:documentation>Стиль заголовка у столбца таблицы.</xs:documentation>
+                <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
             </xs:annotation>
         </xs:attribute>
         <xs:sequence>
@@ -506,12 +506,12 @@
             </xs:attribute>
             <xs:attribute name="class" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation>Css класс заголовка у столбца таблицы.</xs:documentation>
+                    <xs:documentation>Css класс заголовка столбца таблицы.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
             <xs:attribute name="style" type="xs:string">
                 <xs:annotation>
-                    <xs:documentation>Стиль заголовка у столбца таблицы.</xs:documentation>
+                    <xs:documentation>Стиль заголовка столбца таблицы.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
             <xs:sequence>

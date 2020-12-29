@@ -93,6 +93,7 @@ class AdvancedTableHeaderCell extends Component {
       title,
       filterControl,
       as,
+      style,
     } = this.props;
 
     let cellContent = null;
@@ -114,6 +115,7 @@ class AdvancedTableHeaderCell extends Component {
         title={label}
         rowSpan={rowSpan}
         colSpan={colSpan}
+        style={style}
         className={cn('n2o-advanced-table-header-cel', {
           [selectionClass]: selectionHead,
           'n2o-advanced-table-header-text-center': multiHeader,
