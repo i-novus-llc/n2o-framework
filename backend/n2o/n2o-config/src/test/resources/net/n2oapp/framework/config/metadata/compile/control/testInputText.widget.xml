@@ -10,10 +10,10 @@
                         label="InputNumber" label-class="testLabelClass" no-label="true" no-label-block="true"/>
         </row>
         <input-text id="test2" domain="long" measure="cm"/>
-        <input-text id="test3" domain="numeric"/>
+        <input-text id="test3" domain="numeric" precision="2"/>
         <input-text id="test4" domain="short"/>
         <input-text id="test5" domain="integer"/>
         <input-text id="test6" domain="integer[]"/>
-        <input-text id="test6" domain="numeric" step="0.00"/>
+        <input-text id="test7" domain="numeric" step="0.00"/>
     </fields>
 </form>

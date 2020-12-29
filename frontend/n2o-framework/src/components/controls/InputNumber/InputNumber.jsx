@@ -87,15 +87,25 @@ export class InputNumber extends React.Component {
 
   resolveValue(value) {
     const { precision } = this.props;
-    if (!isNil(precision) && includes(value, '.')) {
-      const valueArr = split(value, '.');
 
-      return precision === 0
-        ? valueArr[0]
-        : `${valueArr[0]}.${toString(valueArr[1]).substring(0, precision)}`;
+    const ceilValue = Math.trunc(value);
+    const isFloat = value % 1 !== 0;
+
+    if (value === null || value === '' || isNaN(toNumber(value))) {
+      return value;
     }
 
-    return value;
+    if (precision === undefined) {
+      return ceilValue;
+    } else if (precision === null) {
+      return value;
+    } else {
+      return isFloat
+        ? value
+            .toString()
+            .substr(0, ceilValue.toString().length + 1 + precision)
+        : value;
+    }
   }
 
   onChange(value) {
