@@ -106,11 +106,8 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
 
   const widgetId = action.payload.widgetId;
   const multi = get(state, 'models.multi');
-  const rootPageId = get(state, 'global.rootPageId');
-  const modelId = get(state, `pages.${rootPageId}.metadata.widget.id`);
-  const multiModel = get(state, `models.multi.${modelId}`);
+  const multiModel = get(state, `models.multi.${widgetId}`);
   const widget = get(state, `widgets.${widgetId}`);
-
   const hasMultiModel = some(values(multi), model => !isEmpty(model));
 
   const needResolve = get(widget, 'modelPrefix') === 'resolve';
@@ -135,7 +132,12 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
         return { ...modelElement, ...formParams };
       });
     } else {
-      return assign({}, model, formParams);
+      const { ids } = model;
+      const requestIds = Array.isArray(ids) ? ids : [ids];
+
+      return ids
+        ? assign({}, model, formParams, { ids: requestIds })
+        : assign({}, model, formParams);
     }
   };
 
