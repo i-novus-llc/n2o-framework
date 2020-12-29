@@ -47,11 +47,11 @@ public class LinkCellCompileTest extends SourceCompileTestBase {
         assertThat(cell.getSrc(), is("LinkCell"));
         assertThat(cell.getId(), is("test1"));
         assertThat(cell.getIcon(), nullValue());
-        assertThat(cell.getType(), nullValue());
+        assertThat(cell.getType(), is(IconType.text));
 
         cell = (N2oLinkCell) table.getComponent().getCells().get(1);
         assertThat(cell.getId(), is("test2"));
-        assertThat(cell.getIcon(), is("iconTest2"));
+        assertThat(cell.getIcon(), nullValue());
         assertThat(cell.getType(), is(IconType.text));
 
         cell = (N2oLinkCell) table.getComponent().getCells().get(2);

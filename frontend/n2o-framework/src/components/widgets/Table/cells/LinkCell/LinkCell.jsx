@@ -1,48 +1,60 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { compose, withHandlers, mapProps } from 'recompose';
+import React, { useMemo } from 'react';
 import get from 'lodash/get';
+import omit from 'lodash/omit';
 
 import withCell from '../../withCell';
 import withTooltip from '../../withTooltip';
 import StandardButton from '../../../../buttons/StandardButton/StandardButton';
 
-function LinkCell({ url, ...props }) {
-  return <StandardButton {...props} url={url} href={url} />;
+import { LinkCellType } from './linkCellTypes';
+
+function LinkCell(props) {
+  const {
+    widgetId,
+    dispatch,
+    columnId,
+    model,
+    className,
+    fieldKey,
+    id,
+    resolveWidget,
+    icon,
+    type,
+    url,
+    ...rest
+  } = props;
+
+  const submitType = useMemo(() => {
+    let content = {
+      icon: icon,
+      label: get(model, fieldKey || id, ''),
+    };
+
+    if (type === LinkCellType.TEXT) {
+      content = {
+        label: get(model, fieldKey || id, ''),
+      };
+    } else if (type === LinkCellType.ICON) {
+      content = { icon };
+    }
+
+    return content;
+  }, [type, model, fieldKey, id, icon]);
+
+  return (
+    <StandardButton
+      id={id}
+      className={className}
+      color={'link'}
+      model={model}
+      entityKey={widgetId}
+      {...submitType}
+      {...omit(rest, ['icon', 'label'])}
+      url={url}
+      href={url}
+    />
+  );
 }
 
-LinkCell.contextTypes = {
-  store: PropTypes.object,
-};
-
-const enhance = compose(
-  withCell,
-  withTooltip,
-  withHandlers({
-    createButton: ({
-      widgetId,
-      dispatch,
-      columnId,
-      model,
-      className,
-      fieldKey,
-      id,
-      resolveWidget,
-      ...rest
-    }) => () => ({
-      id,
-      className,
-      label: get(model, fieldKey || id, ''),
-      color: 'link',
-      model,
-      entityKey: widgetId,
-    }),
-  }),
-  mapProps(({ createButton, ...rest }) => ({
-    ...createButton(),
-    ...rest,
-  }))
-);
-
 export { LinkCell };
-export default enhance(LinkCell);
+export default withCell(withTooltip(LinkCell));

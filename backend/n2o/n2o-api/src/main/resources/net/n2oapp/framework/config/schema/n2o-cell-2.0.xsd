@@ -131,27 +131,27 @@
                         </xs:annotation>
                     </xs:any>
                 </xs:sequence>
-                <xs:attribute name="url" type="xs:string" use="optional">
+                <xs:attribute name="url" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Адрес URL открываемой страницы.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="target" type="acn:aType" use="optional">
+                <xs:attribute name="target" type="acn:aType">
                     <xs:annotation>
                         <xs:documentation>Сценарий открытия ссылки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="action-id" type="xs:string" use="optional">
+                <xs:attribute name="action-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Действие виджета, которое будет вызвано при клике по ссылке.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="icon" type="xs:string" use="optional">
+                <xs:attribute name="icon" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Иконка ссылки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="type" type="linkIconType" default="text" use="optional">
+                <xs:attribute name="type" type="linkIconType" default="text">
                     <xs:annotation>
                         <xs:documentation>Текст с иконкой или без.</xs:documentation>
                     </xs:annotation>
