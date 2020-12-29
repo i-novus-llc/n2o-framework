@@ -349,6 +349,11 @@ const enhance = compose(
           onSetSelection: model => {
             props.dispatch(setModel(PREFIXES.multi, props.widgetId, model));
           },
+          setSelectionType: type => {
+            props.dispatch(
+              setModel(PREFIXES.selectionType, props.widgetId, type)
+            );
+          },
           onSetFilter: filters => {
             props.dispatch(setModel(PREFIXES.filter, props.widgetId, filters));
           },
