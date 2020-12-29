@@ -9508,7 +9508,7 @@ draft-js@0.10.5:
     immutable "~3.7.4"
     object-assign "^4.1.0"
 
-draft-js@>=0.10.0:
+draft-js@0.11.7, draft-js@>=0.10.0:
   version "0.11.7"
   resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.11.7.tgz#be293aaa255c46d8a6647f3860aa4c178484a206"
   integrity sha512-ne7yFfN4sEL82QPQEn80xnADR8/Q6ALVworbC5UOSzOvjffmYfFsr3xSZtxbIirti14R7Y33EZC5rivpLgIbsg==
