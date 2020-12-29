@@ -109,18 +109,18 @@ export class InputNumber extends React.Component {
   }
 
   onChange(value) {
-    const nextValue = this.resolveValue(
+    const parsedValue = this.resolveValue(
       value === '' ? null : value === '-' ? value : toNumber(value)
     );
 
-    if (isNil(nextValue)) {
+    if (isNil(parsedValue)) {
       this.setState({ value: null }, () => this.props.onChange(null));
     }
 
-    if (matchesWhiteList(nextValue) || this.pasted) {
+    if (matchesWhiteList(parsedValue) || this.pasted) {
       this.setState({ value: this.resolveValue(value) }, () => {
         if (!isNaN(toNumber(value)) || this.props.mode === inputMode.PICKER) {
-          this.props.onChange(this.resolveValue(nextValue));
+          this.props.onChange(this.resolveValue(value));
         }
       });
     }
