@@ -28,6 +28,7 @@ function MultiFieldset({
   render,
   rows,
   enabled,
+  visible,
   ...rest
 }) {
   return (

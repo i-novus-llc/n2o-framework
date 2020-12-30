@@ -25,9 +25,15 @@ import FieldsetRow from './FieldsetRow';
 const config = {
   onChange: function() {
     const { store } = this.context;
-    const { visible, enabled } = this.props;
+    const { visible, disabled } = this.props;
+    const enabled = !disabled;
+    const formValues = this.getFormValues(store);
+
+    if (!isNil(enabled)) {
+      this.setEnabled(propsResolver(enabled, formValues));
+    }
+
     if (isString(visible) || isString(enabled)) {
-      const formValues = this.getFormValues(store);
       visible && this.setVisible(propsResolver(visible, formValues));
       enabled && this.setEnabled(propsResolver(enabled, formValues));
     }
@@ -217,6 +223,7 @@ class Fieldset extends React.Component {
       parentName,
       parentIndex,
       disabled,
+      visible,
       label,
       childrenLabel,
       ...rest
