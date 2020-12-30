@@ -4,6 +4,7 @@
         <fields>
             <masked-input label="MaskedInput" id="masked" mask="+7 (999) 999-99-99" class="n2o"
                           placeholder="+7 (___) ___-__-__" measure="тел."/>
+            <masked-input label="MaskedInputWithoutClear" id="maskedWithoutClear" mask="+7 (999) 999-99-99" clear-on-blur="false"/>
         </fields>
     </form>
 </simple-page>
