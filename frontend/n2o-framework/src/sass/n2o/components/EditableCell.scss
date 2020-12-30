@@ -1,17 +1,50 @@
+.editable-cell-empty {
+  width: 100%;
+  min-width: 182px;
+}
+
+.table-hover .table-active:hover,
+.table-hover tbody tr:hover {
+  .editable-cell-empty {
+    background-color: #fff;
+  }
+}
+
+.editable-cell-empty:hover {
+  background-color: #fff;
+  transition: 0.3s;
+}
+
 .n2o-editable-cell {
-  & > .n2o-editable-cell-text{
-    & span:before{
+
+  .n2o-editable-cell-text {
+    span:before {
+      content: "\a0";
+    }
+    span:after {
       content: "\a0";
     }
   }
+
+  .form-control:focus {
+    border-color: #163851;
+    box-shadow: none;
+    padding: 1px 0 2px 2px;;
+  }
+
+  min-width: 80px;
+  width: 100%;
+  max-width: max-content;
+  text-align: left;
+
   &:hover {
-    transition: 0.3s;
     color: #263238;
     background-color: #fff;
-    border-color: #317db5;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(22, 56, 81, 0.25);
+    box-shadow: 0 0 0 1px #263238;
+    border: none;
     cursor: text;
+    transition: 0.3s;
   }
 
   & .n2o-input-select .n2o-input-container {
@@ -21,8 +54,10 @@
       padding: 0;
     }
   }
+}
 
-
+.n2o-editable-cell:focus {
+  outline: 0;
 }
 
 .n2o-editable-cell-control > div,

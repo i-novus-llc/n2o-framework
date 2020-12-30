@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.metadata.meta.action.close.CloseActionPayload;
 import net.n2oapp.framework.api.metadata.meta.action.link.LinkActionImpl;
 import net.n2oapp.framework.api.metadata.meta.page.Page;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
+import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.compile.context.ModalPageContext;
 import net.n2oapp.framework.config.metadata.compile.context.PageContext;
@@ -18,6 +19,7 @@ import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 public class CloseActionCompileTest extends SourceCompileTestBase {
 
@@ -43,6 +45,9 @@ public class CloseActionCompileTest extends SourceCompileTestBase {
         assertThat(testAction.getType(), is("n2o/overlays/CLOSE"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPageId(), is("p_w_a"));
         assertThat(((CloseActionPayload) testAction.getPayload()).getPrompt(), is(true));
+        assertThat(( testAction.getMeta()).getRefresh(), is(nullValue()));
+        CloseAction testCloseRefreshAction = (CloseAction) page.getWidget().getToolbar().getButton("testCloseRefresh").getAction();
+        assertThat(( testCloseRefreshAction.getMeta()).getRefresh().getType(), is(RefreshSaga.Type.widget));
 
     }
 
