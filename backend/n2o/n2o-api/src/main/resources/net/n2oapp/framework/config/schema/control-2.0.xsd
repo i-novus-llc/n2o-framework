@@ -1043,6 +1043,11 @@
                         <xs:documentation>Тип данных</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="precision" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная длина дробной части (используется только для domain="numeric").</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:attribute name="length" type="xs:integer">
                     <xs:annotation>
                         <xs:documentation>
