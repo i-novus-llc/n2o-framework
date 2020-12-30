@@ -44,13 +44,18 @@ public class N2oStandardTableHeader extends N2oTableHeader implements StandardTa
 
     @Override
     public void shouldHaveStyle(String style) {
-        element().$(".n2o-advanced-table-header-cell-content div")
-                .shouldHave(Condition.attributeMatching("style", ".*" + style + ".*"));
+        if (element().$(".n2o-advanced-table-header-title").exists()) {
+            element().$(".n2o-advanced-table-header-title")
+                    .shouldHave(Condition.attributeMatching("style", ".*" + style + ".*"));
+        } else {
+            element().$("div.n2o-advanced-table-header-cel")
+                    .shouldHave(Condition.attributeMatching("style", ".*" + style + ".*"));
+        }
     }
 
     @Override
     public void shouldHaveCssClass(String cssClass) {
-        element().$(".n2o-advanced-table-header-cell-content div")
+        element().$("div.n2o-advanced-table-header-cell-content")
                 .shouldHave(Condition.attributeMatching("class", ".*" + cssClass + ".*"));
     }
 }

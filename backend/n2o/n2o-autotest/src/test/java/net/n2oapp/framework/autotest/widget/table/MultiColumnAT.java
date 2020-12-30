@@ -7,6 +7,7 @@ import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
 import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableFilterHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableMultiHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -93,9 +94,9 @@ public class MultiColumnAT extends AutoTestBase {
         rows.shouldHaveSize(4);
 
         StandardTableHeader header1 = headers.header(0);
-        StandardTableHeader header2 = headers.header(1);
+        StandardTableHeader header2 = headers.header(1, TableMultiHeader.class);
         StandardTableHeader header3 = headers.header(2);
-        StandardTableHeader header4 = headers.header(3);
+        StandardTableHeader header4 = headers.header(3, TableMultiHeader.class);
         TableFilterHeader header5 = headers.header(4, TableFilterHeader.class);
         StandardTableHeader header6 = headers.header(5);
         StandardTableHeader header7 = headers.header(6);
@@ -111,6 +112,7 @@ public class MultiColumnAT extends AutoTestBase {
         header5.shouldHaveTitle("Phone");
         // столбцы третьего уровня
         header6.shouldHaveTitle("FirstName");
+        header6.shouldHaveCssClass("font-italic");
         header7.shouldHaveTitle("LastName");
 
         // проверка, что все ячейки корректно заполнены

@@ -17,7 +17,7 @@
                 <columns>
                     <column text-field-id="id" label="ID"/>
                     <multi-column label="Info" class="font-italic">
-                        <multi-column label="Name">
+                        <multi-column label="Name" class="font-italic">
                             <column text-field-id="firstName" label="FirstName" class="font-italic"/>
                             <column text-field-id="lastName" label="LastName"/>
                         </multi-column>
