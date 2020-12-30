@@ -40,6 +40,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         field.setProperties(null);//для StandardField properties должны попасть в control, а не field
         field.setControl(control);
         field.setDataProvider(initDataProvider(source, context, p));
+        initRefAttributes(source, context, p);
         return field;
     }
 
