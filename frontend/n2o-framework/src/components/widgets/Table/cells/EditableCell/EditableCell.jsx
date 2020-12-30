@@ -1,17 +1,18 @@
 import React from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { compose } from 'recompose';
 import { HotKeys } from 'react-hotkeys/cjs';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import unset from 'lodash/unset';
+
 import Text from '../../../../snippets/Text/Text';
-import withActionsEditableCell from './withActionsEditableCell';
+
 import withCell from '../../withCell';
 import withTooltip from '../../withTooltip';
 
+import withActionsEditableCell from './withActionsEditableCell';
 /**
  * Компонент редактируемой ячейки таблицы
  * @reactProps {boolean} visible - флаг видимости
@@ -118,19 +119,22 @@ export class EditableCell extends React.Component {
     const { editing, model } = this.state;
     const events = { events: 'enter' };
     const handlers = { events: this.handleKeyDown };
+    const text = get(model, fieldKey);
 
     return (
       visible && (
         <div
-          className={cn({ 'n2o-editable-cell': editable })}
+          className={classNames({ 'n2o-editable-cell': editable })}
           onClick={this.stopPropagation}
         >
           {!editing && (
             <div
-              className="n2o-editable-cell-text"
+              className={classNames('n2o-editable-cell-text', {
+                'editable-cell-empty': !text,
+              })}
               onClick={editable && this.toggleEdit}
             >
-              <Text text={get(model, fieldKey)} format={format} />
+              <Text text={text} format={format} />
             </div>
           )}
           {editable && editing && (

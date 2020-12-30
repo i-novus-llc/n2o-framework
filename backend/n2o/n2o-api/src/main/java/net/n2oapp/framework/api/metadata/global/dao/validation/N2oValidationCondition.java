@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Исходная модель валидаций условий.
+ * Исходная модель валидации условия значений полей
  */
 @Getter
 @Setter

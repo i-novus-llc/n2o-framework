@@ -3,7 +3,7 @@ import defaultTo from 'lodash/defaultTo';
 import isArray from 'lodash/isArray';
 import map from 'lodash/map';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import classNames from 'classnames';
 import { withTranslation } from 'react-i18next';
 
 import HelpPopover from '../../widgets/Form/fields/StandardField/HelpPopover';
@@ -63,10 +63,17 @@ class Alert extends React.Component {
 
     return (
       <div
-        className={cx('n2o-alert', 'n2o-alert-loader', 'alert', className, {
-          [`alert-${severity}`]: severity,
-          'n2o-alert--animated': animate,
-        })}
+        className={classNames(
+          'n2o-alert',
+          'n2o-alert-loader',
+          'alert',
+          'n2o-snippet',
+          className,
+          {
+            [`alert-${severity}`]: severity,
+            'n2o-alert--animated': animate,
+          }
+        )}
         style={style}
       >
         <div className="n2o-alert-body-container">
@@ -110,7 +117,7 @@ class Alert extends React.Component {
 
     return (
       <div
-        className={cx('n2o-alert', 'alert', className, {
+        className={classNames('n2o-alert', 'alert', className, {
           [`alert-${severity}`]: severity,
           'n2o-alert--animated': animate,
         })}

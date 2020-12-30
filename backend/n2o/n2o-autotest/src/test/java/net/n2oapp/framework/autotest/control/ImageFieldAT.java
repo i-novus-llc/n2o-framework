@@ -44,7 +44,7 @@ public class ImageFieldAT extends AutoTestBase {
 
     @Test
     public void testImageField() {
-        Image image = page.widget(FormWidget.class).snippet(0, Image.class);
+        Image image = page.widget(FormWidget.class).fields().field(Image.class);
         image.shouldExists();
         image.shouldHaveTitle("Заголовок");
         image.shouldHaveDescription("описание");
@@ -52,7 +52,7 @@ public class ImageFieldAT extends AutoTestBase {
         image.shouldHaveWidth(40);
         image.shouldHaveTextPosition(TextPosition.right);
 
-        image = page.widget(FormWidget.class).snippet(1, Image.class);
+        image = page.widget(FormWidget.class).fields().field(1, Image.class);
         image.shouldExists();
         image.shouldHaveTitle("Заголовок");
         image.shouldHaveDescription("описание");

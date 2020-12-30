@@ -3,11 +3,10 @@ package net.n2oapp.framework.api.metadata.global.view.page;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.metadata.SourceComponent;
-import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 
 /**
- * Диалог подтверждения действия
+ * Исходная модель диалога подтверждения действия
  */
 @Getter
 @Setter

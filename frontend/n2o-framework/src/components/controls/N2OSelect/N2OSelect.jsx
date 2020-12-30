@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { compose, setDisplayName } from 'recompose';
 import onClickOutside from 'react-onclickoutside';
 import isEqual from 'lodash/isEqual';
+import get from 'lodash/get';
+import first from 'lodash/first';
 import isEmpty from 'lodash/isEmpty';
 import Button from 'reactstrap/lib/Button';
 import Popup from '../InputSelect/Popup';
@@ -385,9 +387,12 @@ class N2OSelect extends React.Component {
 
     const { selected } = this.state;
 
+    const title = get(first(selected), `${labelFieldId}`);
+
     return (
       <div
         className="n2o-input-select"
+        title={title}
         style={inputSelectStyle}
         onBlur={this._handleOnBlur}
       >
@@ -435,6 +440,7 @@ class N2OSelect extends React.Component {
               hasCheckboxes={this.state.hasCheckboxes}
               onRemoveItem={this._removeSelectedItem}
               format={format}
+              loading={loading}
             />
           </React.Fragment>
         </Popup>

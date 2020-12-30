@@ -13,13 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Валидация описанная в mandatory
+ * Клиентская модель валидации обязательности заполнения поля
  */
 @Getter
 @Setter
 @NoArgsConstructor
 public class MandatoryValidation extends Validation {
-
     protected Field field;
     private String mandatoryExpression;
     @JsonProperty("expression")
@@ -42,15 +41,17 @@ public class MandatoryValidation extends Validation {
 
     @Override
     public void validate(DataSet dataSet, InvocationProcessor serviceProvider, ValidationFailureCallback callback) {
-        boolean success = dataSet.get(getFieldId()) != null;
-        if (dataSet.get(getFieldId()) instanceof String)
-            success = success && !((String) dataSet.get(getFieldId())).isEmpty();
-        else if (dataSet.get(getFieldId()) instanceof List)
-            success = success && !((List) dataSet.get(getFieldId())).isEmpty();
-        else if (dataSet.get(getFieldId()) instanceof Map)
-            success = success && !((Map) dataSet.get(getFieldId())).isEmpty();
+        Boolean success = null;
+        if (dataSet.get(getFieldId()) != null) {
+            if (dataSet.get(getFieldId()) instanceof String)
+                success = !((String) dataSet.get(getFieldId())).isEmpty();
+            else if (dataSet.get(getFieldId()) instanceof List)
+                success = !((List) dataSet.get(getFieldId())).isEmpty();
+            else if (dataSet.get(getFieldId()) instanceof Map)
+                success = !((Map) dataSet.get(getFieldId())).isEmpty();
+        }
 
-        if (!success)
+        if (!Boolean.TRUE.equals(success))
             callback.onFail(getMessage());
     }
 

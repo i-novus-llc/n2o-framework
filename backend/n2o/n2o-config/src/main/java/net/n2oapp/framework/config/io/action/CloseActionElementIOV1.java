@@ -16,6 +16,7 @@ public class CloseActionElementIOV1 extends AbstractActionElementIOV1<N2oCloseAc
     public void io(Element e, N2oCloseAction a, IOProcessor p) {
         super.io(e, a, p);
         p.attributeBoolean(e, "unsaved-data-prompt", a::getPrompt, a::setPrompt);
+        p.attributeBoolean(e, "refresh", a::getRefresh, a::setRefresh);
     }
 
     @Override
