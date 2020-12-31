@@ -1,7 +1,7 @@
 package net.n2oapp.framework.autotest.api.component.widget.table;
 
 /**
- * Multi заголовок столбца таблицы для автотестирования
+ * Заголовок мультистолбца таблицы для автотестирования
  */
-public interface TableMultiHeader extends StandardTableHeader {
+public interface TableMultiHeader extends TableHeader {
 }

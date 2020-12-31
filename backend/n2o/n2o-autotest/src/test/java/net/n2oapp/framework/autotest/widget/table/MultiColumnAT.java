@@ -5,7 +5,7 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.page.StandardPage;
 import net.n2oapp.framework.autotest.api.component.region.RegionItems;
 import net.n2oapp.framework.autotest.api.component.region.SimpleRegion;
-import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableSimpleHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableFilterHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableMultiHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
@@ -60,11 +60,11 @@ public class MultiColumnAT extends AutoTestBase {
         headers.shouldHaveSize(5);
         rows.shouldHaveSize(4);
 
-        StandardTableHeader header1 = headers.header(0);
-        StandardTableHeader header2 = headers.header(1);
-        StandardTableHeader header3 = headers.header(2);
-        StandardTableHeader header4 = headers.header(3);
-        StandardTableHeader header5 = headers.header(4);
+        TableSimpleHeader header1 = headers.header(0);
+        TableSimpleHeader header2 = headers.header(1);
+        TableSimpleHeader header3 = headers.header(2);
+        TableSimpleHeader header4 = headers.header(3);
+        TableSimpleHeader header5 = headers.header(4);
         // проверка порядка столбцов
         // столбцы первого уровня
         header1.shouldHaveTitle("ID");
@@ -93,13 +93,13 @@ public class MultiColumnAT extends AutoTestBase {
         headers.shouldHaveSize(7);
         rows.shouldHaveSize(4);
 
-        StandardTableHeader header1 = headers.header(0);
-        StandardTableHeader header2 = headers.header(1, TableMultiHeader.class);
-        StandardTableHeader header3 = headers.header(2);
-        StandardTableHeader header4 = headers.header(3, TableMultiHeader.class);
+        TableSimpleHeader header1 = headers.header(0);
+        TableMultiHeader header2 = headers.header(1, TableMultiHeader.class);
+        TableSimpleHeader header3 = headers.header(2);
+        TableMultiHeader header4 = headers.header(3, TableMultiHeader.class);
         TableFilterHeader header5 = headers.header(4, TableFilterHeader.class);
-        StandardTableHeader header6 = headers.header(5);
-        StandardTableHeader header7 = headers.header(6);
+        TableSimpleHeader header6 = headers.header(5);
+        TableSimpleHeader header7 = headers.header(6);
         // проверка порядка столбцов
         // столбцы первого уровня
         header1.shouldHaveTitle("ID");

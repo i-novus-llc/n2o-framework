@@ -6,7 +6,7 @@ import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.control.Select;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableFilterHeader;
-import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableSimpleHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
@@ -57,7 +57,7 @@ public class FilterColumnAT extends AutoTestBase {
         TableHeaders headers = table.columns().headers();
         headers.shouldHaveSize(4);
 
-        StandardTableHeader header1 = headers.header(0);
+        TableSimpleHeader header1 = headers.header(0);
         TableFilterHeader header2 = headers.header(1, TableFilterHeader.class);
         TableFilterHeader header3 = headers.header(2, TableFilterHeader.class);
         TableFilterHeader header4 = headers.header(3, TableFilterHeader.class);
