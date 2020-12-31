@@ -39,22 +39,24 @@ export function MultiFieldsetItem({
               parentIndex: index,
             })}
             <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--inner">
-              {needCopyButton && enabled && (
+              {needCopyButton && (
                 <Button
                   className="n2o-multi-fieldset__copy"
                   color="link"
                   size="sm"
                   onClick={onCopyField(index)}
+                  disabled={!enabled}
                 >
                   <i className="fa fa-copy" />
                 </Button>
               )}
-              {needRemoveButton && index > +!canRemoveFirstItem - 1 && enabled && (
+              {needRemoveButton && index > +!canRemoveFirstItem - 1 && (
                 <Button
                   className="n2o-multi-fieldset__remove"
                   color="link"
                   size="sm"
                   onClick={onRemoveField(index)}
+                  disabled={!enabled}
                 >
                   <i className="fa fa-trash" />
                 </Button>
@@ -64,16 +66,21 @@ export function MultiFieldsetItem({
         </div>
       ))}
       <div className="n2o-multi-fieldset__actions n2o-multi-fieldset__actions--common">
-        {needAddButton && enabled && (
-          <Button className="n2o-multi-fieldset__add" onClick={onAddField}>
+        {needAddButton && (
+          <Button
+            className="n2o-multi-fieldset__add"
+            onClick={onAddField}
+            disabled={!enabled}
+          >
             <i className="fa fa-plus mr-1" />
             {addButtonLabel}
           </Button>
         )}
-        {!isEmpty(fields) && needRemoveAllButton && enabled && (
+        {!isEmpty(fields) && needRemoveAllButton && (
           <Button
             className="n2o-multi-fieldset__remove-all"
             onClick={onRemoveAll}
+            disabled={!enabled}
           >
             <i className="fa fa-trash mr-1" />
             {removeAllButtonLabel}

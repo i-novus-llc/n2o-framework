@@ -2,6 +2,7 @@ package net.n2oapp.framework.api.metadata.control;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.aware.IdAware;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
@@ -37,6 +38,9 @@ public abstract class N2oField extends N2oComponent implements IdAware {
     private Boolean copied;
     private String defaultValue;
     private String param;
+    private ReduxModel refModel;
+    private Page refPage;
+    private String refWidgetId;
 
     private N2oToolbar toolbar;
     private Dependency[] dependencies;
@@ -73,6 +77,24 @@ public abstract class N2oField extends N2oComponent implements IdAware {
         private N2oValidation[] inlineValidations;
         private String[] whiteList;
 
+    }
+
+    public enum Page implements IdAware {
+        THIS {
+            @Override
+            public String getId() {
+                return "this";
+            }
+        }, PARENT() {
+            @Override
+            public String getId() {
+                return "parent";
+            }
+        };
+
+        @Override
+        public void setId(String id) {
+        }
     }
 
     @Getter
