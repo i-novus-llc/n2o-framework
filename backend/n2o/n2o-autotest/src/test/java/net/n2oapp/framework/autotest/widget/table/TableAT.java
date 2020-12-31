@@ -68,7 +68,9 @@ public class TableAT extends AutoTestBase {
         table.columns().rows().row(1).cell(0).element().parent().shouldHave(Condition.cssClass("bg-info"));
         table.columns().rows().row(2).cell(0).element().parent().shouldHave(Condition.cssClass("bg-success"));
         table.columns().headers().header(0).shouldHaveTitle("Имя");
+        table.columns().headers().header(0).shouldHaveStyle("color: red");
         table.columns().headers().header(1).shouldHaveTitle("Фамилия");
+        table.columns().headers().header(1).shouldHaveCssClass("font-italic");
         table.columns().headers().header(2).shouldHaveTitle("Дата рождения");
 
         table.toolbar().topRight().button(1, DropdownButton.class).click();

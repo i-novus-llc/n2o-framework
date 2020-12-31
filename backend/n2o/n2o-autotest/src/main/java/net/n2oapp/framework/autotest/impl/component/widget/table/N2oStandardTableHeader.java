@@ -41,4 +41,21 @@ public class N2oStandardTableHeader extends N2oTableHeader implements StandardTa
     public void shouldBeSortedByDesc() {
         element().$(".n2o-sorting-icon.fa-sort-amount-desc").should(Condition.exist);
     }
+
+    @Override
+    public void shouldHaveStyle(String style) {
+        if (element().$(".n2o-advanced-table-header-title").exists()) {
+            element().$(".n2o-advanced-table-header-title")
+                    .shouldHave(Condition.attributeMatching("style", ".*" + style + ".*"));
+        } else {
+            element().$("div.n2o-advanced-table-header-cel")
+                    .shouldHave(Condition.attributeMatching("style", ".*" + style + ".*"));
+        }
+    }
+
+    @Override
+    public void shouldHaveCssClass(String cssClass) {
+        element().$("div.n2o-advanced-table-header-cell-content")
+                .shouldHave(Condition.attributeMatching("class", ".*" + cssClass + ".*"));
+    }
 }
