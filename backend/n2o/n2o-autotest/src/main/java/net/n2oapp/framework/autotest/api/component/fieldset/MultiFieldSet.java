@@ -12,6 +12,10 @@ public interface MultiFieldSet extends FieldSet {
 
     void addButtonShouldNotBeExist();
 
+    void addButtonShouldBeEnabled();
+
+    void addButtonShouldBeDisabled();
+
     void addButtonShouldHaveLabel(String label);
 
     void clickAddButton();

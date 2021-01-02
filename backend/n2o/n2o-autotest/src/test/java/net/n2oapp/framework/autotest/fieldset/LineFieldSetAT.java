@@ -97,4 +97,27 @@ public class LineFieldSetAT extends AutoTestBase {
         line2.shouldBeVisible();
         line2.fields().field("field2").shouldExists();
     }
+
+    @Test
+    public void testEnabled() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/list/enabled/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
+        fieldsets.shouldHaveSize(3);
+
+        InputText inputText = fieldsets.fieldset(0, SimpleFieldSet.class).fields().field("test").control(InputText.class);
+        inputText.shouldExists();
+
+        InputText line1Field = fieldsets.fieldset(1, LineFieldSet.class)
+                .fields().field("field1").control(InputText.class);
+        InputText line2Field = fieldsets.fieldset(2, LineFieldSet.class)
+                .fields().field("field2").control(InputText.class);
+        line1Field.shouldBeDisabled();
+        line1Field.shouldBeDisabled();
+
+        inputText.val("test");
+        line1Field.shouldBeDisabled();
+        line2Field.shouldBeEnabled();
+    }
 }

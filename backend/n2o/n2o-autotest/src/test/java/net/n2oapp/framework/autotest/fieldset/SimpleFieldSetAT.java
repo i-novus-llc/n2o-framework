@@ -85,4 +85,27 @@ public class SimpleFieldSetAT extends AutoTestBase {
         set2.shouldBeVisible();
         set2.fields().field("field2").shouldExists();
     }
+
+    @Test
+    public void testEnabled() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/enabled/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
+        fieldsets.shouldHaveSize(3);
+
+        InputText inputText = fieldsets.fieldset(0, SimpleFieldSet.class).fields().field("test").control(InputText.class);
+        inputText.shouldExists();
+
+        InputText set1Field = fieldsets.fieldset(1, SimpleFieldSet.class)
+                .fields().field("field1").control(InputText.class);
+        InputText set2Field = fieldsets.fieldset(2, SimpleFieldSet.class)
+                .fields().field("field2").control(InputText.class);
+        set1Field.shouldBeDisabled();
+        set1Field.shouldBeDisabled();
+
+        inputText.val("test");
+        set1Field.shouldBeDisabled();
+        set2Field.shouldBeEnabled();
+    }
 }

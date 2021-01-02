@@ -21,16 +21,6 @@ public class N2oSimpleFieldSet extends N2oFieldSet implements SimpleFieldSet {
     }
 
     @Override
-    public void shouldBeVisible() {
-
-    }
-
-    @Override
-    public void shouldNotBeVisible() {
-
-    }
-
-    @Override
     public void shouldHaveLabel(String label) {
         label().shouldHave(Condition.text(label));
     }
