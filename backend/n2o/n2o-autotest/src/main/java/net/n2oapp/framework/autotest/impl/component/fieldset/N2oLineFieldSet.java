@@ -22,6 +22,16 @@ public class N2oLineFieldSet extends N2oFieldSet implements LineFieldSet {
     }
 
     @Override
+    public void shouldBeVisible() {
+        content().should(Condition.exist);
+    }
+
+    @Override
+    public void shouldNotBeVisible() {
+        content().shouldNot(Condition.exist);
+    }
+
+    @Override
     public void shouldBeCollapsible() {
         header().shouldBe(Condition.exist);
     }
