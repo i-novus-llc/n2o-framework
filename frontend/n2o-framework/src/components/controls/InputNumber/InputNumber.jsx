@@ -87,30 +87,40 @@ export class InputNumber extends React.Component {
 
   resolveValue(value) {
     const { precision } = this.props;
-    if (!isNil(precision) && includes(value, '.')) {
-      const valueArr = split(value, '.');
 
-      return precision === 0
-        ? valueArr[0]
-        : `${valueArr[0]}.${toString(valueArr[1]).substring(0, precision)}`;
+    const ceilValue = Math.trunc(value);
+    const isFloat = value % 1 !== 0;
+
+    if (value === null || value === '' || isNaN(toNumber(value))) {
+      return value;
     }
 
-    return value;
+    if (precision === undefined) {
+      return ceilValue;
+    } else if (precision === null) {
+      return value;
+    } else {
+      return isFloat
+        ? value
+            .toString()
+            .substr(0, ceilValue.toString().length + 1 + precision)
+        : value;
+    }
   }
 
   onChange(value) {
-    const nextValue = this.resolveValue(
+    const parsedValue = this.resolveValue(
       value === '' ? null : value === '-' ? value : toNumber(value)
     );
 
-    if (isNil(nextValue)) {
+    if (isNil(parsedValue)) {
       this.setState({ value: null }, () => this.props.onChange(null));
     }
 
-    if (matchesWhiteList(nextValue) || this.pasted) {
+    if (matchesWhiteList(parsedValue) || this.pasted) {
       this.setState({ value: this.resolveValue(value) }, () => {
         if (!isNaN(toNumber(value)) || this.props.mode === inputMode.PICKER) {
-          this.props.onChange(this.resolveValue(nextValue));
+          this.props.onChange(this.resolveValue(value));
         }
       });
     }

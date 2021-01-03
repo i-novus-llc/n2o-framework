@@ -9,6 +9,7 @@ import {
   Legend,
   Line,
 } from 'recharts';
+
 import {
   cartesianGridTypes,
   chartTypes,
@@ -19,6 +20,7 @@ import {
   XAxisTypes,
   YAxisTypes,
 } from './chartPropsTypes';
+import { setLineColors } from './utils';
 
 /**
  * График "Линии"
@@ -146,7 +148,7 @@ function LineChart({
       <CartesianGrid {...cartesianGrid} />
       <Tooltip {...tooltip} />
       <Legend {...legend} />
-      {map(lines, line => (
+      {map(setLineColors(lines), line => (
         <Line {...line} />
       ))}
     </Chart>

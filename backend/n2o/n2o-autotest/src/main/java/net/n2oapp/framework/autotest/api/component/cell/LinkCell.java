@@ -11,5 +11,9 @@ public interface LinkCell extends Cell {
 
     void textShouldHave(String text);
 
+    void shouldNotHaveText();
+
     void shouldHaveIcon(String icon);
+
+    void shouldNotHaveIcon();
 }

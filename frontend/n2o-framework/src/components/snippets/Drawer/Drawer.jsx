@@ -57,7 +57,7 @@ function Drawer(props) {
 
   return (
     <DrawerRC
-      className={classNames('n2o-drawer', className, {
+      className={classNames('n2o-drawer n2o-snippet', className, {
         'without-close-button': closable === false,
         'drawer-animation': animation,
       })}

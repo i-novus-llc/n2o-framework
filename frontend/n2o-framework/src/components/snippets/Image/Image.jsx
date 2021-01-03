@@ -34,7 +34,7 @@ function Image({
   }
 
   return (
-    <div id={id} className={classNames('n2o-image', className)}>
+    <div id={id} className={classNames('n2o-image n2o-snippet', className)}>
       <div
         className={classNames('n2o-image__content', {
           [textPosition]: textPosition,
