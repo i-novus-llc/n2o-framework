@@ -37,7 +37,7 @@ public class N2oCodeEditorXmlIOTest extends N2oStandardControlReaderTestBase {
                 (N2oFieldSet fieldSet) -> {
                     assertCountField(fieldSet, 1);
                     N2oCodeEditor codeEditor = (N2oCodeEditor) fieldSet.getItems()[0];
-                    assertStandardTextAttribute(codeEditor);
+                    assertStandardAttribute(codeEditor);
                     assert codeEditor.getLanguage().name().toLowerCase().equals("groovy");
                     assert codeEditor.getDefaultValue().equals("test");
                 });

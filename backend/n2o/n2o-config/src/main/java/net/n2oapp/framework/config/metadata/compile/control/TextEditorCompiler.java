@@ -19,7 +19,7 @@ import java.util.Map;
 
 
 /**
- * Компиляция редактора текста
+ * Компиляция компонента редактирования текста
  */
 @Component
 public class TextEditorCompiler extends StandardFieldCompiler<TextEditor, N2oTextEditor> {

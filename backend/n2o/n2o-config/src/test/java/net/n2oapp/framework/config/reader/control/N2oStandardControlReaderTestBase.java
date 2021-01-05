@@ -5,7 +5,6 @@ import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
 import net.n2oapp.framework.api.metadata.control.list.N2oSingleListFieldAbstract;
-import net.n2oapp.framework.api.metadata.control.plain.N2oText;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractPageAction;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.action.control.N2oShowModalForm;
@@ -58,11 +57,6 @@ public abstract class N2oStandardControlReaderTestBase {
         if (isQueryPresent) assertQuery(field);
 
         assertDefault(field);
-    }
-
-    protected void assertStandardTextAttribute(N2oText field) {
-        assertStandardAttribute(field);
-        assert field.getRows().equals(2);
     }
 
     protected void assertStandardIntervalAttribute(N2oSimpleIntervalField field) {

@@ -8,5 +8,6 @@ public enum CodeLanguageEnum {
     xml,
     javascript,
     groovy,
-    java
+    java,
+    html
 }
