@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -46,8 +45,8 @@ public class FieldModelsCompileTest extends SourceCompileTestBase {
         assertThat(modalContext.getParentClientWidgetId(), Matchers.is("form"));
 
         Models models = read().compile().get(modalContext).getModels();
+        assertThat(models.size(), is(4));
 
-//        assertThat(models.size(), is(4));
         //parent
         assertThat(models.get("resolve['modalPage_info'].parentFull").getBindLink(), is("models.filter['testForm']"));
         assertThat(models.get("resolve['modalPage_info'].parentFull").getValue(), is("`testValue`"));
@@ -62,5 +61,4 @@ public class FieldModelsCompileTest extends SourceCompileTestBase {
         assertThat(models.get("resolve['modalPage_info'].thisDefaults").getBindLink(), is("models.resolve['modalPage_info']"));
         assertThat(models.get("resolve['modalPage_info'].thisDefaults").getValue(), is("`testValue`"));
     }
-
 }
