@@ -280,6 +280,7 @@ class AutoComplete extends React.Component {
       options,
       data,
       tags,
+      maxTagTextLength,
     } = this.props;
     const needAddFilter = !find(value, item => item[valueFieldId] === input);
     const optionsList = !isEmpty(data) ? data : options;
@@ -317,6 +318,7 @@ class AutoComplete extends React.Component {
                 <InputContent
                   tags={true}
                   mode="autocomplete"
+                  maxTagTextLength={maxTagTextLength}
                   multiSelect={tags}
                   options={filteredOptions}
                   setRef={this.setInputRef(ref)}
@@ -526,6 +528,10 @@ AutoComplete.propTypes = {
    * Мод работы Autocomplete
    */
   tags: PropTypes.bool,
+  /**
+   * Максимальная длина текста в тэге, до усечения
+   */
+  maxTagTextLength: PropTypes.number,
 };
 
 AutoComplete.defaultProps = {

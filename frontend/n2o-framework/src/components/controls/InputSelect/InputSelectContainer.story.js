@@ -876,7 +876,13 @@ stories
 
       fetchMock.restore().get(dataUrl, handleData(data));
 
-      return <InputSelectContainer {...props} />;
+      return (
+        <>
+          <InputSelectContainer style={{ marginBottom: '25px' }} {...props} />
+          <span>maxTagTextLength = 4</span>
+          <InputSelectContainer {...props} maxTagTextLength={4} />
+        </>
+      );
     },
     {
       info: {

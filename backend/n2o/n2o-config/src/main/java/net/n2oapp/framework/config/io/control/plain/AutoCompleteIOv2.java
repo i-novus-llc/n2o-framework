@@ -23,6 +23,7 @@ public class AutoCompleteIOv2 extends PlainFieldIOv2<N2oAutoComplete> {
         p.attribute(e, "search-filter-id", m::getSearchFilterId, m::setSearchFilterId);
         p.attributeBoolean(e, "tags", m::getTags, m::setTags);
         p.children(e, "options", "option", m::getOptions, m::setOptions, HashMap::new, this::option);
+        p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
     }
 
     private void option(Element e, Map<String, String> map, IOProcessor p) {

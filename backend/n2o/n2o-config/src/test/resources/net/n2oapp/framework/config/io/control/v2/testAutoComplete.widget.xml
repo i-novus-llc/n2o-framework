@@ -2,7 +2,7 @@
     <fields>
         <auto-complete id="testId" query-id="labels" value-field-id="name"
                        tags="true" search-filter-id="nameLike"/>
-        <auto-complete id="test2">
+        <auto-complete id="test2" max-tag-text-length="15">
             <options>
                 <option name="test1"/>
                 <option name="test55"/>

@@ -1133,6 +1133,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная длина текста элемента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1536,6 +1541,11 @@
                         <xs:documentation>
                             Идентификатор поля для отображения дополнительной информации в опциях выпадающего списка.
                         </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная длина текста элемента</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
