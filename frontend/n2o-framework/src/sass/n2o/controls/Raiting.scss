@@ -22,6 +22,10 @@
     margin: 0;
   }
 
+  .rating__label--no-pointer {
+    cursor: default;
+  }
+
   .rating__label--half {
     padding-right: 0;
     margin-right: -0.6em;

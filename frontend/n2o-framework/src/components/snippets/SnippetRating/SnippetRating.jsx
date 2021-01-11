@@ -1,14 +1,14 @@
 import React, { Fragment, Component } from 'react';
 import UncontrolledTooltip from 'reactstrap/lib/UncontrolledTooltip';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
+import cn from 'classnames';
 import isInteger from 'lodash/isInteger';
 import eq from 'lodash/eq';
 import round from 'lodash/round';
 
-import { mapToNum } from './utils';
-
 import { id } from '../../../utils/id';
+
+import { mapToNum } from './utils';
 
 class SnippetRating extends Component {
   constructor(props) {
@@ -63,7 +63,12 @@ class SnippetRating extends Component {
           onClick={readonly ? null : this.onChangeAndSetState}
           checked={eq(0, value)}
         />
-        <label className="rating__label" htmlFor={`rating-0-${this.id}`}>
+        <label
+          className={cn('rating__label', {
+            'rating__label--no-pointer': readonly,
+          })}
+          htmlFor={`rating-0-${this.id}`}
+        >
           &nbsp;
         </label>
       </Fragment>
@@ -76,13 +81,14 @@ class SnippetRating extends Component {
     return (
       <Fragment>
         <label
-          className={cx('rating__label', {
+          className={cn('rating__label', {
             'rating__label--half': !isInteger(index),
+            'rating__label--no-pointer': readonly,
           })}
           htmlFor={`rating-${index}-${this.id}`}
         >
           <i
-            className={cx('rating__icon rating__icon--star fa', {
+            className={cn('rating__icon rating__icon--star fa', {
               'fa-star-half': !isInteger(index),
               'fa-star': isInteger(index),
             })}
