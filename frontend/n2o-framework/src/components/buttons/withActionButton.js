@@ -30,9 +30,11 @@ const ConfirmMode = {
   MODAL: 'modal',
 };
 
+const N2O_ROOT = document.getElementById('n2o');
+
 const RenderTooltip = ({ id, message }) =>
   !isUndefined(message) && (
-    <UncontrolledTooltip target={id} boundariesElement={document}>
+    <UncontrolledTooltip target={id} boundariesElement={N2O_ROOT}>
       {message}
     </UncontrolledTooltip>
   );
