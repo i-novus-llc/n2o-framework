@@ -21,8 +21,6 @@ import org.junit.jupiter.api.Test;
  */
 public class SimpleFieldSetAT extends AutoTestBase {
 
-    private SimplePage page;
-
     @BeforeAll
     public static void beforeClass() {
         configureSelenide();
@@ -33,10 +31,7 @@ public class SimpleFieldSetAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
-        page = open(SimplePage.class);
-        page.shouldExists();
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Override
@@ -48,7 +43,11 @@ public class SimpleFieldSetAT extends AutoTestBase {
 
     @Test
     public void testFieldSet() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
         FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
+
         fieldsets.shouldHaveSize(2);
         SimpleFieldSet fieldset = fieldsets.fieldset(SimpleFieldSet.class);
         fieldset.shouldNotHaveLabel();
@@ -63,5 +62,50 @@ public class SimpleFieldSetAT extends AutoTestBase {
         StandardField field2 = fields.field("field2");
         field2.shouldHaveLabelLocation(FieldSet.LabelPosition.LEFT);
         field2.control(InputText.class).shouldBeDisabled();
+    }
+
+    @Test
+    public void testVisible() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/visible/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
+        fieldsets.shouldHaveSize(3);
+
+        InputText inputText = fieldsets.fieldset(0, SimpleFieldSet.class).fields().field("test").control(InputText.class);
+        inputText.shouldExists();
+
+        SimpleFieldSet set1 = fieldsets.fieldset(1, SimpleFieldSet.class);
+        SimpleFieldSet set2 = fieldsets.fieldset(2, SimpleFieldSet.class);
+        set1.shouldNotBeVisible();
+        set2.shouldNotBeVisible();
+
+        inputText.val("test");
+        set1.shouldNotBeVisible();
+        set2.shouldBeVisible();
+        set2.fields().field("field2").shouldExists();
+    }
+
+    @Test
+    public void testEnabled() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/simple/enabled/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
+        fieldsets.shouldHaveSize(3);
+
+        InputText inputText = fieldsets.fieldset(0, SimpleFieldSet.class).fields().field("test").control(InputText.class);
+        inputText.shouldExists();
+
+        InputText set1Field = fieldsets.fieldset(1, SimpleFieldSet.class)
+                .fields().field("field1").control(InputText.class);
+        InputText set2Field = fieldsets.fieldset(2, SimpleFieldSet.class)
+                .fields().field("field2").control(InputText.class);
+        set1Field.shouldBeDisabled();
+        set1Field.shouldBeDisabled();
+
+        inputText.val("test");
+        set1Field.shouldBeDisabled();
+        set2Field.shouldBeEnabled();
     }
 }
