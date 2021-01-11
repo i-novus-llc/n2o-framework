@@ -15,6 +15,9 @@ import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 @Setter
 public abstract class AbstractColumn implements IdAware, Source {
     private String id;
+    private String src;
+    private String cssClass;
+    private String style;
     private String textFieldId;
     private String tooltipFieldId;
     private String width;

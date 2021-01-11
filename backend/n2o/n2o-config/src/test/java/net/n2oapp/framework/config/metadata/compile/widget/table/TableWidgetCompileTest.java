@@ -76,6 +76,13 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("pageBreakBefore"), is("avoid"));
         assertThat(((Submenu) table.getToolbar().get("topLeft").get(0).getButtons().get(1)).getSubMenu().get(0).getStyle().get("paddingTop"), is("0"));
         //columns
+        assertThat(table.getComponent().getHeaders().get(0).getSrc(), is("MyTableHeader"));
+        assertThat(table.getComponent().getHeaders().get(0).getCssClass(), is("my-table-header"));
+        assertThat(table.getComponent().getHeaders().get(0).getStyle().size(), is(1));
+        assertThat(table.getComponent().getHeaders().get(0).getStyle().get("color"), is("red"));
+        assertThat(table.getComponent().getHeaders().get(1).getSrc(), is("TextTableHeader"));
+        assertThat(table.getComponent().getHeaders().get(1).getCssClass(), is(nullValue()));
+        assertThat(table.getComponent().getHeaders().get(1).getStyle(), is(nullValue()));
         assertThat(table.getComponent().getCells().size(), is(2));
         assertThat(((N2oAbstractCell) table.getComponent().getCells().get(0)).getReactStyle().get("marginLeft"), is("10px"));
         assertThat(table.getComponent().getHeaders().size(), is(2));
@@ -406,6 +413,10 @@ public class TableWidgetCompileTest extends SourceCompileTestBase {
         headers = headers.get(1).getChildren();
         assertThat(headers.size(), is(3));
         assertThat(headers.get(0).getMultiHeader(), is(true));
+        assertThat(headers.get(0).getSrc(), is("MyTableHeader"));
+        assertThat(headers.get(0).getCssClass(), is("my-table-header"));
+        assertThat(headers.get(0).getStyle().size(), is(1));
+        assertThat(headers.get(0).getStyle().get("color"), is("red"));
         assertThat(headers.get(1).getId(), is("test4"));
         assertThat(headers.get(1).getMultiHeader(), is(nullValue()));
         assertThat(headers.get(1).getChildren(), nullValue());
