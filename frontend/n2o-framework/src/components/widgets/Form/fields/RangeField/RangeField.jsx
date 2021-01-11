@@ -153,7 +153,7 @@ export function RangeField({
                 {...beginControl}
                 {...props}
                 className={cx(beginControl && beginControl.className, {
-                  [validationClass]: touched,
+                  [validationClass]: touched && (!end || !begin),
                 })}
               />
               <Measure value={measure} />
@@ -239,10 +239,15 @@ export default compose(
     end: get(props, 'value.end', null),
   })),
   withHandlers({
-    onBeginValueChange: ({ end, onChange }) => begin =>
-      isValid(begin) && onChange({ begin, end }),
-    onEndValueChange: ({ begin, onChange }) => end =>
-      isValid(end) && onChange({ begin, end }),
-    onBlur: ({ onBlur }) => () => onBlur(),
+    onBeginValueChange: ({ end, onChange }) => begin => {
+      isValid(begin) && onChange({ begin, end });
+    },
+
+    onEndValueChange: ({ begin, onChange }) => end => {
+      isValid(end) && onChange({ begin, end });
+    },
+    onBlur: ({ begin, end, onBlur }) => () => {
+      onBlur({ begin, end });
+    },
   })
 )(RangeField);

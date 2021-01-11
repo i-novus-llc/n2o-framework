@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "filterValue": "filterValue1",
+    "href": "href1",
+    "label": "label1",
+    "icon": "icon1",
+    "description": "description1"
+  },
+  {
+    "id": 2,
+    "filterValue": "filterValue2",
+    "href": "href2",
+    "label": "label2",
+    "icon": "icon2",
+    "description": "description2"
+  },
+  {
+    "id": 3,
+    "filterValue": "filterValue3",
+    "href": "href3",
+    "label": "label3",
+    "icon": "icon3",
+    "description": "description3"
+  },
+  {
+    "id": 4,
+    "filterValue": "filterValue4",
+    "href": "href4",
+    "label": "label4",
+    "icon": "icon4",
+    "description": "description4"
+  }
+]

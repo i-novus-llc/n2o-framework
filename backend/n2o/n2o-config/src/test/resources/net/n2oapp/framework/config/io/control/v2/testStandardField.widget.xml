@@ -47,9 +47,9 @@
                                mapper="dataset" mapping="fsd" mapping-condition="fsd" normalize="fsd"/>
                     </in-parameters>
                 </constraint>
-                <condition id="testId2" field-id="fieldId" client-moment="after-load" server-moment="after-success-query"
+                <condition id="testId2" field-id="fieldId" server-moment="after-success-query"
                            severity="info" message="test message" side="client,server"/>
-                <mandatory id="testId25" severity="success" client-moment="before-load" enabled="false"
+                <mandatory id="testId25" severity="success" enabled="false"
                            server-moment="before-query" field-id="testFieldId" message="test message" side="server"/>
             </validations>
 

@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import Row from 'reactstrap/lib/Row';
+import Col from 'reactstrap/lib/Col';
+import { withTranslation } from 'react-i18next';
 
 import SelectContainer from '../../controls/Select/SelectContainer';
 import RadioGroupContainer from '../../controls/RadioGroup/RadioGroupContainer';
 import ReduxForm from '../Form/ReduxForm';
 import Fieldset from '../Form/Fieldset';
-
-import Row from 'reactstrap/lib/Row';
-import Col from 'reactstrap/lib/Col';
 
 /**
  * Имя формы экспорта таблицы
@@ -42,18 +41,8 @@ class ExportModal extends React.Component {
       ...props.code,
     };
     this.size = {
-      all: (
-        <FormattedMessage
-          id="exportTable.downloadAll"
-          defaultMessage="Загрузить всё"
-        />
-      ),
-      current: (
-        <FormattedMessage
-          id="exportTable.downloadCurrent"
-          defaultMessage="Текущая страница"
-        />
-      ),
+      all: props.t('downloadAll'),
+      current: props.t('currentPage'),
     };
     this.defaults = {
       type: 'csv',
@@ -127,4 +116,4 @@ ExportModal.propTypes = {
   code: PropTypes.string,
 };
 
-export default ExportModal;
+export default withTranslation()(ExportModal);

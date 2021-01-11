@@ -4,7 +4,6 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.SourceComponent;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oTopLeftRightPage;
-import net.n2oapp.framework.api.metadata.global.view.region.N2oRegion;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.TopLeftRightPage;
 import net.n2oapp.framework.api.metadata.meta.region.Region;
@@ -62,23 +61,12 @@ public class TopLeftRightPageCompiler extends BasePageCompiler<N2oTopLeftRightPa
     @Override
     protected void initRegions(N2oTopLeftRightPage source, TopLeftRightPage page, CompileProcessor p, PageContext context,
                                PageScope pageScope, PageRoutes pageRoutes, PageWidgetsScope pageWidgetsScope) {
-        Map<String, List<Region>> regionMap = new HashMap<>();
+        Map<String, List<Region>> regions = new HashMap<>();
         IndexScope index = new IndexScope();
-        mapRegion(source.getTop(), "top", regionMap, p, context, pageScope, index, pageRoutes, pageWidgetsScope);
-        mapRegion(source.getLeft(), "left", regionMap, p, context, pageScope, index, pageRoutes, pageWidgetsScope);
-        mapRegion(source.getRight(), "right", regionMap, p, context, pageScope, index, pageRoutes, pageWidgetsScope);
-        page.setRegions(regionMap);
-    }
-
-    private void mapRegion(SourceComponent[] items, String position, Map<String, List<Region>> regionMap,
-                           CompileProcessor p, PageContext context, Object... scopes) {
-        if (items != null) {
-            List<Region> regions = new ArrayList<>();
-            for (SourceComponent item : items)
-                if (item instanceof N2oRegion)
-                    regions.add(p.compile(item, context, scopes));
-            regionMap.put(position, regions);
-        }
+        initRegions(source.getTop(), regions, "top", context, p, pageScope, pageRoutes, pageWidgetsScope, index);
+        initRegions(source.getLeft(), regions, "left", context, p, pageScope, pageRoutes, pageWidgetsScope, index);
+        initRegions(source.getRight(), regions, "right", context, p, pageScope, pageRoutes, pageWidgetsScope, index);
+        page.setRegions(regions);
     }
 
     @Override

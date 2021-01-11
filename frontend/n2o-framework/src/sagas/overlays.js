@@ -18,16 +18,16 @@ import {
 export function* checkOnDirtyForm(name) {
   let someOneDirtyForm = false;
   const state = yield select();
-  let widgets = makePageWidgetsByIdSelector(name)(state);
+  let widget = makePageWidgetsByIdSelector(name)(state);
 
-  if (has(widgets, 'id')) {
-    widgets = { [widgets.id]: widgets };
+  if (has(widget, 'id')) {
+    widget = { [widget.id]: widget };
   }
 
-  const widgetsKeys = keys(widgets);
+  const widgetsKeys = keys(widget);
 
   for (let i = 0; i < widgetsKeys.length; i++) {
-    if (widgets[widgetsKeys[i]].src === 'FormWidget') {
+    if (widget[widgetsKeys[i]].src === 'FormWidget') {
       someOneDirtyForm = isDirty(widgetsKeys[i])(state);
     }
   }

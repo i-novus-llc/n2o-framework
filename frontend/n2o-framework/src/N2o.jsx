@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import pick from 'lodash/pick';
 import { compose, withContext, defaultProps, withProps } from 'recompose';
-import { IntlProvider, addLocaleData } from 'react-intl';
+import { withTranslation } from 'react-i18next';
+import './i18n';
 
 import history from './history';
 import configureStore from './store';
@@ -18,14 +19,12 @@ import SecurityProvider from './core/auth/SecurityProvider';
 
 import Router from './components/core/Router';
 
-import ruLocaleData from 'react-intl/locale-data/ru';
 import Application from './components/core/Application';
 import { HeaderFooterTemplate } from './components/core/templates';
 import DefaultBreadcrumb from './components/core/Breadcrumb/DefaultBreadcrumb';
 import globalFnDate from './utils/globalFnDate';
 import configureErrorPages from './components/errors';
-
-addLocaleData(ruLocaleData);
+import locales from './locales';
 
 const { version } = packageJson;
 
@@ -43,7 +42,7 @@ class N2o extends Component {
 
     window._n2oEvalContext = props.evalContext;
 
-    this.store = configureStore({}, history, config);
+    this.store = configureStore(props.initialState, history, config);
     globalFnDate.addFormat(props.formats);
   }
 
@@ -52,7 +51,14 @@ class N2o extends Component {
   }
 
   render() {
-    const { security, realTimeConfig, embeddedRouting, children } = this.props;
+    const {
+      security,
+      realTimeConfig,
+      embeddedRouting,
+      children,
+      i18n,
+      locales: customLocales = {},
+    } = this.props;
 
     const config = this.generateConfig();
 
@@ -60,16 +66,14 @@ class N2o extends Component {
       <Provider store={this.store}>
         <SecurityProvider {...security}>
           <Application
+            i18n={i18n}
+            locales={locales}
+            customLocales={customLocales}
             realTimeConfig={realTimeConfig}
-            render={({ locale, messages }) => (
-              <IntlProvider locale={locale} messages={messages}>
-                <FactoryProvider
-                  config={config}
-                  securityBlackList={['actions']}
-                >
-                  <Router embeddedRouting={embeddedRouting}>{children}</Router>
-                </FactoryProvider>
-              </IntlProvider>
+            render={() => (
+              <FactoryProvider config={config} securityBlackList={['actions']}>
+                <Router embeddedRouting={embeddedRouting}>{children}</Router>
+              </FactoryProvider>
             )}
           />
         </SecurityProvider>
@@ -90,7 +94,6 @@ N2o.propTypes = {
     PropTypes.element,
     PropTypes.node,
   ]),
-  defaultPromptMessage: PropTypes.string,
   formats: PropTypes.shape({
     dateFormat: PropTypes.string,
     timeFormat: PropTypes.string,
@@ -123,15 +126,16 @@ N2o.propTypes = {
     PropTypes.node,
   ]),
   version: PropTypes.string,
+  locales: PropTypes.object,
+  initialState: PropTypes.object,
 };
 
 const EnhancedN2O = compose(
+  withTranslation(),
   defaultProps({
     defaultTemplate: HeaderFooterTemplate,
     defaultBreadcrumb: DefaultBreadcrumb,
     defaultPage: 'StandardPage',
-    defaultPromptMessage:
-      'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
     defaultErrorPages: configureErrorPages(),
     formats: {
       dateFormat: 'YYYY-MM-DD',
@@ -145,6 +149,8 @@ const EnhancedN2O = compose(
     realTimeConfig: true,
     embeddedRouting: true,
     evalContext: {},
+    locales: {},
+    initialState: {},
   }),
   withContext(
     {
@@ -163,7 +169,6 @@ const EnhancedN2O = compose(
         PropTypes.element,
         PropTypes.node,
       ]),
-      defaultPromptMessage: PropTypes.string,
       defaultErrorPages: PropTypes.arrayOf(
         PropTypes.oneOfType([PropTypes.node, PropTypes.element, PropTypes.func])
       ),
@@ -172,7 +177,6 @@ const EnhancedN2O = compose(
     props => ({
       defaultTemplate: props.defaultTemplate,
       defaultBreadcrumb: props.defaultBreadcrumb,
-      defaultPromptMessage: props.defaultPromptMessage,
       defaultPage: props.defaultPage,
       defaultErrorPages: props.defaultErrorPages,
       version: version,

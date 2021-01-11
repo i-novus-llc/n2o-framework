@@ -49,6 +49,9 @@ class AdvancedTableWidget extends Component {
       expandedFieldId,
       rows,
       rowClass,
+      width,
+      height,
+      textWrap,
     } = this.props.table;
     const {
       toolbar,
@@ -84,6 +87,9 @@ class AdvancedTableWidget extends Component {
       expandedFieldId,
       rowClass,
       className,
+      width,
+      height,
+      textWrap,
     };
   }
 

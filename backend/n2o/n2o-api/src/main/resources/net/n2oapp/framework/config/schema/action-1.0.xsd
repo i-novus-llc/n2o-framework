@@ -166,7 +166,7 @@
                         <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="modal-size" type="modalSize">
+                <xs:attribute name="modal-size" type="modalSize" default="lg">
                     <xs:annotation>
                         <xs:documentation>Размер модального окна.</xs:documentation>
                     </xs:annotation>
@@ -262,6 +262,54 @@
                         <xs:documentation>Тип слияния.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="has-header" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Наличие хедера.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="class" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Класс модального окна.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="style" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Объект стилей.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="backdrop" default="static">
+                    <xs:simpleType>
+                        <xs:annotation>
+                            <xs:documentation>
+                                Наличие фона модального окна.
+                                Возможные значения: false, true, static.
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="false">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Прозрачный фон, клик по фону не закрывает модальное окно.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="true">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Темный фон, клик по фону закрывает модальное окно.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="static">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Темный фон, клик по фону не закрывает модальное окно.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -270,19 +318,19 @@
         <xs:complexContent>
             <xs:extension base="pageDefinition">
                 <xs:annotation>
-                    <xs:documentation>Открыть страницу в модальном окне.</xs:documentation>
+                    <xs:documentation>Открыть страницу в drawer окне.</xs:documentation>
                 </xs:annotation>
                 <xs:attribute name="page-id" type="xs:string" use="required">
                     <xs:annotation>
                         <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="object-id" type="xs:string" use="optional">
+                <xs:attribute name="object-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Идентификатор объекта.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="master-param" type="xs:string" use="optional">
+                <xs:attribute name="master-param" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Параметр фильтра.</xs:documentation>
                     </xs:annotation>
@@ -295,19 +343,26 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="true" use="optional">
+                <xs:attribute name="refresh-on-close" type="xs:boolean" default="false">
                     <xs:annotation>
                         <xs:documentation>
-                            Предупредить о несохраненных данных на форме при закрытии модального окна?
+                            Обновление виджета после закрытия drawer.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="closable" type="xs:boolean" default="true" use="optional">
+                <xs:attribute name="unsaved-data-prompt-on-close" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Предупредить о несохраненных данных на форме при закрытии drawer?
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="closable" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Есть ли крестик для закрытия</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="backdrop" type="xs:boolean" use="optional">
+                <xs:attribute name="backdrop" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Включение маски(backdrop)</xs:documentation>
                     </xs:annotation>
@@ -322,7 +377,7 @@
                         <xs:documentation>Высота компонента</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="placement" type="placementEnum" use="optional">
+                <xs:attribute name="placement" type="placementEnum">
                     <xs:annotation>
                         <xs:documentation>Позиция компонента</xs:documentation>
                     </xs:annotation>
@@ -332,9 +387,66 @@
                         <xs:documentation>Сдвиг элемента или группы элементов при открытии</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="backdrop-closable" type="xs:boolean" use="optional">
+                <xs:attribute name="backdrop-closable" type="xs:boolean">
                     <xs:annotation>
                         <xs:documentation>Включение закрытия по клику на маску(backdrop)</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="fixed-footer" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Фиксирование footer внизу drawer</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="submit-action-type" type="submitActionType" default="invoke">
+                    <xs:annotation>
+                        <xs:documentation>Действие при нажатии кнопки "Сохранить".</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-model" type="reduxModel" default="resolve">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель виджета открываемой страницы, которая будет скопирована.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор виджета открываемой страницы, данные которого будут копироваться (по умолчанию главный виджет).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля виджета открываемой страницы, данные которого будут копироваться (по умолчанию вся модель).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-model" type="reduxModel" default="resolve">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Модель виджета текущей страницы, в которую будут скопированы данные.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор виджета текущей страницы, в которую будут скопированы данные (по умолчанию текущий).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-field-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Идентификатор поля виджета текущей страницы, в которое будут скопированы данные (по умолчанию вся модель).
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="copy-mode" type="copyModeType" default="merge">
+                    <xs:annotation>
+                        <xs:documentation>Тип слияния.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
@@ -449,24 +561,25 @@
                 </xs:sequence>
                 <xs:attribute name="operation-id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Действие объекта, которое нужно выполнить над моделью виджета.
+                        <xs:documentation>
+                            Действие объекта, которое нужно выполнить над моделью виджета.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="close-on-success" type="xs:boolean" use="optional">
+                <xs:attribute name="close-on-success" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Закрыть окно после успешного выполнения действия</xs:documentation>
+                        <xs:documentation>Закрыть окно после успешного выполнения действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="route" type="xs:string" use="optional">
+                <xs:attribute name="route" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL для обращения к действию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="redirect-url" type="xs:string" use="optional">
+                <xs:attribute name="redirect-url" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>URL адрес, на который произойдет переход сразу после успешного выполнения
-                            действия..
+                        <xs:documentation>
+                            URL адрес, на который произойдет переход сразу после успешного выполнения действия.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -570,6 +683,11 @@
                         <xs:documentation>Показать предупреждение о наличии несохраненных данных. По умолчанию true.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="refresh" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Обновлять родительский виджет при закрытии модального/дровер окна.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -598,6 +716,11 @@
                 <xs:attribute name="target-model" type="reduxModel" default="resolve">
                     <xs:annotation>
                         <xs:documentation>Модель, в которую будут скопированы данные.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="target-page-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Идентификатор целевой страницы (по умолчанию текущая).</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="target-widget-id" type="xs:string">
@@ -630,6 +753,11 @@
                 <xs:attribute name="model" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Название модели.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="close-on-success" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Закрыть окно после успешного выполнения действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

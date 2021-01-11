@@ -15,6 +15,7 @@ public class LineFieldsetElementIOv4 extends FieldsetElementIOv4<N2oLineFieldSet
     public void io(Element e, N2oLineFieldSet fs, IOProcessor p) {
         super.io(e, fs, p);
         p.attributeBoolean(e, "collapsible", fs::getCollapsible, fs::setCollapsible);
+        p.attributeBoolean(e, "has-separator", fs::getHasSeparator, fs::setHasSeparator);
         p.attributeBoolean(e, "expand", fs::getExpand, fs::setExpand);
     }
 

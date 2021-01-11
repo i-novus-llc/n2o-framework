@@ -14,5 +14,6 @@ export default function mappingProps(props) {
     rounded: props.rounded,
     className: props.className,
     showToggleIcon: props.showToggleIcon,
+    toolbar: props.toolbar,
   };
 }

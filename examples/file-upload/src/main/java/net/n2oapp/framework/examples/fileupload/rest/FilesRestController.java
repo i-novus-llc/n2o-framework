@@ -47,8 +47,8 @@ public class FilesRestController {
     }
 
     @CrossOrigin(origins = "*")
-    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
-    public void deleteFile(@PathVariable String id) {
+    @DeleteMapping(value = "/{id}")
+    public void deleteFile(@PathVariable Integer id) {
         fileStorageController.delete(id);
     }
 
@@ -60,9 +60,7 @@ public class FilesRestController {
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-        } catch (IOException ex) {
-            //do nothing
-        }
+        } catch (IOException ignored) {}
 
         if (contentType == null) {
             contentType = "application/octet-stream";
@@ -73,5 +71,4 @@ public class FilesRestController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
     }
-
 }

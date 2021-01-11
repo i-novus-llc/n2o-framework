@@ -37,6 +37,7 @@ describe('<InputNumber />', () => {
     const { wrapper } = setup({
       value: 2.4,
       step: '0.1',
+      precision: 1,
     });
     expect(
       wrapper
@@ -67,14 +68,14 @@ describe('<InputNumber />', () => {
         .first()
         .props().value
     ).toBe('2');
-    wrapper = setup({ value: 2.4, step: '1' }).wrapper;
+    wrapper = setup({ value: 2.4, step: '1', precision: 1 }).wrapper;
     expect(
       wrapper
         .find('input')
         .first()
         .props().value
     ).toBe('2.4');
-    wrapper = setup({ value: 2.4, step: '1.0' }).wrapper;
+    wrapper = setup({ value: 2.4, step: '1.0', precision: 1 }).wrapper;
     expect(
       wrapper
         .find('input')
@@ -122,7 +123,7 @@ describe('<InputNumber />', () => {
   });
 
   it('не округляет, если шаг равен 1', () => {
-    const { wrapper } = setup({ value: 2, step: '1' });
+    const { wrapper } = setup({ value: 2, step: '1', precision: 1 });
     wrapper.find('input').simulate('change', { target: { value: '1.2' } });
     expect(wrapper.find('input').props().value).toBe('1.2');
     wrapper.find('input').simulate('change', { target: { value: '1.9' } });
@@ -131,7 +132,7 @@ describe('<InputNumber />', () => {
 
   it('не позволяет вводить дробную часть при precision = 0', () => {
     const { wrapper } = setup({ value: '2.5', step: '1', precision: 0 });
-    expect(wrapper.find('input').props().value).toBe('2.5');
+    expect(wrapper.find('input').props().value).toBe('2.');
   });
 
   it('проверяет precision', () => {
@@ -141,7 +142,7 @@ describe('<InputNumber />', () => {
   });
 
   it('не округляет до количества знаков после запятой в step', () => {
-    const { wrapper } = setup({ value: 2, step: '0.00' });
+    const { wrapper } = setup({ value: 2, step: '0.00', precision: null });
     wrapper
       .find('input')
       .simulate('change', { target: { value: '100.999999' } });
@@ -197,7 +198,7 @@ describe('<InputNumber />', () => {
       .find('input')
       .simulate('change', { target: { value: '100.999999' } });
     wrapper.find('input').simulate('blur');
-    expect(wrapper.find('input').props().value).toBe('9');
+    expect(wrapper.find('input').props().value).toBe('');
   });
 
   it('значения меньше min невалидны', () => {
@@ -214,7 +215,7 @@ describe('<InputNumber />', () => {
       .find('input')
       .simulate('change', { target: { value: '-100.999999' } });
     wrapper.find('input').simulate('blur');
-    expect(wrapper.find('input').props().value).toBe('9');
+    expect(wrapper.find('input').props().value).toBe('');
   });
 
   it('показывает/скрывает кнопки по showButtons', () => {

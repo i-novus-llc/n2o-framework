@@ -10,4 +10,5 @@ net.n2oapp.framework.boot.N2oSqlAutoConfiguration,\
 net.n2oapp.framework.boot.N2oMongoAutoConfiguration,\
 net.n2oapp.framework.boot.N2oAccessAutoConfiguration,\
 net.n2oapp.framework.boot.N2oExportAutoConfiguration,\
-net.n2oapp.framework.boot.N2oCamundaAutoConfiguration
+net.n2oapp.framework.boot.N2oCamundaAutoConfiguration,\
+net.n2oapp.framework.boot.N2oJdbcRouteRepositoryAutoConfiguration
