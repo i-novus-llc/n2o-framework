@@ -8,7 +8,9 @@
         </columns>
         <toolbar>
             <button label="Открыть">
-                <show-modal page-id="modal" master-param="id"/>
+                <show-modal page-id="modal" route="/:id/modal">
+                    <path-param name="id" value="{id}"/>
+                </show-modal>
             </button>
         </toolbar>
     </table>
