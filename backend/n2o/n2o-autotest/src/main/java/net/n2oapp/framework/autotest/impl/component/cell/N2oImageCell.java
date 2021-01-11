@@ -62,7 +62,7 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     public void shouldHaveStatus(ImageStatusElement.Place position, String title, String icon) {
         SelenideElement status = element().$(".n2o-image-statuses ." + position);
         status.$(".n2o-status__text").shouldBe(Condition.text(title));
-        if (!icon.isEmpty()) {
+        if (icon != null && !icon.isEmpty()) {
             status.$(".n2o-status__icon"+icon).exists();
         }
     }
