@@ -1,6 +1,7 @@
 package net.n2oapp.framework.autotest.cells;
 
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
@@ -80,5 +81,26 @@ public class ImageCellAT extends AutoTestBase {
         cell.imageShouldBe(getBaseUrl() + "/images/hamburg-3846525__340.jpg");
         cell.shouldHaveTitle("Заголовок2");
         cell.shouldHaveDescription("Описание2");
+    }
+
+    @Test
+    public void imageCellWithStatusTest() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/image/status/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/image/status/test.query.xml"));
+
+        SimplePage simplePage = open(SimplePage.class);
+        simplePage.shouldExists();
+
+        TableWidget tableWidget = simplePage.widget(TableWidget.class);
+        tableWidget.shouldExists();
+        rows = tableWidget.columns().rows();
+        rows.shouldHaveSize(2);
+
+        ImageCell cell = rows.row(0).cell(0, ImageCell.class);
+        cell.shouldExists();
+        cell.shouldHaveStatus(ImageStatusElement.Place.topRight, "Статус1", ".fa.fa-plus");
+
+        cell = rows.row(1).cell(0, ImageCell.class);
+        cell.shouldHaveStatus(ImageStatusElement.Place.topRight, "Статус2", ".fa.fa-times");
     }
 }

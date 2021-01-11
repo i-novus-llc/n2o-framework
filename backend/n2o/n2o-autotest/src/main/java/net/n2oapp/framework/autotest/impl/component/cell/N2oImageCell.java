@@ -3,6 +3,7 @@ package net.n2oapp.framework.autotest.impl.component.cell;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import net.n2oapp.framework.autotest.api.component.cell.ImageCell;
 
@@ -55,6 +56,15 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     @Override
     public void shouldHaveTextPosition(TextPosition textPosition) {
         element().$(".n2o-image__content").shouldBe(Condition.cssClass(textPosition.name()));
+    }
+
+    @Override
+    public void shouldHaveStatus(ImageStatusElement.Place position, String title, String icon) {
+        SelenideElement status = element().$(".n2o-image-statuses ." + position);
+        status.$(".n2o-status__text").shouldBe(Condition.text(title));
+        if (!icon.isEmpty()) {
+            status.$(".n2o-status__icon"+icon).exists();
+        }
     }
 
     private void imgShouldHaveCircleShape() {

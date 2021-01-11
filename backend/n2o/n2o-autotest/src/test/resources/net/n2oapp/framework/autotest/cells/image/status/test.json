@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "image": "images/paris-3193674__340.jpg",
+    "title": "Заголовок",
+    "desc": "Описание",
+    "status": "Статус1",
+    "icon": "fa fa-plus"
+  },
+  {
+    "id": 2,
+    "image": "images/hamburg-3846525__340.jpg",
+    "title": "Заголовок2",
+    "desc": "Описание2",
+    "status": "Статус2",
+    "icon": "fa fa-times"
+  }
+]
