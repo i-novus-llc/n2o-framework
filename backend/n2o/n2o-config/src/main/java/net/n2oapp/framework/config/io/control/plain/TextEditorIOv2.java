@@ -5,6 +5,9 @@ import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.springframework.stereotype.Component;
 
+/**
+ * Чтение/запись компонента редактирования текста
+ */
 @Component
 public class TextEditorIOv2 extends PlainFieldIOv2<N2oTextEditor> {
 

@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
 import net.n2oapp.framework.api.metadata.control.list.Inlineable;
 import net.n2oapp.framework.api.metadata.control.list.N2oSelectTree;
-import net.n2oapp.framework.api.metadata.control.plain.N2oText;
 import net.n2oapp.framework.api.metadata.reader.AbstractFactoredReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReader;
 import net.n2oapp.framework.api.script.ScriptProcessor;
@@ -247,12 +246,6 @@ public abstract class N2oStandardControlReaderV1<E extends NamespaceUriAware> ex
         } else return null;
 
         return inlineValidations;
-    }
-
-    protected void readControlTextDefinition(Element element, N2oText text) {
-        getControlFieldDefinition(element, text);
-        text.setRows(getAttributeInteger(element, "rows"));
-        text.setHeight(getAttributeString(element, "height"));
     }
 
     protected void getControlDefinition(Element fieldSetElement, N2oField n2oControl) {

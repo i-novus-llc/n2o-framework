@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 
 /**
- * Компиляция html контрола
+ * Компиляция компонента вывода html
  */
 @Component
 public class HtmlControlCompiler extends StandardFieldCompiler<HtmlControl, N2oHtml> {

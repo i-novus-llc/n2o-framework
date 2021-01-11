@@ -38,7 +38,6 @@ public class N2oHtmlXmlIOTest extends N2oStandardControlReaderTestBase {
                     assertCountField(fieldSet, 1);
                     N2oHtml text = (N2oHtml) fieldSet.getItems()[0];
                     assertStandardAttribute(text);
-                    assert text.getHeight().equals("100px");
                 });
     }
 }

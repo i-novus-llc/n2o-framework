@@ -8,7 +8,6 @@ import net.n2oapp.framework.api.metadata.control.N2oListField;
 import net.n2oapp.framework.api.metadata.control.N2oStandardField;
 import net.n2oapp.framework.api.metadata.control.interval.N2oSimpleIntervalField;
 import net.n2oapp.framework.api.metadata.control.list.N2oSelectTree;
-import net.n2oapp.framework.api.metadata.control.plain.N2oText;
 import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.global.view.widget.tree.InheritanceNodes;
 import net.n2oapp.framework.api.metadata.persister.AbstractN2oMetadataPersister;
@@ -114,11 +113,6 @@ public abstract class N2oControlXmlPersister<T extends N2oField> extends Abstrac
         setAttribute(element, "src", n2oField.getSrc());
         CssClassAwarePersister.getInstance().persist(element, n2oField);
         setDependencies(n2oField, element);
-    }
-
-    protected void setText(Element element, N2oText n2oField) {
-        PersisterJdomUtil.setAttribute(element, "rows", n2oField.getRows());
-        PersisterJdomUtil.setAttribute(element, "height", n2oField.getHeight());
     }
 
     protected void setListQuery(Element element, N2oListField control) {
