@@ -26,19 +26,23 @@
       border-color: transparent;
     }
 
-    .n2o-status.top-left {
+    .n2o-status__text {
+      margin-left: 5px;
     }
 
-    .n2o-status.top-right {
+    .n2o-status.topLeft {
+    }
+
+    .n2o-status.topRight {
       position: relative;
       float: right;
     }
 
-    .n2o-status.bottom-left {
+    .n2o-status.bottomLeft {
       bottom: 0;
     }
 
-    .n2o-status.bottom-right {
+    .n2o-status.bottomRight {
       bottom: 0;
       right: 0;
     }

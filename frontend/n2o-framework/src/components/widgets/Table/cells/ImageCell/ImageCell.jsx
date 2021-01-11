@@ -93,7 +93,11 @@ function ImageCell(props) {
           src={resolveProps.data || resolveProps.url}
         />
         {hasStatuses && (
-          <ImageStatuses statuses={statuses} className="image-cell-statuses" />
+          <ImageStatuses
+            statuses={statuses}
+            model={model}
+            className="image-cell-statuses"
+          />
         )}
       </div>
       {hasInfo && <ImageInfo title={title} description={description} />}
