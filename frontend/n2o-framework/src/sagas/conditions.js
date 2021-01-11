@@ -33,17 +33,27 @@ const ConditionHandlers = {
 /**
  * резолв кондишена, резолв message из expression
  * @param conditions
- * @param model
+ * @param state
+ * @param key
  * @returns {object}
  */
-export const resolveConditions = (conditions = [], model) => {
+export const resolveConditions = (conditions = [], state, key) => {
   const falsyExpressions = reduce(
     conditions,
     (acc, condition) => {
       const { expression, modelLink } = condition;
-      const context = get(model, modelLink, {});
 
-      return !evalExpression(expression, context) ? acc.concat(condition) : acc;
+      const context = get(state, modelLink, {});
+      const isResolve = modelLink.includes('resolve');
+
+      const type =
+        get(state, `models.selectionType.${key}`) === 'checkbox' && !isResolve
+          ? { mode: 'multi' }
+          : { mode: 'single' };
+
+      return !evalExpression(expression, context, type)
+        ? acc.concat(condition)
+        : acc;
     },
     []
   );

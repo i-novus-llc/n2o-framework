@@ -43,5 +43,5 @@ export function isValid(val, min, max) {
 }
 
 export function matchesWhiteList(val) {
-  return /^-?[0-9,\.]*$/.test(val);
+  return /^-?\d*[,.]?\d*$/.test(val);
 }

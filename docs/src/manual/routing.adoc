@@ -275,3 +275,29 @@ link:https://n2oapp.net/sandbox/new/manual/routing/query[Пример]
 ```
 http://localhost:8080/n2o/data/persons?sorting_name=asc
 ```
+
+=== Репликация маршрутизации с использованием БД (через JDBC)
+
+Для включения репликации роутов через jdbc необходимо добавить параметр:
+```
+n2o.config.register.store-type=jdbc
+```
+и необходимо настроить JdbcTemplate.
+
+Для изменения названия используемой таблицы необходимо задать параметр:
+```
+n2o.config.register.jdbc.table-name=route_repository
+```
+
+структура поля таблицы:
+```
+id uuid PRIMARY KEY,
+url char(255),
+class char(255),
+context binary
+```
+
+Для автоматического создания таблицы при старте сервиса необходимо задать параметр:
+```
+n2o.config.register.jdbc.create-table=true
+```

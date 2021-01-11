@@ -8,6 +8,7 @@ import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oToolbar;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
 import net.n2oapp.framework.api.metadata.meta.BreadcrumbList;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.page.PageRoutes;
 import net.n2oapp.framework.api.metadata.meta.page.SimplePage;
@@ -26,6 +27,7 @@ import net.n2oapp.framework.config.register.route.RouteUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -80,6 +82,7 @@ public class SimplePageCompiler extends PageCompiler<N2oSimplePage, SimplePage> 
             page.setToolbar(compileToolbar(context, p, metaActions, pageScope, pageRouteScope, object, breadcrumbs, validationList, widget));
             compiledWidget.getActions().putAll(metaActions);
         }
+        mergeModels(page, pageScope);
         return page;
     }
 
