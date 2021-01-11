@@ -1,4 +1,7 @@
 import isObject from 'lodash/isObject';
+import values from 'lodash/values';
+import every from 'lodash/every';
+import isEmpty from 'lodash/isEmpty';
 
 import warning from './warning';
 
@@ -40,13 +43,7 @@ export function createContextFn(args, code) {
 const windowKeys = Object.keys(window).filter(v => !v.includes('-'));
 const fooCache = {};
 
-/**
- * Выполняет JS выражение
- * @param expression {String} - Выражение, которое нужно выполнить
- * @param context - {Object} - Аргемент вызова (бедет обогощен либами, типа lodash, moment и пр.)
- * @returns {*} - результат вычисления
- */
-export default function evalExpression(expression, context) {
+function evalExpressionSingle(expression, context) {
   try {
     const contextFinal =
       isObject(context) && !Array.isArray(context) ? context : {};
@@ -62,4 +59,35 @@ export default function evalExpression(expression, context) {
       \nКонтекст: ${JSON.stringify(context)}`
     );
   }
+}
+
+function evalExpressionMulti(expression, context) {
+  const multiContext = values(context);
+
+  if (isEmpty(multiContext)) {
+    return false;
+  }
+
+  return every(multiContext, context =>
+    evalExpressionSingle(expression, context)
+  );
+}
+
+/**
+ * Выполняет JS выражение
+ * @param expression {String} - Выражение, которое нужно выполнить
+ * @param context - {Object} - Аргемент вызова (будет обогощен либами, типа lodash, moment и пр.)
+ * @param type - {Object} - настройка evalExpression (mode = multi || mode = single default)
+ * @returns {*} - результат вычисления
+ */
+export default function evalExpression(
+  expression,
+  context,
+  type = { mode: 'single' }
+) {
+  const { mode } = type;
+
+  return mode === 'multi'
+    ? evalExpressionMulti(expression, context)
+    : evalExpressionSingle(expression, context);
 }
