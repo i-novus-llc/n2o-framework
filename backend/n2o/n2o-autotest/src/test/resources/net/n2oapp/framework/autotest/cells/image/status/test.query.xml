@@ -13,12 +13,6 @@
         <field id="image">
             <select/>
         </field>
-        <field id="title">
-            <select/>
-        </field>
-        <field id="desc">
-            <select/>
-        </field>
         <field id="status">
             <select/>
         </field>
