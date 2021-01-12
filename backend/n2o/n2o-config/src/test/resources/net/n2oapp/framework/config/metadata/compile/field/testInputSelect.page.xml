@@ -20,7 +20,7 @@
                                 </contains>
                             </pre-filters>
                     </input-select>
-                    <input-select id="testId2" query-id="testSelect"/>
+                    <input-select id="testId2" query-id="testSelect" max-tag-text-length="5"/>
                     <input-select id="testFetch">
                         <dependencies>
                             <fetch-value on="testId2" query-id="testSelectFetch">

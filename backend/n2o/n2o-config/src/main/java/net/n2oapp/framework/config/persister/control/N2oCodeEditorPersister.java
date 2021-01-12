@@ -18,7 +18,6 @@ public class N2oCodeEditorPersister extends N2oControlXmlPersister<N2oCodeEditor
         Element element = new Element(getElementName(), namespacePrefix, namespaceUri);
         setControl(element, codeEditor);
         setField(element, codeEditor);
-        setText(element, codeEditor);
         PersisterJdomUtil.setAttribute(element, "language", codeEditor.getLanguage());
         return element;
     }

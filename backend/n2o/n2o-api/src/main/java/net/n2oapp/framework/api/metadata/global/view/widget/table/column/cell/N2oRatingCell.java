@@ -9,11 +9,13 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class N2oRatingCell extends N2oAbstractCell {
+public class N2oRatingCell extends N2oActionCell {
     @JsonProperty
     private Boolean showTooltip;
     @JsonProperty
     private Boolean half;
     @JsonProperty
     private Integer max;
+    @JsonProperty
+    private Boolean readonly;
 }

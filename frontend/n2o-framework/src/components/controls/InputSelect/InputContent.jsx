@@ -35,6 +35,7 @@ const textLengthStyle = {
  * @reactProps {boolean} multiSelect - фдаг мульти выбора
  * @reactProps {boolean} collapseSelected - флаг сжатия выбранных элементов
  * @reactProps {number} lengthToGroup - от скольки элементов сжимать выбранные элементы
+ * @reactProps {number} maxTagTextLength - максимальная длина текста в тэге, до усечения
  * @reactProps {function} onInputChange - callback при изменение инпута
  * @reactProps {function} openPopUp - открытие попапа
  * @reactProps {function} closePopUp - закрытие попапа
@@ -225,6 +226,7 @@ class InputContent extends React.Component {
       setRef,
       tags,
       mode,
+      maxTagTextLength,
     } = this.props;
     const { paddingTextArea, paddingLeft } = this.state;
     /**
@@ -357,6 +359,7 @@ class InputContent extends React.Component {
               collapseSelected={collapseSelected}
               lengthToGroup={lengthToGroup}
               setRef={this.selectedItemsRef}
+              maxTagTextLength={maxTagTextLength}
             />
             <textarea
               onKeyDown={handleKeyDown}
@@ -427,6 +430,7 @@ InputContent.propTypes = {
   isSelected: PropTypes.bool,
   valueFieldId: PropTypes.string,
   autoFocus: PropTypes.bool,
+  maxTagTextLength: PropTypes.number,
 };
 
 InputContent.defaultProps = {

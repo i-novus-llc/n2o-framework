@@ -6,6 +6,9 @@ import net.n2oapp.framework.config.reader.control.N2oStandardControlReaderTestBa
 import net.n2oapp.framework.config.selective.ION2oMetadataTester;
 import org.junit.Test;
 
+/**
+ * Тестирование чтения/записи компонента вывода html
+ */
 public class N2oHtmlXmlIOv2Test extends N2oStandardControlReaderTestBase {
 
     @Test

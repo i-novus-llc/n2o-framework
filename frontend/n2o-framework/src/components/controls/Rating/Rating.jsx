@@ -1,8 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import SnippetRating from '../../snippets/SnippetRating/SnippetRating';
 
-const Rating = ({ value, max, rating, half, showTooltip, onChange }) => (
+const Rating = ({
+  value,
+  rating,
+  max,
+  half,
+  showTooltip,
+  onChange,
+  readonly,
+}) => (
   <SnippetRating
     value={value}
     max={max}
@@ -10,6 +19,7 @@ const Rating = ({ value, max, rating, half, showTooltip, onChange }) => (
     half={half}
     showTooltip={showTooltip}
     onChange={onChange}
+    readonly={readonly}
   />
 );
 
@@ -34,6 +44,10 @@ Rating.propTypes = {
    * Callback на изменение
    */
   onChange: PropTypes.func,
+  /**
+   * Флаг только для чтения
+   */
+  readonly: PropTypes.bool,
 };
 
 Rating.defaultProps = {

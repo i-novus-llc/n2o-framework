@@ -12,7 +12,7 @@ public class N2oCodeEditorXmlReaderV1 extends N2oStandardControlReaderV1<N2oCode
     @Override
     public N2oCodeEditor read(Element element, Namespace namespace) {
         N2oCodeEditor codeEditor = new N2oCodeEditor();
-        readControlTextDefinition(element, codeEditor);
+        getControlFieldDefinition(element, codeEditor);
         codeEditor.setLanguage(ReaderJdomUtil.getAttributeEnum(element, "language", CodeLanguageEnum.class));
         return codeEditor;
     }

@@ -9,5 +9,5 @@ public interface RatingCell extends Cell {
 
     void valueShouldBe(String value);
 
-    void check(String value);
+    void value(String value);
 }

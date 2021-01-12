@@ -6,6 +6,8 @@
 
 *Изменения в XML API*
 
+- Атрибут `rows` `<text-area>` заменен на `max-rows` с сохранением обратной совместимости.
+
 - Удалена автогенерация path-параметров в route.
 Теперь использование `detail-field-id`, `master-param`, `master-field-id` при открытии
 страниц (`show-modal`, `open-page`, `open-drawer`) не приводит к автоматическому
@@ -67,7 +69,6 @@
 - Message bundle N2O лежат в `n2o_api_messages, n2o_config_messages, n2o_rest_messages`
 Message bundle приложения в messages. Для добавления дополнительных необходимо
 переопределить настройку `spring.messages.basename`, не забыв указать message bundle N2O.
-
 
 ==== Миграция с 7.9 на 7.10
 
