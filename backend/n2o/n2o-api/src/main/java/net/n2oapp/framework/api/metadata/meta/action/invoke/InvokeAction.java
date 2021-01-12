@@ -11,7 +11,6 @@ import net.n2oapp.framework.api.metadata.meta.saga.AsyncMetaSaga;
 @Getter
 @Setter
 public class InvokeAction extends AbstractAction<InvokeActionPayload, AsyncMetaSaga> {
-
     private String objectId;
     private String operationId;
 

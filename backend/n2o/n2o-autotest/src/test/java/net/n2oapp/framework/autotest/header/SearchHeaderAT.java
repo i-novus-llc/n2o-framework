@@ -4,7 +4,6 @@ import net.n2oapp.framework.autotest.api.collection.SearchResult;
 import net.n2oapp.framework.autotest.api.component.header.SearchBar;
 import net.n2oapp.framework.autotest.api.component.header.SearchItem;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
-import net.n2oapp.framework.autotest.run.AutoTestApplication;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.N2oAllDataPack;
@@ -15,14 +14,10 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * Автотест поиска в хедере
  */
-@SpringBootTest(properties = {"n2o.engine.test.classpath=/net/n2oapp/framework/autotest/search_bar"},
-        classes = AutoTestApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SearchHeaderAT extends AutoTestBase {
 
     @BeforeAll
