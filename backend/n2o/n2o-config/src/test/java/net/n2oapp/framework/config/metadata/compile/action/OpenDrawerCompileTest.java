@@ -64,9 +64,8 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
 
     @Test
     public void create() {
-        PageContext pageContext = new PageContext("testOpenDrawerRootPage", "/p");
         StandardPage rootPage = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/testOpenDrawerRootPage.page.xml")
-                .get(pageContext);
+                .get(new PageContext("testOpenDrawerRootPage", "/p"));
 
 
         Table table = (Table) rootPage.getRegions().get("left").get(0).getContent().get(0);
@@ -152,15 +151,15 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(filters.get(0).getLink().getBindLink(), is("models.resolve['p_main']"));
         assertThat(filters.get(0).getLink().getValue(), is("`secondId`"));
         assertThat(drawerWidget.getDataProvider().getQueryMapping().size(), is(0));
-        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main'].id"));
-        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getValue(), nullValue());
+        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
+        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(drawerWidget.getUpload(), is(UploadType.query));
 
         DataSet data = new DataSet();
         data.put("id", 222);
         drawerPage = (SimplePage) read().compile().bind().get(drawerContext, data);
         OpenDrawer openDrawer = (OpenDrawer) drawerPage.getWidget().getActions().get("menuItem0");
-        assertThat(openDrawer.getPayload().getPageUrl(), is("/p/222/update/:p_update_main_id/menuItem0"));
+        assertThat(openDrawer.getPayload().getPageUrl(), is("/p/222/update/menuItem0"));
         assertThat(drawerPage.getWidget().getDataProvider().getUrl(), is("n2o/data/p/222/update"));
 
         QueryContext queryContext = (QueryContext) route("/p/123/update", CompiledQuery.class);
@@ -261,7 +260,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(drawerPage.getBreadcrumb(), nullValue());
         Widget drawerWidget = drawerPage.getWidget();
         List<Filter> filters = drawerWidget.getFilters();
-        assertThat(filters.get(2).getParam(), is("p_main_id"));
+        assertThat(filters.get(2).getParam(), is("id"));
         assertThat(filters.get(2).getFilterId(), is("id"));
         assertThat(filters.get(2).getRoutable(), is(false));
         assertThat(filters.get(2).getLink().getBindLink(), is("models.resolve['p_main']"));
@@ -277,7 +276,8 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(filters.get(1).getLink().getBindLink(), is("models.filter['p_second']"));
         assertThat(filters.get(1).getLink().getValue(), is("`name`"));
 
-        assertThat(drawerWidget.getDataProvider().getPathMapping().get("p_main_id").getBindLink(), is("models.resolve['p_main'].id"));
+        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getBindLink(), is("models.resolve['p_main']"));
+        assertThat(drawerWidget.getDataProvider().getPathMapping().get("id").getValue(), is("`id`"));
         assertThat(drawerWidget.getDataProvider().getQueryMapping().get("name").getBindLink(), is("models.filter['p_second']"));
         assertThat(drawerWidget.getDataProvider().getQueryMapping().get("name").getValue(), is("`name`"));
 
@@ -293,18 +293,18 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         InvokeAction submit = (InvokeAction) drawerPage.getWidget().getActions().get("submit");
         assertThat(submit.getMeta().getSuccess().getRefresh().getOptions().getWidgetId(), is("p_main"));
         assertThat(submit.getMeta().getSuccess().getModalsToClose(), notNullValue());
-        assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:p_main_id/updateWithPrefilters/submit"));
-        ActionContext submitContext = (ActionContext) route("/p/:p_main_id/updateWithPrefilters/submit", CompiledObject.class);
+        assertThat(submit.getPayload().getDataProvider().getUrl(), is("n2o/data/p/:id/updateWithPrefilters/submit"));
+        ActionContext submitContext = (ActionContext) route("/p/:id/updateWithPrefilters/submit", CompiledObject.class);
         assertThat(submitContext.getSourceId(null), is("testShowModal"));
         assertThat(submitContext.getOperationId(), is("update"));
         assertThat(submitContext.getOperationId(), is("update"));
 
         DataSet data = new DataSet();
-        data.put("p_main_id", 222);
+        data.put("id", 222);
         drawerPage = (SimplePage) read().compile().bind().get(drawerContext, data);
         assertThat(drawerPage.getWidget().getDataProvider().getUrl(), is("n2o/data/p/222/updateWithPrefilters"));
         submit = (InvokeAction) drawerPage.getWidget().getActions().get("submit");
-        assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("p_main_id")));
+        assertThat(submit.getPayload().getDataProvider().getPathMapping(), not(hasKey("id")));
     }
 
     @Test

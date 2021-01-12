@@ -8,7 +8,9 @@
         </columns>
         <toolbar>
             <button label="Открыть">
-                <open-page page-id="page" master-param="id"/>
+                <open-page page-id="page" route="/:id/open">
+                    <path-param name="id" value="{id}"/>
+                </open-page>
             </button>
         </toolbar>
     </table>

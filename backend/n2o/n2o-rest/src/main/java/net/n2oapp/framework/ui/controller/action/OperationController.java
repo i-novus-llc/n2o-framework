@@ -7,7 +7,6 @@ import net.n2oapp.framework.api.exception.N2oException;
 import net.n2oapp.framework.api.exception.SeverityType;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
-import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.page.Dialog;
 import net.n2oapp.framework.api.rest.ControllerType;
 import net.n2oapp.framework.api.rest.SetDataResponse;
@@ -18,14 +17,11 @@ import net.n2oapp.framework.api.ui.ResponseMessage;
 import net.n2oapp.framework.config.compile.pipeline.N2oPipelineSupport;
 import net.n2oapp.framework.config.metadata.compile.context.ActionContext;
 import net.n2oapp.framework.config.metadata.compile.context.DialogContext;
-import net.n2oapp.framework.config.register.route.RouteUtil;
 import net.n2oapp.framework.engine.data.N2oOperationProcessor;
 import net.n2oapp.framework.engine.modules.stack.DataProcessingStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-
-import java.util.List;
 
 import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
 
@@ -117,11 +113,12 @@ public class OperationController extends SetController {
         String route = requestInfo.getContext().getRoute(null) + normalize(
                 n2oDialog.getRoute() != null ? n2oDialog.getRoute() : n2oDialog.getId());
         DialogContext context = new DialogContext(route, n2oDialog.getId());
-        context.setPathRouteMapping(requestInfo.getContext().getPathRouteMapping());
-        context.setQueryRouteMapping(requestInfo.getContext().getQueryRouteMapping());
+        ActionContext actionContext = (ActionContext) requestInfo.getContext();
+        context.setPathRouteMapping(actionContext.getPathRouteMapping());
+        context.setQueryRouteMapping(actionContext.getQueryRouteMapping());
         context.setObjectId(requestInfo.getObject() != null ? requestInfo.getObject().getId() : null);
-        context.setParentWidgetId(((ActionContext) requestInfo.getContext()).getParentWidgetId());
-        context.setClientWidgetId(getDialogClientWidgetId((ActionContext) requestInfo.getContext(), route));
+        context.setParentWidgetId(actionContext.getParentWidgetId());
+        context.setClientWidgetId(actionContext.getSuccessAlertWidgetId());
         if (requestInfo.getObject() != null)
             context.setObjectId(requestInfo.getObject().getId());
         N2oPipelineSupport pipelineSupport = new N2oPipelineSupport(environment);
@@ -131,23 +128,6 @@ public class OperationController extends SetController {
         dialog = environment.getBindPipelineFunction().apply(pipelineSupport)
                 .get(dialog, context, requestInfo.getQueryData());
         return dialog;
-    }
-
-    /**
-     * Получение идентификатора клиентского для диалога виджета
-     *
-     * @param context Контекст сборки объекта под конкретную операцию
-     * @param route   Маршрут
-     * @return Идентификатор клиентского для диалога виджета
-     */
-    private String getDialogClientWidgetId(ActionContext context, String route) {
-        List<String> pathParams = RouteUtil.getPathParams(route);
-        if (!pathParams.isEmpty() && context.getPathRouteMapping() != null) {
-            ModelLink modelLink = context.getPathRouteMapping().get(pathParams.get(0));
-            if (modelLink != null)
-                return modelLink.getWidgetId();
-        }
-        return context.getParentWidgetId();
     }
 
     @Override

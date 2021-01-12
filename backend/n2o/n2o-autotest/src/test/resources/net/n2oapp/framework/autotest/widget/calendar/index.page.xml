@@ -24,7 +24,7 @@
         </action-on-select-slot>
         <action-on-select-event>
             <show-modal page-id="selectEvent" submit-operation-id="update"
-                        object-id="test" detail-field-id="id" route="/:id/update">
+                        object-id="test" route="/:id/update">
                 <path-param name="id" value="{id}"/>
             </show-modal>
         </action-on-select-event>

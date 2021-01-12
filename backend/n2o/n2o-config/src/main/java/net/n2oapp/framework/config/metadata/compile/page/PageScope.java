@@ -8,6 +8,7 @@ import net.n2oapp.framework.config.util.CompileUtil;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -21,6 +22,7 @@ public class PageScope implements Serializable {
     private String resultWidgetId;
     private Set<String> widgetIds;
     private Map<ModelLink, ModelLink> modelLinks;
+    private Map<String, String> widgetIdQueryIdMap;
 
     public String getGlobalWidgetId(String localWidgetId) {
         return CompileUtil.generateWidgetId(pageId, localWidgetId);

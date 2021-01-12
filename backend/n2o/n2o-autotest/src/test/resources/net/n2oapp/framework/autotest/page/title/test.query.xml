@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <query xmlns="http://n2oapp.net/framework/config/schema/query-4.0">
     <list>
-        <test file="net/n2oapp/framework/autotest/widget/form/submit_modal/test.json"/>
+        <test file="net\n2oapp\framework\autotest\page\title\test.json"/>
     </list>
     <unique>
-        <test file="net/n2oapp/framework/autotest/widget/form/submit_modal/test.json" operation="findOne"/>
+        <test file="net\n2oapp\framework\autotest\page\title\test.json" operation="findOne"/>
     </unique>
 
     <fields>
@@ -16,8 +16,11 @@
         </field>
         <field id="name">
             <select/>
+            <filters>
+                <eq filter-id="name"/>
+            </filters>
         </field>
-        <field id="age">
+        <field id="type">
             <select/>
         </field>
     </fields>

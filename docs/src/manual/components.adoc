@@ -286,7 +286,7 @@ image::images/widget_form.png[]
 ----
 <?xml version='1.0' encoding='UTF-8'?>
 <form xmlns="http://n2oapp.net/framework/config/schema/widget-4.0"
-  name="Моя форма">
+      name="Моя форма">
   <fields>
     <input-text id="firstName" label="Имя"/>
     <input-text id="lastName" label="Фамилия"/>
@@ -576,7 +576,7 @@ image::images/fieldset_col_row.png[]
 ----
 
 Ширина столбца `<col>` задается атрибутом `size`.
-Всего доступно 12 размеров согласно сетки link:https://getbootstrap.com/docs/4.0/layout/grid/[Bootstrap].
+Всего доступно 12 размеров согласно сетке link:https://getbootstrap.com/docs/4.0/layout/grid/[Bootstrap].
 
 .Мульти-филдсеты
 Существует возможность создавать филдсеты с динамическим числом полей.

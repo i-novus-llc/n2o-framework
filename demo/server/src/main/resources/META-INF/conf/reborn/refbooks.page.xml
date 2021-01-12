@@ -20,10 +20,14 @@
                 </filters>
                 <toolbar>
                     <button id="viewPage" label="${view.on.page}">
-                        <open-page page-id="{refbooks_main_id}" detail-field-id="pageName"/>
+                        <open-page page-id="{refbooks_main_id}" route="/:pageName/viewPage">
+                            <path-param name="pageName" value="{pageName}"/>
+                        </open-page>
                     </button>
                     <button id="viewModal" label="${view.on.modal}">
-                        <show-modal page-id="{refbooks_main_id}" detail-field-id="pageName"/>
+                        <show-modal page-id="{refbooks_main_id}" route="/:pageName/viewModal">
+                            <path-param name="pageName" value="{pageName}"/>
+                        </show-modal>
                     </button>
                 </toolbar>
             </table>
