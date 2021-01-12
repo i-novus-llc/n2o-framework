@@ -17,6 +17,7 @@ const typesFunctions = {
     return numeral(number).format(format);
   },
   dateFromNow: ({ format }) => moment().format(format),
+  time: ({ data, format }) => moment(data, 'HH:mm:ss').format(format),
 };
 
 /**
