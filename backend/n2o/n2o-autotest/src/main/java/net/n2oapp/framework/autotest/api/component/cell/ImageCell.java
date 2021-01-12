@@ -23,8 +23,16 @@ public interface ImageCell extends Cell {
 
     void shouldHaveTextPosition(TextPosition textPosition);
 
-    void shouldHaveStatus(ImageStatusElement.Place position, String title);
+    default void shouldHaveStatus(ImageStatusElement.Place position, String title) {
+        shouldHaveStatus(position, 0, title);
+    }
 
-    void statusShouldHaveIcon(ImageStatusElement.Place position, String icon);
+    void shouldHaveStatus(ImageStatusElement.Place position, int index, String title);
+
+    default void statusShouldHaveIcon(ImageStatusElement.Place position, String icon){
+        statusShouldHaveIcon(position, 0, icon);
+    }
+
+    void statusShouldHaveIcon(ImageStatusElement.Place position, int index, String icon);
 
 }

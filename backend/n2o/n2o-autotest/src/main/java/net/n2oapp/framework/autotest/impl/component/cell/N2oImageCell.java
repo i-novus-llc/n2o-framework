@@ -59,15 +59,18 @@ public class N2oImageCell extends N2oCell implements ImageCell {
     }
 
     @Override
-    public void shouldHaveStatus(ImageStatusElement.Place position, String title) {
-        SelenideElement status = element().$(".n2o-image-statuses ." + position);
-        status.$(".n2o-status__text").shouldBe(Condition.text(title));
+    public void shouldHaveStatus(ImageStatusElement.Place position, int index, String title) {
+        getStatus(position, index).$(".n2o-status__text").shouldBe(Condition.text(title));
+    }
+
+    private SelenideElement getStatus(ImageStatusElement.Place position, int index) {
+        return element().$$(".n2o-image-statuses ." + position).get(index);
     }
 
     @Override
-    public void statusShouldHaveIcon(ImageStatusElement.Place position, String icon) {
+    public void statusShouldHaveIcon(ImageStatusElement.Place position, int index, String icon) {
         if (icon != null && !icon.isEmpty()) {
-            element().$(".n2o-image-statuses ." + position).$(".n2o-status__icon"+icon).exists();
+            element().$(".n2o-image-statuses ." + position).$(".n2o-status__icon"+icon).should(Condition.exist);
         }
     }
 
