@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 /**
- * Тестирование компиляции компонента многострочного ввода
+ * Тестирование компиляции компонента ввода многострочного текста
  */
 public class TextAreaCompileTest extends SourceCompileTestBase {
     @Override
@@ -36,11 +36,12 @@ public class TextAreaCompileTest extends SourceCompileTestBase {
     public void testTextArea() {
         Form form = (Form) compile("net/n2oapp/framework/config/mapping/testTextArea.widget.xml")
                 .get(new WidgetContext("testTextArea"));
+
         TextArea textArea = (TextArea) ((StandardField) form.getComponent().getFieldsets().get(0).getRows()
                 .get(0).getCols().get(0).getFields().get(0)).getControl();
-
         assertThat(textArea.getSrc(), is("TextArea"));
-        assertThat(textArea.getRows(), is(10));
+        assertThat(textArea.getMinRows(), is(10));
+        assertThat(textArea.getMaxRows(), is(20));
         assertThat(textArea.getPlaceholder(), is("test"));
     }
 }

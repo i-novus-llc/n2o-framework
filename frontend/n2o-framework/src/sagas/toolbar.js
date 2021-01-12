@@ -24,7 +24,7 @@ export function* resolveButton(button) {
     const { visible, enabled } = button.conditions;
 
     if (visible) {
-      const nextVisible = resolveConditions(visible, state).resolve;
+      const nextVisible = resolveConditions(visible, state, button.key).resolve;
       yield put(
         changeButtonVisiblity(button.key, button.buttonId, nextVisible)
       );
@@ -32,7 +32,10 @@ export function* resolveButton(button) {
     }
 
     if (enabled) {
-      const nextEnable = get(resolveConditions(enabled, state), 'resolve');
+      const nextEnable = get(
+        resolveConditions(enabled, state, button.key),
+        'resolve'
+      );
       yield put(changeButtonDisabled(button.key, button.buttonId, !nextEnable));
     }
     if (!get(resolveConditions(enabled, state), 'resolve')) {

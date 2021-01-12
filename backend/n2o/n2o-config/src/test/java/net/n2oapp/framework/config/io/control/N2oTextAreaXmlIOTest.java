@@ -37,7 +37,8 @@ public class N2oTextAreaXmlIOTest extends N2oStandardControlReaderTestBase {
                 (N2oFieldSet fieldSet) -> {
                     assertCountField(fieldSet, 1);
                     N2oTextArea textArea = (N2oTextArea) fieldSet.getItems()[0];
-                    assertStandardTextAttribute(textArea);
+                    assertStandardAttribute(textArea);
+                    assert textArea.getRows() == 2;
                 });
     }
 }

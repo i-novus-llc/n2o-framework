@@ -3,12 +3,12 @@
     <table query-id="test">
         <columns>
             <column text-field-id="id"/>
-            <filter-column text-field-id="name">
+            <filter-column text-field-id="name" style="color: red">
                 <filter>
                     <input-text id="name"/>
                 </filter>
             </filter-column>
-            <filter-column text-field-id="type">
+            <filter-column text-field-id="type" class="font-italic">
                 <filter>
                     <select id="type">
                         <options>

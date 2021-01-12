@@ -18,10 +18,10 @@ import {
  */
 class TextTableHeader extends React.Component {
   render() {
-    const { id, sortable, sorting, label, onSort } = this.props;
+    const { id, sortable, sorting, label, onSort, style } = this.props;
 
     return (
-      <span>
+      <span className="n2o-advanced-table-header-title" style={style}>
         {sortable ? (
           <Sorter sorting={sorting} columnKey={id} onSort={onSort}>
             {label}

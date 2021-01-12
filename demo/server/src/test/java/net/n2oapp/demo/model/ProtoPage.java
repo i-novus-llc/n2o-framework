@@ -11,7 +11,7 @@ import net.n2oapp.framework.autotest.api.component.page.LeftRightPage;
 import net.n2oapp.framework.autotest.api.component.region.PanelRegion;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.api.component.widget.list.ListWidget;
-import net.n2oapp.framework.autotest.api.component.widget.table.StandardTableHeader;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableSimpleHeader;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 
 import java.util.List;
@@ -55,7 +55,7 @@ public class ProtoPage {
         getTable().filters().clear();
     }
 
-    public StandardTableHeader getSurnameHeader() {
+    public TableSimpleHeader getSurnameHeader() {
         return getTable().columns().headers().header(Condition.text("Фамилия"));
     }
 

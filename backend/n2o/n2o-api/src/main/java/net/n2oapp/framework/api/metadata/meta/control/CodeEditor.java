@@ -6,7 +6,7 @@ import lombok.Setter;
 import net.n2oapp.framework.api.metadata.control.plain.CodeLanguageEnum;
 
 /**
- * Клиентская модель редактора кода
+ * Клиентская модель компонента редактирования кода
  */
 @Getter
 @Setter

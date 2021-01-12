@@ -3,7 +3,7 @@
         <fields>
             <auto-complete id="testId" label="Auto complete" query-id="testSelect" placeholder="{message}"
                            tags="true" value-field-id="name" search-filter-id="search"/>
-            <auto-complete id="testId" label="Auto complete">
+            <auto-complete id="testId" label="Auto complete" max-tag-text-length="15">
                 <options>
                     <option name="test1"/>
                     <option name="test2"/>

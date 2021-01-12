@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import PaginationButton from './PaginationButton';
 import { withTranslation } from 'react-i18next';
+
+import PaginationButton from './PaginationButton';
 
 /**
  * Компонент интерфейса разбивки по страницам
@@ -221,7 +222,7 @@ class Pagination extends React.Component {
               <PaginationButton
                 eventKey={activePage + 1}
                 label={nextText || '&rsaquo;'}
-                disabled={activePage >= count}
+                disabled={lastPage === activePage}
                 onSelect={onSelect}
                 tabIndex={0}
               />

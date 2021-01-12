@@ -93,6 +93,8 @@ class AdvancedTableHeaderCell extends Component {
       title,
       filterControl,
       as,
+      style,
+      className,
     } = this.props;
 
     let cellContent = null;
@@ -114,13 +116,16 @@ class AdvancedTableHeaderCell extends Component {
         title={label}
         rowSpan={rowSpan}
         colSpan={colSpan}
+        style={style}
         className={cn('n2o-advanced-table-header-cel', {
           [selectionClass]: selectionHead,
           'n2o-advanced-table-header-text-center': multiHeader,
           'd-none': !get(children, 'props.needRender', true),
         })}
       >
-        <div className="n2o-advanced-table-header-cell-content">
+        <div
+          className={cn('n2o-advanced-table-header-cell-content', className)}
+        >
           {icon && <Icon name={icon} />}
           {filterable ? (
             <AdvancedTableFilter

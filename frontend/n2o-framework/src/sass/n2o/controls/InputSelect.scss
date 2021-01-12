@@ -233,12 +233,9 @@
     }
 
     & > .n2o-input-items {
-      display: inline-flex;
-      flex-wrap: wrap;
-      align-items: center;
-      flex: 1;
       min-width: 10px;
       overflow: hidden;
+      text-overflow: ellipsis;
     }
 
 
