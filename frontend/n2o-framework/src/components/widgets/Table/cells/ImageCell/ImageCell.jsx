@@ -3,13 +3,18 @@ import PropTypes from 'prop-types';
 import { compose, setDisplayName, withHandlers } from 'recompose';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
+import omit from 'lodash/omit';
+import classNames from 'classnames';
 
 import propsResolver from '../../../../../utils/propsResolver';
 
+import Image from '../../../../snippets/Image/Image';
+import ImageInfo from '../../../../snippets/Image/ImageInfo';
+
 import withCell from '../../withCell';
 import withTooltip from '../../withTooltip';
-import Image from '../../../../snippets/Image/Image';
 
+import ImageStatuses from './ImageStatuses';
 import imageShapes from './imageShapes';
 
 /**
@@ -23,6 +28,7 @@ import imageShapes from './imageShapes';
  * @reactProps {string} description - описание
  * @reactProps {string} textPosition - позиция текста
  * @reactProps {string} width - ширина
+ * @reactProps {array} statuses - статусы, отображающиеся над img
  */
 
 function ImageCell(props) {
@@ -40,7 +46,9 @@ function ImageCell(props) {
     description,
     textPosition,
     width,
+    height,
     data,
+    statuses = [],
   } = props;
 
   const setCursor = action => {
@@ -49,6 +57,9 @@ function ImageCell(props) {
 
   const url = get(model, fieldKey);
   const isEmptyModel = isEmpty(model);
+
+  const hasStatuses = !isEmpty(statuses);
+  const hasInfo = title || description;
 
   const defaultImageProps = {
     url: url,
@@ -62,20 +73,35 @@ function ImageCell(props) {
     : propsResolver(defaultImageProps, model);
 
   return (
-    <Image
-      id={id}
-      visible={visible}
-      title={title}
-      description={description}
-      onClick={onClick}
-      shape={shape}
-      style={{ ...style, ...setCursor(action) }}
-      className={className}
-      textPosition={textPosition}
-      width={width}
-      {...resolveProps}
-      src={resolveProps.data || resolveProps.url}
-    />
+    <span className="n2o-image-cell-container">
+      <div
+        className={classNames('n2o-image-cell', {
+          'with-statuses': hasStatuses,
+        })}
+      >
+        <Image
+          id={id}
+          visible={visible}
+          onClick={onClick}
+          shape={shape}
+          style={{ ...style, ...setCursor(action) }}
+          className={className}
+          textPosition={textPosition}
+          width={width}
+          height={height}
+          {...omit(resolveProps, ['title', 'description'])}
+          src={resolveProps.data || resolveProps.url}
+        />
+        {hasStatuses && (
+          <ImageStatuses
+            statuses={statuses}
+            model={model}
+            className="image-cell-statuses"
+          />
+        )}
+      </div>
+      {hasInfo && <ImageInfo title={title} description={description} />}
+    </span>
   );
 }
 
@@ -120,6 +146,10 @@ ImageCell.propTypes = {
    * Ширина
    */
   width: PropTypes.string,
+  /**
+   * Статусы, отображающиеся над img
+   */
+  statuses: PropTypes.array,
 };
 
 export { ImageCell };

@@ -3,22 +3,6 @@
 
   .n2o-image__content {
     max-width: max-content;
-
-    .n2o-image__info {
-
-      .n2o-image__info_label {
-        margin: 0;
-        padding: 0;
-        font-size: 18px;
-        font-weight: bold;
-      }
-
-      .n2o-image__info_description {
-        margin: 0;
-        padding: 0;
-        font-size: 14px;
-      }
-    }
   }
 
   .n2o-image__content.top {
@@ -78,5 +62,21 @@
 
   .n2o-image__image-container.circle {
     border-radius: 50%;
+  }
+}
+
+.n2o-image__info {
+
+  .n2o-image__info_label {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .n2o-image__info_description {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
   }
 }

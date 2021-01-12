@@ -991,6 +991,9 @@
                 <xs:documentation>Компонент вывода изображения.</xs:documentation>
             </xs:annotation>
             <xs:extension base="controlSimpleFieldDefinition">
+                <xs:sequence>
+                    <xs:element name="statuses" type="statusesType"/>
+                </xs:sequence>
                 <xs:attribute name="url" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL адрес изображения.</xs:documentation>
@@ -1031,6 +1034,46 @@
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="statusesType">
+        <xs:sequence>
+            <xs:element name="status" type="statusType" minOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="statusType">
+        <xs:annotation>
+            <xs:documentation>Cтатус.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Реализация статуса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" name="field-id" use="required">
+            <xs:annotation>
+                <xs:documentation>Поле с данными для статуса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" name="icon">
+            <xs:annotation>
+                <xs:documentation>Иконка статуса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="place" default="topLeft">
+            <xs:annotation>
+                <xs:documentation>Расположение статуса.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="topLeft"/>
+                    <xs:enumeration value="topRight"/>
+                    <xs:enumeration value="bottomLeft"/>
+                    <xs:enumeration value="bottomRight"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="controlCustom">

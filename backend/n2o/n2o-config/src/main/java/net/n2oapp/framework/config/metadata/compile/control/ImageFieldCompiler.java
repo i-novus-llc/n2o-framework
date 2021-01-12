@@ -4,9 +4,14 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.control.N2oImageField;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.control.ImageField;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
@@ -32,7 +37,24 @@ public class ImageFieldCompiler extends FieldCompiler<ImageField, N2oImageField>
         imageField.setTextPosition(p.cast(source.getTextPosition(),
                 p.resolve(property("n2o.api.field.image_field.text_position"), TextPosition.class)));
         imageField.setWidth(p.cast(source.getWidth(), p.resolve(property("n2o.api.field.image_field.width"), String.class)));
+        imageField.setStatuses(compileStatuses(source.getStatuses(), p));
         return imageField;
+    }
+
+    private ImageStatusElement[] compileStatuses(ImageStatusElement[] statuses, final CompileProcessor p) {
+        if (statuses == null) return null;
+        int i = 0;
+        ImageStatusElement[] statusElements = new ImageStatusElement[statuses.length];
+        for (ImageStatusElement e : statuses) {
+            ImageStatusElement statusElement = new ImageStatusElement();
+            statusElement.setSrc(p.cast(e.getSrc(), "Status"));
+            statusElement.setFieldId(e.getFieldId());
+            statusElement.setIcon(p.resolveJS(e.getIcon()));
+            statusElement.setPlace(p.cast(e.getPlace(),
+                    p.resolve(property("n2o.api.field.image.status_place"), ImageStatusElement.Place.class)));
+            statusElements[i++] = statusElement;
+        }
+        return statusElements;
     }
 
     @Override

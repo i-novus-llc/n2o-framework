@@ -22,7 +22,33 @@
             "style": {},
             "fieldKey": "card2",
             "width": 350,
-            "src": "ImageCell"
+            "src": "ImageCell",
+            "statuses" : [
+              {
+                "src": "Status",
+                "statusFieldId": "status1",
+                "statusIconFieldId": "fa fa-edit",
+                "statusPlace": "top-left"
+              },
+              {
+                "src": "Status",
+                "statusFieldId": "status2",
+                "statusIconFieldId": "fa fa-edit",
+                "statusPlace": "top-right"
+              },
+              {
+                "src": "Status",
+                "statusFieldId": "status3",
+                "statusIconFieldId": "fa fa-edit",
+                "statusPlace": "bottom-left"
+              },
+              {
+                "src": "Status",
+                "statusFieldId": "status4",
+                "statusIconFieldId": "fa fa-edit",
+                "statusPlace": "bottom-right"
+              }
+            ]
           },
           {
             "id": "card21",

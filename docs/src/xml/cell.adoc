@@ -310,8 +310,58 @@ link:#_Действия[Обработчик действия]
   url="images/user.png"
   width="32"
   class="img-thumbnail">
-  <open-page page-id="profile"/>
+    <statuses>
+       <status/>
+            ...
+       <status/>
+    </statuses>
+    <action>
+        <open-page page-id="profile"/>
+    </action>
 </image>
+----
+
+=== <statuses>
+Список статусов.
+
+=== <status>
+Элемент статуса.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|Src
+|React компонент
+|Реализация статуса
+|Status
+
+|field-id
+|Строка
+|Поле с данными для статуса
+|
+
+|icon
+|Строка
+|Иконка статуса
+|
+
+|place
+|topLeft, topRight, bottomLeft, bottomRight
+|Расположение статуса
+|topLeft
+
+|===
+
+Пример::
+[source,xml]
+----
+<status
+    field-id="status"
+    icon="{icon}"
+    place="topLeft"
+/>
 ----
 
 === <edit>
