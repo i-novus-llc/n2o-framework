@@ -25,6 +25,10 @@ export default function Status({
   className,
   iconDirection = 'left',
 }) {
+  if (!icon && !text) {
+    return null;
+  }
+
   return (
     <div
       className={classNames('n2o-status', className, {
@@ -32,8 +36,18 @@ export default function Status({
         'status-icon-right': iconDirection === 'right',
       })}
     >
-      <i className={classNames('n2o-status__icon', icon)} />
-      <div className="n2o-status__text">{text}</div>
+      {icon && (
+        <i
+          className={classNames('n2o-status__icon', icon, {
+            'with-text': text,
+          })}
+        />
+      )}
+      {text && (
+        <div className={classNames('n2o-status__text', { 'with-icon': icon })}>
+          {text}
+        </div>
+      )}
     </div>
   );
 }
