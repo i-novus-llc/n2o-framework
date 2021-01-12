@@ -24,6 +24,7 @@ public class N2oImageCell extends N2oActionCell {
     private String description;
     @JsonProperty
     private Position textPosition;
+    @JsonProperty
     private ImageStatusElement[] statuses;
 
     public enum Position {
