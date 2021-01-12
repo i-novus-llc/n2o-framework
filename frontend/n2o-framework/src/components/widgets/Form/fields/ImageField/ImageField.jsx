@@ -82,7 +82,11 @@ function ImageField(props) {
           src={resolveProps.data || resolveProps.url}
         />
         {hasStatuses && (
-          <ImageStatuses statuses={statuses} className="image-field-statuses" />
+          <ImageStatuses
+            statuses={statuses}
+            model={model}
+            className="image-field-statuses"
+          />
         )}
       </div>
       {hasInfo && <ImageInfo title={title} description={description} />}
