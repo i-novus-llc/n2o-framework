@@ -65,9 +65,7 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
       ? get(response, 'list', null)
       : get(response, 'list[0]', null);
 
-    const currentModel = isMultiModel
-      ? map(model, modelElement => modelElement[valueFieldId])
-      : model[valueFieldId];
+    const currentModel = isMultiModel ? model : model[valueFieldId];
 
     if (model) {
       yield put(
@@ -78,7 +76,14 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
       );
     }
   } catch (e) {
-    throw e;
+    yield put(
+      change(form, field, {
+        keepDirty: false,
+        value: null,
+        error: true,
+      })
+    );
+    console.error(e);
   } finally {
     yield put(setLoading(form, field, false));
   }
