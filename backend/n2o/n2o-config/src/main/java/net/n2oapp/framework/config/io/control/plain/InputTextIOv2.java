@@ -16,6 +16,7 @@ public class InputTextIOv2 extends PlainFieldIOv2<N2oInputText> {
         p.attribute(e, "max", m::getMax, m::setMax);
         p.attribute(e, "step", m::getStep, m::setStep);
         p.attribute(e, "measure", m::getMeasure, m::setMeasure);
+        p.attributeInteger(e, "precision", m::getPrecision, m::setPrecision);
     }
 
     @Override

@@ -13,6 +13,7 @@ public class MaskedInputIOv2 extends PlainFieldIOv2<N2oMaskedInput> {
         super.io(e, m, p);
         p.attribute(e, "mask", m::getMask, m::setMask);
         p.attribute(e, "measure", m::getMeasure, m::setMeasure);
+        p.attributeBoolean(e, "clear-on-blur", m::getClearOnBlur, m::setClearOnBlur);
     }
 
     @Override

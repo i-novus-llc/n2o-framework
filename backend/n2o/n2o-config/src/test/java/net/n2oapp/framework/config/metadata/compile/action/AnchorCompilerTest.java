@@ -69,19 +69,18 @@ public class AnchorCompilerTest extends SourceCompileTestBase {
         assertThat(link3.getUrl(), is("http://google.com"));
         assertThat(link3.getTarget(), is(Target.self));
 
-        PageContext modalContext = (PageContext) route("/page/widget/123/id4", Page.class);
+        PageContext modalContext = (PageContext) route("/page/widget/id4", Page.class);
         SimplePage modalPage = (SimplePage) read().compile().get(modalContext);
         link1 = (LinkActionImpl) modalPage.getWidget().getActions().get("id1");
-        assertThat(link1.getUrl(), is("/page/widget/:page_test_id/id4/widget2/test"));
+        assertThat(link1.getUrl(), is("/page/widget/id4/widget2/test"));
         assertThat(link1.getTarget(), is(Target.application));
-        assertThat(link1.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
+        assertThat(link1.getPathMapping().size(), is(0));
         assertThat(link1.getQueryMapping().size(), is(0));
 
         link2 = (LinkActionImpl) modalPage.getWidget().getActions().get("id2");
-        assertThat(link2.getUrl(), is("/page/widget/:page_test_id/id4/widget2/test2/:param1/:param2?param3=:param3"));
+        assertThat(link2.getUrl(), is("/page/widget/id4/widget2/test2/:param1/:param2?param3=:param3"));
         assertThat(link2.getTarget(), is(Target.application));
-        assertThat(link2.getPathMapping().size(), is(3));
-        assertThat(link2.getPathMapping().get("page_test_id").getBindLink(), is("models.resolve['page_test'].id"));
+        assertThat(link2.getPathMapping().size(), is(2));
         assertThat(link2.getPathMapping().get("param1").getBindLink(), is("models.resolve['page_widget_id4_test']"));
         assertThat(link2.getPathMapping().get("param1").getValue(), is("`field1`"));
         assertThat(link2.getPathMapping().get("param2").getBindLink(), is("models.resolve['page_widget_id4_test']"));

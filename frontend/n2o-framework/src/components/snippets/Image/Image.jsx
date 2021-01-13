@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import ImageInfo from './ImageInfo';
+
 /**
  * Компонент Изображение
  * @reactProps {string} id - id
@@ -21,6 +23,7 @@ function Image({
   description,
   textPosition,
   width,
+  height,
   shape,
   visible,
   style: propsStyle,
@@ -28,13 +31,15 @@ function Image({
   className,
 }) {
   const style = width ? { maxWidth: width } : {};
+  const imageStyle = height || width ? { height: height, maxWidth: width } : {};
+  const hasInfo = title || description;
 
   if (!visible) {
     return;
   }
 
   return (
-    <div id={id} className={classNames('n2o-image', className)}>
+    <div id={id} className={classNames('n2o-image n2o-snippet', className)}>
       <div
         className={classNames('n2o-image__content', {
           [textPosition]: textPosition,
@@ -51,14 +56,10 @@ function Image({
             src={src}
             onClick={onClick}
             alt="image error"
+            style={imageStyle}
           />
         </section>
-        <section className="n2o-image__info">
-          {title && <h4 className="n2o-image__info_label">{title}</h4>}
-          {description && (
-            <p className="n2o-image__info_description">{description}</p>
-          )}
-        </section>
+        {hasInfo && <ImageInfo title={title} description={description} />}
       </div>
     </div>
   );

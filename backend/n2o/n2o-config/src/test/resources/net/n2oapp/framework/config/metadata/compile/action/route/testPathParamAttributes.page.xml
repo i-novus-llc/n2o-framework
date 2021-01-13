@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <regions>
+        <region>
+            <form id="master">
+                <fields>
+                    <input-text id="clientId"/>
+                </fields>
+            </form>
+            <form id="dependent">
+                <toolbar>
+                    <button id="create" model="filter">
+                        <show-modal page-id="testOpenPageRoutePage" route="/:id/create">
+                            <path-param name="id" value="{clientId}" ref-widget-id="master" ref-model="resolve"/>
+                        </show-modal>
+                    </button>
+                </toolbar>
+            </form>
+            <form id="dependent2">
+                <toolbar>
+                    <button id="create" model="filter">
+                        <show-modal page-id="testOpenPageRoutePage" route="/:id/create">
+                            <!-- widget-id и model не заданы - берутся из кнопки-->
+                            <path-param name="id" value="{clientId}"/>
+                        </show-modal>
+                    </button>
+                </toolbar>
+            </form>
+        </region>
+    </regions>
+</page>

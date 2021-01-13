@@ -8,7 +8,9 @@
         </columns>
         <toolbar>
             <button label="Открыть">
-                <show-modal page-id="modal" detail-field-id="id" page-name="Карточка клиента: {id}"/>
+                <show-modal page-id="modal" page-name="Карточка клиента: {id}" route="/:id/modal">
+                    <path-param name="id" value="{id}"/>
+                </show-modal>
             </button>
         </toolbar>
     </table>

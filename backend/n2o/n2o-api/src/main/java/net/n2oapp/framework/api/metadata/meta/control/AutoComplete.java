@@ -25,4 +25,6 @@ public class AutoComplete extends Control {
     private List<Map<String, Object>> data;
     @JsonProperty
     private Boolean tags;
+    @JsonProperty
+    private Integer maxTagTextLength;
 }

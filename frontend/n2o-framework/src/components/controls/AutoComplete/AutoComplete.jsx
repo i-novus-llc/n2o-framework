@@ -56,7 +56,7 @@ class AutoComplete extends React.Component {
     const { value, options, tags, valueFieldId } = this.props;
     const compareListProps = ['options', 'value'];
     const compareListState = ['input'];
-
+    const { input } = this.state;
     if (
       !isEqual(
         pick(prevProps, compareListProps),
@@ -160,15 +160,24 @@ class AutoComplete extends React.Component {
   };
 
   onChange = input => {
-    const { onInput, tags, options, data, valueFieldId } = this.props;
+    const { onInput, tags, options, data, valueFieldId, onChange } = this.props;
     const onSetNewInputValue = input => {
       onInput(input);
+      if (!tags && input === '') {
+        onChange([]);
+      } else if (!tags) {
+        onChange([input]);
+      }
       this._handleDataSearch(input);
     };
 
     if (!isEqual(this.state.input, input)) {
-      const getSelected = prevState => (tags ? prevState.value : []);
-
+      const getSelected = prevState =>
+        tags
+          ? prevState.value
+          : some(options || data, option => option[valueFieldId] === input)
+          ? [input]
+          : [input];
       this.setState(
         prevState => ({ input, value: getSelected(prevState) }),
         () => onSetNewInputValue(input)
@@ -271,6 +280,7 @@ class AutoComplete extends React.Component {
       options,
       data,
       tags,
+      maxTagTextLength,
     } = this.props;
     const needAddFilter = !find(value, item => item[valueFieldId] === input);
     const optionsList = !isEmpty(data) ? data : options;
@@ -308,6 +318,7 @@ class AutoComplete extends React.Component {
                 <InputContent
                   tags={true}
                   mode="autocomplete"
+                  maxTagTextLength={maxTagTextLength}
                   multiSelect={tags}
                   options={filteredOptions}
                   setRef={this.setInputRef(ref)}
@@ -517,6 +528,10 @@ AutoComplete.propTypes = {
    * Мод работы Autocomplete
    */
   tags: PropTypes.bool,
+  /**
+   * Максимальная длина текста в тэге, до усечения
+   */
+  maxTagTextLength: PropTypes.number,
 };
 
 AutoComplete.defaultProps = {

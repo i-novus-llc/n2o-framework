@@ -14,6 +14,7 @@ public class N2oInputSelect extends N2oListField implements N2oSingleListField, 
     private ListType type;
     private Boolean resetOnBlur;
     private String descriptionFieldId;
+    private Integer maxTagTextLength;
 
     @Override
     public boolean isSingle() {

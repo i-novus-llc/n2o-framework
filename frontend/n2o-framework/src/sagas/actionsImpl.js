@@ -1,10 +1,10 @@
 import {
   call,
+  fork,
   put,
   select,
   takeEvery,
   throttle,
-  fork,
 } from 'redux-saga/effects';
 import { getFormValues } from 'redux-form';
 import isFunction from 'lodash/isFunction';
@@ -16,8 +16,6 @@ import merge from 'deepmerge';
 import values from 'lodash/values';
 import map from 'lodash/map';
 import assign from 'lodash/assign';
-import isObject from 'lodash/isObject';
-import every from 'lodash/every';
 import isEmpty from 'lodash/isEmpty';
 import some from 'lodash/some';
 
@@ -27,14 +25,14 @@ import {
   makeFormModelPrefixSelector,
   makeWidgetValidationSelector,
 } from '../selectors/widgets';
-import { getModelSelector } from '../selectors/models';
+import { getModelSelector, selectionTypeSelector } from '../selectors/models';
 import { validateField } from '../core/validation/createValidator';
 import actionResolver from '../core/factory/actionResolver';
 import { dataProviderResolver } from '../core/dataProviderResolver';
 import { FETCH_INVOKE_DATA } from '../core/api.js';
 import { setModel } from '../actions/models';
 import { disablePage, enablePage } from '../actions/pages';
-import { successInvoke, failInvoke } from '../actions/actionImpl';
+import { failInvoke, successInvoke } from '../actions/actionImpl';
 import { disableWidgetOnFetch, enableWidget } from '../actions/widgets';
 import { setButtonDisabled, setButtonEnabled } from '../actions/toolbar';
 
@@ -104,13 +102,12 @@ export function* handleAction(factories, action) {
  */
 export function* fetchInvoke(dataProvider, model, apiProvider, action) {
   const state = yield select();
+  const selectionType = yield select(selectionTypeSelector);
 
+  const widgetId = action.payload.widgetId;
   const multi = get(state, 'models.multi');
-  const rootPageId = get(state, 'global.rootPageId');
-  const modelId = get(state, `pages.${rootPageId}.metadata.widget.id`);
-  const multiModel = get(state, `models.multi.${modelId}`);
-  const widget = get(state, `widgets.${action.payload.widgetId}`);
-
+  const multiModel = get(state, `models.multi.${widgetId}`);
+  const widget = get(state, `widgets.${widgetId}`);
   const hasMultiModel = some(values(multi), model => !isEmpty(model));
 
   const needResolve = get(widget, 'modelPrefix') === 'resolve';
@@ -122,12 +119,10 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
     headersParams,
   } = yield dataProviderResolver(state, dataProvider);
 
-  const isMultiModel =
-    !isEmpty(multi) &&
-    every(values(multiModel), modelElement => isObject(modelElement));
+  const isSelectionTypeCheckbox = selectionType[widgetId] === 'checkbox';
 
   const createModelRequest = () => {
-    if (isMultiModel && hasMultiModel) {
+    if (isSelectionTypeCheckbox && hasMultiModel) {
       const ids = Object.values(multiModel).map(i => i.id);
 
       if (needResolve) {
@@ -137,14 +132,19 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
         return { ...modelElement, ...formParams };
       });
     } else {
-      return assign({}, model, formParams);
+      const { ids } = model;
+      const requestIds = Array.isArray(ids) ? ids : [ids];
+
+      return ids
+        ? assign({}, model, formParams, { ids: requestIds })
+        : assign({}, model, formParams);
     }
   };
 
   const modelRequest = createModelRequest();
-  const formParamsRequest = isMultiModel ? [formParams] : formParams;
+  const formParamsRequest = isSelectionTypeCheckbox ? [formParams] : formParams;
 
-  const response = yield call(
+  return yield call(
     fetchSaga,
     FETCH_INVOKE_DATA,
     {
@@ -158,7 +158,6 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
     action,
     state
   );
-  return response;
 }
 
 export function* handleFailInvoke(metaInvokeFail, widgetId, metaResponse) {

@@ -15,6 +15,7 @@ import some from 'lodash/some';
 import includes from 'lodash/includes';
 import get from 'lodash/get';
 import set from 'lodash/set';
+import map from 'lodash/map';
 import isEqual from 'lodash/isEqual';
 import { actionTypes, change } from 'redux-form';
 
@@ -57,18 +58,32 @@ export function* fetchValue(form, field, { dataProvider, valueFieldId }) {
       url,
       headers: headersParams,
     });
-    const model = get(response, 'list[0]', null);
+
+    const isMultiModel = get(response, 'list').length > 1;
+
+    const model = isMultiModel
+      ? get(response, 'list', null)
+      : get(response, 'list[0]', null);
+
+    const currentModel = isMultiModel ? model : model[valueFieldId];
 
     if (model) {
       yield put(
         change(form, field, {
           keepDirty: false,
-          value: valueFieldId ? model[valueFieldId] : model,
+          value: valueFieldId ? currentModel : model,
         })
       );
     }
   } catch (e) {
-    throw e;
+    yield put(
+      change(form, field, {
+        keepDirty: false,
+        value: null,
+        error: true,
+      })
+    );
+    console.error(e);
   } finally {
     yield put(setLoading(form, field, false));
   }

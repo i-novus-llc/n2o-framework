@@ -58,8 +58,8 @@ public class OperationController extends SetController {
             return constructSuccessSetDataResponse(data, requestInfo, responseInfo);
         } catch (N2oException e) {
             SetDataResponse response = constructFailSetDataResponse(e, requestInfo);
-            logger.error("Error response " + response.getStatus() + " " + e.getSeverity() + ": "
-                    + (e.getUserMessage() != null ? e.getUserMessage() : e.getMessage()), e);
+            logger.error(String.format("Error response %d %s: %s", response.getStatus(), e.getSeverity(),
+                    e.getUserMessage() != null ? e.getUserMessage() : e.getMessage()), e);
             return response;
         }
     }
@@ -85,7 +85,7 @@ public class OperationController extends SetController {
                                                             ActionRequestInfo<DataSet> requestInfo,
                                                             ActionResponseInfo responseInfo) {
         SetDataResponse response = new SetDataResponse();
-        response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getSuccessAlertWidgetId(), responseInfo.getStackedMessages());
+        response.setResponseMessages(responseInfo.getMessageList(), requestInfo.getSuccessAlertWidgetId(), responseInfo.isStackedMessages());
         response.setData(data);
         if (responseInfo.getDialog() != null)
             response.setDialog(compileDialog(responseInfo.getDialog(), requestInfo));
@@ -102,14 +102,25 @@ public class OperationController extends SetController {
         return message;
     }
 
+    /**
+     * Компиляция диалога подтверждения действия
+     *
+     * @param n2oDialog   Исходная модель диалога подтверждения действия
+     * @param requestInfo Информация о запросе вызова операции
+     * @return Клиентская модель диалога подтверждения действия
+     */
     private Dialog compileDialog(N2oDialog n2oDialog, ActionRequestInfo<DataSet> requestInfo) {
         String route = requestInfo.getContext().getRoute(null) + normalize(
                 n2oDialog.getRoute() != null ? n2oDialog.getRoute() : n2oDialog.getId());
         DialogContext context = new DialogContext(route, n2oDialog.getId());
-        context.setPathRouteMapping(requestInfo.getContext().getPathRouteMapping());
-        context.setQueryRouteMapping(requestInfo.getContext().getQueryRouteMapping());
-        context.setParentWidgetId(((ActionContext)requestInfo.getContext()).getSuccessAlertWidgetId());
+        ActionContext actionContext = (ActionContext) requestInfo.getContext();
+        context.setPathRouteMapping(actionContext.getPathRouteMapping());
+        context.setQueryRouteMapping(actionContext.getQueryRouteMapping());
         context.setObjectId(requestInfo.getObject() != null ? requestInfo.getObject().getId() : null);
+        context.setParentWidgetId(actionContext.getParentWidgetId());
+        context.setClientWidgetId(actionContext.getSuccessAlertWidgetId());
+        if (requestInfo.getObject() != null)
+            context.setObjectId(requestInfo.getObject().getId());
         N2oPipelineSupport pipelineSupport = new N2oPipelineSupport(environment);
         Dialog dialog = environment.getCompilePipelineFunction()
                 .apply(pipelineSupport)

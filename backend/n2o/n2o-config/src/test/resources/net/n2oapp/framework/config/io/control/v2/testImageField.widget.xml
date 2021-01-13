@@ -6,6 +6,15 @@
                title="{label}"
                text-position="left"
                width="400px"
-        />
+        >
+            <statuses>
+                <status
+                        src="testSrc"
+                        field-id="status"
+                        icon="{icon}"
+                        place="topLeft"
+                />
+            </statuses>
+        </image>
     </fields>
 </form>

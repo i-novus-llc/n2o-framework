@@ -3,7 +3,6 @@ package net.n2oapp.framework.api;
 import net.n2oapp.framework.api.util.RefUtil;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -26,9 +25,9 @@ public abstract class DynamicUtil {
 
     /**
      * Является ли метаданная динамической?
-     * @param id едентификатор
+     * @param id Идентификатор
      * Примеры:
-     *  isDynamic("code$context"); //true
+     *  isDynamic("code?context"); //true
      *  isDynamic("test"); //false
      */
     public static boolean isDynamic(String id) {

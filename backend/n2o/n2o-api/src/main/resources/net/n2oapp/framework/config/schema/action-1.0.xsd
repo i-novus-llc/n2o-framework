@@ -146,11 +146,6 @@
                         <xs:documentation>Идентификатор объекта</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="master-param" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>Параметр фильтра</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -166,7 +161,7 @@
                         <xs:documentation>Страница, которая будет открыта поверх текущей.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="modal-size" type="modalSize">
+                <xs:attribute name="modal-size" type="modalSize" default="lg">
                     <xs:annotation>
                         <xs:documentation>Размер модального окна.</xs:documentation>
                     </xs:annotation>
@@ -561,24 +556,25 @@
                 </xs:sequence>
                 <xs:attribute name="operation-id" type="xs:string" use="required">
                     <xs:annotation>
-                        <xs:documentation>Действие объекта, которое нужно выполнить над моделью виджета.
+                        <xs:documentation>
+                            Действие объекта, которое нужно выполнить над моделью виджета.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="close-on-success" type="xs:boolean" use="optional">
+                <xs:attribute name="close-on-success" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Закрыть окно после успешного выполнения действия</xs:documentation>
+                        <xs:documentation>Закрыть окно после успешного выполнения действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="route" type="xs:string" use="optional">
+                <xs:attribute name="route" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL для обращения к действию.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="redirect-url" type="xs:string" use="optional">
+                <xs:attribute name="redirect-url" type="xs:string">
                     <xs:annotation>
-                        <xs:documentation>URL адрес, на который произойдет переход сразу после успешного выполнения
-                            действия..
+                        <xs:documentation>
+                            URL адрес, на который произойдет переход сразу после успешного выполнения действия.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -680,6 +676,11 @@
                 <xs:attribute name="unsaved-data-prompt" type="xs:boolean" default="true">
                     <xs:annotation>
                         <xs:documentation>Показать предупреждение о наличии несохраненных данных. По умолчанию true.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="refresh" type="xs:boolean" default="false">
+                    <xs:annotation>
+                        <xs:documentation>Обновлять родительский виджет при закрытии модального/дровер окна.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

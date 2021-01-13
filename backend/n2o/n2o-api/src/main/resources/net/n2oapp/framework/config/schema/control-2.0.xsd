@@ -191,6 +191,36 @@
                         <xs:documentation>Параметр в URL, из которого надо брать значение по умолчанию</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="ref-model" type="clientModel" default="resolve">
+                    <xs:annotation>
+                        <xs:documentation>Ссылка на модель, в которой будет инициализация значения.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="ref-page" default="this">
+                    <xs:annotation>
+                        <xs:documentation>Ссылка на страницу, в которой будет инициализация значения.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="this">
+                                <xs:annotation>
+                                    <xs:documentation>Текущая.</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="parent">
+                                <xs:annotation>
+                                    <xs:documentation>Родительская.</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="ref-widget-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>Ссылка на виджет, в котором будет инициализация значения.
+                            По умолчанию для ref-page=this текущий виджет, для ref-page=parent виджет из под которого открыта текущая страница.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -612,24 +642,32 @@
                         <xs:documentation>Единица измерения.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="clear-on-blur" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Стирать ли значение при смене фокуса.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="controlCodeEditor">
+        <xs:annotation>
+            <xs:documentation>Компонент редактирования кода.</xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="language" type="codeLanguage" use="optional">
+                <xs:attribute name="language" type="codeLanguage">
                     <xs:annotation>
                         <xs:documentation>Язык кода.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="min-lines" type="xs:positiveInteger" use="optional">
+                <xs:attribute name="min-lines" type="xs:positiveInteger" default="5">
                     <xs:annotation>
                         <xs:documentation>Минимальное число видимых строк.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="max-lines" type="xs:positiveInteger" use="optional">
+                <xs:attribute name="max-lines" type="xs:positiveInteger">
                     <xs:annotation>
                         <xs:documentation>Максимальное число видимых строк.</xs:documentation>
                     </xs:annotation>
@@ -689,6 +727,7 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="sql"/>
             <xs:enumeration value="xml"/>
+            <xs:enumeration value="html"/>
             <xs:enumeration value="javascript"/>
             <xs:enumeration value="groovy"/>
             <xs:enumeration value="java"/>
@@ -703,33 +742,33 @@
     <!--</xs:complexContent>-->
     <!--</xs:complexType>-->
 
-    <xs:complexType name="controlTextDefinition">
+    <xs:complexType name="controlTextAreaDefinition">
+        <xs:annotation>
+            <xs:documentation>Компонент ввода многострочного текста.</xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
             <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="rows" type="xs:positiveInteger" use="optional">
+                <xs:attribute name="min-rows" type="xs:positiveInteger">
                     <xs:annotation>
-                        <xs:documentation>Высота блока.</xs:documentation>
+                        <xs:documentation>Минимальная высота поля в строках текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="height" type="xs:positiveInteger" use="optional">
+                <xs:attribute name="max-rows" type="xs:positiveInteger">
                     <xs:annotation>
-                        <xs:documentation>Высота поля в строках текста.</xs:documentation>
+                        <xs:documentation>Максимальная высота поля в строках текста.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
-    <xs:complexType name="controlTextAreaDefinition">
-        <xs:complexContent>
-            <xs:extension base="controlTextDefinition"/>
-        </xs:complexContent>
-    </xs:complexType>
-
     <xs:complexType name="controlTextEditorDefinition">
+        <xs:annotation>
+            <xs:documentation>Компонент редактирования текста.</xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="controlTextDefinition">
-                <xs:attribute name="toolbar-url" type="xs:string" use="optional">
+            <xs:extension base="controlSimpleFieldDefinition">
+                <xs:attribute name="toolbar-url" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>Путь до файла конфигурации тулбара.</xs:documentation>
                     </xs:annotation>
@@ -957,6 +996,9 @@
                 <xs:documentation>Компонент вывода изображения.</xs:documentation>
             </xs:annotation>
             <xs:extension base="controlSimpleFieldDefinition">
+                <xs:sequence>
+                    <xs:element name="statuses" type="statusesType"/>
+                </xs:sequence>
                 <xs:attribute name="url" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>URL адрес изображения.</xs:documentation>
@@ -999,6 +1041,46 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="statusesType">
+        <xs:sequence>
+            <xs:element name="status" type="statusType" minOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="statusType">
+        <xs:annotation>
+            <xs:documentation>Cтатус.</xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="src" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>Реализация статуса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" name="field-id" use="required">
+            <xs:annotation>
+                <xs:documentation>Поле с данными для статуса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="xs:string" name="icon">
+            <xs:annotation>
+                <xs:documentation>Иконка статуса.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="place" default="topLeft">
+            <xs:annotation>
+                <xs:documentation>Расположение статуса.</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="topLeft"/>
+                    <xs:enumeration value="topRight"/>
+                    <xs:enumeration value="bottomLeft"/>
+                    <xs:enumeration value="bottomRight"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:complexType name="controlCustom">
         <xs:attribute name="id" type="xs:string" use="required"/>
         <xs:attribute name="src" type="xs:string"/>
@@ -1011,6 +1093,11 @@
                 <xs:attribute name="domain" type="dmn:domainType">
                     <xs:annotation>
                         <xs:documentation>Тип данных</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="precision" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная длина дробной части (используется только для domain="numeric").</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="length" type="xs:integer">
@@ -1098,6 +1185,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная длина текста элемента.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1140,10 +1232,11 @@
     </xs:complexType>
 
     <xs:complexType name="controlHtml">
+        <xs:annotation>
+            <xs:documentation>Компонент вывода html.</xs:documentation>
+        </xs:annotation>
         <xs:complexContent>
-            <xs:extension base="controlSimpleFieldDefinition">
-                <xs:attribute name="height" type="xs:string"/>
-            </xs:extension>
+            <xs:extension base="controlSimpleFieldDefinition"/>
         </xs:complexContent>
     </xs:complexType>
 
@@ -1503,6 +1596,11 @@
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="max-tag-text-length" type="xs:integer" default="10">
+                    <xs:annotation>
+                        <xs:documentation>Максимальная длина текста элемента</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -1769,6 +1867,11 @@
                 <xs:attribute name="value-field-id" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>Поле выборки, значение которого будет проставлено в модель поля ввода</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="size" type="xs:integer">
+                    <xs:annotation>
+                        <xs:documentation>Размер выборки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

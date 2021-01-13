@@ -5,8 +5,6 @@ import lombok.Setter;
 import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.global.view.page.N2oDialog;
 
-import java.util.Map;
-
 /**
  * Базовое исключение N2O
  */
@@ -41,10 +39,6 @@ public class N2oException extends RuntimeException {
      * Поле на форме, к которому привязано сообщение
      */
     private String field;
-    /**
-     * Шаблон вёрстки технической информации
-     */
-    private String view;
     /**
      * Данные сообщения
      */

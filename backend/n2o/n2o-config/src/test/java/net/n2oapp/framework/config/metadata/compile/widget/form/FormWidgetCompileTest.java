@@ -32,7 +32,8 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -119,7 +120,7 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
 
         validations = form.getComponent().getValidation().get("testInterval");
         assertThat(validations.size(), is(2));
-        assertThat(((ConditionValidation)validations.get(0)).getExpression(), is("typeof testIntervalBegin == 'undefined'"));
+        assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("typeof testIntervalBegin == 'undefined'"));
 
     }
 
@@ -189,20 +190,17 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
     }
 
     @Test
-    public void testSubmitInModal () {
-        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModalIndex.page.xml",
-                "net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModal.object.xml",
-                "net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModal.page.xml",
-                "net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModal.query.xml"
-                )
-                .get(new PageContext("testSubmitInModalIndex"));
+    public void testSubmitInModal() {
+        compile("net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModalIndex.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/widgets/testSubmitInModal.page.xml"
+        ).get(new PageContext("testSubmitInModalIndex"));
 
-        PageContext detailContext = (PageContext) route("/testSubmitInModalIndex/:testSubmitInModalIndex_main_id/open", Page.class);
+        PageContext detailContext = (PageContext) route("/testSubmitInModalIndex/:id/open", Page.class);
         DataSet data = new DataSet();
-        data.put("testSubmitInModalIndex_main_id", 1);
+        data.put("id", 1);
         SimplePage detailPage = (SimplePage) read().compile().bind().get(detailContext, data);
         Form form = (Form) detailPage.getWidget();
         assertThat(form.getFormDataProvider().getPathMapping().size(), is(1));
-        assertThat(form.getFormDataProvider().getUrl(), is("n2o/data/testSubmitInModalIndex/:testSubmitInModalIndex_main_id/open"));
+        assertThat(form.getFormDataProvider().getUrl(), is("n2o/data/testSubmitInModalIndex/:id/open"));
     }
 }

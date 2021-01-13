@@ -1,10 +1,9 @@
 package net.n2oapp.framework.config.persister.control;
 
 import net.n2oapp.framework.api.metadata.control.plain.N2oHtml;
-import net.n2oapp.framework.config.persister.util.PersisterJdomUtil;
 import org.jdom2.Element;
-import org.springframework.stereotype.Component;
 import org.jdom2.Namespace;
+import org.springframework.stereotype.Component;
 
 /**
  * @author iryabov
@@ -17,7 +16,6 @@ public class N2oHtmlPersister extends N2oControlXmlPersister<N2oHtml> {
         Element element = new Element(getElementName(), namespacePrefix, namespaceUri);
         setControl(element, text);
         setField(element, text);
-        setText(element, text);
         return element;
     }
 

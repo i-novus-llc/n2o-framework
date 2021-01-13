@@ -196,12 +196,12 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
             button.setEnabled(p.resolveJS(source.getEnabled()));
         } else {
             if (StringUtils.isLink(source.getVisible()))
-                compileLinkCondition(button, widgetId, ValidationType.visible, source.getVisible());
+                compileLinkCondition(button, widgetId, ValidationType.visible, source.getVisible(), source.getModel());
             else
                 button.setVisible(p.resolveJS(source.getVisible(), Boolean.class));
 
             if (StringUtils.isLink(source.getEnabled()))
-                compileLinkCondition(button, widgetId, ValidationType.enabled, source.getEnabled());
+                compileLinkCondition(button, widgetId, ValidationType.enabled, source.getEnabled(), source.getModel());
             else
                 button.setEnabled(p.resolveJS(source.getEnabled(), Boolean.class));
         }
@@ -241,10 +241,11 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         return result;
     }
 
-    private void compileLinkCondition(MenuItem button, String widgetId, ValidationType type, String linkCondition) {
+    private void compileLinkCondition(MenuItem button, String widgetId, ValidationType type,
+                                      String linkCondition, ReduxModel model) {
         Condition condition = new Condition();
         condition.setExpression(linkCondition.substring(1, linkCondition.length() - 1));
-        condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
+        condition.setModelLink(new ModelLink(model, widgetId).getBindLink());
         if (!button.getConditions().containsKey(type))
             button.getConditions().put(type, new ArrayList<>());
         button.getConditions().get(type).add(condition);

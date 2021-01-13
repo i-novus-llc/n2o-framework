@@ -16,4 +16,5 @@ public class N2oAutoComplete extends N2oPlainField {
     private String searchFilterId;
     private Boolean tags;
     private Map<String, String>[] options;
+    private Integer maxTagTextLength;
 }

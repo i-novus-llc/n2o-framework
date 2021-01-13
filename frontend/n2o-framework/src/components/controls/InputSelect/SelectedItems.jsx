@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import map from 'lodash/map';
+import split from 'lodash/split';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -11,6 +13,7 @@ import { useTranslation } from 'react-i18next';
  * @reactProps {function} onDeleteAll - callback удаление всех выбранных элементов при мульти выборе
  * @reactProps {boolean} collapseSelected - флаг сжатия выбранных элементов
  * @reactProps {number} lengthToGroup - от скольки элементов сжимать выбранные элементы
+ * @reactProps {number} maxTagTextLength - максимальная длина текста в тэге, до усечения
  */
 
 function InputElements({
@@ -22,21 +25,37 @@ function InputElements({
   lengthToGroup,
   onDeleteAll,
   setRef,
+  maxTagTextLength,
 }) {
   const { t } = useTranslation();
-  const selectedItem = (id, title, callback) => (
-    <span key={id} className="selected-item n2o-multiselect" title={title}>
-      <span className="n2o-eclipse-content">{title}</span>
-      <button
-        type="button"
-        className="close"
-        onClick={callback}
-        disabled={disabled}
+  const selectedItem = (id, title, callback) => {
+    const truncatedTitle = `${split(title, '', maxTagTextLength).join('')}...`;
+
+    const tagTitle =
+      maxTagTextLength && title.length > maxTagTextLength
+        ? truncatedTitle
+        : title;
+
+    return (
+      <span
+        key={id}
+        className={classNames('selected-item n2o-multiselect', {
+          'max-text-length': maxTagTextLength,
+        })}
+        title={title}
       >
-        <i className="fa fa-times fa-1" />
-      </button>
-    </span>
-  );
+        <span className="n2o-eclipse-content">{tagTitle}</span>
+        <button
+          type="button"
+          className="close"
+          onClick={callback}
+          disabled={disabled}
+        >
+          <i className="fa fa-times fa-1" />
+        </button>
+      </span>
+    );
+  };
 
   const selectedList = () => {
     if (collapseSelected && selected.length > lengthToGroup) {

@@ -52,6 +52,16 @@ public class N2oMultiFieldSet extends N2oFieldSet implements MultiFieldSet {
     }
 
     @Override
+    public void addButtonShouldBeEnabled() {
+        addButton().shouldBe(Condition.enabled);
+    }
+
+    @Override
+    public void addButtonShouldBeDisabled() {
+        addButton().shouldBe(Condition.disabled);
+    }
+
+    @Override
     public void addButtonShouldHaveLabel(String label) {
         addButton().shouldHave(Condition.text(label));
     }
