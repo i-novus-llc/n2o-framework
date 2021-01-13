@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { compose, withHandlers, getContext } from 'recompose';
 import isEqual from 'lodash/isEqual';
@@ -12,7 +13,11 @@ import map from 'lodash/map';
 import set from 'lodash/set';
 import get from 'lodash/get';
 import isUndefined from 'lodash/isUndefined';
+import { replace } from 'connected-react-router';
+
 import AdvancedTable from './AdvancedTable';
+import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
+
 import widgetContainer from '../WidgetContainer';
 import { setTableSelectedId } from '../../../actions/widgets';
 import { TABLE } from '../widgetTypes';
@@ -20,16 +25,13 @@ import columnHOC from '../Table/withColumn';
 import TableCell from '../Table/TableCell';
 import { setModel } from '../../../actions/models';
 import { PREFIXES } from '../../../constants/models';
-import PropTypes from 'prop-types';
 import {
   makeGetFilterModelSelector,
   makeGetModelByPrefixSelector,
 } from '../../../selectors/models';
 import { getContainerColumns } from '../../../selectors/columns';
 import evalExpression from '../../../utils/evalExpression';
-import { replace } from 'connected-react-router';
 import { dataProviderResolver } from '../../../core/dataProviderResolver';
-import AdvancedTableHeaderCell from './AdvancedTableHeaderCell';
 
 const isEqualCollectionItemsById = (data1 = [], data2 = [], selectedId) => {
   const predicate = ({ id }) => id == selectedId;
@@ -86,7 +88,9 @@ class AdvancedTableContainer extends React.Component {
         ? selectedModel || datasource[0]
         : selectedModel || {};
 
-      onResolve(resolveModel);
+      if (!isEmpty(resolveModel)) {
+        onResolve(resolveModel);
+      }
     }
   }
 
