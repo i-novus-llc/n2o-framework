@@ -24,6 +24,8 @@ public class InputSelect extends ListControl {
     private Boolean resetOnBlur;
     @JsonProperty
     private String descriptionFieldId;
+    @JsonProperty
+    private Integer maxTagTextLength;
 
     @Override
     public boolean containsHimself(DataSet dataSet) {

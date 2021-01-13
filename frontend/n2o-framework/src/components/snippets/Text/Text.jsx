@@ -16,7 +16,7 @@ import parseFormatter from '../../../utils/parseFormatter';
 function Text({ text, format, preLine, className, ...rest }) {
   return (
     <span
-      className={cn(className, {
+      className={cn('n2o-snippet', className, {
         'white-space-pre-line': preLine,
       })}
       {...rest}

@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import withCell from '../../withCell';
-import compose from 'recompose/compose';
-import set from 'lodash/set';
 import get from 'lodash/get';
-import withHandlers from 'recompose/withHandlers';
+import set from 'lodash/set';
+
+import withCell from '../../withCell';
 import Rating from '../../../../controls/Rating/Rating';
 
 const RatingCell = ({
@@ -12,18 +11,34 @@ const RatingCell = ({
   max,
   half,
   showTooltip,
-  handleChange,
-  model,
   fieldKey,
   id,
+  readonly,
+  model,
+  callAction,
 }) => {
+  const handleChange = useCallback(
+    rating => {
+      const data = set(
+        {
+          ...model,
+        },
+        fieldKey || id,
+        rating
+      );
+      callAction(data);
+    },
+    [callAction, model, fieldKey, id]
+  );
+
   return visible ? (
     <Rating
       max={max}
       rating={model && get(model, fieldKey || id)}
       half={half}
       showTooltip={showTooltip}
-      onChange={rating => handleChange(rating)}
+      onChange={handleChange}
+      readonly={readonly}
     />
   ) : null;
 };
@@ -61,31 +76,16 @@ RatingCell.propTypes = {
    * Флаг показа подсказки
    */
   showTooltip: PropTypes.bool,
+  /**
+   * Флаг только для чтения
+   */
+  readonly: PropTypes.bool,
 };
 
 RatingCell.defaultProps = {
   visible: true,
+  readonly: false,
 };
 
 export { RatingCell };
-export default compose(
-  withCell,
-  withHandlers({
-    handleChange: ({
-      callActionImpl,
-      action,
-      model,
-      fieldKey,
-      id,
-    }) => rating => {
-      const data = set(
-        {
-          ...model,
-        },
-        fieldKey || id,
-        rating
-      );
-      callActionImpl(rating, { action, model: data });
-    },
-  })
-)(RatingCell);
+export default withCell(RatingCell);

@@ -152,10 +152,10 @@
 ----
 <permit-all>
   <object-filters object-id="contract">
-    <!-- Достпуны договора только созданные мной -->
+    <!-- Доступны договоры только созданные мной -->
     <eq id="onlyMyself"
       field-id="creator" value="#{username}"/>
-    <!-- Достпуны договора моей организации -->
+    <!-- Доступны договоры моей организации -->
     <eq id="onlyMyOrg"
       field-id="org" value="#{orgId}"/>
   </object-filters>

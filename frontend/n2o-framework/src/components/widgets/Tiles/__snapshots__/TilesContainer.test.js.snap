@@ -23,11 +23,37 @@ exports[`<TilesContainer /> отрисовка 1`] = `
     tile={
       Array [
         Object {
-          "className": "p-4",
           "component": Object {
             "src": "ImageCell",
           },
+          "fieldKey": "tile1",
           "id": "tile1",
+          "statuses": Array [
+            Object {
+              "src": "Status",
+              "statusFieldId": "status1",
+              "statusIconFieldId": "fa fa-edit",
+              "statusPlace": "top-left",
+            },
+            Object {
+              "src": "Status",
+              "statusFieldId": "status2",
+              "statusIconFieldId": "fa fa-edit",
+              "statusPlace": "top-right",
+            },
+            Object {
+              "src": "Status",
+              "statusFieldId": "status3",
+              "statusIconFieldId": "fa fa-edit",
+              "statusPlace": "bottom-left",
+            },
+            Object {
+              "src": "Status",
+              "statusFieldId": "status4",
+              "statusIconFieldId": "fa fa-edit",
+              "statusPlace": "bottom-right",
+            },
+          ],
           "style": Object {},
         },
         Object {
@@ -72,11 +98,37 @@ exports[`<TilesContainer /> отрисовка 1`] = `
       tile={
         Array [
           Object {
-            "className": "p-4",
             "component": Object {
               "src": "ImageCell",
             },
+            "fieldKey": "tile1",
             "id": "tile1",
+            "statuses": Array [
+              Object {
+                "src": "Status",
+                "statusFieldId": "status1",
+                "statusIconFieldId": "fa fa-edit",
+                "statusPlace": "top-left",
+              },
+              Object {
+                "src": "Status",
+                "statusFieldId": "status2",
+                "statusIconFieldId": "fa fa-edit",
+                "statusPlace": "top-right",
+              },
+              Object {
+                "src": "Status",
+                "statusFieldId": "status3",
+                "statusIconFieldId": "fa fa-edit",
+                "statusPlace": "bottom-left",
+              },
+              Object {
+                "src": "Status",
+                "statusFieldId": "status4",
+                "statusIconFieldId": "fa fa-edit",
+                "statusPlace": "bottom-right",
+              },
+            ],
             "style": Object {},
           },
           Object {
@@ -154,11 +206,37 @@ exports[`<TilesContainer /> отрисовка 1`] = `
         tile={
           Array [
             Object {
-              "className": "p-4",
               "component": Object {
                 "src": "ImageCell",
               },
+              "fieldKey": "tile1",
               "id": "tile1",
+              "statuses": Array [
+                Object {
+                  "src": "Status",
+                  "statusFieldId": "status1",
+                  "statusIconFieldId": "fa fa-edit",
+                  "statusPlace": "top-left",
+                },
+                Object {
+                  "src": "Status",
+                  "statusFieldId": "status2",
+                  "statusIconFieldId": "fa fa-edit",
+                  "statusPlace": "top-right",
+                },
+                Object {
+                  "src": "Status",
+                  "statusFieldId": "status3",
+                  "statusIconFieldId": "fa fa-edit",
+                  "statusPlace": "bottom-left",
+                },
+                Object {
+                  "src": "Status",
+                  "statusFieldId": "status4",
+                  "statusIconFieldId": "fa fa-edit",
+                  "statusPlace": "bottom-right",
+                },
+              ],
               "style": Object {},
             },
             Object {
@@ -242,11 +320,37 @@ exports[`<TilesContainer /> отрисовка 1`] = `
           tile={
             Array [
               Object {
-                "className": "p-4",
                 "component": Object {
                   "src": "ImageCell",
                 },
+                "fieldKey": "tile1",
                 "id": "tile1",
+                "statuses": Array [
+                  Object {
+                    "src": "Status",
+                    "statusFieldId": "status1",
+                    "statusIconFieldId": "fa fa-edit",
+                    "statusPlace": "top-left",
+                  },
+                  Object {
+                    "src": "Status",
+                    "statusFieldId": "status2",
+                    "statusIconFieldId": "fa fa-edit",
+                    "statusPlace": "top-right",
+                  },
+                  Object {
+                    "src": "Status",
+                    "statusFieldId": "status3",
+                    "statusIconFieldId": "fa fa-edit",
+                    "statusPlace": "bottom-left",
+                  },
+                  Object {
+                    "src": "Status",
+                    "statusFieldId": "status4",
+                    "statusIconFieldId": "fa fa-edit",
+                    "statusPlace": "bottom-right",
+                  },
+                ],
                 "style": Object {},
               },
               Object {
@@ -361,11 +465,37 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                     tile={
                       Array [
                         Object {
-                          "className": "p-4",
                           "component": Object {
                             "src": "ImageCell",
                           },
+                          "fieldKey": "tile1",
                           "id": "tile1",
+                          "statuses": Array [
+                            Object {
+                              "src": "Status",
+                              "statusFieldId": "status1",
+                              "statusIconFieldId": "fa fa-edit",
+                              "statusPlace": "top-left",
+                            },
+                            Object {
+                              "src": "Status",
+                              "statusFieldId": "status2",
+                              "statusIconFieldId": "fa fa-edit",
+                              "statusPlace": "top-right",
+                            },
+                            Object {
+                              "src": "Status",
+                              "statusFieldId": "status3",
+                              "statusIconFieldId": "fa fa-edit",
+                              "statusPlace": "bottom-left",
+                            },
+                            Object {
+                              "src": "Status",
+                              "statusFieldId": "status4",
+                              "statusIconFieldId": "fa fa-edit",
+                              "statusPlace": "bottom-right",
+                            },
+                          ],
                           "style": Object {},
                         },
                         Object {
@@ -455,11 +585,37 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                       tile={
                         Array [
                           Object {
-                            "className": "p-4",
                             "component": Object {
                               "src": "ImageCell",
                             },
+                            "fieldKey": "tile1",
                             "id": "tile1",
+                            "statuses": Array [
+                              Object {
+                                "src": "Status",
+                                "statusFieldId": "status1",
+                                "statusIconFieldId": "fa fa-edit",
+                                "statusPlace": "top-left",
+                              },
+                              Object {
+                                "src": "Status",
+                                "statusFieldId": "status2",
+                                "statusIconFieldId": "fa fa-edit",
+                                "statusPlace": "top-right",
+                              },
+                              Object {
+                                "src": "Status",
+                                "statusFieldId": "status3",
+                                "statusIconFieldId": "fa fa-edit",
+                                "statusPlace": "bottom-left",
+                              },
+                              Object {
+                                "src": "Status",
+                                "statusFieldId": "status4",
+                                "statusIconFieldId": "fa fa-edit",
+                                "statusPlace": "bottom-right",
+                              },
+                            ],
                             "style": Object {},
                           },
                           Object {
@@ -558,11 +714,37 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                         tile={
                           Array [
                             Object {
-                              "className": "p-4",
                               "component": Object {
                                 "src": "ImageCell",
                               },
+                              "fieldKey": "tile1",
                               "id": "tile1",
+                              "statuses": Array [
+                                Object {
+                                  "src": "Status",
+                                  "statusFieldId": "status1",
+                                  "statusIconFieldId": "fa fa-edit",
+                                  "statusPlace": "top-left",
+                                },
+                                Object {
+                                  "src": "Status",
+                                  "statusFieldId": "status2",
+                                  "statusIconFieldId": "fa fa-edit",
+                                  "statusPlace": "top-right",
+                                },
+                                Object {
+                                  "src": "Status",
+                                  "statusFieldId": "status3",
+                                  "statusIconFieldId": "fa fa-edit",
+                                  "statusPlace": "bottom-left",
+                                },
+                                Object {
+                                  "src": "Status",
+                                  "statusFieldId": "status4",
+                                  "statusIconFieldId": "fa fa-edit",
+                                  "statusPlace": "bottom-right",
+                                },
+                              ],
                               "style": Object {},
                             },
                             Object {
@@ -662,11 +844,37 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                           tile={
                             Array [
                               Object {
-                                "className": "p-4",
                                 "component": Object {
                                   "src": "ImageCell",
                                 },
+                                "fieldKey": "tile1",
                                 "id": "tile1",
+                                "statuses": Array [
+                                  Object {
+                                    "src": "Status",
+                                    "statusFieldId": "status1",
+                                    "statusIconFieldId": "fa fa-edit",
+                                    "statusPlace": "top-left",
+                                  },
+                                  Object {
+                                    "src": "Status",
+                                    "statusFieldId": "status2",
+                                    "statusIconFieldId": "fa fa-edit",
+                                    "statusPlace": "top-right",
+                                  },
+                                  Object {
+                                    "src": "Status",
+                                    "statusFieldId": "status3",
+                                    "statusIconFieldId": "fa fa-edit",
+                                    "statusPlace": "bottom-left",
+                                  },
+                                  Object {
+                                    "src": "Status",
+                                    "statusFieldId": "status4",
+                                    "statusIconFieldId": "fa fa-edit",
+                                    "statusPlace": "bottom-right",
+                                  },
+                                ],
                                 "style": Object {},
                               },
                               Object {
@@ -736,11 +944,37 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                             tile={
                               Array [
                                 Object {
-                                  "className": "p-4",
                                   "component": Object {
                                     "src": "ImageCell",
                                   },
+                                  "fieldKey": "tile1",
                                   "id": "tile1",
+                                  "statuses": Array [
+                                    Object {
+                                      "src": "Status",
+                                      "statusFieldId": "status1",
+                                      "statusIconFieldId": "fa fa-edit",
+                                      "statusPlace": "top-left",
+                                    },
+                                    Object {
+                                      "src": "Status",
+                                      "statusFieldId": "status2",
+                                      "statusIconFieldId": "fa fa-edit",
+                                      "statusPlace": "top-right",
+                                    },
+                                    Object {
+                                      "src": "Status",
+                                      "statusFieldId": "status3",
+                                      "statusIconFieldId": "fa fa-edit",
+                                      "statusPlace": "bottom-left",
+                                    },
+                                    Object {
+                                      "src": "Status",
+                                      "statusFieldId": "status4",
+                                      "statusIconFieldId": "fa fa-edit",
+                                      "statusPlace": "bottom-right",
+                                    },
+                                  ],
                                   "style": Object {},
                                 },
                                 Object {
@@ -780,11 +1014,37 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                               tile={
                                 Array [
                                   Object {
-                                    "className": "p-4",
                                     "component": Object {
                                       "src": "ImageCell",
                                     },
+                                    "fieldKey": "tile1",
                                     "id": "tile1",
+                                    "statuses": Array [
+                                      Object {
+                                        "src": "Status",
+                                        "statusFieldId": "status1",
+                                        "statusIconFieldId": "fa fa-edit",
+                                        "statusPlace": "top-left",
+                                      },
+                                      Object {
+                                        "src": "Status",
+                                        "statusFieldId": "status2",
+                                        "statusIconFieldId": "fa fa-edit",
+                                        "statusPlace": "top-right",
+                                      },
+                                      Object {
+                                        "src": "Status",
+                                        "statusFieldId": "status3",
+                                        "statusIconFieldId": "fa fa-edit",
+                                        "statusPlace": "bottom-left",
+                                      },
+                                      Object {
+                                        "src": "Status",
+                                        "statusFieldId": "status4",
+                                        "statusIconFieldId": "fa fa-edit",
+                                        "statusPlace": "bottom-right",
+                                      },
+                                    ],
                                     "style": Object {},
                                   },
                                   Object {
@@ -825,11 +1085,37 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                 tile={
                                   Array [
                                     Object {
-                                      "className": "p-4",
                                       "component": Object {
                                         "src": "ImageCell",
                                       },
+                                      "fieldKey": "tile1",
                                       "id": "tile1",
+                                      "statuses": Array [
+                                        Object {
+                                          "src": "Status",
+                                          "statusFieldId": "status1",
+                                          "statusIconFieldId": "fa fa-edit",
+                                          "statusPlace": "top-left",
+                                        },
+                                        Object {
+                                          "src": "Status",
+                                          "statusFieldId": "status2",
+                                          "statusIconFieldId": "fa fa-edit",
+                                          "statusPlace": "top-right",
+                                        },
+                                        Object {
+                                          "src": "Status",
+                                          "statusFieldId": "status3",
+                                          "statusIconFieldId": "fa fa-edit",
+                                          "statusPlace": "bottom-left",
+                                        },
+                                        Object {
+                                          "src": "Status",
+                                          "statusFieldId": "status4",
+                                          "statusIconFieldId": "fa fa-edit",
+                                          "statusPlace": "bottom-right",
+                                        },
+                                      ],
                                       "style": Object {},
                                     },
                                     Object {
@@ -889,11 +1175,37 @@ exports[`<TilesContainer /> отрисовка 1`] = `
                                     tile={
                                       Array [
                                         Object {
-                                          "className": "p-4",
                                           "component": Object {
                                             "src": "ImageCell",
                                           },
+                                          "fieldKey": "tile1",
                                           "id": "tile1",
+                                          "statuses": Array [
+                                            Object {
+                                              "src": "Status",
+                                              "statusFieldId": "status1",
+                                              "statusIconFieldId": "fa fa-edit",
+                                              "statusPlace": "top-left",
+                                            },
+                                            Object {
+                                              "src": "Status",
+                                              "statusFieldId": "status2",
+                                              "statusIconFieldId": "fa fa-edit",
+                                              "statusPlace": "top-right",
+                                            },
+                                            Object {
+                                              "src": "Status",
+                                              "statusFieldId": "status3",
+                                              "statusIconFieldId": "fa fa-edit",
+                                              "statusPlace": "bottom-left",
+                                            },
+                                            Object {
+                                              "src": "Status",
+                                              "statusFieldId": "status4",
+                                              "statusIconFieldId": "fa fa-edit",
+                                              "statusPlace": "bottom-right",
+                                            },
+                                          ],
                                           "style": Object {},
                                         },
                                         Object {

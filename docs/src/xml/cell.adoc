@@ -101,9 +101,9 @@ link:#_Переключатель_switch[Переключатель]
 |
 
 |type
-|icon, iconAndText
-|С текстом или без
-|icon
+|text, icon, iconAndText
+|Текст с иконкой или без
+|text
 
 |===
 
@@ -310,8 +310,58 @@ link:#_Действия[Обработчик действия]
   url="images/user.png"
   width="32"
   class="img-thumbnail">
-  <open-page page-id="profile"/>
+    <statuses>
+       <status/>
+            ...
+       <status/>
+    </statuses>
+    <action>
+        <open-page page-id="profile"/>
+    </action>
 </image>
+----
+
+=== <statuses>
+Список статусов.
+
+=== <status>
+Элемент статуса.
+
+Атрибуты::
+[cols="2,1,4,4"]
+|===
+|Наименование|Тип|Описание|Значение по умолчанию
+
+|Src
+|React компонент
+|Реализация статуса
+|Status
+
+|field-id
+|Строка
+|Поле с данными для статуса
+|
+
+|icon
+|Строка
+|Иконка статуса
+|
+
+|place
+|topLeft, topRight, bottomLeft, bottomRight
+|Расположение статуса
+|topLeft
+
+|===
+
+Пример::
+[source,xml]
+----
+<status
+    field-id="status"
+    icon="{icon}"
+    place="topLeft"
+/>
 ----
 
 === <edit>
@@ -543,12 +593,31 @@ link:#_Переключатель_switch[Переключатель цвета]
 |Максимальное значение
 |5
 
+|readonly
+|true false
+|Предназначен только для чтения
+|true
+
+|action-id
+|Ссылка на действие
+|Ссылка на обработчик изменения рейтинга
+|
+
 |===
+
+Тело:: link:#_Действия[Обработчик действия]
 
 Пример::
 [source,xml]
 ----
 <rating show-tooltip="true" half="true"/>
+----
+
+[source,xml]
+----
+<rating readonly="false">
+  <invoke operation-id="update"/>
+</rating>
 ----
 
 === <tooltip-list>

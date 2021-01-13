@@ -198,6 +198,7 @@ const enhance = compose(
       setInnerValue(value);
 
       if (value === '') {
+        setInnerValue(null);
         onSearch(null);
       }
 
@@ -206,8 +207,9 @@ const enhance = compose(
         timeoutId = setTimeout(() => onSearch(value), throttleDelay);
       }
     },
-    onBlur: ({ setInnerValue }) => value => {
+    onBlur: ({ setInnerValue, onSearch }) => value => {
       setInnerValue('');
+      onSearch(null);
     },
     onClear: ({ setInnerValue, onSearch }) => () => {
       setInnerValue(null);

@@ -54,6 +54,15 @@ public class MaskedInputAT extends AutoTestBase {
         // проверка меры измерения
         maskedInput.shouldHaveMeasure();
         maskedInput.measureShouldHaveText("тел.");
+
+        MaskedInputControl maskedInputWithoutClear = getFields().field("MaskedInputWithoutClear").control(MaskedInputControl.class);
+        maskedInputWithoutClear.shouldBeEnabled();
+        maskedInput.val("123");
+        maskedInputWithoutClear.val("783");
+        maskedInput.shouldHaveValue("");
+        //вводим значение в первое поле, чтобы покинуть второе
+        maskedInput.val("123");
+        maskedInputWithoutClear.shouldHaveValue("+7 (783)");
     }
 
     private Fields getFields() {

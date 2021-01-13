@@ -55,6 +55,7 @@ public class AutoCompleteCompileTest extends SourceCompileTestBase {
         assertThat(autoComplete.getData().get(1).get("name"), is("test2"));
         assertThat(autoComplete.getValueFieldId(), is("name"));
         assertThat(autoComplete.getTags(), is(false));
+        assertThat(autoComplete.getMaxTagTextLength(), is(15));
     }
 
 }

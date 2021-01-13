@@ -12,7 +12,7 @@ public class N2oRatingCell extends N2oCell implements RatingCell {
 
     @Override
     public void maxShouldBe(int max) {
-        ratingInput().last().shouldHave(Condition.attribute("value", ""+max));
+        ratingInput().last().shouldHave(Condition.attribute("value", "" + max));
     }
 
     @Override
@@ -21,13 +21,16 @@ public class N2oRatingCell extends N2oCell implements RatingCell {
     }
 
     @Override
-    public void check(String value) {
+    public void value(String value) {
         element().$$(".rating__label")
                 .find(Condition.attributeMatching("for", "rating-" + value + ".*"))
                 .click();
     }
 
     private ElementsCollection ratingInput() {
-        return element().$$(".rating__input");
+        if (element().$$(".rating__input--readonly").isEmpty())
+            return element().$$(".rating__input");
+        else
+            return element().$$(".rating__input--readonly");
     }
 }

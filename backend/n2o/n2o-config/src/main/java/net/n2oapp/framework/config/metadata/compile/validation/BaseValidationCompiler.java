@@ -19,6 +19,7 @@ public abstract class BaseValidationCompiler<D extends Validation, S extends N2o
         compiled.setId(source.getId());
         compiled.setFieldId(source.getFieldId());
         compiled.setSide(source.getSide());
+        compiled.setMessage(source.getMessage());
         resolveEnabled(compiled, source);
         if (danger.equals(source.getSeverity()) || warning.equals(source.getSeverity()))
             compiled.setMoment(castDefault(source.getServerMoment(), N2oValidation.ServerMoment.beforeOperation));
@@ -28,10 +29,9 @@ public abstract class BaseValidationCompiler<D extends Validation, S extends N2o
 
     private void resolveEnabled(D compiled, S source) {
         if (source.getEnabled() == null) return;
-        if (source.getEnabled().startsWith("{") && source.getEnabled().endsWith("}")) {
+        if (source.getEnabled().startsWith("{") && source.getEnabled().endsWith("}"))
             compiled.addEnablingCondition(source.getEnabled());
-        } else {
+        else
             compiled.setEnabled(Boolean.valueOf(source.getEnabled()));
-        }
     }
 }

@@ -9,7 +9,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import org.springframework.stereotype.Component;
 
 /**
- * Компиляция контрола с возможностью редактирования кода
+ * Компиляция компонента редактирования кода
  */
 @Component
 public class CodeEditorCompiler extends StandardFieldCompiler<CodeEditor, N2oCodeEditor> {
@@ -24,7 +24,7 @@ public class CodeEditorCompiler extends StandardFieldCompiler<CodeEditor, N2oCod
         codeEditor.setName(p.resolveJS(source.getLabel()));
         codeEditor.setLang(source.getLanguage());
         codeEditor.setAutocomplete(true);
-        codeEditor.setMinLines(p.cast(source.getMinLines(), 1));
+        codeEditor.setMinLines(p.cast(source.getMinLines(), 5));
         codeEditor.setMaxLines(source.getMaxLines());
         return compileStandardField(codeEditor, source, context, p);
     }

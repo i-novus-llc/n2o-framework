@@ -1,5 +1,10 @@
 .n2o-dropdown {
-  height: 100%;
+  display: none;
+
+  &.visible {
+    display: block;
+    height: 100%;
+  }
 }
 
 .n2o-dropdown-menu > .btn {
@@ -24,9 +29,4 @@
 
 .dropdown-toggle::after {
   margin-left: 0.355em;
-}
-
-//клас для регулировки Popper в Dropdown
-.dropdown-menu__init-load {
-  opacity: 0!important;
 }

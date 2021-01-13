@@ -21,7 +21,7 @@ import withRightPlaceholder from '../withRightPlaceholder';
  * @reactProps {number} dictionary - дополнительные символы-ключи для маски
  * @reactProps {boolean} guide - @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#guide
  * @reactProps {boolean} keepCharPositions - @see https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#keepcharpositions
- * @reactProps {boolean} resetOnNotValid - сбрасывать / оставлять невалижное значение при потере фокуса
+ * @reactProps {boolean} clearOnBlur - сбрасывать / оставлять невалижное значение при потере фокуса
  * @reactProps {object} presetConfig - настройки пресета для InputMoney
  * @example
  * <InputMask onChange={this.onChange}
@@ -142,12 +142,12 @@ class InputMask extends React.Component {
   };
 
   _onBlur = e => {
-    const { resetOnNotValid, onBlur } = this.props;
+    const { onBlur, clearOnBlur } = this.props;
     const { value } = e.nativeEvent.target;
     this.valid = this._isValid(value);
     onBlur(value);
     if (!this.valid) {
-      const newValue = resetOnNotValid ? '' : value;
+      const newValue = clearOnBlur ? '' : value;
       this.setState({ value: newValue, guide: false }, () =>
         this.props.onChange(newValue)
       );
@@ -231,7 +231,7 @@ InputMask.defaultProps = {
   placeholderChar: '_',
   guide: true,
   keepCharPositions: false,
-  resetOnNotValid: true,
+  clearOnBlur: false,
   value: '',
   dictionary: {},
   mask: '',
@@ -288,7 +288,7 @@ InputMask.propTypes = {
   /**
    * Сбрасывать / оставлять невалидное значение при потере фокуса
    */
-  resetOnNotValid: PropTypes.bool,
+  clearOnBlur: PropTypes.bool,
   /**
    * Настройка пресета
    */

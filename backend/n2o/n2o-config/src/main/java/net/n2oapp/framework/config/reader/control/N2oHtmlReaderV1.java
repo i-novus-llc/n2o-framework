@@ -14,7 +14,7 @@ public class N2oHtmlReaderV1 extends N2oStandardControlReaderV1<N2oHtml> {
     @Override
     public N2oHtml read(Element element, Namespace namespace) {
         N2oHtml text = new N2oHtml();
-        readControlTextDefinition(element, text);
+        getControlFieldDefinition(element, text);
         return text;
     }
 

@@ -1,6 +1,7 @@
 // Пример из https://codepen.io/andreacrawford/pen/NvqJXW
 .n2o-rating-stars {
-  .rating-group {
+  .rating-group,
+  .rating-group--readonly {
     display: inline-flex;
   }
 
@@ -8,7 +9,8 @@
     pointer-events: none;
   }
 
-  .rating__input {
+  .rating__input,
+  .rating__input--readonly {
     position: absolute !important;
     left: -9999px !important;
   }
@@ -18,6 +20,10 @@
     padding: 0 0.1em;
     font-size: 1rem;
     margin: 0;
+  }
+
+  .rating__label--no-pointer {
+    cursor: default;
   }
 
   .rating__label--half {
@@ -30,7 +36,8 @@
     color: $rating-stars-selected-color;
   }
 
-  .rating__input:checked ~ .rating__label .rating__icon--star {
+  .rating__input:checked ~ .rating__label .rating__icon--star,
+  .rating__input--readonly:checked ~ .rating__label .rating__icon--star {
     color: $rating-stars-color;
   }
 

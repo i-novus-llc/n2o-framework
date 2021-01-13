@@ -28,6 +28,9 @@ stories
       style: ImageCellJson.style,
       className: ImageCellJson.className,
       title: ImageCellJson.title,
+      fieldKey: 'url',
+      width: '300px',
+      height: '300px',
       model: {
         url:
           'https://sf-applications.s3.amazonaws.com/Bear/wallpapers/05/july-2020-wallpaper_desktop-3840x1600.png',
@@ -57,6 +60,8 @@ stories
           circle: IMAGEURL,
           square: IMAGEURL,
           tooltip: 'tooltip',
+          url:
+            'https://sf-applications.s3.amazonaws.com/Bear/wallpapers/05/july-2020-wallpaper_desktop-3840x1600.png',
         },
       ],
     };
@@ -87,6 +92,8 @@ stories
           component: ImageCell,
           action,
           ...ImageCellJson,
+          width: '220px',
+          height: '220px',
           model: {
             url:
               'https://sf-applications.s3.amazonaws.com/Bear/wallpapers/05/july-2020-wallpaper_desktop-3840x1600.png',
@@ -118,6 +125,9 @@ stories
       style: ImageCellJson.style,
       className: ImageCellJson.className,
       title: ImageCellJson.title,
+      fieldKey: 'url',
+      width: '220px',
+      height: '220px',
       model: {
         url:
           'https://sf-applications.s3.amazonaws.com/Bear/wallpapers/05/july-2020-wallpaper_desktop-3840x1600.png',
@@ -141,6 +151,8 @@ stories
       datasource: [
         {
           id: 'data',
+          url:
+            'https://sf-applications.s3.amazonaws.com/Bear/wallpapers/05/july-2020-wallpaper_desktop-3840x1600.png',
           rounded: IMAGEURL,
           circle: IMAGEURL,
           square: IMAGEURL,

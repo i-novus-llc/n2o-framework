@@ -12,6 +12,7 @@ import SearchBarContainer from './SearchBar/SearchBarContainer';
 import Drawer from './Drawer/Drawer';
 import StatusText from './StatusText/StatusText';
 import Image from './Image/Image';
+import Status from './Status/Status';
 
 export default {
   Alert,
@@ -28,4 +29,5 @@ export default {
   Drawer,
   StatusText,
   Image,
+  Status,
 };

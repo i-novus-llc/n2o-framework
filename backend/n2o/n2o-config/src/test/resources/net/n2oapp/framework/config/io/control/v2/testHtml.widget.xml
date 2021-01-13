@@ -1,5 +1,5 @@
 <form xmlns="http://n2oapp.net/framework/config/schema/n2o-widget-4.0">
     <fields>
-        <html id="testId" height="testHeight"/>
+        <html id="html" default-value="&lt;h3 class='class1'&gt;Hello, World!&lt;/h3&gt;"/>
     </fields>
 </form>

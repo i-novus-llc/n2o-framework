@@ -4,9 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Клиентская модель контрола html
+ * Клиентская модель компонента вывода html
  */
 @Getter
 @Setter
-public class HtmlControl extends InputText {
+public class HtmlControl extends Control {
 }

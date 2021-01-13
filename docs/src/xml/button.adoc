@@ -335,14 +335,13 @@ Java Script выражение
 |===
 
 Тело::
-    <path-params> - параметры url.
-    <query-params> - параметры запроса.
+link:#_Параметры_запроса[Параметры действия]
 
 Пример::
 [source,xml]
 ----
   <link href="../" target="application">
-    <path-params>...</path-params>
-    <query-params>...</query-params>
+    <path-param>...</path-param>
+    <query-param>...</query-param>
   </link>
 ----

@@ -5,7 +5,7 @@
     <ctrl:text-editor id="id" label="test" copied="false"  required="false" domain="test"
                     visible="true" depends-on="test" css-class="test" label-style="test"
                     dependency-condition="test"
-                    default-value="test" height="100px" config-url="test">
+                    default-value="test" config-url="test">
         <ctrl:description>test</ctrl:description>
 
         <ctrl:set-value-expression on="id">test</ctrl:set-value-expression>

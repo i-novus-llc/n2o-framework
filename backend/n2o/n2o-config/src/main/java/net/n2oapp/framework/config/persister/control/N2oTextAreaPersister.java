@@ -1,6 +1,7 @@
 package net.n2oapp.framework.config.persister.control;
 
 import net.n2oapp.framework.api.metadata.control.plain.N2oTextArea;
+import net.n2oapp.framework.config.persister.util.PersisterJdomUtil;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ public class N2oTextAreaPersister extends N2oControlXmlPersister<N2oTextArea> {
         Element textAreaElement = new Element(getElementName(), getNamespacePrefix(), getNamespaceUri());
         setControl(textAreaElement, textArea);
         setField(textAreaElement, textArea);
-        setText(textAreaElement, textArea);
+        PersisterJdomUtil.setAttribute(textAreaElement, "rows", textArea.getRows());
         return textAreaElement;
     }
 

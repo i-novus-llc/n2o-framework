@@ -1,10 +1,12 @@
 package net.n2oapp.framework.autotest.fieldset;
 
 import com.codeborne.selenide.Condition;
+import net.n2oapp.framework.autotest.api.collection.FieldSets;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSet;
 import net.n2oapp.framework.autotest.api.component.fieldset.MultiFieldSetItem;
+import net.n2oapp.framework.autotest.api.component.fieldset.SimpleFieldSet;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -39,12 +41,12 @@ public class MultiFieldSetAT extends AutoTestBase {
         super.configure(builder);
         builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oFieldSetsPack(),
                 new N2oControlsPack(), new N2oAllDataPack());
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
     }
 
     @Test
     public void testAdd() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/add/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/add/index.page.xml"));
 
         page = open(SimplePage.class);
         page.shouldExists();
@@ -90,8 +92,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
     @Test
     public void testRemove() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/remove/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/remove/index.page.xml"));
 
         page = open(SimplePage.class);
         page.shouldExists();
@@ -162,8 +163,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
     @Test
     public void testCopy() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/copy/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/copy/index.page.xml"));
 
         page = open(SimplePage.class);
         page.shouldExists();
@@ -205,8 +205,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
     @Test
     public void testNestedMultiFieldSet() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/nested/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/nested/index.page.xml"));
 
         page = open(SimplePage.class);
         page.shouldExists();
@@ -254,8 +253,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     @Test
     public void testQueryData() {
         builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/test.query.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/query_data/test.query.xml"));
 
         page = open(SimplePage.class);
         page.shouldExists();
@@ -297,8 +295,7 @@ public class MultiFieldSetAT extends AutoTestBase {
 
     @Test
     public void testDependencies() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/dependencies/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/dependencies/index.page.xml"));
 
         page = open(SimplePage.class);
         page.shouldExists();
@@ -331,8 +328,7 @@ public class MultiFieldSetAT extends AutoTestBase {
     @Test
     @Disabled
     public void testRequiring() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validations/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/validations/index.page.xml"));
 
         page = open(SimplePage.class);
         page.shouldExists();
@@ -371,5 +367,48 @@ public class MultiFieldSetAT extends AutoTestBase {
 
         name1.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
         age1.shouldHaveValidationMessage(Condition.text("Поле обязательно для заполнения"));
+    }
+
+    @Test
+    public void testVisible() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/visible/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
+        fieldsets.shouldHaveSize(3);
+
+        InputText inputText = fieldsets.fieldset(0, SimpleFieldSet.class).fields().field("test").control(InputText.class);
+        inputText.shouldExists();
+
+        MultiFieldSet multiSet1 = fieldsets.fieldset(1, MultiFieldSet.class);
+        MultiFieldSet multiSet2 = fieldsets.fieldset(2, MultiFieldSet.class);
+        multiSet1.shouldNotBeVisible();
+        multiSet2.shouldNotBeVisible();
+
+        inputText.val("test");
+        multiSet1.shouldNotBeVisible();
+        multiSet2.shouldBeVisible();
+        multiSet2.addButtonShouldBeExist();
+    }
+
+    @Test
+    public void testEnabled() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/fieldset/multiset/enabled/index.page.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        FieldSets fieldsets = page.widget(FormWidget.class).fieldsets();
+        fieldsets.shouldHaveSize(3);
+
+        InputText inputText = fieldsets.fieldset(0, SimpleFieldSet.class).fields().field("test").control(InputText.class);
+        inputText.shouldExists();
+
+        MultiFieldSet multiSet1 = fieldsets.fieldset(1, MultiFieldSet.class);
+        MultiFieldSet multiSet2 = fieldsets.fieldset(2, MultiFieldSet.class);
+        multiSet1.addButtonShouldBeDisabled();
+        multiSet2.addButtonShouldBeDisabled();
+
+        inputText.val("test");
+        multiSet1.addButtonShouldBeDisabled();
+        multiSet2.addButtonShouldBeEnabled();
     }
 }

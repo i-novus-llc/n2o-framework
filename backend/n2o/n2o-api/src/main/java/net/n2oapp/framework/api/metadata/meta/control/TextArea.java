@@ -11,8 +11,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TextArea extends Control {
-    @JsonProperty("maxRows")
-    private Integer rows;
+    @JsonProperty("rows")
+    private Integer minRows;
+    @JsonProperty
+    private Integer maxRows;
     @JsonProperty
     private String placeholder;
 }

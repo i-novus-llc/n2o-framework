@@ -9,9 +9,9 @@ import net.n2oapp.framework.autotest.api.component.widget.table.TableFilterHeade
 import static net.n2oapp.framework.autotest.N2oSelenide.component;
 
 /**
- * Фильтруемый заголовок таблицы для автотестирования
+ * Заголовок фильтруемого столбца таблицы для автотестирования
  */
-public class N2oTableFilterHeader extends N2oStandardTableHeader implements TableFilterHeader {
+public class N2oTableFilterHeader extends N2oTableSimpleHeader implements TableFilterHeader {
     @Override
     public <T extends Control> T filterControl(Class<T> componentClass) {
         return component(element().$(".n2o-advanced-table-filter-dropdown-popup"), StandardField.class).control(componentClass);

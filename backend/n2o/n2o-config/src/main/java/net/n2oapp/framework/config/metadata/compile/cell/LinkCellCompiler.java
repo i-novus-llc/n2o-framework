@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.metadata.compile.cell;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.compile.building.Placeholders;
 import net.n2oapp.framework.api.metadata.global.view.action.control.Target;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.IconType;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oLinkCell;
@@ -42,10 +43,11 @@ public class LinkCellCompiler extends AbstractCellCompiler<N2oLinkCell, N2oLinkC
             Target defaultTarget = RouteUtil.isApplicationUrl(source.getUrl()) ? Target.application : Target.self;
             cell.setTarget(p.cast(source.getTarget(), defaultTarget));
         }
-        cell.setIcon(p.resolveJS(source.getIcon()));
-        if (source.getIcon() != null) {
-            cell.setType(p.cast(source.getType(), IconType.text));
-        }
+
+        cell.setType(p.cast(source.getType(), p.resolve(Placeholders.property("n2o.api.cell.link.type"), IconType.class)));
+        if (cell.getType() != IconType.text)
+            cell.setIcon(p.resolveJS(source.getIcon()));
+
         return cell;
     }
 }

@@ -5,7 +5,18 @@
         <column text-field-id="test">
             <image url="{image}" width="20" shape="rounded" test:width="30" title="{Title}" text-position="left"
                    data="data:image/jpeg;base64{image}" description="{Description}">
-                <close/>
+                <statuses>
+                    <status
+                            src="testSrc"
+                            field-id="status1"
+                            icon="{icon1}"
+                            place="topRight"
+                    />
+                    <status field-id="id"/>
+                </statuses>
+                <action>
+                    <close/>
+                </action>
             </image>
         </column>
         <column text-field-id="test">

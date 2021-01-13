@@ -2,6 +2,7 @@ package net.n2oapp.framework.autotest.action;
 
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Toolbar;
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputText;
 import net.n2oapp.framework.autotest.api.component.drawer.Drawer;
 import net.n2oapp.framework.autotest.api.component.field.StandardField;
@@ -41,15 +42,16 @@ public class CloseWithClearAT extends AutoTestBase {
 
     @Test
     public void testCloseWithClearModal() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close_with_clear/index.page.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/close_with_clear/modal.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/modal.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.breadcrumb().titleShouldHaveText("close-with-clear-test");
         page.shouldExists();
 
-        page.widget(FormWidget.class).toolbar().topLeft().button("openModal").shouldBeEnabled();
-        page.widget(FormWidget.class).toolbar().topLeft().button("openModal").click();
+        StandardButton openModalBtn = page.widget(FormWidget.class).toolbar().topLeft().button("openModal");
+        openModalBtn.shouldBeEnabled();
+        openModalBtn.click();
         Modal modal = N2oSelenide.modal();
         modal.shouldExists();
         modal.shouldHaveTitle("TestPage");
@@ -74,7 +76,7 @@ public class CloseWithClearAT extends AutoTestBase {
         toolbar.button("CloseWithClear").click();
         modal.shouldNotExists();
 
-        page.widget(FormWidget.class).toolbar().topLeft().button("openModal").click();
+        openModalBtn.click();
         modal.shouldExists();
         inputText.shouldBeEmpty();
         modal.close();
@@ -83,15 +85,16 @@ public class CloseWithClearAT extends AutoTestBase {
 
     @Test
     public void testCloseWithClearDrawer() {
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close_with_clear/index.page.xml"),
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/index.page.xml"),
                 new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/action/close_with_clear/modal.page.xml"));
+                new CompileInfo("net/n2oapp/framework/autotest/action/close/clear/modal.page.xml"));
         SimplePage page = open(SimplePage.class);
         page.breadcrumb().titleShouldHaveText("close-with-clear-test");
         page.shouldExists();
 
-        page.widget(FormWidget.class).toolbar().topLeft().button("openDrawer").shouldBeEnabled();
-        page.widget(FormWidget.class).toolbar().topLeft().button("openDrawer").click();
+        StandardButton openDrawerBtn = page.widget(FormWidget.class).toolbar().topLeft().button("openDrawer");
+        openDrawerBtn.shouldBeEnabled();
+        openDrawerBtn.click();
 
         Drawer drawer = N2oSelenide.drawer();
         drawer.shouldExists();
@@ -117,11 +120,10 @@ public class CloseWithClearAT extends AutoTestBase {
         toolbar.button("CloseWithClear").click();
         drawer.shouldNotExists();
 
-        page.widget(FormWidget.class).toolbar().topLeft().button("openDrawer").click();
+        openDrawerBtn.click();
         drawer.shouldExists();
         inputText.shouldBeEmpty();
         drawer.close();
         drawer.shouldNotExists();
     }
-
 }

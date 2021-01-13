@@ -1,11 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import isNil from 'lodash/isNil';
+import omit from 'lodash/omit';
 
 import propsResolver from '../../../../../utils/propsResolver';
 
 import Image from '../../../../snippets/Image/Image';
+import ImageInfo from '../../../../snippets/Image/ImageInfo';
+
+import ImageStatuses from '../../../Table/cells/ImageCell/ImageStatuses';
 
 /**
  * Компонент Image фомы
@@ -18,6 +23,7 @@ import Image from '../../../../snippets/Image/Image';
  * @reactProps {string} - width - кастом ширина
  * @reactProps {string} shape - форма маски img (square || circle || rounded = default)
  * @reactProps {boolean} visible - флаг видимости сниппета
+ * @reactProps {array} statuses - статусы, отображающиеся над img
  */
 
 function ImageField(props) {
@@ -29,12 +35,18 @@ function ImageField(props) {
     description,
     textPosition,
     width,
+    height,
     shape,
     visible,
     model,
+    className,
+    statuses = [],
   } = props;
 
   const isEmptyModel = isEmpty(model);
+
+  const hasStatuses = !isEmpty(statuses);
+  const hasInfo = title || description;
 
   const defaultImageProps = {
     url: url,
@@ -48,15 +60,37 @@ function ImageField(props) {
     : propsResolver(defaultImageProps, model);
 
   return (
-    <Image
-      id={id}
-      textPosition={textPosition}
-      width={width}
-      shape={shape}
-      visible={visible}
-      {...resolveProps}
-      src={resolveProps.data || resolveProps.url}
-    />
+    <div
+      className={classNames('n2o-image-field-container', {
+        [textPosition]: textPosition,
+      })}
+    >
+      <div
+        className={classNames('n2o-image-field', {
+          'with-statuses': hasStatuses,
+        })}
+      >
+        <Image
+          id={id}
+          visible={visible}
+          shape={shape}
+          className={className}
+          textPosition={textPosition}
+          width={width}
+          height={height}
+          {...omit(resolveProps, ['title', 'description'])}
+          src={resolveProps.data || resolveProps.url}
+        />
+        {hasStatuses && (
+          <ImageStatuses
+            statuses={statuses}
+            model={model}
+            className="image-field-statuses"
+          />
+        )}
+      </div>
+      {hasInfo && <ImageInfo title={title} description={description} />}
+    </div>
   );
 }
 

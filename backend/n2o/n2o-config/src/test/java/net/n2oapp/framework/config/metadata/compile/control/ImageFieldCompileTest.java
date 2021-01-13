@@ -1,5 +1,6 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.meta.control.ControlDependency;
 import net.n2oapp.framework.api.metadata.meta.control.ImageField;
 import net.n2oapp.framework.api.metadata.meta.control.TextPosition;
@@ -11,10 +12,12 @@ import net.n2oapp.framework.config.metadata.pack.N2oControlsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oFieldSetsPack;
 import net.n2oapp.framework.config.metadata.pack.N2oWidgetsPack;
 import net.n2oapp.framework.config.test.SourceCompileTestBase;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
@@ -47,6 +50,15 @@ public class ImageFieldCompileTest extends SourceCompileTestBase {
         assertThat(field.getDescription(), is("`Description`"));
         assertThat(field.getTextPosition(), is(TextPosition.top));
         assertThat(field.getWidth(), is("500px"));
+        assertThat(field.getStatuses().length, is(2));
+        assertThat(field.getStatuses()[0].getSrc(), Matchers.is("testSrc"));
+        assertThat(field.getStatuses()[0].getFieldId(), Matchers.is("status1"));
+        assertThat(field.getStatuses()[0].getIcon(), Matchers.is("`icon1`"));
+        assertThat(field.getStatuses()[0].getPlace(), Matchers.is(ImageStatusElement.Place.topRight));
+        assertThat(field.getStatuses()[1].getSrc(), Matchers.is("Status"));
+        assertThat(field.getStatuses()[1].getFieldId(), Matchers.is("id"));
+        assertThat(field.getStatuses()[1].getIcon(), Matchers.is(nullValue()));
+        assertThat(field.getStatuses()[1].getPlace(), Matchers.is(ImageStatusElement.Place.topLeft));
 
         ControlDependency dependency = field.getDependencies().get(0);
         assertThat(dependency.getType(), is(ValidationType.reRender));

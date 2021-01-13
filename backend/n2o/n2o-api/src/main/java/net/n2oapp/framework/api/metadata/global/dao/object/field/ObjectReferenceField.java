@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 @Setter
 public class ObjectReferenceField extends AbstractParameter {
-
     private String referenceObjectId;
     private String entityClass;
     private ObjectScalarField[] fields;
@@ -29,5 +28,4 @@ public class ObjectReferenceField extends AbstractParameter {
         this.setRequired(required);
         this.referenceObjectId = referenceObjectId;
     }
-
 }

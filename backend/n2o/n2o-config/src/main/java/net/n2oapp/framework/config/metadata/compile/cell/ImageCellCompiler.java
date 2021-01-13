@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.ImageShape;
+import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.ImageStatusElement;
 import net.n2oapp.framework.api.metadata.global.view.widget.table.column.cell.N2oImageCell;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,25 @@ public class ImageCellCompiler extends AbstractCellCompiler<N2oImageCell, N2oIma
         cell.setData(p.resolveJS(source.getData()));
         cell.setTextPosition(p.cast(source.getTextPosition(),
                 p.resolve(property("n2o.api.cell.image.text_position"), N2oImageCell.Position.class)));
+        cell.setStatuses(compileStatuses(source.getStatuses(), p));
         compileAction(cell, source, context, p);
         return cell;
     }
+
+    private ImageStatusElement[] compileStatuses(ImageStatusElement[] statuses, final CompileProcessor p) {
+        if (statuses == null) return null;
+        int i = 0;
+        ImageStatusElement[] statusElements = new ImageStatusElement[statuses.length];
+        for (ImageStatusElement e : statuses) {
+            ImageStatusElement statusElement = new ImageStatusElement();
+            statusElement.setSrc(p.cast(e.getSrc(), "Status"));
+            statusElement.setFieldId(e.getFieldId());
+            statusElement.setIcon(p.resolveJS(e.getIcon()));
+            statusElement.setPlace(p.cast(e.getPlace(),
+                    p.resolve(property("n2o.api.cell.image.status_place"), ImageStatusElement.Place.class)));
+            statusElements[i++] = statusElement;
+        }
+        return statusElements;
+    }
+
 }

@@ -15,14 +15,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Валидация описанная в condition
+ * Клиентская модель валидации условия значений полей
  */
 @Getter
 @Setter
 @NoArgsConstructor
 public class ConditionValidation extends Validation {
-
-    @JsonProperty("expression")
+    @JsonProperty
     private String expression;
     private String expressionOn;
 
@@ -32,25 +31,6 @@ public class ConditionValidation extends Validation {
         this.expressionOn = validation.getExpressionOn();
     }
 
-    /**
-     * Создает condition валидацию для одного поля
-     * @param fieldId           идентификатор поля
-     * @param expression        выражение
-     * @param message           сообщение
-     * @return             валидацию
-     */
-    public static ConditionValidation forOneField(String fieldId, String expression, String message) {
-        ConditionValidation validation = new ConditionValidation();
-        validation.setExpression(expression);
-        Set<String> set = new HashSet<>();
-        set.add(fieldId);
-        validation.setExpressionOn(fieldId);
-        validation.setFields(set);
-        validation.setId("control." + fieldId + "." + expression.hashCode());
-        validation.setMessage(message);
-        return validation;
-    }
-
     public void setExpression(String expression) {
         if (expression == null)
             return;
@@ -58,9 +38,9 @@ public class ConditionValidation extends Validation {
         this.expression = expression;
     }
 
-    private Set<String> getExpressionsOn () {
+    private Set<String> getExpressionsOn() {
         Set<String> res = new HashSet<>();
-        if (expressionOn != null && expressionOn.length()>0) {
+        if (expressionOn != null && expressionOn.length() > 0) {
             String[] expressions = expressionOn.split(",");
             for (String exp : expressions) {
                 res.add(exp.trim());
@@ -90,6 +70,4 @@ public class ConditionValidation extends Validation {
     public String getType() {
         return "condition";
     }
-
 }
-

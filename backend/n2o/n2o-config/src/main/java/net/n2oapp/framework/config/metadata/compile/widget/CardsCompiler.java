@@ -56,7 +56,7 @@ public class CardsCompiler extends BaseListWidgetCompiler<Cards, N2oCards> {
                 p.resolve(property("n2o.api.widget.cards.vertical_align"), Cards.Position.class)));
         cards.setHeight(p.cast(source.getHeight(),
                 p.resolve(property("n2o.api.widget.cards.height"), String.class)));
-        cards.setPaging(compilePaging(source, p.resolve(property("n2o.api.widget.cards.size"), Integer.class), p));
+        cards.setPaging(compilePaging(cards, source, p.resolve(property("n2o.api.widget.cards.size"), Integer.class), p));
         return cards;
     }
 

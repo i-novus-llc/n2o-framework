@@ -173,7 +173,7 @@ export function RangeField({
                 {...endControl}
                 {...props}
                 className={cx(endControl && endControl.className, {
-                  [validationClass]: touched && (!end || !begin),
+                  [validationClass]: touched,
                 })}
               />
               <Measure value={measure} />
@@ -187,7 +187,7 @@ export function RangeField({
       <div
         className={cx('n2o-validation-message', validationMap[validationClass])}
       >
-        {(!end || !begin) && touched && message && message.text}
+        {touched && message && message.text}
       </div>
     </div>
   ) : null;
@@ -239,10 +239,15 @@ export default compose(
     end: get(props, 'value.end', null),
   })),
   withHandlers({
-    onBeginValueChange: ({ end, onChange }) => begin =>
-      isValid(begin) && onChange({ begin, end }),
-    onEndValueChange: ({ begin, onChange }) => end =>
-      isValid(end) && onChange({ begin, end }),
-    onBlur: ({ onBlur }) => () => onBlur(),
+    onBeginValueChange: ({ end, onChange }) => begin => {
+      isValid(begin) && onChange({ begin, end });
+    },
+
+    onEndValueChange: ({ begin, onChange }) => end => {
+      isValid(end) && onChange({ begin, end });
+    },
+    onBlur: ({ begin, end, onBlur }) => () => {
+      onBlur({ begin, end });
+    },
   })
 )(RangeField);

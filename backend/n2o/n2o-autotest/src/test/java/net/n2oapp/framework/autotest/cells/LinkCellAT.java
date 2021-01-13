@@ -1,6 +1,6 @@
 package net.n2oapp.framework.autotest.cells;
 
-import net.n2oapp.framework.autotest.api.component.cell.*;
+import net.n2oapp.framework.autotest.api.component.cell.LinkCell;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
@@ -28,15 +28,15 @@ public class LinkCellAT extends AutoTestBase {
     public void setUp() throws Exception {
         super.setUp();
 
-        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/cells/link/index.page.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
-                new CompileInfo("net/n2oapp/framework/autotest/cells/testTable.query.xml"));
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/blank.header.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/link/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/cells/link/test.query.xml"));
 
         SimplePage simplePage = open(SimplePage.class);
         simplePage.shouldExists();
 
         rows = simplePage.widget(TableWidget.class).columns().rows();
-        rows.shouldHaveSize(4);
+        rows.shouldHaveSize(1);
     }
 
     @Override
@@ -48,15 +48,19 @@ public class LinkCellAT extends AutoTestBase {
 
     @Test
     public void linkCellTest() {
-        int col = 0;
+        LinkCell cell = rows.row(0).cell(0, LinkCell.class);
+        cell.textShouldHave("Text");
+        cell.hrefShouldHave(getBaseUrl() + "/123");
+        cell.shouldNotHaveIcon();
 
-        rows.row(0).cell(col, LinkCell.class).textShouldHave("test1");
-        rows.row(0).cell(col, LinkCell.class).hrefShouldHave(getBaseUrl()+"/1/update");
-        rows.row(0).cell(col, LinkCell.class).shouldHaveIcon("fa-link");
+        cell = rows.row(0).cell(1, LinkCell.class);
+        cell.textShouldHave("Text");
+        cell.hrefShouldHave(getBaseUrl() + "/123");
+        cell.shouldHaveIcon("fa-plus");
 
-        rows.row(3).cell(col, LinkCell.class).textShouldHave("test4");
-        rows.row(3).cell(col, LinkCell.class).hrefShouldHave(getBaseUrl()+"/4/update");
-        rows.row(3).cell(col, LinkCell.class).shouldHaveIcon("fa-link");
+        cell = rows.row(0).cell(2, LinkCell.class);
+        cell.shouldNotHaveText();
+        cell.hrefShouldHave(getBaseUrl() + "/123");
+        cell.shouldHaveIcon("fa-plus");
     }
-
 }

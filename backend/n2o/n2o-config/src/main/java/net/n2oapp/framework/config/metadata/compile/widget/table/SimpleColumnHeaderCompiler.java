@@ -18,9 +18,12 @@ import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.ComponentScope;
 import net.n2oapp.framework.config.metadata.compile.widget.CellsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.WidgetScope;
+import net.n2oapp.framework.config.util.StylesResolver;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+
+import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
 
 /**
  * Компиляция простого заголовка таблицы
@@ -48,6 +51,9 @@ public class SimpleColumnHeaderCompiler<T extends N2oSimpleColumn> extends Abstr
             cellsScope.getCells().add(cell);
 
         header.setId(source.getId());
+        header.setSrc(p.cast(source.getSrc(), p.resolve(property("n2o.api.widget.column.src"), String.class)));
+        header.setCssClass(source.getCssClass());
+        header.setStyle(StylesResolver.resolveStyles(source.getStyle()));
         header.setIcon(source.getLabelIcon());
         header.setWidth(source.getWidth());
         header.setResizable(source.getResizable());

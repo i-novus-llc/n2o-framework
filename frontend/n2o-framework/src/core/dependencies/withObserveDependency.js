@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
 import isFunction from 'lodash/isFunction';
 import map from 'lodash/map';
+
 import observeStore from '../../utils/observeStore';
 import { setWatchDependency } from '../../components/widgets/Form/utils';
 import { DEPENDENCY_TYPES } from '../dependencyTypes';
@@ -30,6 +31,12 @@ export default config => WrappedComponent => {
       };
 
       this.setObserveState();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+      if (prevProps.disabled !== this.props.disabled) {
+        config.onChange.call(this._componentRef, this.props);
+      }
     }
 
     componentWillUnmount() {

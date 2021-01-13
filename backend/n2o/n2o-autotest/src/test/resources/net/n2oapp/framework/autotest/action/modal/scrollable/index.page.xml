@@ -4,10 +4,10 @@
     <form>
         <toolbar>
             <button label="Открыть со скроллом" model="filter">
-                <show-modal page-id="test" detail-field-id="id" scrollable="true"/>
+                <show-modal page-id="test" scrollable="true"/>
             </button>
             <button label="Открыть без скролла" model="filter">
-                <show-modal page-id="test" detail-field-id="id"/>
+                <show-modal page-id="test"/>
             </button>
         </toolbar>
     </form>

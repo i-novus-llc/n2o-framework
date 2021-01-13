@@ -2,7 +2,8 @@ export default {
   defaultPromptMessage:
     'Все несохраненные данные будут утеряны, вы уверены, что хотите уйти?',
   login: 'Логин',
-  paginationInterval: '(1){запись};(2-4){записи};(5-inf){записей};',
+  paginationInterval:
+    '(0){записей};(1){запись};(2-4){записи};(5-inf){записей};',
   paginationTotal: 'Всего',
   noData: 'Нет данных для отображения',
   chooseTime: 'Выберите время',

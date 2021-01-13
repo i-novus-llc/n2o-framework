@@ -32,4 +32,6 @@ public class ClientDataProvider implements Compiled {
     private Boolean optimistic;
     @JsonProperty
     private Boolean submitForm;
+    @JsonProperty
+    private Integer size;
 }
