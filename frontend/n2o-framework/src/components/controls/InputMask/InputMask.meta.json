@@ -7,5 +7,5 @@
   "dictionary": {},
   "guide": true,
   "keepCharPositions": false,
-  "resetOnNotValid": true
+  "clearOnBlur": true
 }
