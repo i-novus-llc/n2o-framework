@@ -6,7 +6,7 @@
                       description-field-id="descFieldId"
                       max-tag-text-length="5">
             <dependencies>
-                <fetch-value query-id="testQuery" on="test" value-field-id="name">
+                <fetch-value query-id="testQuery" on="test" value-field-id="name" size="5">
                     <pre-filters>
                         <eq field-id="testField" reset-on-change="true" param="test"/>
                     </pre-filters>

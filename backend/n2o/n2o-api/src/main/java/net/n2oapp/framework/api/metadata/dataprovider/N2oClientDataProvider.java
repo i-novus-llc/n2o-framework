@@ -31,6 +31,7 @@ public class N2oClientDataProvider implements Serializable {
     private Boolean optimistic;
     private Boolean submitForm;
     private ActionContextData actionContextData;
+    private Integer size;
 
     @Getter
     @Setter

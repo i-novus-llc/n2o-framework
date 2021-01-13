@@ -237,6 +237,11 @@ Java Script выражение
 |Поле выборки, значение которого будет проставлено в модель поля ввода
 |name
 
+|size
+|Число
+|Количество возвращаемых записей
+|
+
 |===
 
 Тело::
@@ -246,7 +251,7 @@ Java Script выражение
 [source,xml]
 ----
 <dependencies>
-  <fetch-value on="type" query-id="queryId" value-field-id="name">
+  <fetch-value on="type" query-id="queryId" value-field-id="name" size="10">
       <pre-filters>
           ...
       </pre-filters>

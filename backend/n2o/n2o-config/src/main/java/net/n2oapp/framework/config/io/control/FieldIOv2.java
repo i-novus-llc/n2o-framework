@@ -59,6 +59,7 @@ public abstract class FieldIOv2<T extends N2oField> extends ComponentIO<T> imple
         dependency(e, t, p);
         p.attribute(e, "query-id", t::getQueryId, t::setQueryId);
         p.attribute(e, "value-field-id", t::getValueFieldId, t::setValueFieldId);
+        p.attributeInteger(e, "size", t::getSize, t::setSize);
         p.childrenByEnum(e, "pre-filters", t::getPreFilters, t::setPreFilters, N2oPreFilter::getType,
                 N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
     }
