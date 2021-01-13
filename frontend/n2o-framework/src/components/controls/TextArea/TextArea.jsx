@@ -32,6 +32,7 @@ function TextArea({
   onChange,
   ...rest
 }) {
+  const max = rows > maxRows ? rows : maxRows;
   const inputClass = `form-control ${className}`;
   return (
     <TextareaAutosize
@@ -40,7 +41,7 @@ function TextArea({
       disabled={disabled}
       placeholder={placeholder}
       minRows={rows}
-      maxRows={maxRows}
+      maxRows={max}
       value={value || ''}
       onChange={onChange}
       {...omit(rest, ['id'])}
