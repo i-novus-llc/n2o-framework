@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-2.0">
+    <form>
+        <fields>
+            <input-text id="name"/>
+            <input-select id="gender" label="Gender" label-field-id="name" param="gender_param">
+                <options>
+                    <option id="1" name="Men"/>
+                    <option id="2" name="Women"/>
+                </options>
+            </input-select>
+            <input-select id="type" query-id="type" label="Type" param="type_param"/>
+        </fields>
+    </form>
+</simple-page>

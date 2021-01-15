@@ -303,7 +303,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         filter = (Filter) detailPageWidget.getFilters().get(0);
         assertThat(filter.getParam(), is("name"));
         assertThat(filter.getFilterId(), is("name"));
-        assertThat(filter.getLink().getValue(), is("testName"));
+        assertThat(filter.getLink().getValue(), is("`name`"));
         filter = (Filter) detailPageWidget.getFilters().get(1);
         assertThat(filter.getParam(), is("secondName"));
         assertThat(filter.getFilterId(), is("secondName"));
@@ -311,11 +311,11 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         filter = (Filter) detailPageWidget.getFilters().get(2);
         assertThat(filter.getParam(), is("surname"));
         assertThat(filter.getFilterId(), is("surname"));
-        assertThat(filter.getLink().getValue(), is("Ivanov"));
+        assertThat(filter.getLink().getValue(), is("`surname`"));
         filter = (Filter) detailPageWidget.getFilters().get(3);
         assertThat(filter.getParam(), is("detailId"));
         assertThat(filter.getFilterId(), is("detailId"));
-        assertThat(filter.getLink().getValue(), is(222));
+        assertThat(filter.getLink().getValue(), is("`masterId`"));
         assertThat(context.getQueryRouteMapping().get("surname").getValue(), is("`surname`"));
         assertThat(context.getQueryRouteMapping().get("surname").getBindLink(), is("models.filter['page_test']"));
     }
@@ -407,7 +407,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(payload.getKey(), is("page_widget_defaultValue_main"));
         assertThat(payload.getField(), is("gender.id"));
         assertThat(payload.getValue(), is(":gender_id"));
-        assertThat(queryMapping.get("gender_id").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].gender.id"));
+        assertThat(queryMapping.get("gender_id").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].gender"));
 
         payload = (UpdateModelPayload) queryMapping.get("start").getOnGet().getPayload();
         assertThat(payload.getField(), is("birthDate.begin"));
@@ -431,7 +431,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate.begin").getValue(), is("2022-02-14T00:00:00"));
         assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate.end").getValue(), is("2022-03-20T00:00:00"));
         assertThat(((DefaultValues) openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate")
-                .getValue()).getValues().get("begin"), is("2019-02-14T00:00:00"));
+                .getValue()).getValues().get("begin"), is("2019-02-16T00:00:00"));
 
         context = (PageContext) route("/page/widget/defaultValueQuery", Page.class);
         openPage = (SimplePage) read().compile().get(context);

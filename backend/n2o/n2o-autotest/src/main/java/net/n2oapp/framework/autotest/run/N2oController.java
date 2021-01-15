@@ -5,6 +5,7 @@ import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.config.AppConfig;
 import net.n2oapp.framework.api.config.ConfigBuilder;
+import net.n2oapp.framework.api.data.DomainProcessor;
 import net.n2oapp.framework.api.data.QueryProcessor;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.header.N2oHeader;
@@ -58,17 +59,20 @@ public class N2oController {
     private QueryProcessor queryProcessor;
     private N2oOperationProcessor operationProcessor;
     private ConfigBuilder<AppConfig> configBuilder;
+    private DomainProcessor domainProcessor;
 
     @Value("${n2o.config.path}")
     private String basePath;
 
     @Autowired
     public N2oController(DataProcessingStack dataProcessingStack, ErrorMessageBuilder errorMessageBuilder,
-                         QueryProcessor queryProcessor, N2oOperationProcessor operationProcessor) {
+                         QueryProcessor queryProcessor, N2oOperationProcessor operationProcessor,
+                         DomainProcessor domainProcessor) {
         this.queryProcessor = queryProcessor;
         this.dataProcessingStack = dataProcessingStack;
         this.errorMessageBuilder = errorMessageBuilder;
         this.operationProcessor = operationProcessor;
+        this.domainProcessor = domainProcessor;
     }
 
     @GetMapping("/n2o/config")
@@ -83,7 +87,7 @@ public class N2oController {
     public Page page(HttpServletRequest request) {
         String path = getPath(request, "/n2o/page");
         CompileContext<Page, ?> context = builder.route(path, Page.class, request.getParameterMap());
-        N2oSubModelsProcessor n2oSubModelsProcessor = new N2oSubModelsProcessor(queryProcessor);
+        N2oSubModelsProcessor n2oSubModelsProcessor = new N2oSubModelsProcessor(queryProcessor, domainProcessor);
         n2oSubModelsProcessor.setEnvironment(builder.getEnvironment());
         return builder.read().transform().validate().compile().transform().bind().get(context, context.getParams(path, request.getParameterMap()), n2oSubModelsProcessor);
     }
@@ -128,7 +132,7 @@ public class N2oController {
     }
 
     private ControllerFactory createControllerFactory(MetadataEnvironment environment) {
-        SubModelsProcessor subModelsProcessor = new N2oSubModelsProcessor(queryProcessor);
+        SubModelsProcessor subModelsProcessor = new N2oSubModelsProcessor(queryProcessor, domainProcessor);
         Map<String, Object> beans = new HashMap<>();
         beans.put("queryController", new QueryController(dataProcessingStack, queryProcessor,
                 subModelsProcessor, errorMessageBuilder, environment));

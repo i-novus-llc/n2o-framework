@@ -31,6 +31,7 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
             control.setSrc(source.getSrc());
         source.setSrc(null);
         compileField(field, source, context, p);
+        field.setControl(control);
         field.setClassName(null);//для StandardField className должен попасть в control, а не field
         initValidations(source, field, context, p);
         compileFilters(source, p);
@@ -38,7 +39,6 @@ public abstract class StandardFieldCompiler<D extends Control, S extends N2oStan
         compileControl(control, source, p, field);
         control.setProperties(field.getProperties());
         field.setProperties(null);//для StandardField properties должны попасть в control, а не field
-        field.setControl(control);
         field.setDataProvider(initDataProvider(source, context, p));
         initRefAttributes(source, context, p);
         return field;
