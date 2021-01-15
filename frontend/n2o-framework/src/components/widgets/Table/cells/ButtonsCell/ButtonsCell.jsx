@@ -21,7 +21,6 @@ import withTooltip from '../../withTooltip';
  * @param style
  * @param widgetId
  * @param onResolve
- * @param other
  * @returns {*}
  * @constructor
  * @return {null}
@@ -36,11 +35,14 @@ function ButtonsCell({
   actions,
   widgetId,
   onResolve,
-  ...other
 }) {
   const key = `${id || 'buttonCell'}_${get(model, 'id', 1)}`;
 
-  return visible ? (
+  if (!visible) {
+    return null;
+  }
+
+  return (
     <div className="d-inline-flex">
       <Toolbar
         className={cx('n2o-buttons-cell', className)}
@@ -49,7 +51,7 @@ function ButtonsCell({
         onClick={onResolve}
       />
     </div>
-  ) : null;
+  );
 }
 
 ButtonsCell.propTypes = {
