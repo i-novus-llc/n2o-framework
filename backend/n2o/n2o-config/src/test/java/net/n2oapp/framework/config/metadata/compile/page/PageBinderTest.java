@@ -161,14 +161,15 @@ public class PageBinderTest extends SourceCompileTestBase {
         assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w2'].testMulti").getValue()).get(0)).getValues().get("name"), is("test1"));
         data.put("w0_testSingleDefault_id", "2");
         data.put("w0_testMultiDefault_id", Arrays.asList("2"));
-     /*   //single поле из параметров
+        //single поле из параметров
         assertThat(((DefaultValues) page.getModels().get("resolve['testSubModels_w3'].testSingleOptionsForm").getValue()).getValues().get("name"), is("test1"));
         //single поле с options из параметров
-        assertThat(((DefaultValues) page.getModels().get("resolve['testSubModels_w2'].testSingleUrlForm").getValue()).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) page.getModels().get("resolve['testSubModels_w3'].testSingleUrlForm").getValue()).getValues().get("name"), is("test1"));
         //multi поле из параметров
-        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w2'].testMultiUrlForm").getValue()).get(0)).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w3'].testMultiUrlForm").getValue()).get(0)).getValues().get("name"), is("test1"));
+        assertThat(((DefaultValues) ((List) page.getModels().get("resolve['testSubModels_w3'].testMultiUrlForm").getValue()).get(1)).getValues().get("name"), is("test2"));
         data.put("w0_testSingleDefault_id", "2");
-        data.put("w0_testMultiDefault_id", Arrays.asList("2"));*/
+        data.put("w0_testMultiDefault_id", Arrays.asList("2"));
         page = bind("net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModels.page.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testModel.query.xml",
                 "net/n2oapp/framework/config/metadata/compile/page/submodels/testSubModel.query.xml")

@@ -407,7 +407,7 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         assertThat(payload.getKey(), is("page_widget_defaultValue_main"));
         assertThat(payload.getField(), is("gender.id"));
         assertThat(payload.getValue(), is(":gender_id"));
-        assertThat(queryMapping.get("gender_id").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].gender.id"));
+        assertThat(queryMapping.get("gender_id").getOnSet().getBindLink(), is("models.resolve['page_widget_defaultValue_main'].gender"));
 
         payload = (UpdateModelPayload) queryMapping.get("start").getOnGet().getPayload();
         assertThat(payload.getField(), is("birthDate.begin"));
