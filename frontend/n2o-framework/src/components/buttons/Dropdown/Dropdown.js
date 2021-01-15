@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { compose, mapProps } from 'recompose';
 import map from 'lodash/map';
 import get from 'lodash/get';
-import values from 'lodash/values';
 import some from 'lodash/some';
 import { Manager, Reference, Popper } from 'react-popper';
 import onClickOutside from 'react-onclickoutside';
@@ -11,18 +10,25 @@ import classNames from 'classnames';
 
 import Factory from '../../../core/factory/Factory';
 import { BUTTONS } from '../../../core/factory/factoryLevels';
-
 import SimpleButton from '../Simple/Simple';
 import mappingProps from '../Simple/mappingProps';
 import withActionButton from '../withActionButton';
 
 class DropdownButton extends React.Component {
-  state = { open: false };
+  state = {
+    open: false,
+    popperKey: 0,
+  };
 
   toggle = () => {
-    this.setState(state => ({
-      open: !state.open,
-    }));
+    let { popperKey } = this.state;
+    let open = !this.state.open;
+
+    if (open) {
+      popperKey += 1;
+    }
+
+    this.setState({ open, popperKey });
   };
 
   handleClickOutside = () => {
@@ -42,33 +48,20 @@ class DropdownButton extends React.Component {
       toolbar,
       ...rest
     } = this.props;
-    const { open } = this.state;
+    const { open, popperKey } = this.state;
+    const storesSubMenu = get(toolbar, this.props.id);
+    let dropdownVisible = false;
 
-    const subMenuMeta = get(toolbar, this.props.id);
-    const dropdownVisible = some(values(subMenuMeta), meta => meta.visible);
-    const subMenuBody = map(subMenu, ({ src, component, ...rest }) => {
-      return component ? (
-        React.createElement(component, Object.assign({}, rest, { entityKey }))
-      ) : (
-        <Factory
-          key={rest.id}
-          {...rest}
-          entityKey={entityKey}
-          level={BUTTONS}
-          src={src}
-          className={classNames('dropdown-item', rest.className)}
-          tag="div"
-        />
-      );
-    });
+    if (subMenu && storesSubMenu) {
+      dropdownVisible = some(subMenu, subMenuItem => {
+        if (subMenuItem && subMenuItem.visible !== undefined) {
+          return subMenuItem.visible;
+        }
 
-    if (!dropdownVisible) {
-      return (
-        <div className="n2o-dropdown" style={{ dispaly: 'none' }}>
-          {/* Нужно рендерить сабменю, иначе оно не появится в цикле обработки и не посчитается видимость */}
-          {subMenuBody}
-        </div>
-      );
+        const storesSubMenuItem = storesSubMenu[subMenuItem.id];
+
+        return storesSubMenuItem.visible;
+      });
     }
 
     return (
@@ -88,7 +81,11 @@ class DropdownButton extends React.Component {
               />
             )}
           </Reference>
-          <Popper placement="bottom-start" strategy="fixed">
+          <Popper
+            key={popperKey}
+            placement="bottom-start"
+            strategy="fixed"
+          >
             {({ ref, style, placement }) => (
               <div
                 ref={ref}
@@ -98,7 +95,24 @@ class DropdownButton extends React.Component {
                   'd-block': open,
                 })}
               >
-                {subMenuBody}
+                {map(subMenu, ({ src, component, ...rest }) => {
+                  return component ? (
+                    React.createElement(
+                      component,
+                      Object.assign({}, rest, { entityKey })
+                    )
+                  ) : (
+                    <Factory
+                      key={rest.id}
+                      {...rest}
+                      entityKey={entityKey}
+                      level={BUTTONS}
+                      src={src}
+                      className={classNames('dropdown-item', rest.className)}
+                      tag="div"
+                    />
+                  );
+                })}
               </div>
             )}
           </Popper>

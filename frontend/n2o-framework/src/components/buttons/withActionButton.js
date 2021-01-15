@@ -269,7 +269,7 @@ export default function withActionButton(options = {}) {
 
     return compose(
       withPropsOnChange(
-        ['visible', 'disabled', 'count', 'conditions'],
+        ['visible', 'disabled', 'count', 'conditions', 'subMenu'],
         ({ visible, disabled, count, conditions }) => {
           return {
             initialProps: { visible, disabled, count, conditions },
