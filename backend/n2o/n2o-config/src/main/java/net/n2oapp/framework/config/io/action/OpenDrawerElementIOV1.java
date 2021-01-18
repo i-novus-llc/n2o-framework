@@ -33,6 +33,7 @@ public class OpenDrawerElementIOV1 extends AbstractOpenPageElementIOV1<N2oOpenDr
         p.attribute(e, "target-widget-id", od::getTargetWidgetId, od::setTargetWidgetId);
         p.attribute(e, "target-field-id", od::getTargetFieldId, od::setTargetFieldId);
         p.attributeEnum(e, "copy-mode", od::getCopyMode, od::setCopyMode, CopyMode.class);
+        p.attributeBoolean(e, "close-on-escape", od::getCloseOnEscape, od::setCloseOnEscape);
     }
 
     @Override

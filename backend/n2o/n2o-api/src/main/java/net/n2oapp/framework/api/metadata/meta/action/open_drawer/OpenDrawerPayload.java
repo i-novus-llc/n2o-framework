@@ -54,4 +54,6 @@ public class OpenDrawerPayload implements ActionPayload {
     private Boolean prompt;
     @JsonProperty
     private Boolean fixedFooter;
+    @JsonProperty
+    private Boolean closeOnEscape;
 }

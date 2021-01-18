@@ -444,6 +444,11 @@
                         <xs:documentation>Тип слияния.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="close-on-escape" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Закрывать окно при нажатии на Esc.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
