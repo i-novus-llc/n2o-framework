@@ -51,8 +51,7 @@ function SearchBar({
   urlFieldId,
   onItemClick,
 }) {
-  const hasInnerValue = innerValue !== undefined && innerValue !== '';
-  const isIconClear = iconClear && hasInnerValue;
+  const isIconClear = iconClear && innerValue;
   SearchBar.handleClickOutside = () => toggleDropdown('false');
 
   return (
@@ -78,7 +77,10 @@ function SearchBar({
           {isString(icon) ? <i className={icon} /> : icon}
         </div>
         {isEmpty(menu) ? (
-          <SearchBarEmptyMenu dropdownOpen={dropdownOpen === 'true'} />
+          <SearchBarEmptyMenu
+            urlFieldId={urlFieldId}
+            dropdownOpen={dropdownOpen === 'true'}
+          />
         ) : (
           <SearchBarPopUp
             menu={menu}

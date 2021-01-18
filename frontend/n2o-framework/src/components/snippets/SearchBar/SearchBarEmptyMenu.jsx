@@ -1,7 +1,8 @@
 import React from 'react';
+
 import SearchBarPopUp from './SearchBarPopUp';
 
-function SearchBarEmptyMenu({ dropdownOpen }) {
+function SearchBarEmptyMenu({ dropdownOpen, urlFieldId }) {
   const emptyMenu = [
     {
       id: 'Ничего не найдено',
@@ -10,6 +11,11 @@ function SearchBarEmptyMenu({ dropdownOpen }) {
       disabled: true,
     },
   ];
+
+  if (!urlFieldId) {
+    return null;
+  }
+
   return <SearchBarPopUp menu={emptyMenu} dropdownOpen={dropdownOpen} />;
 }
 
