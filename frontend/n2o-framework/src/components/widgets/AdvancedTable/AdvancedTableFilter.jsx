@@ -64,6 +64,16 @@ class AdvancedTableFilter extends Component {
     });
   }
 
+  onSearchClick = () => {
+    this.onSetFilter();
+    this.toggleFilter();
+  };
+
+  onResetClick = () => {
+    this.onResetFilter();
+    this.toggleFilter();
+  };
+
   render() {
     const { children, control } = this.props;
     const { filterOpen, value } = this.state;
@@ -98,8 +108,8 @@ class AdvancedTableFilter extends Component {
             <AdvancedTableFilterPopup
               value={value}
               onChange={this.onChangeFilter}
-              onResetFilter={this.onResetFilter}
-              onSetFilter={this.onSetFilter}
+              onSearchClick={this.onSearchClick}
+              onResetClick={this.onResetClick}
               component={component}
               controlProps={controlProps}
             />

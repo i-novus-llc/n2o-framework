@@ -78,6 +78,7 @@ public class FilterColumnAT extends AutoTestBase {
         rows.shouldHaveSize(2);
         rows.row(0).cell(0).textShouldHave("1");
         rows.row(1).cell(0).textShouldHave("2");
+        header2.openFilterDropdown();
         header2.clickResetButton();
         rows.shouldHaveSize(4);
 
@@ -89,6 +90,7 @@ public class FilterColumnAT extends AutoTestBase {
         rows.shouldHaveSize(2);
         rows.row(0).cell(0).textShouldHave("1");
         rows.row(1).cell(0).textShouldHave("4");
+        header3.openFilterDropdown();
         header3.clickResetButton();
         rows.shouldHaveSize(4);
 
@@ -101,6 +103,7 @@ public class FilterColumnAT extends AutoTestBase {
         rows.shouldHaveSize(2);
         rows.row(0).cell(0).textShouldHave("2");
         rows.row(1).cell(0).textShouldHave("3");
+        header4.openFilterDropdown();
         header4.clickResetButton();
         rows.shouldHaveSize(4);
 
