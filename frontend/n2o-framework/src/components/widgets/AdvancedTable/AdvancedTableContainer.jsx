@@ -169,6 +169,8 @@ class AdvancedTableContainer extends React.Component {
             child.children = mapChildren(child.children);
           }
 
+          const cell = find(cells, c => c.id === child.id) || {};
+
           return {
             ...child,
             title: (
@@ -180,10 +182,23 @@ class AdvancedTableContainer extends React.Component {
                 filterControl={child.filterControl}
               />
             ),
+            render: (value, record, index) => ({
+              children: this.renderCell({
+                index,
+                key: cell.id,
+                widgetId,
+                columnId: cell.id,
+                model: record,
+                as: 'div',
+                needRender: header.needRender,
+                ...cell,
+              }),
+            }),
           };
         });
 
       if (children) {
+        header = { ...header };
         header.children = mapChildren(children);
       }
 
