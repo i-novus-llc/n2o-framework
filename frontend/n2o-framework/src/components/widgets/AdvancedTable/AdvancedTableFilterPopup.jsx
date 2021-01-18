@@ -1,26 +1,28 @@
 import React from 'react';
 import { pure } from 'recompose';
 import PropTypes from 'prop-types';
-import InputText from '../../controls/InputText/InputText';
 import Button from 'reactstrap/lib/Button';
 import assign from 'lodash/assign';
+
+import InputText from '../../controls/InputText/InputText';
 
 /**
  * Компонент overlay для фильтра
  * @param value - значение фильтра
  * @param onChange - callback на изменение
- * @param onResetFilter - callback на сброс фильтра
- * @param onSetFilter - callback на поиск
+ * @param onSearchClick - callback на поиск
+ * @param onResetClick - callback на сброс
  * @param component - компонент контрол фильтра
  * @param controlProps
  * @returns {*}
  * @constructor
  */
+
 function AdvancedTableFilterPopup({
   value,
   onChange,
-  onResetFilter,
-  onSetFilter,
+  onSearchClick,
+  onResetClick,
   component,
   controlProps,
 }) {
@@ -45,10 +47,10 @@ function AdvancedTableFilterPopup({
         )}
       </div>
       <div className="n2o-advanced-table-filter-dropdown-buttons">
-        <Button color={'primary'} size={'sm'} onClick={onSetFilter}>
+        <Button color={'primary'} size={'sm'} onClick={onSearchClick}>
           Искать
         </Button>
-        <Button size={'sm'} onClick={onResetFilter}>
+        <Button size={'sm'} onClick={onResetClick}>
           Сбросить
         </Button>
       </div>
@@ -59,15 +61,15 @@ function AdvancedTableFilterPopup({
 AdvancedTableFilterPopup.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
-  onResetFilter: PropTypes.func,
-  onSetFilter: PropTypes.func,
+  onSearchClick: PropTypes.func,
+  onResetClick: PropTypes.func,
   controlProps: PropTypes.object,
 };
 
 AdvancedTableFilterPopup.defaultProps = {
   onChange: () => {},
-  onResetFilter: () => {},
-  onSetFilter: () => {},
+  onSearchClick: () => {},
+  onResetClick: () => {},
   controlProps: {},
 };
 

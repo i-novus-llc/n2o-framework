@@ -128,6 +128,7 @@ public class MultiColumnAT extends AutoTestBase {
         header5.clickSearchButton();
         rows.shouldHaveSize(1);
         rows.row(0).cell(0).textShouldHave("2");
+        header5.openFilterDropdown();
         header5.clickResetButton();
         rows.shouldHaveSize(4);
     }
