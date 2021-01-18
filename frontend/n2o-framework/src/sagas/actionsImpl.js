@@ -212,7 +212,7 @@ export function* handleInvoke(apiProvider, action) {
     if (
       (needResolve &&
         (optimistic || (!meta.redirect && !meta.modalsToClose))) ||
-      !isEqual(model, response.data)
+      (!isEqual(model, response.data) && isEmpty(dataProvider.formMapping))
     ) {
       yield put(
         setModel(modelPrefix, widgetId, optimistic ? model : response.data)
