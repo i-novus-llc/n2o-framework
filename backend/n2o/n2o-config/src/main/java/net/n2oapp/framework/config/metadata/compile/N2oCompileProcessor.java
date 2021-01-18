@@ -316,13 +316,9 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
     }
 
     @Override
-    public void resolveSubModels(ModelLink link, List<ModelLink> linkList) {
+    public void resolveSubModels(ModelLink link) {
         if (link.getSubModelQuery() == null) return;
-        for (ModelLink modelLink : linkList) {
-            if (link.equalsLink(modelLink)) {
-                resolveDefaultValues(modelLink, link);
-            }
-        }
+        resolveDefaultValues(link);
         executeSubModels(link);
     }
 
@@ -436,23 +432,23 @@ public class N2oCompileProcessor implements CompileProcessor, BindProcessor, Val
         }
     }
 
-    private void resolveDefaultValues(ModelLink src, ModelLink dst) {
-        if (src.getParam() != null && params.containsKey(src.getParam())) {
-            if (params.get(src.getParam()) instanceof List) {
+    private void resolveDefaultValues(ModelLink link) {
+        if (link.getParam() != null && params.containsKey(link.getParam())) {
+            if (params.get(link.getParam()) instanceof List) {
                 List<DefaultValues> values = new ArrayList<>();
-                for (Object value : (List) params.get(src.getParam())) {
+                for (Object value : (List) params.get(link.getParam())) {
                     DefaultValues defaultValues = new DefaultValues();
                     defaultValues.setValues(new HashMap<>());
-                    defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), value);
+                    defaultValues.getValues().put(link.getSubModelQuery().getValueFieldId(), value);
                     values.add(defaultValues);
                 }
                 if (!values.isEmpty())
-                    dst.setValue(values);
+                    link.setValue(values);
             } else {
                 DefaultValues defaultValues = new DefaultValues();
                 defaultValues.setValues(new HashMap<>());
-                defaultValues.getValues().put(src.getSubModelQuery().getValueFieldId(), params.get(src.getParam()));
-                dst.setValue(src.getSubModelQuery().getMulti() != null && src.getSubModelQuery().getMulti()
+                defaultValues.getValues().put(link.getSubModelQuery().getValueFieldId(), params.get(link.getParam()));
+                link.setValue(link.getSubModelQuery().getMulti() != null && link.getSubModelQuery().getMulti()
                         ? Collections.singletonList(defaultValues)
                         : defaultValues);
             }

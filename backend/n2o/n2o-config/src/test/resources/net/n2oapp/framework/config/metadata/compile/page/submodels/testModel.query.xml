@@ -12,6 +12,11 @@
                 <eq filter-id="id"/>
             </filters>
         </field>
+        <field id="testSingleOptions.id">
+            <filters>
+                <eq filter-id="testSingleOptions.id"/>
+            </filters>
+        </field>
         <field id="testSingleUrl.id">
             <filters>
                 <eq filter-id="testSingleUrl.id"/>

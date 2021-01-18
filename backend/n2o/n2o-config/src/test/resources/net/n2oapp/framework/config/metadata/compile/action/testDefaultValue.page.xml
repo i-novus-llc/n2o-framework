@@ -4,7 +4,7 @@
         <fields>
             <input-text id="surname" param="name" default-value="Petr"/>
             <date-interval id="birthDate" begin-param="start" end-param="end">
-                <default-value begin="2019-02-14T00:00:00"/>
+                <default-value begin="2019-02-16T00:00:00"/>
             </date-interval>
             <input-select id="gender" query-id="testGender" param="gender_id"/>
         </fields>
