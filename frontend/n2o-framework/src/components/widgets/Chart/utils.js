@@ -1,7 +1,7 @@
 import filter from 'lodash/filter';
 import merge from 'lodash/merge';
 
-const COLORS = [
+export const COLORS = [
   '#9E2B0E',
   '#FF6E4A',
   '#A82255',
