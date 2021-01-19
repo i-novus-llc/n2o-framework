@@ -7,9 +7,9 @@ import classNames from 'classnames';
  * Drawer
  * @reactProps {string} className - className компонента
  * @reactProps {boolean} visible - состояние Drawer
- * @reactProps {boolean} backdropClosable - закрытие Drawer по клику на backdrop
+ * @reactProps {boolean} closeOnBackdrop - закрытие Drawer по клику на backdrop
  * @reactProps {boolean} closable - отобразить/скрыть крестик
- * @reactProps {boolean} keyboard - разрешить/запретить закрытие Drawer по клавише Esc
+ * @reactProps {boolean} closeOnEscape - разрешить/запретить закрытие Drawer по клавише Esc
  * @reactProps {string} placement - позиция Drawer
  * @reactProps {function} onClose - функция закрытия по клику
  * @reactProps {function} onHandleClick - функция закрытия по клику на крестик
@@ -28,7 +28,7 @@ import classNames from 'classnames';
 function Drawer(props) {
   const {
     className,
-    backdropClosable,
+    closeOnBackdrop,
     visible,
     placement,
     onClose,
@@ -42,7 +42,7 @@ function Drawer(props) {
     footer,
     fixedFooter,
     children,
-    keyboard,
+    closeOnEscape,
     closable,
   } = props;
 
@@ -68,9 +68,9 @@ function Drawer(props) {
       onClose={onClose}
       showMask={backdrop}
       level={level}
-      maskClosable={backdropClosable}
+      maskClosable={closeOnBackdrop}
       onHandleClick={onHandleClick}
-      keyboard={keyboard}
+      keyboard={closeOnEscape}
     >
       <div
         className="n2o-drawer-content-wrapper"
@@ -102,7 +102,7 @@ Drawer.propTypes = {
   /**
    * Включение закрытия по клику на маску(backdrop)
    */
-  backdropClosable: PropTypes.bool,
+  closeOnBackdrop: PropTypes.bool,
   /**
    * Видимость модального окна
    */
@@ -110,7 +110,7 @@ Drawer.propTypes = {
   /**
    * разрешить/запретить закрытие Drawer по клавише Esc
    */
-  keyboard: PropTypes.bool,
+  closeOnEscape: PropTypes.bool,
   /**
    * Позиция компонента
    */
@@ -157,11 +157,12 @@ Drawer.propTypes = {
 
 Drawer.defaultProps = {
   animation: true,
-  backdropClosable: true,
+  closeOnBackdrop: true,
   level: false,
   fixedFooter: false,
   closable: true,
   keyboard: true,
+  closeOnEscape: true,
 };
 
 export default Drawer;

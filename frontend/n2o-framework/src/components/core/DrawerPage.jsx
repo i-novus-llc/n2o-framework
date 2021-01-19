@@ -50,12 +50,12 @@ function DrawerPage(props) {
     placement,
     backdrop,
     level,
-    backdropClosable,
+    closeOnBackdrop,
     animation,
     prompt,
     closeOverlay,
     fixedFooter,
-    keyboard,
+    closeOnEscape,
     closable,
     ...rest
   } = props;
@@ -88,10 +88,10 @@ function DrawerPage(props) {
           height={height}
           placement={placement}
           level={level}
-          backdropClosable={backdropClosable}
+          closeOnBackdrop={closeOnBackdrop}
           animation={animation}
           fixedFooter={fixedFooter}
-          keyboard={keyboard}
+          closeOnEscape={closeOnEscape}
           closable={closable}
           footer={
             !!toolbar ? (
@@ -142,7 +142,7 @@ DrawerPage.propTypes = {
   close: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   fixedFooter: PropTypes.bool,
-  keyboard: PropTypes.bool,
+  closeOnEscape: PropTypes.bool,
   closable: PropTypes.bool,
 };
 
