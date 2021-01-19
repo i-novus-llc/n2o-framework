@@ -50,7 +50,7 @@ public class MandatoryValidation extends Validation {
             else if (dataSet.get(getFieldId()) instanceof Map)
                 success = !((Map) dataSet.get(getFieldId())).isEmpty();
             else
-                success = dataSet.get(getFieldId()) != null;
+                success = true;
         }
 
         if (!Boolean.TRUE.equals(success))
