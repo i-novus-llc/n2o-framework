@@ -1,7 +1,11 @@
 import React from 'react';
 import { pure } from 'recompose';
+import { PieChart as Chart, Pie, Tooltip, Cell } from 'recharts';
+import get from 'lodash/get';
+import map from 'lodash/map';
+
+import { COLORS } from './utils';
 import { chartTypes, defaultChartProps, pieTypes } from './chartPropsTypes';
-import { PieChart as Chart, Pie } from 'recharts';
 
 /**
  * График "Пирог"
@@ -31,10 +35,26 @@ import { PieChart as Chart, Pie } from 'recharts';
  * @return {*}
  * @constructor
  */
+
 function PieChart({ width, height, margin, pie, data }) {
+  const valueFieldId = get(pie, 'dataKey');
+  const customFill = get(pie, 'fill');
+
+  const pieData = valueFieldId
+    ? map(data, elem => ({ ...elem, value: Number(elem[valueFieldId]) }))
+    : data;
+
   return (
     <Chart width={width} height={height} margin={margin}>
-      <Pie {...pie} data={data} />
+      <Pie {...pie} dataKey="value" data={pieData} fill="#8884d8">
+        {pieData.map((entry, index) => (
+          <Cell
+            key={`cell-${index}`}
+            fill={customFill || COLORS[index % COLORS.length]}
+          />
+        ))}
+      </Pie>
+      <Tooltip />
     </Chart>
   );
 }
