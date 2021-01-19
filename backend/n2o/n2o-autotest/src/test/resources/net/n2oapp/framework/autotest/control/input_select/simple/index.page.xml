@@ -9,12 +9,12 @@
                 </options>
             </input-select>
 
-            <input-select id="select1" label="InputSelect1" enabled-field-id="isDisabled">
+            <input-select id="select1" label="InputSelect1" enabled-field-id="enabled">
                 <options>
                     <option id="one" name="One"/>
                     <option id="two" name="Two"/>
-                    <option id="three" name="Three" isDisabled="false"/>
-                    <option id="four" name="Four" isDisabled="true"/>
+                    <option id="three" name="Three" enabled="false"/>
+                    <option id="four" name="Four" enabled="true"/>
                 </options>
             </input-select>
 
