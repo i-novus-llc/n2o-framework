@@ -70,7 +70,7 @@ public class OpenDrawerCompiler extends AbstractOpenPageCompiler<OpenDrawer, N2o
         payload.setPlacement(p.cast(source.getPlacement(),
                 p.resolve(property("n2o.api.action.open_drawer.placement"), String.class)));
         payload.setLevel(source.getLevel());
-        payload.setBackdropClosable(p.cast(source.getBackdropClosable(), true));
+        payload.setCloseOnBackdrop(p.cast(source.getCloseOnBackdrop(), true));
         payload.setClosable(p.cast(source.getClosable(), true));
         payload.setPrompt(pageContext.getUnsavedDataPromptOnClose());
         payload.setFixedFooter(p.cast(source.getFixedFooter(), p.resolve(property("n2o.api.action.open_drawer.fixed_footer"), Boolean.class)));

@@ -19,7 +19,7 @@ public class OpenDrawerElementIOV1 extends AbstractOpenPageElementIOV1<N2oOpenDr
         p.attribute(e,"refresh-widget-id", od::getRefreshWidgetId, od::setRefreshWidgetId);
         p.attributeBoolean(e, "closable", od::getClosable, od::setClosable);
         p.attributeBoolean(e, "backdrop", od::getBackdrop, od::setBackdrop);
-        p.attributeBoolean(e, "backdrop-closable", od::getBackdropClosable, od::setBackdropClosable);
+        p.attributeBoolean(e, "close-on-backdrop", od::getCloseOnBackdrop, od::setCloseOnBackdrop);
         p.attribute(e,"width", od::getWidth, od::setWidth);
         p.attribute(e,"height", od::getHeight, od::setHeight);
         p.attribute(e,"placement", od::getPlacement, od::setPlacement);
