@@ -62,8 +62,8 @@ public class InputSelectAT extends AutoTestBase {
                 .control(InputSelect.class);
         input.itemShouldBeEnabled(true, "One");
         input.itemShouldBeEnabled(true, "Two");
-        input.itemShouldBeEnabled(true, "Three");
-        input.itemShouldBeEnabled(false, "Four");
+        input.itemShouldBeEnabled(false, "Three");
+        input.itemShouldBeEnabled(true, "Four");
     }
 
     @Test
@@ -139,8 +139,8 @@ public class InputSelectAT extends AutoTestBase {
                 .control(InputSelect.class);
         input.itemShouldBeEnabled(true, "One");
         input.itemShouldBeEnabled(true, "Two");
-        input.itemShouldBeEnabled(true, "Three");
-        input.itemShouldBeEnabled(false, "Four");
+        input.itemShouldBeEnabled(false, "Three");
+        input.itemShouldBeEnabled(true, "Four");
     }
 
     @Test

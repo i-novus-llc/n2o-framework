@@ -98,7 +98,7 @@ function PopupItems({
 
   const renderSingleItem = (item, index) => {
     const disabled = !isNil(item[enabledFieldId])
-      ? item[enabledFieldId]
+      ? !item[enabledFieldId]
       : !hasCheckboxes &&
         isDisabled(
           autocomplete ? item[valueFieldId] : item,
