@@ -273,7 +273,8 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                             N2oField.VisibilityDependency.class
                     )
             );
-            mandatory.setEnablingExpression(ScriptProcessor.and(collectConditions(source, N2oField.RequiringDependency.class)));
+            mandatory.setEnablingExpression(ScriptProcessor.resolveFunction(
+                    ScriptProcessor.and(collectConditions(source, N2oField.RequiringDependency.class))));
             if (mandatory.getEnablingConditions() != null && !mandatory.getEnablingConditions().isEmpty()) {
                 serverValidations.add(mandatory);
                 clientValidations.add(mandatory);
