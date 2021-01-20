@@ -45,7 +45,9 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         super.configure(builder);
         builder.packs(new N2oAllPagesPack(), new N2oAllDataPack());
         builder.sources(new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoute.query.xml"),
-                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoutePage.page.xml"));
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageRoutePage.page.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageTwoPathParam.query.xml"),
+                new CompileInfo("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageTwoPathParamModal.page.xml"));
     }
 
     /**
@@ -361,4 +363,24 @@ public class OpenPageRouteCompileTest extends SourceCompileTestBase {
         assertThat(action.getPathMapping().get("param7").getSubModelQuery().getQueryId(), is("utBlank2"));
         assertThat(action.getQueryMapping().get("param8").getSubModelQuery().getQueryId(), is("utBlank2"));
     }
+
+    /**
+     * Тест открытия страницы с двумя path параметрами.
+     */
+    @Test
+    public void twoPathParam() {
+        StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/action/route/testOpenPageTwoPathParam.page.xml")
+                .get(new PageContext("testOpenPageTwoPathParam", "/test"));
+
+        LinkActionImpl action = (LinkActionImpl) ((Widget) page.getRegions().get("single").get(0).getContent().get(0))
+                .getToolbar().get("topLeft").get(0).getButtons().get(0).getAction();
+        assertThat(action.getUrl(), is("/test/main/:rec_id/:rec_name/open"));
+        assertThat(action.getPathMapping().get("rec_id"), notNullValue());
+        assertThat(action.getPathMapping().get("rec_name"), notNullValue());
+        assertThat(action.getQueryMapping().isEmpty(), is(true));
+        Page newPage = routeAndGet("/test/main/1/test/open", Page.class);
+        assertThat(newPage.getRoutes().getQueryMapping().size(), is(0));
+        assertThat(newPage.getModels().size(), is(2));
+    }
+
 }

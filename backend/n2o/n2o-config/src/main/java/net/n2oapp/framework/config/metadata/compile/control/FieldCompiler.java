@@ -419,7 +419,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         UploadScope uploadScope = p.getScope(UploadScope.class);
         WidgetParamScope paramScope = p.getScope(WidgetParamScope.class);
         if (paramScope != null) {
-            compileParams(control, source, paramScope, uploadScope, p);
+            compileParams(control, source, paramScope, p);
         }
 
         if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()) &&
@@ -485,7 +485,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      * @param p      Процессор сборки
      * @return Значение по умолчанию поля
      */
-    protected void compileParams(D control, S source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
+    protected void compileParams(D control, S source, WidgetParamScope paramScope, CompileProcessor p) {
         if (source.getParam() != null) {
             ModelsScope modelsScope = p.getScope(ModelsScope.class);
             if (modelsScope != null) {

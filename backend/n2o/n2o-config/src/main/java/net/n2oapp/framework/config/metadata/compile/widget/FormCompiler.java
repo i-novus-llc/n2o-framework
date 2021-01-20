@@ -79,7 +79,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         ValidationScope validationScope = new ValidationScope(form.getId(), ReduxModel.RESOLVE, validationList);
         compileValidation(form, source, validationScope);
         compileDataProviderAndRoutes(form, source, context, p, validationList, widgetRoute, subModelsScope, copiedFieldScope, object);
-        addParamRoutes(paramScope, p);
+        addParamRoutes(paramScope, context, p);
         compileToolbarAndAction(form, source, context, p, widgetScope, widgetRoute, widgetActions, object, validationList);
         form.getComponent().setModelPrefix(FormMode.TWO_MODELS.equals(source.getMode()) ? "edit" : "resolve");
         form.setFormDataProvider(initDataProvider(source, object, context, p));
@@ -133,12 +133,16 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
         form.getComponent().setValidation(clientValidations);
     }
 
-    private void addParamRoutes(WidgetParamScope paramScope, CompileProcessor p) {
+    private void addParamRoutes(WidgetParamScope paramScope, CompileContext<?, ?> context, CompileProcessor p) {
         if (paramScope != null && !paramScope.getQueryMapping().isEmpty()) {
             PageRoutes routes = p.getScope(PageRoutes.class);
             if (routes == null)
                 return;
-            paramScope.getQueryMapping().forEach((k, v) -> routes.addQueryMapping(k, v.getOnGet(), v.getOnSet()));
+            paramScope.getQueryMapping().forEach((k, v) -> {
+                if (context.getPathRouteMapping() == null || !context.getPathRouteMapping().containsKey(k)){
+                    routes.addQueryMapping(k, v.getOnGet(), v.getOnSet());
+                }
+            });
         }
     }
 
