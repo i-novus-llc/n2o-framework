@@ -389,6 +389,7 @@ public class ValidationProcessorTest {
         dataSet.put("id", null);
         dataSet.put("oneMoreId", "");
         dataSet.put("name", "notNullName");
+        dataSet.put("number", 1);
 
         StandardField f = new StandardField();
         f.setControl(new InputText());
@@ -408,9 +409,15 @@ public class ValidationProcessorTest {
         Validation mandatory3 = mandatoryValidation("name", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
         ((MandatoryValidation) mandatory3).setField(f3);
 
+        StandardField f4 = new StandardField();
+        f4.setControl(new InputText());
+        f4.getControl().setId("number");
+        Validation mandatory4 = mandatoryValidation("number", SeverityType.warning, N2oValidation.ServerMoment.beforeOperation);
+        ((MandatoryValidation) mandatory4).setField(f4);
+
         CompiledObject.Operation operation = new CompiledObject.Operation(null, null);
 
-        operation.setValidationList(Arrays.asList(mandatory1, mandatory2, mandatory3));
+        operation.setValidationList(Arrays.asList(mandatory1, mandatory2, mandatory3, mandatory4));
         ObjectValidationInfo info = new ObjectValidationInfo(null, operation.getValidationList(), dataSet, null, null);
 
         List<FailInfo> fails = processor.validate(info, beforeOperation);
