@@ -139,7 +139,7 @@ public class FormCompiler extends BaseWidgetCompiler<Form, N2oForm> {
             if (routes == null)
                 return;
             paramScope.getQueryMapping().forEach((k, v) -> {
-                if (context.getPathRouteMapping() == null || !context.getPathRouteMapping().containsKey(k)){
+                if (context.getPathRouteMapping() == null || !context.getPathRouteMapping().containsKey(k)) {
                     routes.addQueryMapping(k, v.getOnGet(), v.getOnSet());
                 }
             });
