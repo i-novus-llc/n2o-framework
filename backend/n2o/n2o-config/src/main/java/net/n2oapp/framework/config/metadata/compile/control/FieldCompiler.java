@@ -214,7 +214,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
             filters.forEach(f -> {
                 Filter filter = new Filter();
                 filter.setFilterId(f.getFilterField());
-                filter.setParam(widgetScope.getWidgetId() + "_" + f.getParam());
+                filter.setParam(p.cast(source.getParam(), widgetScope.getWidgetId() + "_" + f.getParam()));
                 filter.setRoutable(true);
                 SubModelQuery subModelQuery = findSubModelQuery(source.getId(), p);
                 ModelLink link = new ModelLink(ReduxModel.FILTER, widgetScope.getClientWidgetId());
@@ -419,7 +419,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         UploadScope uploadScope = p.getScope(UploadScope.class);
         WidgetParamScope paramScope = p.getScope(WidgetParamScope.class);
         if (paramScope != null) {
-            compileParams(control, source, paramScope, uploadScope, p);
+            compileParams(control, source, paramScope, p);
         }
 
         if (uploadScope != null && !UploadType.defaults.equals(uploadScope.getUpload()) &&
@@ -485,7 +485,7 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
      * @param p      Процессор сборки
      * @return Значение по умолчанию поля
      */
-    protected void compileParams(D control, S source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
+    protected void compileParams(D control, S source, WidgetParamScope paramScope, CompileProcessor p) {
         if (source.getParam() != null) {
             ModelsScope modelsScope = p.getScope(ModelsScope.class);
             if (modelsScope != null) {

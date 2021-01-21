@@ -23,11 +23,6 @@ public abstract class PageBinder<D extends Page> implements BaseMetadataBinder<D
         if (widgets != null)
             widgets.forEach(p::bind);
 
-        if (page.getModels() != null) {
-            page.getModels().values().removeIf(modelLink -> modelLink.getParam() != null &&
-                    p.canResolveParam(modelLink.getParam()));
-        }
-
         if (page.getRoutes() != null) {
             Map<String, BindLink> pathMappings = new HashMap<>();
             page.getRoutes().getPathMapping().forEach((k, v) -> pathMappings.put(k, Redux.createBindLink(v)));

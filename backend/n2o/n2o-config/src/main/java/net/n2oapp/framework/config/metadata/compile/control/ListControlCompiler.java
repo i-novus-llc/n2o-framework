@@ -24,7 +24,6 @@ import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProvi
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import net.n2oapp.framework.config.metadata.compile.widget.SubModelsScope;
-import net.n2oapp.framework.config.metadata.compile.widget.UploadScope;
 
 import java.util.*;
 
@@ -75,7 +74,7 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
     }
 
     @Override
-    protected void compileParams(StandardField<T> control, S source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
+    protected void compileParams(StandardField<T> control, S source, WidgetParamScope paramScope, CompileProcessor p) {
         if (source.getParam() != null) {
             String id = control.getId() + ".id";
             ModelsScope modelsScope = p.getScope(ModelsScope.class);
