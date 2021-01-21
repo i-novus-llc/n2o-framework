@@ -18,8 +18,6 @@ import java.util.Map;
 @Setter
 public class TableWidgetComponent extends WidgetComponent {
     @JsonProperty
-    private String className;
-    @JsonProperty
     private Integer size;
     @JsonProperty
     private String rowClass;
