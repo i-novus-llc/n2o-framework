@@ -85,7 +85,7 @@ public class OpenDrawerAT extends AutoTestBase {
         fields.field("id").control(InputText.class).shouldHaveValue("33");
         drawerPage.scrollDown();
         fields.field("name").control(InputText.class).shouldHaveValue("test300");
-        drawerPage.close();
+        drawerPage.closeByEsc();
         drawerPage.shouldNotExists();
 
         rows.row(3).cell(0, TextCell.class).element().click();
@@ -96,6 +96,8 @@ public class OpenDrawerAT extends AutoTestBase {
         pg.shouldExists();
         fields.field("id").control(InputText.class).shouldHaveValue("44");
         fields.field("name").control(InputText.class).shouldHaveValue("test400");
+        drawerPage.closeByEsc();
+        drawerPage.shouldExists();
         drawerPage.close();
         drawerPage.shouldNotExists();
 
@@ -107,6 +109,5 @@ public class OpenDrawerAT extends AutoTestBase {
         pg.shouldExists();
         fields.field("id").control(InputText.class).shouldHaveValue("11");
         fields.field("name").control(InputText.class).shouldHaveValue("test100");
-
     }
 }

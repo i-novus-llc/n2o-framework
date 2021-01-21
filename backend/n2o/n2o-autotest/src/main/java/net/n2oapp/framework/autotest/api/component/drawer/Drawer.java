@@ -23,6 +23,8 @@ public interface Drawer extends Component {
 
     void close();
 
+    void closeByEsc();
+
     void footerShouldBeFixed();
 
     void footerShouldNotBeFixed();

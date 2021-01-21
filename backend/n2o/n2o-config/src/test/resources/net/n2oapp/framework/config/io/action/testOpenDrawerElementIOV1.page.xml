@@ -8,10 +8,10 @@
                          upload="query" submit-model="resolve"
                          closable="false" backdrop="false" width="10pt"
                          height="20pt" placement="left"
-                         level="all" backdrop-closable="true"
+                         level="all" close-on-backdrop="true"
                          copy-model="edit" copy-widget-id="table" copy-field-id="test"
                          submit-action-type="copy" target-model="resolve" target-widget-id="table"
-                         target-field-id="test" copy-mode="replace">
+                         target-field-id="test" copy-mode="replace" close-on-escape="false">
             </open-drawer>
         </action>
     </actions>

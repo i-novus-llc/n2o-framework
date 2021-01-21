@@ -49,9 +49,11 @@ public class OpenDrawerPayload implements ActionPayload {
     @JsonProperty
     private String level;
     @JsonProperty
-    private Boolean backdropClosable;
+    private Boolean closeOnBackdrop;
     @JsonProperty
     private Boolean prompt;
     @JsonProperty
     private Boolean fixedFooter;
+    @JsonProperty
+    private Boolean closeOnEscape;
 }

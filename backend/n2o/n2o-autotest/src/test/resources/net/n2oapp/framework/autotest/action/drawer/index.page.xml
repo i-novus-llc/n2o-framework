@@ -18,7 +18,7 @@
                 </open-drawer>
             </button>
             <button label="openRight">
-                <open-drawer page-id="drawer" placement="right" backdrop="false" route="/:id/drawer">
+                <open-drawer page-id="drawer" placement="right" backdrop="false" route="/:id/drawer" close-on-escape="false">
                     <path-param name="id" value="{id}"/>
                 </open-drawer>
             </button>

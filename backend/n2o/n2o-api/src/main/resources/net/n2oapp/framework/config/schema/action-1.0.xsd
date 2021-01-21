@@ -382,7 +382,7 @@
                         <xs:documentation>Сдвиг элемента или группы элементов при открытии</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="backdrop-closable" type="xs:boolean">
+                <xs:attribute name="close-on-backdrop" type="xs:boolean">
                     <xs:annotation>
                         <xs:documentation>Включение закрытия по клику на маску(backdrop)</xs:documentation>
                     </xs:annotation>
@@ -442,6 +442,11 @@
                 <xs:attribute name="copy-mode" type="copyModeType" default="merge">
                     <xs:annotation>
                         <xs:documentation>Тип слияния.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="close-on-escape" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Закрывать окно при нажатии на Esc.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
             </xs:extension>

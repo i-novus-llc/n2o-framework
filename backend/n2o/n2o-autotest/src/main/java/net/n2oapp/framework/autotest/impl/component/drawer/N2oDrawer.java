@@ -51,6 +51,11 @@ public class N2oDrawer extends N2oComponent implements Drawer {
         element().$(".drawer-handle").click();
     }
 
+    @Override
+    public void closeByEsc() {
+        element().pressEscape();
+    }
+
     static class StyleAttribute extends Condition {
         private final String attributeName;
         private final String expectedAttributeValue;

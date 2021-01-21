@@ -76,6 +76,7 @@ public class OpenDrawerCompileTest extends SourceCompileTestBase {
         assertThat(payload.getMode(), is("drawer"));
         assertThat(payload.getPrompt(), is(true));
         assertThat(payload.getFixedFooter(), is(false));
+        assertThat(payload.getCloseOnEscape(), is(true));
 
         PageContext drawerContext = (PageContext) route("/p/create", Page.class);
         assertThat(drawerContext.getSourceId(null), is("testShowModalPage"));
