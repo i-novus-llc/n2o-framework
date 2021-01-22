@@ -27,13 +27,12 @@ export default function withAutoSave(WrappedComponent) {
 
         return eventOrValue;
       },
-      prepareData: ({ autoSubmit, input, store }) => (form, value) => {
+      prepareData: ({ autoSubmit, store }) => (form, value) => {
         if (autoSubmit) {
           const model = getFormValues(form)(store.getState());
 
           return {
             ...model,
-            [input.name]: value,
           };
         }
 
