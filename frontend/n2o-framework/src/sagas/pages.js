@@ -193,8 +193,8 @@ export function* getMetadata(apiProvider, action) {
       yield put(destroyOverlay());
     }
     yield fork(watcherDefaultModels, metadata.models);
-    yield put(metadataSuccess(metadata.id, metadata));
     yield put(setStatus(metadata.id, 200));
+    yield put(metadataSuccess(metadata.id, metadata));
   } catch (err) {
     if (err && err.status) {
       yield put(setStatus(pageId, err.status));
