@@ -128,15 +128,16 @@ export function* fetchInvoke(dataProvider, model, apiProvider, action) {
       if (needResolve) {
         return { ...model, ids };
       }
+
       return map(values(multiModel), modelElement => {
         return { ...modelElement, ...formParams };
       });
     } else {
-      const { ids } = model;
+      const ids = get(model, 'ids');
       const requestIds = Array.isArray(ids) ? ids : [ids];
 
       return ids
-        ? assign({}, model, formParams, { ids: requestIds })
+        ? assign({}, model, { ids: requestIds }, formParams)
         : assign({}, model, formParams);
     }
   };
