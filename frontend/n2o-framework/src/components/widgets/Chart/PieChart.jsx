@@ -46,7 +46,14 @@ function PieChart({ width, height, margin, pie, data }) {
 
   return (
     <Chart width={width} height={height} margin={margin}>
-      <Pie {...pie} dataKey="value" data={pieData} fill="#8884d8">
+      <Pie
+        {...pie}
+        dataKey="value"
+        nameKey="name"
+        data={pieData}
+        fill="#8884d8"
+        label={pieMeta => pieMeta.name}
+      >
         {pieData.map((entry, index) => (
           <Cell
             key={`cell-${index}`}
