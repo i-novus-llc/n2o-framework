@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import AceEditor from 'react-ace';
 import cx from 'classnames';
@@ -26,22 +26,19 @@ import 'brace/ext/language_tools';
  *
  */
 
-class CodeEditor extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: props.value,
-    };
-  }
+class CodeEditor extends Component {
+  state = {
+    value: this.props.value,
+  };
 
   onChange = value => {
     this.setState({ value });
     this.props.onChange(value);
   };
 
-  componentWillReceiveProps(props) {
-    if (props.value && props.value !== this.state.value) {
-      this.setState({ value: props.value });
+  componentDidUpdate(prevProps) {
+    if (this.props.value !== this.state.value) {
+      this.setState({ value: this.props.value });
     }
   }
 
@@ -59,33 +56,36 @@ class CodeEditor extends React.Component {
       autocomplete,
       className,
     } = this.props;
+
+    if (!visible) {
+      return null;
+    }
+
     return (
-      visible && (
-        <div
-          className={cx('n2o-code-editor', className)}
-          style={{ display: 'flex', border: '1px solid #d1d1d1' }}
-        >
-          <AceEditor
-            mode={lang}
-            theme="tomorrow"
-            name={name}
-            onChange={this.onChange}
-            fontSize={14}
-            showPrintMargin={true}
-            showGutter={true}
-            readOnly={disabled}
-            minLines={minLines}
-            maxLines={maxLines}
-            highlightActiveLine={true}
-            value={this.state.value}
-            enableBasicAutocompletion={autocomplete}
-            setOptions={{
-              showLineNumbers: true,
-              tabSize: 2,
-            }}
-          />
-        </div>
-      )
+      <div
+        className={cx('n2o-code-editor', className)}
+        style={{ display: 'flex', border: '1px solid #d1d1d1' }}
+      >
+        <AceEditor
+          mode={lang}
+          theme="tomorrow"
+          name={name}
+          onChange={this.onChange}
+          fontSize={14}
+          showPrintMargin={true}
+          showGutter={true}
+          readOnly={disabled}
+          minLines={minLines}
+          maxLines={maxLines}
+          highlightActiveLine={true}
+          value={this.state.value}
+          enableBasicAutocompletion={autocomplete}
+          setOptions={{
+            showLineNumbers: true,
+            tabSize: 2,
+          }}
+        />
+      </div>
     );
   }
 }
