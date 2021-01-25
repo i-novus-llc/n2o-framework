@@ -379,18 +379,18 @@ describe('Сага для для наблюдения за изменением 
         rootPageId: 'testPage',
       });
       expect(dispatched[3].type).toBe(DESTROY);
-      expect(dispatched[4].type).toBe(METADATA_SUCCESS);
+      expect(dispatched[4].type).toBe(SET_STATUS);
       expect(dispatched[4].payload).toEqual({
+        pageId: 'testPage',
+        status: 200,
+      });
+      expect(dispatched[5].type).toBe(METADATA_SUCCESS);
+      expect(dispatched[5].payload).toEqual({
         pageId: 'testPage',
         json: {
           id: 'testPage',
           widgets: {},
         },
-      });
-      expect(dispatched[5].type).toBe(SET_STATUS);
-      expect(dispatched[5].payload).toEqual({
-        pageId: 'testPage',
-        status: 200,
       });
     });
 
@@ -439,10 +439,7 @@ describe('Сага для для наблюдения за изменением 
       });
       expect(dispatched[2].payload).toEqual({
         pageId: 'test',
-        json: {
-          id: 'test',
-          regions: {},
-        },
+        status: 200,
       });
     });
 
