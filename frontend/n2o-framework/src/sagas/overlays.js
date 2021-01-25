@@ -63,7 +63,8 @@ export const overlaysSagas = [
       action.meta &&
       action.payload &&
       !action.payload.prompt &&
-      action.meta.modalsToClose,
+      action.meta.modalsToClose &&
+      action.type !== CLOSE,
     closeOverlays
   ),
 ];
