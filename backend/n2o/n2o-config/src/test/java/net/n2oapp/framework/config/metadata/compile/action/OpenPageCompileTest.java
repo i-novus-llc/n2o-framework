@@ -425,13 +425,15 @@ public class OpenPageCompileTest extends SourceCompileTestBase {
         data.put("end", "2022-03-20T00:00:00");
         data.put("name", "testName");
         data.put("surname", "Ivanov");
+        data.put("gender_id", 1);
         openPage = (SimplePage) read().compile().bind().get(context, data);
-        assertThat(openPage.getModels().size(), is(4));
+        assertThat(openPage.getModels().size(), is(5));
         assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].surname").getValue(), is("testName"));
         assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate.begin").getValue(), is("2022-02-14T00:00:00"));
         assertThat(openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate.end").getValue(), is("2022-03-20T00:00:00"));
         assertThat(((DefaultValues) openPage.getModels().get("resolve['page_widget_defaultValue_main'].birthDate")
                 .getValue()).getValues().get("begin"), is("2019-02-16T00:00:00"));
+        assertThat(((DefaultValues)openPage.getModels().get("resolve['page_widget_defaultValue_main'].gender").getValue()).getValues().get("id"), is(1));
 
         context = (PageContext) route("/page/widget/defaultValueQuery", Page.class);
         openPage = (SimplePage) read().compile().get(context);

@@ -116,7 +116,7 @@ public class ClientDataProviderUtil {
 
     private static ModelLink getModelLinkByParam(CompileContext<?, ?> context, N2oParam param) {
         ModelLink link = null;
-        if (context.getPathRouteMapping() != null && context.getPathRouteMapping().containsKey(param.getValueParam())){
+        if (context.getPathRouteMapping() != null && context.getPathRouteMapping().containsKey(param.getValueParam())) {
             link = context.getPathRouteMapping().get(param.getValueParam());
             link.setParam(param.getValueParam());
         } else if (context.getQueryRouteMapping() != null && context.getQueryRouteMapping().containsKey(param.getValueParam())) {
