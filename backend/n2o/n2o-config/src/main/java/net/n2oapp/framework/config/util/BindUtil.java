@@ -21,7 +21,11 @@ public class BindUtil {
         Map<String, ModelLink> pathMapping = dataProvider.getPathMapping();
         Map<String, ModelLink> queryMapping = dataProvider.getQueryMapping();
         dataProvider.setUrl(p.resolveUrl(dataProvider.getUrl(), pathMapping, queryMapping));
-        pathMapping.forEach((k, v) -> pathMapping.put(k, (ModelLink) p.resolveLink(v)));
-        queryMapping.forEach((k, v) -> queryMapping.put(k, (ModelLink) p.resolveLink(v)));
+        if (pathMapping != null) {
+            pathMapping.forEach((k, v) -> pathMapping.put(k, (ModelLink) p.resolveLink(v)));
+        }
+        if (queryMapping != null) {
+            queryMapping.forEach((k, v) -> queryMapping.put(k, (ModelLink) p.resolveLink(v)));
+        }
     }
 }

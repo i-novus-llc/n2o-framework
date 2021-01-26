@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<simple-page xmlns="http://n2oapp.net/framework/config/schema/page-3.0">
+    <form query-id="test">
+        <fields>
+            <input-select id="gender" label="Gender" query-id="gender" param="gender_id">
+                <pre-filters>
+                    <eq field-id="id" param="gender_id"/>
+                </pre-filters>
+            </input-select>
+            <input-select id="const_gender" label="Gender with const" query-id="gender" param="const_gender_id">
+                <pre-filters>
+                    <eq field-id="id" param="const_gender_id"/>
+                </pre-filters>
+            </input-select>
+        </fields>
+    </form>
+</simple-page>
+

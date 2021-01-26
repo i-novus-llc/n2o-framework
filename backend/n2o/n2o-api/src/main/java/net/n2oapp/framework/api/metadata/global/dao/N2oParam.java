@@ -23,6 +23,12 @@ public class N2oParam implements Serializable {
      * Значение параметра
      */
     private String value;
+
+    /**
+     * Параметр url для получения значения
+     */
+    private String valueParam;
+
     /**
      * Список значений параметра
      */

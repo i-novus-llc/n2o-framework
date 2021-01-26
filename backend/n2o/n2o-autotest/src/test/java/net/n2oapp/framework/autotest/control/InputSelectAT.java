@@ -1,9 +1,11 @@
 package net.n2oapp.framework.autotest.control;
 
 import net.n2oapp.framework.autotest.Colors;
+import net.n2oapp.framework.autotest.api.component.button.StandardButton;
 import net.n2oapp.framework.autotest.api.component.control.InputSelect;
 import net.n2oapp.framework.autotest.api.component.page.SimplePage;
 import net.n2oapp.framework.autotest.api.component.widget.FormWidget;
+import net.n2oapp.framework.autotest.api.component.widget.table.TableWidget;
 import net.n2oapp.framework.autotest.run.AutoTestBase;
 import net.n2oapp.framework.config.N2oApplicationBuilder;
 import net.n2oapp.framework.config.metadata.pack.*;
@@ -11,6 +13,9 @@ import net.n2oapp.framework.config.selective.CompileInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static net.n2oapp.framework.autotest.N2oSelenide.page;
+
 /**
  * Автотест компонента ввода текста с выбором из выпадающего списка
  */
@@ -33,8 +38,8 @@ public class InputSelectAT extends AutoTestBase {
     @Override
     protected void configure(N2oApplicationBuilder builder) {
         super.configure(builder);
-        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(),
-                new N2oFieldSetsPack(), new N2oControlsPack(), new N2oAllDataPack());
+        builder.packs(new N2oPagesPack(), new N2oHeaderPack(), new N2oWidgetsPack(), new N2oActionsPack(),
+                new N2oFieldSetsPack(), new N2oControlsPack(), new N2oAllDataPack(), new N2oCellsPack());
     }
 
     @Test
@@ -181,4 +186,61 @@ public class InputSelectAT extends AutoTestBase {
         input2.clear();
         input2.shouldBeEmpty();
     }
+
+    @Test
+    public void testPrefilterByQueryParam() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_query_param/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/modalForm.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/gender.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        TableWidget tableWidget = page.widget(TableWidget.class);
+        tableWidget.shouldExists();
+        StandardButton open = tableWidget.toolbar().topLeft().button("Open");
+        open.shouldExists();
+        open.click();
+
+        SimplePage new_page = page(SimplePage.class);
+        new_page.shouldExists();
+        FormWidget formWidget = page.widget(FormWidget.class);
+        formWidget.shouldExists();
+        InputSelect gender = formWidget.fields().field("Gender").control(InputSelect.class);
+        InputSelect gender_with_const = formWidget.fields().field("Gender with const").control(InputSelect.class);
+        gender.shouldExists();
+        gender.shouldSelected("Мужской");
+        gender.shouldHaveOptions("Мужской");
+        gender_with_const.shouldExists();
+        gender_with_const.shouldSelected("Женский");
+        gender_with_const.shouldHaveOptions("Женский");
+    }
+
+    @Test
+    public void testPrefilterByPathParam() {
+        builder.sources(new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/by_path_param/index.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/modalForm.page.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/test.query.xml"),
+                new CompileInfo("net/n2oapp/framework/autotest/control/input_select/prefilter/gender.query.xml"));
+        SimplePage page = open(SimplePage.class);
+        page.shouldExists();
+        TableWidget tableWidget = page.widget(TableWidget.class);
+        tableWidget.shouldExists();
+        StandardButton open = tableWidget.toolbar().topLeft().button("Open");
+        open.shouldExists();
+        open.click();
+
+        SimplePage new_page = page(SimplePage.class);
+        new_page.shouldExists();
+        FormWidget formWidget = page.widget(FormWidget.class);
+        formWidget.shouldExists();
+        InputSelect gender = formWidget.fields().field("Gender").control(InputSelect.class);
+        InputSelect gender_with_const = formWidget.fields().field("Gender with const").control(InputSelect.class);
+        gender.shouldExists();
+        gender.shouldSelected("Мужской");
+        gender.shouldHaveOptions("Мужской");
+        gender_with_const.shouldExists();
+        gender_with_const.shouldSelected("Женский");
+        gender_with_const.shouldHaveOptions("Женский");
+    }
+
 }

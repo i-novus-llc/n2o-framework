@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
+import net.n2oapp.framework.api.metadata.meta.ModelLink;
 import net.n2oapp.framework.api.metadata.meta.Models;
 import net.n2oapp.framework.api.metadata.meta.control.*;
 import net.n2oapp.framework.api.metadata.meta.page.StandardPage;
@@ -16,7 +17,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -40,8 +43,12 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
 
     @Test
     public void testInputSelectDataProvider() {
+        PageContext pageContext = new PageContext("testInputSelect");
+        Map<String, ModelLink> queryRouteMapping = new HashMap<>();
+        queryRouteMapping.put("test", new ModelLink(1));
+        pageContext.setQueryRouteMapping(queryRouteMapping);
         StandardPage page = (StandardPage) compile("net/n2oapp/framework/config/metadata/compile/field/testInputSelect.page.xml")
-                .get(new PageContext("testInputSelect"));
+                .get(pageContext);
         Form form = (Form) page.getRegions().get("left").get(0).getContent().get(0);
 
         Models models = page.getModels();
@@ -72,8 +79,7 @@ public class InputSelectCompileTest extends SourceCompileTestBase {
 
         assertThat(cdp.getUrl(), is("n2o/data/test"));
         assertThat(cdp.getQuickSearchParam(), is("search"));
-        assertThat(cdp.getQueryMapping().get("noRef").getBindLink(), is("models.resolve['testInputSelect_main']"));
-        assertThat(cdp.getQueryMapping().get("noRef").getValue(), is("`someField`"));
+        assertThat(cdp.getQueryMapping().get("noRef").getValue(), is(1));
         assertThat(cdp.getQueryMapping().get("countries").getValue(), is(Arrays.asList(1, 2, 3)));
 
         field = ((StandardField) form.getComponent().getFieldsets().get(0).getRows()

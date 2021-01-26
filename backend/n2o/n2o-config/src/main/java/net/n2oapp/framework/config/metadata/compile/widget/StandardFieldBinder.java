@@ -27,6 +27,9 @@ public class StandardFieldBinder implements BaseMetadataBinder<StandardField<?>>
                     grp.getButtons().forEach(p::bind);
             }
         }
+        if (compiled.getControl() != null) {
+            p.bind(compiled.getControl());
+        }
         return compiled;
     }
 }

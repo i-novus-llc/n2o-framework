@@ -185,9 +185,13 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
                 N2oParam queryParam = new N2oParam();
                 queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterField()));
-                queryParam.setValueList(getPrefilterValue(preFilter));
-                queryParam.setRefModel(preFilter.getRefModel());
-                queryParam.setRefWidgetId(preFilter.getRefWidgetId());
+                if (preFilter.getParam() == null) {
+                    queryParam.setValueList(getPrefilterValue(preFilter));
+                    queryParam.setRefModel(preFilter.getRefModel());
+                    queryParam.setRefWidgetId(preFilter.getRefWidgetId());
+                } else {
+                    queryParam.setValueParam(preFilter.getParam());
+                }
                 queryParams[i] = queryParam;
             }
             dataProvider.setQueryParams(queryParams);

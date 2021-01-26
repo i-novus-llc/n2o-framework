@@ -35,6 +35,10 @@ import static net.n2oapp.framework.config.register.route.RouteUtil.normalize;
  */
 public class ClientDataProviderUtil {
 
+    private ClientDataProviderUtil() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static ClientDataProvider compile(N2oClientDataProvider compiled, CompileContext<?, ?> context, CompileProcessor p) {
         ClientDataProvider dataProvider = new ClientDataProvider();
         String path = null;
@@ -45,9 +49,9 @@ public class ClientDataProviderUtil {
                 RequestMethod.PUT == compiled.getMethod() ||
                 RequestMethod.DELETE == compiled.getMethod()) {
             Map<String, ModelLink> pathMapping = new StrictMap<>();
-            pathMapping.putAll(compileParams(compiled.getPathParams(), p, targetModel, targetWidget));
-            dataProvider.setFormMapping(compileParams(compiled.getFormParams(), p, targetModel, targetWidget));
-            dataProvider.setHeadersMapping(compileParams(compiled.getHeaderParams(), p, targetModel, targetWidget));
+            pathMapping.putAll(compileParams(compiled.getPathParams(), context, p, targetModel, targetWidget));
+            dataProvider.setFormMapping(compileParams(compiled.getFormParams(), context, p, targetModel, targetWidget));
+            dataProvider.setHeadersMapping(compileParams(compiled.getHeaderParams(), context, p, targetModel, targetWidget));
             ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
             path = p.cast(routeScope != null ? routeScope.getUrl() : null, context.getRoute((N2oCompileProcessor) p), "");
             if (context.getPathRouteMapping() != null)
@@ -62,41 +66,67 @@ public class ClientDataProviderUtil {
         }
 
         dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + p.cast(path, compiled.getUrl()));
-        dataProvider.setQueryMapping(compileParams(compiled.getQueryParams(), p, targetModel, targetWidget));
+        dataProvider.setQueryMapping(compileParams(compiled.getQueryParams(), context, p, targetModel, targetWidget));
         dataProvider.setQuickSearchParam(compiled.getQuickSearchParam());
         dataProvider.setSize(compiled.getSize());
 
         return dataProvider;
     }
 
-    private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileProcessor p, ReduxModel model,
-                                                        String targetWidgetId) {
+    private static Map<String, ModelLink> compileParams(N2oParam[] params, CompileContext<?, ?> context,
+                                                        CompileProcessor p, ReduxModel model, String targetWidgetId) {
         if (params == null)
             return Collections.emptyMap();
         Map<String, ModelLink> result = new StrictMap<>();
         for (N2oParam param : params) {
             ModelLink link;
-            Object value = param.getValueList() != null ? param.getValueList() :
-                    ScriptProcessor.resolveExpression(param.getValue());
-            if (value == null || StringUtils.isJs(value)) {
-                String widgetId = null;
-                if (param.getRefWidgetId() != null) {
-                    String pageId = param.getRefPageId();
-                    if (param.getRefPageId() == null) {
-                        PageScope pageScope = p.getScope(PageScope.class);
-                        if (pageScope != null)
-                            pageId = pageScope.getPageId();
-                    }
-                    widgetId = CompileUtil.generateWidgetId(pageId, param.getRefWidgetId());
-                }
-                link = new ModelLink(p.cast(param.getRefModel(), model), p.cast(widgetId, targetWidgetId));
-                link.setValue(value);
+            if (param.getValueParam() == null) {
+                link = getModelLink(p, model, targetWidgetId, param);
             } else {
-                link = new ModelLink(value);
+                link = getModelLinkByParam(context, param);
             }
-            result.put(param.getName(), link);
+            if (link != null)
+                result.put(param.getName(), link);
         }
         return result;
+    }
+
+    private static ModelLink getModelLink(CompileProcessor p, ReduxModel model, String targetWidgetId, N2oParam param) {
+        ModelLink link;
+        Object value = param.getValueList() != null ? param.getValueList() :
+                ScriptProcessor.resolveExpression(param.getValue());
+        if (value == null || StringUtils.isJs(value)) {
+            String widgetId = null;
+            if (param.getRefWidgetId() != null) {
+                String pageId = param.getRefPageId();
+                if (param.getRefPageId() == null) {
+                    PageScope pageScope = p.getScope(PageScope.class);
+                    if (pageScope != null)
+                        pageId = pageScope.getPageId();
+                }
+                widgetId = CompileUtil.generateWidgetId(pageId, param.getRefWidgetId());
+            }
+            link = new ModelLink(p.cast(param.getRefModel(), model), p.cast(widgetId, targetWidgetId));
+            link.setValue(value);
+        } else {
+            link = new ModelLink(value);
+        }
+        return link;
+    }
+
+    private static ModelLink getModelLinkByParam(CompileContext<?, ?> context, N2oParam param) {
+        ModelLink link = null;
+        if (context.getPathRouteMapping() != null && context.getPathRouteMapping().containsKey(param.getValueParam())) {
+            link = context.getPathRouteMapping().get(param.getValueParam());
+            link.setParam(param.getValueParam());
+        } else if (context.getQueryRouteMapping() != null && context.getQueryRouteMapping().containsKey(param.getValueParam())) {
+            link = context.getQueryRouteMapping().get(param.getValueParam());
+            link.setParam(param.getValueParam());
+        } else {
+            link = new ModelLink();
+            link.setParam(param.getValueParam());
+        }
+        return link;
     }
 
     private static void initActionContext(N2oClientDataProvider source, Map<String, ModelLink> pathMapping,

@@ -18,6 +18,9 @@ public class ModelLink extends BindLink {
     @Setter
     private String param;
 
+    public ModelLink() {
+    }
+
     public ModelLink(Object value) {
         setValue(value);
     }

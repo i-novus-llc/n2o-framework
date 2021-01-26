@@ -86,6 +86,8 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                 ReduxAction onGet = Redux.dispatchUpdateModel(modelsScope.getWidgetId(), modelsScope.getModel(), id,
                         colon(source.getParam()));
                 paramScope.addQueryMapping(source.getParam(), onGet, onSet);
+                if (modelsScope.hasModels())
+                    modelsScope.add(control.getId(), onSet);
             }
         }
     }
@@ -149,15 +151,13 @@ public abstract class ListControlCompiler<T extends ListControl, S extends N2oLi
                 N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
                 N2oParam queryParam = new N2oParam();
                 queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterField()));
-
-                ParentRouteScope routeScope = p.getScope(ParentRouteScope.class);
-                Object value = (preFilter.getParam() != null && routeScope != null && routeScope.getQueryMapping() != null &&
-                        routeScope.getQueryMapping().containsKey(preFilter.getParam())) ?
-                        routeScope.getQueryMapping().get(preFilter.getParam()).getValue() :
-                        getPrefilterValue(preFilter);
-                queryParam.setValueList(value);
-                queryParam.setRefModel(preFilter.getRefModel());
-                queryParam.setRefWidgetId(preFilter.getRefWidgetId());
+                if (preFilter.getParam() == null) {
+                    queryParam.setValueList(getPrefilterValue(preFilter));
+                    queryParam.setRefModel(preFilter.getRefModel());
+                    queryParam.setRefWidgetId(preFilter.getRefWidgetId());
+                } else {
+                    queryParam.setValueParam(preFilter.getParam());
+                }
                 queryParams[i] = queryParam;
 
                 if (Boolean.TRUE.equals(preFilter.getResetOnChange())
