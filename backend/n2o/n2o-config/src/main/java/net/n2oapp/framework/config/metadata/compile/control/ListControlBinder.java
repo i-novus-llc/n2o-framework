@@ -7,6 +7,9 @@ import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import net.n2oapp.framework.config.util.BindUtil;
 import org.springframework.stereotype.Component;
 
+/**
+ *  Связывание спискового компонента с данными
+ */
 @Component
 public class ListControlBinder implements BaseMetadataBinder<ListControl> {
     @Override
