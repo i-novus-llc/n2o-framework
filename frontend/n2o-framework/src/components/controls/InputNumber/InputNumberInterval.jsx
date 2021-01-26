@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import omit from 'lodash/omit';
 
 import InputNumber from './InputNumber';
 
@@ -42,25 +43,23 @@ class InputNumberInterval extends React.Component {
   render() {
     const { description } = this.props;
     const { value } = this.state;
-    const props = { ...this.props };
-    delete props.value;
-    delete props.description;
-    delete props.onChange;
+    const props = omit(this.props, ['value', 'description', 'onChange']);
     const style = {
       display: 'flex',
       alignItems: 'baseline',
     };
+
     return (
       <div>
         <div style={style}>
           <InputNumber
             value={value[0]}
-            onChange={this.onChange.bind(this, 0)}
+            onChange={() => this.onChange(0)}
             {...props}
           />
           {'-'}
           <InputNumber
-            onChange={this.onChange.bind(this, 1)}
+            onChange={() => this.onChange(1)}
             value={value[1]}
             {...props}
           />

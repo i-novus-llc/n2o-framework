@@ -153,7 +153,7 @@ export function RangeField({
                 {...beginControl}
                 {...props}
                 className={cx(beginControl && beginControl.className, {
-                  [validationClass]: touched && (!end || !begin),
+                  [validationClass]: touched,
                 })}
               />
               <Measure value={measure} />
