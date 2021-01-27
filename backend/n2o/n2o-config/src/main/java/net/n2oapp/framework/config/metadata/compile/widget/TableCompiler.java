@@ -82,7 +82,6 @@ public class TableCompiler extends BaseListWidgetCompiler<Table, N2oTable> {
                 uploadScope, subModelsScope, filtersScope);
         compileDataProviderAndRoutes(table, source, context, p, validationList, widgetRouteScope, null, null, object);
         component.setSize(p.cast(source.getSize(), p.resolve(property("n2o.api.widget.table.size"), Integer.class)));
-        component.setClassName(source.getCssClass());
         component.setTableSize(source.getTableSize() != null ? source.getTableSize().name().toLowerCase() : null);
         component.setWidth(source.getWidth());
         component.setHeight(source.getHeight());
