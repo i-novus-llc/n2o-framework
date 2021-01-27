@@ -43,5 +43,14 @@
                 </masked-input>
             </end>
         </interval-field>
+        <input-text id="testField4">
+            <dependencies>
+                <requiring on="testField">
+                    <![CDATA[
+                           return typeof testField != 'undefined' && testField != null && testField == 2
+                        ]]>
+                </requiring>
+            </dependencies>
+        </input-text>
     </fields>
 </form>
