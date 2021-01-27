@@ -199,7 +199,7 @@ const enhance = compose(
     }) => value => {
       setInnerValue(value);
 
-      if (value === '') {
+      if (!value) {
         setInnerValue(null);
         onSearch(null);
       }
@@ -210,8 +210,10 @@ const enhance = compose(
       }
     },
     onBlur: ({ setInnerValue, onSearch }) => value => {
-      setInnerValue('');
-      onSearch(null);
+      if (!value) {
+        setInnerValue(null);
+        onSearch(null);
+      }
     },
     onClear: ({ setInnerValue, onSearch }) => () => {
       setInnerValue(null);
