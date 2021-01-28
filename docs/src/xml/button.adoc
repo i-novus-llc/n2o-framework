@@ -11,15 +11,20 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
 
+|id
+|Строка
+|Идентификатор кнопки
+|Вычисляется из `action-id`
+
 |label
 |Строка
 |Заголовок кнопки
-|Вычисляется из `action-id`
+|
 
 |icon
 |http://fontawesome.io/icons/[CSS класс]
 |Иконка
-|Вычисляется из `action-id`
+|
 
 |type
 |text, icon, iconAndText
@@ -58,18 +63,13 @@ http://n2oapp.net/framework/config/schema/button-2.0
 
 |===
 
-===== <button>
+==== <button>
 Кнопка.
 
 Атрибуты::
 [cols="2,1,4,4"]
 |===
 |Наименование|Тип|Описание|Значение по умолчанию
-
-|id
-|Строка
-|Идентификатор кнопки
-|Вычисляется из `action-id`
 
 |action-id
 |Ссылка на link:#__action[действие страницы]
@@ -79,16 +79,6 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |validate
 |true false
 |Валидировать ли форму при нажатии на кнопку.
-|
-
-|visibility-condition
-|Строка
-|Условие видимости.
-|
-
-|enabling-condition
-|Строка
-|Условие доступности.
 |
 
 |tooltip-position
