@@ -636,14 +636,13 @@ public abstract class BaseWidgetCompiler<D extends Widget, S extends N2oWidget> 
                             v.setMoment(N2oValidation.ServerMoment.beforeQuery);
                             v.setSeverity(SeverityType.danger);
 
-                            ReduxModel prefilterModel = p.cast(preFilter.getRefModel(), ReduxModel.RESOLVE);
-                            if (p.getScope(ValidationList.class).get(compiled.getId(), prefilterModel) == null) {
+                            if (p.getScope(ValidationList.class).get(compiled.getId(), ReduxModel.FILTER) == null) {
                                 Map<String, List<Validation>> map = new HashMap<>();
                                 map.put(compiled.getId(), new ArrayList<>());
-                                p.getScope(ValidationList.class).getValidations().put(prefilterModel, map);
+                                p.getScope(ValidationList.class).getValidations().put(ReduxModel.FILTER, map);
                             }
                             List<Validation> validationList = p.getScope(ValidationList.class)
-                                    .get(compiled.getId(), prefilterModel);
+                                    .get(compiled.getId(), ReduxModel.FILTER);
                             validationList.add(v);
                         }
                     }
