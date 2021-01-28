@@ -5,6 +5,7 @@ import net.n2oapp.framework.api.data.validation.ConditionValidation;
 import net.n2oapp.framework.api.data.validation.MandatoryValidation;
 import net.n2oapp.framework.api.data.validation.Validation;
 import net.n2oapp.framework.api.metadata.ReduxModel;
+import net.n2oapp.framework.api.metadata.control.ValidationReference;
 import net.n2oapp.framework.api.metadata.event.action.UploadType;
 import net.n2oapp.framework.api.metadata.global.dao.validation.N2oValidation;
 import net.n2oapp.framework.api.metadata.local.CompiledObject;
@@ -126,6 +127,21 @@ public class FormWidgetCompileTest extends SourceCompileTestBase {
         assertThat(validations.size(), is(2));
         assertThat(((ConditionValidation) validations.get(0)).getExpression(), is("typeof testIntervalBegin == 'undefined'"));
 
+    }
+
+    @Test
+    public void testFormPreFilterValidations() {
+        SimplePage page = (SimplePage) compile("net/n2oapp/framework/config/metadata/compile/widgets/testFormPreFilterValidation.page.xml",
+                "net/n2oapp/framework/config/metadata/compile/widgets/testFormPreFilterValidation.query.xml",
+                "net/n2oapp/framework/config/metadata/compile/widgets/testFormValidations.object.xml")
+                .get(new PageContext("testFormPreFilterValidation"));
+        QueryContext queryContext = (QueryContext) route("/testFormPreFilterValidation", CompiledQuery.class);
+        List<Validation> validations = queryContext.getValidations();
+        assertThat(validations.size(), is(1));
+        MandatoryValidation validation = (MandatoryValidation) validations.get(0);
+        assertThat(validation.getId(), is("testField"));
+        assertThat(validation.getTarget(), is(ValidationReference.Target.field));
+        assertThat(validation.getMessage(), is("Поле обязательно для заполнения"));
     }
 
     @Test
