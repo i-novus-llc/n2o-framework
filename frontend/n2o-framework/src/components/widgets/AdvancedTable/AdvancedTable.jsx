@@ -10,6 +10,7 @@ import some from 'lodash/some';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import map from 'lodash/map';
+import reduce from 'lodash/reduce';
 import forOwn from 'lodash/forOwn';
 import every from 'lodash/every';
 import flattenDeep from 'lodash/flattenDeep';
@@ -18,7 +19,6 @@ import findIndex from 'lodash/findIndex';
 import values from 'lodash/values';
 import eq from 'lodash/eq';
 import get from 'lodash/get';
-import reduce from 'lodash/reduce';
 import includes from 'lodash/includes';
 import isNumber from 'lodash/isNumber';
 
@@ -175,9 +175,31 @@ class AdvancedTable extends Component {
       multi,
       rowSelection,
       resolveModel,
+      onSetSelection,
+      filters,
     } = this.props;
 
     const { checked, children } = this.state;
+
+    if (
+      !isEqual(prevProps.data, data) &&
+      !isEmpty(filters) &&
+      rowSelection === 'checkbox'
+    ) {
+      const newMulti = reduce(
+        data,
+        (acc, model) => {
+          if (get(checked, model.id)) {
+            acc[model.id] = model;
+          }
+
+          return acc;
+        },
+        {}
+      );
+
+      onSetSelection(newMulti);
+    }
 
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
       const id = selectedId || data[0].id;
