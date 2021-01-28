@@ -39,7 +39,7 @@ import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.*;
  */
 public abstract class BaseButtonCompiler<S extends GroupItem, B extends AbstractButton> implements BaseSourceCompiler<B, S, CompileContext<?, ?>> {
 
-    protected void initItem(MenuItem button, AbstractMenuItem source, IndexScope idx,
+    protected void initItem(MenuItem button, N2oAbstractButton source, IndexScope idx,
                             CompileContext<?, ?> context, CompileProcessor p) {
         button.setId(p.cast(source.getId(), source.getActionId(), "menuItem" + idx.get()));
         source.setId(button.getId());
@@ -77,7 +77,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         }
 
         initConfirm(button, source, context, p, operation);
-        button.setClassName(source.getClassName());
+        button.setClassName(source.getCssClass());
         button.setStyle(StylesResolver.resolveStyles(source.getStyle()));
 
         String hint;
@@ -105,7 +105,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         button.setValidate(source.getValidate());
     }
 
-    private Action compileAction(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p,
+    private Action compileAction(MenuItem button, N2oAbstractButton source, CompileContext<?, ?> context, CompileProcessor p,
                                  CompiledObject compiledObject) {
         Action action = null;
         if (source.getActionId() != null) {
@@ -121,7 +121,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         return action;
     }
 
-    private void initConfirm(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {
+    private void initConfirm(MenuItem button, N2oAbstractButton source, CompileContext<?, ?> context, CompileProcessor p, CompiledObject.Operation operation) {
         if ((source.getConfirm() == null || !source.getConfirm()) &&
                 (source.getConfirm() != null || operation == null || operation.getConfirm() == null || !operation.getConfirm()))
             return;
@@ -147,7 +147,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         button.setConfirm(confirm);
     }
 
-    protected String initWidgetId(AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected String initWidgetId(N2oAbstractButton source, CompileContext<?, ?> context, CompileProcessor p) {
         PageScope pageScope = p.getScope(PageScope.class);
         if (source.getWidgetId() != null) {
             return pageScope == null ? source.getWidgetId() : pageScope.getGlobalWidgetId(source.getWidgetId());//todo обсудить
@@ -168,7 +168,7 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
      * @param button клиентская модель кнопки
      * @param source исходная модель поля
      */
-    protected void compileConditionsAndDependencies(MenuItem button, AbstractMenuItem source, CompileContext<?, ?> context, CompileProcessor p) {
+    protected void compileConditionsAndDependencies(MenuItem button, N2oAbstractButton source, CompileContext<?, ?> context, CompileProcessor p) {
         String widgetId = initWidgetId(source, context, p);
         List<Condition> enabledConditions = new ArrayList<>();
 
@@ -216,11 +216,11 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
      * @param p              Процессор сборки метаданных
      * @return Условие доступности кнопки при пустой модели
      */
-    private Condition enabledByEmptyModelCondition(AbstractMenuItem source, String widgetId, ComponentScope componentScope, CompileProcessor p) {
+    private Condition enabledByEmptyModelCondition(N2oAbstractButton source, String widgetId, ComponentScope componentScope, CompileProcessor p) {
         boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
         boolean disableOnEmptyModel = p.cast(source.getDisableOnEmptyModel(),
                 p.resolve(property("n2o.api.button.disable_on_empty_model"), Boolean.class));
-        
+
         if ((source.getModel() == null || ReduxModel.RESOLVE.equals(source.getModel())) && parentIsNotCell && disableOnEmptyModel) {
             Condition condition = new Condition();
             condition.setExpression("!_.isEmpty(this)");
@@ -251,19 +251,19 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         button.getConditions().get(type).add(condition);
     }
 
-    private void compileDependencies(AbstractMenuItem.Dependency[] dependencies, MenuItem button, String widgetId, CompileProcessor p) {
-        for (AbstractMenuItem.Dependency d : dependencies) {
+    private void compileDependencies(N2oAbstractButton.Dependency[] dependencies, MenuItem button, String widgetId, CompileProcessor p) {
+        for (N2oAbstractButton.Dependency d : dependencies) {
             ValidationType validationType = null;
-            if (d instanceof AbstractMenuItem.EnablingDependency)
+            if (d instanceof N2oAbstractButton.EnablingDependency)
                 validationType = ValidationType.enabled;
-            else if (d instanceof AbstractMenuItem.VisibilityDependency)
+            else if (d instanceof N2oAbstractButton.VisibilityDependency)
                 validationType = ValidationType.visible;
 
             compileCondition(d, button, validationType, widgetId, p);
         }
     }
 
-    private void compileCondition(AbstractMenuItem.Dependency dependency, MenuItem menuItem, ValidationType validationType,
+    private void compileCondition(N2oAbstractButton.Dependency dependency, MenuItem menuItem, ValidationType validationType,
                                   String widgetId, CompileProcessor p) {
         String refWidgetId = null;
         if (dependency.getRefWidgetId() != null) {
@@ -278,8 +278,8 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
         Condition condition = new Condition();
         condition.setExpression(ScriptProcessor.resolveFunction(dependency.getValue()));
         condition.setModelLink(new ModelLink(refModel, refWidgetId, null).getBindLink());
-        if (dependency instanceof AbstractMenuItem.EnablingDependency)
-            condition.setMessage(((AbstractMenuItem.EnablingDependency) dependency).getMessage());
+        if (dependency instanceof N2oAbstractButton.EnablingDependency)
+            condition.setMessage(((N2oAbstractButton.EnablingDependency) dependency).getMessage());
 
         if (!menuItem.getConditions().containsKey(validationType))
             menuItem.getConditions().put(validationType, new ArrayList<>());

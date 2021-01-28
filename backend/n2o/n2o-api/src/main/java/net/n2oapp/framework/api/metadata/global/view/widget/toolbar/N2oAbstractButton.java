@@ -2,48 +2,32 @@ package net.n2oapp.framework.api.metadata.global.view.widget.toolbar;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.n2oapp.framework.api.N2oNamespace;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.Source;
-import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
-import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
-import net.n2oapp.framework.api.metadata.global.view.ActionComponent;
+import net.n2oapp.framework.api.metadata.aware.IdAware;
+import net.n2oapp.framework.api.metadata.control.N2oComponent;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-
-import java.util.Map;
 
 /**
  * Абстрактная модель пункта меню.
  */
 @Getter
 @Setter
-public abstract class AbstractMenuItem extends ActionComponent implements ExtensionAttributesAware, NamespaceUriAware {
-    private String namespaceUri;
-    private String color;
+public abstract class N2oAbstractButton extends N2oComponent implements IdAware {
+    private String id;
+    private String label;
+    private String icon;
     private LabelType type;
-    private String actionId;
-    private String className;
-    private String style;
-    private Boolean validate;
-    private Boolean disableOnEmptyModel;
+    private String color;
+    private String visible;
+    private String enabled;
     private String description;
     private String tooltipPosition;
-    private Dependency[] dependencies;
 
     @Deprecated
     private N2oButtonCondition[] enablingConditions;
     @Deprecated
     private N2oButtonCondition[] visibilityConditions;
-
-    private Boolean confirm;
-    private ConfirmType confirmType;
-    private String confirmText;
-    private String confirmTitle;
-    private String confirmOkLabel;
-    private String confirmCancelLabel;
-
-    private Map<String, Object> properties;
-    private Map<N2oNamespace, Map<String, String>> extAttributes;
 
 
     @Getter

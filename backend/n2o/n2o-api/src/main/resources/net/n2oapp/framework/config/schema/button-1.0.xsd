@@ -26,7 +26,7 @@
                         <xs:documentation>Иконка кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="type" type="textType" default="iconAndText">
+                <xs:attribute name="type" type="textType" default="textAndIcon">
                     <xs:annotation>
                         <xs:documentation>Кнопка с иконкой или без.</xs:documentation>
                     </xs:annotation>
@@ -243,7 +243,7 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="icon"/>
             <xs:enumeration value="text"/>
-            <xs:enumeration value="iconAndText"/>
+            <xs:enumeration value="textAndIcon"/>
         </xs:restriction>
     </xs:simpleType>
 

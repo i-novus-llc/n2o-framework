@@ -3,7 +3,6 @@ package net.n2oapp.framework.config.reader.widget.widget3;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAbstractAction;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 import net.n2oapp.framework.api.metadata.global.view.page.GenerateType;
 import net.n2oapp.framework.api.metadata.global.view.widget.N2oWidget;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.*;
@@ -11,20 +10,13 @@ import net.n2oapp.framework.api.metadata.reader.AbstractFactoredReader;
 import net.n2oapp.framework.api.metadata.reader.NamespaceReaderFactory;
 import net.n2oapp.framework.config.reader.tools.CssClassAwareReader;
 import net.n2oapp.framework.config.reader.tools.MenuItemConditionReader;
-import net.n2oapp.framework.config.reader.tools.PropertiesReaderV1;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeBoolean;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeEnum;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getAttributeString;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getChildren;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getElementBoolean;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getElementInteger;
-import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.getElementString;
+import static net.n2oapp.framework.config.reader.util.ReaderJdomUtil.*;
 
 public abstract class WidgetBaseXmlReaderV3<E extends N2oWidget> extends AbstractFactoredReader<E> {
 
@@ -131,8 +123,7 @@ public abstract class WidgetBaseXmlReaderV3<E extends N2oWidget> extends Abstrac
         group.setItems(items);
     }
 
-    private void readMenuItem(Element popupMenu, AbstractMenuItem menuItem, Namespace namespace) {
-        menuItem.setProperties(PropertiesReaderV1.getInstance().read(popupMenu, namespace));
+    private void readMenuItem(Element popupMenu, N2oButton menuItem, Namespace namespace) {
         menuItem.setId(getAttributeString(popupMenu, "id"));
         menuItem.setLabel(getAttributeString(popupMenu, "label"));
         menuItem.setType(getAttributeEnum(popupMenu, "type", LabelType.class));
@@ -169,10 +160,10 @@ public abstract class WidgetBaseXmlReaderV3<E extends N2oWidget> extends Abstrac
         subMenu.setIcon(getAttributeString(subMenuElement, "icon"));
         subMenu.setColor(getAttributeString(subMenuElement, "color"));
         subMenu.setDescription(getElementString(subMenuElement, "description"));
-        N2oMenuItem[] subMenuItems = new N2oMenuItem[popupMenus.size()];
+        N2oButton[] subMenuItems = new N2oButton[popupMenus.size()];
         int i = 0;
         for (Element subPopupMenu : popupMenus) {
-            N2oMenuItem menuItem = new N2oMenuItem();
+            N2oButton menuItem = new N2oButton();
             readMenuItem(subPopupMenu, menuItem, namespace);
             subMenuItems[i] = menuItem;
             i++;

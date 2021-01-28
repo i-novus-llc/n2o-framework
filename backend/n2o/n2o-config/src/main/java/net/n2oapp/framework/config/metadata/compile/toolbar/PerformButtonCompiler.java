@@ -39,7 +39,7 @@ public class PerformButtonCompiler extends BaseButtonCompiler<N2oButton, Perform
     }
 
     private void initLinkAction(PerformButton button) {
-        if (button.getAction() != null && button.getAction() instanceof LinkAction) {
+        if (button.getAction() instanceof LinkAction) {
             LinkAction linkAction = ((LinkAction) button.getAction());
             button.setUrl(linkAction.getUrl());
             button.setTarget(linkAction.getTarget());

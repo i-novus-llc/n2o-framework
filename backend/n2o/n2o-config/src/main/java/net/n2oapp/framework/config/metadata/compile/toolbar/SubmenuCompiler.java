@@ -52,7 +52,7 @@ public class SubmenuCompiler extends BaseButtonCompiler<N2oSubmenu, Submenu> imp
 
         button.setId(sub.getId() == null ? "subMenu" + idx.get() : sub.getId());
         button.setLabel(sub.getLabel());
-        button.setClassName(sub.getClassName());
+        button.setClassName(sub.getCssClass());
         button.setStyle(StylesResolver.resolveStyles(sub.getStyle()));
         if (sub.getColor() == null) {
             ComponentScope componentScope = p.getScope(ComponentScope.class);

@@ -14,7 +14,7 @@ import org.jdom2.Namespace;
  */
 public class ToolbarIO implements TypedElementIO<N2oToolbar> {
 
-    protected Namespace buttonNamespace = AbstractMenuItemIO.NAMESPACE;
+    protected Namespace buttonNamespace = AbstractButtonIO.NAMESPACE;
 
     @Override
     public Class<N2oToolbar> getElementClass() {
