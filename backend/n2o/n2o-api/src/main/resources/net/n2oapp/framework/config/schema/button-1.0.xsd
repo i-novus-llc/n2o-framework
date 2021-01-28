@@ -78,12 +78,18 @@
                 </xs:annotation>
                 <xs:sequence>
                     <xs:element name="dependencies" type="buttonDependenciesDefinition" minOccurs="0"/>
-                    <xs:element name="copy" type="acn:copyDefinition" minOccurs="0"/>
                 </xs:sequence>
                 <xs:attribute name="widget-id" type="xs:string">
                     <xs:annotation>
                         <xs:documentation>
                             Идентификатор виджета над которым будет выполнена операция. По умолчанию текущий виджет.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="action-id" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Действие виджета, которое будет вызвано при нажатии на кнопку.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
@@ -111,14 +117,7 @@
                 </xs:attribute>
                 <xs:attribute name="rounded" type="xs:boolean" default="false">
                     <xs:annotation>
-                        <xs:documentation>Сделать кнопку круглой.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="action-id" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Действие виджета, которое будет вызвано при нажатии на кнопку.
-                        </xs:documentation>
+                        <xs:documentation>Круглая форма кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="confirm" type="xs:boolean" default="false">
@@ -133,10 +132,7 @@
                 </xs:attribute>
                 <xs:attribute name="confirm-type" type="confirmType" default="modal">
                     <xs:annotation>
-                        <xs:documentation>
-                            Тип предупреждения перед выполнением действия: popover - поповер,
-                            modal - модальное окно.
-                        </xs:documentation>
+                        <xs:documentation>Тип предупреждения перед выполнением действия.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="confirm-title" type="xs:string">

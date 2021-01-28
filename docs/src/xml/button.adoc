@@ -2,7 +2,7 @@
 
 Библиотека компонентов::
 ```
-http://n2oapp.net/framework/config/schema/button-2.0
+http://n2oapp.net/framework/config/schema/button-1.0
 ```
 
 === Базовые свойства
@@ -48,18 +48,18 @@ http://n2oapp.net/framework/config/schema/button-2.0
 
 |src
 |Строка
-|Реализация действия.
+|Реализация кнопки.
 |
 
-|visible
-|true false
-|Видимость по умолчанию.
-|true
+|description
+|Строка
+|Описание при наведении на кнопку
+|
 
-|enabled
-|true false
-|Доступность по умолчанию.
-|true
+|tooltip-position
+|left, right, top, bottom
+|Позиция подсказки.
+|
 
 |===
 
@@ -76,20 +76,45 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |Действие страницы, которое будет вызвано при нажатии на кнопку
 |
 
+|widget-id
+|Строка
+|Идентификатор виджета над которым будет выполнена операция. По умолчанию главный виджет страницы(если он один).
+|
+
+|model
+|resolve filter edit multi
+|Модель, над которой выполнится действие. Если модель пустая, то кнопка будет заблокирована.
+|resolve
+
+|rounded
+|true false
+|Круглая форма кнопки
+|false
+
 |validate
 |true false
 |Валидировать ли форму при нажатии на кнопку.
-|
+|false
 
-|tooltip-position
-|left, right, top, bottom
-|Позиция подсказки.
-|
+|visible
+|true false
+|Видимость по умолчанию.
+|true
+
+|enabled
+|true false
+|Доступность по умолчанию.
+|true
 
 |confirm
 |true false
 |Показать предупреждение перед выполнением действия.
-|
+|false
+
+|confirm-type
+|Строка
+|popover modal
+|modal
 
 |confirm-text
 |Строка
@@ -111,11 +136,6 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |Текст кнопки отмены.
 |
 
-|widget-id
-|Строка
-|Идентификатор виджета над которым будет выполнена операция. По умолчанию главный виджет страницы(если он один).
-|
-
 |disable-on-empty-model
 |true false
 |Недоступность кнопки при пустой модели.
@@ -123,7 +143,8 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |===
 
 Тело::
-link:#_Действия[Обработчик действия]
+link:#_Действия[Обработчик действия],
+link:#_Зависимости_компонента[Зависимости компонента]
 
 Пример::
 [source,xml]
@@ -153,9 +174,10 @@ link:#_Действия[Обработчик действия]
 |Строка
 |Генерация стандартных кнопок.
 |
+
 |show-toggle-icon
 |true false
-|Отображать переключатель выпадающего меню.
+|Показывать иконку переключателя.
 |true
 |===
 
@@ -163,11 +185,14 @@ link:#_Действия[Обработчик действия]
 [source,xml]
 ----
 <sub-menu>
-  <menu-item>...<menu-item>
-  <menu-item>...<menu-item>
-  <menu-item>...<menu-item>
+  <menu-item>...</menu-item>
+  <menu-item>...</menu-item>
+  <menu-item>...</menu-item>
 </sub-menu>
 ----
+
+Тело::
+link:#_Кнопка[Элементы выпадающего меню]
 
 ==== <dependencies>
 Зависимости компонента
@@ -204,7 +229,6 @@ link:#_Действия[Обработчик действия]
 |Строка
 |Сообщение о причине недоступности
 |
-
 
 |===
 
@@ -250,88 +274,4 @@ Java Script выражение
   <visibility ref-widget-id="main" ref-model="resolve">type.id == 1</visibility>
   <!-- Поле видимо, если type.id равен 1 -->
 </dependencies>
-----
-
-===== <copy>
-Копирование данных.
-
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|source-model
-|resolve edit filter multi
-|Модель, которая будет скопирована
-|resolve
-
-|source-widget-id
-|Строка
-|Идентификатор виджета источника
-|Текущий виджет
-
-|source-field-id
-|Строка
-|Идентификатор копируемого поля источника
-|Вся модель
-
-|target-model
-|resolve edit filter multi
-|Модель, в которую будут скопированы данные
-|resolve
-
-|target-widget-id
-|Строка
-|Идентификатор целевого виджета
-|Текущий виджет
-
-|target-field-id
-|Строка
-|Идентификатор поля целевого виджета, в которое будут скопированы данные
-|Вся модель
-
-|mode
-|merge replace add
-|Тип слияния данных
-|merge
-
-|===
-
-Пример::
-[source,xml]
-----
-<copy source-field-id="id" target-widget-id="table"
-      target-field-id="dictionary.id"/>
-----
-
-===== <link>
-Ссылка.
-
-Атрибуты::
-[cols="2,1,4,4"]
-|===
-|Наименование|Тип|Описание|Значение по умолчанию
-
-|href
-|Строка
-|URL
-|
-
-|target
-|Строка
-|
-|
-
-|===
-
-Тело::
-link:#_Параметры_запроса[Параметры действия]
-
-Пример::
-[source,xml]
-----
-  <link href="../" target="application">
-    <path-param>...</path-param>
-    <query-param>...</query-param>
-  </link>
 ----
