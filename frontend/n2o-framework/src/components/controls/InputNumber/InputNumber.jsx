@@ -9,8 +9,8 @@ import isNaN from 'lodash/isNaN';
 import isEqual from 'lodash/isEqual';
 import split from 'lodash/split';
 import includes from 'lodash/includes';
-
 import { compose } from 'recompose';
+
 import withRightPlaceholder from '../withRightPlaceholder';
 import Input from '../Input/Input';
 
@@ -134,7 +134,7 @@ export class InputNumber extends React.Component {
     if (isValid(newValue, min, max)) {
       newValue = newValue.toFixed(this.stepPrecition);
 
-      this.setState({ value: newValue }, () => this.props.onChange(newValue));
+      this.setState({ value: newValue }, () => this.props.onBlur(newValue));
     }
   }
 
@@ -219,14 +219,14 @@ export class InputNumber extends React.Component {
           {showButtons && (
             <div className="n2o-input-number-buttons">
               <button
-                onClick={this.buttonHandler.bind(this, 'up')}
+                onClick={() => this.buttonHandler('up')}
                 disabled={disabled}
                 tabIndex={-1}
               >
                 <i className="fa fa-angle-up" aria-hidden="true" />
               </button>
               <button
-                onClick={this.buttonHandler.bind(this, 'down')}
+                onClick={() => this.buttonHandler('down')}
                 disabled={disabled}
                 tabIndex={-1}
               >
