@@ -61,6 +61,16 @@ http://n2oapp.net/framework/config/schema/button-1.0
 |Позиция подсказки.
 |
 
+|visible
+|true false
+|Видимость по умолчанию.
+|true
+
+|enabled
+|true false
+|Доступность по умолчанию.
+|true
+
 |===
 
 ==== <button>
@@ -95,16 +105,6 @@ http://n2oapp.net/framework/config/schema/button-1.0
 |true false
 |Валидировать ли форму при нажатии на кнопку.
 |false
-
-|visible
-|true false
-|Видимость по умолчанию.
-|true
-
-|enabled
-|true false
-|Доступность по умолчанию.
-|true
 
 |confirm
 |true false

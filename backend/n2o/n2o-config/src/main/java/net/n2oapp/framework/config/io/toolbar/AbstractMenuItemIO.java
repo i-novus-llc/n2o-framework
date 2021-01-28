@@ -2,6 +2,7 @@ package net.n2oapp.framework.config.io.toolbar;
 
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
+import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.AbstractMenuItem;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -26,6 +27,7 @@ public abstract class AbstractMenuItemIO<T extends AbstractMenuItem> implements 
         p.attribute(e, "widget-id", mi::getWidgetId, mi::setWidgetId);
         p.attributeEnum(e, "model", mi::getModel, mi::setModel, ReduxModel.class);
         p.attribute(e, "icon", mi::getIcon, mi::setIcon);
+        p.attributeEnum(e, "type", mi::getType, mi::setType, LabelType.class);
         p.attribute(e, "color", mi::getColor, mi::setColor);
         p.attribute(e, "visible", mi::getVisible, mi::setVisible);
         p.attribute(e, "enabled", mi::getEnabled, mi::setEnabled);

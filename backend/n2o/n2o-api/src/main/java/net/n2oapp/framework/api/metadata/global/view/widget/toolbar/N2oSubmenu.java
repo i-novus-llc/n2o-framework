@@ -16,16 +16,20 @@ import java.util.List;
 @Setter
 public class N2oSubmenu extends N2oComponent implements GroupItem {
     private String id;
-    private String className;
-    private Boolean visible;
     private String label;
     private String icon;
     private LabelType type;
-    private String description;
     private String color;
-    private N2oMenuItem[] menuItems;
+    private String className;
+    private String visible;
+    private String enabled;
+    private String description;
+    private String tooltipPosition;
+
     private String[] generate;
     private Boolean showToggleIcon;
+    private N2oMenuItem[] menuItems;
+
 
     @Override
     public List<N2oAction> getActions() {

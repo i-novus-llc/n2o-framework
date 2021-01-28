@@ -61,6 +61,16 @@
                         <xs:documentation>Позиция подсказки</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
+                <xs:attribute name="visible" type="xs:string" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Условие видимости кнопки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="enabled" type="xs:string" default="true">
+                    <xs:annotation>
+                        <xs:documentation>Условие доступности кнопки.</xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
                 <xs:anyAttribute>
                     <xs:annotation>
                         <xs:documentation>Возможность подключать любые атрибуты.</xs:documentation>
@@ -98,16 +108,6 @@
                         <xs:documentation>
                             Модель, над которой выполнится действие. Если модель пустая, то кнопка будет заблокирована.
                         </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="visible" type="xs:string" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Условие видимости кнопки.</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
-                <xs:attribute name="enabled" type="xs:string" default="true">
-                    <xs:annotation>
-                        <xs:documentation>Условие доступности кнопки.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="validate" type="xs:boolean" default="false">

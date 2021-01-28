@@ -9,7 +9,6 @@ import net.n2oapp.framework.api.metadata.aware.ExtensionAttributesAware;
 import net.n2oapp.framework.api.metadata.aware.NamespaceUriAware;
 import net.n2oapp.framework.api.metadata.global.view.ActionComponent;
 import net.n2oapp.framework.api.metadata.global.view.action.LabelType;
-import net.n2oapp.framework.api.metadata.global.view.action.control.RefreshPolity;
 
 import java.util.Map;
 
@@ -19,35 +18,33 @@ import java.util.Map;
 @Getter
 @Setter
 public abstract class AbstractMenuItem extends ActionComponent implements ExtensionAttributesAware, NamespaceUriAware {
-    private String description;
-    private Boolean readonly;
     private String namespaceUri;
     private String color;
     private LabelType type;
     private String actionId;
     private String className;
     private String style;
-    private Map<String, Object> properties;
-    private Boolean defaultAction;
-    private Boolean primary;
-    private String key;
-    private Boolean bulk;
     private Boolean validate;
-    @Deprecated //use enabled as JS
+    private Boolean disableOnEmptyModel;
+    private String description;
+    private String tooltipPosition;
+    private Dependency[] dependencies;
+
+    @Deprecated
     private N2oButtonCondition[] enablingConditions;
-    @Deprecated //use visible as JS
+    @Deprecated
     private N2oButtonCondition[] visibilityConditions;
-    private RefreshPolity refreshPolity;
-    private Map<N2oNamespace, Map<String, String>> extAttributes;
+
     private Boolean confirm;
     private ConfirmType confirmType;
     private String confirmText;
     private String confirmTitle;
     private String confirmOkLabel;
     private String confirmCancelLabel;
-    private String tooltipPosition;
-    private Dependency[] dependencies;
-    private Boolean disableOnEmptyModel;
+
+    private Map<String, Object> properties;
+    private Map<N2oNamespace, Map<String, String>> extAttributes;
+
 
     @Getter
     @Setter
