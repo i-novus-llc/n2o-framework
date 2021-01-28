@@ -4,6 +4,7 @@ import net.n2oapp.criteria.api.Direction;
 import net.n2oapp.criteria.api.Sorting;
 import net.n2oapp.criteria.dataset.DataSet;
 import net.n2oapp.criteria.filters.FilterType;
+import net.n2oapp.framework.api.metadata.meta.Filter;
 import net.n2oapp.framework.api.MetadataEnvironment;
 import net.n2oapp.framework.api.criteria.N2oPreparedCriteria;
 import net.n2oapp.framework.api.criteria.Restriction;
@@ -142,7 +143,7 @@ public abstract class AbstractController {
         criteria.setCount(count);
         if (query != null) {
             criteria.setSortings(getSortings(data, queryCtx.getSortingMap()));
-            prepareRestrictions(query, criteria, data);
+            prepareRestrictions(query, criteria, queryCtx, data);
         }
         return criteria;
     }
@@ -162,11 +163,12 @@ public abstract class AbstractController {
         return sortings;
     }
 
-    private void prepareRestrictions(CompiledQuery query, N2oPreparedCriteria criteria, DataSet data) {
-        for (Map.Entry<String, String> paramEntry : query.getParamToFilterIdMap().entrySet()) {
-            Object value = data.get(paramEntry.getKey());
+    private void prepareRestrictions(CompiledQuery query, N2oPreparedCriteria criteria, QueryContext queryCtx, DataSet data) {
+        for (Filter filter : queryCtx.getFilters()) {
+            String key = filter.getParam() == null ? filter.getFilterId() : filter.getParam();
+            Object value = data.get(key);
             if (value != null) {
-                String filterId = paramEntry.getValue();
+                String filterId = query.getParamToFilterIdMap().get(key);
                 if (query.getInvertFiltersMap().containsKey(filterId)) {
                     Map.Entry<String, FilterType> typeEntry = query.getInvertFiltersMap().get(filterId);
                     String fieldId = typeEntry.getKey();
