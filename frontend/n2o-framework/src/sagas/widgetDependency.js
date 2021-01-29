@@ -15,6 +15,7 @@ import some from 'lodash/some';
 import isEmpty from 'lodash/isEmpty';
 import forOwn from 'lodash/forOwn';
 import sortBy from 'lodash/sortBy';
+import get from 'lodash/get';
 import {
   REGISTER_DEPENDENCY,
   UPDATE_WIDGET_DEPENDENCY,
@@ -199,7 +200,6 @@ export function* resolveWidgetDependency(
       return DEPENDENCY_ORDER.indexOf(item);
     });
     for (let j = 0; j < widgetDependenciesKeys.length; j++) {
-      const prevIsVisible = makeWidgetVisibleSelector(widgetId)(prevState);
       const isVisible = yield select(makeWidgetVisibleSelector(widgetId));
       const prevModel = getModelsByDependency(
         dependency[widgetDependenciesKeys[j]]
@@ -209,13 +209,14 @@ export function* resolveWidgetDependency(
       )(state);
 
       if (!isEqual(prevModel, model)) {
+        const dependentWidgetId = get(model, '[0].model.dependentWidgetId');
         yield call(
           resolveDependency,
           widgetDependenciesKeys[j],
           widgetId,
           model,
           isVisible,
-          prevIsVisible
+          dependentWidgetId
         );
       }
     }
@@ -228,7 +229,7 @@ export function* resolveWidgetDependency(
  * @param widgetId
  * @param model
  * @param isVisible
- * @param prevIsVisible
+ * @param dependentWidgetId
  * @returns {IterableIterator<*|CallEffect>}
  */
 export function* resolveDependency(
@@ -236,11 +237,15 @@ export function* resolveDependency(
   widgetId,
   model,
   isVisible,
-  prevIsVisible
+  dependentWidgetId
 ) {
   switch (dependencyType) {
     case DEPENDENCY_TYPES.fetch: {
-      if (isVisible) {
+      if (dependentWidgetId) {
+        if (widgetId === dependentWidgetId && isVisible) {
+          yield call(resolveFetchDependency, widgetId);
+        }
+      } else if (isVisible) {
         yield call(resolveFetchDependency, widgetId);
       }
       break;
