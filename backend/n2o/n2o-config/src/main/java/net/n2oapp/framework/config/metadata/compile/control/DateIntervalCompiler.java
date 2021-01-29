@@ -13,6 +13,7 @@ import net.n2oapp.framework.api.metadata.meta.control.StandardField;
 import net.n2oapp.framework.api.metadata.meta.widget.WidgetParamScope;
 import net.n2oapp.framework.config.metadata.compile.redux.Redux;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
+import net.n2oapp.framework.config.metadata.compile.widget.UploadScope;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -59,7 +60,7 @@ public class DateIntervalCompiler extends StandardFieldCompiler<DateInterval, N2
     }
 
     @Override
-    protected void compileParams(StandardField<DateInterval>  control, N2oDateInterval source, WidgetParamScope paramScope, CompileProcessor p) {
+    protected void compileParams(StandardField<DateInterval>  control, N2oDateInterval source, WidgetParamScope paramScope, UploadScope uploadScope, CompileProcessor p) {
         if (source.getBeginParam() != null || source.getEndParam() != null) {
             ModelsScope modelsScope = p.getScope(ModelsScope.class);
             if (modelsScope != null) {
