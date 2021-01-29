@@ -10,7 +10,7 @@ import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.config.metadata.compile.BaseMetadataBinder;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.HashMap;
 
 /**
  * Связывание процессинга действия с данными
@@ -19,23 +19,34 @@ import java.util.*;
 public class ReduxActionBinder implements BaseMetadataBinder<AbstractAction<? extends ActionPayload, ? extends MetaSaga>> {
     @Override
     public AbstractAction<? extends ActionPayload, ? extends MetaSaga> bind(AbstractAction<? extends ActionPayload, ? extends MetaSaga> action,
-                                                                                 BindProcessor p) {
-        getRedirects(action).forEach(r -> r.setPath(p.resolveUrl(r.getPath(), r.getPathMapping(), r.getQueryMapping())));
+                                                                            BindProcessor p) {
+        bindRedirects(action, p);
         return action;
     }
 
-    private List<RedirectSaga> getRedirects(AbstractAction<? extends ActionPayload, ? extends MetaSaga> action) {
+    private void bindRedirects(AbstractAction<? extends ActionPayload, ? extends MetaSaga> action, BindProcessor p) {
         if (action.getMeta() == null)
-            return Collections.emptyList();
-        List<RedirectSaga> metas = new ArrayList<>();
-        if (action.getMeta().getRedirect() != null) {
-            metas.add(action.getMeta().getRedirect());
+            return;
+        RedirectSaga redirect = action.getMeta().getRedirect();
+        if (redirect != null) {
+            RedirectSaga redirectSaga = getRedirectSaga(p, redirect);
+            action.getMeta().setRedirect(redirectSaga);
         }
         if (action.getMeta() instanceof AsyncMetaSaga
                 && (((AsyncMetaSaga) action.getMeta()).getSuccess().getRedirect() != null)) {
-            metas.add(((AsyncMetaSaga) action.getMeta()).getSuccess().getRedirect());
+            RedirectSaga redirectSaga = getRedirectSaga(p, ((AsyncMetaSaga) action.getMeta()).getSuccess().getRedirect());
+            ((AsyncMetaSaga) action.getMeta()).getSuccess().setRedirect(redirectSaga);
         }
-        return metas;
+    }
+
+    private RedirectSaga getRedirectSaga(BindProcessor p, RedirectSaga redirect) {
+        RedirectSaga redirectSaga = new RedirectSaga();
+        redirectSaga.setPath(p.resolveUrl(redirect.getPath(), redirect.getPathMapping(), redirect.getQueryMapping()));
+        redirectSaga.setPathMapping(new HashMap<>(redirect.getPathMapping()));
+        redirectSaga.setQueryMapping(new HashMap<>(redirect.getQueryMapping()));
+        redirectSaga.setTarget(redirect.getTarget());
+        redirectSaga.setServer(redirect.isServer());
+        return redirectSaga;
     }
 
     @Override
