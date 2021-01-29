@@ -3,9 +3,11 @@ package net.n2oapp.framework.config.metadata.compile.context;
 import lombok.Getter;
 import lombok.Setter;
 import net.n2oapp.framework.api.data.validation.Validation;
+import net.n2oapp.framework.api.metadata.compile.BindProcessor;
 import net.n2oapp.framework.api.metadata.meta.saga.RedirectSaga;
 import net.n2oapp.framework.api.metadata.meta.saga.RefreshSaga;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,5 +40,24 @@ public class ActionContext extends ObjectContext {
     public ActionContext(String objectId, String operationId, String route) {
         super(objectId, route);
         this.operationId = operationId;
+    }
+
+    public void setRedirect(RedirectSaga redirect) {
+        this.redirect = new RedirectSaga();
+        this.redirect.setPath(redirect.getPath());
+        this.redirect.setPathMapping(new HashMap<>(redirect.getPathMapping()));
+        this.redirect.setQueryMapping(new HashMap<>(redirect.getQueryMapping()));
+        this.redirect.setTarget(redirect.getTarget());
+        this.redirect.setServer(redirect.isServer());
+    }
+
+    public void setRefresh(RefreshSaga refresh) {
+        this.refresh = new RefreshSaga();
+        if (refresh.getOptions() != null && refresh.getOptions().getWidgetId() != null) {
+            RefreshSaga.Options options = new RefreshSaga.Options();
+            options.setWidgetId(refresh.getOptions().getWidgetId());
+            this.refresh.setOptions(options);
+        }
+        this.refresh.setType(refresh.getType());
     }
 }
