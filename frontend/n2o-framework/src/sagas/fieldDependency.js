@@ -15,16 +15,12 @@ import some from 'lodash/some';
 import includes from 'lodash/includes';
 import get from 'lodash/get';
 import set from 'lodash/set';
-import isEqual from 'lodash/isEqual';
 import { actionTypes, change } from 'redux-form';
 
 import evalExpression from '../utils/evalExpression';
 import { makeFormByName } from '../selectors/formPlugin';
 import { REGISTER_FIELD_EXTRA } from '../constants/formPlugin';
-import {
-  makeFormModelPrefixSelector,
-  makeWidgetValidationSelector,
-} from '../selectors/widgets';
+import { makeWidgetValidationSelector } from '../selectors/widgets';
 import { validateField } from '../core/validation/createValidator';
 import {
   enableField,
@@ -83,12 +79,6 @@ export function* modify(
   dispatch
 ) {
   let _evalResult;
-
-  const prevValues = get(prevState, [formName, fieldName, type]);
-
-  if (prevValues && isEqual(prevValues, values)) {
-    return;
-  }
 
   if (options.expression) {
     _evalResult = evalExpression(options.expression, values);
