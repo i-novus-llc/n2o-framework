@@ -25,10 +25,10 @@ import java.util.List;
 public class TestPack implements MetadataPack<N2oApplicationBuilder> {
     @Override
     public void build(N2oApplicationBuilder b) {
-        b.routes(new RouteInfo("/test/sql/v3", new QueryContext("testSqlQuery3", "/test/sql/v3")),
-                new RouteInfo("/test/sql/v4", new QueryContext("testSqlQuery4", "/test/sql/v4")),
-                new RouteInfo("/test/rest/v4", new QueryContext("testRestQuery4")),
-                new RouteInfo("/test/java/v3", new QueryContext("testJavaQuery3", "/test/java/v3")),
+        b.routes(new RouteInfo("/test/sql/v3", getTestQueryContext("testSqlQuery3", "/test/sql/v3")),
+                new RouteInfo("/test/sql/v4", getTestQueryContext("testSqlQuery4", "/test/sql/v4")),
+                new RouteInfo("/test/rest/v4", getTestQueryContext("testRestQuery4", "/test/rest/v4")),
+                new RouteInfo("/test/java/v3", getTestQueryContext("testJavaQuery3", "/test/java/v3")),
                 new RouteInfo("/test/java/spring/v4", new QueryContext("testSpringQuery4", "/test/java/spring/v4")),
                 new RouteInfo("/test/java/static/v4", new QueryContext("testStaticQuery4", "/test/java/static/v4")),
                 new RouteInfo("/test/invoke/action", getActionContext()),
@@ -42,6 +42,16 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/test/mongodb", new QueryContext("testMongodbQuery4", "/test/mongodb")),
                 new RouteInfo("/test/mongodbCount", new QueryContext("testMongodbQuery4", "/test/mongodbCount")),
                 new RouteInfo("/test/subModels", getQueryContextWithSubModel()));
+    }
+
+    private QueryContext getTestQueryContext(String testJavaQuery3, String s) {
+        QueryContext queryContext = new QueryContext(testJavaQuery3, s);
+        ArrayList<Filter> filters = new ArrayList<>();
+        Filter filter = new Filter();
+        filter.setFilterId("id");
+        filters.add(filter);
+        queryContext.setFilters(filters);
+        return queryContext;
     }
 
     private QueryContext getQueryContext() {

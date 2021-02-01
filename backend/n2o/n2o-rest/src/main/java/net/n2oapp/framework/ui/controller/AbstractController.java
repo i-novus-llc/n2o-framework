@@ -164,6 +164,8 @@ public abstract class AbstractController {
     }
 
     private void prepareRestrictions(CompiledQuery query, N2oPreparedCriteria criteria, QueryContext queryCtx, DataSet data) {
+        if (queryCtx.getFilters() == null)
+            return;
         for (Filter filter : queryCtx.getFilters()) {
             String key = filter.getParam() == null ? filter.getFilterId() : filter.getParam();
             Object value = data.get(key);
