@@ -17,6 +17,7 @@ public class N2oPieChart extends N2oAbstractChart {
     private Integer endAngle;
     private String nameFieldId;
     private String valueFieldId;
+    private String tooltipFieldId;
     private String color;
     private Boolean hasLabel;
 }

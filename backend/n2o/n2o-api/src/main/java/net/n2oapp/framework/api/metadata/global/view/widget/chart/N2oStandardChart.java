@@ -16,6 +16,8 @@ public class N2oStandardChart extends N2oAbstractChart {
     private String yAxisFieldId;
     private YAxisPosition yAxisPosition;
     private Boolean yHasLabel;
+    private Integer yMin;
+    private Integer yMax;
     private String gridStrokeDashArray;
     private Boolean gridHorizontal;
     private Boolean gridVertical;

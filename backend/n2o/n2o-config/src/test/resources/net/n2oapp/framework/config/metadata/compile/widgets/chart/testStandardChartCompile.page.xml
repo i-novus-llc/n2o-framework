@@ -4,7 +4,7 @@
         <region>
             <chart id="chart1">
                 <lines x-position="top" x-field-id="xField" x-has-label="true"
-                       y-position="right" y-field-id="yField" y-has-label="true"
+                       y-position="right" y-field-id="yField" y-has-label="true" y-min="100" y-max="1000"
                        grid-horizontal="false" grid-vertical="false" grid-stroke-dasharray="3 3"
                        legend-icon-type="diamond" tooltip-separator=":">
                     <line field-id="test1"/>
