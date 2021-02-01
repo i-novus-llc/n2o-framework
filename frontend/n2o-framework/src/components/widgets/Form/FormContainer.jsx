@@ -125,7 +125,7 @@ export const withWidgetHandlers = withHandlers({
       props.onResolve(props.initialValues);
     }
 
-    if (isEmpty(values) || !props.modelPrefix) {
+    if ((isEmpty(values) && isEmpty(prevValues)) || !props.modelPrefix) {
       props.onResolve(values);
     } else if (!isEqual(props.reduxFormValues, prevValues)) {
       props.onSetModel(
