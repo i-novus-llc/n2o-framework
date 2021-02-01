@@ -4,6 +4,7 @@ import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.AbstractMenuItem;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import net.n2oapp.framework.api.metadata.io.NamespaceIO;
 import net.n2oapp.framework.config.io.action.ActionIOv1;
@@ -45,7 +46,7 @@ public abstract class AbstractMenuItemIO<T extends AbstractMenuItem> implements 
         p.attribute(e, "confirm-title", mi::getConfirmTitle, mi::setConfirmTitle);
         p.attribute(e, "confirm-ok-label", mi::getConfirmOkLabel, mi::setConfirmOkLabel);
         p.attribute(e, "confirm-cancel-label", mi::getConfirmCancelLabel, mi::setConfirmCancelLabel);
-        p.attributeBoolean(e, "disable-on-empty-model", mi::getDisableOnEmptyModel, mi::setDisableOnEmptyModel);
+        p.attributeEnum(e, "disable-on-empty-model", mi::getDisableOnEmptyModel, mi::setDisableOnEmptyModel, DisableOnEmptyModelType.class);
         p.anyChildren(e, "dependencies", mi::getDependencies, mi::setDependencies, p.oneOf(AbstractMenuItem.Dependency.class)
                 .add("enabling", AbstractMenuItem.EnablingDependency.class, this::enablingDependency)
                 .add("visibility", AbstractMenuItem.VisibilityDependency.class, this::dependency));

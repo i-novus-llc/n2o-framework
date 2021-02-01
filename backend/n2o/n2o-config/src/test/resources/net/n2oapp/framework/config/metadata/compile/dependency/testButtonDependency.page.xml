@@ -23,8 +23,10 @@
 
                     <button id="btn1" visible="false" enabled="false"/>
                     <button id="btn2" visible="{property1}" enabled="{property2}" disable-on-empty-model="false"/>
-                    <button id="btn3" model="filter" visible="{property1}"/>
-                    <button id="btn4">
+                    <button id="btn3" model="multi"/>
+                    <button id="btn4" model="multi" disable-on-empty-model="true"/>
+                    <button id="btn5" model="filter" visible="{property1}"/>
+                    <button id="btn6">
                         <close/>
                         <dependencies>
                             <visibility on="field1" ref-widget-id="test" ref-model="filter">a==b</visibility>
