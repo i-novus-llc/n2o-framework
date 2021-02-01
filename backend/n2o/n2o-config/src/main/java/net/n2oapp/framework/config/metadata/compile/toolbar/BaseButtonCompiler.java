@@ -217,14 +217,19 @@ public abstract class BaseButtonCompiler<S extends GroupItem, B extends Abstract
      * @return Условие доступности кнопки при пустой модели
      */
     private Condition enabledByEmptyModelCondition(AbstractMenuItem source, String widgetId, ComponentScope componentScope, CompileProcessor p) {
+        DisableOnEmptyModelType disableOnEmptyModel = p.cast(source.getDisableOnEmptyModel(),
+                p.resolve(property("n2o.api.button.disable_on_empty_model"), DisableOnEmptyModelType.class));
+        if (DisableOnEmptyModelType.FALSE.equals(disableOnEmptyModel)) return null;
+
         boolean parentIsNotCell = componentScope == null || componentScope.unwrap(N2oCell.class) == null;
-        boolean disableOnEmptyModel = p.cast(source.getDisableOnEmptyModel(),
-                p.resolve(property("n2o.api.button.disable_on_empty_model"), Boolean.class));
-        
-        if ((source.getModel() == null || ReduxModel.RESOLVE.equals(source.getModel())) && parentIsNotCell && disableOnEmptyModel) {
+        boolean autoDisableCondition = DisableOnEmptyModelType.AUTO.equals(disableOnEmptyModel) &&
+                ReduxModel.RESOLVE.equals(source.getModel()) &&
+                parentIsNotCell;
+
+        if (DisableOnEmptyModelType.TRUE.equals(disableOnEmptyModel) || autoDisableCondition) {
             Condition condition = new Condition();
             condition.setExpression("!_.isEmpty(this)");
-            condition.setModelLink(new ModelLink(ReduxModel.RESOLVE, widgetId).getBindLink());
+            condition.setModelLink(new ModelLink(source.getModel(), widgetId).getBindLink());
             return condition;
         }
         return null;

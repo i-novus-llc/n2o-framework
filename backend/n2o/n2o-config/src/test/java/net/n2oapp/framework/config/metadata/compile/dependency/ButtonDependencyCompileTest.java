@@ -64,26 +64,37 @@ public class ButtonDependencyCompileTest extends SourceCompileTestBase {
         Condition condition = buttons.get(2).getConditions().get(ValidationType.visible).get(0);
         assertThat(condition.getModelLink(), is("models.resolve['testButtonDependency_table']"));
         assertThat(condition.getExpression(), is("property1"));
-        // if disable-on-empty-model = true, should not have contains enabled !_.isEmpty(this) condition
+        // if disable-on-empty-model = false, should not have contains enabled !_.isEmpty(this) condition
         condition = buttons.get(2).getConditions().get(ValidationType.enabled).get(0);
         assertThat(condition.getModelLink(), is("models.resolve['testButtonDependency_table']"));
         assertThat(condition.getExpression(), is("property2"));
-        condition = buttons.get(3).getConditions().get(ValidationType.visible).get(0);
+        // if disable-on-empty-model = auto, should not have contains enabled !_.isEmpty(this) condition for MULTI model
+        assertThat(buttons.get(3).getConditions().get(ValidationType.enabled), nullValue());
+        // if disable-on-empty-model = true, should have contains enabled !_.isEmpty(this) condition for MULTI model
+        condition = buttons.get(4).getConditions().get(ValidationType.enabled).get(0);
+        assertThat(condition.getModelLink(), is("models.multi['testButtonDependency_table']"));
+        assertThat(condition.getExpression(), is("!_.isEmpty(this)"));
+
+        condition = buttons.get(5).getConditions().get(ValidationType.visible).get(0);
+        assertThat(condition.getModelLink(), is("models.filter['testButtonDependency_table']"));
+        assertThat(condition.getExpression(), is("property1"));
+        condition = buttons.get(6).getConditions().get(ValidationType.visible).get(0);
         assertThat(condition.getModelLink(), is("models.filter['testButtonDependency_test']"));
         assertThat(condition.getExpression(), is("a==b"));
-        condition = buttons.get(3).getConditions().get(ValidationType.enabled).get(0);
+        condition = buttons.get(6).getConditions().get(ValidationType.enabled).get(0);
         assertThat(condition.getModelLink(), is("models.resolve['testButtonDependency_table']"));
         assertThat(condition.getExpression(), is("!_.isEmpty(this)"));
-        condition = buttons.get(3).getConditions().get(ValidationType.enabled).get(1);
+        condition = buttons.get(6).getConditions().get(ValidationType.enabled).get(1);
         assertThat(condition.getModelLink(), is("models.resolve['testButtonDependency_table']"));
         assertThat(condition.getExpression(), is("c==d"));
         assertThat(condition.getMessage(), is("Не указана дата"));
 
-        assertThat(((Submenu) buttons.get(4)).getSubMenu().get(0).getVisible(), is(false));
-        assertThat(((Submenu) buttons.get(4)).getSubMenu().get(0).getEnabled(), is(false));
-        assertThat(((Submenu) buttons.get(4)).getSubMenu().get(1).getVisible(), nullValue());
-        assertThat(((Submenu) buttons.get(4)).getSubMenu().get(1).getEnabled(), nullValue());
-        condition = ((Submenu) buttons.get(4)).getSubMenu().get(1).getConditions().get(ValidationType.visible).get(0);
+        List<MenuItem> submenu = ((Submenu) buttons.get(7)).getSubMenu();
+        assertThat(submenu.get(0).getVisible(), is(false));
+        assertThat(submenu.get(0).getEnabled(), is(false));
+        assertThat(submenu.get(1).getVisible(), nullValue());
+        assertThat(submenu.get(1).getEnabled(), nullValue());
+        condition = submenu.get(1).getConditions().get(ValidationType.visible).get(0);
         assertThat(condition.getModelLink(), is("models.resolve['testButtonDependency_table']"));
         assertThat(condition.getExpression(), is("property1"));
         condition = submenu.get(1).getConditions().get(ValidationType.enabled).get(0);

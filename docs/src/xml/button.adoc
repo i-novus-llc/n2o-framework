@@ -127,9 +127,13 @@ http://n2oapp.net/framework/config/schema/button-2.0
 |
 
 |disable-on-empty-model
-|true false
+|true false auto
 |Недоступность кнопки при пустой модели.
-|true
+`true` - всегда недоступна,
+`false` - всегда доступна,
+`auto` - недоступна только при пустой модели resolve,
+для всех остальных моделей доступна всегда.
+|auto
 |===
 
 Тело::
