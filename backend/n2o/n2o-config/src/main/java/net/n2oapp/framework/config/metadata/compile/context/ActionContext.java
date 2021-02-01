@@ -43,6 +43,8 @@ public class ActionContext extends ObjectContext {
     }
 
     public void setRedirect(RedirectSaga redirect) {
+        if (redirect == null)
+            return;
         this.redirect = new RedirectSaga();
         this.redirect.setPath(redirect.getPath());
         this.redirect.setPathMapping(new HashMap<>(redirect.getPathMapping()));
@@ -52,6 +54,8 @@ public class ActionContext extends ObjectContext {
     }
 
     public void setRefresh(RefreshSaga refresh) {
+        if (refresh == null)
+            return;
         this.refresh = new RefreshSaga();
         if (refresh.getOptions() != null && refresh.getOptions().getWidgetId() != null) {
             RefreshSaga.Options options = new RefreshSaga.Options();
