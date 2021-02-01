@@ -38,10 +38,7 @@ import AdvancedTableSelectionColumn from './AdvancedTableSelectionColumn';
 import withAdvancedTableRef from './withAdvancedTableRef';
 
 export const getIndex = (data, selectedId) => {
-  const index = findIndex(
-    data,
-    model => Number(model.id) === Number(selectedId)
-  );
+  const index = findIndex(data, model => model.id === selectedId);
   return index >= 0 ? index : 0;
 };
 
@@ -204,7 +201,7 @@ class AdvancedTable extends Component {
 
     if (hasSelect && !isEmpty(data) && !isEqual(data, prevProps.data)) {
       const id = selectedId || data[0].id;
-      if (isAnyTableFocused && !isActive) {
+      if (isAnyTableFocused && !isActive && autoFocus) {
         this.setNewSelectIndex(id);
       } else if (autoFocus) {
         this.setSelectAndFocus(id, id);
@@ -237,11 +234,9 @@ class AdvancedTable extends Component {
           columns: this.mapColumns(columns),
         };
       }
-      if (
-        !isEqual(prevProps.selectedId, selectedId) &&
-        rowSelection !== rowSelectionType.RADIO
-      ) {
+      if (!isEqual(prevProps.selectedId, selectedId) && autoFocus) {
         this.setNewSelectIndex(selectedId);
+        this.setNewFocusIndex(selectedId);
       }
       this.setState({ ...state });
     }
