@@ -11,6 +11,7 @@ import compact from 'lodash/compact';
 import map from 'lodash/map';
 import has from 'lodash/has';
 import getValues from 'lodash/values';
+import some from 'lodash/some';
 import { batchActions } from 'redux-batched-actions';
 
 import { isPromise } from '../../tools/helpers';
@@ -155,9 +156,17 @@ export const validateField = (
       map(errors, (messages, fieldId) => {
         if (!isEmpty(messages)) {
           const message = findPriorityMessage(messages);
+          const dependency = get(registeredFields, [fieldId, 'dependency']);
+          let isDependencyChecked = true;
+
+          if (!isEmpty(dependency)) {
+            isDependencyChecked = some(dependency, item => !isEmpty(item.on));
+          }
+
           if (
-            !isEqual(message, get(registeredFields, [fieldId, 'message'])) ||
-            !get(fields, [fieldId, 'touched'])
+            (!isEqual(message, get(registeredFields, [fieldId, 'message'])) ||
+              !get(fields, [fieldId, 'touched'])) &&
+            isDependencyChecked
           ) {
             return addFieldMessage(formName, fieldId, message, isTouched);
           }
