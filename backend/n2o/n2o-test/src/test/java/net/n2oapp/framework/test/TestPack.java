@@ -39,19 +39,43 @@ public class TestPack implements MetadataPack<N2oApplicationBuilder> {
                 new RouteInfo("/testInsertMongo", getTestInsertMongodbContext("create", "/testInsertMongo")),
                 new RouteInfo("/testUpdateMongo", getTestInsertMongodbContext("update", "/testUpdateMongo")),
                 new RouteInfo("/testDeleteMongo", getTestInsertMongodbContext("delete", "/testDeleteMongo")),
-                new RouteInfo("/test/mongodb", new QueryContext("testMongodbQuery4", "/test/mongodb")),
-                new RouteInfo("/test/mongodbCount", new QueryContext("testMongodbQuery4", "/test/mongodbCount")),
+                new RouteInfo("/test/mongodb", getTestMongoQueryContext("testMongodbQuery4", "/test/mongodb")),
+                new RouteInfo("/test/mongodbCount", getTestMongoQueryContext("testMongodbQuery4", "/test/mongodbCount")),
                 new RouteInfo("/test/subModels", getQueryContextWithSubModel()));
     }
 
-    private QueryContext getTestQueryContext(String testJavaQuery3, String s) {
-        QueryContext queryContext = new QueryContext(testJavaQuery3, s);
+    private QueryContext getTestQueryContext(String testQuery, String s) {
+        QueryContext queryContext = new QueryContext(testQuery, s);
         ArrayList<Filter> filters = new ArrayList<>();
-        Filter filter = new Filter();
-        filter.setFilterId("id");
-        filters.add(filter);
+        createFilter(filters, "id");
         queryContext.setFilters(filters);
         return queryContext;
+    }
+
+    private QueryContext getTestMongoQueryContext(String testQuery, String s) {
+        QueryContext queryContext = new QueryContext(testQuery, s);
+        ArrayList<Filter> filters = new ArrayList<>();
+        createFilter(filters, "id");
+        createFilter(filters, "name");
+        createFilter(filters, "gender_id");
+        createFilter(filters, "nameLike");
+        createFilter(filters, "nameStart");
+        createFilter(filters, "notName");
+        createFilter(filters, "birthdayMore");
+        createFilter(filters, "userAgeNotIn");
+        createFilter(filters, "idIn");
+        createFilter(filters, "userNameIn");
+        createFilter(filters, "userAgeIn");
+        createFilter(filters, "birthdayLess");
+        queryContext.setFilters(filters);
+        return queryContext;
+    }
+
+    private void createFilter(ArrayList<Filter> filters, String id) {
+        Filter filter1 = new Filter();
+        filter1.setFilterId(id);
+        filter1.setParam(id);
+        filters.add(filter1);
     }
 
     private QueryContext getQueryContext() {
