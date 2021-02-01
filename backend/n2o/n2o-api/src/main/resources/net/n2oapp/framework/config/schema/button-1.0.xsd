@@ -150,10 +150,32 @@
                         <xs:documentation>Текст кнопки отмены.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="disable-on-empty-model" type="xs:boolean" default="true">
+                <xs:attribute name="disable-on-empty-model" default="auto">
                     <xs:annotation>
                         <xs:documentation>Недоступность кнопки при пустой модели.</xs:documentation>
                     </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="true">
+                                <xs:annotation>
+                                    <xs:documentation>Кнопка недоступна при пустой модели.</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="false">
+                                <xs:annotation>
+                                    <xs:documentation>Кнопка доступна при пустой модели.</xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                            <xs:enumeration value="auto">
+                                <xs:annotation>
+                                    <xs:documentation>
+                                        Кнопка недоступна только при пустой модели resolve,
+                                        для всех остальных моделей доступна всегда.
+                                    </xs:documentation>
+                                </xs:annotation>
+                            </xs:enumeration>
+                        </xs:restriction>
+                    </xs:simpleType>
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>

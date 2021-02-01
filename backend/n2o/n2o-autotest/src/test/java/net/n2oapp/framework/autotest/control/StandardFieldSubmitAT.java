@@ -69,6 +69,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         // обновляем страницу и проверяем значения всех полей
         // ожидание отправки поля
         Selenide.sleep(500);
+        inputText.shouldHaveValue("Ann");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Мужской");
@@ -78,6 +79,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         // изменяем списковое поле
         select.select(1);
         Selenide.sleep(500);
+        select.shouldHaveValue("Женский");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
@@ -87,6 +89,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
         // изменяем интервальное поле
         dateInterval.beginVal("18.01.2020");
         Selenide.sleep(500);
+        dateInterval.beginShouldHaveValue("18.01.2020");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");
@@ -95,6 +98,7 @@ public class StandardFieldSubmitAT extends AutoTestBase {
 
         dateInterval.endVal("24.01.2020");
         Selenide.sleep(500);
+        dateInterval.endShouldHaveValue("24.01.2020");
         Selenide.refresh();
         inputText.shouldHaveValue("Ann");
         select.shouldHaveValue("Женский");

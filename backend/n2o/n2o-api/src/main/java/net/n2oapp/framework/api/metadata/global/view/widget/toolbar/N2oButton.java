@@ -18,7 +18,7 @@ public class N2oButton extends N2oAbstractButton implements GroupItem {
     private String widgetId;
     private String actionId;
     private Boolean validate;
-    private Boolean disableOnEmptyModel;
+    private DisableOnEmptyModelType disableOnEmptyModel;
     private Boolean rounded;
 
     private Boolean confirm;

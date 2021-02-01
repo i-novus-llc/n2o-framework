@@ -3,6 +3,7 @@ package net.n2oapp.framework.config.io.toolbar;
 import net.n2oapp.framework.api.metadata.ReduxModel;
 import net.n2oapp.framework.api.metadata.event.action.N2oAction;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.ConfirmType;
+import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.DisableOnEmptyModelType;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oAbstractButton;
 import net.n2oapp.framework.api.metadata.global.view.widget.toolbar.N2oButton;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
@@ -27,12 +28,12 @@ public class ButtonIO extends AbstractButtonIO<N2oButton> {
     @Override
     public void io(Element e, N2oButton b, IOProcessor p) {
         super.io(e, b, p);
-        p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);
         p.attribute(e, "widget-id", b::getWidgetId, b::setWidgetId);
         p.attribute(e, "action-id", b::getActionId, b::setActionId);
         p.attributeBoolean(e, "validate", b::getValidate, b::setValidate);
         p.attributeBoolean(e, "rounded", b::getRounded, b::setRounded);
-        p.attributeBoolean(e, "disable-on-empty-model", b::getDisableOnEmptyModel, b::setDisableOnEmptyModel);
+        p.attributeEnum(e, "model", b::getModel, b::setModel, ReduxModel.class);
+        p.attributeEnum(e, "disable-on-empty-model", b::getDisableOnEmptyModel, b::setDisableOnEmptyModel, DisableOnEmptyModelType.class);
 
         p.attributeBoolean(e, "confirm", b::getConfirm, b::setConfirm);
         p.attribute(e, "confirm-text", b::getConfirmText, b::setConfirmText);

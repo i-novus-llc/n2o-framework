@@ -1,6 +1,5 @@
 package net.n2oapp.framework.autotest.widget.calendar;
 
-import com.codeborne.selenide.Selenide;
 import net.n2oapp.framework.autotest.N2oSelenide;
 import net.n2oapp.framework.autotest.api.collection.Fields;
 import net.n2oapp.framework.autotest.api.component.control.DateInterval;
@@ -218,7 +217,6 @@ public class CalendarAT extends AutoTestBase {
         // СОЗДАНИЕ события
         fields.field("Название события").control(InputText.class).val("Новое событие");
         modal.toolbar().bottomRight().button("Сохранить").click();
-        Selenide.sleep(500);
         modal.shouldNotExists();
         // проверка, что событие появилось в календаре
         CalendarEvent event3 = dayView.event("Новое событие");
@@ -228,7 +226,6 @@ public class CalendarAT extends AutoTestBase {
         event3.click();
         modal.content(SimplePage.class).widget(FormWidget.class).toolbar()
                 .topRight().button("Удалить").click();
-        Selenide.sleep(500);
         modal.shouldNotExists();
         event3.shouldNotExists();
     }

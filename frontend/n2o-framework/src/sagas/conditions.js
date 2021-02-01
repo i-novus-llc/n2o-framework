@@ -19,6 +19,7 @@ import evalExpression from '../utils/evalExpression';
 import { SET } from '../constants/models';
 import { REGISTER_BUTTON } from '../constants/toolbar';
 import { REGISTER_COLUMN } from '../constants/columns';
+
 import { resolveButton } from './toolbar';
 import { resolveColumn } from './column';
 
@@ -34,22 +35,18 @@ const ConditionHandlers = {
  * резолв кондишена, резолв message из expression
  * @param conditions
  * @param state
- * @param key
  * @returns {object}
  */
-export const resolveConditions = (conditions = [], state, key) => {
+export const resolveConditions = (conditions = [], state) => {
   const falsyExpressions = reduce(
     conditions,
     (acc, condition) => {
       const { expression, modelLink } = condition;
 
       const context = get(state, modelLink, {});
-      const isResolve = modelLink.includes('resolve');
+      const isMulti = modelLink.includes('multi');
 
-      const type =
-        get(state, `models.selectionType.${key}`) === 'checkbox' && !isResolve
-          ? { mode: 'multi' }
-          : { mode: 'single' };
+      const type = isMulti ? { mode: 'multi' } : { mode: 'single' };
 
       return !evalExpression(expression, context, type)
         ? acc.concat(condition)
