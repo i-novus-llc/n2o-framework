@@ -35,10 +35,7 @@ function* switchTab() {
 
   const tabsRegions = filter(values(regions), region => region.tabs);
 
-  const hasActiveEntity = some(
-    tabsRegions,
-    region => region.activeEntity !== undefined
-  );
+  const hasActiveEntity = some(tabsRegions, region => region.activeEntity);
 
   const atLeastOneVisibleWidget = content => {
     return some(content, meta => {
