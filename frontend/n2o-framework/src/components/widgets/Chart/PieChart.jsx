@@ -1,7 +1,11 @@
 import React from 'react';
 import { pure } from 'recompose';
+import { PieChart as Chart, Pie, Tooltip, Cell } from 'recharts';
+import get from 'lodash/get';
+import map from 'lodash/map';
+
+import { COLORS } from './utils';
 import { chartTypes, defaultChartProps, pieTypes } from './chartPropsTypes';
-import { PieChart as Chart, Pie } from 'recharts';
 
 /**
  * График "Пирог"
@@ -28,13 +32,48 @@ import { PieChart as Chart, Pie } from 'recharts';
  *     animationEasing: тип анимации
  * }
  * @param data
+ * @param rest
  * @return {*}
  * @constructor
  */
-function PieChart({ width, height, margin, pie, data }) {
+
+function PieChart({ width, height, margin, pie, data, ...rest }) {
+  const valueFieldId = get(pie, 'dataKey');
+  const tooltipFieldId = get(pie, 'tooltipKey');
+  const customFill = get(pie, 'fill');
+
+  const pieData = valueFieldId
+    ? map(data, elem => ({ ...elem, value: Number(elem[valueFieldId]) }))
+    : data;
+
+  const CustomTooltip = ({ payload }) => {
+    return (
+      <div className="n2o-pie-chart-custom-tooltip">
+        <h4 className="n2o-pie-chart-custom-tooltip__content">
+          {get(payload[0], tooltipFieldId)}
+        </h4>
+      </div>
+    );
+  };
+
   return (
     <Chart width={width} height={height} margin={margin}>
-      <Pie {...pie} data={data} />
+      <Pie
+        {...pie}
+        dataKey="value"
+        nameKey="name"
+        data={pieData}
+        fill="#8884d8"
+        label={pieMeta => pieMeta.name}
+      >
+        {pieData.map((entry, index) => (
+          <Cell
+            key={`cell-${index}`}
+            fill={customFill || COLORS[index % COLORS.length]}
+          />
+        ))}
+      </Pie>
+      {tooltipFieldId ? <Tooltip content={<CustomTooltip />} /> : <Tooltip />}
     </Chart>
   );
 }
