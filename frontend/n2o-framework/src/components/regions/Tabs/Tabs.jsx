@@ -71,7 +71,7 @@ class Tabs extends React.Component {
    * @param prevId
    */
   handleChangeActive = (event, id, prevId) => {
-    this.props.onChangeActive(id, prevId);
+    this.props.onChangeActive(event, id, prevId);
   };
 
   /**
