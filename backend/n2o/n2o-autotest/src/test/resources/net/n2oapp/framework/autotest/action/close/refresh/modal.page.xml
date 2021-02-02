@@ -13,5 +13,8 @@
                 <close refresh="true"/>
             </button>
         </toolbar>
+        <pre-filters>
+            <eq field-id="id" param="id"/>
+        </pre-filters>
     </form>
 </simple-page>

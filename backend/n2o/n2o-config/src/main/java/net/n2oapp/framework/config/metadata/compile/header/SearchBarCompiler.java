@@ -15,6 +15,7 @@ import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
 import org.springframework.stereotype.Component;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
  * Компиляция панели поиска
@@ -55,9 +56,8 @@ public class SearchBarCompiler implements BaseSourceCompiler<SearchBar, N2oSearc
         ModelsScope modelsScope = p.getScope(ModelsScope.class);
         queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
         CompiledQuery query = p.getCompiled(queryContext);
-        String route = query.getRoute();
-        p.addRoute(new QueryContext(source.getQueryId(), route));
-        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + route);
+        p.addRoute(prepareQueryContextForRouteRegister(query));
+        dataProvider.setUrl(p.resolve(property("n2o.config.data.route"), String.class) + query.getRoute());
         dataProvider.setQuickSearchParam(source.getFilterFieldId());
         return dataProvider;
     }
