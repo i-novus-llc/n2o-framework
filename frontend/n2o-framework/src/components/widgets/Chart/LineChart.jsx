@@ -20,7 +20,7 @@ import {
   XAxisTypes,
   YAxisTypes,
 } from './chartPropsTypes';
-import { setLineColors } from './utils';
+import { setLineColors, createDomain } from './utils';
 
 /**
  * График "Линии"
@@ -135,6 +135,8 @@ function LineChart({
   lines,
   data,
 }) {
+  const domain = createDomain(yaxis);
+
   return (
     <Chart
       width={width}
@@ -144,7 +146,7 @@ function LineChart({
       layout={layout}
     >
       <XAxis {...xaxis} />
-      <YAxis {...yaxis} />
+      <YAxis {...yaxis} domain={domain} />
       <CartesianGrid {...cartesianGrid} />
       <Tooltip {...tooltip} />
       <Legend {...legend} />
