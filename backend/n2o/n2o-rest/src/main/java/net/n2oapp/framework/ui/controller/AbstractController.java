@@ -164,23 +164,38 @@ public abstract class AbstractController {
     }
 
     private void prepareRestrictions(CompiledQuery query, N2oPreparedCriteria criteria, QueryContext queryCtx, DataSet data) {
-        if (queryCtx.getFilters() == null)
-            return;
-        for (Filter filter : queryCtx.getFilters()) {
-            String key = filter.getParam() == null ? filter.getFilterId() : filter.getParam();
-            Object value = data.get(key);
-            if (value != null) {
-                String filterId = query.getParamToFilterIdMap().get(key);
-                if (query.getInvertFiltersMap().containsKey(filterId)) {
-                    Map.Entry<String, FilterType> typeEntry = query.getInvertFiltersMap().get(filterId);
-                    String fieldId = typeEntry.getKey();
-                    FilterType filterType = typeEntry.getValue();
-                    Restriction restriction = new Restriction(fieldId, value, filterType);
-                    criteria.addRestriction(restriction);
-                } else {
-                    criteria.putAdditionalField(filterId, value);
+        //todo @Deprecated убрать использование этой настройки и старого метода фильтрации данных (по фильтрам query)
+        Boolean filterModeOld = environment.getSystemProperties().getProperty("n2o.config.filter.mode", Boolean.class);
+        if (filterModeOld != null && filterModeOld) {
+            for (Map.Entry<String, String> paramEntry : query.getParamToFilterIdMap().entrySet()) {
+                Object value = data.get(paramEntry.getKey());
+                if (value != null) {
+                    String filterId = paramEntry.getValue();
+                    createFilter(query, criteria, value, filterId);
                 }
             }
+        } else {
+            if (queryCtx.getFilters() != null)
+                for (Filter filter : queryCtx.getFilters()) {
+                    String key = filter.getParam() == null ? filter.getFilterId() : filter.getParam();
+                    Object value = data.get(key);
+                    if (value != null) {
+                        String filterId = query.getParamToFilterIdMap().get(key);
+                        createFilter(query, criteria, value, filterId);
+                    }
+                }
+        }
+    }
+
+    private void createFilter(CompiledQuery query, N2oPreparedCriteria criteria, Object value, String filterId) {
+        if (query.getInvertFiltersMap().containsKey(filterId)) {
+            Map.Entry<String, FilterType> typeEntry = query.getInvertFiltersMap().get(filterId);
+            String fieldId = typeEntry.getKey();
+            FilterType filterType = typeEntry.getValue();
+            Restriction restriction = new Restriction(fieldId, value, filterType);
+            criteria.addRestriction(restriction);
+        } else {
+            criteria.putAdditionalField(filterId, value);
         }
     }
 
