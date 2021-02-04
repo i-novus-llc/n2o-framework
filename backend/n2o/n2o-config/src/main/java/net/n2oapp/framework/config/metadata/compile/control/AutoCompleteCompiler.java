@@ -1,15 +1,21 @@
 package net.n2oapp.framework.config.metadata.compile.control;
 
 import net.n2oapp.criteria.dataset.DataSet;
+import net.n2oapp.framework.api.StringUtils;
 import net.n2oapp.framework.api.metadata.Source;
 import net.n2oapp.framework.api.metadata.compile.CompileContext;
 import net.n2oapp.framework.api.metadata.compile.CompileProcessor;
+import net.n2oapp.framework.api.metadata.control.N2oField;
 import net.n2oapp.framework.api.metadata.control.plain.N2oAutoComplete;
 import net.n2oapp.framework.api.metadata.dataprovider.N2oClientDataProvider;
+import net.n2oapp.framework.api.metadata.global.dao.N2oParam;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
+import net.n2oapp.framework.api.metadata.global.dao.N2oQuery;
 import net.n2oapp.framework.api.metadata.local.CompiledQuery;
 import net.n2oapp.framework.api.metadata.meta.ClientDataProvider;
 import net.n2oapp.framework.api.metadata.meta.control.AutoComplete;
 import net.n2oapp.framework.api.metadata.meta.control.StandardField;
+import net.n2oapp.framework.api.script.ScriptProcessor;
 import net.n2oapp.framework.config.metadata.compile.context.QueryContext;
 import net.n2oapp.framework.config.metadata.compile.dataprovider.ClientDataProviderUtil;
 import net.n2oapp.framework.config.metadata.compile.widget.ModelsScope;
@@ -70,6 +76,42 @@ public class AutoCompleteCompiler extends StandardFieldCompiler<AutoComplete, N2
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         dataProvider.setUrl(route);
         dataProvider.setQuickSearchParam(p.cast(source.getSearchFilterId(), "name"));
+
+        N2oPreFilter[] preFilters = source.getPreFilters();
+        if (preFilters != null) {
+            N2oParam[] queryParams = new N2oParam[preFilters.length];
+            for (int i = 0; i < preFilters.length; i++) {
+                N2oPreFilter preFilter = preFilters[i];
+                N2oQuery.Filter filter = query.getFilterByPreFilter(preFilter);
+                N2oParam queryParam = new N2oParam();
+                queryParam.setName(query.getFilterIdToParamMap().get(filter.getFilterField()));
+                if (preFilter.getParam() == null) {
+                    queryParam.setValueList(getPrefilterValue(preFilter));
+                    queryParam.setRefModel(preFilter.getRefModel());
+                    queryParam.setRefWidgetId(preFilter.getRefWidgetId());
+                } else {
+                    queryParam.setValueParam(preFilter.getParam());
+                }
+                queryParams[i] = queryParam;
+
+                if (Boolean.TRUE.equals(preFilter.getResetOnChange())
+                        && StringUtils.isLink(preFilter.getValue())) {
+                    N2oField.ResetDependency reset = new N2oField.ResetDependency();
+                    reset.setOn(new String[]{preFilter.getValue().substring(1, preFilter.getValue().length() - 1)});
+                    source.addDependency(reset);
+                }
+            }
+            dataProvider.setQueryParams(queryParams);
+        }
+
         return ClientDataProviderUtil.compile(dataProvider, context, p);
+    }
+
+    private Object getPrefilterValue(N2oPreFilter n2oPreFilter) {
+        if (n2oPreFilter.getValues() == null) {
+            return ScriptProcessor.resolveExpression(n2oPreFilter.getValue());
+        } else {
+            return ScriptProcessor.resolveArrayExpression(n2oPreFilter.getValues());
+        }
     }
 }

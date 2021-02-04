@@ -1,6 +1,8 @@
 package net.n2oapp.framework.config.io.control.plain;
 
+import net.n2oapp.criteria.filters.FilterType;
 import net.n2oapp.framework.api.metadata.control.plain.N2oAutoComplete;
+import net.n2oapp.framework.api.metadata.global.dao.N2oPreFilter;
 import net.n2oapp.framework.api.metadata.io.IOProcessor;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -23,6 +25,8 @@ public class AutoCompleteIOv2 extends PlainFieldIOv2<N2oAutoComplete> {
         p.attribute(e, "search-filter-id", m::getSearchFilterId, m::setSearchFilterId);
         p.attributeBoolean(e, "tags", m::getTags, m::setTags);
         p.children(e, "options", "option", m::getOptions, m::setOptions, HashMap::new, this::option);
+        p.childrenByEnum(e, "pre-filters", m::getPreFilters, m::setPreFilters, N2oPreFilter::getType,
+                N2oPreFilter::setType, N2oPreFilter::new, FilterType.class, this::prefilter);
         p.attributeInteger(e, "max-tag-text-length", m::getMaxTagTextLength, m::setMaxTagTextLength);
     }
 
