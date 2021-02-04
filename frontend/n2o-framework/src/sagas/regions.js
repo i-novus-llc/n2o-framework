@@ -5,14 +5,14 @@ import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import first from 'lodash/first';
 import some from 'lodash/some';
-import every from 'lodash/some';
+import each from 'lodash/each';
 
 import { MAP_URL } from '../constants/regions';
 import { DATA_SUCCESS } from '../constants/widgets';
+import { makeWidgetVisibleSelector } from '../selectors/widgets';
 import { getLocation, rootPageSelector } from '../selectors/global';
 import { makePageRoutesByIdSelector } from '../selectors/pages';
 import { regionsSelector } from '../selectors/regions';
-import { widgetsSelector } from '../selectors/widgets';
 import { setActiveEntity } from '../actions/regions';
 
 import { routesQueryMapping } from './widgets';
@@ -32,49 +32,51 @@ function* switchTab() {
   const state = yield select();
 
   const regions = regionsSelector(state);
-  const widgets = widgetsSelector(state);
 
   const tabsRegions = filter(values(regions), region => region.tabs);
 
-  const hasActiveEntity = every(
+  const hasActiveEntity = some(tabsRegions, region => region.activeEntity);
+
+  const atLeastOneVisibleWidget = content => {
+    return some(content, meta => {
+      if (meta.visible === false) {
+        return false;
+      } else if (meta.content) {
+        return atLeastOneVisibleWidget(meta.content);
+      } else {
+        return makeWidgetVisibleSelector(meta.id);
+      }
+    });
+  };
+
+  const visibleEntities = reduce(
     tabsRegions,
-    region => region.activeEntity !== undefined
-  );
+    (acc, region) => {
+      const { tabs, regionId } = region;
+      let widgetsIds = [];
 
-  const getWidgetsIds = content =>
-    reduce(content, (acc, meta) => acc.concat(meta.id), []);
+      each(tabs, tab => {
+        const content = get(tab, 'content');
 
-  const activeEntityWidgetsIds = reduce(
-    tabsRegions,
-    (acc, tabsRegion) => {
-      const { tabs, activeEntity } = tabsRegion;
-
-      const activeTab = first(filter(tabs, tab => tab.id === activeEntity));
-      const activeContent = get(activeTab, 'content');
-
-      acc.push({
-        widgetsIds: getWidgetsIds(activeContent),
+        if (atLeastOneVisibleWidget(content)) {
+          widgetsIds.push(tab.id);
+        }
       });
+
+      acc.push({ [regionId]: widgetsIds });
 
       return acc;
     },
     []
   );
 
-  for (let index = 0; index <= activeEntityWidgetsIds.length - 1; index += 1) {
-    const { widgetsIds } = activeEntityWidgetsIds[index];
+  for (let index = 0; index <= visibleEntities.length - 1; index += 1) {
+    const visibleEntity = visibleEntities[index];
 
-    const atLeastOneVisibleWidget = some(
-      widgetsIds,
-      widgetId => widgets[widgetId]['isVisible'] === true
-    );
-
-    if (!hasActiveEntity || !atLeastOneVisibleWidget) {
+    if (!hasActiveEntity) {
       for (let index = 0; index <= tabsRegions.length - 1; index += 1) {
-        const { regionId, tabs } = tabsRegions[index];
-
-        const openTab = filter(tabs, tab => tab.opened);
-        const activeEntity = get(first(openTab), 'id');
+        const { regionId } = tabsRegions[index];
+        const activeEntity = first(visibleEntity[regionId]);
 
         yield put(setActiveEntity(regionId, activeEntity));
       }

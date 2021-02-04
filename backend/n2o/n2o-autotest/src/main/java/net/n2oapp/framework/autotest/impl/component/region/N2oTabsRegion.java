@@ -42,7 +42,7 @@ public class N2oTabsRegion extends N2oRegion implements TabsRegion {
             ElementsCollection tabs = element().parent().$$(".nav-item");
             while (!tabs.get(index).is(Condition.text(element().getText()))) index++;
 
-            SelenideElement elm = element().parent().parent().$$(".tab-pane").get(index)
+            SelenideElement elm = element().parent().parent().parent().$$(".tab-pane").get(index)
                     .shouldBe(Condition.cssClass("active"));
 
             ElementsCollection nestingElements = elm.$$(".tab-pane.active .tab-pane.active > div > div");
