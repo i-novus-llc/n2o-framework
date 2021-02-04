@@ -19,7 +19,7 @@ import java.util.*;
 public class ReduxActionBinder implements BaseMetadataBinder<AbstractAction<? extends ActionPayload, ? extends MetaSaga>> {
     @Override
     public AbstractAction<? extends ActionPayload, ? extends MetaSaga> bind(AbstractAction<? extends ActionPayload, ? extends MetaSaga> action,
-                                                                                 BindProcessor p) {
+                                                                            BindProcessor p) {
         getRedirects(action).forEach(r -> r.setPath(p.resolveUrl(r.getPath(), r.getPathMapping(), r.getQueryMapping())));
         return action;
     }
