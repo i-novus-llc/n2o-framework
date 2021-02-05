@@ -44,6 +44,7 @@ import java.util.*;
 
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.colon;
 import static net.n2oapp.framework.api.metadata.compile.building.Placeholders.property;
+import static net.n2oapp.framework.config.util.QueryContextUtil.prepareQueryContextForRouteRegister;
 
 /**
  * Абстрактная реализация компиляции поля ввода
@@ -166,15 +167,14 @@ public abstract class FieldCompiler<D extends Field, S extends N2oField> extends
         ModelsScope modelsScope = p.getScope(ModelsScope.class);
         queryContext.setFailAlertWidgetId(modelsScope != null ? modelsScope.getWidgetId() : null);
         CompiledQuery query = p.getCompiled(queryContext);
-        String route = query.getRoute();
-        p.addRoute(new QueryContext(field.getQueryId(), route));
+        p.addRoute(prepareQueryContextForRouteRegister(query));
 
         N2oClientDataProvider dataProvider = new N2oClientDataProvider();
         if (modelsScope != null) {
             dataProvider.setTargetModel(modelsScope.getModel());
             dataProvider.setTargetWidgetId(modelsScope.getWidgetId());
         }
-        dataProvider.setUrl(route);
+        dataProvider.setUrl(query.getRoute());
         dataProvider.setSize(field.getSize());
 
         N2oPreFilter[] preFilters = field.getPreFilters();
